@@ -1,0 +1,215 @@
+
+SciTE Macro expansion facility
+
+I always enjoyed the C preprocessor macro facility. To my eye, this macro makes C code more readable and less error-prone:
+
+ #define FOR(i,n) for(i = 0; i < (n); i++)
+
+Unfortunately, disciplined use of statement macros fell into disfavour due to abuse, and C++ stylists are generally against them (Stroustrup as usual takes a more pragmatic line)
+
+The SciTE Lua Macro expansion facility is a simple macro preprocessor which expands macros in the current buffer, rather like abbreviations. For example, I can put this in my properties file
+
+ macro.subst.1=for(i,n)=for(i = 0; i < n; i++)
+
+and type FOR(k,10) in the buffer, followed by 'Expand Macro' (Alt+Enter). A simple single-pass expansion takes place, and for(k = 0; k < 10; k++) replaces the macro in the buffer.
+
+Since it's a single-pass expansion which never happens automatically, there's no problem in using keywords like 'for' here.
+
+Line feeds are indicated using '\n' in the macro definition and you can always use a backslash to split the definition over several lines.
+
+ macro.subst.2=if(cond)=if(cond) { \n } else { \n }
+
+Unlike abbreviations, the expanded code is not auto-indented. It would not be difficult to expose the auto-formating code used by abbreviations, but until then the idea is to work with the standard release.
+
+The most interesting part of this macro expander is that it can be easily extended using Lua. Any function call occuring in your macro which begins with $ is assumed to be a call to a globally defined Lua function. The pseudo-function 'eval' is always available and exists to allow you to put Lua expressions directly into macros:
+
+ macro.subst.3=date=$eval(os.date())
+
+This macro has no arguments, and inserts a reasonable representation of the day's date into your current file when expanded.
+
+I've defined $cat to perform 'token-pasting', and $quote to perform 'stringizing' without the messing-about with # and ##. Given
+
+    newfn(name)=void $cat(INIT_,name) (int i) {\n}\n
+
+then newfn'first' expands to
+
+ void INIT_first(int i) {
+ }
+
+Please note that you can use quotes (single or double) to pass one argument to a macro, instead of the traditional parentheses.
+
+You don't have to specify all the arguments to a macro; if arguments are not used, they are assumed to be nil. This can be conveniently used when passing arguments to Lua functions.
+
+Setting up
+
+Put the contents of Files:wiki_insecure/editors/SciTE/macro.lua in your existing Lua startup file, or load it directly with
+
+ ext.lua.startup.script=$(SciteDefaultHome)/macro.lua
+
+This needs an absolute path - SciTE properties are useful here!
+
+In your properties file bind two keys to the functions do_macro and macro_select (alter them to whatever feels best, but remember you cannot override SciTE-defined shortcuts). The command.mode lines are necessary to prevent those irritating 'do you want to save' messages.
+
+ command.name.11.*=Expand Macro
+ command.11.*=do_macro
+ command.subsystem.11.*=3
+ command.mode.11.*=savebefore:no
+ command.shortcut.11.*=Alt+Enter
+
+ command.name.12.*=Macro Select
+ command.12.*=macro_select
+ command.subsystem.12.*=3
+ command.mode.12.*=savebefore:no
+ command.shortcut.12.*=Ctrl+=
+
+You can now define some macros (they can go in any properties file which is loaded)
+
+ macro.subst.1=for(i,n)=for(i = 0; i < n; i++)
+ macro.subst.2=if(cond)=if(cond) { \n \
+                                  \n \
+  } else {                        \n \
+                                  \n \
+  } 
+ macro.subst.3=test(xx)=$quote(xx)  
+ macro.subst.4=date=$eval(os.date())
+ macro.subst.5=class(name,base)=$do_class(name,base)
+ macro.subst.6=insert(x)=$insert_file(x)
+ macro.subst.7=i(x)=$international_string(x)
+ macro.subst.8=_(x)=$upcase(x)
+
+Examples
+
+Writing C++ class bodies
+
+Here we exploit the fact that if a macro argument is not specified, then it is treated as nil.
+
+ class(name,base)=$do_class(name,base)
+
+where
+
+ function do_class(name,base)
+ local res = 'class '..name
+ if base then 
+    res = res..': public '..base
+ end
+ return res..' {\n public:\n};\n'
+ end
+
+Now expanding class(Dog,Animal) will give you
+
+ class Dog: public Animal {
+ public:
+ };
+
+and expanding class(Device) will give you
+
+ class Device {
+ public:
+ };
+
+Including a text file
+
+Useful sometimes, but only occasionally, so it isn't worth defining a normal command. Also, commands defined usually in Lua have no way of prompting the user for input. (Perhaps that would be a useful ability, but this is what can be done with the existing 1.6.1 version).
+
+To use, type insert"file" and expand the macro with Alt+Enter.
+
+ ... insert(x)=$insert_file(x)
+
+ function insert_file(file)
+  local f = io.open(file)
+  local txt = f:read('*a')
+  if txt then
+    f:close()
+    return txt
+  else
+    return ""
+  end
+ end
+
+Internationalization
+
+We want to write an internationizable application, but wish to avoid all the tedious definitions.
+
+It's an example of a macro which has the side effect of updating a header file, apart from the text actually inserted into your program.
+
+Here's a macro that shows one approach to this problem:
+
+ i(x)=$international_string(x)
+
+where the Lua function is
+
+ function international_string(x)
+  local id = convert_to_iden(x)
+  local f = io.open('international.h','a')
+  f:write('#define '..id..' '..quote(x)..'\n')
+  f:close()
+  return id
+ end
+
+We need to convert the string into a C-style identifier, by replacing all illegal chars with underscores, and trimming the result to some maximum length.
+
+ function convert_to_iden(x)
+  local s = string.upper(x)
+  s = string.gsub(s,'[^%w_]','_')
+  return string.sub(s,1,32)
+ end
+
+To use this, type your strings beginning with 'i' and hit Alt+Enter to invoke the macro: MessageBox(i"Please insert a disk" becomes MessageBox(PLEASE_INSERT_A_DISK and 'international.h' will automatically be updated! You can of course customize this name easily by using props['InternationalHeader?'] and defining the name as a property.
+
+Converting selected text to uppercase
+
+Any macro with the name '_' has a special meaning; it will be invoked by 'Operate on Selection' on the currently selected text.
+
+ _(x)=$upcase(x)
+
+where the Lua is:
+
+  function upcase(x) return string.upper(x) end
+
+Ctrl+= will now convert the selected text.
+
+The 'Operate on Selection' mechanism seems inflexible, since there's only one operation at a time that can be used. Here's a technique for redefining this macro on the fly. Add this macro
+
+ def(op)=$add_macro(x)
+
+and you can then add a macro at any point by expanding def. For example, expanding def'_(x)=$quote(x) will change the selection operation to quoting.
+
+Automatically creating C/C++ headers
+
+This is something I've done hundreds of time, but a little automation can make this tedious task easy.
+
+ include(file)=$create_include(file)
+
+ function create_include(file)
+  local id = '__'..convert_to_iden(file)
+  local path 
+  local find = string.find
+  -- is it absolute? If not, then prepend the current file's path
+  if find(file,'^[/\\]') or find(file,'^%a:') then
+     path = file
+  else
+     path = props['FileDir']..'/'..f
+  end
+  local f = io.open(path,'w')
+  local copyright = props['CopyrightNotice']
+  if copyright then f:write(copyright) end
+  f:write '\n'
+  f:write ('#ifndef '..id..'\n')
+  f:write ('#define '..id..'\n\n')
+  f:write ('#endif\n')
+  f:close()
+  
+  return '#include '..quote(file)
+ end
+
+where convert_to_iden was previously defined, and quote is already defined by the Lua Macro package. An obvious improvement is to check whether the file already exists, and to give more flexibility about the location of the created file. Once the #include has been inserted, you can use Open Selected Filename (Ctrl+Shift+O) to open the file.
+
+Possible Improvements
+
+It would not be difficult to expand on Enter, by using OnKey (See Sebastian's SciteLatex for an example of this) One could even expand macros automatically, by looking at words typed (e.g, see SciteWordSubstitution) but this might be a bit alarming. (Of course, if you get an unexpected expansion, Ctrl+Z is as always your friend.) It would be cool if inserted text would obey the indentation rules for the current language, like abbreviations, but that would require some changes to SciTE itself, and may not always be wanted (so then the question is: how to indicate that smart insertion is needed?)
+
+It is not always easy to remember all defined macros, so a drop-down list would be useful. This is not difficult to do using editor:UserListShow and OnUserListSelection; if the macro doesn't take arguments, then selecting it would expand it immediately.
+
+For me, the most exciting and open-ended feature is the ability to execute arbitrary Lua code 'in-line', which is only limited by our ingenuity.
+
+SteveDonovan 

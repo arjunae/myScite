@@ -1,0 +1,30 @@
+# ----------------------------------------
+#
+# -- FileExt.list
+# -- Define a set of Filetypes which should get associated with SciTI
+#
+# -- Format is [.EXT];[optional MIME_TYP]
+# -- Ref. http://www.sitepoint.com/web-foundations/mime-types-complete-list/
+#
+# Created Nov 2015, Marcedo@HabmalneFrage.de
+# URL: https://sourceforge.net/projects/scite-webdev/?source=directory
+#
+#-----------------------------------------
+
+# -- Textfiles --
+
+.txt ; text/plain
+.diz ; text/plain
+.me ; text/plain
+
+# -- Source Code --
+
+.js ; text/javascript
+.coffee ; text/coffeescript
+.cpp ; text/x-c
+.bas ; text/plain
+
+# -- System Files --
+
+.reg ;  text/plain
+.bat ; text/plain

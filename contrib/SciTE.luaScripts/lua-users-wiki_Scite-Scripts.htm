@@ -1,0 +1,80 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML><HEAD><TITLE>lua-users wiki: Scite Scripts</TITLE>
+<LINK TYPE="text/css" REL="stylesheet" HREF="/styles/main.css">
+</HEAD>
+<BODY ><table width="100%" border="0"> <tr><td align=left width="100%"><h1><a href="/cgi-bin/wiki.pl?action=search&amp;string=SciteScripts&amp;body=1" title="List pages referring to SciteScripts">Scite Scripts</a></h1></td><td align=right>
+    <table cellpadding="0" cellspacing="0" border="0" width="1%">
+      <tbody>
+        <tr>
+            <td><a href="/">
+            <img src="http://1.1.1.1/bmi/lua-users.org/images/nav-logo.png" alt="lua-users home" width="177" height="40" border="0"></a></td>
+        </tr>
+        <tr>
+            <td>
+            <table cellpadding="0" cellspacing="0" border="0" width="100%">
+                <tbody>
+                <tr>
+                    <td><img src="http://1.1.1.2/bmi/lua-users.org/images/nav-elbow.png" alt="" width="48" height="40"></td>
+                    <td nowrap valign="middle" width="100%">
+                        <a href="/wiki/" class="nav">wiki</a></td>
+                </tr>
+                </tbody>
+            </table>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+<form method="post" action="/wiki/FindPage" enctype="application/x-www-form-urlencoded" style="display:inline; margin:0;">
+<input type="hidden" name="action" value="search"  /><input type="text" name="string"  size="20" style="" id="search_query1" /><input type="hidden" name="title" value="1"  /><input type="submit" name=".submit" value="Search" /><input type="hidden" name="body" value="on"  /></form></td></tr> </table>
+<br clear=all>
+This is a place for sharing your small Lua scripts for the <a href="http://www.scintilla.org/SciTE.html">[SciTE]</a> text editor.  New pages should generally start with "Scite" so we don't clutter the whole wiki. <em>Note:</em> SciTE 1.74 and later uses Lua 5.1, and as such, scripts that use Lua 5.1-incompatible code <em>may break</em>.<p>
+<p>
+<H3>General</H3>
+<UL>
+<li> <a href="/wiki/SciteProgrammers" >SciteProgrammers</a> - set up scite as an IDE for C, C++, Java, more, with tool tips and all (in progress).<li> <a href="/wiki/UsingLuaWithScite" >UsingLuaWithScite</a> - a small howto <em>(we should describe how to set lua functions as commands, etc...)</em><li> <a href="/wiki/SciteUsingUnicode" >SciteUsingUnicode</a> - sample code and functions on using a UTF-8 buffer</UL>
+<p>
+<H3>Helpers</H3>
+Little "convenience" scripts like auto completion<UL>
+<li> <a href="/wiki/SciteLatex" >SciteLatex</a> - 3 useful scripts for writing Latex.<li> <a href="/wiki/SciteMiscScripts" >SciteMiscScripts</a> - toggle binary values, increment/decrement number, transpose two characters, insert current data, Lua calculator/expression evaluator<li> <a href="/wiki/SciteWordSubstitution" >SciteWordSubstitution</a> - auto-replacement of words in the editor<li> <a href="/wiki/SciteAutoExpansion" >SciteAutoExpansion</a> - automatic expansion of some c keywords such as "if" and "for"<li> <a href="/wiki/SciteWordSelect" >SciteWordSelect</a> - select the word under cursor<li> <a href="/wiki/SciteMacroExpander" >SciteMacroExpander</a> - expanding macros in-line<li> <a href="/wiki/SciteTextFolding" >SciteTextFolding</a> - outline mode for text documents (like Emacs)<li> <a href="/wiki/SciteManPages" >SciteManPages</a> - Open a man page about selected word in Scite.<li> <a href="/wiki/SciteOpenPhpLocalhost" >SciteOpenPhpLocalhost</a> - Open a PHP file in localhost (instead of try to open the file outside of a web environment, that is not useful)<li> <a href="/wiki/SciteOpenUrl" >SciteOpenUrl</a> - open selection or text under cursor in default browser<li> <a href="/wiki/SciteOpenFilename" >SciteOpenFilename</a> - replacement for Ctrl+Shift+O with ability to search for some library and system header files<li> <a href="/wiki/SciteOpenToLine" >SciteOpenToLine</a> - open and goto line# (compilers produce output with line# like ../foo/../bar.c:1505:27)<li> <a href="/wiki/SciteProcessString" >SciteProcessString</a> - finds and performs operation on strings in a C source file<li> <a href="/wiki/SciteListAllOccurances" >SciteListAllOccurances</a> -  finds all occurrences of the selected text in a file<li> <a href="/wiki/SciteMarkWord" >SciteMarkWord</a> - marks all occurrences of the word under the cursor or selected text in the current file<li> <a href="/wiki/SciteXmlAutocompletion" >SciteXmlAutocompletion</a> - automatically closes tags and quotes attributes in XHTML and any XML files<li> <a href="/wiki/SciteCustomFolding" >SciteCustomFolding</a> - customizable folding and unfolding script<li> <a href="/wiki/SciteDisplayFunctions" >SciteDisplayFunctions</a> - finds functions in a PHP source file and displays in UserList<a href="/cgi-bin/wiki.pl?action=edit&amp;id=UserList" >?</a><li> <a href="/wiki/SciteJavadocComment" >SciteJavadocComment</a> - expands comments to Javadoc-style comments (like in Eclipse)<li> <a href="/wiki/SciteProgrammingUtils" >SciteProgrammingUtils</a> - a few simple scripts for C programmers from a lua newbie. Work in Progress!<li> <a href="/wiki/SciteBackupFile" >SciteBackupFile</a> - use a script to keep a backup of the file you are editing<li> <a href="http://www.joyqi.com/SciTePHPSuit/">[ScitePHPSuit]</a> - Optimize SciTe<a href="/cgi-bin/wiki.pl?action=edit&amp;id=SciTe" >?</a> For PHP<li> <a href="/wiki/SciteAutoCompleteAnyLanguage" >SciteAutoCompleteAnyLanguage</a> - Provide auto-completion in any file based purely on the file's contents.<li> <a href="/wiki/SciteFileBrowser" >SciteFileBrowser</a> - Let to view files in a current directory and open ones.<li> <a href="/wiki/SciteExternalFileBrowser" >SciteExternalFileBrowser</a> - open external file browser like 'explorer'.<li> <a href="/wiki/SciteInsertDate" >SciteInsertDate</a> - insert the date and time at current position<li> <a href="/wiki/SciteEditWithVim" >SciteEditWithVim</a> - edit current editing file with an external editor such as Vim<li> <a href="/wiki/SciteLineBreak" >SciteLineBreak</a> - toggles automatic "line breaking" at given width while typing text</UL>
+<p>
+<H3>Text Manipulation</H3>
+<UL>
+<li> <a href="/wiki/SciteTabsToSpacesObserveTabstop" >SciteTabsToSpacesObserveTabstop</a><li> <a href="/wiki/SciteCleanDocWhitespace" >SciteCleanDocWhitespace</a> - strip trailing spaces and fix indentation<li> <a href="/wiki/SciteSimpleTemplate" >SciteSimpleTemplate</a> - apply tabular values to a template text<li> <a href="/wiki/SciteHexify" >SciteHexify</a> - convert the selection to hex escaped form<li> <a href="/wiki/SciteCleanWhiteLines" >SciteCleanWhiteLines</a> - strip white lines of a text<li> <a href="/wiki/SciteQuickStartXhtml" >SciteQuickStartXhtml</a> - a XHTML Quick Start<li> <a href="/wiki/SciteCommentBox" >SciteCommentBox</a> - reformats and adds a comment box around a text selection, customizable<li> <a href="/wiki/SciteTitleCase" >SciteTitleCase</a> - changes selected text into titlecase<li> <a href="/wiki/SciteHtmlEntities" >SciteHtmlEntities</a> - functions to deal with HTML entities<li> <a href="/wiki/SciteSortSelection" >SciteSortSelection</a> - sort a selection of text<li> <a href="http://home.arcor.de/hirnstrom/minis/index.html#indent">[Allman-indentation for Java to put to Scites Usermenu]</a><li> <a href="/wiki/SciteIndentation" >SciteIndentation</a> - reindent selected Lua code<li> <a href="/wiki/SciteDeleteBlankLines" >SciteDeleteBlankLines</a> - delete all blank lines in a document<li> <a href="/wiki/SciteIndent" >SciteIndent</a> - indent HTML, PHP, C, CPP, Javascript, embedded Javascript, XML<li> <a href="/wiki/SciteMergeOnChange" >SciteMergeOnChange</a> - keep text synchronized with changes made outside of SciTE.<li> <a href="/wiki/SciteStripTrailings" >SciteStripTrailings</a> - Strip trailing whitespace on file saving<li> <a href="/wiki/SciteConvertDecHex" >SciteConvertDecHex</a> - converts the selected text to decimal or hex<li> <a href="/wiki/SciteUnicodeInput" >SciteUnicodeInput</a> - replaces the unicode hexadecimal codepoint before cursor, with its UTF-8 encoding</UL>
+<p>
+<H3>Custom Lexers</H3>
+<UL>
+<li> <a href="http://foicica.com/scintillua/">[Scintillua]</a> supports LPeg lexers (<a href="http://foicica.com/hg/scintillua/file/tip/lexers">[examples]</a>)<li> Recent versions of SciTE have experimental support for writing lexers in Lua: <a href="http://www.scintilla.org/ScriptLexer.html">[info]</a></UL>
+<p>
+<H3>Syntax highlighting/AST analysis</H3>
+<p>
+<UL>
+<li> <a href="/wiki/LuaInspect" >LuaInspect</a> provides a plugin that syntax highlights using intelligent AST analysis (via <a href="/wiki/MetaLua" >MetaLua</a> libraries)</UL>
+<p>
+<H3>Navigation</H3>
+<UL>
+<li> <a href="/wiki/SciteBufferSwitch" >SciteBufferSwitch</a> - accessing recently-used buffers with a drop-down list<li> <a href="/wiki/SciteFuncList" >SciteFuncList</a> - shows the function list of the current editing source file in the output pane<li> <a href="/wiki/SciteTags" >SciteTags</a> - support for ctags<li> <a href="/wiki/SciteReadTags" >SciteReadTags</a> - a derivative of <a href="/wiki/SciteTags" >SciteTags</a> with a ctags based api generator<li> <a href="/wiki/SciteNumberedBookmarks" >SciteNumberedBookmarks</a> - Borland-style numbered bookmarks (remember ctrl+K - 1?)</UL>
+<p>
+<H3>Utilities</H3>
+<UL>
+<li> <a href="/wiki/SciteOther" >SciteOther</a> - controlling another instance of SciTE, access menu commands in any instance, and a quiet replacement for os.execute<li> <a href="/wiki/SciteExtMan" >SciteExtMan</a> - a Lua script manager for SciTE<li> <a href="/wiki/SciteFavs" >SciteFavs</a> - open favourite files easily<li> <a href="/wiki/SciteHexEdit" >SciteHexEdit</a> - a basic hex editor. Browsing, editing, saving, with a hex pane and an ASCII pane.<li> <a href="/wiki/SciteAsciiTable" >SciteAsciiTable</a> - view the editor's 8-bit character set.<li> <a href="/wiki/SciteInplaceCalculator" >SciteInplaceCalculator</a> - script to execute an existing formula (uses Lua's <code>loadstring</code>)<li> <a href="/wiki/SciteRunOneScript" >SciteRunOneScript</a> - allows the user to select a script from a list and run it (uses <a href="/wiki/SciteExtMan" >SciteExtMan</a>)<li> <a href="/wiki/SciteColouriseDemo" >SciteColouriseDemo</a> - primitive styling of a specific buffer using the Lua extension<li> <a href="/wiki/SciteMakeMonospace" >SciteMakeMonospace</a> - forces a buffer to monospace mode using Lua<li> <a href="/wiki/SciteCalculator" >SciteCalculator</a> - a calculator in a buffer, works and looks like a real calculator drawn in text mode<li> <a href="/wiki/SciteLuaPrompt" >SciteLuaPrompt</a> - a simple prompt for using SciTE Lua interactively.<li> <a href="/wiki/SciteDebug" >SciteDebug</a> - GDB,Lua and Python debugging integrated with SciTE.<li> <a href="/wiki/SciteScriptManager" >SciteScriptManager</a> - another Lua script manager for SciTE</UL>
+<p>
+<H3>File Processing</H3>
+<UL>
+<li> <a href="http://luaforge.net/projects/sl-exporters/">[Lua Exporters]</a> - a set of exporters that works the same as SciTE's normal exporters, plus an enhanced PDF exporter (with line wrapping and kerning), a new SXW (<a href="http://openoffice.org/">[OpenOffice.org]</a> writer) exporter, a new ABW (<a href="http://www.abisource.com/">[AbiWord 2.2]</a>) exporter, and a new ODT (Open Document) exporter.</UL>
+<p>
+<H3>Recreation</H3>
+<UL>
+<li> <a href="/wiki/SciteTicTacToe" >SciteTicTacToe</a> - an improved tic tac toe that acts like a self-contained Lua application.<li> <a href="/wiki/SciteElizaClassic" >SciteElizaClassic</a> - Joseph Weizenbaum's classic Eliza for SciTE</UL>
+<p>
+<H3>Others</H3>
+<UL>
+<li> <a href="/wiki/SciteLuaDll" >SciteLuaDll</a> - Creating fully functional custom Dlls for Lua<li> <a href="http://github.com/mkottman/scite">[mkottman/scite]</a> - modified SciTE editor including more Lua related additions (Linux and Windows)<li> <a href="http://code.google.com/p/scite-for-lua/">[scite-for-lua]</a> - SciTE bundle with extensive support for Lua programming (Windows only)</UL>
+<p>
+<H3>Wanted</H3>
+<UL>
+<li> <em>Note:</em> SciTE added support for detection of languages given the '#!' first line in version 1.68. Detection of XML files is also supported.<li> If there is a pause between keystrokes of &gt;= 2 second, run a parser (syntax checker) and put a red underline under the first line with a syntax error.<li> (From Lua newbie) I strongly agree with the above. In addition, I would like to write wizards that depend on the current file. However, this requires visual objects which Lua does not seem to have available out of the box.</UL>
+<hr>
+<a href="/wiki/RecentChanges" >RecentChanges</a> &middot; <a href="/cgi-bin/wiki.pl?action=editprefs" >preferences</a><br>
+<a href="/cgi-bin/wiki.pl?action=edit&amp;id=SciteScripts" >edit</a> &middot; <a href="/cgi-bin/wiki.pl?action=history&amp;id=SciteScripts" >history</a><br>Last edited August 8, 2013 3:34 pm GMT <a href="/cgi-bin/wiki.pl?action=browse&amp;diff=1&amp;id=SciteScripts" >(diff)</a>
+</body>
+</html>

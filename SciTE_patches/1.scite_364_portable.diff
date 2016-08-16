@@ -1,0 +1,128 @@
+--- scintilla-scite/win32/SciTEWin.cxx	2016-08-13 12:49:22.000000000 +0200
++++ scite/win32/SciTEWin.cxx	2016-08-13 13:06:36.000000000 +0200
+@@ -417,50 +417,97 @@
+ 	SciTEBase::ReadProperties();
+ }
+ 
+-static FilePath GetSciTEPath(FilePath home) {
+-	if (home.IsSet()) {
+-		return FilePath(home);
+-	} else {
++FilePath SciTEWin::GetSciteDefaultHome() {
++/*
++ *       Scite_home -> Case Windows:
++ *       1 If exists, use  %USERPROFILE%\.SciTE\
++ *       2 check for %SciTE_USERHOME%. Force with $(env.scite_userhome)
++ *       3 Compatibility: can be overidden by %SCiTE_HOME%
++ *       3 FallBack to Exectables Path
++ *       Hello SciTE - my veryfirstPatch :))) Marcedo@HabMalNeFrage.de
++ */
++
++	std::wstring home;
++
++	// Set environment %SCiTE_HOME% fromm $(env.scite_userhome). Use that to define a writeable user home.
++	std::wstring wenvSciteHome = L"SciTE_HOME=";
++	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_userhome")));
++	std::wstring wenv = GUI::StringFromUTF8(FilePath(wenvSciteHome + wenvPathSciteHome).NormalizePath().AsUTF8());
++	std::wstring wcheck = L":";
++	std::size_t icheck = wenv.find(wcheck);
++
++	if (icheck != std::string::npos)
++		_wputenv((wchar_t *)wenv.c_str());
++
++	// Now use above EnvVar to set home.
++	// using _wgetenv with std::wstring makes MSVCRT Crash ?!
++	std::wstring wtmp = GUI::StringFromUTF8(getenv("SciTE_USERHOME"));
++	icheck = wtmp.find(wcheck);
++	if (icheck != std::string::npos)
++		home = wtmp;
++
++	// Compatibility -> can be overridden by %scite_home%
++	wtmp = GUI::StringFromUTF8(getenv("SciTE_HOME"));
++	icheck = wtmp.find(wcheck);
++	if (icheck != std::string::npos)
++		home = wtmp;
++
++	//  use executables binpath (when we find sciteglobal.properties there.)
++	if (home.empty()) {
++		FilePath wfilePath;
++		std::wstring wPath;
+ 		GUI::gui_char path[MAX_PATH];
+-		if (::GetModuleFileNameW(0, path, ELEMENTS(path)) == 0)
+-			return FilePath();
+-		// Remove the SciTE.exe
+-		GUI::gui_char *lastSlash = wcsrchr(path, pathSepChar);
+-		if (lastSlash)
+-			*lastSlash = '\0';
+-		return FilePath(path);
++
++		if (::GetModuleFileNameW(0, path, ELEMENTS(path)) != 0) {
++			//  just get  the Path
++			GUI::gui_char *lastSlash = wcsrchr(path, pathSepChar);
++			if (lastSlash) *lastSlash = '\0';
++			wPath = path;
++			wPath.append(L"\\SciTEGlobal.properties");
++			wfilePath = wPath;
++			if (wfilePath.Exists())
++				home = path;
++		}
+ 	}
+-}
+ 
+-FilePath SciTEWin::GetDefaultDirectory() {
+-	GUI::gui_char *home = _wgetenv(GUI_TEXT("SciTE_HOME"));
+-	return GetSciTEPath(home);
+-}
++	// if above are empty...check for folder %userprofile%\.Scite
++	if (home.empty()) {
++		// yo.... filepath takes and returns Scites gui_string (which is a basic_wstring / wchar_t)
++		// which converts from (std::wstring). To get a std::wstring back use GUI:UTF8FrommString(Filepath(xyz)).ToUTF8();
++		FilePath wfilePath;
++		std::wstring wPath;
++
++		wPath = _wgetenv(GUI_TEXT("USERPROFILE"));
++		wPath.append(L"\\.SciTE");
++		wfilePath = FilePath(wPath).NormalizePath();
+ 
+-FilePath SciTEWin::GetSciteDefaultHome() {
+-	GUI::gui_char *home = _wgetenv(GUI_TEXT("SciTE_HOME"));
+-	return GetSciTEPath(home);
++		if (wfilePath.IsDirectory())
++			home = wPath;
++	}
++	return FilePath(home);
+ }
+ 
+ FilePath SciTEWin::GetSciteUserHome() {
+-	GUI::gui_char *home = _wgetenv(GUI_TEXT("SciTE_HOME"));
+-	if (!home)
+-		home = _wgetenv(GUI_TEXT("USERPROFILE"));
+-	return GetSciTEPath(home);
++	return SciTEWin::GetSciteDefaultHome();
++}
++
++FilePath SciTEWin::GetDefaultDirectory() {
++	return SciTEWin::GetSciteDefaultHome();
+ }
+ 
+ // Help command lines contain topic!path
+ void SciTEWin::ExecuteOtherHelp(const char *cmd) {
+ 	GUI::gui_string s = GUI::StringFromUTF8(cmd);
+ 	size_t pos = s.find_first_of('!');
++
+ 	if (pos != GUI::gui_string::npos) {
+ 		GUI::gui_string topic = s.substr(0, pos);
+-		GUI::gui_string path = s.substr(pos+1);
++		GUI::gui_string path = s.substr(pos + 1);
+ 		::WinHelpW(MainHWND(),
+-			path.c_str(),
+-			HELP_KEY,
+-			reinterpret_cast<ULONG_PTR>(topic.c_str()));
+- 	}
++			   path.c_str(),
++			   HELP_KEY,
++			   reinterpret_cast<ULONG_PTR>(topic.c_str()));
++	}
+ }
+ 
+ // HH_AKLINK not in mingw headers

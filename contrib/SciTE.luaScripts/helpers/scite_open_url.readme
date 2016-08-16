@@ -1,0 +1,94 @@
+
+Scite Open Url
+	
+lua-users home
+	wiki
+
+Open Selection or Text Under Cursor as URL (Linux)
+
+The following function opens the selected text as a URL in the default browser. If there is no selection, the text under cursor is parsed and anything starting with 'http://', 'ftp://' or 'www.' is taken as the URL. The URL must be on one line only, delimited by whitespace or single or double quotes.
+
+The function can be set to a shortcut, say, to Ctrl+' using the following entry in the properties file:
+
+command.name.1.*=Open URL in Browser
+command.1.*=open_url
+command.subsystem.1.*=3
+command.mode.1.*=savebefore:no
+command.shortcut.1.*=Ctrl+'
+
+This function has been tested on Ubuntu 6.10 and should work on later versions of Ubuntu. It is written in Lua 5.1, and thus needs SciTE 1.74 or better. The URL extraction code is primitive and can probably be improved. There is zero text encoding handling; text is taken and processed as 8-bit bytes in the function itself and nothing is transformed.
+
+-- opens URL via selection or by checking text under cursor
+-- Kein-Hong Man <khman@users.sf.net> Public Domain 2008
+-- * execute call is non-Win32! tested on Ubuntu 6.10
+-- * URL delimited by ", ' or whitespace
+-- * does nothing about text encoding!
+function open_url()
+  local string = string
+  local function charat(s, p) return string.sub(s, p, p) end
+  local function delim(c) return string.match(c, "[\"'%s]") end
+  -- if there is a selection, use exactly, else analyze
+  local txt = editor:GetSelText()
+  if #txt == 0 then
+    -- get details of current line, position
+    local p1 = editor.CurrentPos
+    local ln = editor:LineFromPosition(p1)
+    txt = editor:GetLine(ln)
+    if not txt then return end
+    local p2 = editor:PositionFromLine(ln)
+    p1 = p1 - p2 + 1; p2 = p1
+    -- extend text segment to left
+    while p1 > 1 do
+      if delim(charat(txt, p1 - 1)) then break end
+      p1 = p1 - 1
+    end
+    -- extend text segment to right
+    while p2 <= #txt do
+      if delim(charat(txt, p2)) then break end
+      p2 = p2 + 1
+    end
+    -- exit if nothing matched
+    if p1 == p2 then return end
+    txt = string.sub(txt, p1, p2 - 1)
+  else
+    -- trim extraneous whitespace
+    txt = string.gsub(txt, "^%s*(.-)%s*$", "%1")
+    -- fail on embedded whitespace
+    if string.match(txt, "%s") then return end
+  end
+  if string.match(txt, "^http://.+") or
+     string.match(txt, "^ftp://.+") or
+     string.match(txt, "^www%..+") then
+    --print("URL='"..txt.."'") --DEBUG
+    os.execute("x-www-browser "..txt.." &")
+  end
+end
+
+Additional notes: 'gnome-open' can also be used in place of 'x-www-browser'. The former is more flexible, but may not be as portable as the latter. (If someone can clarify whether 'gnome-open' works in a KDE distro, please update this wiki.)
+
+Open Selection or Text Under Cursor as URL (Windows)
+
+Note that on Windows, Ctrl+Shift+O already opens a URL under the caret using the default browser, thanks to Philippe Lhoste. Blame the contortions below on the flexibility of SciTE. In any case, the information below is useful if a user wants to implement non-standard behaviour.
+
+On Windows, the following substitution (please change the browser's executable path to the proper one on your machine) sort of work, but os.execute() may cause a console window to 'flash' (open and close briefly):
+
+    os.execute([[D:\\Programs\\FirefoxPortable\\FirefoxPortable ]]..txt.." &")
+
+Alternatively, the following shortcut works on Windows, but you will need to select the URL first:
+
+command.name.1.*=Open URL in Browser
+command.1.*=d:/Programs/FirefoxPortable/FirefoxPortable $(CurrentSelection)
+command.subsystem.1.*=1
+command.mode.1.*=savebefore:no
+command.shortcut.1.*=Ctrl+'
+
+The 'start <url>' idiom does not appear to work, because in both the above cases, SciTE tries to execute a process by starting up an executable file. start however, appears to be tied to the command interpreter, so it does not appear to be possible to use it here. (This behaviour has not been exhaustively tested, so if it's wrong, please update this page.)
+
+I'm haven't studied how to retrieve the default browser path on Windows, so someone please update this if you know of better ways to open a URL in a browser on Windows.
+
+--KeinHongMan--
+
+Note: while the above can be interesting for the techniques deployed, you have to know that SciTE allows since a long time to open an URL (or a path) with the Ctrl+Shift+O shortcut. With auto-selection of the URL, or if problematic, preliminary manual selection of the full path / URL. --PhiippeLhoste?--
+RecentChanges · preferences
+edit · history
+Last edited December 14, 2014 7:46 am GMT (diff) 

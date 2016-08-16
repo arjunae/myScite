@@ -1,0 +1,56 @@
+
+Man Pages for Scite
+
+Linux: Opens up a man page of selected word in Scite.
+
+Note: This is now built into scite, or I didn't notice it before. Just highlight a keyword and press F1. Example: highlight the keyword, "printf" in your C program and press F1. A man page will appear in the output pane.
+
+However, if you would rather...
+
+Load the man page as a colorful document in a new tab
+
+This add-on also offers a bit more functionality. It will search several sections of the man pages: The option -S 3:3p:2:2p:4:5:6:7:8:0p:1:1p tells us to search the programmer's manual sections first. These could be numbered differently on your platform. Update: Now uses c-style syntax highlighting.
+
+Insert the function somewhere in Scite's startup scripts.
+
+Example custom startup script. .SciTEUser.properties should have a line like:
+
+ext.lua.startup.script=$(SciteUserHome)/.SciTE/startup.lua
+
+Now insert the following function (probably requires Lua > 5.1?) into .SciTE/startup.lua
+
+    -- Compatibility: Lua-5.1
+    function man_select(sel)
+        sel=string.gsub(sel, '[<> ,*()\n\t]','')
+        local ext = props['FileExt']
+        -- open lua manual on selected word
+        if(ext=="lua") then -- todo: customize help for each file type
+            os.execute("gnome-terminal -e 'lynx \"file:///usr/share/doc/lua-5.1.4/manual.html#pdf-"..sel.."\"'")
+        else -- open c manual on selected word
+            local tmpfile="/tmp/man_"..sel..".c"
+            local cmd="man "..sel..">/dev/null&&man -S 3:3p:2:2p:4:5:6:7:8:0p:1:1p "..sel.."|col -b > "..tmpfile
+            if Execute then
+                Execute(cmd)
+            else
+                os.execute(cmd)
+            end
+            if(io.open(tmpfile)) then
+                scite.Open(tmpfile)
+                os.remove(tmpfile)
+            end
+        end
+    end
+
+and in .SciTEUser.properties
+
+command.name.11.*=Programmer's Manual (selected text)
+command.11.*=man_select $(CurrentWord)
+command.shortcut.11.*=Ctrl+Shift+M
+command.subsystem.11.*=3
+
+command.name.15.*=DevHelp (selected text)
+command.15.*=devhelp --search $(CurrentWord) &
+command.shortcut.15.*=Ctrl+Shift+G
+command.subsystem.15.*=1
+
+That last command is optional, but DevHelp? is a handy reference, provided that additional DevHelp? docs are installed. 

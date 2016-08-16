@@ -1,0 +1,18 @@
+Fix for Scintilla Build Mingw
+
+-------------------------------------------------------------------
+in MinGW32-w32api [dev 3.17-2]
+Bug 2250: https://ehc.ac/p/mingw/bugs/2250/
+Bug fixed by commit: http://ehc.ac/p/mingw/mingw-org-wsl/ci/49761b68725b12ba2f14042b608629d0b97c2fa7/
+
+Workaround: use Flags -D__NO_INLINE__
+-------------------------------------------------------------------
+....
+Line 2749: >> reinterpret_cast<HMENU>(ctrlID),
+....
+-------------------------------------------------------------------
+
+Fix Scite Clib sharedLib dependency
+Add to Scite Makefile LDFLags: -static-libgcc -static-libstdc++
+
+-------------------------------------------------------------------

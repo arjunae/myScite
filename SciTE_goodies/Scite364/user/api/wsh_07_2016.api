@@ -1,0 +1,235 @@
+##
+# WindowsScriptingHost API, as fetched from MSDN. 
+# imJuli2016, Marcedo@HabmalneFrage.de | https://sourceforge.net/projects/scite-webdev
+##
+# ---Objects
+Scripting.Signer()Description:\t\nThe Scripting.Signer object enables an author to sign a script \t\nwith a digital signature and a recipient to verify the signature's authenticity and trustworthiness<job>\t\n<runtime>\t\n<named name="file" helpstring="the file to sign" required="true" type="string"/>\t\n<named name="cert" helpstring="the name of the signing certificate" required="true" type="string"/>\t\n<named name="store" helpstring="the name of the certificate store" required="false" type="string"/>\t\n</runtime>\t\n<script language="JScript">\t\nvar Signer, File, Cert, Store = "my",\t\nif (!(WScript.Arguments.Named.Exists("cert") && .Arguments.Named.Exists("file"))) \t\n{\t\nWScript.Arguments.ShowUsage(),\t\nWScript.Quit(),\t\n}\t\nSigner = new ActiveXObject("Scripting.Signer"),\t\nFile  = WScript.Arguments.Named("file"),\t\nCert  = WScript.Arguments.Named("cert"),\t\nif (WScript.Arguments.Named.Exists("store"))\t\n{\t\nStore = WScript.Arguments.Named("store"),\t\n}\t\nSigner.SignFile(File, Cert, Store),\t\n</script>\t\n</job>
+WScript()Description:\t\nProvides access to root object for the Windows Script Host object model
+WshArguments()Description:\t\nProvides access to the entire collection of command-line parameters \t\n— in the order in which they were originally entered
+WshEnvironment()Description:\t\nProvides access to the collection of Windows environment variables
+WshController()Description:\t\nProvides access to the CreateScript() method (for creating a remote script process)
+WshNamed()Description:\t\nProvides access to the named arguments from the command line
+WshNetwork()Description:\t\nProvides access to the shared resources on the network to \t\nwhich your computer is connected<package>\t\n<job id="vbs">\t\n<script language="VBScript">\t\nSet WshNetwork = WScript.CreateObject("WScript.Network")\t\nWScript.Echo "Domain = " & WshNetwork.UserDomain\t\nWScript.Echo "Computer Name = " & WshNetwork.ComputerName\t\nWScript.Echo "User Name = " & WshNetwork.UserName\t\n</script>\t\n</job>\t\n<job id="js">\t\n<script language="JScript">\t\nvar WshNetwork = WScript.CreateObject("WScript.Network"),\t\nWScript.Echo("Domain = " + WshNetwork.UserDomain),\t\nWScript.Echo("Computer Name = " + WshNetwork.ComputerName),\t\nWScript.Echo("User Name = " + WshNetwork.UserName),\t\n</script>\t\n</job>\t\n</package>
+WshRemote()Description:\t\nProvides access to the remote script process. ** 
+WshRemoteError()Description:\t\nProvides access to the error information available when a \t\nremote script (a WshRemote object) terminates as a result of a script error
+WshScriptExec()Description:\t\nProvides status information about a script run with Exec along \t\nwith access to the StdIn, StdOut, and StdErr streams
+WshShell()Description:\t\nProvides access to the native Windows shell<package>\t\n<job id="vbs">\t\n<script language="VBScript">\t\nset WshShell = WScript.CreateObject("WScript.Shell")\t\nstrDesktop = WshShell.SpecialFolders("Desktop")\t\nset oShellLink = WshShell.CreateShortcut(strDesktop & "\Shortcut Script.lnk")\t\noShellLink.TargetPath = WScript.ScriptFullName\t\noShellLink.WindowStyle = 1\t\noShellLink.Hotkey = "CTRL+SHIFT+F"\t\noShellLink.IconLocation = "notepad.exe, 0"\t\noShellLink.Description = "Shortcut Script"\t\noShellLink.WorkingDirectory = strDesktop\t\noShellLink.Save\t\n</script>\t\n</job>\t\n<job id="js">\t\n<script language="JScript">\t\nvar WshShell = WScript.CreateObject("WScript.Shell"),\t\nstrDesktop = WshShell.SpecialFolders("Desktop"),\t\nvar oShellLink = WshShell.CreateShortcut(strDesktop + "\\Shortcut Script.lnk"),\t\noShellLink.TargetPath = WScript.ScriptFullName,\t\noShellLink.WindowStyle = 1,\t\noShellLink.Hotkey = "CTRL+SHIFT+F",\t\noShellLink.IconLocation = "notepad.exe, 0",\t\noShellLink.Description = "Shortcut Script",\t\noShellLink.WorkingDirectory = strDesktop,\t\noShellLink.Save(),\t\n</script>\t\n</job>\t\n</package>
+WshShortcut()Description:\t\nAllows you to create a shortcut programmatically
+WshSpecialFolders()Description:\t\nProvides access to the collection of Windows special folders
+WshUnnamed()Description:\t\nProvides access to the unnamed arguments from the command line
+WshUrlShortcut()Description:\t\nAllows you to create a shortcut to an Internet resource programmatically
+
+# ---- Functions
+Abs()Description:\t\nReturns the absolute value of a number.\t\nAbs(number)
+Array()Description:\t\nReturns a Variant containing an array.  **\t\nArray(arglist)
+Asc()Description:\t\nReturns the ANSI character code corresponding to the first letter in a string. **\t\nAsc(string)
+Atn()Description:\t\nReturns the arctangent of a number. **\t\nAtn(number)
+CBool()Description:\t\nReturns an expression that has been converted to a Variant of subtype Boolean.\t\nCBool(expression)
+CByte()Description:\t\nReturns an expression that has been converted to a Variant nof subtype Byte.\t\nCByte(expression)
+CCur()Description:\t\nReturns an expression that has been converted to a Variant of subtype Currency.\t\nCCur(expression)
+CDate()Description:\t\nReturns an expression that has been converted to a Variant of subtype Date.\t\nCDate(date)
+CDbl()Description:\t\nReturns an expression that has been converted to a Variant nof subtype Double.\t\nCDbl(expression)
+Chr()Description:\t\nReturns the character associated with the specified ANSI character code. **\t\nChr(charcode)
+CInt()Description:\t\nReturns an expression that has been converted to a Variant of subtype Integer. **\t\nCInt(expression)
+CLng()Description:\t\nReturns an expression that has been converted to a Variant of subtype Long. **\t\nCLng(expression)
+Conversion()Description:\t\nThe following table lists the conversion functions in VBScript.
+Cos()Description:\t\nReturns the cosine of an angle.\t\nCos(number)
+CreateObject(servername,typename,location)Description:\t\nCreates and returns a reference to an Automation object.\t\nCreateObject(servername.typename [, location])
+CSng()Description:\t\nReturns an expression that has been converted to a Variant of subtype Single.\t\nCSng(expression) 
+CStr()Description:\t\nReturns an expression that has been converted to a Variant of subtype String.\t\nCStr(expression)
+Date()Description:\t\nReturns the current system date.\t\nDate
+DateAdd(interval,number,date)Description:\t\nReturns a date to which a specified time interval has been added.\t\nDateAdd(interval, number, date)
+DateDiff(interval,date1,,date2,firstdayofweek,firstweekofyear)Description:\t\nReturns the number of intervals between two dates.\t\nDateDiff(interval, date1, date2 [,firstdayofweek[, firstweekofyear]])
+DatePart(interval,date,firstdayof,week,firstweekofyear)Description:\t\nReturns the specified part of a given date.\t\nDatePart(interval, date[, firstdayofweek[, firstweekofyear]])
+DateSerial(year,month,day)Description:\t\nReturns a Variant of subtype Date for a specified year, month, \t\nand day.\t\nDateSerial(year, month, day)
+DateValue()Description:\t\nReturns a Variant of subtype Date.\t\nDateValue(date)
+Day()Description:\t\nReturns a whole number between 1 and 31, inclusive, representing the day of the month.\t\nDay(date)
+Escape(charString)Description:\t\nEncodes a string so it contains only ASCII characters. **\t\nEscape(charString)
+Eval(expression)Description:\t\nEvaluates an expression and returns the result. **\t\nEval(expression)
+Exp()Description:\t\nReturns e (the base of natural logarithms) raised to a power. **\t\nExp(number)
+Filter(InputStrings,Value,Include,Compare)Description:\t\nReturns a zero-based array containing a subset of a string array based on a specified filter criteria.\t\nFilter(InputStrings, Value[, Include[, Compare]])
+FormatCurrency(Expression,NumDigitsAfterDecimal,IncludeLeadingDigit,UseParensForNegativeNumbers,GroupDigits)Description:\t\nReturns an expression formatted as a currency value using \t\nthe currency symbol defined in the system control panel.  **\t\n[,UseParensForNegativeNumbers [,GroupDigits]]]]) 
+FormatDateTime(Date,NamedFormat)Description:\t\nReturns an expression formatted as a date or time.\t\nFormatDateTime(Date[, NamedFormat])
+FormatNumber(Expression,NumDigitsAfterDecimal,IncludeLeadingDigit,UseParensForNegativeNumbers,GroupDigits)Description:\t\nReturns an expression formatted as a number.  **\t\n[,UseParensForNegativeNumbers [,GroupDigits]]]])
+FormatPercent(Expression,NumDigitsAfterDecimal,IncludeLeadingDigit,UseParensForNegativeNumbers,GroupDigits)Description:\t\nReturns an expression formatted as a percentage (multiplied \t\nby 100) with a trailing % character.  **\t\n[,UseParensForNegativeNumbers [,GroupDigits]]]])
+GetLocale()Description:\t\nReturns the current locale ID value.\t\nGetLocale()
+GetObject(pathname,class,appname,objectype)Description:\t\nReturns a reference to an Automation object from a file.  **\t\nGetObject([pathname] [, class])
+GetRef(object,event,procname)Description:\t\nReturns a reference to a procedure that can be bound to an event.\t\nSet object.eventname = GetRef(procname)
+Hex()Description:\t\nReturns a string representing the hexadecimal value of a number.\t\nHex(number)
+Hour()Description:\t\nReturns a whole number between 0 and 23, inclusive, representing \t\nthe hour of the day.\t\nHour(time)
+InputBox(prompt,title,default,xpos,ypos,helpfile,context)Description:\t\nDisplays a prompt in a dialog box, waits for the user to input text or click a button, and returns the contents of the text box.\t\nInputBox(prompt[, title][, default][, xpos][, ypos][, helpfile, context])
+InStr(start,string1,string2,compare)Description:\t\nReturns the position of the first occurrence of one string within another. **\t\nInStr([start, ]string1, string2[, compare])
+InStrRev(string1,string2,start,compare)Description:\t\nReturns the position of an occurrence of one string within another, from the end of string.  **\t\nInStrRev(string1, string2[, start[, compare]])
+Int()Description:\t\nReturns the integer portion of a number.\t\n
+IsArray()Description:\t\nReturns a Boolean value indicating whether a variable is an array.\t\nIsArray(varname)
+IsDate()Description:\t\nReturns a Boolean value indicating whether an expression can be converted to a date.\t\nIsDate(expression)
+IsEmpty()Description:\t\nReturns a Boolean value indicating whether a variable has been initialized.\t\nIsEmpty(expression)
+IsNull()Description:\t\nReturns a Boolean value that indicates whether an expression contains no valid data (Null).\t\nIsNull(expression)
+IsNumeric()Description:\t\nReturns a Boolean value indicating whether an expression can be evaluated as a number.\t\nIsNumeric(expression)
+IsObject()Description:\t\nReturns a Boolean value indicating whether an expression references a valid Automation object.\t\nIsObject(expression)
+Join(list,delimiter)Description:\t\nReturns a string created by joining a number of substrings contained in an array.\t\nJoin(list[, delimiter])
+LBound(arrayname,dimension)Description:\t\nReturns the smallest available subscript for the indicated dimension of an array.\t\nLBound(arrayname[, dimension])
+LCase()Description:\t\nReturns a string that has been converted to lowercase.\t\nLCase(string)
+Left(string,length)Description:\t\nReturns a specified number of characters from the left side of a string. **\t\nLeft(string, length)
+Len(string,varname)Description:\t\nReturns the number of characters in a string or the number of bytes required to store a variable.  **\t\nLen(string | varname)
+LoadPicture()Description:\t\nReturns a picture object. Available only on 32-bit platforms.\t\nLoadPicture(picturename)
+Log()Description:\t\nReturns the natural logarithm of a number.\t\nLog(number)
+RTrimand Trim Functions----\t\nLTrim\t\n
+Math()Description:\t\nThe following table lists the VBScript math functions.\t\n
+Mid(string,start,length)Description:\t\nReturns a specified number of characters from a string. **\t\nMid(string, start[, length])
+Minute()Description:\t\nReturns a whole number between 0 and 59, inclusive, representing the minute of the hour.\t\nMinute(time)
+Month()Description:\t\nReturns a whole number between 1 and 12, inclusive, representing the month of the year.\t\nMonth(date)
+MonthName(month,abbreviate)Description:\t\nReturns a string indicating the specified month.MonthName(month[, abbreviate])
+MsgBox(prompt,buttons,title,helpfile,context)Description:\t\nDisplays a message in a dialog box, waits for the user to click a button,\t\n and returns a value indicating which button the user clicked.\t\nMsgBox(prompt[, buttons][, title][, helpfile, context])
+Now()Description:\t\nReturns the current date and time according to the setting of your computer's system date and time.\t\nNow
+Oct()Description:\t\nReturns a string representing the octal value of a number.Oct(number)
+Replace(expression,find,replacewith,start,count,compare)Description:\t\nReturns a string in which a specified substring has been replaced \t\nwith another substring a specified number of times.\t\nReplace(expression, find, replacewith[, start[, count[, compare]]])
+RGB(red,green,blue)Description:\t\nReturns a whole number representing an RGB color value.\t\nRGB(red, green, blue)
+Right(string,length)Description:\t\nReturns a specified number of characters from the right side \t\nof a string. **\t\nRight(string, length)
+Rnd()Description:\t\nReturns a random number. **\t\nRnd[(number)]
+Round(expression,numdecimalplaces)Description:\t\nReturns a number rounded to a specified number of decimal places. **\t\nRound(expression[, numdecimalplaces])
+ScriptEngine()Description:\t\nReturns a string representing the scripting language in use.\t\nScriptEngine
+ScriptEngineBuildVersion()Description:\t\nReturns the build version number of the scripting engine in use.\t\nScriptEngineBuildVersion
+ScriptEngineMajorVersion()Description:\t\nReturns the major version number of the scripting engine in use.\t\nScriptEngineMajorVersion
+ScriptEngineMinorVersion()Description:\t\nReturns the minor version number of the scripting engine in use.\t\nScriptEngineMinorVersion
+Second()Description:\t\nReturns a whole number between 0 and 59, inclusive, representing \t\nthe second of the minute.\t\nSecond(time)
+SetLocale()Description:\t\nSets the global locale and returns the previous locale.\t\nSetLocale(lcid)
+Sgn()Description:\t\nReturns an integer indicating the sign of a number.\t\nSgn(number)
+Sin()Description:\t\nReturns the sine of an angle.\t\nSin(number)
+Space()Description:\t\nReturns a string consisting of the specified number of spaces.\t\nSpace(number)
+Split(expression,delimiter,count,compare)Description:\t\nReturns a zero-based, one-dimensional array containing a specified \t\nnumber of substrings.\t\nSplit(expression[, delimiter[, count[, compare]]])
+Sqr()Description:\t\nReturns the square root of a number.\t\nSqr(number)
+StrComp(string1,string2,compare)Description:\t\nReturns a value indicating the result of a string comparison.\t\nStrComp(string1, string2[, compare])
+String(number,character)Description:\t\nReturns a repeating character string of the length specified.\t\nString(number, character)
+StrReverse()Description:\t\nReturns a string in which the character order of a specified \t\nstring is reversed.\t\nStrReverse(string1)
+Tan()Description:\t\nReturns the tangent of an angle.\t\nTan(number)
+Time()Description:\t\nReturns a Variant of subtype Date indicating the current system time.\t\nTime
+Timer()Description:\t\nReturns the number of seconds that have elapsed since 12:00 AM (midnight).\t\nTimer
+TimeSerial(hour,minute,second)Description:\t\nReturns a Variant of subtype Date containing the time for \t\na specific hour, minute, and second.\t\nTimeSerial(hour, minute, second)
+TimeValue()Description:\t\nReturns a Variant of subtype Date containing the time.\t\nTimeValue(time)
+TypeName()Description:\t\nReturns a string that provides Variant subtype information about a variable.\t\nTypeName(varname)
+UBound(arrayname,dimension)Description:\t\nReturns the largest available subscript for the indicated dimension of an array.\t\nUBound(arrayname[, dimension])
+UCase()Description:\t\nReturns a string that has been converted to uppercase.\t\nUCase(string)
+Unescape(charString)Description:\t\nDecodes a string encoded with the Escape function.\t\nUnescape(charString)
+VarType()Description:\t\nReturns a value indicating the subtype of a variable. **\t\nVarType(varname)
+Weekday(date,firstdayofweek)Description:\t\nReturns a whole number representing the day of the week.\t\nWeekday(date, [firstdayofweek])
+WeekdayName(weekday,abbreviate,firstdayofweek)Description:\t\nReturns a string indicating the specified day of the week.\t\nWeekdayName(weekday, abbreviate, firstdayofweek)
+Year()Description:\t\nReturns a whole number representing the year.\t\nYear(date)
+
+# ---- Properties
+Arguments()Description:\t\nReturns the WshArguments object (a collection of arguments).  \t\nobject.Arguments
+Arguments()Description:\t\nSets the arguments for a shortcut, or identifies a shortcut's arguments.  \t\nobject.Arguments
+AtEndOfLine()Description:\t\nReturns a Boolean value indicating whether the end of a line in an input stream has been reached.  \t\nobject.AtEndOfLine 
+AtEndOfStream()Description:\t\nReturns a Boolean value indicating whether the end of an input stream has been reached.  \t\nobject.AtEndOfStream 
+BuildVersion( )Description:\t\nReturns the Windows Script Host build version number.  \t\nObject.BuildVersion
+Character()Description:\t\nReports the specific character in a line of code that contains \t\nan error.  \t\nObject.Character
+Column()Description:\t\nReturns the column number of the current character position \t\nin an input stream.  \t\nobject.Column 
+ComputerName()Description:\t\nReturns the name of the computer system.  \t\nobject.ComputerName 
+CurrentDirectory()Description:\t\nRetrieves or changes the current active directory.  \t\nobject.CurrentDirectory
+Description()Description:\t\nReturns a shortcut's description.  \t\nobject.Description 
+Description()Description:\t\nContains a brief description of the error that caused the remote script to terminate.  \t\nObject.Description
+Environment(strType)Description:\t\nReturns the WshEnvironment object (a collection of environment \t\nvariables). **  \t\nobject.Environment ([strType]) 
+Error()Description:\t\nExposes the WshRemoteError object, which holds information \t\nabout the error that caused the remote script to terminate prematurely.  \t\nObject.Error
+ExitCode( )Description:\t\nReturns the exit code set by a script or program run using the Exec() method.  \t\nObject.ExitCode
+FullName()Description:\t\nReturns the fully qualified path of the host executable (CScript.exe or WScript.exe).  \t\nobject.FullName 
+FullName()Description:\t\nReturns the fully qualified path of the shortcut object's target.  \t\nobject.FullName 
+FullName()Description:\t\nReturns the fully qualified path of the shortcut object's target.  \t\nobject.FullName 
+Hotkey(strHotkey,KeyModifier,KeyName)Description:\t\nAssigns a key-combination to a shortcut, or identifies the \t\nkey-combination assigned to a shortcut. **  \t\nobject.Hotkey = strHotkey
+IconLocation(strIconLocation)Description:\t\nAssigns an icon to a shortcut, or identifies the icon assigned to a shortcut.  \t\nobject.IconLocation = strIconLocation 
+Interactive()Description:\t\nSets the script mode, or identifies the script mode.  \t\nobject.Interactive 
+Item(natIndex)Description:\t\nExposes a specified item from a collection.  \t\nObject.Item(natIndex) 
+Item(key)Description:\t\nProvides access to the items in the WshNamed object.  \t\nObject.Item(key)
+Item(key)Description:\t\nReturns an item using a zero-based index.  \t\nObject.Item(key)
+length()Description:\t\nReturns the number of command-line parameters belonging to \t\na script (the number of items in an argument's collection).  \t\nobject.length 
+length()Description:\t\nReturns the number of Windows environment variables on the \t\nlocal computer system (the number of items in an Environment collection).  \t\nobject.length 
+length()Description:\t\nReturns the number of Windows special folders on the local \t\ncomputer system (the number of items in a SpecialFolders collection).  \t\nobject.length 
+Line(strStream)Description:\t\nReturns the current line number in an input stream.  \t\nobject.strStream.Line 
+Line()Description:\t\nIdentifies the line in a script that contains an error.  \t\nObject.Line
+Name()Description:\t\nReturns the name of the WScript object (the host executable file).  \t\nobject.Name 
+Named( )Description:\t\nReturns the WshNamed object (a collection of named arguments).  \t\nObject.Named
+Number()Description:\t\nReports the error number representing a script error.  \t\nObject.Number
+Path()Description:\t\nReturns the name of the directory containing the host executable (CScript.\t\nexe or WScript.exe).  \t\nobject.Path 
+ProcessID( )Description:\t\nThe process ID (PID) for a process started with the WshScriptExec object.  \t\nObject.ProcessID
+RelativePath()Description:\t\nAssigns a relative path to a shortcut, or identifies the relative path of a shortcut.  \t\nobject.RelativePath
+ScriptFullName()Description:\t\nReturns the full path of the currently running script.  \t\nobject.ScriptFullName
+ScriptName()Description:\t\nReturns the file name of the currently running script.  \t\nobject.ScriptName
+Source()Description:\t\nIdentifies the COM object responsible for causing the script error.  \t\nObject.Source
+SourceText()Description:\t\nContains the line of source code that caused an error.  \t\nObject.SourceText
+SpecialFolders(objWshSpecialFolders)Description:\t\nReturns a SpecialFolders object (a collection of special folders).  \t\nobject.SpecialFolders(objWshSpecialFolders) 
+Status()Description:\t\nReports the current status of the remote script.  \t\nObject.Status
+Status(WshRunning,(,=,0),WshFinished,(,=,1))Description:\t\nProvides status information about a script run with the Exec() \t\nmethod.  \t\nObject.Status
+StdErr()Description:\t\nExposes the write-only error output stream for the current script.  \t\nobject.StdErr 
+StdErr()Description:\t\nProvides access to the stderr output stream of the Exec object.  \t\nObject.StdErr
+StdIn()Description:\t\nExposes the read-only input stream for the current script.  \t\nobject.StdIn 
+StdIn()Description:\t\nExposes the stdin input stream of the Exec object.  \t\nObject.StdIn
+StdOut()Description:\t\nExposes the write-only output stream for the current script.  \t\nobject.StdOut 
+StdOut()Description:\t\nExposes the write-only stdout output stream of the Exec object.  \t\nObject.StdOut
+TargetPath()Description:\t\nThe path to the shortcut's executable.  \t\nobject.TargetPath
+Unnamed( )Description:\t\nReturns the WshUnnamed object (a collection of unnamed arguments).  \t\nObject.Unnamed
+UserDomain()Description:\t\nReturns a user's domain name.  \t\nobject.UserDomain
+UserName()Description:\t\nReturns the name of a user.  \t\nobject.UserName 
+Version()Description:\t\nReturns the version of Windows Script Host.  \t\nobject.Version 
+WindowStyle(intWindowStyle)Description:\t\nAssigns a window style to a shortcut, or identifies the type \t\nof window style used by a shortcut.  \t\nobject.WindowStyle = intWindowStyle
+WorkingDirectory(strWorkingDirectory)Description:\t\nAssign a working directory to a shortcut, or identifies the \t\nworking directory used by a shortcut.  \t\nobject.WorkingDirectory = strWorkingDirectory
+
+#---Methods
+AddPrinterConnection(strLocalName,strRemoteName,bUpdateProfile,strUser,strPassword)Description:\t\nAdds a remote MS-DOS-based printer connection to your computer \t\nsystem.  \t\nobject.AddPrinterConnection(strLocalName, strRemoteName[,bUpdateProfile][,strUser][,strPassword])
+AddWindowsPrinterConnection(strPrinterPath,strDriverName,strPort)Description:\t\nAdds a Windows-based printer connection to your computer system.  \t\nWindows NT/2000:\t\nobject.AddWindowsPrinterConnection(\t\nstrPrinterPath\t\n)
+AppActivate(title)Description:\t\nActivates an application window. **  \t\nobject.AppActivate title 
+Close()Description:\t\nCloses a text stream.  \t\nobject.Close 
+ConnectObject(objEventSource,strPrefix)Description:\t\nConnects the object's event sources to functions with a given \t\nprefix.  \t\nobject.ConnectObject(objEventSource, strPrefix)
+Count()Description:\t\nReturns the number of members in an object.  \t\nobject.Count
+CreateObject(strProgID,strPrefix)Description:\t\nCreates a COM object. **  \t\nobject.CreateObject(strProgID[,strPrefix]) 
+CreateScript(Commandline,MachineName)Description:\t\nCreates a WshRemote object.  \t\nobject.CreateScript(CommandLine,[MachineName])
+CreateShortcut(strPathname)Description:\t\nCreates a new shortcut, or opens an existing shortcut. **  \t\nobject.CreateShortcut(strPathname) 
+DisconnectObject(obj)Description:\t\nDisconnects a connected object's event sources.  \t\nobject.DisconnectObject(obj)
+Echo(Arg1,,Arg2,,Arg3,...)Description:\t\nOutputs text to either a message box or the command console window.  \t\nobject.Echo [Arg1] [,Arg2] [,Arg3] ... 
+EnumNetworkDrives(objDrives)Description:\t\nReturns the current network drive mapping information.  \t\nobjDrives = object.EnumNetworkDrives
+EnumPrinterConnections(objPrinters)Description:\t\nReturns the current network printer mapping information.  \t\nobjPrinters = object.EnumPrinterConnections 
+Exec(strCommand)Description:\t\nRuns an application in a child command-shell, providing access \t\nto the StdIn/StdOut/StdErr streams.  \t\nobject.Exec(strCommand)
+Execute()Description:\t\nStarts execution of a remote script object.  \t\nobject.Execute
+Exists(Key)Description:\t\nIndicates whether a specific key value exists in the WshNamed \t\nobject.  \t\nobject.Exists(key)
+ExpandEnvironmentStrings(strString)Description:\t\nReturns an environment variable's expanded value.  \t\nobject.ExpandEnvironmentStrings(strString) 
+GetObject(strPathname,strProgID,strPrefix)Description:\t\nRetrieves an existing object with the specified ProgID, or \t\ncreates a new one from a file.  \t\nobject.GetObject(strPathname [,strProgID], [strPrefix]) 
+getResource(resourceID)Description:\t\nReturns the value of a resource defined with the <resource> element.  \t\ngetResource(resourceID) 
+LogEvent(intType,strMessage,strTarget)Description:\t\nAdds an event entry to a log file.  \t\nobject.LogEvent(intType, strMessage [,strTarget]) 
+MapNetworkDrive(strLocalName,strRemoteName,bUpdateProfile,strUser,strPassword)Description:\t\nAdds a shared network drive to your computer system.  \t\nobject.MapNetworkDrive(strLocalName, strRemoteName, [bUpdateProfile], [strUser], [strPassword])
+Popup(strText,nSecondsToWait,strTitle,nType,intButton)Description:\t\nDisplays text in a pop-up message box.  \t\nintButton = object.Popup(strText,[nSecondsToWait],[strTitle],[nType]) 
+Quit(intErrorCode)Description:\t\nForces script execution to stop at any time.  \t\nobject.Quit([intErrorCode])
+Read(characters)Description:\t\nReturns a specified number of characters from an input stream.  \t\nobject.Read(characters) 
+ReadAll()Description:\t\nReturns all characters from an input stream.  \t\nobject.ReadAll 
+ReadLine()Description:\t\nReturns an entire line from an input stream. **  \t\nobject.ReadLine 
+RegDelete(strName)Description:\t\nDeletes a key or one of its values from the registry.  \t\nobject.RegDelete(strName)
+RegRead(strName)Description:\t\nReturns the value of a key or value-name from the registry.  \t\nobject.RegRead(strName) 
+RegWrite(strName,anyValue,strType)Description:\t\nCreates a new key, adds another value-name to an existing \t\nkey (and assigns it a value), or changes the value of an existing value-name. **  \t\nobject.RegWrite(strName, anyValue [,strType])
+Remove(strName)Description:\t\nRemoves an existing environment variable.  \t\nobject.Remove(strName) 
+RemoveNetworkDrive(strName,bForce,bUpdateProfile)Description:\t\nRemoves a shared network drive from your computer system.  \t\nobject.RemoveNetworkDrive(strName, [bForce], [bUpdateProfile])
+RemovePrinterConnection(strName,bForce,bUpdateProfile)Description:\t\nRemoves a shared network printer connection from your computer \t\nsystem.  \t\nobject.RemovePrinterConnection(strName, [bForce], [bUpdateProfile])
+Run(strCommand,intWindowStyle,bWaitOnReturn)Description:\t\nRuns a program in a new process.  \t\nobject.Run(strCommand, [intWindowStyle], [bWaitOnReturn]) 
+Save()Description:\t\nSaves a shortcut object to disk.  \t\nobject.Save 
+SendKeys(string)Description:\t\nSends one or more keystrokes to the active window (as if typed \t\non the keyboard). **  \t\nobject.SendKeys(string)
+SetDefaultPrinter(strPrinterName)Description:\t\nAssigns a remote printer the role Default Printer.  \t\nobject.SetDefaultPrinter(strPrinterName)
+ShowUsage()Description:\t\nMakes a script self-documenting by displaying information \t\nabout how it should be used. **  \t\nobject.ShowUsage
+Sign(FileExtension,Text,Certificate,Store)Description:\t\nSigns a script stored in a string.  \t\nObject.Sign (FileExtension, Text, Certificate, Store)
+SignFile(FileName,Certificate,Store)Description:\t\nSigns a script using a digital signature.  \t\nObject.SignFile (FileName, Certificate, Store)
+Skip(characters)Description:\t\nSkips a specified number of characters when reading from an \t\ninput text stream.  \t\nobject.Skip(characters) 
+SkipLine()Description:\t\nSkips the next line when reading from an input text stream.  \t\nobject.SkipLine 
+Sleep(intTime)Description:\t\nSuspends script execution for a specified length of time, \t\nthen continues execution. **  \t\nobject.Sleep(intTime) 
+Terminate()Description:\t\nInstructs the script engine to end the process started by \t\nthe Exec method.  \t\nobject.Terminate
+Verify(FileExtension,Text,ShowUI)Description:\t\nVerifies a digital signature retrieved as a string. **  \t\nobject.Verify (FileExtension, Text, ShowUI)
+VerifyFile(FileName,ShowUI)Description:\t\nVerifies the digital signature encapsulated in a script. **  \t\nObject.VerifyFile (FileName, ShowUI)
+Write(strText)Description:\t\nSends a string to an output stream.  \t\nobject.Write(strText) 
+WriteBlankLines(intLines)Description:\t\nSends a specified number of blank lines (newline characters) \t\nto an output stream.  \t\nobject.WriteBlankLines(intLines) 
+WriteLine(strText)Description:\t\nSends a string with a newline character to an output stream.  \t\nobject.WriteLine([strText]) 
+
+#----Events
+Error()Description:\t\nEvent that is fired when an error occurs in the remote script.  \t\nObject_Error
+Start()Description:\t\nEvent that is fired when the remote script begins executing.  \t\nObject_Start
+End()Description:\t\nEvent that is fired when the remote script completes.  \t\nvar WshController = new ActiveXObject("WSHController"),\t\nvar RemoteProc = WshController.CreateScript("app.wsf", "remotemachine"),\t\nWScript.ConnectObject(RemoteProc, "RemoteProc_"),\t\nvar Done = false,\t\nRemoteProc.Execute(),\t\nwhile (!Done)\t\nWScript.Sleep(100),\t\nfunction RemoteProc_End()\t\n{\t\nWScript.Echo("The process has ended"),\t\nDone = true,\t\n}\t\nfunction RemoteProc_Error()\t\n{\t\nWScript.Echo("An error has occurred: " + RemoteProc.Error.Description),\t\nDone = true,\t\n}\t\nfunction RemoteProc_Start()\t\n{\t\nWScript.Echo("The process has started"),\t\n}
+
+VBSEvents()Description:\t\nImplementing Events within VbScript:\t\n----\t\nwScript.Quit(Main) \t\nfunction Main \t\nSet oIE = wscript.CreateObject("InternetExplorer.Application","IE_") \t\nvar bExit = false \t\noIE.navigate ""  ' Load URL \t\noIE.Visible = 1 ' Keep visible. \t\n\t msgbox("Waiting for IE to quit")  \t\ndo :  wscript.sleep(300) : loop until bExit=true  \t\nMain=0\t\nEnd function \t\nSub IE_onQuit()\t\nmsgbox("IE_onQuit Recieved")\t\nbExit=true\t\nEnd sub
+..VBSEvents()Description:\t\nImplementing Events within VbScript:\t\n----\t\nwScript.Quit(Main) \t\nfunction Main \t\nSet oIE = wscript.CreateObject("InternetExplorer.Application","IE_") \t\n\ tvar bExit = false \t\noIE.navigate ""  ' Load URL \t\noIE.Visible = 1 ' Keep visible. \t\n\t msgbox("Waiting for IE to quit")  \t\ndo :  wscript.sleep(300) : loop until bExit=true  \t\nMain=0\t\nEnd function \t\nSub IE_onQuit()\t\nmsgbox("IE_onQuit Recieved")\t\nbExit=true\t\nEnd sub
+
+_Error()Description:\t\nEvent that is fired when an error occurs in the remote script.  \t\nObject_Error
+_Start()Description:\t\nEvent that is fired when the remote script begins executing.  \t\nObject_Start
+_End()Description:\t\nEvent that is fired when the remote script completes.  

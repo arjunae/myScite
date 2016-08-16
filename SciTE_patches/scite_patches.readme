@@ -1,0 +1,35 @@
+ ~ How to apply the patches ~
+
+-- Download the sources. For SciTE 3.64 you would choose:
+    [ https://sourceforge.net/p/scintilla/scite/ci/rel-3-6-4/tree/ ]
+
+-- extract that archive to this local folder.
+-- Rename your downloaded sources to [scintilla-scite]. 
+-- open a shell window and do:
+    
+ patch -p0 < 1.scite.364_portable.diff
+ patch -p0 < 2.scite_364_user.toolbar.diff
+ patch -p0 < 3.scite_364_cleanOptionsMenue.diff
+ (...)
+
+-- If your jobs gone well you should see lines like:
+
+ $ patch -p0 <3.scite_364_cleanOptionsMenue.diff
+ patching file scintilla-scite/src/SciTE.h
+ patching file scintilla-scite/src/SciTEBase.cxx
+ patching file scintilla-scite/src/SciTEBase.h
+ patching file scintilla-scite/src/SciTEIO.cxx
+ patching file scintilla-scite/src/SciTEProps.cxx
+ patching file scintilla-scite/win32/SciTERes.rc
+ patching file scintilla-scite/win32/SciTEWin.h
+ patching file scintilla-scite/win32/SciTEWinBar.cxx
+
+ ~ Notes on executables Filesize ~
+ 
+ - Scintilla.dll can be easily runtime compressed to about half its size.
+    see [ http://upx.sourceforge.net/ ]
+ 
+ - If your Platform requires to, SciTEs binaries can bee statically linked to the libgcc (but growing its size.)
+    just append -static to the LDFLAGS within the makefile.
+ 
+Okay.. So HaveFun(tm) - Arjunae 

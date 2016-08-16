@@ -1,0 +1,332 @@
+#WshShell=WScript.Shell
+WshShell.AppActivate (App:Variant[, Wait:Variant]):Boolean
+AppActivate (App:Variant[, Wait:Variant]):Boolean
+WshShell.CreateShortcut (PathLink:String):Object
+CreateShortcut (PathLink:String):Object
+WshShell.CurrentDirectory (Command:String):String
+CurrentDirectory (Command:String):String
+WshShell.Environment ([Type:Variant])
+Environment ([Type:Variant])
+WshShell.Exec (Command:String)
+Exec (Command:String)
+WshShell.ExpandEnvironmentStrings (Src:String):String
+ExpandEnvironmentStrings (Src:String):String
+WshShell.LogEvent (Type:Variant, Message:String[, Target:String]):Boolean
+LogEvent (Type:Variant, Message:String[, Target:String]):Boolean
+WshShell.Popup (Text:String[, SecondsToWait:Variant][, Title:Variant][, Type:Variant]):Long
+Popup (Text:String[, SecondsToWait:Variant][, Title:Variant][, Type:Variant]):Long
+WshShell.RegDelete (Name:String)
+RegDelete (Name:String)
+WshShell.RegRead (Name:String):Variant
+RegRead (Name:String):Variant
+WshShell.RegWrite (Name:String, Value:Variant[, Type:Variant])
+RegWrite (Name:String, Value:Variant[, Type:Variant])
+WshShell.Run (Command:String[, WindowStyle:Variant][, WaitOnReturn:Variant]):Long
+Run (Command:String[, WindowStyle:Variant][, WaitOnReturn:Variant]):Long
+WshShell.SendKeys (Keys:String[, Wait:Variant])
+SendKeys (Keys:String[, Wait:Variant])
+WshShell.SpecialFolders
+
+#$WshShortcut=WshShell%.CreateShortcut%b ()
+WshShortcut.Arguments:String
+WshShortcut.Description:String
+WshShortcut.FullName:String
+WshShortcut.Hotkey:String
+WshShortcut.IconLocation:String
+WshShortcut.RelativePath:String
+WshShortcut.Save
+WshShortcut.TargetPath:String
+WshShortcut.WindowStyle:Long
+WshShortcut.WorkingDirectory:String
+
+#$WshURLShortcut=WshShell%.CreateShortcut%b ()
+WshURLShortcut.FullName:String
+WshURLShortcut.Save
+WshURLShortcut.TargetPath:String
+
+#$WshEnvironment=WshShell%.Environment%b ()
+WshEnvironment.Count (Name:String):Long
+Count (Name:String):Long
+WshEnvironment.Item (Name:String):String
+Item (Name:String):String
+WshEnvironment.Remove (Name:String)
+Remove (Name:String)
+WshEnvironment.length (Name:String):Long
+length (Name:String):Long
+
+#$WshExec=WshShell%.Exec%b ()
+WshExec.Terminate
+WshExec.StdOut
+WshExec.StdIn
+WshExec.StdErr
+WshExec.Status
+WshExec.ProcessID:Long
+WshExec.ExitCode:Long
+
+#WshNetwork=WScript.Network
+WshNetwork.AddPrinterConnection (LocalName:String, RemoteName:String[, UpdateProfile:Variant][, UserName:Variant][, Password:Variant])
+AddPrinterConnection (LocalName:String, RemoteName:String[, UpdateProfile:Variant][, UserName:Variant][, Password:Variant])
+WshNetwork.AddWindowsPrinterConnection (PrinterName:String[, DriverName:String][, Port:String])
+AddWindowsPrinterConnection (PrinterName:String[, DriverName:String][, Port:String])
+WshNetwork.ComputerName:String
+WshNetwork.EnumNetworkDrives (Name:String[, Force:Variant][, UpdateProfile:Variant])
+EnumNetworkDrives (Name:String[, Force:Variant][, UpdateProfile:Variant])
+WshNetwork.EnumPrinterConnections (Name:String[, Force:Variant][, UpdateProfile:Variant])
+EnumPrinterConnections (Name:String[, Force:Variant][, UpdateProfile:Variant])
+WshNetwork.MapNetworkDrive (LocalName:String, RemoteName:String[, UpdateProfile:Variant][, UserName:Variant][, Password:Variant])
+MapNetworkDrive (LocalName:String, RemoteName:String[, UpdateProfile:Variant][, UserName:Variant][, Password:Variant])
+WshNetwork.RemoveNetworkDrive (Name:String[, Force:Variant][, UpdateProfile:Variant])
+RemoveNetworkDrive (Name:String[, Force:Variant][, UpdateProfile:Variant])
+WshNetwork.RemovePrinterConnection (Name:String[, Force:Variant][, UpdateProfile:Variant])
+RemovePrinterConnection (Name:String[, Force:Variant][, UpdateProfile:Variant])
+WshNetwork.SetDefaultPrinter (Name:String)
+SetDefaultPrinter (Name:String)
+WshNetwork.UserDomain:String
+WshNetwork.UserName:String
+
+#WshCollection=WshNetwork.EnumPrinterConnections
+WshCollection.Count (Index:Variant):Long
+Count (Index:Variant):Long
+WshCollection.Item (Index:Variant):Variant
+Item (Index:Variant):Variant
+WshCollection.length (Index:Variant):Long
+length (Index:Variant):Long
+
+#FSO=Scripting.FileSystemObject
+FSO.BuildPath (Path:String, Name:String):String
+BuildPath (Path:String, Name:String):String
+FSO.CopyFile (Source:String, Destination:String[, OverWriteFiles:Boolean])
+CopyFile (Source:String, Destination:String[, OverWriteFiles:Boolean])
+FSO.CopyFolder (Source:String, Destination:String[, OverWriteFiles:Boolean])
+CopyFolder (Source:String, Destination:String[, OverWriteFiles:Boolean])
+FSO.CreateFolder (Path:String)
+CreateFolder (Path:String)
+FSO.CreateTextFile (FileName:String[, Overwrite:Boolean][, Unicode:Boolean])
+CreateTextFile (FileName:String[, Overwrite:Boolean][, Unicode:Boolean])
+FSO.DeleteFile (FileSpec:String[, Force:Boolean])
+DeleteFile (FileSpec:String[, Force:Boolean])
+FSO.DeleteFolder (FolderSpec:String[, Force:Boolean])
+DeleteFolder (FolderSpec:String[, Force:Boolean])
+FSO.DriveExists (DriveSpec:String):Boolean
+DriveExists (DriveSpec:String):Boolean
+FSO.Drives
+FSO.FileExists (FileSpec:String):Boolean
+FileExists (FileSpec:String):Boolean
+FSO.FolderExists (FolderSpec:String):Boolean
+FolderExists (FolderSpec:String):Boolean
+FSO.GetAbsolutePathName (Path:String):String
+GetAbsolutePathName (Path:String):String
+FSO.GetBaseName (Path:String):String
+GetBaseName (Path:String):String
+FSO.GetDrive (DriveSpec:String)
+GetDrive (DriveSpec:String)
+FSO.GetDriveName (Path:String):String
+GetDriveName (Path:String):String
+FSO.GetExtensionName (Path:String):String
+GetExtensionName (Path:String):String
+FSO.GetFile (FilePath:String)
+GetFile (FilePath:String)
+FSO.GetFileName (Path:String):String
+GetFileName (Path:String):String
+FSO.GetFileVersion (FileName:String):String
+GetFileVersion (FileName:String):String
+FSO.GetFolder (FolderPath:String)
+GetFolder (FolderPath:String)
+FSO.GetParentFolderName (Path:String):String
+GetParentFolderName (Path:String):String
+FSO.GetSpecialFolder (SpecialFolder)
+GetSpecialFolder (SpecialFolder)
+FSO.GetStandardStream (StandardStreamType[, Unicode:Boolean])
+GetStandardStream (StandardStreamType[, Unicode:Boolean])
+FSO.GetTempName (Path:String):String
+GetTempName (Path:String):String
+FSO.MoveFile (Source:String, Destination:String)
+MoveFile (Source:String, Destination:String)
+FSO.MoveFolder (Source:String, Destination:String)
+MoveFolder (Source:String, Destination:String)
+FSO.OpenTextFile (FileName:String[, IOMode][, Create:Boolean][, Format])
+OpenTextFile (FileName:String[, IOMode][, Create:Boolean][, Format])
+
+#$Drive=FSO%.GetDrive%b ()
+Drive.AvailableSpace:Variant
+Drive.DriveLetter:String
+Drive.DriveType
+Drive.FileSystem:String
+Drive.FreeSpace:Variant
+Drive.IsReady:Boolean
+Drive.Path:String
+Drive.RootFolder
+Drive.SerialNumber:Long
+Drive.ShareName:String
+Drive.TotalSize:Variant
+Drive.VolumeName:String
+
+#Drives=FSO.Drives
+Drives.Count (Key:Variant):Long
+Drives.Item (Key:Variant)
+
+#$Folder=FSO%.GetFolder%b ()
+Folder.Attributes
+Folder.Copy (Destination:String[, OverWriteFiles:Boolean])
+Copy (Destination:String[, OverWriteFiles:Boolean])
+Folder.CreateTextFile (FileName:String[, Overwrite:Boolean][, Unicode:Boolean])
+CreateTextFile (FileName:String[, Overwrite:Boolean][, Unicode:Boolean])
+Folder.DateCreated:Date
+Folder.DateLastAccessed:Date
+Folder.DateLastModified:Date
+Folder.Delete ([Force:Boolean])
+Delete ([Force:Boolean])
+Folder.Drive
+Folder.Files (Destination:String)
+Files (Destination:String)
+Folder.IsRootFolder (Destination:String):Boolean
+IsRootFolder (Destination:String):Boolean
+Folder.Move (Destination:String)
+Move (Destination:String)
+Folder.Name:String
+Folder.ParentFolder
+Folder.Path:String
+Folder.ShortName:String
+Folder.ShortPath:String
+Folder.Size (Destination:String):Variant
+Size (Destination:String):Variant
+Folder.SubFolders (Destination:String)
+SubFolders (Destination:String)
+Folder.Type:String
+
+#Folders=Folder.SubFolders
+Folders.Add (Name:String)
+Add (Name:String)
+Folders.Count (Key:Variant):Long
+Count (Key:Variant):Long
+Folders.Item (Key:Variant)
+Item (Key:Variant)
+
+#$File=FSO%.GetFile%b ()
+File.Attributes
+File.Copy (Destination:String[, OverWriteFiles:Boolean])
+Copy (Destination:String[, OverWriteFiles:Boolean])
+File.DateCreated:Date
+File.DateLastAccessed:Date
+File.DateLastModified:Date
+File.Delete ([Force:Boolean])
+Delete ([Force:Boolean])
+File.Drive
+File.Move (Destination:String)
+Move (Destination:String)
+File.Name:String
+File.OpenAsTextStream ([IOMode][, Format])
+OpenAsTextStream ([IOMode][, Format])
+File.ParentFolder
+File.Path:String
+File.ShortName:String
+File.ShortPath:String
+File.Size:Variant
+File.Type:String
+
+#Files=Folder.Files
+Files.Count (Key:Variant):Long
+Count (Key:Variant):Long
+Files.Item (Key:Variant)
+
+#$TextStream=%a+%.StdIn
+#$TextStream=%a+%.StdOut
+#$TextStream=%a+%.StdErr
+#TextStream=FSO.OpenTextFile
+TextStream=File.OpenAsTextStream
+TextStream.AtEndOfLine:Boolean
+TextStream.AtEndOfStream:Boolean
+TextStream.Close (Characters:Long)
+Close (Characters:Long)
+TextStream.Column:Long
+TextStream.Line:Long
+TextStream.Read (Characters:Long):String
+Read (Characters:Long):String
+TextStream.ReadAll (Characters:Long):String
+ReadAll (Characters:Long):String
+TextStream.ReadLine (Characters:Long):String
+ReadLine (Characters:Long):String
+TextStream.Skip (Characters:Long)
+Skip (Characters:Long)
+TextStream.SkipLine (Characters:Long)
+SkipLine (Characters:Long)
+TextStream.Write (Text:String)
+Write (Text:String)
+TextStream.WriteBlankLines (Lines:Long)
+WriteBlankLines (Lines:Long)
+TextStream.WriteLine ([Text:String])
+WriteLine ([Text:String])
+
+#Shell=Shell.Application
+Shell.Application:Object  Get Application object
+Shell.Parent:Object  Get Parent object
+Shell.NameSpace (vDir:Variant)  Get special folder from ShellSpecialFolderConstants
+Shell.BrowseForFolder (Hwnd:Long, Title:String, Options:Long[, RootFolder:Variant])  Browse the name space for a Folder
+Shell.Windows (Hwnd:Long, Title:String, Options:Long[, RootFolder:Variant]):Object  The collection of open folder windows
+Shell.Open (vDir:Variant)  Open a folder
+Shell.Explore (vDir:Variant)  Explore a folder
+Shell.MinimizeAll (vDir:Variant)  Minimize all windows
+Shell.UndoMinimizeALL (vDir:Variant)  Undo Minimize All
+Shell.FileRun (vDir:Variant)  Bring up the file run
+Shell.CascadeWindows (vDir:Variant)  Cascade Windows
+Shell.TileVertically (vDir:Variant)  Tile windows vertically
+Shell.TileHorizontally (vDir:Variant)  Tile windows horizontally
+Shell.ShutdownWindows (vDir:Variant)  Exit Windows
+Shell.Suspend (vDir:Variant)  Suspend the pc
+Shell.EjectPC (vDir:Variant)  Eject the pc
+Shell.SetTime (vDir:Variant)  Bring up the Set time dialog
+Shell.TrayProperties (vDir:Variant)  Handle Tray properties
+Shell.Help (vDir:Variant)  Display shell help
+Shell.FindFiles (vDir:Variant)  Find Files
+Shell.FindComputer (vDir:Variant)  Find a computer
+Shell.RefreshMenu (vDir:Variant)  Refresh the menu
+Shell.ControlPanelItem (szDir:String)  Run a Control Panel Item
+
+#$Folder=Shell%.NameSpace%b ()
+Folder.Title:String  Get the display name for the window
+Folder.Application:Object  Get Application object
+Folder.Parent:Object  Get Parent object
+Folder.ParentFolder  Get Parent object
+Folder.Items  The collection of Items in folder
+Folder.ParseName (bName:String)  Parse the name to get an item.
+Folder.NewFolder (bName:String[, vOptions:Variant])  Create a new sub folder in this folder.
+Folder.MoveHere (vItem:Variant[, vOptions:Variant])  Move Items to this folder.
+Folder.CopyHere (vItem:Variant[, vOptions:Variant])  Copy Items to this folder.
+Folder.GetDetailsOf (vItem:Variant, iColumn:Long):String  Get the details about an item.
+
+#FolderItems=Folder.Items
+FolderItems.Count:Long  Get count of items in the folder
+FolderItems.Application:Object  Get Application object
+FolderItems.Parent:Object  Get Parent object
+FolderItems.Item ([index:Variant])  Return the figure for the given index
+
+#$ShellFolderItem=FolderItems%.Item%b ()
+ShellFolderItem.Application:Object  Get Application object
+ShellFolderItem.Parent:Object  Get Parent object
+ShellFolderItem.Name:String  Get display name for item
+ShellFolderItem.Path:String  Get the pathname to the item
+ShellFolderItem.GetLink:Object  If item is link return link object
+ShellFolderItem.GetFolder:Object  If item is a folder return folder object
+ShellFolderItem.IsLink:Boolean  Is the item a link?
+ShellFolderItem.IsFolder:Boolean  Is the item a Folder?
+ShellFolderItem.IsFileSystem:Boolean  Is the item a file system object?
+ShellFolderItem.IsBrowsable:Boolean  Is the item browsable?
+ShellFolderItem.ModifyDate:Date  Modification Date?
+ShellFolderItem.Size:Long  Size
+ShellFolderItem.Type:String  Type
+ShellFolderItem.Verbs  Get the list of verbs for the object
+ShellFolderItem.InvokeVerb ([vVerb:Variant])  Execute a command on the item
+ShellFolderItem.InvokeVerbEx ([vVerb:Variant][, vArgs:Variant])  Extended version of InvokeVerb
+ShellFolderItem.ExtendedProperty (bstrPropName:String):Variant  Access an extended property
+
+#ShellLinkObject=ShellFolderItem.GetLink
+ShellLinkObject.Path:String  Get the path of the link
+ShellLinkObject.Description:String  Get the description for the link
+ShellLinkObject.WorkingDirectory:String  Get the working directory for the link
+ShellLinkObject.Arguments:String  Get the arguments for the link
+ShellLinkObject.Hotkey:Long  Get the Hotkey for the link
+ShellLinkObject.ShowCommand:Long  Get the Show Command for the link
+ShellLinkObject.Resolve (fFlags:Long)  Tell the link to resolve itself
+ShellLinkObject.GetIconLocation (pbs:String):Long  Get the IconLocation for the link
+ShellLinkObject.SetIconLocation (bs:String, iIcon:Long)  Set the IconLocation for the link
+ShellLinkObject.Save ([vWhere:Variant])  Tell the link to save the changes

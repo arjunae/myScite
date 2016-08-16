@@ -1,0 +1,26 @@
+/* Site settings */
+body {background-color:#ffffff;margin:0px;font-family:Arial,sans-serif;font-size:13px;font-weight:normal;
+	font-style:normal;text-decoration:none;color:#000000;letter-spacing:0em;-webkit-print-color-adjust:exact;}
+a {text-decoration:underline;}
+a:link {color:#7C2D1D; cursor:pointer;}
+a:visited {color:#7C2D1D;}
+a:hover {color:#7F7F7F;}
+a * {color:#7C2D1D;text-decoration:underline;}
+sup {font-size:0.7em; vertical-align: 0.3em;}
+sub {font-size:0.7em;}
+.xr_tl {position: absolute; white-space: pre; unicode-bidi:bidi-override;}
+.xr_tr {position: absolute; white-space: pre; unicode-bidi:bidi-override; text-align:right;}
+.xr_tc {position: absolute; white-space: pre; unicode-bidi:bidi-override; text-align:center;}
+.xr_tj {position: absolute; unicode-bidi:bidi-override; text-align:justify;}
+.xr_ap {position: absolute; border:none;}
+.xr_ar {position: absolute; display:block;}
+.xr_ae {position: relative; border:none;}
+.xr_tb {position: absolute; unicode-bidi:bidi-override;}
+.xr_tu {unicode-bidi:bidi-override;margin-top:0px;margin-bottom:0px;}
+.xr_apb {display:block; position:absolute;}
+.xr_c_Link {color:#7C2D1D;}
+.xr_c_Text {color:#7F7F7F;}
+.xr_c_Theme_Color_1 {color:#E21A1A;}
+.xr_c_Background {color:#FFFFFF;}
+.xr_bgb0 {background-color: #CCCCCC;}
+.xr_bgb1 {background-color: #CCCCCC;}
