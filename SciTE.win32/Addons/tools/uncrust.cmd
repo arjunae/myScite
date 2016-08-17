@@ -1,16 +1,34 @@
 @echo off 
 :: -------- Starter for SciTE ----------
-:: used to be able to avoid Chaos and store  Language Distbins within their respective Directories. 
+:: used to avoid Chaos and store  Language Distbins within their respective Directories. 
 :: ---------------------------------------
-
 set toolName=uncrustify
+set toolExt=.exe
+set toolParam=-c %~dp0%toolName%\linux.cfg --no-backup %*
 
 ::~dp0 = Full Path to current Directory
-set toolPath=%~dp0\%toolName%
+set toolPath=%~dp0%toolName%
 
 :: temporarly append toolsDir to local Path 
 set path=%path%;%toolPath%;
 
-echo ~ WRapper: %toolName% %*
-%toolPath%\%toolName%.exe -c %toolPath%\linux.cfg --no-backup  %*
-::%toolPath%\%toolName%.exe -c %toolPath%\defaults.cfg --no-backup  %*
+:: first try if a user had installed a local package
+if exist %toolPath%\%toolName%%toolExt% (
+echo ~ WRapper - Start
+echo %toolPath%\%toolName% %toolParam%
+%toolPath%\%toolName%%toolExt% %toolParam%
+goto freude
+) 
+
+:: then look for it within the system 
+where /Q %toolName%%toolExt%
+
+IF %ERRORLEVEL% == 0 (
+echo ~ WRapper - Start
+where %toolName%%toolExt%
+%toolName%%toolExt% %toolParam%
+) else ( 
+echo ... please install %toolName% or copy a custom pack to %toolPath% .
+)
+
+:freude

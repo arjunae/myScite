@@ -2,7 +2,8 @@
 :: Permanently append the current Path to the Users PATH Environment.
 :: Dont touch Systems global Path, so prior installed Dists keep precedence.
 echo.
-echo ::...:: Register Helpers ::...::  
+echo ::...:: Register Helpers ::...:: 
+echo. 
 setlocal enabledelayedexpansion enableextensions
 set contrib_path=%~dp0
 
@@ -12,14 +13,16 @@ Set cur_path=%%c
 )
 
 echo ------------------- Current Path -------------------------.
+echo.
 :: Check if path was already appended
 set str=%cur_path%
 set delim=;
 call :searchPath
+echo.
 echo -------------------- Result ------------------------------.
-
+echo.
 if "%check_path%" equ "yo" (
-echo ...Path found ... no need to append... 
+echo	Path found ... no need to append... 
 goto :freude 
 )
 ::set cur_path=%str%
@@ -54,7 +57,7 @@ exit /b
 
 :freude
 ENDLOCAL
-
+echo.
 echo --------------------- Fin --------------------------------.
 echo waiting some time... (10sek)
 ping 11.01.19.77 /n 1 /w 8000 >NUL
