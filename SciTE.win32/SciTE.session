@@ -7,8 +7,9 @@ position.height=400
 position.maximize=0
 
 mru.1.path=E:\projects\myScite\myScite\SciTE.linux64\Addons\tools.properties
+mru.2.path=E:\projects\myScite\myScite\readme.md
 
-buffer.1.path=E:\projects\myScite\myScite\SciTE.linux64\Addons\tools.properties
-buffer.1.position=2027
-buffer.1.scroll=24
+buffer.1.path=E:\projects\myScite\myScite\readme.md
+buffer.1.position=483
+buffer.1.scroll=0
 buffer.1.current=1
