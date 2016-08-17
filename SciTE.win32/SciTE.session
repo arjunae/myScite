@@ -8,8 +8,9 @@ position.maximize=0
 
 mru.1.path=E:\projects\myScite\myScite\SciTE.linux64\Addons\tools.properties
 mru.2.path=E:\projects\myScite\myScite\readme.md
+mru.3.path=E:\projects\myScite\myScite\SciTE.win32\changelog.readme.txt
 
-buffer.1.path=E:\projects\myScite\myScite\readme.md
-buffer.1.position=483
+buffer.1.path=E:\projects\myScite\myScite\SciTE.win32\changelog.readme.txt
+buffer.1.position=235
 buffer.1.scroll=0
 buffer.1.current=1

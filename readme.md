@@ -1,11 +1,14 @@
 ~- SciTE_webdev -~
+
 [17.08.2016]
 - Removed Screenshots from older Revisions.
 - Formatting Cleanups for Calltips in javascript.api (Linebreaks).
 - Higher contrast and monospace Font within the output pane. 
 
+
 [16.08.2016]	::.:::..:: Stable Release (1.11) ::.:::..::
---	- Redone; Portability Patch.
+
+-- Redone; Portability Patch.
 - Use %userprofile%\.Scite, $(env.scite_userhome) or just Scite's binPath.    
 - Fix; MSDN and CPP API File parsers.
 - New; Properties: Include XML & Yaml. Most props use theming / New theme.white
