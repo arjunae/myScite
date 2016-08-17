@@ -7,7 +7,7 @@ function nameMe() {
 	$("#some_content").click (this, function() {
 		writeln("click_main_content");
 		var MyVeryLongVar = MyVeryLongVar + 20 - 0xA + 2;
-		var win = window("Test").callbacks.add(cele).ajaxStop(
+		var win = window("Test").callbacks.add(cele)
 			})
 	}
 
