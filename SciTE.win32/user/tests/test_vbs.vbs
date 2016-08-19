@@ -7,7 +7,7 @@ Dim oIE, bExit
 
 Set myfso = CreateObject ("Scripting.FileSystemObject")
 Set myStdOut = myfso.GetStandardStream (1)
-   
+
 ' ---- Create object and connect the event handler in one step.
  Set oIE = wscript.CreateObject("InternetExplorer.Application","IE_")
  oIE.Navigate2("http://www.freedos.org")
@@ -24,7 +24,7 @@ Set myStdOut = myfso.GetStandardStream (1)
 wscript.sleep(2 * 1000)
 myStdOut.Writeline("stdOut - Okay. IE Closed ")
 wscript.sleep(2 * 1000)
- 
+
 Main=0
 wscript.Quit()
 
@@ -37,3 +37,4 @@ End Sub
 
 ' Derived from original Sample
 'https://technet.microsoft.com/de-de/ie/aa366443
+

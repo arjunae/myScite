@@ -1,5 +1,11 @@
 ~- SciTE_webdev -~
 
+[19.08.2016]
+- Fixes for vbscript styling. Use FreeBasic Lexer.
+- Fixes for cpp styling. (cpp11 / c98) 
+- Fixes for html styling
+- Fix theme.blackblue (highlite keywords1)
+
 [18.08.2016]
 - change some more Screenshots.
 - Formatting Cleanups for Calltips in jQuery.api (Linebreaks).
