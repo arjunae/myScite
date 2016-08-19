@@ -1,6 +1,6 @@
 ~- SciTE_webdev -~
 
-[19.08.2016]
+[19.08.2016] (1.12)
 - Fixes for vbscript styling. Use FreeBasic Lexer.
 - Fixes for cpp styling. (cpp11 / c98) 
 - Change enhance Batch fike styling
