@@ -3,6 +3,7 @@
 [19.08.2016]
 - Fixes for vbscript styling. Use FreeBasic Lexer.
 - Fixes for cpp styling. (cpp11 / c98) 
+- Change enhance Batch fike styling
 - Fixes for html styling
 - Fix theme.blackblue (highlite keywords1)
 
