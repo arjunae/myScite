@@ -1369,12 +1369,11 @@ void SciTEWin::CreateUI() {
 		left += width;
 	}
 	// Pass 'this' pointer in lpParam of CreateWindow().
-	// WS_EX_LAYERED allows for transparency in versions>=win2k
 	wSciTE = ::CreateWindowEx(
 	             0,
 	             className,
 	             windowName.c_str(),
-	             WS_EX_LAYERED | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME |
+	             WS_CAPTION | WS_SYSMENU | WS_THICKFRAME |
 	             WS_MINIMIZEBOX | WS_MAXIMIZEBOX |
 	             WS_CLIPCHILDREN,
 	             left, top, width, height,
@@ -1382,13 +1381,8 @@ void SciTEWin::CreateUI() {
 	             NULL,
 	             hInstance,
 	             this);
-							 
 	if (!wSciTE.Created())
 		exit(FALSE);
-		
-	// Windows allows for translucent hwnd  (>=win2k)  since (>=Win8) even for childs
-	if (props.GetInt("editor.transparency"))
-		SetLayeredWindowAttributes(wSciTE 0, (255 * (props.GetInt("editor.transparency")) / 100, LWA_ALPHA);
 
 	if (props.GetInt("save.position"))
 		RestorePosition();
