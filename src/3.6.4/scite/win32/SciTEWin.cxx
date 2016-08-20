@@ -1350,7 +1350,7 @@ void SciTEWin::RestorePosition() {
 	}
 }
 
-void SciTEWin::CreateUI() {
+void SciTEWin::CreateUI() {		
 	CreateBuffers();
 
 	int left = props.GetInt("position.left", CW_USEDEFAULT);
@@ -1369,11 +1369,12 @@ void SciTEWin::CreateUI() {
 		left += width;
 	}
 	// Pass 'this' pointer in lpParam of CreateWindow().
+	// Style WS_EX_LAYERED allows for window transparency >=Win2k. 
 	wSciTE = ::CreateWindowEx(
-	             0,
+	             WS_EX_LAYERED,
 	             className,
 	             windowName.c_str(),
-	             WS_CAPTION | WS_SYSMENU | WS_THICKFRAME |
+	             WS_OVERLAPPEDWINDOW | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME |
 	             WS_MINIMIZEBOX | WS_MAXIMIZEBOX |
 	             WS_CLIPCHILDREN,
 	             left, top, width, height,
@@ -1381,12 +1382,16 @@ void SciTEWin::CreateUI() {
 	             NULL,
 	             hInstance,
 	             this);
+
 	if (!wSciTE.Created())
 		exit(FALSE);
 
 	if (props.GetInt("save.position"))
 		RestorePosition();
 
+	//  Windows >=2k allows transparency for any hwnd. >=win8 for childs too.
+	SetLayeredWindowAttributes(HwndOf(wSciTE), 0, (255 *  (props.GetInt("window.transparency"))) / 100, LWA_ALPHA);
+	
 	LocaliseMenus();
 	std::string pageSetup = props.GetString("print.margins");
 	char val[32];
