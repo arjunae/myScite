@@ -1,23 +1,12 @@
-~- SciTE_webdev -~
+~- mySciTE -~
 
-[19.08.2016]
-- Fixes for vbscript styling. Use FreeBasic Lexer.
-- Fixes for cpp styling. (cpp11 / c98) 
-- Change enhance Batch fike styling
-- Fixes for html styling
-- Fix theme.blackblue (Highlite keywords1)
-
-[18.08.2016]
-- change some more Screenshots.
-- Formatting Cleanups for Calltips in jQuery.api (Linebreaks).
-- More eyeFriendly theme.coffee
-
-[17.08.2016]
-- Removed Screenshots from older Revisions.
-- Formatting Cleanups for Calltips in javascript.api (Linebreaks).
+[19.08.2016] [Stable-1.12]
+- Fixes for cpp/html/batch/vbscript styling.
+- Formatting Cleanups for Calltips in javascript and jQuery.api (Linebreaks).
+- More eyeFriendly theme.blackblue and theme.coffee
 - Higher contrast and monospace Font within the output pane. 
 
-[16.08.2016]	::.:::..:: Stable Release (1.11) ::.:::..::
+[16.08.2016] [Stable-1.11]
 -- Redone; Portability Patch.
 - Use %userprofile%\.Scite, $(env.scite_userhome) or just Scite's binPath.    
 - Fix; MSDN and CPP API File parsers.
