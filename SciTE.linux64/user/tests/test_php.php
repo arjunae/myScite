@@ -147,7 +147,7 @@
    
   //  GetColor  returns  an  associative  array  with  the  rgb  values  of  the  desired  color 
 
-  function  GetColor($Colorname) 
+  function GetColor($Colorname) 
       { 
           global  $Colors; 
           return  $Colors[$Colorname]; 
@@ -157,7 +157,6 @@
       $icolor= GetColor($scolor);
       fwrite($STDERR,  $scolor . " -->" . $icolor["red"] . "," . $icolor["green"] . "," . $icolor["blue"] ."\n");  
 
-
   // This function is limited to a 32 char long pass but this does not seem to be a real problem :) 
       function gen_password($length = 8) { 
               srand((double)microtime()*1000000); 
@@ -165,9 +164,6 @@
               $password=substr(md5(uniqid(rand())),0,$length); 
               return $password; 
       } 
-
     $spw= gen_password(8);
     fwrite ($STDOUT, "md5_pw   ---> " .$spw ."\n..........\n") ;
-
-   
 ?>
