@@ -1,27 +1,23 @@
 # SciTE session file
 
-position.left=148
-position.top=16
-position.width=1018
-position.height=681
+position.left=5
+position.top=9
+position.width=1164
+position.height=718
 position.maximize=0
 
-mru.1.path=C:\Users\Tho\Desktop\lexer_javascript.js
-mru.2.path=C:\Users\Tho\Desktop\Zeug\Allie.txt
-mru.3.path=E:\projects\.myScite\.myScite.github\SciTE.linux64\Addons\tools.properties
-mru.4.path=E:\projects\.myScite\.myScite.github\SciTE.linux64\.SciTEUser.properties
-mru.5.path=E:\projects\.myScite\.myScite.github\SciTE.linux64\SciTEGlobal.properties
-mru.6.path=C:\Users\Tho\AppData\Local\Temp\7zO4100B518\yaml.properties
-mru.7.path=E:\projects\.myScite\.myScite.github\SciTE.win32\SciTEGlobal.properties
-mru.8.path=E:\projects\.myScite\.myScite.github\SciTE.win32\theme\theme.blackblue.properties
-mru.9.path=E:\projects\.myScite\.myScite.github\SciTE.win32\theme\theme.global.defaults.properties
-mru.10.path=E:\projects\.myScite\.myScite.github\SciTE.win32\SciTEUser.properties
+mru.1.path=E:\projects\.myScite\.myScite.github\SciTE.win32\SciTEUser.properties
+mru.2.path=C:\Users\Tho\Desktop\json.properties
+mru.3.path=C:\Program Files\Vbsedit\activate.vbs
+mru.4.path=E:\projects\.myScite\.myScite.github\SciTE.win32\user\api\wsh_07_2016.api
+mru.5.path=E:\projects\.myScite\.myScite.github\SciTE.win32\user\freebasic.properties
+mru.6.path=E:\projects\.myScite\.myScite.github\SciTE.win32\user\tests\test_vbs.vbs
+mru.7.path=E:\projects\.myScite\.myScite.github\contrib\SciTE.apiDogs\msdn_wsh\sync_msdn_wsh_obj.vbs
+mru.8.path=E:\projects\.myScite\.myScite.github\contrib\SciTE.apiDogs\c_cpp\cpp_create_links.cmd
+mru.9.path=E:\projects\.myScite\.myScite.github\contrib\SciTE.apiDogs\c_cpp\cpp_create_links.vbs
+mru.10.path=E:\projects\.myScite\.myScite.github\contrib\SciTE.apiDogs\c_cpp\cpp.keywords.log
 
-buffer.1.path=E:\projects\.myScite\.myScite.github\SciTE.win32\theme\theme.global.defaults.properties
-buffer.1.position=458
-buffer.1.scroll=0
-
-buffer.2.path=E:\projects\.myScite\.myScite.github\SciTE.win32\SciTEUser.properties
-buffer.2.position=6542
-buffer.2.scroll=138
-buffer.2.current=1
+buffer.1.path=E:\projects\.myScite\.myScite.github\contrib\SciTE.apiDogs\c_cpp\cpp.keywords.log
+buffer.1.position=40292
+buffer.1.scroll=792
+buffer.1.current=1

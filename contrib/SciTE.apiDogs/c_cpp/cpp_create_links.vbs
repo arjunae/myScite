@@ -1,4 +1,4 @@
-'build@  cscript.exe //x /NOLOGO $(FilePath)
+'build@  cscript.exe //D /NOLOGO $(FilePath)
 '-------------------------------------------------
 ' cplusplus.com Parser - ( http://cplusplus.com)
 ' Status: 20160221 - Fixup Sync, add timeout / retry /fail
@@ -15,7 +15,8 @@ const MAX_TRIES = 3
 
   Dim result 'As Variant
   Dim ofile_log 'AS Scripting.File
-
+  Dim oscreen_log
+  
  Phase1()
 
 '------------------------------------------------------
@@ -23,7 +24,12 @@ const MAX_TRIES = 3
 sub phase1()
 
   Set fso = CreateObject("Scripting.FileSystemObject")
+  Set myfso = CreateObject("Scripting.FileSystemObject")
+ 
+'--- undocumented: redir log messages to console (use wscript //X) 
+  Set oscreen_log = myfso.GetStandardStream (1)  
   Set ofile_log = fso.CreateTextFile("cpp.keywords.log")
+ 
   Call reset_ie
 
   ' Its a use case that parsin IEs output can be blocked by client, network or server side hangs.
@@ -56,6 +62,7 @@ sub phase1()
   obrowser.Quit
   Set obrowser = Nothing
   ofile_log.Close
+  oscreen_log.close
 End sub
 
 '------------------------------------------------------------
@@ -114,7 +121,8 @@ Function debug_log(log_str)
 
   'debug.print log_str
   ofile_log.WriteLine log_str
-
+  oscreen_log.Writeline log_str
+  
 End Function
 
 ' ---------------------------------------------------------------------

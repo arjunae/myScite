@@ -233,3 +233,30 @@ VBSEvents()Description:\t\nImplementing Events within VbScript:\t\n----\t\nwScri
 _Error()Description:\t\nEvent that is fired when an error occurs in the remote script.  \t\nObject_Error
 _Start()Description:\t\nEvent that is fired when the remote script begins executing.  \t\nObject_Start
 _End()Description:\t\nEvent that is fired when the remote script completes.  
+
+# --xml
+
+<description>
+<example>
+<job
+id="
+<named
+name=namedname
+helpstring=helpstring
+type=string/boolean/simple
+required=boolean
+<object>
+guid=typelibGUID
+progID=typelibName
+hookevents=boolean
+<package>
+<reference>
+version="
+<resource>
+<runtime>
+<script>
+language="
+src="
+<unnamed>
+many=
+<usage>
