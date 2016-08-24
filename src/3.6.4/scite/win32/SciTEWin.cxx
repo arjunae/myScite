@@ -680,7 +680,7 @@ void SciTEWin::Command(WPARAM wParam, LPARAM lParam) {
 	switch (cmdID) {
 
 	case IDM_ACTIVATE:
-		Activate(lParam);
+		Activate(lParam);		
 		break;
 
 	case IDM_FINISHEDEXECUTE: {
@@ -1368,7 +1368,9 @@ void SciTEWin::CreateUI() {
 	        (left != static_cast<int>(CW_USEDEFAULT))) {
 		left += width;
 	}
+	
 	// Pass 'this' pointer in lpParam of CreateWindow().
+	//  Windows >=2k allows transparency for any main hwnd. >=win8 for childs too usin WS_EX_LAYERED / OVERLAPPEDWINDOW
 	wSciTE = ::CreateWindowEx(
 	             WS_EX_LAYERED,
 	             className,
@@ -1386,10 +1388,13 @@ void SciTEWin::CreateUI() {
 
 	if (props.GetInt("save.position"))
 		RestorePosition();
-
-	//  Windows >=2k allows transparency for any hwnd. >=win8 for childs too.
-	SetLayeredWindowAttributes(HwndOf(wSciTE), 0, (255 *  (props.GetInt("window.transparency"))) / 100, LWA_ALPHA);
-
+	//  Windows >=2k allows transparency for any hwnd. >=win8 for childs too. Needs a initial value.
+	if (props.GetInt("window.transparency")>59) {
+		SetLayeredWindowAttributes(HwndOf(wSciTE), 0, (255 *  (props.GetInt("window.transparency"))) / 100, LWA_ALPHA);
+	} else {
+		SetLayeredWindowAttributes(HwndOf(wSciTE), 0, (255 * 100) / 100, LWA_ALPHA);
+	}
+	
 	LocaliseMenus();
 	std::string pageSetup = props.GetString("print.margins");
 	char val[32];
