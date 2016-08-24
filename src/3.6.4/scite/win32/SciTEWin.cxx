@@ -1388,8 +1388,8 @@ void SciTEWin::CreateUI() {
 
 	if (props.GetInt("save.position"))
 		RestorePosition();
-	//  Windows >=2k allows transparency for any hwnd. >=win8 for childs too. Needs a initial value.
-	if (props.GetInt("window.transparency")>59) {
+	// ensure a minimum initial value.
+	if (props.GetInt("window.transparency")>84) {
 		SetLayeredWindowAttributes(HwndOf(wSciTE), 0, (255 *  (props.GetInt("window.transparency"))) / 100, LWA_ALPHA);
 	} else {
 		SetLayeredWindowAttributes(HwndOf(wSciTE), 0, (255 * 100) / 100, LWA_ALPHA);
