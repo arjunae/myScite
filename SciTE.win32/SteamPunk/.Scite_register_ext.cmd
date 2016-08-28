@@ -123,7 +123,7 @@ set /P scite_path=<%tmp%\scite_tmp\scite.tmp
  
 :: Regedit needs the whole string enclosed with  DoubleQuotes. 
 :: DoubleQuotes within the string have to be escaped with \
-::set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\" \"-CWD:%scite_path_ext%\""
+:: set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\" \"-CWD:%scite_path_ext%\""
 :: with scite_webdevs (3.6.4) portability patch in we doesnt need cwd anymore 
 set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\""
 
