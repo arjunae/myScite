@@ -2,8 +2,8 @@
 
 [24.08.2016] [DEV-1.13]
 - New Feature: Window transparency. 
-- propertyName in percent of opaque: int window.transparency=96
-- further improved theme contrast 
+-  propertyName in percent of opaque: int window.transparency=96
+- change: further improved theme contrast
 - add: XML keywords for vbs 
 - fix: cpp api fetcher
 

@@ -3,7 +3,7 @@
 ' Status: 20151106 - Support parsing  local Source
 ' http://jqapi.com/#download
 ' Status: 20151122 - Fixup Sync
-' Marcedo[at]gmx[dot]net
+' Marcedo[at]habmalnefrage[dot]net
 '
   Dim iSyncCnt 'As Integer
   Dim obrowser 'As InternetExplorer
