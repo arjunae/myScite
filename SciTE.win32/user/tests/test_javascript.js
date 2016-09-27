@@ -1,13 +1,14 @@
 /*
  * .... Doc Comments seem to be okay.
- */
+*/
 
 // Check syntax Highlitening and multiline calltips.
-function nameMe() {
+function nameMe(str) {
 	$("#some_content").click(this, function() {
 		writeln("click_main_content");
 		var MyVeryLongVar = MyVeryLongVar + 20 - 0xA + 2;
 		var win = window("Test").callbacks.add(cele)
+		str.replace(/^['"]/, "")
 	})
 }
 
