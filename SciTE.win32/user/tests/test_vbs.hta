@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>Multiple-selection List Box</title>
+<HTA:APPLICATION
+  APPLICATIONNAME="Multiple-selection List Box"
+  ID="MultipleSelectionListBox"/>
+</head>
+
+<SCRIPT Language="VBScript">
+
+Sub Window_OnLoad
+
+    For i = 1 to 20
+        Set objOption = Document.createElement("OPTION")
+        objOption.Text = "Option No. " & i
+        objOption.Value = i
+        mylistbox.Add(objOption)
+    Next
+ 
+End Sub
+Sub OnClickButtonDisplaySelected()
+  For i=0 To mylistbox.length-1
+    If mylistbox(i).selected Then
+      MsgBox "value: " & mylistbox(i).Value & vbCrLf & "text: " & mylistbox(i).Text
+    End If
+  Next
+End Sub
+</SCRIPT>
+
+<body bgcolor="buttonface">
+<select multiple size="10" name="mylistbox" style="width:300px" >
+</select>
+<BR><BR>
+<input type="button" name="DisplaySelected" id="DisplaySelected" value="Display Selected options" onclick="OnClickButtonDisplaySelected">
+</body>
+</html>
