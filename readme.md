@@ -1,5 +1,8 @@
 ~- mySciTE -~
 
+[27.09.2016] [STABLE-1.14]
+- HousekeepingTasks
+
 [24.08.2016] [DEV-1.13]
 - New Feature: Window transparency. 
 -  propertyName in percent of opaque: int window.transparency=96
