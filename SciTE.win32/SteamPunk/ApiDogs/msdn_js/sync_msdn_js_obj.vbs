@@ -3,7 +3,7 @@
 '   MSDN-Fetcher;  Syncs Content with https://msdn.microsoft.com/
 '   Status:  20151123 Redo Sync, Add oApiDescr. oApiParams, use IE StatusBar
 '   vba.module - works on VbScript too.
-'   Marcedo[at]habmalndefrage[dot]net
+'   Marcedo[at]habmalndefrage[dot]de
 '
 
 Dim sFolder, sFileName ' As String
