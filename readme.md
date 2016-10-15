@@ -1,6 +1,6 @@
 ~- mySciTE.webdev -~
 
-[15.10.2016] (STABLE-1.20)
+[15.10.2016] STABLE-1.20
 - sync with scintilla-scite 3.67
 - Fixes for styling cpp macros, html tags and wsh objects
 - Finalize theme.grey
