@@ -2,6 +2,7 @@
 :: -------- Starter for SciTE ----------
 :: used to avoid Chaos and store  Language Distbins within their respective Directories. 
 :: ---------------------------------------
+
 set toolName=figref
 set toolExt=.cmd
 set toolParam=-f %toolPath%\small.flf %*
@@ -16,7 +17,7 @@ set path=%path%;%toolPath%;
 if exist %toolPath%\%toolName%%toolExt% (
 echo ~ WRapper - Start
 echo %toolPath%\%toolName% %toolParam%
-%toolPath%\%toolName%%toolExt% %toolParam%
+call %toolPath%\%toolName%%toolExt% %toolParam%
 goto freude
 ) 
 

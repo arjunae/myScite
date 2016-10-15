@@ -1,9 +1,0 @@
-MSYS-1.0.18 Build:2012-11-21 22:34
-Exception: STATUS_ACCESS_VIOLATION at eip=00E86DD6
-eax=00000001 ebx=0069FA60 ecx=00000B08 edx=00030000 esi=0069FB84 edi=00000000
-ebp=0069FB68 esp=0069F9F0 program=e:\MinGW\msys\1.0\bin\sh.exe
-cs=0023 ds=002B es=002B fs=0053 gs=002B ss=002B
-Stack trace:
-Frame     Function  Args
-0069FB68  00E86DD6  (00000000, 00000000, 00000000, 00000000)
-End of stack trace

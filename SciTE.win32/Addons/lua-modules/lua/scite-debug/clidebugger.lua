@@ -88,7 +88,7 @@ function Clidebug:command_line(target)
     self.target = target
 	self.target_dir = props['FileDir']
 	local ppath = slashify(join(self.clidebug_path,'?.lua;'))
-	local res = self.lua..' -e "package.path=\''..ppath..'\'..package.path" -lclidebug '..self.target..' '..self:parameter_string()
+	local res = 'cmd /c ' ..self.lua..' -e "package.path=\''..ppath..'\'..package.path" -lclidebug '..self.target..' '..self:parameter_string()
 	if ext == 'wlua' then
 		res = 'cmd /c '..res
 	end

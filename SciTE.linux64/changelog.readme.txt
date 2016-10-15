@@ -1,4 +1,6 @@
-	  ~- SciTE_webdev -~
+	  ~- mySciTE -~
+[10.10.2016]	
+- Link with scintilla/scite 3.6.7
 
 [15.08.2016]	::.:::..:: Stable Release (1.11) ::.:::..::
 --	- Redone; Portability Patch.

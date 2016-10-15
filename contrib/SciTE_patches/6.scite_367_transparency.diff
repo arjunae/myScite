@@ -1,0 +1,33 @@
+diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
+--- scintilla-scite/win32/SciTEWin.cxx	2016-10-08 14:54:00.000000000 +0200
++++ scite/win32/SciTEWin.cxx	2016-10-08 15:08:04.000000000 +0200
+@@ -1375,12 +1375,14 @@
+ 	        (left != static_cast<int>(CW_USEDEFAULT))) {
+ 		left += width;
+ 	}
++
+ 	// Pass 'this' pointer in lpParam of CreateWindow().
++	//  Windows >=2k allows transparency for any main hwnd. >=win8 for childs too usin WS_EX_LAYERED / OVERLAPPEDWINDOW
+ 	wSciTE = ::CreateWindowEx(
+-	             0,
++	             WS_EX_LAYERED,
+ 	             className,
+ 	             windowName.c_str(),
+-	             WS_CAPTION | WS_SYSMENU | WS_THICKFRAME |
++	             WS_OVERLAPPEDWINDOW | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME |
+ 	             WS_MINIMIZEBOX | WS_MAXIMIZEBOX |
+ 	             WS_CLIPCHILDREN,
+ 	             left, top, width, height,
+@@ -1393,6 +1395,12 @@
+ 
+ 	if (props.GetInt("save.position"))
+ 		RestorePosition();
++	// ensure a minimum initial value.
++	if (props.GetInt("window.transparency")>89) {
++		SetLayeredWindowAttributes(HwndOf(wSciTE), 0, (255 *  (props.GetInt("window.transparency"))) / 100, LWA_ALPHA);
++	} else {
++		SetLayeredWindowAttributes(HwndOf(wSciTE), 0, (255 * 100) / 100, LWA_ALPHA);
++	}
+ 
+ 	LocaliseMenus();
+ 	std::string pageSetup = props.GetString("print.margins");

@@ -1,8 +1,6 @@
 ##
-# Javascript API, as fetched from MSDN. 
-# imAugust2016, Marcedo@HabmalneFrage.de | https://sourceforge.net/projects/scite-webdev
+# Javascript API, as fetched from MSDN. imAugust2016, Marcedo@HabmalneFrage.de | https://sourceforge.net/projects/scite-webdev
 ##
-
 # Javascripts Object Names
 ActiveXObject(newObj,servername,typename,location)Enables and returns a reference to an Automation object.\t\nnewObj = new ActiveXObject(servername.typename[, location])
 GetObject(pathname,class,appname,objectype)Returns a reference to an Automation object from a file.\t\nGetObject([pathname] [, class])

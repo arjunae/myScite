@@ -1,8 +1,0 @@
-MSYS-1.0.18 Build:2012-11-21 22:34
-Exception: STATUS_ACCESS_VIOLATION at eip=0072174E
-eax=00F29138 ebx=00000000 ecx=014D0000 edx=014D273C esi=008416E4 edi=00000001
-ebp=0069FEC0 esp=0069FE58 program=us
-cs=0023 ds=002B es=002B fs=0053 gs=002B ss=002B
-Stack trace:
-Frame     Function  Args
-  20081 [main] us 0 handle_exceptions: Error while dumping state (probably corrupted stack)

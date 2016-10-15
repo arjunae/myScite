@@ -1,0 +1,114 @@
+diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
+--- scintilla-scite/win32/SciTEWin.cxx	2016-09-04 02:17:28.000000000 +0200
++++ scite/win32/SciTEWin.cxx	2016-10-08 14:31:26.000000000 +0200
+@@ -417,43 +417,83 @@
+ 	SciTEBase::ReadProperties();
+ }
+ 
+-static FilePath GetSciTEPath(FilePath home) {
+-	if (home.IsSet()) {
+-		return FilePath(home);
+-	} else {
++
++FilePath SciTEWin::GetSciteDefaultHome() {
++/*
++ *       Scite_home -> Case Windows:
++ *       1 If exists, use  %USERPROFILE%\.SciTE\
++ *       2 check for %SciTE_USERHOME%. Force with $(env.scite_userhome)
++ *       3 Compatibility: can be overidden by %SCiTE_HOME%
++ *       3 FallBack to Exectables Path
++ *       Hello SciTE - my veryfirstPatch :))) Marcedo@HabMalNeFrage.de
++ */
++
++	std::wstring home;
++
++	// Set environment %SCiTE_HOME% fromm $(env.scite_userhome). Use that to define a writeable user home.
++	std::wstring wenvSciteHome = L"SciTE_HOME=";
++	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_userhome")));
++	std::wstring wenv = GUI::StringFromUTF8(FilePath(wenvSciteHome + wenvPathSciteHome).NormalizePath().AsUTF8());
++	std::wstring wcheck = L":";
++	std::size_t icheck = wenv.find(wcheck);
++
++	if (icheck != std::string::npos)
++		_wputenv((wchar_t *)wenv.c_str());
++
++	// Now use above EnvVar to set home.
++	// using _wgetenv with std::wstring makes MSVCRT Crash ?!
++	std::wstring wtmp = GUI::StringFromUTF8(getenv("SciTE_USERHOME"));
++	icheck = wtmp.find(wcheck);
++	if (icheck != std::string::npos)
++		home = wtmp;
++
++	// Compatibility -> can be overridden by %scite_home%
++	wtmp = GUI::StringFromUTF8(getenv("SciTE_HOME"));
++	icheck = wtmp.find(wcheck);
++	if (icheck != std::string::npos)
++		home = wtmp;
++
++	//  use executables binpath (when we find sciteglobal.properties there.)
++	if (home.empty()) {
++		FilePath wfilePath;
++		std::wstring wPath;
+ 		GUI::gui_char path[MAX_PATH];
+-		if (::GetModuleFileNameW(0, path, ELEMENTS(path)) == 0)
+-			return FilePath();
+-		// Remove the SciTE.exe
++
++		if (::GetModuleFileNameW(0, path, ELEMENTS(path)) != 0) {
++			//  just get  the Path
+ 		GUI::gui_char *lastSlash = wcsrchr(path, pathSepChar);
+-		if (lastSlash)
+-			*lastSlash = '\0';
+-		return FilePath(path);
++			if (lastSlash) *lastSlash = '\0';
++			wPath = path;
++			wPath.append(L"\\SciTEGlobal.properties");
++			wfilePath = wPath;
++			if (wfilePath.Exists())
++				home = path;
+ 	}
+ }
+ 
+-FilePath SciTEWin::GetDefaultDirectory() {
+-	GUI::gui_char *home = _wgetenv(GUI_TEXT("SciTE_HOME"));
+-	return GetSciTEPath(home);
+-}
++	// if above are empty...check for folder %userprofile%\.Scite
++	if (home.empty()) {
++		// yo.... filepath takes and returns Scites gui_string (which is a basic_wstring / wchar_t)
++		// which converts from (std::wstring). To get a std::wstring back use GUI:UTF8FrommString(Filepath(xyz)).ToUTF8();
++		FilePath wfilePath;
++		std::wstring wPath;
+ 
+-FilePath SciTEWin::GetSciteDefaultHome() {
+-	GUI::gui_char *home = _wgetenv(GUI_TEXT("SciTE_HOME"));
+-	return GetSciTEPath(home);
++		wPath = _wgetenv(GUI_TEXT("USERPROFILE"));
++		wPath.append(L"\\.SciTE");
++		wfilePath = FilePath(wPath).NormalizePath();
++
++		if (wfilePath.IsDirectory())
++			home = wPath;
++	}
++	return FilePath(home);
+ }
+ 
+ FilePath SciTEWin::GetSciteUserHome() {
+-	// First looking for environment variable $SciTE_USERHOME
+-	// to set SciteUserHome. If not present we look for $SciTE_HOME
+-	// then defaulting to $USERPROFILE
+-	GUI::gui_char *home = _wgetenv(GUI_TEXT("SciTE_USERHOME"));
+-	if (!home) {
+-		home = _wgetenv(GUI_TEXT("SciTE_HOME"));
+-		if (!home) {
+-			home = _wgetenv(GUI_TEXT("USERPROFILE"));
+-		}
++	return SciTEWin::GetSciteDefaultHome();
+ 	}
+-	return GetSciTEPath(home);
++
++FilePath SciTEWin::GetDefaultDirectory() {
++	return SciTEWin::GetSciteDefaultHome();
+ }
+ 
+ // Help command lines contain topic!path

@@ -1,8 +1,6 @@
 ##
-# jQuery API, as fetched from jQuery.org. 
-# imJuli2016, Marcedo@HabmalneFrage.de | https://sourceforge.net/projects/scite-webdev
+# jQuery API, as fetched from jQuery.org.  imJuli2016, Marcedo@HabmalneFrage.de | https://sourceforge.net/projects/scite-webdev
 ##
-
 add(html)Add elements to the set of matched elements.->Traversing
 ajax([settings])Perform an asynchronous HTTP (Ajax)request.->Ajax
 add(elements)Add elements to the set of matched elements.->Traversing

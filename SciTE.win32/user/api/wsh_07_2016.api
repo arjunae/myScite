@@ -1,6 +1,5 @@
 ##
-# WindowsScriptingHost API, as fetched from MSDN. 
-# imJuli2016, Marcedo@HabmalneFrage.de | https://sourceforge.net/projects/scite-webdev
+# WindowsScriptingHost API, as fetched from MSDN. imJuli2016, Marcedo@HabmalneFrage.de | https://sourceforge.net/projects/scite-webdev
 ##
 # ---Objects
 Scripting.Signer()Description:\t\nThe Scripting.Signer object enables an author to sign a script \t\nwith a digital signature and a recipient to verify the signature's authenticity and trustworthiness<job>\t\n<runtime>\t\n<named name="file" helpstring="the file to sign" required="true" type="string"/>\t\n<named name="cert" helpstring="the name of the signing certificate" required="true" type="string"/>\t\n<named name="store" helpstring="the name of the certificate store" required="false" type="string"/>\t\n</runtime>\t\n<script language="JScript">\t\nvar Signer, File, Cert, Store = "my",\t\nif (!(WScript.Arguments.Named.Exists("cert") && .Arguments.Named.Exists("file"))) \t\n{\t\nWScript.Arguments.ShowUsage(),\t\nWScript.Quit(),\t\n}\t\nSigner = new ActiveXObject("Scripting.Signer"),\t\nFile  = WScript.Arguments.Named("file"),\t\nCert  = WScript.Arguments.Named("cert"),\t\nif (WScript.Arguments.Named.Exists("store"))\t\n{\t\nStore = WScript.Arguments.Named("store"),\t\n}\t\nSigner.SignFile(File, Cert, Store),\t\n</script>\t\n</job>

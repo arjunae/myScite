@@ -43,6 +43,7 @@ require 'gui'
 require 'lpeg'
 require 'shell'
 
+
 -- local _DEBUG = true --включает вывод отладочной информации
 
 -- you can choose to make SideBar a stand-alone window

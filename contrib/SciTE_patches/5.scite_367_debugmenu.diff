@@ -1,0 +1,193 @@
+diff -Nurw scintilla-scite/src/SciTE.h scite/src/SciTE.h
+--- scintilla-scite/src/SciTE.h	2016-10-08 14:58:36.000000000 +0200
++++ scite/src/SciTE.h	2016-10-08 15:02:14.000000000 +0200
+@@ -21,6 +21,7 @@
+ #define IDM_BUFFER			1200
+ #define IDM_IMPORT			1300
+ #define IDM_LANGUAGE			1400
++#define IDM_DEBUG			1500
+ 
+ // File
+ #define IDM_NEW			101
+@@ -199,6 +200,20 @@
+ #define IDM_DIRECTIONUP			805
+ #define IDM_DIRECTIONDOWN	806
+ 
++
++// Debug
++#define IDM_DBG          601 
++#define IDM_DBG_RUN     602
++#define IDM_DBG_BP          603 // Breakpoint
++#define IDM_DBG_STEPSI      604 // SingleStep
++#define IDM_DBG_STEPOV      605 // StepOver
++#define IDM_DBG_STEPOUT     606 // StepOut
++#define IDM_DBG_END            607 
++#define IDM_DBG_INSPECT     608
++#define IDM_DBG_WATCH     609
++#define IDM_DBG_LOC       610 // Locals
++#define IDM_DBG_BT      611 //Backtrace
++
+ // Help
+ #define IDM_HELP			901
+ #define IDM_ABOUT			902
+diff -Nurw scintilla-scite/src/SciTEBase.cxx scite/src/SciTEBase.cxx
+--- scintilla-scite/src/SciTEBase.cxx	2016-10-08 15:01:16.000000000 +0200
++++ scite/src/SciTEBase.cxx	2016-10-08 15:02:14.000000000 +0200
+@@ -2902,6 +2902,17 @@
+ }
+ 
+ void SciTEBase::AddCommand(const std::string &cmd, const std::string &dir, JobSubsystem jobType, const std::string &input, int flags) {
++	/*
++  Descr:  Adds an already defined CMD to the JobQueue / sets Directory if not given.
++  AddCommand("do_breakpoint", opt inwhichDir,  jobType, opt input, opt jobMode.flags);
++  if (jobQueue.HasCommandToRun()) Execute();
++  
++  Reference: 
++  opt .jobType: jobCLI = 0 / "console" , jobGUI = 1 / "windows", jobShell = 2 / "shellexec", jobExtension = 3 / "lua or director", jobHelp = 4 / "htmlhelp", jobOtherHelp = 5 / "winhelp", jobGrep = 6 / (notNamed), jobImmediate = 7 / "immediate"}
++  opt .jobInput: ""
++  opt .jobFlags: jobForceQueue = 1, jobHasInput = 2, jobQuiet = 4, // 8 reserved for jobVeryQuiet,  jobRepSelMask = 48, jobRepSelYes = 16, jobRepSelAuto = 32, jobGroupUndo = 64
++*/
++  
+ 	// If no explicit directory, use the directory of the current file
+ 	FilePath directoryRun;
+ 	if (dir.length()) {
+@@ -3620,6 +3631,70 @@
+ 		}
+ 		break;
+ 
++	// Debug Menu
++			
++	case IDM_DBG_RUN:  {
++		AddCommand("do_run","", jobExtension);
++		if (jobQueue.HasCommandToRun()) Execute();
++	}
++	 break;
++	 
++	case IDM_DBG_BP:{
++		AddCommand("do_breakpoint","", jobExtension);
++		if (jobQueue.HasCommandToRun()) Execute();
++	}
++	 break;
++
++	case IDM_DBG_STEPSI:  {
++		AddCommand("do_step","", jobExtension);
++		if (jobQueue.HasCommandToRun()) Execute();
++	}
++	 break;
++		
++	case IDM_DBG_STEPOV:{
++		AddCommand("do_next","", jobExtension);
++		if (jobQueue.HasCommandToRun()) Execute();
++	}
++	 break;
++				
++	case IDM_DBG_STEPOUT: {
++		AddCommand("do_finish","", jobExtension);
++		if (jobQueue.HasCommandToRun()) Execute();
++	}
++	 break;
++			
++	case IDM_DBG_END:{
++		AddCommand("do_kill","", jobExtension);
++		if (jobQueue.HasCommandToRun()) Execute();
++	}
++	 break;
++
++	case IDM_DBG_INSPECT:{
++		AddCommand("do_inspect","", jobExtension);
++		if (jobQueue.HasCommandToRun()) Execute();
++	}
++	 break;
++			 
++	case IDM_DBG_WATCH:{
++		AddCommand("do_watch","", jobExtension);
++		if (jobQueue.HasCommandToRun()) Execute();
++	}     
++	 break;
++
++	case IDM_DBG_LOC:{
++	SelectionIntoProperties();
++	 AddCommand("do_locals","", jobExtension);
++		if (jobQueue.HasCommandToRun()) Execute();
++	}
++	 break;
++			 
++	case IDM_DBG_BT:{
++	SelectionIntoProperties();
++		AddCommand("do_backtrace","", jobExtension);
++		if (jobQueue.HasCommandToRun()) Execute();
++	}
++	break;
++
+ 	default:
+ 		if ((cmdID >= bufferCmdID) &&
+ 		        (cmdID < bufferCmdID + buffers.size)) {
+diff -Nurw scintilla-scite/win32/SciTERes.rc scite/win32/SciTERes.rc
+--- scintilla-scite/win32/SciTERes.rc	2016-10-08 14:58:36.000000000 +0200
++++ scite/win32/SciTERes.rc	2016-10-08 15:02:14.000000000 +0200
+@@ -182,6 +182,20 @@
+ 	MENUITEM "&Save All",				IDM_SAVEALL
+ END
+ 
++POPUP "Debug"
++BEGIN
++ MENUITEM "Run\tCtrl+F5",			IDM_DBG_RUN
++  MENUITEM "Breakpoint\tF9",			IDM_DBG_BP
++  MENUITEM "Step\tCtrl+F8",			IDM_DBG_STEPSI
++  MENUITEM "Step over\tCtrl+F10",			IDM_DBG_STEPOV
++  MENUITEM "Step out\tCtrl+F11",			IDM_DBG_STEPOUT
++  MENUITEM "End",			IDM_DBG_END
++  MENUITEM "Inspect\t",			IDM_DBG_INSPECT
++  MENUITEM "Watch\t",			IDM_DBG_WATCH
++  MENUITEM "Loca&ls\tCtrl+Alt+L",			IDM_DBG_LOC
++  MENUITEM "&Backtrace\tCtrl+Alt+B",			IDM_DBG_BT
++END
++
+ POPUP "&Help"
+ BEGIN
+ 	MENUITEM "&Help\tF1", 				IDM_HELP
+@@ -531,6 +545,7 @@
+ 
+ 	VK_F5, IDM_GO,  VIRTKEY
+ 	VK_F5, IDM_CLEAROUTPUT,  VIRTKEY, SHIFT
++  VK_F5, IDM_DBG_RUN,  VIRTKEY, CONTROL
+ 
+ 	VK_F6, IDM_PREVFILE,  VIRTKEY, SHIFT
+ 	VK_F6, IDM_SWITCHPANE,  VIRTKEY, CONTROL
+@@ -543,14 +558,18 @@
+ 
+ 	VK_F8, IDM_TOGGLEOUTPUT, VIRTKEY
+ 	VK_F8, IDM_TOGGLEPARAMETERS, VIRTKEY, SHIFT
++	VK_F8, IDM_DBG_STEPSI, VIRTKEY, CONTROL
+ 
+-	VK_F9, IDM_MACROLIST, VIRTKEY, SHIFT
+-	VK_F9, IDM_MACROPLAY, VIRTKEY
+-	VK_F9, IDM_MACRORECORD, VIRTKEY, CONTROL
+-	VK_F9, IDM_MACROSTOPRECORD, VIRTKEY, CONTROL, SHIFT
++//	VK_F9, IDM_MACROLIST, VIRTKEY, SHIFT
++//	VK_F9, IDM_MACROPLAY, VIRTKEY
++//	VK_F9, IDM_MACROSTOPRECORD, VIRTKEY, CONTROL, SHIFT
++//	VK_F9, IDM_MACRORECORD, VIRTKEY, CONTROL
++	VK_F9, IDM_DBG_BP, VIRTKEY 
++ 
++  VK_F10, IDM_DBG_STEPOV, VIRTKEY, CONTROL
+ 
+ 	VK_F11, IDM_FULLSCREEN,  VIRTKEY
+-	VK_F11, IDM_MONOFONT,  VIRTKEY, CONTROL
++	VK_F11, IDM_DBG_STEPOUT,  VIRTKEY CONTROL
+ 
+ 	VK_TAB, IDM_PREVFILESTACK,  VIRTKEY, CONTROL, SHIFT
+ 	VK_TAB, IDM_NEXTFILESTACK,  VIRTKEY, CONTROL
+@@ -567,7 +586,11 @@
+ 	"X", IDM_CUT,  VIRTKEY, CONTROL
+ 	"C", IDM_COPY,  VIRTKEY, CONTROL
+ 
+-	"I", IDM_INCSEARCH,          VIRTKEY, CONTROL, ALT
++	"I",  IDM_INCSEARCH, VIRTKEY, CONTROL, SHIFT
++
++  "L",  IDM_DBG_LOC, VIRTKEY, CONTROL, ALT
++  "B",	IDM_DBG_BT,VIRTKEY, CONTROL, ALT
++  
+ END
+ 
+ IDR_CLOSEFILE BITMAP "closefile.bmp"

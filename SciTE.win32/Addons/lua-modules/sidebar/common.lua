@@ -4,9 +4,6 @@
 -- Общие функции, использующиеся во многих скриптах
 ---------------------------------------------------
 
---package.path  = props["SciteDefaultHome"].."\\Addons\\lua-modules\\lua\\?.lua;"..package.path
---package.cpath = props["SciteDefaultHome"].."\\Addons\\lua-modules\\c\\?.dll;"..package.cpath
-
 package.path =  package.path ..";"..defaultHome.."\\Addons\\lua-modules\\sidebar\\?.lua;"
 
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua-modules\\sidebar\\URL_detect.lua')

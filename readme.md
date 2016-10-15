@@ -1,7 +1,10 @@
-~- mySciTE -~
+~- mySciTE.webdev -~
 
-[27.09.2016] [STABLE-1.14]
-- HousekeepingTasks
+[15.10.2016] (STABLE-1.20)
+- sync with scintilla-scite 3.67
+- Fixes for styling cpp macros, html tags and wsh objects
+- Finalize theme.grey
+- Fix lua debugging
 
 [24.08.2016] [DEV-1.13]
 - New Feature: Window transparency. 

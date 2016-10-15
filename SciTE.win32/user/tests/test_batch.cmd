@@ -14,12 +14,11 @@ echo  ... Listed all Files, started from current Directory...
 
  REM ------- this batch can reside in a subdir to support a more clean directory structure
  REM ------- write path of %cmd% in scite_cmd
-  
+ 
  :: ------- Check for and write path of %cmd% in scite_cmd
  IF EXIST %cmd% (  set scite_cmd="%cmd%"  ) 
  IF EXIST ..\%cmd% (  set scite_cmd="..\%cmd%"  ) 
  IF EXIST ..\..\%cmd% ( set scite_cmd="..\..\%cmd%") 
- 
  IF NOT EXIST %scite_cmd% (call :sub_fail) else (call :sub_continue ) 
  
  :: Clean up...

@@ -1,8 +1,6 @@
 ##
-# VBA API, as fetched from MSDN. 
-# imJuli2016, Marcedo@HabmalneFrage.de | https://sourceforge.net/projects/scite-webdev
+# VBA API, as fetched from MSDN. imJuli2016, Marcedo@HabmalneFrage.de | https://sourceforge.net/projects/scite-webdev
 ##
-
 # ---- Objects
 Collection() Description:\t\n A Collection Object is an ordered set of items that can be \t\n referred to as a unit. ( VBA Collection )\t\nDim X As New Collection
 Debug() Description:\t\n The Debug Object sends output to the Immediate window at run time. ( VBA Debug )\t\n 

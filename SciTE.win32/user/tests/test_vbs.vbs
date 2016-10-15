@@ -1,6 +1,5 @@
 ' build@ cscript.exe /NOLOGO //D $(FilePath) '
-
-' Demonstrate using Cscript with Events utilizing either /D or /x switch...
+' Demonstrate vbScript with Events utilizing either cscript /D or /X switch...
 '  ... Press F7 to Test...
 
 Dim oIE, bExit
@@ -16,20 +15,17 @@ Set myStdOut = myfso.GetStandardStream (1)
  oIE.Visible = 1   ' Keep visible.
  
  myStdOut.Writeline("stdOut - Please close IE now....")
-  
  do :  wscript.sleep(2000) :
    myStdOut.Write("-=-")
-  loop until bExit=true
-
+ loop until bExit=true
+ 
 wscript.sleep(2 * 1000)
 myStdOut.Writeline("stdOut - Okay. IE Closed ")
 wscript.sleep(2 * 1000)
-
 Main=0
 wscript.Quit()
 
 ' ------ Event sink -----
-       
 Sub IE_onQuit()
    myStdOut.Writeline("stdOut -> IE_onQuit Recieved")
    bExit=true
@@ -37,4 +33,3 @@ End Sub
 
 ' Derived from original Sample
 'https://technet.microsoft.com/de-de/ie/aa366443
-
