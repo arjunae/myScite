@@ -24,9 +24,11 @@
 .coffee ; text/coffeescript
 .cpp ; text/x-c
 .cxx ; text/x-c
+.h; text/x-c
 
 # -- Data
 .diff ; text/diff
+.patch; text/diff
 
 # -- System Files --
 
