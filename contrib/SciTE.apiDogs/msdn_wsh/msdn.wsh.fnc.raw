@@ -1,0 +1,3 @@
+1 ; 307330xe(v=vs.84) ; 9 ; Abs Function ; Abs ; () ; Returns the absolute value of a number. ; https://msdn.microsoft.com/en-us/library/307330xe(v=vs.84).aspx ; Abs(number)
+1 ; dsxhtazh(v=vs.84) ; 9 ; Array Function ; Array ; () ; Returns a Variant containing an array.  **  ; https://msdn.microsoft.com/en-us/library/dsxhtazh(v=vs.84).aspx ; Array(arglist)
+1 ; xfw01fx4(v=vs.84) ; 9 ; Asc Function ; Asc ; () ; Returns the ANSI character code corresponding to the first letter in a string. **  ; https://msdn.microsoft.com/en-us/library/xfw01fx4(v=vs.84).aspx ; Asc(string)

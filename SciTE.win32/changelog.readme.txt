@@ -1,11 +1,11 @@
-~- SciTE_webdev -~
+~- mySciTE_webdev -~
 
 [15.10.2016] (STABLE-1.20)
 - sync with scintilla-scite 3.67
 - Fixes for styling cpp macros, html tags and wsh objects
 - Finalize theme.grey
 - Fix lua debugging
-
+- Full Version available on github.
 
 [24.08.2016] [DEV-1.13]
 - New Feature: Window transparency. 

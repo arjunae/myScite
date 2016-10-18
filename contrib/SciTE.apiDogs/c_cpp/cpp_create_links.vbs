@@ -4,7 +4,7 @@
 ' Status: 20160221 - Fixup Sync, add timeout / retry /fail
 ' Status: 20160222 - Add simple File logging
 ' Status: 20160312 - Utilize DocumentComplete Event.
-' Marcedo[at]habmalnefrage[dot]net
+' Marcedo[at]habmalnefrage[dot]de
 '
 const MAX_TRIES = 3
 
