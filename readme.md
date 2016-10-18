@@ -6,7 +6,7 @@
 - Finalize theme.grey
 - Fix lua debugging
 
-[24.08.2016] [DEV-1.13]
+[27.09.2016] [Stable-1.14]
 - New Feature: Window transparency. 
 -  propertyName in percent of opaque: int window.transparency=96
 - change: further improved theme contrast

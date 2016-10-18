@@ -1,7 +1,7 @@
 ##
-# WindowsScriptingHost API, as fetched from MSDN. imJuli2016, Marcedo@HabmalneFrage.de | https://sourceforge.net/projects/scite-webdev
+# WindowsScriptingHost API, as fetched from MSDN. imJuli2016, Marcedo@HabmalneFrage.de
 ##
-# ---Objects
+# --- Objects
 Scripting.Signer()Description:\t\nThe Scripting.Signer object enables an author to sign a script \t\nwith a digital signature and a recipient to verify the signature's authenticity and trustworthiness<job>\t\n<runtime>\t\n<named name="file" helpstring="the file to sign" required="true" type="string"/>\t\n<named name="cert" helpstring="the name of the signing certificate" required="true" type="string"/>\t\n<named name="store" helpstring="the name of the certificate store" required="false" type="string"/>\t\n</runtime>\t\n<script language="JScript">\t\nvar Signer, File, Cert, Store = "my",\t\nif (!(WScript.Arguments.Named.Exists("cert") && .Arguments.Named.Exists("file"))) \t\n{\t\nWScript.Arguments.ShowUsage(),\t\nWScript.Quit(),\t\n}\t\nSigner = new ActiveXObject("Scripting.Signer"),\t\nFile  = WScript.Arguments.Named("file"),\t\nCert  = WScript.Arguments.Named("cert"),\t\nif (WScript.Arguments.Named.Exists("store"))\t\n{\t\nStore = WScript.Arguments.Named("store"),\t\n}\t\nSigner.SignFile(File, Cert, Store),\t\n</script>\t\n</job>
 WScript()Description:\t\nProvides access to root object for the Windows Script Host object model
 WshArguments()Description:\t\nProvides access to the entire collection of command-line parameters \t\n— in the order in which they were originally entered
@@ -17,7 +17,6 @@ WshShortcut()Description:\t\nAllows you to create a shortcut programmatically
 WshSpecialFolders()Description:\t\nProvides access to the collection of Windows special folders
 WshUnnamed()Description:\t\nProvides access to the unnamed arguments from the command line
 WshUrlShortcut()Description:\t\nAllows you to create a shortcut to an Internet resource programmatically
-
 # ---- Functions
 Abs()Description:\t\nReturns the absolute value of a number.\t\nAbs(number)
 Array()Description:\t\nReturns a Variant containing an array.  **\t\nArray(arglist)
@@ -73,7 +72,7 @@ Left(string,length)Description:\t\nReturns a specified number of characters from
 Len(string,varname)Description:\t\nReturns the number of characters in a string or the number of bytes required to store a variable.  **\t\nLen(string | varname)
 LoadPicture()Description:\t\nReturns a picture object. Available only on 32-bit platforms.\t\nLoadPicture(picturename)
 Log()Description:\t\nReturns the natural logarithm of a number.\t\nLog(number)
-RTrimand Trim Functions----\t\nLTrim\t\n
+Trim()Description:\t\n(R/L)Trim Whitespace\t\n
 Math()Description:\t\nThe following table lists the VBScript math functions.\t\n
 Mid(string,start,length)Description:\t\nReturns a specified number of characters from a string. **\t\nMid(string, start[, length])
 Minute()Description:\t\nReturns a whole number between 0 and 59, inclusive, representing the minute of the hour.\t\nMinute(time)
@@ -114,7 +113,6 @@ VarType()Description:\t\nReturns a value indicating the subtype of a variable. *
 Weekday(date,firstdayofweek)Description:\t\nReturns a whole number representing the day of the week.\t\nWeekday(date, [firstdayofweek])
 WeekdayName(weekday,abbreviate,firstdayofweek)Description:\t\nReturns a string indicating the specified day of the week.\t\nWeekdayName(weekday, abbreviate, firstdayofweek)
 Year()Description:\t\nReturns a whole number representing the year.\t\nYear(date)
-
 # ---- Properties
 Arguments()Description:\t\nReturns the WshArguments object (a collection of arguments).  \t\nobject.Arguments
 Arguments()Description:\t\nSets the arguments for a shortcut, or identifies a shortcut's arguments.  \t\nobject.Arguments
@@ -170,8 +168,7 @@ UserName()Description:\t\nReturns the name of a user.  \t\nobject.UserName
 Version()Description:\t\nReturns the version of Windows Script Host.  \t\nobject.Version 
 WindowStyle(intWindowStyle)Description:\t\nAssigns a window style to a shortcut, or identifies the type \t\nof window style used by a shortcut.  \t\nobject.WindowStyle = intWindowStyle
 WorkingDirectory(strWorkingDirectory)Description:\t\nAssign a working directory to a shortcut, or identifies the \t\nworking directory used by a shortcut.  \t\nobject.WorkingDirectory = strWorkingDirectory
-
-#---Methods
+#--- Methods
 AddPrinterConnection(strLocalName,strRemoteName,bUpdateProfile,strUser,strPassword)Description:\t\nAdds a remote MS-DOS-based printer connection to your computer \t\nsystem.  \t\nobject.AddPrinterConnection(strLocalName, strRemoteName[,bUpdateProfile][,strUser][,strPassword])
 AddWindowsPrinterConnection(strPrinterPath,strDriverName,strPort)Description:\t\nAdds a Windows-based printer connection to your computer system.  \t\nWindows NT/2000:\t\nobject.AddWindowsPrinterConnection(\t\nstrPrinterPath\t\n)
 AppActivate(title)Description:\t\nActivates an application window. **  \t\nobject.AppActivate title 
@@ -220,21 +217,16 @@ VerifyFile(FileName,ShowUI)Description:\t\nVerifies the digital signature encaps
 Write(strText)Description:\t\nSends a string to an output stream.  \t\nobject.Write(strText) 
 WriteBlankLines(intLines)Description:\t\nSends a specified number of blank lines (newline characters) \t\nto an output stream.  \t\nobject.WriteBlankLines(intLines) 
 WriteLine(strText)Description:\t\nSends a string with a newline character to an output stream.  \t\nobject.WriteLine([strText]) 
-
-#----Events
+#---- Events
 Error()Description:\t\nEvent that is fired when an error occurs in the remote script.  \t\nObject_Error
 Start()Description:\t\nEvent that is fired when the remote script begins executing.  \t\nObject_Start
 End()Description:\t\nEvent that is fired when the remote script completes.  \t\nvar WshController = new ActiveXObject("WSHController"),\t\nvar RemoteProc = WshController.CreateScript("app.wsf", "remotemachine"),\t\nWScript.ConnectObject(RemoteProc, "RemoteProc_"),\t\nvar Done = false,\t\nRemoteProc.Execute(),\t\nwhile (!Done)\t\nWScript.Sleep(100),\t\nfunction RemoteProc_End()\t\n{\t\nWScript.Echo("The process has ended"),\t\nDone = true,\t\n}\t\nfunction RemoteProc_Error()\t\n{\t\nWScript.Echo("An error has occurred: " + RemoteProc.Error.Description),\t\nDone = true,\t\n}\t\nfunction RemoteProc_Start()\t\n{\t\nWScript.Echo("The process has started"),\t\n}
-
 VBSEvents()Description:\t\nImplementing Events within VbScript:\t\n----\t\nwScript.Quit(Main) \t\nfunction Main \t\nSet oIE = wscript.CreateObject("InternetExplorer.Application","IE_") \t\nvar bExit = false \t\noIE.navigate ""  ' Load URL \t\noIE.Visible = 1 ' Keep visible. \t\n\t msgbox("Waiting for IE to quit")  \t\ndo :  wscript.sleep(300) : loop until bExit=true  \t\nMain=0\t\nEnd function \t\nSub IE_onQuit()\t\nmsgbox("IE_onQuit Recieved")\t\nbExit=true\t\nEnd sub
 ..VBSEvents()Description:\t\nImplementing Events within VbScript:\t\n----\t\nwScript.Quit(Main) \t\nfunction Main \t\nSet oIE = wscript.CreateObject("InternetExplorer.Application","IE_") \t\n\ tvar bExit = false \t\noIE.navigate ""  ' Load URL \t\noIE.Visible = 1 ' Keep visible. \t\n\t msgbox("Waiting for IE to quit")  \t\ndo :  wscript.sleep(300) : loop until bExit=true  \t\nMain=0\t\nEnd function \t\nSub IE_onQuit()\t\nmsgbox("IE_onQuit Recieved")\t\nbExit=true\t\nEnd sub
-
 _Error()Description:\t\nEvent that is fired when an error occurs in the remote script.  \t\nObject_Error
 _Start()Description:\t\nEvent that is fired when the remote script begins executing.  \t\nObject_Start
 _End()Description:\t\nEvent that is fired when the remote script completes.  
-
 # --xml
-
 <description>
 <example>
 <job
