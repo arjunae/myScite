@@ -1,7 +1,7 @@
 /*
  * .... Doc Comments seem to be okay.
  */
-
+ 
 // Check syntax Highlitening and multiline calltips.
 function nameMe(str){
 	$("#some_content").click (this, function() {

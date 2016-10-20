@@ -1,5 +1,6 @@
   /* 
    * Test SQL
+   *  long comment *
    */
 
 select
@@ -7,14 +8,11 @@ select
     c2 as c2
 from
     table "some table with spaces" -- comment
-    /* long
-        comment */
-where
+    where
     c1.x = (1345 + 554 % 2)*(a/b)
     and t.y = 'abc\nd'
-	
+
 alter table create trigger as
 begin
 
 end
-
