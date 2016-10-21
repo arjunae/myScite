@@ -21,5 +21,5 @@ require 'keys' -- important to load last
 -- Opens specified module in SciTE.
 -- @param name The name of the module.
 function open_module(name)
-  scite.Open( props['SciteDefaultHome']..'/Addons/lua/mod-mitchel'..name )
+  scite.Open( props['SciteDefaultHome']..'/Addons/lua/mod-mitchell/'..name )
 end
