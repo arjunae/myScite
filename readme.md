@@ -4,10 +4,11 @@
 - sync with scintilla-scite 3.67
 - Fixes for styling cpp macros, html tags and wsh objects
 - Finalize theme.grey
-- Fix Addon System
 - Fix lua debugging
+- Fix Addon System
+- Full Version available on github.
 
-[27.09.2016] [Stable-1.14]
+[24.08.2016] [DEV-1.13]
 - New Feature: Window transparency. 
 -  propertyName in percent of opaque: int window.transparency=96
 - change: further improved theme contrast
