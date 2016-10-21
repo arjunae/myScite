@@ -4,10 +4,10 @@
 -- Общие функции, использующиеся во многих скриптах
 ---------------------------------------------------
 
-package.path =  package.path ..";"..defaultHome.."\\Addons\\lua-modules\\sidebar\\?.lua;"
+package.path =  package.path ..";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 
-dofile(props["SciteDefaultHome"]..'\\Addons\\lua-modules\\sidebar\\URL_detect.lua')
-dofile(props["SciteDefaultHome"]..'\\Addons\\lua-modules\\sidebar\\eventmanager.lua')
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\eventmanager.lua')
 
 --------------------------------------------------------
 -- Замена порой неработающего props['CurrentWord']
@@ -322,4 +322,4 @@ function ReadAbbrevFile(file, abbr_table)
 	abbrev_file:close()
 	return abbr_table
 end
-dofile(props["SciteDefaultHome"]..'\\Addons\\lua-modules\\sidebar\\sidebar.lua')
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
