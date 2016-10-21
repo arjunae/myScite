@@ -18,8 +18,8 @@
 --   FILE_OUT: Location of the temporary file that will contain output for
 --     various operations.
 --   REDIRECT: The command line symbol used for redirecting STDOUT to a file.
---   RUBY_CMD: The command that executes the Ruby interpreter.
---   FMTP_CMD: (Linux only) The command used for reformatting paragraphs.
+--   RUBY_CMD: The command that executes the Ruby interpreter.  ( Used in ruby_exec() )
+--   FMTP_CMD: (Linux only) The command used for reformatting paragraphs. ( Used in reformat_paragraph() )
 module('modules.scite.editing', package.seeall)
 
 -- platform specific options
