@@ -1,4 +1,7 @@
-# HTML DOM
+##
+# Browser WebApi https://developer.mozilla.org/en/docs/Web/API | subset - volunteers wanted.
+##
+
 #~document
 close()Closes an output stream opened with the open()method, and displays the collected data. DOM>document
 createAttribute(name)Creates an attribute node with the specified name, and returns the new Attr object. DOM>document
@@ -14,9 +17,21 @@ write(s, ...)Writes HTML expressions or JavaScript code to a document. DOM>docum
 writeln(s, ...)Identical to the write()method, with the addition of writing a new line character after each expression. DOM>document
 
 #~location
-assign(url)Loads a new document. DOM>location
-reload()Reloads the current document. DOM>location
-replace(url)Replaces the current document with a new one. DOM>location
+href()DOMString the entire URL. If changed, the associated\t\ndocument navigates to the new page. DOM>location 
+protocol()DOMString  protocol scheme of the URL, including the final ':'. DOM>location
+host()DOMString  host, that is the hostname, a ':', and the port of the URL. DOM>location
+hostname()DOMString  domain of the URL. DOM>location
+port()DOMString  port number of the URL. DOM>location
+pathname()DOMString containing an initial '/' followed by\t\n the path of the URL. DOM>location
+search()DOMString containing a '?' followed by the parameters\t\n of the URL. Also known as "querystring". DOM>location
+hash()DOMString containing a '#' followed by the fragment identifier of the URL. DOM>location
+username()DOMString  username specified before the domain name. DOM>location
+password()DOMString  password specified before the domain name. DOM>location
+origin()-Ro  DOMString  canonical form of the origin. DOM>location
+assign()Loads the resource at the URL provided in parameter. DOM>location
+reload(boolean)Reloads the resource from the current URL. if the param is true then the Page\t\n may be reloaded from the server / otherwise also from cache. DOM>location
+replace()Replaces the current resource with the one at the provided URL.\t\n Doesnt add URL to session History. DOM>location
+toString()-ro Returns a DOMString  whole URL. DOM>location
 
 #~window  DOM>window
 alert()Displays an alert dialog. DOM>window
