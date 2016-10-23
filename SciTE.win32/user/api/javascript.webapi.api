@@ -2,20 +2,6 @@
 # Browser WebApi https://developer.mozilla.org/en/docs/Web/API | subset - volunteers wanted.
 ##
 
-#~document
-close()Closes an output stream opened with the open()method, and displays the collected data. DOM>document
-createAttribute(name)Creates an attribute node with the specified name, and returns the new Attr object. DOM>document
-createCDATASection(data)Creates a CDATA section node. DOM>document
-createComment(data)Creates a comment node. DOM>document
-createDocumentFragment()Creates an empty DocumentFragment object, and returns it. DOM>document
-createElement(name)Creates an element node. DOM>document
-createTextNode(text)Creates a text node. DOM>document
-getElementById(id)Returns the element that has an ID attribute with the given value. If no such element exists, it returns null. DOM>document
-getElementsByTagName(tagname)Returns a NodeList of all elements with a specified name. DOM>document
-open([mimetype, [replace]])Opens a stream to collect the output from any write()or writeln()methods. DOM>document
-write(s, ...)Writes HTML expressions or JavaScript code to a document. DOM>document
-writeln(s, ...)Identical to the write()method, with the addition of writing a new line character after each expression. DOM>document
-
 #~location
 href()DOMString the entire URL. If changed, the associated\t\ndocument navigates to the new page. DOM>location 
 protocol()DOMString  protocol scheme of the URL, including the final ':'. DOM>location
@@ -143,3 +129,60 @@ clearInterval()Cancels the repeated execution set using WindowTimers.setInterval
 clearTimeout()Cancels the repeated execution set using WindowTimers.setTimeout(). DOM>WindowTimers
 setInterval()Schedules the execution of a function each X milliseconds.DOM>WinTimers
 setTimeout()Sets a delay for executing a function.DOM>WindowTimers
+
+#~document
+adoptNode()Adopt node from an external  DOM>document
+captureEvents()See Window.captureEvents. DOM>document
+caretPositionFromPoint()Gets the CaretPosition at or near the specified coordinates. DOM>document
+caretRangeFromPoint()Gets a Range object for the document fragment under the specified coordinates. DOM>document
+createAttribute()Creates a new Attr object and returns it. DOM>document
+createAttributeNS()Creates a new attribute node in a given namespace and returns it. DOM>document
+createCDATASection()Creates a new CDATA node and returns it. DOM>document
+createComment()Creates a new comment node and returns it. DOM>document
+createDocumentFragment()Creates a new document fragment. DOM>document
+createElement()Creates a new element with the given tag name. DOM>document
+createElementNS()Creates a new element with the given tag name and namespace URI. DOM>document
+createEntityReference()Creates a new entity reference object and returns it. DOM>document
+createEvent()Creates an event object. DOM>document
+createNodeIterator()Creates a NodeIterator object. DOM>document
+createProcessingInstruction()Creates a new ProcessingInstruction object. DOM>document
+createRange()Creates a Range object. DOM>document
+createTextNode()Creates a text node. DOM>document
+createTouch()Creates a Touch object. DOM>document
+createTouchList()Creates a TouchList object. DOM>document
+createTreeWalker()Creates a TreeWalker object. DOM>document
+elementFromPoint()Returns the topmost element at the specified coordinates.  DOM>document
+elementsFromPoint()Returns an array of all elements at the specified coordinates. DOM>document
+enableStyleSheetsForSet()Enables the style sheets for the specified style sheet set. DOM>document
+exitPointerLock()Release the pointer lock. DOM>document
+getAnimations()Returns an array of all Animation objects currently in effect whose target elements are descendants of the  DOM>document
+getElementsByClassName()Returns a list of elements with the given class name. DOM>document
+getElementsByTagName()Returns a list of elements with the given tag name. DOM>document
+getElementsByTagNameNS()Returns a list of elements with the given tag name and namespace. DOM>document
+importNode()Returns a clone of a node from an external  DOM>document
+normalizeDocument()Replaces entities, normalizes text nodes, etc. DOM>document
+registerElement()Registers a web component. DOM>document
+releaseCapture()Releases the current mouse capture if it's on an element in this  DOM>document
+releaseEvents()See Window.releaseEvents(). DOM>document
+mozSetImageElement()Allows you to change the element being used as the background image for a specified element ID. DOM>document
+getElementById(String id)Returns an object reference to the identified element. DOM>document
+querySelector(String selector)Returns the first Element node within the document, in document order, that matches the specified selectors. DOM>document
+querySelectorAll(String selector)Returns a list of all the Element nodes within the document that match the specified selectors. DOM>document
+createExpression(String expression, XPathNSResolver resolver)Compiles an XPathExpression which can then be used for (repeated) evaluations. DOM>document
+createNSResolver(Node resolver)Creates an XPathNSResolver object. DOM>document
+evaluate(String expression, Node contextNode, XPathNSResolver resolver, Number type, Object result)Evaluates an XPath expression. DOM>document
+clear()In majority of modern browsers, including recent versions of Firefox and Internet Explorer, this method does nothing. DOM>document
+close()Closes a document stream for writing. DOM>document
+execCommand(String command[, Boolean showUI[, String value]])On an editable document, executes a formating command. DOM>document
+getElementsByName(String name)Returns a list of elements with the given name. DOM>document
+getSelection()Returns a Selection object related to text selected in the  DOM>document
+hasFocus()Returns true if the focus is currently located anywhere inside the specified  DOM>document
+open()Opens a document stream for writing. DOM>document
+queryCommandEnabled(String command)Returns true if the formating command can be executed on the current range. DOM>document
+queryCommandIndeterm(String command)Returns true if the formating command is in an indeterminate state on the current range. DOM>document
+queryCommandState(String command)Returns true if the formating command has been executed on the current range. DOM>document
+queryCommandSupported(String command)Returns true if the formating command is supported on the current range. DOM>document
+queryCommandValue(String command)Returns the current value of the current range for a formating command. DOM>document
+write(String text)Writes text in a  DOM>document
+writeln(String text)Writes a line of text in a  DOM>document
+
