@@ -13,7 +13,7 @@ function main
   oIE.Height =300
   oIE.Width= 500
   oIE.Visible = 1   ' Keep visible.
-  
+ 
   wscript.echo("stdOut - Please close IE now....")
   do
     wscript.sleep(2000) :
@@ -24,8 +24,7 @@ function main
  wscript.echo("stdOut - Okay. IE Closed ")
  wscript.sleep(2 * 1000)
  main=0
- set oIE=nothing
- delete oIE
+ set oIE=Nothing
 end function
 
 ' ------ Event sink -----
