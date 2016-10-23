@@ -27,7 +27,7 @@ search()DOMString containing a '?' followed by the parameters\t\n of the URL. Al
 hash()DOMString containing a '#' followed by the fragment identifier of the URL. DOM>location
 username()DOMString  username specified before the domain name. DOM>location
 password()DOMString  password specified before the domain name. DOM>location
-origin()-Ro  DOMString  canonical form of the origin. DOM>location
+origin()-ro  DOMString  canonical form of the origin. DOM>location
 assign()Loads the resource at the URL provided in parameter. DOM>location
 reload(boolean)Reloads the resource from the current URL. if the param is true then the Page\t\n may be reloaded from the server / otherwise also from cache. DOM>location
 replace()Replaces the current resource with the one at the provided URL.\t\n Doesnt add URL to session History. DOM>location
@@ -42,10 +42,9 @@ captureEvents()Registers the window to capture all events of the specified type.
 clearImmediate()Cancels the repeated execution set using setImmediate. DOM>window
 close()Closes the current Window. DOM>window
 closed() -ro This property indicates whether the current window is closed or not. DOM>window
-Components()The entry point to many XPCOM features. Some properties, e.g. classes, are only available to sufficiently privileged code. Web code should not use this property. DOM>window
 confirm()Displays a dialog with a message that the user needs to respond to. DOM>window
 console() -ro Returns a reference to the console object providing access to the browser's debugging console. DOM>window
-content and _content() -ro Returns a reference to the content element in the current  The obsolete variant with underscore is no longer available from Web content. DOM>window
+content() -ro Returns a reference to the content element in the current. window DOM>window
 controllers() -ro Returns the XUL controller objects for the current chrome  DOM>window
 crypto() -ro Returns the browser crypto object. DOM>window
 devicePixelRatio() -ro Returns the ratio between physical pixels and device independent pixels in the current display. DOM>window
@@ -65,7 +64,6 @@ getAttentionWithCycleCount()FIXME: NeedsContents DOM>window
 getComputedStyle()Gets computed style for the specified element. Computed style indicates the computed values of all CSS properties of the element. DOM>window
 getDefaulComputedStyle()Gets default computed style for the specified element, ignoring author stylesheets. DOM>window
 getSelection()Returns the selection object representing the selected item(s). DOM>window
-globalStorage Veraltet seit Gecko 13()Unsupported since Gecko 13 (Firefox 13). Use localStorage instead. DOM>window
 history() -ro Returns a reference to the history object. DOM>window
 home()Returns the browser to the home page. DOM>window
 innerHeight()Gets the height of the content area of the browser window including, if rendered, the horizontal scrollbar. DOM>window
