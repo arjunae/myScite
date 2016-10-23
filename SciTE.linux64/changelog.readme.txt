@@ -2,5 +2,5 @@
 
 	[Linux64-devel]
 	- Link with scintilla/scite 3.6.7
-	- ongoing optionsMenu patchworks
+	- first results for optionsMenu patch
 	- expects config File in /usr/share/scite

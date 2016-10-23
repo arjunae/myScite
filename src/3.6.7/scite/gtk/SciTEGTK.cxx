@@ -4012,7 +4012,7 @@ void SciTEGTK::CreateMenu() {
 	            {"/Options/Config/Open A_bbreviations File", "", menuSig, IDM_OPENABBREVPROPERTIES, 0},
 	            {"/Options/Config/Open Lua Startup Scr_ipt", "", menuSig, IDM_OPENLUAEXTERNALFILE, 0},
 	            {"/Options/Config/sep4", NULL, NULL, 0, "<Separator>"},
-	            {"/Options/Edit Properties", "", 0, 0, "<Branch>"},
+	            {"/Options/Config/Edit Properties", "", 0, 0, "<Branch>"},
 	        };
 
 	SciTEItemFactoryEntry menuItemsLanguage[] = {
@@ -4051,7 +4051,7 @@ void SciTEGTK::CreateMenu() {
 	CreateTranslatedMenu(ELEMENTS(menuItems), menuItems);
 
 	CreateTranslatedMenu(ELEMENTS(menuItemsOptions), menuItemsOptions,
-	                     50, "/Options/Edit Properties/Props", 0, IDM_IMPORT, 0);
+	                     50, "/Options/Config/Edit Properties/Props", 0, IDM_IMPORT, 0);
 	CreateTranslatedMenu(ELEMENTS(menuItemsLanguage), menuItemsLanguage,
 	                     100, "/Language/Language", 0, IDM_LANGUAGE, 0);
 	if (props.GetInt("buffers") > 1)
