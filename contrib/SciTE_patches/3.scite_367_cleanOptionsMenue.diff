@@ -21,7 +21,7 @@ diff -Nurw scintilla-scite/src/SciTEBase.cxx scite/src/SciTEBase.cxx
  void SciTEBase::UIAvailable() {
 -	SetImportMenu();
 + // Decide if we want to display language files (xxx.properties) within the options Menu 
-+ SetImportMenu(props.GetInt("menu.options.showUserProps"));
++ SetImportMenu(props.GetInt("menu.options.showProps"));
  	if (extender) {
 -		SetHomeProperties();
 +		SetHomeProperties(); // Define SciteDefault- and SciteUserHome 
