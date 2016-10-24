@@ -30,5 +30,4 @@ OR PERFORMANCE OF THIS SOFTWARE.
 
  [user.toolbar] patch for SciTE was forked from scite-ru:
  
- URL: https://bitbucket.org/scite-ru/scite-ru.bitbucket.org/downloads  
-
+ URL: https://bitbucket.org/scite-ru/scite-ru.bitbucket.org/downloads
