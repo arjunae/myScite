@@ -12,7 +12,6 @@ set toolPath=%~dp0%toolName%
 
 :: temporarly append toolsDir to local Path 
 set path=%path%;%toolPath%;
-
 :: first try if a user had installed a local package
 if exist %toolPath%\%toolName%%toolExt% (
 echo ~ WRapper - Start
@@ -33,4 +32,4 @@ echo ... please install %toolName% or copy a custom pack to %toolPath% .
 )
 
 :freude
-pause
+::pause
