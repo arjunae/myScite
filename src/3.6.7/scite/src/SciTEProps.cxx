@@ -53,11 +53,11 @@ const GUI::gui_char menuAccessIndicator[] = GUI_TEXT("&");
 #include "SciTEBase.h"
 
 void SciTEBase::SetImportMenu(int iShow) {
-// Extends Options Menu
+// Reset Options->config
 	for (int i = 0; i < importMax; i++) {
-     if (iShow==0) DestroyMenuItem(menuOptions,1300+ i);
+     DestroyMenuItem(menuOptions,1300+ i);
 	}
-  //importCmdID
+  //importCmdID, FillUp above Menu with property fileNames
 	if (!importFiles.empty()) {
 		for (int stackPos = 0; stackPos < static_cast<int>(importFiles.size()) && stackPos < importMax; stackPos++) {
 			int itemID = importCmdID + stackPos;
@@ -65,7 +65,7 @@ void SciTEBase::SetImportMenu(int iShow) {
 				GUI::gui_string entry = localiser.Text("Open");
 				entry += GUI_TEXT(" ");
 				entry += importFiles[stackPos].Name().AsInternal();
-        if (iShow==1) SetMenuItemNew(menuOptions, 9, IMPORT_START+stackPos, itemID, entry.c_str());
+        if (iShow>=2) SetMenuItemNew(menuOptions, 9, IMPORT_START+stackPos, itemID, entry.c_str());
 			}
 		}
 	}

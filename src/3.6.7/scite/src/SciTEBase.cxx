@@ -4301,7 +4301,7 @@ void SciTEBase::SetHomeProperties() {
 
 void SciTEBase::UIAvailable() {
  // Decide if we want to display language files (xxx.properties) within the options Menu 
- SetImportMenu(props.GetInt("menu.options.showUserProps"));
+ SetImportMenu(props.GetInt("menu.options.showProps"));
 	if (extender) {
 		SetHomeProperties(); // Define SciteDefault- and SciteUserHome 
 		extender->Initialise(this);
