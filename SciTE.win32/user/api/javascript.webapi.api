@@ -3,13 +3,13 @@
 ##
 
 #~location
-href()DOMString the entire URL. If changed, the associated\t\ndocument navigates to the new page. DOM>location 
+href()DOMString the entire URL. If changed, the associated document navigates to the new page. DOM>location 
 protocol()DOMString  protocol scheme of the URL, including the final ':'. DOM>location
 host()DOMString  host, that is the hostname, a ':', and the port of the URL. DOM>location
 hostname()DOMString  domain of the URL. DOM>location
 port()DOMString  port number of the URL. DOM>location
-pathname()DOMString containing an initial '/' followed by\t\n the path of the URL. DOM>location
-search()DOMString containing a '?' followed by the parameters\t\n of the URL. Also known as "querystring". DOM>location
+pathname()DOMString containing an initial '/' followed by the path of the URL. DOM>location
+search()DOMString containing a '?' followed by the parameters of the URL. Also known as "querystring". DOM>location
 hash()DOMString containing a '#' followed by the fragment identifier of the URL. DOM>location
 username()DOMString  username specified before the domain name. DOM>location
 password()DOMString  password specified before the domain name. DOM>location
@@ -186,31 +186,3 @@ queryCommandValue(String command)Returns the current value of the current range 
 write(String text)Writes text in a  DOM>document
 writeln(String text)Writes a line of text in a  DOM>document
 
-#~ DOM Exeptions
-INDEX_SIZE_ERR
-DOMSTRING_SIZE_ERR
-HIERARCHY_REQUEST_ERR
-WRONG_DOCUMENT_ERR
-INVALID_CHARACTER_ERR
-NO_DATA_ALLOWED_ERR
-NO_MODIFICATION_ALLOWED_ERR
-NOT_FOUND_ERR
-NOT_SUPPORTED_ERR
-INUSE_ATTRIBUTE_ERR
-INVALID_STATE_ERR
-SYNTAX_ERR
-INVALID_MODIFICATION_ERR
-NAMESPACE_ERR
-INVALID_ACCESS_ERR
-ELEMENT_NODE
-ATTRIBUTE_NODE
-TEXT_NODE
-CDATA_SECTION_NODE
-ENTITY_REFERENCE_NODE
-ENTITY_NODE
-PROCESSING_INSTRUCTION_NODE
-COMMENT_NODE
-DOCUMENT_NODE
-DOCUMENT_TYPE_NODE
-DOCUMENT_FRAGMENT_NODE
-NOTATION_NODE
