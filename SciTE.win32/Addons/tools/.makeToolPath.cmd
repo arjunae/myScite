@@ -37,7 +37,7 @@ set cur_path=%cur_path%;%contrib_path%
 setx PATH %cur_path% 2>NUL 1>NUL
   
 echo  .... %contrib_path%
-echo  ....  has been appended to your Path :)
+echo  ....  has been appended to your localusers Path :)
 goto :freude
 
 :searchPath
