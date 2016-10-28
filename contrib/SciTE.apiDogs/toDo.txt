@@ -1,3 +1,0 @@
-toInclude 
-HTML DOM: https://developer.mozilla.org/en-US/docs/Web/API/Window
-ActionScript3: http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/package-detail.html

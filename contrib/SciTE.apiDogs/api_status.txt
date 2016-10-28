@@ -1,0 +1,19 @@
+:..Status..:
+
+cpp11 Api 
+-> http://cplusplus.com (is imported).
+JavaScript 1.6
+-> https://msdn.microsoft.com/en-us/library/htbw4ywd(v=vs.94).aspx (Imported)
+jQuery 1.9
+-> http://jqapi.com/#download (Imported)
+HTML DOM
+-> https://developer.mozilla.org/en-US/docs/Web/API (Window,Location,Document imported.)
+VBScript (Windows Scripting Host)
+-> https://msdn.microsoft.com/en-us/library/307330xe%28v=vs.84%29.aspx (Imported)
+ActionScript 3
+-> http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/package-detail.html (Keywords are in)
+
+:..toDo..:
+
+cpp11
+-> http://en.cppreference.com/w/  seems to be more complete and has an offline viewable version.
