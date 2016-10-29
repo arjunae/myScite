@@ -354,20 +354,20 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  echo @=%file_icon% >> %RegFileName%
  
 ::---------------------------------------------------------------------------------------------------------------------------
-:: ---Now for  XP / "old fashioned" Method, write a fileext and a handler directly to HKCR. 
+:: ---Now for  XP / "old fashioned" Method, write a fileext and a handler directly to HKCR. -> Needs Key write Privileges.
 ::---------------------------------------------------------------------------------------------------------------------------
  
 IF [%HKCR_DOTEXT%]==[%TRUE%] (
- echo [HKEY_CLASSES_ROOT\.%filetype%] >> %RegFileName%
- echo "Edited_by_scite"="" >> %RegFileName%
+REM echo [HKEY_CLASSES_ROOT\.%filetype%] >> %RegFileName%
+REM  echo "Edited_by_scite"="" >> %RegFileName%
 :: ---- Handler Name (eg: ext_auto_file)
-IF [%HKCU_AUTOFILE%]==[%TRUE%] echo @="%autofile%">> %RegFileName%
-IF [%HKCU_AUTOFILE%]==[%false%] echo @="%progid%">> %RegFileName%
+REM IF [%HKCU_AUTOFILE%]==[%TRUE%] echo @="%autofile%">> %RegFileName%
+REM IF [%HKCU_AUTOFILE%]==[%false%] echo @="%progid%">> %RegFileName%
 :: ---- Mime type
- echo "Content Type"="%mimetype%" >> %RegFileName%
- echo "PerceivedType"="text" >> %RegFileName%
- echo [HKEY_CLASSES_ROOT\.%filetype%\UserChoice] >> %RegFileName%
- echo "Progid"="%progid%" >> %RegFileName%
+REM  echo "Content Type"="%mimetype%" >> %RegFileName%
+REM  echo "PerceivedType"="text" >> %RegFileName%
+REM echo [HKEY_CLASSES_ROOT\.%filetype%\UserChoice] >> %RegFileName%
+REM echo "Progid"="%progid%" >> %RegFileName%
 )
 
  ::echo [-HKEY_CLASSES_ROOT\.%filetype%\OpenWithProgids] >> %RegFileName%
