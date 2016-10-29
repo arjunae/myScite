@@ -12,8 +12,9 @@ VBScript (Windows Scripting Host)
 -> https://msdn.microsoft.com/en-us/library/307330xe%28v=vs.84%29.aspx (Imported)
 ActionScript 3
 -> http://help.adobe.com/en_US/FlashPlatform/reference/actionscript/3/package-detail.html (Keywords are in)
-
+Java v180
+-> https://www.burgaud.com/scite-java-api/ (keywords are in, api needs work.) credits and thanks to André Burgaud :) !!
 :..toDo..:
 
 cpp11
--> http://en.cppreference.com/w/  seems to be more complete and has an offline viewable version.
+-> optional .. http://en.cppreference.com/w/  seems to be more complete and has an offline viewable version.
