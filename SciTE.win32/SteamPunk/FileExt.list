@@ -28,7 +28,8 @@
 
 # -- Data
 .diff ; text/diff
-.patch; text/diff
+.patch ; text/diff
+.xml ; text/xml
 
 # -- System Files --
 
