@@ -19,7 +19,7 @@ echo  ... Listed all Files, started from current Directory...
  IF EXIST %cmd% ( set scite_cmd="%cmd%" ) 
  IF EXIST ..\%cmd% ( set scite_cmd="..\%cmd%" ) 
  IF EXIST ..\..\%cmd% ( set scite_cmd="..\..\%cmd%") 
- IF NOT EXIST %scite_cmd% ( call :sub_fail) else (call :sub_continue ) 
+ IF NOT EXIST %scite_cmd% ( call :sub_fail) else ( call :sub_continue ) 
  
  :: Clean up...
  move %regfile% %userprofile%\desktop >NUL
