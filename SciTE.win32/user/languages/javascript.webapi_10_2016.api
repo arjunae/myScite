@@ -29,14 +29,14 @@ closed@@Read only This property indicates whether the current window is closed o
 Components@@The entry point to many XPCOM features. Some properties, e.g. classes, are only available to sufficiently privileged code. Web code should not use this property. DOM>WindowProp
 console@@Read only Returns a reference to the console object which provides access to the browser's debugging console. DOM>WindowProp
 content@@Read only Returns a reference to the content element in the current  The obsolete variant with underscore is no longer available from Web content. DOM>WindowProp
-controllers@@Read only Returns the XUL controller objects for the current chrome  DOM>WindowProp
+controllers@@Read only Returns the XUL controller objects for the current chrome Window. DOM>WindowProp
 crypto@@Read only Returns the browser crypto object. DOM>WindowProp
 devicePixelRatio@@Read only Returns the ratio between physical pixels and device independent pixels in the current display. DOM>WindowProp
 dialogArguments@@Read only Gets the arguments passed to the window (if it's a dialog box) at the time showModalDialog() was called. This is an nsIArray. DOM>WindowProp
 directories@@Synonym of personalbar DOM>WindowProp
 document@@Read only Returns a reference to the document that the window contains. DOM>WindowProp
 frameElement@@Read only Returns the element in which the window is embedded, or null if the window is not embedded. DOM>WindowProp
-frames@@Read only Returns an array of the subframes in the current  DOM>WindowProp
+frames@@Read only Returns an array of the subframes in the current Window. DOM>WindowProp
 fullScreen@@This property indicates whether the window is displayed in full screen or not. DOM>WindowProp
 history@@Read only Returns a reference to the history object. DOM>WindowProp
 innerHeight@@Gets the height of the content area of the browser window including, if rendered, the horizontal scrollbar. DOM>WindowProp
@@ -44,31 +44,31 @@ innerWidth@@Gets the width of the content area of the browser window including, 
 isSecureContext@@Read only Indicates whether a context is capable of using features that require secure contexts. DOM>WindowProp
 length@@Read only Returns the number of frames in the  See also frames. DOM>WindowProp
 location@@Read only Gets/sets the location, or current URL, of the window object. DOM>WindowProp
-locationbar@@Read only Returns the locationbar object, whose visibility can be toggled in the  DOM>WindowProp
+locationbar@@Read only Returns the locationbar object, whose visibility can be toggled in the Window. DOM>WindowProp
 localStorage@@Read only Returns a reference to the local storage object used to store data that may only be accessed by the origin that created it. DOM>WindowProp
-menubar@@Read only Returns the menubar object, whose visibility can be toggled in the  DOM>WindowProp
-messageManager@@Returns the message manager object for this  DOM>WindowProp
+menubar@@Read only Returns the menubar object, whose visibility can be toggled in the Window. DOM>WindowProp
+messageManager@@Returns the message manager object for this Window. DOM>WindowProp
 mozAnimationStartTime@@Read only The time in milliseconds since epoch at which the current animation cycle began. DOM>WindowProp
 mozInnerScreenX@@Read only Returns the horizontal (X) coordinate of the top-left corner of the window's viewport, in screen coordinates. This value is reported in CSS pixels. See mozScreenPixelsPerCSSPixel in nsIDOMWindowUtils for a conversion factor to adapt to screen pixels if needed. DOM>WindowProp
 mozInnerScreenY@@Read only Returns the vertical (Y) coordinate of the top-left corner of the window's viewport, in screen coordinates. This value is reported in CSS pixels. See mozScreenPixelsPerCSSPixel for a conversion factor to adapt to screen pixels if needed. DOM>WindowProp
 mozPaintCount@@Read only Returns the number of times the current document has been rendered to the screen in this  This can be used to compute rendering performance. DOM>WindowProp
-name@@Gets/sets the name of the  DOM>WindowProp
+name@@Gets/sets the name of the Window. DOM>WindowProp
 navigator@@Read only Returns a reference to the navigator object. DOM>WindowProp
-opener@@Returns a reference to the window that opened this current  DOM>WindowProp
+opener@@Returns a reference to the window that opened this current Window. DOM>WindowProp
 orientation@@Read only Returns the orientation in degrees (in 90 degree increments) of the viewport relative to the device's natural orientation. DOM>WindowProp
-outerHeight@@Read only Gets the height of the outside of the browser  DOM>WindowProp
-outerWidth@@Read only Gets the width of the outside of the browser  DOM>WindowProp
+outerHeight@@Read only Gets the height of the outside of the browser Window. DOM>WindowProp
+outerWidth@@Read only Gets the width of the outside of the browser Window. DOM>WindowProp
 pageXOffset@@Read only An alias for scrollX. DOM>WindowProp
 pageYOffset@@Read only An alias for scrollY DOM>WindowProp
 sessionStorage@@Read only Returns a reference to the session storage object used to store data that may only be accessed by the origin that created it. DOM>WindowProp
 parent@@Read only Returns a reference to the parent of the current window or subframe. DOM>WindowProp
 performance@@Read only Provides a hosting area for performance related attributes. DOM>WindowProp
-personalbar@@Read only Returns the personalbar object, whose visibility can be toggled in the  DOM>WindowProp
+personalbar@@Read only Returns the personalbar object, whose visibility can be toggled in the Window. DOM>WindowProp
 returnValue@@The return value to be returned to the function that called showModalDialog() to display the window as a modal dialog. DOM>WindowProp
-screen@@Read only Returns a reference to the screen object associated with the  DOM>WindowProp
+screen@@Read only Returns a reference to the screen object associated with the Window. DOM>WindowProp
 screenX@@Read only Returns the horizontal distance of the left border of the user's browser from the left side of the screen. DOM>WindowProp
 screenY@@Read only Returns the vertical distance of the top border of the user's browser from the top side of the screen. DOM>WindowProp
-scrollbars@@Read only Returns the scrollbars object, whose visibility can be toggled in the  DOM>WindowProp
+scrollbars@@Read only Returns the scrollbars object, whose visibility can be toggled in the Window. DOM>WindowProp
 scrollMaxX@@Read only The maximum offset that the window can be scrolled to horizontally, that is the document width minus the viewport width. DOM>WindowProp
 scrollMaxY@@Read only The maximum offset that the window can be scrolled to vertically (i.e., the document height minus the viewport height). DOM>WindowProp
 scrollX@@Read only Returns the number of pixels that the document has already been scrolled horizontally. DOM>WindowProp
@@ -78,27 +78,27 @@ sessionStorage@@Returns a storage object for storing data within a single page s
 sidebar@@Read only Returns a reference to the window object of the sidebar. DOM>WindowProp
 speechSynthesis@@Read only Returns a SpeechSynthesis object, which is the entry point into using Web Speech API speech synthesis functionality. DOM>WindowProp
 status@@Gets/sets the text in the statusbar at the bottom of the browser. DOM>WindowProp
-statusbar@@Read only Returns the statusbar object, whose visibility can be toggled in the  DOM>WindowProp
-toolbar@@Read only Returns the toolbar object, whose visibility can be toggled in the  DOM>WindowProp
+statusbar@@Read only Returns the statusbar object, whose visibility can be toggled in the Window. DOM>WindowProp
+toolbar@@Read only Returns the toolbar object, whose visibility can be toggled in the Window. DOM>WindowProp
 top@@Read only Returns a reference to the topmost window in the window hierarchy. This property is read only. DOM>WindowProp
-window@@Read only Returns a reference to the current  DOM>WindowProp
+window@@Read only Returns a reference to the current Window. DOM>WindowProp
 window[0..n]@@Returns a reference to the window object in the frames. See frames for more details. DOM>WindowProp
 
 #~Window Methods DOM>Window
 alert()Displays an alert dialog. DOM>Window
 back()Moves back one in the window history. DOM>Window
-blur()Sets focus away from the  DOM>Window
+blur()Sets focus away from the Window. DOM>Window
 cancelIdleCallback() Enables you to cancel a callback previously scheduled with requestIdleCallback. DOM>Window
 captureEvents()Registers the window to capture all events of the specified type. DOM>Window
 clearImmediate()Cancels the repeated execution set using setImmediate. DOM>Window
-close()Closes the current  DOM>Window
+close()Closes the current Window. DOM>Window
 confirm()Displays a dialog with a message that the user needs to respond to. DOM>Window
 disableExternalCapture()Obsolete since Gecko 24  FIXME: NeedsContents DOM>Window
 dispatchEvent()Used to trigger an event. DOM>Window
 dump()Writes a message to the console. DOM>Window
 enableExternalCapture()Obsolete since Gecko 24  FIXME: NeedsContents DOM>Window
-find()Searches for a given string in a  DOM>Window
-focus()Sets focus on the current  DOM>Window
+find()Searches for a given string in a Window. DOM>Window
+focus()Sets focus on the current Window. DOM>Window
 forward()Moves the window one document forward in the history. DOM>Window
 getAttention()Flashes the application icon. DOM>Window
 getAttentionWithCycleCount()FIXME: NeedsContents DOM>Window
@@ -108,20 +108,20 @@ getSelection()Returns the selection object representing the selected item(s). DO
 home()Returns the browser to the home page. DOM>Window
 matchMedia()Returns a MediaQueryList object representing the specified media query string. DOM>Window
 maximize()FIXME: NeedsContents DOM>Window
-minimize()(top-level XUL windows only)Minimizes the  DOM>Window
+minimize()(top-level XUL windows only)Minimizes the Window. DOM>Window
 moveBy()Moves the current window by a specified amount. DOM>Window
 moveTo()Moves the window to the specified coordinates. DOM>Window
 mozRequestAnimationFrame()Tells the browser that an animation is in progress, requesting that the browser schedule a repaint of the window for the next animation frame. This will cause a MozBeforePaint event to fire before that repaint occurs. DOM>Window
-open()Opens a new  DOM>Window
-openDialog()Opens a new dialog  DOM>Window
+open()Opens a new Window. DOM>Window
+openDialog()Opens a new dialog Window. DOM>Window
 postMessage()Provides a secure means for one window to send a string of data to another window, which need not be within the same domain as the first. DOM>Window
 print()Opens the Print Dialog to print the current document. DOM>Window
 prompt()Returns the text entered by the user in a prompt dialog. DOM>Window
 releaseEvents()Releases the window from trapping events of a specific type. DOM>Window
-removeEventListener()Removes an event listener from the  DOM>Window
+removeEventListener()Removes an event listener from the Window. DOM>Window
 requestIdleCallback()  Enables the scheduling of tasks during a browser's idle periods. DOM>Window
 resizeBy()Resizes the current window by a certain amount. DOM>Window
-resizeTo()Dynamically resizes  DOM>Window
+resizeTo()Dynamically resizes Window. DOM>Window
 restore()FIXME: NeedsContents DOM>Window
 routeEvent()Obsolete since Gecko 24  FIXME: NeedsContents DOM>Window
 scroll()Scrolls the window to a particular place in the document. DOM>Window
@@ -129,9 +129,9 @@ scrollBy()Scrolls the document in the window by the given amount. DOM>Window
 scrollByLines()Scrolls the document by the given number of lines. DOM>Window
 scrollByPages()Scrolls the current document by the specified number of pages. DOM>Window
 scrollTo()Scrolls to a particular set of coordinates in the document. DOM>Window
-setCursor()Changes the cursor for the current window DOM>Window
+setCursor()Changes the cursor for the current Window. DOM>Window
 setImmediate()Executes a function after the browser has finished other heavy tasks DOM>Window
-setResizable()Toggles a user's ability to resize a  DOM>Window
+setResizable()Toggles a user's ability to resize a Window. DOM>Window
 showModalDialog()Displays a modal dialog. DOM>Window
 sizeToContent()Sizes the window according to its content. DOM>Window
 stop()This method stops window loading. DOM>Window
@@ -149,7 +149,7 @@ setInterval()Schedules the execution of a function each X milliseconds.DOM>WinTi
 setTimeout()Sets a delay for executing a function.DOM>WindowTimers
 
 #~document
-adoptNode()Adopt node from an external  DOM>document
+adoptNode()Adopt node from an external Document DOM>document
 captureEvents()See Window.captureEvents. DOM>document
 caretPositionFromPoint()Gets the CaretPosition at or near the specified coordinates. DOM>document
 caretRangeFromPoint()Gets a Range object for the document fragment under the specified coordinates. DOM>document
@@ -173,14 +173,14 @@ elementFromPoint()Returns the topmost element at the specified coordinates.  DOM
 elementsFromPoint()Returns an array of all elements at the specified coordinates. DOM>document
 enableStyleSheetsForSet()Enables the style sheets for the specified style sheet set. DOM>document
 exitPointerLock()Release the pointer lock. DOM>document
-getAnimations()Returns an array of all Animation objects currently in effect whose target elements are descendants of the  DOM>document
+getAnimations()Returns an array of all Animation objects currently in effect whose target elements are descendants of the Document DOM>document
 getElementsByClassName()Returns a list of elements with the given class name. DOM>document
 getElementsByTagName()Returns a list of elements with the given tag name. DOM>document
 getElementsByTagNameNS()Returns a list of elements with the given tag name and namespace. DOM>document
-importNode()Returns a clone of a node from an external  DOM>document
+importNode()Returns a clone of a node from an external Document DOM>document
 normalizeDocument()Replaces entities, normalizes text nodes, etc. DOM>document
 registerElement()Registers a web component. DOM>document
-releaseCapture()Releases the current mouse capture if it's on an element in this  DOM>document
+releaseCapture()Releases the current mouse capture if it's on an element in this Document DOM>document
 releaseEvents()See Window.releaseEvents(). DOM>document
 mozSetImageElement()Allows you to change the element being used as the background image for a specified element ID. DOM>document
 getElementById(String id)Returns an object reference to the identified element. DOM>document
@@ -193,16 +193,16 @@ clear()In majority of modern browsers, including recent versions of Firefox and 
 close()Closes a document stream for writing. DOM>document
 execCommand(String command[, Boolean showUI[, String value]])On an editable document, executes a formating command. DOM>document
 getElementsByName(String name)Returns a list of elements with the given name. DOM>document
-getSelection()Returns a Selection object related to text selected in the  DOM>document
-hasFocus()Returns true if the focus is currently located anywhere inside the specified  DOM>document
+getSelection()Returns a Selection object related to text selected in the Document DOM>document
+hasFocus()Returns true if the focus is currently located anywhere inside the specified Document DOM>document
 open()Opens a document stream for writing. DOM>document
 queryCommandEnabled(String command)Returns true if the formating command can be executed on the current range. DOM>document
 queryCommandIndeterm(String command)Returns true if the formating command is in an indeterminate state on the current range. DOM>document
 queryCommandState(String command)Returns true if the formating command has been executed on the current range. DOM>document
 queryCommandSupported(String command)Returns true if the formating command is supported on the current range. DOM>document
 queryCommandValue(String command)Returns the current value of the current range for a formating command. DOM>document
-write(String text)Writes text in a  DOM>document
-writeln(String text)Writes a line of text in a  DOM>document
+write(String text)Writes text in a Document DOM>document
+writeln(String text)Writes a line of text in a Document DOM>document
 
 
 #~ DOM Exeptions
