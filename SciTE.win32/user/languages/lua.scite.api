@@ -12,7 +12,7 @@ scite.ShowParametersDialog(text)\n show parametrs dialog with message (txt) and 
 scite.UpdateStatusBar([bUpdateSlowData])\n perform update status bar
 scite.ReloadStartupScript()\n reload startup script
 
-#~-- Methods
+#~-- Methods & Functions
 output:textrange(startPos, endPos) gets the text in the specified range
 output:findtext(text, [flags], [startPos, [endPos]]) returns the start and end of the first match, or nil if no match
 output:match(text, [flags], [startPos]) returns a generator that allows you to loop over the matches i.e. for m in output:match(text, flags) do ... end
@@ -27,7 +27,6 @@ editor:append(text) appends text to the end of the document
 editor:insert(pos, text) inserts text at the specified position
 editor:remove(startPos, endPos) removes the text in the range
 
-#~-- props
 editor:AddRefDocument(int doc)\n Create a new document object. Starts with reference count of 1 and not selected into editor. Extend life of document.
 editor:AddStyledText(int length, cells c)\n Add array of cells to document.
 editor:AddText(int length, string text)\n Add text to the document at current position.
@@ -396,6 +395,9 @@ editor.WrapVisualFlagsLocation
 editor.XOffset
 editor.Zoom
 
+#~ External Libs
+#~ shell.dll
+
 shell.msgbox (<Text>, <Title>, <Options>)\n Message Box. Return select button  /extern lib "shell"/
 shell.inputbox (<Title>, <Prompt>, <Default>, <funcCheck>, <minWidth>)\n Input Box. Return input string  /extern lib "shell"/
 shell.getfileattr (<FileName>)\n return File Attribute as number  /extern lib "shell"/
@@ -404,6 +406,7 @@ shell.exec (strCommand, [strOperation], [boolNoShow], [bWaitOnReturn])\n /extern
 shell.findfiles (<FileMask>)\n return list of files by mask  /extern lib "shell"/
 shell.fileexists (<FileName>)\n return true if file or folder exists  /extern lib "shell"/
 
+#~ gui.dll
 gui.window ("title")\n create new top-level windows  /extern lib "gui"/
 gui.panel (width)\n create panel  /extern lib "gui"/
 gui.set_panel (panel_name, "right")\n panel attached to the left or the right side of the editor pane  /extern lib "gui"/
@@ -423,7 +426,6 @@ gui.message (msg,kind)\n message box with the desired message text  /extern lib 
 gui.prompt_value (prompt,default)\n ask the user to enter a single string value  /extern lib "gui"/
 gui.run (program_or_document, parameters)\n launch a program or open a document  /extern lib "gui"/
 
-#~ External Libs
 
 #~ win=gui%.window%s*%b()
 win:add(list1, "top", height)\n "top" or "bottom"
