@@ -40,7 +40,7 @@ set false=0
 :: -- Got those shorthand strFunctions from
 :: -- http://www.dostips.com/DtTipsStringOperations.php
 
-:: Non_Interactive Mode: Dont interrupt flow.
+:: Non_Interactive BatchMode: Dont interrupt flow.
 :: Used to let this script used by other batchfiles.
 :: eg .Scite_register_extList.cmd
 IF [%SCITE_NonInteract%]==[%TRUE%]  (
@@ -79,7 +79,7 @@ echo   ---------------------------------
 echo  * using mimetype: %mimetype%
 echo  * using handler: %autofile%
 echo  * using progid: %filetype%file 
-:PARSE_SECTION
+:SEARCH_SCITE
 
 :: ------- Check for and write path of %cmd% in scite_cmd
 set cmd=Scite.exe
@@ -133,9 +133,16 @@ cd /D %tmp%\scite_tmp
 :BACKUP_SECTON
 :: -------------------------------  BACKUP  Section -----------------------------------------
 ::  --- savety first: Create a fresh backup of every key about to be changed ------
+::
+::  takes 
+::    SCITE_INTERACT ; %true% = 1 (run silently in BatchMode)
+::  returns Registry Info about existing typeHandlers 
+::    ( HKEY_CLASSES_ROOT ; HKEY_CURRENT_USER )
+::    HKCR_AUTOFILE / HKCR_HANDLER ; HKCU_AUTOFILE / HKCU_DOTEXT
+::
+::-----------------------------------------------------------------------------------------------
 
 :: ---- Resetting backup files....
-
 IF EXIST _*_*.bak del /Q "_*_*.bak" >NUL
 
 echo   ---------------------------------
@@ -146,7 +153,6 @@ echo.
 echo   --------------------------------- 
 IF [%SCITE_INTERACT%]==[%TRUE%] ( PAUSE )
 echo.
-
 
 :: ---- Now do the Backup
 :: -- Define Filenames 
@@ -159,8 +165,8 @@ set HKCR_FileExt_REG="_5_%filetype%_ext.bak"
 :: --- Not using EXPORT /y Switch for REG 3.0 (XP) Compatibility :p 
 ::   >NUL redirects StdOut,  2>NUL redirects StdErr - thanks MS !
 
- echo   Searchin for an existing Handler in HKCU\ and HKCR\ 
- REG query  "HKCU\Software\Classes\%autofile%\shell" >NUL 2>NUL
+echo   Searchin for an existing Handler in HKCU\ and HKCR\ 
+REG query  "HKCU\Software\Classes\%autofile%\shell" >NUL 2>NUL
 IF %ERRORLEVEL%===%false% (
  echo   -Backing up "HKCU\Software\Classes\%autofile%"
  REG export  "HKCU\Software\Classes\%autofile%" %HKCU_Classes_REG% >NUL 
@@ -220,7 +226,6 @@ REM -- MixUp content to combined Backup file.
 	findstr /R /V "^Windows.*" _.%filetype%.backup.raw  >> filetypes.backup.reg
 	::MOVE _my*backup.REG backups >NUL
 	
-	
 echo.
 echo   ------------------------------------
 echo.
@@ -232,7 +237,15 @@ echo   -------------------------------------
 ::CLS
 :REGISTRY_SECTION 
 
-:: --------------------------  Scite registry file Section -------------------------------------
+:: ---------------------  Scite registry file Section ---------------------------
+::
+::  Generate a registry Import File containing new File Type associations
+::
+::  takes
+::    SCITE_INTERACT
+::    HKCR_AUTOFILE / HKCR_HANDLER ; HKCU_AUTOFILE / HKCU_DOTEXT
+::
+:: -----------------------------------------------------------------------------
 
 set RegFileName=_my.%filetype%.with.scite.reg
 set progid=%filetype%file
