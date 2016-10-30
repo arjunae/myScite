@@ -48,8 +48,10 @@ set timestamp=%timestamp::=.%
 del /S /Q *.tmp *scite.reg 1>NUL
 cd /D %scite_path%\steampunk
 echo   Now moving files to ... %userprofile%\desktop\scite.imports.%timestamp%
-echo We made it ! Your Files were placed in the Import folder :) > %tmp%\scite_tmp\readme.txt
-echo Please register the filetypes you like by doubleclicking on them. >>  %tmp%\scite_tmp\readme.txt
+echo We made it ! Your Files were placed in the Import folder. > %tmp%\scite_tmp\readme.txt
+echo The following step could be automated too, but i like userChoices :)>> %tmp%\scite_tmp\readme.txt
+echo So, please register the filetypes in scite.filetypes.register.reg with rightClick::Import >>  %tmp%\scite_tmp\readme.txt
+echo enjoy, Arjunae>> %tmp%\scite_tmp\readme.txt
 
 move %tmp%\scite_tmp  %userprofile%\desktop\scite.imports.%timestamp% 1>NUL
 
