@@ -6,8 +6,8 @@ set toolName=lua
 set toolExt=.exe
 set toolParam=%*
 
-::~dp0 = Full Path to current Directory
-set toolPath=%~dp0%toolName%
+::~dp0 = Full Path to current Directory with trailing slash
+set toolPath=%cd%\%toolName%
 
 :: temporarly append toolsDir to local Path 
 set path=%path%;%toolPath%;

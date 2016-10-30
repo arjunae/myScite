@@ -1,4 +1,5 @@
-:: --- SciTE_Register_ExtList.cmd
+::--::--::--::--Steampunk--::-::--::--::
+:: -- SciTE_Register_ExtList.cmd 
 ::
 ::  -- parses entries in FileExt.List
 ::  -- calls .Scite_Register_Ext.cmd %1 %2
@@ -8,6 +9,7 @@
 ::
 :: URL: https://sourceforge.net/projects/scite-webdev/?source=directory
 ::
+::--::--::--::--Steampunk--::-::--::--::
 
 @echo off
 

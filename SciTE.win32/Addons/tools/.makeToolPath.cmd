@@ -7,7 +7,8 @@ echo.
 echo ::...:: Register Helpers ::...:: 
 echo. 
 setlocal enabledelayedexpansion enableextensions
-set contrib_path=%~dp0
+set contrib_path=%CD%
+:: or %~dp0
 
 :: Query Users current Path 
 for /F "tokens=1,2* delims= " %%a in ('reg query HKCU\Environment /v Path') do (

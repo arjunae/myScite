@@ -1,6 +1,7 @@
 @echo off
 ::mode 112,20
-REM ---------------- 
+
+REM  ::--::--::--::--Steampunk--::-::--::--::
 REM
 REM  Add Scite to Explorer "open with" Context Menu
 REM  -Creates Regfile-.
@@ -15,7 +16,7 @@ REM
 REM Search for %cmd% in actual and up to 2 parent Directories
 REM Use full qualified path. 
 REM
-REM ----------------
+REM ::--::--::--::--Steampunk--::-::--::--::
 
 :main
  set cmd=SciTE.exe

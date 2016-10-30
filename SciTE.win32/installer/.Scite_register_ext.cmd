@@ -1,5 +1,5 @@
 @echo off
-:: ---------------- 
+::--::--::--::--Steampunk--::-::--::--::
 ::
 ::   - Creates a registry import file.
 ::   - able to register new filetypes inclusive its mimetype and  icon 
@@ -17,7 +17,7 @@
 ::  - Finds  %cmd% in actual and up to 2 parent level Directories
 ::  - get full qualified Path / Handle write protected Folders / Add Docs
 :: 
-:: ----------------
+::--::--::--::--Steampunk--::-::--::--::
 
 :: MSDN Docs
 :: https://msdn.microsoft.com/en-us/library/windows/desktop/dd758090%28v=vs.85%29.aspx
