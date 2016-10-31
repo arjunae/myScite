@@ -1,15 +1,13 @@
 @echo off
 ::--::--::--::--Steampunk--::-::--::--::
-::
-::   - Creates a registry import file.
-::   - able to register new filetypes inclusive its mimetype and  icon 
-::   - able to associate already registered filetypes with SciTE
 ::  
 ::   Syntax:
-::   .Scite_register_Ext  .myExt (read: with dot and no quotes)
-::   .Scite_register_Ext  .myExt  mimetype
+::   scite.createExt  .myExt (read: with dot and no quotes)
+::   scite.createExt  .myExt  mimetype
 ::
-::  *Outputfile has to be imported manually.*
+::   - Creates a registry import file which has to be imported manually-
+::   - able to register new filetypes inclusive its mimetype and  icon 
+::   - able to associate already registered filetypes with SciTE
 ::
 ::	Created Juni 2016, Marcedo@HabmalneFrage.de
 :: 	URL: https://sourceforge.net/projects/scite-webdev/?source=directory
@@ -399,13 +397,13 @@ echo -----------------  Help   -------------------------------
 echo.                
 echo   - able to register new filetypes inclusive its Icon.
 echo   - able to associate already registered filetypes with SciTE
-echo   - Creates a registry import file.
+echo   - Creates a registry import file which has to be imported manually-
 echo.
-echo  * Syntax: .Scite_register_fileExt [.FileExt] [optional MimeTyp]
+echo  * Syntax: Scite.createExt [.FileExt] [optional MimeTyp]
 echo.
 echo            *  Example  *
-echo   .Scite_register_Ext .me
-echo   .Scite_register_Ext .myfancy text/plain
+echo   scite.createExt .me
+echo   scite.createExt .myfancy text/plain
 echo.
 echo.
 echo  *  Would create a regfile, that associates Scite  

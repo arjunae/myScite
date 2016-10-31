@@ -1,9 +1,9 @@
 ::--::--::--::--Steampunk--::-::--::--::
-:: -- Scite.force_ExtList.cmd 
+:: -- Scite.createExtList.cmd 
 ::
 ::  -- parses entries in FileExt.List
 ::  -- registers Scite with the filetypes in it, by calling
-::  -- .scite.forceExt.cmd %1 %2
+::  -- scite.createExtList.cmd %1 %2
 ::
 :: Created Nov 2015, Marcedo@HabmalneFrage.de
 :: 26.06.16 - cope with writeProtected places
@@ -16,7 +16,7 @@
 ::  ... use customized CMD Terminal
 if "%1"=="" (
  reg import TinyTonCMD\TinyTonCMD.reg
- start "TinyTonCMD" .scite.forceExtList.bat tiny
+ start "TinyTonCMD" scite.createExtList.bat tiny
  EXIT
 )
 
@@ -30,7 +30,7 @@ for /F "delims=; eol=# tokens=1,2,3*" %%E in (FileExt.List) do (
  echo  ::
  echo  :::.:::.::::.:::.::::.:::.::::.:::::.:::.::::.:::::.::
  ping 1.2.3.4 -n 1 -w 555>NUL
- call .scite.forceExt %%E %%F  >> %tmp%\scite.forceExtList.logfile
+ call scite.createExt.cmd %%E %%F  >> %tmp%\scite.createExtList.logfile
 ) 
 
 cd /D %tmp%\scite_tmp
