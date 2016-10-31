@@ -1,19 +1,34 @@
 ~- mySciTE_webdev -~
 
-[25.10.2016] (STABLE-1.22)
-- editor: defaults to unicode / scales window and margins
+[31.Oktober.2016] (DEVIEL-124) Happy Halloween !
+	@arjunae cleanup js/jq keywords add Dom Exceptions / add lua.scite.api	
+	@arjunae Additional HTML5 Keywords (final W3C 28.Okt.14) 
+  @arjunae Move all Language related files to user/languages
+	@arjunae Fix Installer - register scite in [open With -programName-] List
+	@arjunae fix errlist output-pane / makefile styles / hexedit styles 
+
+[29.10.2016] STABLE-1.23
+- api:  fix: styling html/vbs/ruby/perl | New: java1.8 & freebasic Keywords 
+- themes: sync theme grey and theme blackblue
+- compatibility: fix: styles aliases for other scite forks
+- steampunk: fix: filetype register batchfiles
+- addons: fix: hexEdit / change some testcases
+ 8) MINI-Little-and-Sweet Package. Full Package see (github/arjunae)
+
+[25.10.2016] STABLE-1.22
+- editor: default to unicode / scaling for window and margins
 - apis:   add BrowserWebApi / improve php and vbs api / fix linebreaks
 - props: clike: add AS3 Keywords / updates to js1.6
 - tools: simplified samples / fixed figref / add lua mod-mitchel
 - themes: better styles & monospace font / Zooming (Alt+Pgup/PgDown)
- 8) MINI-Little-and-Sweet Package. Full Package see (github/arjunae)
- 
-[21.10.2016] (STABLE-1.21)
+
+[21.10.2016] STABLE-1.21
 - sync with scintilla-scite 3.67
 - Fixes for styling cpp macros, html tags and wsh objects
 - Finalize theme.grey
 - Fix lua debugging
 - Fix Addon System
+- Full Version available on github.
 
 [27.09.2016] [Stable-1.14]
 - New Feature: Window transparency. 
