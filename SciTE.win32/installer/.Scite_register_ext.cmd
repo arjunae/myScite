@@ -423,7 +423,7 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  
 IF [%SCITE_INTERACT%]==[%TRUE%] echo   ==Temporary storing Files to  ... "%tmp%\scite_tmp"==
 
-cd /D %scite_path%\SteamPunk
+cd /D %scite_path%\Installer
 
  :: Fix Batch running on write protected Folders.
  set timestamp=%TIME:~0,8%

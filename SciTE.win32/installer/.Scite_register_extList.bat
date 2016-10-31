@@ -10,15 +10,14 @@
 :: URL: https://sourceforge.net/projects/scite-webdev/?source=directory
 ::
 ::--::--::--::--Steampunk--::-::--::--::
-
-@echo off
-
- :: ... use customized CMD Terminal
- if "%1"=="" (
-  reg import TinyTonCMD\TinyTonCMD.reg
-  start "TinyTonCMD" .SciTE_Register_ExtList.bat tiny
-   EXIT
- )
+ @echo off
+::
+::  ... use customized CMD Terminal
+if "%1"=="" (
+ reg import TinyTonCMD\TinyTonCMD.reg
+ start "TinyTonCMD" .SciTE_Register_ExtList.bat tiny
+ EXIT
+)
 
 :: Signal batchMode for .Scite_register_ext
 SET SCITE_NonInteract=1
@@ -31,7 +30,7 @@ for /F "delims=; eol=# tokens=1,2,3*" %%E in (FileExt.List) do (
  echo  :::.:::.::::.:::.::::.:::.::::.:::::.:::.::::.:::::.::
  ping 1.2.3.4 -n 1 -w 555>NUL
  call .Scite_register_ext %%E %%F  >> %tmp%\Scite_register_ext.logfile
- ) 
+) 
 
 cd /D %tmp%\scite_tmp
 
@@ -48,7 +47,7 @@ set timestamp=%timestamp::=.%
 :: Move the working Folder  to our Desktop and Write a short readme for convinience
 
 del /S /Q *.tmp *scite.reg 1>NUL
-cd /D %scite_path%\steampunk
+cd /D %scite_path%\installer
 echo   Now moving files to ... %userprofile%\desktop\scite.imports.%timestamp%
 echo We made it ! Your Files were placed in the Import folder. > %tmp%\scite_tmp\readme.txt
 echo The following step could be automated too, but i like userChoices :)>> %tmp%\scite_tmp\readme.txt
