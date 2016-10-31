@@ -34,9 +34,21 @@ for /F "delims=; eol=# tokens=1,2,3*" %%E in (FileExt.List) do (
 
 cd /D %tmp%\scite_tmp
 
-:: Merge  all regFiles into one.
+:: Create regedit Header 
 echo Windows Registry Editor Version 5.00>header.tmp
 copy *with.scite.reg data.tmp>NUL
+
+:: create / reset Program Key 
+echo [-HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe] >>data.tmp
+echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe] >>data.tmp
+echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell] >>data.tmp
+echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell\open] >>data.tmp
+echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >>data.tmp
+echo @=%scite_cmd% >>data.tmp
+echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >>data.tmp
+echo ".vvv"="">>data.tmp
+
+:: Now, merge all regFiles into one.
 copy header.tmp+data.tmp scite.filetypes.register.reg>NUL
 
 :: We assure a valid folderName, by filling spaces  in the  timestamp  (_8:33:03 -> 08.33.03)

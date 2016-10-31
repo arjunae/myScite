@@ -82,7 +82,7 @@ echo  * using handler: %autofile%
 echo  * using progid: %filetype%file 
 :SEARCH_SCITE
 
-:: ------- Check for and write path of %cmd% in scite_cmd
+:: ------- Check for and write scites path registry escaped to %scite_cmd%
 set cmd=Scite.exe
 
 IF EXIST ..\..\%cmd% ( 
@@ -157,10 +157,7 @@ echo.
 :: ---- Now do the Backup
 :: -- Define Filenames 
 set HKCU_Classes_reg="_1_%filetype%_hnd.bak"
-::set HKCR_A_REG="_2_%filetype%file%_hnd.bak"
-::set HKCR_B_REG="_3_%filetype%_hnd.bak"
 set HKCU_FileExt_REG="_4_%filetype%_ext.bak"
-::set HKCR_FileExt_REG="_5_%filetype%_ext.bak"
 
 :: --- Not using EXPORT /y Switch for REG 3.0 (XP) Compatibility :p 
 ::   >NUL redirects StdOut,  2>NUL redirects StdErr - thanks MS !
@@ -175,42 +172,6 @@ SET HKCU_AUTOFILE=1
 SET HKCU_AUTOFILE=0
  )
 
-:: Those where meant for XP (~2002) Style registering of Filetypes.
-:: Commenced out as this Method is rude an now requires key Privileges in win10.
- 
-:: ***************************************************** 
-:: ** REG query  "HKCR\%autofile%"  >NUL 2>NUL
-:: **  IF %ERRORLEVEL%==%false% (
-:: **  echo   -Backing up "HKCR\%autofile%" 
-:: **   REG export  "HKCR\%autofile%" %HKCR_B_REG% >NUL 
-:: **   SET HKCR_AUTOFILE=1
-:: **  ) ELSE (
-:: **  SET HKCR_AUTOFILE=0
-:: **  )
-:: *****************************************************
-:: *****************************************************  
-:: **   REG query "HKCR\%filetype%file\shell\" >NUL 2>NUL
-:: **  IF %ERRORLEVEL%==%false% (
-:: **   echo   -Backing up  "HKCR\%filetype%file"
-:: **   REG export "HKCR\%filetype%file" %HKCR_A_REG% >NUL
-:: **   SET HKCR_HANDLER=1
-:: **  ) ELSE ( 
-:: **   SET HKCR_HANDLER=0
-:: **  )
-:: **   
-:: *****************************************************
-:: *****************************************************  e
-:: **  echo   Searchin for .%filetype% in HKCR\%.filetype% and HKCU\..FileExts\.%filetype%
-:: **  REG query "HKCR\.%filetype%" >NUL 2>NUL
-:: **  IF %ERRORLEVEL%==%false% (
-:: **   echo   -Backing up "HKCR\.%filetype%"
-:: **   REG export  "HKCR\.%filetype%" %HKCR_FileExt_REG% >NUL
-:: **   SET HKCR_DOTEXT=1
-:: **  ) ELSE (
-:: **   SET HKCR_DOTEXT=0
-:: **  )
-:: *****************************************************
-
 REG query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%" >NUL 2>NUL
 IF %ERRORLEVEL%==%false% (
 echo   -Backing up "HKCU\....\Fileexts\" 
@@ -223,7 +184,6 @@ SET HKCU_DOTEXT=0
 :Backup_File_Cooking_Section
 
 ::  collects and combines generated Backupfiles 
-
 :: IF NOT EXIST backups MD backups
 
 REM -- Translate Unicode to ascii with type
@@ -373,29 +333,6 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\DefaultIcon] >> %RegFileName%
  echo @=%file_icon% >> %RegFileName%
  
-::---------------------------------------------------------------------------------------------------------------------------
-:: ---Now for  XP / "old fashioned" Method, write a fileext and a handler directly to HKCR. 
-:: -> Commenced out -  Needs Key write Privileges.
-:: 
-::  IF [%HKCR_DOTEXT%]==[%TRUE%] (
-::  echo [HKEY_CLASSES_ROOT\.%filetype%] >> %RegFileName%
-::  echo "Edited_by_scite"="" >> %RegFileName%
-::---- Handler Name (eg: ext_auto_file)
-::  REM IF [%HKCU_AUTOFILE%]==[%TRUE%] echo @="%autofile%">> %RegFileName%
-::  REM IF [%HKCU_AUTOFILE%]==[%false%] echo @="%progid%">> %RegFileName%
-:: ---- Mime type
-::  echo "Content Type"="%mimetype%" >> %RegFileName%
-::  echo "PerceivedType"="text" >> %RegFileName%
-::  echo [HKEY_CLASSES_ROOT\.%filetype%\UserChoice] >> %RegFileName%
-::  echo "Progid"="%progid%" >> %RegFileName%
-::  )
-::
- ::echo [-HKEY_CLASSES_ROOT\.%filetype%\OpenWithProgids] >> %RegFileName%
- ::echo [HKEY_CLASSES_ROOT\.%filetype%\OpenWithProgids] >> %RegFileName%
- ::echo "%progid%"=hex(0^): >> %RegFileName%
- ::echo "%progid%"="%progid%" >> %RegFileName%
-::---------------------------------------------------------------------------------------------------------------------------
- 
  :FINALIZE_SCTION
 
 ::IF NOT EXIST import MD import >NUL
@@ -426,10 +363,10 @@ IF [%SCITE_INTERACT%]==[%TRUE%] echo   ==Temporary storing Files to  ... "%tmp%\
 
 cd /D %scite_path%\Installer
 
- :: Fix Batch running on write protected Folders.
- set timestamp=%TIME:~0,8%
- set timestamp=%timestamp: =0%
- set timestamp=%timestamp::=.%
+:: Fix Batch running on write protected Folders.
+set timestamp=%TIME:~0,8%
+set timestamp=%timestamp: =0%
+set timestamp=%timestamp::=.%
 
 :: This Batch gets called multiple times in nonInteractive  Mode from  ".Scite_register_extList.bat"
 :: We assure a valid folderName, by filling spaces  in the  timestamp  (_8:33:03 -> 08.33.03)
