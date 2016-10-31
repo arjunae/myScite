@@ -247,7 +247,7 @@ if [%SCITE_INTERACT%]==[%TRUE%] echo Windows Registry Editor Version 5.00 > %Reg
 
 :: HKCU_DOTEXT = 1 Means we already have a handler in
 :: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts
-echo ; -------- %mimetype% ------------ >> %RegFileName%
+echo ; ----------- %filetype% / %mimetype% ------------ >> %RegFileName%
 IF [%HKCU_DOTEXT%]==[%TRUE%] ( 
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  :: --- Marker
