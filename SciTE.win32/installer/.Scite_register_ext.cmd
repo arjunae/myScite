@@ -21,6 +21,7 @@
 
 :: MSDN Docs
 :: https://msdn.microsoft.com/en-us/library/windows/desktop/dd758090%28v=vs.85%29.aspx
+:: https://msdn.microsoft.com/en-us/library/windows/desktop/cc144104(v=vs.85).aspx
 
 :: Define some constants (Unicode notation)  from  %SystemRoot%\System32\imageres.dll,-1002
 set ico_threeD_Paper=31,00,30,00,30,00,32,00,00,00
