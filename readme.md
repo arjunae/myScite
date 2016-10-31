@@ -1,11 +1,11 @@
 ~- mySciTE.webdev -~
 
 [31.Oktober.2016] (deveil-124) Happy Halloween !
-@arjunae cleanup js/jq keywords add Dom Exceptions / add lua.scite.api	
-@arjunae Additional HTML5 Keywords (final W3C 28.Okt.14) 
-@arjunae Move all Language related files to user/languages
-@arjunae Fix Installer - register scite in [open With -programName-] List
-@arjunae fix errlist output-pane / makefile styles / hexedit styles 
+- arjunae cleanup js/jq keywords add Dom Exceptions / add lua.scite.api	
+- arjunae Additional HTML5 Keywords (final W3C 28.Okt.14) 
+- arjunae Move all Language related files to user/languages
+- arjunae Fix Installer - register scite in [open With -programName-] List
+- arjunae fix errlist output-pane / makefile styles / hexedit styles 
 
 [29.10.2016] STABLE-1.23
 - api:  fix: styling html/vbs/ruby/perl | New: java1.8 & freebasic Keywords 
