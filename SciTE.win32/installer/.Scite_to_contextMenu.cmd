@@ -37,6 +37,14 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  del /Q %tmp%\scite.tmp >NUL
 
  echo. .... copied to %userprofile%\desktop
+
+ echo   -------------------------------------------
+ echo.
+ echo   Work Done - I hope you had a nice time !
+ echo   Please press your favorite key to be Done. 
+ echo.  :) Greetings to you from Deutschland, Darmstadt :) 
+ echo.
+
  echo Now, please press your favorite key to be Done. HanD! 
  goto :freude
  
@@ -77,16 +85,28 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo @=%scite_cmd% >> %RegFile%
  :: echo @="E:\\projects\\.scite.gitSourceForge\\SciTE_webdev\\SciTE.exe %%1" >> %RegFile%
  
+ :: create / reset Program Entry RegistryKey 
+ echo [-HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
+ echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
+ echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell] >> %RegFile%
+ echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell\open] >> %RegFile%
+ echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >> %RegFile%
+ echo @=%scite_cmd% >> %RegFile%
+ echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >> %RegFile%
+ echo ".*"="">> %RegFile%
+
+ :: Now, merge all regFiles into one.
+ copy header.tmp+ %RegFile% scite.filetypes.register.reg>NUL
+
  :: ----  Note down how to call scite exe from anywhere on the system. 
  :: echo. > _scite.read.me.path.txt
  :: echo "Hint: Use this parameters to open scite from anywhere:" >> _scite.read.me.path.txt
  :: echo %scite_path% "%%1" "-cwd:%scite_path_ext%" >> _scite.read.me.path.txt
 
- echo ..... Finished writing to  %RegFile% ....
+ ::echo ..... Finished writing to  %RegFile% ....
  
  exit /b
 :end_sub
-
 :sub_fail
  echo.
  echo Please fix: %cmd% was'nt found or Filename did'nt match variable "cmd"
@@ -97,4 +117,5 @@ exit
 :end_sub
 :freude
 :: wait some time...
-ping 1.0.3.0 /n 1 /w 3000 >NUL
+::ping 1.0.3.0 /n 1 /w 3000 >NUL
+pause >NUL

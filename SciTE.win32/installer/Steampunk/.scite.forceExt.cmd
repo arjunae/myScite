@@ -247,7 +247,7 @@ if [%SCITE_INTERACT%]==[%TRUE%] echo Windows Registry Editor Version 5.00 > %Reg
 
 :: HKCU_DOTEXT = 1 Means we already have a handler in
 :: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts
-
+echo ; ----------- %filetype% / %mimetype% ------------ >> %RegFileName%
 IF [%HKCU_DOTEXT%]==[%TRUE%] ( 
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  :: --- Marker
@@ -332,8 +332,8 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
 :: ---  ICON
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\DefaultIcon] >> %RegFileName%
  echo @=%file_icon% >> %RegFileName%
- 
- :FINALIZE_SCTION
+
+:FINALIZE_SCTION
 
 ::IF NOT EXIST import MD import >NUL
 ::IF EXIST _*.REG  MOVE _*.REG import >NUL
@@ -361,7 +361,7 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  
 IF [%SCITE_INTERACT%]==[%TRUE%] echo   ==Temporary storing Files to  ... "%tmp%\scite_tmp"==
 
-cd /D %scite_path%\Installer
+cd /D %scite_path%\installer\steampunk
 
 :: Fix Batch running on write protected Folders.
 set timestamp=%TIME:~0,8%

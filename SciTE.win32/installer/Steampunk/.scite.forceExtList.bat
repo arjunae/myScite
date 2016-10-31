@@ -1,8 +1,9 @@
 ::--::--::--::--Steampunk--::-::--::--::
-:: -- SciTE_Register_ExtList.cmd 
+:: -- Scite.force_ExtList.cmd 
 ::
 ::  -- parses entries in FileExt.List
-::  -- calls .Scite_Register_Ext.cmd %1 %2
+::  -- registers Scite with the filetypes in it, by calling
+::  -- .scite.forceExt.cmd %1 %2
 ::
 :: Created Nov 2015, Marcedo@HabmalneFrage.de
 :: 26.06.16 - cope with writeProtected places
@@ -15,11 +16,11 @@
 ::  ... use customized CMD Terminal
 if "%1"=="" (
  reg import TinyTonCMD\TinyTonCMD.reg
- start "TinyTonCMD" .SciTE_Register_ExtList.bat tiny
+ start "TinyTonCMD" .scite.forceExtList.bat tiny
  EXIT
 )
 
-:: Signal batchMode for .Scite_register_ext
+:: Signal batchMode for .Scite.force_ext
 SET SCITE_NonInteract=1
 
 for /F "delims=; eol=# tokens=1,2,3*" %%E in (FileExt.List) do (
@@ -29,7 +30,7 @@ for /F "delims=; eol=# tokens=1,2,3*" %%E in (FileExt.List) do (
  echo  ::
  echo  :::.:::.::::.:::.::::.:::.::::.:::::.:::.::::.:::::.::
  ping 1.2.3.4 -n 1 -w 555>NUL
- call .Scite_register_ext %%E %%F  >> %tmp%\Scite_register_ext.logfile
+ call .scite.forceExt %%E %%F  >> %tmp%\scite.forceExtList.logfile
 ) 
 
 cd /D %tmp%\scite_tmp
@@ -46,7 +47,7 @@ echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell\open] >>d
 echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >>data.tmp
 echo @=%scite_cmd% >>data.tmp
 echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >>data.tmp
-echo ".vvv"="">>data.tmp
+echo ".*"="">>data.tmp
 
 :: Now, merge all regFiles into one.
 copy header.tmp+data.tmp scite.filetypes.register.reg>NUL
@@ -59,7 +60,7 @@ set timestamp=%timestamp::=.%
 :: Move the working Folder  to our Desktop and Write a short readme for convinience
 
 del /S /Q *.tmp *scite.reg 1>NUL
-cd /D %scite_path%\installer
+cd /D %scite_path%\installer\steampunk
 echo   Now moving files to ... %userprofile%\desktop\scite.imports.%timestamp%
 echo We made it ! Your Files were placed in the Import folder. > %tmp%\scite_tmp\readme.txt
 echo The following step could be automated too, but i like userChoices :)>> %tmp%\scite_tmp\readme.txt

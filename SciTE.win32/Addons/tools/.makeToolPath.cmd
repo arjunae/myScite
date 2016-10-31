@@ -36,6 +36,9 @@ reg add HKCU\Environment /f /v Path /t REG_EXPAND_SZ /d "%cur_path%;%contrib_pat
 :: setx (available >= winSrv2003) - a "touchy" MS Eqivalent to above Code.   
 set cur_path=%cur_path%;%contrib_path%
 setx PATH %cur_path% 2>NUL 1>NUL
+
+:: Optional: apply changes to HKCU on systems which might need a reboot.
+::RUNDLL32.EXE USER32.DLL,UpdatePerUserSystemParameters ,1 ,True
   
 echo  .... %contrib_path%
 echo  ....  has been appended to your localusers Path :)
