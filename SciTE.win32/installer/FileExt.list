@@ -15,26 +15,19 @@
 # -- Textfiles --
 
 .txt ; text/plain
-.diz ; text/plain
-.me ; text/plain
 .properties ; text/plain
 
 # -- Source Code --
 
 .js ; text/javascript
-.coffee ; text/coffeescript
 .cpp ; text/x-c
 .cxx ; text/x-c
-.h; text/x-c
 
 # -- Data
 .diff ; text/diff
 .patch ; text/diff
-.xml ; text/xml
 
 # -- System Files --
 
-.reg ;  text/plain
+.reg ; text/plain
 .bat ; text/plain
-.cmd ; text/plain
-.list; text/plain

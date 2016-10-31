@@ -46,7 +46,7 @@ echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell\open] >>d
 echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >>data.tmp
 echo @=%scite_cmd% >>data.tmp
 echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >>data.tmp
-echo ".vvv"="">>data.tmp
+echo ".*"="">>data.tmp
 
 :: Now, merge all regFiles into one.
 copy header.tmp+data.tmp scite.filetypes.register.reg>NUL

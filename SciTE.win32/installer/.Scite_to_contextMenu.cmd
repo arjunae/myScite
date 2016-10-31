@@ -77,6 +77,19 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo @=%scite_cmd% >> %RegFile%
  :: echo @="E:\\projects\\.scite.gitSourceForge\\SciTE_webdev\\SciTE.exe %%1" >> %RegFile%
  
+:: create / reset Program Entry RegistryKey 
+echo [-HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
+echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
+echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell] >> %RegFile%
+echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell\open] >> %RegFile%
+echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >> %RegFile%
+echo @=%scite_cmd% >> %RegFile%
+echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >> %RegFile%
+echo ".*"="">> %RegFile%
+
+:: Now, merge all regFiles into one.
+copy header.tmp+ %RegFile% scite.filetypes.register.reg>NUL
+
  :: ----  Note down how to call scite exe from anywhere on the system. 
  :: echo. > _scite.read.me.path.txt
  :: echo "Hint: Use this parameters to open scite from anywhere:" >> _scite.read.me.path.txt
