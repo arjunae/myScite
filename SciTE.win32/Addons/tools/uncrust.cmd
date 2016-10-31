@@ -4,9 +4,9 @@
 :: ---------------------------------------
 set toolName=uncrustify
 set toolExt=.exe
-set toolParam=-c %~dp0%toolName%\linux.cfg --no-backup %*
+set toolParam=-c %cd%\%toolName%\linux.cfg --no-backup %*
 
-::~dp0 = Full Path to current Directory
+::~dp0 = Full Path to current Directory with trailing slash
 set toolPath=%~dp0%toolName%
 
 :: temporarly append toolsDir to local Path 

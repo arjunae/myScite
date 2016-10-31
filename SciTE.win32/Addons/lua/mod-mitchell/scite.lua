@@ -15,7 +15,7 @@
 module('modules.scite', package.seeall)
 require 'editing'
 require 'file_browser'
-require 'keys' -- important to load last
+--require 'keys' -- important to load last todo check altGR-9 "]"
 
 ---
 -- Opens specified module in SciTE.
