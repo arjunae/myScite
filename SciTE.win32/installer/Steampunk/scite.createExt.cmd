@@ -1,15 +1,13 @@
 @echo off
 ::--::--::--::--Steampunk--::-::--::--::
-::
-::   - Creates a human readable registry import file.
-::   - able to register new filetypes inclusive its mimetype and  icon 
-::   - able to associate already registered filetypes with SciTE
 ::  
 ::   Syntax:
-::   .Scite_register_Ext  .myExt (read: with dot and no quotes)
-::   .Scite_register_Ext  .myExt  mimetype
+::   scite.createExt  .myExt (read: with dot and no quotes)
+::   scite.createExt  .myExt  mimetype
 ::
-::  *Outputfile has to be imported manually.*
+::   - Creates a registry import file which has to be imported manually-
+::   - able to register new filetypes inclusive its mimetype and  icon 
+::   - able to associate already registered filetypes with SciTE
 ::
 ::	Created Juni 2016, Marcedo@HabmalneFrage.de
 :: 	URL: https://sourceforge.net/projects/scite-webdev/?source=directory
@@ -318,13 +316,13 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\open] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\open\command] >> %RegFileName%
+
+ SET SYS_FILE=1
+ IF [%filetype%] NEQ [cmd] IF [%filetype%] NEQ [bat] IF [%filetype%] NEQ [reg] IF [%filetype%] NEQ [inf] IF [%filetype%] NEQ [CMD] IF [%filetype%] NEQ [BAT] IF [%filetype%] NEQ [REG] IF [%filetype%] NEQ [INF] SET SYS_FILE=0
+ IF %SYS_FILE%==0 echo @=%scite_cmd%>>%RegFileName%
+ REM echo "myScite_change"="">>%RegFileName%
+ REM echo "EditFlags"=hex:00,00,00,00 >>%RegFileName% 
  
- ::IF %HKCU_AUTOFILE%==%TRUE%  echo @=%scite_cmd% >> %RegFileName% 
- IF [%filetype%] NEQ [cmd] IF [%filetype%] NEQ [bat] IF [%filetype%] NEQ [reg] IF [%filetype%] NEQ [inf] IF [%filetype%] NEQ [CMD] IF [%filetype%] NEQ [BAT] IF [%filetype%] NEQ [REG] IF [%filetype%] NEQ [INF] (
-  echo @=%scite_cmd% >> %RegFileName%
-  echo "myScite_change"="" >> %RegFileName%
-  echo "EditFlags"=hex:00,00,00,00 >> %RegFileName%
- )
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\edit] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\edit\command] >> %RegFileName%
  echo @=%scite_cmd% >> %RegFileName%
@@ -399,13 +397,13 @@ echo -----------------  Help   -------------------------------
 echo.                
 echo   - able to register new filetypes inclusive its Icon.
 echo   - able to associate already registered filetypes with SciTE
-echo   - Creates a human readable registry import file.
+echo   - Creates a registry import file which has to be imported manually-
 echo.
-echo  * Syntax: .Scite_register_fileExt [.FileExt] [optional MimeTyp]
+echo  * Syntax: Scite.createExt [.FileExt] [optional MimeTyp]
 echo.
 echo            *  Example  *
-echo   .Scite_register_Ext .me
-echo   .Scite_register_Ext .myfancy text/plain
+echo   scite.createExt .me
+echo   scite.createExt .myfancy text/plain
 echo.
 echo.
 echo  *  Would create a regfile, that associates Scite  

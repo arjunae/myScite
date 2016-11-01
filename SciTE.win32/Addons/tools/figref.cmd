@@ -8,7 +8,7 @@ set toolExt=.cmd
 set toolParam=-f %toolPath%\small.flf %*
 
 ::~dp0 = Full Path to current Directory with trailing slash
-set toolPath=%cd%\%toolName%
+set toolPath=%~dp0%toolName%
 
 :: temporarly append toolsDir to local Path 
 set path=%path%;%toolPath%;

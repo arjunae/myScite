@@ -1,27 +1,8 @@
 # SciTE session file
 
-position.left=144
-position.top=39
-position.width=800
-position.height=574
+position.left=149
+position.top=113
+position.width=1090
+position.height=454
 position.maximize=0
 
-mru.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\SciTEUser.properties
-mru.2.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\web.python.properties
-mru.3.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_python.py
-mru.4.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\web.php.properties
-mru.5.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_php.php
-mru.6.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\registry.properties
-mru.7.path=C:\Users\Tho\Desktop\NotepadUTF8.reg
-mru.8.path=E:\projects\_myScite\.myScite.github\SciTE.win32\theme\theme.blackblue.properties
-mru.9.path=E:\projects\_myScite\.myScite.github\SciTE.win32\theme\theme.global.defaults.properties
-mru.10.path=C:\Users\Tho\Desktop\API Monitor (rohitab.com)\Filters.xml
-
-search.1.findwhat=.hypertext
-
-search.1.replacewith=.php
-
-buffer.1.path=C:\Users\Tho\Desktop\API Monitor (rohitab.com)\Filters.xml
-buffer.1.position=22
-buffer.1.scroll=0
-buffer.1.current=1

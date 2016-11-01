@@ -28,3 +28,4 @@
 # -- System Files --
 
 .bat ; text/plain
+.reg ;  text/plain
