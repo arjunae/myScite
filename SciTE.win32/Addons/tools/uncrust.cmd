@@ -6,7 +6,7 @@ set toolName=uncrustify
 set toolExt=.exe
 set toolParam=-c %cd%\%toolName%\linux.cfg --no-backup %*
 
-::~dp0 = Full Path to current Directory with trailing slash
+::~dp0 = Full Path to this Batchs Directory, with trailing slash
 set toolPath=%~dp0%toolName%
 
 :: temporarly append toolsDir to local Path 

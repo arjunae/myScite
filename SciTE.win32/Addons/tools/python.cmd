@@ -6,7 +6,7 @@ set toolName=python
 set toolExt=.exe
 set toolParam=%*
 
-::~dp0 = Full Path to current Directory with trailing slash
+::~dp0 = Full Path to this Batchs Directory, with trailing slash
 set toolPath=%cd%\%toolName%
 
 :: temporarly append toolsDir to local Path 
