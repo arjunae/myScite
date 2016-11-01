@@ -2,7 +2,7 @@
 :: -- Scite.force_ExtList.cmd 
 ::
 ::  -- parses entries in FileExt.List
-::  -- registers Scite with the filetypes in it, by calling
+::  -- Creates a human readable filetypes.reg file by calling
 ::  -- .scite.forceExt.cmd %1 %2
 ::
 :: Created Nov 2015, Marcedo@HabmalneFrage.de

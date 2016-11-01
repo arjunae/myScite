@@ -1,7 +1,7 @@
 @echo off
 ::--::--::--::--Steampunk--::-::--::--::
 ::
-::   - Creates a registry import file.
+::   - Creates a human readable registry import file.
 ::   - able to register new filetypes inclusive its mimetype and  icon 
 ::   - able to associate already registered filetypes with SciTE
 ::  
@@ -399,7 +399,7 @@ echo -----------------  Help   -------------------------------
 echo.                
 echo   - able to register new filetypes inclusive its Icon.
 echo   - able to associate already registered filetypes with SciTE
-echo   - Creates a registry import file.
+echo   - Creates a human readable registry import file.
 echo.
 echo  * Syntax: .Scite_register_fileExt [.FileExt] [optional MimeTyp]
 echo.
