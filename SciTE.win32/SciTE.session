@@ -1,0 +1,24 @@
+# SciTE session file
+
+position.left=276
+position.top=0
+position.width=800
+position.height=574
+position.maximize=0
+
+mru.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_batch.cmd
+mru.2.path=E:\projects\_myScite\.myScite.github\SciTE.win32\SciTEUser.properties
+mru.3.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_html.html
+
+buffer.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_batch.cmd
+buffer.1.position=1
+buffer.1.scroll=0
+
+buffer.2.path=E:\projects\_myScite\.myScite.github\SciTE.win32\SciTEUser.properties
+buffer.2.position=6911
+buffer.2.scroll=156
+
+buffer.3.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_html.html
+buffer.3.position=2
+buffer.3.scroll=0
+buffer.3.current=1
