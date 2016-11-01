@@ -1,0 +1,17 @@
+LIBRARY hunspell.dll
+EXPORTS
+luaopen_hunspell
+Hunspell_add
+Hunspell_add_with_affix
+Hunspell_analyze
+Hunspell_create
+Hunspell_create_key
+Hunspell_destroy
+Hunspell_free_list
+Hunspell_generate
+Hunspell_get_dic_encoding
+Hunspell_remove
+Hunspell_spell
+Hunspell_stem
+Hunspell_suggest
+

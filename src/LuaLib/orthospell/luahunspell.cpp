@@ -115,13 +115,26 @@ static const struct luaL_reg luafns[] =
 
 // We (have to) use a .def file to prevent an underscore from
 //  being prepended to the exported function name
+
 extern "C"
 {
   DLLEXPORT int luaopen_hunspell(lua_State *L);
 }
-
 int luaopen_hunspell(lua_State *L)
 {
   luaL_register(L, "hunspell", luafns);
-  return 1;
+  return 0;
 }
+
+//-------------------
+extern "C"
+{
+  DLLEXPORT int luaLM_import(lua_State* L);
+}
+
+int luaLM_import(lua_State *L)
+{
+  luaL_register(L, "hunspell", luafns);
+  return 0;
+}
+
