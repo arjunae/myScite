@@ -20,10 +20,11 @@ dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\common.lua')
 
 --dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\spellcheck.lua')
 --local fn,err =  package.loadlib("lfs.dll", "luaopen_lfs")
-local fn,err =  package.loadlib("hs.dll", "luaopen_hunspell")
-if not fn then print(err)
-else
-  fn()
-end
+--local fn,err =  package.loadlib("hunspell.dll", "lua_version")
+--if not fn then print(err)
+--else
+--  fn()
+--end
 
 
+require ("msleep")

@@ -3,15 +3,16 @@ HUNSPELL_INC= -I./hunspell/1.3/Include
 
 LIBA=.\ libscite.a
 LIBB=.\ libhunspell-1.3.dll.a
-LIBC=.\ liblua5.1.a
+# LIBC=.\ liblua5.1.a
 
 T = luahunspell
 LIBNAME	= $(T).dll
 
 CXX =g++
-CFLAGS = -O2  $(LUA_INC) $(HUNSPELL_INC) libhunspell.def
-LDFLAGS= -static -shared -Wl,--enable-auto-image-base -Wl, -L$(LIBA) -L$(LIBB) -L$(LIBC)
+CFLAGS = -Wall -shared -lstdc++ $(LUA_INC) $(HUNSPELL_INC) 
+LDFLAGS= -static -shared -Wl,--enable-auto-image-base -Wl, -L$(LIBA) -L$(LIBB) 
+#-L$(LIBC)
 
-lxp_lib: $(LIBNAME)
+hunspell_lib: $(LIBNAME)
 $(LIBNAME):
 	$(CXX) $(CFLAGS)  -o $@  $(T).* $(LDFLAGS)
