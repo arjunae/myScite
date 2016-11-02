@@ -1,11 +1,11 @@
 ~- mySciTE.webdev -~
 
 [31.Oktober.2016](https://github.com/arjunae/myScite/releases) DEVIEL-1.24-Happy Halloween !
--arjunae cleanup js/jq keywords add Dom Exceptions / add lua.scite.api	
--arjunae Additional HTML5 Keywords (final W3C 28.Okt.14) 
--arjunae Move all Language related files to user/languages
--arjunae Fix Installer - register scite in [open With -programName-] List
--arjunae fix errlist output-pane / makefile styles / hexedit styles 
+- arjunae cleanup js/jq keywords add Dom Exceptions / add lua.scite.api	
+- arjunae Additional HTML5 Keywords (final W3C 28.Okt.14) 
+- arjunae Move all Language related files to user/languages
+- arjunae Fix Installer - register scite in [open With -programName-] List
+- arjunae fix errlist output-pane / makefile styles / hexedit styles 
 	
 [21.10.2016](https://github.com/arjunae/myScite/releases) STABLE-1.21
 - sync with scintilla-scite 3.67
