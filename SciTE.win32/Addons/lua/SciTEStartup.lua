@@ -18,6 +18,8 @@ dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\common.lua')
 
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\spellcheck.lua')
+
 --local fn,err =  package.loadlib("lfs.dll", "luaopen_lfs")
 --local fn,err =  package.loadlib("hunspell.dll", "luaopen_hunspell")
 --if not fn then print(err)

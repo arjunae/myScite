@@ -3,8 +3,11 @@ HUNSPELL_INC= -I./hunspell/1.3/Include
 
 #LIBA=.\ libscite.a
 LIBA=.\lua\ -llua5.1
-LIBB=.\hunspell\ -lparsers.dll
-LIBC=.\hunspell\ -lhunspell.dll
+#LIBB=.\hunspell\ -lparsers.dll
+#LIBC=.\hunspell\ -lhunspell.dll
+
+LIBB=.\ -lparser
+LIBC=.\ -lhunspell
 
 T = luahunspell
 LIBNAME	= $(T).dll

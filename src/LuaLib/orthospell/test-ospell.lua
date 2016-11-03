@@ -9,5 +9,15 @@ print("# --Lua: hunspell.dll loaded")
 assert(type(hunspell) == "table", 'hunspell is not a table')
 
 print("# --Lua: now calling hunspell.init")
-s = hunspell.init('.\en_GB.aff', '.\en_GB.dic')
-assert(s, 'dict not loaded')
+hunspell.init('en_GB.aff', 'en_GB.dic')
+
+
+print("# --Lua: now calling hunspell.suggest(\'FireFly\'))");
+
+local sug = hunspell.suggest("\'FireFly\'");
+    if #sug > 0 then
+		print("hunspell.suggest:"..table.concat(sug, " "))   
+    end
+
+print("# --Lua: Closing Hunspell");
+hunspell.close();

@@ -60,11 +60,10 @@ static int l_init(lua_State *L)
   if(pMS) delete pMS;
   printf("- l_init: check lua_tostring: ");
   printf( lua_tostring(L, 2));
-  printf("\n- l_init: now creating Hunspell object  ");
+  printf("\n- l_init: check creating new Hunspell object:  ");
   pMS = new Hunspell(lua_tostring(L, 1), lua_tostring(L, 2));
-//  pMS = new Hunspell(".", "en_US");
 
-  printf( "-_init: return 0\n");
+  printf( "-L_init: return\n");
   return 0;  // number of results
 }
 
@@ -99,10 +98,8 @@ static int l_spell(lua_State *L)
 // takes word, returns table of suggestions
 static int l_suggest(lua_State *L)
 {
-  printf("called init\n");
-    lua_pushnil(L);
- printf("called pushnil\n");
-
+  printf("called I_suggest\n");
+  
   if(!pMS) {
     lua_pushnil(L);
     return 1;
@@ -121,14 +118,14 @@ static int l_suggest(lua_State *L)
   pMS->free_list(&wlst, ns);
   return 1;  // number of results
 }
-
+ 
 static const struct luaL_reg luafns[] =
 {
   {"init", l_init},
-//  {"add_dic", l_add_dic},
-//  {"close", l_close},
-//  {"spell", l_spell},
-//  {"suggest", l_suggest},
+  {"add_dic", l_add_dic},
+  {"close", l_close},
+  {"spell", l_spell},
+  {"suggest", l_suggest},
   {NULL, NULL}
 };
 

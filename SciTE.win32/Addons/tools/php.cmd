@@ -24,6 +24,7 @@ where /Q %toolName%%toolExt%
 
 IF %ERRORLEVEL% == 0 (
 echo ~ WRapper: %toolPath%\%toolName%%toolExt% %toolParam%
+where %toolName%%toolExt% 
 %toolName%%toolExt% %toolParam%
 ) else ( 
 echo ... please install %toolName% or copy a custom pack to %toolPath% .
