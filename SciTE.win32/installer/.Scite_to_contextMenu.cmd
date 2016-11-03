@@ -10,9 +10,8 @@ REM
 REM :: Created Jul 2016, Marcedo@HabmalneFrage.de
 REM :: URL: https://sourceforge.net/projects/scite-webdev/?source=directory
 REM
-REM
-REM Search for %cmd% in actual and up to 2 parent Directories
-REM Use full qualified path. 
+REM - Aug16 - Search for %cmd% in actual and up to 2 parent Directories / Use full qualified path. 
+REM - Okto16 - create / reset Program Entry RegistryKey  
 REM
 REM ::--::--::--::--Steampunk--::-::--::--::
 

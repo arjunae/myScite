@@ -1,7 +1,6 @@
 <?php
       $STDERR = fopen('php://stderr', 'w+');
  #     fwrite($STDERR, "\n.......\nsome stderr info\n");
- 
      $STDOUT = fopen('php://stdout','w');
      fwrite($STDOUT, "..........\nsome stdout info\n");    
       
@@ -151,8 +150,7 @@
       { 
           global  $Colors; 
           return  $Colors[$Colorname]; 
-      }
-       
+      }      
       $scolor ="yellowgreen";
       $icolor= GetColor($scolor);
       fwrite($STDERR,  $scolor . " -->" . $icolor["red"] . "," . $icolor["green"] . "," . $icolor["blue"] ."\n");  
