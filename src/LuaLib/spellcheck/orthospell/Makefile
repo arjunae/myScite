@@ -1,19 +1,20 @@
-LUA_INC= -I./lua/5.1/include
-HUNSPELL_INC= -I./hunspell/1.3/Include
+LUA_INC= -I../lua/5.1/include
+#HUNSPELL_INC= -I../hunspell/1.3/Include
+HUNSPELL_INC= -I../hunspell/1.4.1/src/win_api
 
 #LIBA=.\ libscite.a
-LIBA=.\lua\ -llua5.1
+LIBA=..\lua\ -llua5.1
 #LIBB=.\hunspell\ -lparsers.dll
 #LIBC=.\hunspell\ -lhunspell.dll
 
-LIBB=.\ -lparser
-LIBC=.\ -lhunspell
+LIBB=..\hunspell -lparser
+LIBC=..\hunspell -lhunspell
 
-T = luahunspell
+T = lorthospell
 LIBNAME	= $(T).dll
 
 CXX =g++
-CFLAGS = --std=gnu++11 $(LUA_INC) $(HUNSPELL_INC) 
+CFLAGS = --std=gnu++11 $(LUA_INC) $(HUNSPELL_INC) libhunspell.def
 LDFLAGS= -shared  -Wl, -L$(LIBA) -L$(LIBB) -L$(LIBC)
 #-Wl,--enable-auto-image-base
 
