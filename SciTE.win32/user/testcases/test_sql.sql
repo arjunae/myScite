@@ -14,5 +14,5 @@ from
 
 alter table create trigger as
 begin
-
+ -- line comment
 end
