@@ -21,7 +21,7 @@ require("hunspell");  -- assuming hunspell.dll in SciTE folder
 local dictpath = scite_GetProp("spell.dictpath", default_dictpath);
 local dictname = scite_GetProp("spell.dictname", "en_US");
 hunspell.init(dictpath..dictname..".aff", dictpath..dictname..".dic");
-
+print("using dict: "..dictpath.."\\"..dictname)
 -- set locale
 --os.setlocale("Russian");
 --print(os.setlocale());  -- print new locale
@@ -150,17 +150,23 @@ function Spell_suggest()
 
   -- normally, autocomplete list will be hidden if word is not prefix
   --  of (any? all?) item on list.
-  editor.AutoCAutoHide = false;
+  editor.AutoCAutoHide = true;
   local pos = editor.CurrentPos;
   local startPos = editor:IndicatorStart(spell_indic, pos-1);  --editor:WordStartPosition(pos, true);
   local endPos = editor:IndicatorEnd(spell_indic, pos-1);  --editor:WordEndPosition(pos, true);
   local word = editor:textrange(startPos, endPos);
-  --print("Checking word "..word);
+  print("Checking word "..word);
+  
   if editor:IndicatorValueAt(spell_indic, pos-1) ~= 0 and not hunspell.spell(word) then
     -- selection determines what will be replaced by suggestion
     editor:SetSel(startPos, endPos);
     local sug = hunspell.suggest(word);
+    print ("suggestions found:"..#sug)
+    
     if #sug > 0 then
+      print ("suggestions found:"..#sug)
+      print ("hunspell.suggest:"..table.concat(sug, " "))
+      
       editor:AutoCShow(string.len(word), table.concat(sug, " "));
     end
   end
@@ -181,4 +187,4 @@ function close_hunspell()
   --print("Closing Hunspell");
   hunspell.close();
 end
---scite_Command("Close Hunspell|close_hunspell|");
+scite_Command("Close Hunspell|close_hunspell|");

@@ -56,8 +56,14 @@ Hunspell* pMS = NULL;
 // hunspell.init(<affix file path>, <dict file path>)
 static int l_init(lua_State *L)
 {
+  printf("- l_init: called\n");
   if(pMS) delete pMS;
+  printf("- l_init: check lua_tostring: ");
+  printf( lua_tostring(L, 2));
+  printf("\n- l_init: check creating new Hunspell object:  ");
   pMS = new Hunspell(lua_tostring(L, 1), lua_tostring(L, 2));
+
+  printf( "-L_init: return\n");
   return 0;  // number of results
 }
 
@@ -92,6 +98,8 @@ static int l_spell(lua_State *L)
 // takes word, returns table of suggestions
 static int l_suggest(lua_State *L)
 {
+  printf("called I_suggest\n");
+  
   if(!pMS) {
     lua_pushnil(L);
     return 1;
@@ -127,22 +135,19 @@ static const struct luaL_reg luafns[] =
 extern "C" DLLEXPORT int luaopen_hunspell(lua_State *L)
 {
   luaL_openlib(L, "hunspell", luafns,0);
+  printf("- luaopen_hunspell: called luaL_openlib\n");
   return 0;
 }
 
+/* Lua version. */
 
-/*
-
-// Lua version. 
 extern "C" DLLEXPORT const char* lua_version(void)
 {
   printf("- lua_version: 1.5\n");
 	return "1.5";
 }
 
-
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
   printf("- DllMain: load/unload hunspell\n");
   return TRUE;
 }
-*/
