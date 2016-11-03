@@ -145,7 +145,6 @@
       "yellowgreen"=>array( "red"=>0x9A,  "green"=>0xCD,  "blue"=>0x32)); 
    
   //  GetColor  returns  an  associative  array  with  the  rgb  values  of  the  desired  color 
-
   function GetColor($Colorname) 
       { 
           global  $Colors; 
@@ -161,7 +160,7 @@
               $UniqID=md5(uniqid(rand())); 
               $password=substr(md5(uniqid(rand())),0,$length); 
               return $password; 
-      } 
+      }  
     $spw= gen_password(8);
     fwrite ($STDOUT, "md5_pw   ---> " .$spw ."\n..........\n") ;
 ?>

@@ -36,8 +36,8 @@
 // windows version statically links it:
 
 #ifdef _WIN32
-//#define LUA_BUILD_AS_DLL
-//#define LUA_API __declspec(dllimport)
+#define LUA_BUILD_AS_DLL
+#define LUA_API __declspec(dllimport)
 #define DLLEXPORT __declspec(dllexport)
 #else
 #define DLLEXPORT 
