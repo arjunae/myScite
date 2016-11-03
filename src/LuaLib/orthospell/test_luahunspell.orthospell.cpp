@@ -25,6 +25,10 @@ Hunspell* pMS = NULL;
 
 static int l_init(lua_State *L)
 {  
+  
+  if(pMS) delete pMS;
+  pMS = new Hunspell("","");
+
   //printf("%s",lua_tostring(L, 1));
  printf("called linit");  
  return 0;  // number of results
@@ -38,10 +42,8 @@ static const struct luaL_reg luafns[] =
 
 extern "C" DLLEXPORT int luaopen_hunspell(lua_State *L)
 {
-  //if(pMS) delete pMS;
-  //pMS = new Hunspell("","");
-
-  //luaL_register(L, "hunspell", luafns); // failes calling lua function ?!
+  
+  luaL_register(L, "hunspell", luafns); // failes calling lua function ?!
   printf("- called luaopen_hunspell\n");
   return 0;
 }

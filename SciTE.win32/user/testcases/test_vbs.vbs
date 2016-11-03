@@ -2,7 +2,7 @@
 ' Demonstrate vbScript with Events utilizing either cscript /D or /X switch...
 '  ... Press F7 to Test...
 
-Dim oIE, bExit,bConsole
+Dim oIE, bonQuit,bConsole
 If instr(1,wscript.fullName,"cscript") then bConsole=true
 WScript.Quit(main)
 
@@ -18,8 +18,9 @@ function main
   do
     wscript.sleep(2000) :
     if bconsole=true then wscript.StdOut.Write("-=-")
-  loop until bExit=true
- 
+  loop until bonQuit=true
+
+' IE_Onquit recieved
  wscript.sleep(2 * 1000)
  wscript.echo("stdOut - Okay. IE Closed ")
  wscript.sleep(2 * 1000)
@@ -30,7 +31,7 @@ end function
 ' ------ Event sink -----
 Sub IE_onQuit()
    wscript.echo("stdOut -> IE_onQuit Recieved")
-   bExit=true
+   bonQuit=true
 End Sub
 
 ' Derived from original Sample

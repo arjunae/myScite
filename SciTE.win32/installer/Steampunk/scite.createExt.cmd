@@ -5,7 +5,7 @@
 ::   scite.createExt  .myExt (read: with dot and no quotes)
 ::   scite.createExt  .myExt  mimetype
 ::
-::   - Creates a registry import file which has to be imported manually-
+::   - Creates a human readable registry import file, which can be imported manually-
 ::   - able to register new filetypes inclusive its mimetype and  icon 
 ::   - able to associate already registered filetypes with SciTE
 ::
@@ -397,7 +397,8 @@ echo -----------------  Help   -------------------------------
 echo.                
 echo   - able to register new filetypes inclusive its Icon.
 echo   - able to associate already registered filetypes with SciTE
-echo   - Creates a registry import file which has to be imported manually-
+echo   - Creates a human readable registry import file
+echo   - which can be be imported manually -
 echo.
 echo  * Syntax: Scite.createExt [.FileExt] [optional MimeTyp]
 echo.

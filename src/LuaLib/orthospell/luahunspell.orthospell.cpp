@@ -56,8 +56,15 @@ Hunspell* pMS = NULL;
 // hunspell.init(<affix file path>, <dict file path>)
 static int l_init(lua_State *L)
 {
+  printf("- l_init: called\n");
   if(pMS) delete pMS;
+  printf("- l_init: check lua_tostring: ");
+  printf( lua_tostring(L, 2));
+  printf("\n- l_init: now creating Hunspell object  ");
   pMS = new Hunspell(lua_tostring(L, 1), lua_tostring(L, 2));
+//  pMS = new Hunspell(".", "en_US");
+
+  printf( "-_init: return 0\n");
   return 0;  // number of results
 }
 
@@ -92,6 +99,10 @@ static int l_spell(lua_State *L)
 // takes word, returns table of suggestions
 static int l_suggest(lua_State *L)
 {
+  printf("called init\n");
+    lua_pushnil(L);
+ printf("called pushnil\n");
+
   if(!pMS) {
     lua_pushnil(L);
     return 1;
@@ -114,20 +125,20 @@ static int l_suggest(lua_State *L)
 static const struct luaL_reg luafns[] =
 {
   {"init", l_init},
-  {"add_dic", l_add_dic},
-  {"close", l_close},
-  {"spell", l_spell},
-  {"suggest", l_suggest},
+//  {"add_dic", l_add_dic},
+//  {"close", l_close},
+//  {"spell", l_spell},
+//  {"suggest", l_suggest},
   {NULL, NULL}
 };
 
 // We (have to) use a .def file to prevent an underscore from
 //  being prepended to the exported function name
 
-
 extern "C" DLLEXPORT int luaopen_hunspell(lua_State *L)
 {
   luaL_openlib(L, "hunspell", luafns,0);
+  printf("- luaopen_hunspell: called luaL_openlib\n");
   return 0;
 }
 
@@ -135,11 +146,11 @@ extern "C" DLLEXPORT int luaopen_hunspell(lua_State *L)
 
 extern "C" DLLEXPORT const char* lua_version(void)
 {
-  printf("called test");
-	return "1.5.2";
+  printf("- lua_version: 1.5\n");
+	return "1.5";
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
-  printf("load/unload my DLL\n");
+  printf("- DllMain: load/unload hunspell\n");
   return TRUE;
 }

@@ -14,8 +14,7 @@ set path=%path%;%toolPath%;
 
 :: first try if a user had installed a local package
 if exist %toolPath%\%toolName%%toolExt% (
-echo ~ WRapper - Start
-echo %toolPath%\%toolName% %toolParam%
+echo ~ WRapper: %toolName%%toolExt% %toolParam%
 %toolPath%\%toolName%%toolExt% %toolParam%
 goto freude
 ) 
@@ -24,7 +23,7 @@ goto freude
 where /Q %toolName%%toolExt%
 
 IF %ERRORLEVEL% == 0 (
-echo ~ WRapper - Start
+echo ~ WRapper: %toolPath%\%toolName%%toolExt% %toolParam%
 where %toolName%%toolExt%
 %toolName%%toolExt% %toolParam%
 ) else ( 
