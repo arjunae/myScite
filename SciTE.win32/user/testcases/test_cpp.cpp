@@ -1,4 +1,4 @@
-// go@ cmd /c g++  -Og  -g *.cpp -o $(FileName).exe &&  $(FileName).exe
+// go@ cmd /c g++ -g -O0  *.cpp -o $(FileName).exe &&  $(FileName).exe
 
 /*
  *   ---== cpp lexer sample ==---
@@ -7,6 +7,7 @@
  *       -> change "test.cpp" to "test.cpp.exe" and you are set.
  */
 
+#include <stdio.h>
 #include <iostream>
 #include <string>
 #include <unistd.h>

@@ -1,4 +1,4 @@
-// build@ g++ -Wall -shared -o lhunspell.dll -I../lua/5.1/include -I../hunspell/1.4.1/src/win_api -L../lua -llua5.1  -L../hunspell -lhunspell   -L../hunspell -lparser  lorthospell.cpp
+// build@ cmd /c g++ -Wall -shared -o lhunspell.dll -I../lua/5.1/include -I../hunspell/1.4.1/src/win_api -Wl, -L..\hunspell\liblparser.a -L..\hunspell\libhunspell.a  -L..\lua -llua5.1 lorthospell.cpp 
 
 // Lua Interface for Hunspell - Matt White (pbsurf at gmail.com)
 // 11 March 2010 - initial version

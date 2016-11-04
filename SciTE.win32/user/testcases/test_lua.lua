@@ -13,7 +13,7 @@ function one(y)
    print(str_b)
 end
 
-one('dolly')
+one("dolly")
 -- .....
 two('dolly')
 two('went')

@@ -10,7 +10,7 @@ LIBNAME	= $(T).dll
 
 CXX =g++
 CFLAGS = -g -O2 --std=gnu++11 $(LUA_INC)  libhunspell.def
-LDFLAGS= -static -shared  -Wl,-L$(LIBB) -L$(LIBC)  -L$(LIBA) 
+LDFLAGS= -static -shared  -Wl,-L$(LIBB) -L$(LIBC)  -L$(LIBA)  -Wl,-e,_DllMain@12 -Wl,--dll -nostartfiles
 #-Wl,--enable-auto-image-base
 
 hunspell_lib: $(LIBNAME)

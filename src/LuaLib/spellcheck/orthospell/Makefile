@@ -10,5 +10,6 @@ LIBNAME	= $(T).dll
 hunspell_lib: $(LIBNAME)
 $(LIBNAME):
 	g++ $(CFLAGS)  -o $@  $(T).* $(LDFLAGS)
-all:
-	g++ -Wall -shared -o lhunspell.dll -I../lua/5.1/include -I../hunspell/1.4.1/src/win_api -L.\ -llua5.1 -L..\hunspell -lhunspell  -L..\hunspell -lparser  lorthospell.cpp
+
+#all:
+#g++ -Wall -shared -o lhunspell.dll -I../lua/5.1/include -I../hunspell/1.4.1/src/win_api  -L..\hunspell -lhunspell -L..\hunspell -lparser  -L..\lua -llua5.1 lorthospell.cpp
