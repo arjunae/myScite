@@ -8,8 +8,23 @@
 - @arjunae Add errlist output-pane - makefile - hexedit & debug styles .
 -  themeblackBlue: add 3 tones Styling
 - @arjunae Calltips: Allow to distinguish btw properties and functions.
-	
-[21.10.2016](https://github.com/arjunae/myScite/releases) STABLE-1.21
+
+[29.10.2016] STABLE-1.23
+- api:  fix: styling html/vbs/ruby/perl | New: java1.8 & freebasic Keywords 
+- themes: sync theme grey and theme blackblue
+- compatibility: fix: styles aliases for other scite forks
+- steampunk: fix: filetype register batchfiles
+- addons: fix: hexEdit / change some testcases
+ 8) MINI-Little-and-Sweet Package. Full Package see (github/arjunae)
+
+[25.10.2016] STABLE-1.22
+- editor: default to unicode / scaling for window and margins
+- apis:   add BrowserWebApi / improve php and vbs api / fix linebreaks
+- props: clike: add AS3 Keywords / updates to js1.6
+- tools: simplified samples / fixed figref / add lua mod-mitchel
+- themes: better styles & monospace font / Zooming (Alt+Pgup/PgDown)
+
+[21.10.2016] STABLE-1.21
 - sync with scintilla-scite 3.67
 - Fixes for styling cpp macros, html tags and wsh objects
 - Finalize theme.grey
