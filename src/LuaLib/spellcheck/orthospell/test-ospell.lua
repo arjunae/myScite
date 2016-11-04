@@ -9,7 +9,7 @@ print("# --Lua: hunspell.dll loaded")
 assert(type(hunspell) == "table", 'hunspell is not a table')
 
 print("# --Lua: now calling hunspell.init")
-hunspell.init('..\\default.aff', '..\\default.dic')
+hunspell.init('..\\dic\\default.aff', '..\\dic\\default.dic')
 
 
 print("# --Lua: now calling hunspell.suggest(\'FireFly\'))");

@@ -3,7 +3,7 @@ local spell = require 'spell'
 assert(spell, 'spell not loaded')
 assert(type(spell) == "function", 'spell is not a function')
 
-s = spell('..//default.aff', '..//default.dic')
+s = spell('.\\default.aff', '.\\default.dic')
 assert(s, 'dict not loaded')
 
 local okword = 'friendliness'

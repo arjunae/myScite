@@ -1,3 +1,5 @@
+// build@ g++ -Wall -shared -o lhunspell.dll -I../lua/5.1/include -I../hunspell/1.4.1/src/win_api -L../lua -llua5.1  -L../hunspell -lhunspell   -L../hunspell -lparser  lorthospell.cpp
+
 // Lua Interface for Hunspell - Matt White (pbsurf at gmail.com)
 // 11 March 2010 - initial version
 // 19 June 2012 - linux version
@@ -36,8 +38,8 @@
 // windows version statically links it:
 
 #ifdef _WIN32
-#define LUA_BUILD_AS_DLL
-#define LUA_API __declspec(dllimport)
+//#define LUA_BUILD_AS_DLL
+//#define LUA_API __declspec(dllimport)
 #define DLLEXPORT __declspec(dllexport)
 #else
 #define DLLEXPORT 

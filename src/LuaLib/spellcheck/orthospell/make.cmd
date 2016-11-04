@@ -1,6 +1,6 @@
 @ECHO OFF
 SET PATH=%PATH%;%~dp0%;
-cmd /c mingw32-make
+mingw32-make
 if errorlevel 1 goto eof
  move /y lorthospell.dll hunspell.dll  2>NUL
 del *.o 2>NUL
