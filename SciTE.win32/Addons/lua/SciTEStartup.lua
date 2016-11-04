@@ -14,7 +14,12 @@ dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-extman\\extman.lua')
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 
+-- Test Hunspell 
+--package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
+--dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-hunspell\\test-spell.lua')
+
 -- Load Sidebar (which uses "eventmanager.lua")
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\common.lua')
 
+--local fn,err =  package.loadlib("lfs.dll", "luaopen_lfs")

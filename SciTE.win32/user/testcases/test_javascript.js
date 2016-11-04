@@ -1,4 +1,4 @@
-/*
+/* build@ cscript.exe //E:jscript /NOLOGO //D $(FilePath) '
 	*  .... Doc Comments seem to be okay.
 */
 

@@ -1,7 +1,6 @@
 <?php
       $STDERR = fopen('php://stderr', 'w+');
  #     fwrite($STDERR, "\n.......\nsome stderr info\n");
- 
      $STDOUT = fopen('php://stdout','w');
      fwrite($STDOUT, "..........\nsome stdout info\n");    
       
@@ -146,13 +145,11 @@
       "yellowgreen"=>array( "red"=>0x9A,  "green"=>0xCD,  "blue"=>0x32)); 
    
   //  GetColor  returns  an  associative  array  with  the  rgb  values  of  the  desired  color 
-
   function GetColor($Colorname) 
       { 
           global  $Colors; 
           return  $Colors[$Colorname]; 
-      }
-       
+      }      
       $scolor ="yellowgreen";
       $icolor= GetColor($scolor);
       fwrite($STDERR,  $scolor . " -->" . $icolor["red"] . "," . $icolor["green"] . "," . $icolor["blue"] ."\n");  
@@ -163,7 +160,7 @@
               $UniqID=md5(uniqid(rand())); 
               $password=substr(md5(uniqid(rand())),0,$length); 
               return $password; 
-      } 
+      }  
     $spw= gen_password(8);
     fwrite ($STDOUT, "md5_pw   ---> " .$spw ."\n..........\n") ;
 ?>

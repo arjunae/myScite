@@ -423,6 +423,7 @@ NameError: mistake
         <li>Intel HEX*</li>
         <li>Java*</li>
         <li>JavaScript*</li>
+        <li>JSON and JSON-LD</li>
         <li>KiXtart</li>
         <li>LISP*</li>
         <li>LOT*</li>
@@ -532,131 +533,140 @@ NameError: mistake
        The user.shortcuts setting may be used to assign a key to a function.
        Note that Home key behaviour is changed by the vc.home.key option.
        Keyboard equivalents of menu commands are listed in the menus.
+       OS X keys differ from the other platforms with the command key &#8984;
+       often used where the Ctrl key is used on Windows and GTK+.
        Some less common commands with no menu equivalent are:
     </p>
 <table cellpadding="0" cellspacing="0" border="1" summary="Keyboard commands">
+      <thead>
+        <tr><th>Command</th><th>Key</td><th align="left">OS X Key<br />
+        &#8679; shift<br/>
+        &#8963; control<br />
+        &#8997; option<br />
+        &#8984; command</th></tr>
+      </thead>
       <tr>
-        <td>Magnify text size.</td><td>Ctrl+Keypad+</td>
+        <td>Magnify text size.</td><td>Ctrl+Keypad+</td><td>Trackpad expand gesture</td>
       </tr>
       <tr>
-        <td>Reduce text size.</td><td>Ctrl+Keypad-</td>
+        <td>Reduce text size.</td><td>Ctrl+Keypad-</td><td>Trackpad reduce gesture</td>
       </tr>
       <tr>
-        <td>Restore text size to normal.</td><td>Ctrl+Keypad/</td>
+        <td>Restore text size to normal.</td><td>Ctrl+Keypad/</td><td></td>
       </tr>
       <tr>
-        <td>Cycle through recent files.</td><td>Ctrl+Tab</td>
+        <td>Cycle through recent files.</td><td>Ctrl+Tab</td><td>F6</td>
       </tr>
       <tr>
-        <td>Indent block.</td><td>Tab</td>
+        <td>Indent block.</td><td>Tab</td><td>tab</td>
       </tr>
       <tr>
-        <td>Dedent block.</td><td>Shift+Tab</td>
+        <td>Dedent block.</td><td>Shift+Tab</td><td>&#8679;tab</td>
       </tr>
       <tr>
-        <td>Delete to start of word.</td><td>Ctrl+BackSpace</td>
+        <td>Delete to start of word.</td><td>Ctrl+BackSpace</td><td>&#8984;delete</td>
       </tr>
       <tr>
-        <td>Delete to end of word.</td><td>Ctrl+Delete</td>
+        <td>Delete to end of word.</td><td>Ctrl+Delete</td><td>fn&#8984;delete</td>
       </tr>
       <tr>
-        <td>Delete to start of line.</td><td>Ctrl+Shift+BackSpace</td>
+        <td>Delete to start of line.</td><td>Ctrl+Shift+BackSpace</td><td>&#8679;&#8984;delete</td>
       </tr>
       <tr>
-        <td>Delete to end of line.</td><td>Ctrl+Shift+Delete</td>
+        <td>Delete to end of line.</td><td>Ctrl+Shift+Delete</td><td>fn&#8679;&#8984;delete</td>
       </tr>
       <tr>
-        <td>Go to start of document.</td><td>Ctrl+Home</td>
+        <td>Go to start of document.</td><td>Ctrl+Home</td><td>&#8984;&uarr;</td>
       </tr>
       <tr>
-        <td>Extend selection to start of document.</td><td>Ctrl+Shift+Home</td>
+        <td>Extend selection to start of document.</td><td>Ctrl+Shift+Home</td><td>&#8679;&#8984;&uarr;</td>
       </tr>
       <tr>
-        <td>Go to start of display line.</td><td>Alt+Home</td>
+        <td>Go to start of display line.</td><td>Alt+Home</td><td>fn&#8997;&larr;</td>
       </tr>
       <tr>
-        <td>Go to end of document.</td><td>Ctrl+End</td>
+        <td>Go to end of document.</td><td>Ctrl+End</td><td>&#8984;&darr;</td>
       </tr>
       <tr>
-        <td>Extend selection to end of document.</td><td>Ctrl+Shift+End</td>
+        <td>Extend selection to end of document.</td><td>Ctrl+Shift+End</td><td>&#8679;&#8984;&darr;</td>
       </tr>
       <tr>
-        <td>Go to end of display line.</td><td>Alt+End</td>
+        <td>Go to end of display line.</td><td>Alt+End</td><td>fn&#8997;&rarr;</td>
       </tr>
       <tr>
-        <td>Expand or contract a fold point.</td><td>Ctrl+Keypad*</td>
+        <td>Expand or contract a fold point.</td><td>Ctrl+Keypad*</td><td></td>
       </tr>
       <tr>
-        <td>Select to next bookmark.</td><td>Alt+F2</td>
+        <td>Select to next bookmark.</td><td>Alt+F2</td><td></td>
       </tr>
       <tr>
-        <td>Select to previous bookmark.</td><td>Alt+Shift+F2</td>
+        <td>Select to previous bookmark.</td><td>Alt+Shift+F2</td><td></td>
       </tr>
       <tr>
-        <td>Find selection.</td><td>Ctrl+F3</td>
+        <td>Find selection.</td><td>Ctrl+F3</td><td></td>
       </tr>
       <tr>
-        <td>Find selection backwards.</td><td>Ctrl+Shift+F3</td>
+        <td>Find selection backwards.</td><td>Ctrl+Shift+F3</td><td></td>
       </tr>
       <tr>
-        <td>Scroll up.</td><td>Ctrl+Up</td>
+        <td>Scroll up.</td><td>Ctrl+Up</td><td></td>
       </tr>
       <tr>
-        <td>Scroll down.</td><td>Ctrl+Down</td>
+        <td>Scroll down.</td><td>Ctrl+Down</td><td></td>
       </tr>
       <tr>
-        <td>Line cut.</td><td>Ctrl+L</td>
+        <td>Line cut.</td><td>Ctrl+L</td><td>&#8984;L</td>
       </tr>
       <tr>
-        <td>Line copy.</td><td>Ctrl+Shift+T</td>
+        <td>Line copy.</td><td>Ctrl+Shift+T</td><td>&#8679;&#8984;T</td>
       </tr>
       <tr>
-        <td>Line delete.</td><td>Ctrl+Shift+L</td>
+        <td>Line delete.</td><td>Ctrl+Shift+L</td><td>&#8679;&#8984;L</td>
       </tr>
       <tr>
-        <td>Line transpose with previous.</td><td>Ctrl+T</td>
+        <td>Line transpose with previous.</td><td>Ctrl+T</td><td>&#8984;T</td>
       </tr>
       <tr>
-        <td>Selection duplicate.</td><td>Ctrl+D</td>
+        <td>Selection duplicate.</td><td>Ctrl+D</td><td>&#8984;D</td>
       </tr>
       <tr>
-        <td>Find matching preprocessor conditional, skipping nested ones.</td><td>Ctrl+K</td>
+        <td>Find matching preprocessor conditional, skipping nested ones.</td><td>Ctrl+K</td><td></td>
       </tr>
       <tr>
-        <td>Select to matching preprocessor conditional.</td><td>Ctrl+Shift+K</td>
+        <td>Select to matching preprocessor conditional.</td><td>Ctrl+Shift+K</td><td></td>
       </tr>
       <tr>
-        <td>Find matching preprocessor conditional backwards, skipping nested ones.</td><td>Ctrl+J</td>
+        <td>Find matching preprocessor conditional backwards, skipping nested ones.</td><td>Ctrl+J</td><td></td>
       </tr>
       <tr>
-        <td>Select to matching preprocessor conditional backwards.</td><td>Ctrl+Shift+J</td>
+        <td>Select to matching preprocessor conditional backwards.</td><td>Ctrl+Shift+J</td><td></td>
       </tr>
       <tr>
-        <td>Previous paragraph. Shift extends selection.</td><td>Ctrl+[</td>
+        <td>Previous paragraph. Shift extends selection.</td><td>Ctrl+[</td><td>&#8984;[</td>
       </tr>
       <tr>
-        <td>Next paragraph. Shift extends selection.</td><td>Ctrl+]</td>
+        <td>Next paragraph. Shift extends selection.</td><td>Ctrl+]</td><td>&#8984;]</td>
       </tr>
       <tr>
-        <td>Previous word. Shift extends selection.</td><td>Ctrl+Left</td>
+        <td>Previous word. Shift extends selection.</td><td>Ctrl+Left</td><td>&#8963;&larr;</td>
       </tr>
       <tr>
-        <td>Next word. Shift extends selection.</td><td>Ctrl+Right</td>
+        <td>Next word. Shift extends selection.</td><td>Ctrl+Right</td><td>&#8963;&rarr;</td>
       </tr>
       <tr>
-        <td>Previous word part. Shift extends selection</td><td>Ctrl+/</td>
+        <td>Previous word part. Shift extends selection</td><td>Ctrl+/</td><td>&#8984;/</td>
       </tr>
       <tr>
-        <td>Next word part. Shift extends selection.</td><td>Ctrl+\</td>
+        <td>Next word part. Shift extends selection.</td><td>Ctrl+\</td><td>&#8984;\</td>
       </tr>
       <tr>
-        <td>Rectangular block selection.</td><td>Alt+Shift+Movement</td>
+        <td>Rectangular block selection.</td><td>Alt+Shift+Movement</td><td>&#8679;&#8997;Movement</td>
       </tr>
       <tr>
-        <td>Extend rectangular selection to start of line.</td><td>Alt+Shift+Home</td>
+        <td>Extend rectangular selection to start of line.</td><td>Alt+Shift+Home</td><td></td>
       </tr>
       <tr>
-        <td>Extend rectangular selection to end of line.</td><td>Alt+Shift+End</td>
+        <td>Extend rectangular selection to end of line.</td><td>Alt+Shift+End</td><td></td>
       </tr>
     </table>
     <p class="windowsonly">
@@ -781,9 +791,18 @@ NameError: mistake
       USERPROFILE is not set.
       For GTK+ the user properties file is found in the user's home directory and the global
       properties in a directory set at build time - normally /usr/share/scite.
-      If the "SciTE_HOME" environment variable is set on either Windows or GTK+ then it is where
-      both the global and user properties files are found.
     </p>
+    <p>
+      There are two environment variables, "SciTE_HOME" and "SciTE_USERHOME", which the user
+      may set to override the standard locations of the global and/or the user properties files
+      (this and the following applies to Windows and GTK):
+    </p>
+    <ul>
+        <li>If SciTE_USERHOME is set then it is where the user properties files are found.</li>
+        <li>If SciTE_HOME is set then it is where the global properties files are found.</li>
+        <li>If <b>only</b> SciTE_HOME is set then it is where both the global and user properties
+            files are found.</li>
+    </ul>
     <p>
        There are commands in the Options menu for opening each of the properties files.
     </p>
@@ -1285,11 +1304,11 @@ NameError: mistake
           buffered.draw
         </td>
         <td>
-          Setting this to 0 rather than the default 1 makes SciTE draw output directly to the
-          screen rather than into a buffer bitmap first and then to the screen. Buffered drawing
-          flickers less but is slower.<br />
-          This setting is now only effective on Windows with GDI drawing.
-          OS X and GTK+ are always buffered as is Windows with Direct2D drawing.
+          Setting this to 1 rather than the default 0 may make SciTE
+          draw output into a buffer bitmap first and then to the screen instead of directly to the
+          screen. On old platforms and some unusual modes this can result in less flickering.
+          but is slower.<br />
+          Has no effect on OS X and may have no effect on other platforms or technology choices.
         </td>
       </tr>
       <tr id='property-two.phase.draw'>
@@ -1642,6 +1661,7 @@ NameError: mistake
           Determines whether the caret can be moved into virtual space, that is, beyond the last character on a line.
 	Set to 1 to allow virtual space when making a rectangular selection, 2 to allow the arrow keys or a mouse
 	click to  move the caret into virtual space, and 3 to allow both.
+	4 may be added to prevent left arrow from wrapping to previous line.
         </td>
       </tr>
       <tr id='property-caret.policy.xslop'>
@@ -2150,6 +2170,10 @@ NameError: mistake
 	<td>fold.cpp.explicit.start</td>
 	<td>The string to use for explicit fold start points, replacing the standard //{.</td>
 	</tr>
+	<tr id='property-fold.cpp.preprocessor.at.else'>
+	<td>fold.cpp.preprocessor.at.else</td>
+	<td>This option enables folding on a preprocessor #else or #endif line of an #if statement.</td>
+	</tr>
 	<tr id='property-fold.cpp.syntax.based'>
 	<td>fold.cpp.syntax.based</td>
 	<td>Set this property to 0 to disable syntax based folding.</td>
@@ -2350,6 +2374,14 @@ NameError: mistake
 	<td>lexer.html.mako</td>
 	<td>Set to 1 to enable the mako template language.</td>
 	</tr>
+	<tr id='property-lexer.json.allow.comments'>
+	<td>lexer.json.allow.comments</td>
+	<td>Set to 1 to enable highlighting of line/block comments in JSON</td>
+	</tr>
+	<tr id='property-lexer.json.escape.sequence'>
+	<td>lexer.json.escape.sequence</td>
+	<td>Set to 1 to enable highlighting of escape sequences in strings</td>
+	</tr>
 	<tr id='property-lexer.props.allow.initial.spaces'>
 	<td>lexer.props.allow.initial.spaces</td>
 	<td>For properties files, set to 0 to style all lines that start with whitespace in the default style. This is not suitable for SciTE .properties files which use indentation for flow control but can be used for RFC2822 text where indentation is used for continuation lines.</td>
@@ -2434,13 +2466,15 @@ NameError: mistake
         The commands are either <a href="CommandValues.html">string or numeric IDs</a>.
         Numeric IDs above 2000 are Scintilla commands and are sent to the focussed pane.
         Named IDs and numeric IDs below 2000 are SciTE menu commands.
-        The modifiers are Ctrl, Shift, and Alt and the named keys are Left,
+        The modifiers are Ctrl, Shift, Alt, and Super and the named keys are Left,
         Right, Up, Down, Insert, End, Home, Enter, Space, Tab, KeypadPlus, KeypadMinus,
         KeypadMultiply, KeypadDivide, Escape, Delete, PageUp, PageDown, Slash,
         Question, Equal, Win.
         <br/>
         On OS X the command key uses the modifier Ctrl+ as this eases using one setting between platforms and
         the control key uses the modifier Control+.
+        <br/>
+        The Super modifier can be used only on GTK+.
         <br/>
         <div class="example">
 user.shortcuts=\<br/>
@@ -2747,13 +2781,16 @@ Prev File|IDM_PREVFILE|<br/>
         If you set save.session, the list of currently opened buffers will be saved on exit
         in a session file. When you start SciTE next time (without specifying a file name
         on the command line) the last session will be restored automatically.<br />
-        For GTK+, the file is called ".SciTE.session" and is located in the directory
-        given by the SciTE_HOME environment variable and if that is not set, the value
-        of the HOME environment variable and if that is not set, the top level directory.
-        For Windows, the file is called "SciTE.session" and is located in the directory
-        given by the SciTE_HOME environment variable and if that is not set, the value
-        of the USERPROFILE environment variable and if that is not set, the directory
-        of the SciTE executable.<br />
+        <b>For GTK+</b>, the file is called ".SciTE.session" and is located in the
+        directory given by the SciTE_USERHOME environment variable and if that is
+        not set, the value of the SciTE_HOME environment variable and if that is not
+        set, the value of the HOME environment variable and if that is not
+        set, the top level directory.<br />
+        <b>For Windows</b>, the file is called "SciTE.session" and is located in the
+        directory given by the SciTE_USERHOME environment variable and if that is not
+        set, the value of the SciTE_HOME environment variable and if that is not set,
+        the value of the USERPROFILE environment variable and if that is not set, the
+        directory of the SciTE executable.<br />
         Setting save.recent causes the most recently used files list to be saved on
         exit in the session file and read at start up.<br />
         Setting save.position causes the SciTE window position on the desktop to be

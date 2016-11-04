@@ -1,6 +1,6 @@
 @echo off
 mode 112,20
-REM ---------------- Test Batch ----------------
+REM ---------------- Test Batch -----------------
 REM creates a reg file which you can use to add Scite to your context Menu
 REM -----------------------------------------------
 

@@ -17,8 +17,8 @@ html, body {
 	min-width:841px;
 	height: auto;
 	font-family: "Courier New", Courier, mono;
-	background:	transparent url(material/alle/bg.jpg) center repeat-y scroll 0%
+	background:transparent url(material/alle/bg.jpg) center repeat-y scroll 0%
 }
 
-.menue_gaeste a{width:69px;	height:49px;background-image:url(../../material/alle/gaeste.gif);}
+.menue_gaeste a{width:69px;height:49px;background-image:url(../../material/alle/gaeste.gif);}
 .menue_gaeste a:hover{background-image:url(../../material/alle/gaeste-over.gif)}
