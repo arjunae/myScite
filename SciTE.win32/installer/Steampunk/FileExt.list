@@ -1,0 +1,31 @@
+#--::--::--::--::--Steampunk--::-::--::--::
+#
+# -- FileExt.list
+# -- Define a set of Filetypes which should get associated with SciTI
+# -- CommentLine Char is # 
+#
+# -- Format is [.EXT];[optional MIME_TYP]
+# -- Ref. http://www.sitepoint.com/web-foundations/mime-types-complete-list/
+#
+# Created Nov 2015, Marcedo@HabmalneFrage.de
+# URL: https://sourceforge.net/projects/scite-webdev/?source=directory
+#
+#--::--::--::--::--Steampunk--::-::--::--::
+
+# -- Textfiles --
+
+.txt ; text/plain
+
+# -- Source Code --
+
+.js ; text/javascript
+.cpp ; text/x-c
+.cxx ; text/x-c
+
+# -- Data
+.diff ; text/diff
+
+# -- System Files --
+
+.bat ; text/plain
+.reg ;  text/plain
