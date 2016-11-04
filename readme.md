@@ -1,6 +1,6 @@
 ~- mySciTE.webdev -~
 
-[04.November.2016] (DEVEL-124)
+[04.November.2016] (https://github.com/arjunae/myScite/releases) DEVEL-124
 - @arjunae cleanup js/jq keywords add Dom Exceptions / add lua.scite.api	
 - @arjunae Additional HTML5 Keywords (final W3C 28.Okt.14) 
 - @arjunae Move all Language related files to user/languages
