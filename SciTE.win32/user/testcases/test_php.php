@@ -1,5 +1,5 @@
 <?php
-      $STDERR = fopen('php://stderr', 'w+');
+     $STDERR = fopen('php://stderr', 'w+');
  #     fwrite($STDERR, "\n.......\nsome stderr info\n");
      $STDOUT = fopen('php://stdout','w');
      fwrite($STDOUT, "..........\nsome stdout info\n");    
