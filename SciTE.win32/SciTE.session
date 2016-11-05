@@ -1,0 +1,26 @@
+# SciTE session file
+
+position.left=339
+position.top=140
+position.width=800
+position.height=400
+position.maximize=0
+
+mru.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_batch.cmd
+mru.2.path=E:\projects\_myScite\.myScite.github\SciTE.win32\SciTEGlobal.properties
+mru.3.path=E:\projects\_myScite\.myScite.github\SciTE.win32\theme\theme.global.defaults.properties
+mru.4.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_xml.xml
+mru.5.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\xml.properties
+mru.6.path=E:\projects\_myScite\.myScite.github\SciTE.win32\Addons\tools\.makeToolPath.cmd
+
+search.1.findwhat=for
+search.2.findwhat=replaced
+search.3.findwhat=repla
+search.4.findwhat=ddd
+
+search.1.replacewith=aaa
+
+buffer.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\Addons\tools\.makeToolPath.cmd
+buffer.1.position=303
+buffer.1.scroll=0
+buffer.1.current=1
