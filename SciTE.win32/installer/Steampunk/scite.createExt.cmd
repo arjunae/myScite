@@ -393,7 +393,7 @@ GOTO end
 :fail_no_params
 IF [%SCITE_INTERACT%]==[%FALSE%] goto end
 echo.
-echo -----------------  Help   -------------------------------
+echo :::::..::::.:::.::::.:::.::::::.::.. Usage ..:::::.::::::.::::.:::::::..:::::.::::::.:::
 echo.                
 echo   - able to register new filetypes inclusive its Icon.
 echo   - able to associate already registered filetypes with SciTE
@@ -416,9 +416,5 @@ echo.
 echo  First Param given was: %1
 echo  Second Param given was: %2
 echo.
-echo ---------------------------------------------------------
-
-echo - finally - Lets ClearIconCache ;)
-ie4uinit.exe -ClearIconCache
-
+echo :::::..::::.:::.::::.:::.::::::.::.. Usage ..:::::.::::::.::::.:::::::..:::::.::::::.:::
 :END
