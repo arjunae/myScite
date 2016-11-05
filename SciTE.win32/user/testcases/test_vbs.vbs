@@ -3,7 +3,7 @@
 '  ... Press F7 to Test...
 
 Dim oIE, bonQuit,bConsole
-If instr(1,wscript.fullName,"cscript") then bConsole=true
+if instr(1,wscript.fullName,"cscript") then bConsole=true
 WScript.Quit(main)
 
 function main
