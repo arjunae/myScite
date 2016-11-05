@@ -15,8 +15,8 @@ package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-mitchell\\?
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 
 -- Test Hunspell 
---package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
---dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-hunspell\\test-spell.lua')
+package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 
 -- Load Sidebar (which uses "eventmanager.lua")
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"

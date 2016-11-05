@@ -1,5 +1,4 @@
 
-
 print("# --Lua: now requiring hunspell.dll")
 
 local hunspell = require 'hunspell'
@@ -9,7 +8,7 @@ print("# --Lua: hunspell.dll loaded")
 assert(type(hunspell) == "table", 'hunspell is not a table')
 
 print("# --Lua: now calling hunspell.init")
-hunspell.init('..\\dic\\default.aff', '..\\dic\\default.dic')
+hunspell.init('..\\dict\\default.aff', '..\\dict\\default.dic')
 
 
 print("# --Lua: now calling hunspell.suggest(\'FireFly\'))");
