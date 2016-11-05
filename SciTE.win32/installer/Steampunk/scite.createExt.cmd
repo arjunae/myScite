@@ -39,7 +39,7 @@ set false=0
 :: -- Got those shorthand strFunctions from
 :: -- http://www.dostips.com/DtTipsStringOperations.php
 
-:: Non_Interactive BatchMode: Dont interrupt flow.
+:: Non_Interactive Batch-mode: Dont interrupt flow.
 :: Used to let this script used by other batchfiles.
 :: eg .Scite_register_extList.cmd
 IF [%SCITE_NonInteract%]==[%TRUE%]  (
