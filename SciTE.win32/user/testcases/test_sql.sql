@@ -14,5 +14,6 @@ from
 
 alter table create trigger as
 begin
- -- line comment
+ binary -- SQL
+ comment -- pSQL
 end

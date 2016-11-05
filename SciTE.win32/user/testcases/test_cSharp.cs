@@ -5,7 +5,8 @@ public class Hello3
 {
    public static void Main(string[] args)
    {
-   
+   absolute=abs(-33);
+   Console.WriteLine (absolute);
    Console.WriteLine("Hello, World!");
       Console.WriteLine("You entered the following {0} command line arguments:",
          args.Length );

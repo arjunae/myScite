@@ -1,3 +1,5 @@
+@echo off
+
 ::--::--::--::--Steampunk--::-::--::--::
 :: -- Scite.createExtList.cmd 
 ::
@@ -7,20 +9,21 @@
 ::
 :: Created Okto 2015, Marcedo@HabmalneFrage.de
 :: 26.06.16 - cope with writeProtected places
-:: 31.10.16 - CleanUp
+:: 31.10.16 - cleanUp
 ::
 :: URL: https://sourceforge.net/projects/scite-webdev/?source=directory
 ::
 ::--::--::--::--Steampunk--::-::--::--::
- @echo off
-::
-::  ... use customized CMD Terminal
+
+:WRAPPER
+:: Use customized CMD Terminal
 if "%1"=="" (
  reg import TinyTonCMD\TinyTonCMD.reg
  start "TinyTonCMD" scite.createExtList.bat tiny
  EXIT
 )
 
+:MAIN_SECTION
 :: Signal batchMode for .Scite.force_ext
 SET SCITE_NonInteract=1
 
@@ -33,7 +36,6 @@ for /F "delims=; eol=# tokens=1,2,3*" %%E in (FileExt.List) do (
  ping 1.2.3.4 -n 1 -w 555>NUL
  call scite.createExt.cmd %%E %%F  >> %tmp%\scite.createExtList.logfile
 ) 
-
 cd /D %tmp%\scite_tmp
 
 :: Create regedit Header 
@@ -70,15 +72,14 @@ echo enjoy, Arjunae>> %tmp%\scite_tmp\readme.txt
 
 move %tmp%\scite_tmp  %userprofile%\desktop\scite.imports.%timestamp% 1>NUL
 
-: CleanUp
+:CLEANUP_SECTION
+:: Delete tempFiles / Unset Noninteractive Mode
+SET SCITE_NonInteract=0
 
 if exist %tmp%\scite_tmp (
   del /S /Q %tmp%\scite_tmp 1>NUL
   rd %tmp%\scite_tmp  1>NUL
 )
-
-:: Unset Noninteractive Mode
-SET SCITE_NonInteract=0
 
 echo - Finally - Lets ClearIconCache ;)
 ie4uinit.exe -ClearIconCache
@@ -91,4 +92,3 @@ echo.  :) Greetings to you from Deutschland, Darmstadt :)
 echo.
 
 Pause
-
