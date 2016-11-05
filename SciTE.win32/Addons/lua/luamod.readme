@@ -1,0 +1,25 @@
+
+-- Interface
+ Within Lua scripts you can use the following global objects:
+ editor - the editor pane
+ output - the output pane
+ props - a pseudo-table representing the SciTE properties
+ buffer - a table associated with the current buffer or document
+ scite - a namespace for functions which control SciTE.
+ and Functions:
+ trace(s) - writes s to the output pane (no prefix, no newlines)
+ dostring(s) - executes s as a Lua string, like Lua 4's dostring
+
+-- remdebugging
+ ..you can use SciTE not only to debug the executable, but any SciTE Lua scripts
+ Put these statementy into the debuggee.The frst one ensures that SciTE can find other Lua packages using require;
+ alternatively you can put a copy of engine.lua in a directory remdebug in your SciTE package.path
+
+ require "remdebug.engine"
+ remdebug.engine.start()
+ remdebug.engine.config { host = your-ip-address }
+ 
+-- Tips
+ Using package.loadlib gives you the advantage of defining a full qualified path like:
+ local fn,err =  package.loadlib("E:\\lfs.dll", "luaopen_lfs")
+

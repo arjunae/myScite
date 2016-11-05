@@ -21,5 +21,3 @@ dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 -- Load Sidebar (which uses "eventmanager.lua")
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\common.lua')
-
---local fn,err =  package.loadlib("lfs.dll", "luaopen_lfs")
