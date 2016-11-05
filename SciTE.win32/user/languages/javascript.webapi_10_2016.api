@@ -149,7 +149,7 @@ clearTimeout()Cancels the repeated execution set using WindowTimers.setTimeout()
 setInterval()Schedules the execution of a function each X milliseconds.DOM>WinTimers
 setTimeout()Sets a delay for executing a function.DOM>WindowTimers
 
-#~document
+#~Document Methods
 adoptNode()Adopt node from an external Document DOM>document
 captureEvents()See Window.captureEvents. DOM>document
 caretPositionFromPoint()Gets the CaretPosition at or near the specified coordinates. DOM>document
