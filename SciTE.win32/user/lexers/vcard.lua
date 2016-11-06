@@ -7,6 +7,7 @@ local P, R, S = lpeg.P, lpeg.R, lpeg.S
 
 local M = {_NAME = 'vcard'}
 
+--l.TYPE=l.CONSTANT
 -- Whitespace.
 local ws = token(l.WHITESPACE, l.space^1)
 
