@@ -1,0 +1,24 @@
+/* Site settings */
+a:link {color:#7C2D1D; cursor:pointer;}
+a:visited {color:#7C2D1D;}
+a:hover {color:#7F7F7F;}
+
+html, body {
+	border:0pt none;
+	margin:0pt;
+	padding:0pt;
+	background-color: #91703D;
+	text-align: center;
+}
+
+.container {
+	margin: 0pt auto;	
+	width: auto;
+	min-width:841px;
+	height: auto;
+	font-family: "Courier New", Courier, mono;
+	background:transparent url(material/alle/bg.jpg) center repeat-y scroll 0%
+}
+
+.menue_gaeste a{width:69px;height:49px;background-image:url(../../material/alle/gaeste.gif);}
+.menue_gaeste a:hover{background-image:url(../../material/alle/gaeste-over.gif)}
