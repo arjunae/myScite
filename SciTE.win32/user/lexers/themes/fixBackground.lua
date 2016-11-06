@@ -11,9 +11,9 @@ end
 -- Scintillua has a another idea of doing themeing, so fix bg here.
 local l =  require('lexer')
 l.TYPE = l.CONSTANT
-  
--- lua WTF ....try copying that line over the entries above ?!    
+
+-- lua WTF ....try copying that line over the entries above ?!
 property['style.default'] = 'font:'..font..',size:'..size..','..props["colour.foreground"]..","..props["colour.background"]
-                          
+
 
 
