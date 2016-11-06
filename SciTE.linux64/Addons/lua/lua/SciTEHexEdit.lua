@@ -337,29 +337,29 @@ local WIN = {                           -- window has fixed bounds
 
 -- for edit window
 local ColourScheme = {
-  [ 8] = {Fore = "777777", Bold = true},        -- title
+  [ 8] = {Fore = "987678", Bold = true},        -- title
   [16] = {Fore = "800000",},                    -- button bar
-  [17] = {Fore = "FFFFFF", Back = "800000"},    -- button text
-  [18] = {Fore = "999999", Bold = true},        -- edit box header
-  [19] = {Fore = "000080"},                     -- position pane
+  [17] = {Fore = "456733", Back = "800000"},    -- button text
+  [18] = {Fore = "987678", Bold = true},        -- edit box header
+  [19] = {Fore = "206090"},                     -- position pane
   [20] = {Fore = "808000",},                    -- information box
   [21] = {Fore = "808000", Bold = true},        -- save file info
   -- data highlighting, unchanged
   [ 1] = {Fore = "DC2300",},                    -- control chars
   [ 2] = {Fore = "333399",},                    -- symbols
   [ 3] = {Fore = "008080",},                    -- numbers
-  [ 4] = {Fore = "777777",},                    -- alphabets
+  [ 4] = {Fore = "987678",},                    -- alphabets
   [ 5] = {Fore = "008000",},                    -- extended chars
   [ 6] = {Fore = "C0C0C0",},                    -- past-EOF
-  [ 7] = {Fore = "777777",},                    -- ASCII pane
+  [ 7] = {Fore = "987678",},                    -- ASCII pane
   -- data highlighting, changed
   [ 9] = {Fore = "DC2300", Back = "FFFF00"},    -- control chars
   [10] = {Fore = "333399", Back = "FFFF00"},    -- symbols
   [11] = {Fore = "008080", Back = "FFFF00"},    -- numbers
-  [12] = {Fore = "777777", Back = "FFFF00"},    -- alphabets
+  [12] = {Fore = "987678", Back = "FFFF00"},    -- alphabets
   [13] = {Fore = "008000", Back = "FFFF00"},    -- extended chars
   [14] = {Fore = "C0C0C0", Back = "FFFF00"},    -- past-EOF
-  [15] = {Fore = "777777", Back = "FFFF00"},    -- ASCII pane
+  [15] = {Fore = "987678", Back = "FFFF00"},    -- ASCII pane
 }
 
 -- byte value colour coding
@@ -451,8 +451,9 @@ local function WindowSetup()
   end
   buffer.CharColours = cc
   --------------------------------------------------------------------
-  local monoprop = MONOSPACE or                 -- get monospace style
-                   props["font.monospace"]
+  local monoprop =  props["font.monospace"]    
+  -- get monospace style
+                   
   for style, value in string.gfind(monoprop, "([^,:]+):([^,]+)") do
     StyleMono[style] = value
   end
