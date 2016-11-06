@@ -735,12 +735,11 @@ static void CheckToolbarButton(HWND wTools, int id, bool enable) {
 }
 
 void SciTEWin::CheckAMenuItem(int wIDCheckItem, bool val) {
-	if (val) {
+	if (val)
 		CheckMenuItem(::GetMenu(MainHWND()), wIDCheckItem, MF_CHECKED | MF_BYCOMMAND);
-	 } else {
+	else
 		CheckMenuItem(::GetMenu(MainHWND()), wIDCheckItem, MF_UNCHECKED | MF_BYCOMMAND);
 		::CheckToolbarButton(reinterpret_cast<HWND>(wToolBar.GetID()), wIDCheckItem, val); //[user.toolbar]
-}
 }
 
 void EnableButton(HWND wTools, int id, bool enable) {
@@ -1070,10 +1069,10 @@ static LRESULT PASCAL TabWndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM
 void SciTEWin::Creation() {
 
 	wContent = ::CreateWindowEx(
-	               WS_EX_LAYERED | WS_EX_CLIENTEDGE,
+	               WS_EX_CLIENTEDGE,
 	               classNameInternal,
 	               TEXT("Source"),
-	               WS_OVERLAPPEDWINDOW | WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
+	               WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
 	               0, 0,
 	               100, 100,
 	               MainHWND(),
@@ -1083,10 +1082,10 @@ void SciTEWin::Creation() {
 	wContent.Show();
 
 	wEditor.SetID(::CreateWindowEx(
-	              WS_EX_LAYERED,
+	              0,
 	              TEXT("Scintilla"),
 	              TEXT("Source"),
-	              WS_OVERLAPPEDWINDOW | WS_CHILD | WS_VSCROLL | WS_HSCROLL | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
+	              WS_CHILD | WS_VSCROLL | WS_HSCROLL | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
 	              0, 0,
 	              100, 100,
 	              HwndOf(wContent),
@@ -1100,10 +1099,10 @@ void SciTEWin::Creation() {
 	WindowSetFocus(wEditor);
 
 	wOutput.SetID(::CreateWindowEx(
-	              WS_EX_LAYERED,
+	              0,
 	              TEXT("Scintilla"),
 	              TEXT("Run"),
-	              WS_OVERLAPPEDWINDOW | WS_CHILD | WS_VSCROLL | WS_HSCROLL | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
+	              WS_CHILD | WS_VSCROLL | WS_HSCROLL | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
 	              0, 0,
 	              100, 100,
 	              HwndOf(wContent),
@@ -1119,13 +1118,11 @@ void SciTEWin::Creation() {
 	wOutput.Call(SCI_USEPOPUP, 0);
 	::DragAcceptFiles(MainHWND(), true);
 
-	//  Windows >=2k allows transparency for any main hwnd. >=win8 for childs too usin WS_EX_LAYERED / OVERLAPPEDWINDOW
-	
 	HWND hwndToolBar = ::CreateWindowEx(
-	               WS_EX_LAYERED,
+	               0,
 	               TOOLBARCLASSNAME,
 	               TEXT(""),
-	               WS_OVERLAPPEDWINDOW | WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS |
+	               WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS |
 	               TBSTYLE_FLAT | TBSTYLE_TOOLTIPS | CCS_NORESIZE,
 	               0, 0,
 	               100, tbLarge ? heightToolsBig : heightTools,
@@ -1134,15 +1131,7 @@ void SciTEWin::Creation() {
 	               hInstance,
 	               0);
 	wToolBar = hwndToolBar;
-	
-	// ensure a minimum initial value.
-	if (props.GetInt("window.transparency")>89) {
-		SetLayeredWindowAttributes(HwndOf(wContent), 0, (255 *  (props.GetInt("window.transparency"))) / 100, LWA_ALPHA);
-	} else {
-		SetLayeredWindowAttributes(HwndOf(wContent), 0, (255 * 100) / 100, LWA_ALPHA);
-	}
 
-	
 /*!-remove-[user.toolbar] 
 	::SendMessage(hwndToolBar, TB_BUTTONSTRUCTSIZE, sizeof(TBBUTTON), 0);
 	::SendMessage(hwndToolBar, TB_SETBITMAPSIZE, 0, tbLarge ? MAKELPARAM(24, 24) : MAKELPARAM(16, 16));
