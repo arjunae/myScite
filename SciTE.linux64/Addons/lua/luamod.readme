@@ -1,18 +1,18 @@
-
+-
 -- Interface
  Within Lua scripts you can use the following 
  
- - global objects:
- editor - the editor pane
- output - the output pane
- - tables: 
- props - a pseudo-table representing the SciTE properties
- buffer - a table associated with the current buffer or document
+ - globals -
+ editor - the editor pane.
+ output - the output pane.
+ props - a pseudo-table representing the SciTE properties.
+ buffer - a table associated with the current buffer or document.
  scite - a namespace for functions which control SciTE.
- - and Functions:
- trace(s) - writes s to the output pane (no prefix, no newlines)
- dostring(s) - executes s as a Lua string, like Lua 4's dostring
+ trace(str) - writes s to the output pane (no prefix, no newlines).
+ dostring(str) - executes as as a Lua string, like early Lua's dostring.
 
+ :-> included lua.scite.api to show some nice calltips.
+ 
 -- remdebugging
  You can use SciTE not only to debug the executable, but any SciTE Lua scripts.
  Put these statements into the debuggee. The first one ensures that SciTE can find other Lua packages using require;

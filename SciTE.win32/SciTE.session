@@ -1,0 +1,20 @@
+# SciTE session file
+
+position.left=263
+position.top=147
+position.width=720
+position.height=400
+position.maximize=0
+
+mru.1.path=C:\Users\Tho\Desktop\test.yaml
+mru.2.path=E:\projects\_myScite\.myScite.github\SciTE.win32\theme\theme.global.defaults.properties
+mru.3.path=E:\projects\_myScite\.myScite.github\SciTE.win32\theme\theme.blackblue.properties
+mru.4.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\xml.properties
+mru.5.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_xml.xml
+
+search.1.findwhat=small
+
+buffer.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_xml.xml
+buffer.1.position=40
+buffer.1.scroll=0
+buffer.1.current=1
