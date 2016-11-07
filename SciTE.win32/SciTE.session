@@ -1,20 +1,18 @@
 # SciTE session file
 
-position.left=263
-position.top=147
-position.width=720
-position.height=400
+position.left=136
+position.top=109
+position.width=1121
+position.height=553
 position.maximize=0
 
-mru.1.path=C:\Users\Tho\Desktop\test.yaml
-mru.2.path=E:\projects\_myScite\.myScite.github\SciTE.win32\theme\theme.global.defaults.properties
-mru.3.path=E:\projects\_myScite\.myScite.github\SciTE.win32\theme\theme.blackblue.properties
-mru.4.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\xml.properties
-mru.5.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_xml.xml
-
-search.1.findwhat=small
-
-buffer.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_xml.xml
-buffer.1.position=40
-buffer.1.scroll=0
-buffer.1.current=1
+mru.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\web.coffeescript.properties
+mru.2.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\web.css.properties
+mru.3.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\web.php.properties
+mru.4.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\web.properties
+mru.5.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\web.python.properties
+mru.6.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\web.ruby.properties
+mru.7.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\xml.properties
+mru.8.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\clike.javascript.properties
+mru.9.path=E:\projects\_myScite\.myScite.github\SciTE.win32\SciTEUser.properties
+mru.10.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\yaml.properties
