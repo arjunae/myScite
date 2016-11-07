@@ -1,0 +1,26 @@
+# SciTE session file
+
+position.left=50
+position.top=100
+position.width=720
+position.height=400
+position.maximize=0
+
+mru.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\web.ruby.properties
+mru.2.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test.ruby.rb
+mru.3.path=E:\projects\_myScite\.myScite.github\SciTE.win32\Addons\tools\.makeToolPath.cmd
+mru.4.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_html.html
+mru.5.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_coffeescript.coffee
+mru.6.path=E:\projects\_myScite\.myScite.github\SciTE.win32\theme\theme.global.defaults.properties
+mru.7.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_batch.cmd
+mru.8.path=E:\projects\_myScite\.myScite.github\SciTE.win32\theme\theme.blackblue.properties
+mru.9.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_javascript.js
+
+search.1.findwhat=linenum
+search.2.findwhat=monospace
+search.3.findwhat=monospa
+
+buffer.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_javascript.js
+buffer.1.position=705
+buffer.1.scroll=12
+buffer.1.current=1

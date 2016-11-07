@@ -74,7 +74,7 @@ endif
 
 CXXFLAGS = $(CFLAGS) -pedantic --std=gnu++11
 
-LDFLAGS=-mwindows -lmsimg32 -lcomctl32 -limm32 -lole32 -luuid -loleaut32 $(UXLIB) $(LUA_LDFLAGS) -static
+LDFLAGS=-mwindows -lmsimg32 -lcomctl32 -limm32 -lole32 -luuid -loleaut32 $(UXLIB) $(LUA_LDFLAGS)-static
 
 .cxx.o:
 	$(CXX) $(CXXFLAGS) -c $< -o $@
@@ -246,7 +246,6 @@ OBJSSTATIC = \
 
 $(PROGSTATIC): $(OBJSSTATIC)
 	$(CXX) $(STRIPFLAG) -static -Xlinker --subsystem -Xlinker windows -o $@ $^ $(LDFLAGS)
-
 # Automatically generate dependencies for most files with "make deps"
 include deps.mak
 

@@ -200,7 +200,7 @@ SciTEWin::SciTEWin(Extension *ext) : SciTEBase(ext) {
 	uniqueInstance.Init(this);
 
 	hAccTable = ::LoadAccelerators(hInstance, TEXT("ACCELS")); // md
-	hToolbarBitmap = 0; 
+	hToolbarBitmap = 0;
 	oldToolbarBitmapID = 0;
 	cmdWorker.pSciTE = this;
 }
@@ -422,7 +422,7 @@ void SciTEWin::ReadProperties() {
 FilePath SciTEWin::GetSciteDefaultHome() {
 /*
  *       Scite_home -> Case Windows:
- *       1 If exists, use  %USERPROFILE%\.SciTE\
+ *       1 If exists, use  %USERPROFILE%\SciTE\
  *       2 check for %SciTE_USERHOME%. Force with $(env.scite_userhome)
  *       3 Compatibility: can be overidden by %SCiTE_HOME%
  *       3 FallBack to Exectables Path
@@ -472,7 +472,7 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 	}
 }
 
-	// if above are empty...check for folder %userprofile%\.Scite
+	// if above are empty...check for folder %userprofile%\Scite
 	if (home.empty()) {
 		// yo.... filepath takes and returns Scites gui_string (which is a basic_wstring / wchar_t)
 		// which converts from (std::wstring). To get a std::wstring back use GUI:UTF8FrommString(Filepath(xyz)).ToUTF8();
@@ -480,7 +480,7 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 		std::wstring wPath;
 
 		wPath = _wgetenv(GUI_TEXT("USERPROFILE"));
-		wPath.append(L"\\.SciTE");
+		wPath.append(L"\\SciTE");
 		wfilePath = FilePath(wPath).NormalizePath();
 
 		if (wfilePath.IsDirectory())
@@ -884,7 +884,7 @@ DWORD SciTEWin::ExecuteOne(const Job &jobToRun) {
 
 	PROCESS_INFORMATION pi = {0, 0, 0, 0};
 
-	// Make a mutable copy as the CreateProcess parameter is mutable 
+	// Make a mutable copy as the CreateProcess parameter is mutable
 	const GUI::gui_string sCommand = GUI::StringFromUTF8(jobToRun.command);
 	std::vector<wchar_t> vwcCommand(sCommand.c_str(), sCommand.c_str() + sCommand.length() + 1);
 
@@ -1031,11 +1031,11 @@ DWORD SciTEWin::ExecuteOne(const Job &jobToRun) {
 				} else {
 					running = false;
 				}
-			} else { 
+			} else {
 				// bytesAvail == 0, and if the process
 				// was already dead by the time we did
 				// PeekNamedPipe, there should not be
-				// any more data coming	
+				// any more data coming
 				if (processDead) {
 					running = false;
 				}
