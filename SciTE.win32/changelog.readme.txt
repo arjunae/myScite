@@ -1,8 +1,8 @@
 ~- mySciTE_webdev -~
 
 [04.November.2016] DEVEL-124
-- @arjunae cleanup js/jq keywords add Dom Exceptions / add lua.scite.api	
-- @arjunae Additional HTML5 Keywords (final W3C 28.Okt.14) 
+- @arjunae cleanup js/jq keywords add Dom Exceptions / add lua.scite.api
+- @arjunae Additional HTML5 Keywords (final W3C 28.Okt.14)
 - @arjunae Move all Language related files to user/languages
 - @arjunae Update HelpFiles / Fix Installer - register scite in [open With -programName-] List
 - @arjunae Add errlist output-pane - makefile - hexedit & debug styles .
@@ -10,7 +10,7 @@
 - @arjunae Calltips: Allow to distinguish btw properties and functions.
 
 [29.10.2016] STABLE-1.23
-- api:  fix: styling html/vbs/ruby/perl | New: java1.8 & freebasic Keywords 
+- api:  fix: styling html/vbs/ruby/perl | New: java1.8 & freebasic Keywords
 - themes: sync theme grey and theme blackblue
 - compatibility: fix: styles aliases for other scite forks
 - steampunk: fix: filetype register batchfiles
@@ -19,7 +19,7 @@
 
 [25.10.2016] STABLE-1.22
 - editor: default to unicode / scaling for window and margins
-- apis:   add BrowserWebApi / improve php and vbs api / fix linebreaks
+- apis: add BrowserWebApi / improve php and vbs api / fix linebreaks
 - props: clike: add AS3 Keywords / updates to js1.6
 - tools: simplified samples / fixed figref / add lua mod-mitchel
 - themes: better styles & monospace font / Zooming (Alt+Pgup/PgDown)
@@ -33,15 +33,15 @@
 - Full Version available on github.
 
 [27.09.2016] [Stable-1.14]
-- New Feature: Window transparency. 
+- New Feature: Window transparency.
 -  propertyName in percent of opaque: int window.transparency=96
 - change: further improved theme contrast
-- add: XML keywords for vbs 
+- add: XML keywords for vbs
 - fix: cpp api fetcher
 
 [19.08.2016] (STABLE-1.12)
 - Fixes for vbscript styling. Use FreeBasic Lexer.
-- Fixes for cpp styling. (cpp11 / c98) 
+- Fixes for cpp styling. (cpp11 / c98)
 - Change enhance Batch fike styling
 - Fixes for html styling
 - Fix theme.blackblue (highlite keywords1)
@@ -54,11 +54,11 @@
 [17.08.2016]
 - Removed Screenshots from older Revisions.
 - Formatting Cleanups for Calltips in javascript.api (Linebreaks).
-- Higher contrast and monospace Font within the output pane. 
+- Higher contrast and monospace Font within the output pane.
 
 [16.08.2016]	::.:::..:: Stable Release (1.11) ::.:::..::
 -- Redone; Portability Patch.
-- Use %userprofile%\.Scite, $(env.scite_userhome) or just Scite's binPath.    
+- Use %userprofile%\.Scite, $(env.scite_userhome) or just Scite's binPath.
 - Fix; MSDN and CPP API File parsers.
 - New; Properties: Include XML & Yaml. Most props use theming / New theme.white
 - Redone VBA/WSH/JS APis.
@@ -79,7 +79,7 @@
 - Fix: Improve running Batch and traceing PHP, Python and Lua scripts.
 - Fix: Scite on writeProtected Pathes (eg C:\ProgramFiles)
 - New: Reworked Optionsmenu, new Debug menu.
-- Next Release will be RC.	
+- Next Release will be RC.
 
 [23.03.2016]
 --	* Fix remaining lib dependencies.
@@ -89,34 +89,34 @@
 
 [01.02.2016]
 --	Fix statically Linking C Library (libgcc-s-dw2-1-dll)
-- Fix jQuery API :Selectors / Fix Toolbar Font Switching / Fix vbScript Highlitening / Cleanup BuildSys	
+- Fix jQuery API :Selectors / Fix Toolbar Font Switching / Fix vbScript Highlitening / Cleanup BuildSys
 
 [16.01.2016]
 * Sync with SciTE 3.63 Dev
-- Linux binaries / Fixed to Build System and Lua ApiDocs 
+- Linux binaries / Fixed to Build System and Lua ApiDocs
 - current Scite goodies (Patches / API Files)
 
 [02.01.2016]
 * a good Set of fixes for Debugging Infra.
 - Now supports GDB based debugging - Hey - Scite debugging Scite works :=)
 - New Prop debug.askTarget - shows a Strip to choose debuggee binary. / utilize lfs.chdir
- (needs mingwbin in your Path) 
+ (needs mingwbin in your Path)
 - Integrate jQuery and js keywords / cleanup Properties.
 
 [20.12.2015]
 * a usable debugging infrastructure (but still via Tools menu)
- - Finally supports lua debugging, more Languages coming soon. 
- - Seeya next year Release :)  - Thoraten 
+ - Finally supports lua debugging, more Languages coming soon.
+ - Seeya next year Release :)  - Thoraten
 
 [11.12.2015]
 * Initial support for debugging infrastructure via tools menu
-* Add interactive Lua Prompt. 
-* Fix Debug Markers. 
-	 
+* Add interactive Lua Prompt.
+* Fix Debug Markers.
+
 [A09.12.2015]
 * Port [user.toolbar] from Scite_ru. -> Credits Guys!
  - See: http://scite-ru.bitbucket.org/pack/doc/SciTE-Ru_Kernel.html
-* Fix Editor Wrap / fix vba Keywords / add custom Styles / Cleanup Code / Fix Scite shared CLib dependency 
+* Fix Editor Wrap / fix vba Keywords / add custom Styles / Cleanup Code / Fix Scite shared CLib dependency
 * Add LuaSockets 3.0-RC1 / mobdebug.lua / Add LuaExpat 1.3.0
 
 [A02.12.2015]
@@ -129,11 +129,11 @@
 ( See Steampunk/Api_docs/msdn.js.obj.ref )
 * Finished import of Javascript Object Calltips
 (now with enhanced LineWrap for Js and jQuery)
-	
+
 [A22.11.2015]
 * Introduce Scite SideBar.lua ( needs shell.dll / gui.dll )
 	(Libs compiled from Source. Please see Code/SciTE_SupportLib)
-* Shrink down extmans scite_lua Scripts to a good base. 
+* Shrink down extmans scite_lua Scripts to a good base.
 * Add perl and lua.api (plus a nice WorldofWarcraft lua api :).
 * Fixed LuaLib makefiles to statically link libgcc. Cleaned up Directories.
 * Introduce code\SciTE_ApiDocs\msdn (syncs Language Docs with local repo)
@@ -149,7 +149,7 @@
 [E14.11.2015]
 * Sync with vanilla SciTE 3.62
 * current language property files
-* Using  language.menu wildcards now 
+* Using  language.menu wildcards now
 	(compatible with Scite 3.62. just copy and be happy :)
 * coffeescript and csharp keywords
 * Sync Help Files with 3.62

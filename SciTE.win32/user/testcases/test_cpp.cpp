@@ -37,6 +37,6 @@ int main() {
 	else
 		printf(" .. not found - not okay..");
 
-// hmm ..	finally...  lets do some -= ascii_art =- Tetris...
+// hmm ..finally... lets do some -= ascii_art =- Tetris...
 	mySay((char *)"\n	  ::: \n	::...::  \n");
 }
