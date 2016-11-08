@@ -4,8 +4,8 @@
 
 Dim oIE, bonQuit,bConsole
 if instr(1,wscript.fullName,"cscript") then bConsole=true
-WScript.Quit(main)
-
+wscript.Quit(main)
+src="
 function main
 '---- Create object and connect the event handler in one step.
   Set oIE = wscript.CreateObject("InternetExplorer.Application","IE_")
@@ -13,11 +13,11 @@ function main
   oIE.Height =300
   oIE.Width= 500
   oIE.Visible = 1   ' Keep visible.
- 
+
   wscript.echo("stdOut - Please close IE now....")
   do
     wscript.sleep(2000) :
-    if bconsole=true then wscript.StdOut.Write("-=-")
+    if bconsole=true then wscript.stdOut.write("-=-")
   loop until bonQuit=true
 
 ' IE_Onquit recieved

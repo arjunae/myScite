@@ -19,7 +19,6 @@ match_here = (regexp, text) ->
   if text and (cur is '.' or cur is text[0]) then return match_here(regexp.slice(1), text.slice(1))
   false
 
-
 # Search for a kleene star match at the beginning of the text.
 match_star = (c, regexp, text) ->
   loop
