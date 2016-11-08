@@ -8,7 +8,7 @@ elseif OSX then
   font, size = 'Monaco', 12
 end
 
--- Scintillua has a another idea of doing themeing, so fix bg here.
+-- Scintillua has another idea of doing themeing, so fix bg here.
 local l =  require('lexer')
 l.TYPE = l.CONSTANT
 

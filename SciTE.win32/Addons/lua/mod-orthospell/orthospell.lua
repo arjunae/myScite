@@ -10,7 +10,7 @@
 --   - 'shell.dll' from http://scite-ru.googlecode.com/hg/pack/tools/LuaLib/shell.dll
 --   - 'extman.lua'; not all versions work with orthospell! Download it from
 --      tools.diorama.ch (the version recommended by Matt White will work too)
---  The dll libraries must be placed into the SciTE root directory
+--  The dll libraries must be placed into the SciTE root directory (arjunae: no need to. statically linked lib )
 --  orthospell.lua must be placed into the scite_lua directory
 --  extman.lua must be placed into the SciTE root directory
 --  The following line must be written into SciTE's user.properties file
@@ -18,6 +18,8 @@
 --  The following lines are optional:
 --      spell.dictname=<hunspell dict names> e.g. de_DE|en_US|fr-classique ; default: en_US
 --      spell.dictpath=$(SciteDefaultHome)\<directory> default: SciTE root directory
+
+-- arjunae:Nov16 - switch to orthospell.home with package.loadlib. (was require("hunspell"))
 
 -- global variables
 local sciteHome = props["SciteDefaultHome"]
@@ -164,25 +166,24 @@ if not shell then  -- if not the extman.lua is used that comes with Orthospell
 	require ("shell")
 end
 
--- Arjunae --  todo: stupid code should be made more intelligent:
-if not scite_FileExists(sciteHome.."\\hunspell.dll") then
-	--print ("Spell-checking not available, because hunspell.dll was not found")
+-- Arjunae --  changed to loadlib to be more flexible
+if not scite_FileExists(props["orthospell.home"].."\\hunspell.dll") then
+	print ("Spell-checking not available, because hunspell.dll was not found")
 end
 
--- using statically linked libs so just...
-if not true then
-else
-	require("hunspell")
-	hspell = true
-	if not scite_FileExists(dictpath.."\\"..dictname..".aff") then
+-- using statically linked hunspell, which can reside anywhere - so just do...
+if not scite_FileExists(dictpath.."\\"..dictname..".aff") then
 		print ("The dictionary "..dictname.." is not installed")
-	else
+else
+	init, err =package.loadlib(props["orthospell.home"].."\\hunspell.dll",'luaopen_hunspell')
+	assert(type(init) == "function","error calling hunspell.init")
+	init(dictpath.."\\"..dictname..".aff", dictpath.."\\"..dictname..".dic")
+	hspell = true
 		hunspell.init(dictpath.."\\"..dictname..".aff", dictpath.."\\"..dictname..".dic")
 		-- adding a user dictionary
 		if userdict then add_userDict() end
 		get_langParam(dictname)
 		dicInit = true
-	end
 end
 
 function inline_spell()
