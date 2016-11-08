@@ -175,9 +175,9 @@ end
 if not scite_FileExists(dictpath.."\\"..dictname..".aff") then
 		print ("The dictionary "..dictname.." is not installed")
 else
-	init, err =package.loadlib(props["orthospell.home"].."\\hunspell.dll",'luaopen_hunspell')
-	assert(type(init) == "function","error calling hunspell.init")
-	init(dictpath.."\\"..dictname..".aff", dictpath.."\\"..dictname..".dic")
+	fnInit, err =package.loadlib(props["orthospell.home"].."\\hunspell.dll",'luaopen_hunspell')
+	assert(type(fnInit) == "function", err)
+	fnInit(dictpath.."\\"..dictname..".aff", dictpath.."\\"..dictname..".dic")
 	hspell = true
 		hunspell.init(dictpath.."\\"..dictname..".aff", dictpath.."\\"..dictname..".dic")
 		-- adding a user dictionary

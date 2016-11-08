@@ -1,7 +1,7 @@
 -
 -- Interface
- Within Lua scripts you can use the following 
- 
+ Within Lua scripts you can use the following
+
  - globals -
  editor - the editor pane.
  output - the output pane.
@@ -12,7 +12,7 @@
  dostring(str) - executes as as a Lua string, like early Lua's dostring.
 
  :-> included lua.scite.api to show some nice calltips.
- 
+
 -- remdebugging
  You can use SciTE not only to debug the executable, but any SciTE Lua scripts.
  Put these statements into the debuggee. The first one ensures that SciTE can find other Lua packages using require;
@@ -21,11 +21,13 @@
  require "remdebug.engine"
  remdebug.engine.start()
  remdebug.engine.config { host = your-ip-address }
- 
+
 -- Tips
  Using package.loadlib gives you the advantage of defining a full qualified path like:
- local fn,err =  package.loadlib("E:\\lfs.dll", "luaopen_lfs")
+  local fnInit,err =  package.loadlib("E:\\hunspell.dll", "luaopen_hunspell")
+  assert(type(init) == "function",err)
+  fnInit(dictpath.."\\"..dictname..".aff", dictpath.."\\"..dictname..".dic")
 
--- Further Information 
+-- Further Information
  ... can be obtained from within the source Tree - scintilla/include/scintilla.iface
  ... or online at www.scintilla.org/PaneAPI.html
