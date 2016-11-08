@@ -177,7 +177,7 @@ if not scite_FileExists(dictpath.."\\"..dictname..".aff") then
 else
 	fnInit, err =package.loadlib(props["orthospell.home"].."\\hunspell.dll",'luaopen_hunspell')
 	assert(type(fnInit) == "function", err)
-	fnInit(dictpath.."\\"..dictname..".aff", dictpath.."\\"..dictname..".dic")
+	fnInit()
 	hspell = true
 		hunspell.init(dictpath.."\\"..dictname..".aff", dictpath.."\\"..dictname..".dic")
 		-- adding a user dictionary

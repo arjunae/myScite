@@ -25,8 +25,8 @@
 -- Tips
  Using package.loadlib gives you the advantage of defining a full qualified path like:
   local fnInit,err =  package.loadlib("E:\\hunspell.dll", "luaopen_hunspell")
-  assert(type(init) == "function",err)
-  fnInit(dictpath.."\\"..dictname..".aff", dictpath.."\\"..dictname..".dic")
+  assert(type(fnInit) == "function",err)
+  fnInit()
 
 -- Further Information
  ... can be obtained from within the source Tree - scintilla/include/scintilla.iface
