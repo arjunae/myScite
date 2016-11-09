@@ -1,43 +1,34 @@
-initialData = [
-    { firstName: "Danny", lastName: "LaRusso", phones: [
-        { type: "Mobile", number: "(555) 121-2121" },
-        { type: "Home", number: "(555) 123-4567"}]
-    },
-    { firstName: "Sensei", lastName: "Miyagi", phones: [
-        { type: "Mobile", number: "(555) 444-2222" },
-        { type: "Home", number: "(555) 999-1212"}]
-    }
-]
+# Beautiful Code, Chapter 1. https://github.com/jashkenas/coffeescript
+# Implements a regular expression matcher that supports character matches,
+# '.', '^', '$', and '*'.
 
-class ContactsModel
-    constructor: (contacts) ->
-        @contacts = ko.observableArray({
-                firstName: contact.firstName
-                lastName: contact.lastName
-                phones: ko.observableArray(contact.phones)
-            } for contact in contacts)
+# Search for the regexp anywhere in the text.
+match = (regexp, text) ->
+  return match_here(regexp.slice(1), text) if regexp[0] is '^'
+  while text
+    return true if match_here(regexp, text)
+    text = text.slice(1)
+  false
 
-        @addContact = =>
-            @contacts.push
-                firstName: ""
-                lastName: ""
-                phones: ko.observableArray()
+# Search for the regexp at the beginning of the text.
+match_here = (regexp, text) ->
+  [cur, next] = [regexp[0], regexp[1]]
+  if regexp.length is 0 then return true
+  if next is '*' then return match_star(cur, regexp.slice(2), text)
+  if cur is '$' and not next then return text.length is 0
+  if text and (cur is '.' or cur is text[0]) then return match_here(regexp.slice(1), text.slice(1))
+  false
 
-        @removeContact = (contact) =>
-            @contacts.remove(contact)
+# Search for a kleene star match at the beginning of the text.
+match_star = (c, regexp, text) ->
+  loop
+    return true if match_here(regexp, text)
+    return false unless text and (text[0] is c or c is '.')
+    text = text.slice(1)
 
-        @addPhone = (contact) =>
-            contact.phones.push
-                type: ""
-                number: ""
-
-        @removePhone = (phone) =>
-            contact.phones.remove phone for contact in @contacts()
-
-        @save = =>
-            @lastSavedJson JSON.stringify(ko.toJS(@contacts), null, 2)
-
-        @lastSavedJson = ko.observable ""
-
-$ ->
-    ko.applyBindings(new ContactsModel(initialData))
+console.log match("ex", "some text")
+console.log match("s..t", "spit")
+console.log match("^..t", "buttercup")
+console.log match("i..$", "cherries")
+console.log match("o*m", "vrooooommm!")
+console.log match("^hel*o$", "hellllllo")

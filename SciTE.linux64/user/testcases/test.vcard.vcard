@@ -5,9 +5,9 @@ FN;CHARSET=UTF-8:John Doe
 TEL;TYPE=WORK,VOICE:(111) 555-1212
 TEL;TYPE=HOME,VOICE:(404) 555-1212
 TEL;TYPE=HOME,TYPE=VOICE:(404) 555-1213
-EMAIL;TYPE=PREF,INTERNET:forrestgump@example.com
+EMAIL;TYPE=PREF,INTERNET:forrestgit@example.com
 EMAIL;TYPE=INTERNET:example@example.com
 ADR;TYPE=HOME:;;42 Plantation St.;Baytown;LA;30314;United States of America
 URL:https://www.google.com/
-PHOTO;VALUE=URL;TYPE=PNG:http://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Example_svg.svg/200px-Example_svg.svg.png
+PHOTO;VALUE=URL;TYPE=GIF:https://a.fsdn.com/allura/p/scite-webdev/icon
 AGENT:BEGIN:VCARD

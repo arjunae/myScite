@@ -1,0 +1,21 @@
+# SciTE session file
+
+position.left=50
+position.top=100
+position.width=720
+position.height=400
+position.maximize=0
+
+mru.1.path=E:\projects\_myScite\.myScite.github\readme.md
+mru.2.path=E:\projects\_myScite\.myScite.github\SciTE.linux64\Addons\tools.properties
+mru.3.path=E:\projects\_myScite\.myScite.github\SciTE.linux64\Addons\settings.properties
+mru.4.path=E:\projects\_myScite\.myScite.github\SciTE.linux64\.SciTEUser.properties
+mru.5.path=E:\projects\_myScite\.myScite.github\SciTE.win32\SciTEGlobal.properties
+mru.6.path=E:\projects\_myScite\.myScite.github\SciTE.win32\SciTEUser.properties
+
+search.1.findwhat=tidy
+
+buffer.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\SciTEUser.properties
+buffer.1.position=5104
+buffer.1.scroll=108
+buffer.1.current=1

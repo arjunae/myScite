@@ -1,10 +1,12 @@
 @echo off
 mode 112,20
 REM ---------------- Test Batch -----------------
-REM creates a reg file which you can use to add Scite to your context Menu
+REM creates a reg file which you can use to add Scite to explorers context Menu
 REM -----------------------------------------------
 
-echo  ... List all Files, starting from current Directory...
+echo  ... Click outputPane and press Key.
+echo ... List all Files, starting from current Directory...
+pause >NUL
 call :sub_lister
 echo  ... Listed all Files, started from current Directory...
 
@@ -14,21 +16,22 @@ echo  ... Listed all Files, started from current Directory...
 
  REM ------- this batch can reside in a subdir to support a more clean directory structure
  REM ------- write path of %cmd% in scite_cmd
- 
+
  :: ------- Check for and write path of %cmd% in scite_cmd
- IF EXIST %cmd% ( set scite_cmd="%cmd%" ) 
- IF EXIST ..\%cmd% ( set scite_cmd="..\%cmd%" ) 
- IF EXIST ..\..\%cmd% ( set scite_cmd="..\..\%cmd%") 
- IF NOT EXIST %scite_cmd% ( call :sub_fail) else ( call :sub_continue ) 
- 
+ pushd
+ IF EXIST %cmd% ( set scite_cmd="%cmd%" )
+ IF EXIST ..\%cmd% ( set scite_cmd="..\%cmd%" )
+ IF EXIST ..\..\%cmd% ( set scite_cmd="..\..\%cmd%")
+ IF NOT EXIST %scite_cmd% ( call :sub_fail) else ( call :sub_continue )
+
  :: Clean up...
  move %regfile% %userprofile%\desktop >NUL
  del /Q %tmp%\scite.tmp >NUL
-
+ popd
  echo. .... copied to %userprofile%\desktop
- echo Now, please press your favorite key to be Done. HanD! 
+ echo Now, please press your favorite key to be Done. HanD!
  goto :freude
- 
+
 :sub_continue
 
  REM ------- Search for %scite_cmd%, expand its path to file scite.tmp
@@ -42,13 +45,13 @@ echo  ... Listed all Files, started from current Directory...
  call set str=%str:\scite.exe =%
  set scite_path=%str%
 
- :: -- replace string \ with \\ 
+ :: -- replace string \ with \\
  set word=\\
  set str=%scite_path%
  CALL set str=%%str:\=%word%%%
  set scite_path=%str%
 
- :: -- replace string \\ with \\\\ to properly escape two backslashes for Scites -CWD comand"  
+ :: -- replace string \\ with \\\\ to properly escape two backslashes for Scites -CWD comand"
  set word=\\\\
  set str=%scite_path%
  CALL set str=%%str:\\=%word%%%
@@ -65,14 +68,14 @@ echo  ... Listed all Files, started from current Directory...
  echo [HKEY_CLASSES_ROOT\*\shell\Open with SciTE\command] >> %RegFile%
  echo @=%scite_cmd% >> %RegFile%
  :: echo @="E:\\projects\\.scite.gitSourceForge\\SciTE_webdev\\SciTE.exe %%*" >> %RegFile%
- 
- :: ----  Note down how to call scite exe from anywhere on the system. 
+
+ :: ----  Note down how to call scite exe from anywhere on the system.
  :: echo. > _scite.read.me.path.txt
  :: echo "Hint: Use this parameters to open scite from anywhere:" >> _scite.read.me.path.txt
  :: echo %scite_path% "%%1" "-cwd:%scite_path_ext%" >> _scite.read.me.path.txt
 
  echo ..... Finished writing to  %RegFile% ....
- 
+
  exit /b
 :end_sub
 
@@ -92,7 +95,7 @@ exit
 setlocal EnableDelayedExpansion
 
 FOR /R %%I IN (*.*) DO (
-  echo @%%I
+  echo -- %%I
 )
 
 ::runas /noprofile /user:Tho cmd
