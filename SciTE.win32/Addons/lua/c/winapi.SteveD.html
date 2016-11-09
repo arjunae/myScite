@@ -1,0 +1,2471 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<head>
+    <title>Winapi documentation</title>
+    <link rel="stylesheet" href="ldoc.css" type="text/css" />
+</head>
+<body>
+
+<div id="container">
+
+<div id="product">
+	<div id="product_logo"></div>
+	<div id="product_name"><big><b></b></big></div>
+	<div id="product_description"></div>
+</div> <!-- id="product" -->
+
+
+<div id="main">
+
+
+<!-- Menu -->
+
+<div id="navigation">
+<br/>
+<h1>winapi</h1>
+
+<h2>Contents</h2>
+<a href="http://stevedonovan.github.io/winapi/api.html">Steve Donovans Winapi</a>
+
+<ul>
+<li><a href="#Text_encoding">Text encoding</a></li>
+<li><a href="#Class_Window">Class Window</a></li>
+<li><a href="#Manipulating_Windows">Manipulating Windows</a></li>
+<li><a href="#Miscellaneous_functions">Miscellaneous functions</a></li>
+<li><a href="#Class_Event">Class Event</a></li>
+<li><a href="#Class_Process">Class Process</a></li>
+<li><a href="#Working_with_processes">Working with processes</a></li>
+<li><a href="#Class_Thread">Class Thread</a></li>
+<li><a href="#Class_File">Class File</a></li>
+<li><a href="#Launching_processes">Launching processes</a></li>
+<li><a href="#Asynchronous_Timers">Asynchronous Timers</a></li>
+<li><a href="#Dealing_with_named_pipes">Dealing with named pipes</a></li>
+<li><a href="#Drive_information_and_directories">Drive information and directories</a></li>
+<li><a href="#Class_Regkey">Class Regkey</a></li>
+<li><a href="#Registry_Functions">Registry Functions</a></li>
+<li><a href="#Constants">Constants</a></li>
+</ul>
+
+
+<h2>Modules</h2>
+<ul>
+  <li><strong>winapi</strong></li>
+</ul>
+<h2>Topics</h2>
+<ul>
+  <li><a href="topics/readme.md.html">readme.md</a></li>
+</ul>
+<h2>Examples</h2>
+<ul>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/caption.lua.html">caption.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/drives.lua.html">drives.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/event.lua.html">event.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/files.lua.html">files.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/input.lua.html">input.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/message.lua.html">message.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/multiple.lua.html">multiple.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/pipe-server.lua.html">pipe-server.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/process-wait.lua.html">process-wait.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/read-console.lua.html">read-console.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/readserial.lua.html">readserial.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/setenv.lua.html">setenv.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/start_time.lua.html">start_time.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/test-processes.lua.html">test-processes.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/test-reg.lua.html">test-reg.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/test-sleep.lua.html">test-sleep.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/test-spawn.lua.html">test-spawn.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/test-timer.lua.html">test-timer.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/test-times.lua.html">test-times.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/test-uninterrupted.lua.html">test-uninterrupted.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/test-watcher.lua.html">test-watcher.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/testshort.lua.html">testshort.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/testu.lua.html">testu.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/thread-test.lua.html">thread-test.lua</a></li>
+  <li><a href="http://stevedonovan.github.io/winapi/examples/wait.lua.html">wait.lua</a></li>
+</ul>
+
+</div>
+
+<div id="content">
+
+<h1>Module <code>winapi</code></h1>
+
+<p>A useful set of Windows API functions.</p>
+<p><ul>
+<li>Enumerating and accessing windows, including sending keys.</li>
+<li>Enumerating processes and querying their program name, memory used, etc.</li>
+<li>Reading and Writing to the Registry</li>
+<li>Copying and moving files, and showing drive information.</li>
+<li>Launching processes and opening documents.</li>
+<li>Monitoring filesystem changes.</li>
+</ul>
+
+</p>
+
+<h2><a href="#Text_encoding">Text encoding</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#set_encoding">set_encoding&nbsp;(e)</a></td>
+	<td class="summary">set the current text encoding.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_encoding">get_encoding&nbsp;()</a></td>
+	<td class="summary">get the current text encoding.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#encode">encode&nbsp;(e_in, e_out, text)</a></td>
+	<td class="summary">encode a string in another encoding.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#utf8_expand">utf8_expand&nbsp;(text)</a></td>
+	<td class="summary">expand # unicode escapes in a string.</td>
+	</tr>
+</table>
+<h2><a href="#Class_Window">Class Window</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Window:get_handle">Window:get_handle&nbsp;()</a></td>
+	<td class="summary">the handle of this window.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Window:get_text">Window:get_text&nbsp;()</a></td>
+	<td class="summary">get the window text.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Window:set_text">Window:set_text&nbsp;()</a></td>
+	<td class="summary">set the window text.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Window:show">Window:show&nbsp;(flags)</a></td>
+	<td class="summary">change the visibility, state etc</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Window:get_position">Window:get_position&nbsp;()</a></td>
+	<td class="summary">get the position in pixels</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Window:get_bounds">Window:get_bounds&nbsp;()</a></td>
+	<td class="summary">get the bounds in pixels</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Window:is_visible">Window:is_visible&nbsp;()</a></td>
+	<td class="summary">is this window visible?</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Window:destroy">Window:destroy&nbsp;()</a></td>
+	<td class="summary">destroy this window.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Window:resize">Window:resize&nbsp;(x0, y0, w, h)</a></td>
+	<td class="summary">resize this window.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Window:send_message">Window:send_message&nbsp;(msg, wparam, lparam)</a></td>
+	<td class="summary">send a message.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Window:enum_children">Window:enum_children&nbsp;(a)</a></td>
+	<td class="summary">enumerate all child windows.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Window:get_parent">Window:get_parent&nbsp;()</a></td>
+	<td class="summary">get the parent window.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Window:get_module_filename">Window:get_module_filename&nbsp;()</a></td>
+	<td class="summary">get the name of the program owning this window.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Window:get_class_name">Window:get_class_name&nbsp;()</a></td>
+	<td class="summary">get the window class name.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Window:set_foreground">Window:set_foreground&nbsp;()</a></td>
+	<td class="summary">bring this window to the foreground.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Window:get_process">Window:get_process&nbsp;()</a></td>
+	<td class="summary">get the associated process of this window</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Window:__tostring">Window:__tostring&nbsp;()</a></td>
+	<td class="summary">this window as string (up to 100 chars).</td>
+	</tr>
+</table>
+<h2><a href="#Manipulating_Windows">Manipulating Windows</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#find_window">find_window&nbsp;(cname, wname)</a></td>
+	<td class="summary">find a window based on classname and caption</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#make_name_matcher">make_name_matcher&nbsp;(text)</a></td>
+	<td class="summary">makes a function that matches against window text</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#make_class_matcher">make_class_matcher&nbsp;(text)</a></td>
+	<td class="summary">makes a function that matches against window class name</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#find_window_ex">find_window_ex&nbsp;(match)</a></td>
+	<td class="summary">find a window using a condition function.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#find_all_windows">find_all_windows&nbsp;(match)</a></td>
+	<td class="summary">return all windows matching a condition.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#find_window_match">find_window_match&nbsp;(text)</a></td>
+	<td class="summary">find a window matching the given text.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_foreground_window">get_foreground_window&nbsp;()</a></td>
+	<td class="summary">current foreground window.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_desktop_window">get_desktop_window&nbsp;()</a></td>
+	<td class="summary">the desktop window.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#enum_windows">enum_windows&nbsp;(callback)</a></td>
+	<td class="summary">enumerate over all top-level windows.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#use_gui">use_gui&nbsp;()</a></td>
+	<td class="summary">route callback dispatch through a message window.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#send_to_window">send_to_window&nbsp;(text)</a></td>
+	<td class="summary">send a string or virtual key to the active window.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#tile_windows">tile_windows&nbsp;(parent, horiz, kids, bounds)</a></td>
+	<td class="summary">tile a group of windows.</td>
+	</tr>
+</table>
+<h2><a href="#Miscellaneous_functions">Miscellaneous functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#sleep">sleep&nbsp;(millisec)</a></td>
+	<td class="summary">sleep and use no processing time.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#show_message">show_message&nbsp;(caption, msg, btns, icon)</a></td>
+	<td class="summary">show a message box.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#beep">beep&nbsp;(type)</a></td>
+	<td class="summary">make a beep sound.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#copy_file">copy_file&nbsp;(src, dest, fail_if_exists)</a></td>
+	<td class="summary">copy a file.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#output_debug_string">output_debug_string&nbsp;(str)</a></td>
+	<td class="summary">output text to the system debugger.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#move_file">move_file&nbsp;(src, dest)</a></td>
+	<td class="summary">move a file.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#shell_exec">shell_exec&nbsp;(verb, file, parms, dir, show)</a></td>
+	<td class="summary">execute a shell command.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#set_clipboard">set_clipboard&nbsp;(text)</a></td>
+	<td class="summary">copy text onto the clipboard.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_clipboard">get_clipboard&nbsp;()</a></td>
+	<td class="summary">get the text on the clipboard.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_console">get_console&nbsp;()</a></td>
+	<td class="summary">open console i/o.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#open_serial">open_serial&nbsp;(defn)</a></td>
+	<td class="summary">open a serial port for reading and writing.</td>
+	</tr>
+</table>
+<h2><a href="#Class_Event">Class Event</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Event:wait">Event:wait&nbsp;(timeout)</a></td>
+	<td class="summary">wait for this event to be signalled.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Event:wait_async">Event:wait_async&nbsp;(callback, timeout)</a></td>
+	<td class="summary">run callback when this process is finished.</td>
+	</tr>
+</table>
+<h2><a href="#Class_Process">Class Process</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Process:get_process_name">Process:get_process_name&nbsp;(full)</a></td>
+	<td class="summary">get the name of the process.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Process:get_pid">Process:get_pid&nbsp;()</a></td>
+	<td class="summary">get the the pid of the process.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Process:kill">Process:kill&nbsp;()</a></td>
+	<td class="summary">kill the process.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Process:get_working_size">Process:get_working_size&nbsp;()</a></td>
+	<td class="summary">get the working size of the process.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Process:get_start_time">Process:get_start_time&nbsp;()</a></td>
+	<td class="summary">get the start time of this process.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Process:get_run_times">Process:get_run_times&nbsp;()</a></td>
+	<td class="summary">elapsed run time of this process.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Process:wait">Process:wait&nbsp;(timeout)</a></td>
+	<td class="summary">wait for this process to finish.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Process:wait_async">Process:wait_async&nbsp;(callback, timeout)</a></td>
+	<td class="summary">run callback when this process is finished.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Process:wait_for_input_idle">Process:wait_for_input_idle&nbsp;(timeout)</a></td>
+	<td class="summary">wait for this process to become idle and ready for input.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Process:get_exit_code">Process:get_exit_code&nbsp;()</a></td>
+	<td class="summary">exit code of this process.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Process:close">Process:close&nbsp;()</a></td>
+	<td class="summary">close this process handle.</td>
+	</tr>
+</table>
+<h2><a href="#Working_with_processes">Working with processes</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#process_from_id">process_from_id&nbsp;(pid)</a></td>
+	<td class="summary">create a process object from the id.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_current_pid">get_current_pid&nbsp;()</a></td>
+	<td class="summary">process id of current process.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_current_process">get_current_process&nbsp;()</a></td>
+	<td class="summary">process object of the current process.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_processes">get_processes&nbsp;()</a></td>
+	<td class="summary">get all process ids in the system.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#wait_for_processes">wait_for_processes&nbsp;(processes, all, timeout)</a></td>
+	<td class="summary">wait for a group of processes.</td>
+	</tr>
+</table>
+<h2><a href="#Class_Thread">Class Thread</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Thread:suspend">Thread:suspend&nbsp;()</a></td>
+	<td class="summary">suspend this thread.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Thread:resume">Thread:resume&nbsp;()</a></td>
+	<td class="summary">resume a suspended thread.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Thread:kill">Thread:kill&nbsp;()</a></td>
+	<td class="summary">kill this thread.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Thread:set_priority">Thread:set_priority&nbsp;(p)</a></td>
+	<td class="summary">set a thread&rsquo;s priority</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Thread:get_priority">Thread:get_priority&nbsp;()</a></td>
+	<td class="summary">get a thread&rsquo;s priority</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Thread:wait">Thread:wait&nbsp;(timeout)</a></td>
+	<td class="summary">wait for this thread to finish.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Thread:wait_async">Thread:wait_async&nbsp;(callback, timeout)</a></td>
+	<td class="summary">run callback when this thread is finished.</td>
+	</tr>
+</table>
+<h2><a href="#Class_File">Class File</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#File:write">File:write&nbsp;(s)</a></td>
+	<td class="summary">write to a file.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#File:read">File:read&nbsp;()</a></td>
+	<td class="summary">read from a file.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#File:read_async">File:read_async&nbsp;(callback)</a></td>
+	<td class="summary">asynchronous read.</td>
+	</tr>
+</table>
+<h2><a href="#Launching_processes">Launching processes</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#setenv">setenv&nbsp;(name, value)</a></td>
+	<td class="summary">set an environment variable for any child processes.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#spawn_process">spawn_process&nbsp;(program, dir)</a></td>
+	<td class="summary">Spawn a process.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#execute">execute&nbsp;(cmd, unicode)</a></td>
+	<td class="summary">execute a system command.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#thread">thread&nbsp;(fun, data)</a></td>
+	<td class="summary">launch a function in a new thread.</td>
+	</tr>
+</table>
+<h2><a href="#Asynchronous_Timers">Asynchronous Timers</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#make_timer">make_timer&nbsp;(msec, callback)</a></td>
+	<td class="summary">Create an asynchronous timer.</td>
+	</tr>
+</table>
+<h2><a href="#Dealing_with_named_pipes">Dealing with named pipes</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#open_pipe">open_pipe&nbsp;(pipename)</a></td>
+	<td class="summary">open a pipe for reading and writing.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#make_pipe_server">make_pipe_server&nbsp;(callback, pipename)</a></td>
+	<td class="summary">create a named pipe server.</td>
+	</tr>
+</table>
+<h2><a href="#Drive_information_and_directories">Drive information and directories</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#short_path">short_path&nbsp;(path)</a></td>
+	<td class="summary">the short path name of a directory or file.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#temp_name">temp_name&nbsp;()</a></td>
+	<td class="summary">get a temporary filename.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#delete_file_or_dir">delete_file_or_dir&nbsp;(file)</a></td>
+	<td class="summary">delete a file or directory.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#make_dir">make_dir&nbsp;()</a></td>
+	<td class="summary">make a directory.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#remove_dir">remove_dir&nbsp;(dir, tree)</a></td>
+	<td class="summary">remove a directory.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#files">files&nbsp;(mask, subdirs, attrib)</a></td>
+	<td class="summary">iterator over directory contents.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#dirs">dirs&nbsp;(file, subdirs)</a></td>
+	<td class="summary">iterate over subdirectories</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_logical_drives">get_logical_drives&nbsp;()</a></td>
+	<td class="summary">get all the drives on this computer.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_drive_type">get_drive_type&nbsp;(root)</a></td>
+	<td class="summary">get the type of the given drive.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_disk_free_space">get_disk_free_space&nbsp;(root)</a></td>
+	<td class="summary">get the free disk space.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#get_disk_network_name">get_disk_network_name&nbsp;(root)</a></td>
+	<td class="summary">get the network resource associated with this drive.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#watch_for_file_changes">watch_for_file_changes&nbsp;(dir, how, subdirs, callback)</a></td>
+	<td class="summary">start watching a directory.</td>
+	</tr>
+</table>
+<h2><a href="#Class_Regkey">Class Regkey</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#Regkey:set_value">Regkey:set_value&nbsp;(name, val, type)</a></td>
+	<td class="summary">set the string value of a name.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Regkey:get_value">Regkey:get_value&nbsp;(name)</a></td>
+	<td class="summary">get the value and type of a name.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Regkey:get_keys">Regkey:get_keys&nbsp;()</a></td>
+	<td class="summary">enumerate the subkeys of a key.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Regkey:close">Regkey:close&nbsp;()</a></td>
+	<td class="summary">close this key.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#Regkey:flush">Regkey:flush&nbsp;()</a></td>
+	<td class="summary">flush the key.</td>
+	</tr>
+</table>
+<h2><a href="#Registry_Functions">Registry Functions</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#open_reg_key">open_reg_key&nbsp;(path, writeable)</a></td>
+	<td class="summary">Open a registry key.</td>
+	</tr>
+	<tr>
+	<td class="name" nowrap><a href="#create_reg_key">create_reg_key&nbsp;(path)</a></td>
+	<td class="summary">Create a registry key.</td>
+	</tr>
+</table>
+<h2><a href="#Constants">Constants</a></h2>
+<table class="function_list">
+	<tr>
+	<td class="name" nowrap><a href="#constants">constants</a></td>
+	<td class="summary">useful Windows API constants</td>
+	</tr>
+</table>
+
+<br/>
+<br/>
+
+
+    <h2><a name="Text_encoding"></a>Text encoding</h2>
+    
+
+    <dl class="function">
+    <dt>
+    <a name = "set_encoding"></a>
+    <strong>set_encoding&nbsp;(e)</strong>
+    </dt>
+    <dd>
+    set the current text encoding. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>e</em></code>:  one of <code>CP_ACP</code> (Windows code page; default) and <code>CP_UTF8</code></li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_encoding"></a>
+    <strong>get_encoding&nbsp;()</strong>
+    </dt>
+    <dd>
+    get the current text encoding. 
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        either <code>CP_ACP</code> or <code>CP_UTF8</code>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "encode"></a>
+    <strong>encode&nbsp;(e_in, e_out, text)</strong>
+    </dt>
+    <dd>
+    encode a string in another encoding. 
+ Note: currently there&rsquo;s a limit of about 2K on the string buffer.
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>e_in</em></code>:  <code>CP_ACP</code>, <code>CP_UTF8</code> or <code>CP_UTF16</code></li>
+       <li><code><em>e_out</em></code>:  likewise</li>
+       <li><code><em>text</em></code>:  the string</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "utf8_expand"></a>
+    <strong>utf8_expand&nbsp;(text)</strong>
+    </dt>
+    <dd>
+    expand # unicode escapes in a string. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>text</em></code>:  ASCII text with #XXXX, where XXXX is four hex digits. ## means # itself.</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        text as UTF-8
+    </ol>
+
+
+    <h3>see also:</h3>
+    <ul>
+         <a href="http://stevedonovan.github.io/winapi/examples/testu.lua.html#">testu.lua</a>
+    </ul>
+</dd>
+</dl>
+    <h2><a name="Class_Window"></a>Class Window</h2>
+    
+
+    <dl class="function">
+    <dt>
+    <a name = "Window:get_handle"></a>
+    <strong>Window:get_handle&nbsp;()</strong>
+    </dt>
+    <dd>
+    the handle of this window. 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Window:get_text"></a>
+    <strong>Window:get_text&nbsp;()</strong>
+    </dt>
+    <dd>
+    get the window text. 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Window:set_text"></a>
+    <strong>Window:set_text&nbsp;()</strong>
+    </dt>
+    <dd>
+    set the window text. 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Window:show"></a>
+    <strong>Window:show&nbsp;(flags)</strong>
+    </dt>
+    <dd>
+    change the visibility, state etc 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>flags</em></code>:  one of <code>SW_SHOW</code>, <code>SW_MAXIMIZE</code>, etc</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Window:get_position"></a>
+    <strong>Window:get_position&nbsp;()</strong>
+    </dt>
+    <dd>
+    get the position in pixels 
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>left position</li>
+        <li>top position</li>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "Window:get_bounds"></a>
+    <strong>Window:get_bounds&nbsp;()</strong>
+    </dt>
+    <dd>
+    get the bounds in pixels 
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>width</li>
+        <li>height</li>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "Window:is_visible"></a>
+    <strong>Window:is_visible&nbsp;()</strong>
+    </dt>
+    <dd>
+    is this window visible? 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Window:destroy"></a>
+    <strong>Window:destroy&nbsp;()</strong>
+    </dt>
+    <dd>
+    destroy this window. 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Window:resize"></a>
+    <strong>Window:resize&nbsp;(x0, y0, w, h)</strong>
+    </dt>
+    <dd>
+    resize this window. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>x0</em></code>:  left</li>
+       <li><code><em>y0</em></code>:  top</li>
+       <li><code><em>w</em></code>:  width</li>
+       <li><code><em>h</em></code>:  height</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Window:send_message"></a>
+    <strong>Window:send_message&nbsp;(msg, wparam, lparam)</strong>
+    </dt>
+    <dd>
+    send a message. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>msg</em></code>:  the message</li>
+       <li><code><em>wparam</em></code>: 
+</li>
+       <li><code><em>lparam</em></code>: 
+</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        the result
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "Window:enum_children"></a>
+    <strong>Window:enum_children&nbsp;(a)</strong>
+    </dt>
+    <dd>
+    enumerate all child windows. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>a</em></code>:  callback which to receive each window object</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Window:get_parent"></a>
+    <strong>Window:get_parent&nbsp;()</strong>
+    </dt>
+    <dd>
+    get the parent window. 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Window:get_module_filename"></a>
+    <strong>Window:get_module_filename&nbsp;()</strong>
+    </dt>
+    <dd>
+    get the name of the program owning this window. 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Window:get_class_name"></a>
+    <strong>Window:get_class_name&nbsp;()</strong>
+    </dt>
+    <dd>
+    get the window class name. 
+ Useful to find all instances of a running program, when you
+ know the class of the top level window.
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Window:set_foreground"></a>
+    <strong>Window:set_foreground&nbsp;()</strong>
+    </dt>
+    <dd>
+    bring this window to the foreground. 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Window:get_process"></a>
+    <strong>Window:get_process&nbsp;()</strong>
+    </dt>
+    <dd>
+    get the associated process of this window 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Window:__tostring"></a>
+    <strong>Window:__tostring&nbsp;()</strong>
+    </dt>
+    <dd>
+    this window as string (up to 100 chars). 
+
+
+
+
+
+</dd>
+</dl>
+    <h2><a name="Manipulating_Windows"></a>Manipulating Windows</h2>
+    
+
+    <dl class="function">
+    <dt>
+    <a name = "find_window"></a>
+    <strong>find_window&nbsp;(cname, wname)</strong>
+    </dt>
+    <dd>
+    find a window based on classname and caption 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>cname</em></code>:  class name (may be nil)</li>
+       <li><code><em>wname</em></code>:  caption (may be nil)</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <a href="api.html#Class_Window">Window</a>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "make_name_matcher"></a>
+    <strong>make_name_matcher&nbsp;(text)</strong>
+    </dt>
+    <dd>
+    makes a function that matches against window text 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>text</em></code>: 
+</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "make_class_matcher"></a>
+    <strong>make_class_matcher&nbsp;(text)</strong>
+    </dt>
+    <dd>
+    makes a function that matches against window class name 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>text</em></code>: 
+</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "find_window_ex"></a>
+    <strong>find_window_ex&nbsp;(match)</strong>
+    </dt>
+    <dd>
+    find a window using a condition function. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>match</em></code>:  will return true when its argument is the desired window</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <a href="api.html#Class_Window">Window</a>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "find_all_windows"></a>
+    <strong>find_all_windows&nbsp;(match)</strong>
+    </dt>
+    <dd>
+    return all windows matching a condition. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>match</em></code>:  will return true when its argument is the desired window</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        a list of window objects
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "find_window_match"></a>
+    <strong>find_window_match&nbsp;(text)</strong>
+    </dt>
+    <dd>
+    find a window matching the given text. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>text</em></code>:  the pattern to match against the caption</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        a window object.
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "get_foreground_window"></a>
+    <strong>get_foreground_window&nbsp;()</strong>
+    </dt>
+    <dd>
+    current foreground window. 
+ An example of setting the caption is <a href="http://stevedonovan.github.io/winapi/examples/caption.lua.html#">caption.lua</a>
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <a href="api.html#Class_Window">Window</a>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "get_desktop_window"></a>
+    <strong>get_desktop_window&nbsp;()</strong>
+    </dt>
+    <dd>
+    the desktop window. 
+
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">winapi.get_desktop_window():get_bounds()</pre>
+    </ul>
+
+    <h3>Returns:</h3>
+    <ol>
+        <a href="api.html#Class_Window">Window</a>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "enum_windows"></a>
+    <strong>enum_windows&nbsp;(callback)</strong>
+    </dt>
+    <dd>
+    enumerate over all top-level windows. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>callback</em></code>:  a function to receive each window object</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "use_gui"></a>
+    <strong>use_gui&nbsp;()</strong>
+    </dt>
+    <dd>
+    route callback dispatch through a message window. 
+ You need to do this when using Winapi in a GUI application,
+ since it ensures that Lua callbacks happen in the GUI thread.
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "send_to_window"></a>
+    <strong>send_to_window&nbsp;(text)</strong>
+    </dt>
+    <dd>
+    send a string or virtual key to the active window. 
+ <a href="http://stevedonovan.github.io/winapi/examples/input.lua.html#">input.lua</a> shows launching a process, waiting for it to be
+ ready, and sending it some keys
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>text</em></code>:  either a key (like winapi.VK_SHIFT) or a string</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>number of keys sent, or nil if an error</li>
+        <li>any error string</li>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "tile_windows"></a>
+    <strong>tile_windows&nbsp;(parent, horiz, kids, bounds)</strong>
+    </dt>
+    <dd>
+    tile a group of windows. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>parent</em></code>:  <a href="api.html#Class_Window">Window</a> (can use the desktop)</li>
+       <li><code><em>horiz</em></code>:  tile vertically by default</li>
+       <li><code><em>kids</em></code>:  a table of window objects</li>
+       <li><code><em>bounds</em></code>:  a bounds table (left,top,right,bottom) &ndash; can be nil</li>
+    </ul>
+
+
+
+
+</dd>
+</dl>
+    <h2><a name="Miscellaneous_functions"></a>Miscellaneous functions</h2>
+    
+
+    <dl class="function">
+    <dt>
+    <a name = "sleep"></a>
+    <strong>sleep&nbsp;(millisec)</strong>
+    </dt>
+    <dd>
+    sleep and use no processing time. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>millisec</em></code>:  sleep period</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "show_message"></a>
+    <strong>show_message&nbsp;(caption, msg, btns, icon)</strong>
+    </dt>
+    <dd>
+    show a message box. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>caption</em></code>:  for dialog</li>
+       <li><code><em>msg</em></code>:  the message</li>
+       <li><code><em>btns</em></code>:  (default &lsquo;ok&rsquo;) one of &lsquo;ok&rsquo;,&lsquo;ok-cancel&rsquo;,&lsquo;yes&rsquo;,&lsquo;yes-no&rsquo;,
+ &ldquo;abort-retry-ignore&rdquo;, &ldquo;retry-cancel&rdquo;, &ldquo;yes-no-cancel&rdquo;</li>
+       <li><code><em>icon</em></code>:  (default &lsquo;information&rsquo;) one of &lsquo;information&rsquo;,&lsquo;question&rsquo;,&lsquo;warning&rsquo;,&lsquo;error&rsquo;</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        a string giving the pressed button: one of &lsquo;ok&rsquo;,&lsquo;yes&rsquo;,&lsquo;no&rsquo;,&lsquo;cancel&rsquo;,
+ &lsquo;try&rsquo;,&lsquo;abort&rsquo; and &lsquo;retry&rsquo;
+    </ol>
+
+
+    <h3>see also:</h3>
+    <ul>
+         <a href="http://stevedonovan.github.io/winapi/examples/message.lua.html#">message.lua</a>
+    </ul>
+</dd>
+    <dt>
+    <a name = "beep"></a>
+    <strong>beep&nbsp;(type)</strong>
+    </dt>
+    <dd>
+    make a beep sound. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>type</em></code>:  (default &lsquo;ok&rsquo;); one of &lsquo;information&rsquo;,&lsquo;question&rsquo;,&lsquo;warning&rsquo;,&lsquo;error&rsquo;</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "copy_file"></a>
+    <strong>copy_file&nbsp;(src, dest, fail_if_exists)</strong>
+    </dt>
+    <dd>
+    copy a file. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>src</em></code>:  source file</li>
+       <li><code><em>dest</em></code>:  destination file</li>
+       <li><code><em>fail_if_exists</em></code>:  if true, then cannot copy onto existing file</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "output_debug_string"></a>
+    <strong>output_debug_string&nbsp;(str)</strong>
+    </dt>
+    <dd>
+    output text to the system debugger. 
+ A uility such as <a href="http://technet.microsoft.com/en-us/sysinternals/bb896647">DebugView</a>
+ can show the output
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>str</em></code>:  text</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "move_file"></a>
+    <strong>move_file&nbsp;(src, dest)</strong>
+    </dt>
+    <dd>
+    move a file. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>src</em></code>:  source file</li>
+       <li><code><em>dest</em></code>:  destination file</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "shell_exec"></a>
+    <strong>shell_exec&nbsp;(verb, file, parms, dir, show)</strong>
+    </dt>
+    <dd>
+    execute a shell command. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>verb</em></code>:  the action (e.g. &lsquo;open&rsquo; or &lsquo;edit&rsquo;) can be nil.</li>
+       <li><code><em>file</em></code>:  the command</li>
+       <li><code><em>parms</em></code>:  any parameters (optional)</li>
+       <li><code><em>dir</em></code>:  the working directory (optional)</li>
+       <li><code><em>show</em></code>:  the window show flags (default is SW_SHOWNORMAL)</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "set_clipboard"></a>
+    <strong>set_clipboard&nbsp;(text)</strong>
+    </dt>
+    <dd>
+    copy text onto the clipboard. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>text</em></code>:  the text</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "get_clipboard"></a>
+    <strong>get_clipboard&nbsp;()</strong>
+    </dt>
+    <dd>
+    get the text on the clipboard. 
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        the text
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "get_console"></a>
+    <strong>get_console&nbsp;()</strong>
+    </dt>
+    <dd>
+    open console i/o. 
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <a href="api.html#Class_File">File</a>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "open_serial"></a>
+    <strong>open_serial&nbsp;(defn)</strong>
+    </dt>
+    <dd>
+    open a serial port for reading and writing. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>defn</em></code>:  a string as used by the <a href="http://technet.microsoft.com/en-us/library/cc732236%2528WS.10%2529.aspx">mode command</a></li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <a href="api.html#Class_File">File</a>
+    </ol>
+
+
+</dd>
+</dl>
+    <h2><a name="Class_Event"></a>Class Event</h2>
+    
+
+    <dl class="function">
+    <dt>
+    <a name = "Event:wait"></a>
+    <strong>Event:wait&nbsp;(timeout)</strong>
+    </dt>
+    <dd>
+    wait for this event to be signalled. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>timeout</em></code>:  optional timeout in millisec; defaults to waiting indefinitely.</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>this event object</li>
+        <li>either &ldquo;OK&rdquo; or &ldquo;TIMEOUT&rdquo;</li>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "Event:wait_async"></a>
+    <strong>Event:wait_async&nbsp;(callback, timeout)</strong>
+    </dt>
+    <dd>
+    run callback when this process is finished. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>callback</em></code>:  the callback</li>
+       <li><code><em>timeout</em></code>:  optional timeout in millisec; defaults to waiting indefinitely.</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>this process object</li>
+        <li>either &ldquo;OK&rdquo; or &ldquo;TIMEOUT&rdquo;</li>
+    </ol>
+
+
+</dd>
+</dl>
+    <h2><a name="Class_Process"></a>Class Process</h2>
+     this example was <a href="http://msdn.microsoft.com/en-us/library/ms682623%2528VS.85%2529.aspx">helpful</a>
+    <dl class="function">
+    <dt>
+    <a name = "Process:get_process_name"></a>
+    <strong>Process:get_process_name&nbsp;(full)</strong>
+    </dt>
+    <dd>
+    get the name of the process. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>full</em></code>:  true if you want the full path; otherwise returns the base name.</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Process:get_pid"></a>
+    <strong>Process:get_pid&nbsp;()</strong>
+    </dt>
+    <dd>
+    get the the pid of the process. 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Process:kill"></a>
+    <strong>Process:kill&nbsp;()</strong>
+    </dt>
+    <dd>
+    kill the process. 
+ <a href="http://stevedonovan.github.io/winapi/examples/test-spawn.lua.html#">test-spawn.lua</a> kills a launched process after a certain amount of output.
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Process:get_working_size"></a>
+    <strong>Process:get_working_size&nbsp;()</strong>
+    </dt>
+    <dd>
+    get the working size of the process. 
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>minimum working set size</li>
+        <li>maximum working set size.</li>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "Process:get_start_time"></a>
+    <strong>Process:get_start_time&nbsp;()</strong>
+    </dt>
+    <dd>
+    get the start time of this process. 
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        a table in the same format as os.time() and os.date() expects.
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "Process:get_run_times"></a>
+    <strong>Process:get_run_times&nbsp;()</strong>
+    </dt>
+    <dd>
+    elapsed run time of this process. 
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>user time in msec</li>
+        <li>system time in msec</li>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "Process:wait"></a>
+    <strong>Process:wait&nbsp;(timeout)</strong>
+    </dt>
+    <dd>
+    wait for this process to finish. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>timeout</em></code>:  optional timeout in millisec; defaults to waiting indefinitely.</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>this process object</li>
+        <li>either &ldquo;OK&rdquo; or &ldquo;TIMEOUT&rdquo;</li>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "Process:wait_async"></a>
+    <strong>Process:wait_async&nbsp;(callback, timeout)</strong>
+    </dt>
+    <dd>
+    run callback when this process is finished. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>callback</em></code>:  the callback</li>
+       <li><code><em>timeout</em></code>:  optional timeout in millisec; defaults to waiting indefinitely.</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>this process object</li>
+        <li>either &ldquo;OK&rdquo; or &ldquo;TIMEOUT&rdquo;</li>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "Process:wait_for_input_idle"></a>
+    <strong>Process:wait_for_input_idle&nbsp;(timeout)</strong>
+    </dt>
+    <dd>
+    wait for this process to become idle and ready for input. 
+ Only makes sense for processes with windows (will return immediately if not)
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>timeout</em></code>:  optional timeout in millisec</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>this process object</li>
+        <li>either &ldquo;OK&rdquo; or &ldquo;TIMEOUT&rdquo;</li>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "Process:get_exit_code"></a>
+    <strong>Process:get_exit_code&nbsp;()</strong>
+    </dt>
+    <dd>
+    exit code of this process. 
+ (Only makes sense if the process has in fact finished.)
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        exit code
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "Process:close"></a>
+    <strong>Process:close&nbsp;()</strong>
+    </dt>
+    <dd>
+    close this process handle. 
+
+
+
+
+
+</dd>
+</dl>
+    <h2><a name="Working_with_processes"></a>Working with processes</h2>
+     <a href="topics/readme.md.html#Creating_and_working_with_Processes">Creating and working with Processes</a>
+    <dl class="function">
+    <dt>
+    <a name = "process_from_id"></a>
+    <strong>process_from_id&nbsp;(pid)</strong>
+    </dt>
+    <dd>
+    create a process object from the id. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>pid</em></code>:  the process id</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <a href="api.html#Class_Process">Process</a>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "get_current_pid"></a>
+    <strong>get_current_pid&nbsp;()</strong>
+    </dt>
+    <dd>
+    process id of current process. 
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        integer id
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "get_current_process"></a>
+    <strong>get_current_process&nbsp;()</strong>
+    </dt>
+    <dd>
+    process object of the current process. 
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <a href="api.html#Class_Process">Process</a>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "get_processes"></a>
+    <strong>get_processes&nbsp;()</strong>
+    </dt>
+    <dd>
+    get all process ids in the system. 
+ <a href="http://stevedonovan.github.io/winapi/examples/test-processes.lua.html#">test-processes.lua</a> is a simple <code>ps</code> equivalent.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        an array of process ids.
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "wait_for_processes"></a>
+    <strong>wait_for_processes&nbsp;(processes, all, timeout)</strong>
+    </dt>
+    <dd>
+    wait for a group of processes. 
+ Note that this will work with <a href="api.html#Class_Event">Event</a> and <a href="api.html#Class_Thread">Thread</a> objects as well.
+ <a href="http://stevedonovan.github.io/winapi/examples/process-wait.lua.html#">process-wait.lua</a> shows a number of processes launched
+ in parallel
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>processes</em></code>:  an array of <a href="api.html#Class_Process">Process</a> objects</li>
+       <li><code><em>all</em></code>:  wait for all processes to finish (default false)</li>
+       <li><code><em>timeout</em></code>:  wait upto this time in msec (default infinite)</li>
+    </ul>
+
+
+
+
+</dd>
+</dl>
+    <h2><a name="Class_Thread"></a>Class Thread</h2>
+     This is returned by the <a href="api.html#File:read_async">File:read_async</a> method and the <a href="api.html#make_timer">make_timer</a>,
+ <a href="api.html#make_pipe_server">make_pipe_server</a> and <a href="api.html#watch_for_file_changes">watch_for_file_changes</a> functions. Useful to kill a thread
+ and free associated resources.
+    <dl class="function">
+    <dt>
+    <a name = "Thread:suspend"></a>
+    <strong>Thread:suspend&nbsp;()</strong>
+    </dt>
+    <dd>
+    suspend this thread. 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Thread:resume"></a>
+    <strong>Thread:resume&nbsp;()</strong>
+    </dt>
+    <dd>
+    resume a suspended thread. 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Thread:kill"></a>
+    <strong>Thread:kill&nbsp;()</strong>
+    </dt>
+    <dd>
+    kill this thread.  Generally considered a &lsquo;nuclear&rsquo; option, but
+ this implementation will free any associated callback references, buffers
+ and handles. <a href="http://stevedonovan.github.io/winapi/examples/test-timer.lua.html#">test-timer.lua</a> shows how a timer can be terminated.
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Thread:set_priority"></a>
+    <strong>Thread:set_priority&nbsp;(p)</strong>
+    </dt>
+    <dd>
+    set a thread&rsquo;s priority 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>p</em></code>:  positive integer to increase thread priority</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Thread:get_priority"></a>
+    <strong>Thread:get_priority&nbsp;()</strong>
+    </dt>
+    <dd>
+    get a thread&rsquo;s priority 
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Thread:wait"></a>
+    <strong>Thread:wait&nbsp;(timeout)</strong>
+    </dt>
+    <dd>
+    wait for this thread to finish. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>timeout</em></code>:  optional timeout in millisec; defaults to waiting indefinitely.</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>this thread object</li>
+        <li>either &ldquo;OK&rdquo; or &ldquo;TIMEOUT&rdquo;</li>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "Thread:wait_async"></a>
+    <strong>Thread:wait_async&nbsp;(callback, timeout)</strong>
+    </dt>
+    <dd>
+    run callback when this thread is finished. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>callback</em></code>:  the callback</li>
+       <li><code><em>timeout</em></code>:  optional timeout in millisec; defaults to waiting indefinitely.</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>this thread object</li>
+        <li>either &ldquo;OK&rdquo; or &ldquo;TIMEOUT&rdquo;</li>
+    </ol>
+
+
+</dd>
+</dl>
+    <h2><a name="Class_File"></a>Class File</h2>
+     The write handle may be distinct from the read handle.
+    <dl class="function">
+    <dt>
+    <a name = "File:write"></a>
+    <strong>File:write&nbsp;(s)</strong>
+    </dt>
+    <dd>
+    write to a file. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>s</em></code>:  text</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        number of bytes written.
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "File:read"></a>
+    <strong>File:read&nbsp;()</strong>
+    </dt>
+    <dd>
+    read from a file. 
+ Please note that this is not buffered, and you will have to
+ split into lines, etc yourself.
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        text if successful, nil plus error otherwise.
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "File:read_async"></a>
+    <strong>File:read_async&nbsp;(callback)</strong>
+    </dt>
+    <dd>
+    asynchronous read. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>callback</em></code>:  function that will receive each chunk of text
+ as it comes in.</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <a href="api.html#Class_Thread">Thread</a>
+    </ol>
+
+
+</dd>
+</dl>
+    <h2><a name="Launching_processes"></a>Launching processes</h2>
+    
+
+    <dl class="function">
+    <dt>
+    <a name = "setenv"></a>
+    <strong>setenv&nbsp;(name, value)</strong>
+    </dt>
+    <dd>
+    set an environment variable for any child processes. 
+ <a href="http://stevedonovan.github.io/winapi/examples/setenv.lua.html#">setenv.lua</a> shows how this also affects processes
+ launched with <a href="http://www.lua.org/manual/5.1/manual.html#pdf-os.execute">os.execute</a>
+ Note that this can&rsquo;t affect any system environment variables, see
+ <a href="http://msdn.microsoft.com/en-us/library/ms682653%2528VS.85%2529.aspx">here</a>
+ for how to set these.
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>name</em></code>:  name of variable</li>
+       <li><code><em>value</em></code>:  value to set</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "spawn_process"></a>
+    <strong>spawn_process&nbsp;(program, dir)</strong>
+    </dt>
+    <dd>
+    Spawn a process. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>program</em></code>:  the command-line (program + parameters)</li>
+       <li><code><em>dir</em></code>:  the working directory for the process (optional)</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li><a href="api.html#Class_Process">Process</a></li>
+        <li><a href="api.html#Class_File">File</a></li>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "execute"></a>
+    <strong>execute&nbsp;(cmd, unicode)</strong>
+    </dt>
+    <dd>
+    execute a system command. 
+ This is like <code>os.execute()</code>, except that it works without ugly
+ console flashing in Windows GUI applications. It additionally
+ returns all text read from stdout and stderr.
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>cmd</em></code>:  a shell command (may include redirection, etc)</li>
+       <li><code><em>unicode</em></code>:  if &lsquo;unicode&rsquo; force built-in commands to output in unicode;
+ in this case the result is always UTF-8</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>return code</li>
+        <li>program output</li>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "thread"></a>
+    <strong>thread&nbsp;(fun, data)</strong>
+    </dt>
+    <dd>
+    launch a function in a new thread. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>fun</em></code>:  a Lua function</li>
+       <li><code><em>data</em></code>:  any Lua value to be passed to function</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <a href="api.html#Class_Thread">Thread</a> object
+    </ol>
+
+
+</dd>
+</dl>
+    <h2><a name="Asynchronous_Timers"></a>Asynchronous Timers</h2>
+    
+
+    <dl class="function">
+    <dt>
+    <a name = "make_timer"></a>
+    <strong>make_timer&nbsp;(msec, callback)</strong>
+    </dt>
+    <dd>
+    Create an asynchronous timer. 
+ The callback can return true if it wishes to cancel the timer.
+ <a href="http://stevedonovan.github.io/winapi/examples/test-sleep.lua.html#">test-sleep.lua</a> shows how you need to call <a href="api.html#sleep">sleep</a> at the end of
+ a console application for these timers to work in the background.
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>msec</em></code>:  interval in millisec</li>
+       <li><code><em>callback</em></code>:  a function to be called at each interval.</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <a href="api.html#Class_Thread">Thread</a>
+    </ol>
+
+
+</dd>
+</dl>
+    <h2><a name="Dealing_with_named_pipes"></a>Dealing with named pipes</h2>
+    
+
+    <dl class="function">
+    <dt>
+    <a name = "open_pipe"></a>
+    <strong>open_pipe&nbsp;(pipename)</strong>
+    </dt>
+    <dd>
+    open a pipe for reading and writing. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>pipename</em></code>:  the pipename (default is &ldquo;\\.\pipe\luawinapi&rdquo;)</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "make_pipe_server"></a>
+    <strong>make_pipe_server&nbsp;(callback, pipename)</strong>
+    </dt>
+    <dd>
+    create a named pipe server. 
+ This goes into a background loop, and accepts client connections.
+ For each new connection, the callback will be called with a File
+ object for reading and writing to the client.
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>callback</em></code>:  a function that will be passed a File object</li>
+       <li><code><em>pipename</em></code>:  Must be of the form \.\pipe\name, defaults to
+ \.\pipe\luawinapi.</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <a href="api.html#Class_Thread">Thread</a>.
+    </ol>
+
+
+</dd>
+</dl>
+    <h2><a name="Drive_information_and_directories"></a>Drive information and directories</h2>
+    
+
+    <dl class="function">
+    <dt>
+    <a name = "short_path"></a>
+    <strong>short_path&nbsp;(path)</strong>
+    </dt>
+    <dd>
+    the short path name of a directory or file. 
+ This is always in ASCII, 8.3 format. This function will create the
+ file first if it does not exist; the result can be used to open
+ files with unicode names (see <a href="http://stevedonovan.github.io/winapi/examples/testshort.lua.html#">testshort.lua</a>)
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>path</em></code>:  multibyte encoded file path</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        ASCII 8.3 format file path
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "temp_name"></a>
+    <strong>temp_name&nbsp;()</strong>
+    </dt>
+    <dd>
+    get a temporary filename. 
+ (Don&rsquo;t use os.tmpname)
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        full path within temporary files directory.
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "delete_file_or_dir"></a>
+    <strong>delete_file_or_dir&nbsp;(file)</strong>
+    </dt>
+    <dd>
+    delete a file or directory. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>file</em></code>:  may be a wildcard</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "make_dir"></a>
+    <strong>make_dir&nbsp;()</strong>
+    </dt>
+    <dd>
+    make a directory. 
+ Will make necessary subpaths if command extensions are enabled.
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "remove_dir"></a>
+    <strong>remove_dir&nbsp;(dir, tree)</strong>
+    </dt>
+    <dd>
+    remove a directory. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>dir</em></code>:  the directory</li>
+       <li><code><em>tree</em></code>:  if true, clean out the directory tree</li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "files"></a>
+    <strong>files&nbsp;(mask, subdirs, attrib)</strong>
+    </dt>
+    <dd>
+    iterator over directory contents. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>mask</em></code>:  a file mask like &ldquo;*.txt&rdquo;</li>
+       <li><code><em>subdirs</em></code>:  iterate over subdirectories (default no)</li>
+       <li><code><em>attrib</em></code>:  iterate over items with given attribute (as in dir /A:)</li>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ul>
+        <pre class="example">for f in winapi.files 'dir\\*.txt' do print(f) end</pre>
+    </ul>
+
+
+
+    <h3>see also:</h3>
+    <ul>
+         <a href="http://stevedonovan.github.io/winapi/examples/files.lua.html#">files.lua</a>
+    </ul>
+</dd>
+    <dt>
+    <a name = "dirs"></a>
+    <strong>dirs&nbsp;(file, subdirs)</strong>
+    </dt>
+    <dd>
+    iterate over subdirectories 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>file</em></code>:  mask like &ldquo;mydirs\t*&rdquo;</li>
+       <li><code><em>subdirs</em></code>:  iterate over subdirectories (default no)</li>
+    </ul>
+
+
+
+
+    <h3>see also:</h3>
+    <ul>
+         <a href="api.html#files">files</a>
+    </ul>
+</dd>
+    <dt>
+    <a name = "get_logical_drives"></a>
+    <strong>get_logical_drives&nbsp;()</strong>
+    </dt>
+    <dd>
+    get all the drives on this computer. 
+ An example is <a href="http://stevedonovan.github.io/winapi/examples/drives.lua.html#">drives.lua</a>
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        a table of drive names
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "get_drive_type"></a>
+    <strong>get_drive_type&nbsp;(root)</strong>
+    </dt>
+    <dd>
+    get the type of the given drive. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>root</em></code>:  root of drive (e.g. &lsquo;c:\&rsquo;)</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        one of the following: unknown, none, removable, fixed, remote,
+ cdrom, ramdisk.
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "get_disk_free_space"></a>
+    <strong>get_disk_free_space&nbsp;(root)</strong>
+    </dt>
+    <dd>
+    get the free disk space. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>root</em></code>:  the root of the drive (e.g. &lsquo;d:\&rsquo;)</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>free space in kB</li>
+        <li>total space in kB</li>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "get_disk_network_name"></a>
+    <strong>get_disk_network_name&nbsp;(root)</strong>
+    </dt>
+    <dd>
+    get the network resource associated with this drive. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>root</em></code>:  drive name in the form &lsquo;X:&rsquo;</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        UNC name
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "watch_for_file_changes"></a>
+    <strong>watch_for_file_changes&nbsp;(dir, how, subdirs, callback)</strong>
+    </dt>
+    <dd>
+    start watching a directory. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>dir</em></code>:  the directory</li>
+       <li><code><em>how</em></code>: <p> what events to monitor. Can be a sum of these flags:</p>
+
+<ul>
+<li><code>FILE_NOTIFY_CHANGE_FILE_NAME</code></li>
+<li><code>FILE_NOTIFY_CHANGE_DIR_NAME</code></li>
+<li><code>FILE_NOTIFY_CHANGE_LAST_WRITE</code></li>
+</ul>
+
+</li>
+       <li><code><em>subdirs</em></code>:  whether subdirectories should be monitored</li>
+       <li><code><em>callback</em></code>: <p> a function which will receive the kind of change
+ plus the filename that changed. The change will be one of these:</p>
+
+<ul>
+<li><code>FILE_ACTION_ADDED</code></li>
+<li><code>FILE_ACTION_REMOVED</code></li>
+<li><code>FILE_ACTION_MODIFIED</code></li>
+<li><code>FILE_ACTION_RENAMED_OLD_NAME</code></li>
+<li><code>FILE_ACTION_RENAMED_NEW_NAME</code></li>
+</ul>
+
+</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        a thread object.
+    </ol>
+
+
+    <h3>see also:</h3>
+    <ul>
+         <a href="http://stevedonovan.github.io/winapi/examples/test-watcher.lua.html#">test-watcher.lua</a>
+    </ul>
+</dd>
+</dl>
+    <h2><a name="Class_Regkey"></a>Class Regkey</h2>
+    
+
+    <dl class="function">
+    <dt>
+    <a name = "Regkey:set_value"></a>
+    <strong>Regkey:set_value&nbsp;(name, val, type)</strong>
+    </dt>
+    <dd>
+    set the string value of a name. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>name</em></code>:  the name</li>
+       <li><code><em>val</em></code>:  the string value</li>
+       <li><code><em>type</em></code>:  one of <code>REG_BINARY</code>,<code>REG_DWORD</code>,<code>REG_SZ</code>,<code>REG_MULTI_SZ</code>,<code>REG_EXPAND_SZ</code></li>
+    </ul>
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Regkey:get_value"></a>
+    <strong>Regkey:get_value&nbsp;(name)</strong>
+    </dt>
+    <dd>
+    get the value and type of a name. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>name</em></code>:  the name (can be empty for the default value)</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <li>the value (either a string or a number)</li>
+        <li>the type</li>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "Regkey:get_keys"></a>
+    <strong>Regkey:get_keys&nbsp;()</strong>
+    </dt>
+    <dd>
+    enumerate the subkeys of a key. 
+
+
+
+    <h3>Returns:</h3>
+    <ol>
+        a table of key names
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "Regkey:close"></a>
+    <strong>Regkey:close&nbsp;()</strong>
+    </dt>
+    <dd>
+    close this key. 
+ Although this will happen when garbage collection happens, it
+ is good practice to call this explicitly.
+
+
+
+
+
+</dd>
+    <dt>
+    <a name = "Regkey:flush"></a>
+    <strong>Regkey:flush&nbsp;()</strong>
+    </dt>
+    <dd>
+    flush the key. 
+ Considered an expensive function; use it only when you have
+ to guarantee modification.
+
+
+
+
+
+</dd>
+</dl>
+    <h2><a name="Registry_Functions"></a>Registry Functions</h2>
+    
+
+    <dl class="function">
+    <dt>
+    <a name = "open_reg_key"></a>
+    <strong>open_reg_key&nbsp;(path, writeable)</strong>
+    </dt>
+    <dd>
+    Open a registry key. 
+ <a href="http://stevedonovan.github.io/winapi/examples/test-reg.lua.html#">test-reg.lua</a> shows reading a registry value and enumerating subkeys.
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>path</em></code>:  the full registry key
+ e.g <code>[[HKEY\_LOCAL\_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion]]</code></li>
+       <li><code><em>writeable</em></code>:  true if you want to set values</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <a href="api.html#Class_Regkey">Regkey</a>
+    </ol>
+
+
+</dd>
+    <dt>
+    <a name = "create_reg_key"></a>
+    <strong>create_reg_key&nbsp;(path)</strong>
+    </dt>
+    <dd>
+    Create a registry key. 
+
+    <h3>Parameters:</h3>
+    <ul>
+       <li><code><em>path</em></code>:  the full registry key</li>
+    </ul>
+
+
+    <h3>Returns:</h3>
+    <ol>
+        <a href="api.html#Class_Regkey">Regkey</a>
+    </ol>
+
+
+</dd>
+</dl>
+    <h2><a name="Constants"></a>Constants</h2>
+    <p>The following constants are available:</p>
+
+<ul>
+<li>CP_ACP, (valid values for encoding)</li>
+<li>CP_UTF8,</li>
+<li>CP_UTF16,</li>
+<li>SW_HIDE, (Window operations for Window.show)</li>
+<li>SW_MAXIMIZE,</li>
+<li>SW_MINIMIZE,</li>
+<li>SW_SHOWNORMAL,</li>
+<li>VK_BACK,</li>
+<li>VK_TAB,</li>
+<li>VK_RETURN,</li>
+<li>VK_SPACE,</li>
+<li>VK_PRIOR,</li>
+<li>VK_NEXT,</li>
+<li>VK_END,</li>
+<li>VK_HOME,</li>
+<li>VK_LEFT,</li>
+<li>VK_UP,</li>
+<li>VK_RIGHT,</li>
+<li>VK_DOWN,</li>
+<li>VK_INSERT,</li>
+<li>VK_DELETE,</li>
+<li>VK_ESCAPE,</li>
+<li>VK_F1,</li>
+<li>VK_F2,</li>
+<li>VK_F3,</li>
+<li>VK_F4,</li>
+<li>VK_F5,</li>
+<li>VK_F6,</li>
+<li>VK_F7,</li>
+<li>VK_F8,</li>
+<li>VK_F9,</li>
+<li>VK_F10,</li>
+<li>VK_F11,</li>
+<li>VK_F12,</li>
+<li>FILE_NOTIFY_CHANGE_FILE_NAME  (these are input flags for watch_for_file_changes)</li>
+<li>FILE_NOTIFY_CHANGE_DIR_NAME</li>
+<li>FILE_NOTIFY_CHANGE_LAST_WRITE</li>
+<li>FILE_ACTION_ADDED     (these describe the change: first argument of callback)</li>
+<li>FILE_ACTION_REMOVED</li>
+<li>FILE_ACTION_MODIFIED</li>
+<li>FILE_ACTION_RENAMED_OLD_NAME</li>
+<li>FILE_ACTION_RENAMED_NEW_NAME</li>
+</ul>
+
+
+    <dl class="function">
+    <dt>
+    <a name = "constants"></a>
+    <strong>constants</strong>
+    </dt>
+    <dd>
+    useful Windows API constants 
+
+
+
+
+
+</dd>
+</dl>
+
+
+</div> <!-- id="content" -->
+</div> <!-- id="main" -->
+<div id="about">
+<i>generated by <a href="http://github.com/stevedonovan/LDoc">LDoc 1.2</a></i>
+</div> <!-- id="about" -->
+</div> <!-- id="container" -->
+</body>
+</html>

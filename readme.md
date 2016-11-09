@@ -1,9 +1,9 @@
 ~- mySciTE.webdev -~
 
 [10.November.2016]  (https://github.com/arjunae/myScite/releases) STABLE-130
-- api: add coffeescript Keywords | fix jQuery and vbs Calltips.
+- api: add coffeescript Keywords | fix jQuery and vbs Calltips | Add CSS3 Properties
 - editor: 3Tone Styles | optimized Fonts. (zoom with alt-pgup/pgdown)
-- Addons: Add mod-scintilulla (brings 15 new lexers) | Add mod-orthospell | UPXed lualibs
+- Addons: Add mod-scintilulla (brings 15 new lexers) | Add mod-orthospell | UPXed libs
 - else: sync linux properties | add Documentation | include winpthreads.
 
 [04.November.2016] (https://github.com/arjunae/myScite/releases) DEVEL-124

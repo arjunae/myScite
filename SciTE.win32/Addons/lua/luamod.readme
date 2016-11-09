@@ -31,6 +31,8 @@
  @ If a binary module has unfilled dependecies ( on eg libpthreads) Lua just notes "module not found".
      Using Dependency Walker / and exclude  (gccs) lib path, will reveal details.
  
+ @ http://lua-users.org/wiki/SciteLuaDll is slightly dated, but still correct.
+ 
 -- Further Information
  ... can be obtained from within the source Tree - scintilla/include/scintilla.iface
  ... or online at www.scintilla.org/PaneAPI.html
