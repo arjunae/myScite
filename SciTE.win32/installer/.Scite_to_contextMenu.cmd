@@ -21,7 +21,8 @@ REM ::--::--::--::--Steampunk--::-::--::--::
 
  REM ------- this batch can reside in a subdir to support a more clean directory structure
  REM ------- write path of %cmd% in scite_cmd
-  
+ 
+ pushd
  :: ------- Check for and write path of %cmd% in scite_cmd
  IF EXIST %cmd% (  set scite_cmd="%cmd%"  ) 
  IF EXIST ..\%cmd% (  set scite_cmd="..\%cmd%"  ) 
@@ -33,6 +34,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  move %regfile% %userprofile%\desktop >NUL
  del /Q %tmp%\scite.tmp >NUL
 
+ popd
  echo. .... copied to %userprofile%\desktop
 
  echo   -------------------------------------------
@@ -81,15 +83,15 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo [HKEY_CLASSES_ROOT\*\shell\Open with SciTE\command] >> %RegFile%
  echo @=%scite_cmd% >> %RegFile%
  :: echo @="E:\\projects\\.scite.gitSourceForge\\SciTE_webdev\\SciTE.exe %%1" >> %RegFile%
- 
- :: create / reset Program Entry RegistryKey 
- echo [-HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
- echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
- echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell] >> %RegFile%
- echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell\open] >> %RegFile%
- echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >> %RegFile%
+
+ :: create / reset Program Entry RegistryKey (..in HKEYCurrenUser..)
+ echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
+ echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
+ echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] >> %RegFile%
+ echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] >> %RegFile%
+ echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >> %RegFile%
  echo @=%scite_cmd% >> %RegFile%
- echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >> %RegFile%
+ echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >> %RegFile%
  echo ".*"="">> %RegFile%
 
  :: Now, merge all regFiles into one.

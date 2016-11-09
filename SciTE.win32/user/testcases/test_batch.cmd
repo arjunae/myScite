@@ -18,6 +18,7 @@ echo  ... Listed all Files, started from current Directory...
  REM ------- write path of %cmd% in scite_cmd
 
  :: ------- Check for and write path of %cmd% in scite_cmd
+ pushd
  IF EXIST %cmd% ( set scite_cmd="%cmd%" )
  IF EXIST ..\%cmd% ( set scite_cmd="..\%cmd%" )
  IF EXIST ..\..\%cmd% ( set scite_cmd="..\..\%cmd%")
@@ -26,7 +27,7 @@ echo  ... Listed all Files, started from current Directory...
  :: Clean up...
  move %regfile% %userprofile%\desktop >NUL
  del /Q %tmp%\scite.tmp >NUL
-
+ popd
  echo. .... copied to %userprofile%\desktop
  echo Now, please press your favorite key to be Done. HanD!
  goto :freude

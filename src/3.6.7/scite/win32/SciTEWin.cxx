@@ -422,11 +422,12 @@ void SciTEWin::ReadProperties() {
 FilePath SciTEWin::GetSciteDefaultHome() {
 /*
  *       Scite_home -> Case Windows:
- *       1 If exists, use  %USERPROFILE%\SciTE\
- *       2 check for %SciTE_USERHOME%. Force with $(env.scite_userhome)
- *       3 Compatibility: can be overidden by %SCiTE_HOME%
- *       3 FallBack to Exectables Path
- *       Hello SciTE - my veryfirstPatch :))) Marcedo@HabMalNeFrage.de
+ *			1 look for %SciTE_USERHOME% and $(env.scite_userhome)
+ * 			2 use Exectables Path if we find SciteGlobal.properties
+ *			3 else  use  %USERPROFILE%\mySciTE\
+ *			4 Compatibility: above can be overidden by %SciTE_HOME%
+ *
+ *       Hello SciTE - my veryfirstPatch :)) Marcedo@HabMalNeFrage.de
  */
 
 	std::wstring home;
@@ -472,7 +473,7 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 	}
 }
 
-	// if above are empty...check for folder %userprofile%\Scite
+	// if above are empty...check for folder %userprofile%\myScite
 	if (home.empty()) {
 		// yo.... filepath takes and returns Scites gui_string (which is a basic_wstring / wchar_t)
 		// which converts from (std::wstring). To get a std::wstring back use GUI:UTF8FrommString(Filepath(xyz)).ToUTF8();
@@ -480,7 +481,7 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 		std::wstring wPath;
 
 		wPath = _wgetenv(GUI_TEXT("USERPROFILE"));
-		wPath.append(L"\\SciTE");
+		wPath.append(L"\\mySciTE");
 		wfilePath = FilePath(wPath).NormalizePath();
 
 		if (wfilePath.IsDirectory())

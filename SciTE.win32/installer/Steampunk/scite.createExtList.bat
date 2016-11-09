@@ -81,9 +81,6 @@ if exist %tmp%\scite_tmp (
   rd %tmp%\scite_tmp  1>NUL
 )
 
-echo - Finally - Lets ClearIconCache ;)
-ie4uinit.exe -ClearIconCache
-
 echo   -------------------------------------------
 echo.
 echo   Work Done - I hope you had a nice time !

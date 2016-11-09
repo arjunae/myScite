@@ -4,7 +4,7 @@
 - api: add coffeescript Keywords | fix jQuery and vbs Calltips.
 - editor: 3Tone Styles | optimized Fonts. (zoom with alt-pgup/pgdown)
 - Addons: Add mod-scintilulla (brings 15 new lexers) | Add mod-orthospell | UPXed lualibs
-- else: sync linux properties | add Documentation
+- else: sync linux properties | add Documentation | include winpthreads.
 
 [04.November.2016] DEVEL-124
 - @arjunae cleanup js/jq keywords add Dom Exceptions / add lua.scite.api

@@ -1,5 +1,11 @@
 ~- mySciTE.webdev -~
 
+[10.November.2016]  (https://github.com/arjunae/myScite/releases) STABLE-130
+- api: add coffeescript Keywords | fix jQuery and vbs Calltips.
+- editor: 3Tone Styles | optimized Fonts. (zoom with alt-pgup/pgdown)
+- Addons: Add mod-scintilulla (brings 15 new lexers) | Add mod-orthospell | UPXed lualibs
+- else: sync linux properties | add Documentation | include winpthreads.
+
 [04.November.2016] (https://github.com/arjunae/myScite/releases) DEVEL-124
 - @arjunae cleanup js/jq keywords add Dom Exceptions / add lua.scite.api	
 - @arjunae Additional HTML5 Keywords (final W3C 28.Okt.14) 
