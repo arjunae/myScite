@@ -9,6 +9,7 @@ html, body {
 	padding:0pt;
 	background-color: #91703D;
 	text-align: center;
+	flex-basis: 25%;
 }
 
 .container {
