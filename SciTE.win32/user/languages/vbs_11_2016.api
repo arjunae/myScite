@@ -34,7 +34,6 @@ CInt(expression)Returns an expression that has been converted to a Variant of su
 CLng(expression)Returns an expression that has been converted to a Variant of subtype Long. **\t\nCLng {VBS}
 Conversion()The following table lists the conversion functions in VBScript. {VBS}
 Cos(number)Returns the cosine of an angle.\t\nCos {VBS}
-CreateObject(servername.typename [, location])Creates and returns a reference to an Automation object.\t\nCreateObject {VBS}
 CSng(expression)Returns an expression that has been converted to a Variant of subtype Single.\t\nCSng {VBS}
 CStr(expression)Returns an expression that has been converted to a Variant of subtype String.\t\nCStr {VBS}
 Date(date)Returns the current system date.\t\nDate {VBS}
@@ -53,7 +52,6 @@ FormatDateTime(Date,NamedFormat)Returns an expression formatted as a date or tim
 FormatNumber(Expression,NumDigitsAfterDecimal,IncludeLeadingDigit,UseParensForNegativeNumbers,GroupDigits)Returns an expression formatted as a number.  **\t\n[,UseParensForNegativeNumbers [,GroupDigits]]]]
 FormatPercent(Expression,NumDigitsAfterDecimal,IncludeLeadingDigit,UseParensForNegativeNumbers,GroupDigits)Returns an expression formatted as a percentage  with a trailing % character.  **\t\n[,UseParensForNegativeNumbers [,GroupDigits]]]]
 GetLocale()Returns the current locale ID value.\t\nGetLocale {VBS}
-GetObject(pathname,class,appname,objectype)Returns a reference to an Automation object from a file.  **\t\nGetObject {VBS}
 GetRef(object,event,procname)Returns a reference to a procedure that can be bound to an event.\t\nSet object.eventname = GetRef {VBS}
 Hex(number)Returns a string representing the hexadecimal value of a number.\t\nHex {VBS}
 Hour(time)Returns a whole number between 0 and 23, inclusive, representing \t\nthe hour of the day.\t\nHour {VBS}
