@@ -17,4 +17,3 @@ http = new ActiveXObject("WinHttp.WinHttpRequest.5.1");
 http.Open("GET", "https://raw.githubusercontent.com/arjunae/myScite/master/.gitattributes", false);
 http.Send;
 WScript.Echo("http.StatusText:" + http.StatusText + "\nhttp.responseText:\n " + http.responseText);
-
