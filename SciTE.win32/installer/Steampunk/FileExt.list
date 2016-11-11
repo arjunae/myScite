@@ -12,20 +12,11 @@
 #
 #--::--::--::--::--Steampunk--::-::--::--::
 
-# -- Textfiles --
-
-.txt ; text/plain
 
 # -- Source Code --
 
-.js ; text/javascript
-.cpp ; text/x-c
-.cxx ; text/x-c
-
-# -- Data
-.diff ; text/diff
+.list ; text/list
 
 # -- System Files --
 
-.bat ; text/plain
-.reg ;  text/plain
+.cmd ; text/batch

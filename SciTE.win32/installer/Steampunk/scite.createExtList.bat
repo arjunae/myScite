@@ -43,13 +43,13 @@ echo Windows Registry Editor Version 5.00>header.tmp
 copy *with.scite.reg data.tmp>NUL
 
 :: create / reset Program Key 
-echo [-HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe] >>data.tmp
-echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe] >>data.tmp
-echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell] >>data.tmp
-echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell\open] >>data.tmp
-echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >>data.tmp
+echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >>data.tmp
+echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >>data.tmp
+echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] >>data.tmp
+echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] >>data.tmp
+echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >>data.tmp
 echo @=%scite_cmd% >>data.tmp
-echo [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >>data.tmp
+echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >>data.tmp
 echo ".*"="">>data.tmp
 
 :: Now, merge all regFiles into one.

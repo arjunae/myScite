@@ -247,6 +247,7 @@ if [%SCITE_INTERACT%]==[%TRUE%] echo Windows Registry Editor Version 5.00 > %Reg
 :: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts
 echo ; ----------- %filetype% / %mimetype% ------------ >> %RegFileName%
 IF [%HKCU_DOTEXT%]==[%TRUE%] ( 
+ echo [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  :: --- Marker
  echo "myScite_change"="" >> %RegFileName%
@@ -258,24 +259,27 @@ IF [%HKCU_DOTEXT%]==[%TRUE%] (
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithList] >> %RegFileName%
 ) 
  
-IF [%HKCU_DOTEXT%]==[%TRUE%] echo "a"=%scite_cmd% >> %RegFileName%
+IF [%HKCU_DOTEXT%]==[%TRUE%] (
+ echo "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe" >> %RegFileName%
+ echo "MRUList"="ba" >> %RegFileName%
+ echo "b"="SciTE.exe" >> %RegFileName%
+ )
  
 IF [%HKCU_DOTEXT%]==[%TRUE%] ( 
- echo "MRUList"="a" >> %RegFileName%
-:: Remove the Key to take care for the case, that it contains a write protected Hash.   
- echo [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\UserChoice] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\UserChoice] >> %RegFileName%
  echo "Progid"="%progid%" >> %RegFileName%
  echo [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithProgids]>>%RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithProgids]>>%RegFileName%
- echo "%progid%"=hex(0^): >> %RegFileName%
-) 
+ echo "Applications\\Scite.exe"=hex(0^): >> %RegFileName%
+ ) 
  
 :: ----------------------------------------------------------------------------
 :: But leave it empty when we don't have an autofile for the type. (then its  XP like, "oldFashion" steered)   
 ::----------------------------------------------------------------------------
 
 IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
+ REM Remove the Key to take care for the case, that it contains a write protected Hash.   
+ echo [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  :: --- Marker
  echo "Created_by_scite"="" >> %RegFileName%
@@ -289,20 +293,20 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\shell\open\command] >> %RegFileName%
 )
  
-::IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] 
-echo @=%scite_cmd% >> %RegFileName%
+:: IF [%HKCU_AUTOFILE%]==[%TRUE%] 
+REM echo @=%scite_cmd% >> %RegFileName%
  
 IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] ( 
+ echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithList] >> %RegFileName%
- echo "a"=%autofile% >> %RegFileName%
- echo "MRUList"="a" >> %RegFileName%
-:: Remove the Key to take care for the case, that it contains a write protected Hash.   
- echo [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\UserChoice] >> %RegFileName%
+ echo "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe" >> %RegFileName%
+ echo "MRUList"="ba" >> %RegFileName%
+ echo "b"="SciTE.exe" >> %RegFileName%
+
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\UserChoice] >> %RegFileName%
- echo "Progid"="%progid%" >> %RegFileName%
- echo [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithProgids]>>%RegFileName%
+ echo "Progid"="Applications\\Scite.exe" >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithProgids]>>%RegFileName%
- echo "%progid%"=hex(0^): >> %RegFileName%
+ echo "Applications\\Scite.exe"=hex(0^): >> %RegFileName%
 )
 
 ::---------------------------------------HKCU\Software\Classes----------------------------------
@@ -314,23 +318,16 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%] >> %RegFileName%
  echo @=Scite .%filetype% Handler >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell] >> %RegFileName%
- echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\open] >> %RegFileName%
- echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\open\command] >> %RegFileName%
-
- SET SYS_FILE=1
- IF [%filetype%] NEQ [cmd] IF [%filetype%] NEQ [bat] IF [%filetype%] NEQ [reg] IF [%filetype%] NEQ [inf] IF [%filetype%] NEQ [CMD] IF [%filetype%] NEQ [BAT] IF [%filetype%] NEQ [REG] IF [%filetype%] NEQ [INF] SET SYS_FILE=0
- IF %SYS_FILE%==0 echo @=%scite_cmd%>>%RegFileName%
- REM echo "myScite_change"="">>%RegFileName%
- REM echo "EditFlags"=hex:00,00,00,00 >>%RegFileName% 
- 
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\edit] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\edit\command] >> %RegFileName%
- echo @=%scite_cmd% >> %RegFileName%
+ SET SYS_FILE=1
+ IF [%filetype%] NEQ [cmd] IF [%filetype%] NEQ [bat] IF [%filetype%] NEQ [reg] IF [%filetype%] NEQ [inf] IF [%filetype%] NEQ [CMD] IF [%filetype%] NEQ [BAT] IF [%filetype%] NEQ [REG] IF [%filetype%] NEQ [INF] SET SYS_FILE=0
+ IF %SYS_FILE%==1 echo @=%scite_cmd%>>%RegFileName%
  
 :: ---  ICON
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\DefaultIcon] >> %RegFileName%
  echo @=%file_icon% >> %RegFileName%
-
+ 
 :FINALIZE_SCTION
 
 ::IF NOT EXIST import MD import >NUL
