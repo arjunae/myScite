@@ -19,7 +19,7 @@
 :: Use customized CMD Terminal
 if "%1"=="" (
  reg import TinyTonCMD\TinyTonCMD.reg
- start "TinyTonCMD" scite.createExtList.bat tiny
+ start "TinyTonCMD" scite.createExtList.cmd tiny
  EXIT
 )
 
@@ -48,7 +48,7 @@ echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >>data.tmp
 echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] >>data.tmp
 echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] >>data.tmp
 echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >>data.tmp
-echo @="%scite_cmd%" >>data.tmp
+echo @=%scite_cmd% >>data.tmp
 echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >>data.tmp
 echo ".*"="">>data.tmp
 

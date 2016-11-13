@@ -1,4 +1,4 @@
- @echo off
+@echo off
 ::mode 112,20
 
 REM  ::--::--::--::--Steampunk--::-::--::--::
@@ -31,7 +31,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  IF NOT EXIST %scite_cmd% (call :sub_fail) else (call :sub_continue ) 
  
  :: Clean up...
- move %regfile% %userprofile%\desktop >NUL
+ move "%regfile%" "%userprofile%\desktop" >NUL
  del /Q %tmp%\scite.tmp >NUL
 
  popd
@@ -95,7 +95,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo ".*"="">> %RegFile%
 
  :: Now, merge all regFiles into one.
- copy header.tmp+ %RegFile% scite.filetypes.register.reg>NUL
+ copy "%RegFile%" scite.filetypes.register.reg >NUL
 
  :: ----  Note down how to call scite exe from anywhere on the system. 
  :: echo. > _scite.read.me.path.txt

@@ -122,9 +122,9 @@ set /P scite_path=<%tmp%\scite_tmp\scite.tmp
  
 :: Regedit needs the whole string enclosed with  DoubleQuotes. 
 :: DoubleQuotes within the string have to be escaped with \
-:: set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\" \"-CWD:%scite_path_ext%\""
+ set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\" \"-CWD:%scite_path_ext%\""
 :: with scite_webdevs (3.6.4) portability patch in we doesnt need cwd anymore 
-set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\""
+::set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\""
 
 :: Aha. Calling cd in a for loop requires the /D option
 cd /D %tmp%\scite_tmp
@@ -318,7 +318,7 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\edit\command] >> %RegFileName%
  SET SYS_FILE=1
  IF [%filetype%] NEQ [cmd] IF [%filetype%] NEQ [bat] IF [%filetype%] NEQ [reg] IF [%filetype%] NEQ [inf] IF [%filetype%] NEQ [CMD] IF [%filetype%] NEQ [BAT] IF [%filetype%] NEQ [REG] IF [%filetype%] NEQ [INF] SET SYS_FILE=0
- IF %SYS_FILE%==1 echo @="%scite_cmd%">>%RegFileName%
+ IF %SYS_FILE%==1 echo @=%scite_cmd%>>%RegFileName%
  
 :: ---  ICON
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\DefaultIcon] >> %RegFileName%

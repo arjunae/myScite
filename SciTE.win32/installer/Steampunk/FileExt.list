@@ -18,6 +18,11 @@
 .vcard ; text/plain
 .ini ; text/plain
 
+# -- System Files --
+
+.cmd ; text/batchfile
+.reg ; text/plain
+
 # -- Source Code --
 
 .xml ; text/css
@@ -25,7 +30,5 @@
 .css ; text/css
 .cpp ; text/c
 
-# -- System Files --
 
-.cmd ; text/batchfile
-.reg ; text/plain
+# ---FileExt.list
