@@ -12,11 +12,20 @@
 #
 #--::--::--::--::--Steampunk--::-::--::--::
 
+# -- Textfiles --
+
+.txt ; text/plain
+.vcard ; text/plain
+.ini ; text/plain
 
 # -- Source Code --
 
-.list ; text/list
+.xml ; text/css
+.yaml ; text/css
+.css ; text/css
+.cpp ; text/c
 
 # -- System Files --
 
-.cmd ; text/batch
+.cmd ; text/batchfile
+.reg ; text/plain

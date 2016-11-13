@@ -21,3 +21,9 @@ dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-orthospell\\orthospell.lua
 -- Load Sidebar (which uses "eventmanager.lua")
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\common.lua')
+
+--print("lua: startup script reload ")
+function OnMarginClick(modifiers,position,margin)
+--print(modifiers)
+	return true
+end

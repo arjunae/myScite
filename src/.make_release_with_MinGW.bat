@@ -18,11 +18,11 @@ echo ::    SciTE Prod      ::
 echo ::..::..:::..::..::.:.::
 
 cd 3.6.7\scintilla\win32
-mingw32-make
+mingw32-make -j %NUMBER_OF_PROCESSORS%
 if errorlevel 1 goto :error
 
 cd ..\..\scite\win32
-mingw32-make
+mingw32-make -j %NUMBER_OF_PROCESSORS%
 if errorlevel 1 goto :error
 
 copy /Y ..\bin\SciTE.exe ..\..\..\..\SciTE.win32

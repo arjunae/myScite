@@ -1,4 +1,4 @@
-@echo off
+ @echo off
 ::mode 112,20
 
 REM  ::--::--::--::--Steampunk--::-::--::--::

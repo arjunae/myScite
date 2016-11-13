@@ -48,7 +48,7 @@ echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >>data.tmp
 echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] >>data.tmp
 echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] >>data.tmp
 echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >>data.tmp
-echo @=%scite_cmd% >>data.tmp
+echo @="%scite_cmd%" >>data.tmp
 echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >>data.tmp
 echo ".*"="">>data.tmp
 
@@ -70,7 +70,7 @@ echo The following step could be automated too, but i like userChoices :)>> %tmp
 echo So, please register the filetypes in scite.filetypes.register.reg with rightClick::Import >>  %tmp%\scite_tmp\readme.txt
 echo enjoy, Arjunae>> %tmp%\scite_tmp\readme.txt
 
-move %tmp%\scite_tmp  %userprofile%\desktop\scite.imports.%timestamp% 1>NUL
+move "%tmp%\scite_tmp" "%userprofile%\desktop\scite.imports.%timestamp%" 1>NUL
 
 :CLEANUP_SECTION
 :: Delete tempFiles / Unset Noninteractive Mode

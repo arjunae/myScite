@@ -259,9 +259,10 @@ IF [%HKCU_DOTEXT%]==[%TRUE%] (
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithList] >> %RegFileName%
 ) 
  
+REM --  Note: that classID simply points to %systemroot%\system32
 IF [%HKCU_DOTEXT%]==[%TRUE%] (
  echo "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe" >> %RegFileName%
- echo "MRUList"="ba" >> %RegFileName%
+ echo "MRUList"="ab" >> %RegFileName%
  echo "b"="SciTE.exe" >> %RegFileName%
  )
  
@@ -276,38 +277,33 @@ IF [%HKCU_DOTEXT%]==[%TRUE%] (
 :: ----------------------------------------------------------------------------
 :: But leave it empty when we don't have an autofile for the type. (then its  XP like, "oldFashion" steered)   
 ::----------------------------------------------------------------------------
-
 IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  REM Remove the Key to take care for the case, that it contains a write protected Hash.   
  echo [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  :: --- Marker
- echo "Created_by_scite"="" >> %RegFileName%
+ echo "myScite_use"="" >> %RegFileName%
  :: ---- Handler Name (eg: ext_auto_file)
  echo @="%autofile%">> %RegFileName%
  :: ---- Mime type
  echo "Content Type"="%mimetype%" >> %RegFileName%
  echo "PerceivedType"="text" >> %RegFileName%
- echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\shell] >> %RegFileName%
- echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\shell\open] >> %RegFileName%
- echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\shell\open\command] >> %RegFileName%
-)
- 
-:: IF [%HKCU_AUTOFILE%]==[%TRUE%] 
-REM echo @=%scite_cmd% >> %RegFileName%
- 
-IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] ( 
- echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithList] >> %RegFileName%
+
+ )
+  
+IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  echo "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe" >> %RegFileName%
  echo "MRUList"="ba" >> %RegFileName%
  echo "b"="SciTE.exe" >> %RegFileName%
-
+ )
+ 
+IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] ( 
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\UserChoice] >> %RegFileName%
  echo "Progid"="Applications\\Scite.exe" >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithProgids]>>%RegFileName%
- echo "Applications\\Scite.exe"=hex(0^): >> %RegFileName%
-)
+ echo "%autofile%"=hex(0^): >> %RegFileName%
+ )
 
 ::---------------------------------------HKCU\Software\Classes----------------------------------
 :: Again....If we use "old Fashioned" Style we  mark that by using another String  instead.
@@ -322,11 +318,12 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\edit\command] >> %RegFileName%
  SET SYS_FILE=1
  IF [%filetype%] NEQ [cmd] IF [%filetype%] NEQ [bat] IF [%filetype%] NEQ [reg] IF [%filetype%] NEQ [inf] IF [%filetype%] NEQ [CMD] IF [%filetype%] NEQ [BAT] IF [%filetype%] NEQ [REG] IF [%filetype%] NEQ [INF] SET SYS_FILE=0
- IF %SYS_FILE%==1 echo @=%scite_cmd%>>%RegFileName%
+ IF %SYS_FILE%==1 echo @="%scite_cmd%">>%RegFileName%
  
 :: ---  ICON
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\DefaultIcon] >> %RegFileName%
  echo @=%file_icon% >> %RegFileName%
+ 
  
 :FINALIZE_SCTION
 

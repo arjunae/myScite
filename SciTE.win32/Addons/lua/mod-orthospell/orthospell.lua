@@ -168,21 +168,20 @@ end
 
 -- Arjunae --  changed to loadlib to be more flexible
 if not scite_FileExists(props["orthospell.home"].."\\hunspell.dll") then
-	print ("Orthospell: hunspell.dll was not found")
 end
-
---print (props["orthospell.home"])
 -- using statically linked hunspell, which can reside anywhere - so just do...
 if not scite_FileExists(dictpath.."\\"..dictname..".aff") then
-		print ("The dictionary "..dictname.." is not installed")
+		print ("Orthospell: The dictionary "..dictname.." is not installed")
 else
 	fnInit, err =package.loadlib(props["orthospell.home"].."\\hunspell.dll",'luaopen_hunspell')
-	--if #err then 
-	--	require("hunspell") 
-	--else
+	if err~=NULL then 
+		require("hunspell") 
+		print("Orthospell: hunspell.dll not found or orthospell.home unset. Trying to require...")
+	else
 	assert(type(fnInit) == "function", err)
 	fnInit()
-	--end
+end
+	if (type(hunspell) ~= "table") then assert ("Orthospell: hunspell.dll was not found") end
 	hspell = true
 		hunspell.init(dictpath.."\\"..dictname..".aff", dictpath.."\\"..dictname..".dic")
 		-- adding a user dictionary

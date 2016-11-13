@@ -3,7 +3,7 @@
 [10.November.2016] STABLE-130
 - api: Add coffeescript abd CSS3 Keywords | fix jQuery and vbs Calltips
 - editor: 3Tone Styles | optimized Fonts. (Zoom with alt-pgup/pgdown)
-- Addons: Add mod-scintilulla (15 new lexers) | Add mod-orthospell | UPXed libs
+- Addons: Add mod-scintilulla (15 new lexers) | Add mod-orthospell | UPXed libs | Fix Installer
 - common: Sync linux properties | add Documentation | include winpthreads | cleanupTree
 - readd: php5.
 
