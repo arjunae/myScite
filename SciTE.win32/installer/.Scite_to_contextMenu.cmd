@@ -14,6 +14,12 @@ REM - Aug16 - Search for %cmd% in actual and up to 2 parent Directories / Use fu
 REM - Okto16 - create / reset Program Entry RegistryKey  
 REM
 REM ::--::--::--::--Steampunk--::-::--::--::
+pushd
+
+:check_user
+ SET ADMIN=NIL
+ net session >nul 2>&1
+ if [%ERRORLEVEL%]==[0] SET ADMIN=1 
 
 :main
  REM WorkAround Reactos 0.4.2 Variable Expansion Bug.
@@ -25,7 +31,6 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  REM ------- this batch can reside in a subdir to support a more clean directory structure
  REM ------- write path of %cmd% in scite_cmd
  
- pushd
  :: ------- Check for and write path of %cmd% in scite_cmd
  IF EXIST %cmd% (  set scite_cmd="%cmd%"  ) 
  IF EXIST ..\%cmd% (  set scite_cmd="..\%cmd%"  ) 
@@ -78,14 +83,17 @@ REM ::--::--::--::--Steampunk--::-::--::--::
 
  set RegFile=%tmp%\add.scite.to.context.menu.reg
  set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\" \"-CWD:%scite_path_ext%\""
-
- REM ---- Finally, write the .reg file, \" escapes double quotes
+ 
  echo Windows Registry Editor Version 5.00 > %RegFile%
+ 
+ IF %ADMIN%==1 ( 
+ REM ---- Finally, write the .reg file, \" escapes double quotes
  echo [-HKEY_CLASSES_ROOT\*\shell\Open with SciTE] >> %RegFile%
  echo [HKEY_CLASSES_ROOT\*\shell\Open with SciTE] >> %RegFile%
  echo [HKEY_CLASSES_ROOT\*\shell\Open with SciTE\command] >> %RegFile%
  echo @=%scite_cmd% >> %RegFile%
- :: echo @="E:\\projects\\.scite.gitSourceForge\\SciTE_webdev\\SciTE.exe %%1" >> %RegFile%
+ REM echo @="E:\\projects\\.scite.gitSourceForge\\SciTE_webdev\\SciTE.exe %%1" >> %RegFile%
+)
 
  REM WorkAround Reactos 0.4.2 Bug.
  IF [%FIX_REACTOS%]==[1] ( 
