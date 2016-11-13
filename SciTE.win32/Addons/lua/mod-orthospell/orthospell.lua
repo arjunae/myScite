@@ -175,8 +175,8 @@ if not scite_FileExists(dictpath.."\\"..dictname..".aff") then
 else
 	fnInit, err =package.loadlib(props["orthospell.home"].."\\hunspell.dll",'luaopen_hunspell')
 	if err~=NULL then 
-		require("hunspell") 
 		print("Orthospell: hunspell.dll not found or orthospell.home unset. Trying to require...")
+		require("hunspell") 
 	else
 	assert(type(fnInit) == "function", err)
 	fnInit()

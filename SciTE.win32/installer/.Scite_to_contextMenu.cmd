@@ -16,6 +16,9 @@ REM
 REM ::--::--::--::--Steampunk--::-::--::--::
 
 :main
+ REM WorkAround Reactos 0.4.2 Variable Expansion Bug.
+ ::set FIX_REACTOS=1
+
  set cmd=SciTE.exe
  set scite_cmd=default
 
@@ -31,7 +34,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  IF NOT EXIST %scite_cmd% (call :sub_fail) else (call :sub_continue ) 
  
  :: Clean up...
- move "%regfile%" "%userprofile%\desktop" >NUL
+ move /Y "%regfile%" "%userprofile%\desktop">NUL
  del /Q %tmp%\scite.tmp >NUL
 
  popd
@@ -84,6 +87,11 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo @=%scite_cmd% >> %RegFile%
  :: echo @="E:\\projects\\.scite.gitSourceForge\\SciTE_webdev\\SciTE.exe %%1" >> %RegFile%
 
+ REM WorkAround Reactos 0.4.2 Bug.
+ IF [%FIX_REACTOS%]==[1] ( 
+ set scite_cmd="\"%scite_path%\\%cmd%\" %%1"
+ )
+ 
  :: create / reset Program Entry RegistryKey (..in HKEYCurrenUser..)
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
@@ -95,7 +103,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo ".*"="">> %RegFile%
 
  :: Now, merge all regFiles into one.
- copy "%RegFile%" scite.filetypes.register.reg >NUL
+ copy "%RegFile%" scite.filetypes.register.reg>NUL
 
  :: ----  Note down how to call scite exe from anywhere on the system. 
  :: echo. > _scite.read.me.path.txt

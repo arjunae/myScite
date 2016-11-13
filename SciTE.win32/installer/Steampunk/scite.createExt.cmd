@@ -16,7 +16,10 @@
 ::  - get full qualified Path / Handle write protected Folders / Add Docs
 :: 
 ::--::--::--::--Steampunk--::-::--::--::
-
+ 
+ REM WorkAround Reactos 0.4.2 Variable Expansion Bug.
+ ::set FIX_REACTOS=1
+ 
 :: MSDN Docs
 :: https://msdn.microsoft.com/en-us/library/windows/desktop/dd758090%28v=vs.85%29.aspx
 :: https://msdn.microsoft.com/en-us/library/windows/desktop/cc144104(v=vs.85).aspx
@@ -34,6 +37,7 @@ set ico_lookingGlass=39,00,00,00
 set ico_active=%ico_threeD_Paper%
 set true=1
 set false=0
+
 :PARAMETER_SECTION
 :: ------- This Batch can reside in a subdir to support a more clean directory structure
 :: -- Got those shorthand strFunctions from
@@ -78,8 +82,8 @@ echo   ---------------------------------
 echo  * using mimetype: %mimetype%
 echo  * using handler: %autofile%
 echo  * using progid: %filetype%file 
-:SEARCH_SCITE
 
+:SEARCH_SCITE
 :: ------- Check for and write scites path registry escaped to %scite_cmd%
 set cmd=Scite.exe
 
@@ -96,7 +100,6 @@ IF NOT EXIST %cmd% (
  GOTO fail_filename) 
 
 :FOUND_SCITE
-
 ::Fix Batch running on write protected Folders.
 if not exist %tmp%\scite_tmp mkdir %tmp%\scite_tmp
 
@@ -122,9 +125,10 @@ set /P scite_path=<%tmp%\scite_tmp\scite.tmp
  
 :: Regedit needs the whole string enclosed with  DoubleQuotes. 
 :: DoubleQuotes within the string have to be escaped with \
- set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\" \"-CWD:%scite_path_ext%\""
-:: with scite_webdevs (3.6.4) portability patch in we doesnt need cwd anymore 
-::set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\""
+:: set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\" \"-CWD:%scite_path_ext%\""
+:: with scite_webdevs (3.6.4) portability patch in we" doesnt need cwd anymore 
+
+set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\""
 
 :: Aha. Calling cd in a for loop requires the /D option
 cd /D %tmp%\scite_tmp
@@ -180,7 +184,6 @@ SET HKCU_DOTEXT=0
 )
 
 :Backup_File_Cooking_Section
-
 ::  collects and combines generated Backupfiles 
 :: IF NOT EXIST backups MD backups
 
@@ -201,8 +204,8 @@ echo.
 echo   -------------------------------------
 
 ::CLS
-:REGISTRY_SECTION 
 
+:REGISTRY_SECTION 
 :: ---------------------  Scite registry file Section ---------------------------
 ::
 ::  Generate a registry Import File containing new File Type associations
@@ -275,7 +278,7 @@ IF [%HKCU_DOTEXT%]==[%TRUE%] (
  ) 
  
 :: ----------------------------------------------------------------------------
-:: But leave it empty when we don't have an autofile for the type. (then its  XP like, "oldFashion" steered)   
+:: But leave it empty when we don't have an extension for the type. (then its  XP like, "oldFashion" steered)   
 ::----------------------------------------------------------------------------
 IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  REM Remove the Key to take care for the case, that it contains a write protected Hash.   
@@ -289,7 +292,6 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  echo "Content Type"="%mimetype%" >> %RegFileName%
  echo "PerceivedType"="text" >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithList] >> %RegFileName%
-
  )
   
 IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
@@ -308,25 +310,26 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
 ::---------------------------------------HKCU\Software\Classes----------------------------------
 :: Again....If we use "old Fashioned" Style we  mark that by using another String  instead.
 ::-------------------------------------------------------------------------------------------------------
-  
+ SET SYS_FILE=1  
  IF [%HKCU_AUTOFILE%]==[%false%] SET autofile=%progid%
-
+ IF [%filetype%] NEQ [cmd] IF [%filetype%] NEQ [bat] IF [%filetype%] NEQ [reg] IF [%filetype%] NEQ [inf] IF [%filetype%] NEQ [CMD] IF [%filetype%] NEQ [BAT] IF [%filetype%] NEQ [REG] IF [%filetype%] NEQ [INF] SET SYS_FILE=0
+ 
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%] >> %RegFileName%
  echo @=Scite .%filetype% Handler >> %RegFileName%
+ 
+ IF %SYS_FILE%==1 (
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell] >> %RegFileName%
+ echo [-HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\edit]  >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\edit] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\edit\command] >> %RegFileName%
- SET SYS_FILE=1
- IF [%filetype%] NEQ [cmd] IF [%filetype%] NEQ [bat] IF [%filetype%] NEQ [reg] IF [%filetype%] NEQ [inf] IF [%filetype%] NEQ [CMD] IF [%filetype%] NEQ [BAT] IF [%filetype%] NEQ [REG] IF [%filetype%] NEQ [INF] SET SYS_FILE=0
- IF %SYS_FILE%==1 echo @=%scite_cmd%>>%RegFileName%
+  echo @=%scite_cmd%>>%RegFileName%
+ )
  
 :: ---  ICON
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\DefaultIcon] >> %RegFileName%
  echo @=%file_icon% >> %RegFileName%
- 
- 
+  
 :FINALIZE_SCTION
-
 ::IF NOT EXIST import MD import >NUL
 ::IF EXIST _*.REG  MOVE _*.REG import >NUL
  
@@ -345,6 +348,12 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  :: echo "Hint: Use this parameters to open scite from anywhere:" >> _scite.read.me.path.txt
  :: echo %scite_path% "%%1" "-cwd:%scite_path_ext%" >> _scite.read.me.path.txt
 
+ REM WorkAround Reactos 0.4.2 Bug.
+ ::VER|FIND "ReactOS"
+ IF [%FIX_REACTOS%]==[1] ( 
+ set scite_cmd="\"%scite_path%\\%cmd%\" %%1"
+ )
+ 
 :CLEANUP_SECTION
  :: ---------------- Clean UP and Fin.--------------------------
  del /Q  *.tmp 2>NUL 
