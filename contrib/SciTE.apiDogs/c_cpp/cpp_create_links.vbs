@@ -1,4 +1,4 @@
-'build@  cscript.exe //D /NOLOGO $(FilePath)
+' build@ cscript.exe /NOLOGO //D $(FilePath)
 '-------------------------------------------------
 ' cplusplus.com Parser - ( http://cplusplus.com)
 ' Status: 20160221 - Fixup Sync, add timeout / retry /fail

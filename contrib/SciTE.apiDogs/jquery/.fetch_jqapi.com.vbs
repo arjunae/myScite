@@ -1,4 +1,4 @@
-'build@  cscript.exe //x /NOLOGO $(FilePath)
+' build@ cscript.exe /NOLOGO //D $(FilePath)
 '-------------------------------------------------
 ' jqapi.com Parser - ( http://jqapi.com)
 ' Status: 20151106 - Support parsing  local Source

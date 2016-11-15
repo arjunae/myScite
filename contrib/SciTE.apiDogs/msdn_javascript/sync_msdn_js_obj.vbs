@@ -1,4 +1,4 @@
-' build@  cScript.exe //X /NOLOGO $(FilePath)
+' build@ cscript.exe /NOLOGO //D $(FilePath)
 '-----------------------------------------------------------------------------
 '   MSDN-Fetcher;  Syncs Content with https://msdn.microsoft.com/
 '   Status:  20151123 Redo Sync, Add oApiDescr. oApiParams, use IE StatusBar
