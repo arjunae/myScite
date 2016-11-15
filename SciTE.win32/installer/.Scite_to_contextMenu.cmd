@@ -14,12 +14,14 @@ REM - Aug16 - Search for %cmd% in actual and up to 2 parent Directories / Use fu
 REM - Okto16 - create / reset Program Entry RegistryKey  
 REM
 REM ::--::--::--::--Steampunk--::-::--::--::
-pushd
-
+ cd /D %~dp0%
+ pushd
+ 
 :check_user
  SET ADMIN=NIL
  net session >nul 2>&1
  if [%ERRORLEVEL%]==[0] SET ADMIN=1 
+ popd
 
 :main
  REM WorkAround Reactos 0.4.2 Variable Expansion Bug.
@@ -29,7 +31,6 @@ pushd
  set scite_cmd=default
 
  REM ------- this batch can reside in a subdir to support a more clean directory structure
- REM ------- write path of %cmd% in scite_cmd
  
  :: ------- Check for and write path of %cmd% in scite_cmd
  IF EXIST %cmd% (  set scite_cmd="%cmd%"  ) 
@@ -42,7 +43,6 @@ pushd
  move /Y "%regfile%" "%userprofile%\desktop">NUL
  del /Q %tmp%\scite.tmp >NUL
 
- popd
  echo. .... copied to %userprofile%\desktop
 
  echo   -------------------------------------------
@@ -92,7 +92,6 @@ pushd
  echo [HKEY_CLASSES_ROOT\*\shell\Open with SciTE] >> %RegFile%
  echo [HKEY_CLASSES_ROOT\*\shell\Open with SciTE\command] >> %RegFile%
  echo @=%scite_cmd% >> %RegFile%
- REM echo @="E:\\projects\\.scite.gitSourceForge\\SciTE_webdev\\SciTE.exe %%1" >> %RegFile%
 )
 
  REM WorkAround Reactos 0.4.2 Bug.
@@ -110,18 +109,11 @@ pushd
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >> %RegFile%
  echo ".*"="">> %RegFile%
 
- :: Now, merge all regFiles into one.
+ :: echo ..... Finished writing to  %RegFile% ....
  copy "%RegFile%" scite.filetypes.register.reg>NUL
-
- :: ----  Note down how to call scite exe from anywhere on the system. 
- :: echo. > _scite.read.me.path.txt
- :: echo "Hint: Use this parameters to open scite from anywhere:" >> _scite.read.me.path.txt
- :: echo %scite_path% "%%1" "-cwd:%scite_path_ext%" >> _scite.read.me.path.txt
-
- ::echo ..... Finished writing to  %RegFile% ....
- 
  exit /b
-:end_sub
+ :end_sub
+
 :sub_fail
  echo.
  echo Please fix: %cmd% was'nt found or Filename did'nt match variable "cmd"
@@ -130,6 +122,7 @@ pushd
  pause >NUL
 exit
 :end_sub
+
 :freude
 :: wait some time...
 ::ping 1.0.3.0 /n 1 /w 3000 >NUL

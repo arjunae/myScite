@@ -1,4 +1,4 @@
-'build@  cscript.exe //x /NOLOGO $(FilePath)
+' build@ cscript.exe /NOLOGO //D $(FilePath)
 '-----------------------------------------------------------------------------
 '   MSDN-Fetcher;  Syncs Content with https://msdn.microsoft.com/
 '   Status:  20151123 Redo Sync, Add oApiDescr. oApiParams, use IE StatusBar
@@ -65,7 +65,7 @@ Function fParseResults(obrowser)
   
 '----  do some error checking
   If IsObject(htmldoc.getElementById("leftNav")) Then
-      Set sidebar = htmldoc.getElementById("tocnav")
+      Set sidebar = htmldoc.getElementById("tocnav") 
   Else
       Exit Function
   End If
@@ -211,27 +211,26 @@ Sub CreateDocs(sFolder, ofile_log, obrowser, oArrApiDoc)
     sApiPArams = ""
     sApiDesc = ""
        
-  '---- check if MSDN ApiId has changed.
-    If ofs.FileExists(oFldApiDoc & "\" & docEntry("oApiId") & "*.HTML") Then
-      ' msgbox "MSDN API IDs Changed. Please clear Folder before you continue"
-      ofile_log.Write "MSDN API IDs Changed. Please clear Folder before you continue" & vbCrLf
-    End If
-      
-  '---- check if Apientry is already in our Pocket before fetching.
-    If Not ofs.FileExists(oFldApiDoc & "\" & docEntry("oApiFileName") & ".HTML") Then
-    
-      result = parseMainWin(obrowser, docEntry)
-      
-      FileName = oFldApiDoc & "\" & docEntry("oApiFileName") & ".html"
-      sHeader = ("<html>" & obrowser.Document.head.outerhtml)
-      sBody = (obrowser.Document.body.outerhtml & "</html>")
-            
-      result = SaveTextData(FileName, sHeader & sBody, "")
-      iFetchCnt = iFetchCnt + 1
-    Else
-      obrowser.StatusText = ".... Alread Synced ... " & docEntry("oApiFileName") & vbCrLf
-      iSyncedCnt = iSyncedCnt + 1
+'---- check if MSDN ApiId has changed.
+  If ofs.FileExists(oFldApiDoc & "\" & docEntry("oApiId") & "*.HTML") Then
+    ' msgbox "MSDN API IDs Changed. Please clear Folder before you continue"
+    ofile_log.Write "MSDN API IDs Changed. Please clear Folder before you continue" & vbCrLf
   End If
+    
+'---- check if Apientry is already in our Pocket before fetching.
+  If Not ofs.FileExists(oFldApiDoc & "\" & docEntry("oApiFileName") & ".HTML") Then
+  
+    result = parseMainWin(obrowser, docEntry)
+    FileName = oFldApiDoc & "\" & docEntry("oApiFileName") & ".html"
+    sHeader = ("<html>" & obrowser.Document.head.outerhtml)
+    sBody = (obrowser.Document.body.outerhtml & "</html>")
+          
+    result = SaveTextData(FileName, sHeader & sBody, "")
+    iFetchCnt = iFetchCnt + 1
+  Else
+    obrowser.StatusText = ".... Alread Synced ... " & docEntry("oApiFileName") & vbCrLf
+    iSyncedCnt = iSyncedCnt + 1
+End If
 Next
 
 ofile_log.Write vbCrLf & "_________________________________________________________" & vbCrLf

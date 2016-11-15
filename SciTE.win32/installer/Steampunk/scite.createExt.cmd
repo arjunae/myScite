@@ -16,6 +16,9 @@
 ::  - get full qualified Path / Handle write protected Folders / Add Docs
 :: 
 ::--::--::--::--Steampunk--::-::--::--::
+
+ set true=1
+ set false=0
  
  REM WorkAround Reactos 0.4.2 Variable Expansion Bug.
  ::set FIX_REACTOS=1
@@ -24,28 +27,26 @@
 :: https://msdn.microsoft.com/en-us/library/windows/desktop/dd758090%28v=vs.85%29.aspx
 :: https://msdn.microsoft.com/en-us/library/windows/desktop/cc144104(v=vs.85).aspx
 
-:: Define some constants (Unicode notation)  from  %SystemRoot%\System32\imageres.dll,-1002
-set ico_threeD_Paper=31,00,30,00,30,00,32,00,00,00
+:: Define some constants (Unicode notation)  
+:: from %SystemRoot%\System32\imageres.dll,-1002
 ::1.........0........0........2 ==  31..30..30..32
-set ico_toDoList=31,00,31,00,36,00,30,00,00,00
+set ico_threeD_Paper=31,00,30,00,30,00,32,00,00,00
 ::..1.........1.......6 ..          == 31..31..36
-set ico_FlipChart=31,00,30,00,33,00,30,00,00,00
+set ico_toDoList=31,00,31,00,36,00,30,00,00,00
 ::..1.........0.......3             == 31..30..33
-set ico_lookingGlass=39,00,00,00
+set ico_FlipChart=31,00,30,00,33,00,30,00,00,00
 ::..9....................             == 39
+set ico_lookingGlass=39,00,00,00
 
 set ico_active=%ico_threeD_Paper%
-set true=1
-set false=0
 
 :PARAMETER_SECTION
 :: ------- This Batch can reside in a subdir to support a more clean directory structure
 :: -- Got those shorthand strFunctions from
 :: -- http://www.dostips.com/DtTipsStringOperations.php
 
-:: Non_Interactive Batch-mode: Dont interrupt flow.
-:: Used to let this script used by other batchfiles.
-:: eg .Scite_register_extList.cmd
+:: -- Non_Interactive Batch-mode: Dont interrupt flow.
+:: -- allow the script been called in a loop from other batchfiles.
 IF [%SCITE_NonInteract%]==[%TRUE%]  (
  SET SCITE_INTERACT=%FALSE%
  REM MODE 112,30
@@ -127,7 +128,6 @@ set /P scite_path=<%tmp%\scite_tmp\scite.tmp
 :: DoubleQuotes within the string have to be escaped with \
 :: set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\" \"-CWD:%scite_path_ext%\""
 :: with scite_webdevs (3.6.4) portability patch in we" doesnt need cwd anymore 
-
 set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\""
 
 :: Aha. Calling cd in a for loop requires the /D option
@@ -240,15 +240,15 @@ set file_icon=hex(2^^^):25,00,53,00,79,00,73,00,74,00,65,00,6d,00,52,00,6f,00,6f
 
 :: ---- Generate Registry File
 if [%SCITE_INTERACT%]==[%TRUE%] echo Windows Registry Editor Version 5.00 > %RegFileName%
+echo ; ----------- %filetype% / %mimetype% ------------ >> %RegFileName%
 
 ::----------------------------------------HKCU\......\Explorer\FileExts-------------------------------------
-:: "new" Method, write a filetype and a handler to the key above
+:: "new" Method, write a .filetype and a handler to the key above
 :: and list them in MRUList so Users could switch between handlers. 
+::
+:: 1:) we already have a filetype in HKCU\...\Explorer\FileExts 
 ::------------------------------------------------------------------------------------------------------------------
 
-:: HKCU_DOTEXT = 1 Means we already have a handler in
-:: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts
-echo ; ----------- %filetype% / %mimetype% ------------ >> %RegFileName%
 IF [%HKCU_DOTEXT%]==[%TRUE%] ( 
  echo [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
@@ -265,8 +265,8 @@ IF [%HKCU_DOTEXT%]==[%TRUE%] (
 REM --  Note: that classID simply points to %systemroot%\system32
 IF [%HKCU_DOTEXT%]==[%TRUE%] (
  echo "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe" >> %RegFileName%
- echo "MRUList"="ab" >> %RegFileName%
- echo "b"="SciTE.exe" >> %RegFileName%
+ echo "MRUList"="as" >> %RegFileName%
+ echo "s"="SciTE.exe" >> %RegFileName%
  )
  
 IF [%HKCU_DOTEXT%]==[%TRUE%] ( 
@@ -277,15 +277,16 @@ IF [%HKCU_DOTEXT%]==[%TRUE%] (
  echo "Applications\\Scite.exe"=hex(0^): >> %RegFileName%
  ) 
  
-:: ----------------------------------------------------------------------------
-:: But leave it empty when we don't have an extension for the type. (then its  XP like, "oldFashion" steered)   
-::----------------------------------------------------------------------------
+:: -----------------------------------------------------------------------------------------
+:: 2:) we have no extension entry, only a handler for the filetype.  ("oldFashion" style)   
+::------------------------------------------------------------------------------------------
+
 IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  REM Remove the Key to take care for the case, that it contains a write protected Hash.   
  echo [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  :: --- Marker
- echo "myScite_use"="" >> %RegFileName%
+ echo "myScite_new"="" >> %RegFileName%
  :: ---- Handler Name (eg: ext_auto_file)
  echo @="%autofile%">> %RegFileName%
  :: ---- Mime type
@@ -296,8 +297,8 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
   
 IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  echo "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe" >> %RegFileName%
- echo "MRUList"="ba" >> %RegFileName%
- echo "b"="SciTE.exe" >> %RegFileName%
+ echo "MRUList"="sa" >> %RegFileName%
+ echo "s"="SciTE.exe" >> %RegFileName%
  )
  
 IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] ( 
@@ -308,7 +309,7 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  )
 
 ::---------------------------------------HKCU\Software\Classes----------------------------------
-:: Again....If we use "old Fashioned" Style we  mark that by using another String  instead.
+:: 3:) we have no handler, lets create one.
 ::-------------------------------------------------------------------------------------------------------
  SET SYS_FILE=1  
  IF [%HKCU_AUTOFILE%]==[%false%] SET autofile=%progid%
