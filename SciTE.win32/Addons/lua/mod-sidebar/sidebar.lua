@@ -1385,7 +1385,9 @@ end)
 
 --- Функции показывающие/прячущие боковую панель
 local SideBar_Show, SideBar_Hide
+
 if win then
+
 	SideBar_Show = function()
 		win_parent:show()
 		props['sidebar.show']=1
@@ -1406,11 +1408,11 @@ else
 		props['sidebar.show']=0
 	end
 end
-
+	
 --- Переключает отображение боковой панели
 function SideBar_ShowHide()
 	if tonumber(props['sidebar.show'])==1 then
-		SideBar_Hide()
+	  SideBar_Hide()
 	else
 		SideBar_Show()
 	end
@@ -1581,5 +1583,6 @@ end)
 --========================================================
 -- now show SideBar:
 if tonumber(props['sidebar.show'])==1 then
-	AddEventHandler("OnInit", SideBar_Show)
+		gui.set_panel(win_parent, sidebar_position)
 end
+

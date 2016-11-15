@@ -23,7 +23,8 @@ package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\common.lua')
 
 --print("lua: startup script reload ")
-function OnMarginClick(modifiers,position,margin)
+--function OnMarginClick(modifiers,position,margin)
 --print(modifiers)
-	return true
-end
+	--return true
+--end
+
