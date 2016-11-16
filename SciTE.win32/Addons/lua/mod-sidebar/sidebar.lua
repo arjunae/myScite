@@ -38,6 +38,9 @@ Version 1.29.0
 
     # Set annotation style
     style.*.255=fore:#808080,back:#FEFEFE
+	 
+	 # overide Sidebar style
+	 sidebar.style.*.255=fore:#808080,back:#FEFEFE
 --]]--------------------------------------------------
 require 'gui'
 require 'lpeg'
@@ -60,6 +63,7 @@ local win_height = tonumber(props['position.height']) or 600
 local sidebar_position = props['sidebar.position']=='left' and 'left' or 'right'
 
 local style = props['style.*.32']
+if ( props['sidebar.style.*.32']~="") then style = props['sidebar.style.*.32'] end
 local colorback = style:match('back:(#%x%x%x%x%x%x)')
 local colorfore = style:match('fore:(#%x%x%x%x%x%x)') or '#000000'
 
@@ -212,9 +216,9 @@ local current_path = ''
 local file_mask = '*.*'
 
 local function FileMan_ShowPath()
-	local rtf = [[{\rtf{\fonttbl{\f0\fcharset204 Helv;}}{\colortbl;\red0\green0\blue255;\red255\green0\blue0;}\f0\fs16]]
+		local rtf = [[{\rtf{\fonttbl{\f0\fcharset204 Helv;}}{\colortbl;\red0\green0\blue200;\red127\green0\blue0;}\f0\fs16]]
 	local path = '\\cf1'..current_path:gsub('\\', '\\\\')
-	local mask = '\\cf2'..file_mask..'}'
+	local mask = '\\cf2'..file_mask..''
 	memo_path:set_text(rtf..path..mask)
 end
 
@@ -1385,9 +1389,7 @@ end)
 
 --- Функции показывающие/прячущие боковую панель
 local SideBar_Show, SideBar_Hide
-
 if win then
-
 	SideBar_Show = function()
 		win_parent:show()
 		props['sidebar.show']=1
@@ -1408,11 +1410,11 @@ else
 		props['sidebar.show']=0
 	end
 end
-	
+
 --- Переключает отображение боковой панели
 function SideBar_ShowHide()
 	if tonumber(props['sidebar.show'])==1 then
-	  SideBar_Hide()
+		SideBar_Hide()
 	else
 		SideBar_Show()
 	end
@@ -1585,4 +1587,3 @@ end)
 if tonumber(props['sidebar.show'])==1 then
 		gui.set_panel(win_parent, sidebar_position)
 end
-
