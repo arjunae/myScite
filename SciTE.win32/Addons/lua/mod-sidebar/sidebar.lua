@@ -216,7 +216,7 @@ local current_path = ''
 local file_mask = '*.*'
 
 local function FileMan_ShowPath()
-		local rtf = [[{\rtf{\fonttbl{\f0\fcharset204 Helv;}}{\colortbl;\red0\green0\blue200;\red127\green0\blue0;}\f0\fs16]]
+		local rtf = [[{\rtf{\fonttbl{\f0\fcharset204 Helv;}}{\colortbl;\red50\green130\blue210;\red80\green0\blue0;}\f0\fs16]]
 	local path = '\\cf1'..current_path:gsub('\\', '\\\\')
 	local mask = '\\cf2'..file_mask..''
 	memo_path:set_text(rtf..path..mask)
