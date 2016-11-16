@@ -1,4 +1,4 @@
---[[--------------------------------------------------
+--[[
 URL_detect.lua
 Authors: Tymur Gubayev
 Version: 1.1.0
@@ -10,7 +10,10 @@ Description:	a (simple) URI recognizer as Lua module
 	this list (search for `scheme        <-`)
 ------------------------------------------------------
 Requires:	lpeg>=0.10 (with `re` module)
---]]--------------------------------------------------
+--]]
+
+package.path =  package.path ..";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
+
 
 --[[ http://tools.ietf.org/html/rfc3986#appendix-A
 Appendix A. Collected ABNF for URI
@@ -196,3 +199,6 @@ function IsURI(s)
 	local n = url:match(s)
 	return n and n-1 -- the `-1` is indeed needed
 end
+
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\ctagsd.lua')

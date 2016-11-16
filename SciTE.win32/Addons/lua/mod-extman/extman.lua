@@ -878,3 +878,6 @@ end
 --~    loaded[current_file] = false
 --~    silent_dofile(current_file)
 --~ end
+
+-- chainload eventmanager / extman remake used by some lua mods
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-extman\\eventmanager.lua')

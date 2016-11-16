@@ -70,6 +70,137 @@ local colorfore = style:match('fore:(#%x%x%x%x%x%x)') or '#000000'
 ----------------------------------------------------------
 -- Common functions
 ----------------------------------------------------------
+-- =================================
+-- Sidebar specific -
+-- =================================
+
+function ReadAbbrevFile(file, abbr_table)
+	--[[------------------------------------------
+	Р­РјСѓР»РёСЂСѓРµС‚ С‡С‚РµРЅРёРµ С„Р°Р№Р»Р° РІРЅСѓС‚СЂРµРЅРЅРµР№ С„СѓРЅРєС†РёРµР№ СЂРµРґР°РєС‚РѕСЂР°
+	Р¤СѓРЅРєС†РёСЏ РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅР° РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ РІРјРµСЃС‚Рѕ io.lines(filename), Р° С‚Р°РєР¶Рµ РІРјРµСЃС‚Рѕ file:lines()
+	Р§РёС‚Р°РµС‚ С„Р°Р№Р» РїРѕ РїСЂР°РІРёР»Р°Рј SciTE: РїСЂРё РЅР°Р»РёС‡РёРё РІ РєРѕРЅС†Рµ СЃС‚СЂРѕРєРё СЃРёРјРІРѕР»Р° '\' СЃС‡РёС‚Р°РµС‚СЃСЏ, С‡С‚Рѕ С‚РµРєСѓС‰Р°СЏ СЃС‚СЂРѕРєР° РїСЂРѕРґРѕР»Р¶Р°РµС‚СЃСЏ РІ СЃР»РµРґСѓСЋС‰РµР№.
+	@usage: for l in scite_io_lines('c:\\some.file') do print(l) end
+	  alternative:
+	f = io.open('s:\\some.file')
+	for l in scite_io_lines(f) do print(l) end
+	--]]------------------------------------------
+	local function scite_io_lines(file)
+		local line_iter = type(file)=='string' and io.lines(file) or file:lines()
+		local scite_iter = function()
+			local line = line_iter()
+			if not line then return end
+			-- start [SciTE]
+			while string.sub(line,-1)=='\\' do
+				line = string.sub(line,1,-2)..line_iter()
+			end
+			-- end [SciTE]
+			return line
+		end
+		return scite_iter
+	end
+	--------------------------------------------
+	local abbrev_file, err, errcode = io.open(file)
+	if not abbrev_file then return abbrev_file, err, errcode end
+
+	local abbr_table = abbr_table or {}
+	local ignorecomment = tonumber(props['abbrev.'..props['Language']..'.ignore.comment'])==1
+	for line in scite_io_lines(abbrev_file) do
+		if line ~= '' and (ignorecomment or line:sub(1,1) ~= '#' ) then
+			local _abr, _exp = line:match('^(.-)=(.+)')
+			if _abr then
+				abbr_table[#abbr_table+1] = {abbr=_abr, exp=_exp}
+			else
+				local import_file = line:match('^import%s+(.+)')
+				-- РµСЃР»Рё РѕР±РЅР°СЂСѓР¶РµРЅР° Р·Р°РїРёСЃСЊ import, С‚Рѕ СЂРµРєСѓСЂСЃРёРІРЅРѕ РІС‹Р·С‹РІР°РµРј СЌС‚Сѓ Р¶Рµ С„СѓРЅРєС†РёСЋ
+				if import_file then
+					ReadAbbrevFile(file:match('.+\\')..import_file, abbr_table)
+				end
+			end
+		end
+	end
+	abbrev_file:close()
+	return abbr_table
+end
+
+--------------------------------------------------------
+-- Определение соответствует ли стиль символа стилю комментария
+function IsComment(pos)
+  local style = editor.StyleAt[pos]
+  local lexer = editor.Lexer
+  local comment = {
+    abap = {1, 2},
+    ada = {10},
+    asm = {1, 11},
+    au3 = {1, 2},
+    baan = {1, 2},
+    bullant = {1, 2, 3},
+    caml = {12, 13, 14, 15},
+    cpp = {1, 2, 3, 15, 17, 18},
+    csound = {1, 9},
+    css = {9},
+    d = {1, 2, 3, 4, 15, 16, 17},
+    escript = {1, 2, 3},
+    flagship = {1, 2, 3, 4, 5, 6},
+    forth = {1, 2, 3},
+    gap = {9},
+    hypertext = {9, 20, 29, 42, 43, 44, 57, 58, 59, 72, 82, 92, 107, 124, 125},
+    xml = {9, 29},
+    inno = {1, 7},
+    latex = {4},
+    lua = {1, 2, 3},
+    mmixal = {1, 17},
+    nsis = {1, 18},
+    opal = {1, 2},
+    pascal = {1, 2, 3},
+    perl = {2},
+    bash = {2},
+    pov = {1, 2},
+    ps = {1, 2, 3},
+    python = {1, 12},
+    rebol = {1, 2},
+    ruby = {2},
+    scriptol = {2, 3, 4, 5},
+    smalltalk = {3},
+    specman = {2, 3},
+    spice = {8},
+    sql = {1, 2, 3, 13, 15, 17, 18},
+    tcl = {1, 2, 20, 21},
+    verilog = {1, 2, 3},
+    vhdl = {1, 2}
+  }
+
+  -- Для лексеров, перечисленных в массиве:
+  for l,ts in pairs(comment) do
+    if l == lexer then
+      for _,s in pairs(ts) do
+        if s == style then
+          return true
+        end
+      end
+      return false
+    end
+  end
+  -- Для остальных лексеров:
+  -- asn1, ave, blitzbasic, cmake, conf, eiffel, eiffelkw, erlang, euphoria, fortran, f77, freebasic, kix, lisp, lout, octave, matlab, metapost, nncrontab, props, batch, makefile, diff, purebasic, vb, yaml
+  if style == 1 then return true end
+  return false
+end
+
+-- string.to_pattern возращает строку, пригодную для использования
+-- в виде паттерна в string.find и т.п.
+-- Например: "xx-yy" -> "xx%-yy"
+local lua_patt_chars = "[%(%)%.%+%-%*%?%[%]%^%$%%]" -- управляющие паттернами символов Луа:
+function string.pattern( s )
+  return (s:gsub(lua_patt_chars,'%%%0'))-- фактически экранирование служебных символов символом %
+end
+
+function GetCurrentWord()
+  local current_pos = editor.CurrentPos
+  return editor:textrange(editor:WordStartPosition(current_pos, true),
+              editor:WordEndPosition(current_pos, true))
+end
+
+
 local function ReplaceWithoutCase(text, s_find, s_rep)
 	s_find = string.gsub(s_find, '.', function(ch)
 		local c,C = ch:lower(), ch:upper()

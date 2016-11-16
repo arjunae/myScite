@@ -1,10 +1,13 @@
-/* build@ cscript.exe //E:jscript /NOLOGO //X $(FilePath) '
- *  .... Doc Comments seem to be okay.
- */
- 	
+/** build@ cscript.exe //E:jscript /NOLOGO //X $(FilePath) '
+ *
+ *  	... Doc Comments seem to be okay.
+ * 	@api CommentKeyword
+*/
+
+
 // Check syntax Highlitening and multiline calltips.
-	var MyVeryLongVar = MyVeryLongVar + 20 - 0xA + 2;
-	var str = "asdf".replace (/ ^['"]/, "");
+var MyVeryLongVar = MyVeryLongVar + 20 - 0xA + 2;
+var str = "asdf".replace (/ ^['"]/, "");
 
 // Underscore Library
 	var fs = new ActiveXObject("Scripting.FileSystemObject");
@@ -24,15 +27,16 @@
 
 	 // JSON (./data/test_json.json)
 		 var res=(fs.OpenTextFile("./data/test_json.json").ReadAll() +" "); //  save_as_ansi....
-		 obj= eval('('  + res + ')');
+		 obj= eval(' ('  + res + ') ');
 		 WScript.echo (":: test_json:	" + res);
 		 WScript.echo(":: _.allKeys:	"+_.allKeys(obj))
 		 WScript.echo(":: _.values:	"+_.values(obj))
 }
 
 // Ajax
-	WScript.echo("\n-:: jScript AJAX Test ::-")
+	WScript.echo("\n-:: jScript AJAX Test (reddit) ::-")
 	http = new ActiveXObject("WinHttp.WinHttpRequest.5.1");
 	http.Open("GET", "https://www.reddit.com/r/aww.json", false);
 	http.Send;
 	WScript.Echo("http.responseText: " + http.responseText +"\n");
+
