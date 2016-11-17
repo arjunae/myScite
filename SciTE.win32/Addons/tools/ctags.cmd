@@ -4,20 +4,21 @@
 :: ---------------------------------------
 
 set toolName=ctags
+set toolFolder=%toolName%
 set toolExt=.exe
 set toolParam=%*
 
 :: -------- No need to edit below here ---------- ::
 
 ::~dp0 = Full Path to current Directory with trailing slash
-set toolPath=%~dp0%toolName%
+set toolPath=%~dp0%toolFolder%
 
 :: temporarly append toolsDir to local Path 
 set path=%path%;%toolPath%;
 
 :: first try if a user had installed a local package
 if exist %toolPath%\%toolName%%toolExt% (
-echo ~ WRapper: %toolName%%toolExt% %toolParam%
+echo ~ WRapper: %toolFolder%\%toolName%%toolExt% %toolParam%
 %toolPath%\%toolName%%toolExt% %toolParam%
 goto freude
 ) 

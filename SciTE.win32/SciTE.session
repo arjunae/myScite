@@ -1,0 +1,23 @@
+# SciTE session file
+
+position.left=174
+position.top=93
+position.width=1145
+position.height=622
+position.maximize=1
+
+mru.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\Addons\tools\python.cmd
+mru.2.path=E:\projects\_myScite\.myScite.github\SciTE.win32\Addons\tools\uncrust.cmd
+mru.3.path=E:\projects\_myScite\.myScite.github\SciTE.win32\Addons\tools\figref.cmd
+mru.4.path=E:\projects\_myScite\.myScite.github\SciTE.win32\Addons\tools\ctags.cmd
+mru.5.path=E:\projects\_myScite\.myScite.github\SciTE.win32\Addons\tools\ctags\ctags.php
+mru.6.path=E:\projects\_myScite\.myScite.github\SciTE.win32\Addons\tools\ctags\ctags.php.list
+mru.7.path=E:\projects\_myScite\.myScite.github\SciTE.win32\Addons\tools\ctags\ctags.html
+mru.8.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_php.php
+mru.9.path=E:\projects\_myScite\.myScite.github\SciTE.win32\Addons\tools.properties
+mru.10.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_cpp.cpp
+
+buffer.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_cpp.cpp
+buffer.1.position=644
+buffer.1.scroll=0
+buffer.1.current=1
