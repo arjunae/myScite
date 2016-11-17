@@ -7,6 +7,8 @@ set toolName=figref
 set toolExt=.cmd
 set toolParam=-f %toolPath%\mini.flf %*
 
+:: -------- No need to edit below here ---------- ::
+
 ::~dp0 = Full Path to current Directory with trailing slash
 set toolPath=%~dp0%toolName%
 
@@ -15,7 +17,7 @@ set path=%path%;%toolPath%;
 :: first try if a user had installed a local package
 if exist %toolPath%\%toolName%%toolExt% (
 echo ~ WRapper: %toolName%%toolExt% %toolParam%
-call %toolPath%\%toolName%%toolExt% %toolParam%
+%toolPath%\%toolName%%toolExt% %toolParam%
 goto freude
 )
 

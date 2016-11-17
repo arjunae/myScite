@@ -6,6 +6,8 @@ set toolName=uncrustify
 set toolExt=.exe
 set toolParam=-c %~dp0%toolName%\linux.cfg --no-backup %*
 
+:: -------- No need to edit below here ---------- ::
+
 ::~dp0 = Full Path to current Directory with trailing slash
 set toolPath=%~dp0%toolName%
 

@@ -67,11 +67,9 @@ if ( props['sidebar.style.*.32']~="") then style = props['sidebar.style.*.32'] e
 local colorback = style:match('back:(#%x%x%x%x%x%x)')
 local colorfore = style:match('fore:(#%x%x%x%x%x%x)') or '#000000'
 
-----------------------------------------------------------
--- Common functions
-----------------------------------------------------------
+
 -- =================================
--- Sidebar specific -
+-- Start Common functions -Sidebar specific -
 -- =================================
 
 function ReadAbbrevFile(file, abbr_table)
@@ -249,6 +247,11 @@ else
 	local empty = function (...) end
 	_DEBUG.timer, _DEBUG.timerstart, _DEBUG.timerstop = empty, empty, empty
 end
+
+
+-- =================================
+-- End Common functions -Sidebar specific -
+-- =================================
 
 ----------------------------------------------------------
 -- Create panels

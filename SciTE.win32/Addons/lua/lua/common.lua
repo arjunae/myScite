@@ -1,5 +1,4 @@
--- COMMON.lua
---dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\ctagsd.lua')
+-- COMMON.lua -- 
 
 -- For charset_iconv:
 -- require 'iconv'

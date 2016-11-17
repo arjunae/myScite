@@ -2,7 +2,8 @@
 :: -------- Starter for SciTE ----------
 :: used to avoid Chaos and store  Language Distbins within their respective Directories. 
 :: ---------------------------------------
-set toolName=lua
+
+set toolName=ctags
 set toolExt=.exe
 set toolParam=%*
 
@@ -26,7 +27,7 @@ where /Q %toolName%%toolExt%
 
 IF %ERRORLEVEL% == 0 (
 echo ~ WRapper: %toolPath%\%toolName%%toolExt% %toolParam%
-where %toolName%%toolExt% 
+where %toolName%%toolExt%
 %toolName%%toolExt% %toolParam%
 ) else ( 
 echo ... please install %toolName% or copy a custom pack to %toolPath% .
