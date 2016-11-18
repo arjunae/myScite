@@ -20,101 +20,101 @@ WshUnnamed()Provides access to the unnamed arguments from the command line {VBS}
 WshUrlShortcut()Allows you to create a shortcut to an Internet resource programmatically {VBS}
 
 #~---- Functions {VBS}
-Abs()Returns the absolute value of a number.\t\nAbs(number) {VBS}
-Array()Returns a Variant containing an array.  **\t\nArray(arglist) {VBS}
-Asc()Returns the ANSI character code corresponding to the first letter in a string. **\t\nAsc(string) {VBS}
-Atn()Returns the arctangent of a number. **\t\nAtn(number) {VBS}
-CBool()Returns an expression that has been converted to a Variant of subtype Boolean.\t\nCBool(expression) {VBS}
-CByte()Returns an expression that has been converted to a Variant nof subtype Byte.\t\nCByte(expression) {VBS}
-CCur()Returns an expression that has been converted to a Variant of subtype Currency.\t\nCCur(expression) {VBS}
-CDate()Returns an expression that has been converted to a Variant of subtype Date.\t\nCDate(date) {VBS}
-CDbl()Returns an expression that has been converted to a Variant nof subtype Double.\t\nCDbl(expression) {VBS}
-Chr()Returns the character associated with the specified ANSI character code. **\t\nChr(charcode) {VBS}
-CInt()Returns an expression that has been converted to a Variant of subtype Integer. **\t\nCInt(expression) {VBS}
-CLng()Returns an expression that has been converted to a Variant of subtype Long. **\t\nCLng(expression) {VBS}
+Abs(number)Returns the absolute value of a number.\t\nAbs {VBS}
+Array(arglist)Returns a Variant containing an array.  **\t\nArray {VBS}
+Asc(string)Returns the ANSI character code corresponding to the first letter in a string. **\t\nAsc {VBS}
+Atn(number)Returns the arctangent of a number. **\t\nAtn {VBS}
+CBool(expression)Returns an expression that has been converted to a Variant of subtype Boolean.\t\nCBool {VBS}
+CByte(expression)Returns an expression that has been converted to a Variant nof subtype Byte.\t\nCByte {VBS}
+CCur(expression)Returns an expression that has been converted to a Variant of subtype Currency.\t\nCCur {VBS}
+CDate(date)Returns an expression that has been converted to a Variant of subtype Date.\t\nCDate {VBS}
+CDbl(expression)Returns an expression that has been converted to a Variant nof subtype Double.\t\nCDbl {VBS}
+Chr(charcode)Returns the character associated with the specified ANSI character code. **\t\nChr {VBS}
+CInt(expression)Returns an expression that has been converted to a Variant of subtype Integer. **\t\nCInt {VBS}
+CLng(expression)Returns an expression that has been converted to a Variant of subtype Long. **\t\nCLng {VBS}
 Conversion()The following table lists the conversion functions in VBScript. {VBS}
-Cos()Returns the cosine of an angle.\t\nCos(number) {VBS}
-CreateObject(servername,typename,location)Creates and returns a reference to an Automation object.\t\nCreateObject(servername.typename [, location]) {VBS}
-CSng()Returns an expression that has been converted to a Variant of subtype Single.\t\nCSng(expression)  {VBS}
-CStr()Returns an expression that has been converted to a Variant of subtype String.\t\nCStr(expression) {VBS}
-Date()Returns the current system date.\t\nDate {VBS}
-DateAdd(interval,number,date)Returns a date to which a specified time interval has been added.\t\nDateAdd(interval, number, date) {VBS}
-DateDiff(interval,date1,,date2,firstdayofweek,firstweekofyear)Returns the number of intervals between two dates.\t\nDateDiff(interval, date1, date2 [,firstdayofweek[, firstweekofyear]]) {VBS}
-DatePart(interval,date,firstdayof,week,firstweekofyear)Returns the specified part of a given date.\t\nDatePart(interval, date[, firstdayofweek[, firstweekofyear]]) {VBS}
-DateSerial(year,month,day)Returns a Variant of subtype Date for a specified year, month, and day.\t\nDateSerial(year, month, day) {VBS}
-DateValue()Returns a Variant of subtype Date.\t\nDateValue(date) {VBS}
-Day()Returns a whole number between 1 and 31, inclusive, representing the day of the month.\t\nDay(date) {VBS}
-Escape(charString)Encodes a string so it contains only ASCII characters. **\t\nEscape(charString) {VBS}
-Eval(expression)Evaluates an expression and returns the result. **\t\nEval(expression) {VBS}
-Exp()Returns e (the base of natural logarithms) raised to a power. **\t\nExp(number) {VBS}
-Filter(InputStrings,Value,Include,Compare)Returns a zero-based array containing a subset of a string array based on a specified filter criteria.\t\nFilter(InputStrings, Value[, Include[, Compare]]) {VBS}
-FormatCurrency(Expression,NumDigitsAfterDecimal,IncludeLeadingDigit,UseParensForNegativeNumbers,GroupDigits)Returns an expression formatted as a currency value using \t\nthe currency symbol defined in the system control panel.  **\t\n[,UseParensForNegativeNumbers [,GroupDigits]]]])  {VBS}
-FormatDateTime(Date,NamedFormat)Returns an expression formatted as a date or time.\t\nFormatDateTime(Date[, NamedFormat]) {VBS}
-FormatNumber(Expression,NumDigitsAfterDecimal,IncludeLeadingDigit,UseParensForNegativeNumbers,GroupDigits)Returns an expression formatted as a number.  **\t\n[,UseParensForNegativeNumbers [,GroupDigits]]]]) {VBS}
-FormatPercent(Expression,NumDigitsAfterDecimal,IncludeLeadingDigit,UseParensForNegativeNumbers,GroupDigits)Returns an expression formatted as a percentage (multiplied \t\nby 100) with a trailing % character.  **\t\n[,UseParensForNegativeNumbers [,GroupDigits]]]]) {VBS}
-GetLocale()Returns the current locale ID value.\t\nGetLocale() {VBS}
-GetObject(pathname,class,appname,objectype)Returns a reference to an Automation object from a file.  **\t\nGetObject([pathname] [, class]) {VBS}
-GetRef(object,event,procname)Returns a reference to a procedure that can be bound to an event.\t\nSet object.eventname = GetRef(procname) {VBS}
-Hex()Returns a string representing the hexadecimal value of a number.\t\nHex(number) {VBS}
-Hour()Returns a whole number between 0 and 23, inclusive, representing \t\nthe hour of the day.\t\nHour(time) {VBS}
-InputBox(prompt,title,default,xpos,ypos,helpfile,context)Displays a prompt in a dialog box, waits for the user to input text or click a button, and returns the contents of the text box.\t\nInputBox(prompt[, title][, default][, xpos][, ypos][, helpfile, context]) {VBS}
-InStr(start,string1,string2,compare)Returns the position of the first occurrence of one string within another. **\t\nInStr([start, ]string1, string2[, compare]) {VBS}
-InStrRev(string1,string2,start,compare)Returns the position of an occurrence of one string within another, from the end of string.  **\t\nInStrRev(string1, string2[, start[, compare]]) {VBS}
+Cos(number)Returns the cosine of an angle.\t\nCos {VBS}
+CSng(expression)Returns an expression that has been converted to a Variant of subtype Single.\t\nCSng {VBS}
+CStr(expression)Returns an expression that has been converted to a Variant of subtype String.\t\nCStr {VBS}
+Date(date)Returns the current system date.\t\nDate {VBS}
+DateAdd(interval,number,date)Returns a date to which a specified time interval has been added.\t\nDateAdd {VBS}
+DateDiff(interval, date1, date2 [,firstdayofweek[, firstweekofyear]])Returns the number of intervals between two dates.\t\nDateDiff {VBS}
+DatePart(interval, date[, firstdayofweek[, firstweekofyear]])Returns the specified part of a given date.\t\nDatePart {VBS}
+DateSerial(year,month,day)Returns a Variant of subtype Date for a specified year, month, and day.\t\nDateSerial {VBS}
+DateValue(date)Returns a Variant of subtype Date.\t\nDateValue {VBS}
+Day(date)Returns a whole number between 1 and 31, inclusive, representing the day of the month.\t\nDay {VBS}
+Escape(charString)Encodes a string so it contains only ASCII characters. **\t\nEscape {VBS}
+Eval(expression)Evaluates an expression and returns the result. **\t\nEval {VBS}
+Exp(number)Returns e the base of natural logarithms raised to a power. **\t\nExp {VBS}
+Filter(InputStrings,Value,Include,Compare)Returns a zero-based array containing a subset of a string array based on a specified filter criteria.\t\nFilter {VBS}
+FormatCurrency(Expression,NumDigitsAfterDecimal,IncludeLeadingDigit,UseParensForNegativeNumbers,GroupDigits)Returns an expression formatted as a currency value using \t\nthe currency symbol defined in the system control panel.  **\t\n[,UseParensForNegativeNumbers [,GroupDigits]]]]
+FormatDateTime(Date,NamedFormat)Returns an expression formatted as a date or time.\t\nFormatDateTime {VBS}
+FormatNumber(Expression,NumDigitsAfterDecimal,IncludeLeadingDigit,UseParensForNegativeNumbers,GroupDigits)Returns an expression formatted as a number.  **\t\n[,UseParensForNegativeNumbers [,GroupDigits]]]]
+FormatPercent(Expression,NumDigitsAfterDecimal,IncludeLeadingDigit,UseParensForNegativeNumbers,GroupDigits)Returns an expression formatted as a percentage  with a trailing % character.  **\t\n[,UseParensForNegativeNumbers [,GroupDigits]]]]
+GetLocale()Returns the current locale ID value.\t\nGetLocale {VBS}
+GetRef(object,event,procname)Returns a reference to a procedure that can be bound to an event.\t\nSet object.eventname = GetRef {VBS}
+Hex(number)Returns a string representing the hexadecimal value of a number.\t\nHex {VBS}
+Hour(time)Returns a whole number between 0 and 23, inclusive, representing \t\nthe hour of the day.\t\nHour {VBS}
+InputBox(prompt[, title][, default][, xpos][, ypos][, helpfile, context])Displays a prompt in a dialog box, waits for the user to input text or click a button, and returns the contents of the text box.\t\nInputBox {VBS}
+InStr([start, ]string1, string2[, compare])Returns the position of the first occurrence of one string within another. **\t\nInStr {VBS}
+InStrRev(string1, string2[, start[, compare]])Returns the position of an occurrence of one string within another, from the end of string.  **\t\nInStrRev {VBS}
 Int()Returns the integer portion of a number.\t\n {VBS}
-IsArray()Returns a Boolean value indicating whether a variable is an array.\t\nIsArray(varname) {VBS}
-IsDate()Returns a Boolean value indicating whether an expression can be converted to a date.\t\nIsDate(expression) {VBS}
-IsEmpty()Returns a Boolean value indicating whether a variable has been initialized.\t\nIsEmpty(expression) {VBS}
-IsNull()Returns a Boolean value that indicates whether an expression contains no valid data (Null).\t\nIsNull(expression) {VBS}
-IsNumeric()Returns a Boolean value indicating whether an expression can be evaluated as a number.\t\nIsNumeric(expression) {VBS}
-IsObject()Returns a Boolean value indicating whether an expression references a valid Automation object.\t\nIsObject(expression) {VBS}
-Join(list,delimiter)Returns a string created by joining a number of substrings contained in an array.\t\nJoin(list[, delimiter]) {VBS}
-LBound(arrayname,dimension)Returns the smallest available subscript for the indicated dimension of an array.\t\nLBound(arrayname[, dimension]) {VBS}
-LCase()Returns a string that has been converted to lowercase.\t\nLCase(string) {VBS}
-Left(string,length)Returns a specified number of characters from the left side of a string. **\t\nLeft(string, length) {VBS}
-Len(string,varname)Returns the number of characters in a string or the number of bytes required to store a variable.  **\t\nLen(string | varname) {VBS}
-LoadPicture()Returns a picture object. Available only on 32-bit platforms.\t\nLoadPicture(picturename) {VBS}
-Log()Returns the natural logarithm of a number.\t\nLog(number) {VBS}
-Trim()(R/L)Trim Whitespace\t\n {VBS}
-Math()The following table lists the VBScript math functions.\t\n {VBS}
-Mid(string,start,length)Returns a specified number of characters from a string. **\t\nMid(string, start[, length]) {VBS}
-Minute()Returns a whole number between 0 and 59, inclusive, representing the minute of the hour.\t\nMinute(time) {VBS}
-Month()Returns a whole number between 1 and 12, inclusive, representing the month of the year.\t\nMonth(date) {VBS}
-MonthName(month,abbreviate)Returns a string indicating the specified month.MonthName(month[, abbreviate]) {VBS}
-MsgBox(prompt,buttons,title,helpfile,context)Displays a message in a dialog box, waits for the user to click a button,\t\n and returns a value indicating which button the user clicked.\t\nMsgBox(prompt[, buttons][, title][, helpfile, context]) {VBS}
+IsArray(varname)Returns a Boolean value indicating whether a variable is an array.\t\nIsArray {VBS}
+IsDate(expression)Returns a Boolean value indicating whether an expression can be converted to a date.\t\nIsDate {VBS}
+IsEmpty(expression)Returns a Boolean value indicating whether a variable has been initialized.\t\nIsEmpty {VBS}
+IsNull(expression)Returns a Boolean value that indicates whether an expression contains no valid data\t\nIsNull {VBS}
+IsNumeric(expression)Returns a Boolean value indicating whether an expression can be evaluated as a number.\t\nIsNumeric {VBS}
+IsObject(expression)Returns a Boolean value indicating whether an expression references a valid Automation object.\t\nIsObject {VBS}
+Join(list[, delimiter])Returns a string created by joining a number of substrings contained in an array.\t\nJoin {VBS}
+LBound(arrayname[, dimension])Returns the smallest available subscript for the indicated dimension of an array.\t\nLBound {VBS}
+LCase(string)Returns a string that has been converted to lowercase.\t\nLCase {VBS}
+Left(string,length)Returns a specified number of characters from the left side of a string. **\t\nLeft {VBS}
+Len(string,varname)Returns the number of characters in a string or the number of bytes required to store a variable.  **\t\nLen {VBS}
+LoadPicture(picturename)Returns a picture object. Available only on 32-bit platforms.\t\nLoadPicture {VBS}
+Log(number)Returns the natural logarithm of a number.\t\nLog {VBS}
+Trim(string)Trim Whitespace\t\nTrim{VBS}
+Mid(string,start,length)Returns a specified number of characters from a string. **\t\nMid {VBS}
+Minute(time)Returns a whole number between 0 and 59, inclusive, representing the minute of the hour.\t\nMinute {VBS}
+Month(date)Returns a whole number between 1 and 12, inclusive, representing the month of the year.\t\nMonth {VBS}
+MonthName(month[, abbreviate])Returns a string indicating the specified month.\t\nMonthName {VBS}
+MsgBox(prompt[, buttons][, title][, helpfile, context])Displays a message in a dialog box, waits for the user to click a button,\t\n and returns a value indicating which button the user clicked.\t\nMsgBox {VBS}
 Now()Returns the current date and time according to the setting of your computer's system date and time.\t\nNow {VBS}
-Oct()Returns a string representing the octal value of a number.Oct(number) {VBS}
-Replace(expression,find,replacewith,start,count,compare)Returns a string in which a specified substring has been replaced with another substring a specified number of times.\t\nReplace(expression, find, replacewith[, start[, count[, compare]]]) {VBS}
-RGB(red,green,blue)Returns a whole number representing an RGB color value.\t\nRGB(red, green, blue) {VBS}
-Right(string,length)Returns a specified number of characters from the right side \t\nof a string. **\t\nRight(string, length) {VBS}
-Rnd()Returns a random number. **\t\nRnd[(number)] {VBS}
-Round(expression,numdecimalplaces)Returns a number rounded to a specified number of decimal places. **\t\nRound(expression[, numdecimalplaces]) {VBS}
+Oct(number)Returns a string representing the octal value of a number.\t\nOct {VBS}
+Replace(expression, find, replacewith[, start[, count[, compare]]])Returns a string in which a specified substring has been replaced with another substring a specified number of times.\t\nReplace {VBS}
+RGB(red,green,blue)Returns a whole number representing an RGB color value.\t\nRGB {VBS}
+Right(string,length)Returns a specified number of characters from the right side \t\nof a string. **\t\nRight {VBS}
+Rnd(number)Returns a random number. **\t\nRnd{VBS}
+Round(expression,numdecimalplaces)Returns a number rounded to a specified number of decimal places. **\t\nRound {VBS}
 ScriptEngine()Returns a string representing the scripting language in use.\t\nScriptEngine {VBS}
 ScriptEngineBuildVersion()Returns the build version number of the scripting engine in use.\t\nScriptEngineBuildVersion {VBS}
 ScriptEngineMajorVersion()Returns the major version number of the scripting engine in use.\t\nScriptEngineMajorVersion {VBS}
 ScriptEngineMinorVersion()Returns the minor version number of the scripting engine in use.\t\nScriptEngineMinorVersion {VBS}
-Second()Returns a whole number between 0 and 59, inclusive, representing \t\nthe second of the minute.\t\nSecond(time) {VBS}
-SetLocale()Sets the global locale and returns the previous locale.\t\nSetLocale(lcid) {VBS}
-Sgn()Returns an integer indicating the sign of a number.\t\nSgn(number) {VBS}
-Sin()Returns the sine of an angle.\t\nSin(number) {VBS}
-Space()Returns a string consisting of the specified number of spaces.\t\nSpace(number) {VBS}
-Split(expression,delimiter,count,compare)Returns a zero-based, one-dimensional array containing a specified \t\nnumber of substrings.\t\nSplit(expression[, delimiter[, count[, compare]]]) {VBS}
-Sqr()Returns the square root of a number.\t\nSqr(number) {VBS}
-StrComp(string1,string2,compare)Returns a value indicating the result of a string comparison.\t\nStrComp(string1, string2[, compare]) {VBS}
-String(number,character)Returns a repeating character string of the length specified.\t\nString(number, character) {VBS}
-StrReverse()Returns a string in which the character order of a specified \t\nstring is reversed.\t\nStrReverse(string1) {VBS}
-Tan()Returns the tangent of an angle.\t\nTan(number) {VBS}
+Second(time)Returns a whole number between 0 and 59, inclusive, representing \t\nthe second of the minute.\t\nSecond {VBS}
+SetLocale(lcid)Sets the global locale and returns the previous locale.\t\nSetLocale {VBS}
+Sgn(number)Returns an integer indicating the sign of a number.\t\nSgn {VBS}
+Sin(number)Returns the sine of an angle.\t\nSin {VBS}
+Space(number)Returns a string consisting of the specified number of spaces.\t\nSpace {VBS}
+Split(expression[, delimiter[, count[, compare]]])Returns a zero-based, one-dimensional array containing a specified \t\nnumber of substrings.\t\nSplit {VBS}
+Sqr(number)Returns the square root of a number.\t\nSqr {VBS}
+StrComp(string1, string2[, compare])Returns a value indicating the result of a string comparison.\t\nStrComp {VBS}
+String(number, character)Returns a repeating character string of the length specified.\t\nString {VBS}
+StrReverse(string1)Returns a string in which the character order of a specified \t\nstring is reversed.\t\nStrReverse {VBS}
+Tan(number)Returns the tangent of an angle.\t\nTan {VBS}
 Time()Returns a Variant of subtype Date indicating the current system time.\t\nTime {VBS}
-Timer()Returns the number of seconds that have elapsed since 12:00 AM (midnight).\t\nTimer {VBS}
-TimeSerial(hour,minute,second)Returns a Variant of subtype Date containing the time for \t\na specific hour, minute, and second.\t\nTimeSerial(hour, minute, second) {VBS}
-TimeValue()Returns a Variant of subtype Date containing the time.\t\nTimeValue(time) {VBS}
-TypeName()Returns a string that provides Variant subtype information about a variable.\t\nTypeName(varname) {VBS}
-UBound(arrayname,dimension)Returns the largest available subscript for the indicated dimension of an array.\t\nUBound(arrayname[, dimension]) {VBS}
-UCase()Returns a string that has been converted to uppercase.\t\nUCase(string) {VBS}
-Unescape(charString)Decodes a string encoded with the Escape function.\t\nUnescape(charString) {VBS}
-VarType()Returns a value indicating the subtype of a variable. **\t\nVarType(varname) {VBS}
-Weekday(date,firstdayofweek)Returns a whole number representing the day of the week.\t\nWeekday(date, [firstdayofweek]) {VBS}
-WeekdayName(weekday,abbreviate,firstdayofweek)Returns a string indicating the specified day of the week.\t\nWeekdayName(weekday, abbreviate, firstdayofweek) {VBS}
-Year()Returns a whole number representing the year.\t\nYear(date) {VBS}
+Timer(midnight)Returns the number of seconds that have elapsed since 12:00 AM.\t\nTimer {VBS}
+TimeSerial(hour,minute,second)Returns a Variant of subtype Date containing the time for \t\na specific hour, minute, and second.\t\nTimeSerial {VBS}
+TimeValue(time)Returns a Variant of subtype Date containing the time.\t\nTimeValue {VBS}
+TypeName(varname)Returns a string that provides Variant subtype information about a variable.\t\nTypeName {VBS}
+UBound(arrayname[, dimension])Returns the largest available subscript for the indicated dimension of an array.\t\nUBound {VBS}
+UCase(string)Returns a string that has been converted to uppercase.\t\nUCase {VBS}
+Unescape(charString)Decodes a string encoded with the Escape function.\t\nUnescape {VBS}
+VarType(varname)Returns a value indicating the subtype of a variable. **\t\nVarType {VBS}
+Weekday(date,firstdayofweek)Returns a whole number representing the day of the week.\t\nWeekday {VBS}
+WeekdayName(weekday,abbreviate,firstdayofweek)Returns a string indicating the specified day of the week.\t\nWeekdayName {VBS}
+Year(date)Returns a whole number representing the year.\t\nYear {VBS}
+FormatCurrency(Expression,NumDigitsAfterDecimal,IncludeLeadingDigit,UseParensForNegativeNumbers,GroupDigits)Returns an expression formatted as a currency value using \t\nthe currency symbol defined in the system control panel.  **\t\nFormatCurrency  {VBS}
+Math()The following table lists the VBScript math functions.\t\n {VBS}
+Conversion()The following table lists the conversion functions in VBScript. {VBS}
 
 #~---- properties {vbs}
 arguments@@sets the arguments for a shortcut, or identifies a shortcut's arguments.\t\nobject.arguments {vbs}

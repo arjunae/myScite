@@ -12,7 +12,7 @@ function main
   oIE.Navigate2("http://www.freedos.org")
   oIE.Height =300
   oIE.Width= 500
-  oIE.Visible = 1   ' Keep visible.
+  oIE.Visible = 1   ' Keep visible. 
 
   wscript.echo("stdOut - Please close IE now....")
   do

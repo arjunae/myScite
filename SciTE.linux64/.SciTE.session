@@ -1,16 +1,15 @@
 # SciTE session file
 
-position.left=455
-position.top=110
-position.width=596
-position.height=481
+position.left=328
+position.top=224
+position.width=810
+position.height=533
 position.maximize=0
 
-mru.1.path=/home/tho/myscite/.SciTEUser.properties
-mru.2.path=/home/tho/myscite/SciTE.properties
-mru.3.path=/home/tho/myscite/SciTEGlobal.properties
-
-buffer.1.path=/home/tho/myscite/SciTEGlobal.properties
-buffer.1.position=490
-buffer.1.scroll=0
-buffer.1.current=1
+mru.1.path=/home/tho/myscite/SciTE.properties
+mru.2.path=/home/tho/scite/.SciTEUser.properties
+mru.3.path=/home/tho/myscite/.SciTEUser.properties
+mru.4.path=/home/tho/myscite/SciTEGlobal.properties
+mru.5.path=/home/tho/scite/SciTEGlobal.properties
+mru.6.path=/home/tho/myscite/user/testcases/test.vcard.vcard
+mru.7.path=/home/tho/scite/user/testcases/test.vcard.vcard

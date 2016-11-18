@@ -1,9 +1,9 @@
 // go@ cmd /c g++ -g -O0  *.cpp -o $(FileName).exe &&  $(FileName).exe
 
-/*
+/**
  *   ---== cpp lexer sample ==---
  *       -> to debug, set a breakpoint with F9, and press CTRL-F5
- *       -> a strip, showing the source file path will show up.
+ *       -> a strip showing the source file path will show up.
  *       -> change "test.cpp" to "test.cpp.exe" and you are set.
  */
 
