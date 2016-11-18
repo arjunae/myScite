@@ -16,8 +16,8 @@ end
 --Fixme calling scite_command from within events.
 
 scite_Command {
-  'Run|do_run|*{savebefore:yes}|Alt+R',
-  'Breakpoint|do_breakpoint|F9'
+ -- 'Run|do_run|*{savebefore:yes}|Alt+R',
+ -- 'Breakpoint|do_breakpoint|F9'
 }
 
 scite_Command {
@@ -396,7 +396,7 @@ function do_run()
 	-- i scite_webdev
 		if not (props['debug.asktarget']=='' or props['debug.asktarget'] == '0') and (#stripText == 0 ) then
 				scite.StripShow("") -- clear strip
-				scite.StripShow("!'Target name:'["..props['FilePath'].."]((OK))(&Cancel)")
+				scite.StripShow("!'Target name:'["..props['FilePath'].."]((OK))((&Cancel))")
 				return
 		end
 			lfs.chdir(props['FileDir']) 
@@ -686,7 +686,7 @@ function do_launch()
     if not target then target = dbg:default_target() end
     target = quote_if_needed(target)    
     -- *doc* this determines the time before calltips appear; you can set this as a SciTE property.
-	if props['dwell.period'] == '' then props['dwell.period'] = 300 end
+	if props['dwell.period'] == '' then props['dwell.period'] = 200 end
     -- get the debugger process command string
     local dbg_cmd = dbg:command_line(target)
     print(dbg_cmd)
@@ -701,7 +701,7 @@ function do_launch()
     --- and go!!
     spawner.verbose(scite_GetPropBool('debug.spawner.verbose',true))
 
--- spawner.fulllines(1)	
+	 spawner.fulllines(1)	
 	spawner_obj = spawner.new(dbg_cmd)
 	spawner_obj:set_output('ProcessChunk')
 	spawner_obj:set_result('ProcessResult')
