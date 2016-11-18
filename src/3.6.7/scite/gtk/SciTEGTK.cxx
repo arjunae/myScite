@@ -892,10 +892,11 @@ FilePath SciTEGTK::GetDefaultDirectory() {
 	std::string envPathSciteHome = props.GetNewExpandString("env.scite_home");
 	std::string env = GUI::StringFromUTF8(FilePath(envSciteHome + envPathSciteHome).NormalizePath().AsUTF8());
 
-	if (!envPathSciteHome.empty())
+	if (sizeof(envPathSciteHome)>2) {
 	 putenv((char *)env.c_str());
-
-	const char *where= getenv("SciTE_HOME");
+	}
+	
+	char *where= getenv("SciTE_HOME");
 	
 	if (!where) {
 		std::string home = getenv("HOME");
@@ -906,11 +907,7 @@ FilePath SciTEGTK::GetDefaultDirectory() {
 		if (oPath.Exists())
 			where = (char *)home.c_str();
 	}
-#ifdef SYSCONF_PATH
-	if (!where)
-		where = SYSCONF_PATH;
 
-#endif
 	if (where)
 		return FilePath(where);
 
