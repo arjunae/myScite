@@ -880,4 +880,4 @@ end
 --~ end
 
 -- chainload eventmanager / extman remake used by some lua mods
-dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
+dofile(props["SciteDefaultHome"]..'/Addons/lua/mod-extman/eventmanager.lua')

@@ -1,7 +1,8 @@
 	  ~- mySciTE.webdev -~
 
-	[Linux64-devel] 10.11.2016
+	[Linux64-devel] 18.11.2016
 	- Sync Configfiles
+	- set env.scitehome=/home/../myscite
 		
 	[Linux64-devel]
 	- Link with scintilla/scite 3.6.7

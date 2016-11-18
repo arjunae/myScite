@@ -909,14 +909,21 @@ FilePath SciTEGTK::GetDefaultDirectory() {
 }
 
 FilePath SciTEGTK::GetSciteDefaultHome() {
+	std::wstring wenvSciteHome = L"SciTE_HOME=";
+	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_userhome")));
+	std::wstring wenv = GUI::StringFromUTF8(FilePath(wenvSciteHome + wenvPathSciteHome).NormalizePath().AsUTF8());
+	std::wstring wcheck = L":";
+	std::size_t icheck = wenv.find(wcheck);
+	if (icheck != std::string::npos)
+		_wputenv((wchar_t *)wenv.c_str());
+
 	const char *where = getenv("SciTE_HOME");
+	if (!where) {
+		where = getenv("HOME");
+	}	
 #ifdef SYSCONF_PATH
 	if (!where) {
 		where = SYSCONF_PATH;
-	}
-#else
-	if (!where) {
-		where = getenv("HOME");
 	}
 #endif
 	if (where) {
