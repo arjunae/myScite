@@ -1,8 +1,16 @@
 # SciTE session file
 
-position.left=0
-position.top=23
-position.width=760
-position.height=745
+position.left=455
+position.top=110
+position.width=596
+position.height=481
 position.maximize=0
 
+mru.1.path=/home/tho/myscite/.SciTEUser.properties
+mru.2.path=/home/tho/myscite/SciTE.properties
+mru.3.path=/home/tho/myscite/SciTEGlobal.properties
+
+buffer.1.path=/home/tho/myscite/SciTEGlobal.properties
+buffer.1.position=490
+buffer.1.scroll=0
+buffer.1.current=1
