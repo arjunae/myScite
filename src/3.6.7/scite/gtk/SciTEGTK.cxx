@@ -891,14 +891,20 @@ GtkWidget *SciTEGTK::AddMBButton(GtkWidget *dialog, const char *label,
 }
 
 FilePath SciTEGTK::GetDefaultDirectory() {
+	std::string envSciteHome= "SciTE_HOME=";
+	std::string envPathSciteHome = props.GetNewExpandString("env.scite_home");
+	std::string env = GUI::StringFromUTF8(FilePath(envSciteHome + envPathSciteHome).NormalizePath().AsUTF8());
+
+	putenv((char *)env.c_str());
+	
 	const char *where = getenv("SciTE_HOME");
 #ifdef SYSCONF_PATH
 	if (!where) {
-		where = SYSCONF_PATH;
+//		where = SYSCONF_PATH;
 	}
 #else
 	if (!where) {
-		where = getenv("HOME");
+		where = getenv("HOME")+"myscite"
 	}
 #endif
 	if (where) {
@@ -909,44 +915,14 @@ FilePath SciTEGTK::GetDefaultDirectory() {
 }
 
 FilePath SciTEGTK::GetSciteDefaultHome() {
-	std::wstring wenvSciteHome = L"SciTE_HOME=";
-	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_userhome")));
-	std::wstring wenv = GUI::StringFromUTF8(FilePath(wenvSciteHome + wenvPathSciteHome).NormalizePath().AsUTF8());
-	std::wstring wcheck = L":";
-	std::size_t icheck = wenv.find(wcheck);
-	if (icheck != std::string::npos)
-		_wputenv((wchar_t *)wenv.c_str());
 
-	const char *where = getenv("SciTE_HOME");
-	if (!where) {
-		where = getenv("HOME");
-	}	
-#ifdef SYSCONF_PATH
-	if (!where) {
-		where = SYSCONF_PATH;
-	}
-#endif
-	if (where) {
-		return FilePath(where);
-
-	}
-	return FilePath("");
+	return SciTEGTK::GetDefaultDirectory();
 }
 
 FilePath SciTEGTK::GetSciteUserHome() {
-	// First looking for environment variable $SciTE_USERHOME
-	// to set SciteUserHome. If not present we look for $SciTE_HOME
-	// then defaulting to $HOME
-	char *where = getenv("SciTE_USERHOME");
-	if (!where) {
-		where = getenv("SciTE_HOME");
-		if (!where) {
-			where = getenv("HOME");
-		}
-	}
 
-	return FilePath(where);
-}
+return SciTEGTK::GetDefaultDirectory();
+	}
 
 void SciTEGTK::ShowFileInStatus() {
 	char sbText[1000];
