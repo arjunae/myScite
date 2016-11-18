@@ -29,7 +29,7 @@ echo ~ WRapper: %mode% %toolFolder%\%toolName%%toolExt% %toolParam%
 goto :freude
 ) 
 
-if [%sandbox%]==[1]  IF NOT EXIST %toolPath%\%toolName%%toolExt% goto :err
+if [%sandbox%]==[1] goto :err
 :: not in restricted Mode ; ok to look for %toolName% within the system 
 where /Q %toolName%%toolExt%
 

@@ -1,20 +1,16 @@
 -- test lua dbg --
+print("start")
 
-function two(x)
-   print(x)
+one =function(str)
+   two(str)
 end
 
-function one(y)
-   str_a="go"
-   str_b="there"
-
-   two(y)
-   two(str_a)
-   print(str_b)
+two=function(str)
+   print(str)
 end
 
 one("dolly")
 -- .....
-two('dolly')
 two('went')
 two('there')
+

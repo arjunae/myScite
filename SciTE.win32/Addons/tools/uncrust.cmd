@@ -3,7 +3,7 @@
 :: used to avoid Chaos and store  Language Distbins within their respective Directories. 
 :: ---------------------------------------
 
-set toolFolder=beautifier
+set toolFolder=beautifier\uncrustify
 set toolName=uncrustify
 set toolExt=.exe
 set toolParam=-c %~dp0%toolFolder%\linux.cfg --no-backup %*
@@ -28,7 +28,7 @@ echo ~ WRapper: %mode% %toolFolder%\%toolName%%toolExt% %toolParam%
 goto :freude
 ) 
 
-if [%sandbox%]==[1]  IF NOT EXIST %toolPath%\%toolName%%toolExt% goto :err
+if [%sandbox%]==[1] goto :err
 :: not in restricted Mode ; ok to look for %toolName% within the system 
 where /Q %toolName%%toolExt%
 
