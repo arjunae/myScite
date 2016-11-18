@@ -13,13 +13,13 @@ mru.4.path=E:\projects\_myScite\.myScite.github\SciTE.linux64\Addons\settings.pr
 mru.5.path=E:\projects\_myScite\.myScite.github\SciTE.linux64\Addons\tools.properties
 mru.6.path=E:\projects\_myScite\.myScite.github\SciTE.linux64\changelog.readme.txt
 mru.7.path=E:\projects\_myScite\.myScite.github\SciTE.linux64\.SciTE.session
-mru.8.path=E:\projects\_myScite\.myScite.github\src\3.6.7\scite\gtk\SciTEGTK.cxx
-mru.9.path=E:\projects\_myScite\.myScite.github\src\3.6.7\scite\win32\SciTEWin.cxx
-mru.10.path=C:\Users\Tho\Desktop\gtk\SciTEGTK.cxx
+mru.8.path=E:\projects\_myScite\.myScite.github\src\3.6.7\scite\win32\SciTEWin.cxx
+mru.9.path=C:\Users\Tho\Desktop\gtk\SciTEGTK.cxx
+mru.10.path=E:\projects\_myScite\.myScite.github\src\3.6.7\scite\gtk\SciTEGTK.cxx
 
-search.1.findwhat=sciteglobal
+search.1.findwhat=scitedefa
 
-buffer.1.path=C:\Users\Tho\Desktop\gtk\SciTEGTK.cxx
-buffer.1.position=26239
-buffer.1.scroll=892
+buffer.1.path=E:\projects\_myScite\.myScite.github\src\3.6.7\scite\gtk\SciTEGTK.cxx
+buffer.1.position=25927
+buffer.1.scroll=885
 buffer.1.current=1
