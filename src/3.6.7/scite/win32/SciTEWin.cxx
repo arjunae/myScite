@@ -422,7 +422,7 @@ void SciTEWin::ReadProperties() {
 FilePath SciTEWin::GetSciteDefaultHome() {
 /*
  *       Scite_home -> Case Windows:
- *			1 look for %SciTE_USERHOME% and $(env.scite_userhome)
+ *			1 look for %SciTE_USERHOME% and $(env.scite_home)
  * 			2 use Exectables Path if we find SciteGlobal.properties
  *			3 else  use  %USERPROFILE%\mySciTE\
  *			4 Compatibility: above can be overidden by %SciTE_HOME%
@@ -432,22 +432,17 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 
 	std::wstring home;
 
-	// Set environment %SCiTE_HOME% fromm $(env.scite_userhome). Use that to define a writeable user home.
+	// Set environment %SCiTE_HOME% fromm $(env.scite_home). Use that to define a writeable user home.
 	std::wstring wenvSciteHome = L"SciTE_HOME=";
-	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_userhome")));
+	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_home")));
 	std::wstring wenv = GUI::StringFromUTF8(FilePath(wenvSciteHome + wenvPathSciteHome).NormalizePath().AsUTF8());
+
+	// Now use wenv to set scite_home.
 	std::wstring wcheck = L":";
 	std::size_t icheck = wenv.find(wcheck);
-
 	if (icheck != std::string::npos)
 		_wputenv((wchar_t *)wenv.c_str());
 
-	wtmp = GUI::StringFromUTF8(getenv("SciTE_HOME"));
-	icheck = wtmp.find(wcheck);
-	if (icheck != std::string::npos)
-		home = wtmp;
-
-	// Now use above EnvVar to set home.
 	// using _wgetenv with std::wstring makes MSVCRT Crash ?!
 	std::wstring wtmp = GUI::StringFromUTF8(getenv("SciTE_USERHOME"));
 	icheck = wtmp.find(wcheck);
@@ -475,7 +470,7 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 	// if above are empty...check for folder %userprofile%\myScite
 	if (home.empty()) {
 		// yo.... filepath takes and returns Scites gui_string (which is a basic_wstring / wchar_t)
-		// which converts from (std::wstring). To get a std::wstring back use GUI:UTF8FrommString(Filepath(xyz)).ToUTF8();
+		// which converts from (std::wstring). To get a std::wstring back use GUI:UTF8FromString(Filepath(xyz)).ToUTF8();
 		FilePath wfilePath;
 		std::wstring wPath;
 

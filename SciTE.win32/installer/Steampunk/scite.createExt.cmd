@@ -21,7 +21,7 @@
  set false=0
  
  REM WorkAround Reactos 0.4.2 Variable Expansion Bug.
- ::set FIX_REACTOS=1
+ set FIX_REACTOS=0
  
 :: MSDN Docs
 :: https://msdn.microsoft.com/en-us/library/windows/desktop/dd758090%28v=vs.85%29.aspx
@@ -318,7 +318,7 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%] >> %RegFileName%
  echo @=Scite .%filetype% Handler >> %RegFileName%
  
- IF %SYS_FILE%==1 (
+ IF %SYS_FILE%==1 IF [%FIX_REACTOS%]==[0] (
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell] >> %RegFileName%
  echo [-HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\edit]  >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\edit] >> %RegFileName%
