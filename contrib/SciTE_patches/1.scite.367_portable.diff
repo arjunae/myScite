@@ -13,18 +13,18 @@ diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
 +FilePath SciTEWin::GetSciteDefaultHome() {
 +/*
 + *       Scite_home -> Case Windows:
-+ *       1 If exists, use  %USERPROFILE%\.SciTE\
-+ *       2 check for %SciTE_USERHOME%. Force with $(env.scite_userhome)
-+ *       3 Compatibility: can be overidden by %SCiTE_HOME%
-+ *       3 FallBack to Exectables Path
-+ *       Hello SciTE - my veryfirstPatch :))) Marcedo@HabMalNeFrage.de
++ *       1 look for and follow %SciTE_HOME% | $(env.scite_home, then %SciTE_USERHOME%)
++ *       2 else use exectables Path, (if we find SciteGlobal.properties)
++ *       3 else use %USERPROFILE%\mySciTE\ (if we find SciteGlobal.properties there)
++ *       4 .
++ *       Hello SciTE - my veryfirstPatch :)) Marcedo@HabMalNeFrage.de
 + */
 +
 +	std::wstring home;
 +
 +	// Set environment %SCiTE_HOME% fromm $(env.scite_userhome). Use that to define a writeable user home.
 +	std::wstring wenvSciteHome = L"SciTE_HOME=";
-+	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_userhome")));
++	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_home")));
 +	std::wstring wenv = GUI::StringFromUTF8(FilePath(wenvSciteHome + wenvPathSciteHome).NormalizePath().AsUTF8());
 +	std::wstring wcheck = L":";
 +	std::size_t icheck = wenv.find(wcheck);
@@ -33,14 +33,13 @@ diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
 +		_wputenv((wchar_t *)wenv.c_str());
 +
 +	// Now use above EnvVar to set home.
-+	// using _wgetenv with std::wstring makes MSVCRT Crash ?!
-+	std::wstring wtmp = GUI::StringFromUTF8(getenv("SciTE_USERHOME"));
++	wtmp = GUI::StringFromUTF8(getenv("SciTE_HOME"));
 +	icheck = wtmp.find(wcheck);
 +	if (icheck != std::string::npos)
 +		home = wtmp;
-+
-+	// Compatibility -> can be overridden by %scite_home%
-+	wtmp = GUI::StringFromUTF8(getenv("SciTE_HOME"));
++	
++	// using _wgetenv with std::wstring makes MSVCRT Crash ?!
++	std::wstring wtmp = GUI::StringFromUTF8(getenv("SciTE_USERHOME"));
 +	icheck = wtmp.find(wcheck);
 +	if (icheck != std::string::npos)
 +		home = wtmp;
