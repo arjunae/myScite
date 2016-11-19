@@ -1,23 +1,14 @@
 # SciTE session file
 
-position.left=394
-position.top=55
-position.width=849
-position.height=443
+position.left=750
+position.top=60
+position.width=720
+position.height=400
 position.maximize=0
 
-mru.1.path=E:\projects\_myScite\.myScite.github\SciTE.linux64\Addons\lua\lua\common.lua
-mru.2.path=E:\projects\_myScite\.myScite.github\SciTE.linux64\Addons\settings.properties
-mru.3.path=E:\projects\_myScite\.myScite.github\SciTE.linux64\Addons\tools.properties
-mru.4.path=E:\projects\_myScite\.myScite.github\SciTE.linux64\changelog.readme.txt
-mru.5.path=E:\projects\_myScite\.myScite.github\SciTE.linux64\.SciTE.session
-mru.6.path=E:\projects\_myScite\.myScite.github\src\3.6.7\scite\win32\SciTEWin.cxx
-mru.7.path=C:\Users\Tho\Desktop\gtk\SciTEGTK.cxx
-mru.8.path=E:\projects\_myScite\.myScite.github\SciTE.linux64\Addons\lua\SciTEStartup.lua
-mru.9.path=E:\projects\_myScite\.myScite.github\src\3.6.7\scite\gtk\SciTEGTK.cxx
-mru.10.path=C:\Users\Tho\Desktop\SciTEGTK.cxx
+mru.1.path=E:\projects\_myScite\.myScite.github\SciTE.linux64\SciTEGlobal.properties
 
-buffer.1.path=C:\Users\Tho\Desktop\SciTEGTK.cxx
-buffer.1.position=26167
-buffer.1.scroll=891
+buffer.1.path=E:\projects\_myScite\.myScite.github\SciTE.linux64\SciTEGlobal.properties
+buffer.1.position=352
+buffer.1.scroll=2
 buffer.1.current=1

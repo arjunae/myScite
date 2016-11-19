@@ -1,9 +1,9 @@
 ~- mySciTE_webdev -~
 
-[11.November.2016] STABLE-130
+[14.November.2016] STABLE-130
 - api: Add coffeescript abd CSS3 Keywords | fix jQuery and vbs Calltips
 - editor: 3Tone Styles | optimized Fonts. (Zoom with alt-pgup/pgdown)
-- Addons: Add mod-scintilulla (15 new lexers) | Add mod-orthospell | smaller libs 
+- Addons: Add mod-scintilulla (15 new lexers) | Add mod-orthospell
 - common: Sync linux properties | add Documentation | include winpthreads
 - others: Fix Installer (reactOS) | cleanup SourceTree | default theme white.
 

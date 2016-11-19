@@ -442,15 +442,14 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 	if (icheck != std::string::npos)
 		_wputenv((wchar_t *)wenv.c_str());
 
-	// Now use above EnvVar to set home.
-	// using _wgetenv with std::wstring makes MSVCRT Crash ?!
-	std::wstring wtmp = GUI::StringFromUTF8(getenv("SciTE_USERHOME"));
+	wtmp = GUI::StringFromUTF8(getenv("SciTE_HOME"));
 	icheck = wtmp.find(wcheck);
 	if (icheck != std::string::npos)
 		home = wtmp;
 
-	// Compatibility -> can be overridden by %scite_home%
-	wtmp = GUI::StringFromUTF8(getenv("SciTE_HOME"));
+	// Now use above EnvVar to set home.
+	// using _wgetenv with std::wstring makes MSVCRT Crash ?!
+	std::wstring wtmp = GUI::StringFromUTF8(getenv("SciTE_USERHOME"));
 	icheck = wtmp.find(wcheck);
 	if (icheck != std::string::npos)
 		home = wtmp;

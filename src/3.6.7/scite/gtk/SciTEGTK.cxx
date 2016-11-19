@@ -15,6 +15,9 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
+#include <unistd.h>
+#include <limits.h>
 #include <set>
 #include <map>
 #include <algorithm>
@@ -886,32 +889,59 @@ GtkWidget *SciTEGTK::AddMBButton(GtkWidget *dialog, const char *label,
 }
 
 FilePath SciTEGTK::GetDefaultDirectory() {
+	std::string home;
 	FilePath oPath;
 
+	// clean string / set & use scite_home from env.scite_home
 	std::string envSciteHome = "SciTE_HOME=";
-	std::string envPathSciteHome = props.GetNewExpandString("env.scite_home");
-	std::string env = GUI::StringFromUTF8(FilePath(envSciteHome + envPathSciteHome).NormalizePath().AsUTF8());
-
-	if (sizeof(envPathSciteHome)>2) {
-	 putenv((char *)env.c_str());
-	}
+	std::string env=envSciteHome.append(props.GetNewExpandString("env.scite_home"));
+	env=FilePath(env).NormalizePath().AsUTF8();
+	std::string cslash = "/";
+	std::size_t icheck = env.find(cslash);
+	if (icheck != std::string::npos){
+			putenv((char *)env.c_str());
+			home= getenv("SciTE_HOME");
+	 } else { 
+			home.clear();
+	 }
 	
-	char *where= getenv("SciTE_HOME");
-	
-	if (!where) {
-		std::string home = getenv("HOME");
-		home.append("/scite");
-		std::string tmp= home;
+	// Search config in ~/scite
+	if (!home.empty()) {
+		std::string envhome = getenv("HOME");
+		envhome.append("/scite");
+		std::string tmp= envhome;
 		tmp.append("/SciTEGlobal.properties");
 		oPath = tmp;
-		if (oPath.Exists())
-			where = (char *)home.c_str();
+		if (oPath.Exists()){
+			home = (char *)envhome.c_str();
+		} else {
+			home.clear();
+		}
 	}
 
-	if (where)
-		return FilePath(where);
+	// Search in executables binPath
+	if (home.empty()) {
+	 char buf[PATH_MAX + 1];
+	 std::string stmp;
+	 int res =readlink("/proc/self/exe", buf, sizeof(buf) - 1);
+	 stmp =buf;
+	 // strip to last slash
+	 stmp = stmp.substr(0, stmp.rfind('/')).c_str();
+	 stmp.append("/SciTEGlobal.properties");
+	 oPath=stmp;
+	
+	if (oPath.Exists())
+			home=stmp.substr(0, stmp.rfind('/')).c_str();
+	}
+	
+	// LastResort  /user/share/scite
+	if (home.empty()) {
+		oPath="/usr/share/scite";
+		if (oPath.Exists())
+		home = oPath.AsUTF8().c_str();
+	}
 
-	return FilePath("");
+	return FilePath(home);
 }
 
 FilePath SciTEGTK::GetSciteDefaultHome() {
