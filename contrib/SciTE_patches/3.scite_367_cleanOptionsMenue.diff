@@ -21,7 +21,7 @@ diff -Nurw scintilla-scite/src/SciTEBase.cxx scite/src/SciTEBase.cxx
  void SciTEBase::UIAvailable() {
 -	SetImportMenu();
 + // Decide if we want to display language files (xxx.properties) within the options Menu 
-+ SetImportMenu(props.GetInt("menu.options.showProps"));
++ SetImportMenu(props.GetInt("menu.options.showUserProps"));
  	if (extender) {
 -		SetHomeProperties();
 +		SetHomeProperties(); // Define SciteDefault- and SciteUserHome 
@@ -232,3 +232,115 @@ diff -Nurw scintilla-scite/win32/SciTEWinBar.cxx scite/win32/SciTEWinBar.cxx
  void SciTEWin::DestroyMenuItem(int menuNumber, int itemID) {
  	// On Windows menu items are destroyed as they can not be hidden and they can be recreated in any position
  	HMENU hmenuBar = ::GetMenu(MainHWND());
+diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
+--- scintilla-scite/gtk/SciTEGTK.cxx	2016-11-19 17:57:44.000000000 +0100
++++ scite/gtk/SciTEGTK.cxx	2016-11-19 17:55:40.000000000 +0100
+@@ -15,6 +15,8 @@
+ #include <string>
+ #include <vector>
++#include <iostream>
++#include <unistd.h>
+ #include <set>
+ #include <map>
+ #include <algorithm>
+  @@ -1343,6 +1361,49 @@
+ 	}
+ }
+ 
++void SciTEGTK::SetMenuItemNew(int, int, int, int itemID, const char *text, const char *mnemonic) {
++	DestroyMenuItem(0, itemID);
++
++	// On GTK+ the menuNumber and position are ignored as the menu item already exists and is in the right
++	// place so only needs to be shown and have its text set.
++
++	std::string itemText = GtkFromWinCaption(text);
++
++	long keycode = 0;
++	if (mnemonic && *mnemonic) {
++		keycode = SciTEKeys::ParseKeyCode(mnemonic);
++		if (keycode) {
++			itemText += " ";
++			itemText += mnemonic;
++		}
++		// the keycode could be used to make a custom accelerator table
++		// but for now, the menu's item data is used instead for command
++		// tools, and for other menu entries it is just discarded.
++	}
++
++	// Reorder shift and ctrl indicators for compatibility with other menus
++	Substitute(itemText, "Ctrl+Shift+", "Shift+Ctrl+");
++
++	GtkWidget *item = MenuItemFromAction(itemID);
++	if (item) {
++		GList *al = gtk_container_get_children(GTK_CONTAINER(item));
++		for (unsigned int ii = 0; ii < g_list_length(al); ii++) {
++			gpointer d = g_list_nth(al, ii);
++			GtkWidget **w = (GtkWidget **)d;
++			gtk_label_set_text_with_mnemonic(GTK_LABEL(*w), itemText.c_str());
++		}
++		g_list_free(al);
++		gtk_widget_show(item);
++
++		if (itemID >= IDM_TOOLS && itemID < IDM_TOOLS + toolMax) {
++			// Stow the keycode for later retrieval.
++			// Do this even if 0, in case the menu already existed (e.g. ModifyMenu)
++			g_object_set_data(G_OBJECT(item), "key", GINT_TO_POINTER(static_cast<int>(keycode)));
++		}
++	}
++}
++
++
+ void SciTEGTK::DestroyMenuItem(int, int itemID) {
+ 	// On GTK+ menu items are just hidden rather than destroyed as they can not be recreated in the middle of a menu
+ 	// The menuNumber is ignored as all menu items in GTK+ can be found from the root of the menu tree
+@@ -3927,23 +3988,25 @@
+ 		{ "/Options/Wrap Out_put",		   "",			menuSig, IDM_WRAPOUTPUT,	      "<CheckItem>"			     },
+ 		{ "/Options/_Read-Only",		   "",			menuSig, IDM_READONLY,		      "<CheckItem>"			     },
+ 		{ "/Options/sep1",			   NULL,		NULL,	 0,			      "<Separator>"			     },
+-		{ "/Options/_Line End Characters",	   "",			0,	 0,			      "<Branch>"			     },
+-		{ "/Options/Line End Characters/CR _+ LF", "",			menuSig, IDM_EOL_CRLF,		      "<RadioItem>"			     },
+-		{ "/Options/Line End Characters/_CR",	   "",			menuSig, IDM_EOL_CR,		      "/Options/Line End Characters/CR + LF" },
+-		{ "/Options/Line End Characters/_LF",	   "",			menuSig, IDM_EOL_LF,		      "/Options/Line End Characters/CR + LF" },
+-		{ "/Options/_Convert Line End Characters", "",			menuSig, IDM_EOL_CONVERT,	      0					     },
+-		{ "/Options/sep2",			   NULL,		NULL,	 0,			      "<Separator>"			     },
+-		{ "/Options/Change Inden_tation Settings", "<control><shift>I", menuSig, IDM_TABSIZE,		      0					     },
+-		{ "/Options/Use _Monospaced Font",	   "<control>F11",	menuSig, IDM_MONOFONT,		      "<CheckItem>"			     },
++		{ "/Options/Editor/",				  "",		       0,	0,			     "<Branch>"					   },
++		{ "/Options/Editor/_Line End Characters",	  "",		       0,	0,			     "<Branch>"					   },
++		{ "/Options/Editor/Line End Characters/CR _+ LF", "",		       menuSig, IDM_EOL_CRLF,		     "<RadioItem>"				   },
++		{ "/Options/Editor/Line End Characters/_CR",	  "",		       menuSig, IDM_EOL_CR,		     "/Options/Editor/Line End Characters/CR + LF" },
++		{ "/Options/Editor/Line End Characters/_LF",	  "",		       menuSig, IDM_EOL_LF,		     "/Options/Editor/Line End Characters/CR + LF" },
++		{ "/Options/Editor/_Convert Line End Characters", "",		       menuSig, IDM_EOL_CONVERT,	     0						   },
++		{ "/Options/Editor/sep2",			  NULL,		       NULL,	0,			     "<Separator>"				   },
++		{ "/Options/Editor/Change Inden_tation Settings", "<control><shift>I", menuSig, IDM_TABSIZE,		     0						   },
++		{ "/Options/Editor/Use _Monospaced Font",	  "<control>F11",      menuSig, IDM_MONOFONT,		     "<CheckItem>"				   },
+ 		{ "/Options/sep3",			   NULL,		NULL,	 0,			      "<Separator>"			     },
+-		{ "/Options/Open Local _Options File",	   "",			menuSig, IDM_OPENLOCALPROPERTIES,     0					     },
+-		{ "/Options/Open _Directory Options File", "",			menuSig, IDM_OPENDIRECTORYPROPERTIES, 0					     },
+-		{ "/Options/Open _User Options File",	   "",			menuSig, IDM_OPENUSERPROPERTIES,      0					     },
+-		{ "/Options/Open _Global Options File",	   "",			menuSig, IDM_OPENGLOBALPROPERTIES,    0					     },
+-		{ "/Options/Open A_bbreviations File",	   "",			menuSig, IDM_OPENABBREVPROPERTIES,    0					     },
+-		{ "/Options/Open Lua Startup Scr_ipt",	   "",			menuSig, IDM_OPENLUAEXTERNALFILE,     0					     },
+-		{ "/Options/sep4",			   NULL,		NULL,	 0,			      "<Separator>"			     },
+-		{ "/Options/_Edit Properties",		   "",			0,	 0,			      "<Branch>"			     },
++		{ "/Options/Config/",				  "",		       0,	0,			     "<Branch>"					   },
++		{ "/Options/Config/Open Local _Options File",	  "",		       menuSig, IDM_OPENLOCALPROPERTIES,     0						   },
++		{ "/Options/Config/Open _Directory Options File", "",		       menuSig, IDM_OPENDIRECTORYPROPERTIES, 0						   },
++		{ "/Options/Config/Open _User Options File",	  "",		       menuSig, IDM_OPENUSERPROPERTIES,	     0						   },
++		{ "/Options/Config/Open _Global Options File",	  "",		       menuSig, IDM_OPENGLOBALPROPERTIES,    0						   },
++		{ "/Options/Config/Open A_bbreviations File",	  "",		       menuSig, IDM_OPENABBREVPROPERTIES,    0						   },
++		{ "/Options/Config/Open Lua Startup Scr_ipt",	  "",		       menuSig, IDM_OPENLUAEXTERNALFILE,     0						   },
++		{ "/Options/Config/sep4",			  NULL,		       NULL,	0,			     "<Separator>"				   },
++		{ "/Options/Config/Edit Properties",		  "",		       0,	0,			     "<Branch>"					   },
+ 	};
+ 
+ 	SciTEItemFactoryEntry menuItemsLanguage[] = {
+@@ -3982,7 +4045,7 @@
+ 	CreateTranslatedMenu(ELEMENTS(menuItems), menuItems);
+ 
+ 	CreateTranslatedMenu(ELEMENTS(menuItemsOptions), menuItemsOptions,
+-			     50, "/Options/Edit Properties/Props", 0, IDM_IMPORT, 0);
++			     50, "/Options/Config/Edit Properties/Props", 0, IDM_IMPORT, 0);
+ 	CreateTranslatedMenu(ELEMENTS(menuItemsLanguage), menuItemsLanguage,
+ 			     100, "/Language/Language", 0, IDM_LANGUAGE, 0);
+ 	if (props.GetInt("buffers") > 1)

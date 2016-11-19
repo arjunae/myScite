@@ -7,7 +7,7 @@ diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
  	}
 +
  	// Pass 'this' pointer in lpParam of CreateWindow().
-+	//  Windows >=2k allows transparency for any main hwnd. >=win8 for childs too usin WS_EX_LAYERED / WS_OVERLAPPEDWINDOW
++	//  Windows >=2k allows transparency for any main hwnd. >=win8 for childs too usin WS_EX_LAYERED / OVERLAPPEDWINDOW
  	wSciTE = ::CreateWindowEx(
 -	             0,
 +	             WS_EX_LAYERED,

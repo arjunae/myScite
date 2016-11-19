@@ -1,16 +1,19 @@
 ~- mySciTE_webdev -~
 
-[19.November.2016] STABLE-130
+[19.November.2016] Development-133 (git snapshot)
+- addons: Add Scite Ctags (credits mingfunwong)
+ - Path-sandbox for tools. / small fixes to Addons. (orthospell & Sidebar)
+- editor: fix nonequal line height / Style for DocComments. 
+- other: faster runtime compression for libs. 
 
-
-[14.November.2016] STABLE-130
-- api: Add coffeescript abd CSS3 Keywords | fix jQuery and vbs Calltips
+[14.November.2016] Stable-130
+- api: Add coffeescript and CSS3 Keywords | fix jQuery and vbs Calltips
 - editor: 3Tone Styles | optimized Fonts. (Zoom with alt-pgup/pgdown)
 - Addons: Add mod-scintilulla (15 new lexers) | Add mod-orthospell
 - common: Sync linux properties | add Documentation | include winpthreads
 - others: Fix Installer (reactOS) | cleanup SourceTree
 
-[04.November.2016] DEVEL-124
+[04.November.2016] Development-124
 - @arjunae cleanup js/jq keywords add Dom Exceptions / add lua.scite.api
 - @arjunae Additional HTML5 Keywords (final W3C 28.Okt.14)
 - @arjunae Move all Language related files to user/languages
@@ -20,7 +23,7 @@
    - themeblackBlue: add 3 tones Styling
 - @arjunae Calltips: Allow to distinguish btw properties and functions.
 
-[29.10.2016] STABLE-1.23
+[29.10.2016] Stable-1.23
 - api:  fix: styling html/vbs/ruby/perl | New: java1.8 & freebasic Keywords
 - themes: sync theme grey and theme blackblue
 - compatibility: fix: styles aliases for other scite forks
@@ -28,14 +31,14 @@
 - addons: fix: hexEdit / change some testcases
  8) MINI-Little-and-Sweet Package. Full Package see (github/arjunae)
 
-[25.10.2016] STABLE-1.22
+[25.10.2016] Stable-1.22
 - editor: default to unicode / scaling for window and margins
 - apis: add BrowserWebApi / improve php and vbs api / fix linebreaks
 - props: clike: add AS3 Keywords / updates to js1.6
 - tools: simplified samples / fixed figref / add lua mod-mitchel
 - themes: better styles & monospace font / Zooming (Alt+Pgup/PgDown)
 
-[21.10.2016] STABLE-1.21
+[21.10.2016] Stable-1.21
 - sync with scintilla-scite 3.67
 - Fixes for styling cpp macros, html tags and wsh objects
 - Finalize theme.grey
@@ -50,7 +53,7 @@
 - add: XML keywords for vbs
 - fix: cpp api fetcher
 
-[19.08.2016] (STABLE-1.12)
+[19.08.2016] (Stable-1.12)
 - Fixes for vbscript styling. Use FreeBasic Lexer.
 - Fixes for cpp styling. (cpp11 / c98)
 - Change enhance Batch fike styling
