@@ -422,39 +422,38 @@ void SciTEWin::ReadProperties() {
 FilePath SciTEWin::GetSciteDefaultHome() {
 /*
  *       Scite_home -> Case Windows:
- *			1 look for %SciTE_USERHOME% and $(env.scite_home)
- * 			2 use Exectables Path if we find SciteGlobal.properties
- *			3 else  use  %USERPROFILE%\mySciTE\
- *			4 Compatibility: above can be overidden by %SciTE_HOME%
- *
+ *       1 look for and follow %SciTE_HOME% | $(env.scite_home), then %SciTE_USERHOME%
+ *       2 else use exectables Path, (if we find SciteGlobal.properties)
+ *       3 else use %USERPROFILE%\mySciTE\ (if we find SciteGlobal.properties there)
+ *       4 .
  *       Hello SciTE - my veryfirstPatch :)) Marcedo@HabMalNeFrage.de
  */
 
 	std::wstring home;
 
-	// Set environment %SCiTE_HOME% fromm $(env.scite_home). Use that to define a writeable user home.
+	// Set environment %SciTE_HOME% fromm $(env.scite_home).
+	//	if undefined, look in scite_userhome to get a writeable user home.
 	std::wstring wenvSciteHome = L"SciTE_HOME=";
 	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_home")));
 	std::wstring wenv = GUI::StringFromUTF8(FilePath(wenvSciteHome + wenvPathSciteHome).NormalizePath().AsUTF8());
-
-	// Now use wenv to set scite_home.
 	std::wstring wcheck = L":";
 	std::size_t icheck = wenv.find(wcheck);
-	if (icheck != std::string::npos)
-		_wputenv((wchar_t *)wenv.c_str());
-
-	// using _wgetenv with std::wstring makes MSVCRT Crash ?!
-	std::wstring wtmp = GUI::StringFromUTF8(getenv("SciTE_USERHOME"));
-	icheck = wtmp.find(wcheck);
-	if (icheck != std::string::npos)
+	 if (icheck != std::string::npos)
+		_wputenv((wchar_t *)wenv.c_str()); 
+	std::wstring wtmp = GUI::StringFromUTF8(getenv("SciTE_HOME"));
+	 icheck = wtmp.find(wcheck);
+	 if (icheck != std::string::npos)
+		home = wtmp;
+	 wtmp = GUI::StringFromUTF8(getenv("SciTE_USERHOME"));
+	 icheck = wtmp.find(wcheck);
+	 if (icheck != std::string::npos)
 		home = wtmp;
 
-	//  use executables binpath (when we find sciteglobal.properties there.)
+	//  ..use executables binpath (when we find sciteglobal.properties there.)
 	if (home.empty()) {
 		FilePath wfilePath;
 		std::wstring wPath;
 		GUI::gui_char path[MAX_PATH];
-
 		if (::GetModuleFileNameW(0, path, ELEMENTS(path)) != 0) {
 			//  just get  the Path
 		GUI::gui_char *lastSlash = wcsrchr(path, pathSepChar);
@@ -467,17 +466,15 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 	}
 }
 
-	// if above are empty...check for folder %userprofile%\myScite
+	// if above are empty... define folder %userprofile%\myScite as afallback.
 	if (home.empty()) {
 		// yo.... filepath takes and returns Scites gui_string (which is a basic_wstring / wchar_t)
 		// which converts from (std::wstring). To get a std::wstring back use GUI:UTF8FromString(Filepath(xyz)).ToUTF8();
 		FilePath wfilePath;
 		std::wstring wPath;
-
 		wPath = _wgetenv(GUI_TEXT("USERPROFILE"));
 		wPath.append(L"\\mySciTE");
 		wfilePath = FilePath(wPath).NormalizePath();
-
 		if (wfilePath.IsDirectory())
 			home = wPath;
 	}
