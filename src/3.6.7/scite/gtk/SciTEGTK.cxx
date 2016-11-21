@@ -4006,8 +4006,8 @@ void SciTEGTK::CreateMenu() {
 		{ "/Options/Config/Open _Global Options File",	  "",		       menuSig, IDM_OPENGLOBALPROPERTIES,    0						   },
 		{ "/Options/Config/Open A_bbreviations File",	  "",		       menuSig, IDM_OPENABBREVPROPERTIES,    0						   },
 		{ "/Options/Config/Open Lua Startup Scr_ipt",	  "",		       menuSig, IDM_OPENLUAEXTERNALFILE,     0						   },
-		{ "/Options/Config/sep4",			  NULL,		       NULL,	0,			     "<Separator>"				   },
-		{ "/Options/Config/Edit Properties",		  "",		       0,	0,			     "<Branch>"					   },
+		{ "/Options/Config/sep4",			  NULL,		       menuSig,	222001,			     "<Separator>"				   },
+		{ "/Options/Config/Edit Properties",		 "",		       menuSig,	222000,			     "<Branch>"					   },
 	};
 
 	SciTEItemFactoryEntry menuItemsLanguage[] = {

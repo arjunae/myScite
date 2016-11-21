@@ -53,7 +53,8 @@ const GUI::gui_char menuAccessIndicator[] = GUI_TEXT("&");
 #include "SciTEBase.h"
 
 void SciTEBase::SetImportMenu(int iShow) {
-// Reset Options->config
+// Reset Options->configFiles
+    DestroyMenuItem(menuOptions,222000); // How to toggle Branch visibility ?
 	for (int i = 0; i < importMax; i++) {
      DestroyMenuItem(menuOptions,1300+ i);
 	}
@@ -65,12 +66,11 @@ void SciTEBase::SetImportMenu(int iShow) {
 				GUI::gui_string entry = localiser.Text("Open");
 				entry += GUI_TEXT(" ");
 				entry += importFiles[stackPos].Name().AsInternal();
-        if (iShow>=2) SetMenuItemNew(menuOptions, 9, IMPORT_START+stackPos, itemID, entry.c_str());
+        if (iShow>=1) SetMenuItemNew(menuOptions, 9, IMPORT_START+stackPos, itemID, entry.c_str());
 			}
 		}
 	}
 }
-
 
 void SciTEBase::ImportMenu(int pos) {
 	if (pos >= 0) {
