@@ -2,7 +2,7 @@
 
 /**
  *   ---== cpp lexer sample ==---
- *       -> to debug, set a breakpoint with F9, and press CTRL-F5
+ *       -> @debugging: set a breakpoint with F9, and press CTRL-F5
  *       -> a strip showing the source file path will show up.
  *       -> change "test.cpp" to "test.cpp.exe" and you are set.
  */

@@ -6,7 +6,7 @@
 - Addons: Add mod-scintilulla (15 new lexers) | Add mod-orthospell | smaller libs 
 - common: Sync linux properties | add Documentation | include winpthreads
 - others: Fix Installer (reactOS) | cleanup SourceTree | default theme white.
- 8) MINI-Little-and-Sweet Package. Full Package see (github/arjunae)
+8) MINI-Little-and-Sweet Package. Full Package see (github/arjunae)
  
 [04.November.2016] DEVEL-124
 - @arjunae cleanup js/jq keywords add Dom Exceptions / add lua.scite.api	

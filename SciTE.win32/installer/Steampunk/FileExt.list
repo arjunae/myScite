@@ -15,20 +15,19 @@
 # -- Textfiles --
 
 .txt ; text/plain
-.vcard ; text/plain
 .ini ; text/plain
 
 # -- System Files --
 
 .cmd ; text/batchfile
-.reg ; text/plain
 
 # -- Source Code --
 
-.xml ; text/css
-.yaml ; text/css
 .css ; text/css
-.cpp ; text/c
-
+.cxx ; text/c
+.lua ; text/lua
+.php ; text/php
+.rb ; text /ruby
+.py ; text /python
 
 # ---FileExt.list
