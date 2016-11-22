@@ -484,7 +484,7 @@ FilePath SciTEWin::GetSciteUserHome() {
 	if (!home) {
 		home = _wgetenv(GUI_TEXT("SciTE_HOME"));
 		if (!home) {
-			return (SciTEWin::GetSciteDefaultHome());
+			home = _wgetenv(GUI_TEXT("USERPROFILE")); /// todo create a 'scite' Folder
 		}
  	}
 	return FilePath(home);
