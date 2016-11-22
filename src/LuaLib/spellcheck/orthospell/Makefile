@@ -1,9 +1,9 @@
 
 # -- Normally linked with scites internal lua interpreter. (independency to lua5.1.dll)  
-#LUA=-L.\ -lscite
+LUA=-L.\ -lscite
 
 # -- If you plan to use orthospell without scite, link with lua5.1
-LUA=-L..\lua\ -llua5.1
+#LUA=-L..\lua\ -llua5.1
 
 # -- Avoid runtime errors. statically link stdc, even when scite might be too.
 INCLUDES= -I../lua/5.1/include -I../hunspell/1.4.1/src/win_api libhunspell.def

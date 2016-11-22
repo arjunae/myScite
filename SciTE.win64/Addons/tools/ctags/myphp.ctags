@@ -1,0 +1,17 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+Colors	E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_php.php	/^      $Colors  =  array($/;"	v
+GetColor	E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_php.php	/^  function GetColor($Colorname)$/;"	f
+STDERR	E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_php.php	/^     $STDERR = fopen('php:\/\/stderr', 'w+');$/;"	v
+STDOUT	E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_php.php	/^     $STDOUT = fopen('php:\/\/stdout','w');$/;"	v
+UniqID	E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_php.php	/^              $UniqID=md5(uniqid(rand()));$/;"	v
+gen_password	E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_php.php	/^      function gen_password($length = 8) {$/;"	f
+icolor	E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_php.php	/^      $icolor= GetColor($scolor);$/;"	v
+is	E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_php.php	/^  \/\/ This function is limited to a 32 char long pass but this does not seem to be a real problem :)$/;"	f
+password	E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_php.php	/^              $password=substr(md5(uniqid(rand())),0,$length);$/;"	v
+scolor	E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_php.php	/^      $scolor ="yellowgreen";$/;"	v
+spw	E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_php.php	/^    $spw= gen_password(8);$/;"	v

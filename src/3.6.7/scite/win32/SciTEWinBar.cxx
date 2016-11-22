@@ -512,16 +512,16 @@ void SciTEWin::SetToolBar() {
 		::DeleteDC(hCompatibleDC);
 		::DeleteDC(hDesktopDC);
 		if ( oldToolbarBitmapID == 0 ) {
-			TBADDBITMAP addbmp = {0,(UINT)hToolbarBitmapNew};
+			TBADDBITMAP addbmp = {0,(size_t)hToolbarBitmapNew};
 			if ( ::SendMessage(hwndToolBar,TB_ADDBITMAP,iIconsCount,(LPARAM)&addbmp) != (LRESULT)-1 ) {
-				oldToolbarBitmapID = (UINT)hToolbarBitmapNew;
+				oldToolbarBitmapID = (size_t)hToolbarBitmapNew;
 			}
 		} else {
 			HINSTANCE hInstanceOld = 0;
 			if ( oldToolbarBitmapID == IDR_BUTTONS ) hInstanceOld = hInstance;
-			TBREPLACEBITMAP repBmp = { hInstanceOld, oldToolbarBitmapID, 0, (UINT)hToolbarBitmapNew, iIconsCount };
+			TBREPLACEBITMAP repBmp = { hInstanceOld, oldToolbarBitmapID, 0, (size_t)hToolbarBitmapNew, iIconsCount };
 			if ( ::SendMessage(hwndToolBar,TB_REPLACEBITMAP,0,(LPARAM)&repBmp) ) {
-				oldToolbarBitmapID = (UINT)hToolbarBitmapNew;
+				oldToolbarBitmapID = (size_t)hToolbarBitmapNew;
 			}
 		}
 		if ( hToolbarBitmap != 0 ) ::DeleteObject( hToolbarBitmap );
@@ -530,12 +530,12 @@ void SciTEWin::SetToolBar() {
 		if ( oldToolbarBitmapID == 0 ) {
 			TBADDBITMAP addbmp = { hInstance, IDR_BUTTONS };
 			if ( ::SendMessage( hwndToolBar, TB_ADDBITMAP, 31, (LPARAM)&addbmp ) != (LRESULT)-1 ) {
-				oldToolbarBitmapID = (UINT)IDR_BUTTONS;
+				oldToolbarBitmapID = (size_t)IDR_BUTTONS;
 			}
 		} else if ( oldToolbarBitmapID != IDR_BUTTONS ) {
 			TBREPLACEBITMAP repBmp = { 0, oldToolbarBitmapID, hInstance, IDR_BUTTONS, 31 };
 			if ( ::SendMessage(hwndToolBar,TB_REPLACEBITMAP,0,(LPARAM)&repBmp) ) {
-				oldToolbarBitmapID = (UINT)IDR_BUTTONS;
+				oldToolbarBitmapID = (size_t)IDR_BUTTONS;
 			}
 		}
 		if ( hToolbarBitmap != 0 ) ::DeleteObject( hToolbarBitmap );
@@ -735,10 +735,11 @@ static void CheckToolbarButton(HWND wTools, int id, bool enable) {
 }
 
 void SciTEWin::CheckAMenuItem(int wIDCheckItem, bool val) {
-	if (val)
+	if (val) {
 		CheckMenuItem(::GetMenu(MainHWND()), wIDCheckItem, MF_CHECKED | MF_BYCOMMAND);
-	else
+	} else {
 		CheckMenuItem(::GetMenu(MainHWND()), wIDCheckItem, MF_UNCHECKED | MF_BYCOMMAND);
+	}
 		::CheckToolbarButton(reinterpret_cast<HWND>(wToolBar.GetID()), wIDCheckItem, val); //[user.toolbar]
 }
 

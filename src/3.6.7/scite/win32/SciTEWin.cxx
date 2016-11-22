@@ -479,7 +479,7 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 FilePath SciTEWin::GetSciteUserHome() {
 	// First looking for environment variable $SciTE_USERHOME
 	// to set SciteUserHome. If not present we look for $SciTE_HOME
-	// then defaulting to GetSciteDefaultHome
+	// then defaulting to USERPROFILE
 	GUI::gui_char *home = _wgetenv(GUI_TEXT("SciTE_USERHOME"));
 	if (!home) {
 		home = _wgetenv(GUI_TEXT("SciTE_HOME"));

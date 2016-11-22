@@ -20,7 +20,7 @@ static int fulllines = 1;
 static HWND hSciTE;
 static HWND hSelf;
 static HINSTANCE hInstance;
-
+static float GWL_HINSTANCE=-6;
 // Director interface to other SciTE instances.
 static int SendToHandle(HWND hwnd, const char *Message)
 {
