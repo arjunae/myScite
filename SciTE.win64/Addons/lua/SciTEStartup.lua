@@ -14,3 +14,6 @@ dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-extman\\extman.lua')
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 
+-- Load Orthospell 
+package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
+--dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')

@@ -55,15 +55,16 @@ htmlparser.o \
 latexparser.o \
 manparser.o
 
-all: hunspell example hzip hunzip 
+all: hunspell 
+#example hzip hunzip 
 
 libhunspell.a: $(OBJS)
 	$(AR) $@ $(OBJS)
-	-@ ($(RANLIB) $@ || true) >/dev/null 2>&1
+	-@ ($(RANLIB) $@ || true) 
 
 libparser.a: $(OBJS2)
 	$(AR) $@ $(OBJS2)
-	-@ ($(RANLIB) $@ || true) >/dev/null 2>&1
+	-@ ($(RANLIB) $@ || true) 
 
 example: $(LIBS) example.o
 	$(CXX) $(CXXFLAGS) -o $@ example.o $(LDFLAGS)
@@ -81,8 +82,7 @@ hzip: hzip.o
 	$(CXX) $(CXXFLAGS) -c $<
 
 clean:
-	rm -f *.exe *xx license* license* hunspell.h hzip.c *prg.cxx \
-	*.o *~ example hunspell hzip hunzip libhunspell.a libparser.a
+	rm -f *.exe *.dll *.o *~ libhunspell.a libparser.a
 
 distclean:	clean
 

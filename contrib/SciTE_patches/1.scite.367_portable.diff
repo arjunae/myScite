@@ -149,8 +149,8 @@ diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
 + *       1 look for and follow %SciTE_HOME% | $(env.scite_home)
 + *       2 else use exectables Path, (if we find SciteGlobal.properties)
 + *       3 else use %USERPROFILE%\mySciTE\ (if we find SciteGlobal.properties there)
-+ *       4 .
-+ *       Hello SciTE - my veryfirstPatch :)) Marcedo@HabMalNeFrage.de
++ *       4 first Scitepatch :) Marcedo@HabMalNeFrage.de
++ *       
 + */
 +
 +	std::wstring home;
