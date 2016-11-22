@@ -420,9 +420,9 @@ void SciTEWin::ReadProperties() {
 
 
 FilePath SciTEWin::GetSciteDefaultHome() {
-/*
+/**
  *       Scite_home -> Case Windows:
- *       1 look for and follow %SciTE_HOME% | $(env.scite_home), then %SciTE_USERHOME%
+ *       1 look for and follow %SciTE_HOME% | $(env.scite_home)
  *       2 else use exectables Path, (if we find SciteGlobal.properties)
  *       3 else use %USERPROFILE%\mySciTE\ (if we find SciteGlobal.properties there)
  *       4 .
@@ -432,7 +432,6 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 	std::wstring home;
 
 	// Set environment %SciTE_HOME% fromm $(env.scite_home).
-	//	if undefined, look in scite_userhome to get a writeable user home.
 	std::wstring wenvSciteHome = L"SciTE_HOME=";
 	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_home")));
 	std::wstring wenv = GUI::StringFromUTF8(FilePath(wenvSciteHome + wenvPathSciteHome).NormalizePath().AsUTF8());
@@ -441,10 +440,6 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 	 if (icheck != std::string::npos)
 		_wputenv((wchar_t *)wenv.c_str()); 
 	std::wstring wtmp = GUI::StringFromUTF8(getenv("SciTE_HOME"));
-	 icheck = wtmp.find(wcheck);
-	 if (icheck != std::string::npos)
-		home = wtmp;
-	 wtmp = GUI::StringFromUTF8(getenv("SciTE_USERHOME"));
 	 icheck = wtmp.find(wcheck);
 	 if (icheck != std::string::npos)
 		home = wtmp;
@@ -482,8 +477,19 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 }
 
 FilePath SciTEWin::GetSciteUserHome() {
-	return SciTEWin::GetSciteDefaultHome();
-	}
+	// First looking for environment variable $SciTE_USERHOME
+	// to set SciteUserHome. If not present we look for $SciTE_HOME
+	// then defaulting to GetSciteDefaultHome
+	GUI::gui_char *home = _wgetenv(GUI_TEXT("SciTE_USERHOME"));
+	if (!home) {
+		home = _wgetenv(GUI_TEXT("SciTE_HOME"));
+		if (!home) {
+			return (SciTEWin::GetSciteDefaultHome());
+		}
+ 	}
+	return FilePath(home);
+}
+
 
 FilePath SciTEWin::GetDefaultDirectory() {
 	return SciTEWin::GetSciteDefaultHome();
@@ -494,7 +500,7 @@ void SciTEWin::ExecuteOtherHelp(const char *cmd) {
 	GUI::gui_string s = GUI::StringFromUTF8(cmd);
 	size_t pos = s.find_first_of('!');
 	if (pos != GUI::gui_string::npos) {
-		GUI::gui_string topic = s.substr(0, pos);
+	GUI::gui_string topic = s.substr(0, pos);
 		GUI::gui_string path = s.substr(pos+1);
 		::WinHelpW(MainHWND(),
 			path.c_str(),

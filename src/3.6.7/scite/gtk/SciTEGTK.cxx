@@ -944,9 +944,22 @@ FilePath SciTEGTK::GetDefaultDirectory() {
 	return FilePath(home);
 }
 
-FilePath SciTEGTK::GetSciteDefaultHome() {
-	return SciTEGTK::GetDefaultDirectory();
+FilePath SciTEGTK::GetSciteUserHome() {
+/** First looking for environment variable $SciTE_USERHOME
+* to set SciteUserHome. If not present we look for $SciTE_HOME
+* then defaulting to $HOME
+*/
+	char *where = getenv("SciTE_USERHOME");
+	if (!where) {
+		where = getenv("SciTE_HOME");
+		if (!where) {
+			return getenv("HOME"); /// toDo: optional create a 'scite' folder.
+		}
+	} 
+	return FilePath(where);
 }
+
+
 
 FilePath SciTEGTK::GetSciteUserHome() {
 	return SciTEGTK::GetDefaultDirectory();

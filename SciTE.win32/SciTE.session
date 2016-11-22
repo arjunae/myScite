@@ -1,15 +1,27 @@
 # SciTE session file
 
-position.left=30
-position.top=60
-position.width=720
-position.height=400
+position.left=246
+position.top=218
+position.width=1063
+position.height=517
 position.maximize=0
 
-mru.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\changelog.readme.txt
-mru.2.path=E:\projects\_myScite\.myScite.github\readme.md
+mru.1.path=E:\projects\_myScite\.myScite.github\SciTE.linux64\SciTEGlobal.properties
+mru.2.path=C:\Users\Tho\Desktop\smarthighlite.lua
+mru.3.path=E:\projects\_myScite\.myScite.Sourceforge\src\3.6.7\scite\win32\SciTEWin.cxx
+mru.4.path=E:\projects\_myScite\.myScite.github\SciTE.win32\theme\theme.global.defaults.properties
+mru.5.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_cpp.cpp
+mru.6.path=E:\projects\_myScite\.myScite.github\contrib\SciTE_patches\1.scite.367_portable.diff
+mru.7.path=C:\Users\Tho\Desktop\termin.fra.geis.txt
+mru.8.path=E:\projects\_myScite\.myScite.github\src\3.6.7\scite\win32\SciTEWin.cxx
+mru.9.path=E:\projects\_myScite\.myScite.github\src\3.6.7\scite\gtk\SciTEGTK.cxx
+mru.10.path=E:\projects\_myScite\.myScite.github\SciTE.win32\theme\theme.blackblue.properties
 
-buffer.1.path=E:\projects\_myScite\.myScite.github\readme.md
-buffer.1.position=438
-buffer.1.scroll=0
+buffer.1.path=E:\projects\_myScite\.myScite.github\src\3.6.7\scite\gtk\SciTEGTK.cxx
+buffer.1.position=27495
+buffer.1.scroll=937
 buffer.1.current=1
+
+buffer.2.path=E:\projects\_myScite\.myScite.github\SciTE.win32\theme\theme.blackblue.properties
+buffer.2.position=1889
+buffer.2.scroll=33
