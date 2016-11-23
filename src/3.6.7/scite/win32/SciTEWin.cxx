@@ -461,18 +461,21 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 	}
 }
 
-	// if above are empty... define folder %userprofile%\myScite as afallback.
+	// if above are empty... define folder %userprofile%\Scite as a fallback.
 	if (home.empty()) {
 		// yo.... filepath takes and returns Scites gui_string (which is a basic_wstring / wchar_t)
 		// which converts from (std::wstring). To get a std::wstring back use GUI:UTF8FromString(Filepath(xyz)).ToUTF8();
 		FilePath wfilePath;
 		std::wstring wPath;
 		wPath = _wgetenv(GUI_TEXT("USERPROFILE"));
-		wPath.append(L"\\mySciTE");
+		wPath.append(L"\\scite");
 		wfilePath = FilePath(wPath).NormalizePath();
 		if (wfilePath.IsDirectory())
 			home = wPath;
 	}
+	
+	// Fill %SCITE_HOME%
+	_wputenv((wchar_t *)wenvSciteHome.append(home).c_str()) ;	
 	return FilePath(home);
 }
 
