@@ -890,65 +890,50 @@ GtkWidget *SciTEGTK::AddMBButton(GtkWidget *dialog, const char *label,
 }
 
 FilePath SciTEGTK::GetSciteDefaultHome() {
-	std::string envSciteHome = "SciTE_HOME=";
 	std::string home;
 	int home_set=0;
 	FilePath oPath;
 
-	// LastResort  /user/share/scite
-			oPath="/usr/share/scite";
-			if (oPath.Exists()){
-				 home = oPath.AsUTF8().c_str();
-			}
-			
+		
 	 // 1 set & use scite_home from env.scite_home
-			std::string env=envSciteHome.append(props.GetNewExpandString("env.scite_home"));
-			env=FilePath(env).NormalizePath().AsUTF8().c_str();
-			std::string cslash = "/";
-			std::size_t icheck = env.find(cslash);
-			if (icheck != std::string::npos){
-				 putenv((char *)env.c_str());	
-				 home =props.GetNewExpandString("env.scite_home");
-				 home_set=1;
-			} else {
-				 home.clear();
-			}
+		std::string env=props.GetNewExpandString("env.scite_home");
+		env=FilePath(env).NormalizePath().AsUTF8().c_str();	
+		std::size_t icheck = env.find("/");
+		if (icheck != std::string::npos){
+			 putenv( (char *) ("SciTE_HOME=" +env).c_str() );	
+			 home =env;
+			return FilePath(home);
+		}
+
 	
 	// 2 Search config in ~/scite
-	if (!home_set) {
 		std::string envhome = getenv("HOME");
 		envhome.append("/scite");
-		std::string tmp= envhome;
-		tmp.append("/SciTEGlobal.properties");
+		std::string tmp=envhome + "/SciTEGlobal.properties";
 		oPath = tmp;
 		if (oPath.Exists()){
 			home = envhome;
-			home_set=1;
-			putenv((char *) (envSciteHome + home).c_str());	
-		} else {
-			home.clear();
+			return FilePath(home);
 		}
-	}
+		
 
-// 3 Search in executables binPath
-if (!home_set) {
-	 char buf[PATH_MAX + 1];
-	 if (readlink("/proc/self/exe", buf, sizeof(buf) - 1) >0) {
+	// 3 Search in executables binPath
+		char buf[PATH_MAX + 1];
+		if (readlink("/proc/self/exe", buf, sizeof(buf) - 1) >0) {
 		 // just get the path	
 			std::string stmp = buf;
 			stmp = stmp.substr(0, stmp.rfind('/'));
 			stmp.append("/SciTEGlobal.properties");
 			oPath=stmp;
 			if (oPath.Exists()) {
-				 home=buf;
-				 home = home.substr(0, home.rfind('/'));
-				 putenv((char *) (envSciteHome + home).c_str());	
-				 stmp.clear();
-				 home_set=1;
+				home = stmp.substr(0, stmp.rfind('/'));
+				return FilePath(home);
 			} 
 	 }
-}
-	 
+
+	// LastResort  /user/share/scite
+			home = "/usr/share/scite";
+	
 	return FilePath(home);
 }
 
@@ -957,16 +942,47 @@ FilePath SciTEGTK::GetSciteUserHome() {
 * to set SciteUserHome. If not present we look for $SciTE_HOME
 * then defaulting to $HOME
 */
-	char *where = getenv("SciTE_USERHOME");
-	if (!where) {
-		where = getenv("SciTE_HOME");
-		if (!where) {
-			return getenv("HOME"); /// toDo: optional create a 'scite' folder.
+	 std::string home;
+	 FilePath fhome;
+	
+	 // first try $scite_userhome
+		fhome=getenv("SciTE_USERHOME");
+	  home=fhome.AsUTF8().c_str();
+		if (!home.empty()) {
+			return FilePath(home);
 		}
-	} 
-	return FilePath(where);
-}
 
+	 // then env.scite_home
+	  	std::string env=props.GetNewExpandString("env.scite_home");
+			env=FilePath(env).NormalizePath().AsUTF8().c_str();	
+			std::size_t icheck = env.find("/");
+			if (icheck != std::string::npos)
+				 return FilePath(env); 
+		
+		// scite_home
+			fhome=getenv("SciTE_HOME");	
+			home=fhome.AsUTF8().c_str();
+			if (!home.empty()) 
+				return FilePath(home);
+		
+	 //  lbnl try binPath
+	 char buf[PATH_MAX + 1];
+	 if (readlink("/proc/self/exe", buf, sizeof(buf) - 1) >0) {
+		 // just get the path	
+			std::string stmp = buf;
+			stmp = stmp.substr(0, stmp.rfind('/'));
+			stmp.append("/.SciTEUser.properties");
+			fhome=stmp;
+			if (fhome.Exists()) {
+				 home = stmp.substr(0, stmp.rfind('/'));
+				 return FilePath(home);
+			} 
+	 }
+	 
+	// use fallback, guranteed to exist by OS.	 	
+	std::string cdefault=getenv("HOME");	 
+	return FilePath(cdefault);
+}
 
 FilePath SciTEGTK::GetDefaultDirectory() {
 return SciTEGTK::GetSciteDefaultHome();
