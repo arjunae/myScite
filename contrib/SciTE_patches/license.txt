@@ -1,5 +1,5 @@
 
-All scite patches by Thorsten Kani in the current Directory are licensed under LGPL v2.1
+All scite patches in the current Directory are licensed by LGPL v2.1
 
 Copyright (2016)  Thorsten Kani eMail:Marcedo@habmalnefrage.de
 
