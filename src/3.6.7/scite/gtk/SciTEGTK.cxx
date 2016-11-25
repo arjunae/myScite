@@ -891,9 +891,8 @@ GtkWidget *SciTEGTK::AddMBButton(GtkWidget *dialog, const char *label,
 
 FilePath SciTEGTK::GetSciteDefaultHome() {
 	std::string home;
-	int home_set=0;
 	FilePath oPath;
-	const cdefault = "/usr/share/scite"; // default guaranteed to exist by OS
+	std::string cdefault = "/usr/share/scite"; // default guaranteed to exist by OS
 
 	// Make Windows %USERPROFILE% available to scite config.
 	char *envHome=getenv("HOME");
