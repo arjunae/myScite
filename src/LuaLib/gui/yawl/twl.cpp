@@ -11,6 +11,10 @@
 */
 #define NO_STRICT
 #include <windows.h>
+#define GCL_HICON (-14)
+#define GWL_USERDATA (-21)
+#define DWL_USER 8
+
 #ifdef _WIN32
 # include <commctrl.h>
 # define COMMCTRL
@@ -62,7 +66,7 @@ int exec(pchar s, int mode)
 //-------------------------
 {
   //return WinExec(s,mode) > 31;
-  return (int)ShellExecute(0, L"open", s, NULL, NULL, mode) > 31;
+  return (size_t)ShellExecute(0, L"open", s, NULL, NULL, mode) > 31;
 }
 
 int message(const wchar_t *format,bool was_warning)
@@ -854,13 +858,13 @@ TEventWindow::~TEventWindow()
 void TEventWindow::set_icon(pchar file)
 {
     HANDLE hIcon = LoadImage(hInst,file,IMAGE_ICON,0,0,LR_LOADFROMFILE);
-    SetClassLong(m_hwnd,GCL_HICON,(long)hIcon);
+    SetClassLong(m_hwnd,GCL_HICON,(size_t)hIcon);
 }
 
 void TEventWindow::set_icon_from_window(TWin *win)
 {
 	HICON hIcon = (HICON)GetClassLong((HWND)win->handle(),GCL_HICON);
-	SetClassLong(m_hwnd,GCL_HICON,(long)hIcon);
+	SetClassLong(m_hwnd,GCL_HICON,(size_t)hIcon);
 }
 
 // *change 0.6.0 support for VCL-style alignment of windows
@@ -1005,12 +1009,12 @@ TFrameWindow::~TFrameWindow()
 
 void TFrameWindow::set_status_fields(int* parts, int n)
 {
-  if (m_status) m_status->send_msg(SB_SETPARTS,n,(long)parts);
+  if (m_status) m_status->send_msg(SB_SETPARTS,n,(size_t)parts);
 }
 
 void TFrameWindow::set_status_text(int id, pchar txt)
 {
-  if (m_status) m_status->send_msg(SB_SETTEXT,id,(long)txt);
+  if (m_status) m_status->send_msg(SB_SETTEXT,id,(size_t)txt);
 }
 
 void TFrameWindow::client_resize(int cwidth, int cheight)
@@ -1038,7 +1042,7 @@ TControl::TControl(TWin *parent, pchar classname, pchar text,int id, long style)
 {
    m_colour = RGB(0,0,0);
    m_font = NULL;
-   SetWindowLong(m_hwnd,GWL_USERDATA,(long)this);
+   SetWindowLong(m_hwnd,-21,(size_t)this);
    m_parent = (TEventWindow *)parent;
 }
 
@@ -1112,10 +1116,10 @@ void TDialog::go ()
     hOwner = (m_owner) ? m_owner->handle() : NULL; //GetDesktopWindow();
     m_lpfnBox = (void FAR *)MakeProcInstance((FARPROC)DialogProc,hInst);
 	 if (modeless()) {
-      hdlg = CreateDialogParam(hInst,m_name,hOwner,(DLGPROC)m_lpfnBox,(long)this);
+      hdlg = CreateDialogParam(hInst,m_name,hOwner,(DLGPROC)m_lpfnBox,(size_t)this);
       hModeless = hdlg;
 	 } else {
-       m_ret = DialogBoxParam(hInst,m_name,hOwner,(DLGPROC)m_lpfnBox,(long)this);
+       m_ret = DialogBoxParam(hInst,m_name,hOwner,(DLGPROC)m_lpfnBox,(size_t)this);
 	   m_hwnd = 0;  // thereafter, this object is not a valid window...
     }
 	 ShowWindow(hdlg,SW_SHOW);
@@ -1183,7 +1187,7 @@ void RegisterEventWindow(HANDLE hIcon=0, HANDLE hCurs=0)
 
 	wndclass.style         = CS_HREDRAW | CS_VREDRAW |
 	                         CS_OWNDC | DS_LOCALEDIT;
-	wndclass.lpfnWndProc   = WndProc;
+	wndclass.lpfnWndProc   =reinterpret_cast<WNDPROC>(WndProc);
 	wndclass.cbClsExtra    = 0;
 	wndclass.cbWndExtra    = 4;
 	wndclass.hInstance     = hInst;
@@ -1291,7 +1295,7 @@ WNDFN WndProc (HWND hwnd, UINT msg, UINT wParam,LONG lParam)
 		 lpUser  = (PVOID *)lpCreat->lpCreateParams;
 
 	  //..... 'This' pointer passed as first word of creation parms
-		 SetWindowLong(hwnd,0,(long)lpUser[0]);
+		 SetWindowLong(hwnd,0,(size_t)lpUser[0]);
 		 This = (TEventWindow *)lpUser[0];
 		 This->get_dc()->set_twin(This);
 	 }

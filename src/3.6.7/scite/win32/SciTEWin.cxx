@@ -423,10 +423,9 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 /**
  *       Scite_home -> Case Windows:
  *       1 look for and follow %SciTE_HOME% | $(env.scite_home)
- *       2 else use exectables Path, (if we find SciteGlobal.properties)
+ *       2 else use exectables Path (if we find SciteGlobal.properties)
  *       3 else use %USERPROFILE%\mySciTE\ (if we find SciteGlobal.properties there)
- *       4 .
- *       Hello SciTE - my veryfirstPatch :)) Marcedo@HabMalNeFrage.de
+ *       4 - firstPatch for SciTE :) Marcedo@HabMalNeFrage.de     
  */
 
 	std::wstring home;

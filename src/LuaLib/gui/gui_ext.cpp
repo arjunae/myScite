@@ -761,7 +761,7 @@ int do_run(lua_State* L)
 	const wchar_t* lpFile = StringFromUTF8(luaL_checkstring(L,1));
 	const wchar_t* lpParameters = StringFromUTF8(lua_tostring(L,2));
 	const wchar_t* lpDirectory = StringFromUTF8(lua_tostring(L,3));
-	int res = (int)ShellExecute (
+	int res = (size_t)ShellExecute (
 		NULL,
 		L"open",
 		lpFile,
@@ -769,6 +769,7 @@ int do_run(lua_State* L)
 		lpDirectory,
 		SW_SHOWDEFAULT
 	);
+	
 	if (res <= 32) {
 		lua_pushboolean(L,0);
 		lua_pushinteger(L,res);
@@ -1248,7 +1249,7 @@ int window_get_item_text(lua_State* L)
 int window_get_item_data(lua_State* L)
 {
 	void *data = list_window_arg(L)->get_item_data(luaL_checkinteger(L,2));
-	lua_rawgeti(L,LUA_REGISTRYINDEX,(int)data);
+	lua_rawgeti(L,LUA_REGISTRYINDEX,(size_t)data);
 	return 1;
 }
 
@@ -1513,9 +1514,9 @@ static void subclass_scite_window ()
 {
 	static bool subclassed = false;
 	if (!subclassed) {  // to prevent a recursion
-		old_scite_proc     = subclass(hSciTE,   (long)SciTEWndProc);
-		old_content_proc   = subclass(hContent, (long)ContentWndProc);
-		old_scintilla_proc = subclass(hCode,    (long)ScintillaWndProc);
+		old_scite_proc     = subclass(hSciTE,   (size_t)SciTEWndProc);
+		old_content_proc   = subclass(hContent, (size_t)ContentWndProc);
+		old_scintilla_proc = subclass(hCode,    (size_t)ScintillaWndProc);
 		subclassed = true;
 	}
 }
@@ -1753,7 +1754,7 @@ int luaopen_gui(lua_State *L)
 	// that it is the foreground window, so we hunt through all windows
 	// associated with this thread (the main GUI thread) to find a window
 	// matching the appropriate class name
-	EnumThreadWindows(GetCurrentThreadId(),CheckSciteWindow,(long)&hSciTE);
+	EnumThreadWindows(GetCurrentThreadId(),CheckSciteWindow,(size_t)&hSciTE);
 	s_parent = new TWin(hSciTE);
 	sL = L;
 
@@ -1763,7 +1764,7 @@ int luaopen_gui(lua_State *L)
 	
 	// Its first child shold be the content pane (editor+output), 
 	// but we check this anyway....	
-	EnumChildWindows(hSciTE,CheckContainerWindow,(long)&hContent);
+	EnumChildWindows(hSciTE,CheckContainerWindow,(size_t)&hContent);
 	// the first child of the content pane is the editor pane.
 	bool subclassed = false;
 	if (hContent != NULL) {

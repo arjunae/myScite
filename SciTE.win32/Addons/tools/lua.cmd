@@ -24,7 +24,7 @@ if [%sandbox%]==[1] ( set mode=[Sandboxed]) else ( set mode= )
 
 :: first try if a user had installed a local package
 if exist %toolPath%\%toolName%%toolExt% (
-echo ~ WRapper: %mode% %toolFolder%\%toolName%%toolExt% %toolParam%
+echo ~ wrapper ~  %mode% %toolFolder%\%toolName%%toolExt% %toolParam% >&2
 %toolPath%\%toolName%%toolExt% %toolParam%
 goto :freude
 ) 
@@ -34,7 +34,7 @@ if [%sandbox%]==[1] goto :err
 where /Q %toolName%%toolExt%
 
 IF %ERRORLEVEL% == 0 (
-echo ~ WRapper: %toolPath%\%toolName%%toolExt% %toolParam%
+REM echo ~ WRapper: %toolPath%\%toolName%%toolExt% %toolParam% >&2
 where %toolName%%toolExt%
 %toolName%%toolExt% %toolParam%
 goto :freude ) else (  goto :err )

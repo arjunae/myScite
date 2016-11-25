@@ -1,10 +1,10 @@
 
-#ifndef LONG_PTR
-#define LONG_PTR long
-#endif
+//#ifndef LONG_PTR
+//#define LONG_PTR long
+//#endif
 
 #ifndef GetWindowLongPtrA
-inline LONG_PTR GetWindowLongPtrA( HWND hWnd, int nIndex )
+inline LONG_PTR WINAPI GetWindowLongPtrA( HWND hWnd, int nIndex )
 {
 	return( ::GetWindowLongA( hWnd, nIndex ) );
 }

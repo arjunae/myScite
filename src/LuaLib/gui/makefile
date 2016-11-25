@@ -9,7 +9,7 @@ gui.dll: gui_ext.o $(YAWL)
 	g++ $(CWARNS) $(CFLAGS) -s -shared -o gui.dll gui_ext.o $(YAWL) $(LIBDIR) $(LIBS)
 
 gui_ext.o: gui_ext.cpp yawl.h
-	g++ $(CWARNS) $(CFLAGS) -c -I$(LUA_INCLUDE) gui_ext.cpp
+	g++ $(CWARNS) $(CFLAGS) -c -I$(LUA_INCLUDE) -I. gui_ext.cpp
 
 clean:
 	-del /s *.o >nul
