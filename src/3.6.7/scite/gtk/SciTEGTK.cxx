@@ -893,9 +893,17 @@ FilePath SciTEGTK::GetSciteDefaultHome() {
 	std::string home;
 	int home_set=0;
 	FilePath oPath;
+	const cdefault = "/usr/share/scite"; // default guaranteed to exist by OS
 
+	// Make Windows %USERPROFILE% available to scite config.
+	char *envHome=getenv("HOME");
+	if (envHome) {
+		props.Set("env.home",envHome);
+	} else {
+		props.Set("env.home","");
+	}
 		
-	 // 1 set & use scite_home from env.scite_home
+	// 1 set & use scite_home from env.scite_home
 		std::string env=props.GetNewExpandString("env.scite_home");
 		env=FilePath(env).NormalizePath().AsUTF8().c_str();	
 		std::size_t icheck = env.find("/");
@@ -905,7 +913,6 @@ FilePath SciTEGTK::GetSciteDefaultHome() {
 			return FilePath(home);
 		}
 
-	
 	// 2 Search config in ~/scite
 		std::string envhome = getenv("HOME");
 		envhome.append("/scite");
@@ -916,7 +923,6 @@ FilePath SciTEGTK::GetSciteDefaultHome() {
 			return FilePath(home);
 		}
 		
-
 	// 3 Search in executables binPath
 		char buf[PATH_MAX + 1];
 		if (readlink("/proc/self/exe", buf, sizeof(buf) - 1) >0) {
@@ -931,10 +937,7 @@ FilePath SciTEGTK::GetSciteDefaultHome() {
 			} 
 	 }
 
-	// LastResort  /user/share/scite
-			home = "/usr/share/scite";
-	
-	return FilePath(home);
+	return FilePath(cdefault);
 }
 
 FilePath SciTEGTK::GetSciteUserHome() {
@@ -965,23 +968,8 @@ FilePath SciTEGTK::GetSciteUserHome() {
 			if (!home.empty()) 
 				return FilePath(home);
 		
-	 //  lbnl try binPath
-	 char buf[PATH_MAX + 1];
-	 if (readlink("/proc/self/exe", buf, sizeof(buf) - 1) >0) {
-		 // just get the path	
-			std::string stmp = buf;
-			stmp = stmp.substr(0, stmp.rfind('/'));
-			stmp.append("/.SciTEUser.properties");
-			fhome=stmp;
-			if (fhome.Exists()) {
-				 home = stmp.substr(0, stmp.rfind('/'));
-				 return FilePath(home);
-			} 
-	 }
-	 
-	// use fallback, guranteed to exist by OS.	 	
-	std::string cdefault=getenv("HOME");	 
-	return FilePath(cdefault);
+	// use fallback, guranteed to exist by OS.	 		 
+	return FilePath(getenv("HOME"));
 }
 
 FilePath SciTEGTK::GetDefaultDirectory() {

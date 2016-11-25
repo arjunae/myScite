@@ -430,10 +430,17 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 
 	std::wstring home;
 
+	// Make Windows %USERPROFILE% available to scite config.
+	char *envHome=getenv("USERPROFILE");
+	if (envHome) {
+		props.Set("env.home",envHome);
+	} else {
+		props.Set("env.home","");
+	}
+	
 	// Set environment %SciTE_HOME% fromm $(env.scite_home).
-	std::wstring wenvSciteHome = L"SciTE_HOME=";
 	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_home")));
-	std::wstring wenv = GUI::StringFromUTF8(FilePath(wenvSciteHome + wenvPathSciteHome).NormalizePath().AsUTF8());
+	std::wstring wenv = GUI::StringFromUTF8(FilePath(L"SciTE_HOME=" + wenvPathSciteHome).NormalizePath().AsUTF8());
 	std::wstring wcheck = L":";
 	std::size_t icheck = wenv.find(wcheck);
 	 if (icheck != std::string::npos)
@@ -460,7 +467,7 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 	}
 }
 
-	// if above are empty... define folder %userprofile%\Scite as a fallback.
+	// if above are empty... define folder %userprofile%\scite as a fallback.
 	if (home.empty()) {
 		// yo.... filepath takes and returns Scites gui_string (which is a basic_wstring / wchar_t)
 		// which converts from (std::wstring). To get a std::wstring back use GUI:UTF8FromString(Filepath(xyz)).ToUTF8();
@@ -473,9 +480,7 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 			home = wPath;
 	}
 	
-	// Fill %SCITE_HOME%
-	_wputenv((wchar_t *)wenvSciteHome.append(home).c_str()) ;	
-	return FilePath(home);
+	return(home);
 }
 
 FilePath SciTEWin::GetSciteUserHome() {
