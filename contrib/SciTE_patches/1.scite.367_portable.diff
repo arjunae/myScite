@@ -1,6 +1,6 @@
 diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
---- scintilla-scite/gtk/SciTEGTK.cxx	2016-11-22 18:57:06.000000000 +0100
-+++ scite/gtk/SciTEGTK.cxx	2016-11-24 17:17:24.000000000 +0100
+--- scintilla-scite/gtk/SciTEGTK.cxx	2016-11-25 19:41:00.000000000 +0100
++++ scite/gtk/SciTEGTK.cxx	2016-11-25 19:22:16.000000000 +0100
 @@ -3,6 +3,9 @@
  // Copyright 1998-2004 by Neil Hodgson <neilh@scintilla.org>
  // The License.txt file describes the conditions under which this software may be distributed.
@@ -19,25 +19,55 @@ diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
  #include <set>
  #include <map>
  #include <algorithm>
-@@ -880,55 +889,103 @@
+@@ -880,55 +889,90 @@
  	return button;
  }
  
 -FilePath SciTEGTK::GetDefaultDirectory() {
 -	const char *where = getenv("SciTE_HOME");
-+FilePath SciTEGTK::GetSciteDefaultHome() {
-+	std::string home;
-+	int home_set=0;
-+	FilePath oPath;
- 
+-
 -#ifdef SYSCONF_PATH
 -	if (!where)
 -		where = SYSCONF_PATH;
- 
+-
 -#else
 -	if (!where)
 -		where = getenv("HOME");
-+	 // 1 set & use scite_home from env.scite_home
+-
+-#endif
+-	if (where)
+-		return FilePath(where);
+-
+-	return FilePath("");
+-}
+-
+ FilePath SciTEGTK::GetSciteDefaultHome() {
+-	const char *where = getenv("SciTE_HOME");
+-
+-#ifdef SYSCONF_PATH
+-	if (!where)
+-		where = SYSCONF_PATH;
+-
+-#else
+-	if (!where)
+-		where = getenv("HOME");
+-
+-#endif
+-	if (where)
+-		return FilePath(where);
++	std::string home;
++	FilePath oPath;
++	std::string cdefault = "/usr/share/scite"; // default guaranteed to exist by OS
++
++	// Make Windows %USERPROFILE% available to scite config.
++	char *envHome=getenv("HOME");
++	if (envHome) {
++		props.Set("env.home",envHome);
++	} else {
++		props.Set("env.home","");
++	}
++		
++	// 1 set & use scite_home from env.scite_home
 +		std::string env=props.GetNewExpandString("env.scite_home");
 +		env=FilePath(env).NormalizePath().AsUTF8().c_str();	
 +		std::size_t icheck = env.find("/");
@@ -46,12 +76,7 @@ diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
 +			 home =env;
 +			return FilePath(home);
 +		}
- 
--#endif
--	if (where)
--		return FilePath(where);
- 
--	return FilePath("");
++
 +	// 2 Search config in ~/scite
 +		std::string envhome = getenv("HOME");
 +		envhome.append("/scite");
@@ -60,18 +85,8 @@ diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
 +		if (oPath.Exists()){
 +			home = envhome;
 +			return FilePath(home);
- }
- 
--FilePath SciTEGTK::GetSciteDefaultHome() {
--	const char *where = getenv("SciTE_HOME");
--
--#ifdef SYSCONF_PATH
--	if (!where)
--		where = SYSCONF_PATH;
- 
--#else
--	if (!where)
--		where = getenv("HOME");
++		}
++		
 +	// 3 Search in executables binPath
 +		char buf[PATH_MAX + 1];
 +		if (readlink("/proc/self/exe", buf, sizeof(buf) - 1) >0) {
@@ -86,14 +101,8 @@ diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
 +			} 
 +	 }
  
--#endif
--	if (where)
--		return FilePath(where);
-+	// LastResort  /user/share/scite
-+			home = "/usr/share/scite";
- 
 -	return FilePath("");
-+	return FilePath(home);
++	return FilePath(cdefault);
  }
  
  FilePath SciTEGTK::GetSciteUserHome() {
@@ -133,23 +142,8 @@ diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
 +			if (!home.empty()) 
 +				return FilePath(home);
 +		
-+	 //  lbnl try binPath
-+	 char buf[PATH_MAX + 1];
-+	 if (readlink("/proc/self/exe", buf, sizeof(buf) - 1) >0) {
-+		 // just get the path	
-+			std::string stmp = buf;
-+			stmp = stmp.substr(0, stmp.rfind('/'));
-+			stmp.append("/.SciTEUser.properties");
-+			fhome=stmp;
-+			if (fhome.Exists()) {
-+				 home = stmp.substr(0, stmp.rfind('/'));
-+				 return FilePath(home);
-+			} 
-+	 }
-+	 
-+	// use fallback, guranteed to exist by OS.	 	
-+	std::string cdefault=getenv("HOME");	 
-+	return FilePath(cdefault);
++	// use fallback, guranteed to exist by OS.	 		 
++	return FilePath(getenv("HOME"));
  	}
  
 -	return FilePath(where);
@@ -160,44 +154,52 @@ diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
  void SciTEGTK::ShowFileInStatus() {
 diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
 --- scintilla-scite/win32/SciTEWin.cxx	2016-09-04 02:17:28.000000000 +0200
-+++ scite/win32/SciTEWin.cxx	2016-11-23 14:59:46.000000000 +0100
-@@ -417,43 +418,84 @@
++++ scite/win32/SciTEWin.cxx	2016-11-25 18:56:44.000000000 +0100
+@@ -414,46 +415,79 @@
+ }
+ 
+ void SciTEWin::ReadProperties() {
++
  	SciTEBase::ReadProperties();
  }
  
 -static FilePath GetSciTEPath(FilePath home) {
 -	if (home.IsSet()) {
 -		return FilePath(home);
--	} else {
 +
-+FilePath SciTEWin::GetSciteDefaultHome() {
++FilePath SciTEWin::GetDefaultDirectory() {
 +/**
-+ *       Scite_home -> Case Windows:
++ *       SciteDefaultHome -> Windows
 + *       1 look for and follow %SciTE_HOME% | $(env.scite_home)
-+ *       2 else use exectables Path, (if we find SciteGlobal.properties)
++ *       2 else use exectables Path (if we find SciteGlobal.properties)
 + *       3 else use %USERPROFILE%\mySciTE\ (if we find SciteGlobal.properties there)
-+ *       4 .
-+ *       Hello SciTE - my veryfirstPatch :)) Marcedo@HabMalNeFrage.de
++ *       4 - firstPatch for SciTE :) Marcedo@HabMalNeFrage.de     
 + */
-+
++			
++	// Make Windows %USERPROFILE% available to scite config.
++	char *envHome=getenv("USERPROFILE");
++	if (envHome) {
++		props.Set("env.home",envHome);
+ 	} else {
++		props.Set("env.home","");
++	}		
++			
 +	std::wstring home;
-+
++	
 +	// Set environment %SciTE_HOME% fromm $(env.scite_home).
-+	std::wstring wenvSciteHome = L"SciTE_HOME=";
 +	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_home")));
-+	std::wstring wenv = GUI::StringFromUTF8(FilePath(wenvSciteHome + wenvPathSciteHome).NormalizePath().AsUTF8());
-+	std::wstring wcheck = L":";
-+	std::size_t icheck = wenv.find(wcheck);
-+	 if (icheck != std::string::npos)
++	std::wstring wenv = GUI::StringFromUTF8(FilePath(L"SciTE_HOME=" + wenvPathSciteHome).NormalizePath().AsUTF8());
++	if (wenv.find(L"\\") != std::string::npos)
 +		_wputenv((wchar_t *)wenv.c_str()); 
-+	std::wstring wtmp = GUI::StringFromUTF8(getenv("SciTE_HOME"));
-+	 icheck = wtmp.find(wcheck);
-+	 if (icheck != std::string::npos)
-+		home = wtmp;
++	
++	//  ..try SciTE_HOME
++	home = GUI::StringFromUTF8(getenv("SciTE_HOME"));
++	if (!home.empty()) 
++		return FilePath(home);
 +
-+	//  ..use executables binpath (when we find sciteglobal.properties there.)
++
++	//  ..try executables binpath (when we find sciteglobal.properties there.)
 +	if (home.empty()) {
-+		FilePath wfilePath;
 +		std::wstring wPath;
  		GUI::gui_char path[MAX_PATH];
 -		if (::GetModuleFileNameW(0, path, ELEMENTS(path)) == 0)
@@ -208,28 +210,25 @@ diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
  		GUI::gui_char *lastSlash = wcsrchr(path, pathSepChar);
 -		if (lastSlash)
 -			*lastSlash = '\0';
--		return FilePath(path);
 +			if (lastSlash) *lastSlash = '\0';
-+			wPath = path;
-+			wPath.append(L"\\SciTEGlobal.properties");
-+			wfilePath = wPath;
-+			if (wfilePath.Exists())
-+				home = path;
++				wPath = path;
++			FilePath wfilePath = wPath.append(L"\\SciTEGlobal.properties");
++			if (wfilePath.Exists()) {
+ 		return FilePath(path);
  	}
  }
++	}
  
 -FilePath SciTEWin::GetDefaultDirectory() {
 -	GUI::gui_char *home = _wgetenv(GUI_TEXT("SciTE_HOME"));
 -	return GetSciTEPath(home);
-+	// if above are empty... define folder %userprofile%\Scite as a fallback.
++	// if above are empty... define folder %userprofile%\scite as a fallback.
 +	if (home.empty()) {
 +		// yo.... filepath takes and returns Scites gui_string (which is a basic_wstring / wchar_t)
 +		// which converts from (std::wstring). To get a std::wstring back use GUI:UTF8FromString(Filepath(xyz)).ToUTF8();
-+		FilePath wfilePath;
-+		std::wstring wPath;
-+		wPath = _wgetenv(GUI_TEXT("USERPROFILE"));
-+		wPath.append(L"\\scite");
-+		wfilePath = FilePath(wPath).NormalizePath();
++		
++		std::wstring wPath = _wgetenv(GUI_TEXT("USERPROFILE"));
++		FilePath wfilePath = FilePath(wPath + L"\\scite" ).NormalizePath();
 +		if (wfilePath.IsDirectory())
 +			home = wPath;
  }
@@ -237,31 +236,27 @@ diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
 -FilePath SciTEWin::GetSciteDefaultHome() {
 -	GUI::gui_char *home = _wgetenv(GUI_TEXT("SciTE_HOME"));
 -	return GetSciTEPath(home);
-+	// Fill %SCITE_HOME%
-+	_wputenv((wchar_t *)wenvSciteHome.append(home).c_str()) ;	
-+	return FilePath(home);
++	return(home);
  }
  
  FilePath SciTEWin::GetSciteUserHome() {
- 	// First looking for environment variable $SciTE_USERHOME
- 	// to set SciteUserHome. If not present we look for $SciTE_HOME
+-	// First looking for environment variable $SciTE_USERHOME
+-	// to set SciteUserHome. If not present we look for $SciTE_HOME
 -	// then defaulting to $USERPROFILE
-+	// then defaulting to USERPROFILE
- 	GUI::gui_char *home = _wgetenv(GUI_TEXT("SciTE_USERHOME"));
- 	if (!home) {
- 		home = _wgetenv(GUI_TEXT("SciTE_HOME"));
- 		if (!home) {
+-	GUI::gui_char *home = _wgetenv(GUI_TEXT("SciTE_USERHOME"));
+-	if (!home) {
+-		home = _wgetenv(GUI_TEXT("SciTE_HOME"));
+-		if (!home) {
 -			home = _wgetenv(GUI_TEXT("USERPROFILE"));
-+			home = _wgetenv(GUI_TEXT("USERPROFILE")); /// todo create a 'scite' Folder
- 		}
+-		}
++	return SciTEWin::GetDefaultDirectory();
  	}
 -	return GetSciTEPath(home);
-+	return FilePath(home);
-+}
 +
 +
-+FilePath SciTEWin::GetDefaultDirectory() {
-+	return SciTEWin::GetSciteDefaultHome();
++FilePath SciTEWin::GetSciteDefaultHome() {
++	return SciTEWin::GetDefaultDirectory();
  }
  
  // Help command lines contain topic!path
+
