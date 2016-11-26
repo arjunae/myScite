@@ -66,7 +66,13 @@ void SciTEBase::SetImportMenu(int iShow) {
 				GUI::gui_string entry = localiser.Text("Open");
 				entry += GUI_TEXT(" ");
 				entry += importFiles[stackPos].Name().AsInternal();
-        if (iShow>=1) SetMenuItemNew(menuOptions, 9, IMPORT_START+stackPos, itemID, entry.c_str());
+				std::string sEntry= GUI::UTF8FromString(entry);
+				if (iShow==1) {
+					if (sEntry.find("theme") != std::string::npos or sEntry.find("Addons") != std::string::npos)
+						SetMenuItemNew(menuOptions, 9, IMPORT_START+stackPos, itemID, entry.c_str());
+					}
+				if (iShow==2)
+						SetMenuItemNew(menuOptions, 9, IMPORT_START+stackPos, itemID, entry.c_str()); 
 			}
 		}
 	}

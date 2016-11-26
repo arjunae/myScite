@@ -4,6 +4,7 @@
  **/
 // Copyright 1998-2003 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
+// 11.11.2016: add env.scite_home & env.home (T. Kani, Marcedo{at}habMalneFrage.de)  
 
 #include <time.h>
 
@@ -415,7 +416,6 @@ void SciTEWin::ReadPropertiesInitial() {
 }
 
 void SciTEWin::ReadProperties() {
-
 	SciTEBase::ReadProperties();
 }
 
@@ -425,8 +425,7 @@ FilePath SciTEWin::GetDefaultDirectory() {
  *       SciteDefaultHome -> Windows
  *       1 look for and follow %SciTE_HOME% | $(env.scite_home)
  *       2 else use exectables Path (if we find SciteGlobal.properties)
- *       3 else use %USERPROFILE%\mySciTE\ (if we find SciteGlobal.properties there)
- *       4 - firstPatch for SciTE :) Marcedo@HabMalNeFrage.de     
+ *       3 else use %USERPROFILE%\scite\ (if we find SciteGlobal.properties there)
  */
 			
 	// Make Windows %USERPROFILE% available to scite config.
@@ -450,7 +449,6 @@ FilePath SciTEWin::GetDefaultDirectory() {
 	if (!home.empty()) 
 		return FilePath(home);
 
-
 	//  ..try executables binpath (when we find sciteglobal.properties there.)
 	if (home.empty()) {
 		std::wstring wPath;
@@ -461,17 +459,16 @@ FilePath SciTEWin::GetDefaultDirectory() {
 			if (lastSlash) *lastSlash = '\0';
 				wPath = path;
 			FilePath wfilePath = wPath.append(L"\\SciTEGlobal.properties");
-			if (wfilePath.Exists()) {
+			if (wfilePath.Exists())
 				return FilePath(path);
-			}
 		}
 	}
 
+	// yo.... FilePath takes and returns gui_string (which is a basic_wstring / wchar_t)
+	// To get a std::wstring back use GUI::UTF8FromString(FilePath(xyz)).ToUTF8();
+
 	// if above are empty... define folder %userprofile%\scite as a fallback.
 	if (home.empty()) {
-		// yo.... filepath takes and returns Scites gui_string (which is a basic_wstring / wchar_t)
-		// which converts from (std::wstring). To get a std::wstring back use GUI:UTF8FromString(Filepath(xyz)).ToUTF8();
-		
 		std::wstring wPath = _wgetenv(GUI_TEXT("USERPROFILE"));
 		FilePath wfilePath = FilePath(wPath + L"\\scite" ).NormalizePath();
 		if (wfilePath.IsDirectory())
@@ -484,7 +481,6 @@ FilePath SciTEWin::GetDefaultDirectory() {
 FilePath SciTEWin::GetSciteUserHome() {
 	return SciTEWin::GetDefaultDirectory();
 }
-
 
 FilePath SciTEWin::GetSciteDefaultHome() {
 	return SciTEWin::GetDefaultDirectory();
