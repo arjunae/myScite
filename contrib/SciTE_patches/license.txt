@@ -1,5 +1,9 @@
 
-All scite patches in the current Directory are licensed by LGPL v2.1
+1.scite.367_portable.diff is licensed with the scintilla/scite license.  (See www.scintilla.org)
+
+-- 
+
+All other scite patches  in the current Directory are licensed by LGPL v2.1
 
 Copyright (2016)  Thorsten Kani eMail:Marcedo@habmalnefrage.de
 

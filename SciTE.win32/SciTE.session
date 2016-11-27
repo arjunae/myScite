@@ -1,23 +1,23 @@
 # SciTE session file
 
-position.left=129
-position.top=114
-position.width=720
-position.height=400
+position.left=585
+position.top=228
+position.width=865
+position.height=571
 position.maximize=0
 
-mru.1.path=C:\Users\Tho\Desktop\gtk\DirectorExtension.cxx
-mru.2.path=C:\Users\Tho\Desktop\SciTEStartup.lua
-mru.3.path=E:\projects\_myScite\.myScite.github\SciTE.win32\License_and_Authors.txt
-mru.4.path=E:\projects\_myScite\.myScite.github\SciTE.win32\SciTEGlobal.properties
-mru.5.path=E:\projects\_myScite\.myScite.github\src\3.6.7\scite\win32\SciTEWin.cxx
+mru.1.path=C:\Users\Tho\AppData\Local\Temp\1.scite.367_portable.diff
+mru.2.path=C:\Users\Tho\AppData\Local\Temp\1.scite.367_portable-1.diff
+mru.3.path=C:\Users\Tho\Desktop\klebeZettel.txt
+mru.4.path=E:\projects\_myScite\.myScite.github\contrib\SciTE_patches\1.scite.367_portable.diff
+mru.5.path=E:\projects\_myScite\local_testfield\diff\scite\gtk\SciTEGTK.cxx
 mru.6.path=E:\projects\_myScite\.myScite.github\src\3.6.7\scite\gtk\SciTEGTK.cxx
-mru.7.path=E:\projects\_myScite\local_testfield\diff\scite\gtk\SciTEGTK.cxx
-mru.8.path=E:\projects\_myScite\local_testfield\diff\1.diff
-mru.9.path=C:\Users\Tho\Desktop\scite\gtk\SciTEGTK.cxx
-mru.10.path=E:\projects\_myScite\local_testfield\diff\1.scite.367_portable.diff
+mru.7.path=E:\projects\_myScite\.myScite.github\src\3.6.7\scite\win32\SciTEWin.cxx
+mru.8.path=E:\projects\_myScite\local_testfield\diff\scite\win32\SciTEWin.cxx
+mru.9.path=E:\projects\_myScite\local_testfield\diff\1.scite.367_portable.diff
+mru.10.path=E:\projects\_myScite\.myScite.github\contrib\SciTE_patches\license.txt
 
-buffer.1.path=E:\projects\_myScite\local_testfield\diff\1.scite.367_portable.diff
-buffer.1.position=7248
-buffer.1.scroll=227
+buffer.1.path=E:\projects\_myScite\.myScite.github\contrib\SciTE_patches\license.txt
+buffer.1.position=28
+buffer.1.scroll=0
 buffer.1.current=1

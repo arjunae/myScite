@@ -4,7 +4,7 @@
  **/
 // Copyright 1998-2003 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
-// 11.11.2016: add env.scite_home & env.home (T. Kani, Marcedo{at}habMalneFrage.de)  
+/// 11.11.2016: add env.scite_home & env.home (T. Kani, Marcedo{at}habMalneFrage.de)  
 
 #include <time.h>
 

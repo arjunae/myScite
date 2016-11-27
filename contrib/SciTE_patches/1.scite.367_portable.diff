@@ -1,6 +1,6 @@
 diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
 --- scintilla-scite/gtk/SciTEGTK.cxx	2016-11-25 19:41:00.000000000 +0100
-+++ scite/gtk/SciTEGTK.cxx	2016-11-26 15:02:10.000000000 +0100
++++ scite/gtk/SciTEGTK.cxx	2016-11-27 12:44:54.000000000 +0100
 @@ -2,6 +2,10 @@
  // SciTEGTK.cxx - main code for the GTK+ version of the editor
  // Copyright 1998-2004 by Neil Hodgson <neilh@scintilla.org>
@@ -39,12 +39,12 @@ diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
 -	if (where)
 -		return FilePath(where);
 +FilePath SciTEGTK::GetSciteDefaultHome() {
-+	std::string cdefault = "/usr/share/scite"; // default guaranteed to exist by OS
++	const std::string cdefault = "/usr/share/scite"; // default guaranteed to exist by OS
 +	std::string home;
 +	FilePath oPath;
  
 -	return FilePath("");
-+	// Make Windows %USERPROFILE% available to scite config.
++	// Make OS-ENV %HOME% available to scite config.
 +	char *envHome=getenv("HOME");
 +	if (envHome) {
 +		props.Set("env.home",envHome);
@@ -144,6 +144,27 @@ diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
  }
  
  void SciTEGTK::ShowFileInStatus() {
+diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
+--- scintilla-scite/win32/SciTEWin.cxx	2016-09-04 02:17:28.000000000 +0200
++++ scite/win32/SciTEWin.cxx	2016-11-26 15:01:58.000000000 +0100
+@@ -4,6 +4,7 @@
+  **/
+ // Copyright 1998-2003 by Neil Hodgson <neilh@scintilla.org>
+ // The License.txt file describes the conditions under which this software may be distributed.
++/// 11.11.2016: add env.scite_home & env.home (T. Kani, Marcedo{at}habMalneFrage.de) 
+ 
+ #include <time.h>
+ 
+@@ -200,7 +201,8 @@
+ 	uniqueInstance.Init(this);
+ 
+ 	hAccTable = ::LoadAccelerators(hInstance, TEXT("ACCELS")); // md
+-
++	hToolbarBitmap = 0;
++	oldToolbarBitmapID = 0;
+ 	cmdWorker.pSciTE = this;
+ }
+ 
 @@ -417,43 +419,71 @@
  	SciTEBase::ReadProperties();
  }

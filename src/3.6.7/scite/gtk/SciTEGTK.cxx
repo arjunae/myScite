@@ -2,6 +2,7 @@
 // SciTEGTK.cxx - main code for the GTK+ version of the editor
 // Copyright 1998-2004 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
+/// 11.11.2016: add env.scite_home & env.home (T. Kani, Marcedo{at}habMalneFrage.de) 
 
 #include <unistd.h>
 #include <limits.h>
@@ -890,11 +891,11 @@ GtkWidget *SciTEGTK::AddMBButton(GtkWidget *dialog, const char *label,
 }
 
 FilePath SciTEGTK::GetSciteDefaultHome() {
-	std::string cdefault = "/usr/share/scite"; // default guaranteed to exist by OS
+	const std::string cdefault = "/usr/share/scite"; // default guaranteed to exist by OS
 	std::string home;
 	FilePath oPath;
 	
-	// Make Windows %USERPROFILE% available to scite config.
+	// Make OS-ENV %HOME% available to scite config.
 	char *envHome=getenv("HOME");
 	if (envHome) {
 		props.Set("env.home",envHome);
