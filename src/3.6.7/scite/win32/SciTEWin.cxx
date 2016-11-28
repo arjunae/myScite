@@ -4,7 +4,7 @@
  **/
 // Copyright 1998-2003 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
-/// 11.11.2016: add env.scite_home & env.home (T. Kani, Marcedo{at}habMalneFrage.de)  
+/// 11.11.2016: add env.scite_home & env.home (T. Kani, Marcedo{at}habMalneFrage.de) 
 
 #include <time.h>
 
@@ -420,35 +420,29 @@ void SciTEWin::ReadProperties() {
 }
 
 
-FilePath SciTEWin::GetDefaultDirectory() {
+FilePath SciTEWin::GetSciteDefaultHome() {
 /**
  *       SciteDefaultHome -> Windows
  *       1 look for and follow %SciTE_HOME% | $(env.scite_home)
  *       2 else use exectables Path (if we find SciteGlobal.properties)
  *       3 else use %USERPROFILE%\scite\ (if we find SciteGlobal.properties there)
  */
-			
+	
 	// Make Windows %USERPROFILE% available to scite config.
-	char *envHome=getenv("USERPROFILE");
-	if (envHome) {
-		props.Set("env.home",envHome);
+	FilePath envHome =_wgetenv(GUI_TEXT("USERPROFILE"));
+	if (envHome.IsDirectory()) {
+		props.Set("env.home", envHome.AsUTF8().c_str());
 	} else {
 		props.Set("env.home","");
 	}		
 			
-	std::wstring home;
-	
-	// Set environment %SciTE_HOME% fromm $(env.scite_home).
-	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_home")));
-	std::wstring wenv = GUI::StringFromUTF8(FilePath(L"SciTE_HOME=" + wenvPathSciteHome).NormalizePath().AsUTF8());
-	if (wenv.find(L"\\") != std::string::npos)
-		_wputenv((wchar_t *)wenv.c_str()); 
-	
 	//  ..try SciTE_HOME
-	home = GUI::StringFromUTF8(getenv("SciTE_HOME"));
-	if (!home.empty()) 
-		return FilePath(home);
-
+	envHome =_wgetenv(GUI_TEXT("SciTE_HOME"));
+	if (envHome.IsDirectory())
+		return envHome;
+		
+	std::wstring home;
+		
 	//  ..try executables binpath (when we find sciteglobal.properties there.)
 	if (home.empty()) {
 		std::wstring wPath;
@@ -479,11 +473,28 @@ FilePath SciTEWin::GetDefaultDirectory() {
 }
 
 FilePath SciTEWin::GetSciteUserHome() {
-	return SciTEWin::GetDefaultDirectory();
+	GUI::gui_char *home ;
+	
+	// Set environment %SciTE_HOME% fromm $(env.scite_userhome).
+	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_userhome")));
+	std::wstring wenv = GUI::StringFromUTF8(FilePath(L"SciTE_HOME=" + wenvPathSciteHome).NormalizePath().AsUTF8());
+	if (wenv.find(L"\\") != std::string::npos) {
+		_wputenv((wchar_t *)wenv.c_str()); 
+		return(FilePath((wchar_t *)wenvPathSciteHome.c_str()));
+		}
+		
+	// First looking for environment variable $SciTE_USERHOME
+	// to set SciteUserHome. If not present we look for $SciTE_HOME
+	// then defaulting to $USERPROFILE
+	home = _wgetenv(GUI_TEXT("SciTE_USERHOME"));
+	if (home)
+		return(FilePath(home));
+		 	
+	return SciTEWin::GetSciteDefaultHome();
 }
 
-FilePath SciTEWin::GetSciteDefaultHome() {
-	return SciTEWin::GetDefaultDirectory();
+FilePath SciTEWin::GetDefaultDirectory() {
+	return SciTEWin::GetSciteDefaultHome();
 }
 
 // Help command lines contain topic!path

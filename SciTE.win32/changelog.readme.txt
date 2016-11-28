@@ -3,9 +3,9 @@
 [25.November.2016] Development-133 (git snapshot)
 - addons: Add Scite Ctags (credits mingfunwong)
  - Path-sandbox for tools. / small fixes to Addons. (orthospell & Sidebar)
-- editor: fix nonequal line height / Style for DocComments. 
-- other: faster runtime compression for libs. 
-- env.scite_home / $(env.home)
+- editor: fix nonequal line height / Styles for DocComments. 
+- other: faster runtime compression for libs / env.scite_home / $(env.home)
+
 
 [14.November.2016] Stable-130
 - api: Add coffeescript and CSS3 Keywords | fix jQuery and vbs Calltips
