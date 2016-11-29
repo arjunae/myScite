@@ -787,7 +787,11 @@ SciTEGTK::SciTEGTK(Extension *ext) : SciTEBase(ext) {
 	PropSetFile::SetCaseSensitiveFilenames(true);
 	propsPlatform.Set("PLAT_GTK", "1");
 	propsPlatform.Set("PLAT_UNIX", "1");
-
+	// Make UNIX %HOME% available to scite config.
+	FilePath envHome =getenv("HOME");
+	if (envHome.IsDirectory())
+		propsPlatform.Set("env.home", envHome.AsUTF8().c_str());
+	
 	ReadEnvironment();
 
 	pathAbbreviations = GetAbbrevPropertiesFileName();
@@ -895,14 +899,6 @@ FilePath SciTEGTK::GetSciteDefaultHome() {
 	std::string home;
 	FilePath homePath;
 	
-	// Make OS-ENV %HOME% available to scite config.
-	char *envHome=getenv("HOME");
-	if (envHome) {
-		props.Set("env.home",envHome);
-	} else {
-		props.Set("env.home","");
-	}	
-
 	// 1 use SciTE_HOME
 	std::string envhome = getenv("SciTE_HOME");
 	homePath=envhome;

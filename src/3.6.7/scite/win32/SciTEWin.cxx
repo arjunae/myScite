@@ -180,7 +180,11 @@ SciTEWin::SciTEWin(Extension *ext) : SciTEBase(ext) {
 	// System type properties are stored in the platform properties.
 	propsPlatform.Set("PLAT_WIN", "1");
 	propsPlatform.Set("PLAT_WINNT", "1");
-
+	// Make Windows %USERPROFILE% available to scite config.
+	FilePath envHome =_wgetenv(GUI_TEXT("USERPROFILE"));
+	if (envHome.IsDirectory()) 
+		propsPlatform.Set("env.home", envHome.AsUTF8().c_str());
+	
 	ReadEnvironment();
 
 	ReadGlobalPropFile();
@@ -427,17 +431,9 @@ FilePath SciTEWin::GetSciteDefaultHome() {
  *       2 else use exectables Path (if we find SciteGlobal.properties)
  *       3 else use %USERPROFILE%\scite\ (if we find SciteGlobal.properties there)
  */
-	
-	// Make Windows %USERPROFILE% available to scite config.
-	FilePath envHome =_wgetenv(GUI_TEXT("USERPROFILE"));
-	if (envHome.IsDirectory()) {
-		props.Set("env.home", envHome.AsUTF8().c_str());
-	} else {
-		props.Set("env.home","");
-	}		
-			
+				
 	//  ..try SciTE_HOME
-	envHome =_wgetenv(GUI_TEXT("SciTE_HOME"));
+	FilePath envHome =_wgetenv(GUI_TEXT("SciTE_HOME"));
 	if (envHome.IsDirectory())
 		return envHome;
 		
