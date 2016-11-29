@@ -7,8 +7,12 @@ position.height=400
 position.maximize=0
 
 mru.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\SciTEGlobal.properties
+mru.2.path=E:\projects\_myScite\local_testfield\diff\scite\gtk\SciTEGTK.cxx
+mru.3.path=E:\projects\_myScite\local_testfield\diff\scite\win32\SciTEWin.cxx
+mru.4.path=E:\projects\_myScite\local_testfield\diff\1.scite.367_portable.diff
+mru.5.path=C:\Users\Tho\AppData\Local\Temp\1.scite.367_portable.diff
 
-buffer.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\SciTEGlobal.properties
-buffer.1.position=429
-buffer.1.scroll=0
+buffer.1.path=C:\Users\Tho\AppData\Local\Temp\1.scite.367_portable.diff
+buffer.1.position=8095
+buffer.1.scroll=247
 buffer.1.current=1
