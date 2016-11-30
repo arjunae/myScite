@@ -71,20 +71,20 @@ TListBox::TListBox(TWin *parent, int id, bool is_sorted)
 
 void TListBox::add(pchar str, void* ptr)
 { 
-    send_msg(LB_ADDSTRING,0,(int)str);
+    send_msg(LB_ADDSTRING,0,(size_t)str);
     if (ptr) {
         set_data(count()-1,ptr);
     }
 }
 
 void TListBox::set_data(int i, void* ptr)
-{ send_msg(LB_SETITEMDATA,i,(long)ptr); }
+{ send_msg(LB_SETITEMDATA,i,(size_t)ptr); }
 
 void* TListBox::get_data(int i)
-{ return (void *)send_msg(LB_GETITEMDATA,i); }
+{ return (void *)send_msg(LB_GETITEMDATA,(size_t)i); }
 
 void TListBox::insert(int i, pchar str)
-{ send_msg(LB_INSERTSTRING,i,(int)str); }
+{ send_msg(LB_INSERTSTRING,i,(size_t)str); }
 
 void TListBox::remove(int i)
 { send_msg(LB_DELETESTRING,i); }
@@ -105,7 +105,7 @@ int  TListBox::selected() const
 { return send_msg(LB_GETCURSEL); }
 
 void TListBox::get_text(int idx, wchar_t *buff)
-{ send_msg(LB_GETTEXT,idx,(int)buff); }
+{ send_msg(LB_GETTEXT,idx,(size_t)buff); }
 
 void *ApplicationInstance();
 
@@ -263,12 +263,12 @@ void TMemo::save_to_file(pchar file)
 
 void TMemo::send_char_format()
 {
- send_msg(EM_SETCHARFORMAT,SCF_SELECTION,(int)m_pfmt);
+ send_msg(EM_SETCHARFORMAT,SCF_SELECTION,(size_t)m_pfmt);
 }
 
 void TMemo::find_char_format()
 {
- send_msg(EM_GETCHARFORMAT,SCF_SELECTION,(int)m_pfmt);
+ send_msg(EM_GETCHARFORMAT,SCF_SELECTION,(size_t)m_pfmt);
 }
 
 int  TMemo::get_text_colour()
@@ -391,14 +391,14 @@ WNDFN FormWndProc (HWND hwnd, UINT msg, UINT wParam,LONG lParam);
 void subclass_control(TControl *ctrl)
 {
  HWND hwnd = (HWND)ctrl->handle();
- ctrl->m_wnd_proc = (void *)GetWindowLong(hwnd,GWL_WNDPROC);
- SetWindowLong(hwnd,GWL_WNDPROC,(long)FormWndProc);
+ ctrl->m_wnd_proc = (void *)GetWindowLong(hwnd,-4);
+ SetWindowLong(hwnd,-4,(size_t)FormWndProc);
 }
 
 void remove_subclass_control(TControl *ctrl)
 {
  if (ctrl->m_wnd_proc != NULL)
-  SetWindowLong((HWND)ctrl->handle(),GWL_WNDPROC,(long)ctrl->m_wnd_proc);
+  SetWindowLong((HWND)ctrl->handle(),-4,(size_t)ctrl->m_wnd_proc);
 }
 
 WNDFN FormWndProc (HWND hwnd, UINT msg, UINT wParam,LONG lParam)

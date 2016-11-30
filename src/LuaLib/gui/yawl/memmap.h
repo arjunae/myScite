@@ -1,7 +1,9 @@
 //---------------------------------------------------------------------------
+/*
 #ifndef memmapH
-#define memmapH
+/#define memmapH
 #define NULL 0
+
 typedef void *Handle;
 
 class MemBlock {
@@ -13,7 +15,7 @@ class MemBlock {
    char *begin() { return m_ptr; }
    char *end()   { return m_ptr + m_size - 1; }
    int   size()  { return m_size; }
-   int   pos()   { return (int)m_P - (int)m_ptr; }
+   int   pos()   { return (long)m_P - (long)m_ptr; }
    char *text();
 };
 
@@ -39,3 +41,4 @@ typedef MemMapFile MMF;
 typedef ShareMemMap SMM;
 //---------------------------------------------------------------------------
 #endif
+*/

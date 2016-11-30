@@ -113,7 +113,7 @@ void TToolbar::create()
      TBADDBITMAP std_bitmaps;
      std_bitmaps.hInst = HINST_COMMCTRL;
      std_bitmaps.nID = IDB_STD_SMALL_COLOR;
-     int idx = send_msg(TB_ADDBITMAP,1,(long)&std_bitmaps);
+     int idx = send_msg(TB_ADDBITMAP,1,(size_t)&std_bitmaps);
 
 	 send_msg(TB_SETBITMAPSIZE,0,MAKELONG(m_bwidth,m_bheight));
 
@@ -138,7 +138,7 @@ static HBITMAP load_bitmap (const wchar_t* file)
 SIZE TToolbar::get_size()
 {
 	SIZE sz;
-	send_msg(TB_GETMAXSIZE,0,(int)&sz);
+	send_msg(TB_GETMAXSIZE,0,(size_t)&sz);
 	return sz;
 }
 
@@ -173,8 +173,8 @@ void TToolbar::add_item(const wchar_t* bmp, const wchar_t* tooltext, EventHandle
          HANDLE hBitmap = load_bitmap(bmpfile);
          TBADDBITMAP bitmap;
          bitmap.hInst = NULL; // i.e we're passing a bitmap handle
-         bitmap.nID = (unsigned int)hBitmap;
-         idx = send_msg(TB_ADDBITMAP,1,(long)&bitmap);
+         bitmap.nID = (size_t)hBitmap;
+         idx = send_msg(TB_ADDBITMAP,1,(size_t)&bitmap);
        }
      }
      Item item(0,eh,data,-1);
@@ -186,10 +186,9 @@ void TToolbar::add_item(const wchar_t* bmp, const wchar_t* tooltext, EventHandle
      btn.idCommand = bmp ? item.id : 0;
      btn.fsStyle = bmp ? TBSTYLE_BUTTON : TBSTYLE_SEP;
      btn.fsState = TBSTATE_ENABLED;
-     btn.dwData = (long)tooltext;
+     btn.dwData = (size_t)tooltext;
      btn.iString = 0;
-     int ret = send_msg(TB_ADDBUTTONS,1,(long)&btn);
-
+     int ret = send_msg(TB_ADDBUTTONS,1,(size_t)&btn);
 
 }
 
@@ -209,7 +208,7 @@ public:
           TBBUTTON btn;
           int id = lpToolTipText->hdr.idFrom;                   // command id
           int index  = m_tb->send_msg(TB_COMMANDTOINDEX,id);    // index in the buttons
-          m_tb->send_msg(TB_GETBUTTON,index,(long)&btn);        // get the button
+          m_tb->send_msg(TB_GETBUTTON,index,(size_t)&btn);        // get the button
           // and pick up the text we left there
           lpToolTipText->hinst = NULL;
           lpToolTipText->lpszText = lpToolTipText->szText;
@@ -225,7 +224,7 @@ void TToolbar::release()
 {
      if (!m_container) return;
      send_msg(TB_AUTOSIZE);
-     HWND hToolTip = (HWND)send_msg(TB_GETTOOLTIPS);
+     HANDLE hToolTip =(size_t *)send_msg(TB_GETTOOLTIPS);
      TWin* tb = new TWin(handle());
      m_container->set_toolbar(tb,new TToolBarToolTipNotifyHandler(tb,hToolTip));
      m_container->add_handler(m_menu_handler);
@@ -351,8 +350,8 @@ TListViewB::TListViewB(TWin* form, bool large_icons, bool multiple_columns, bool
 
 void TListViewB::set_image_list(TImageList* il_small, TImageList* il_large)
 {
-	   if (il_small) send_msg(LVM_SETIMAGELIST, LVSIL_SMALL, (int)il_small->handle());
-	   if (il_large) send_msg(LVM_SETIMAGELIST, LVSIL_NORMAL,(int)il_large->handle());
+	   if (il_small) send_msg(LVM_SETIMAGELIST, LVSIL_SMALL, (size_t)il_small->handle());
+	   if (il_large) send_msg(LVM_SETIMAGELIST, LVSIL_NORMAL,(size_t)il_large->handle());
 	   m_has_images = true;
 }
 
@@ -406,7 +405,7 @@ int TListViewB::add_item_at(int i, const wchar_t* text, int idx, void* data)
 	 lvi.state = 0;
 	 lvi.stateMask = 0;
      lvi.pszText = (wchar_t*)text;
- 	 lvi.lParam = (unsigned long)data;
+ 	 lvi.lParam = (size_t)data;
 	 lvi.iItem = i;
 	 lvi.iImage = idx;                // image list index
 	 lvi.iSubItem = 0;
@@ -706,7 +705,7 @@ Handle TTreeView::add(Handle parent, const wchar_t* caption, int idx1, int idx2,
 	tvsi.hParent = (HTREEITEM)parent;
 	tvsi.hInsertAfter = TVI_LAST;
 	tvsi.item = item;
-	return (Handle)send_msg(TVM_INSERTITEM,0,(LPARAM)&tvsi);
+	return (Handle)send_msg(TVM_INSERTITEM,0,(size_t)&tvsi);
 }
 
 void* TTreeView::get_data(Handle pn)
@@ -731,11 +730,11 @@ int TTreeView::handle_notify(void *p)
     switch(np->hdr.code) {
 	case TVN_SELCHANGED:
 		if (m_on_select)
-			(m_form->*m_on_select)(int(item));
+			(m_form->*m_on_select)(size_t(item));
 		return 1;
     case TVN_SELCHANGING:
 		if (m_on_selection_changing)
-          return (m_form->*m_on_selection_changing)(int(item));
+          return (m_form->*m_on_selection_changing)(size_t(item));
 		else return 0;
 	}
 return 0;

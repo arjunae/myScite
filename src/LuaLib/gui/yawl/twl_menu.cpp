@@ -83,7 +83,7 @@ void Menu::add_menu(Item& item)
 void Menu::add_menu(Menu& menu)
 {
  wchar_t *name = ((Popup&)menu).name();
- AppendMenu(HMENU(m_handle),MF_STRING | MF_POPUP,(int)menu.m_handle,name);
+ AppendMenu(HMENU(m_handle),MF_STRING | MF_POPUP,(size_t)menu.m_handle,name);
  m_menu_handler->add_handler(menu.m_menu_handler);
  m_accel_list->splice(m_accel_list->end(),*menu.m_accel_list); 
 }

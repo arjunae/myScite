@@ -1,10 +1,11 @@
 ~- mySciTE_webdev -~
 
-[25.November.2016] Development-133 (git snapshot)
+[30.November.2016] Development-133 (git snapshot)
 - addons: Add Scite Ctags (credits mingfunwong)
  - Path-sandbox for tools. / small fixes to Addons. (orthospell & Sidebar)
 - editor: fix nonequal line height / Styles for DocComments. 
-- other: faster runtime compression for libs / env.scite_home / $(env.home)
+- other: faster runtime compression for libs 
+- profiles with env.scite_userhome / $(env.home)
 
 
 [14.November.2016] Stable-130
