@@ -154,12 +154,11 @@ diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
  	pathAbbreviations = GetAbbrevPropertiesFileName();
 -
  	// System type properties are stored in the platform properties.
-+	propsPlatform.Set("env.home", envHome.AsUTF8().c_str());
  	propsPlatform.Set("PLAT_WIN", "1");
  	propsPlatform.Set("PLAT_WINNT", "1");
 +	FilePath envHome =_wgetenv(GUI_TEXT("USERPROFILE"));
 +	if (envHome.IsDirectory()) 
-+
++	propsPlatform.Set("env.home", envHome.AsUTF8().c_str());
  
  	ReadEnvironment();
  
