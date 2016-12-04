@@ -1,6 +1,7 @@
 ~- mySciTE_webdev -- win64 --~
 
-[01.Dezember.2016] Development-133 (git snapshot)
+[04.Dezember.2016] Development-135 (git snapshot)
+- myScite binaries for windows 64Bit Systems.
 - addons: Add Scite Ctags (credits mingfunwong)
  - Path-sandbox for tools. / small fixes to orthospell
 - editor: fix nonequal line height / Styles for DocComments. 

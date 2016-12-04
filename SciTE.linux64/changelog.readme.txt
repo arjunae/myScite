@@ -1,5 +1,9 @@
 	  ~- mySciTE.webdev -~
 
+	[Linux64-devel] 04.12.2016
+	- myScite Binaries for generic-linux 64 Bit Systems.
+	- Sync Configfiles
+		
 	[Linux64-devel] 10.11.2016
 	- Sync Configfiles
 		

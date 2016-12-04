@@ -1,15 +1,13 @@
 @echo off
-:: ---------------- 
-::
-::   - Creates a registry import file.
-::   - able to register new filetypes inclusive its mimetype and  icon 
-::   - able to associate already registered filetypes with SciTE
+::--::--::--::--Steampunk--::-::--::--::
 ::  
 ::   Syntax:
-::   .Scite_register_Ext  .myExt (read: with dot and no quotes)
-::   .Scite_register_Ext  .myExt  mimetype
+::   scite.createExt  .myExt (read: with dot and no quotes)
+::   scite.createExt  .myExt  mimetype
 ::
-::  *Outputfile has to be imported manually.*
+::   - Creates a human readable registry import file, which can be imported manually-
+::   - able to register new filetypes inclusive its mimetype and  icon 
+::   - able to associate already registered filetypes with SciTE
 ::
 ::	Created Juni 2016, Marcedo@HabmalneFrage.de
 :: 	URL: https://sourceforge.net/projects/scite-webdev/?source=directory
@@ -17,32 +15,38 @@
 ::  - Finds  %cmd% in actual and up to 2 parent level Directories
 ::  - get full qualified Path / Handle write protected Folders / Add Docs
 :: 
-:: ----------------
+::--::--::--::--Steampunk--::-::--::--::
 
+ set true=1
+ set false=0
+ 
+ REM WorkAround Reactos 0.4.2 Variable Expansion Bug.
+ set FIX_REACTOS=0
+ 
 :: MSDN Docs
 :: https://msdn.microsoft.com/en-us/library/windows/desktop/dd758090%28v=vs.85%29.aspx
+:: https://msdn.microsoft.com/en-us/library/windows/desktop/cc144104(v=vs.85).aspx
 
-:: Define some constants (Unicode notation)  from  %SystemRoot%\System32\imageres.dll,-1002
-set ico_threeD_Paper=31,00,30,00,30,00,32,00,00,00
+:: Define some constants (Unicode notation)  
+:: from %SystemRoot%\System32\imageres.dll,-1002
 ::1.........0........0........2 ==  31..30..30..32
-set ico_toDoList=31,00,31,00,36,00,30,00,00,00
+set ico_threeD_Paper=31,00,30,00,30,00,32,00,00,00
 ::..1.........1.......6 ..          == 31..31..36
-set ico_FlipChart=31,00,30,00,33,00,30,00,00,00
+set ico_toDoList=31,00,31,00,36,00,30,00,00,00
 ::..1.........0.......3             == 31..30..33
-set ico_lookingGlass=39,00,00,00
+set ico_FlipChart=31,00,30,00,33,00,30,00,00,00
 ::..9....................             == 39
+set ico_lookingGlass=39,00,00,00
 
 set ico_active=%ico_threeD_Paper%
-set true=1
-set false=0
+
 :PARAMETER_SECTION
 :: ------- This Batch can reside in a subdir to support a more clean directory structure
 :: -- Got those shorthand strFunctions from
 :: -- http://www.dostips.com/DtTipsStringOperations.php
 
-:: Non_Interactive Mode: Dont interrupt flow.
-:: Used to let this script used by other batchfiles.
-:: eg .Scite_register_extList.cmd
+:: -- Non_Interactive Batch-mode: Dont interrupt flow.
+:: -- allow the script been called in a loop from other batchfiles.
 IF [%SCITE_NonInteract%]==[%TRUE%]  (
  SET SCITE_INTERACT=%FALSE%
  REM MODE 112,30
@@ -79,9 +83,9 @@ echo   ---------------------------------
 echo  * using mimetype: %mimetype%
 echo  * using handler: %autofile%
 echo  * using progid: %filetype%file 
-:PARSE_SECTION
 
-:: ------- Check for and write path of %cmd% in scite_cmd
+:SEARCH_SCITE
+:: ------- Check for and write scites path registry escaped to %scite_cmd%
 set cmd=Scite.exe
 
 IF EXIST ..\..\%cmd% ( 
@@ -97,7 +101,6 @@ IF NOT EXIST %cmd% (
  GOTO fail_filename) 
 
 :FOUND_SCITE
-
 ::Fix Batch running on write protected Folders.
 if not exist %tmp%\scite_tmp mkdir %tmp%\scite_tmp
 
@@ -123,7 +126,9 @@ set /P scite_path=<%tmp%\scite_tmp\scite.tmp
  
 :: Regedit needs the whole string enclosed with  DoubleQuotes. 
 :: DoubleQuotes within the string have to be escaped with \
-set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\" \"-CWD:%scite_path_ext%\""
+:: set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\" \"-CWD:%scite_path_ext%\""
+:: with scite_webdevs (3.6.4) portability patch in we" doesnt need cwd anymore 
+set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\""
 
 :: Aha. Calling cd in a for loop requires the /D option
 cd /D %tmp%\scite_tmp
@@ -131,9 +136,15 @@ cd /D %tmp%\scite_tmp
 :BACKUP_SECTON
 :: -------------------------------  BACKUP  Section -----------------------------------------
 ::  --- savety first: Create a fresh backup of every key about to be changed ------
+::
+::  takes 
+::    SCITE_INTERACT ; %true% = 1 (run silently in BatchMode)
+::  returns ( Registry Info about existing typeHandlers  in  HKEY_CLASSES_ROOT ; HKEY_CURRENT_USER )
+::     HKCR_HANDLER / HKCR_AUTOFILE / HKCR_DOTEXT ; HKCU_AUTOFILE / HKCU_DOTEXT
+::
+::-----------------------------------------------------------------------------------------------
 
 :: ---- Resetting backup files....
-
 IF EXIST _*_*.bak del /Q "_*_*.bak" >NUL
 
 echo   ---------------------------------
@@ -145,20 +156,16 @@ echo   ---------------------------------
 IF [%SCITE_INTERACT%]==[%TRUE%] ( PAUSE )
 echo.
 
-
 :: ---- Now do the Backup
 :: -- Define Filenames 
 set HKCU_Classes_reg="_1_%filetype%_hnd.bak"
-set HKCR_A_REG="_2_%filetype%file%_hnd.bak"
-set HKCR_B_REG="_3_%filetype%_hnd.bak"
 set HKCU_FileExt_REG="_4_%filetype%_ext.bak"
-set HKCR_FileExt_REG="_5_%filetype%_ext.bak"
 
 :: --- Not using EXPORT /y Switch for REG 3.0 (XP) Compatibility :p 
 ::   >NUL redirects StdOut,  2>NUL redirects StdErr - thanks MS !
 
- echo   Searchin for an existing Handler in HKCU\ and HKCR\ 
- REG query  "HKCU\Software\Classes\%autofile%\shell" >NUL 2>NUL
+echo   Searchin for an existing Handler in HKCU\ and HKCR\ 
+REG query  "HKCU\Software\Classes\%autofile%\shell" >NUL 2>NUL
 IF %ERRORLEVEL%===%false% (
  echo   -Backing up "HKCU\Software\Classes\%autofile%"
  REG export  "HKCU\Software\Classes\%autofile%" %HKCU_Classes_REG% >NUL 
@@ -166,34 +173,6 @@ SET HKCU_AUTOFILE=1
  ) ELSE (
 SET HKCU_AUTOFILE=0
  )
-
-REG query  "HKCR\%autofile%"  >NUL 2>NUL
-IF %ERRORLEVEL%==%false% (
-echo   -Backing up "HKCR\%autofile%" 
- REG export  "HKCR\%autofile%" %HKCR_B_REG% >NUL 
- SET HKCR_AUTOFILE=1
-) ELSE (
-SET HKCR_AUTOFILE=0
-)
- 
- REG query "HKCR\%filetype%file\shell\" >NUL 2>NUL
-IF %ERRORLEVEL%==%false% (
- echo   -Backing up  "HKCR\%filetype%file"
- REG export "HKCR\%filetype%file" %HKCR_A_REG% >NUL
- SET HKCR_HANDLER=1
-) ELSE ( 
- SET HKCR_HANDLER=0
-)
- 
- echo   Searchin for .%filetype% in HKCR\%.filetype% and HKCU\..FileExts\.%filetype%
- REG query "HKCR\.%filetype%" >NUL 2>NUL
-IF %ERRORLEVEL%==%false% (
- echo   -Backing up "HKCR\.%filetype%"
- REG export  "HKCR\.%filetype%" %HKCR_FileExt_REG% >NUL
- SET HKCR_DOTEXT=1
-) ELSE (
- SET HKCR_DOTEXT=0
-)
 
 REG query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%" >NUL 2>NUL
 IF %ERRORLEVEL%==%false% (
@@ -205,9 +184,7 @@ SET HKCU_DOTEXT=0
 )
 
 :Backup_File_Cooking_Section
-
 ::  collects and combines generated Backupfiles 
-
 :: IF NOT EXIST backups MD backups
 
 REM -- Translate Unicode to ascii with type
@@ -218,7 +195,6 @@ REM -- MixUp content to combined Backup file.
 	findstr /R /V "^Windows.*" _.%filetype%.backup.raw  >> filetypes.backup.reg
 	::MOVE _my*backup.REG backups >NUL
 	
-	
 echo.
 echo   ------------------------------------
 echo.
@@ -228,9 +204,17 @@ echo.
 echo   -------------------------------------
 
 ::CLS
-:REGISTRY_SECTION 
 
-:: --------------------------  Scite registry file Section -------------------------------------
+:REGISTRY_SECTION 
+:: ---------------------  Scite registry file Section ---------------------------
+::
+::  Generate a registry Import File containing new File Type associations
+::
+::  takes
+::    SCITE_INTERACT
+::    HKCR_AUTOFILE / HKCR_HANDLER ; HKCU_AUTOFILE / HKCU_DOTEXT
+::
+:: -----------------------------------------------------------------------------
 
 set RegFileName=_my.%filetype%.with.scite.reg
 set progid=%filetype%file
@@ -256,19 +240,20 @@ set file_icon=hex(2^^^):25,00,53,00,79,00,73,00,74,00,65,00,6d,00,52,00,6f,00,6f
 
 :: ---- Generate Registry File
 if [%SCITE_INTERACT%]==[%TRUE%] echo Windows Registry Editor Version 5.00 > %RegFileName%
+echo ; ----------- %filetype% / %mimetype% ------------ >> %RegFileName%
 
 ::----------------------------------------HKCU\......\Explorer\FileExts-------------------------------------
-:: "new" Method, write a filetype and a handler to the key above
+:: "new" Method, write a .filetype and a handler to the key above
 :: and list them in MRUList so Users could switch between handlers. 
+::
+:: 1:) we already have a filetype in HKCU\...\Explorer\FileExts 
 ::------------------------------------------------------------------------------------------------------------------
 
-:: HKCU_DOTEXT = 1 Means we already have a handler in
-:: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts
-
 IF [%HKCU_DOTEXT%]==[%TRUE%] ( 
+ echo [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  :: --- Marker
- echo "Changed_by_SciTE"="" >> %RegFileName%
+ echo "myScite_change"="" >> %RegFileName%
  :: ---- Handler Name (eg: ext_auto_file)
  echo @="%autofile%">> %RegFileName%
  :: ---- Mime type
@@ -277,98 +262,75 @@ IF [%HKCU_DOTEXT%]==[%TRUE%] (
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithList] >> %RegFileName%
 ) 
  
-IF [%HKCU_DOTEXT%]==[%TRUE%] echo "a"=%scite_cmd% >> %RegFileName%
+REM --  Note: that classID simply points to %systemroot%\system32
+IF [%HKCU_DOTEXT%]==[%TRUE%] (
+ echo "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe" >> %RegFileName%
+ echo "MRUList"="as" >> %RegFileName%
+ echo "s"="SciTE.exe" >> %RegFileName%
+ )
  
 IF [%HKCU_DOTEXT%]==[%TRUE%] ( 
- echo "MRUList"="a" >> %RegFileName%
-:: Remove the Key to take care for the case, that it contains a write protected Hash.   
- echo [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\UserChoice] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\UserChoice] >> %RegFileName%
  echo "Progid"="%progid%" >> %RegFileName%
  echo [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithProgids]>>%RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithProgids]>>%RegFileName%
- echo "%progid%"=hex(0^): >> %RegFileName%
-) 
+ echo "Applications\\Scite.exe"=hex(0^): >> %RegFileName%
+ ) 
  
-:: ----------------------------------------------------------------------------
-:: But leave it empty when we don't have an autofile for the type. (then its  XP like, "oldFashion" steered)   
-::----------------------------------------------------------------------------
+:: -----------------------------------------------------------------------------------------
+:: 2:) we have no extension entry, only a handler for the filetype.  ("oldFashion" style)   
+::------------------------------------------------------------------------------------------
 
 IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
+ REM Remove the Key to take care for the case, that it contains a write protected Hash.   
+ echo [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%] >> %RegFileName%
  :: --- Marker
- echo "Created_by_scite"="" >> %RegFileName%
+ echo "myScite_new"="" >> %RegFileName%
  :: ---- Handler Name (eg: ext_auto_file)
  echo @="%autofile%">> %RegFileName%
  :: ---- Mime type
  echo "Content Type"="%mimetype%" >> %RegFileName%
  echo "PerceivedType"="text" >> %RegFileName%
- echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\shell] >> %RegFileName%
- echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\shell\open] >> %RegFileName%
- echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\shell\open\command] >> %RegFileName%
-)
- 
-IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] echo @=%scite_cmd% >> %RegFileName%
+ echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithList] >> %RegFileName%
+ )
+  
+IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
+ echo "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe" >> %RegFileName%
+ echo "MRUList"="sa" >> %RegFileName%
+ echo "s"="SciTE.exe" >> %RegFileName%
+ )
  
 IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] ( 
- echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithList] >> %RegFileName%
- echo "a"=%autofile% >> %RegFileName%
- echo "MRUList"="a" >> %RegFileName%
-:: Remove the Key to take care for the case, that it contains a write protected Hash.   
- echo [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\UserChoice] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\UserChoice] >> %RegFileName%
- echo "Progid"="%progid%" >> %RegFileName%
- echo [-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithProgids]>>%RegFileName%
+ echo "Progid"="Applications\\Scite.exe" >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.%filetype%\OpenWithProgids]>>%RegFileName%
- echo "%progid%"=hex(0^): >> %RegFileName%
-)
+ echo "%autofile%"=hex(0^): >> %RegFileName%
+ )
 
 ::---------------------------------------HKCU\Software\Classes----------------------------------
-:: Again....If we use "old Fashioned" Style we  mark that by using another String  instead.
+:: 3:) we have no handler, lets create one.
 ::-------------------------------------------------------------------------------------------------------
-  
+ SET SYS_FILE=1  
  IF [%HKCU_AUTOFILE%]==[%false%] SET autofile=%progid%
-
+ IF [%filetype%] NEQ [cmd] IF [%filetype%] NEQ [bat] IF [%filetype%] NEQ [reg] IF [%filetype%] NEQ [inf] IF [%filetype%] NEQ [CMD] IF [%filetype%] NEQ [BAT] IF [%filetype%] NEQ [REG] IF [%filetype%] NEQ [INF] SET SYS_FILE=0
+ 
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%] >> %RegFileName%
  echo @=Scite .%filetype% Handler >> %RegFileName%
+ 
+ IF %SYS_FILE%==1 IF [%FIX_REACTOS%]==[0] (
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell] >> %RegFileName%
- echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\open] >> %RegFileName%
- echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\open\command] >> %RegFileName%
- IF %HKCU_AUTOFILE%==%TRUE%  echo @=%scite_cmd% >> %RegFileName%
- echo "changed_by_scite"="" >> %RegFileName%
- echo "EditFlags"=hex:00,00,00,00 >> %RegFileName%
+ echo [-HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\edit]  >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\edit] >> %RegFileName%
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\shell\edit\command] >> %RegFileName%
- echo @=%scite_cmd% >> %RegFileName%
-  
+  echo @=%scite_cmd%>>%RegFileName%
+ )
+ 
 :: ---  ICON
  echo [HKEY_CURRENT_USER\Software\Classes\%autofile%\DefaultIcon] >> %RegFileName%
  echo @=%file_icon% >> %RegFileName%
- 
-::---------------------------------------------------------------------------------------------------------------------------
-:: ---Now for  XP / "old fashioned" Method, write a fileext and a handler directly to HKCR. 
-::---------------------------------------------------------------------------------------------------------------------------
- 
-IF [%HKCR_DOTEXT%]==[%TRUE%] (
- echo [HKEY_CLASSES_ROOT\.%filetype%] >> %RegFileName%
- echo "Edited_by_scite"="" >> %RegFileName%
-:: ---- Handler Name (eg: ext_auto_file)
-IF [%HKCU_AUTOFILE%]==[%TRUE%] echo @="%autofile%">> %RegFileName%
-IF [%HKCU_AUTOFILE%]==[%false%] echo @="%progid%">> %RegFileName%
-:: ---- Mime type
- echo "Content Type"="%mimetype%" >> %RegFileName%
- echo "PerceivedType"="text" >> %RegFileName%
- echo [HKEY_CLASSES_ROOT\.%filetype%\UserChoice] >> %RegFileName%
- echo "Progid"="%progid%" >> %RegFileName%
-)
-
- ::echo [-HKEY_CLASSES_ROOT\.%filetype%\OpenWithProgids] >> %RegFileName%
- ::echo [HKEY_CLASSES_ROOT\.%filetype%\OpenWithProgids] >> %RegFileName%
- ::echo "%progid%"=hex(0^): >> %RegFileName%
- ::echo "%progid%"="%progid%" >> %RegFileName%
- 
- :FINALIZE_SCTION
-
+  
+:FINALIZE_SCTION
 ::IF NOT EXIST import MD import >NUL
 ::IF EXIST _*.REG  MOVE _*.REG import >NUL
  
@@ -387,6 +349,12 @@ IF [%HKCU_AUTOFILE%]==[%false%] echo @="%progid%">> %RegFileName%
  :: echo "Hint: Use this parameters to open scite from anywhere:" >> _scite.read.me.path.txt
  :: echo %scite_path% "%%1" "-cwd:%scite_path_ext%" >> _scite.read.me.path.txt
 
+ REM WorkAround Reactos 0.4.2 Bug.
+ ::VER|FIND "ReactOS"
+ IF [%FIX_REACTOS%]==[1] ( 
+ set scite_cmd="\"%scite_path%\\%cmd%\" %%1"
+ )
+ 
 :CLEANUP_SECTION
  :: ---------------- Clean UP and Fin.--------------------------
  del /Q  *.tmp 2>NUL 
@@ -395,12 +363,12 @@ IF [%HKCU_AUTOFILE%]==[%false%] echo @="%progid%">> %RegFileName%
  
 IF [%SCITE_INTERACT%]==[%TRUE%] echo   ==Temporary storing Files to  ... "%tmp%\scite_tmp"==
 
-cd /D %scite_path%\SteamPunk
+cd /D %scite_path%\installer\steampunk
 
- :: Fix Batch running on write protected Folders.
- set timestamp=%TIME:~0,8%
- set timestamp=%timestamp: =0%
- set timestamp=%timestamp::=.%
+:: Fix Batch running on write protected Folders.
+set timestamp=%TIME:~0,8%
+set timestamp=%timestamp: =0%
+set timestamp=%timestamp::=.%
 
 :: This Batch gets called multiple times in nonInteractive  Mode from  ".Scite_register_extList.bat"
 :: We assure a valid folderName, by filling spaces  in the  timestamp  (_8:33:03 -> 08.33.03)
@@ -429,17 +397,18 @@ GOTO end
 :fail_no_params
 IF [%SCITE_INTERACT%]==[%FALSE%] goto end
 echo.
-echo -----------------  Help   -------------------------------
+echo :::::..::::.:::.::::.:::.::::::.::.. Usage ..:::::.::::::.::::.:::::::..:::::.::::::.:::
 echo.                
 echo   - able to register new filetypes inclusive its Icon.
 echo   - able to associate already registered filetypes with SciTE
-echo   - Creates a registry import file.
+echo   - Creates a human readable registry import file
+echo   - which can be be imported manually -
 echo.
-echo  * Syntax: .Scite_register_fileExt [.FileExt] [optional MimeTyp]
+echo  * Syntax: Scite.createExt [.FileExt] [optional MimeTyp]
 echo.
 echo            *  Example  *
-echo   .Scite_register_Ext .me
-echo   .Scite_register_Ext .myfancy text/plain
+echo   scite.createExt .me
+echo   scite.createExt .myfancy text/plain
 echo.
 echo.
 echo  *  Would create a regfile, that associates Scite  
@@ -451,9 +420,5 @@ echo.
 echo  First Param given was: %1
 echo  Second Param given was: %2
 echo.
-echo ---------------------------------------------------------
-
-echo - finally - Lets ClearIconCache ;)
-ie4uinit.exe -ClearIconCache
-
+echo :::::..::::.:::.::::.:::.::::::.::.. Usage ..:::::.::::::.::::.:::::::..:::::.::::::.:::
 :END

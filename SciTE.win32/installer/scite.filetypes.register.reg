@@ -1,0 +1,9 @@
+Windows Registry Editor Version 5.00 
+[-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] 
+@="\"E:\\projects\\_myScite\\.myScite.Sourceforge\\SciTE.win32\\SciTE.exe\" \"%1\" \"-CWD:E:\\\\projects\\\\_myScite\\\\.myScite.Sourceforge\\\\SciTE.win32\"" 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] 
+".*"=""
