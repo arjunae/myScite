@@ -1,9 +1,10 @@
 ~- mySciTE_webdev -- win64 --~
 
-[04.Dezember.2016] Development-135 (git snapshot)
-- myScite binaries for windows 64Bit Systems.
+[08.Dezember.2016] Development-135 (git snapshot)
+- myScite binaries and lualibs for windows 64Bit Systems.
 - addons: Add Scite Ctags (credits mingfunwong)
  - Path-sandbox for tools. / small fixes to orthospell
 - editor: fix nonequal line height / Styles for DocComments. 
 - other: faster runtime compression for libs 
 - profiles with env.scite_userhome / $(env.home)
+- toggle lineNumbers, dont use editmargin

@@ -1,11 +1,12 @@
 ~- mySciTE.webdev -~
 
-[04.Dezember.2016] Development-135 (git snapshot)
+[08.Dezember.2016] STABLE.136
 - addons: Add Scite Ctags (credits mingfunwong)
  - Path-sandbox for tools. / small fixes to Addons. (orthospell & Sidebar)
 - editor: fix nonequal line height / Styles for DocComments. 
 - other: faster runtime compression for libs 
 - profiles with env.scite_userhome / $(env.home)
+- toggle lineNumbers, dont use editmargin
 
 [11.November.2016] STABLE-130
 - api: Add coffeescript abd CSS3 Keywords | fix jQuery and vbs Calltips

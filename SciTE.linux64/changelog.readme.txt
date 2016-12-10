@@ -1,13 +1,14 @@
 	  ~- mySciTE.webdev -~
 
-	[Linux64-devel] 04.12.2016
+	[Linux64-development] 08.12.2016
 	- myScite Binaries for generic-linux 64 Bit Systems.
+	- profiles with env.scite_userhome / $(env.home)
+	- Sync Configfiles
+
+	[Linux64-development] 10.11.2016
 	- Sync Configfiles
 		
-	[Linux64-devel] 10.11.2016
-	- Sync Configfiles
-		
-	[Linux64-devel]
+	[Linux64-development]
 	- Link with scintilla/scite 3.6.7
 	- first results for optionsMenu patch
 	- expects config File in /usr/share/scite
