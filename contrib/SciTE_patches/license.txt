@@ -1,5 +1,5 @@
 
-1.scite.367_portable.diff is licensed with the scintilla/scite license.  (See www.scintilla.org)
+1.env.userhome.diff is licensed with the scintilla/scite license.  (See www.scintilla.org)
 
 -- 
 

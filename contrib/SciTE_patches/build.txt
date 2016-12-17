@@ -1,19 +1,19 @@
  ~ How to apply the patches to vanilla SciTes Sources ~
 
--- Download the sources. For SciTE 3.67 you would choose:
-[ https://sourceforge.net/p/scintilla/scite/ci/rel-3-6-7/tree/ ]
+-- Download the sources. For SciTE 3.7.0 you would choose:
+[ https://sourceforge.net/p/scintilla/scite/ci/rel-3-7-0/tree/ ]
 
 -- Extract that archive to a local folder.
 -- Rename your downloaded sources to [scintilla-scite]. 
 -- open a shell window and do
     
- patch -p0 < 1.scite.367_portable.diff
- patch -p0 < 2.scite_367_user.toolbar.diff
+ patch -p0 < 1.env.userhome.diff
+ patch -p0 < 2.transparency.diff
  (...)
 
 -- If your jobs gone well you should see lines like:
 
- $ patch -p0 <3.scite_364_cleanOptionsMenue.diff
+ $ patch -p0 <6.cleanOptionsMenue.diff
  patching file scintilla-scite/src/SciTE.h
  patching file scintilla-scite/src/SciTEBase.cxx
  patching file scintilla-scite/src/SciTEBase.h
