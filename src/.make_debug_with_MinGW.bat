@@ -18,7 +18,7 @@ echo ::...::..:::...::..::.:.::
 echo ::    SciTE Debug	::  
 echo ::...::..:::...::..::.:.::
 
-cd 3.6.7\scintilla\win32
+cd 3.7.0\scintilla\win32
 mingw32-make
 if errorlevel 1 goto :error
 

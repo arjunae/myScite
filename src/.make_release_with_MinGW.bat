@@ -17,7 +17,7 @@ echo ::..::..:::..::..::.:.::
 echo ::    SciTE Prod      ::
 echo ::..::..:::..::..::.:.::
 
-cd 3.6.7\scintilla\win32
+cd 3.7.0\scintilla\win32
 mingw32-make -j %NUMBER_OF_PROCESSORS%
 REM tdm-make -j %NUMBER_OF_PROCESSORS%
 f errorlevel 1 goto :error
