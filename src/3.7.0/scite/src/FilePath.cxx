@@ -89,7 +89,7 @@ void FilePath::Set(FilePath const &directory, FilePath const &name) {
 	}
 }
 
-void FilePath::SetDirectory(FilePath directory) {
+void FilePath::SetDirectory(FilePath const &directory) {
 	FilePath curName(*this);
 	Set(directory, curName);
 }
@@ -362,7 +362,7 @@ bool FilePath::SetWorkingDirectory() const {
 	return chdir(AsInternal()) == 0;
 }
 
-void FilePath::List(FilePathSet &directories, FilePathSet &files) {
+void FilePath::List(FilePathSet &directories, FilePathSet &files) const {
 #ifdef WIN32
 	FilePath wildCard(*this, GUI_TEXT("*.*"));
 	WIN32_FIND_DATAW findFileData;
@@ -463,18 +463,23 @@ time_t FilePath::ModifiedTime() const {
 		return 0;
 }
 
-long FilePath::GetFileLength() const {
-	long size = -1;
-	if (IsSet()) {
-		FILE *fp = Open(fileRead);
-		if (fp) {
-			fseek(fp, 0, SEEK_END);
-			size = ftell(fp);
-			fseek(fp, 0, SEEK_SET);
-			fclose(fp);
-		}
-	}
-	return size;
+long long FilePath::GetFileLength() const {
+#ifdef WIN32
+	// Using Win32 API as stat variants are complex and there were problems with stat
+	// working on XP when compiling with XP compatibility flag.
+	WIN32_FILE_ATTRIBUTE_DATA fad;
+	if (!GetFileAttributesEx(AsInternal(), GetFileExInfoStandard, &fad))
+		return 0;
+	LARGE_INTEGER liSze;
+	liSze.HighPart = fad.nFileSizeHigh;
+	liSze.LowPart = fad.nFileSizeLow;
+	return liSze.QuadPart;
+#else
+	struct stat statusFile;
+	if (stat(AsInternal(), &statusFile) != -1)
+		return statusFile.st_size;
+	return 0;
+#endif
 }
 
 bool FilePath::Exists() const {

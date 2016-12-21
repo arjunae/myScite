@@ -335,8 +335,8 @@ void SciTEBase::SetOneIndicator(GUI::ScintillaWindow &win, int indicator, const 
 }
 
 std::string SciTEBase::ExtensionFileName() const {
-	if (CurrentBuffer()->overrideExtension.length()) {
-		return CurrentBuffer()->overrideExtension;
+	if (CurrentBufferConst()->overrideExtension.length()) {
+		return CurrentBufferConst()->overrideExtension;
 	} else {
 		FilePath name = FileNameExt();
 		if (name.IsSet()) {
@@ -427,7 +427,9 @@ static const char *propertiesToForward[] = {
 	"fold.asm.explicit.start",
 	"fold.asm.syntax.based",
 	"fold.at.else",
+	"fold.baan.inner.level",
 	"fold.baan.keywords.based",
+	"fold.baan.sections",
 	"fold.baan.syntax.based",
 	"fold.basic.comment.explicit",
 	"fold.basic.explicit.anywhere",
@@ -1123,7 +1125,7 @@ void SciTEBase::ReadProperties() {
 	tabHideOne = props.GetInt("tabbar.hide.one");
 
 	SetToolsMenu();
-	SetToolBar();//!-add-[user.toolbar] Scite_ru
+
 	wEditor.Call(SCI_SETFOLDFLAGS, props.GetInt("fold.flags"));
 
 	// To put the folder markers in the line number region

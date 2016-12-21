@@ -28,11 +28,6 @@
 #include "XPM.h"
 #include "UniConversion.h"
 
-#if defined(__clang__)
-// Clang 3.0 incorrectly displays  sentinel warnings. Fixed by clang 3.1.
-#pragma GCC diagnostic ignored "-Wsentinel"
-#endif
-
 #include "Converter.h"
 
 static const double kPi = 3.14159265358979323846;
@@ -550,7 +545,7 @@ static void PathRoundRectangle(cairo_t *context, double left, double top, double
 }
 
 void SurfaceImpl::AlphaRectangle(PRectangle rc, int cornerSize, ColourDesired fill, int alphaFill,
-		ColourDesired outline, int alphaOutline, int flags) {
+		ColourDesired outline, int alphaOutline, int /*flags*/) {
 	if (context && rc.Width() > 0) {
 		ColourDesired cdFill(fill.AsLong());
 		cairo_set_source_rgba(context,
@@ -1494,7 +1489,15 @@ void ListBoxX::SetFont(Font &scint_font) {
 			ssFontSetting << "font-family: " << pango_font_description_get_family(pfd) <<  "; ";
 			ssFontSetting << "font-size:";
 			ssFontSetting << static_cast<double>(pango_font_description_get_size(pfd)) / PANGO_SCALE;
-			ssFontSetting << "px; ";
+			// On GTK < 3.21.0 the units are incorrectly parsed, so a font size in points
+			// need to use the "px" unit.  Normally we only get fonts in points here, so
+			// don't bother to handle the case the font is actually in pixels on < 3.21.0.
+			if (gtk_check_version(3, 21, 0) != NULL || // on < 3.21.0
+			    pango_font_description_get_size_is_absolute(pfd)) {
+				ssFontSetting << "px; ";
+			} else {
+				ssFontSetting << "pt; ";
+			}
 			ssFontSetting << "font-weight:"<< pango_font_description_get_weight(pfd) << "; ";
 			ssFontSetting << "}";
 			gtk_css_provider_load_from_data(GTK_CSS_PROVIDER(cssProvider),

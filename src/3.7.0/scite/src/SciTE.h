@@ -9,9 +9,9 @@
 #define SCITE_H
 
 // Version numbers and dates
-#define VERSION_SCITE "3.7.0"
-#define VERSION_WORDS 3, 7, 0, 0
-#define COPYRIGHT_DATES "December 1998-October 2016"
+#define VERSION_SCITE "3.7.1"
+#define VERSION_WORDS 3, 7, 1, 0
+#define COPYRIGHT_DATES "December 1998-December 2016"
 #define COPYRIGHT_YEARS "1998-2016"
 
 // Menu IDs.
@@ -288,7 +288,7 @@
 #define IDBM_AROUND 105
 #define IDBM_UP 106
 #define IDR_CLOSEFILE24 107
-#define IDR_BUTTONS			107
+
 #define IDBM_20_WORD 201
 #define IDBM_20_CASE 202
 #define IDBM_20_REGEX 203

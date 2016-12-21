@@ -1,7 +1,7 @@
 diff -Nurw scintilla-scite/src/SciTE.h scite/src/SciTE.h
---- scintilla-scite/src/SciTE.h	2016-10-08 14:54:00.000000000 +0200
-+++ scite/src/SciTE.h	2016-10-08 14:55:28.000000000 +0200
-@@ -53,7 +53,7 @@
+--- scintilla-scite/src/SciTE.h	2016-12-21 04:18:32.000000000 +0100
++++ scite/src/SciTE.h	2016-12-21 04:19:10.000000000 +0100
+@@ -54,7 +54,7 @@
  #define IDM_ENCODING_UCOOKIE	154
  
  #define MRU_START	17
@@ -11,9 +11,9 @@ diff -Nurw scintilla-scite/src/SciTE.h scite/src/SciTE.h
  
  // Edit
 diff -Nurw scintilla-scite/src/SciTEBase.cxx scite/src/SciTEBase.cxx
---- scintilla-scite/src/SciTEBase.cxx	2016-09-04 02:17:28.000000000 +0200
-+++ scite/src/SciTEBase.cxx	2016-10-08 14:55:28.000000000 +0200
-@@ -4218,18 +4218,18 @@
+--- scintilla-scite/src/SciTEBase.cxx	2016-12-21 04:18:32.000000000 +0100
++++ scite/src/SciTEBase.cxx	2016-12-21 04:19:10.000000000 +0100
+@@ -4298,18 +4298,18 @@
  	props.Set("SciteUserHome", homepath.AsUTF8().c_str());
  }
  
@@ -39,9 +39,9 @@ diff -Nurw scintilla-scite/src/SciTEBase.cxx scite/src/SciTEBase.cxx
  	while (*s && ((*s == '.') ||
  	        (*s >= 'a' && *s <= 'z') ||
 diff -Nurw scintilla-scite/src/SciTEBase.h scite/src/SciTEBase.h
---- scintilla-scite/src/SciTEBase.h	2016-10-08 14:54:00.000000000 +0200
-+++ scite/src/SciTEBase.h	2016-10-08 14:55:28.000000000 +0200
-@@ -821,10 +821,16 @@
+--- scintilla-scite/src/SciTEBase.h	2016-12-21 04:18:24.000000000 +0100
++++ scite/src/SciTEBase.h	2016-12-21 04:19:10.000000000 +0100
+@@ -830,10 +830,16 @@
  	virtual void SizeContentWindows() = 0;
  	virtual void SizeSubWindows() = 0;
  
@@ -58,7 +58,7 @@ diff -Nurw scintilla-scite/src/SciTEBase.h scite/src/SciTEBase.h
  	virtual void CheckAMenuItem(int wIDCheckItem, bool val) = 0;
  	virtual void EnableAMenuItem(int wIDCheckItem, bool val) = 0;
  	virtual void CheckMenusClipboard();
-@@ -854,7 +860,7 @@
+@@ -863,7 +869,7 @@
  	void AssignKey(int key, int mods, int cmd);
  	void ViewWhitespace(bool view);
  	void SetAboutMessage(GUI::ScintillaWindow &wsci, const char *appTitle);
@@ -68,9 +68,9 @@ diff -Nurw scintilla-scite/src/SciTEBase.h scite/src/SciTEBase.h
  	void SetLanguageMenu();
  	void SetPropertiesInitial();
 diff -Nurw scintilla-scite/src/SciTEIO.cxx scite/src/SciTEIO.cxx
---- scintilla-scite/src/SciTEIO.cxx	2016-09-04 02:17:28.000000000 +0200
-+++ scite/src/SciTEIO.cxx	2016-10-08 14:55:28.000000000 +0200
-@@ -1005,10 +1005,10 @@
+--- scintilla-scite/src/SciTEIO.cxx	2016-12-04 04:38:06.000000000 +0100
++++ scite/src/SciTEIO.cxx	2016-12-21 04:19:10.000000000 +0100
+@@ -1016,10 +1016,10 @@
  
  void SciTEBase::ReloadProperties() {
  	ReadGlobalPropFile();
@@ -83,8 +83,8 @@ diff -Nurw scintilla-scite/src/SciTEIO.cxx scite/src/SciTEIO.cxx
  	BuffersMenu();
  	Redraw();
 diff -Nurw scintilla-scite/src/SciTEProps.cxx scite/src/SciTEProps.cxx
---- scintilla-scite/src/SciTEProps.cxx	2016-10-08 14:54:00.000000000 +0200
-+++ scite/src/SciTEProps.cxx	2016-10-08 14:55:28.000000000 +0200
+--- scintilla-scite/src/SciTEProps.cxx	2016-12-21 04:18:24.000000000 +0100
++++ scite/src/SciTEProps.cxx	2016-12-21 04:19:10.000000000 +0100
 @@ -52,10 +52,12 @@
  #include "MatchMarker.h"
  #include "SciTEBase.h"
@@ -124,8 +124,8 @@ diff -Nurw scintilla-scite/src/SciTEProps.cxx scite/src/SciTEProps.cxx
  		DestroyMenuItem(menuLanguage, languageCmdID + i);
  	}
 diff -Nurw scintilla-scite/win32/SciTERes.rc scite/win32/SciTERes.rc
---- scintilla-scite/win32/SciTERes.rc	2016-10-08 14:54:00.000000000 +0200
-+++ scite/win32/SciTERes.rc	2016-10-08 14:55:30.000000000 +0200
+--- scintilla-scite/win32/SciTERes.rc	2016-12-21 04:18:32.000000000 +0100
++++ scite/win32/SciTERes.rc	2016-12-21 04:19:10.000000000 +0100
 @@ -143,6 +143,8 @@
  	MENUITEM "Wrap Out&put",			IDM_WRAPOUTPUT
  	MENUITEM "&Read-Only",				IDM_READONLY
@@ -160,9 +160,9 @@ diff -Nurw scintilla-scite/win32/SciTERes.rc scite/win32/SciTERes.rc
  POPUP "&Language"
  BEGIN
 diff -Nurw scintilla-scite/win32/SciTEWin.h scite/win32/SciTEWin.h
---- scintilla-scite/win32/SciTEWin.h	2016-10-08 14:54:00.000000000 +0200
-+++ scite/win32/SciTEWin.h	2016-10-08 14:55:28.000000000 +0200
-@@ -253,6 +253,10 @@
+--- scintilla-scite/win32/SciTEWin.h	2016-12-21 04:18:26.000000000 +0100
++++ scite/win32/SciTEWin.h	2016-12-21 04:19:10.000000000 +0100
+@@ -249,6 +249,10 @@
  	virtual void SizeContentWindows();
  	virtual void SizeSubWindows();
  
@@ -173,3 +173,53 @@ diff -Nurw scintilla-scite/win32/SciTEWin.h scite/win32/SciTEWin.h
  	virtual void SetMenuItem(int menuNumber, int position, int itemID,
  	                         const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0);
  	virtual void RedrawMenu();
+diff -Nurw scintilla-scite/win32/SciTEWinBar.cxx scite/win32/SciTEWinBar.cxx
+--- scintilla-scite/win32/SciTEWinBar.cxx	2016-12-21 04:18:26.000000000 +0100
++++ scite/win32/SciTEWinBar.cxx	2016-12-21 04:24:56.000000000 +0100
+@@ -452,7 +452,46 @@
+ // Keymod param is interpreted using the same notation (and much the same
+ // code) as KeyMatch uses in SciTEWin.cxx.
+ 
++void SciTEWin::SetMenuItemNew(int menuNumber, int subMenuNumber, int position, int itemID,
++                           const GUI::gui_char *text, const GUI::gui_char *mnemonic) {
++	// On Windows the menu items are modified if they already exist or are created
++    HMENU hmenu = ::GetSubMenu(::GetMenu(MainHWND()), menuNumber);
++ // About to modify a submenu (eg Options-> Config Files)   
++	if(subMenuNumber >0) {
++    HMENU smenu = ::GetSubMenu(hmenu, subMenuNumber);
++    hmenu = smenu;
++  }
++	GUI::gui_string sTextMnemonic = text;
++	long keycode = 0;
++	if (mnemonic && *mnemonic) {
++		keycode = SciTEKeys::ParseKeyCode(GUI::UTF8FromString(mnemonic).c_str());
++		if (keycode) {
++			sTextMnemonic += GUI_TEXT("\t");
++			sTextMnemonic += mnemonic;
++		}
++		// the keycode could be used to make a custom accelerator table
++		// but for now, the menu's item data is used instead for command
++		// tools, and for other menu entries it is just discarded.
++	}
++  
++	UINT typeFlags = (text[0]) ? MF_STRING : MF_SEPARATOR;
++	if (::GetMenuState(hmenu, itemID, MF_BYCOMMAND) == (UINT)(-1)) {
++		// Not present so insert
++		::InsertMenuW(hmenu, position, MF_BYPOSITION | typeFlags, itemID, sTextMnemonic.c_str());
++	} else {
++		::ModifyMenuW(hmenu, itemID, MF_BYCOMMAND | typeFlags, itemID, sTextMnemonic.c_str());
++	}
+ 
++	if (itemID >= IDM_TOOLS && itemID < IDM_TOOLS + toolMax) {
++		// Stow the keycode for later retrieval.
++		// Do this even if 0, in case the menu already existed (e.g. ModifyMenu)
++		MENUITEMINFO mii;
++		mii.cbSize = sizeof(MENUITEMINFO);
++		mii.fMask = MIIM_DATA;
++		mii.dwItemData = keycode;
++		::SetMenuItemInfo(hmenu, itemID, FALSE, &mii);
++	}
++}
+ 
+ void SciTEWin::SetMenuItem(int menuNumber, int position, int itemID,
+                            const GUI::gui_char *text, const GUI::gui_char *mnemonic) {

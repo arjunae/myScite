@@ -43,7 +43,7 @@ inline bool IsASpace(unsigned int ch) {
     return (ch == ' ') || ((ch >= 0x09) && (ch <= 0x0d));
 }
 
-static std::set<std::string> FilterFromString(std::string values) {
+static std::set<std::string> FilterFromString(const std::string &values) {
 	std::vector<std::string> vsFilter = StringSplit(values, ' ');
 	std::set<std::string> fs;
 	for (std::vector<std::string>::const_iterator it=vsFilter.begin(); it != vsFilter.end(); ++it) {
@@ -53,12 +53,12 @@ static std::set<std::string> FilterFromString(std::string values) {
 	return fs;
 }
 
-void ImportFilter::SetFilter(std::string sExcludes, std::string sIncludes) {
+void ImportFilter::SetFilter(const std::string &sExcludes, const std::string &sIncludes) {
 	excludes = FilterFromString(sExcludes);
 	includes = FilterFromString(sIncludes);
 }
 
-bool ImportFilter::IsValid(std::string name) const {
+bool ImportFilter::IsValid(const std::string &name) const {
 	if (!includes.empty()) {
 		return includes.count(name) > 0;
 	} else {
@@ -307,6 +307,22 @@ int PropSetFile::GetInt(const char *key, int defaultValue) const {
 	return defaultValue;
 }
 
+long long PropSetFile::GetLongLong(const char *key, long long defaultValue) const {
+	std::string val = GetExpandedString(key);
+	if (val.length()) {
+		try {
+			std::istringstream strstrm(val);
+			long long llValue = 0;
+			strstrm >> llValue;
+			return llValue;
+		} catch (std::exception &) {
+			// Exceptions not enabled on stream but still causes diagnostic in Coverity.
+			// Simply swallow the failure and return the default value.
+		}
+	}
+	return defaultValue;
+}
+
 void PropSetFile::Clear() {
 	props.clear();
 }
@@ -363,7 +379,8 @@ static bool GenericPropertiesFile(const FilePath &filename) {
 	return name.find("SciTE") != std::string::npos;
 }
 
-void PropSetFile::Import(FilePath filename, FilePath directoryForImports, const ImportFilter &filter, std::vector<FilePath> *imports, size_t depth) {
+void PropSetFile::Import(const FilePath &filename, const FilePath &directoryForImports, const ImportFilter &filter,
+	FilePathSet *imports, size_t depth) {
 	if (depth > 20)	// Possibly recursive import so give up to avoid crash
 		return;
 	if (Read(filename, directoryForImports, filter, imports, depth)) {
@@ -373,8 +390,8 @@ void PropSetFile::Import(FilePath filename, FilePath directoryForImports, const 
 	}
 }
 
-PropSetFile::ReadLineState PropSetFile::ReadLine(const char *lineBuffer, ReadLineState rls, FilePath directoryForImports,
-	const ImportFilter &filter, std::vector<FilePath> *imports, size_t depth) {
+PropSetFile::ReadLineState PropSetFile::ReadLine(const char *lineBuffer, ReadLineState rls, const FilePath &directoryForImports,
+	const ImportFilter &filter, FilePathSet *imports, size_t depth) {
 	//UnSlash(lineBuffer);
 	if ((rls == rlConditionFalse) && (!IsSpaceOrTab(lineBuffer[0])))    // If clause ends with first non-indented line
 		rls = rlActive;
@@ -419,8 +436,8 @@ PropSetFile::ReadLineState PropSetFile::ReadLine(const char *lineBuffer, ReadLin
 	return rls;
 }
 
-void PropSetFile::ReadFromMemory(const char *data, size_t len, FilePath directoryForImports,
-                                 const ImportFilter &filter, std::vector<FilePath> *imports, size_t depth) {
+void PropSetFile::ReadFromMemory(const char *data, size_t len, const FilePath &directoryForImports,
+                                 const ImportFilter &filter, FilePathSet *imports, size_t depth) {
 	const char *pd = data;
 	std::vector<char> lineBuffer(len+1);	// +1 for NUL
 	ReadLineState rls = rlActive;
@@ -437,8 +454,8 @@ void PropSetFile::ReadFromMemory(const char *data, size_t len, FilePath director
 	}
 }
 
-bool PropSetFile::Read(FilePath filename, FilePath directoryForImports,
-                       const ImportFilter &filter, std::vector<FilePath> *imports, size_t depth) {
+bool PropSetFile::Read(const FilePath &filename, const FilePath &directoryForImports,
+                       const ImportFilter &filter, FilePathSet *imports, size_t depth) {
 	std::vector<char> propsData = filename.Read();
 	size_t lenFile = propsData.size();
 	if (lenFile > 0) {

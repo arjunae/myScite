@@ -205,8 +205,7 @@ SciTEWin::SciTEWin(Extension *ext) : SciTEBase(ext) {
 	uniqueInstance.Init(this);
 
 	hAccTable = ::LoadAccelerators(hInstance, TEXT("ACCELS")); // md
-	hToolbarBitmap = 0; 
-	oldToolbarBitmapID = 0;
+
 	cmdWorker.pSciTE = this;
 }
 
@@ -422,7 +421,6 @@ void SciTEWin::ReadPropertiesInitial() {
 void SciTEWin::ReadProperties() {
 	SciTEBase::ReadProperties();
 }
-
 
 FilePath SciTEWin::GetSciteDefaultHome() {
 /**
@@ -735,7 +733,7 @@ static UINT CodePageFromCharSet(DWORD characterSet, UINT documentCodePage) {
 	return cp;
 }
 
-void SciTEWin::OutputAppendEncodedStringSynchronised(GUI::gui_string s, int codePageDocument) {
+void SciTEWin::OutputAppendEncodedStringSynchronised(const GUI::gui_string &s, int codePageDocument) {
 	std::string sMulti = StringEncode(s, codePageDocument);
 	OutputAppendStringSynchronised(sMulti.c_str());
 }
@@ -884,7 +882,7 @@ DWORD SciTEWin::ExecuteOne(const Job &jobToRun) {
 	const GUI::gui_string sCommand = GUI::StringFromUTF8(jobToRun.command);
 	std::vector<wchar_t> vwcCommand(sCommand.c_str(), sCommand.c_str() + sCommand.length() + 1);
 
-	bool running = ::CreateProcessW(
+	BOOL running = ::CreateProcessW(
 			  NULL,
 			  &vwcCommand[0],
 			  NULL, NULL,
@@ -1723,7 +1721,7 @@ bool SciTEWin::IsStdinBlocked() {
 }
 
 void SciTEWin::MinimizeToTray() {
-	NOTIFYICONDATA nid = {};
+	NOTIFYICONDATA nid = NOTIFYICONDATA();
 	nid.cbSize = sizeof(nid);
 	nid.hWnd = MainHWND();
 	nid.uID = 1;
@@ -1739,7 +1737,7 @@ void SciTEWin::MinimizeToTray() {
 }
 
 void SciTEWin::RestoreFromTray() {
-	NOTIFYICONDATA nid = {};
+	NOTIFYICONDATA nid = NOTIFYICONDATA();
 	nid.cbSize = sizeof(nid);
 	nid.hWnd = MainHWND();
 	nid.uID = 1;
@@ -2179,10 +2177,10 @@ std::string SciTEWin::GetRangeInUIEncoding(GUI::ScintillaWindow &win, int selSta
 uptr_t SciTEWin::EventLoop() {
 	MSG msg;
 	msg.wParam = 0;
-	bool going = true;
+	BOOL going = true;
 	while (going) {
 		if (needIdle) {
-			bool haveMessage = PeekMessageW(&msg, NULL, 0, 0, PM_NOREMOVE);
+			BOOL haveMessage = PeekMessageW(&msg, NULL, 0, 0, PM_NOREMOVE);
 			if (!haveMessage) {
 				OnIdle();
 				continue;

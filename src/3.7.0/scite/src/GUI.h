@@ -71,6 +71,7 @@ gui_string StringFromUTF8(const char *s);
 gui_string StringFromUTF8(const std::string &s);
 std::string UTF8FromString(const gui_string &s);
 gui_string StringFromInteger(long i);
+gui_string StringFromLongLong(long long i);
 gui_string HexStringFromInteger(long i);
 
 typedef void *WindowID;
@@ -193,17 +194,5 @@ public:
 bool IsDBCSLeadByte(int codePage, char ch);
 
 }
-
-#if defined(SCI_NAMESPACE)
-
-// Scintilla namespace may or may not be turned on.
-// If it is turned on, then make the structures usable without the Scintilla:: prefix
-
-using Scintilla::Sci_CharacterRange;
-using Scintilla::Sci_TextRange;
-using Scintilla::Sci_TextToFind;
-using Scintilla::SCNotification;
-
-#endif
 
 #endif

@@ -9,6 +9,7 @@
 #include <time.h>
 
 #include <string>
+#include <sstream>
 
 #include <gtk/gtk.h>
 
@@ -38,6 +39,18 @@ gui_string StringFromInteger(long i) {
 	char number[32];
 	sprintf(number, "%0ld", i);
 	return gui_string(number);
+}
+
+gui_string StringFromLongLong(long long i) {
+	try {
+		std::ostringstream strstrm;
+		strstrm << i;
+		return StringFromUTF8(strstrm.str());
+	} catch (std::exception &) {
+		// Exceptions not enabled on stream but still causes diagnostic in Coverity.
+		// Simply swallow the failure and return the default value.
+	}
+	return gui_string();
 }
 
 static GtkWidget *PWidget(WindowID wid) {

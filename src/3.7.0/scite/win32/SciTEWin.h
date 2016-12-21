@@ -98,16 +98,11 @@ typedef void *HTHEME;
 #include "Worker.h"
 #include "FileWorker.h"
 #include "MatchMarker.h"
-#include "Containers.h" //[user.toolbar]
 #include "SciTEBase.h"
 #include "SciTEKeys.h"
 #include "UniqueInstance.h"
 #include "StripDefinition.h"
 #include "Strips.h"
-
-#if defined(__GNUC__)
-#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
-#endif
 
 const int SCITE_TRAY = WM_APP + 0;
 const int SCITE_DROP = WM_APP + 1;
@@ -176,13 +171,6 @@ class SciTEWin : public SciTEBase {
 	friend class UserStrip;
 
 protected:
-
-	//[user.toolbar]
-	void SetToolBar();
-	TMap<int,int, std::string, const char *> ToolBarTips;
-	HBITMAP hToolbarBitmap;
-	UINT oldToolbarBitmapID;
-	TArray<int,int> toolbarUsersPressableButtons;
 
 	int cmdShow;
 	static HINSTANCE hInstance;
@@ -274,8 +262,8 @@ protected:
 	HWND CreateParameterisedDialog(LPCWSTR lpTemplateName, DLGPROC lpProc);
 	GUI::gui_string DialogFilterFromProperty(const GUI::gui_char *filterProperty);
 	void CheckCommonDialogError();
-	virtual bool OpenDialog(FilePath directory, const GUI::gui_char *filesFilter);
-	FilePath ChooseSaveName(FilePath directory, const char *title, const GUI::gui_char *filesFilter = 0, const char *ext = 0);
+	virtual bool OpenDialog(const FilePath &directory, const GUI::gui_char *filesFilter);
+	FilePath ChooseSaveName(const FilePath &directory, const char *title, const GUI::gui_char *filesFilter = 0, const char *ext = 0);
 	virtual bool SaveAsDialog();
 	virtual void SaveACopy();
 	virtual void SaveAsHTML();
@@ -336,7 +324,7 @@ protected:
 	virtual void UserStripSetList(int control, const char *value);
 	virtual const char *UserStripValue(int control);
 	void UserStripClosed();
-	virtual void ShowBackgroundProgress(const GUI::gui_string &explanation, int size, int progress);
+	virtual void ShowBackgroundProgress(const GUI::gui_string &explanation, size_t size, size_t progress);
 	BOOL FindMessage(HWND hDlg, UINT message, WPARAM wParam);
 	static INT_PTR CALLBACK FindDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 	BOOL ReplaceMessage(HWND hDlg, UINT message, WPARAM wParam);
@@ -389,7 +377,7 @@ public:
 	/// Management of the command line parameters.
 	void Run(const GUI::gui_char *cmdLine);
 	uptr_t EventLoop();
-	void OutputAppendEncodedStringSynchronised(GUI::gui_string s, int codePageDocument);
+	void OutputAppendEncodedStringSynchronised(const GUI::gui_string &s, int codePageDocument);
 	void ResetExecution();
 	void ExecuteNext();
 	DWORD ExecuteOne(const Job &jobToRun);

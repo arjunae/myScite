@@ -35,7 +35,7 @@ static void PlayThisSound(
     int duration,    		///< If @a sound is a frequency, gives the duration of the sound.
     HMODULE &hMM) {		///< Multimedia DLL handle.
 
-	bool bPlayOK = false;
+	BOOL bPlayOK = false;
 	int soundFreq;
 	if (!sound || *sound == '\0') {
 		soundFreq = -1;	// No sound at all
@@ -227,7 +227,7 @@ void SciTEWin::CheckCommonDialogError() {
 	}
 }
 
-bool SciTEWin::OpenDialog(FilePath directory, const GUI::gui_char *filesFilter) {
+bool SciTEWin::OpenDialog(const FilePath &directory, const GUI::gui_char *filesFilter) {
 	enum {maxBufferSize=2048};
 
 	GUI::gui_string openFilter = DialogFilterFromProperty(filesFilter);
@@ -243,7 +243,7 @@ bool SciTEWin::OpenDialog(FilePath directory, const GUI::gui_char *filesFilter) 
 	GUI::gui_char openName[maxBufferSize]; // maximum common dialog buffer size (says mfc..)
 	openName[0] = '\0';
 
-	OPENFILENAMEW ofn = {};
+	OPENFILENAMEW ofn = OPENFILENAMEW();
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = MainHWND();
 	ofn.hInstance = hInstance;
@@ -260,7 +260,7 @@ bool SciTEWin::OpenDialog(FilePath directory, const GUI::gui_char *filesFilter) 
 	}
 	ofn.Flags = OFN_HIDEREADONLY;
 
-	if (buffers.size > 1) {
+	if (buffers.size() > 1) {
 		ofn.Flags |=
 		    OFN_EXPLORER |
 		    OFN_PATHMUSTEXIST |
@@ -289,7 +289,7 @@ bool SciTEWin::OpenDialog(FilePath directory, const GUI::gui_char *filesFilter) 
 	return succeeded;
 }
 
-FilePath SciTEWin::ChooseSaveName(FilePath directory, const char *title, const GUI::gui_char *filesFilter, const char *ext) {
+FilePath SciTEWin::ChooseSaveName(const FilePath &directory, const char *title, const GUI::gui_char *filesFilter, const char *ext) {
 	FilePath path;
 	if (0 == dialogsOnScreen) {
 		GUI::gui_char saveName[MAX_PATH] = GUI_TEXT("");
@@ -297,7 +297,7 @@ FilePath SciTEWin::ChooseSaveName(FilePath directory, const char *title, const G
 		if (!savePath.IsUntitled()) {
 			StringCopy(saveName, savePath.AsInternal());
 		}
-		OPENFILENAMEW ofn = {};
+		OPENFILENAMEW ofn = OPENFILENAMEW();
 		ofn.lStructSize = sizeof(ofn);
 		ofn.hwndOwner = MainHWND();
 		ofn.hInstance = hInstance;
@@ -379,7 +379,7 @@ void SciTEWin::SaveAsXML() {
 
 void SciTEWin::LoadSessionDialog() {
 	GUI::gui_char openName[MAX_PATH] = GUI_TEXT("");
-	OPENFILENAMEW ofn = {};
+	OPENFILENAMEW ofn = OPENFILENAMEW();
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = MainHWND();
 	ofn.hInstance = hInstance;
@@ -400,7 +400,7 @@ void SciTEWin::LoadSessionDialog() {
 void SciTEWin::SaveSessionDialog() {
 	GUI::gui_char saveName[MAX_PATH] = GUI_TEXT("\0");
 	StringCopy(saveName, GUI_TEXT("SciTE.session"));
-	OPENFILENAMEW ofn = {};
+	OPENFILENAMEW ofn = OPENFILENAMEW();
 	ofn.lStructSize = sizeof(ofn);
 	ofn.hwndOwner = MainHWND();
 	ofn.hInstance = hInstance;
@@ -846,6 +846,8 @@ void SciTEWin::UserStripShow(const char *description) {
 		userStrip.SetSciTE(this);
 		userStrip.SetExtender(extender);
 		userStrip.SetDescription(description);
+	} else {
+		WindowSetFocus(wEditor);
 	}
 	SizeSubWindows();
 }
@@ -870,7 +872,7 @@ void SciTEWin::UserStripClosed() {
 	WindowSetFocus(wEditor);
 }
 
-void SciTEWin::ShowBackgroundProgress(const GUI::gui_string &explanation, int size, int progress) {
+void SciTEWin::ShowBackgroundProgress(const GUI::gui_string &explanation, size_t size, size_t progress) {
 	backgroundStrip.visible = !explanation.empty();
 	SizeSubWindows();
 	if (backgroundStrip.visible)
@@ -1260,7 +1262,7 @@ BOOL SciTEWin::GrepMessage(HWND hDlg, UINT message, WPARAM wParam) {
 			if (::SHGetMalloc(&pShellMalloc) == NO_ERROR) {
 				// If we were able to get the shell malloc object,
 				// then proceed by initializing the BROWSEINFO stuct
-				BROWSEINFO info = {};
+				BROWSEINFO info = BROWSEINFO();
 				info.hwndOwner = hDlg;
 				info.pidlRoot = NULL;
 				TCHAR szDisplayName[MAX_PATH] = TEXT("");

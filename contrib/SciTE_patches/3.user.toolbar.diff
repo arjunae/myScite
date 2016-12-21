@@ -1,7 +1,7 @@
 diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
---- scintilla-scite/gtk/SciTEGTK.cxx	2016-12-17 19:41:50.000000000 +0100
-+++ scite/gtk/SciTEGTK.cxx	2016-12-17 19:38:22.000000000 +0100
-@@ -491,6 +491,7 @@
+--- scintilla-scite/gtk/SciTEGTK.cxx	2016-12-21 03:29:52.000000000 +0100
++++ scite/gtk/SciTEGTK.cxx	2016-12-21 03:19:22.000000000 +0100
+@@ -486,6 +486,7 @@
  	GUI::Window wToolBarBox;
  	int toolbarDetachable;
  	int menuSource;
@@ -9,7 +9,7 @@ diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
  
  	// Control of sub process
  	FilePath sciteExecutable;
-@@ -577,6 +578,7 @@
+@@ -572,6 +573,7 @@
  	bool UpdateOutputSize();
  
  	GtkWidget *MenuItemFromAction(int itemID);
@@ -19,7 +19,7 @@ diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
  	virtual void DestroyMenuItem(int menuNumber, int itemID);
 diff -Nurw scintilla-scite/src/Containers.h scite/src/Containers.h
 --- scintilla-scite/src/Containers.h	1970-01-01 01:00:00.000000000 +0100
-+++ scite/src/Containers.h	2016-12-17 19:31:18.000000000 +0100
++++ scite/src/Containers.h	2016-12-21 03:19:22.000000000 +0100
 @@ -0,0 +1,500 @@
 +#ifndef CONTAINERS_H
 +#define CONTAINERS_H
@@ -522,8 +522,8 @@ diff -Nurw scintilla-scite/src/Containers.h scite/src/Containers.h
 +
 +#endif
 diff -Nurw scintilla-scite/src/SciTE.h scite/src/SciTE.h
---- scintilla-scite/src/SciTE.h	2016-10-16 04:59:54.000000000 +0200
-+++ scite/src/SciTE.h	2016-12-17 19:30:46.000000000 +0100
+--- scintilla-scite/src/SciTE.h	2016-12-04 04:38:06.000000000 +0100
++++ scite/src/SciTE.h	2016-12-21 03:19:22.000000000 +0100
 @@ -273,7 +273,7 @@
  #define IDBM_AROUND 105
  #define IDBM_UP 106
@@ -534,9 +534,9 @@ diff -Nurw scintilla-scite/src/SciTE.h scite/src/SciTE.h
  #define IDBM_20_CASE 202
  #define IDBM_20_REGEX 203
 diff -Nurw scintilla-scite/src/SciTEBase.h scite/src/SciTEBase.h
---- scintilla-scite/src/SciTEBase.h	2016-10-16 04:59:54.000000000 +0200
-+++ scite/src/SciTEBase.h	2016-12-17 19:31:18.000000000 +0100
-@@ -343,6 +343,7 @@
+--- scintilla-scite/src/SciTEBase.h	2016-12-04 04:38:06.000000000 +0100
++++ scite/src/SciTEBase.h	2016-12-21 03:19:22.000000000 +0100
+@@ -346,6 +346,7 @@
  class SciTEBase : public ExtensionAPI, public Searcher, public WorkerListener {
  protected:
  	bool needIdle;
@@ -545,9 +545,9 @@ diff -Nurw scintilla-scite/src/SciTEBase.h scite/src/SciTEBase.h
  	FilePath filePath;
  	FilePath dirNameAtExecute;
 diff -Nurw scintilla-scite/src/SciTEProps.cxx scite/src/SciTEProps.cxx
---- scintilla-scite/src/SciTEProps.cxx	2016-10-16 04:59:54.000000000 +0200
-+++ scite/src/SciTEProps.cxx	2016-12-17 19:35:58.000000000 +0100
-@@ -1119,7 +1119,7 @@
+--- scintilla-scite/src/SciTEProps.cxx	2016-12-04 04:38:06.000000000 +0100
++++ scite/src/SciTEProps.cxx	2016-12-21 03:19:22.000000000 +0100
+@@ -1121,7 +1121,7 @@
  	tabHideOne = props.GetInt("tabbar.hide.one");
  
  	SetToolsMenu();
@@ -557,8 +557,8 @@ diff -Nurw scintilla-scite/src/SciTEProps.cxx scite/src/SciTEProps.cxx
  
  	// To put the folder markers in the line number region
 diff -Nurw scintilla-scite/win32/SciTERes.rc scite/win32/SciTERes.rc
---- scintilla-scite/win32/SciTERes.rc	2016-10-16 04:59:54.000000000 +0200
-+++ scite/win32/SciTERes.rc	2016-12-17 19:34:20.000000000 +0100
+--- scintilla-scite/win32/SciTERes.rc	2016-12-04 04:38:06.000000000 +0100
++++ scite/win32/SciTERes.rc	2016-12-21 03:19:22.000000000 +0100
 @@ -566,6 +566,7 @@
  
  IDR_CLOSEFILE BITMAP "closefile.bmp"
@@ -568,8 +568,8 @@ diff -Nurw scintilla-scite/win32/SciTERes.rc scite/win32/SciTERes.rc
  IDBM_WORD BITMAP "word.bmp"
  IDBM_CASE BITMAP "case.bmp"
 diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
---- scintilla-scite/win32/SciTEWin.cxx	2016-12-17 19:41:50.000000000 +0100
-+++ scite/win32/SciTEWin.cxx	2016-12-17 19:38:22.000000000 +0100
+--- scintilla-scite/win32/SciTEWin.cxx	2016-12-21 03:30:18.000000000 +0100
++++ scite/win32/SciTEWin.cxx	2016-12-21 03:19:22.000000000 +0100
 @@ -205,7 +205,8 @@
  	uniqueInstance.Init(this);
  
@@ -581,8 +581,8 @@ diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
  }
  
 diff -Nurw scintilla-scite/win32/SciTEWin.h scite/win32/SciTEWin.h
---- scintilla-scite/win32/SciTEWin.h	2016-10-16 04:59:54.000000000 +0200
-+++ scite/win32/SciTEWin.h	2016-12-17 19:31:18.000000000 +0100
+--- scintilla-scite/win32/SciTEWin.h	2016-12-04 04:38:06.000000000 +0100
++++ scite/win32/SciTEWin.h	2016-12-21 03:19:22.000000000 +0100
 @@ -98,6 +98,7 @@
  #include "Worker.h"
  #include "FileWorker.h"
@@ -591,7 +591,7 @@ diff -Nurw scintilla-scite/win32/SciTEWin.h scite/win32/SciTEWin.h
  #include "SciTEBase.h"
  #include "SciTEKeys.h"
  #include "UniqueInstance.h"
-@@ -176,6 +177,13 @@
+@@ -172,6 +173,13 @@
  
  protected:
  
@@ -605,275 +605,10 @@ diff -Nurw scintilla-scite/win32/SciTEWin.h scite/win32/SciTEWin.h
  	int cmdShow;
  	static HINSTANCE hInstance;
  	static const TCHAR *className;
---- scintilla-scite/win32/SciTEWinBar.cxx	2016-10-16 04:59:54.000000000 +0200
-+++ scite/win32/SciTEWinBar.cxx	2016-12-18 11:18:12.000000000 +0100
-@@ -176,8 +176,8 @@
- 	case TTN_GETDISPINFO:
- 		// Ask for tooltip text
- 		{
--			const GUI::gui_char *ttext = 0;
- 			NMTTDISPINFOW *pDispInfo = (NMTTDISPINFOW *)notification;
-+			/* const GUI::gui_char *ttext = 0; //!-remove-[user.toolbar]
- 			// Toolbar tooltips
- 			switch (notification->nmhdr.idFrom) {
- 			case IDM_NEW:
-@@ -229,6 +229,14 @@
- 				ttext = GUI_TEXT("Run Macro");
- 				break;
- 			default: {
-+			*/
-+					std::string stext;
-+					if (ToolBarTips.Lookup(notification->nmhdr.idFrom, stext)) {
-+						GUI::gui_string localised = localiser.Text(stext.c_str());
-+						StringCopy(tooltipText, localised.c_str());
-+						pDispInfo->lpszText = tooltipText;
-+					}
-+					else {
- 					// notification->nmhdr.idFrom appears to be the buffer number for tabbar tooltips
- 					GUI::Point ptCursor;
- 					::GetCursorPos(PointPointer(&ptCursor));
-@@ -251,6 +259,7 @@
- 						StringCopy(tooltipText, path.c_str());
- 						pDispInfo->lpszText = tooltipText;
- 					}
-+				/* 
- 				}
- 				break;
- 			}
-@@ -258,6 +267,7 @@
- 				GUI::gui_string localised = localiser.Text(GUI::UTF8FromString(ttext).c_str());
- 				StringCopy(tooltipText, localised.c_str());
- 				pDispInfo->lpszText = tooltipText;
-+				*/
- 			}
- 			break;
- 		}
-@@ -453,6 +463,216 @@
- // code) as KeyMatch uses in SciTEWin.cxx.
- 
- 
-+struct BarButtonIn {
-+	BarButtonIn() :id(0), cmd(0) {};
-+	BarButtonIn(int _id, int _cmd) : id(_id), cmd(_cmd) {};
-+	int id;
-+	int cmd;
-+};
-+
-+void SciTEWin::SetToolBar() {
-+	HWND hwndToolBar = (HWND)wToolBar.GetID();
-+	if ( hwndToolBar == 0 ) return;
-+
-+	ToolBarTips.RemoveAll();
-+	toolbarUsersPressableButtons.RemoveAll();
-+
-+	// erasing all buttons
-+	while ( ::SendMessage(hwndToolBar,TB_DELETEBUTTON,0,0) );
-+
-+	std::string fileNameForExtension = ExtensionFileName();
-+
-+	GUI::gui_string sIconlib = GUI::StringFromUTF8( props.GetNewExpandString("user.toolbar.iconlib.", fileNameForExtension.c_str()).c_str() );
-+	HICON hIcon = NULL;
-+	HICON hIconBig = NULL;
-+	int iIconsCount = 0;
-+	TArray<HICON,HICON> arrIcons;
-+	while ( (int)::ExtractIconExW( sIconlib.c_str(), iIconsCount++, &hIconBig, &hIcon, 1 ) > 0 ) {
-+		if ( hIconBig != NULL ) ::DestroyIcon( hIconBig );
-+		if ( hIcon != NULL ) arrIcons.Add( hIcon );
-+	}
-+
-+	HBITMAP hToolbarBitmapNew = 0;
-+	iIconsCount = arrIcons.GetSize();
-+	if (iIconsCount>0) {
-+		SIZE szIcon = {16, 16};
-+		SIZE szBitmap = {szIcon.cx*iIconsCount, szIcon.cy};
-+		RECT rcBitmap = {0, 0, szBitmap.cx, szBitmap.cy};
-+		HBRUSH hBrashBack = ::GetSysColorBrush(COLOR_BTNFACE);
-+		HDC hDesktopDC = ::GetDC(NULL);
-+		HDC hCompatibleDC = ::CreateCompatibleDC(hDesktopDC);
-+		hToolbarBitmapNew = ::CreateCompatibleBitmap(hDesktopDC, szBitmap.cx, szBitmap.cy);
-+		::SelectObject(hCompatibleDC,hToolbarBitmapNew);
-+		::FillRect(hCompatibleDC,&rcBitmap,hBrashBack);
-+		for (int iIcon=0;iIcon<iIconsCount;iIcon++) {
-+			hIcon = arrIcons.GetAt(iIcon);
-+			::DrawIconEx(hCompatibleDC,szIcon.cx*iIcon,0,hIcon,szIcon.cx,szIcon.cy,0,NULL,DI_NORMAL);
-+			::DestroyIcon(hIcon);
-+		}
-+		::DeleteDC(hCompatibleDC);
-+		::DeleteDC(hDesktopDC);
-+		if ( oldToolbarBitmapID == 0 ) {
-+			TBADDBITMAP addbmp = {0,(size_t)hToolbarBitmapNew};
-+			if ( ::SendMessage(hwndToolBar,TB_ADDBITMAP,iIconsCount,(LPARAM)&addbmp) != (LRESULT)-1 ) {
-+				oldToolbarBitmapID = (size_t)hToolbarBitmapNew;
-+			}
-+		} else {
-+			HINSTANCE hInstanceOld = 0;
-+			if ( oldToolbarBitmapID == IDR_BUTTONS ) hInstanceOld = hInstance;
-+			TBREPLACEBITMAP repBmp = { hInstanceOld, oldToolbarBitmapID, 0, (size_t)hToolbarBitmapNew, iIconsCount };
-+			if ( ::SendMessage(hwndToolBar,TB_REPLACEBITMAP,0,(LPARAM)&repBmp) ) {
-+				oldToolbarBitmapID = (size_t)hToolbarBitmapNew;
-+			}
-+		}
-+		if ( hToolbarBitmap != 0 ) ::DeleteObject( hToolbarBitmap );
-+		hToolbarBitmap = hToolbarBitmapNew;
-+	} else {
-+		if ( oldToolbarBitmapID == 0 ) {
-+			TBADDBITMAP addbmp = { hInstance, IDR_BUTTONS };
-+			if ( ::SendMessage( hwndToolBar, TB_ADDBITMAP, 31, (LPARAM)&addbmp ) != (LRESULT)-1 ) {
-+				oldToolbarBitmapID = (UINT)IDR_BUTTONS;
-+			}
-+		} else if ( oldToolbarBitmapID != IDR_BUTTONS ) {
-+			TBREPLACEBITMAP repBmp = { 0, oldToolbarBitmapID, hInstance, IDR_BUTTONS, 31 };
-+			if ( ::SendMessage(hwndToolBar,TB_REPLACEBITMAP,0,(LPARAM)&repBmp) ) {
-+				oldToolbarBitmapID = (UINT)IDR_BUTTONS;
-+			}
-+		}
-+		if ( hToolbarBitmap != 0 ) ::DeleteObject( hToolbarBitmap );
-+		hToolbarBitmap = 0;
-+	}
-+
-+	TArray<BarButtonIn,BarButtonIn> barbuttons;
-+	std::string userToolbar = props.GetNewExpandString("user.toolbar.", fileNameForExtension.c_str());
-+	std::replace(userToolbar.begin(), userToolbar.end(), '|', '\0');
-+	const char *userContextItem = userToolbar.c_str();
-+	const char *endDefinition = userContextItem + userToolbar.length();
-+	while (userContextItem < endDefinition) {
-+		const char *tips = userContextItem;
-+		userContextItem += strlen(userContextItem) + 1;
-+		const char *command = userContextItem;
-+		userContextItem += strlen(userContextItem) + 1;
-+		if (userContextItem < endDefinition) {
-+			if ( tips[0] != '#') {
-+				barbuttons.Add(
-+					BarButtonIn(strlen(userContextItem)?atoi(userContextItem):-1,
-+					GetMenuCommandAsInt(command)));
-+					
-+				if(GetMenuCommandAsInt(command) != 0) ToolBarTips[GetMenuCommandAsInt(command)]=tips;
-+				
-+				int id = atoi(command);
-+				if (id > IDM_TOOLS) {
-+					std::string prefix = "command.checked." + StdStringFromInteger(id - IDM_TOOLS) + ".";
-+					std::string val = props.GetNewExpandString(prefix.c_str(), fileNameForExtension.c_str());
-+					if (val != "")
-+						toolbarUsersPressableButtons.Add(id);
-+				}
-+			}
-+			userContextItem += strlen(userContextItem) + 1;
-+
-+		}
-+		
-+			int id = atoi(userContextItem)+IDM_TOOLS+50;
-+
-+				std::string cmda = "command." + StdStringFromInteger(id) + ".*=" +command;
-+				props.Set (cmda.c_str());
-+
-+				std::string cmdb = "command.mode." + StdStringFromInteger(id) + ".*= subsystem:lua,savebefore:no,groupundo";
-+				props.Set (cmdb.c_str());
-+
-+		
-+	}
-+
-+	if (!barbuttons.GetSize()) {
-+		ToolBarTips[IDM_NEW]			= "New";
-+		ToolBarTips[IDM_OPEN]			= "Open";
-+		ToolBarTips[IDM_SAVE]			= "Save";
-+		ToolBarTips[IDM_CLOSE]			= "Close";
-+		ToolBarTips[IDM_PRINT]			= "Print";
-+		ToolBarTips[IDM_CUT]			= "Cut";
-+		ToolBarTips[IDM_COPY]			= "Copy";
-+		ToolBarTips[IDM_PASTE]			= "Paste";
-+		ToolBarTips[IDM_CLEAR]			= "Delete";
-+		ToolBarTips[IDM_UNDO]			= "Undo";
-+		ToolBarTips[IDM_REDO]			= "Redo";
-+		ToolBarTips[IDM_FIND]			= "Find";
-+		ToolBarTips[IDM_REPLACE]		= "Replace";
-+		barbuttons.Add(BarButtonIn(-1, 0));
-+		barbuttons.Add(BarButtonIn(0, IDM_NEW));
-+		barbuttons.Add(BarButtonIn(1, IDM_OPEN));
-+		barbuttons.Add(BarButtonIn(2, IDM_SAVE));
-+		barbuttons.Add(BarButtonIn(12, IDM_CLOSE));
-+		barbuttons.Add(BarButtonIn(-1, 0));
-+		barbuttons.Add(BarButtonIn(3, IDM_PRINT));
-+		barbuttons.Add(BarButtonIn(-1, 0));
-+		barbuttons.Add(BarButtonIn(4, IDM_CUT));
-+		barbuttons.Add(BarButtonIn(5, IDM_COPY));
-+		barbuttons.Add(BarButtonIn(6, IDM_PASTE));
-+		barbuttons.Add(BarButtonIn(7, IDM_CLEAR));
-+		barbuttons.Add(BarButtonIn(-1, 0));
-+		barbuttons.Add(BarButtonIn(8, IDM_UNDO));
-+		barbuttons.Add(BarButtonIn(9, IDM_REDO));
-+		barbuttons.Add(BarButtonIn(-1, 0));
-+		barbuttons.Add(BarButtonIn(10, IDM_FIND));
-+		barbuttons.Add(BarButtonIn(11, IDM_REPLACE));
-+	}
-+
-+	TBBUTTON *tbb = new TBBUTTON[barbuttons.GetSize()];
-+	for (int i = 0;i < barbuttons.GetSize();i++) {
-+		tbb[i].idCommand = barbuttons[i].cmd;
-+		tbb[i].iBitmap = barbuttons[i].id;
-+		tbb[i].fsState = TBSTATE_ENABLED;
-+		tbb[i].fsStyle = static_cast<BYTE>(-1 == tbb[i].iBitmap ? TBSTYLE_SEP : TBSTYLE_BUTTON);
-+		tbb[i].dwData = barbuttons[i].cmd;
-+		tbb[i].iString = 0;
-+	}
-+	::SendMessage(hwndToolBar, TB_BUTTONSTRUCTSIZE, sizeof(TBBUTTON), 0);
-+	::SendMessage(hwndToolBar, TB_ADDBUTTONS, barbuttons.GetSize(), reinterpret_cast<LPARAM>(tbb));
-+	delete []tbb;
-+	CheckMenus();
-+}
-+
-+void SciTEWin::SetMenuItemNew(int menuNumber, int subMenuNumber, int position, int itemID,
-+                           const GUI::gui_char *text, const GUI::gui_char *mnemonic) {
-+	// On Windows the menu items are modified if they already exist or are created
-+    HMENU hmenu = ::GetSubMenu(::GetMenu(MainHWND()), menuNumber);
-+ // About to modify a submenu (eg Options-> Config Files)   
-+	if(subMenuNumber >0) {
-+    HMENU smenu = ::GetSubMenu(hmenu, subMenuNumber);
-+    hmenu = smenu;
-+  }
-+	GUI::gui_string sTextMnemonic = text;
-+	long keycode = 0;
-+	if (mnemonic && *mnemonic) {
-+		keycode = SciTEKeys::ParseKeyCode(GUI::UTF8FromString(mnemonic).c_str());
-+		if (keycode) {
-+			sTextMnemonic += GUI_TEXT("\t");
-+			sTextMnemonic += mnemonic;
-+		}
-+		// the keycode could be used to make a custom accelerator table
-+		// but for now, the menu's item data is used instead for command
-+		// tools, and for other menu entries it is just discarded.
-+	}
-+  
-+	UINT typeFlags = (text[0]) ? MF_STRING : MF_SEPARATOR;
-+	if (::GetMenuState(hmenu, itemID, MF_BYCOMMAND) == (UINT)(-1)) {
-+		// Not present so insert
-+		::InsertMenuW(hmenu, position, MF_BYPOSITION | typeFlags, itemID, sTextMnemonic.c_str());
-+	} else {
-+		::ModifyMenuW(hmenu, itemID, MF_BYCOMMAND | typeFlags, itemID, sTextMnemonic.c_str());
-+	}
-+
-+	if (itemID >= IDM_TOOLS && itemID < IDM_TOOLS + toolMax) {
-+		// Stow the keycode for later retrieval.
-+		// Do this even if 0, in case the menu already existed (e.g. ModifyMenu)
-+		MENUITEMINFO mii;
-+		mii.cbSize = sizeof(MENUITEMINFO);
-+		mii.fMask = MIIM_DATA;
-+		mii.dwItemData = keycode;
-+		::SetMenuItemInfo(hmenu, itemID, FALSE, &mii);
-+	}
-+}
-+
- 
- void SciTEWin::SetMenuItem(int menuNumber, int position, int itemID,
-                            const GUI::gui_char *text, const GUI::gui_char *mnemonic) {
-@@ -495,6 +715,7 @@
- 	::DrawMenuBar(HwndOf(wSciTE));
- }
- 
-+
- void SciTEWin::DestroyMenuItem(int menuNumber, int itemID) {
- 	// On Windows menu items are destroyed as they can not be hidden and they can be recreated in any position
- 	HMENU hmenuBar = ::GetMenu(MainHWND());
-@@ -506,11 +727,20 @@
+diff -Nurw scintilla-scite/win32/SciTEWinBar.cxx scite/win32/SciTEWinBar.cxx
+--- scintilla-scite/win32/SciTEWinBar.cxx	2016-12-04 04:38:06.000000000 +0100
++++ scite/win32/SciTEWinBar.cxx	2016-12-21 03:25:52.000000000 +0100
+@@ -506,11 +507,20 @@
  	}
  }
  
@@ -896,7 +631,7 @@ diff -Nurw scintilla-scite/win32/SciTEWin.h scite/win32/SciTEWin.h
  }
  
  void EnableButton(HWND wTools, int id, bool enable) {
-@@ -529,6 +759,17 @@
+@@ -529,6 +539,17 @@
  }
  
  void SciTEWin::CheckMenus() {
@@ -914,17 +649,17 @@ diff -Nurw scintilla-scite/win32/SciTEWin.h scite/win32/SciTEWin.h
  	SciTEBase::CheckMenus();
  	::CheckMenuRadioItem(::GetMenu(MainHWND()), IDM_EOL_CRLF, IDM_EOL_LF,
  	                   wEditor.Call(SCI_GETEOLMODE) - SC_EOL_CRLF + IDM_EOL_CRLF, 0);
-@@ -540,7 +781,8 @@
- 	for (int i = 0; i <= ::GetMenuItemCount(hmenu); i++) {
+@@ -541,7 +562,8 @@
  		GUI::gui_char buff[200];
  		buff[0] = '\0';
--		MENUITEMINFOW mii = {};
+ 		MENUITEMINFOW mii = MENUITEMINFOW();
+-		mii.cbSize = sizeof(mii);
 +		MENUITEMINFOW mii;
 +		memset(&mii, 0, sizeof(mii));
- 		mii.cbSize = sizeof(mii);
  		mii.fMask = MIIM_CHECKMARKS | MIIM_DATA | MIIM_ID |
  		            MIIM_STATE | MIIM_SUBMENU | MIIM_TYPE;
-@@ -609,6 +851,7 @@
+ 		mii.dwTypeData = buff;
+@@ -609,6 +631,7 @@
  #define TB_LOADIMAGES (WM_USER + 50)
  #endif
  
@@ -932,7 +667,7 @@ diff -Nurw scintilla-scite/win32/SciTEWin.h scite/win32/SciTEWin.h
  struct BarButton {
  	int id;
  	int cmd;
-@@ -634,6 +877,7 @@
+@@ -634,6 +657,7 @@
      { STD_FIND,     IDM_FIND },
      { STD_REPLACE,  IDM_REPLACE },
  };
@@ -940,7 +675,7 @@ diff -Nurw scintilla-scite/win32/SciTEWin.h scite/win32/SciTEWin.h
  
  static WNDPROC stDefaultTabProc = NULL;
  static LRESULT PASCAL TabWndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam) {
-@@ -889,6 +1133,7 @@
+@@ -889,6 +913,7 @@
  	               0);
  	wToolBar = hwndToolBar;
  
@@ -948,7 +683,7 @@ diff -Nurw scintilla-scite/win32/SciTEWin.h scite/win32/SciTEWin.h
  	::SendMessage(hwndToolBar, TB_BUTTONSTRUCTSIZE, sizeof(TBBUTTON), 0);
  	::SendMessage(hwndToolBar, TB_SETBITMAPSIZE, 0, tbLarge ? MAKELPARAM(24, 24) : MAKELPARAM(16, 16));
  	::SendMessage(hwndToolBar, TB_LOADIMAGES, 
-@@ -920,7 +1165,7 @@
+@@ -920,7 +945,7 @@
  	}
  
  	::SendMessage(hwndToolBar, TB_ADDBUTTONS, ELEMENTS(bbs), reinterpret_cast<LPARAM>(tbb));
