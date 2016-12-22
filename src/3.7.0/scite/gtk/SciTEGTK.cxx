@@ -486,6 +486,7 @@ protected:
 	GUI::Window wToolBarBox;
 	int toolbarDetachable;
 	int menuSource;
+	void SetToolBar() {} 
 
 	// Control of sub process
 	FilePath sciteExecutable;

@@ -595,6 +595,7 @@ END
 
 IDR_CLOSEFILE BITMAP "closefile.bmp"
 IDR_CLOSEFILE24 BITMAP "closefile24.bmp"
+IDR_BUTTONS BITMAP "buttons.bmp"	//[user.toolbar]
 
 IDBM_WORD BITMAP "word.bmp"
 IDBM_CASE BITMAP "case.bmp"

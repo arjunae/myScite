@@ -98,6 +98,7 @@ typedef void *HTHEME;
 #include "Worker.h"
 #include "FileWorker.h"
 #include "MatchMarker.h"
+#include "Containers.h" //[user.toolbar]
 #include "SciTEBase.h"
 #include "SciTEKeys.h"
 #include "UniqueInstance.h"
