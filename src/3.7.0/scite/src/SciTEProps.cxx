@@ -1125,7 +1125,7 @@ void SciTEBase::ReadProperties() {
 	tabHideOne = props.GetInt("tabbar.hide.one");
 
 	SetToolsMenu();
-
+	SetToolBar();//!-add-[user.toolbar] Scite_ru
 	wEditor.Call(SCI_SETFOLDFLAGS, props.GetInt("fold.flags"));
 
 	// To put the folder markers in the line number region

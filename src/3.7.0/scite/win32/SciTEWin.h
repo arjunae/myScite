@@ -172,6 +172,13 @@ class SciTEWin : public SciTEBase {
 	friend class UserStrip;
 
 protected:
+	//[user.toolbar]
+
+	virtual	void SetToolBar();
+	TMap<int,int, std::string, const char *> ToolBarTips;
+	HBITMAP hToolbarBitmap;
+	UINT oldToolbarBitmapID;
+	TArray<int,int> toolbarUsersPressableButtons;
 
 	int cmdShow;
 	static HINSTANCE hInstance;

@@ -346,6 +346,7 @@ public:
 class SciTEBase : public ExtensionAPI, public Searcher, public WorkerListener {
 protected:
 	bool needIdle;
+	virtual void SetToolBar() = 0;
 	GUI::gui_string windowName;
 	FilePath filePath;
 	FilePath dirNameAtExecute;
