@@ -9,9 +9,9 @@
 #define SCITE_H
 
 // Version numbers and dates
-#define VERSION_SCITE "3.7.1"
-#define VERSION_WORDS 3, 7, 1, 0
-#define COPYRIGHT_DATES "December 1998-December 2016"
+#define VERSION_SCITE "3.7.0"
+#define VERSION_WORDS 3, 7, 0, 0
+#define COPYRIGHT_DATES "December 1998-October 2016"
 #define COPYRIGHT_YEARS "1998-2016"
 
 // Menu IDs.
@@ -54,7 +54,7 @@
 #define IDM_ENCODING_UCOOKIE	154
 
 #define MRU_START	17
-#define IMPORT_START 8 // Itemposition to add config filenames (Menu-Options-Config Files)
+#define IMPORT_START 20
 #define TOOLS_START 4
 
 // Edit

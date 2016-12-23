@@ -11,7 +11,6 @@
 
 #include <string>
 #include <vector>
-#include <sstream>
 
 #ifdef __MINGW_H
 #define _WIN32_IE	0x0400
@@ -175,18 +174,6 @@ gui_string StringFromInteger(long i) {
 	}
 	gnumber[n] = 0;
 	return gui_string(gnumber);
-}
-
-gui_string StringFromLongLong(long long i) {
-	try {
-		std::ostringstream strstrm;
-		strstrm << i;
-		return StringFromUTF8(strstrm.str());
-	} catch (std::exception &) {
-		// Exceptions not enabled on stream but still causes diagnostic in Coverity.
-		// Simply swallow the failure and return the default value.
-	}
-	return gui_string();
 }
 
 gui_string HexStringFromInteger(long i) {

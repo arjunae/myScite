@@ -17,12 +17,12 @@ void SciTEWin::SetFileProperties(
 	char temp[TEMP_LEN];
 	HANDLE hf = ::CreateFileW(filePath.AsInternal(), GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hf != INVALID_HANDLE_VALUE) {
-		FILETIME ft = FILETIME();
+		FILETIME ft = {};
 		::GetFileTime(hf, NULL, NULL, &ft);
 		::CloseHandle(hf);
-		FILETIME lft = FILETIME();
+		FILETIME lft = {};
 		::FileTimeToLocalFileTime(&ft, &lft);
-		SYSTEMTIME st = SYSTEMTIME();
+		SYSTEMTIME st = {};
 		if (::FileTimeToSystemTime(&lft, &st) == 0)
 			st = SYSTEMTIME();
 		::GetTimeFormatA(LOCALE_USER_DEFAULT,
@@ -631,46 +631,7 @@ void SciTEWin::SetToolBar() {
 	CheckMenus();
 }
 
-void SciTEWin::SetMenuItemNew(int menuNumber, int subMenuNumber, int position, int itemID,
-                           const GUI::gui_char *text, const GUI::gui_char *mnemonic) {
-	// On Windows the menu items are modified if they already exist or are created
-    HMENU hmenu = ::GetSubMenu(::GetMenu(MainHWND()), menuNumber);
- // About to modify a submenu (eg Options-> Config Files)   
-	if(subMenuNumber >0) {
-    HMENU smenu = ::GetSubMenu(hmenu, subMenuNumber);
-    hmenu = smenu;
-  }
-	GUI::gui_string sTextMnemonic = text;
-	long keycode = 0;
-	if (mnemonic && *mnemonic) {
-		keycode = SciTEKeys::ParseKeyCode(GUI::UTF8FromString(mnemonic).c_str());
-		if (keycode) {
-			sTextMnemonic += GUI_TEXT("\t");
-			sTextMnemonic += mnemonic;
-		}
-		// the keycode could be used to make a custom accelerator table
-		// but for now, the menu's item data is used instead for command
-		// tools, and for other menu entries it is just discarded.
-	}
-  
-	UINT typeFlags = (text[0]) ? MF_STRING : MF_SEPARATOR;
-	if (::GetMenuState(hmenu, itemID, MF_BYCOMMAND) == (UINT)(-1)) {
-		// Not present so insert
-		::InsertMenuW(hmenu, position, MF_BYPOSITION | typeFlags, itemID, sTextMnemonic.c_str());
-	} else {
-		::ModifyMenuW(hmenu, itemID, MF_BYCOMMAND | typeFlags, itemID, sTextMnemonic.c_str());
-	}
 
-	if (itemID >= IDM_TOOLS && itemID < IDM_TOOLS + toolMax) {
-		// Stow the keycode for later retrieval.
-		// Do this even if 0, in case the menu already existed (e.g. ModifyMenu)
-		MENUITEMINFO mii;
-		mii.cbSize = sizeof(MENUITEMINFO);
-		mii.fMask = MIIM_DATA;
-		mii.dwItemData = keycode;
-		::SetMenuItemInfo(hmenu, itemID, FALSE, &mii);
-	}
-}
 
 void SciTEWin::SetMenuItem(int menuNumber, int position, int itemID,
                            const GUI::gui_char *text, const GUI::gui_char *mnemonic) {
@@ -1205,7 +1166,7 @@ void SciTEWin::Creation() {
 
 	wTabBar.Show();
 
-	HWND hwnd = ::CreateWindowEx(
+	::CreateWindowEx(
 	               0,
 	               classNameInternal,
 	               TEXT("userStrip"),
@@ -1216,10 +1177,8 @@ void SciTEWin::Creation() {
 	               HmenuID(2001),
 	               hInstance,
 	               &userStrip);
-	if (!hwnd)
-		exit(FALSE);
 
-	hwnd = ::CreateWindowEx(
+	::CreateWindowEx(
 	               0,
 	               classNameInternal,
 	               TEXT("backgroundStrip"),
@@ -1230,10 +1189,8 @@ void SciTEWin::Creation() {
 	               HmenuID(2001),
 	               hInstance,
 	               &backgroundStrip);
-	if (!hwnd)
-		exit(FALSE);
 
-	hwnd = ::CreateWindowEx(
+	::CreateWindowEx(
 	               0,
 	               classNameInternal,
 	               TEXT("searchStrip"),
@@ -1244,10 +1201,8 @@ void SciTEWin::Creation() {
 	               HmenuID(2001),
 	               hInstance,
 	               &searchStrip);
-	if (!hwnd)
-		exit(FALSE);
 
-	hwnd = ::CreateWindowEx(
+	::CreateWindowEx(
 	               0,
 	               classNameInternal,
 	               TEXT("FindStrip"),
@@ -1258,10 +1213,8 @@ void SciTEWin::Creation() {
 	               HmenuID(2002),
 	               hInstance,
 	               &findStrip);
-	if (!hwnd)
-		exit(FALSE);
 
-	hwnd = ::CreateWindowEx(
+	::CreateWindowEx(
 	               0,
 	               classNameInternal,
 	               TEXT("ReplaceStrip"),
@@ -1272,8 +1225,6 @@ void SciTEWin::Creation() {
 	               HmenuID(2003),
 	               hInstance,
 	               &replaceStrip);
-	if (!hwnd)
-		exit(FALSE);
 
 	wStatusBar = ::CreateWindowEx(
 	                 0,

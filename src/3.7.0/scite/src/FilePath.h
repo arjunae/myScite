@@ -34,7 +34,7 @@ public:
 	void Set(const GUI::gui_char *fileName_);
 	void Set(FilePath const &other);
 	void Set(FilePath const &directory, FilePath const &name);
-	void SetDirectory(FilePath const &directory);
+	void SetDirectory(FilePath directory);
 	void Init();
 	bool SameNameAs(const GUI::gui_char *other) const;
 	bool SameNameAs(const FilePath &other) const;
@@ -56,12 +56,12 @@ public:
 	FilePath NormalizePath() const;
 	static FilePath GetWorkingDirectory();
 	bool SetWorkingDirectory() const;
-	void List(FilePathSet &directories, FilePathSet &files) const;
+	void List(FilePathSet &directories, FilePathSet &files);
 	FILE *Open(const GUI::gui_char *mode) const;
 	std::vector<char> Read() const;
 	void Remove() const;
 	time_t ModifiedTime() const;
-	long long GetFileLength() const;
+	long GetFileLength() const;
 	bool Exists() const;
 	bool IsDirectory() const;
 	bool Matches(const GUI::gui_char *pattern) const;

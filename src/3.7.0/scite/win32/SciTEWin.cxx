@@ -4,7 +4,6 @@
  **/
 // Copyright 1998-2003 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
-/// 11.11.2016: add env.scite_home & env.home (T. Kani, Marcedo{at}habMalneFrage.de) 
 
 #include <time.h>
 
@@ -423,6 +422,7 @@ void SciTEWin::ReadProperties() {
 	SciTEBase::ReadProperties();
 }
 
+
 FilePath SciTEWin::GetSciteDefaultHome() {
 /**
  *       SciteDefaultHome -> Windows
@@ -734,7 +734,7 @@ static UINT CodePageFromCharSet(DWORD characterSet, UINT documentCodePage) {
 	return cp;
 }
 
-void SciTEWin::OutputAppendEncodedStringSynchronised(const GUI::gui_string &s, int codePageDocument) {
+void SciTEWin::OutputAppendEncodedStringSynchronised(GUI::gui_string s, int codePageDocument) {
 	std::string sMulti = StringEncode(s, codePageDocument);
 	OutputAppendStringSynchronised(sMulti.c_str());
 }
@@ -883,7 +883,7 @@ DWORD SciTEWin::ExecuteOne(const Job &jobToRun) {
 	const GUI::gui_string sCommand = GUI::StringFromUTF8(jobToRun.command);
 	std::vector<wchar_t> vwcCommand(sCommand.c_str(), sCommand.c_str() + sCommand.length() + 1);
 
-	BOOL running = ::CreateProcessW(
+	bool running = ::CreateProcessW(
 			  NULL,
 			  &vwcCommand[0],
 			  NULL, NULL,
@@ -1722,7 +1722,7 @@ bool SciTEWin::IsStdinBlocked() {
 }
 
 void SciTEWin::MinimizeToTray() {
-	NOTIFYICONDATA nid = NOTIFYICONDATA();
+	NOTIFYICONDATA nid = {};
 	nid.cbSize = sizeof(nid);
 	nid.hWnd = MainHWND();
 	nid.uID = 1;
@@ -1738,7 +1738,7 @@ void SciTEWin::MinimizeToTray() {
 }
 
 void SciTEWin::RestoreFromTray() {
-	NOTIFYICONDATA nid = NOTIFYICONDATA();
+	NOTIFYICONDATA nid = {};
 	nid.cbSize = sizeof(nid);
 	nid.hWnd = MainHWND();
 	nid.uID = 1;
@@ -2178,10 +2178,10 @@ std::string SciTEWin::GetRangeInUIEncoding(GUI::ScintillaWindow &win, int selSta
 uptr_t SciTEWin::EventLoop() {
 	MSG msg;
 	msg.wParam = 0;
-	BOOL going = true;
+	bool going = true;
 	while (going) {
 		if (needIdle) {
-			BOOL haveMessage = PeekMessageW(&msg, NULL, 0, 0, PM_NOREMOVE);
+			bool haveMessage = PeekMessageW(&msg, NULL, 0, 0, PM_NOREMOVE);
 			if (!haveMessage) {
 				OnIdle();
 				continue;

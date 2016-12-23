@@ -6,9 +6,6 @@
 // The License.txt file describes the conditions under which this software may be distributed.
 
 #include <stdlib.h>
-// Older versions of GNU stdint.h require this definition to be able to see INT32_MAX
-#define __STDC_LIMIT_MACROS
-#include <stdint.h>
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
@@ -55,7 +52,7 @@ const GUI::gui_char propUserFileName[] = GUI_TEXT("SciTEUser.properties");
 const GUI::gui_char propGlobalFileName[] = GUI_TEXT("SciTEGlobal.properties");
 const GUI::gui_char propAbbrevFileName[] = GUI_TEXT("abbrev.properties");
 
-void SciTEBase::SetFileName(const FilePath &openName, bool fixCase) {
+void SciTEBase::SetFileName(FilePath openName, bool fixCase) {
 	if (openName.AsInternal()[0] == '\"') {
 		// openName is surrounded by double quotes
 		GUI::gui_string pathCopy = openName.AsInternal();
@@ -84,7 +81,7 @@ void SciTEBase::SetFileName(const FilePath &openName, bool fixCase) {
 	props.Set("FileNameExt", FileNameExt().AsUTF8().c_str());
 
 	SetWindowName();
-	if (buffers.buffers.size() > 0)
+	if (buffers.buffers)
 		buffers.buffers[buffers.Current()].Set(filePath);
 }
 
@@ -240,7 +237,7 @@ void SciTEBase::DiscoverIndentSetting() {
 	}
 }
 
-void SciTEBase::OpenCurrentFile(long long fileSize, bool suppressMessage, bool asynchronous) {
+void SciTEBase::OpenCurrentFile(long fileSize, bool suppressMessage, bool asynchronous) {
 	if (CurrentBuffer()->pFileWorker) {
 		// Already performing an asynchronous load or save so do not restart load
 		if (!suppressMessage) {
@@ -272,19 +269,19 @@ void SciTEBase::OpenCurrentFile(long long fileSize, bool suppressMessage, bool a
 		// Turn grey while loading
 		wEditor.Call(SCI_STYLESETBACK, STYLE_DEFAULT, 0xEEEEEE);
 		wEditor.Call(SCI_SETREADONLY, 1);
-		assert(CurrentBufferConst()->pFileWorker == NULL);
+		assert(CurrentBuffer()->pFileWorker == NULL);
 		ILoader *pdocLoad;
 		try {
-			pdocLoad = reinterpret_cast<ILoader *>(wEditor.CallReturnPointer(SCI_CREATELOADER, static_cast<uptr_t>(fileSize) + 1000));
+			pdocLoad = reinterpret_cast<ILoader *>(wEditor.CallReturnPointer(SCI_CREATELOADER, fileSize + 1000));
 		} catch (...) {
 			wEditor.Call(SCI_SETSTATUS, 0);
 			return;
 		}
-		CurrentBuffer()->pFileWorker = new FileLoader(this, pdocLoad, filePath, static_cast<size_t>(fileSize), fp);
+		CurrentBuffer()->pFileWorker = new FileLoader(this, pdocLoad, filePath, fileSize, fp);
 		CurrentBuffer()->pFileWorker->sleepTime = props.GetInt("asynchronous.sleep");
 		PerformOnNewThread(CurrentBuffer()->pFileWorker);
 	} else {
-		wEditor.Call(SCI_ALLOCATE, static_cast<uptr_t>(fileSize) + 1000);
+		wEditor.Call(SCI_ALLOCATE, fileSize + 1000);
 
 		Utf8_16_Read convert;
 		std::vector<char> data(blockSize);
@@ -493,7 +490,7 @@ bool SciTEBase::PreOpenCheck(const GUI::gui_char *) {
 	return false;
 }
 
-bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
+bool SciTEBase::Open(FilePath file, OpenFlags of) {
 	InitialiseBuffers();
 
 	FilePath absPath = file.AbsolutePath();
@@ -519,22 +516,14 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 		return false;
 	}
 
-	const long long fileSize = absPath.IsUntitled() ? 0 : absPath.GetFileLength();
-	if (fileSize > INT32_MAX) {
-		const GUI::gui_string sSize = GUI::StringFromLongLong(fileSize);
-		const GUI::gui_string msg = LocaliseMessage("File '^0' is ^1 bytes long, "
-			"larger than 2GB which is the largest SciTE can open.",
-			absPath.AsInternal(), sSize.c_str());
-		WindowMessageBox(wSciTE, msg, mbsIconWarning);
-		return false;
-	}
+	const long fileSize = absPath.IsUntitled() ? 0 : absPath.GetFileLength();
 	if (fileSize > 0) {
 		// Real file, not empty buffer
-		long long maxSize = props.GetLongLong("max.file.size", 2000000000LL);
+		int maxSize = props.GetInt("max.file.size");
 		if (maxSize > 0 && fileSize > maxSize) {
-			const GUI::gui_string sSize = GUI::StringFromLongLong(fileSize);
-			const GUI::gui_string sMaxSize = GUI::StringFromLongLong(maxSize);
-			const GUI::gui_string msg = LocaliseMessage("File '^0' is ^1 bytes long,\n"
+			GUI::gui_string sSize = GUI::StringFromInteger(fileSize);
+			GUI::gui_string sMaxSize = GUI::StringFromInteger(maxSize);
+			GUI::gui_string msg = LocaliseMessage("File '^0' is ^1 bytes long,\n"
 			        "larger than the ^2 bytes limit set in the properties.\n"
 			        "Do you still want to open it?",
 			        absPath.AsInternal(), sSize.c_str(), sMaxSize.c_str());
@@ -545,7 +534,7 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 		}
 	}
 
-	if (buffers.size() == buffers.length) {
+	if (buffers.size == buffers.length) {
 		AddFileToStack(filePath, GetSelectedRange(), GetCurrentScrollPosition());
 		ClearDocument();
 		CurrentBuffer()->lifeState = Buffer::open;
@@ -557,7 +546,7 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 		}
 	}
 
-	assert(CurrentBufferConst()->pFileWorker == NULL);
+	assert(CurrentBuffer()->pFileWorker == NULL);
 	SetFileName(absPath);
 
 	propsDiscovered.Clear();
@@ -868,7 +857,7 @@ SciTEBase::SaveResult SciTEBase::SaveIfUnsureAll() {
 		wEditor.Call(SCI_SETDOCPOINTER, 0, buffers.buffers[0].doc);
 	}
 	// Release all the extra documents
-	for (int j = 0; j < buffers.size(); j++) {
+	for (int j = 0; j < buffers.size; j++) {
 		if (buffers.buffers[j].doc && !buffers.buffers[j].pFileWorker) {
 			wEditor.Call(SCI_RELEASEDOCUMENT, 0, buffers.buffers[j].doc);
 			buffers.buffers[j].doc = 0;
@@ -932,7 +921,7 @@ void SciTEBase::EnsureFinalNewLine() {
 }
 
 // Perform any changes needed before saving such as normalizing spaces and line ends.
-bool SciTEBase::PrepareBufferForSave(const FilePath &saveName) {
+bool SciTEBase::PrepareBufferForSave(FilePath saveName) {
 	bool retVal = false;
 	// Perform clean ups on text before saving
 	wEditor.Call(SCI_BEGINUNDOACTION);
@@ -958,14 +947,14 @@ bool SciTEBase::PrepareBufferForSave(const FilePath &saveName) {
 /**
  * Writes the buffer to the given filename.
  */
-bool SciTEBase::SaveBuffer(const FilePath &saveName, SaveFlags sf) {
+bool SciTEBase::SaveBuffer(FilePath saveName, SaveFlags sf) {
 	bool retVal = PrepareBufferForSave(saveName);
 
 	if (!retVal) {
 
 		FILE *fp = saveName.Open(fileWrite);
 		if (fp) {
-			size_t lengthDoc = LengthDocument();
+			int lengthDoc = LengthDocument();
 			if (!(sf & sfSynchronous)) {
 				wEditor.Call(SCI_SETREADONLY, 1);
 				const char *documentBytes = reinterpret_cast<const char *>(wEditor.CallReturnPointer(SCI_GETCHARACTERPOINTER));
@@ -986,14 +975,14 @@ bool SciTEBase::SaveBuffer(const FilePath &saveName, SaveFlags sf) {
 				convert.setfile(fp);
 				std::vector<char> data(blockSize + 1);
 				retVal = true;
-				size_t grabSize;
-				for (size_t i = 0; i < lengthDoc; i += grabSize) {
+				int grabSize;
+				for (int i = 0; i < lengthDoc; i += grabSize) {
 					grabSize = lengthDoc - i;
 					if (grabSize > blockSize)
 						grabSize = blockSize;
 					// Round down so only whole characters retrieved.
 					grabSize = wEditor.Call(SCI_POSITIONBEFORE, i + grabSize + 1) - i;
-					GetRange(wEditor, static_cast<int>(i), static_cast<int>(i + grabSize), &data[0]);
+					GetRange(wEditor, i, i + grabSize, &data[0]);
 					size_t written = convert.fwrite(&data[0], grabSize);
 					if (written == 0) {
 						retVal = false;
@@ -1016,10 +1005,10 @@ bool SciTEBase::SaveBuffer(const FilePath &saveName, SaveFlags sf) {
 
 void SciTEBase::ReloadProperties() {
 	ReadGlobalPropFile();
+	SetImportMenu();
 	ReadLocalPropFile();
 	ReadAbbrevPropFile();
 	ReadProperties();
-  SetImportMenu(props.GetInt("menu.options.showUserProps"));
 	SetWindowName();
 	BuffersMenu();
 	Redraw();
@@ -1231,7 +1220,7 @@ class BufferedFile {
 		}
 	}
 public:
-	explicit BufferedFile(const FilePath &fPath) {
+	explicit BufferedFile(FilePath fPath) {
 		fp = fPath.Open(fileRead);
 		readAll = false;
 		exhausted = fp == NULL;
@@ -1276,7 +1265,7 @@ class FileReader {
 	FileReader(const FileReader &) = delete;
 public:
 
-	FileReader(const FilePath &fPath, bool caseSensitive_) {
+	FileReader(FilePath fPath, bool caseSensitive_) {
 		bf = new BufferedFile(fPath);
 		lineNum = 0;
 		lastWasCR = false;
@@ -1337,7 +1326,7 @@ bool SciTEBase::GrepIntoDirectory(const FilePath &directory) {
     return sDirectory[0] != '.';
 }
 
-void SciTEBase::GrepRecursive(GrepFlags gf, const FilePath &baseDir, const char *searchString, const GUI::gui_char *fileTypes) {
+void SciTEBase::GrepRecursive(GrepFlags gf, FilePath baseDir, const char *searchString, const GUI::gui_char *fileTypes) {
 	FilePathSet directories;
 	FilePathSet files;
 	baseDir.List(directories, files);

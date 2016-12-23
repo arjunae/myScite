@@ -73,6 +73,11 @@
 #include "SciTEKeys.h"
 #include "StripDefinition.h"
 
+#if defined(__clang__)
+// Clang 3.0 incorrectly displays  sentinel warnings. Fixed by clang 3.1.
+#pragma GCC diagnostic ignored "-Wsentinel"
+#endif
+
 enum { mbsAboutBox = 0x100000 };
 
 // Key names are longer for GTK+ 3
@@ -296,7 +301,7 @@ public:
 	BackgroundStrip() {
 	}
 	virtual void Creation(GtkWidget *container);
-	void SetProgress(const GUI::gui_string &explanation, size_t size, size_t progress);
+	void SetProgress(const GUI::gui_string &explanation, int size, int progress);
 };
 
 class DialogGoto : public Dialog {
@@ -586,7 +591,7 @@ protected:
 	void ResetExecution();
 
 	virtual void OpenUriList(const char *list);
-	virtual bool OpenDialog(const FilePath &directory, const char *filter);
+	virtual bool OpenDialog(FilePath directory, const char *filter);
 	bool HandleSaveAs(const char *savePath);
 	bool SaveAsXXX(FileFormat fmt, const char *title, const char *ext=0);
 	virtual bool SaveAsDialog();
@@ -658,7 +663,7 @@ protected:
 	virtual void UserStripSetList(int control, const char *value);
 	virtual const char *UserStripValue(int control);
 	void UserStripClosed();
-	virtual void ShowBackgroundProgress(const GUI::gui_string &explanation, size_t size, size_t progress);
+	virtual void ShowBackgroundProgress(const GUI::gui_string &explanation, int size, int progress);
 
 	// Single instance
 	void SendFileName(int sendPipe, const char* filename);
@@ -743,7 +748,7 @@ public:
 	                          int startID = 0, const char *radioStart = 0);
 	void CreateMenu();
 	void CreateStrips(GtkWidget *boxMain);
-	bool StripHasFocus() const;
+	bool StripHasFocus();
 	void CreateUI();
 	void LayoutUI();
 	void Run(int argc, char *argv[]);
@@ -1065,7 +1070,7 @@ void SciTEGTK::ShowToolBar() {
 }
 
 void SciTEGTK::ShowTabBar() {
-	if (tabVisible && (!tabHideOne || buffers.length > 1) && buffers.size()>1) {
+	if (tabVisible && (!tabHideOne || buffers.length > 1) && buffers.size>1) {
 		gtk_widget_show(GTK_WIDGET(PWidget(wTabBar)));
 	} else {
 		gtk_widget_hide(GTK_WIDGET(PWidget(wTabBar)));
@@ -1172,11 +1177,11 @@ void SciTEGTK::ReadLocalization() {
 			converted[0] = '\0';
 			// g_iconv does not actually write to its input argument so safe to cast away const
 			char *pin = const_cast<char *>(val);
-			gsize inLeft = strlen(val);
+			size_t inLeft = strlen(val);
 			char *pout = converted;
-			gsize outLeft = sizeof(converted);
-			gsize conversions = g_iconv(iconvh, &pin, &inLeft, &pout, &outLeft);
-			if (conversions != ((gsize)(-1))) {
+			size_t outLeft = sizeof(converted);
+			size_t conversions = g_iconv(iconvh, &pin, &inLeft, &pout, &outLeft);
+			if (conversions != ((size_t)(-1))) {
 				*pout = '\0';
 				localiser.Set(key, converted);
 			}
@@ -1496,7 +1501,7 @@ void SciTEGTK::OpenUriList(const char *list) {
 #define SCITE_STOCK_OK GTK_STOCK_OK
 #endif
 
-bool SciTEGTK::OpenDialog(const FilePath &directory, const char *filter) {
+bool SciTEGTK::OpenDialog(FilePath directory, const char *filter) {
 	bool canceled = true;
 	if (!dlgFileSelector.Created()) {
 		GtkWidget *dlg = gtk_file_chooser_dialog_new(
@@ -2011,7 +2016,7 @@ void BackgroundStrip::Creation(GtkWidget *container) {
 	gtk_widget_show(GTK_WIDGET(GetID()));
 }
 
-void BackgroundStrip::SetProgress(const GUI::gui_string &explanation, size_t size, size_t progress) {
+void BackgroundStrip::SetProgress(const GUI::gui_string &explanation, int size, int progress) {
 	gtk_label_set_text(GTK_LABEL(wExplanation.GetID()), explanation.c_str());
 	if (size > 0) {
 		gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(wProgress.GetID()),
@@ -2581,7 +2586,7 @@ void SciTEGTK::ContinueExecute(int fromPoll) {
 	}
 }
 
-void SciTEGTK::ShowBackgroundProgress(const GUI::gui_string &explanation, size_t size, size_t progress) {
+void SciTEGTK::ShowBackgroundProgress(const GUI::gui_string &explanation, int size, int progress) {
 	backgroundStrip.visible = !explanation.empty();
 	if (backgroundStrip.visible) {
 		backgroundStrip.Show(0);
@@ -2706,11 +2711,7 @@ void SciTEGTK::Execute() {
 
 void SciTEGTK::StopExecute() {
 	if (!triedKill && pidShell) {
-#if defined(G_OS_UNIX)
-		// Only on Unix.
 		kill(-pidShell, SIGKILL);
-		// On Windows should call a native API, possibly TerminateProcess.
-#endif
 		triedKill = true;
 	}
 }
@@ -3539,9 +3540,8 @@ static GtkWidget *pixmap_new(gchar **xpm) {
 
 GtkWidget *SciTEGTK::AddToolButton(const char *text, int cmd, GtkWidget *toolbar_icon) {
 	gtk_widget_show(GTK_WIDGET(toolbar_icon));
-	GUI::gui_string localised = localiser.Text(text);
-	GtkToolItem *button = gtk_tool_button_new(toolbar_icon, localised.c_str());
-	gtk_widget_set_tooltip_text(GTK_WIDGET(button), localised.c_str());
+	GtkToolItem *button = gtk_tool_button_new(toolbar_icon, text);
+	gtk_widget_set_tooltip_text(GTK_WIDGET(button), text);
 	gtk_widget_show(GTK_WIDGET(button));
 	gtk_toolbar_insert(GTK_TOOLBAR(PWidget(wToolBar)), button, -1);
 
@@ -4811,7 +4811,7 @@ void SciTEGTK::CreateStrips(GtkWidget *boxMain) {
 	replaceStrip.Creation(boxMain);
 }
 
-bool SciTEGTK::StripHasFocus() const {
+bool SciTEGTK::StripHasFocus() {
 	return findStrip.VisibleHasFocus() || replaceStrip.VisibleHasFocus() || userStrip.VisibleHasFocus();
 }
 

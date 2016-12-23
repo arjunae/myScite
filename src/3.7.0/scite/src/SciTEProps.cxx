@@ -52,12 +52,10 @@ const GUI::gui_char menuAccessIndicator[] = GUI_TEXT("&");
 #include "MatchMarker.h"
 #include "SciTEBase.h"
 
-void SciTEBase::SetImportMenu(int iShow) {
-// Extends Options Menu
+void SciTEBase::SetImportMenu() {
 	for (int i = 0; i < importMax; i++) {
-     if (iShow==0) DestroyMenuItem(menuOptions,1300+ i);
+		DestroyMenuItem(menuOptions, importCmdID + i);
 	}
-  //importCmdID
 	if (!importFiles.empty()) {
 		for (int stackPos = 0; stackPos < static_cast<int>(importFiles.size()) && stackPos < importMax; stackPos++) {
 			int itemID = importCmdID + stackPos;
@@ -65,12 +63,11 @@ void SciTEBase::SetImportMenu(int iShow) {
 				GUI::gui_string entry = localiser.Text("Open");
 				entry += GUI_TEXT(" ");
 				entry += importFiles[stackPos].Name().AsInternal();
-        if (iShow==1) SetMenuItemNew(menuOptions, 9, IMPORT_START+stackPos, itemID, entry.c_str());
+				SetMenuItem(menuOptions, IMPORT_START + stackPos, itemID, entry.c_str());
 			}
 		}
 	}
 }
-
 
 void SciTEBase::ImportMenu(int pos) {
 	if (pos >= 0) {
@@ -81,7 +78,6 @@ void SciTEBase::ImportMenu(int pos) {
 }
 
 void SciTEBase::SetLanguageMenu() {
-// Fills Language Menu
 	for (int i = 0; i < 100; i++) {
 		DestroyMenuItem(menuLanguage, languageCmdID + i);
 	}
@@ -335,8 +331,8 @@ void SciTEBase::SetOneIndicator(GUI::ScintillaWindow &win, int indicator, const 
 }
 
 std::string SciTEBase::ExtensionFileName() const {
-	if (CurrentBufferConst()->overrideExtension.length()) {
-		return CurrentBufferConst()->overrideExtension;
+	if (CurrentBuffer()->overrideExtension.length()) {
+		return CurrentBuffer()->overrideExtension;
 	} else {
 		FilePath name = FileNameExt();
 		if (name.IsSet()) {
@@ -427,9 +423,7 @@ static const char *propertiesToForward[] = {
 	"fold.asm.explicit.start",
 	"fold.asm.syntax.based",
 	"fold.at.else",
-	"fold.baan.inner.level",
 	"fold.baan.keywords.based",
-	"fold.baan.sections",
 	"fold.baan.syntax.based",
 	"fold.basic.comment.explicit",
 	"fold.basic.explicit.anywhere",

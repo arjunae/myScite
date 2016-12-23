@@ -145,8 +145,8 @@ public:
 struct BackgroundActivities {
 	int loaders;
 	int storers;
-	size_t totalWork;
-	size_t totalProgress;
+	int totalWork;
+	int totalProgress;
 	GUI::gui_string fileNameLast;
 };
 
@@ -154,27 +154,24 @@ class BufferList {
 protected:
 	int current;
 	int stackcurrent;
-	std::vector<int> stack;
+	int *stack;
 public:
-	std::vector<Buffer> buffers;
+	Buffer *buffers;
+	int size;
 	int length;
 	int lengthVisible;
 	bool initialised;
 
 	BufferList();
 	~BufferList();
-	int size() const {
-		return static_cast<int>(buffers.size());
-	}
 	void Allocate(int maxSize);
 	int Add();
 	int GetDocumentByWorker(FileWorker *pFileWorker) const;
-	int GetDocumentByName(const FilePath &filename, bool excludeCurrent=false);
+	int GetDocumentByName(FilePath filename, bool excludeCurrent=false);
 	void RemoveInvisible(int index);
 	void RemoveCurrent();
 	int Current() const;
-	Buffer *CurrentBuffer();
-	const Buffer *CurrentBufferConst() const;
+	Buffer *CurrentBuffer() const;
 	void SetCurrent(int index);
 	int StackNext();
 	int StackPrev();
@@ -357,7 +354,7 @@ protected:
 	enum { fileStackCmdID = IDM_MRUFILE, bufferCmdID = IDM_BUFFER };
 
 	enum { importMax = 50 };
-	FilePathSet importFiles;
+	std::vector<FilePath> importFiles;
 	enum { importCmdID = IDM_IMPORT };
 	ImportFilter filter;
 
@@ -532,11 +529,8 @@ protected:
 	bool IsBufferAvailable() const;
 	bool CanMakeRoom(bool maySaveIfDirty = true);
 	void SetDocumentAt(int index, bool updateStack = true);
-	Buffer *CurrentBuffer() {
+	Buffer *CurrentBuffer() const {
 		return buffers.CurrentBuffer();
-	}
-	const Buffer *CurrentBufferConst() const {
-		return buffers.CurrentBufferConst();
 	}
 	void SetBuffersMenu();
 	void BuffersMenu();
@@ -578,7 +572,7 @@ protected:
 
 	virtual void WarnUser(int warnID) = 0;
 	void SetWindowName();
-	void SetFileName(const FilePath &openName, bool fixCase = true);
+	void SetFileName(FilePath openName, bool fixCase = true);
 	FilePath FileNameExt() const {
 		return filePath.Name();
 	}
@@ -602,9 +596,9 @@ protected:
 	void DiscoverEOLSetting();
 	void DiscoverIndentSetting();
 	std::string DiscoverLanguage();
-	void OpenCurrentFile(long long fileSize, bool suppressMessage, bool asynchronous);
+	void OpenCurrentFile(long fileSize, bool suppressMessage, bool asynchronous);
 	virtual void OpenUriList(const char *) {}
-	virtual bool OpenDialog(const FilePath &directory, const GUI::gui_char *filesFilter) = 0;
+	virtual bool OpenDialog(FilePath directory, const GUI::gui_char *filesFilter) = 0;
 	virtual bool SaveAsDialog() = 0;
 	virtual void LoadSessionDialog() {}
 	virtual void SaveSessionDialog() {}
@@ -624,7 +618,7 @@ protected:
 	enum OpenCompletion { ocSynchronous, ocCompleteCurrent, ocCompleteSwitch };
 	void CompleteOpen(OpenCompletion oc);
 	virtual bool PreOpenCheck(const GUI::gui_char *file);
-	bool Open(const FilePath &file, OpenFlags of = ofNone);
+	bool Open(FilePath file, OpenFlags of = ofNone);
 	bool OpenSelected();
 	void Revert();
 	FilePath SaveName(const char *ext) const;
@@ -645,20 +639,20 @@ protected:
 	bool Save(SaveFlags sf = sfProgressVisible);
 	void SaveAs(const GUI::gui_char *file, bool fixCase);
 	virtual void SaveACopy() = 0;
-	void SaveToHTML(const FilePath &saveName);
+	void SaveToHTML(FilePath saveName);
 	void StripTrailingSpaces();
 	void EnsureFinalNewLine();
-	bool PrepareBufferForSave(const FilePath &saveName);
-	bool SaveBuffer(const FilePath &saveName, SaveFlags sf);
+	bool PrepareBufferForSave(FilePath saveName);
+	bool SaveBuffer(FilePath saveName, SaveFlags sf);
 	virtual void SaveAsHTML() = 0;
 	void SaveToStreamRTF(std::ostream &os, int start = 0, int end = -1);
-	void SaveToRTF(const FilePath &saveName, int start = 0, int end = -1);
+	void SaveToRTF(FilePath saveName, int start = 0, int end = -1);
 	virtual void SaveAsRTF() = 0;
-	void SaveToPDF(const FilePath &saveName);
+	void SaveToPDF(FilePath saveName);
 	virtual void SaveAsPDF() = 0;
-	void SaveToTEX(const FilePath &saveName);
+	void SaveToTEX(FilePath saveName);
 	virtual void SaveAsTEX() = 0;
-	void SaveToXML(const FilePath &saveName);
+	void SaveToXML(FilePath saveName);
 	virtual void SaveAsXML() = 0;
 	virtual FilePath GetDefaultDirectory() = 0;
 	virtual FilePath GetSciteDefaultHome() = 0;
@@ -676,7 +670,7 @@ protected:
 	virtual void UserStripSet(int /* control */, const char * /* value */) {}
 	virtual void UserStripSetList(int /* control */, const char * /* value */) {}
 	virtual const char *UserStripValue(int /* control */) { return 0; }
-	virtual void ShowBackgroundProgress(const GUI::gui_string & /* explanation */, size_t /* size */, size_t /* progress */) {}
+	virtual void ShowBackgroundProgress(const GUI::gui_string & /* explanation */, int /* size */, int /* progress */) {}
 	Sci_CharacterRange GetSelection();
 	SelectedRange GetSelectedRange();
 	void SetSelection(int anchor, int currentPos);
@@ -830,16 +824,10 @@ protected:
 	virtual void SizeContentWindows() = 0;
 	virtual void SizeSubWindows() = 0;
 
-  // this one can also add Menuentries to a Submenu popup 
-  virtual void SetMenuItemNew (int menuNumber, int subMenuNumber, int position, int itemID,
-		const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0) = 0;
-  // this one will be migrated.  
 	virtual void SetMenuItem(int menuNumber, int position, int itemID,
 		const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0) = 0;
-    
 	virtual void RedrawMenu() {}
 	virtual void DestroyMenuItem(int menuNumber, int itemID) = 0;
-	
 	virtual void CheckAMenuItem(int wIDCheckItem, bool val) = 0;
 	virtual void EnableAMenuItem(int wIDCheckItem, bool val) = 0;
 	virtual void CheckMenusClipboard();
@@ -850,8 +838,8 @@ protected:
 	void DeleteFileStackMenu();
 	void SetFileStackMenu();
 	bool AddFileToBuffer(const BufferState &bufferState);
-	void AddFileToStack(const FilePath &file, SelectedRange selection, int scrollPos);
-	void RemoveFileFromStack(const FilePath &file);
+	void AddFileToStack(FilePath file, SelectedRange selection, int scrollPos);
+	void RemoveFileFromStack(FilePath file);
 	RecentFile GetFilePosition();
 	void DisplayAround(const RecentFile &rf);
 	void StackMenu(int pos);
@@ -869,7 +857,7 @@ protected:
 	void AssignKey(int key, int mods, int cmd);
 	void ViewWhitespace(bool view);
 	void SetAboutMessage(GUI::ScintillaWindow &wsci, const char *appTitle);
-	void SetImportMenu(int displayPropFiles);
+	void SetImportMenu();
 	void ImportMenu(int pos);
 	void SetLanguageMenu();
 	void SetPropertiesInitial();
@@ -929,7 +917,7 @@ protected:
 	    grepDot = 8, grepBinary = 16, grepScroll = 32
 	};
 	virtual bool GrepIntoDirectory(const FilePath &directory);
-	void GrepRecursive(GrepFlags gf, const FilePath &baseDir, const char *searchString, const GUI::gui_char *fileTypes);
+	void GrepRecursive(GrepFlags gf, FilePath baseDir, const char *searchString, const GUI::gui_char *fileTypes);
 	void InternalGrep(GrepFlags gf, const GUI::gui_char *directory, const GUI::gui_char *files,
 			  const char *search, sptr_t &originalEnd);
 	void EnumProperties(const char *action);
@@ -968,7 +956,7 @@ public:
 	virtual ~SciTEBase();
 
 	void ProcessExecute();
-	GUI::WindowID GetID() const { return wSciTE.GetID(); }
+	GUI::WindowID GetID() { return wSciTE.GetID(); }
 
 	virtual bool PerformOnNewThread(Worker *pWorker) = 0;
 	virtual void PostOnMainThread(int cmd, Worker *pWorker) = 0;
