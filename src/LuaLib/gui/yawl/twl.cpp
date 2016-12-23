@@ -314,7 +314,7 @@ TWin::TWin(TWin *parent, pchar winclss, pchar text, int id, dword styleEx)
    DWORD style = WS_CHILD | WS_VISIBLE | styleEx;
    HWND hwndChild = CreateWindowEx(WS_EX_LEFT,winclss,text,style,
            0,0,CW_USEDEFAULT,CW_USEDEFAULT,
-           parent->m_hwnd, (HMENU)id, hInst,NULL);
+           parent->m_hwnd, (HMENU)(ULONG_PTR)id, hInst,NULL);
    if(hwndChild == NULL) err = GetLastError();
    set(hwndChild);
 }
@@ -409,7 +409,7 @@ TWin::get_twin(int id)
 	HWND hwnd = GetDlgItem(m_hwnd,id);
 	if (hwnd) {
 		// Extract the 'this' pointer, if it exists
-		TWin *pwin = (TWin *)GetWindowLong(hwnd,0);
+		TWin *pwin = (TWin *)((ULONG_PTR)GetWindowLong(hwnd,0));
 		// if not, then just wrap up the handle
 		if (!pwin) pwin = new TWin(hwnd);
 		return pwin;
@@ -517,10 +517,10 @@ int TWin::message(pchar msg, int type)
 {
  int flags;
  wchar_t *title;
- if (type == MSG_ERROR) { flags = MB_ICONERROR | MB_OK; title = L"Error"; }
- else if (type == MSG_WARNING) { flags = MB_ICONEXCLAMATION | MB_OKCANCEL; title = L"Warning"; }
- else if (type == MSG_QUERY)   { flags = MB_YESNO; title = L"Query"; }
- else { flags = MB_OK; title = L"Message"; }
+ if (type == MSG_ERROR) { flags = MB_ICONERROR | MB_OK; title = (wchar_t*)L"Error"; }
+ else if (type == MSG_WARNING) { flags = MB_ICONEXCLAMATION | MB_OKCANCEL; title = (wchar_t*)L"Warning"; }
+ else if (type == MSG_QUERY)   { flags = MB_YESNO; title = (wchar_t*)L"Query"; }
+ else { flags = MB_OK; title = (wchar_t*)L"Message"; }
  int retval = type == MSG_QUERY ? IDYES : IDOK;
  return MessageBox(m_hwnd, msg, title,flags) == retval;
 }
@@ -709,7 +709,7 @@ bool TEventWindow::next_child(TWin*& win)
 
 bool TEventWindow::check_notify(long lParam, int& ret)
 {
-  LPNMHDR ph = (LPNMHDR)lParam;
+  LPNMHDR ph = (LPNMHDR)(ULONG_PTR)lParam;
   TWin* w;
   TNotifyWin* pnw;
   TMemo* m;
@@ -863,7 +863,7 @@ void TEventWindow::set_icon(pchar file)
 
 void TEventWindow::set_icon_from_window(TWin *win)
 {
-	HICON hIcon = (HICON)GetClassLong((HWND)win->handle(),GCL_HICON);
+	HICON hIcon = (HICON)(ULONG_PTR)GetClassLong((HWND)(ULONG_PTR)win->handle(),GCL_HICON);
 	SetClassLong(m_hwnd,GCL_HICON,(size_t)hIcon);
 }
 
@@ -1053,7 +1053,7 @@ TControl::~TControl()
 TControl *
 TControl::user_data(Handle handle)
 {
- return (TControl *)GetWindowLong(handle,GWL_USERDATA);
+ return (TControl *)(ULONG_PTR)GetWindowLong(handle,GWL_USERDATA);
 }
 
 void TControl::calc_size()
@@ -1137,14 +1137,14 @@ TWin * TDialog::field(int id)
 DLGFN DialogProc (HWND hdlg, UINT msg, UINT wParam,LONG lParam)
 {
   int ret;
-  TDialog *This = (TDialog *) GetWindowLong(hdlg,DWL_USER);
+  TDialog *This = (TDialog *)(ULONG_PTR)GetWindowLong(hdlg,DWL_USER);
 
   switch (msg)
   {
 	 case WM_INITDIALOG:
 		//..... 'This' pointer passed as param from CreateDialogParam()
 		 SetWindowLong(hdlg,DWL_USER,lParam);
-		 This = (TDialog *)lParam;
+		 This = (TDialog *)(ULONG_PTR)lParam;
 		 if (This->modeless()) hModeless = hdlg;
 		 This->set(hdlg);
 		 return This->init();
@@ -1284,13 +1284,13 @@ WNDFN WndProc (HWND hwnd, UINT msg, UINT wParam,LONG lParam)
   LPMINMAXINFO pSizeInfo;
   long ret;
 
-  TEventWindow *This = (TEventWindow *) GetWindowLong(hwnd,0);
+  TEventWindow *This = (TEventWindow *)(ULONG_PTR)GetWindowLong(hwnd,0);
 
   switch (msg)
   {
 	 case WM_CREATE:
 	  {
-		 LPCREATESTRUCT lpCreat = (LPCREATESTRUCT) lParam;
+		 LPCREATESTRUCT lpCreat = (LPCREATESTRUCT)(ULONG_PTR)lParam;
 		 PVOID *lpUser;
 		 lpUser  = (PVOID *)lpCreat->lpCreateParams;
 
@@ -1307,7 +1307,7 @@ WNDFN WndProc (HWND hwnd, UINT msg, UINT wParam,LONG lParam)
 
     case WM_GETMINMAXINFO:
 		if (This && This->cant_resize()) {
-		  pSizeInfo = (LPMINMAXINFO) lParam;
+		  pSizeInfo = (LPMINMAXINFO) (ULONG_PTR)lParam;
 		  pSizeInfo->ptMaxTrackSize = This->fixed_size();
 		  pSizeInfo->ptMinTrackSize = This->fixed_size();
 		}
@@ -1333,13 +1333,13 @@ WNDFN WndProc (HWND hwnd, UINT msg, UINT wParam,LONG lParam)
         {
          int ret,id = (int)wParam;
          if (! This->check_notify(lParam,ret))
-             return This->notify(id,(void*)lParam);
+             return This->notify(id,(void*)(ULONG_PTR)lParam);
          else return ret;
         }
 
 	case WM_COMMAND:
 	  if (This->m_dispatcher) {
-	        if (This->m_dispatcher->dispatch(LOW_WORD(wParam),HIWORD(wParam),(Handle)lParam))
+	        if (This->m_dispatcher->dispatch(LOW_WORD(wParam),HIWORD(wParam),(Handle)(ULONG_PTR)lParam))
 			    return 0;
       }
 	  if (This->command(LOW_WORD(wParam),HIWORD(wParam))) return 0;
@@ -1354,8 +1354,8 @@ WNDFN WndProc (HWND hwnd, UINT msg, UINT wParam,LONG lParam)
 
     case WM_HSCROLL:
        if (This->m_dispatcher) {
-		    int id = GetWindowLong((HWND)lParam,GWL_ID);
-	        This->m_dispatcher->dispatch(id,LOWORD(wParam),(Handle)lParam);
+		    int id = GetWindowLong((HWND)(ULONG_PTR)lParam,GWL_ID);
+	        This->m_dispatcher->dispatch(id,LOWORD(wParam),(Handle)(ULONG_PTR)lParam);
 	   }
 	   return 0;
 
@@ -1404,7 +1404,7 @@ WNDFN WndProc (HWND hwnd, UINT msg, UINT wParam,LONG lParam)
 	{
 	  RECT rt;
 	  GetClientRect(hwnd,&rt);
-	  FillRect((HDC)wParam,(LPRECT)&rt, This->m_bkgnd_brush);
+	  FillRect((HDC)(ULONG_PTR)wParam,(LPRECT)&rt, This->m_bkgnd_brush);
 	}
 	return 0;
 

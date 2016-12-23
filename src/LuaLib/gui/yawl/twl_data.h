@@ -20,7 +20,7 @@ protected:
 public:
   Converter() : m_digits(4) {}
   void set_ctrl(TControl *ctrl) { m_ctrl = ctrl; }
-  virtual wchar_t* get_str() { return L""; }
+  virtual wchar_t* get_str() { return (wchar_t*) L""; }
   virtual void set_str(pchar) { };	 
   virtual double get_double();
   virtual void set_double(double);

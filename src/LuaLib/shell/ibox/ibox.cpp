@@ -12,7 +12,6 @@ extern "C" {
 #ifndef max
 #define max(a,b)            (((a) > (b)) ? (a) : (b))
 #endif
-const size_t DWL_MSGRESULT=0;
 
 //------------------------------------------------------------------------------
 struct Rect : public RECT {
@@ -587,11 +586,11 @@ BOOL CALLBACK InputBox::DlgHandler(HWND hdlg, UINT msg, WPARAM wParam, LPARAM lP
 				// Возвращаем загруженные ранее иконки взамен стандартных
 				switch (wParam) {
 					case ICON_BIG:
-						SetWindowLongPtr(hdlg, DWL_MSGRESULT, reinterpret_cast<LONG_PTR>(self->bigIcon));
+						SetWindowLongPtr(hdlg, 0, reinterpret_cast<LONG_PTR>(self->bigIcon));
 						break;
 					case ICON_SMALL:
 					case 2 /*ICON_SMALL2*/:
-						SetWindowLongPtr(hdlg, DWL_MSGRESULT, reinterpret_cast<LONG_PTR>(self->smallIcon));
+						SetWindowLongPtr(hdlg, 0, reinterpret_cast<LONG_PTR>(self->smallIcon));
 						break;
 					default:
 						return FALSE;

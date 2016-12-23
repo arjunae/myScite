@@ -7,8 +7,13 @@ position.height=400
 position.maximize=0
 
 mru.1.path=E:\projects\_myScite\.myScite.github\contrib\SciTE_patches\4.autocomplete.diff
+mru.2.path=E:\projects\_myScite\.myScite.github\src\LuaLib\shell\ibox\ibox.cpp
 
-buffer.1.path=E:\projects\_myScite\.myScite.github\contrib\SciTE_patches\4.autocomplete.diff
-buffer.1.position=1
+search.1.findwhat=DWL_MSGRESULT
+
+search.1.replacewith=0
+
+buffer.1.path=E:\projects\_myScite\.myScite.github\src\LuaLib\shell\ibox\ibox.cpp
+buffer.1.position=259
 buffer.1.scroll=0
 buffer.1.current=1

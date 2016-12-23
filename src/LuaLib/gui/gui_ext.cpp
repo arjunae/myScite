@@ -1490,10 +1490,10 @@ static LRESULT ContentWndProc(HWND hwnd, UINT iMessage, WPARAM wParam, LPARAM lP
 }
 
 #ifndef GetWindowLongPtrW
-#define GetWindowLongPtrW(hwnd,offs) (void*)GetWindowLongW(hwnd,offs)
-#define GetWindowLongPtrA(hwnd,offs) (void*)GetWindowLongA(hwnd,offs)
-#define SetWindowLongPtrW(hwnd,offs,newv) (void*)SetWindowLongW(hwnd,offs,newv)
-#define SetWindowLongPtrA(hwnd,offs,newv) (void*)SetWindowLongA(hwnd,offs,newv)
+#define GetWindowLongPtrW(hwnd,offs) (size_t*)GetWindowLongW(hwnd,offs)
+#define GetWindowLongPtrA(hwnd,offs) (size_t*)GetWindowLongA(hwnd,offs)
+#define SetWindowLongPtrW(hwnd,offs,newv) (size_t*)SetWindowLongW(hwnd,offs,newv)
+#define SetWindowLongPtrA(hwnd,offs,newv) (size_t*)SetWindowLongA(hwnd,offs,newv)
 #endif
 
 

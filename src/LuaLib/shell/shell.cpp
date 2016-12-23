@@ -1,8 +1,6 @@
 //build@ gcc -shared -o shell.dll -I shell.cpp scite.la -lstdc++
 
-#include <windows.h>
 #include <shlwapi.h>
-#include <WinUser.h>
 #include "utf.h" // Needs for WideString and UTF8 conversions
 
 extern "C" {

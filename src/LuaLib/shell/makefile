@@ -1,4 +1,5 @@
 LIBS= -lscite -lshlwapi -lgdi32
+#-llua5.1
 LIBDIR= -L ../lib/
 
 OUTFILE= shell.dll
