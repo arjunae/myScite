@@ -17,7 +17,7 @@ static wchar_t wtemp_buff[255];
   
 double Converter::get_double()
 {
-  wchar_t *endptr = L"t"; // must not be NULL
+  wchar_t *endptr = (wchar_t *)L"t"; // must not be NULL
   double f = wcstod(get_str(),&endptr);
   if (*endptr) throw EBadNumber();
   return f; 
@@ -76,7 +76,7 @@ ListboxConverter::get_str()
 		list_box()->get_text(idx,wtemp_buff);
 		return wtemp_buff;
     }
-	else return L"";
+	else return (wchar_t *)L"";
 }
 
 void

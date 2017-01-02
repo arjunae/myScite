@@ -81,7 +81,7 @@ void TListBox::set_data(int i, void* ptr)
 { send_msg(LB_SETITEMDATA,i,(size_t)ptr); }
 
 void* TListBox::get_data(int i)
-{ return (void *)send_msg(LB_GETITEMDATA,(size_t)i); }
+{ return (void *)send_msg(LB_GETITEMDATA,(int)i); }
 
 void TListBox::insert(int i, pchar str)
 { send_msg(LB_INSERTSTRING,i,(size_t)str); }

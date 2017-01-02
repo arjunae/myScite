@@ -5,6 +5,12 @@ defaultHome = props["SciteDefaultHome"]
 package.path =  package.path ..";"..defaultHome.."\\Addons\\?.lua;".. ";"..defaultHome.."\\Addons\\lua\\lua\\?.lua;"
 package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
 
+-- the following snip works synchronous. so cant used to wait for the pane to become avaiable.
+-- scite forces any addon to be prepared for been called in that state.
+-- Fixme: shouldnt there be an document.ready ? 
+--pcall(function() len=(editor.Length) end)
+--if len~=nil then print (len) end
+
 --------------------------------- Lua Addons
 -- Load Extman
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-extman\\?.lua;"

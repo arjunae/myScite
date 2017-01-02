@@ -133,7 +133,7 @@ Popup::Popup(wchar_t *name)
 }
 
 Popup::Popup(Handle h)
-: Menu(NULL),m_name(L"")
+: Menu(NULL),m_name((wchar_t *)L"")
 {
   m_handle = h;
 }
