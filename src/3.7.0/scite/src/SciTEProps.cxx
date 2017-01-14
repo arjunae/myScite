@@ -105,21 +105,24 @@ void SciTEBase::ReadEmbeddedProperties() {
 const GUI::gui_char propLocalFileName[] = GUI_TEXT("SciTE.properties");
 const GUI::gui_char propDirectoryFileName[] = GUI_TEXT("SciTEDirectory.properties");
 
+/** 
+Push system env on propsPlatform. Format Key=value
+*/
 void SciTEBase::ReadEnvironment() {
 #if defined(__unix__)
-	extern char **environ;
-	char **e = environ;
+	extern char **environ; 
+	char **env = environ;
 #else
-	char **e = _environ;
+	char **env = _environ;
 #endif
-	for (; e && *e; e++) {
+	for (; env && *env; env++) {
 		char key[1024];
-		char *k = *e;
-		char *v = strchr(k, '=');
-		if (v && (static_cast<size_t>(v - k) < sizeof(key))) {
-			memcpy(key, k, v - k);
-			key[v - k] = '\0';
-			propsPlatform.Set(key, v + 1);
+		char *me = *env; 
+		char *value = strchr(me, '=');
+		if (value && (static_cast<unsigned int>(value - me) < sizeof(key))) {
+			memcpy(key, me, value - me);
+			key[value - me] = '\0';
+			propsPlatform.Set(key, value + 1);
 		}
 	}
 }
