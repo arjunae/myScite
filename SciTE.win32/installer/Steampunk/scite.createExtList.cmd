@@ -59,6 +59,7 @@ copy header.tmp+data.tmp scite.filetypes.register.reg>NUL
 set timestamp=%time:~0,8%
 set timestamp=%timestamp: =0%
 set timestamp=%timestamp::=.%
+set timestamp=%timestamp%_%RANDOM%
 
 :: Move the working Folder  to our Desktop and Write a short readme for convinience
 

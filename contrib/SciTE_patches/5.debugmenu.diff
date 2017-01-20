@@ -1,5 +1,5 @@
 diff -Nurw scintilla-scite/src/SciTE.h scite/src/SciTE.h
---- scintilla-scite/src/SciTE.h	2017-01-20 17:58:18.000000000 +0100
+--- scintilla-scite/src/SciTE.h	2017-01-20 21:49:26.000000000 +0100
 +++ scite/src/SciTE.h	2017-01-20 17:46:14.000000000 +0100
 @@ -21,6 +21,7 @@
  #define IDM_BUFFER			1200
@@ -31,7 +31,7 @@ diff -Nurw scintilla-scite/src/SciTE.h scite/src/SciTE.h
  #define IDM_HELP			901
  #define IDM_ABOUT			902
 diff -Nurw scintilla-scite/src/SciTEBase.cxx scite/src/SciTEBase.cxx
---- scintilla-scite/src/SciTEBase.cxx	2017-01-20 17:58:18.000000000 +0100
+--- scintilla-scite/src/SciTEBase.cxx	2017-01-20 21:49:26.000000000 +0100
 +++ scite/src/SciTEBase.cxx	2017-01-20 17:46:14.000000000 +0100
 @@ -2902,6 +2902,17 @@
  }
@@ -123,55 +123,22 @@ diff -Nurw scintilla-scite/src/SciTEBase.cxx scite/src/SciTEBase.cxx
  		if ((cmdID >= bufferCmdID) &&
  		        (cmdID < bufferCmdID + buffers.size)) {
 diff -Nurw scintilla-scite/win32/SciTERes.rc scite/win32/SciTERes.rc
---- scintilla-scite/win32/SciTERes.rc	2017-01-20 17:58:18.000000000 +0100
-+++ scite/win32/SciTERes.rc	2017-01-20 17:40:08.000000000 +0100
-@@ -143,8 +143,6 @@
- 	MENUITEM "Wrap Out&put",			IDM_WRAPOUTPUT
- 	MENUITEM "&Read-Only",				IDM_READONLY
- 	MENUITEM SEPARATOR
--	POPUP "Editor"
--  BEGIN
- 	POPUP "&Line End Characters"
- 	BEGIN
- 		MENUITEM "CR &+ LF",	IDM_EOL_CRLF
-@@ -155,19 +153,15 @@
- 	MENUITEM SEPARATOR
- 	MENUITEM "Change Inden&tation Settings...\tCtrl+Shift+I",	IDM_TABSIZE
- 	MENUITEM "Use &Monospaced Font\tCtrl+F11",	IDM_MONOFONT
--	END
- 	MENUITEM SEPARATOR
--  POPUP "Config Files"
--  BEGIN
--//    MENUITEM "Open Local Options File",		IDM_OPENLOCALPROPERTIES
--//    MENUITEM "Open Directory Options File",		IDM_OPENDIRECTORYPROPERTIES
-+	MENUITEM "Open Local &Options File",		IDM_OPENLOCALPROPERTIES
-+	MENUITEM "Open &Directory Options File",		IDM_OPENDIRECTORYPROPERTIES
- 	MENUITEM "Open &User Options File",		IDM_OPENUSERPROPERTIES
- 	MENUITEM "Open &Global Options File",		IDM_OPENGLOBALPROPERTIES
- 	MENUITEM "Open A&bbreviations File",		IDM_OPENABBREVPROPERTIES
--//	MENUITEM "Open Lua Startup Scr&ipt", 		IDM_OPENLUAEXTERNALFILE
--	END
-+	MENUITEM "Open Lua Startup Scr&ipt", 		IDM_OPENLUAEXTERNALFILE
- 	MENUITEM SEPARATOR
--END // used: abcghilmprstux
-+END // used: abcghlmoprstux
- 
- POPUP "&Language"
- BEGIN
-@@ -182,6 +176,20 @@
+--- scintilla-scite/win32/SciTERes.rc	2017-01-20 21:49:26.000000000 +0100
++++ scite/win32/SciTERes.rc	2017-01-20 21:47:30.000000000 +0100
+@@ -182,6 +182,20 @@
  	MENUITEM "&Save All",				IDM_SAVEALL
  END
  
 +POPUP "Debug"
 +BEGIN
-+ MENUITEM "Run\tCtrl+Alt+F5",			IDM_DBG_RUN
-+  MENUITEM "Breakpoint\tAlt+F9",			IDM_DBG_BP
-+  MENUITEM "Step\tCtrl+Alt+F8",			IDM_DBG_STEPSI
-+  MENUITEM "Step over\tCtrl+Alt+F10",			IDM_DBG_STEPOV
-+  MENUITEM "Step out\tCtrl+Alt+F11",			IDM_DBG_STEPOUT
++ MENUITEM "Run\tCtrl+ALT+F5",			IDM_DBG_RUN
++  MENUITEM "Breakpoint\tALT+F9",			IDM_DBG_BP
++  MENUITEM "Step\tCtrl+ALT+F8",			IDM_DBG_STEPSI
++  MENUITEM "Step over\tCtrl+ALT+F10",			IDM_DBG_STEPOV
++  MENUITEM "Step out\tCtrl+ALT+F11",			IDM_DBG_STEPOUT
 +  MENUITEM "End",			IDM_DBG_END
-+  MENUITEM "Inspect",			IDM_DBG_INSPECT
-+  MENUITEM "Watch",			IDM_DBG_WATCH
++  MENUITEM "Inspect\t",			IDM_DBG_INSPECT
++  MENUITEM "Watch\t",			IDM_DBG_WATCH
 +  MENUITEM "Loca&ls\tCtrl+Alt+L",			IDM_DBG_LOC
 +  MENUITEM "&Backtrace\tCtrl+Alt+B",			IDM_DBG_BT
 +END
@@ -179,48 +146,23 @@ diff -Nurw scintilla-scite/win32/SciTERes.rc scite/win32/SciTERes.rc
  POPUP "&Help"
  BEGIN
  	MENUITEM "&Help\tF1", 				IDM_HELP
-@@ -531,6 +539,7 @@
- 
- 	VK_F5, IDM_GO,  VIRTKEY
- 	VK_F5, IDM_CLEAROUTPUT,  VIRTKEY, SHIFT
-+  VK_F5, IDM_DBG_RUN,  VIRTKEY, ALT, CONTROL
- 
- 	VK_F6, IDM_PREVFILE,  VIRTKEY, SHIFT
- 	VK_F6, IDM_SWITCHPANE,  VIRTKEY, CONTROL
-@@ -543,14 +552,18 @@
+@@ -543,14 +557,19 @@
  
  	VK_F8, IDM_TOGGLEOUTPUT, VIRTKEY
  	VK_F8, IDM_TOGGLEPARAMETERS, VIRTKEY, SHIFT
 +	VK_F8, IDM_DBG_STEPSI, VIRTKEY, ALT, CONTROL
-+
-+//	VK_F9, IDM_MACROLIST, VIRTKEY, SHIFT
-+//	VK_F9, IDM_MACROPLAY, VIRTKEY
-+//	VK_F9, IDM_MACROSTOPRECORD, VIRTKEY, CONTROL, SHIFT
-+//	VK_F9, IDM_MACRORECORD, VIRTKEY, CONTROL
-+	VK_F9, IDM_DBG_BP, VIRTKEY, ALT 
  
--	VK_F9, IDM_MACROLIST, VIRTKEY, SHIFT
--	VK_F9, IDM_MACROPLAY, VIRTKEY
--	VK_F9, IDM_MACRORECORD, VIRTKEY, CONTROL
--	VK_F9, IDM_MACROSTOPRECORD, VIRTKEY, CONTROL, SHIFT
-+  VK_F10, IDM_DBG_STEPOV, VIRTKEY, ALT, CONTROL
+ 	VK_F9, IDM_MACROLIST, VIRTKEY, SHIFT
+ 	VK_F9, IDM_MACROPLAY, VIRTKEY
+ 	VK_F9, IDM_MACRORECORD, VIRTKEY, CONTROL
+ 	VK_F9, IDM_MACROSTOPRECORD, VIRTKEY, CONTROL, SHIFT
++	VK_F9, IDM_DBG_BP, VIRTKEY, ALT 
++	
++	VK_F10, IDM_DBG_STEPOV, VIRTKEY, ALT, CONTROL
  
  	VK_F11, IDM_FULLSCREEN,  VIRTKEY
--	VK_F11, IDM_MONOFONT,  VIRTKEY, CONTROL
+ 	VK_F11, IDM_MONOFONT,  VIRTKEY, CONTROL
 +	VK_F11, IDM_DBG_STEPOUT,  VIRTKEY ALT, CONTROL
  
  	VK_TAB, IDM_PREVFILESTACK,  VIRTKEY, CONTROL, SHIFT
  	VK_TAB, IDM_NEXTFILESTACK,  VIRTKEY, CONTROL
-@@ -567,7 +580,11 @@
- 	"X", IDM_CUT,  VIRTKEY, CONTROL
- 	"C", IDM_COPY,  VIRTKEY, CONTROL
- 
--	"I", IDM_INCSEARCH,          VIRTKEY, CONTROL, ALT
-+	"I",  IDM_INCSEARCH, VIRTKEY, CONTROL, SHIFT
-+
-+  "L",  IDM_DBG_LOC, VIRTKEY, CONTROL, ALT
-+  "B",	IDM_DBG_BT,VIRTKEY, CONTROL, ALT
-+  
- END
- 
- IDR_CLOSEFILE BITMAP "closefile.bmp"
