@@ -131,11 +131,11 @@ diff -Nurw scintilla-scite/win32/SciTERes.rc scite/win32/SciTERes.rc
  
 +POPUP "Debug"
 +BEGIN
-+ MENUITEM "Run\tCtrl+ALT+F5",			IDM_DBG_RUN
-+  MENUITEM "Breakpoint\tALT+F9",			IDM_DBG_BP
-+  MENUITEM "Step\tCtrl+ALT+F8",			IDM_DBG_STEPSI
-+  MENUITEM "Step over\tCtrl+ALT+F10",			IDM_DBG_STEPOV
-+  MENUITEM "Step out\tCtrl+ALT+F11",			IDM_DBG_STEPOUT
++ MENUITEM "Run\tCtrl+Alt+F5",			IDM_DBG_RUN
++  MENUITEM "Breakpoint\tAlt+F9",			IDM_DBG_BP
++  MENUITEM "Step\tCtrl+Alt+F8",			IDM_DBG_STEPSI
++  MENUITEM "Step over\tCtrl+Alt+F10",			IDM_DBG_STEPOV
++  MENUITEM "Step out\tCtrl+Alt+F11",			IDM_DBG_STEPOUT
 +  MENUITEM "End",			IDM_DBG_END
 +  MENUITEM "Inspect\t",			IDM_DBG_INSPECT
 +  MENUITEM "Watch\t",			IDM_DBG_WATCH
@@ -146,7 +146,7 @@ diff -Nurw scintilla-scite/win32/SciTERes.rc scite/win32/SciTERes.rc
  POPUP "&Help"
  BEGIN
  	MENUITEM "&Help\tF1", 				IDM_HELP
-@@ -543,14 +557,19 @@
+@@ -543,14 +557,21 @@
  
  	VK_F8, IDM_TOGGLEOUTPUT, VIRTKEY
  	VK_F8, IDM_TOGGLEPARAMETERS, VIRTKEY, SHIFT
@@ -163,6 +163,8 @@ diff -Nurw scintilla-scite/win32/SciTERes.rc scite/win32/SciTERes.rc
  	VK_F11, IDM_FULLSCREEN,  VIRTKEY
  	VK_F11, IDM_MONOFONT,  VIRTKEY, CONTROL
 +	VK_F11, IDM_DBG_STEPOUT,  VIRTKEY ALT, CONTROL
- 
+
++ "L",  IDM_DBG_LOC, VIRTKEY, CONTROL, ALT
++ "B",	IDM_DBG_BT,VIRTKEY, CONTROL, ALT
  	VK_TAB, IDM_PREVFILESTACK,  VIRTKEY, CONTROL, SHIFT
  	VK_TAB, IDM_NEXTFILESTACK,  VIRTKEY, CONTROL
