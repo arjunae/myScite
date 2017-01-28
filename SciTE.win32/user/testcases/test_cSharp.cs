@@ -1,5 +1,5 @@
 //* Hello3.cs
-// arguments: A B C D
+/// arguments: A B C D
 using System;
 public class Hello3
 {

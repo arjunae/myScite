@@ -16,8 +16,9 @@ void mySay(char *myString) {
 	printf(myString);
 }
 
+/// checks for "test_cpp.cpp" and return result.
 int main() {
-// Define some Vars to see in locals view
+// Define some Vars to see in locals view.
 	char *test = (char *)"---------Test-------";
 	std::string file_name = "test_cpp.cpp";
 	std::string msg = "..file " + file_name;
@@ -25,7 +26,7 @@ int main() {
 	char *msg_plain = (char *)msg.c_str();
 	char *test2 = (char *)"--------Test-------";
 
-// out a greeting,
+// out a greeting
 	printf(msg_plain);
 
 // check for a file
