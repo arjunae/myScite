@@ -896,15 +896,15 @@ GtkWidget *SciTEGTK::AddMBButton(GtkWidget *dialog, const char *label,
 }
 
 FilePath SciTEGTK::GetSciteDefaultHome() {
-	const std::string cdefault 
-#ifdef SYSCONF_PATH // default guaranteed to exist by OS
-  cdefault = SYSCONF_PATH; 
-#else	
-	envhome = getenv("HOME");
-#endif
-	
+
 	std::string home;
 	FilePath homePath;
+	
+#ifdef SYSCONF_PATH // default guaranteed to exist by OS
+ 	const std::string cdefault = SYSCONF_PATH; 
+#else	
+		const std::string cdefault = getenv("HOME");
+#endif
 	
 	// 1 use SciTE_HOME
 	std::string envhome = getenv("SciTE_HOME");
