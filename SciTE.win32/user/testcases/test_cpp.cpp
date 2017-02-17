@@ -41,3 +41,5 @@ int main() {
 // hmm ..	finally...  lets do some -= ascii_art =- Tetris...
 	mySay((char *)"\n	  ::: \n	::...::  \n");
 }
+
+//todo: add cpp14 .. (make_unique and friends)

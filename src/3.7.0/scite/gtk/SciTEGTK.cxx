@@ -896,7 +896,13 @@ GtkWidget *SciTEGTK::AddMBButton(GtkWidget *dialog, const char *label,
 }
 
 FilePath SciTEGTK::GetSciteDefaultHome() {
-	const std::string cdefault = "/usr/share/scite"; // default guaranteed to exist by OS
+	const std::string cdefault 
+#ifdef SYSCONF_PATH // default guaranteed to exist by OS
+  cdefault = SYSCONF_PATH; 
+#else	
+	envhome = getenv("HOME");
+#endif
+	
 	std::string home;
 	FilePath homePath;
 	
@@ -911,18 +917,19 @@ FilePath SciTEGTK::GetSciteDefaultHome() {
 	homePath=envhome + "/scite/SciTEGlobal.properties";
 	if (homePath.Exists()) 
 		return FilePath(envhome+"/scite");
-		
-	// 3 Search confug in executables binPath
-	char buf[PATH_MAX + 1];
-	if (readlink("/proc/self/exe", buf, sizeof(buf) - 1) >0) {
-	// just get the path	
-		envhome = buf;
+	// 3 Search config in executables binPath
+	if (readlink("/proc/self/exe", buf, sizeof(buf) - 1) >0) {	
+		char buf[PATH_MAX + 1];	
+		envhome = buf; 
 		envhome = envhome.substr(0, envhome.rfind('/'));
+	} else
+		// Dont force proc to be available for Macintosh Platform (FreeBSD).	
+		envhome = sciteExecutable.AsInternal()
+	}
 		homePath = envhome +"/SciTEGlobal.properties";
 		if (homePath.Exists())
 			return FilePath(envhome);	
-	}
-
+	
 	return FilePath(cdefault);
 }
 
