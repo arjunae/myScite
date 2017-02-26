@@ -3,7 +3,7 @@
 
 REM  ::--::--::--::--Steampunk--::-::--::--::
 REM
-REM  Add Scite to Explorer "open with" Context Menu
+REM  Add Scite to Explorers "open with" Context Menu
 REM  -Creates a regfile which has to be imported manally.-
 REM
 REM :: Created Jul 2016, Marcedo@HabmalneFrage.de
