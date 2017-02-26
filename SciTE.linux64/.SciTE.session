@@ -1,13 +1,17 @@
 # SciTE session file
 
-position.left=316
-position.top=113
-position.width=858
-position.height=469
+position.left=350
+position.top=25
+position.width=764
+position.height=583
 position.maximize=0
 
-mru.1.path=/mnt/hgfs/E/projects/_myScite/.myScite.github/SciTE.linux64/user/testcases/test.ruby.rb
-mru.2.path=/mnt/hgfs/E/projects/_myScite/.myScite.github/SciTE.linux64/user/testcases/test_javascript.js
-mru.3.path=/mnt/hgfs/E/projects/_myScite/.myScite.github/SciTE.linux64/SciTEGlobal.properties
-mru.4.path=/mnt/hgfs/E/projects/_myScite/.myScite.github/SciTE.linux64/user/testcases/test_batch.cmd
-mru.5.path=/mnt/hgfs/E/projects/_myScite/.myScite.github/SciTE.linux64/user/testcases/test_python.py
+mru.1.path=/mnt/hgfs/E/projects/_myScite/.myScite.github/SciTE.linux64/user/testcases/test_cpp.cpp
+mru.2.path=/mnt/hgfs/E/projects/_myScite/.myScite.github/SciTE.linux64/user/testcases/test.ruby.rb
+mru.3.path=/mnt/hgfs/E/projects/_myScite/.myScite.github/SciTE.linux64/user/testcases/test_css.css
+mru.4.path=/mnt/hgfs/E/projects/_myScite/.myScite.github/SciTE.linux64/user/testcases/test_lua.lua
+mru.5.path=/mnt/hgfs/E/projects/_myScite/.myScite.github/SciTE.linux64/user/testcases/test_java.java
+mru.6.path=/mnt/hgfs/E/projects/_myScite/.myScite.github/SciTE.linux64/user/testcases/test_html.html
+mru.7.path=/mnt/hgfs/E/projects/_myScite/.myScite.github/SciTE.linux64/user/testcases/test_python.py
+mru.8.path=/mnt/hgfs/E/projects/_myScite/.myScite.github/SciTE.linux64/user/testcases/test_vbs.vbs
+mru.9.path=/mnt/hgfs/E/projects/_myScite/.myScite.github/SciTE.linux64/user/testcases/test_php.php
