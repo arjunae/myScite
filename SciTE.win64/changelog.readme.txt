@@ -6,7 +6,7 @@
 
 [08.Dezember.2016] STABLE.136
 - addons: Add Scite Ctags (credits mingfunwong)
- - Path-sandbox for tools. / small fixes to Addons. (orthospell & Sidebar)
+ - Path-sandbox for tools. / small fixes to Addons. (orthospell)
 - editor: fix nonequal line height / Styles for DocComments. 
 - other: faster runtime compression for libs 
 - profiles with env.scite_userhome / $(env.home)
