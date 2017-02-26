@@ -1005,7 +1005,7 @@ bool SciTEBase::SaveBuffer(FilePath saveName, SaveFlags sf) {
 
 void SciTEBase::ReloadProperties() {
 	ReadGlobalPropFile();
-	SetImportMenu();
+	SetImportMenu(props.GetInt("menu.options.showUserProps"));
 	ReadLocalPropFile();
 	ReadAbbrevPropFile();
 	ReadProperties();

@@ -630,7 +630,46 @@ void SciTEWin::SetToolBar() {
 	delete []tbb;
 	CheckMenus();
 }
+void SciTEWin::SetMenuItemNew(int menuNumber, int subMenuNumber, int position, int itemID,
+                           const GUI::gui_char *text, const GUI::gui_char *mnemonic) {
+	// On Windows the menu items are modified if they already exist or are created
+    HMENU hmenu = ::GetSubMenu(::GetMenu(MainHWND()), menuNumber);
+ // About to modify a submenu (eg Options-> Config Files)   
+	if(subMenuNumber >0) {
+    HMENU smenu = ::GetSubMenu(hmenu, subMenuNumber);
+    hmenu = smenu;
+  }
+	GUI::gui_string sTextMnemonic = text;
+	long keycode = 0;
+	if (mnemonic && *mnemonic) {
+		keycode = SciTEKeys::ParseKeyCode(GUI::UTF8FromString(mnemonic).c_str());
+		if (keycode) {
+			sTextMnemonic += GUI_TEXT("\t");
+			sTextMnemonic += mnemonic;
+		}
+		// the keycode could be used to make a custom accelerator table
+		// but for now, the menu's item data is used instead for command
+		// tools, and for other menu entries it is just discarded.
+	}
+  
+	UINT typeFlags = (text[0]) ? MF_STRING : MF_SEPARATOR;
+	if (::GetMenuState(hmenu, itemID, MF_BYCOMMAND) == (UINT)(-1)) {
+		// Not present so insert
+		::InsertMenuW(hmenu, position, MF_BYPOSITION | typeFlags, itemID, sTextMnemonic.c_str());
+	} else {
+		::ModifyMenuW(hmenu, itemID, MF_BYCOMMAND | typeFlags, itemID, sTextMnemonic.c_str());
+	}
 
+	if (itemID >= IDM_TOOLS && itemID < IDM_TOOLS + toolMax) {
+		// Stow the keycode for later retrieval.
+		// Do this even if 0, in case the menu already existed (e.g. ModifyMenu)
+		MENUITEMINFO mii;
+		mii.cbSize = sizeof(MENUITEMINFO);
+		mii.fMask = MIIM_DATA;
+		mii.dwItemData = keycode;
+		::SetMenuItemInfo(hmenu, itemID, FALSE, &mii);
+	}
+}
 
 
 void SciTEWin::SetMenuItem(int menuNumber, int position, int itemID,
