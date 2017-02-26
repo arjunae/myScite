@@ -1,23 +1,27 @@
 # SciTE session file
 
-position.left=414
-position.top=116
+position.left=662
+position.top=123
 position.width=720
 position.height=408
 position.maximize=0
 
-mru.1.path=C:\Users\Tho\Desktop\WPInternals\Changelog.txt
-mru.2.path=C:\Users\Tho\AppData\Local\Temp\au3.diff
-mru.3.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_javascript.js
-mru.4.path=E:\projects\_myScite\.myScite.github\src\3.7.0\scite\win32\SciTEWin.cxx
-mru.5.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\clike.properties
-mru.6.path=E:\projects\_myScite\.myScite.github\SciTE.win32\theme\theme.coffee.properties
-mru.7.path=E:\projects\_myScite\.myScite.github\contrib\SciTE_patches\1.env.userhome.370.diff
-mru.8.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_cpp.cpp
-mru.9.path=C:\Users\Tho\Desktop\klebeZettel.txt
-mru.10.path=E:\projects\_myScite\.myScite.github\src\3.7.0\scite\gtk\SciTEGTK.cxx
+mru.1.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_javascript.js
+mru.2.path=E:\projects\_myScite\.myScite.github\src\3.7.0\scite\win32\SciTEWin.cxx
+mru.3.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\languages\clike.properties
+mru.4.path=E:\projects\_myScite\.myScite.github\SciTE.win32\theme\theme.coffee.properties
+mru.5.path=E:\projects\_myScite\.myScite.github\contrib\SciTE_patches\1.env.userhome.370.diff
+mru.6.path=E:\projects\_myScite\.myScite.github\SciTE.win32\user\testcases\test_cpp.cpp
+mru.7.path=C:\Users\Tho\Desktop\klebeZettel.txt
+mru.8.path=E:\projects\_myScite\.myScite.github\src\3.7.0\scite\gtk\SciTEGTK.cxx
+mru.9.path=C:\Users\Tho\Desktop\scite\gtk\SciTEGTK.cxx
+mru.10.path=C:\Users\Tho\Desktop\scite\src\SciTEBase.h
 
-buffer.1.path=E:\projects\_myScite\.myScite.github\src\3.7.0\scite\gtk\SciTEGTK.cxx
-buffer.1.position=25967
-buffer.1.scroll=898
+search.1.findwhat=class Scite
+search.2.findwhat=class SciteGTK
+search.3.findwhat=menuitemnew
+
+buffer.1.path=C:\Users\Tho\Desktop\scite\src\SciTEBase.h
+buffer.1.position=12391
+buffer.1.scroll=475
 buffer.1.current=1

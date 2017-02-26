@@ -578,8 +578,12 @@ protected:
 	bool UpdateOutputSize();
 
 	GtkWidget *MenuItemFromAction(int itemID);
+	virtual void SetMenuItemNew(int menuNumber, int SubMenuNumber, int position, int itemID,
+	                         const char *text, const char *mnemonic = 0);
+
 	virtual void SetMenuItem(int menuNumber, int position, int itemID,
 	                         const char *text, const char *mnemonic = 0);
+
 	virtual void DestroyMenuItem(int menuNumber, int itemID);
 	virtual void CheckAMenuItem(int wIDCheckItem, bool val);
 	virtual void EnableAMenuItem(int wIDCheckItem, bool val);
@@ -896,19 +900,19 @@ GtkWidget *SciTEGTK::AddMBButton(GtkWidget *dialog, const char *label,
 }
 
 FilePath SciTEGTK::GetSciteDefaultHome() {
-
-	std::string home;
-	FilePath homePath;
 	
 #ifdef SYSCONF_PATH // default guaranteed to exist by OS
  	const std::string cdefault = SYSCONF_PATH; 
 #else	
 		const std::string cdefault = getenv("HOME");
 #endif
+
+	std::string home;
+	FilePath homePath;
 	
 	// 1 use SciTE_HOME
-	std::string envhome = getenv("SciTE_HOME");
-	homePath=envhome;
+	std::string envhome;
+	homePath=getenv("SciTE_HOME");
 	if (homePath.Exists())
 		return homePath;
 		
@@ -917,14 +921,15 @@ FilePath SciTEGTK::GetSciteDefaultHome() {
 	homePath=envhome + "/scite/SciTEGlobal.properties";
 	if (homePath.Exists()) 
 		return FilePath(envhome+"/scite");
+	
 	// 3 Search config in executables binPath
+	char buf[PATH_MAX + 1];	
 	if (readlink("/proc/self/exe", buf, sizeof(buf) - 1) >0) {	
-		char buf[PATH_MAX + 1];	
 		envhome = buf; 
 		envhome = envhome.substr(0, envhome.rfind('/'));
-	} else
+	} else {
 		// Dont force proc to be available for Macintosh Platform (FreeBSD).	
-		envhome = sciteExecutable.AsInternal()
+		envhome = sciteExecutable.AsInternal();
 	}
 		homePath = envhome +"/SciTEGlobal.properties";
 		if (homePath.Exists())
@@ -1331,6 +1336,48 @@ static std::string GtkFromWinCaption(const char *text) {
 	// Unescape ampersands
 	Substitute(sCaption, "&&", "&");
 	return sCaption;
+}
+
+void SciTEGTK::SetMenuItemNew(int, int, int, int itemID, const char *text, const char *mnemonic) {
+	DestroyMenuItem(0, itemID);
+
+	// On GTK+ the menuNumber and position are ignored as the menu item already exists and is in the right
+	// place so only needs to be shown and have its text set.
+
+	std::string itemText = GtkFromWinCaption(text);
+
+	long keycode = 0;
+	if (mnemonic && *mnemonic) {
+		keycode = SciTEKeys::ParseKeyCode(mnemonic);
+		if (keycode) {
+			itemText += " ";
+			itemText += mnemonic;
+		}
+		// the keycode could be used to make a custom accelerator table
+		// but for now, the menu's item data is used instead for command
+		// tools, and for other menu entries it is just discarded.
+	}
+
+	// Reorder shift and ctrl indicators for compatibility with other menus
+	Substitute(itemText, "Ctrl+Shift+", "Shift+Ctrl+");
+
+	GtkWidget *item = MenuItemFromAction(itemID);
+	if (item) {
+		GList *al = gtk_container_get_children(GTK_CONTAINER(item));
+		for (unsigned int ii = 0; ii < g_list_length(al); ii++) {
+			gpointer d = g_list_nth(al, ii);
+			GtkWidget **w = (GtkWidget **)d;
+			gtk_label_set_text_with_mnemonic(GTK_LABEL(*w), itemText.c_str());
+		}
+		g_list_free(al);
+		gtk_widget_show(item);
+
+		if (itemID >= IDM_TOOLS && itemID < IDM_TOOLS + toolMax) {
+			// Stow the keycode for later retrieval.
+			// Do this even if 0, in case the menu already existed (e.g. ModifyMenu)
+			g_object_set_data(G_OBJECT(item), "key", GINT_TO_POINTER(static_cast<int>(keycode)));
+		}
+	}
 }
 
 void SciTEGTK::SetMenuItem(int, int, int itemID, const char *text, const char *mnemonic) {
