@@ -15,8 +15,7 @@ public static void main(String[] args)
 		if (file.createNewFile())
 			System.out.println("Success!");
 		else
-			System.out.println
-				("Error, file already exists.");
+			System.out.println ("Stop, file already exists.");
 	}
 
 	catch (IOException ioe) {

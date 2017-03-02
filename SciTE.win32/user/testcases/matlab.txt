@@ -1,0 +1,5 @@
+Default
+!Exclamation
+"String"
+'Character'
+%Percent

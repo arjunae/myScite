@@ -2,7 +2,7 @@
 
 /**
  *   ---== cpp lexer sample ==---
- *       -> to debug, set a breakpoint with F9, and press CTRL-F5
+ *       -> @debugging: set a breakpoint with F9, and press CTRL-F5
  *       -> a strip showing the source file path will show up.
  *       -> change "test.cpp" to "test.cpp.exe" and you are set.
  */
@@ -16,8 +16,9 @@ void mySay(char *myString) {
 	printf(myString);
 }
 
+/// checks for "test_cpp.cpp" and return result.
 int main() {
-// Define some Vars to see in locals view
+// Define some Vars to see in locals view.
 	char *test = (char *)"---------Test-------";
 	std::string file_name = "test_cpp.cpp";
 	std::string msg = "..file " + file_name;
@@ -25,7 +26,7 @@ int main() {
 	char *msg_plain = (char *)msg.c_str();
 	char *test2 = (char *)"--------Test-------";
 
-// out a greeting,
+// out a greeting
 	printf(msg_plain);
 
 // check for a file
@@ -40,3 +41,5 @@ int main() {
 // hmm ..	finally...  lets do some -= ascii_art =- Tetris...
 	mySay((char *)"\n	  ::: \n	::...::  \n");
 }
+
+//todo: add cpp14 .. (make_unique and friends)
