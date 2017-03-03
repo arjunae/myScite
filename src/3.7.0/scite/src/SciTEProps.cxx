@@ -128,7 +128,7 @@ void SciTEBase::ReadEnvironment() {
 		char key[1024];
 		char *me = *env; 
 		char *value = strchr(me, '=');
-		if (value && (static_cast<unsigned int>(value - me) < sizeof(key))) {
+		if (value && (static_cast<int>(value - me) < static_cast<int>(sizeof(key)))) {
 			memcpy(key, me, value - me);
 			key[value - me] = '\0';
 			propsPlatform.Set(key, value + 1);
