@@ -2,17 +2,17 @@
 
 [xx.xx.2017] Current-Git
 - Redone theme.coffee
- - Rebased to Scite/Scintilla 3.7.0
+- Rebased to Scite/Scintilla 3.7.0
 - Add Powershell / Matlab / Markdown props.
- - Support simple Markdown for plainText files. 
+ - Support simple Markdown for plainText files.
 - Cleaned Build System
- - Moved SciTE-Lua-Libs to an own Repo. 
+ - Moved SciTE-Lua-Libs to an own Repo.
 
 [04.Dezember.2016] Development-135 (git snapshot)
 - addons: Add Scite Ctags (credits mingfunwong)
  - Path-sandbox for tools. / small fixes to Addons. (orthospell & Sidebar)
-- editor: fix nonequal line height / Styles for DocComments. 
-- other: faster runtime compression for libs 
+- editor: fix nonequal line height / Styles for DocComments.
+- other: faster runtime compression for libs
 - profiles with env.scite_userhome / $(env.home)
 
 [11.November.2016] STABLE-130
