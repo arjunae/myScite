@@ -1,183 +1,183 @@
-~->mySciTE_webdev -~
+~-- mySciTE_webdev -- ~
 
-[xx.xx.2017] Current-Git
-->Redone theme.coffee
-->Rebased to Scite/Scintilla 3.7.0
-->Add Powershell / Matlab / Markdown props.
---> Support simple Markdown for plainText files. 
-->Cleaned Build System
---> Moved SciTE-Lua-Libs to an own Repo. 
+[xx.xx.2017] Current-- Git
+--  Redone theme.coffee
+-- Rebased to Scite/Scintilla 3.7.0
+-- Add Powershell / Matlab / Markdown props.
+---  Support simple Markdown for plainText files. 
+-- Cleaned Build System
+---  Moved SciTE-Lua-Libs to an own Repo. 
 
 [08.12.2016] STABLE.136
-->addons: Add Scite Ctags (credits mingfunwong)
---> Path-sandbox for tools. / small fixes to Addons. (orthospell & Sidebar)
-->editor: fix nonequal line height / Styles for DocComments. 
-->other: faster runtime compression for libs 
-->profiles with env.scite_userhome / $(env.home)
-->toggle lineNumbers, dont use editmargin
+-- addons: Add Scite Ctags (credits mingfunwong)
+---  Path-sandbox for tools. / small fixes to Addons. (orthospell & Sidebar)
+-- editor: fix nonequal line height / Styles for DocComments. 
+-- other: faster runtime compression for libs 
+-- profiles with env.scite_userhome / $(env.home)
+-- toggle lineNumbers, dont use editmargin
 
 [11.11.2016] STABLE.130
-->api: Add coffeescript abd CSS3 Keywords | fix jQuery and vbs Calltips
-->editor: 3Tone Styles | optimized Fonts. (Zoom with alt-pgup/pgdown)
-->Addons: Add mod-scintilulla (15 new lexers) | Add mod-orthospell | smaller libs
-->common: Sync linux properties | add Documentation | include winpthreads
-->others: Fix Installer (reactOS) | cleanup SourceTree | default theme white. 
---> 8) MINI-Little-and-Sweet Package. Full Package see (github/arjunae)
+-- api: Add coffeescript abd CSS3 Keywords | fix jQuery and vbs Calltips
+-- editor: 3Tone Styles | optimized Fonts. (Zoom with alt-- pgup/pgdown)
+-- Addons: Add mod-scintilulla (15 new lexers) | Add mod-- orthospell | smaller libs
+-- common: Sync linux properties | add Documentation | include winpthreads
+-- others: Fix Installer (reactOS) | cleanup SourceTree | default theme white. 
+---  8) MINI-Little-and-Sweet Package. Full Package see (github/arjunae)
 
-[04.11.2016] Development-124
-->@arjunae cleanup js/jq keywords add Dom Exceptions / add lua.scite.api
-->@arjunae Additional HTML5 Keywords (final W3C 28.Okt.14)
-->@arjunae Move all Language related files to user/languages
-->@arjunae Update HelpFiles / Fix Installer 
---> register scite in [open With -programName-] List
-->@arjunae Add errlist output-pane ->makefile ->hexedit & debug styles.
---> themeblackBlue: add 3 tones Styling
-->@arjunae Calltips: Allow to distinguish btw properties and functions.
+[04.11.2016] Development-- 124
+-- @arjunae cleanup js/jq keywords add Dom Exceptions / add lua.scite.api
+-- @arjunae Additional HTML5 Keywords (final W3C 28.Okt.14)
+-- @arjunae Move all Language related files to user/languages
+-- @arjunae Update HelpFiles / Fix Installer 
+---  register scite in [open With -programName- ] List
+-- @arjunae Add errlist, output pane, makefile, hexedit & debug styles.
+---  themeblackBlue: add 3 tones Styling
+-- @arjunae Calltips: Allow to distinguish btw properties and functions.
 
-[29.10.2016] Stable-1.23
-->api:  fix: styling html/vbs/ruby/perl | New: java 1.8 & freebasic Keywords
-->themes: sync theme grey and theme blackblue
-->compatibility: fix: styles aliases for other scite forks
-->steampunk: fix: filetype register batchfiles
-->addons: fix: hexEdit / change some testcases
---> 8) MINI-Little-and-Sweet Package. Full Package see (github/arjunae)
+[29.10.2016] Stable-- 1.23
+-- api:  fix: styling html/vbs/ruby/perl | New: java 1.8 & freebasic Keywords
+-- themes: sync theme grey and theme blackblue
+-- compatibility: fix: styles aliases for other scite forks
+-- steampunk: fix: filetype register batchfiles
+-- addons: fix: hexEdit / change some testcases
+---  8) MINI-Little-and-Sweet Package. Full Package see (github/arjunae)
 
-[25.10.2016] Stable-1.22
-->editor: default to unicode / scaling for window and margins
-->apis: add BrowserWebApi / improve php and vbs api / fix linebreaks
-->props: clike: add AS3 Keywords / updates to js1.6
-->tools: simplified samples / fixed figref / add lua mod-mitchel
-->themes: better styles & monospace font / Zooming (Alt+Pgup/PgDown)
+[25.10.2016] Stable-- 1.22
+-- editor: default to unicode / scaling for window and margins
+-- apis: add BrowserWebApi / improve php and vbs api / fix linebreaks
+-- props: clike: add AS3 Keywords / updates to js1.6
+-- tools: simplified samples / fixed figref / add lua mod-- mitchel
+-- themes: better styles & monospace font / Zooming (Alt+Pgup/PgDown)
 
-[21.10.2016] Stable-1.21
-->sync with scintilla-scite 3.67
-->Fixes for styling cpp macros, html tags and wsh objects
-->Finalize theme.grey
-->Fix lua debugging
-->Fix Addon System
-->Full Version available on github.
+[21.10.2016] Stable- 1.21
+-- sync with scintilla-scite 3.67
+-- Fixes for styling cpp macros, html tags and wsh objects
+-- Finalize theme.grey
+-- Fix lua debugging
+-- Fix Addon System
+-- Full Version available on github.
 
 [27.09.2016] [Stable-1.14]
-->New Feature: Window transparency.
---> propertyName in percent of opaque: int window.transparency=96
-->change: further improved theme contrast
-->add: XML keywords for vbs
-->fix: cpp api fetcher
+-- New Feature: Window transparency.
+---  propertyName in percent of opaque: int window.transparency=96
+-- change: further improved theme contrast
+-- add: XML keywords for vbs
+-- fix: cpp api fetcher
 
-[19.08.2016] (Stable-1.12)
-->Fixes for vbscript styling. Use FreeBasic Lexer.
-->Fixes for cpp styling. (cpp11 / c98)
-->Change enhance Batch fike styling
-->Fixes for html styling
-->Fix theme.blackblue (highlite keywords1)
+[19.08.2016] Stable-1.12
+-- Fixes for vbscript styling. Use FreeBasic Lexer.
+-- Fixes for cpp styling. (cpp11 / c98)
+-- Change enhance Batch fike styling
+-- Fixes for html styling
+-- Fix theme.blackblue (highlite keywords1)
 
 [18.08.2016]
-->change some more Screenshots.
-->Formatting Cleanups for Calltips in jQuery.api (Linebreaks).
-->More eyeFriendly theme.coffee
+-- change some more Screenshots.
+-- Formatting Cleanups for Calltips in jQuery.api (Linebreaks).
+-- More eyeFriendly theme.coffee
 
 [17.08.2016]
-->Removed Screenshots from older Revisions.
-->Formatting Cleanups for Calltips in javascript.api (Linebreaks).
-->Higher contrast and monospace Font within the output pane.
+-- Removed Screenshots from older Revisions.
+-- Formatting Cleanups for Calltips in javascript.api (Linebreaks).
+-- Higher contrast and monospace Font within the output pane.
 
 [16.08.2016]	::.:::..:: Stable Release (1.11) ::.:::..::
-->Enhanced; Profiles Patch.
-->Use %userprofile%\.Scite, $(env.scite_userhome) or just Scite's binPath.
-->Fix; MSDN and CPP API File parsers.
-->New; Properties: Include XML & Yaml. Most props use theming / New theme.white
-->Redone VBA/WSH/JS APis.
-->New; Autocomplete: Grow and Shrink List dynamically.
-->Fix; Calltips: Now finally helpful and usable.
-->New; Use "release" Bins by default to reduce download size.
-->Fix; Remove unnecessary runtime dependencies. Be friendly to Reactos RC1.
-->New; .add_toolPath.cmd to Set Path for Scites Toolbase.
-->Change; Move all Lua related files to Addons\lua-modules
-->Change; Add wrapper scripts for all Tools and move them to Addons\tools
-->Add; Code Linter (with gcc) and Beautify Tools (Uncrustify)
+-- Enhanced; Profiles Patch.
+-- Use %userprofile%\.Scite, $(env.scite_userhome) or just Scite's binPath.
+-- Fix; MSDN and CPP API File parsers.
+-- New; Properties: Include XML & Yaml. Most props use theming / New theme.white
+-- Redone VBA/WSH/JS APis.
+-- New; Autocomplete: Grow and Shrink List dynamically.
+-- Fix; Calltips: Now finally helpful and usable.
+-- New; Use "release" Bins by default to reduce download size.
+-- Fix; Remove unnecessary runtime dependencies. Be friendly to Reactos RC1.
+-- New; .add_toolPath.cmd to Set Path for Scites Toolbase.
+-- Change; Move all Lua related files to Addons\lua-- modules
+-- Change; Add wrapper scripts for all Tools and move them to Addons\tools
+-- Add; Code Linter (with gcc) and Beautify Tools (Uncrustify)
 
 [24.07.2016]
---	->Highlite: Overhauled many Regions...
-->New: Support theming for editor and lexers. New default Theme.
-->Fix: Dynamic filters in File Dialogs
-->Fix: Reworked and documented configuration properties.
-->Fix: Improve running Batch and traceing PHP, Python and Lua scripts.
-->Fix: Scite on writeProtected Pathes (eg C:\ProgramFiles)
-->New: Reworked Optionsmenu, new Debug menu.
-->Next Release will be RC.
+-- Highlite: Overhauled many Regions...
+-- New: Support theming for editor and lexers. New default Theme.
+-- Fix: Dynamic filters in File Dialogs
+-- Fix: Reworked and documented configuration properties.
+-- Fix: Improve running Batch and traceing PHP, Python and Lua scripts.
+-- Fix: Scite on writeProtected Pathes (eg C:\ProgramFiles)
+-- New: Reworked Optionsmenu, new Debug menu.
+-- Next Release will be RC.
 
 [23.03.2016]
---	->Fix remaining lib dependencies.
-->New CPP API (947 Entries) / Implemented enhanced Autocomplete.
-->Redone api files in goodies / Many Bug Fixes
-->Note: If you plan to use the GDB Interface, please install MinGW
+-- Fix remaining lib dependencies.
+-- New CPP API (947 Entries) / Implemented enhanced Autocomplete.
+-- Redone api files in goodies / Many Bug Fixes
+-- Note: If you plan to use the GDB Interface, please install MinGW
 
 [01.02.2016]
---	Fix statically Linking C Library (libgcc-s-dw2-1-dll)
-->Fix jQuery API :Selectors / Fix Toolbar Font Switching / Fix vbScript Highlitening / Cleanup BuildSys
+--- 	Fix statically Linking C Library (libgcc-s-dw2-1.dll)
+-- Fix jQuery API :Selectors / Fix Toolbar Font Switching / Fix vbScript Highlitening / Cleanup BuildSys
 
 [16.01.2016]
-->Sync with SciTE 3.63 Dev
-->Linux binaries / Fixed to Build System and Lua ApiDocs
-->current Scite goodies (Patches / API Files)
+-- Sync with SciTE 3.63 Dev
+-- Linux binaries / Fixed to Build System and Lua ApiDocs
+-- current Scite goodies (Patches / API Files)
 
 [02.01.2016]
-->a good Set of fixes for Debugging Infra.
-->Now supports GDB based debugging ->Hey ->Scite debugging Scite works :=)
-->New Prop debug.askTarget ->shows a Strip to choose debuggee binary. / utilize lfs.chdir
---> (needs mingwbin in your Path)
-->Integrate jQuery and js keywords / cleanup Properties.
+-- a good Set of fixes for Debugging Infra.
+-- Now supports GDB based debugging -- Hey -- Scite debugging Scite works :=)
+-- New Prop debug.askTarget -- shows a Strip to choose debuggee binary. / utilize lfs.chdir
+---  (needs mingwbin in your Path)
+-- Integrate jQuery and js keywords / cleanup Properties.
 
 [20.12.2015]
-->A usable debugging infrastructure (but still via Tools menu)
-->Finally supports lua debugging, more Languages coming soon.
-Seeya next year Release :)  ->Thoraten
+-- A usable debugging infrastructure (but still via Tools menu)
+-- Finally supports lua debugging, more Languages coming soon.
+Seeya next year Release :)  -- Thoraten
 
 [11.12.2015]
-->Initial support for debugging infrastructure via tools menu
-->Add interactive Lua Prompt.
-->Fix Debug Markers.
+-- Initial support for debugging infrastructure via tools menu
+-- Add interactive Lua Prompt.
+-- Fix Debug Markers.
 
 [A09.12.2015]
-->Port [user.toolbar] from Scite_ru. -> Credits Guys!
-->See: http://scite-ru.bitbucket.org/pack/doc/SciTE-Ru_Kernel.html
-->Fix Editor Wrap / fix vba Keywords / add custom Styles / Cleanup Code / Fix Scite shared CLib dependency
-->Add LuaSockets 3.0-RC1 / mobdebug.lua / Add LuaExpat 1.3.0
+-- Port [user.toolbar] from Scite_ru. --  Credits Guys!
+-- See: http://scite-- ru.bitbucket.org/pack/doc/SciTE-- Ru_Kernel.html
+-- Fix Editor Wrap / fix vba Keywords / add custom Styles / Cleanup Code / Fix Scite shared CLib dependency
+-- Add LuaSockets 3.0-- RC1 / mobdebug.lua / Add LuaExpat 1.3.0
 
 [A02.12.2015]
-->Import Wsh and Vba Api Calltips. (Functions/Props/Methods & Objects)
-->Compatibility with Scite_Lua Extension and style Systems
+-- Import Wsh and Vba Api Calltips. (Functions/Props/Methods & Objects)
+-- Compatibility with Scite_Lua Extension and style Systems
 
 [A27.11.2015]
-->MSDN Sync: Allow Pause / Resume Sync feature.
---> ( Fix up sync on slower Connections.)
---> ( See Steampunk/Api_docs/msdn.js.obj.ref )
-->Finished import of Javascript Object Calltips
---> (now with enhanced LineWrap for Js and jQuery)
+-- MSDN Sync: Allow Pause / Resume Sync feature.
+---  ( Fix up sync on slower Connections.)
+---  ( See Steampunk/Api_docs/msdn.js.obj.ref )
+-- Finished import of Javascript Object Calltips
+---  (now with enhanced LineWrap for Js and jQuery)
 
 [A22.11.2015]
-->Introduce Scite SideBar.lua ( needs shell.dll / gui.dll )
---> (Libs compiled from Source. Please see Code/SciTE_SupportLib)
-->Shrink down extmans scite_lua Scripts to a good base.
-->Add perl and lua.api (plus a nice WorldofWarcraft lua api :).
-->Fixed LuaLib makefiles to statically link libgcc. Cleaned up Directories.
-->Introduce code\SciTE_ApiDocs\msdn (syncs Language Docs with local repo)
+-- Introduce Scite SideBar.lua ( needs shell.dll / gui.dll )
+---  (Libs compiled from Source. Please see Code/SciTE_SupportLib)
+-- Shrink down extmans scite_lua Scripts to a good base.
+-- Add perl and lua.api (plus a nice WorldofWarcraft lua api :).
+-- Fixed LuaLib makefiles to statically link libgcc. Cleaned up Directories.
+-- Introduce code\SciTE_ApiDocs\msdn (syncs Language Docs with local repo)
 
 [B17.11.2015]
-->Implement List based File associations. (See FileExt.list)
-->Fix REG 3.0 ->XP Compatibility
-->Clean up Tool Command Menu. (Language specific Menu entries)
-->Clean up SciTE.platfom.properties.
-->Hey reaching nearly 42 Downloads 8)
-->Include extman.lua and a fancy HEX Editor
+-- Implement List based File associations. (See FileExt.list)
+-- Fix REG 3.0 XP Compatibility
+-- Clean up Tool Command Menu. (Language specific Menu entries)
+-- Clean up SciTE.platfom.properties.
+-- Hey reaching nearly 42 Downloads 8)
+-- Include extman.lua and a fancy HEX Editor
 
 [E14.11.2015]
-->Sync with vanilla SciTE 3.62
-->current language property files
-->Using  language.menu wildcards now
---> (compatible with Scite 3.62. just copy and be happy :)
-->coffeescript and csharp keywords
-->Sync Help Files with 3.62
-->fixed Scite default actions (explorer "open with")
-->use relative Pathes everywhere now
-->moved SciTE_start_usb to testcases
+-- Sync with vanilla SciTE 3.62
+-- current language property files
+-- Using  language.menu wildcards now
+---  (compatible with Scite 3.62. just copy and be happy :)
+-- coffeescript and csharp keywords
+-- Sync Help Files with 3.62
+-- fixed Scite default actions (explorer "open with")
+-- use relative Pathes everywhere now
+-- moved SciTE_start_usb to testcases

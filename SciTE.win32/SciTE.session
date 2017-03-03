@@ -10,14 +10,28 @@ mru.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\theme\theme.coffee.p
 mru.2.path=E:\projects\_myScite\_myScite.github\SciTE.win32\theme\theme.blackblue.properties
 mru.3.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\languages\cmake.properties
 mru.4.path=E:\projects\_myScite\_myScite.github\SciTE.win32\theme\theme.global.defaults.properties
-mru.5.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\languages\others.properties
-mru.6.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEUser.properties
-mru.7.path=E:\projects\_myScite\_myScite.github\SciTE.win64\changelog.readme.md
-mru.8.path=E:\projects\_myScite\_myScite.github\readme.md
-mru.9.path=C:\Users\Tho\Desktop\klebeZettel.txt
-mru.10.path=E:\projects\_myScite\_myScite.github\changelog.readme.md
+mru.5.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEUser.properties
+mru.6.path=E:\projects\_myScite\_myScite.github\SciTE.win64\changelog.readme.md
+mru.7.path=C:\Users\Tho\Desktop\klebeZettel.txt
+mru.8.path=E:\projects\_myScite\_myScite.github\changelog.readme.md
+mru.9.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\languages\others.properties
+mru.10.path=E:\projects\_myScite\_myScite.github\readme.md
 
-buffer.1.path=E:\projects\_myScite\_myScite.github\changelog.readme.md
-buffer.1.position=1
+search.1.findwhat=- 
+search.2.findwhat=- -
+search.3.findwhat=-
+search.4.findwhat=*
+search.5.findwhat=-*
+search.6.findwhat=->
+
+search.1.replacewith=-- 
+search.2.replacewith=--
+search.3.replacewith=- 
+search.4.replacewith=-
+search.5.replacewith=**
+search.6.replacewith=*
+
+buffer.1.path=E:\projects\_myScite\_myScite.github\readme.md
+buffer.1.position=24
 buffer.1.scroll=0
 buffer.1.current=1
