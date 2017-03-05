@@ -85,21 +85,20 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\" \"-CWD:%scite_path_ext%\""
  
  echo Windows Registry Editor Version 5.00 > %RegFile%
- 
- IF %ADMIN%==1 ( 
  REM ---- Finally, write the .reg file, \" escapes double quotes
- echo [-HKEY_CLASSES_ROOT\*\shell\Open with SciTE] >> %RegFile%
- echo [HKEY_CLASSES_ROOT\*\shell\Open with SciTE] >> %RegFile%
- echo [HKEY_CLASSES_ROOT\*\shell\Open with SciTE\command] >> %RegFile%
+ echo ; -- Update ShellMenu Entry >> %RegFile%
+ echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE] >> %RegFile%
+ echo [HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE] >> %RegFile%
+ echo [HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE\command] >> %RegFile% 
  echo @=%scite_cmd% >> %RegFile%
-)
-
+ 
+ ::echo. >>%RegFile%
+ 
  REM WorkAround Reactos 0.4.2 Bug.
  IF [%FIX_REACTOS%]==[1] ( 
  set scite_cmd="\"%scite_path%\\%cmd%\" %%1"
  )
- 
- :: create / reset Program Entry RegistryKey (..in HKEYCurrenUser..)
+ echo ; -- Update Program Entry >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] >> %RegFile%
