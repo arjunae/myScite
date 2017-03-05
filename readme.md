@@ -1,12 +1,11 @@
 ~- mySciTE.webdev -~
 
 [xx.xx.2017] Current-Git
-- Redone theme.coffee
 - Rebased to Scite/Scintilla 3.7.0
 - Add Powershell / Matlab / Markdown props.
  - Support simple Markdown for plainText files.
-- Cleaned Build System
- - Moved SciTE-Lua-Libs to an own Repo.
+- Fix Installer Script / Redone theme.coffee
+- Cleaned Build System / Moved SciTE-Lua-Libs to an own Repo.
 
 [04.Dezember.2016] Development-135 (git snapshot)
 - addons: Add Scite Ctags (credits mingfunwong)

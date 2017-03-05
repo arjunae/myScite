@@ -63,10 +63,12 @@ echo  ... Listed all Files, started from current Directory...
 
  REM ---- Finally, write the .reg file, \" escapes double quotes
  echo Windows Registry Editor Version 5.00 > %RegFile%
- echo [-HKEY_CLASSES_ROOT\*\shell\Open with SciTE] >> %RegFile%
- echo [HKEY_CLASSES_ROOT\*\shell\Open with SciTE] >> %RegFile%
- echo [HKEY_CLASSES_ROOT\*\shell\Open with SciTE\command] >> %RegFile%
+ echo ; -- Update ShellMenu Entry >> %RegFile%
+ echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE] >> %RegFile%
+ echo [HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE] >> %RegFile%
+ echo [HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE\command] >> %RegFile% 
  echo @=%scite_cmd% >> %RegFile%
+ 
  :: echo @="E:\\projects\\.scite.gitSourceForge\\SciTE_webdev\\SciTE.exe %%*" >> %RegFile%
 
  :: ----  Note down how to call scite exe from anywhere on the system.

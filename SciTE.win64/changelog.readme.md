@@ -1,12 +1,11 @@
 ~# mySciTE.webdev -~
 
 [xx.xx.2017] Current-Git
-# Redone theme.coffee
  # Rebased to Scite/Scintilla 3.7.0
 # Add Powershell / Matlab / Markdown props.
  # Support simple Markdown for plainText files. 
-# Cleaned Build System
- # Moved SciTE-Lua-Libs to an own Repo. 
+# Fix Installer Script / Redone theme.coffee
+ # Cleaned Build System / Moved SciTE-Lua-Libs to an own Repo. 
 
 [04.Dezember.2016] Development-135 (git snapshot)
 # addons: Add Scite Ctags (credits mingfunwong)
@@ -21,7 +20,7 @@
 # Addons: Add mod-scintilulla (15 new lexers) | Add mod-orthospell | smaller libs 
 # common: Sync linux properties | add Documentation | include winpthreads
 # others: Fix Installer (reactOS) | cleanup SourceTree | default theme white.
-8) MINI-Little-and-Sweet Package. Full Package see (github/arjunae)
+# 8) MINI-Little-and-Sweet Package. Full Package see (github/arjunae)
  
 [04.November.2016] DEVEL-124
 # @arjunae cleanup js/jq keywords add Dom Exceptions / add lua.scite.api	
@@ -38,7 +37,7 @@
 # compatibility: fix: styles aliases for other scite forks
 # steampunk: fix: filetype register batchfiles
 # addons: fix: hexEdit / change some testcases
- 8) MINI-Little-and-Sweet Package. Full Package see (github/arjunae)
+# 8) MINI-Little-and-Sweet Package. Full Package see (github/arjunae)
 
 [25.10.2016] STABLE-1.22
 # editor: default to unicode / scaling for window and margins

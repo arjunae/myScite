@@ -1,7 +1,7 @@
-/* 
-  * Test SQL
-  *  long comment *
- */
+  /* 
+   * Test SQL
+   *  long comment *
+   */
 
 select
     key1 as c1,
