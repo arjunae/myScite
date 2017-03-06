@@ -52,11 +52,10 @@ const GUI::gui_char menuAccessIndicator[] = GUI_TEXT("&");
 #include "MatchMarker.h"
 #include "SciTEBase.h"
 
-void SciTEBase::SetImportMenu(int iShow) {
+void SciTEBase::SetImportMenu(int) {
 // Reset Options->configFiles
-    DestroyMenuItem(menuOptions,222000); // How to toggle Branch visibility ?
-	for (int i = 0; i < importMax; i++) {
-     DestroyMenuItem(menuOptions,1300+ i);
+	//for (int i = 0; i < importMax; i++) {
+     //DestroyMenuItem(menuOptions,1300+ i);
 	}
   //importCmdID, FillUp above Menu with property fileNames
 	if (!importFiles.empty()) {
@@ -67,12 +66,11 @@ void SciTEBase::SetImportMenu(int iShow) {
 				entry += GUI_TEXT(" ");
 				entry += importFiles[stackPos].Name().AsInternal();
 				std::string sEntry= GUI::UTF8FromString(entry);
-				if (iShow==0) {
-					if (sEntry.find("theme") != std::string::npos or sEntry.find("ddons") != std::string::npos)
+				//  Depends on Foldernames to display properties sorted.
+				if (sEntry.find("theme") != std::string::npos or sEntry.find("ddons") != std::string::npos)
 						SetMenuItemNew(menuOptions, 9, IMPORT_START+stackPos, itemID, entry.c_str());
-					}
-				if (iShow==1)
-						SetMenuItemNew(menuOptions, 9, IMPORT_START+stackPos, itemID, entry.c_str()); 
+				if (sEntry.find("lang") != std::string::npos)
+						SetMenuItemNew(menuOptions, 10, stackPos, itemID, entry.c_str()); 
 			}
 		}
 	}

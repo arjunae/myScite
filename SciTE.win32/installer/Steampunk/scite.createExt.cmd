@@ -265,8 +265,8 @@ IF [%HKCU_DOTEXT%]==[%TRUE%] (
 REM --  Note: that classID simply points to %systemroot%\system32
 IF [%HKCU_DOTEXT%]==[%TRUE%] (
  echo "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe" >> %RegFileName%
- echo "MRUList"="as" >> %RegFileName%
- echo "s"="SciTE.exe" >> %RegFileName%
+ echo "MRUList"="ad" >> %RegFileName%
+ echo "d"="SciTE.exe" >> %RegFileName%
  )
  
 IF [%HKCU_DOTEXT%]==[%TRUE%] ( 
@@ -297,8 +297,8 @@ IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
   
 IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] (
  echo "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe" >> %RegFileName%
- echo "MRUList"="sa" >> %RegFileName%
- echo "s"="SciTE.exe" >> %RegFileName%
+ echo "MRUList"="da" >> %RegFileName%
+ echo "d"="SciTE.exe" >> %RegFileName%
  )
  
 IF [%HKCU_DOTEXT%]==[%false%] IF [%HKCU_AUTOFILE%]==[%TRUE%] ( 

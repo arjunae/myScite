@@ -4,7 +4,7 @@
 - Rebased to Scite/Scintilla 3.7.0
 - Add Powershell / Matlab / Markdown props.
  - Support simple Markdown for plainText files.
-- Fix Installer Script / Redone theme.coffee
+- Enhance Installer Script / Redone theme.coffee
 - Cleaned Build System / Moved SciTE-Lua-Libs to an own Repo.
 
 [04.Dezember.2016] Development-135 (git snapshot)

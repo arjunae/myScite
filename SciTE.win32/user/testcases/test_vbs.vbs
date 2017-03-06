@@ -4,8 +4,8 @@
 
 Dim oIE, bonQuit,bConsole
 if instr(1,wscript.fullName,"cscript") then bConsole=true
-wscript.Quit(main)
 
+wscript.quit(main)
 function main
 '---- Create object and connect the event handler in one step.
   Set oIE = wscript.CreateObject("InternetExplorer.Application","IE_")
