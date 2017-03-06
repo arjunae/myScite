@@ -52,10 +52,10 @@ const GUI::gui_char menuAccessIndicator[] = GUI_TEXT("&");
 #include "MatchMarker.h"
 #include "SciTEBase.h"
 
-void SciTEBase::SetImportMenu(int) {
+void SciTEBase::SetImportMenu() {
 // Reset Options->configFiles
-	//for (int i = 0; i < importMax; i++) {
-     //DestroyMenuItem(menuOptions,1300+ i);
+	for (int i = 0; i < importMax; i++) {
+     DestroyMenuItem(menuOptions,1300+ i);
 	}
   //importCmdID, FillUp above Menu with property fileNames
 	if (!importFiles.empty()) {
@@ -68,9 +68,9 @@ void SciTEBase::SetImportMenu(int) {
 				std::string sEntry= GUI::UTF8FromString(entry);
 				//  Depends on Foldernames to display properties sorted.
 				if (sEntry.find("theme") != std::string::npos or sEntry.find("ddons") != std::string::npos)
-						SetMenuItemNew(menuOptions, 9, IMPORT_START+stackPos, itemID, entry.c_str());
+						SetMenuItemNew(menuOptions, 3, IMPORT_START+stackPos, itemID, entry.c_str());
 				if (sEntry.find("lang") != std::string::npos)
-						SetMenuItemNew(menuOptions, 10, stackPos, itemID, entry.c_str()); 
+						SetMenuItemNew(menuOptions, 4, stackPos, itemID, entry.c_str()); 
 			}
 		}
 	}

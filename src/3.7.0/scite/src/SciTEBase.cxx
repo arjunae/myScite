@@ -4299,7 +4299,7 @@ void SciTEBase::SetHomeProperties() {
 }
 
 void SciTEBase::UIAvailable() {
-	SetImportMenu(props.GetInt("menu.options.showUserProps"));
+	SetImportMenu();
 	if (extender) {
 		SetHomeProperties();
 		extender->Initialise(this);

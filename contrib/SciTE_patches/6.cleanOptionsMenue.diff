@@ -1,16 +1,6 @@
 diff -Nurw scintilla-scite/src/SciTE.h scite/src/SciTE.h
 --- scintilla-scite/src/SciTE.h	2016-12-21 04:18:32.000000000 +0100
 +++ scite/src/SciTE.h	2016-12-21 04:19:10.000000000 +0100
-@@ -54,7 +54,7 @@
- #define IDM_ENCODING_UCOOKIE	154
- 
- #define MRU_START	17
--#define IMPORT_START 20
-+#define IMPORT_START 8 // Itemposition to add config filenames (Menu-Options-Config Files)
- #define TOOLS_START 4
- 
- // Edit
-
 diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
 --- scintilla-scite/gtk/SciTEGTK.cxx	2017-02-26 12:52:52.000000000 +0100
 +++ scite/gtk/SciTEGTK.cxx	2017-02-26 07:28:04.000000000 +0100
@@ -76,51 +66,6 @@ diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
  void SciTEGTK::SetMenuItem(int, int, int itemID, const char *text, const char *mnemonic) {
  	DestroyMenuItem(0, itemID);
  
-diff -Nurw scintilla-scite/src/SciTEBase.cxx scite/src/SciTEBase.cxx
---- scintilla-scite/src/SciTEBase.cxx	2017-02-26 12:53:08.000000000 +0100
-+++ scite/src/SciTEBase.cxx	2017-02-26 10:51:16.000000000 +0100
-@@ -4299,7 +4299,7 @@
- }
- 
- void SciTEBase::UIAvailable() {
--	SetImportMenu();
-+	SetImportMenu(props.GetInt("menu.options.showUserProps"));
- 	if (extender) {
- 		SetHomeProperties();
- 		extender->Initialise(this);
-diff -Nurw scintilla-scite/src/SciTEBase.h scite/src/SciTEBase.h
---- scintilla-scite/src/SciTEBase.h	2017-02-26 12:52:52.000000000 +0100
-+++ scite/src/SciTEBase.h	2017-02-26 10:49:38.000000000 +0100
-@@ -824,6 +824,8 @@
- 	virtual void SizeContentWindows() = 0;
- 	virtual void SizeSubWindows() = 0;
- 
-+	virtual void SetMenuItemNew(int menuNumber, int subMenuNumber, int position, int itemID,
-+		const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0) = 0;
- 	virtual void SetMenuItem(int menuNumber, int position, int itemID,
- 		const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0) = 0;
- 	virtual void RedrawMenu() {}
-@@ -857,7 +859,7 @@
- 	void AssignKey(int key, int mods, int cmd);
- 	void ViewWhitespace(bool view);
- 	void SetAboutMessage(GUI::ScintillaWindow &wsci, const char *appTitle);
--	void SetImportMenu();
-+	void SetImportMenu(int iShow);
- 	void ImportMenu(int pos);
- 	void SetLanguageMenu();
- 	void SetPropertiesInitial();
-diff -Nurw scintilla-scite/src/SciTEIO.cxx scite/src/SciTEIO.cxx
---- scintilla-scite/src/SciTEIO.cxx	2016-10-16 04:59:54.000000000 +0200
-+++ scite/src/SciTEIO.cxx	2017-02-26 10:45:06.000000000 +0100
-@@ -1005,7 +1005,7 @@
- 
- void SciTEBase::ReloadProperties() {
- 	ReadGlobalPropFile();
--	SetImportMenu();
-+	SetImportMenu(props.GetInt("menu.options.showUserProps"));
- 	ReadLocalPropFile();
- 	ReadAbbrevPropFile();
- 	ReadProperties();
 diff -Nurw scintilla-scite/src/SciTEProps.cxx scite/src/SciTEProps.cxx
 --- scintilla-scite/src/SciTEProps.cxx	2017-02-26 12:52:52.000000000 +0100
 +++ scite/src/SciTEProps.cxx	2017-02-26 10:40:08.000000000 +0100
@@ -129,12 +74,12 @@ diff -Nurw scintilla-scite/src/SciTEProps.cxx scite/src/SciTEProps.cxx
  #include "SciTEBase.h"
  
 -void SciTEBase::SetImportMenu() {
-+void SciTEBase::SetImportMenu(int iShow) {
++void SciTEBase::SetImportMenu() {
 +// Reset Options->configFiles
 +    DestroyMenuItem(menuOptions,222000); // How to toggle Branch visibility ?
  	for (int i = 0; i < importMax; i++) {
 -		DestroyMenuItem(menuOptions, importCmdID + i);
-+     DestroyMenuItem(menuOptions,1300+ i);
++     //DestroyMenuItem(menuOptions, importCmdID + i);
  	}
 +  //importCmdID, FillUp above Menu with property fileNames
  	if (!importFiles.empty()) {
@@ -233,13 +178,13 @@ diff -Nurw scintilla-scite/win32/SciTERes.rc scite/win32/SciTERes.rc
 -	MENUITEM "Open &Directory Options File",		IDM_OPENDIRECTORYPROPERTIES
 +  POPUP "Config Files"
 +  BEGIN
-+//    MENUITEM "Open Local Options File",		IDM_OPENLOCALPROPERTIES
-+//    MENUITEM "Open Directory Options File",		IDM_OPENDIRECTORYPROPERTIES
++    MENUITEM "Open Local Options File",		IDM_OPENLOCALPROPERTIES
++    MENUITEM "Open &Directory Options File",		IDM_OPENDIRECTORYPROPERTIES
  	MENUITEM "Open &User Options File",		IDM_OPENUSERPROPERTIES
  	MENUITEM "Open &Global Options File",		IDM_OPENGLOBALPROPERTIES
  	MENUITEM "Open A&bbreviations File",		IDM_OPENABBREVPROPERTIES
 -	MENUITEM "Open Lua Startup Scr&ipt", 		IDM_OPENLUAEXTERNALFILE
-+//	MENUITEM "Open Lua Startup Scr&ipt", 		IDM_OPENLUAEXTERNALFILE
++	MENUITEM "Open Lua Startup Scr&ipt", 		IDM_OPENLUAEXTERNALFILE
 +	END
  	MENUITEM SEPARATOR
 -END // used: abcghlmoprstux
