@@ -1,10 +1,7 @@
-diff -Nurw scintilla-scite/src/SciTE.h scite/src/SciTE.h
---- scintilla-scite/src/SciTE.h	2016-12-21 04:18:32.000000000 +0100
-+++ scite/src/SciTE.h	2016-12-21 04:19:10.000000000 +0100
 diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
---- scintilla-scite/gtk/SciTEGTK.cxx	2017-02-26 12:52:52.000000000 +0100
+--- scintilla-scite/gtk/SciTEGTK.cxx	2017-03-07 23:19:44.000000000 +0100
 +++ scite/gtk/SciTEGTK.cxx	2017-02-26 07:28:04.000000000 +0100
-@@ -573,8 +578,12 @@
+@@ -578,8 +578,12 @@
  	bool UpdateOutputSize();
  
  	GtkWidget *MenuItemFromAction(int itemID);
@@ -17,7 +14,7 @@ diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
  	virtual void DestroyMenuItem(int menuNumber, int itemID);
  	virtual void CheckAMenuItem(int wIDCheckItem, bool val);
  	virtual void EnableAMenuItem(int wIDCheckItem, bool val);
-@@ -1309,6 +1338,48 @@
+@@ -1334,6 +1338,48 @@
  	return sCaption;
  }
  
@@ -66,41 +63,36 @@ diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
  void SciTEGTK::SetMenuItem(int, int, int itemID, const char *text, const char *mnemonic) {
  	DestroyMenuItem(0, itemID);
  
-diff -Nurw scintilla-scite/src/SciTEProps.cxx scite/src/SciTEProps.cxx
---- scintilla-scite/src/SciTEProps.cxx	2017-02-26 12:52:52.000000000 +0100
-+++ scite/src/SciTEProps.cxx	2017-02-26 10:40:08.000000000 +0100
-@@ -52,10 +52,13 @@
- #include "MatchMarker.h"
- #include "SciTEBase.h"
+diff -Nurw scintilla-scite/src/SciTEBase.h scite/src/SciTEBase.h
+--- scintilla-scite/src/SciTEBase.h	2017-03-07 23:19:44.000000000 +0100
++++ scite/src/SciTEBase.h	2017-03-06 20:34:08.000000000 +0100
+@@ -824,6 +824,8 @@
+ 	virtual void SizeContentWindows() = 0;
+ 	virtual void SizeSubWindows() = 0;
  
--void SciTEBase::SetImportMenu() {
-+void SciTEBase::SetImportMenu() {
-+// Reset Options->configFiles
-+    DestroyMenuItem(menuOptions,222000); // How to toggle Branch visibility ?
- 	for (int i = 0; i < importMax; i++) {
--		DestroyMenuItem(menuOptions, importCmdID + i);
-+     //DestroyMenuItem(menuOptions, importCmdID + i);
- 	}
-+  //importCmdID, FillUp above Menu with property fileNames
- 	if (!importFiles.empty()) {
- 		for (int stackPos = 0; stackPos < static_cast<int>(importFiles.size()) && stackPos < importMax; stackPos++) {
- 			int itemID = importCmdID + stackPos;
-@@ -63,7 +66,13 @@
++	virtual void SetMenuItemNew(int menuNumber, int subMenuNumber, int position, int itemID,
++		const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0) = 0;
+ 	virtual void SetMenuItem(int menuNumber, int position, int itemID,
+ 		const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0) = 0;
+ 	virtual void RedrawMenu() {}
+diff -Nurw scintilla-scite/src/SciTEProps.cxx scite/src/SciTEProps.cxx
+--- scintilla-scite/src/SciTEProps.cxx	2017-03-07 23:19:44.000000000 +0100
++++ scite/src/SciTEProps.cxx	2017-03-06 21:13:06.000000000 +0100
+@@ -63,7 +65,12 @@
  				GUI::gui_string entry = localiser.Text("Open");
  				entry += GUI_TEXT(" ");
  				entry += importFiles[stackPos].Name().AsInternal();
 -				SetMenuItem(menuOptions, IMPORT_START + stackPos, itemID, entry.c_str());
 +				std::string sEntry= GUI::UTF8FromString(entry);
-+				if (iShow==0) {
-+					if (sEntry.find("theme") != std::string::npos or sEntry.find("ddons") != std::string::npos)
-+						SetMenuItemNew(menuOptions, 9, IMPORT_START+stackPos, itemID, entry.c_str());
-+					}
-+				if (iShow==1)
-+						SetMenuItemNew(menuOptions, 9, IMPORT_START+stackPos, itemID, entry.c_str()); 
++				//  Depends on Foldernames to display properties sorted.
++				if (sEntry.find("theme") != std::string::npos or sEntry.find("ddons") != std::string::npos)
++						SetMenuItemNew(menuOptions, 3, IMPORT_START+stackPos, itemID, entry.c_str());
++				if (sEntry.find("lang") != std::string::npos)
++						SetMenuItemNew(menuOptions, 4, stackPos, itemID, entry.c_str()); 
  			}
  		}
  	}
-@@ -105,21 +114,24 @@
+@@ -105,21 +112,24 @@
  const GUI::gui_char propLocalFileName[] = GUI_TEXT("SciTE.properties");
  const GUI::gui_char propDirectoryFileName[] = GUI_TEXT("SciTEDirectory.properties");
  
@@ -157,44 +149,57 @@ diff -Nurw scintilla-scite/win32/makefile scite/win32/makefile
  .cxx.o:
  	$(CXX) $(CXXFLAGS) -c $< -o $@
 diff -Nurw scintilla-scite/win32/SciTERes.rc scite/win32/SciTERes.rc
---- scintilla-scite/win32/SciTERes.rc	2017-02-26 12:53:08.000000000 +0100
-+++ scite/win32/SciTERes.rc	2017-02-24 19:18:42.000000000 +0100
-@@ -143,6 +143,8 @@
+--- scintilla-scite/win32/SciTERes.rc	2017-03-07 23:19:58.000000000 +0100
++++ scite/win32/SciTERes.rc	2017-03-07 21:32:20.000000000 +0100
+@@ -136,12 +136,14 @@
+ 
+ POPUP "&Options"
+ BEGIN
++	MENUITEM "&Read-Only",				IDM_READONLY
++	POPUP "Editor" 
++	BEGIN
+ 	MENUITEM "&Always On Top",			IDM_ONTOP
+ 	MENUITEM "Open Files &Here",		IDM_OPENFILESHERE
+ 	MENUITEM "Vertical &Split",			IDM_SPLITVERTICAL
+ 	MENUITEM "&Wrap",			IDM_WRAP
  	MENUITEM "Wrap Out&put",			IDM_WRAPOUTPUT
- 	MENUITEM "&Read-Only",				IDM_READONLY
+-	MENUITEM "&Read-Only",				IDM_READONLY
  	MENUITEM SEPARATOR
-+	POPUP "Editor"
-+  BEGIN
  	POPUP "&Line End Characters"
  	BEGIN
- 		MENUITEM "CR &+ LF",	IDM_EOL_CRLF
-@@ -153,15 +155,19 @@
- 	MENUITEM SEPARATOR
+@@ -150,18 +152,25 @@
+ 		MENUITEM "&LF",		IDM_EOL_LF
+ 	END
+ 	MENUITEM "&Convert Line End Characters",	IDM_EOL_CONVERT
+-	MENUITEM SEPARATOR
  	MENUITEM "Change Inden&tation Settings...\tCtrl+Shift+I",	IDM_TABSIZE
  	MENUITEM "Use &Monospaced Font\tCtrl+F11",	IDM_MONOFONT
-+	END
- 	MENUITEM SEPARATOR
+-	MENUITEM SEPARATOR
 -	MENUITEM "Open Local &Options File",		IDM_OPENLOCALPROPERTIES
 -	MENUITEM "Open &Directory Options File",		IDM_OPENDIRECTORYPROPERTIES
++	END
 +  POPUP "Config Files"
-+  BEGIN
-+    MENUITEM "Open Local Options File",		IDM_OPENLOCALPROPERTIES
-+    MENUITEM "Open &Directory Options File",		IDM_OPENDIRECTORYPROPERTIES
++	BEGIN
++		MENUITEM "Open Local Options File",		IDM_OPENLOCALPROPERTIES
  	MENUITEM "Open &User Options File",		IDM_OPENUSERPROPERTIES
  	MENUITEM "Open &Global Options File",		IDM_OPENGLOBALPROPERTIES
++		MENUITEM "Open Directory Options File",		IDM_OPENDIRECTORYPROPERTIES
  	MENUITEM "Open A&bbreviations File",		IDM_OPENABBREVPROPERTIES
--	MENUITEM "Open Lua Startup Scr&ipt", 		IDM_OPENLUAEXTERNALFILE
-+	MENUITEM "Open Lua Startup Scr&ipt", 		IDM_OPENLUAEXTERNALFILE
+ 	MENUITEM "Open Lua Startup Scr&ipt", 		IDM_OPENLUAEXTERNALFILE
 +	END
++	 POPUP "Languages"
++			BEGIN
++			// Content: All Language Specific Properties
  	MENUITEM SEPARATOR
 -END // used: abcghlmoprstux
++			END
++
 +END // used: abcghilmprstux
  
  POPUP "&Language"
  BEGIN
- 
 diff -Nurw scintilla-scite/win32/SciTEWin.h scite/win32/SciTEWin.h
---- scintilla-scite/win32/SciTEWin.h	2017-02-26 12:52:52.000000000 +0100
+--- scintilla-scite/win32/SciTEWin.h	2017-03-07 23:19:44.000000000 +0100
 +++ scite/win32/SciTEWin.h	2017-02-26 10:53:34.000000000 +0100
 @@ -253,6 +253,9 @@
  	virtual void SizeContentWindows();
@@ -207,8 +212,8 @@ diff -Nurw scintilla-scite/win32/SciTEWin.h scite/win32/SciTEWin.h
  	                         const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0);
  	virtual void RedrawMenu();
 diff -Nurw scintilla-scite/win32/SciTEWinBar.cxx scite/win32/SciTEWinBar.cxx
---- scintilla-scite/win32/SciTEWinBar.cxx	2017-02-26 12:52:52.000000000 +0100
-+++ scite/win32/SciTEWinBar.cxx	2017-02-26 10:55:38.000000000 +0100
+--- scintilla-scite/win32/SciTEWinBar.cxx	2017-03-07 23:19:44.000000000 +0100
++++ scite/win32/SciTEWinBar.cxx	2017-03-06 18:35:38.000000000 +0100
 @@ -630,7 +630,46 @@
  	delete []tbb;
  	CheckMenus();
