@@ -125,7 +125,7 @@ diff -Nurw scintilla-scite/src/SciTEBase.cxx scite/src/SciTEBase.cxx
 diff -Nurw scintilla-scite/win32/SciTERes.rc scite/win32/SciTERes.rc
 --- scintilla-scite/win32/SciTERes.rc	2017-01-20 21:49:26.000000000 +0100
 +++ scite/win32/SciTERes.rc	2017-01-20 21:47:30.000000000 +0100
-@@ -182,6 +182,20 @@
+@@ -176,6 +176,20 @@
  	MENUITEM "&Save All",				IDM_SAVEALL
  END
  
@@ -146,7 +146,7 @@ diff -Nurw scintilla-scite/win32/SciTERes.rc scite/win32/SciTERes.rc
  POPUP "&Help"
  BEGIN
  	MENUITEM "&Help\tF1", 				IDM_HELP
-@@ -543,14 +557,21 @@
+@@ -537,15 +551,22 @@
  
  	VK_F8, IDM_TOGGLEOUTPUT, VIRTKEY
  	VK_F8, IDM_TOGGLEPARAMETERS, VIRTKEY, SHIFT
