@@ -1,0 +1,16 @@
+# SciTE session file
+
+position.left=310
+position.top=64
+position.width=797
+position.height=460
+position.maximize=0
+
+mru.1.path=/mnt/hgfs/E/projects/_myScite/_myScite.github/SciTE.linux32/user/testcases/test.ruby.rb
+mru.2.path=/mnt/hgfs/E/projects/_myScite/_myScite.github/SciTE.linux32/user/testcases/test.vcard.vcard
+mru.3.path=/mnt/hgfs/E/projects/_myScite/_myScite.github/SciTE.linux32/user/testcases/test_cpp.cpp
+
+buffer.1.path=/mnt/hgfs/E/projects/_myScite/_myScite.github/SciTE.linux32/user/testcases/test_cpp.cpp
+buffer.1.position=699
+buffer.1.scroll=5
+buffer.1.current=1

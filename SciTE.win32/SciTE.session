@@ -2,8 +2,8 @@
 
 position.left=30
 position.top=60
-position.width=1012
-position.height=449
+position.width=695
+position.height=552
 position.maximize=0
 
 mru.1.path=E:\projects\_myScite\local_testfield\SciTEX-master\src\ext\gui\make.cmd
@@ -15,8 +15,9 @@ mru.6.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\asn1.propert
 mru.7.path=E:\projects\_myScite\_myScite.github\SciTE.win32\theme\theme.global.defaults.properties
 mru.8.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEUser.properties
 mru.9.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scintilla\gtk\PlatGTK.cxx
+mru.10.path=E:\projects\_myScite\_myScite.github\SciTE.win32\changelog.readme.md
 
-buffer.1.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scintilla\gtk\PlatGTK.cxx
-buffer.1.position=4102
-buffer.1.scroll=151
+buffer.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\changelog.readme.md
+buffer.1.position=1
+buffer.1.scroll=0
 buffer.1.current=1
