@@ -6,11 +6,8 @@ position.width=797
 position.height=460
 position.maximize=0
 
-mru.1.path=/mnt/hgfs/E/projects/_myScite/_myScite.github/SciTE.linux32/user/testcases/test.ruby.rb
+mru.1.path=/mnt/hgfs/E/projects/_myScite/_myScite.github/SciTE.linux32/user/testcases/test_cpp.cpp
 mru.2.path=/mnt/hgfs/E/projects/_myScite/_myScite.github/SciTE.linux32/user/testcases/test.vcard.vcard
-mru.3.path=/mnt/hgfs/E/projects/_myScite/_myScite.github/SciTE.linux32/user/testcases/test_cpp.cpp
-
-buffer.1.path=/mnt/hgfs/E/projects/_myScite/_myScite.github/SciTE.linux32/user/testcases/test_cpp.cpp
-buffer.1.position=699
-buffer.1.scroll=5
-buffer.1.current=1
+mru.3.path=/mnt/hgfs/E/projects/_myScite/_myScite.github/SciTE.linux32/user/testcases/test.ruby.rb
+mru.4.path=/mnt/hgfs/E/projects/_myScite/_myScite.github/SciTE.linux32/user/testcases/test_coffeescript.coffee
+mru.5.path=/mnt/hgfs/E/projects/_myScite/_myScite.github/SciTE.linux32/user/testcases/test_powershell.ps1

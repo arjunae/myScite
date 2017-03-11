@@ -1,23 +1,23 @@
 # SciTE session file
 
-position.left=30
-position.top=60
+position.left=355
+position.top=245
 position.width=695
 position.height=552
 position.maximize=0
 
-mru.1.path=E:\projects\_myScite\local_testfield\SciTEX-master\src\ext\gui\make.cmd
-mru.2.path=E:\projects\_myScite\local_testfield\SciTEX-master\src\ext\luaext.cxx
-mru.3.path=E:\projects\_myScite\local_testfield\SciTEX-master\src\ext\hunspell\NEWS
-mru.4.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\languages\others.properties
-mru.5.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\.hg_archival.txt
-mru.6.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\asn1.properties
-mru.7.path=E:\projects\_myScite\_myScite.github\SciTE.win32\theme\theme.global.defaults.properties
-mru.8.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEUser.properties
-mru.9.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scintilla\gtk\PlatGTK.cxx
-mru.10.path=E:\projects\_myScite\_myScite.github\SciTE.win32\changelog.readme.md
+mru.1.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\asn1.properties
+mru.2.path=E:\projects\_myScite\_myScite.github\SciTE.win32\theme\theme.global.defaults.properties
+mru.3.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEUser.properties
+mru.4.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scintilla\gtk\PlatGTK.cxx
+mru.5.path=E:\projects\_myScite\_myScite.github\SciTE.win32\changelog.readme.md
+mru.6.path=E:\projects\_myScite\_lua-lib.sourceforge\win32\scintillua_3.7.0-1\make.cmd
+mru.7.path=E:\projects\_myScite\_lua-lib.sourceforge\win32\scintillua_3.7.0-1\Makefile
+mru.8.path=E:\projects\_myScite\_lua-lib.sourceforge\win32\scintillua_3.7.0-1\README.md
+mru.9.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\testcases\test.vcard.vcard
+mru.10.path=E:\projects\_myScite\_myScite.github\SciTE.linux32\Addons\lua\mod-scintillua\_lpeg.properties
 
-buffer.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\changelog.readme.md
+buffer.1.path=E:\projects\_myScite\_myScite.github\SciTE.linux32\Addons\lua\mod-scintillua\_lpeg.properties
 buffer.1.position=1
 buffer.1.scroll=0
 buffer.1.current=1
