@@ -909,6 +909,14 @@ FilePath SciTEGTK::GetSciteDefaultHome() {
 
 	std::string home;
 	FilePath homePath;
+
+	// 1 set & use scite_home from env.scite_home
+	std::string home=props.GetNewExpandString("env.scite_home");
+	home=FilePath(home).NormalizePath().AsUTF8().c_str();	
+	if (home.find("/") != std::string::npos) {
+		putenv( (char *) ("SciTE_HOME="+home).c_str() );	
+		return FilePath(home);
+	}
 	
 	// 1 use SciTE_HOME
 	std::string envhome;
@@ -944,7 +952,7 @@ FilePath SciTEGTK::GetSciteUserHome() {
 * then defaulting to $HOME
 */
 
-	// 1 set & use scite_home from env.scite_home
+	// 1 set & use scite_home from env.scite_userhome
 	std::string home=props.GetNewExpandString("env.scite_userhome");
 	home=FilePath(home).NormalizePath().AsUTF8().c_str();	
 	if (home.find("/") != std::string::npos) {

@@ -15,7 +15,7 @@ for /F "tokens=1,2* delims= " %%a in ('reg query HKCU\Environment /v Path') do (
 Set cur_path=%%c
 )
 
-echo Current Path:
+echo Current localUsers Path:
 echo.
 :: Check if path was already appended
 set str=%cur_path%

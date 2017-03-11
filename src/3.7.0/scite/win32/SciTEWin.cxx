@@ -430,7 +430,16 @@ FilePath SciTEWin::GetSciteDefaultHome() {
  *       2 else use exectables Path (if we find SciteGlobal.properties)
  *       3 else use %USERPROFILE%\scite\ (if we find SciteGlobal.properties there)
  */
-				
+
+ 	// Set environment %SciTE_HOME% fromm $(env.scite_userhome).
+	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_home")));
+	std::wstring wenv = GUI::StringFromUTF8(FilePath(L"SciTE_HOME=" + wenvPathSciteHome).NormalizePath().AsUTF8());
+	if (wenv.find(L"\\") != std::string::npos) {
+		_wputenv((wchar_t *)wenv.c_str()); 
+		return(FilePath((wchar_t *)wenvPathSciteHome.c_str()));
+		}
+
+ 
 	//  ..try SciTE_HOME
 	FilePath envHome =_wgetenv(GUI_TEXT("SciTE_HOME"));
 	if (envHome.IsDirectory())
@@ -472,7 +481,7 @@ FilePath SciTEWin::GetSciteUserHome() {
 	
 	// Set environment %SciTE_HOME% fromm $(env.scite_userhome).
 	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_userhome")));
-	std::wstring wenv = GUI::StringFromUTF8(FilePath(L"SciTE_HOME=" + wenvPathSciteHome).NormalizePath().AsUTF8());
+	std::wstring wenv = GUI::StringFromUTF8(FilePath(L"SciTE_USERHOME=" + wenvPathSciteHome).NormalizePath().AsUTF8());
 	if (wenv.find(L"\\") != std::string::npos) {
 		_wputenv((wchar_t *)wenv.c_str()); 
 		return(FilePath((wchar_t *)wenvPathSciteHome.c_str()));
