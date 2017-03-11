@@ -6,6 +6,7 @@
  - Support simple Markdown for plainText files.
 - Enhance Installer Script / Redone theme.coffee
 - Cleaned Build System / Moved SciTE-Lua-Libs to an own Repo.
+- Scintillua for win64 & linux ports.
 
 [04.Dezember.2016] Development-135 (git snapshot)
 - addons: Add Scite Ctags (credits mingfunwong)
