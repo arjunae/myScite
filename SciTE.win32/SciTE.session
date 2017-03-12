@@ -1,0 +1,25 @@
+# SciTE session file
+
+position.left=166
+position.top=203
+position.width=720
+position.height=400
+position.maximize=0
+
+mru.1.path=E:\projects\_myScite\scite_sidebar_mod\Addons\lua\scite_lua\class.lua
+mru.2.path=E:\projects\_myScite\scite_sidebar_mod\Addons\lua\scite_lua\clidebugger.lua
+mru.3.path=E:\projects\_myScite\scite_sidebar_mod\Addons\lua\scite_lua\debugger.lua
+mru.4.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\lua\mod-scite-debug\remdebug.lua
+mru.5.path=E:\projects\_myScite\scite_sidebar_mod\Addons\lua\scite_lua\luagdb.lua
+mru.6.path=E:\projects\_myScite\scite_sidebar_mod\Addons\lua\SciTEStartup.lua
+mru.7.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\mod-scite-debug\lua_clidebugger\debugger.lua
+mru.8.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\mod-scite-debug\lua_clidebugger\clidebug.lua
+mru.9.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\lua\mod-scite-debug\clidebugger.lua
+mru.10.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\lua\mod-scite-debug\debugger.lua
+
+search.1.findwhat=do_breakpoint
+
+buffer.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\lua\mod-scite-debug\debugger.lua
+buffer.1.position=399
+buffer.1.scroll=17
+buffer.1.current=1
