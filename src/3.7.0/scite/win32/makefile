@@ -74,7 +74,7 @@ endif
 
 CXXFLAGS = $(CFLAGS) -pedantic --std=gnu++11
 
-LDFLAGS=-mwindows -lmsimg32 -lcomctl32 -limm32 -lole32 -luuid -loleaut32 -static-libgcc -static-libstdc++ $(UXLIB) $(LUA_LDFLAGS)
+LDFLAGS=-mwindows -lmsimg32 -lcomctl32 -limm32 -lole32 -luuid -loleaut32 --static $(UXLIB) $(LUA_LDFLAGS)
 
 .cxx.o:
 	$(CXX) $(CXXFLAGS) -c $< -o $@

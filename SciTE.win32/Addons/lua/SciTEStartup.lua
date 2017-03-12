@@ -11,6 +11,8 @@ package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
 --pcall(function() len=(editor.Length) end)
 --if len~=nil then print (len) end
 
+
+
 --------------------------------- Lua Addons
 -- Load Extman
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-extman\\?.lua;"
