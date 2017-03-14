@@ -5,7 +5,7 @@
 # --- http://sebsauvage.net/python/snyppets/#getlinks1
 import HTMLParser, urllib
 
-class linkParser (HTMLParser.HTMLParser):
+class linkParser(HTMLParser.HTMLParser):
     def __init__(self):
         HTMLParser.HTMLParser.__init__(self)
         self.links = []

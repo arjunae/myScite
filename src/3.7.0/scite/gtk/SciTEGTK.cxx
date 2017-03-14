@@ -957,7 +957,6 @@ FilePath SciTEGTK::GetSciteUserHome() {
 	home=FilePath(home).NormalizePath().AsUTF8().c_str();	
 	FilePath homePath=home;
 	if (homePath.IsDirectory()) {
-	if (home.find("/") != std::string::npos) {
 		putenv( (char *) ("SciTE_USERHOME="+home).c_str() );	
 		return FilePath(home);
 	}
