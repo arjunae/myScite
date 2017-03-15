@@ -13,7 +13,7 @@
 
  :-> included lua.scite.api to show some nice calltips.
 
--- remdebugging
+-- Remdebugging
  You can use SciTE not only to debug the executable, but any SciTE Lua scripts.
  Put these statements into the debuggee. The first one ensures that SciTE can find other Lua packages using require;
  Alternatively you can put a copy of engine.lua in a directory remdebug in your SciTE package.path
@@ -36,3 +36,9 @@
 -- Further Information
  ... can be obtained from within the source Tree - scintilla/include/scintilla.iface
  ... or online at http://www.scintilla.org/SciTEExtension.html | www.scintilla.org/PaneAPI.html |
+
+-- Writing Modules in different Languages
+ Addons can be written in  any Language able to send WM_COPYDATA Messages to Scites "Director" HWND. 
+ Eg a SciteLua function called "foo" without arguments, can be called by sending a WM_COPYDATA message like "extender:foo".
+ see http://stevedonovan.github.io/winapi/api.html
+
