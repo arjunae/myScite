@@ -410,7 +410,7 @@ PropSetFile::ReadLineState PropSetFile::ReadLine(const char *lineBuffer, ReadLin
 			}
 		} else if (filter.IsValid(importName)) {
 			importName += ".properties";
-			FilePath importPath(directoryForImports, FilePath(GUI::StringFromUTF8(importName)));
+			FilePath importPath(directoryForImports, FilePath(GUI::StringFromUTF8(Expand(importName)))); 
 			Import(importPath, directoryForImports, filter, imports, depth+1);
 		}
 	} else if (!IsCommentLine(lineBuffer)) {

@@ -3,7 +3,8 @@
 [xx.xx.2017] Current-Git
  # Rebased to Scite/Scintilla 3.7.0
 # Add Powershell / Matlab / VHDL / Markdown props.
- # Support simple Markdown for plainText files. 
+ # Support simple Markdown for plainText files.
+# Fix Import Statement Variable Expansion 
 # Enhance Installer Script / Redone theme.coffee
  # Cleaned Build System / Moved SciTE-Lua-Libs to an own Repo. 
 # Scintillua for win64 & linux ports.
