@@ -1,5 +1,8 @@
 @echo off
-:: Permanently appends the current directory to the currently logged on Users PATH Environment Variable.
+:: -------- Batch Wrapper for SciTE ----------
+:: Can be used to avoid Chaos. Provides a way to call version specifc Language binaries.
+::
+:: Permanently appends the tools in the current directory to the current Users PATH Environment. 
 :: Any prior installed Programs keep precedence, even when they dont use the Systemwide Path.
 :: - ensures that a Path wont be added again if it was found to be already in.
 

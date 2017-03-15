@@ -6,9 +6,9 @@ position.width=720
 position.height=400
 position.maximize=0
 
-mru.1.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\win32\SciTEWin.cxx
+mru.1.path=E:\projects\_myScite\_myScite.github\SciTE.win64\SciTEGlobal.properties
 
-buffer.1.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\win32\SciTEWin.cxx
-buffer.1.position=13124
-buffer.1.scroll=436
+buffer.1.path=E:\projects\_myScite\_myScite.github\SciTE.win64\SciTEGlobal.properties
+buffer.1.position=488
+buffer.1.scroll=0
 buffer.1.current=1

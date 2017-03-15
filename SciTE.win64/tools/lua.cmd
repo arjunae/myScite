@@ -1,8 +1,7 @@
 @echo off 
 :: -------- Starter for SciTE ----------
-:: used to avoid Chaos and store  Language Distbins within their respective Directories. 
+:: can be used to avoid Chaos. Provides version specifc Language Distbins within respective Directories. 
 :: ---------------------------------------
-
 
 set toolFolder=lua
 set toolName=%toolFolder%
