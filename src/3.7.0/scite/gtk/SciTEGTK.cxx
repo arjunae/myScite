@@ -948,22 +948,12 @@ FilePath SciTEGTK::GetSciteDefaultHome() {
 
 FilePath SciTEGTK::GetSciteUserHome() {
 /** First looking for environment variable $SciTE_USERHOME
-* to set SciteUserHome. If not present we look for $SciTE_HOME
-* then defaulting to $HOME
+* to set SciteUserHome. If not present we use GetSciteDefaultHome
 */
 
-	// 1 set & use scite_home from env.scite_userhome
-	std::string home=props.GetNewExpandString("env.scite_userhome");
-	home=FilePath(home).NormalizePath().AsUTF8().c_str();	
-	FilePath homePath=home;
-	if (homePath.IsDirectory()) {
-		putenv( (char *) ("SciTE_USERHOME="+home).c_str() );	
-		return FilePath(home);
-	}
-	
 	//  try $scite_userhome
 	FilePath homePath=getenv("SciTE_USERHOME");
-	home=homePath.AsUTF8().c_str();
+	std::string home=homePath.AsUTF8().c_str();
 	if (homePath.Exists())
 		return homePath;
 

@@ -431,18 +431,20 @@ FilePath SciTEWin::GetSciteDefaultHome() {
  *       3 else use %USERPROFILE%\scite\ (if we find SciteGlobal.properties there)
  */
 
- 	// Set environment %SciTE_HOME% fromm $(env.scite_home).
+ // yo.... FilePath takes and returns gui_string (which converts to a basic_wstring / wchar_t)
+ // Set environment %SciTE_HOME% fromm $(env.scite_home).
+ 
 	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_home")));
 	std::wstring wenv = GUI::StringFromUTF8(FilePath(L"SciTE_HOME=" + wenvPathSciteHome).NormalizePath().AsUTF8());
-		if (wenvPathSciteHome.find(L"\\") != std::string::npos) {
-		_wputenv((wchar_t *)wenv.c_str()); 
-		return(FilePath((wchar_t *)wenvPathSciteHome.c_str()));
-		}
+	if (!wenvPathSciteHome.empty()) {
+			_wputenv((wchar_t *)wenv.c_str()); 
+			return(FilePath((wchar_t *)wenvPathSciteHome.c_str()));
+	}
 
 	//  ..try SciTE_HOME
 	FilePath envHome =_wgetenv(GUI_TEXT("SciTE_HOME"));
 	if (envHome.IsDirectory()) 
-		return wenv;
+		return envHome;
 		
 	std::wstring home;
 		
@@ -460,10 +462,7 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 		return FilePath(path);
 	}
 }
-
-	// yo.... FilePath takes and returns gui_string (which is a basic_wstring / wchar_t)
-	// To get a std::wstring back use GUI::UTF8FromString(FilePath(xyz)).ToUTF8();
-
+	
 	// if above are empty... define folder %userprofile%\scite as a fallback.
 	if (home.empty()) {
 		std::wstring wPath = _wgetenv(GUI_TEXT("USERPROFILE"));
@@ -476,27 +475,14 @@ FilePath SciTEWin::GetSciteDefaultHome() {
 }
 
 FilePath SciTEWin::GetSciteUserHome() {
-	GUI::gui_char *home ;
+	// First looking for environment variable $SciTE_USERHOME to set SciteUserHome. 
+	FilePath fpUserHome = _wgetenv(GUI_TEXT("SciTE_USERHOME"));
+	if (fpUserHome.Exists())
+		return(fpUserHome);
 	
-	// Set environment %SciTE_USERHOME% fromm $(env.scite_userhome).
-	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_userhome")));
-	std::wstring wenv = GUI::StringFromUTF8(FilePath(L"SciTE_USERHOME=" + wenvPathSciteHome).NormalizePath().AsUTF8());
-	
-	FilePath envHome = wenvPathSciteHome;
-	if (envHome.IsDirectory()) {
-	_wputenv((wchar_t *)wenv.c_str()); 
-		return(FilePath((wchar_t *)wenvPathSciteHome.c_str()));
-		}
-		
-	// First looking for environment variable $SciTE_USERHOME
-	// to set SciteUserHome. If not present we look for $SciTE_HOME
-	// then defaulting to $USERPROFILE
-	home = _wgetenv(GUI_TEXT("SciTE_USERHOME"));
-	if (home)
-		return(FilePath(home));
-		 	
-	return SciTEWin::GetSciteDefaultHome();
-	}
+	// If not present we just returnGetSciteDefaultHome()	
+	return SciTEWin::GetSciteDefaultHome();			
+}
 
 FilePath SciTEWin::GetDefaultDirectory() {
 	return SciTEWin::GetSciteDefaultHome();
