@@ -1,6 +1,6 @@
 @echo off
 :: -------- Batch Wrapper for SciTE ----------
-:: Can be used to avoid Chaos. Provides a way to call version specifc Language binaries.
+:: Can be used to avoid Chaos. Provides a way to use version specifc Language binaries.
 ::
 :: Permanently appends the tools in the current directory to the current Users PATH Environment. 
 :: Any prior installed Programs keep precedence, even when they dont use the Systemwide Path.
