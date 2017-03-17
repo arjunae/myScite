@@ -13,7 +13,12 @@
 --~ package.path = package.path..';C:\\lang\\lua\\lua\\?.lua'
 --~ package.cpath = package.cpath..';c:\\lang\\lua\\?.dll'
 
+defaultHome = props["SciteDefaultHome"]
+package.path =  package.path ..";"..defaultHome.."\\Addons\\?.lua;".. ";"..defaultHome.."\\Addons\\lua\\lua\\?.lua;"
 package.path=package.path..";C:\\Program Files (x86)\\Lua\\5.1\\lua\\?.lua"
+package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-extman\\?.lua;"
+
+package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
 
 -- useful function for getting a property, or a default if not present.
 function scite_GetProp(key,default)
@@ -881,3 +886,5 @@ end
 
 -- chainload eventmanager / extman remake used by some lua mods
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
+-- Load SciTEStartup.lua
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\SciTEStartup.lua') 
