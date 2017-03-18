@@ -28,8 +28,8 @@
     assert(type(fnInit) == "function",err)
     fnInit()
  
- @ If a binary module has unfilled dependecies ( on eg libpthreads) Lua just notes "module not found".
-     Using Dependency Walker / and exclude  (gccs) lib path, will reveal details.
+ @ If a luamodule itself has some unfilled dependecies ( on eg libpthreads) Lua will note "module not found".
+     Using Dependency Walker / and exclude  (gccs) lib path will help revealing details to fix.
  
  @ http://lua-users.org/wiki/SciteLuaDll is slightly dated, but still correct.
  
