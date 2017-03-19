@@ -25,6 +25,7 @@
 #include "SciTEKeys.h"
 
 #define LUA_COMPAT_5_1
+
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
@@ -120,9 +121,20 @@ inline void raise_error(lua_State *L, const char *errMsg=NULL) {
 	lua_error(L);
 }
 
-inline int absolute_index(lua_State *L, int index) {
-	return lua_absindex (L, index);
+inline int absolute_index (lua_State* L, int idx)
+{
+  if (idx > LUA_REGISTRYINDEX && idx < 0)
+    return lua_gettop (L) + idx + 1;
+  else
+    return idx;
 }
+
+/*
+inline int absolute_index(lua_State *L, int index) {
+	return ((index < 0) && (index != LUA_REGISTRYINDEX) && (index != LUA_GLOBALSINDEX))
+	       ? (lua_gettop(L) + index + 1) : index;
+}
+*/
 
 // copy the contents of one table into another returning the size
 static int merge_table(lua_State *L, int destTableIdx, int srcTableIdx, bool copyMetatable = false) {
@@ -1253,7 +1265,7 @@ static void PublishGlobalBufferData() {
 		// for example, during startup, before any InitBuffer / ActivateBuffer
 		lua_pushnil(luaState);
 	}
-	lua_pushglobaltable(luaState);
+	lua_rawset(luaState, LUA_GLOBALSINDEX);
 }
 
 static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
@@ -1276,8 +1288,8 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		if (!reload) {
 			lua_getfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
 			if (lua_istable(luaState, -1)) {
-				clear_table(luaState, LUA_RIDX_GLOBALS, true);
-				merge_table(luaState, LUA_RIDX_GLOBALS -1, true);
+				clear_table(luaState, LUA_GLOBALSINDEX, true);
+				merge_table(luaState, LUA_GLOBALSINDEX, -1, true);
 				lua_pop(luaState, 1);
 
 				// restore initial package.loaded state
@@ -1308,7 +1320,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 
 		// Don't replace global scope using new_table, because then startup script is
 		// bound to a different copy of the globals than the extension script.
-		clear_table(luaState, LUA_RIDX_GLOBALS, true);
+		clear_table(luaState, LUA_GLOBALSINDEX, true);
 
 		// Lua 5.1: _LOADED is in LUA_REGISTRYINDEX, so it must be cleared before
 		// loading libraries or they will not load because Lua's package system
@@ -1317,7 +1329,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		lua_setfield(luaState, LUA_REGISTRYINDEX, "_LOADED");
 
 	} else if (!luaDisabled) {
-		luaState  = luaL_newstate(); 
+		luaState = luaL_newstate();
 		if (!luaState) {
 			luaDisabled = true;
 			host->Trace("> Lua: scripting engine failed to initialise\n");
@@ -1404,7 +1416,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		lua_pushcfunction(luaState, cf_global_metatable_index);
 		lua_setfield(luaState, -2, "__index");
 	}
-	lua_setmetatable(luaState, LUA_RIDX_GLOBALS);
+	lua_setmetatable(luaState, LUA_GLOBALSINDEX);
 
 	if (checkProperties && reload) {
 		CheckStartupScript();
@@ -1433,7 +1445,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	// Clone the initial state (including metatable) in the registry so that it can be restored.
 	// (If reset==1 this will not be used, but this is a shallow copy, not very expensive, and
 	// who knows what the value of reset will be the next time InitGlobalScope runs.)
-	clone_table(luaState, LUA_RIDX_GLOBALS, true);
+	clone_table(luaState, LUA_GLOBALSINDEX, true);
 	lua_setfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
 
 	// Clone loaded packages (package.loaded) state in the registry so that it can be restored.
@@ -1594,7 +1606,7 @@ bool LuaExtension::OnExecute(const char *s) {
 		int stackBase = lua_gettop(luaState);
 
 		lua_pushliteral(luaState, "string");
-		lua_rawget(luaState, LUA_RIDX_GLOBALS);
+		lua_rawget(luaState, LUA_GLOBALSINDEX);
 		if (lua_istable(luaState, -1)) {
 			lua_pushliteral(luaState, "find");
 			lua_rawget(luaState, -2);
@@ -1604,7 +1616,7 @@ bool LuaExtension::OnExecute(const char *s) {
 				int status = lua_pcall(luaState, 2, 4, 0);
 				if (status==0) {
 					lua_insert(luaState, stackBase+1);
-					lua_gettable(luaState, LUA_RIDX_GLOBALS);
+					lua_gettable(luaState, LUA_GLOBALSINDEX);
 					if (!lua_isnil(luaState, -1)) {
 						if (lua_isfunction(luaState, -1)) {
 							// Try calling it and, even if it fails, short-circuit Filerx

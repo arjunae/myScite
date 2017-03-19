@@ -1,7 +1,23 @@
 # SciTE session file
 
-position.left=30
-position.top=60
-position.width=720
-position.height=400
+position.left=306
+position.top=240
+position.width=925
+position.height=498
 position.maximize=0
+
+mru.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEGlobal.properties
+mru.2.path=C:\Users\Tho\Desktop\termin.fra.geis.txt
+mru.3.path=E:\projects\_myScite\local_testfield\diff\scite_lua_5.3.4\.make_release_with_MinGW.bat
+mru.4.path=E:\projects\_myScite\_myScite.github\src\.make_release_with_MinGW.bat
+mru.5.path=C:\Users\Tho\Desktop\LuaExtension.cxx
+mru.6.path=C:\Users\Tho\AppData\Local\Temp\lua.cc
+mru.7.path=E:\projects\_myScite\local_testfield\diff\scite_lua_5.3.4\3.7.0\scite\src\asn1.properties
+mru.8.path=C:\Users\Tho\Desktop\test.cxx
+mru.9.path=E:\projects\_myScite\local_testfield\diff\scite_lua_5.3.4\3.7.0\scite\src\LuaExtension.cxx
+mru.10.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\3.7.0\scite\src\LuaExtension.cxx
+
+buffer.1.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\3.7.0\scite\src\LuaExtension.cxx
+buffer.1.position=3550
+buffer.1.scroll=119
+buffer.1.current=1
