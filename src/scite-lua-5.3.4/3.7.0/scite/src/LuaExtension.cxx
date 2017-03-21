@@ -1361,8 +1361,8 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	if (luaL_newmetatable(luaState, "SciTE_MT_Props")) {
 		lua_pushcfunction(luaState, cf_props_metatable_index);
 		lua_setfield(luaState, -2, "__index");
-		lua_pushcfunction(luaState, cf_props_metatable_newindex);
 		lua_setfield(luaState, -2, "__newindex");
+		lua_pushcfunction(luaState, cf_props_metatable_newindex);
 	}
 	lua_setmetatable(luaState, -2);
 	lua_setglobal(luaState, "props");

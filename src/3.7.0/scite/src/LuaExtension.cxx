@@ -24,6 +24,12 @@
 #include "IFaceTable.h"
 #include "SciTEKeys.h"
 
+#if defined LUA_VERSION_NUM < 520
+#define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
+#endif 
+
+#define LUA_COMPAT_5_1
+
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
@@ -119,10 +125,12 @@ inline void raise_error(lua_State *L, const char *errMsg=NULL) {
 	lua_error(L);
 }
 
+#if defined LUA_VERSION_NUM < 520
 inline int absolute_index(lua_State *L, int index) {
 	return ((index < 0) && (index != LUA_REGISTRYINDEX) && (index != LUA_GLOBALSINDEX))
 	       ? (lua_gettop(L) + index + 1) : index;
 }
+#endif
 
 // copy the contents of one table into another returning the size
 static int merge_table(lua_State *L, int destTableIdx, int srcTableIdx, bool copyMetatable = false) {
@@ -167,7 +175,9 @@ static void clear_table(lua_State *L, int tableIdx, bool clearMetatable = true) 
 			lua_pushnil(L);
 			lua_setmetatable(L, tableIdx);
 		}
-		lua_pushnil(L); // first key
+
+	lua_pushnil(L); // first key
+		
 		while (lua_next(L, tableIdx) != 0) {
 			// key is at index -2 and value at index -1
 			lua_pop(L, 1); // discard value
@@ -1253,7 +1263,7 @@ static void PublishGlobalBufferData() {
 		// for example, during startup, before any InitBuffer / ActivateBuffer
 		lua_pushnil(luaState);
 	}
-	lua_rawset(luaState, LUA_GLOBALSINDEX);
+	lua_rawset(luaState,LUA_GLOBALSINDEX);
 }
 
 static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
@@ -1276,7 +1286,23 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		if (!reload) {
 			lua_getfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
 			if (lua_istable(luaState, -1)) {
-				clear_table(luaState, LUA_GLOBALSINDEX, true);
+				// OK. replace depreceated LUA_GLOBALSINDEX ; loop global table and set its values to nil					
+				//clear_table(luaState, LUA_GLOBALSINDEX, true);	
+				lua_pushglobaltable(luaState);				
+				int tableIdx = absolute_index(luaState, 1);
+				lua_pushnil(luaState);
+				lua_setmetatable(luaState, tableIdx);
+			
+				lua_pushnil(luaState); // first key	
+				while (lua_next(luaState, tableIdx) != 0) {
+					// key is at index -2 and value at index -1
+					lua_pop(luaState, 1); // discard value
+					lua_pushnil(luaState);
+					lua_rawset(luaState, tableIdx); // table[key] = nil
+					lua_pushnil(luaState); // get 'new' first key
+				}
+			
+				// now merge -  - somethings ?
 				merge_table(luaState, LUA_GLOBALSINDEX, -1, true);
 				lua_pop(luaState, 1);
 
@@ -1309,7 +1335,6 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		// Don't replace global scope using new_table, because then startup script is
 		// bound to a different copy of the globals than the extension script.
 		clear_table(luaState, LUA_GLOBALSINDEX, true);
-
 		// Lua 5.1: _LOADED is in LUA_REGISTRYINDEX, so it must be cleared before
 		// loading libraries or they will not load because Lua's package system
 		// thinks they are already loaded
