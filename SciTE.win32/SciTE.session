@@ -10,16 +10,14 @@ mru.1.path=C:\Users\Tho\AppData\Local\Temp\lua.cc
 mru.2.path=E:\projects\_myScite\local_testfield\diff\scite_lua_5.3.4\3.7.0\scite\src\asn1.properties
 mru.3.path=E:\projects\_myScite\local_testfield\diff\scite_lua_5.3.4\3.7.0\scite\src\LuaExtension.cxx
 mru.4.path=C:\Users\Tho\Desktop\termin.fra.geis.txt
-mru.5.path=C:\Users\Tho\Desktop\test.cxx
-mru.6.path=E:\projects\_myScite\_myScite.github\src\.make_release_with_MinGW.bat
-mru.7.path=C:\Program Files\Core Temp\Readme.txt
-mru.8.path=C:\Users\Tho\AppData\Local\Temp\1-GTK__Fix_popup_positioning_on_monitors_not_positioned_at_0_0.patch
-mru.9.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\3.7.0\scite\src\LuaExtension.cxx
-mru.10.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\LuaExtension.cxx
+mru.5.path=E:\projects\_myScite\_myScite.github\src\.make_release_with_MinGW.bat
+mru.6.path=C:\Program Files\Core Temp\Readme.txt
+mru.7.path=C:\Users\Tho\AppData\Local\Temp\1-GTK__Fix_popup_positioning_on_monitors_not_positioned_at_0_0.patch
+mru.8.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\3.7.0\scite\src\LuaExtension.cxx
+mru.9.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\LuaExtension.cxx
+mru.10.path=C:\Users\Tho\Desktop\test.cxx
 
-search.1.findwhat=error
-
-buffer.1.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\LuaExtension.cxx
-buffer.1.position=5558
-buffer.1.scroll=174
+buffer.1.path=C:\Users\Tho\Desktop\test.cxx
+buffer.1.position=235
+buffer.1.scroll=8
 buffer.1.current=1

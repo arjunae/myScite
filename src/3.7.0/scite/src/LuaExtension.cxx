@@ -1289,7 +1289,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 				// OK. replace depreceated LUA_GLOBALSINDEX ; loop global table and set its values to nil					
 				//clear_table(luaState, LUA_GLOBALSINDEX, true);	
 				lua_pushglobaltable(luaState);				
-				int tableIdx = absolute_index(luaState, 1);
+				int tableIdx = absolute_index(luaState, -2);
 				lua_pushnil(luaState);
 				lua_setmetatable(luaState, tableIdx);
 			
@@ -1302,7 +1302,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 					lua_pushnil(luaState); // get 'new' first key
 				}
 			
-				// now merge -  - somethings ?
+				// now merge -  - somethings from the roof ?
 				merge_table(luaState, LUA_GLOBALSINDEX, -1, true);
 				lua_pop(luaState, 1);
 
