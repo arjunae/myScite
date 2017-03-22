@@ -33,6 +33,12 @@ extern "C" {
 #include "lauxlib.h"
 }
 
+#if LUA_VERSION_NUM < 520
+		#define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
+#else
+		#define LUA_GLOBALSINDEX LUA_RIDX_GLOBALS
+#endif
+				
 #if defined(_WIN32) && defined(_MSC_VER)
 
 // MSVC looks deeper into the code than other compilers, sees that
@@ -1237,6 +1243,7 @@ static bool CheckStartupScript() {
 }
 
 static void PublishGlobalBufferData() {
+// kind of initialize lua function.
 	lua_pushliteral(luaState, "buffer");
 	if (curBufferIndex >= 0) {
 		lua_pushliteral(luaState, "SciTE_BufferData_Array");
@@ -1416,6 +1423,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		lua_pushcfunction(luaState, cf_global_metatable_index);
 		lua_setfield(luaState, -2, "__index");
 	}
+	//Set above created table as new metatable for globalstable (use LUA_RIDX_GLOBALS ?)
 	lua_setmetatable(luaState, LUA_GLOBALSINDEX);
 
 	if (checkProperties && reload) {
@@ -1606,9 +1614,10 @@ bool LuaExtension::OnExecute(const char *s) {
 		// May as well use Lua's pattern matcher to parse the command.
 		// Scintilla's RESearch was the other option.
 		int stackBase = lua_gettop(luaState);
-
 		lua_pushliteral(luaState, "string");
+		
 		lua_rawget(luaState, LUA_GLOBALSINDEX);
+		
 		if (lua_istable(luaState, -1)) {
 			lua_pushliteral(luaState, "find");
 			lua_rawget(luaState, -2);
@@ -1617,7 +1626,7 @@ bool LuaExtension::OnExecute(const char *s) {
 				lua_pushliteral(luaState, "^%s*([%a_][%a%d_]*)%s*(.-)%s*$");
 				int status = lua_pcall(luaState, 2, 4, 0);
 				if (status==0) {
-					lua_insert(luaState, stackBase+1);
+					lua_insert(luaState, stackBase+1);					
 					lua_gettable(luaState, LUA_GLOBALSINDEX);
 					if (!lua_isnil(luaState, -1)) {
 						if (lua_isfunction(luaState, -1)) {

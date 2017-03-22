@@ -24,7 +24,6 @@
 #include "IFaceTable.h"
 #include "SciTEKeys.h"
 
-#define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
 #define LUA_COMPAT_5_1
 
 extern "C" {
@@ -33,6 +32,8 @@ extern "C" {
 #include "lauxlib.h"
 }
 
+//#define LUA_GLOBALSINDEX LUA_RIDX_GLOBALS
+				
 #if defined(_WIN32) && defined(_MSC_VER)
 
 // MSVC looks deeper into the code than other compilers, sees that
@@ -1237,6 +1238,7 @@ static bool CheckStartupScript() {
 }
 
 static void PublishGlobalBufferData() {
+// kind of initialize lua function.
 	lua_pushliteral(luaState, "buffer");
 	if (curBufferIndex >= 0) {
 		lua_pushliteral(luaState, "SciTE_BufferData_Array");
@@ -1265,6 +1267,7 @@ static void PublishGlobalBufferData() {
 		lua_pushnil(luaState);
 	}
 	lua_rawset(luaState, LUA_GLOBALSINDEX);
+	//lua_rawset(luaState,  LUA_RIDX_GLOBALS);
 }
 
 static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
@@ -1289,6 +1292,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 			if (lua_istable(luaState, -1)) {
 				clear_global_table(luaState, true);
 				merge_table(luaState, LUA_GLOBALSINDEX, -1, true);
+				//merge_table(luaState,  LUA_RIDX_GLOBALS -1, true);
 				lua_pop(luaState, 1);
 
 				// restore initial package.loaded state
@@ -1329,7 +1333,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		lua_setfield(luaState, LUA_REGISTRYINDEX, "_LOADED");
 
 	} else if (!luaDisabled) {
-		luaState = lua_open();
+		luaState = luaL_newstate();
 		if (!luaState) {
 			luaDisabled = true;
 			host->Trace("> Lua: scripting engine failed to initialise\n");
@@ -1416,7 +1420,9 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		lua_pushcfunction(luaState, cf_global_metatable_index);
 		lua_setfield(luaState, -2, "__index");
 	}
-	lua_setmetatable(luaState, LUA_GLOBALSINDEX);
+	//Set above created table as new metatable for globalstable (use LUA_RIDX_GLOBALS ?)
+	//lua_setmetatable(luaState,  LUA_RIDX_GLOBALS);
+	lua_setmetatable(luaState,  LUA_GLOBALSINDEX);
 
 	if (checkProperties && reload) {
 		CheckStartupScript();
@@ -1606,9 +1612,8 @@ bool LuaExtension::OnExecute(const char *s) {
 		// May as well use Lua's pattern matcher to parse the command.
 		// Scintilla's RESearch was the other option.
 		int stackBase = lua_gettop(luaState);
-
 		lua_pushliteral(luaState, "string");
-		lua_rawget(luaState, LUA_GLOBALSINDEX);
+		//lua_rawget(luaState,  LUA_RIDX_GLOBALS);
 		if (lua_istable(luaState, -1)) {
 			lua_pushliteral(luaState, "find");
 			lua_rawget(luaState, -2);
@@ -1618,7 +1623,8 @@ bool LuaExtension::OnExecute(const char *s) {
 				int status = lua_pcall(luaState, 2, 4, 0);
 				if (status==0) {
 					lua_insert(luaState, stackBase+1);
-					lua_gettable(luaState, LUA_GLOBALSINDEX);
+					//lua_pushglobaltable(luaState);
+					lua_gettable(luaState, -1);
 					if (!lua_isnil(luaState, -1)) {
 						if (lua_isfunction(luaState, -1)) {
 							// Try calling it and, even if it fails, short-circuit Filerx
