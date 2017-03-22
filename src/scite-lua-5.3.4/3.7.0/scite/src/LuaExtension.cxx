@@ -24,6 +24,7 @@
 #include "IFaceTable.h"
 #include "SciTEKeys.h"
 
+#define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
 #define LUA_COMPAT_5_1
 
 extern "C" {
@@ -121,20 +122,13 @@ inline void raise_error(lua_State *L, const char *errMsg=NULL) {
 	lua_error(L);
 }
 
-inline int absolute_index (lua_State* L, int idx)
+inline int absolute_index(lua_State* L, int index)
 {
-  if (idx > LUA_REGISTRYINDEX && idx < 0)
-    return lua_gettop (L) + idx + 1;
+  if (index > LUA_REGISTRYINDEX && index < 0)
+    return lua_gettop (L) + index + 1;
   else
-    return idx;
+    return index;
 }
-
-/*
-inline int absolute_index(lua_State *L, int index) {
-	return ((index < 0) && (index != LUA_REGISTRYINDEX) && (index != LUA_GLOBALSINDEX))
-	       ? (lua_gettop(L) + index + 1) : index;
-}
-*/
 
 // copy the contents of one table into another returning the size
 static int merge_table(lua_State *L, int destTableIdx, int srcTableIdx, bool copyMetatable = false) {
@@ -171,23 +165,28 @@ static bool clone_table(lua_State *L, int srcTableIdx, bool copyMetatable = fals
 	}
 }
 
-// loop through each key in the table and set its value to nil
-static void clear_table(lua_State *L, int tableIdx, bool clearMetatable = true) {
-	if (lua_istable(L, tableIdx)) {
-		tableIdx = absolute_index(L, tableIdx);
+static void clear_global_table(lua_State *L, bool clearMetatable = true) {
+		/** 				
+		* loop through each key in the table and set its value to nil
+		* Don't replace global scope using new_table, because then startup script is
+		* bound to a different copy of the globals than the extension script.
+		* Using lua_pushglobaltable (lua5.1) instead of LUA_GLOBALSINDEX. 
+		**/
+		int tableIdx =-2;
+		lua_pushglobaltable(L);				
 		if (clearMetatable) {
+			tableIdx = absolute_index(L, tableIdx);
 			lua_pushnil(L);
 			lua_setmetatable(L, tableIdx);
-		}
-		lua_pushnil(L); // first key
+		}		
+		lua_pushnil(L); // first key	
 		while (lua_next(L, tableIdx) != 0) {
 			// key is at index -2 and value at index -1
 			lua_pop(L, 1); // discard value
 			lua_pushnil(L);
 			lua_rawset(L, tableIdx); // table[key] = nil
 			lua_pushnil(L); // get 'new' first key
-		}
-	}
+		}				
 }
 
 // Lua 5.1's checkudata throws an error on failure, we don't want that, we want NULL
@@ -1288,15 +1287,16 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		if (!reload) {
 			lua_getfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
 			if (lua_istable(luaState, -1)) {
-				clear_table(luaState, LUA_GLOBALSINDEX, true);
+				clear_global_table(luaState, true);
 				merge_table(luaState, LUA_GLOBALSINDEX, -1, true);
 				lua_pop(luaState, 1);
 
 				// restore initial package.loaded state
 				lua_getfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialPackageState");
 				lua_getfield(luaState, LUA_REGISTRYINDEX, "_LOADED");
-				clear_table(luaState, -1, false);
-				merge_table(luaState, -1, -2, false);
+				//clear_table(luaState, LUA_GLOBALSINDEX, true);	
+				clear_global_table(luaState, true);	
+							merge_table(luaState, -1, -2, false);
 				lua_pop(luaState, 2);
 
 				PublishGlobalBufferData();
@@ -1320,7 +1320,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 
 		// Don't replace global scope using new_table, because then startup script is
 		// bound to a different copy of the globals than the extension script.
-		clear_table(luaState, LUA_GLOBALSINDEX, true);
+		clear_global_table(luaState, true);
 
 		// Lua 5.1: _LOADED is in LUA_REGISTRYINDEX, so it must be cleared before
 		// loading libraries or they will not load because Lua's package system
@@ -1329,7 +1329,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		lua_setfield(luaState, LUA_REGISTRYINDEX, "_LOADED");
 
 	} else if (!luaDisabled) {
-		luaState = luaL_newstate();
+		luaState = lua_open();
 		if (!luaState) {
 			luaDisabled = true;
 			host->Trace("> Lua: scripting engine failed to initialise\n");
@@ -1361,8 +1361,8 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	if (luaL_newmetatable(luaState, "SciTE_MT_Props")) {
 		lua_pushcfunction(luaState, cf_props_metatable_index);
 		lua_setfield(luaState, -2, "__index");
-		lua_setfield(luaState, -2, "__newindex");
 		lua_pushcfunction(luaState, cf_props_metatable_newindex);
+		lua_setfield(luaState, -2, "__newindex");
 	}
 	lua_setmetatable(luaState, -2);
 	lua_setglobal(luaState, "props");
@@ -1445,9 +1445,11 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	// Clone the initial state (including metatable) in the registry so that it can be restored.
 	// (If reset==1 this will not be used, but this is a shallow copy, not very expensive, and
 	// who knows what the value of reset will be the next time InitGlobalScope runs.)
-	clone_table(luaState, LUA_GLOBALSINDEX, true);
+	
+	lua_pushglobaltable(luaState); //LUA_GLOBALSINDEX
+	clone_table(luaState, -1, true);
 	lua_setfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
-
+	lua_pop(luaState,1);
 	// Clone loaded packages (package.loaded) state in the registry so that it can be restored.
 	lua_getfield(luaState, LUA_REGISTRYINDEX, "_LOADED");
 	clone_table(luaState, -1);
