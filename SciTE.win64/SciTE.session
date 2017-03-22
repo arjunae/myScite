@@ -1,0 +1,32 @@
+# SciTE session file
+
+position.left=51
+position.top=46
+position.width=826
+position.height=597
+position.maximize=0
+
+mru.1.path=E:\projects\_myScite\_myScite.github\SciTE.win64\SciTEGlobal.properties
+mru.2.path=C:\Users\Tho\Desktop\LuaExtension.cxx
+mru.3.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\3.7.0\scite\src\LuaExtension.cxx
+mru.4.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_rust.rs
+mru.5.path=C:\Users\Tho\Desktop\test.cxx
+mru.6.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\languages\web.css.properties
+mru.7.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\languages\rust.properties
+mru.8.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\LuaExtension.cxx
+
+search.1.findwhat=settable
+search.2.findwhat=globalsi
+search.3.findwhat=lua_globals
+search.4.findwhat=lua_global
+search.5.findwhat=regis
+search.6.findwhat=globalsinde
+search.7.findwhat=merge_tab
+search.8.findwhat=LUA_RIDX_GLOBALS
+search.9.findwhat= LUA_RIDX_GLOBALS
+search.10.findwhat=globalsin
+
+buffer.1.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\LuaExtension.cxx
+buffer.1.position=38853
+buffer.1.scroll=1271
+buffer.1.current=1

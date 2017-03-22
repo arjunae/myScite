@@ -2,7 +2,7 @@
 
 [xx.xx.2017] Current-Git
 - Rebased to Scite/Scintilla 3.7.0
-- Add Powershell / Matlab / VHDL and Markdown props.
+- Add Powershell / Matlab / VHDL / Markdown / Rust / r props.
  - Support simple Markdown for plainText files.
 - Fix Import Statement Variable Expansion 
 - Enhance Installer Script / Redone theme.coffee

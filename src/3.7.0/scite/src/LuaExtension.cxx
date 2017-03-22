@@ -24,7 +24,8 @@
 #include "IFaceTable.h"
 #include "SciTEKeys.h"
 
-#define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
+//define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
+//define lua_pushglobaltable(L) lua_rawgeti(pLuaState, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
 #define LUA_COMPAT_5_1
 
 extern "C" {
@@ -1250,11 +1251,9 @@ static void PublishGlobalBufferData() {
 		lua_rawget(luaState, LUA_REGISTRYINDEX);
 		if (!lua_istable(luaState, -1)) {
 			lua_pop(luaState, 1);
-
 			lua_newtable(luaState);
 			lua_pushliteral(luaState, "SciTE_BufferData_Array");
 			lua_pushvalue(luaState, -2);
-			lua_rawset(luaState, LUA_REGISTRYINDEX);
 		}
 		lua_rawgeti(luaState, -1, curBufferIndex);
 		if (!lua_istable(luaState, -1)) {
@@ -1267,11 +1266,14 @@ static void PublishGlobalBufferData() {
 		}
 		// Replace SciTE_BufferData_Array in the stack, leaving (buffer=-1, 'buffer'=-2)
 		lua_replace(luaState, -2);
+
 	} else {
 		// for example, during startup, before any InitBuffer / ActivateBuffer
 		lua_pushnil(luaState);
+
 	}
-	lua_rawset(luaState, LUA_GLOBALSINDEX);
+lua_rawset(luaState, LUA_GLOBALSINDEX);
+//	lua_settable(luaState, LUA_GLOBALSINDEX); //or lua_rawset(luaState, LUA_GLOBALSINDEX);
 }
 
 static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
