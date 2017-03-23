@@ -6,20 +6,18 @@ position.width=720
 position.height=400
 position.maximize=0
 
-mru.1.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_rust.rs
-mru.2.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_powershell.ps1
-mru.3.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_batch.cmd
-mru.4.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_coffeescript.coffee
-mru.5.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_css.css
-mru.6.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_html.html
-mru.7.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\LuaExtension_orig.cxx
-mru.8.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\LuaExtension.cxx
-mru.9.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\3.7.0\scite\lua\include\lua.h
-mru.10.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\3.7.0\scite\lua\src\lapi.c
+mru.1.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_powershell.ps1
+mru.2.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_batch.cmd
+mru.3.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_coffeescript.coffee
+mru.4.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_css.css
+mru.5.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_html.html
+mru.6.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\LuaExtension_orig.cxx
+mru.7.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\LuaExtension.cxx
+mru.8.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\3.7.0\scite\lua\include\lua.h
+mru.9.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\3.7.0\scite\lua\src\lapi.c
+mru.10.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\languages\vb.properties
 
-search.1.findwhat=setglobal
-
-buffer.1.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\3.7.0\scite\lua\src\lapi.c
-buffer.1.position=18043
-buffer.1.scroll=754
+buffer.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\languages\vb.properties
+buffer.1.position=588
+buffer.1.scroll=3
 buffer.1.current=1

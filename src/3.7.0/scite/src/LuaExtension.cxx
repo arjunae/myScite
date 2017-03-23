@@ -1247,40 +1247,41 @@ static bool CheckStartupScript() {
 }
 
 static void PublishGlobalBufferData() {
-	lua_pushliteral(luaState, "buffer");
+/// replace Lua's global environment with current Scite-Buffers Data
+
+	lua_pushliteral(luaState, "buffer"); //this buffers globalEnv
 	if (curBufferIndex >= 0) {
 		lua_pushliteral(luaState, "SciTE_BufferData_Array");
 		lua_rawget(luaState, LUA_REGISTRYINDEX);
 		
 		if (!lua_istable(luaState, -1)) {
 			lua_pop(luaState, 1);
-
+			// Create LUA_REGISTRYINDEX with new, empty SciTE_BufferData_Array
 			lua_newtable(luaState);
 			lua_pushliteral(luaState, "SciTE_BufferData_Array");
 			lua_pushvalue(luaState, -2);
 			lua_rawset(luaState, LUA_REGISTRYINDEX);
 		}
+		// create this buffers SciTE_BufferData_Array if it wasnt already.
 		lua_rawgeti(luaState, -1, curBufferIndex);
 		if (!lua_istable(luaState, -1)) {
-			// create new buffer-data
 			lua_pop(luaState, 1);
 			lua_newtable(luaState);
 			// remember it
 			lua_pushvalue(luaState, -1);
 			lua_rawseti(luaState, -3, curBufferIndex);
 		}
-		
-		// Replace SciTE_BufferData_Array in the stack, leaving (buffer=-1, 'buffer'=-2)
+		// replace SciTE_BufferData_Array within Luas globalEnv. (Leaving (buffer=-1, 'buffer'=-2))
 		lua_replace(luaState, -2);
 
 // hrmpf. no easy way around lua_settable/ lua_rawset(luaState, LUA_GLOBALSINDEX);			
 // tried to use lua_pushliteral(luaState, "_G=");	lua_setfenv(luaState,-1);
-// maybe do a clear_table and merge buffer ?
+// maybe do a full clear_table for GLOBALSINDEX and then merge with buffer ?
 
 lua_rawset(luaState, LUA_GLOBALSINDEX);
 		
 	} else {
-		// ensure an Empty Globalsindex for example, during startup, before any InitBuffer / ActivateBuffer
+	/// ensure an empty lua_globalsindex during startup and before any InitBuffer / ActivateBuffer
 	lua_pushnil(luaState);
 	lua_rawset(luaState, LUA_GLOBALSINDEX);
 	}
@@ -1544,9 +1545,9 @@ bool LuaExtension::Load(const char *filename) {
 
 
 bool LuaExtension::InitBuffer(int index) {
-	//char msg[100];
-	//sprintf(msg, "InitBuffer(%d)\n", index);
-	//host->Trace(msg);
+	char msg[100];
+	sprintf(msg, "InitBuffer(%d)\n", index);
+	host->Trace(msg);
 
 	if (index > maxBufferIndex)
 		maxBufferIndex = index;
@@ -1572,9 +1573,9 @@ bool LuaExtension::InitBuffer(int index) {
 }
 
 bool LuaExtension::ActivateBuffer(int index) {
-	//char msg[100];
-	//sprintf(msg, "ActivateBuffer(%d)\n", index);
-	//host->Trace(msg);
+	char msg[100];
+	sprintf(msg, "ActivateBuffer(%d)\n", index);
+	host->Trace(msg);
 
 	// Probably don't need to do anything with Lua here.  Setting
 	// curBufferIndex is important so that InitGlobalScope knows
