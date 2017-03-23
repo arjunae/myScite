@@ -129,6 +129,7 @@ inline void raise_error(lua_State *L, const char *errMsg=NULL) {
 	lua_error(L);
 }
 
+// lua_absindex for LUA <5.1
 inline int absolute_index(lua_State* L, int index)
 {
   if (index > LUA_REGISTRYINDEX && index < 0)
@@ -136,6 +137,13 @@ inline int absolute_index(lua_State* L, int index)
   else
     return index;
 }
+
+/** 				
+* merge_table / clone_table / clear_table utilized to
+* "soft-replace" an existing global scope instead of using using new_table,
+* because then startup script would be bound to a different copy 
+* of the globals than the extension script.
+**/
 
 // copy the contents of one table into another returning the size
 static int merge_table(lua_State *L, int destTableIdx, int srcTableIdx, bool copyMetatable = false) {
@@ -172,28 +180,23 @@ static bool clone_table(lua_State *L, int srcTableIdx, bool copyMetatable = fals
 	}
 }
 
-static void clear_global_table(lua_State *L, bool clearMetatable = true) {
-		/** 				
-		* loop through each key in the table and set its value to nil
-		* Don't replace global scope using new_table, because then startup script is
-		* bound to a different copy of the globals than the extension script.
-		* Using lua_pushglobaltable (lua5.1) instead of LUA_GLOBALSINDEX. 
-		**/
-		int tableIdx =-2;
-		lua_pushglobaltable(L);				
+// loop through each key in the table and set its value to nil
+static void clear_table(lua_State *L, int tableIdx, bool clearMetatable = true) {
+	if (lua_istable(L, tableIdx)) {
+		tableIdx = absolute_index(L, tableIdx);
 		if (clearMetatable) {
-			tableIdx = absolute_index(L, tableIdx);
 			lua_pushnil(L);
 			lua_setmetatable(L, tableIdx);
-		}		
-		lua_pushnil(L); // first key	
+		}
+		lua_pushnil(L); // first key
 		while (lua_next(L, tableIdx) != 0) {
 			// key is at index -2 and value at index -1
 			lua_pop(L, 1); // discard value
 			lua_pushnil(L);
 			lua_rawset(L, tableIdx); // table[key] = nil
 			lua_pushnil(L); // get 'new' first key
-		}				
+		}
+	}
 }
 
 // Lua 5.1's checkudata throws an error on failure, we don't want that, we want NULL
@@ -1244,16 +1247,18 @@ static bool CheckStartupScript() {
 }
 
 static void PublishGlobalBufferData() {
-// kind of initialize lua function.
 	lua_pushliteral(luaState, "buffer");
 	if (curBufferIndex >= 0) {
 		lua_pushliteral(luaState, "SciTE_BufferData_Array");
 		lua_rawget(luaState, LUA_REGISTRYINDEX);
+		
 		if (!lua_istable(luaState, -1)) {
 			lua_pop(luaState, 1);
+
 			lua_newtable(luaState);
 			lua_pushliteral(luaState, "SciTE_BufferData_Array");
 			lua_pushvalue(luaState, -2);
+			lua_rawset(luaState, LUA_REGISTRYINDEX);
 		}
 		lua_rawgeti(luaState, -1, curBufferIndex);
 		if (!lua_istable(luaState, -1)) {
@@ -1264,17 +1269,25 @@ static void PublishGlobalBufferData() {
 			lua_pushvalue(luaState, -1);
 			lua_rawseti(luaState, -3, curBufferIndex);
 		}
+		
 		// Replace SciTE_BufferData_Array in the stack, leaving (buffer=-1, 'buffer'=-2)
 		lua_replace(luaState, -2);
 
-	} else {
-		// for example, during startup, before any InitBuffer / ActivateBuffer
-		lua_pushnil(luaState);
+// hrmpf. no easy way around lua_settable/ lua_rawset(luaState, LUA_GLOBALSINDEX);			
+// tried to use lua_pushliteral(luaState, "_G=");	lua_setfenv(luaState,-1);
+// maybe do a clear_table and merge buffer ?
 
-	}
 lua_rawset(luaState, LUA_GLOBALSINDEX);
-//	lua_settable(luaState, LUA_GLOBALSINDEX); //or lua_rawset(luaState, LUA_GLOBALSINDEX);
+		
+	} else {
+		// ensure an Empty Globalsindex for example, during startup, before any InitBuffer / ActivateBuffer
+	lua_pushnil(luaState);
+	lua_rawset(luaState, LUA_GLOBALSINDEX);
+	}
+
 }
+//	lua_settable(luaState, LUA_GLOBALSINDEX); //or lua_rawset(luaState, LUA_GLOBALSINDEX);
+
 
 static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	bool reload = forceReload;
@@ -1296,16 +1309,16 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		if (!reload) {
 			lua_getfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
 			if (lua_istable(luaState, -1)) {
-				clear_global_table(luaState, true);
+				clear_table(luaState,-2, true);
 				merge_table(luaState, LUA_GLOBALSINDEX, -1, true);
 				lua_pop(luaState, 1);
+		
 
 				// restore initial package.loaded state
 				lua_getfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialPackageState");
 				lua_getfield(luaState, LUA_REGISTRYINDEX, "_LOADED");
-				//clear_table(luaState, LUA_GLOBALSINDEX, true);	
-				clear_global_table(luaState, true);	
-							merge_table(luaState, -1, -2, false);
+				clear_table(luaState, -1, false);	
+				merge_table(luaState, -1, -2, false);
 				lua_pop(luaState, 2);
 
 				PublishGlobalBufferData();
@@ -1329,7 +1342,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 
 		// Don't replace global scope using new_table, because then startup script is
 		// bound to a different copy of the globals than the extension script.
-		clear_global_table(luaState, true);
+		clear_table(luaState, -2, true);
 
 		// Lua 5.1: _LOADED is in LUA_REGISTRYINDEX, so it must be cleared before
 		// loading libraries or they will not load because Lua's package system

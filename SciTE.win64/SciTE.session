@@ -1,7 +1,7 @@
 # SciTE session file
 
 position.left=51
-position.top=46
+position.top=50
 position.width=826
 position.height=597
 position.maximize=0
@@ -13,20 +13,22 @@ mru.4.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_
 mru.5.path=C:\Users\Tho\Desktop\test.cxx
 mru.6.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\languages\web.css.properties
 mru.7.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\languages\rust.properties
-mru.8.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\LuaExtension.cxx
+mru.8.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\languages\web.php.properties
+mru.9.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\LuaExtension_orig.cxx
+mru.10.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\LuaExtension.cxx
 
-search.1.findwhat=settable
-search.2.findwhat=globalsi
-search.3.findwhat=lua_globals
-search.4.findwhat=lua_global
-search.5.findwhat=regis
-search.6.findwhat=globalsinde
-search.7.findwhat=merge_tab
-search.8.findwhat=LUA_RIDX_GLOBALS
-search.9.findwhat= LUA_RIDX_GLOBALS
-search.10.findwhat=globalsin
+search.1.findwhat=globalsin
+search.2.findwhat=globalst
+search.3.findwhat=globalsta
+search.4.findwhat=globalstab
+search.5.findwhat=restore initi
+search.6.findwhat=clear_table
+search.7.findwhat=clear_global
+search.8.findwhat=clear_global_table
+search.9.findwhat=clear_glo
+search.10.findwhat=globalsind
 
 buffer.1.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\LuaExtension.cxx
-buffer.1.position=38853
-buffer.1.scroll=1271
+buffer.1.position=39001
+buffer.1.scroll=1256
 buffer.1.current=1
