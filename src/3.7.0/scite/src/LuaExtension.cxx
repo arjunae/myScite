@@ -1276,19 +1276,18 @@ static void PublishGlobalBufferData() {
 
 // hrmpf. no easy way around lua_settable/ lua_rawset(luaState, LUA_GLOBALSINDEX);			
 // tried to use lua_pushliteral(luaState, "_G=");	lua_setfenv(luaState,-1);
-// maybe do a full clear_table for GLOBALSINDEX and then merge with buffer ?
+// maybe do a full clear_table for GLOBALSTABLE and then merge with buffer ?
 
 lua_rawset(luaState, LUA_GLOBALSINDEX);
 		
 	} else {
 	/// ensure an empty lua_globalsindex during startup and before any InitBuffer / ActivateBuffer
 	lua_pushnil(luaState);
-	lua_rawset(luaState, LUA_GLOBALSINDEX);
+	//lua_rawset(luaState, LUA_GLOBALSINDEX);
 	}
 
 }
 //	lua_settable(luaState, LUA_GLOBALSINDEX); //or lua_rawset(luaState, LUA_GLOBALSINDEX);
-
 
 static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	bool reload = forceReload;
@@ -1311,7 +1310,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 			lua_getfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
 			if (lua_istable(luaState, -1)) {
 				clear_table(luaState,-2, true);
-				merge_table(luaState, LUA_GLOBALSINDEX, -1, true);
+				merge_table(luaState, -2, -1, true);
 				lua_pop(luaState, 1);
 		
 
@@ -1630,8 +1629,8 @@ bool LuaExtension::OnExecute(const char *s) {
 		// May as well use Lua's pattern matcher to parse the command.
 		// Scintilla's RESearch was the other option.
 		int stackBase = lua_gettop(luaState);
-		lua_pushliteral(luaState, "string");
 		
+		lua_pushliteral(luaState, "string");
 		lua_rawget(luaState, LUA_GLOBALSINDEX);
 		
 		if (lua_istable(luaState, -1)) {
@@ -1642,8 +1641,10 @@ bool LuaExtension::OnExecute(const char *s) {
 				lua_pushliteral(luaState, "^%s*([%a_][%a%d_]*)%s*(.-)%s*$");
 				int status = lua_pcall(luaState, 2, 4, 0);
 				if (status==0) {
+
 					lua_insert(luaState, stackBase+1);					
 					lua_gettable(luaState, LUA_GLOBALSINDEX);
+					
 					if (!lua_isnil(luaState, -1)) {
 						if (lua_isfunction(luaState, -1)) {
 							// Try calling it and, even if it fails, short-circuit Filerx

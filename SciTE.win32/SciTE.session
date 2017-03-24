@@ -1,23 +1,29 @@
 # SciTE session file
 
-position.left=107
-position.top=149
-position.width=720
-position.height=400
+position.left=257
+position.top=138
+position.width=999
+position.height=512
 position.maximize=0
 
-mru.1.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_powershell.ps1
-mru.2.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_batch.cmd
-mru.3.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_coffeescript.coffee
-mru.4.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_css.css
-mru.5.path=E:\projects\_myScite\_myScite.github\SciTE.win64\user\testcases\test_html.html
-mru.6.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\LuaExtension_orig.cxx
-mru.7.path=E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\LuaExtension.cxx
-mru.8.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\3.7.0\scite\lua\include\lua.h
-mru.9.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\3.7.0\scite\lua\src\lapi.c
-mru.10.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\languages\vb.properties
+mru.1.path=C:\Users\Tho\Desktop\SciTE.win32\Addons\lua\mod-extman\extman.lua
+mru.2.path=E:\projects\_myScite\local_testfield\_scite_forks\scite_luainspect\extensions\extman.lua
+mru.3.path=E:\projects\_myScite\local_testfield\_scite_forks\SciTE++\scite-debug\extman.lua
+mru.4.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\mod-extman\extman.lua
+mru.5.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\lua\lua_modules.lua
+mru.6.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\lua\SciTEHexEdit.lua
+mru.7.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\changelog.readme.md
+mru.8.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\SciTEStartup.lua
+mru.9.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\SciTEGlobal.properties
+mru.10.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEGlobal.properties
 
-buffer.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\languages\vb.properties
-buffer.1.position=588
-buffer.1.scroll=3
+search.1.findwhat=LUA
+
+buffer.1.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\SciTEGlobal.properties
+buffer.1.position=22674
+buffer.1.scroll=570
 buffer.1.current=1
+
+buffer.2.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEGlobal.properties
+buffer.2.position=23098
+buffer.2.scroll=583
