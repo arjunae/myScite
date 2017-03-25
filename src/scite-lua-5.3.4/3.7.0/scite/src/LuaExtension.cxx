@@ -1269,18 +1269,17 @@ static void PublishGlobalBufferData() {
 		}
 		// replace SciTE_BufferData_Array within Luas globalEnv. (Leaving (buffer=-1, 'buffer'=-2))
 		lua_replace(luaState, -2);
-	
+		
 	} else {
 	/// ensure an empty lua_globalsindex during startup and before any InitBuffer / ActivateBuffer
 	lua_pushnil(luaState);	
 	}
-	  lua_pushvalue(luaState, LUA_REGISTRYINDEX);
-    lua_pushinteger(luaState, LUA_RIDX_GLOBALS);
-    lua_rawset(luaState, -2);
-//lua_remove(luaState, -2);
-		
+	lua_pushvalue(luaState, LUA_REGISTRYINDEX);
+  lua_pushinteger(luaState, LUA_RIDX_GLOBALS);
+	  
+//	was lua_settable(luaState, LUA_GLOBALSINDEX); //or lua_rawset(luaState, LUA_GLOBALSINDEX);		
 }
-//	lua_settable(luaState, LUA_GLOBALSINDEX); //or lua_rawset(luaState, LUA_GLOBALSINDEX);
+
 
 static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	bool reload = forceReload;
@@ -1464,7 +1463,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	// who knows what the value of reset will be the next time InitGlobalScope runs.)
 	
 	lua_pushglobaltable(luaState); //LUA_GLOBALSINDEX
-	//fixThis -> clone_table(luaState, -1, true);
+	//FIX_HERE->clone_table(luaState, -1, true);
 	lua_setfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
 	lua_pop(luaState,1);
 
@@ -1625,10 +1624,11 @@ bool LuaExtension::OnExecute(const char *s) {
 		// May as well use Lua's pattern matcher to parse the command.
 		// Scintilla's RESearch was the other option.
 		int stackBase = lua_gettop(luaState);
-		
+		//was 		lua_rawget(luaState, LUA_GLOBLASINDEX);
+		lua_pushglobaltable(luaState);	
 		lua_pushliteral(luaState, "string");
-		lua_rawget(luaState, LUA_RIDX_GLOBALS);
-		
+		lua_rawget(luaState, -2);
+			
 		if (lua_istable(luaState, -1)) {
 			lua_pushliteral(luaState, "find");
 			lua_rawget(luaState, -2);
@@ -1637,7 +1637,6 @@ bool LuaExtension::OnExecute(const char *s) {
 				lua_pushliteral(luaState, "^%s*([%a_][%a%d_]*)%s*(.-)%s*$");
 				int status = lua_pcall(luaState, 2, 4, 0);
 				if (status==0) {
-
 					lua_insert(luaState, stackBase+1);					
 					lua_gettable(luaState, LUA_RIDX_GLOBALS);
 					

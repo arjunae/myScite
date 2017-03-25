@@ -9,8 +9,4 @@ package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
 
 
 print("lua: startup script reload ")
---function OnMarginClick(modifiers,position,margin)
---print(modifiers)
-	--return true
---end
 

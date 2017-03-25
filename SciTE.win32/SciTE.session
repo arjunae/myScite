@@ -1,29 +1,23 @@
 # SciTE session file
 
-position.left=257
-position.top=138
+position.left=147
+position.top=113
 position.width=999
 position.height=512
 position.maximize=0
 
-mru.1.path=C:\Users\Tho\Desktop\SciTE.win32\Addons\lua\mod-extman\extman.lua
-mru.2.path=E:\projects\_myScite\local_testfield\_scite_forks\scite_luainspect\extensions\extman.lua
-mru.3.path=E:\projects\_myScite\local_testfield\_scite_forks\SciTE++\scite-debug\extman.lua
-mru.4.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\mod-extman\extman.lua
-mru.5.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\lua\lua_modules.lua
-mru.6.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\lua\SciTEHexEdit.lua
-mru.7.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\changelog.readme.md
-mru.8.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\SciTEStartup.lua
-mru.9.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\SciTEGlobal.properties
-mru.10.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEGlobal.properties
+mru.1.path=E:\projects\_myScite\local_testfield\_scite_forks\SciTE++\scite-debug\extman.lua
+mru.2.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\mod-extman\extman.lua
+mru.3.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\lua\lua_modules.lua
+mru.4.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\lua\SciTEHexEdit.lua
+mru.5.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\changelog.readme.md
+mru.6.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\SciTEStartup.lua
+mru.7.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEGlobal.properties
+mru.8.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\SciTEGlobal.properties
+mru.9.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\.make_release_with_MinGW.bat
+mru.10.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE_lua5.3.4\SciTEGlobal.properties
 
-search.1.findwhat=LUA
-
-buffer.1.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\SciTEGlobal.properties
-buffer.1.position=22674
-buffer.1.scroll=570
+buffer.1.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE_lua5.3.4\SciTEGlobal.properties
+buffer.1.position=22440
+buffer.1.scroll=583
 buffer.1.current=1
-
-buffer.2.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEGlobal.properties
-buffer.2.position=23098
-buffer.2.scroll=583
