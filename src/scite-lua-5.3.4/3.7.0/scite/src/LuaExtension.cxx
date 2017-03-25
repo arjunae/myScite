@@ -1624,9 +1624,9 @@ bool LuaExtension::OnExecute(const char *s) {
 		// May as well use Lua's pattern matcher to parse the command.
 		// Scintilla's RESearch was the other option.
 		int stackBase = lua_gettop(luaState);
-		//was 		lua_rawget(luaState, LUA_GLOBLASINDEX);
-		lua_pushglobaltable(luaState);	
-		lua_pushliteral(luaState, "string");
+		//was 		lua_rawget(luaState, LUA_GLOBALSINDEX);
+	lua_rawget(luaState, LUA_RIDX_GLOBALS);
+	lua_pushliteral(luaState, "string");
 		lua_rawget(luaState, -2);
 			
 		if (lua_istable(luaState, -1)) {
@@ -1637,8 +1637,9 @@ bool LuaExtension::OnExecute(const char *s) {
 				lua_pushliteral(luaState, "^%s*([%a_][%a%d_]*)%s*(.-)%s*$");
 				int status = lua_pcall(luaState, 2, 4, 0);
 				if (status==0) {
-					lua_insert(luaState, stackBase+1);					
-					lua_gettable(luaState, LUA_RIDX_GLOBALS);
+	lua_pushglobaltable(luaState);			
+	lua_insert(luaState, stackBase+1);					
+	lua_gettable(luaState, -2);
 					
 					if (!lua_isnil(luaState, -1)) {
 						if (lua_isfunction(luaState, -1)) {

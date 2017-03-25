@@ -9,4 +9,7 @@ package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
 
 
 print("lua: startup script reload ")
+print("l-------------------")
+print("lua: calling printenv")
 
+printenv()

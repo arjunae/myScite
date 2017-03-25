@@ -26,10 +26,12 @@ cd ..\..\scite\win32
 mingw32-make 
 ::-j %NUMBER_OF_PROCESSORS%
 REM tdm-make -j %NUMBER_OF_PROCESSORS%
-if errorlevel 1 goto :error
 
 copy /Y ..\bin\SciTE.exe ..\..\..\SciTE_lua5.3.4\
 copy /Y ..\bin\SciLexer.dll ..\..\..\SciTE_lua5.3.4\
+
+if errorlevel 1 goto :error
+
 goto end
 
 :error

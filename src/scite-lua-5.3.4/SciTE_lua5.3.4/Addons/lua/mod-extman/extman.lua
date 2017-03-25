@@ -20,8 +20,11 @@ package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-extman\\?.l
 
 package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
 
---~ lua unpack for >=5.1
+--~ lua unpack for >5.1
 local unpack = table.unpack or unpack
+
+
+print("lua: extman loaded")
 
 -- useful function for getting a property, or a default if not present.
 function scite_GetProp(key,default)
@@ -743,6 +746,5 @@ scite_Command 'Reload Script|reload_script|Shift+Ctrl+R'
 
 --~ require"remdebug.engine"
 --~ remdebug.engine.start()
-
 -- Load SciTEStartup.lua
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\SciTEStartup.lua') 
