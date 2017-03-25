@@ -13,6 +13,16 @@
 --~ package.path = package.path..';C:\\lang\\lua\\lua\\?.lua'
 --~ package.cpath = package.cpath..';c:\\lang\\lua\\?.dll'
 
+defaultHome = props["SciteDefaultHome"]
+package.path =  package.path ..";"..defaultHome.."\\Addons\\?.lua;".. ";"..defaultHome.."\\Addons\\lua\\lua\\?.lua;"
+package.path=package.path..";C:\\Program Files (x86)\\Lua\\5.1\\lua\\?.lua"
+package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-extman\\?.lua;"
+
+package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
+
+--~ lua unpack for >=5.1
+local unpack = table.unpack or unpack
+
 -- useful function for getting a property, or a default if not present.
 function scite_GetProp(key,default)
   local val = props[key]
@@ -734,4 +744,5 @@ scite_Command 'Reload Script|reload_script|Shift+Ctrl+R'
 --~ require"remdebug.engine"
 --~ remdebug.engine.start()
 
-scite_dofile 'scriptlexer.lua'
+-- Load SciTEStartup.lua
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\SciTEStartup.lua') 

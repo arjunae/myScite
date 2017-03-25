@@ -1,23 +1,23 @@
 # SciTE session file
 
-position.left=147
-position.top=113
+position.left=176
+position.top=239
 position.width=999
 position.height=512
 position.maximize=0
 
-mru.1.path=E:\projects\_myScite\local_testfield\_scite_forks\SciTE++\scite-debug\extman.lua
-mru.2.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\mod-extman\extman.lua
-mru.3.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\lua\lua_modules.lua
-mru.4.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\lua\SciTEHexEdit.lua
-mru.5.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\changelog.readme.md
-mru.6.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\SciTEStartup.lua
-mru.7.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEGlobal.properties
-mru.8.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\SciTEGlobal.properties
-mru.9.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\.make_release_with_MinGW.bat
-mru.10.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE_lua5.3.4\SciTEGlobal.properties
+mru.1.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\Addons\lua\SciTEStartup.lua
+mru.2.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEGlobal.properties
+mru.3.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE-lua-5.3.4.win32\SciTEGlobal.properties
+mru.4.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\.make_release_with_MinGW.bat
+mru.5.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE_lua5.3.4\SciTEGlobal.properties
+mru.6.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\SciTEHexEdit.lua
+mru.7.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\mod-extman\extman.lua
+mru.8.path=C:\Users\Tho\Desktop\termin.fra.geis.txt
+mru.9.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\mod-extman\extman.lua
+mru.10.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\.make_clean_3.7.0.bat
 
-buffer.1.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE_lua5.3.4\SciTEGlobal.properties
-buffer.1.position=22440
-buffer.1.scroll=583
+buffer.1.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\.make_clean_3.7.0.bat
+buffer.1.position=147
+buffer.1.scroll=0
 buffer.1.current=1
