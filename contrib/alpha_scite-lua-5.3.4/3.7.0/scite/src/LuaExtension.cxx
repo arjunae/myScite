@@ -1244,21 +1244,21 @@ static bool CheckStartupScript() {
 
 static void PublishGlobalBufferData() {
 /// replace Lua's global environment with current Scite-Buffers Data
-
-	lua_pushliteral(luaState, "buffer"); //this buffers globalEnv
+// should create global buffer 
+	lua_pushliteral(luaState, "buffer"); //object: buffer globalScope 
 	if (curBufferIndex >= 0) {
 		lua_pushliteral(luaState, "SciTE_BufferData_Array");
 		lua_rawget(luaState, LUA_REGISTRYINDEX);
-		
+		// create new SciTE_BufferData_Array
 		if (!lua_istable(luaState, -1)) {
 			lua_pop(luaState, 1);
-			// Create empty LUA_REGISTRYINDEX with SciTE_BufferData_Array
+			// Create new SciTE_BufferData_Array / append to LUA_REGISTRYINDEX
 			lua_newtable(luaState);
 			lua_pushliteral(luaState, "SciTE_BufferData_Array");
 			lua_pushvalue(luaState, -2);
 			lua_rawset(luaState, LUA_REGISTRYINDEX);		
 		}
-		// create this buffers env from above RegistryIndex
+		//  create new entry for current buffer in SciTE_BufferData_Array(idx) 
 		lua_rawgeti(luaState, -1, curBufferIndex);
 		if (!lua_istable(luaState, -1)) {
 			lua_pop(luaState, 1);
@@ -1267,18 +1267,18 @@ static void PublishGlobalBufferData() {
 			lua_pushvalue(luaState, -1);
 			lua_rawseti(luaState, -3, curBufferIndex);
 		}
-		// replace SciTE_BufferData_Array within Luas globalEnv. (Leaving (buffer=-1, 'buffer'=-2))
-		//FIX_HERE: (unsure,but looks tasty...)
-		lua_replace(luaState, LUA_RIDX_GLOBALS);
-			  
-	} else {
-	/// ensure an empty lua_globalsindex during startup and before any InitBuffer / ActivateBuffer
+		// replace SciTE_BufferData_Array on the Stack (Leaving (buffer=-1, 'buffer'=-2))
+		// done to apply the expanded  SciTE_BufferData_Array ? 
+		// FIX_HERE LUA_GLOBALSINDEX (unsure)
+		//merge_table(luaState, LUA_RIDX_GLOBALS,-2);
+		lua_replace(luaState, -2);	
+		} else {
+	/// ensure an empty buffer during startup and before any InitBuffer / ActivateBuffer
 	lua_pushnil(luaState);
-	
 	}
 //	was lua_settable(luaState, LUA_GLOBALSINDEX); //or lua_rawset(luaState, LUA_GLOBALSINDEX);		
-// FIX_HERE LUA_GLOBALSINDEX (unsure)
-//lua_rawset(luaState, LUA_REGISTRYINDEX);		
+// FIX_HERE LUA_GLOBALSINDEX (unsure, but seems to works fine..needs testing.)
+lua_setglobal(luaState, "buffer");
 }
 
 
@@ -1435,7 +1435,8 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	}
 	//Set above created table as new metatable for globalstable (use LUA_RIDX_GLOBALS ?)
 
-	lua_setmetatable(luaState, -1);
+	//lua_setmetatable(luaState, LUA_REGISTRYINDEX);
+	lua_setmetatable(luaState, LUA_RIDX_GLOBALS);
 	
 	if (checkProperties && reload) {
 		CheckStartupScript();
@@ -1466,18 +1467,17 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	// who knows what the value of reset will be the next time InitGlobalScope runs.)
 	
 	//FIX LUA_GLOBALSINDEX
-  // unsure about whats an "initialState" here. Assuming initial globaltable gets a backup here....
-	
-	//lua_pushnil(luaState);
-  //lua_rawgeti(luaState, LUA_REGISTRYINDEX,LUA_RIDX_GLOBALS);
-  //clone_table(luaState, -1, true);
+  // unsure about whats an "initialState" here. Assuming LUA_RIDX_GLOBALS gets a backup here....
 	
 	//lua_pushnil(luaState); 
-	lua_pushglobaltable(luaState);
-	clone_table(luaState, -2, true);
+	//lua_pushglobaltable(luaState);
+	//clone_table(luaState, -1, true);
 	
 	//lua_getfield(luaState, LUA_REGISTRYINDEX,"_G");
 	//clone_table(luaState, -1, true);
+	
+	lua_gettable(luaState, LUA_RIDX_GLOBALS);
+	clone_table(luaState, -1, true);
 	
 	lua_setfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
 	lua_pop(luaState,1);
