@@ -1,17 +1,25 @@
 # SciTE session file
 
-position.left=407
-position.top=185
-position.width=720
-position.height=400
+position.left=457
+position.top=63
+position.width=913
+position.height=643
 position.maximize=0
 
-mru.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\filetypes.v150.txt
-mru.2.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\list_supported_filetypes.cmd
-mru.3.path=E:\projects\_myScite\local_testfield\mod-lexers\SciteLuaLexer.lua
-mru.4.path=E:\projects\_myScite\_myScite.github\SciTE.win32\filetypes.v150.txt
+mru.1.path=E:\projects\_myScite\_myScite.github\contrib\scite-lua-5.3.4\3.7.0\scite\win32\makefile
+mru.2.path=E:\projects\_myScite\_myScite.github\contrib\scite-lua-5.3.4\SciTE_lua5.3.4\Addons\settings.properties
+mru.3.path=E:\projects\_myScite\_myScite.github\contrib\scite-lua-5.3.4\3.7.0\scite\src\LuaExtension.cxx
+mru.4.path=E:\projects\_myScite\_myScite.github\contrib\scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\SciTEStartup.lua
+mru.5.path=E:\projects\_myScite\_myScite.github\contrib\scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\env.lua
+mru.6.path=E:\projects\_myScite\_myScite.github\contrib\scite-lua-5.3.4\SciTE_lua5.3.4\SciTEUser.properties
+mru.7.path=E:\projects\_myScite\_myScite.github\contrib\scite-lua-5.3.4\SciTE_lua5.3.4\SciTEGlobal.properties
+mru.8.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\mod-extman\extman.lua
+mru.9.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\License_and_Authors.txt
+mru.10.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\SciTEGlobal.properties
 
-buffer.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\filetypes.v150.txt
-buffer.1.position=1
-buffer.1.scroll=0
+search.1.findwhat=line
+
+buffer.1.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\SciTEGlobal.properties
+buffer.1.position=2725
+buffer.1.scroll=56
 buffer.1.current=1

@@ -1,6 +1,6 @@
 
 /** build@ cscript.exe //E:jscript /NOLOGO //X $(FilePath) '
- *
+ * "electron-steampunk"
  *  	... Doc Comments seem to be okay.
  * 	@api CommentKeyword
 */
