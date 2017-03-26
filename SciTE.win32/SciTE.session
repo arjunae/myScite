@@ -1,0 +1,19 @@
+# SciTE session file
+
+position.left=275
+position.top=103
+position.width=720
+position.height=400
+position.maximize=0
+
+mru.1.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\3.7.0\scite\src\LuaExtension.cxx
+mru.2.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\TicTacToe.lua
+mru.3.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\TicTacToe_testBuffer.lua
+mru.4.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\SciTEGlobal.properties
+mru.5.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\theme\theme.global.defaults.properties
+mru.6.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\theme\theme.blackblue.properties
+
+buffer.1.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\theme\theme.blackblue.properties
+buffer.1.position=782
+buffer.1.scroll=14
+buffer.1.current=1

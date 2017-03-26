@@ -1254,10 +1254,10 @@ static void PublishGlobalBufferData() {
 			lua_pop(luaState, 1);
 			// Create empty LUA_REGISTRYINDEX with SciTE_BufferData_Array
 			lua_newtable(luaState);
-			lua_pushliteral(luaState, "SciTE_BufferData_Array"); 
+			lua_pushliteral(luaState, "SciTE_BufferData_Array");
 			lua_pushvalue(luaState, -2);
 			lua_rawset(luaState, LUA_REGISTRYINDEX);		
-		}   
+		}
 		// create this buffers env from above RegistryIndex
 		lua_rawgeti(luaState, -1, curBufferIndex);
 		if (!lua_istable(luaState, -1)) {
@@ -1273,8 +1273,8 @@ static void PublishGlobalBufferData() {
 			  
 	} else {
 	/// ensure an empty lua_globalsindex during startup and before any InitBuffer / ActivateBuffer
-	lua_pushnil(luaState);	
-
+	lua_pushnil(luaState);
+	
 	}
 //	was lua_settable(luaState, LUA_GLOBALSINDEX); //or lua_rawset(luaState, LUA_GLOBALSINDEX);		
 // FIX_HERE LUA_GLOBALSINDEX (unsure)

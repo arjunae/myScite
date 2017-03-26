@@ -192,7 +192,8 @@ end
 ------------------------------------------------------------------------
 local function TicTacClick(ch)
   local BEG = 4                         -- first line of board
-  if not buffer[STR.Sig] then return end-- verify buffer signature
+  -- HACK-- to show something without global buffer
+  --if not buffer[STR.Sig] then return end-- verify buffer signature
   --------------------------------------------------------------------
   -- check appearance of board
   --------------------------------------------------------------------
@@ -299,7 +300,7 @@ function TicTacToe()
   scite_OnDoubleClick(HandleClick)
   scite_OnChar(HandleChar)
   scite.Open("")
-  buffer[STR.Sig] = true;
+ -- buffer[STR.Sig] = true;
   local t = {}
   Refresh(t, ComputerStart(t))
 end
