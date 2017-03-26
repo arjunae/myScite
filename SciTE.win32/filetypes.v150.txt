@@ -1,3 +1,16 @@
+file.patterns.applescript=*.applescript
+file.patterns.autoit=*.au3;*.a3x;*.ahk
+file.patterns.awk=*.awk
+file.patterns.desktop=*.desktop
+file.patterns.dockerfile=Dockerfile
+file.patterns.dot=*.dot
+file.patterns.gtkrc=*.gtkrc
+file.patterns.icon=*.icn
+file.patterns.ini=*.cfg;*.cnf;*.inf;*.ini
+file.patterns.man=*.1;*.2;*.3;*.4;*.5;*.6;*.7;*.8;*.9;*.1x;*.2x;*.3x;*.4x;*.5x;*.6x;*.7x;*.8x;*.9x
+file.patterns.pkgbuild=*.PKGBUILD
+file.patterns.taskpaper=*.taskpaper
+file.patterns.vcard=*.vcf;*.vcard
 file.patterns.json=*.json;*.eslintrc;*.jshintrc;*.jsonld
 file.patterns.php=*.php3;*.phtml;*.php
 file.patterns.py=*.py;*.pyw;*.pyx;*.pxd
