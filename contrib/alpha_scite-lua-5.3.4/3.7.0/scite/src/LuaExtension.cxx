@@ -1254,10 +1254,10 @@ static void PublishGlobalBufferData() {
 			lua_pop(luaState, 1);
 			// Create empty LUA_REGISTRYINDEX with SciTE_BufferData_Array
 			lua_newtable(luaState);
-			lua_pushliteral(luaState, "SciTE_BufferData_Array");
+			lua_pushliteral(luaState, "SciTE_BufferData_Array"); 
 			lua_pushvalue(luaState, -2);
 			lua_rawset(luaState, LUA_REGISTRYINDEX);		
-		}
+		}   
 		// create this buffers env from above RegistryIndex
 		lua_rawgeti(luaState, -1, curBufferIndex);
 		if (!lua_istable(luaState, -1)) {
@@ -1274,10 +1274,11 @@ static void PublishGlobalBufferData() {
 	} else {
 	/// ensure an empty lua_globalsindex during startup and before any InitBuffer / ActivateBuffer
 	lua_pushnil(luaState);	
+
 	}
-
-
 //	was lua_settable(luaState, LUA_GLOBALSINDEX); //or lua_rawset(luaState, LUA_GLOBALSINDEX);		
+// FIX_HERE LUA_GLOBALSINDEX (unsure)
+//lua_rawset(luaState, LUA_REGISTRYINDEX);		
 }
 
 
@@ -1471,7 +1472,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
   //lua_rawgeti(luaState, LUA_REGISTRYINDEX,LUA_RIDX_GLOBALS);
   //clone_table(luaState, -1, true);
 	
-	lua_pushnil(luaState); 
+	//lua_pushnil(luaState); 
 	lua_pushglobaltable(luaState);
 	clone_table(luaState, -2, true);
 	
@@ -1552,9 +1553,11 @@ bool LuaExtension::Load(const char *filename) {
 
 
 bool LuaExtension::InitBuffer(int index) {
+	/* 
 	char msg[100];
 	sprintf(msg, "InitBuffer(%d)\n", index);
 	host->Trace(msg);
+	*/
 
 	if (index > maxBufferIndex)
 		maxBufferIndex = index;
@@ -1580,10 +1583,12 @@ bool LuaExtension::InitBuffer(int index) {
 }
 
 bool LuaExtension::ActivateBuffer(int index) {
+	/*
 	char msg[100];
 	sprintf(msg, "ActivateBuffer(%d)\n", index);
 	host->Trace(msg);
-
+	*/
+	
 	// Probably don't need to do anything with Lua here.  Setting
 	// curBufferIndex is important so that InitGlobalScope knows
 	// which buffer is active, in order to populate the 'buffer'
@@ -1632,8 +1637,12 @@ bool LuaExtension::RemoveBuffer(int index) {
 
 bool LuaExtension::OnExecute(const char *s) {
 // gets called when selecting a luaScript within the tools menu
-// still investigating.
+// pcalls string.find(s) -> if that succeeds, insert the function onto the stack and try to call_function(s).
 	bool handled = false;
+	std::string msg = "lua: selected Tools->";
+	msg.append(s);
+	msg.append("\n");
+	host->Trace(msg.c_str());
 
 	if (luaState || InitGlobalScope(false)) {
 		// May as well use Lua's pattern matcher to parse the command.
@@ -1651,12 +1660,11 @@ bool LuaExtension::OnExecute(const char *s) {
 				lua_pushstring(luaState, s);
 				lua_pushliteral(luaState, "^%s*([%a_][%a%d_]*)%s*(.-)%s*$");
 				int status = lua_pcall(luaState, 2, 4, 0);
+		// validate s  ?
 			if (status==0) {
-	//FIX LUA_GLOBALSINDEX
-  lua_insert(luaState, stackBase+1);					
-	lua_rawgeti(luaState,LUA_REGISTRYINDEX ,LUA_RIDX_GLOBALS);
-	//lua_gettable(luaState ,LUA_RIDX_GLOBALS);
-					if (!lua_isnil(luaState, -1)) {
+			lua_insert(luaState, stackBase+1);	//function	
+			lua_getglobal(luaState,(s));	// functionName
+		if (!lua_isnil(luaState, -1)) {						
 						if (lua_isfunction(luaState, -1)) {
 							// Try calling it and, even if it fails, short-circuit Filerx
 							handled = true;

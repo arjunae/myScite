@@ -28,7 +28,7 @@ mingw32-make
 REM tdm-make -j %NUMBER_OF_PROCESSORS%
 
 copy /Y ..\bin\SciTE.exe ..\..\..\SciTE_lua5.3.4\
-copy /Y ..\bin\SciLexer.dll ..\..\..\SciTE_lua5.3.4\
+::copy /Y ..\bin\SciLexer.dll ..\..\..\SciTE_lua5.3.4\
 
 if errorlevel 1 goto :error
 
