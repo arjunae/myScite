@@ -8,20 +8,14 @@ REM  -Creates a regfile which has to be imported manally.-
 REM
 REM :: Created Jul 2016, Marcedo@HabmalneFrage.de
 REM :: URL: https://sourceforge.net/projects/scite-webdev/?source=directory
-REM
+REM - Reference: https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx
 REM - Aug16 - Search for %cmd% in actual and up to 2 parent Directories / Use full qualified path. 
 REM - Okto16 - create / reset Program Entry RegistryKey  
-REM - Nov16 - reactos fix / check admin
-REM
+REM - Nov16 - reactos fix
+REM 
 REM ::--::--::--::--Steampunk--::-::--::--::
 
  pushd %~dp0%
- 
-:check_user
- SET ADMIN=NIL
- net session >nul 2>&1
- if [%ERRORLEVEL%]==[0] SET ADMIN=1 
- popd
 
 :main
  REM WorkAround Reactos 0.4.2 Variable Expansion Bug.
