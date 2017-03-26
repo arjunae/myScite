@@ -1243,8 +1243,9 @@ static bool CheckStartupScript() {
 }
 
 static void PublishGlobalBufferData() {
-/// replace Lua's global environment with current Scite-Buffers Data
-// should create global buffer 
+// release 1.62
+// A Lua table called 'buffer' is associated with each buffer
+// and can be used to maintain buffer-specific state.
 	lua_pushliteral(luaState, "buffer"); //object: buffer globalScope 
 	if (curBufferIndex >= 0) {
 		lua_pushliteral(luaState, "SciTE_BufferData_Array");
@@ -1269,15 +1270,13 @@ static void PublishGlobalBufferData() {
 		}
 		// replace SciTE_BufferData_Array on the Stack (Leaving (buffer=-1, 'buffer'=-2))
 		// done to apply the expanded  SciTE_BufferData_Array ? 
-		// FIX_HERE LUA_GLOBALSINDEX (unsure)
-		//merge_table(luaState, LUA_RIDX_GLOBALS,-2);
+		// FIX_HERE LUA_GLOBALSINDEX
 		lua_replace(luaState, -2);	
 		} else {
-	/// ensure an empty buffer during startup and before any InitBuffer / ActivateBuffer
+	/// ensure that the luatable "buffer" will be empty during startup and before any InitBuffer / ActivateBuffer
 	lua_pushnil(luaState);
 	}
 //	was lua_settable(luaState, LUA_GLOBALSINDEX); //or lua_rawset(luaState, LUA_GLOBALSINDEX);		
-// FIX_HERE LUA_GLOBALSINDEX (unsure, but seems to works fine..needs testing.)
 lua_setglobal(luaState, "buffer");
 }
 

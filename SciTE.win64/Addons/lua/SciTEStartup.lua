@@ -6,6 +6,10 @@ package.path =  package.path ..";"..defaultHome.."\\Addons\\?.lua;".. ";"..defau
 package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
 
 ---- SciTEStartup.lua gets called by extman, to ensure its available here.
+print("lua: debug buffer")
+--print (tostring(buffer))
+  for n in pairs(buffer) do print(n) end
+
 -- Load mod-mitchell 
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-mitchell\\scite.lua')
