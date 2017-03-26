@@ -9,16 +9,12 @@ position.maximize=0
 mru.1.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\mod-extman\extman.lua
 mru.2.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\TicTacToe.lua
 mru.3.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\env.lua
-mru.4.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE_lua5.3.4\SciTE.session
-mru.5.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE_lua5.3.4\SciTEGlobal.properties
+mru.4.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE_lua5.3.4\SciTEGlobal.properties
+mru.5.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE_lua5.3.4\SciTE.session
 
 search.1.findwhat=print
 
 buffer.1.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE_lua5.3.4\SciTE.session
-buffer.1.position=17
+buffer.1.position=22
 buffer.1.scroll=0
 buffer.1.current=1
-
-buffer.2.path=E:\projects\_myScite\_myScite.github\src\scite-lua-5.3.4\SciTE_lua5.3.4\SciTEGlobal.properties
-buffer.2.position=22752
-buffer.2.scroll=588
