@@ -1,4 +1,4 @@
-# current versions of Windows come with disabled powershell script execution.
+# current versions of Windows come with disabled (unsigned) powershell script execution.
 # To explicitly use an unsigned powershell script, sign your scripts or try: 
 # PowerShell.exe -ExecutionPolicy UnRestricted -File test_powershell.ps1
 
