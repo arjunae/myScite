@@ -40,7 +40,9 @@ local VERSION, REVDATE = "0.11", "20061027"     -- version information
 -- * Up-down movement can sometimes jump columns, hard to fix perfectly.
 -- * Error message display to console/output window still a bit messy.
 ------------------------------------------------------------------------
-
+--lua >=5.2 renamed both to
+math.mod=math.fmod or math.mod
+string.gfind=string.gmatch or string.gfind
 ------------------------------------------------------------------------
 -- constants and primitives
 ------------------------------------------------------------------------
@@ -100,7 +102,7 @@ Enter "help console" for a summary of console commands, "help edit" for
 edit window help, or "help <cmd>" (where <cmd> is a console command) for
 help on using a particular command. The available console commands are:
 
-  cls  info  goto  load  save  revert  search  number  help  exit
+  cls  info  gotox  load  save  revert  search  number  help  exit
 
 ]],
 ------------------------------------------------------------------------
@@ -127,7 +129,7 @@ console window on successful execution. Adding a "-" as a suffix will
 stop the console window from closing, e.g. "save-". Commands (which
 are case insensitive) are:
 
-  cls                           goto <dec|hex>
+  cls                           gotox <dec|hex>
   info                          load <filename>
   revert                        save|saveas [<filename>]
   float <float|hex>             number <dec|hex|"string">
@@ -190,13 +192,13 @@ console window.
 
 ]],
 ------------------------------------------------------------------------
-    goto = [[
+    gotox = [[
 
-  goto <dec|hex>
+  gotox <dec|hex>
 
 Jumps to a given position, closing the console window in the process.
-To avoid closing the console window, use "goto-" instead of "goto".
-E.g. goto 1234, goto 0x200
+To avoid closing the console window, use "gotox-" instead of "gotox".
+E.g. gotox 1234, gotox 0x200
 
 ]],
 ------------------------------------------------------------------------
@@ -877,7 +879,7 @@ local Command = {
   --------------------------------------------------------------------
   -- move page and caret to a given position
   --------------------------------------------------------------------
-  Goto = function(args)
+  Gotox = function(args)
     if type(args) == "table" then               -- from console
       if CheckForArg(args) then return end
       args = args[1]
@@ -1305,8 +1307,8 @@ local function DoConsole()
       buffer.AutoClose = false
       Command.Help(args)
     ----------------------------------------------------------------
-    elseif c == "goto" then             -- other commands
-      Command.Goto(args)
+    elseif c == "gotox" then             -- other commands
+      Command.Gotox(args)
     elseif c == "revert" then
       Command.Revert()
     elseif c == "load" then
@@ -1448,7 +1450,7 @@ local function HexEdit(c, clicked)
       local p = string.format("%08X", buffer.Offset)
       col = col - WIN.POS.x1 + 1
       p = string.sub(p, 1, col-1)..c..string.sub(p, col+1)
-      Command.Goto(tonumber(p, 16))
+      Command.Gotox(tonumber(p, 16))
     end
   --------------------------------------------------------------------
   elseif op == "hex" then               -- hex window operations

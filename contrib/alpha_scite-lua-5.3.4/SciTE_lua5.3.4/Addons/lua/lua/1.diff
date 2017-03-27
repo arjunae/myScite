@@ -1,0 +1,128 @@
+--- SciTEHexEdit.lua	2017-03-12 17:50:26.000000000 +0100
++++ SciTEHexEdit5.3.lua	2017-03-27 03:01:00.000000000 +0200
+@@ -190,7 +190,7 @@
+ 
+ ]],
+ ------------------------------------------------------------------------
+-    goto = [[
++    hxgoto = [[
+ 
+   goto <dec|hex>
+ 
+@@ -454,7 +454,7 @@
+   local monoprop =  props["font.monospace"]    
+   -- get monospace style
+                    
+-  for style, value in string.gfind(monoprop, "([^,:]+):([^,]+)") do
++  for style, value in string.gmatch(monoprop, "([^,:]+):([^,]+)") do
+     StyleMono[style] = value
+   end
+   --------------------------------------------------------------------
+@@ -495,7 +495,7 @@
+ -- IEEE 32-bit single precision to little endian char string
+ local function single2hex(x)
+   local function grab(v)
+-    return math.floor(v / 256), string.format("%02X", math.mod(v, 256))
++    return math.floor(v / 256), string.format("%02X", math.fmod(v, 256))
+   end
+   local sign = 0; if x < 0 then sign = 1; x = -x end
+   local mantissa, exponent = math.frexp(x)
+@@ -518,7 +518,7 @@
+ -- IEEE 64-bit double precision to little endian char string
+ local function double2hex(x)
+   local function grab(v)
+-    return math.floor(v / 256), string.format("%02X", math.mod(v, 256))
++    return math.floor(v / 256), string.format("%02X", math.fmod(v, 256))
+   end
+   local sign = 0; if x < 0 then sign = 1; x = -x end
+   local mantissa, exponent = math.frexp(x)
+@@ -540,12 +540,12 @@
+ -- little endian char string to IEEE 32-bit single precision
+ local function hex2single(x)
+   local sign, signc = 1, "+"
+-  local mantissa = math.mod(x[3], 128)
++  local mantissa = math.fmod(x[3], 128)
+   for i = 2, 1, -1 do mantissa = mantissa * 256 + x[i] end
+   if x[4] > 127 then
+     sign, signc = -1, "-"
+   end
+-  local exponent = math.mod(x[4], 128) * 2 + math.floor(x[3] / 128)
++  local exponent = math.fmod(x[4], 128) * 2 + math.floor(x[3] / 128)
+   if exponent == 0 then
+     if mantissa ~= 0 then return "Denormal"..signc end
+     return 0
+@@ -560,12 +560,12 @@
+ -- little endian char string to IEEE 64-bit double precision
+ local function hex2double(x)
+   local sign, signc = 1, "+"
+-  local mantissa = math.mod(x[7], 16)
++  local mantissa = math.fmod(x[7], 16)
+   for i = 6, 1, -1 do mantissa = mantissa * 256 + x[i] end
+   if x[8] > 127 then
+     sign, signc = -1, "-"
+   end
+-  local exponent = math.mod(x[8], 128) * 16 + math.floor(x[7] / 16)
++  local exponent = math.fmod(x[8], 128) * 16 + math.floor(x[7] / 16)
+   if exponent == 0 then
+     if mantissa ~= 0 then return "Denormal"..signc end
+     return 0
+@@ -591,12 +591,12 @@
+ -- align a number to a 2^n value
+ local function Align(n, width)
+   if not width then width = 16 end
+-  return n - math.mod(n, width)
++  return n - math.fmod(n, width)
+ end
+ 
+ -- move to data position in hex window
+ local function MoveToHex(i)
+-  local x = math.mod(i, 16)
++  local x = math.fmod(i, 16)
+   local y = (i - x) / 16 + WIN.HEX.y1
+   x = x * 3 + WIN.HEX.x1
+   i = editor:FindColumn(y, x)
+@@ -605,7 +605,7 @@
+ 
+ -- move to data position in ascii window
+ local function MoveToAscii(i)
+-  local x = math.mod(i, 16)
++  local x = math.fmod(i, 16)
+   local y = (i - x) / 16 + WIN.ASC.y1
+   if x == 0 then x = x - 1 end
+   x = x + WIN.ASC.x1
+@@ -668,7 +668,7 @@
+ 
+ -- mark a byte as edited, 0<=1<=255
+ local function MarkAsEdited(off)
+-  local i = math.mod(off, PAGESIZE)
++  local i = math.fmod(off, PAGESIZE)
+   local page = (off - i) / PAGESIZE
+   local p = buffer.ChangeSet[page]
+   if not p then p = string.rep("\0", PAGESIZE) end
+@@ -1081,7 +1081,7 @@
+     ----------------------------------------------------------------
+     if h then                                   -- hex data specified
+       h = string.sub(arg, 3)
+-      if math.mod(string.len(h), 2) == 1 then h = "0"..h end
++      if math.fmod(string.len(h), 2) == 1 then h = "0"..h end
+       local info = ""
+       for i = 1, string.len(h), 2 do
+         info = info..string.char(tonumber(string.sub(h, i, i+1), 16))
+@@ -1226,7 +1226,7 @@
+     local v = GetByte(pos)
+     c = tonumber(c, 16)
+     if digit == 0 then                          -- according to digit pos
+-      v = c * 16 + math.mod(v, 16)
++      v = c * 16 + math.fmod(v, 16)
+     else
+       v = math.floor(v / 16) * 16 + c
+     end
+@@ -1454,7 +1454,7 @@
+   elseif op == "hex" then               -- hex window operations
+     col = col - WIN.HEX.x1 - 1
+     ln = ln - WIN.HEX.y1
+-    local digit = math.mod(col, 3)
++    local digit = math.fmod(col, 3)
+     if c == "\n" then
+       -- newline moves caret down, does not change data
+       if ln == 15 then NextPage() end

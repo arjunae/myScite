@@ -40,7 +40,9 @@ local VERSION, REVDATE = "0.11", "20061027"     -- version information
 -- * Up-down movement can sometimes jump columns, hard to fix perfectly.
 -- * Error message display to console/output window still a bit messy.
 ------------------------------------------------------------------------
-
+--lua >=5.2 renamed both to
+math.mod=math.fmod or math.mod
+string.gfind=string.gmatch or string.gfind
 ------------------------------------------------------------------------
 -- constants and primitives
 ------------------------------------------------------------------------
@@ -100,7 +102,7 @@ Enter "help console" for a summary of console commands, "help edit" for
 edit window help, or "help <cmd>" (where <cmd> is a console command) for
 help on using a particular command. The available console commands are:
 
-  cls  info  goto  load  save  revert  search  number  help  exit
+  cls  info  gotox  load  save  revert  search  number  help  exit
 
 ]],
 ------------------------------------------------------------------------
@@ -127,7 +129,7 @@ console window on successful execution. Adding a "-" as a suffix will
 stop the console window from closing, e.g. "save-". Commands (which
 are case insensitive) are:
 
-  cls                           goto <dec|hex>
+  cls                           gotox <dec|hex>
   info                          load <filename>
   revert                        save|saveas [<filename>]
   float <float|hex>             number <dec|hex|"string">
@@ -190,13 +192,13 @@ console window.
 
 ]],
 ------------------------------------------------------------------------
-    hxgoto = [[
+    gotox = [[
 
-  goto <dec|hex>
+  gotox <dec|hex>
 
 Jumps to a given position, closing the console window in the process.
-To avoid closing the console window, use "goto-" instead of "goto".
-E.g. goto 1234, goto 0x200
+To avoid closing the console window, use "gotox-" instead of "gotox".
+E.g. gotox 1234, gotox 0x200
 
 ]],
 ------------------------------------------------------------------------
@@ -454,7 +456,7 @@ local function WindowSetup()
   local monoprop =  props["font.monospace"]    
   -- get monospace style
                    
-  for style, value in string.gmatch(monoprop, "([^,:]+):([^,]+)") do
+  for style, value in string.gfind(monoprop, "([^,:]+):([^,]+)") do
     StyleMono[style] = value
   end
   --------------------------------------------------------------------
@@ -495,7 +497,7 @@ end
 -- IEEE 32-bit single precision to little endian char string
 local function single2hex(x)
   local function grab(v)
-    return math.floor(v / 256), string.format("%02X", math.fmod(v, 256))
+    return math.floor(v / 256), string.format("%02X", math.mod(v, 256))
   end
   local sign = 0; if x < 0 then sign = 1; x = -x end
   local mantissa, exponent = math.frexp(x)
@@ -518,7 +520,7 @@ end
 -- IEEE 64-bit double precision to little endian char string
 local function double2hex(x)
   local function grab(v)
-    return math.floor(v / 256), string.format("%02X", math.fmod(v, 256))
+    return math.floor(v / 256), string.format("%02X", math.mod(v, 256))
   end
   local sign = 0; if x < 0 then sign = 1; x = -x end
   local mantissa, exponent = math.frexp(x)
@@ -540,12 +542,12 @@ end
 -- little endian char string to IEEE 32-bit single precision
 local function hex2single(x)
   local sign, signc = 1, "+"
-  local mantissa = math.fmod(x[3], 128)
+  local mantissa = math.mod(x[3], 128)
   for i = 2, 1, -1 do mantissa = mantissa * 256 + x[i] end
   if x[4] > 127 then
     sign, signc = -1, "-"
   end
-  local exponent = math.fmod(x[4], 128) * 2 + math.floor(x[3] / 128)
+  local exponent = math.mod(x[4], 128) * 2 + math.floor(x[3] / 128)
   if exponent == 0 then
     if mantissa ~= 0 then return "Denormal"..signc end
     return 0
@@ -560,12 +562,12 @@ end
 -- little endian char string to IEEE 64-bit double precision
 local function hex2double(x)
   local sign, signc = 1, "+"
-  local mantissa = math.fmod(x[7], 16)
+  local mantissa = math.mod(x[7], 16)
   for i = 6, 1, -1 do mantissa = mantissa * 256 + x[i] end
   if x[8] > 127 then
     sign, signc = -1, "-"
   end
-  local exponent = math.fmod(x[8], 128) * 16 + math.floor(x[7] / 16)
+  local exponent = math.mod(x[8], 128) * 16 + math.floor(x[7] / 16)
   if exponent == 0 then
     if mantissa ~= 0 then return "Denormal"..signc end
     return 0
@@ -591,12 +593,12 @@ end
 -- align a number to a 2^n value
 local function Align(n, width)
   if not width then width = 16 end
-  return n - math.fmod(n, width)
+  return n - math.mod(n, width)
 end
 
 -- move to data position in hex window
 local function MoveToHex(i)
-  local x = math.fmod(i, 16)
+  local x = math.mod(i, 16)
   local y = (i - x) / 16 + WIN.HEX.y1
   x = x * 3 + WIN.HEX.x1
   i = editor:FindColumn(y, x)
@@ -605,7 +607,7 @@ end
 
 -- move to data position in ascii window
 local function MoveToAscii(i)
-  local x = math.fmod(i, 16)
+  local x = math.mod(i, 16)
   local y = (i - x) / 16 + WIN.ASC.y1
   if x == 0 then x = x - 1 end
   x = x + WIN.ASC.x1
@@ -668,7 +670,7 @@ end
 
 -- mark a byte as edited, 0<=1<=255
 local function MarkAsEdited(off)
-  local i = math.fmod(off, PAGESIZE)
+  local i = math.mod(off, PAGESIZE)
   local page = (off - i) / PAGESIZE
   local p = buffer.ChangeSet[page]
   if not p then p = string.rep("\0", PAGESIZE) end
@@ -877,7 +879,7 @@ local Command = {
   --------------------------------------------------------------------
   -- move page and caret to a given position
   --------------------------------------------------------------------
-  Goto = function(args)
+  Gotox = function(args)
     if type(args) == "table" then               -- from console
       if CheckForArg(args) then return end
       args = args[1]
@@ -1081,7 +1083,7 @@ local Command = {
     ----------------------------------------------------------------
     if h then                                   -- hex data specified
       h = string.sub(arg, 3)
-      if math.fmod(string.len(h), 2) == 1 then h = "0"..h end
+      if math.mod(string.len(h), 2) == 1 then h = "0"..h end
       local info = ""
       for i = 1, string.len(h), 2 do
         info = info..string.char(tonumber(string.sub(h, i, i+1), 16))
@@ -1226,7 +1228,7 @@ local Command = {
     local v = GetByte(pos)
     c = tonumber(c, 16)
     if digit == 0 then                          -- according to digit pos
-      v = c * 16 + math.fmod(v, 16)
+      v = c * 16 + math.mod(v, 16)
     else
       v = math.floor(v / 16) * 16 + c
     end
@@ -1305,8 +1307,8 @@ local function DoConsole()
       buffer.AutoClose = false
       Command.Help(args)
     ----------------------------------------------------------------
-    elseif c == "goto" then             -- other commands
-      Command.Goto(args)
+    elseif c == "gotox" then             -- other commands
+      Command.Gotox(args)
     elseif c == "revert" then
       Command.Revert()
     elseif c == "load" then
@@ -1448,13 +1450,13 @@ local function HexEdit(c, clicked)
       local p = string.format("%08X", buffer.Offset)
       col = col - WIN.POS.x1 + 1
       p = string.sub(p, 1, col-1)..c..string.sub(p, col+1)
-      Command.Goto(tonumber(p, 16))
+      Command.Gotox(tonumber(p, 16))
     end
   --------------------------------------------------------------------
   elseif op == "hex" then               -- hex window operations
     col = col - WIN.HEX.x1 - 1
     ln = ln - WIN.HEX.y1
-    local digit = math.fmod(col, 3)
+    local digit = math.mod(col, 3)
     if c == "\n" then
       -- newline moves caret down, does not change data
       if ln == 15 then NextPage() end

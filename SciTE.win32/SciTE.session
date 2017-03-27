@@ -1,23 +1,23 @@
 # SciTE session file
 
-position.left=531
-position.top=256
+position.left=413
+position.top=162
 position.width=1046
 position.height=488
-position.maximize=0
+position.maximize=1
 
-mru.1.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\LuaExtension_lua5.3.cxx
-mru.2.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\TicTacToe.lua
-mru.3.path=C:\Users\Tho\Desktop\termin.fra.geis.txt
+mru.1.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\SciTEHexEdit5.3.lua
+mru.2.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\SciTEHexEdit0.11.lua
+mru.3.path=E:\projects\_myScite\_myScite.github\SciTE.win64\Addons\lua\SciTEStartup.lua
 mru.4.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\3.7.0\scite\src\LuaExtension.cxx
-mru.5.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\settings.properties
-mru.6.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\env.lua
-mru.7.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\SciTEGlobal.properties
-mru.8.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\SciTEHexEdit.lua
-mru.9.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\LuaExtension_lua.5.3.cxx
-mru.10.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua_5.3.4_alpha.diff
+mru.5.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\SciTEHexEdit.lua
+mru.6.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\lua\SciTEHexEdit.lua
+mru.7.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\test.diff
+mru.8.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua_5.3.4_alpha.diff
+mru.9.path=C:\Users\Tho\Desktop\a
+mru.10.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEGlobal.properties
 
-buffer.1.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua_5.3.4_alpha.diff
-buffer.1.position=8380
-buffer.1.scroll=213
+buffer.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEGlobal.properties
+buffer.1.position=20409
+buffer.1.scroll=489
 buffer.1.current=1

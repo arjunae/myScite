@@ -1,7 +1,7 @@
 # SciTE session file
 
-position.left=40
-position.top=6
+position.left=94
+position.top=152
 position.width=1181
 position.height=719
 position.maximize=0
@@ -13,10 +13,11 @@ mru.4.path=E:\projects\_myScite\_myScite.github\SciTE.win64\Addons\lua\mod-extma
 mru.5.path=E:\projects\_myScite\_myScite.github\SciTE.win64\Addons\lua\SciTEStartup.lua
 mru.6.path=E:\projects\_myScite\_myScite.github\contrib\scite-lua-5.3.4\3.7.0\scite\src\LuaExtension.cxx
 mru.7.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\3.7.0\scite\src\LuaExtension.cxx
+mru.8.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\SciTEHexEdit.lua
 
-search.1.findwhat=globalbu
-search.2.findwhat=glbalbu
-search.3.findwhat=execute
+search.1.findwhat=execute
+search.2.findwhat=globalbu
+search.3.findwhat=glbalbu
 search.4.findwhat=lua
 search.5.findwhat=fix_here
 search.6.findwhat=SciTE_InitialState
@@ -25,11 +26,11 @@ search.8.findwhat=clone_Tabl
 search.9.findwhat=fix_h
 search.10.findwhat=fix
 
-buffer.1.path=E:\projects\_myScite\_myScite.github\contrib\scite-lua-5.3.4\3.7.0\scite\src\LuaExtension.cxx
-buffer.1.position=1
-buffer.1.scroll=0
+buffer.1.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\3.7.0\scite\src\LuaExtension.cxx
+buffer.1.position=38832
+buffer.1.scroll=1243
+buffer.1.current=1
 
-buffer.2.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\3.7.0\scite\src\LuaExtension.cxx
-buffer.2.position=39376
-buffer.2.scroll=1246
-buffer.2.current=1
+buffer.2.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\SciTEHexEdit.lua
+buffer.2.position=2533
+buffer.2.scroll=32
