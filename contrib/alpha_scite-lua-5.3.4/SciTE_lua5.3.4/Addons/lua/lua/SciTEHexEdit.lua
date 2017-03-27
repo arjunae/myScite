@@ -40,7 +40,8 @@ local VERSION, REVDATE = "0.11", "20061027"     -- version information
 -- * Up-down movement can sometimes jump columns, hard to fix perfectly.
 -- * Error message display to console/output window still a bit messy.
 ------------------------------------------------------------------------
---lua >=5.2 renamed both to
+--lua >=5.2.x replaced table.getn(x) with #x
+--lua >=5.2.x renamed functions: 
 math.mod=math.fmod or math.mod
 string.gfind=string.gmatch or string.gfind
 ------------------------------------------------------------------------
@@ -646,7 +647,7 @@ local function CheckForArg(args, min, max)
   if not min then min, max = 1, 1
   elseif not max then max = min
   end
-  local n = table.getn(args)
+  local n = #args
   if n < min or n > max then
     CmdError("Incorrect number of arguments, please check the documentation")
     return true
@@ -1224,13 +1225,14 @@ local Command = {
   -- make changes based on keypress in hex pane
   --------------------------------------------------------------------
   EditHex = function(x, y, digit, c)
-    local pos = buffer.Offset + y * 16 + x
+
+  local pos = buffer.Offset + y * 16 + x
     local v = GetByte(pos)
     c = tonumber(c, 16)
     if digit == 0 then                          -- according to digit pos
       v = c * 16 + math.mod(v, 16)
-    else
-      v = math.floor(v / 16) * 16 + c
+    else    
+     v = math.floor(v / 16) * 16 + c 
     end
     local result = SetByte(pos, v)              -- make the changes
     if result then MarkAsEdited(pos) end
@@ -1338,7 +1340,7 @@ local function DoConsole()
     ----------------------------------------------------------------
     else                        -- unknown command, display info
       editor:AddText("@ Unrecognized command '"..c.."'\n@ Arguments:")
-      if table.getn(args) == 0 then
+      if #args == 0 then
         editor:AddText("(None)\n")
       else
         for i, v in ipairs(args) do

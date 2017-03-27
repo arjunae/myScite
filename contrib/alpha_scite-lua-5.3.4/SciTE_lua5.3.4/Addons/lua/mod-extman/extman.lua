@@ -23,9 +23,6 @@ package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
 --~ lua unpack for >5.1
 local unpack = table.unpack or unpack
 
-
-print("lua: extman loaded")
-
 -- useful function for getting a property, or a default if not present.
 function scite_GetProp(key,default)
   local val = props[key]

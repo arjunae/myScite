@@ -17,12 +17,15 @@ echo ::..::..:::..::..::.:.::
 echo ::    SciTE Prod      ::
 echo ::..::..:::..::..::.:.::
 
-cd 3.7.0\scintilla\win32
-mingw32-make -j %NUMBER_OF_PROCESSORS%
+::cd 3.7.0\scintilla\win32
+::mingw32-make -j %NUMBER_OF_PROCESSORS%
 REM tdm-make -j %NUMBER_OF_PROCESSORS%
-if errorlevel 1 goto :error
+::if errorlevel 1 goto :error
 
-cd ..\..\scite\win32
+::cd ..\..\scite\win32
+cd 3.7.0\scite\win32
+mingw32-make deps
+
 mingw32-make 
 ::-j %NUMBER_OF_PROCESSORS%
 REM tdm-make -j %NUMBER_OF_PROCESSORS%

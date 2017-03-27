@@ -7,8 +7,5 @@ package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
 
 ---- SciTEStartup.lua gets called by extman, to ensure its available here.
 
-
-print("lua: startup script reload ")
-print("l-------------------")
 --print("lua: calling printenv")
 --printenv()
