@@ -3,7 +3,8 @@
 // Copyright 1998-2000 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
 
-#include <stdlib.h>
+#include <stdlib.h>leaving
+
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
@@ -24,18 +25,12 @@
 #include "IFaceTable.h"
 #include "SciTEKeys.h"
 
-//define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
-//define lua_pushglobaltable(L) lua_rawgeti(pLuaState, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
-#define LUA_COMPAT_5_1
-
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"
 }
 
-		#define LUA_GLOBALSINDEX LUA_RIDX_GLOBALS
-				
 #if defined(_WIN32) && defined(_MSC_VER)
 
 // MSVC looks deeper into the code than other compilers, sees that
@@ -125,21 +120,10 @@ inline void raise_error(lua_State *L, const char *errMsg=NULL) {
 	lua_error(L);
 }
 
-// lua_absindex for LUA <5.1
-inline int absolute_index(lua_State* L, int index)
-{
-  if (index > LUA_REGISTRYINDEX && index < 0)
-    return lua_gettop (L) + index + 1;
-  else
-    return index;
+inline int absolute_index(lua_State *L, int index) {
+	return ((index < 0) && (index != LUA_REGISTRYINDEX) && (index != LUA_GLOBALSINDEX))
+	       ? (lua_gettop(L) + index + 1) : index;
 }
-
-/** 				
-* merge_table / clone_table / clear_table utilized to
-* "soft-replace" an existing global scope instead of using using new_table,
-* because then startup script would be bound to a different copy 
-* of the globals than the extension script.
-**/
 
 // copy the contents of one table into another returning the size
 static int merge_table(lua_State *L, int destTableIdx, int srcTableIdx, bool copyMetatable = false) {
@@ -1243,43 +1227,35 @@ static bool CheckStartupScript() {
 }
 
 static void PublishGlobalBufferData() {
-// release 1.62
-// A Lua table called 'buffer' is associated with each buffer
-// and can be used to maintain buffer-specific state.
-	lua_pushliteral(luaState, "buffer"); //object: buffer globalScope 
+	lua_pushliteral(luaState, "buffer");
 	if (curBufferIndex >= 0) {
 		lua_pushliteral(luaState, "SciTE_BufferData_Array");
 		lua_rawget(luaState, LUA_REGISTRYINDEX);
-		// create new SciTE_BufferData_Array
 		if (!lua_istable(luaState, -1)) {
 			lua_pop(luaState, 1);
-			// Create new SciTE_BufferData_Array / append to LUA_REGISTRYINDEX
+
 			lua_newtable(luaState);
 			lua_pushliteral(luaState, "SciTE_BufferData_Array");
 			lua_pushvalue(luaState, -2);
-			lua_rawset(luaState, LUA_REGISTRYINDEX);		
+			lua_rawset(luaState, LUA_REGISTRYINDEX);
 		}
-		//  create new entry for current buffer in SciTE_BufferData_Array(idx) 
 		lua_rawgeti(luaState, -1, curBufferIndex);
 		if (!lua_istable(luaState, -1)) {
+			// create new buffer-data
 			lua_pop(luaState, 1);
 			lua_newtable(luaState);
 			// remember it
 			lua_pushvalue(luaState, -1);
 			lua_rawseti(luaState, -3, curBufferIndex);
 		}
-		// replace SciTE_BufferData_Array on the Stack (Leaving (buffer=-1, 'buffer'=-2))
-		// done to apply the expanded  SciTE_BufferData_Array ? 
-		// FIX_HERE LUA_GLOBALSINDEX
-		lua_replace(luaState, -2);	
-		} else {
-	/// ensure that the luatable "buffer" will be empty during startup and before any InitBuffer / ActivateBuffer
-	lua_pushnil(luaState);
+		// Replace SciTE_BufferData_Array in the stack, leaving (buffer=-1, 'buffer'=-2)
+		lua_replace(luaState, -2);
+	} else {
+		// for example, during startup, before any InitBuffer / ActivateBuffer
+		lua_pushnil(luaState);
 	}
-//	was lua_settable(luaState, LUA_GLOBALSINDEX); //or lua_rawset(luaState, LUA_GLOBALSINDEX);		
-lua_setglobal(luaState, "buffer");
+	lua_rawset(luaState, LUA_GLOBALSINDEX);
 }
-
 
 static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	bool reload = forceReload;
@@ -1299,18 +1275,16 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		// copy of the initialized global environment, and uses that to re-init the scope.
 
 		if (!reload) {
-		
 			lua_getfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
 			if (lua_istable(luaState, -1)) {
-				clear_table(luaState,-2, true);
-				merge_table(luaState, -2, -1, true);
+				clear_table(luaState, LUA_GLOBALSINDEX, true);
+				merge_table(luaState, LUA_GLOBALSINDEX, -1, true);
 				lua_pop(luaState, 1);
-		
 
 				// restore initial package.loaded state
 				lua_getfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialPackageState");
 				lua_getfield(luaState, LUA_REGISTRYINDEX, "_LOADED");
-				clear_table(luaState, -1, false);	
+				clear_table(luaState, -1, false);
 				merge_table(luaState, -1, -2, false);
 				lua_pop(luaState, 2);
 
@@ -1320,7 +1294,6 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 			} else {
 				lua_pop(luaState, 1);
 			}
-			
 		}
 
 		// reload mode is enabled, or else the initial state has been broken.
@@ -1336,7 +1309,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 
 		// Don't replace global scope using new_table, because then startup script is
 		// bound to a different copy of the globals than the extension script.
-		clear_table(luaState, -2, true);
+		clear_table(luaState, LUA_GLOBALSINDEX, true);
 
 		// Lua 5.1: _LOADED is in LUA_REGISTRYINDEX, so it must be cleared before
 		// loading libraries or they will not load because Lua's package system
@@ -1345,7 +1318,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		lua_setfield(luaState, LUA_REGISTRYINDEX, "_LOADED");
 
 	} else if (!luaDisabled) {
-		luaState = luaL_newstate();
+		luaState = lua_open();
 		if (!luaState) {
 			luaDisabled = true;
 			host->Trace("> Lua: scripting engine failed to initialise\n");
@@ -1432,11 +1405,8 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		lua_pushcfunction(luaState, cf_global_metatable_index);
 		lua_setfield(luaState, -2, "__index");
 	}
-	//Set above created table as new metatable for globalstable (use LUA_RIDX_GLOBALS ?)
+	lua_setmetatable(luaState, LUA_GLOBALSINDEX);
 
-	//lua_setmetatable(luaState, LUA_REGISTRYINDEX);
-	lua_setmetatable(luaState, LUA_RIDX_GLOBALS);
-	
 	if (checkProperties && reload) {
 		CheckStartupScript();
 	}
@@ -1464,22 +1434,8 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	// Clone the initial state (including metatable) in the registry so that it can be restored.
 	// (If reset==1 this will not be used, but this is a shallow copy, not very expensive, and
 	// who knows what the value of reset will be the next time InitGlobalScope runs.)
-	
-	//FIX LUA_GLOBALSINDEX
-  // unsure about whats an "initialState" here. Assuming LUA_RIDX_GLOBALS gets a backup here....
-	
-	//lua_pushnil(luaState); 
-	//lua_pushglobaltable(luaState);
-	//clone_table(luaState, -1, true);
-	
-	//lua_getfield(luaState, LUA_REGISTRYINDEX,"_G");
-	//clone_table(luaState, -1, true);
-	
-	lua_gettable(luaState, LUA_RIDX_GLOBALS);
-	clone_table(luaState, -1, true);
-	
+	clone_table(luaState, LUA_GLOBALSINDEX, true);
 	lua_setfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
-	lua_pop(luaState,1);
 
 	// Clone loaded packages (package.loaded) state in the registry so that it can be restored.
 	lua_getfield(luaState, LUA_REGISTRYINDEX, "_LOADED");
@@ -1552,11 +1508,9 @@ bool LuaExtension::Load(const char *filename) {
 
 
 bool LuaExtension::InitBuffer(int index) {
-	/* 
-	char msg[100];
-	sprintf(msg, "InitBuffer(%d)\n", index);
-	host->Trace(msg);
-	*/
+	//char msg[100];
+	//sprintf(msg, "InitBuffer(%d)\n", index);
+	//host->Trace(msg);
 
 	if (index > maxBufferIndex)
 		maxBufferIndex = index;
@@ -1582,12 +1536,10 @@ bool LuaExtension::InitBuffer(int index) {
 }
 
 bool LuaExtension::ActivateBuffer(int index) {
-	/*
-	char msg[100];
-	sprintf(msg, "ActivateBuffer(%d)\n", index);
-	host->Trace(msg);
-	*/
-	
+	//char msg[100];
+	//sprintf(msg, "ActivateBuffer(%d)\n", index);
+	//host->Trace(msg);
+
 	// Probably don't need to do anything with Lua here.  Setting
 	// curBufferIndex is important so that InitGlobalScope knows
 	// which buffer is active, in order to populate the 'buffer'
@@ -1635,35 +1587,26 @@ bool LuaExtension::RemoveBuffer(int index) {
 }
 
 bool LuaExtension::OnExecute(const char *s) {
-// gets called when selecting a luaScript within the tools menu
-// pcalls string.find(s) -> if that succeeds, insert the function onto the stack and try to call_function(s).
 	bool handled = false;
-	std::string msg = "lua: selected Tools->";
-	msg.append(s);
-	msg.append("\n");
-	host->Trace(msg.c_str());
 
 	if (luaState || InitGlobalScope(false)) {
 		// May as well use Lua's pattern matcher to parse the command.
 		// Scintilla's RESearch was the other option.
 		int stackBase = lua_gettop(luaState);
-	//FIX LUA_GLOBALSINDEX	was 	lua_rawget(luaState, LUA_GLOBALSINDEX);
-	lua_pushnil(luaState);	
-	lua_rawgeti(luaState, LUA_REGISTRYINDEX,LUA_RIDX_GLOBALS);
-	lua_pushliteral(luaState, "string");
-	lua_rawget(luaState, -2);			
+
+		lua_pushliteral(luaState, "string");
+		lua_rawget(luaState, LUA_GLOBALSINDEX);
 		if (lua_istable(luaState, -1)) {
 			lua_pushliteral(luaState, "find");
 			lua_rawget(luaState, -2);
-		if (lua_isfunction(luaState, -1)) {
+			if (lua_isfunction(luaState, -1)) {
 				lua_pushstring(luaState, s);
 				lua_pushliteral(luaState, "^%s*([%a_][%a%d_]*)%s*(.-)%s*$");
 				int status = lua_pcall(luaState, 2, 4, 0);
-		// validate s  ?
-			if (status==0) {
-			lua_insert(luaState, stackBase+1);	//function	
-			lua_getglobal(luaState,(s));	// functionName
-		if (!lua_isnil(luaState, -1)) {						
+				if (status==0) {
+					lua_insert(luaState, stackBase+1);
+					lua_gettable(luaState, LUA_GLOBALSINDEX);
+					if (!lua_isnil(luaState, -1)) {
 						if (lua_isfunction(luaState, -1)) {
 							// Try calling it and, even if it fails, short-circuit Filerx
 							handled = true;
@@ -1681,7 +1624,7 @@ bool LuaExtension::OnExecute(const char *s) {
 		} else {
 			host->Trace("> Lua: string library not loaded\n");
 		}
-/**/
+
 		lua_settop(luaState, stackBase);
 	}
 

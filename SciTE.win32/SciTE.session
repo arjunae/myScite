@@ -1,25 +1,23 @@
 # SciTE session file
 
-position.left=334
-position.top=265
-position.width=720
-position.height=400
+position.left=246
+position.top=133
+position.width=858
+position.height=602
 position.maximize=0
 
-mru.1.path=C:\Users\Tho\Desktop\klebeZettel.txt
-mru.2.path=E:\projects\_myScite\local_testfield\SciTE_lua5.1\src\3.7.0\scite\src\LuaExtension.cxx
-mru.3.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\3.7.0\scite\src\LuaExtension.cxx
-mru.4.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\SciTEHexEdit.lua
-mru.5.path=E:\projects\_myScite\local_testfield\SciTE_lua5.1\Addons\lua\SciTEStartup.lua
-mru.6.path=E:\projects\_myScite\_myScite.github\SciTE.win64\SciTEGlobal.properties
-mru.7.path=E:\projects\_myScite\_myScite.github\SciTE.win64\Addons\lua\SciTEStartup.lua
-mru.8.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\scitestartup.lua
-mru.9.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEGlobal.properties
-mru.10.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\lua\env.lua
+mru.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\scitestartup.lua
+mru.2.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEGlobal.properties
+mru.3.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\lua\env.lua
+mru.4.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\env.lua
+mru.5.path=C:\Users\Tho\Desktop\klebeZettel.txt
+mru.6.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\LuaExtension_lua5.3.cxx
+mru.7.path=C:\Users\Tho\Desktop\termin.fra.geis.txt
+mru.8.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\3.7.0\scite\src\LuaExtension.cxx
+mru.9.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\SciTEGlobal.properties
+mru.10.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\TicTacToe.lua
 
-search.1.findwhat=buffer
-
-buffer.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\lua\env.lua
-buffer.1.position=133
+buffer.1.path=E:\projects\_myScite\_myScite.github\contrib\alpha_scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\lua\TicTacToe.lua
+buffer.1.position=539
 buffer.1.scroll=0
 buffer.1.current=1

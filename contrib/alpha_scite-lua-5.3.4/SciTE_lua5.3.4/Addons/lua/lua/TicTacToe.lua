@@ -9,7 +9,7 @@
 --     command.8.*=TicTacToe
 --     command.save.before.8.*=2
 -- If you use extman, you can do it in Lua like this:
-    scite_Command('Tic Tac Toe|TicTacToe|Ctrl+2')
+   scite_Command('Tic Tac Toe|TicTacToe|Ctrl+6')
 -----------------------------------------------------------------------
 -- * This is a demonstration of a (hopefully) well-behaved Lua-based
 --   "application" in SciTE that hooks to handlers, is compatible
