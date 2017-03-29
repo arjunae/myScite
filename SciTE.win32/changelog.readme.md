@@ -1,7 +1,9 @@
 ~# mySciTE.webdev -~
 
-[xx.xx.2017] Current-Git
- # Rebased to Scite/Scintilla 3.7.0
+[xx.xx.2017] 1.53 (beta)
+# Rebased from wScite 3.6.7 to 3.7.0
+# Update lPeg from .10 to .12
+# Fix scites variable Expansion for "Import" Statement 
 # Add Powershell / Matlab / VHDL / Markdown / Rust / r props.
  # Support simple Markdown for plainText files.
 # Fix Import Statement Variable Expansion 

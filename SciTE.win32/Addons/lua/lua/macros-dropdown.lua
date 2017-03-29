@@ -1,5 +1,4 @@
 -- (c) Valentin Schmidt 2016
--- PayPal: v.schmidt [a.t] dasdeck [d.o.t] de
 --do
 
 require 'lfs'

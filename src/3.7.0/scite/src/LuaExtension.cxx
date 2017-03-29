@@ -1544,9 +1544,9 @@ bool LuaExtension::Load(const char *filename) {
 
 
 bool LuaExtension::InitBuffer(int index) {
-	char msg[100];
-	sprintf(msg, "InitBuffer(%d)\n", index);
-	host->Trace(msg);
+//	char msg[100];
+//	sprintf(msg, "InitBuffer(%d)\n", index);
+//	host->Trace(msg);
 
 	if (index > maxBufferIndex)
 		maxBufferIndex = index;
@@ -1572,9 +1572,9 @@ bool LuaExtension::InitBuffer(int index) {
 }
 
 bool LuaExtension::ActivateBuffer(int index) {
-	char msg[100];
-	sprintf(msg, "ActivateBuffer(%d)\n", index);
-	host->Trace(msg);
+	//char msg[100];
+	//sprintf(msg, "ActivateBuffer(%d)\n", index);
+	//host->Trace(msg);
 
 	// Probably don't need to do anything with Lua here.  Setting
 	// curBufferIndex is important so that InitGlobalScope knows
