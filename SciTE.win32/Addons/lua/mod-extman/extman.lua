@@ -631,7 +631,7 @@ function scite_Directories(path,exclude_pat)
         cmd = dirmask(path,true)
     end
     path = path..dirsep
-    local f = scite_Popen(cmd)
+    --local f = scite_Popen(cmd)
     local files = {}
     if not f then return files end
     for line in f:lines() do
