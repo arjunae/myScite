@@ -1,23 +1,23 @@
 # SciTE session file
 
-position.left=567
-position.top=42
-position.width=1046
-position.height=488
+position.left=79
+position.top=55
+position.width=995
+position.height=590
 position.maximize=0
 
-mru.1.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.3\win32\scite_lib\makefile
-mru.2.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.3\win32\scite_lib\scite.def
-mru.3.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.3\win32\spawner-ex\makefile
-mru.4.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.3\win32\spawner-ex\win32-spawner-ex.c
-mru.5.path=E:\projects\_myScite\_myScite.github\contrib\scite-lua-5.3.4\3.7.0\scite\lua\src\lua.h
-mru.6.path=E:\projects\_myScite\_myScite.github\contrib\scite-lua-5.3.4\3.7.0\scite\lua\include\lauxlib.h
-mru.7.path=E:\projects\_myScite\_myScite.github\contrib\scite-lua-5.3.4\3.7.0\scite\lua\include\luaconf.h
-mru.8.path=E:\projects\_myScite\_myScite.github\contrib\scite-lua-5.3.4\SciTE_lua5.3.4\Addons\lua\mod-extman\extman.lua
-mru.9.path=E:\projects\_myScite\_myScite.github\contrib\scite-lua-5.3.4\3.7.0\scite\win32\makefile
-mru.10.path=E:\projects\_myScite\_myScite.github\contrib\scite-lua-5.3.4\.make_release_with_MinGW.bat
+mru.1.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win32\spawner-ex\makefile
+mru.2.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win32\lib\makefile
+mru.3.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win64\lpeg\makefile
+mru.4.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win64\luaexpat-1.3.0\Makefile
+mru.5.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win64\luafilesystem\Makefile
+mru.6.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win64\shell\makefile
+mru.7.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\testcases\test_cpp.cpp
+mru.8.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\mod-sidebar\sidebar.lua
+mru.9.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win64\spawner-ex\makefile
+mru.10.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\testcases\test_cSharp.cs
 
-buffer.1.path=E:\projects\_myScite\_myScite.github\contrib\scite-lua-5.3.4\.make_release_with_MinGW.bat
-buffer.1.position=629
-buffer.1.scroll=22
+buffer.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\testcases\test_cSharp.cs
+buffer.1.position=79
+buffer.1.scroll=0
 buffer.1.current=1

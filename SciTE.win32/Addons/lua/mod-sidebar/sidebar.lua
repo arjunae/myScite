@@ -831,9 +831,9 @@ do
 		local funcdef2 = l*I*SC^0*"="*SC^0*f*SC^0*par -- declaration through assignment
 		local def = Ct(funcdef1 + funcdef2)
 		-- resulting pattern, which does the work
-		local patt = (def + IGNORED^1 + IDENTIFIER + 1)^0 * (EOF) --+ error'invalid character')
+		-- local patt = (def + IGNORED^1 + IDENTIFIER + 1)^0 * (EOF) --+ error'invalid character')
 
-		Lang2lpeg.Lua = lpeg.Ct(patt)
+		--Lang2lpeg.Lua = lpeg.Ct(patt)
 	end --do --^------- Lua -------^--
 
 	do --v----- Pascal ------v--
