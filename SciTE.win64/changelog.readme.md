@@ -1,16 +1,18 @@
 ~# mySciTE.webdev -~
 
-[xx.xx.2017] Current-Git
- # Rebased to Scite/Scintilla 3.7.0
-# Add Powershell / Matlab / VHDL / Markdown props.
- # Support simple Markdown for plainText files. 
+[31.03.2017] 1.53 (beta)
+# Rebased from wScite 3.6.7 to 3.7.0
+# Update lPeg from .10 to .12
+# Fix scites variable Expansion for "Import" Statement 
+# Add Powershell / Matlab / VHDL / Markdown / Rust / r props.
+ # Support simple Markdown for plainText files.
 # Enhance Installer Script / Redone theme.coffee
  # Cleaned Build System / Moved SciTE-Lua-Libs to an own Repo. 
 # Scintillua for win64 & linux ports.
 
-[04.Dezember.2016] Development-135 (git snapshot)
+[04.Dezember.2016] STABLE-136
 # addons: Add Scite Ctags (credits mingfunwong)
- # Path-sandbox for tools. / small fixes to Addons. (orthospell & Sidebar)
+ # Path-sandbox for tools. / small fixes to Addons. (orthospell)
 # editor: fix nonequal line height / Styles for DocComments. 
 # other: faster runtime compression for libs 
 # profiles with env.scite_userhome / $(env.home)

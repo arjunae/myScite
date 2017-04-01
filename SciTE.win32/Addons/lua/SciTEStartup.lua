@@ -6,6 +6,10 @@ package.path =  package.path ..";"..defaultHome.."\\Addons\\?.lua;".. ";"..defau
 package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
 
 ---- SciTEStartup.lua gets called by extman, to ensure its available here.
+-- Load mod-macros
+package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-macros\\?.lua;"
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-macros\\macros.lua')
+
 -- Load mod-mitchell 
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-mitchell\\scite.lua')

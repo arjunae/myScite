@@ -1309,6 +1309,8 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		if (!reload) {
 			lua_getfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
 			if (lua_istable(luaState, -1)) {
+			host->Trace("> Lua: merge luaState\n");
+	
 				clear_table(luaState,-2, true);
 				merge_table(luaState, -2, -1, true);
 				lua_pop(luaState, 1);

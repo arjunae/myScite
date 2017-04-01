@@ -46,7 +46,7 @@ require 'gui'
 require 'lpeg'
 require 'shell'
 
-
+-- �se scite.gettranslation ?
 -- local _DEBUG = true --включает вывод отладочной информации
 
 -- you can choose to make SideBar a stand-alone window
