@@ -13,17 +13,22 @@
 --~ package.path = package.path..';C:\\lang\\lua\\lua\\?.lua'
 --~ package.cpath = package.cpath..';c:\\lang\\lua\\?.dll'
 
-defaultHome = "user"
---props["SciteDefaultHome"]
+defaultHome = props["SciteDefaultHome"].."/user"
 package.path =  package.path ..";"..defaultHome.."\\Addons\\?.lua;".. ";"..defaultHome.."\\Addons\\lua\\lua\\?.lua;"
 package.path=package.path..";C:\\Program Files (x86)\\Lua\\5.1\\lua\\?.lua"
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-extman\\?.lua;"
-
 package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
-require 'spawner-ex'
 
 --~ lua unpack for >5.1
 local unpack = table.unpack or unpack
+
+--~ If available, use spawner-ex to help reduce flickering within scite_popen
+local pathSpawner= props["spawner.extension.path"]
+if not pathSpawner~="" then
+ fnInit= package.loadlib(pathSpawner.."/spawner-ex.dll",'luaopen_spawner')
+ assert(type(fnInit) == "function", "please correct spawner.extension.path")
+ fnInit()
+end
 
 -- useful function for getting a property, or a default if not present.
 function scite_GetProp(key,default)
@@ -419,7 +424,7 @@ function scite_Popen(cmd)
     return spawner.popen(cmd)
   else
     cmd = cmd..' > '..tempfile
-    if  GTK then -- io.popen is dodgy; don't use it!
+    if  GTK then -- io.popen is dodgy; don't use it! 
       os.execute(cmd)
     else
       if Execute then -- scite_other was found!
@@ -429,7 +434,8 @@ function scite_Popen(cmd)
       end
      end
      -- fallback - may flicker
-     return io.open(tempfile)
+    --  return io.popen(tempfile)
+    return io.open(tempfile)
   end
 end
 
@@ -562,6 +568,7 @@ local function set_command(name,cmd,mode)
    props['command.subsystem'..which] = '3'
    props['command.mode'..which] = md
    name_id_map[name] = 1100+idx
+    --   print("newCmd",name,cmd,mode,which)
    return which
 end
 
@@ -629,13 +636,19 @@ function scite_Command(tbl)
    end
    -- has this command been defined before?
    local old_idx = 0
-   for ii = 10,idx do
-    if props['command.name.'..ii..mode] == name then old_idx = ii end
+	ii=0
+   --print("search",cmd)
+   while (ii < 10) do
+	if props['command.name.'..ii..mode] == cmd then 
+	--print("found:",cmd,props['command.name.'..ii..mode],ii)
+   old_idx = ii
+  	end
+	ii=ii+1
    end
    if old_idx == 0 then
     local which = set_command(name,cmd,mode)
      if shortcut then
-      set_shortcut(shortcut,name,which)
+      set_shortcut(shortcut,cmd,which)
     end
     idx = idx + 1
   end

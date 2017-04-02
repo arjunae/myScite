@@ -9,5 +9,6 @@ wnd:size(300, 140)
 wnd:on_close(function() end)
 wnd:show()
 
---wnd:hide()
 end
+
+scite_Command('guiTest|guiTest|Ctrl+3')
