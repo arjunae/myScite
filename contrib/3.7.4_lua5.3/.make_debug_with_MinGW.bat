@@ -19,6 +19,8 @@ if errorlevel 1 goto :error
 cd ..\..\scite\win32
 mingw32-make
 if errorlevel 1 goto :error
+copy ..\bin\scite.exe ..\..\..\
+
 echo ------------------------------------------------
 goto end
 
@@ -28,6 +30,6 @@ pause
 :end
 cd ..\..
 echo ------------------------------------------------
-ECHO Waiting 33 seconds before closeing the window.
-Ping 11.1.19.77 -n 1 -w 33333
+ECHO Waiting before closeing the window.
+pause
 EXIT

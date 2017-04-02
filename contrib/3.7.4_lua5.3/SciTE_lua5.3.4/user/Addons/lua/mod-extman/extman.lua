@@ -25,9 +25,8 @@ local unpack = table.unpack or unpack
 --~ If available, use spawner-ex to help reduce flickering within scite_popen
 local pathSpawner= props["spawner.extension.path"]
 if not pathSpawner~="" then
- fnInit= package.loadlib(pathSpawner.."/spawner-ex.dll",'luaopen_spawner')
- assert(type(fnInit) == "function", "please correct spawner.extension.path")
- fnInit()
+ fnInit,err= package.loadlib(pathSpawner.."/spawner-ex.dll",'luaopen_spawner')
+ if not err then fnInit() end
 end
 
 -- useful function for getting a property, or a default if not present.

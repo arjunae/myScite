@@ -11,4 +11,4 @@ wnd:show()
 
 end
 
-scite_Command('guiTest|guiTest|Ctrl+7')
+scite_Command('guiTest|guiTest|Ctrl+3')

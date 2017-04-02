@@ -24,17 +24,13 @@
 #include "IFaceTable.h"
 #include "SciTEKeys.h"
 
-//define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
-//define lua_pushglobaltable(L) lua_rawgeti(pLuaState, LUA_REGISTRYINDEX, LUA_RIDX_GLOBALS);
-#define LUA_COMPAT_5_1
-
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"
 }
 
-		#define LUA_GLOBALSINDEX LUA_RIDX_GLOBALS
+#define LUA_GLOBALSINDEX LUA_RIDX_GLOBALS
 				
 #if defined(_WIN32) && defined(_MSC_VER)
 
@@ -1269,14 +1265,14 @@ static void PublishGlobalBufferData() {
 		}
 		// replace SciTE_BufferData_Array on the Stack (Leaving (buffer=-1, 'buffer'=-2))
 		// done to apply the expanded  SciTE_BufferData_Array ? 
-		// FIX_HERE LUA_GLOBALSINDEX
+		// LUA_GLOBALSINDEX
 		lua_replace(luaState, -2);	
+		//lua_pushglobaltable(luaState);
 		} else {
 	/// ensure that the luatable "buffer" will be empty during startup and before any InitBuffer / ActivateBuffer
 	lua_pushnil(luaState);
-
 	}
-//	was lua_settable(luaState, LUA_GLOBALSINDEX); //or lua_rawset(luaState, LUA_GLOBALSINDEX);		
+	//was lua_settable(luaState, LUA_GLOBALSINDEX); //or lua_rawset(luaState, LUA_GLOBALSINDEX);		
 	lua_setglobal(luaState, "buffer");
 }
 
@@ -1302,11 +1298,8 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		
 			lua_getfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
 			if (lua_istable(luaState, -1)) {
-				//FIX_HERE: 2xLUA_GLOBALSINDEX
-				clear_table(luaState,-2, true);
-				//lua_getfield(luaState, LUA_REGISTRYINDEX,"_G");		
-				merge_table(luaState, LUA_RIDX_GLOBALS, -1, true);
-				lua_pop(luaState, 1);
+		  	clear_table(luaState,-2, true);
+				merge_table(luaState, -2, -1, true);
 		
 				// restore initial package.loaded state
 				lua_getfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialPackageState");
@@ -1320,8 +1313,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 				return true;
 			} else {
 				lua_pop(luaState, 1);
-			}
-			
+			}	
 		}
 
 		// reload mode is enabled, or else the initial state has been broken.
@@ -1337,12 +1329,10 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 
 		// Don't replace global scope using new_table, because then startup script is
 		// bound to a different copy of the globals than the extension script.
-		//FIX_HERE: LUA_GLOBALSINDEX
+		//clear_table(luaState, LUA_GLOBALSINDEX, true);
+		
 		lua_pushglobaltable(luaState);
-		//lua_getfield(luaState, LUA_REGISTRYINDEX,"_G");
-		//lua_rawgeti(luaState, LUA_REGISTRYINDEX,LUA_RIDX_GLOBALS);
-		//lua_gettable(luaState,LUA_RIDX_GLOBALS);
-		clear_table(luaState, -1, true);
+		clear_table(luaState, -1 , true);
 
 		// Lua 5.1: _LOADED is in LUA_REGISTRYINDEX, so it must be cleared before
 		// loading libraries or they will not load because Lua's package system
@@ -1440,7 +1430,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	}
 	//Set above created table as new metatable for globalsindex
 	lua_setmetatable(luaState, LUA_RIDX_GLOBALS);
-	
+
 	if (checkProperties && reload) {
 		CheckStartupScript();
 	}
@@ -1468,16 +1458,14 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	// Clone the initial (globalsindex) state (including metatable) in the registry so that it can be restored.
 	// (If reset==1 this will not be used, but this is a shallow copy, not very expensive, and
 	// who knows what the value of reset will be the next time InitGlobalScope runs.)
-	
-	//FIX_HERE: LUA_GLOBALSINDEX
-	lua_pushglobaltable(luaState);
-	//	lua_pushnil(luaState);
-	//lua_gettable(luaState,LUA_RIDX_GLOBALS);
-	//lua_getfield(luaState, LUA_REGISTRYINDEX,"_G");
-		clone_table(luaState, -2, true);
-	lua_setfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
-	lua_pop(luaState,1);
 
+	//clone_table(luaState, LUA_GLOBALSINDEX, true);
+
+	lua_pushglobaltable(luaState);
+	clone_table(luaState, -2, true);
+	lua_setfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");;
+	lua_pop(luaState,1); //FIX_HERE
+	
 	// Clone loaded packages (package.loaded) state in the registry so that it can be restored.
 	lua_getfield(luaState, LUA_REGISTRYINDEX, "_LOADED");
 	clone_table(luaState, -1);
@@ -1646,7 +1634,8 @@ bool LuaExtension::OnExecute(const char *s) {
 		// Scintilla's RESearch was the other option.
 		int stackBase = lua_gettop(luaState);
 	//FIX_HERE LUA_GLOBALSINDEX	
-	lua_rawgeti(luaState, LUA_REGISTRYINDEX,LUA_RIDX_GLOBALS);
+	lua_pushglobaltable(luaState);
+	//lua_rawgeti(luaState, LUA_REGISTRYINDEX,LUA_RIDX_GLOBALS);
 	lua_pushliteral(luaState, "string");
 	lua_rawget(luaState, -2);			
 		if (lua_istable(luaState, -1)) {

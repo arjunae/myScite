@@ -6,7 +6,7 @@
 # Fix scites variable Expansion for "Import" Statement 
 # Add Powershell / Matlab / VHDL / Markdown / Rust / r props.
  # Support simple Markdown for plainText files.
-# Enhance Installer Script / Redone theme.coffee
+# Enhance Installer Script / Redone theme.coffee / theme.grey
  # Cleaned Build System / Moved SciTE-Lua-Libs to an own Repo. 
 # Scintillua for win64 & linux ports.
 
