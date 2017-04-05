@@ -31,7 +31,7 @@ extern "C" {
 #include "lauxlib.h"
 }
 
-#if (LUA_VERSION_NUM < 520)
+#if (LUA_VERSION_NUM < 502)
 #define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
 #else
 #define LUA_GLOBALSINDEX LUA_RIDX_GLOBALS
@@ -1269,9 +1269,7 @@ static void PublishGlobalBufferData() {
 		}
 		// replace SciTE_BufferData_Array on the Stack (Leaving (buffer=-1, 'buffer'=-2))
 		// done to apply the expanded  SciTE_BufferData_Array ?
-		// LUA_GLOBALSINDEX
 		lua_replace(luaState, -2);
-		//lua_pushglobaltable(luaState);
 	} else {
 		/// ensure that the luatable "buffer" will be empty during startup and before any InitBuffer / ActivateBuffer
 		lua_pushnil(luaState);
@@ -1333,7 +1331,6 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 
 		// Don't replace global scope using new_table, because then startup script is
 		// bound to a different copy of the globals than the extension script.
-		//clear_table(luaState, LUA_GLOBALSINDEX, true);
 
 		lua_pushglobaltable(luaState);
 		clear_table(luaState, -1, true);
@@ -1464,8 +1461,6 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	// Clone the initial (globalsindex) state (including metatable) in the registry so that it can be restored.
 	// (If reset==1 this will not be used, but this is a shallow copy, not very expensive, and
 	// who knows what the value of reset will be the next time InitGlobalScope runs.)
-
-	//clone_table(luaState, LUA_GLOBALSINDEX, true);
 
 	lua_pushglobaltable(luaState);
 	clone_table(luaState, -1, true);
@@ -1639,9 +1634,7 @@ bool LuaExtension::OnExecute(const char *s) {
 		// May as well use Lua's pattern matcher to parse the command.
 		// Scintilla's RESearch was the other option.
 		int stackBase = lua_gettop(luaState);
-		//FIX_HERE LUA_GLOBALSINDEX
 		lua_pushglobaltable(luaState);
-		//lua_rawgeti(luaState, LUA_REGISTRYINDEX,LUA_RIDX_GLOBALS);
 		lua_pushliteral(luaState, "string");
 		lua_rawget(luaState, -2);
 		if (lua_istable(luaState, -1)) {
@@ -1651,10 +1644,9 @@ bool LuaExtension::OnExecute(const char *s) {
 				lua_pushstring(luaState, s);
 				lua_pushliteral(luaState, "^%s*([%a_][%a%d_]*)%s*(.-)%s*$");
 				int status = lua_pcall(luaState, 2, 4, 0);
-				// validate s  ?
 				if (status==0) {
 					lua_insert(luaState, stackBase+1);	//function
-					lua_getglobal(luaState, (s));	// functionName
+					lua_gettable(luaState, LUA_GLOBALSINDEX);
 					if (!lua_isnil(luaState, -1)) {
 						if (lua_isfunction(luaState, -1)) {
 							// Try calling it and, even if it fails, short-circuit Filerx
@@ -1673,7 +1665,6 @@ bool LuaExtension::OnExecute(const char *s) {
 		} else {
 			host->Trace("> Lua: string library not loaded\n");
 		}
-		/**/
 		lua_settop(luaState, stackBase);
 	}
 

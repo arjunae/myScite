@@ -7,7 +7,7 @@
 -- 3. If ctags.path.php is not defined, will try to find a tags file in the current dir.
 if scite_Command then
 scite_Command {
-   'Find Tag|find_ctag $(CurrentWord)|Ctrl+.',
+  'Find Tag|find_ctag  $(CurrentWord)|Ctrl+.',
    'Go to Mark|goto_mark|Alt+.',
   'Set Mark|set_mark|Ctrl+\'',
 --   'Select from Mark|select_mark|Ctrl+/',
