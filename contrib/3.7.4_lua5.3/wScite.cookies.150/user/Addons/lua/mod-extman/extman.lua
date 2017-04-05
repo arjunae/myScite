@@ -762,7 +762,7 @@ end
 --~ remdebug.engine.start()
 
 -- chainload eventmanager / extman remake used by some lua mods
---dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
+dofile(props["SciteDefaultHome"]..'\\user\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
 -- Load SciTEStartup.lua
 dofile('user\\Addons\\lua\\SciTEStartup.lua') 
