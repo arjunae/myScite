@@ -14,3 +14,4 @@ end
 
 guiTest()
 --scite_Command('GUI_Test|guiTest|Ctrl+8')
+

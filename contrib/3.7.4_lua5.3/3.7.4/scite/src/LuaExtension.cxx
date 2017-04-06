@@ -937,7 +937,20 @@ static int iface_function_helper(lua_State *L, const IFaceFunction &func) {
 	// - numeric return type gets returned to lua as a number (following the stringresult)
 	// - other return types e.g. void get dropped.
 
-	sptr_t result = host->Send(p, func.value, params[0], params[1]);
+	sptr_t result = 0;
+	try {
+		result = host->Send(p, func.value, params[0], params[1]);
+	} catch (GUI::ScintillaFailure &sf) {
+		std::string failureExplanation;
+		failureExplanation += ">Lua: Scintilla failure ";
+		failureExplanation += StdStringFromInteger(static_cast<int>(sf.status));
+		failureExplanation += " for message ";
+		failureExplanation += StdStringFromInteger(func.value);
+		failureExplanation += ".\n";
+		// Reset status before continuing
+		host->Send(p, SCI_SETSTATUS, SC_STATUS_OK, 0);
+		host->Trace(failureExplanation.c_str());
+	}
 
 	int resultCount = 0;
 
@@ -1274,7 +1287,6 @@ static void PublishGlobalBufferData() {
 		/// ensure that the luatable "buffer" will be empty during startup and before any InitBuffer / ActivateBuffer
 		lua_pushnil(luaState);
 	}
-	//was lua_settable(luaState, LUA_GLOBALSINDEX); //or lua_rawset(luaState, LUA_GLOBALSINDEX);
 	lua_setglobal(luaState, "buffer");
 }
 

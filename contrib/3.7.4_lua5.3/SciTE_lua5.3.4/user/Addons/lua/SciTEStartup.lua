@@ -9,6 +9,8 @@ package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
 -- Load ctags (which uses "eventmanager.lua")
 --dofile(props["SciteDefaultHome"]..'\\user\\Addons\\lua\\mod-ctags\\ctagsd.lua')
 
---print("Called StartupScript")
---print(props['command.name.8.*'])
---scite_Command('Tic Tac Toe|TicTacToe|Ctrl+8')
+function markerTest(line)
+  print("MarkerAdd:"..line)
+  editor:MarkerAdd(line-1,1)
+end
+scite_Command('markerTest|markerTest $(SelectionStartLine)|Ctrl+8')
