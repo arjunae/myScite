@@ -1,15 +1,17 @@
--- test lua dbg => first start the debugger, then set the breakpoints.--
-print("test")
+-- go@ dofile $(FilePath) 
+-- ^^tell Scite to use its internal Lua interpreter.
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-one=function(str)
-   two(str)
+-- Test Scite->lua global Variable namespace
+print(IDM_NEXTMSG)
+
+-- Test scite object namespace
+function marker_define(idx,typ)
+	editor:MarkerDefine(idx,typ)
 end
 
-two=function(str)
-   print(str)
-end
-
-one("dolly")
--- .....
-two('went')
-two('there')
+line=0
+marker_define(0,0)
+editor:GotoLine(line+1)
+editor:MarkerAdd(line,0)
+--editor:MarkerDelete(line,0)
