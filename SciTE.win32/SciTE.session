@@ -6,18 +6,10 @@ position.width=720
 position.height=400
 position.maximize=0
 
-mru.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\languages\vb.vbscript.properties
-mru.2.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\languages\vb.properties
-mru.3.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\languages\perl.properties
-mru.4.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\languages\admin\vb.vbscript.properties
-mru.5.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\languages\admin\bash.properties
-mru.6.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\languages\admin\others.properties
-mru.7.path=E:\projects\_myScite\_myScite.github\SciTE.win32\SciTEUser.properties
-mru.8.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\languages\scintillua.properties
-mru.9.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\languages\clike.properties
-mru.10.path=E:\projects\_myScite\_myScite.github\SciTE.win32\filetypes.v150.txt
+mru.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\macros\mytest.lua
+mru.2.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\macros\sortText.lua
 
-buffer.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\filetypes.v150.txt
-buffer.1.position=2898
-buffer.1.scroll=50
+buffer.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\macros\sortText.lua
+buffer.1.position=1
+buffer.1.scroll=0
 buffer.1.current=1

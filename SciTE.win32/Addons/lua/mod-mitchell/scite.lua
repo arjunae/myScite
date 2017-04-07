@@ -14,7 +14,7 @@
 -- It provides utilities for editing text in SciTE.
 module('modules.scite', package.seeall)
 require 'editing'
-require 'file_browser'
+--require 'file_browser'
 --require 'keys' -- important to load last todo check altGR-9 "]"
 
 ---

@@ -1,18 +1,34 @@
 -- Windows requires this for us to immediately see all lua output.
 io.stdout:setvbuf("no")
 --print("startupScript_reload")
+
 defaultHome = props["SciteDefaultHome"]
 package.path =  package.path ..";"..defaultHome.."\\Addons\\?.lua;".. ";"..defaultHome.."\\Addons\\lua\\lua\\?.lua;"
+package.path=package.path..";C:\\Program Files (x86)\\Lua\\5.1\\lua\\?.lua"
+package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
 
----- SciTEStartup.lua gets called by extman, to ensure its available here.
--- Load mod-macros
-package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-macros\\?.lua;"
-dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-macros\\macros.lua')
+--~ lua unpack for lua >5.1
+local unpack = table.unpack or unpack
+
+--~ If available, use spawner-ex to help reduce flickering within scite_popen
+local pathSpawner= props["spawner.extension.path"]
+if not pathSpawner~="" then
+ fnInit,err= package.loadlib(pathSpawner.."/spawner-ex.dll",'luaopen_spawner')
+ if not err then fnInit() end
+end
+
+-- Load extman.lua (also "eventmanager.lua")
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-extman\\extman.lua')
+-- ################################
 
 -- Load mod-mitchell 
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+
+-- Load mod-macros
+package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-macros\\?.lua;"
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-macros\\macros.lua')
 
 -- Load Orthospell 
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
@@ -21,3 +37,4 @@ dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-orthospell\\orthospell.lua
 -- Load Sidebar (which uses "eventmanager.lua")
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
+ 
