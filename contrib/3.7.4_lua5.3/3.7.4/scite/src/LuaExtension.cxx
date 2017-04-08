@@ -446,8 +446,8 @@ static int cf_pane_findtext(lua_State *L) {
 		if (!hasError) {
 			sptr_t result = host->Send(p, SCI_FINDTEXT, static_cast<uptr_t>(flags), SptrFromPointer(&ft));
 			if (result >= 0) {
-				lua_pushnumber(L, static_cast<LUA_NUMBER>(ft.chrgText.cpMin));
-				lua_pushnumber(L, static_cast<LUA_NUMBER>(ft.chrgText.cpMax));
+				lua_pushinteger(L, static_cast<LUA_NUMBER>(ft.chrgText.cpMin));
+				lua_pushinteger(L, static_cast<LUA_NUMBER>(ft.chrgText.cpMax));
 				return 2;
 			} else {
 				lua_pushnil(L);
@@ -514,10 +514,10 @@ static int cf_match_metatable_index(lua_State *L) {
 		const char *key = lua_tostring(L, 2);
 
 		if (0 == strcmp(key, "pos")) {
-			lua_pushnumber(L, pmo->startPos);
+			lua_pushinteger(L, pmo->startPos);
 			return 1;
 		} else if (0 == strcmp(key, "len")) {
-			lua_pushnumber(L, pmo->endPos - pmo->startPos);
+			lua_pushinteger(L, pmo->endPos - pmo->startPos);
 			return 1;
 		} else if (0 == strcmp(key, "text")) {
 			// If the document is changed while in the match loop, this will be broken.
@@ -848,7 +848,7 @@ static bool CallNamedFunction(const char *name, int numberArg, const char *strin
 	if (luaState) {
 		lua_getglobal(luaState, name);
 		if (lua_isfunction(luaState, -1)) {
-			lua_pushnumber(luaState, numberArg);
+			lua_pushinteger(luaState, numberArg);
 			lua_pushstring(luaState, stringArg);
 			handled = call_function(luaState, 2);
 		} else {
@@ -863,8 +863,8 @@ static bool CallNamedFunction(const char *name, int numberArg, int numberArg2) {
 	if (luaState) {
 		lua_getglobal(luaState, name);
 		if (lua_isfunction(luaState, -1)) {
-			lua_pushnumber(luaState, numberArg);
-			lua_pushnumber(luaState, numberArg2);
+			lua_pushinteger(luaState, numberArg);
+			lua_pushinteger(luaState, numberArg2);
 			handled = call_function(luaState, 2);
 		} else {
 			lua_pop(luaState, 1);
@@ -964,7 +964,7 @@ static int iface_function_helper(lua_State *L, const IFaceFunction &func) {
 		lua_pushboolean(L, static_cast<int>(result));
 		resultCount++;
 	} else if (IFaceTypeIsNumeric(func.returnType)) {
-		lua_pushnumber(L, static_cast<int>(result));
+		lua_pushinteger(L, static_cast<int>(result));
 		resultCount++;
 	}
 
@@ -1154,7 +1154,7 @@ static int cf_pane_metatable_newindex(lua_State *L) {
 						} else {
 							// the nil will do as a false value.
 							// just push an arbitrary numeric value that Scintilla will ignore
-							lua_pushnumber(L, 0);
+							lua_pushinteger(L, 0);
 						}
 						return iface_function_helper(L, prop.SetterFunction());
 
@@ -1211,12 +1211,12 @@ static int cf_global_metatable_index(lua_State *L) {
 
 		int i = IFaceTable::FindConstant(name);
 		if (i >= 0) {
-			lua_pushnumber(L, IFaceTable::constants[i].value);
+			lua_pushinteger(L, IFaceTable::constants[i].value);
 			return 1;
 		} else {
 			i = IFaceTable::FindFunctionByConstantName(name);
 			if (i >= 0) {
-				lua_pushnumber(L, IFaceTable::functions[i].value);
+				lua_pushinteger(L, IFaceTable::functions[i].value);
 
 				// FindFunctionByConstantName is slow, so cache the result into the
 				// global table.  My tests show this gives an order of magnitude
@@ -1435,17 +1435,17 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	lua_setfield(luaState, -2, "StripValue");
 
 	lua_setglobal(luaState, "scite");
-
-	// Metatable for global namespace, to publish iface constants
+	
+	// append a Metatable onto global namespace, to publish iface constants
+	lua_pushglobaltable(luaState);
 	if (luaL_newmetatable(luaState, "SciTE_MT_GlobalScope")) {
 		lua_pushcfunction(luaState, cf_global_metatable_index);
 		lua_setfield(luaState, -2, "__index");
 	}
-	//Set above created table as new metatable for globalsindex
-	lua_pushglobaltable(luaState);
-	lua_setmetatable(luaState, -1);
+	
+	lua_setmetatable(luaState, -2);
 	lua_pop(luaState,1);
-
+	
 	if (checkProperties && reload) {
 		CheckStartupScript();
 	}
@@ -1765,28 +1765,28 @@ struct StylingContext {
 	static int Line(lua_State *L) {
 		StylingContext *context = Context(L);
 		int position = luaL_checkint(L, 2);
-		lua_pushnumber(L, context->styler->GetLine(position));
+		lua_pushinteger(L, context->styler->GetLine(position));
 		return 1;
 	}
 
 	static int CharAt(lua_State *L) {
 		StylingContext *context = Context(L);
 		int position = luaL_checkint(L, 2);
-		lua_pushnumber(L, context->styler->SafeGetCharAt(position));
+		lua_pushinteger(L, context->styler->SafeGetCharAt(position));
 		return 1;
 	}
 
 	static int StyleAt(lua_State *L) {
 		StylingContext *context = Context(L);
 		int position = luaL_checkint(L, 2);
-		lua_pushnumber(L, context->styler->StyleAt(position));
+		lua_pushinteger(L, context->styler->StyleAt(position));
 		return 1;
 	}
 
 	static int LevelAt(lua_State *L) {
 		StylingContext *context = Context(L);
 		int line = luaL_checkint(L, 2);
-		lua_pushnumber(L, context->styler->LevelAt(line));
+		lua_pushinteger(L, context->styler->LevelAt(line));
 		return 1;
 	}
 
@@ -1801,7 +1801,7 @@ struct StylingContext {
 	static int LineState(lua_State *L) {
 		StylingContext *context = Context(L);
 		int line = luaL_checkint(L, 2);
-		lua_pushnumber(L, context->styler->GetLineState(line));
+		lua_pushinteger(L, context->styler->GetLineState(line));
 		return 1;
 	}
 
@@ -1920,7 +1920,7 @@ struct StylingContext {
 
 	static int Position(lua_State *L) {
 		StylingContext *context = Context(L);
-		lua_pushnumber(L, context->currentPos);
+		lua_pushinteger(L, context->currentPos);
 		return 1;
 	}
 
@@ -1938,7 +1938,7 @@ struct StylingContext {
 
 	static int State(lua_State *L) {
 		StylingContext *context = Context(L);
-		lua_pushnumber(L, context->state);
+		lua_pushinteger(L, context->state);
 		return 1;
 	}
 
@@ -2107,7 +2107,7 @@ bool LuaExtension::OnKey(int keyval, int modifiers) {
 	if (luaState) {
 		lua_getglobal(luaState, "OnKey");
 		if (lua_isfunction(luaState, -1)) {
-			lua_pushnumber(luaState, keyval);
+			lua_pushinteger(luaState, keyval);
 			lua_pushboolean(luaState, (SCMOD_SHIFT & modifiers) != 0 ? 1 : 0); // shift/lock
 			lua_pushboolean(luaState, (SCMOD_CTRL  & modifiers) != 0 ? 1 : 0); // control
 			lua_pushboolean(luaState, (SCMOD_ALT   & modifiers) != 0 ? 1 : 0); // alt
