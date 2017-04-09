@@ -1,6 +1,6 @@
 ~# mySciTE.webdev -~
 
-[31.03.2017] 1.53 (beta)
+[09.04.2017] 1.50 (rc1)
 # Rebased from wScite 3.6.7 to 3.7.0
 # Update lPeg from .10 to .12
 # Fix scites variable Expansion for "Import" Statement 
@@ -9,8 +9,9 @@
 # Enhance Installer Script / Redone theme.coffee / theme.grey
  # Cleaned Build System / Moved SciTE-Lua-Libs to an own Repo. 
 # Scintillua for win64 & linux ports.
+# changes to lua subsystem.
 
-[04.Dezember.2016] STABLE-136
+[08.Dezember.2016] STABLE-136
 # addons: Add Scite Ctags (credits mingfunwong)
  # Path-sandbox for tools. / small fixes to Addons. (orthospell)
 # editor: fix nonequal line height / Styles for DocComments. 
