@@ -7,6 +7,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <time.h>
+#include <math.h>
 #include <assert.h>
 #include <ctype.h>
 
@@ -16,12 +17,16 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <memory>
 
 #include <glib.h>
 #include <gmodule.h>
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
+#if defined(GDK_WINDOWING_WAYLAND)
+#include <gdk/gdkwayland.h>
+#endif
 
 #if defined(__WIN32__) || defined(_MSC_VER)
 #include <windows.h>
@@ -165,9 +170,12 @@ ScintillaGTK::ScintillaGTK(_ScintillaObject *sci_) :
 		im_context(NULL), lastNonCommonScript(PANGO_SCRIPT_INVALID_CODE),
 		lastWheelMouseDirection(0),
 		wheelMouseIntensity(0),
+		smoothScrollY(0),
+		smoothScrollX(0),
 		rgnUpdate(0),
 		repaintFullWindow(false),
 		styleIdleID(0),
+		accessibilityEnabled(SC_ACCESSIBILITY_ENABLED),
 		accessible(0) {
 	sci = sci_;
 	wMain = GTK_WIDGET(sci);
@@ -545,11 +553,21 @@ void ScintillaGTK::Initialise() {
 	parentClass = reinterpret_cast<GtkWidgetClass *>(
 	                  g_type_class_ref(gtk_container_get_type()));
 
+	gint maskSmooth = 0;
+#if defined(GDK_WINDOWING_WAYLAND)
+	GdkDisplay *pdisplay = gdk_display_get_default();
+	if (GDK_IS_WAYLAND_DISPLAY(pdisplay)) {
+		// On Wayland, touch pads only produce smooth scroll events
+		maskSmooth = GDK_SMOOTH_SCROLL_MASK;
+	}
+#endif
+
 	gtk_widget_set_can_focus(PWidget(wMain), TRUE);
 	gtk_widget_set_sensitive(PWidget(wMain), TRUE);
 	gtk_widget_set_events(PWidget(wMain),
 	                      GDK_EXPOSURE_MASK
 	                      | GDK_SCROLL_MASK
+	                      | maskSmooth
 	                      | GDK_STRUCTURE_MASK
 	                      | GDK_KEY_PRESS_MASK
 	                      | GDK_KEY_RELEASE_MASK
@@ -858,6 +876,19 @@ sptr_t ScintillaGTK::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam
 			return ret;
 		}
 
+		case SCI_GETACCESSIBILITY:
+			return accessibilityEnabled;
+
+		case SCI_SETACCESSIBILITY:
+			accessibilityEnabled = wParam;
+			if (accessible) {
+				ScintillaGTKAccessible *sciAccessible = ScintillaGTKAccessible::FromAccessible(accessible);
+				if (sciAccessible) {
+					sciAccessible->SetAccessibility();
+				}
+			}
+			break;
+
 		default:
 			return ScintillaBase::WndProc(iMessage, wParam, lParam);
 		}
@@ -1117,7 +1148,7 @@ public:
 	explicit CaseFolderDBCS(const char *charSet_) : charSet(charSet_) {
 		StandardASCII();
 	}
-	virtual size_t Fold(char *folded, size_t sizeFolded, const char *mixed, size_t lenMixed) {
+	size_t Fold(char *folded, size_t sizeFolded, const char *mixed, size_t lenMixed) override {
 		if ((lenMixed == 1) && (sizeFolded > 0)) {
 			folded[0] = mapping[static_cast<unsigned char>(mixed[0])];
 			return 1;
@@ -1262,7 +1293,7 @@ void ScintillaGTK::Paste() {
 	class Helper : GObjectWatcher {
 		ScintillaGTK *sci;
 
-		virtual void Destroyed() {
+		void Destroyed() override {
 			sci = 0;
 		}
 
@@ -1301,6 +1332,9 @@ void ScintillaGTK::CreateCallTipWindow(PRectangle rc) {
 				   G_CALLBACK(ScintillaGTK::PressCT), static_cast<void *>(this));
 		gtk_widget_set_events(widcdrw,
 			GDK_EXPOSURE_MASK | GDK_BUTTON_PRESS_MASK);
+		GtkWidget *top = gtk_widget_get_toplevel(static_cast<GtkWidget *>(wMain.GetID()));
+		gtk_window_set_transient_for(GTK_WINDOW(static_cast<GtkWidget *>(PWidget(ct.wCallTip))),
+			GTK_WINDOW(top));
 	}
 	gtk_widget_set_size_request(PWidget(ct.wDraw), rc.Width(), rc.Height());
 	ct.wDraw.Show();
@@ -1780,6 +1814,25 @@ gint ScintillaGTK::ScrollEvent(GtkWidget *widget, GdkEventScroll *event) {
 
 		if (widget == NULL || event == NULL)
 			return FALSE;
+
+#if defined(GDK_WINDOWING_WAYLAND)
+		if (event->direction == GDK_SCROLL_SMOOTH && GDK_IS_WAYLAND_WINDOW(event->window)) {
+			const int smoothScrollFactor = 4;
+			sciThis->smoothScrollY += event->delta_y * smoothScrollFactor;
+			sciThis->smoothScrollX += event->delta_x * smoothScrollFactor;;
+			if (ABS(sciThis->smoothScrollY) >= 1.0) {
+				const int scrollLines = trunc(sciThis->smoothScrollY);
+				sciThis->ScrollTo(sciThis->topLine + scrollLines);
+				sciThis->smoothScrollY -= scrollLines;
+			}
+			if (ABS(sciThis->smoothScrollX) >= 1.0) {
+				const int scrollPixels = trunc(sciThis->smoothScrollX);
+				sciThis->HorizontalScrollTo(sciThis->xOffset + scrollPixels);
+				sciThis->smoothScrollX -= scrollPixels;
+			}
+			return TRUE;
+		}
+#endif
 
 		// Compute amount and direction to scroll (even tho on win32 there is
 		// intensity of scrolling info in the native message, gtk doesn't
@@ -2285,12 +2338,13 @@ void ScintillaGTK::PreeditChangedInlineThis() {
 
 		view.imeCaretBlockOverride = false; // If backspace.
 
+		bool initialCompose = false;
 		if (pdoc->TentativeActive()) {
 			pdoc->TentativeUndo();
 		} else {
 			// No tentative undo means start of this composition so
 			// fill in any virtual spaces.
-			ClearBeforeTentativeStart();
+			initialCompose = true;
 		}
 
 		PreEditString preeditStr(im_context);
@@ -2307,6 +2361,8 @@ void ScintillaGTK::PreeditChangedInlineThis() {
 			return;
 		}
 
+		if (initialCompose)
+			ClearBeforeTentativeStart();
 		pdoc->TentativeStart(); // TentativeActive() from now on
 
 		std::vector<int> indicator = MapImeIndicators(preeditStr.attrs, preeditStr.str);
@@ -2397,7 +2453,9 @@ void ScintillaGTK::StyleSetText(GtkWidget *widget, GtkStyle *, void*) {
 void ScintillaGTK::RealizeText(GtkWidget *widget, void*) {
 	// Set NULL background to avoid automatic clearing so Scintilla responsible for all drawing
 	if (WindowFromWidget(widget)) {
-#if GTK_CHECK_VERSION(3,0,0)
+#if GTK_CHECK_VERSION(3,22,0)
+		// Appears unnecessary
+#elif GTK_CHECK_VERSION(3,0,0)
 		gdk_window_set_background_pattern(WindowFromWidget(widget), NULL);
 #else
 		gdk_window_set_back_pixmap(WindowFromWidget(widget), NULL, FALSE);

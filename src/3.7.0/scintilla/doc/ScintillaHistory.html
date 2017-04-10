@@ -501,11 +501,13 @@
 	<td>jedailey</td>
 	<td>oirfeodent</td>
 	<td>A-R-C-A</td>
-    </tr>
       </tr><tr>
 	<td>Roberto Rossi</td>
 	<td>Kenny Liu</td>
 	<td>Iain Clarke</td>
+	<td>desto</td>
+      </tr><tr>
+	<td>John Flatness</td>
     </tr>
     </table>
     <p>
@@ -516,6 +518,201 @@
         <a href="http://sourceforge.net/projects/icon-collection/">
         Icons</a> Copyright(C) 1998 by Dean S. Jones<br />
       </li>
+    </ul>
+    <h3>
+       <a href="http://www.scintilla.org/scite374.zip">Release 3.7.4</a>
+    </h3>
+    <ul>
+	<li>
+	Released 21 March 2017.
+	</li>
+	<li>
+	Requires a C++11 compiler. GCC 4.8 and MSVC 2015 are supported.
+	</li>
+	<li>
+	Support dropped for Windows NT 4.
+	</li>
+	<li>
+	Accessibility support may be queried with SCI_GETACCESSIBILITY.
+	On GTK+, accessibility may be disabled by calling SCI_SETACCESSIBILITY.
+	</li>
+	<li>
+	Lexer added for "indent" language which is styled as plain text but folded by indentation level.
+	</li>
+	<li>
+	The Progress ABL lexer handles nested comments where comment starts or ends
+	are adjacent like "/*/*" or "*/*/".
+	</li>
+	<li>
+	In the Python lexer, improve f-string support.
+	Add support for multiline expressions in triple quoted f-strings.
+	Handle nested "()", "[]", and "{}" in f-string expressions and terminate expression coloring at ":" or "!".
+	End f-string if ending quote is seen in a "{}" expression.
+	Fix terminating single quoted f-string at EOL.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1918/">Bug #1918</a>.
+	</li>
+	<li>
+	The VHDL folder folds an "entity" on the first line of the file.
+	</li>
+	<li>
+	For IMEs, do not clear selected text when there is no composition text to show.
+	</li>
+	<li>
+	Fix to crash with fold tags where line inserted at start.
+	</li>
+	<li>
+	Fix to stream selection mode when moving caret up or down.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1905/">Bug #1905</a>.
+	</li>
+	<li>
+	Drawing fixes for fold tags include fully drawing lines and not overlapping some
+	drawing and ensuring edges and mark underlines are visible.
+	</li>
+	<li>
+	Fix Cocoa failure to display accented character chooser for European
+	languages by partially reverting a change made to prevent a crash with
+	Chinese input by special-casing the Cangjie input source.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1881/">Bug #1881</a>.
+	</li>
+	<li>
+	Fix potential problems with IME on Cocoa when document contains invalid
+	UTF-8.
+	</li>
+	<li>
+	Fix crash on Cocoa with OS X 10.9 due to accessibility API not available.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1915/">Bug #1915</a>.
+	</li>
+	<li>
+	Improved speed of accessibility code on GTK+ by using additional memory
+	as a cache.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1910/">Bug #1910</a>.
+	</li>
+	<li>
+	Fix crash in accessibility code on GTK+ &lt; 3.3.6 caused by previous bug fix.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1907/">Bug #1907</a>.
+	</li>
+	<li>
+	Fix to prevent double scrolling on GTK+ with X11.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1901/">Bug #1901</a>.
+	</li>
+	<li>
+	SciTE on GTK+ adds an "accessibility" property to allow disabling accessibility
+	on GTK+ as an optimization.
+	</li>
+	<li>
+	SciTE on GTK+ has changed file chooser behaviour for some actions:
+	overwriting an existing file shows a warning;
+	the default session file name "SciTE.session" is shown and a "*.session" filter is applied;
+	appropriate filters are applied when exporting;
+	the current file name is displayed in "Save As" even when that file no longer exists.
+	</li>
+	<li>
+	SciTE fixed a bug where, on GTK+, when the output pane had focus, menu commands
+	performed by mouse were sent instead to the edit pane.
+	</li>
+	<li>
+	SciTE on Windows 8+ further restricts the paths searched for DLLs to the application
+	and system directories which may prevent some binary planting attacks.
+	</li>
+	<li>
+	Fix failure to load Direct2D on Windows when used on old versions of Windows.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1653/">Bug #1653</a>.
+	</li>
+    </ul>
+    <h3>
+       <a href="http://www.scintilla.org/scite373.zip">Release 3.7.3</a>
+    </h3>
+    <ul>
+	<li>
+	Released 19 February 2017.
+	</li>
+	<li>
+	Display block caret over the character at the end of a selection to be similar
+	to other editors.
+	</li>
+	<li>
+	In SciTE can choose colours for fold markers.
+	<a href="http://sourceforge.net/p/scintilla/feature-requests/1172/">Feature #1172.</a>
+	</li>
+	<li>
+	In SciTE can hide buffer numbers in tabs.
+	<a href="http://sourceforge.net/p/scintilla/feature-requests/1173/">Feature #1173.</a>
+	</li>
+	<li>
+	The Diff lexer recognizes deleted lines that start with "--- ".
+	</li>
+	<li>
+	The Lua lexer requires the first line to start with "#!" to be treated as a shebang comment,
+	not just "#".
+	<a href="http://sourceforge.net/p/scintilla/bugs/1900/">Bug #1900</a>.
+	</li>
+	<li>
+	The Matlab lexer requires block comment start and end to be alone on a line.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1902/">Bug #1902</a>.
+	</li>
+	<li>
+	The Python lexer supports f-strings with new styles, allows Unicode identifiers,
+	and no longer allows @1 to be a decorator.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1848/">Bug #1848</a>.
+	</li>
+	<li>
+	Fix folding inconsistency when fold header added above a folded part.
+	Avoid unnecessary unfolding when a deletion does not include a line end.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1896/">Bug #1896</a>.
+	</li>
+	<li>
+	Fix finalization crash on Cocoa.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1909/">Bug #1909</a>.
+	</li>
+	<li>
+	SciTE on GTK+ can have a wide divider between the panes with the
+	split.wide property.
+	</li>
+	<li>
+	Fix display of autocompletion lists and calltips on GTK+ 3.22 on Wayland.
+	Newer APIs used on GTK+ 3.22 as older APIs were deprecated.
+	</li>
+	<li>
+	Fix crash in accessibility code on GTK+ due to signal receipt after destruction.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1907/">Bug #1907</a>.
+	</li>
+	<li>
+	Make trackpad scrolling work on Wayland.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1901/">Bug #1901</a>.
+	</li>
+    </ul>
+    <h3>
+       <a href="http://www.scintilla.org/scite372.zip">Release 3.7.2</a>
+    </h3>
+    <ul>
+	<li>
+	Released 30 December 2016.
+	</li>
+	<li>
+	Minimize redrawing for SCI_SETSELECTIONN* APIs.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1888/">Bug #1888</a>.
+	</li>
+	<li>
+	Use more precision to allow selecting individual lines in files with
+	more than 16.7 million lines.
+	</li>
+	<li>
+	For Qt 5, define QT_WS_MAC or QT_WS_X11 on those platforms.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1887/">Bug #1887</a>.
+	</li>
+	<li>
+	For Cocoa, fix crash on view destruction with macOS 10.12.2.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1891/">Bug #1891</a>.
+	</li>
+	<li>
+	Fix crash on GTK+ &lt;3.8 due to incorrect lifetime of accessibility object.
+	More accurate reporting of attribute ranges and deletion lengths for accessibility.
+	</li>
+	<li>
+	In SciTE, if a Lua script causes a Scintilla failure exception, display error
+	message in output pane instead of exiting.
+	<a href="http://sourceforge.net/p/scintilla/bugs/1773/">Bug #1773</a>.
+	</li>
     </ul>
     <h3>
        <a href="http://www.scintilla.org/scite371.zip">Release 3.7.1</a>

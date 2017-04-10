@@ -401,7 +401,7 @@ static int cf_pane_remove(lua_State *L) {
 	int cpMin = static_cast<int>(luaL_checknumber(L, 2));
 	int cpMax = static_cast<int>(luaL_checknumber(L, 3));
 	host->Remove(p, cpMin, cpMax);
-	return 0;
+	return 0 ;
 }
 
 static int cf_pane_append(lua_State *L) {
@@ -446,8 +446,8 @@ static int cf_pane_findtext(lua_State *L) {
 		if (!hasError) {
 			sptr_t result = host->Send(p, SCI_FINDTEXT, static_cast<uptr_t>(flags), SptrFromPointer(&ft));
 			if (result >= 0) {
-				lua_pushinteger(L, static_cast<LUA_NUMBER>(ft.chrgText.cpMin));
-				lua_pushinteger(L, static_cast<LUA_NUMBER>(ft.chrgText.cpMax));
+				lua_pushinteger(L, static_cast<int>(ft.chrgText.cpMin));
+				lua_pushinteger(L, static_cast<int>(ft.chrgText.cpMax));
 				return 2;
 			} else {
 				lua_pushnil(L);
@@ -1476,8 +1476,8 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 
 	lua_pushglobaltable(luaState);
 	clone_table(luaState, -1, true);
-	lua_setfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");;
-	lua_pop(luaState, 1); //FIX_HERE
+	lua_setfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
+	lua_pop(luaState, 1);
 
 	// Clone loaded packages (package.loaded) state in the registry so that it can be restored.
 	lua_getfield(luaState, LUA_REGISTRYINDEX, "_LOADED");

@@ -16,13 +16,20 @@ namespace Scintilla {
 
 class ScintillaGTKAccessible {
 private:
+	// weak references to related objects
 	GtkAccessible *accessible;
 	ScintillaGTK *sci;
 
+	// cache holding character offset for each line start, see CharacterOffsetFromByteOffset()
+	std::vector<Position> character_offsets;
+
+	// cached length of the deletion, in characters (see Notify())
+	int deletionLengthChar;
 	// local state for comparing
 	Position old_pos;
 	std::vector<SelectionRange> old_sels;
 
+	bool Enabled() const;
 	void UpdateCursor();
 	void Notify(GtkWidget *widget, gint code, SCNotification *nt);
 	static void SciNotify(GtkWidget *widget, gint code, SCNotification *nt, gpointer data) {
@@ -49,7 +56,18 @@ private:
 	}
 
 	int CharacterOffsetFromByteOffset(Position byteOffset) {
-		return sci->pdoc->CountCharacters(0, byteOffset);
+		const Position line = sci->pdoc->LineFromPosition(byteOffset);
+		if (character_offsets.size() <= static_cast<size_t>(line)) {
+			if (character_offsets.empty())
+				character_offsets.push_back(0);
+			for (Position i = character_offsets.size(); i <= line; i++) {
+				const Position start = sci->pdoc->LineStart(i - 1);
+				const Position end = sci->pdoc->LineStart(i);
+				character_offsets.push_back(character_offsets[i - 1] + sci->pdoc->CountCharacters(start, end));
+			}
+		}
+		const Position lineStart = sci->pdoc->LineStart(line);
+		return character_offsets[line] + sci->pdoc->CountCharacters(lineStart, byteOffset);
 	}
 
 	void CharacterRangeFromByteRange(Position startByte, Position endByte, int *startChar, int *endChar) {
@@ -68,6 +86,12 @@ private:
 
 	Position PositionAfter(Position pos) {
 		return sci->pdoc->MovePositionOutsideChar(pos + 1, 1, true);
+	}
+
+	int StyleAt(Position position, bool ensureStyle = false) {
+		if (ensureStyle)
+			sci->pdoc->EnsureStyledTo(position);
+		return sci->pdoc->StyleAt(position);
 	}
 
 	// For AtkText
@@ -113,6 +137,7 @@ public:
 	// So ScintillaGTK can notify us
 	void ChangeDocument(Document *oldDoc, Document *newDoc);
 	void NotifyReadOnly();
+	void SetAccessibility();
 
 	// Helper GtkWidget methods
 	static AtkObject *WidgetGetAccessibleImpl(GtkWidget *widget, AtkObject **cache, gpointer widget_parent_class);

@@ -16,6 +16,7 @@
 #include <vector>
 #include <map>
 #include <algorithm>
+#include <memory>
 
 #include "Platform.h"
 
@@ -202,7 +203,7 @@ int ScintillaBase::KeyCommand(unsigned int iMessage) {
 }
 
 void ScintillaBase::AutoCompleteDoubleClick(void *p) {
-	ScintillaBase *sci = reinterpret_cast<ScintillaBase *>(p);
+	ScintillaBase *sci = static_cast<ScintillaBase *>(p);
 	sci->AutoCompleteCompleted(0, SC_AC_DOUBLECLICK);
 }
 
@@ -535,7 +536,7 @@ public:
 	int lexLanguage;
 
 	explicit LexState(Document *pdoc_);
-	virtual ~LexState();
+	~LexState() override;
 	void SetLexer(uptr_t wParam);
 	void SetLexerLanguage(const char *languageName);
 	const char *DescribeWordListSets();

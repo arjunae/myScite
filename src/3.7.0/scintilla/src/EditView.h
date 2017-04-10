@@ -114,7 +114,7 @@ public:
 	Point LocationFromPosition(Surface *surface, const EditModel &model, SelectionPosition pos, int topLine,
 				   const ViewStyle &vs, PointEnd pe);
 	Range RangeDisplayLine(Surface *surface, const EditModel &model, int lineVisible, const ViewStyle &vs);
-	SelectionPosition SPositionFromLocation(Surface *surface, const EditModel &model, Point pt, bool canReturnInvalid,
+	SelectionPosition SPositionFromLocation(Surface *surface, const EditModel &model, PointDocument pt, bool canReturnInvalid,
 		bool charPosition, bool virtualSpace, const ViewStyle &vs);
 	SelectionPosition SPositionFromLineX(Surface *surface, const EditModel &model, int lineDoc, int x, const ViewStyle &vs);
 	int DisplayFromPosition(Surface *surface, const EditModel &model, int pos, const ViewStyle &vs);
@@ -143,7 +143,7 @@ public:
 	void PaintText(Surface *surfaceWindow, const EditModel &model, PRectangle rcArea, PRectangle rcClient,
 		const ViewStyle &vsDraw);
 	void FillLineRemainder(Surface *surface, const EditModel &model, const ViewStyle &vsDraw, const LineLayout *ll,
-		int line, PRectangle rcArea, int subLine);
+		int line, PRectangle rcArea, int subLine) const;
 	long FormatRange(bool draw, Sci_RangeToFormat *pfr, Surface *surface, Surface *surfaceMeasure,
 		const EditModel &model, const ViewStyle &vs);
 };

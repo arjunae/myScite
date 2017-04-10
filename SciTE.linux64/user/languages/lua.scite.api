@@ -418,7 +418,7 @@ gui.pass_focus ()\n pass keyboard focus to editor  /extern lib "gui"/
 gui.toolbar ("title", {"icon1.bmp:item1 caption|func1", "FILEOPEN:Open|IDM_OPEN"}, icons_size, "c:\\Path to icons\\button")
 gui.open_dlg (caption,filter)\n standard Open File Dialog to the user, with the specified caption and filter  /extern lib "gui"/
 gui.save_dlg (caption,filter)\n standard Save File Dialog to the user, with the specified caption and filter  /extern lib "gui"/
-gui.select_dir_dlg (caption)\n standard Open Folder Dialog to the user, with the specified caption  /extern lib "gui"/
+gui.select_dir_dlg (caption)\n stset_andard Open Folder Dialog to the user, with the specified caption  /extern lib "gui"/
 gui.colour_dlg (default_colour)\n open the Windows Colour choser  /extern lib "gui"/
 gui.files (path_with_mask, true)\n list of files (nil/false) or folders (true)  /extern lib "gui"/
 gui.chdir (dir)\n change current dir  /extern lib "gui"/

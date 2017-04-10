@@ -650,7 +650,7 @@ Range EditView::RangeDisplayLine(Surface *surface, const EditModel &model, int l
 	return rangeSubLine;
 }
 
-SelectionPosition EditView::SPositionFromLocation(Surface *surface, const EditModel &model, Point pt, bool canReturnInvalid, bool charPosition, bool virtualSpace, const ViewStyle &vs) {
+SelectionPosition EditView::SPositionFromLocation(Surface *surface, const EditModel &model, PointDocument pt, bool canReturnInvalid, bool charPosition, bool virtualSpace, const ViewStyle &vs) {
 	pt.x = pt.x - vs.textStart;
 	int visibleLine = static_cast<int>(floor(pt.y / vs.lineHeight));
 	if (!canReturnInvalid && (visibleLine < 0))
@@ -671,7 +671,8 @@ SelectionPosition EditView::SPositionFromLocation(Surface *surface, const EditMo
 			const XYPOSITION subLineStart = ll->positions[rangeSubLine.start];
 			if (subLine > 0)	// Wrapped
 				pt.x -= ll->wrapIndent;
-			const int positionInLine = ll->FindPositionFromX(pt.x + subLineStart, rangeSubLine, charPosition);
+			const int positionInLine = ll->FindPositionFromX(static_cast<XYPOSITION>(pt.x + subLineStart),
+				rangeSubLine, charPosition);
 			if (positionInLine < rangeSubLine.end) {
 				return SelectionPosition(model.pdoc->MovePositionOutsideChar(positionInLine + posLineStart, 1));
 			}
@@ -1086,7 +1087,7 @@ void EditView::DrawFoldDisplayText(Surface *surface, const EditModel &model, con
 
 	const XYPOSITION spaceWidth = vsDraw.styles[ll->EndLineStyle()].spaceWidth;
 	XYPOSITION virtualSpace = model.sel.VirtualSpaceFor(model.pdoc->LineEnd(line)) * spaceWidth;
-	rcSegment.left = xStart + static_cast<XYPOSITION>(ll->positions[ll->numCharsInLine] - subLineStart) + spaceWidth + virtualSpace;
+	rcSegment.left = xStart + static_cast<XYPOSITION>(ll->positions[ll->numCharsInLine] - subLineStart) + virtualSpace + vsDraw.aveCharWidth;
 	rcSegment.right = rcSegment.left + static_cast<XYPOSITION>(widthFoldDisplayText);
 
 	ColourOptional background = vsDraw.Background(model.pdoc->GetMark(line), model.caret.active, ll->containsCaret);
@@ -1105,12 +1106,12 @@ void EditView::DrawFoldDisplayText(Surface *surface, const EditModel &model, con
 		}
 	}
 
-	if ((phasesDraw != phasesOne) && (phase & drawBack)) {
+	if (phase & drawBack) {
 		surface->FillRectangle(rcSegment, textBack);
 
 		// Fill Remainder of the line
 		PRectangle rcRemainder = rcSegment;
-		rcRemainder.left = rcRemainder.right + 1;
+		rcRemainder.left = rcRemainder.right;
 		if (rcRemainder.left < rcLine.left)
 			rcRemainder.left = rcLine.left;
 		rcRemainder.right = rcLine.right;
@@ -1132,14 +1133,17 @@ void EditView::DrawFoldDisplayText(Surface *surface, const EditModel &model, con
 	if (phase & drawIndicatorsFore) {
 		if (model.foldDisplayTextStyle == SC_FOLDDISPLAYTEXT_BOXED) {
 			surface->PenColour(textFore);
-			surface->MoveTo(static_cast<int>(rcSegment.left), static_cast<int>(rcSegment.top));
-			surface->LineTo(static_cast<int>(rcSegment.left), static_cast<int>(rcSegment.bottom));
-			surface->MoveTo(static_cast<int>(rcSegment.right), static_cast<int>(rcSegment.top));
-			surface->LineTo(static_cast<int>(rcSegment.right), static_cast<int>(rcSegment.bottom));
-			surface->MoveTo(static_cast<int>(rcSegment.left), static_cast<int>(rcSegment.top));
-			surface->LineTo(static_cast<int>(rcSegment.right), static_cast<int>(rcSegment.top));
-			surface->MoveTo(static_cast<int>(rcSegment.left), static_cast<int>(rcSegment.bottom - 1));
-			surface->LineTo(static_cast<int>(rcSegment.right), static_cast<int>(rcSegment.bottom - 1));
+			PRectangle rcBox = rcSegment;
+			rcBox.left = static_cast<XYPOSITION>(RoundXYPosition(rcSegment.left));
+			rcBox.right = static_cast<XYPOSITION>(RoundXYPosition(rcSegment.right));
+			surface->MoveTo(static_cast<int>(rcBox.left), static_cast<int>(rcBox.top));
+			surface->LineTo(static_cast<int>(rcBox.left), static_cast<int>(rcBox.bottom));
+			surface->MoveTo(static_cast<int>(rcBox.right), static_cast<int>(rcBox.top));
+			surface->LineTo(static_cast<int>(rcBox.right), static_cast<int>(rcBox.bottom));
+			surface->MoveTo(static_cast<int>(rcBox.left), static_cast<int>(rcBox.top));
+			surface->LineTo(static_cast<int>(rcBox.right), static_cast<int>(rcBox.top));
+			surface->MoveTo(static_cast<int>(rcBox.left), static_cast<int>(rcBox.bottom - 1));
+			surface->LineTo(static_cast<int>(rcBox.right), static_cast<int>(rcBox.bottom - 1));
 		}
 	}
 
@@ -1287,7 +1291,13 @@ void EditView::DrawCarets(Surface *surface, const EditModel &model, const ViewSt
 	// For each selection draw
 	for (size_t r = 0; (r<model.sel.Count()) || drawDrag; r++) {
 		const bool mainCaret = r == model.sel.Main();
-		const SelectionPosition posCaret = (drawDrag ? model.posDrag : model.sel.Range(r).caret);
+		SelectionPosition posCaret = (drawDrag ? model.posDrag : model.sel.Range(r).caret);
+		if (vsDraw.caretStyle == CARETSTYLE_BLOCK && !drawDrag && posCaret > model.sel.Range(r).anchor) {
+			if (posCaret.VirtualSpace() > 0)
+				posCaret.SetVirtualSpace(posCaret.VirtualSpace() - 1);
+			else
+				posCaret.SetPosition(model.pdoc->MovePositionOutsideChar(posCaret.Position()-1, -1));
+		}
 		const int offset = posCaret.Position() - posLineStart;
 		const XYPOSITION spaceWidth = vsDraw.styles[ll->EndLineStyle()].spaceWidth;
 		const XYPOSITION virtualOffset = posCaret.VirtualSpace() * spaceWidth;
@@ -1836,17 +1846,21 @@ void EditView::DrawLine(Surface *surface, const EditModel &model, const ViewStyl
 		xStart += static_cast<int>(ll->wrapIndent);
 	}
 
-	if ((phasesDraw != phasesOne) && (phase & drawBack)) {
-		DrawBackground(surface, model, vsDraw, ll, rcLine, lineRange, posLineStart, xStart,
-			subLine, background);
-		DrawEOL(surface, model, vsDraw, ll, rcLine, line, lineRange.end,
-			xStart, subLine, subLineStart, background);
-	}
+	if (phasesDraw != phasesOne) {
+		if (phase & drawBack) {
+			DrawBackground(surface, model, vsDraw, ll, rcLine, lineRange, posLineStart, xStart,
+				subLine, background);
+			DrawFoldDisplayText(surface, model, vsDraw, ll, line, xStart, rcLine, subLine, subLineStart, drawBack);
+			phase = static_cast<DrawPhase>(phase & ~drawBack);	// Remove drawBack to not draw again in DrawFoldDisplayText
+			DrawEOL(surface, model, vsDraw, ll, rcLine, line, lineRange.end,
+				xStart, subLine, subLineStart, background);
+		}
 
-	if (phase & drawIndicatorsBack) {
-		DrawIndicators(surface, model, vsDraw, ll, line, xStart, rcLine, subLine, lineRange.end, true, model.hoverIndicatorPos);
-		DrawEdgeLine(surface, vsDraw, ll, rcLine, lineRange, xStart);
-		DrawMarkUnderline(surface, model, vsDraw, line, rcLine);
+		if (phase & drawIndicatorsBack) {
+			DrawIndicators(surface, model, vsDraw, ll, line, xStart, rcLine, subLine, lineRange.end, true, model.hoverIndicatorPos);
+			DrawEdgeLine(surface, vsDraw, ll, rcLine, lineRange, xStart);
+			DrawMarkUnderline(surface, model, vsDraw, line, rcLine);
+		}
 	}
 
 	if (phase & drawText) {
@@ -1862,13 +1876,14 @@ void EditView::DrawLine(Surface *surface, const EditModel &model, const ViewStyl
 		DrawIndicators(surface, model, vsDraw, ll, line, xStart, rcLine, subLine, lineRange.end, false, model.hoverIndicatorPos);
 	}
 
-	// End of the drawing of the current line
+	DrawFoldDisplayText(surface, model, vsDraw, ll, line, xStart, rcLine, subLine, subLineStart, phase);
+
 	if (phasesDraw == phasesOne) {
 		DrawEOL(surface, model, vsDraw, ll, rcLine, line, lineRange.end,
 			xStart, subLine, subLineStart, background);
+		DrawEdgeLine(surface, vsDraw, ll, rcLine, lineRange, xStart);
+		DrawMarkUnderline(surface, model, vsDraw, line, rcLine);
 	}
-
-	DrawFoldDisplayText(surface, model, vsDraw, ll, line, xStart, rcLine, subLine, subLineStart, phase);
 
 	if (!hideSelection && (phase & drawSelectionTranslucent)) {
 		DrawTranslucentSelection(surface, model, vsDraw, ll, line, rcLine, subLine, lineRange, xStart);
@@ -2084,7 +2099,7 @@ void EditView::PaintText(Surface *surfaceWindow, const EditModel &model, PRectan
 }
 
 void EditView::FillLineRemainder(Surface *surface, const EditModel &model, const ViewStyle &vsDraw, const LineLayout *ll,
-	int line, PRectangle rcArea, int subLine) {
+	int line, PRectangle rcArea, int subLine) const {
 		int eolInSelection = 0;
 		int alpha = SC_ALPHA_NOALPHA;
 		if (!hideSelection) {

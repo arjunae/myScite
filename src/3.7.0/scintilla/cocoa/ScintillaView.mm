@@ -79,7 +79,8 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor)
       [currentCursors addObject: [reverseArrowCursor retain]];
     }
     [self setClientView:[aScrollView documentView]];
-    self.accessibilityLabel = @"Scintilla Margin";
+    if ([self respondsToSelector: @selector(setAccessibilityLabel:)])
+       self.accessibilityLabel = @"Scintilla Margin";
   }
   return self;
 }
@@ -225,12 +226,15 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor)
                                    NSStringPboardType, ScintillaRecPboardType, NSFilenamesPboardType, nil]];
 
     // Set up accessibility in the text role
-    self.accessibilityElement = TRUE;
-    self.accessibilityEnabled = TRUE;
-    self.accessibilityLabel = NSLocalizedString(@"Scintilla", nil);	// No real localization
-    self.accessibilityRoleDescription = @"source code editor";
-    self.accessibilityRole = NSAccessibilityTextAreaRole;
-    self.accessibilityIdentifier = @"Scintilla";
+    if ([self respondsToSelector: @selector(setAccessibilityElement:)])
+    {
+       self.accessibilityElement = TRUE;
+       self.accessibilityEnabled = TRUE;
+       self.accessibilityLabel = NSLocalizedString(@"Scintilla", nil);	// No real localization
+       self.accessibilityRoleDescription = @"source code editor";
+       self.accessibilityRole = NSAccessibilityTextAreaRole;
+       self.accessibilityIdentifier = @"Scintilla";
+    }
   }
 
   return self;
@@ -433,11 +437,14 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor)
   [mOwner message: SCI_SETTARGETRANGE wParam: posRange.location lParam: NSMaxRange(posRange)];
   std::string text([mOwner message: SCI_TARGETASUTF8] + 1, 0);
   [mOwner message: SCI_TARGETASUTF8 wParam: 0 lParam: reinterpret_cast<sptr_t>(&text[0])];
+  text = FixInvalidUTF8(text);
   NSString *result = [NSString stringWithUTF8String: text.c_str()];
   NSMutableAttributedString *asResult = [[[NSMutableAttributedString alloc] initWithString:result] autorelease];
 
   const NSRange rangeAS = NSMakeRange(0, [asResult length]);
-  const long style = [mOwner message: SCI_GETSTYLEAT wParam:posRange.location];
+  // SCI_GETSTYLEAT reports a signed byte but want an unsigned to index into styles
+  const char styleByte = static_cast<char>([mOwner message: SCI_GETSTYLEAT wParam:posRange.location]);
+  const long style = static_cast<unsigned char>(styleByte);
   std::string fontName([mOwner message: SCI_STYLEGETFONT wParam:style lParam:0] + 1, 0);
   [mOwner message: SCI_STYLEGETFONT wParam:style lParam:(sptr_t)&fontName[0]];
   const CGFloat fontSize = [mOwner message: SCI_STYLEGETSIZEFRACTIONAL wParam:style] / 100.0f;
@@ -565,7 +572,17 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor)
   const NSRange posRangeSel = [mOwner selectedRangePositions];
   if (posRangeSel.length == 0)
   {
-    return NSMakeRange(NSNotFound, 0);
+    NSTextInputContext *tic = [NSTextInputContext currentInputContext];
+    // Chinese input causes malloc crash when empty selection returned with actual
+    // position so return NSNotFound.
+    // If this is applied to European input, it stops the accented character
+    // chooser from appearing.
+    // May need to add more input source names.
+    if ([tic.selectedKeyboardInputSource
+         isEqualToString:@"com.apple.inputmethod.TCIM.Cangjie"])
+    {
+      return NSMakeRange(NSNotFound, 0);
+    }
   }
   return mOwner.backend->CharactersFromPositions(posRangeSel);
 }
@@ -1545,6 +1562,7 @@ sourceOperationMaskForDraggingContext: (NSDraggingContext) context
   delete mBackend;
   mBackend = NULL;
   mContent.owner = nil;
+  [marginView setClientView:nil];
   [scrollView removeFromSuperview];
   [marginView release];
   [super dealloc];

@@ -41,8 +41,7 @@ dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-orthospell\\orthospell.lua
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
  
- 
- 
+-- Neals funny Cursor colors :)  loadFile / bufferSwitch   
 function OnSwitchFile(p)
-        scite.SendEditor(SCI_SETCARETFORE, 255, 0)
+        scite.SendEditor(SCI_SETCARETFORE, 0x615DA1)
 end
