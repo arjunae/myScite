@@ -17,8 +17,8 @@ end
 
 --lua >=5.2.x renamed functions: 
 local unpack = table.unpack or unpack
-math.mod=math.fmod or math.mod
-string.gfind=string.gmatch or string.gfind
+math.mod = math.fmod or math.mod
+string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 
 -- Load extman.lua (also "eventmanager.lua")
@@ -40,8 +40,13 @@ dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-orthospell\\orthospell.lua
 -- Load Sidebar (which uses "eventmanager.lua")
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
- 
+
+--################################
+
 -- Neals funny Cursor colors :)  loadFile / bufferSwitch   
 function OnSwitchFile(p)
         scite.SendEditor(SCI_SETCARETFORE, 0x615DA1)
 end
+
+-- Test MenuCommand
+--scite.MenuCommand(IDM_MONOFONT)

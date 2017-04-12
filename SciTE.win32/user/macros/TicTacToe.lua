@@ -301,6 +301,7 @@ function TicTacToe()
   scite.Open("")
   buffer[STR.Sig] = true;
   local t = {}
+    scite.MenuCommand(IDM_MONOFONT)
   Refresh(t, ComputerStart(t))
 end
 

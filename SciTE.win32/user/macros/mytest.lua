@@ -17,6 +17,13 @@ function guiTest()
 
 	--gui.message("testGui")
 	--wnd:hide()
+
+--marker--
+-- Test SCFIND_REGEXP
+local marker = "--test--.* "
+local flag = SCFIND_REGEXP
+local start,ende = editor:findtext(marker, flag, 0)
+_ALERT('> test sciteLua')
 end
 
 guiTest()

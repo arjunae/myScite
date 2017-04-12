@@ -936,7 +936,7 @@ FilePath SciTEGTK::GetSciteDefaultHome() {
 		envhome = buf; 
 		envhome = envhome.substr(0, envhome.rfind('/'));
 	} else {
-		// Dont force proc to be available for Macintosh Platform (FreeBSD).	
+		// Dont force proc to be available.	
 		envhome = sciteExecutable.AsInternal();
 	}
 		homePath = envhome +"/SciTEGlobal.properties";

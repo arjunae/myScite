@@ -202,3 +202,4 @@ end
 
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\ctagsd.lua')
+--dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\HighlightLinks.lua')

@@ -1,10 +1,8 @@
-
 /** build@ cscript.exe //E:jscript /NOLOGO //X $(FilePath) '
  * "electron-steampunk"
  *  	... Doc Comments seem to be okay.
  * 	@api CommentKeyword
 */
-
 
 // Check syntax Highlitening and multiline calltips.
 var MyVeryLongVar = MyVeryLongVar + 20 - 0xA + 2;
@@ -40,4 +38,3 @@ var str = "asdf".replace (/ ^['"]/, "");
 	http.Open("GET", "https://www.reddit.com/r/aww.json", false);
 	http.Send;
 	WScript.Echo("http.responseText: " + http.responseText +"\n");
-

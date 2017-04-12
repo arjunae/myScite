@@ -46,13 +46,14 @@ require 'gui'
 require 'lpeg'
 require 'shell'
 
+
 -- �se scite.gettranslation ?
 -- local _DEBUG = true --включает вывод отладочной информации
 
 -- you can choose to make SideBar a stand-alone window
 local win = tonumber(props['sidebar.win']) == 1
 -- Переключатель способа предпросмотра аббревиатур: true = calltip, false = annotation
-local Abbreviations_USECALLTIPS = tonumber(props['sidebar.abbrev.calltip']) == 1
+local Abbreviations_USECALLTIPS = tonumber(props['sidebar.abbrev.calltip']) == 0
 -- отображение флагов/параметров по умолчанию:
 local _show_flags = tonumber(props['sidebar.functions.flags']) == 1
 local _show_params = tonumber(props['sidebar.functions.params']) == 1
@@ -1439,7 +1440,10 @@ else
 	end
 end
 
-local scite_InsertAbbreviation = scite_InsertAbbreviation or scite.InsertAbbreviation
+--arjunea local scite_InsertAbbreviation = scite_InsertAbbreviation or scite.InsertAbbreviation 
+function scite_InsertAbbreviation(expansion)
+end
+
 local function Abbreviations_InsertExpansion()
 	local sel_item = list_abbrev:get_selected_item()
 	if sel_item == -1 then return end
@@ -1453,8 +1457,8 @@ local function Abbreviations_ShowExpansion()
 	if sel_item == -1 then return end
 	local expansion = list_abbrev:get_item_data(sel_item)
 	expansion = expansion:gsub('\\\\','\4'):gsub('\\r','\r'):gsub('(\\n','\n'):gsub('\\t','\t'):gsub('\4','\\'):gsub('%%%%','%%')
-	local cp = editor:codepage()
-	if cp ~= 65001 then expansion = expansion:from_utf8(cp) end
+--arjunea local cp = editor:codepage()
+--arjunea if cp ~= 65001 then expansion = expansion:from_utf8(cp) end
 
 	local cur_pos = editor.CurrentPos
 	if Abbreviations_USECALLTIPS then
