@@ -13,7 +13,7 @@ HighlightLinks v1.5.3 by VladVRO, mozers
 require "shell"
 
 local mark_number = 13
-local default_link_mask = "https*://[^ \t\r\n\"\']+"
+local default_link_mask = "http.*\:.*\\.[^ \t\r\n\"\']+"
 
 function HighlightLinks()
 	local link_mask = props['highlight.links.mask']

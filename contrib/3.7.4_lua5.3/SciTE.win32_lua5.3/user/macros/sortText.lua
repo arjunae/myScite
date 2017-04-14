@@ -1,3 +1,6 @@
+-- go@ dofile $(FilePath) 
+-- ^^tell Scite to use its internal Lua interpreter.
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --[[--------------------------------------------------
 SortText.lua
 Authors: Tugarinov Sergey, mozers™, Tymur Gubayev

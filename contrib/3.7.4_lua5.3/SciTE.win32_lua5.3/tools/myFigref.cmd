@@ -1,5 +1,5 @@
 @echo off
-:: -------- Starter for SciTE ----------
+:: -------- Containery for SciTE ----------
 :: can be used to avoid Chaos. Provides version specifc Language Distbins within respective Directories. 
 :: ---------------------------------------
 

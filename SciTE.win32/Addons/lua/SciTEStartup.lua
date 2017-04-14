@@ -23,7 +23,6 @@ string.gfind = string.gmatch or string.gfind
 
 -- Load extman.lua (also "eventmanager.lua")
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-extman\\extman.lua')
--- ################################
 
 -- Load mod-mitchell 
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
@@ -41,11 +40,31 @@ dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-orthospell\\orthospell.lua
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
---################################
+-- ################## Lua Samples #####################
+	
+function markLinks()
+--
+-- search for links and highlight them HTTP://ww.bla.de
+--
+	local marker= 1
+	prefix="http.*://"  -- Rules: Begins with http(s):// 
+	body=".*\\." 	-- must have at least one dot in 
+	suffix="[^ \t\r\n\"\']+" 	-- ends with space, newline, " or '
+	mask=prefix..body..suffix
+	--EditorClearMarks(marker)
+	local s,e = editor:findtext( mask, SCFIND_REGEXP, 0)
+	while s do
+		EditorMarkText(s, e-s, marker) 
+		s,e =  editor:findtext( mask, SCFIND_REGEXP, s+1)
+	end
+end
 
--- Neals funny Cursor colors :)  loadFile / bufferSwitch   
 function OnSwitchFile(p)
-        scite.SendEditor(SCI_SETCARETFORE, 0x615DA1)
+	--
+	-- Neals funny Cursor colors :) for loadFile / bufferSwitch   
+	--
+	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) 
+	 markLinks()
 end
 
 -- Test MenuCommand

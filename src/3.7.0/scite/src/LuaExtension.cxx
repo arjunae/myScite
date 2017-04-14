@@ -1314,7 +1314,8 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 			if (lua_istable(luaState, -1)) {
 				clear_table(luaState, -2, true);
 				merge_table(luaState, -2, -1, true);
-
+				lua_pop(luaState,1);
+				
 				// restore initial package.loaded state
 				lua_getfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialPackageState");
 				lua_getfield(luaState, LUA_REGISTRYINDEX, "_LOADED");

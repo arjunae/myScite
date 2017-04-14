@@ -1,6 +1,6 @@
 ~# mySciTE.webdev -~
 
-[09.04.2017] 1.50 (rc1)
+[13.04.2017] STABLE-1.50 
 # Rebased from wScite 3.6.7 to 3.7.0
 # Update lPeg from .10 to .12
 # Fix scites variable Expansion for "Import" Statement 
