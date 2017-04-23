@@ -15,15 +15,15 @@ package.path = package.path .. ";"..defaultHome.."/Addons/lua/mod-hunspell/?.lua
 dofile(props["SciteDefaultHome"]..'/Addons/lua/mod-orthospell/orthospell.lua')
 
 -- ################## Lua Samples #####################
-	
+		
 function markLinks()
 --
--- search for links and highlight them http://www.bla.de/
+-- search for links and highlight them http://www.bla.de/bla
 --
 	local marker= 1
 	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
 	body=".*\\." 	-- followed by any string (www) , must have one dot in 
-	suffix="[^ \r\n\"\']+[/\]" 	-- ends with space, newline " or ' , then a slash /
+	suffix="[^ \r\n\"\']+" 	-- ends with space, newline " or '
 	mask=prefix..body..suffix
 	EditorClearMarks(marker)
 	local s,e = editor:findtext( mask, SCFIND_REGEXP, 0)
