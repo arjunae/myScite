@@ -13,7 +13,7 @@ class linkParser(HTMLParser.HTMLParser):
         if tag=='a':
             self.links.append(dict(attrs)['href'])
 
-htmlSource = urllib.urlopen("http://www.freedos.org").read(200000)
+htmlSource = urllib.urlopen("http://www.freedos.org/").read(200000)
 p = linkParser()
 p.feed(htmlSource)
 

@@ -17,13 +17,12 @@ end
 
 --lua >=5.2.x renamed functions: 
 local unpack = table.unpack or unpack
-math.mod=math.fmod or math.mod
-string.gfind=string.gmatch or string.gfind
+math.mod = math.fmod or math.mod
+string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 
 -- Load extman.lua (also "eventmanager.lua")
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-extman\\extman.lua')
--- ################################
 
 -- Load mod-mitchell 
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
@@ -41,7 +40,33 @@ dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-orthospell\\orthospell.lua
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
--- Neals funny Cursor colors :)  loadFile / bufferSwitch   
-function OnSwitchFile(p)
-        scite.SendEditor(SCI_SETCARETFORE, 0x615DA1)
+-- ################## Lua Samples #####################
+	
+function markLinks()
+--
+-- search for links and highlight them http://www.bla.de/
+--
+	local marker= 1
+	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
+	body=".*\\." 	--followed by any string (www) , must have one dot in 
+	suffix="[^ \r\n\"\']+[/\]" 	-- ends with space, newline " or ' , then a slash /
+	mask=prefix..body..suffix
+	EditorClearMarks(marker)
+	local s,e = editor:findtext( mask, SCFIND_REGEXP, 0)
+	while s do
+		EditorMarkText(s, e-s, marker) 
+		s,e =  editor:findtext( mask, SCFIND_REGEXP, s+1)
+	end
 end
+
+function OnOpen(p)
+	 markLinks()
+end
+
+function OnSwitchFile(p)
+	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) 	-- Neals funny Cursor colors :) for loadFile / bufferSwitch   
+	markLinks()
+end
+
+-- Test MenuCommand
+-- scite.MenuCommand(IDM_MONOFONT)

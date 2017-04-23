@@ -35,6 +35,6 @@ var str = "asdf".replace (/ ^['"]/, "");
 // Ajax
 	WScript.echo("\n-:: jScript AJAX Test (reddit) ::-")
 	http = new ActiveXObject("WinHttp.WinHttpRequest.5.1");
-	http.Open("GET", "https://www.reddit.com/r/aww.json", false);
+	http.Open("GET", "https://www.reddit.com/r/aww.json/", false);
 	http.Send;
 	WScript.Echo("http.responseText: " + http.responseText +"\n");
