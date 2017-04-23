@@ -23,9 +23,36 @@ string.gfind=string.gmatch or string.gfind
 
 -- Load extman.lua (also "eventmanager.lua")
 dofile(props["SciteDefaultHome"]..'\\user\\Addons\\lua\\mod-extman\\extman.lua')
--- ################################
 
 -- ################################
-function OnSwitchFile(p)
-        scite.SendEditor(SCI_SETCARETFORE, 255, 0)
+-- ################## Lua Samples #####################
+-- ################################
+
+function markLinks()
+--
+-- search for textlinks and highlight them http://bla.de/bla
+--
+	local marker= 1
+	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
+	body="\w?." 	-- followed by a word  (eg www or the domain)
+	suffix="[^ \r\n\"\'<]+" 	-- ends with space, newline < " or '
+	mask=prefix..body..suffix 
+	EditorClearMarks(marker)
+	local s,e = editor:findtext( mask, SCFIND_REGEXP, 0)
+	while s do
+		EditorMarkText(s, e-s, marker) 
+		s,e =  editor:findtext( mask, SCFIND_REGEXP, s+1)
+	end
 end
+
+function OnOpen(p)
+	 markLinks()
+end
+
+function OnSwitchFile(p)
+	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) 	-- Neals funny Cursor colors :) for loadFile / bufferSwitch   
+	markLinks()
+end
+
+-- Test MenuCommand
+-- scite.MenuCommand(IDM_MONOFONT)
