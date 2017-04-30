@@ -1,23 +1,23 @@
 # SciTE session file
 
-position.left=65
-position.top=161
+position.left=314
+position.top=171
 position.width=995
 position.height=460
 position.maximize=0
 
-mru.1.path=C:\Users\Tho\AppData\Local\Temp\sugname.patch
-mru.2.path=E:\projects\_myScite\_myScite.github\contrib\3.7.0_lua5.3\mySciTE.win32_lua5.3\Addons\lua\SciTEStartup.lua
-mru.3.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\mod-sidebar\sidebar.lua
-mru.4.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\scitestartup.lua
-mru.5.path=E:\projects\_myScite\_myScite.github\contrib\3.7.0_lua5.3\mySciTE.win32_lua5.3\SciteCookies.properties
-mru.6.path=E:\projects\_myScite\_myScite.sourceforge\code\contrib\3.7.4_lua5.3\mySciTE.win32_lua5.3\SciteCookies.properties
-mru.7.path=E:\projects\_myScite\_myScite.github\contrib\3.7.0_lua5.3\.make_clean_3.7.0.bat
-mru.8.path=E:\projects\_myScite\_myScite.github\contrib\3.7.4_lua5.3\3.7.4\scite\src\LuaExtension.cxx
-mru.9.path=E:\projects\_myScite\_myScite.github\contrib\3.7.0_lua5.3\3.7.0\scite\src\LuaExtension.cxx
-mru.10.path=E:\projects\_myScite\_myScite.github\readme.md
+mru.1.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win32\luacom\demo\comm\tst_plasma.lua
+mru.2.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win32\luacom\demo\comm\plasma.lua
+mru.3.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win32\luacom\Makefile
+mru.4.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win32\luacom\src\dll\luacom_dll.cpp
+mru.5.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\scitestartup.lua
+mru.6.path=E:\projects\_myScite\_myScite.github\contrib\SciTE.apiDogs\msdn_wsh\sync_msdn_wsh_obj.vbs
+mru.7.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\testcases\test_vbs.vbs
+mru.8.path=E:\projects\_freeBasic.github\freebasic.public\FreeBasic\FB_SSL_Facebook\IWebBrowser2_pvti.bi
+mru.9.path=E:\projects\_freeBasic.github\freebasic.public\FreeBasic\FB_SSL_Facebook\IWebBrowser2_invoke.bi
+mru.10.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\macros\mytest.lua
 
-buffer.1.path=E:\projects\_myScite\_myScite.github\readme.md
-buffer.1.position=1
-buffer.1.scroll=0
+buffer.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\macros\mytest.lua
+buffer.1.position=895
+buffer.1.scroll=22
 buffer.1.current=1
