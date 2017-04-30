@@ -1,0 +1,263 @@
+##
+# HTML WebApi https://developer.mozilla.org/en/docs/Web/API | subset - volunteers wanted.
+##
+
+#~Location Properties
+href@@\t\nDOMString The entire URL. If changed, the associated document navigates to the new page. DOM>location 
+protocol@@\t\n:DOMString:  protocol scheme of the URL, including the final ':'. DOM>location
+host@@\t\n:DOMString  host, that is the hostname, a ':', and the port of the URL. DOM>location
+hostname@@\t\n:DOMString domain of the URL. DOM>location
+port@@\t\n:DOMString  port number of the URL. DOM>location
+pathname@@\t\n:DOMString containing an initial '/' followed by the path of the URL. DOM>location
+search@@\t\n:DOMString containing a '?' followed by the parameters of the URL. Also known as "querystring". DOM>location
+hash@@\t\n:DOMString containing a '#' followed by the fragment identifier of the URL. DOM>location
+username@@\t\n:DOMString username specified before the domain name. DOM>location
+password@@\t\n:DOMString password specified before the domain name. DOM>location
+origin@@\t\n-ro  :DOMString canonical form of the origin. DOM>location
+
+#~location Methods
+reload(boolean)Reloads the resource from the current URL. if the param is true then the Page\t\nmay be reloaded from the server / otherwise also from cache. DOM>location
+replace()Replaces the current resource with the one at the provided URL.\t\nDoesnt add URL to session History. DOM>location
+toString()-ro Returns a DOMString  whole URL. DOM>location
+assign()Loads the resource at the URL provided in parameter. DOM>location
+
+#
+# The c lexers handles multiple calltip.parameter.start characters correctly.
+# so using @@ to identify properties and distuinguish them from methods/functions using()
+#
+#~Window Properties
+#
+closed@@\t\n-ro This property indicates whether the current window is closed or not. DOM>WindowProp
+Components@@\t\nThe entry point to many XPCOM features. Some properties, e.g. classes, are only available to sufficiently privileged code.\t\nWeb code should not use this property. DOM>WindowProp
+console@@\t\n-ro Returns a reference to the console object which provides access to the browser's debugging console. DOM>WindowProp
+content@@\t\n-ro Returns a reference to the content element in the current  The obsolete variant with underscore is no longer available from Web content. DOM>WindowProp
+controllers@@\t\n-ro Returns the XUL controller objects for the current chrome Window. DOM>WindowProp
+crypto@@\t\n-ro Returns the browser crypto object. DOM>WindowProp
+devicePixelRatio@@\t\n-ro Returns the ratio between physical pixels and device independent pixels in the current display. DOM>WindowProp
+dialogArguments@@\t\n-ro Gets the arguments passed to the window (if it's a dialog box) at the time showModalDialog() was called. This is an nsIArray. DOM>WindowProp
+directories@@\t\nSynonym of personalbar DOM>WindowProp
+document@@\t\n-ro Returns a reference to the document that the window contains. DOM>WindowProp
+frameElement@@\t\n-ro Returns the element in which the window is embedded, or null if the window is not embedded. DOM>WindowProp
+frames@@\t\n-ro Returns an array of the subframes in the current Window. DOM>WindowProp
+fullScreen@@\t\nThis property indicates whether the window is displayed in full screen or not. DOM>WindowProp
+history@@\t\n-ro Returns a reference to the history object. DOM>WindowProp
+innerHeight@@\t\nGets the height of the content area of the browser window including, if rendered, the horizontal scrollbar. DOM>WindowProp
+innerWidth@@\t\nGets the width of the content area of the browser window including, if rendered, the vertical scrollbar. DOM>WindowProp
+isSecureContext@@\t\n-ro Indicates whether a context is capable of using features that require secure contexts. DOM>WindowProp
+length@@\t\n-ro Returns the number of frames in the  See also frames. DOM>WindowProp
+location@@\t\n-ro Gets/sets the location, or current URL, of the window object. DOM>WindowProp
+locationbar@@\t\n-ro Returns the locationbar object, whose visibility can be toggled in the Window. DOM>WindowProp
+localStorage@@\t\n-ro Returns a reference to the local storage object used to store data that may only be accessed by the origin that created it. DOM>WindowProp
+menubar@@\t\n-ro Returns the menubar object, whose visibility can be toggled in the Window. DOM>WindowProp
+messageManager@@\t\nReturns the message manager object for this Window. DOM>WindowProp
+mozAnimationStartTime@@\t\n-ro The time in milliseconds since epoch at which the current animation cycle began. DOM>WindowProp
+mozInnerScreenX@@\t\n-ro Returns the horizontal (X) coordinate of the top-left corner of the window's viewport, in screen coordinates. This value is reported in CSS pixels. DOM>WindowProp
+mozInnerScreenY@@\t\n-ro Returns the vertical (Y) coordinate of the top-left corner of the window's viewport, in screen coordinates. This value is reported in CSS pixels. DOM>WindowProp
+mozPaintCount@@\t\n-ro Returns the number of times the current document has been rendered to the screen in this  This can be used to compute rendering performance. DOM>WindowProp
+name@@\t\nGets/sets the name of the Window. DOM>WindowProp
+navigator@@\t\n-ro Returns a reference to the navigator object. DOM>WindowProp
+opener@@\t\nReturns a reference to the window that opened this current Window. DOM>WindowProp
+orientation@@\t\n-ro Returns the orientation in degrees (in 90 degree increments) of the viewport relative to the device's natural orientation. DOM>WindowProp
+outerHeight@@\t\n-ro Gets the height of the outside of the browser Window. DOM>WindowProp
+outerWidth@@\t\n-ro Gets the width of the outside of the browser Window. DOM>WindowProp
+pageXOffset@@\t\n-ro An alias for scrollX. DOM>WindowProp
+pageYOffset@@\t\n-ro An alias for scrollY DOM>WindowProp
+sessionStorage@@\t\n-ro Returns a reference to the session storage object used to store data that may only be accessed by the origin that created it. DOM>WindowProp
+parent@@\t\n-ro Returns a reference to the parent of the current window or subframe. DOM>WindowProp
+performance@@\t\n-ro Provides a hosting area for performance related attributes. DOM>WindowProp
+personalbar@@\t\n-ro Returns the personalbar object, whose visibility can be toggled in the Window. DOM>WindowProp
+returnValue@@\t\nThe return value to be returned to the function that called showModalDialog() to display the window as a modal dialog. DOM>WindowProp
+screen@@\t\n-ro Returns a reference to the screen object associated with the Window. DOM>WindowProp
+screenX@@\t\n-ro Returns the horizontal distance of the left border of the user's browser from the left side of the screen. DOM>WindowProp
+screenY@@\t\n-ro Returns the vertical distance of the top border of the user's browser from the top side of the screen. DOM>WindowProp
+scrollbars@@\t\n-ro Returns the scrollbars object, whose visibility can be toggled in the Window. DOM>WindowProp
+scrollMaxX@@\t\n-ro The maximum offset that the window can be scrolled to horizontally, that is the document width minus the viewport width. DOM>WindowProp
+scrollMaxY@@\t\n-ro The maximum offset that the window can be scrolled to vertically (i.e., the document height minus the viewport height). DOM>WindowProp
+scrollX@@\t\n-ro Returns the number of pixels that the document has already been scrolled horizontally. DOM>WindowProp
+scrollY@@\t\n-ro Returns the number of pixels that the document has already been scrolled vertically. DOM>WindowProp
+self@@\t\n-ro Returns an object reference to the window object itself. DOM>WindowProp
+sessionStorage@@\t\nReturns a storage object for storing data within a single page session. DOM>WindowProp
+sidebar@@\t\n-ro Returns a reference to the window object of the sidebar. DOM>WindowProp
+speechSynthesis@@\t\n-ro Returns a SpeechSynthesis object, which is the entry point into using Web Speech API speech synthesis functionality. DOM>WindowProp
+status@@\t\nGets/sets the text in the statusbar at the bottom of the browser. DOM>WindowProp
+statusbar@@\t\n-ro Returns the statusbar object, whose visibility can be toggled in the Window. DOM>WindowProp
+toolbar@@\t\n-ro Returns the toolbar object, whose visibility can be toggled in the Window. DOM>WindowProp
+top@@\t\n-ro Returns a reference to the topmost window in the window hierarchy. This property is read only. DOM>WindowProp
+window@@\t\n-ro Returns a reference to the current Window. DOM>WindowProp
+window@@\t\n[0..n] Returns a reference to the window object in the frames. See frames for more details. DOM>WindowProp
+
+#
+#~Window Methods (can be used unprefixed) 
+#
+alert()Displays an alert dialog. DOM>Window
+back()Moves back one in the window history. DOM>Window
+blur()Sets focus away from the Window. DOM>Window
+cancelIdleCallback() Enables you to cancel a callback previously scheduled with requestIdleCallback. DOM>Window
+captureEvents()Registers the window to capture all events of the specified type. DOM>Window
+clearImmediate()Cancels the repeated execution set using setImmediate. DOM>Window
+close()Closes the current Window. DOM>Window
+confirm()Displays a dialog with a message that the user needs to respond to. DOM>Window
+dispatchEvent()Used to trigger an event. DOM>Window
+dump()Writes a message to the console. DOM>Window
+find()Searches for a given string in a Window. DOM>Window
+focus()Sets focus on the current Window. DOM>Window
+forward()Moves the window one document forward in the history. DOM>Window
+getAttention()Flashes the application icon. DOM>Window
+getAttentionWithCycleCount()FIXME: NeedsContents DOM>Window
+getComputedStyle()Gets computed style for the specified element. Computed style indicates the computed values of all CSS properties of the element. DOM>Window
+getDefaultComputedStyle() Gets default computed style for the specified element, ignoring author stylesheets. DOM>Window
+getSelection()Returns the selection object representing the selected item(s). DOM>Window
+home()Returns the browser to the home page. DOM>Window
+matchMedia()Returns a MediaQueryList object representing the specified media query string. DOM>Window
+maximize()FIXME: NeedsContents DOM>Window
+minimize()(top-level XUL windows only)Minimizes the Window. DOM>Window
+moveBy()Moves the current window by a specified amount. DOM>Window
+moveTo()Moves the window to the specified coordinates. DOM>Window
+mozRequestAnimationFrame()Tells the browser that an animation is in progress, requesting that the browser schedule a repaint of the window for the next animation frame.\tnThis will cause a MozBeforePaint event to fire before that repaint occurs. DOM>Window
+open()Opens a new Window. DOM>Window
+openDialog()Opens a new dialog Window. DOM>Window
+postMessage()Provides a secure means for one window to send a string of data to another window, which need not be within the same domain as the first. DOM>Window
+print()Opens the Print Dialog to print the current document. DOM>Window
+prompt()Returns the text entered by the user in a prompt dialog. DOM>Window
+releaseEvents()Releases the window from trapping events of a specific type. DOM>Window
+removeEventListener()Removes an event listener from the Window. DOM>Window
+requestIdleCallback()  Enables the scheduling of tasks during a browser's idle periods. DOM>Window
+resizeBy()Resizes the current window by a certain amount. DOM>Window
+resizeTo()Dynamically resizes Window. DOM>Window
+restore()FIXME: NeedsContents DOM>Window
+routeEvent()Obsolete since Gecko 24  FIXME: NeedsContents DOM>Window
+scroll()Scrolls the window to a particular place in the document. DOM>Window
+scrollBy()Scrolls the document in the window by the given amount. DOM>Window
+scrollByLines()Scrolls the document by the given number of lines. DOM>Window
+scrollByPages()Scrolls the current document by the specified number of pages. DOM>Window
+scrollTo()Scrolls to a particular set of coordinates in the document. DOM>Window
+setCursor()Changes the cursor for the current Window. DOM>Window
+setImmediate()Executes a function after the browser has finished other heavy tasks. DOM>Window
+setResizable()Toggles a user's ability to resize a Window. DOM>Window
+showModalDialog()Displays a modal dialog. DOM>Window
+sizeToContent()Sizes the window according to its content. DOM>Window
+stop()This method stops window loading. DOM>Window
+updateCommands()Updates the state of commands of the current chrome window (UI). DOM>Window
+
+#~WindowBase64
+atob()Decodes a string of data which has been encoded using base-64 encoding. DOM>WindowBase64
+btoa()Creates a base-64 encoded ASCII string from a string of binary data. DOM>WindowBase64
+
+#~WindowTimers
+clearInterval()Cancels the repeated execution set using WindowTimers.setInterval(). DOM>WinowTimers
+clearTimeout()Cancels the repeated execution set using WindowTimers.setTimeout(). DOM>WindowTimers
+setInterval()Schedules the execution of a function each X milliseconds.DOM>WinTimers
+setTimeout()Sets a delay for executing a function.DOM>WindowTimers
+
+#~Document Methods
+adoptNode()Adopt node from an external Document DOM>document
+captureEvents()See Window.captureEvents. DOM>document
+caretPositionFromPoint()Gets the CaretPosition at or near the specified coordinates. DOM>document
+caretRangeFromPoint()Gets a Range object for the document fragment under the specified coordinates. DOM>document
+createAttribute()Creates a new Attr object and returns it. DOM>document
+createAttributeNS()Creates a new attribute node in a given namespace and returns it. DOM>document
+createCDATASection()Creates a new CDATA node and returns it. DOM>document
+createComment()Creates a new comment node and returns it. DOM>document
+createDocumentFragment()Creates a new document fragment. DOM>document
+createElement()Creates a new element with the given tag name. DOM>document
+createElementNS()Creates a new element with the given tag name and namespace URI. DOM>document
+createEntityReference()Creates a new entity reference object and returns it. DOM>document
+createEvent()Creates an event object. DOM>document
+createNodeIterator()Creates a NodeIterator object. DOM>document
+createProcessingInstruction()Creates a new ProcessingInstruction object. DOM>document
+createRange()Creates a Range object. DOM>document
+createTextNode()Creates a text node. DOM>document
+createTouch()Creates a Touch object. DOM>document
+createTouchList()Creates a TouchList object. DOM>document
+createTreeWalker()Creates a TreeWalker object. DOM>document
+elementFromPoint()Returns the topmost element at the specified coordinates.  DOM>document
+elementsFromPoint()Returns an array of all elements at the specified coordinates. DOM>document
+enableStyleSheetsForSet()Enables the style sheets for the specified style sheet set. DOM>document
+exitPointerLock()Release the pointer lock. DOM>document
+getAnimations()Returns an array of all Animation objects currently in effect whose target elements are descendants of the Document DOM>document
+getElementsByClassName()Returns a list of elements with the given class name. DOM>document
+getElementsByTagName()Returns a list of elements with the given tag name. DOM>document
+getElementsByTagNameNS()Returns a list of elements with the given tag name and namespace. DOM>document
+importNode()Returns a clone of a node from an external Document DOM>document
+normalizeDocument()Replaces entities, normalizes text nodes, etc. DOM>document
+registerElement()Registers a web component. DOM>document
+releaseCapture()Releases the current mouse capture if it's on an element in this Document DOM>document
+releaseEvents()See Window.releaseEvents(). DOM>document
+mozSetImageElement()Allows you to change the element being used as the background image for a specified element ID. DOM>document
+getElementById(String id)Returns an object reference to the identified element. DOM>document
+querySelector(String selector)Returns the first Element node within the document, in document order, that matches the specified selectors. DOM>document
+querySelectorAll(String selector)Returns a list of all the Element nodes within the document that match the specified selectors. DOM>document
+createExpression(String expression, XPathNSResolver resolver)Compiles an XPathExpression which can then be used for (repeated) evaluations. DOM>document
+createNSResolver(Node resolver)Creates an XPathNSResolver object. DOM>document
+evaluate(String expression, Node contextNode, XPathNSResolver resolver, Number type, Object result)Evaluates an XPath expression. DOM>document
+clear()In majority of modern browsers, including recent versions of Firefox and Internet Explorer, this method does nothing. DOM>document
+close()Closes a document stream for writing. DOM>document
+execCommand(String command[, Boolean showUI[, String value]])On an editable document, executes a formating command. DOM>document
+getElementsByName(String name)Returns a list of elements with the given name. DOM>document
+getSelection()Returns a Selection object related to text selected in the Document DOM>document
+hasFocus()Returns true if the focus is currently located anywhere inside the specified Document DOM>document
+open()Opens a document stream for writing. DOM>document
+queryCommandEnabled(String command)Returns true if the formating command can be executed on the current range. DOM>document
+queryCommandIndeterm(String command)Returns true if the formating command is in an indeterminate state on the current range. DOM>document
+queryCommandState(String command)Returns true if the formating command has been executed on the current range. DOM>document
+queryCommandSupported(String command)Returns true if the formating command is supported on the current range. DOM>document
+queryCommandValue(String command)Returns the current value of the current range for a formating command. DOM>document
+write(String text)Writes text in a Document DOM>document
+writeln(String text)Writes a line of text in a Document DOM>document
+
+
+#~DOMExceptions
+DOMException.name@@Read only Returns a DOMString that contains one of the strings associated with an error name.		
+IndexSizeError@@The index is not in the allowed range. For example, this can be thrown by Range object. (Legacy code value: 1 and legacy constant name: INDEX_SIZE_ERR)
+HierarchyRequestError@@ The node tree hierarchy is not correct. (Legacy code value: 3 and legacy constant name: HIERARCHY_REQUEST_ERR)
+WrongDocumentError@@ The object is in the wrong Document. (Legacy code value: 4 and legacy constant name: WRONG_DOCUMENT_ERR)
+InvalidCharacterError@@ The string contains invalid characters. (Legacy code value: 5 and legacy constant name: INVALID_CHARACTER_ERR)
+NoModificationAllowedError@@ The object can not be modified. (Legacy code value: 7 and legacy constant name: NO_MODIFICATION_ALLOWED_ERR)
+NotFoundError@@ The object can not be found here. (Legacy code value: 8 and legacy constant name: NOT_FOUND_ERR)
+NotSupportedError@@ The operation is not supported. (Legacy code value: 9 and legacy constant name: NOT_SUPPORTED_ERR)
+InvalidStateError@@ The object is in an invalid state. (Legacy code value: 11 and legacy constant name: INVALID_STATE_ERR)
+SyntaxError@@ The string did not match the expected pattern. (Legacy code value: 12 and legacy constant name: SYNTAX_ERR)
+InvalidModificationError@@ The object can not be modified in this way. (Legacy code value: 13 and legacy constant name: INVALID_MODIFICATION_ERR)
+NamespaceError@@ The operation is not allowed by Namespaces in XML. (Legacy code value: 14 and legacy constant name: NAMESPACE_ERR)
+InvalidAccessError@@ The object does not support the operation or argument. (Legacy code value: 15 and legacy constant name: INVALID_ACCESS_ERR)
+TypeMismatchError@@ The type of the object does not match the expected type. (Legacy code value: 17 and legacy constant name: TYPE_MISMATCH_ERR)\t\nThis value is deprecated, the JavaScript TypeError exception is now raised instead of a DOMException with this value.
+SecurityError@@ The operation is insecure. (Legacy code value: 18 and legacy constant name: SECURITY_ERR)
+NetworkError@@ A network error occurred. (Legacy code value: 19 and legacy constant name: NETWORK_ERR)
+AbortError@@ The operation was aborted. (Legacy code value: 20 and legacy constant name: ABORT_ERR)
+URLMismatchError@@ The given URL does not match another URL. (Legacy code value: 21 and legacy constant name: URL_MISMATCH_ERR)
+QuotaExceededError@@ The quota has been exceeded. (Legacy code value: 22 and legacy constant name: QUOTA_EXCEEDED_ERR)
+TimeoutError@@ The operation timed out. (Legacy code value: 23 and legacy constant name: TIMEOUT_ERR)
+InvalidNodeTypeError@@ The node is incorrect or has an incorrect ancestor for this operation. (Legacy code value: 24 and legacy constant name: INVALID_NODE_TYPE_ERR)
+DataCloneError@@ The object can not be cloned. (Legacy code value: 25 and legacy constant name: DATA_CLONE_ERR)
+EncodingError@@ The encoding operation, being an encoding or a decoding one, failed (No legacy code value and constant name).
+NotReadableError@@ The input/output read operation failed (No legacy code value and constant name).
+
+
+#~ DOM Exeptions (Depreceated)
+INDEX_SIZE_ERR@@DOM>Exception
+DOMSTRING_SIZE_ERR@@DOM>Exception
+HIERARCHY_REQUEST_ERR@@DOM>Exception
+WRONG_DOCUMENT_ERR@@DOM>Exception
+INVALID_CHARACTER_ERR@@DOM>Exception
+NO_DATA_ALLOWED_ERR@@DOM>Exception
+NO_MODIFICATION_ALLOWED_ERR@@DOM>Exception
+NOT_FOUND_ERR@@DOM>Exception
+NOT_SUPPORTED_ERR@@DOM>Exception
+INUSE_ATTRIBUTE_ERR@@DOM>Exception
+INVALID_STATE_ERR@@DOM>Exception
+SYNTAX_ERR@@DOM>Exception
+INVALID_MODIFICATION_ERR@@DOM>Exception
+NAMESPACE_ERR@@DOM>Exception
+INVALID_ACCESS_ERR@@DOM>Exception
+ELEMENT_NODE@@DOM>Exception
+ATTRIBUTE_NODE@@DOM>Exception
+TEXT_NODE@@DOM>Exception
+CDATA_SECTION_NODE@@DOM>Exception
+ENTITY_REFERENCE_NODE@@DOM>Exception
+ENTITY_NODE@@DOM>Exception
+PROCESSING_INSTRUCTION_NODE@@DOM>Exception
+COMMENT_NODE@@DOM>Exception
+DOCUMENT_NODE@@DOM>Exception
+DOCUMENT_TYPE_NODE@@DOM>Exception
+DOCUMENT_FRAGMENT_NODE@@DOM>Exception
+NOTATION_NODE@@DOM>Exception
