@@ -1,23 +1,23 @@
 # SciTE session file
 
-position.left=314
-position.top=171
+position.left=588
+position.top=205
 position.width=995
 position.height=460
 position.maximize=0
 
-mru.1.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win32\luacom\demo\comm\tst_plasma.lua
-mru.2.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win32\luacom\demo\comm\plasma.lua
-mru.3.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win32\luacom\Makefile
-mru.4.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win32\luacom\src\dll\luacom_dll.cpp
-mru.5.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\scitestartup.lua
-mru.6.path=E:\projects\_myScite\_myScite.github\contrib\SciTE.apiDogs\msdn_wsh\sync_msdn_wsh_obj.vbs
-mru.7.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\testcases\test_vbs.vbs
-mru.8.path=E:\projects\_freeBasic.github\freebasic.public\FreeBasic\FB_SSL_Facebook\IWebBrowser2_pvti.bi
-mru.9.path=E:\projects\_freeBasic.github\freebasic.public\FreeBasic\FB_SSL_Facebook\IWebBrowser2_invoke.bi
-mru.10.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\macros\mytest.lua
+mru.1.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win32\luacom\Makefile
+mru.2.path=E:\projects\_myScite\_lua-lib.sourceforge\sciteLua5.1\win32\luacom\src\dll\luacom_dll.cpp
+mru.3.path=E:\projects\_myScite\_myScite.github\SciTE.win32\Addons\lua\scitestartup.lua
+mru.4.path=E:\projects\_myScite\_myScite.github\contrib\SciTE.apiDogs\msdn_wsh\sync_msdn_wsh_obj.vbs
+mru.5.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\testcases\test_vbs.vbs
+mru.6.path=E:\projects\_freeBasic.github\freebasic.public\FreeBasic\FB_SSL_Facebook\IWebBrowser2_pvti.bi
+mru.7.path=E:\projects\_freeBasic.github\freebasic.public\FreeBasic\FB_SSL_Facebook\IWebBrowser2_invoke.bi
+mru.8.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\macros\mytest.lua
+mru.9.path=E:\projects\_myScite\_myScite.github\contrib\SciTE.apiDogs\msdn_javascript\sync_msdn_js_obj.vbs
+mru.10.path=E:\projects\_myScite\_myScite.github\contrib\SciTE.apiDogs\c_cpp\cpp_create_links.vbs
 
-buffer.1.path=E:\projects\_myScite\_myScite.github\SciTE.win32\user\macros\mytest.lua
-buffer.1.position=895
-buffer.1.scroll=22
+buffer.1.path=E:\projects\_myScite\_myScite.github\contrib\SciTE.apiDogs\c_cpp\cpp_create_links.vbs
+buffer.1.position=3658
+buffer.1.scroll=96
 buffer.1.current=1

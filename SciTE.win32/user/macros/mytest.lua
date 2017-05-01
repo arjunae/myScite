@@ -2,9 +2,11 @@
 -- ^^tell Scite to use its internal Lua interpreter.
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+-- ######### LuaGui ########
+require 'gui'
+
 function test_gui()
 -- testcases for lib GUI
-	require 'gui'
 
 	wnd = gui.window "test-gui"
 	wnd:position(200, 200)
@@ -15,39 +17,57 @@ function test_gui()
 	wnd:add(memo, "top", 25)
 	wnd:show()
 
-	--gui.message("testGui")
 	--wnd:hide()
 end
 
 -- ######### LuaCom ########
-events_table = {} 
+
+require "luacom"
+oweb={} -- OLE object
+_oweb = {} -- its events
 
 function test_luaCom()
-	
-	require "luacom"
+--testcases for lib luacom	
 	print("start Browser")
-	obrowser = luacom.CreateObject("InternetExplorer.Application") 
-	assert(obrowser) 
-	obrowser.Visible = true
-	obrowser:Navigate("http://www.freedos.org")
-	obrowser.Height =300
-	obrowser.Width= 500
-	
+	oweb = luacom.CreateObject("InternetExplorer.Application") 
+	assert(oweb) 
+	oweb:Navigate("http://www.freedos.org")
+	oweb.Height =300
+	oweb.Width= 500
+	oweb.Visible = true
+
 	print ("waiting for Events")
-	event_handler = luacom.ImplInterface(events_table, "InternetExplorer.Application", "DWebBrowserEvents") 
+	-- DWebBrowserEvents2: https://msdn.microsoft.com/en-us/library/aa768283(v=vs.85).aspx
+	event_handler = luacom.ImplInterface(_oweb, "InternetExplorer.Application", "DWebBrowserEvents2") 
 	if event_handler == nil then  print("Error implementing Events") end 
-	cookie = luacom.addConnection(obrowser, event_handler)
+	cookie = luacom.addConnection(oweb, event_handler)
 end
 
-function events_table:NavigateComplete() 
-	print("event NavigateComplete recieved!") 
+function _oweb:NavigateComplete2(a,url) 
+--	print("event NavigateComplete recieved! Url:"..url) 
 end
 
-function events_table:Quit() 
+function _oweb:DocumentComplete(a,url) 
+-- fires for every frame, so only react on root location complete
+	  if oweb.locationURL  == url then
+			print("event DocumentComplete recieved! ")
+			print("Url: "..url.." Root: "..oweb.locationURL)
+			content=oweb.Document.head.innerhtml
+			gui.message(content)
+		
+	--print (content)
+		end
+end
+
+function _oweb:OnQuit() 
 	print("event Quit recieved!") 
+	oweb=nil
+	_oweb=nil
+	collectgarbage()
 end
 
 -- ######### run Tests ###############
+
 test_luaCom()
 test_gui()
 _ALERT('> test sciteLua')

@@ -106,7 +106,7 @@ Function fParseResults(obrowser)
     Dim oApiLink, oApiName, oApiFileName, oApiHref, oApiPos, oApiId
     Dim sReserved, sCharReserved, strPos
     
-  '----Look and collect   freshly arrived Soap Data.
+  '----Look and collect freshly arrived Soap Data.
     ofile_log.Write "."
   
     res = waitforBrowser(obrowser)
