@@ -21,53 +21,57 @@ function test_gui()
 end
 
 -- ######### LuaCom ########
-
 require "luacom"
-oweb={} -- OLE object
-_oweb = {} -- its events
+oWeb={} -- OLE object
+_oWeb = {} -- its events
 
 function test_luaCom()
 --testcases for lib luacom	
 	print("start Browser")
-	oweb = luacom.CreateObject("InternetExplorer.Application") 
-	assert(oweb) 
-	oweb:Navigate("http://www.freedos.org")
-	oweb.Height =300
-	oweb.Width= 500
-	oweb.Visible = true
+	oWeb = luacom.CreateObject("InternetExplorer.Application") 
+	assert(oWeb) 
+	oWeb:Navigate("http://www.freedos.org")
+	oWeb.Height =300
+	oWeb.Width= 500
+	oWeb.Visible = true
 
 	print ("waiting for Events")
 	-- DWebBrowserEvents2: https://msdn.microsoft.com/en-us/library/aa768283(v=vs.85).aspx
-	event_handler = luacom.ImplInterface(_oweb, "InternetExplorer.Application", "DWebBrowserEvents2") 
+	event_handler = luacom.ImplInterface(_oWeb, "InternetExplorer.Application", "DWebBrowserEvents2") 
 	if event_handler == nil then  print("Error implementing Events") end 
-	cookie = luacom.addConnection(oweb, event_handler)
+	cookie = luacom.addConnection(oWeb, event_handler)
 end
 
-function _oweb:NavigateComplete2(a,url) 
+function _oWeb:NavigateComplete2(a,url) 
 --	print("event NavigateComplete recieved! Url:"..url) 
 end
 
-function _oweb:DocumentComplete(a,url) 
+function _oWeb:DocumentComplete(a,url) 
 -- fires for every frame, so only react on root location complete
-	  if oweb.locationURL  == url then
+	  if oWeb.locationURL  == url then
 			print("event DocumentComplete recieved! ")
-			print("Url: "..url.." Root: "..oweb.locationURL)
-			content=oweb.Document.head.innerhtml
-			gui.message(content)
-		
-	--print (content)
+			print("Url: "..url.." Root: "..oWeb.locationURL)
+		   siteParser(oWeb.Document)
+			print("Fin")
 		end
 end
 
-function _oweb:OnQuit() 
+function siteParser(oDoc)
+	--Implement with ihtmlDocument
+	content=oDoc.head.innerhtml
+--	gui.message(content)
+	print(content)
+	oDoc=nil
+end
+
+function _oWeb:OnQuit() 
 	print("event Quit recieved!") 
-	oweb=nil
-	_oweb=nil
+	oWeb=nil
+	_oWeb=nil
 	collectgarbage()
 end
 
 -- ######### run Tests ###############
-
 test_luaCom()
 test_gui()
 _ALERT('> test sciteLua')

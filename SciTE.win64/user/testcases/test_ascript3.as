@@ -4,7 +4,7 @@
  * VERSION: 1.0
  * DATE: 12/12/2010
  * AS3
- * UPDATES AND DOCUMENTATION AT: http://www.freeactionscript.com/2010/12/actionscript-math-and-trigonometry/
+ * UPDATES AND DOCUMENTATION AT: http://www.freeactionscript.com/2010/12/actionscript-math-and-trigonometry
  **/
 package  
 {

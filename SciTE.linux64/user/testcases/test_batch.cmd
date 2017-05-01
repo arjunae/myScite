@@ -4,8 +4,8 @@ REM ---------------- Test Batch -----------------
 REM creates a reg file which you can use to add Scite to explorers context Menu
 REM -----------------------------------------------
 
-echo  ... Click outputPane and press Key.
 echo ... List all Files, starting from current Directory...
+echo  ... Click outputPane and press Key.
 pause >NUL
 call :sub_lister
 echo  ... Listed all Files, started from current Directory...

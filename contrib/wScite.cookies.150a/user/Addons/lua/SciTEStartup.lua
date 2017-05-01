@@ -30,27 +30,34 @@ dofile(props["SciteDefaultHome"]..'\\user\\Addons\\lua\\mod-extman\\extman.lua')
 
 function markLinks()
 --
--- search for textlinks and highlight them http://bla.de/bla
+-- search for textlinks and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
 --
-	local marker= 1
+	local marker=10
+	editor.IndicStyle[marker] = INDIC_DIAGONAL -- INDIC_COMPOSITIONTHIN
+	editor.IndicFore[marker]  = 0xDE0202
+	
 	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
 	body="[a-zA-Z0-9]?." 	-- followed by a word  (eg www or the domain)
 	suffix="[^ \r\n\"\'<]+" 	-- ends with space, newline < " or '
 	mask=prefix..body..suffix 
-	EditorClearMarks(marker)
+	EditorClearMarks(marker) -- common.lua
 	local s,e = editor:findtext( mask, SCFIND_REGEXP, 0)
 	while s do
-		EditorMarkText(s, e-s, marker) 
+		EditorMarkText(s, e-s, marker) -- common.lua
 		s,e =  editor:findtext( mask, SCFIND_REGEXP, s+1)
 	end
 end
 
-function OnOpen(p)
+function OnDoubleClick()
+-- print("DoubleClick")
+end
+
+function OnOpen(path)
 	 markLinks()
 end
 
-function OnSwitchFile(p)
-	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) 	-- Neals funny Cursor colors :) for loadFile / bufferSwitch   
+function OnSwitchFile(path)
+	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) 	-- Neals funny bufferSwitch Cursor colors :)    
 	markLinks()
 end
 
