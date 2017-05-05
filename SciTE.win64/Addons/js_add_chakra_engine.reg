@@ -1,5 +1,7 @@
 Windows Registry Editor Version 5.00
 ; use "chakra" engine (~ecmaScript 1.9)
+; http://stackoverflow.com/questions/7167690/what-is-the-progid-or-clsid-for-ie9s-javascript-engine-code-named-chakra
+
 [HKEY_LOCAL_MACHINE\SOFTWARE\Classes\chakra]
 @="chakra"
 
