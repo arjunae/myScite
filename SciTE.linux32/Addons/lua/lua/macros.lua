@@ -1,4 +1,5 @@
 -- (c) Valentin Schmidt 2016
+-- PayPal: v.schmidt [a.t] dasdeck [d.o.t] de
 --do
 
 require 'lfs'
@@ -35,6 +36,6 @@ function ChooseScript()
   end
 end
 
-scite_Command('Macro Scripts|ChooseScript|Ctrl+9')
+scite_Command('Macro Scripts|ChooseScript|Ctrl+2')
 
 --end

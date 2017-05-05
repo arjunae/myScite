@@ -1,0 +1,11 @@
+Windows Registry Editor Version 5.00
+; use "chakra" engine
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\chakra]
+@="chakra"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\chakra\CLSID]
+@="{16d51579-a30b-4c8b-a276-0ff4dc41e755}"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\chakra\OLEScript]
+
+;use with cscript.exe  <file>  //E:chakra
