@@ -33,7 +33,7 @@ function markLinks()
 -- search for textlinks and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
 --
 	local marker=10
-	editor.IndicStyle[marker] = INDIC_DIAGONAL -- INDIC_COMPOSITIONTHIN
+	editor.IndicStyle[marker] = INDIC_COMPOSITIONTHIN
 	editor.IndicFore[marker]  = 0xDE0202
 	
 	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
@@ -57,7 +57,7 @@ function OnOpen(path)
 end
 
 function OnSwitchFile(path)
-	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) 	-- Neals funny bufferSwitch Cursor colors :)    
+	scite.SendEditor(SCI_SETCARETFORE, 0x615DA3) 	-- Neals funny bufferSwitch Cursor colors :)    
 	markLinks()
 end
 

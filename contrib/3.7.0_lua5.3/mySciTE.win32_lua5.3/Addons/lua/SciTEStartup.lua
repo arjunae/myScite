@@ -73,7 +73,7 @@ function OnOpen(path)
 end
 
 function OnSwitchFile(path)
-	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) 	-- Neals funny bufferSwitch Cursor colors :)    
+	scite.SendEditor(SCI_SETCARETFORE, 0x615DA3) 	-- Neals funny bufferSwitch Cursor colors :)    
 	markLinks()
 end
 

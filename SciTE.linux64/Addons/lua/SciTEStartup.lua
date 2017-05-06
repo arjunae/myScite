@@ -1,28 +1,50 @@
 -- Windows requires this for us to immediately see all lua output.
 io.stdout:setvbuf("no")
+--print("startupScript_reload")
 
 defaultHome = props["SciteDefaultHome"]
-package.path =  package.path ..";"..defaultHome.."/Addons/?.lua;".. ";"..defaultHome.."/Addons/lua/lua/?.lua;"
-package.cpath = package.cpath .. ";"..defaultHome.."/Addons/lua/c/?.so;"
+package.path =  package.path ..";"..defaultHome.."\\Addons\\?.lua;".. ";"..defaultHome.."\\Addons\\lua\\lua\\?.lua;"
+package.path=package.path..";C:\\Program Files (x86)\\Lua\\5.1\\lua\\?.lua"
+package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-extman\\?.lua;"
+package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.so;"
 
----- SciTEStartup.lua gets called by extman, to ensure its available here.
+--~ If available, use spawner-ex to help reduce flickering within scite_popen
+local pathSpawner= props["spawner.extension.path"]
+if not pathSpawner~="" then
+ fnInit,err= package.loadlib(pathSpawner.."/spawner-ex.so",'luaopen_spawner')
+ if not err then fnInit() end
+end
+
+--lua >=5.2.x renamed functions: 
+local unpack = table.unpack or unpack
+math.mod = math.fmod or math.mod
+string.gfind = string.gmatch or string.gfind
+--lua >=5.2.x replaced table.getn(x) with #x
+
+-- Load extman.lua (also "eventmanager.lua")
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-extman\\extman.lua')
+
 -- Load mod-mitchell 
-package.path = package.path .. ";"..defaultHome.."/Addons/lua/mod-mitchell/?.lua;"
-dofile(props["SciteDefaultHome"]..'/Addons/lua/mod-mitchell/scite.lua')
+package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+
+-- Load mod-macros
+package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-macros\\?.lua;"
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-macros\\macros.lua')
 
 -- Load Orthospell 
-package.path = package.path .. ";"..defaultHome.."/Addons/lua/mod-hunspell/?.lua;"
-dofile(props["SciteDefaultHome"]..'/Addons/lua/mod-orthospell/orthospell.lua')
+package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 
 -- ##################  Lua Samples #####################
 -- ###############################################
 
 function markLinks()
 --
--- search for textlinks and highlight them http://bla.de/bla
+-- search for textlinks and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
 --
 	local marker=10
-	editor.IndicStyle[marker] = INDIC_DIAGONAL --INDIC_COMPOSITIONTHIN
+	editor.IndicStyle[marker] = INDIC_COMPOSITIONTHIN
 	editor.IndicFore[marker]  = 0xDE0202
 	
 	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
@@ -37,12 +59,16 @@ function markLinks()
 	end
 end
 
-function OnOpen(p)
+function OnDoubleClick()
+-- print("DoubleClick")
+end
+
+function OnOpen(path)
 	 markLinks()
 end
 
-function OnSwitchFile(p)
-	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) 	-- Neals funny bufferSwitch Cursor colors :)
+function OnSwitchFile(path)
+	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) 	-- Neals funny bufferSwitch Cursor colors :)    
 	markLinks()
 end
 

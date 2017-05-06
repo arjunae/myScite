@@ -9,7 +9,7 @@
  buffer - a table associated with the current buffer or document.
  scite - a namespace for functions which control SciTE.
  trace(str) - writes s to the output pane (no prefix, no newlines).
- dostring(str) - executes as as a Lua string, like early Lua's dostring.
+ dostring(str) - executes as a Lua string, like early Lua's dostring.
 
  :-> included lua.scite.api to show some nice calltips.
 
@@ -28,11 +28,16 @@
     assert(type(fnInit) == "function",err)
     fnInit()
  
- @ If a binary module has unfilled dependecies ( on eg libpthreads) Lua just notes "module not found".
-     Using Dependency Walker / and exclude  (gccs) lib path, will reveal details.
+ @ If a binary module has unfilled dependecies (on eg libpthreads) Lua just notes "module not found".
+     Using Dependency Walker / exclude (gccs) lib path, will reveal details.
  
  @ http://lua-users.org/wiki/SciteLuaDll is slightly dated, but still correct.
  
+-- Writing Modules in different Languages
+ Addons can be written in  any Language able to send WM_COPYDATA Messages to Scites "Director" HWND. 
+ Eg a SciteLua function called "foo" without arguments, can be called by sending a WM_COPYDATA message like "extender:foo".
+ see http://stevedonovan.github.io/winapi/api.html
+
 -- Further Information
  ... can be obtained from within the source Tree - scintilla/include/scintilla.iface
  ... or online at http://www.scintilla.org/SciTEExtension.html | www.scintilla.org/PaneAPI.html |

@@ -36,10 +36,6 @@ dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-macros\\macros.lua')
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 
--- Load Sidebar (which uses "eventmanager.lua")
-package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
-
 -- ##################  Lua Samples #####################
 -- ###############################################
 
@@ -48,7 +44,7 @@ function markLinks()
 -- search for textlinks and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
 --
 	local marker=10
-	editor.IndicStyle[marker] = INDIC_DIAGONAL -- INDIC_COMPOSITIONTHIN
+	editor.IndicStyle[marker] = INDIC_COMPOSITIONTHIN
 	editor.IndicFore[marker]  = 0xDE0202
 	
 	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
