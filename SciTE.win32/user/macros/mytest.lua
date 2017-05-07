@@ -22,12 +22,17 @@ end
 
 -- ######### LuaCom ########
 require "luacom"
+luacom.config.abort_on_error = true 
+luacom.config.abort_on_API_error = true 
+
+tImplement={}
 oWeb={} -- OLE object
 _oWeb = {} -- its events
-
+	
 function test_luaCom()
 --testcases for lib luacom	
-	print("start Browser")
+	sID=luacom.CLSIDfromProgID("InternetExplorer.Application")
+	print("start Browser with CLSID "..sID)
 	oWeb = luacom.CreateObject("InternetExplorer.Application") 
 	assert(oWeb) 
 	oWeb:Navigate("http://www.freedos.org")
@@ -40,27 +45,32 @@ function test_luaCom()
 	event_handler = luacom.ImplInterface(_oWeb, "InternetExplorer.Application", "DWebBrowserEvents2") 
 	if event_handler == nil then  print("Error implementing Events") end 
 	cookie = luacom.addConnection(oWeb, event_handler)
+
 end
 
 function _oWeb:NavigateComplete2(a,url) 
 --	print("event NavigateComplete recieved! Url:"..url) 
 end
 
-function _oWeb:DocumentComplete(a,url) 
+function _oWeb:DocumentComplete(oWin,url) 
 -- fires for every frame, so only react on root location complete
 	  if oWeb.locationURL  == url then
 			print("event DocumentComplete recieved! ")
 			print("Url: "..url.." Root: "..oWeb.locationURL)
-		   siteParser(oWeb.Document)
+		   siteParser(oWin)
 			print("Fin")
 		end
 end
 
-function siteParser(oDoc)
-	--Implement with ihtmlDocument
+function siteParser(oWin)
+	-- ihtmlWindow contains our ihtmlDocument	
+	oDoc=oWin.Document
 	content=oDoc.head.innerhtml
---	gui.message(content)
-	print(content)
+	-- using get / set prefix to access properties 
+	title=oDoc:gettitle()
+	--gui.message(title)
+	oDoc:settitle("myTitle")
+		print(content)
 	oDoc=nil
 end
 
