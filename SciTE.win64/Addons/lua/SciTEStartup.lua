@@ -49,7 +49,7 @@ function markLinks()
 	
 	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
 	body="[a-zA-Z0-9]?." 	-- followed by a word  (eg www or the domain)
-	suffix="[^ \r\n\"\'<]+" 	-- ends with space, newline < " or '
+	suffix="[^ \r\n\t\"\'<]+" 	-- ends with space, newline,tab < " or '
 	mask=prefix..body..suffix 
 	EditorClearMarks(marker) -- common.lua
 	local s,e = editor:findtext( mask, SCFIND_REGEXP, 0)
