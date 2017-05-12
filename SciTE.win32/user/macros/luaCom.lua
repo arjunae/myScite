@@ -12,7 +12,7 @@ oWeb = {} -- OLE object
 _oWeb = {} -- it's events
 	
 function test_luaCom()
--- ##  Print all links from a given URL  
+-- ##  Print all links from a given URL  (Noo, we're not doin any Web-Scraping at home here :)
 
 	sID=luacom.CLSIDfromProgID("InternetExplorer.Application")
 	print("start Browser with CLSID "..sID)
@@ -45,7 +45,7 @@ function _oWeb:DocumentComplete(oWin,url)
 end
 
 function siteParser(oWin)
-	-- gets our IHTMLDocument. We can use all listed extensions from 1-8:
+	-- Retrieves our IHTMLDocument. We can use all listed extensions from 1 - 8: (Mai2016)
 	-- https://msdn.microsoft.com/en-us/library/ff975572(v=vs.85).aspx
 	oDoc=oWin.Document
 	
