@@ -2,7 +2,7 @@
 io.stdout:setvbuf("no")
 --print("startupScript_reload")
 
-defaultHome = props["SciteDefaultHome"]
+defaultHome = props["SciteUserHome"]
 package.path =  package.path ..";"..defaultHome.."\\Addons\\?.lua;".. ";"..defaultHome.."\\Addons\\lua\\lua\\?.lua;"
 package.path=package.path..";C:\\Program Files (x86)\\Lua\\5.1\\lua\\?.lua"
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-extman\\?.lua;"
@@ -22,19 +22,23 @@ string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 
 -- Load extman.lua (also "eventmanager.lua")
-dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-extman\\extman.lua')
+dofile(props["SciteUserHome"]..'\\Addons\\lua\\mod-extman\\extman.lua')
 
 -- Load mod-mitchell 
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
-dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+dofile(props["SciteUserHome"]..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 
 -- Load mod-macros
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-macros\\?.lua;"
-dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-macros\\macros.lua')
+dofile(props["SciteUserHome"]..'\\Addons\\lua\\mod-macros\\macros.lua')
 
 -- Load Orthospell 
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
-dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
+dofile(props["SciteUserHome"]..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
+
+-- Load sIDEBAR
+package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
+dofile(props["SciteUserHome"]..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
 -- ##################  Lua Samples #####################
 -- ###############################################
