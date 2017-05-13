@@ -14,7 +14,7 @@ end
 
 -- for global scripts; switch to "SciteUserHome" for per-user scripts
 local function loadscript(scriptfile)  
-  dofile(props["SciteDefaultHome"].."\\user\\macros\\"..scriptfile)
+  dofile(props["SciteUserHome"].."\\user\\macros\\"..scriptfile)
 end
 
 -- run selected scripts, silently fails if no extman

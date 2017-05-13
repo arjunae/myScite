@@ -460,7 +460,7 @@ FilePath SciTEWin::GetDefaultDirectory() {
 /**
  *		SciteDefaultDirectory -> Windows
  *		1. We look for and follow %SciTE_HOME% 
- *		2. We use exectables Path (if we find SciteGlobal.properties)
+ *		2. Or we use exectables Path.
  */
 
 	FilePath envHome =_wgetenv(GUI_TEXT("SciTE_HOME"));
@@ -474,12 +474,7 @@ FilePath SciTEWin::GetDefaultDirectory() {
 			GUI::gui_char *lastSlash = wcsrchr(path, pathSepChar);
 			if (lastSlash) *lastSlash = '\0';
 				envHome = path;
-			/* Opt in to only use that Path if we find an existing SciTEGlobal.properties
-			FilePath wfilePath = wPath.append(L"\\SciTEGlobal.properties");
-			if (wfilePath.Exists())
-				return FilePath(path);
-			*/	
-	}
+			}
 
 	return envHome;
 }
