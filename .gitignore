@@ -1,3 +1,18 @@
-#- ignore objects and archives, anywhere in the tree.
-    *.[oa]
-    *.session
+#
+# myScites .gitignore.  
+# Hint: examine ignored files with	git status --ignored
+# Hint: When changeiing entries, remember using git rm -r *.* --cached
+#
+
+#- ignore temporary objects and archives, anywhere in the tree.
+*.o
+*.obj
+*.pyd
+*.a
+*.lib
+
+#-  ignore temporary binaries within scintilla and scites bin dir. 
+**bin
+
+#- ignore local scite session files 
+*.session
