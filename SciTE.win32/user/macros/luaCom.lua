@@ -1,3 +1,6 @@
+-- go@ dofile $(FilePath) 
+-- ^^tell Scite to use its internal Lua interpreter.
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 require "luacom"
 
 -- ######### LuaCom ########

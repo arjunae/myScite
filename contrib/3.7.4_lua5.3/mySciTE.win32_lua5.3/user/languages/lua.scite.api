@@ -437,6 +437,15 @@ win:show()
 win:hide()
 win:context_menu {'item1|func1', 'item2|func2'}
 win:bounds()\n return visible, x, y, width, height
+win:count
+win:remove
+win:add_buttons
+win:on_select
+win:on_double_click
+win:on_close
+win:on_show
+win:on_focus
+win:on_key
 
 #~ pan=gui%.panel%s*%b()
 pan:add(list1, "top", height)\n "top" or "bottom"
@@ -473,3 +482,6 @@ mem:size(width, height)\n Note: Changes either height or width (one of parameter
 mem:set_text('{\\rtf{\\fonttbl{\\f0\\fcharset0 Helv;}}\\f0\\fs16'..'sample text'..'}')
 mem:set_memo_colour("#FFFFFF", "#000000")\n foreground, background
 mem:bounds()
+
+toolbar
+tree
