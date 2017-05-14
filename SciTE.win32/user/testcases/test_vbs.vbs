@@ -2,21 +2,28 @@
 ' Demonstrate vbScript with Events utilizing either cscript /D or /X switch...
 '  ... Press F7 to Test...
 
-Dim oIE, bonQuit,bConsole,oTTS
+Dim oIE, bonQuit, bConsole, oTTS
 
+set oTTS = WScript.CreateObject("SAPI.SpVoice") 'https://msdn.microsoft.com/en-us/library/ms723602(v=vs.85).aspx
+'set oLex =WScript.CreateObject("SAPI.SpLexicon") 'https://msdn.microsoft.com/de-de/library/ms717899(v=vs.85).aspx
 
-''https://msdn.microsoft.com/en-us/library/ms723602(v=vs.85).aspx
-set oTTS = WScript.CreateObject("SAPI.SpVoice")
-for each voice in oTTS.GetVoices
-	if isobject (voice) then 
-		wscript.echo voice.GetDescription
-		wscript.echo voice.id
-	end if 
+'wscript.echo "Volume: " & oTTS.Volume
+'wscript.echo oTTS.GetVoices.count 
+'wscript.echo  oTTS.GetVoices.Item(0).GetDescription
+'wscript.echo  oTTS.GetVoices.Item(1).GetDescription
+    
+for cnt = 0 to oTTS.GetVoices.count
+	if isobject (otts.GetVoices.Item(cnt)) then 
+    set voice=otts.GetVoices.Item(cnt)
+		wscript.echo (voice.GetDescription) & " -> OK"
+    '  wscript.echo (voice.ID)    
+    set oTTS.voice = voice
+    oTTS.speak "OK"
+  end if 
 next
 
 if instr(1,wscript.fullName,"cscript") then bConsole=true
 wscript.Quit(main)
-
 
 function main
 '---- Create object and connect the event handler in one step.
@@ -44,7 +51,7 @@ end function
 Sub IE_onQuit()
    wscript.echo("stdOut -> IE_onQuit Recieved")
    bonQuit=true
-  oTTS.speak "OK"
+    oTTS.speak "OK"
 End Sub
 
 ' Derived from original Sample

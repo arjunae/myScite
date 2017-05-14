@@ -43,7 +43,7 @@ function _oWeb:DocumentComplete(oWin,url)
 	  if oWeb.locationURL  == url then
 			print("event DocumentComplete recieved! ")
 			print("Url: "..url.." Root: "..oWeb.locationURL)
-		   siteParser(oWin)
+		   --siteParser(oWin)
 		end
 end
 
@@ -82,3 +82,5 @@ end
 
 -- ######### run Test ###############
 test_luaCom()
+--	sID=luacom.CLSIDfromProgID("SAPI.SpVoice")
+--	print("CLSID "..sID)
