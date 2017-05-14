@@ -198,7 +198,6 @@ function GetCurrentWord()
               editor:WordEndPosition(current_pos, true))
 end
 
-
 local function ReplaceWithoutCase(text, s_find, s_rep)
 	s_find = string.gsub(s_find, '.', function(ch)
 		local c,C = ch:lower(), ch:upper()
@@ -1699,7 +1698,7 @@ AddEventHandler("OnDwellStart", function(pos, cur_word)
 			SetHexColour(cur_word)
 		else
 			SetRGBColour(cur_text)
-		endds
+		end
 	end
 end)
 props["dwell.period"] = 50

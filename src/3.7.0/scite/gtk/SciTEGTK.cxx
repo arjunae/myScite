@@ -2,7 +2,6 @@
 // SciTEGTK.cxx - main code for the GTK+ version of the editor
 // Copyright 1998-2004 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
-/// 11.11.2016: add env.scite_home & env.home (T. Kani, Marcedo{at}habMalneFrage.de) 
 
 #include <unistd.h>
 #include <limits.h>
@@ -794,6 +793,7 @@ SciTEGTK::SciTEGTK(Extension *ext) : SciTEBase(ext) {
 	propsPlatform.Set("PLAT_GTK", "1");
 	propsPlatform.Set("PLAT_UNIX", "1");
 	// Make UNIX %HOME% available to scite config.
+	
 	FilePath envHome =getenv("HOME");
 	if (envHome.IsDirectory())
 		propsPlatform.Set("env.home", envHome.AsUTF8().c_str());
@@ -900,48 +900,22 @@ GtkWidget *SciTEGTK::AddMBButton(GtkWidget *dialog, const char *label,
 }
 
 FilePath SciTEGTK::GetSciteDefaultHome() {
-	
+	FilePath homePath;
+
 #ifdef SYSCONF_PATH // default guaranteed to exist by OS
  	const std::string cdefault = SYSCONF_PATH; 
 #else	
 		const std::string cdefault = getenv("HOME");
 #endif
 
-	std::string home;
-	FilePath homePath;
-
-	// 1 set & use scite_home from env.scite_home
-	std::string home=props.GetNewExpandString("env.scite_home");
-	home=FilePath(home).NormalizePath().AsUTF8().c_str();	
-	if (home.find("/") != std::string::npos) {
-		putenv( (char *) ("SciTE_HOME="+home).c_str() );	
-		return FilePath(home);
-	}
-	
 	// 1 use SciTE_HOME
-	std::string envhome;
 	homePath=getenv("SciTE_HOME");
 	if (homePath.Exists())
 		return homePath;
-		
-	// 2 Search config in ~/scite
-	envhome = getenv("HOME");
-	homePath=envhome + "/scite/SciTEGlobal.properties";
-	if (homePath.Exists()) 
-		return FilePath(envhome+"/scite");
 	
-	// 3 Search config in executables binPath
-	char buf[PATH_MAX + 1];	
-	if (readlink("/proc/self/exe", buf, sizeof(buf) - 1) >0) {	
-		envhome = buf; 
-		envhome = envhome.substr(0, envhome.rfind('/'));
-	} else {
-		// Dont force proc to be available.	
-		envhome = sciteExecutable.AsInternal();
-	}
-		homePath = envhome +"/SciTEGlobal.properties";
-		if (homePath.Exists())
-			return FilePath(envhome);	
+	homePath=	SciTEGTK::GetDefaultDirectory();
+	if (homePath.Exists())
+		return homePath;
 	
 	return FilePath(cdefault);
 }
@@ -951,18 +925,36 @@ FilePath SciTEGTK::GetSciteUserHome() {
 * to set SciteUserHome. If not present we use GetSciteDefaultHome
 */
 
+	// 1 set & use scite_home from env.scite_home
+	std::string home=props.GetNewExpandString("env.scite_userhome");
+	home=FilePath(home).NormalizePath().AsUTF8().c_str();	
+	if (home.find("/") != std::string::npos) {
+		putenv( (char *) ("SciTE_USERHOME="+home).c_str() );	
+		return FilePath(home);
+	}
+	
 	//  try $scite_userhome
 	FilePath homePath=getenv("SciTE_USERHOME");
-	std::string home=homePath.AsUTF8().c_str();
-	if (homePath.Exists())
-		return homePath;
+		if (homePath.Exists())
+			return homePath;
 
 	// use fallback, guranteed to exist by OS.	 		 
 	return SciTEGTK::GetSciteDefaultHome();
 	}
 
 FilePath SciTEGTK::GetDefaultDirectory() {
-	return SciTEGTK::GetSciteDefaultHome();
+	// We are using executables binPath
+	std::string envHome;
+	char buf[PATH_MAX + 1];	
+	
+	if (readlink("/proc/self/exe", buf, sizeof(buf) - 1) >0) {	
+		envHome = buf; 
+		envHome = envHome.substr(0, envHome.rfind('/'));
+	} else {
+		// Dont force proc to be available.	
+		envHome = sciteExecutable.AsInternal();
+	}
+	return  FilePath(envHome);
 }
 
 void SciTEGTK::ShowFileInStatus() {
