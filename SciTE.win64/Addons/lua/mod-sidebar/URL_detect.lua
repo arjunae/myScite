@@ -200,5 +200,5 @@ function IsURI(s)
 	return n and n-1 -- the `-1` is indeed needed
 end
 
---dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
+dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
 dofile(props["SciteDefaultHome"]..'\\Addons\\lua\\mod-sidebar\\ctagsd.lua')

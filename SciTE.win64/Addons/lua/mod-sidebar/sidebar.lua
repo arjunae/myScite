@@ -1699,7 +1699,7 @@ AddEventHandler("OnDwellStart", function(pos, cur_word)
 			SetHexColour(cur_word)
 		else
 			SetRGBColour(cur_text)
-		end
+		endds
 	end
 end)
 props["dwell.period"] = 50
@@ -1707,6 +1707,8 @@ props["dwell.period"] = 50
 local cur_word_old = ""
 AddEventHandler("OnKey", function()
 	if editor.Focus then
+	a,b,c=win_parent:bounds()
+	print(a,b,c)
 		local cur_word = GetCurrentWord() -- слово, на котором стояла каретка ДО ТОГО КАК ЕЁ ПЕРЕМЕСТИЛИ
 		if cur_word ~= cur_word_old then
 			SetHexColour(cur_word)

@@ -36,6 +36,10 @@ dofile(props["SciteUserHome"]..'\\Addons\\lua\\mod-macros\\macros.lua')
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
 dofile(props["SciteUserHome"]..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 
+-- Load Sidebar
+package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
+dofile(props["SciteUserHome"]..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
+
 -- ##################  Lua Samples #####################
 -- ###############################################
 

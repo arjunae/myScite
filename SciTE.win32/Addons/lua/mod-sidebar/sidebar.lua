@@ -1711,6 +1711,7 @@ props["dwell.period"] = 50
 local cur_word_old = ""
 AddEventHandler("OnKey", function()
 	if editor.Focus then
+--	print(win_parent:bounds()) --Arjunae debug
 		local cur_word = GetCurrentWord() -- слово, на котором стояла каретка ДО ТОГО КАК ЕЁ ПЕРЕМЕСТИЛИ
 		if cur_word ~= cur_word_old then
 			SetHexColour(cur_word)
