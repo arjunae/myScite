@@ -9,7 +9,7 @@ import java.io.IOException;
 public class test_java {
 	public static void main(String[] args) {
 		try {
-			File file = new File("myfile.txt");
+			File file = new File("myfile.tmp");
 			if (file.createNewFile())
 				System.out.println("Success!");
 			else

@@ -5,15 +5,15 @@
 Dim bonQuit, bConsole, oTTS
 
 set oTTS = WScript.CreateObject("SAPI.SpVoice") 'https://msdn.microsoft.com/en-us/library/ms723602(v=vs.85).aspx
-sText = "In Europa scheint die Sonne sterker in den vergangenen Jahren.. Messungen der Sonnenstrahlung offenbaren eine rote Zone, die bis nach Deutschland reicht. Was geht vor? "
-idVoice = 0
-sText = "As of March 2017, Wikipedia has about forty thousand high-quality articles known as Featured Articles and Good Articles that cover vital topics."
-idVoice = 1
+sText = "Messungen der Sonnenstrahlung offenbaren eine rote Zone, die bis nach Deutschland reicht. Was geht vor? "
+sLang = "German"
+'sText = "As of March 2017, Wikipedia has about forty thousand high-quality articles known as Featured Articles and Good Articles that cover vital topics."
+'sLang = "English"
 
 ' =================== '
 function main()
   if instr(1,wscript.fullName,"cscript") then bConsole=true
-  ret = test_TextToSpeech(sText, idVoice)
+  ret = test_TextToSpeech(sText, sLang)
   ret = test_comIE()
 end function
 '==================='
@@ -54,20 +54,22 @@ End Sub
 
 '======================================'
 
-function test_TextToSpeech(sText, idVoice)
+function test_TextToSpeech(sText, sLang)
+' 
+' sText -> Text to speak
+' sLang -> Language to search for  
 
 'set oLex =WScript.CreateObject("SAPI.SpLexicon") 'https://msdn.microsoft.com/de-de/library/ms717899(v=vs.85).aspx
 
-set oTTS.Voice = oTTS.GetVoices.Item(idVoice) '0 means default Voice'
-oTTS.speak(sText)
-    
 for cnt = 0 to oTTS.GetVoices.count-1
   if isobject (otts.GetVoices.Item(cnt)) then 
     set voice=otts.GetVoices.Item(cnt)
-    wscript.echo (voice.GetDescription) & " -> ID: " & cnt & " -> OK"
-    '  wscript.echo (voice.ID)    
-    set oTTS.voice = voice
-    oTTS.speak "OK"
+    'wscript.echo (voice.GetDescription) & " -> ID: " & cnt & vbCr & voice.ID
+    'wscript.echo sLang, voice.GetDescription
+      if InStr( lCase(voice.GetDescription), LCase(sLang) ) >0 then 
+        set oTTS.voice = voice
+        oTTS.speak(sText)
+      end if
   end if 
 next
 

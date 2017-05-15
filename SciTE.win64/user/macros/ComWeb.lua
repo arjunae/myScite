@@ -1,11 +1,10 @@
--- go@ dofile $(FilePath) 
--- ^^tell Scite to use its internal Lua interpreter.
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-require "luacom"
 
 -- ######### LuaCom ########
 -- ## WIN Common Object Model Support for lua 
 -- ####################### 
+
+require "luacom"
 
 sUrl = "http://www.yahoo.com"
 luacom.config.abort_on_error = true 
@@ -61,7 +60,7 @@ function siteParser(oWin)
 	linksEnum=luacom.GetEnumerator(eTmp)
 	link=linksEnum:Next()
 	while link do
-		print("found webblink: "..link.href)
+		print("found webblink: "..link.href) -- toDo parse nicely into myScite calltips :) 
 		link=linksEnum:Next()
 	end
 	

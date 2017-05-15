@@ -1,4 +1,4 @@
--- go@ dofile $(FilePath) 
+-- go@ dofile *
 -- ^^tell Scite to use its internal Lua interpreter.
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 print("Hello from scitelua!")
