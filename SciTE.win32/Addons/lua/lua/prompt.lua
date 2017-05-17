@@ -108,6 +108,7 @@ end
 function start_lua_prompt()
 	if lua_p ~= nil then return end
 	local cmd = props['lua.prompt']
+   print(props['lua.prompt'])
 	lua_interactive = cmd:find('-i',1,true)
 	scite.MenuCommand(IDM_WRAPOUTPUT)
 	lua_p = spawner.new(cmd)
