@@ -12,6 +12,7 @@ REM - Reference: https://msdn.microsoft.com/en-us/library/windows/desktop/ee8721
 REM - Aug16 - Search for %cmd% in actual and up to 2 parent Directories / Use full qualified path. 
 REM - Okto16 - create / reset Program Entry RegistryKey  
 REM - Nov16 - reactos fix
+REM - Mai17 - open Scite Here
 REM 
 REM ::--::--::--::--Steampunk--::-::--::--::
 
@@ -42,11 +43,9 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo   -------------------------------------------
  echo.
  echo   Work Done - I hope you had a nice time !
- echo   Please press your favorite key to be Done. 
  echo.  :) Greetings to you from Deutschland, Darmstadt :) 
  echo.
 
- echo Now, please press your favorite key to be Done. HanD! 
  goto :freude
  
 :sub_continue
@@ -109,7 +108,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >> %RegFile%
- echo @="%scite_bin%" >> %RegFile%
+ echo @="%scite_bin% %%1" >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >> %RegFile%
  echo ".*"="">> %RegFile%
 
@@ -130,4 +129,5 @@ exit
 :freude
 :: wait some time...
 ::ping 1.0.3.0 /n 1 /w 3000 >NUL
+echo Now, please press your favorite key to be Done. HanD! 
 pause >NUL
