@@ -63,10 +63,6 @@ function markLinks()
 	end
 end
 
-function OnDoubleClick()
--- print("DoubleClick")
-end
-
 function OnOpen(path)
 	 markLinks()
 end

@@ -12,6 +12,7 @@
 *.lib
 *.class
 *.tmp
+clidebug.cmd
 
 #-  ignore temporary binaries within scintilla and scites bin dir. 
 **bin

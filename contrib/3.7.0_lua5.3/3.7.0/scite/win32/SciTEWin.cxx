@@ -425,67 +425,58 @@ void SciTEWin::ReadProperties() {
 
 FilePath SciTEWin::GetSciteDefaultHome() {
 /**
- *       SciteDefaultHome -> Windows
- *       1 look for and follow %SciTE_HOME% | $(env.scite_home)
- *       2 else use exectables Path (if we find SciteGlobal.properties)
- *       3 else use %USERPROFILE%\scite\ (if we find SciteGlobal.properties there)
+ *		SciteDefaultHome -> Windows
+ *		- we return GetDefaultDirectory		
  */
 
- // yo.... FilePath takes and returns gui_string (which converts to a basic_wstring / wchar_t)
- // Set environment %SciTE_HOME% fromm $(env.scite_home).
- 
-	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_home")));
-	std::wstring wenv = GUI::StringFromUTF8(FilePath(L"SciTE_HOME=" + wenvPathSciteHome).NormalizePath().AsUTF8());
+	return(SciTEWin::GetDefaultDirectory());
+}
+
+FilePath SciTEWin::GetSciteUserHome() {
+/**
+ *		SciteUserHome -> Windows
+ *		1. We look for and follow $(env.scite_userhome) or %SciTE_USERHOME% 
+ *		2. Else, we use GetSciteDefaultHome 
+ */
+
+	// First, check if  SciTE_UserHome has been set via property.
+	std::wstring wenvPathSciteHome = (GUI::StringFromUTF8(props.GetNewExpandString("env.scite_userhome")));
+	std::wstring wenv = GUI::StringFromUTF8(FilePath(L"SciTE_USERHOME=" + wenvPathSciteHome).NormalizePath().AsUTF8());
 	if (!wenvPathSciteHome.empty()) {
 			_wputenv((wchar_t *)wenv.c_str()); 
 			return(FilePath((wchar_t *)wenvPathSciteHome.c_str()));
 	}
-
-	//  ..try SciTE_HOME
-	FilePath envHome =_wgetenv(GUI_TEXT("SciTE_HOME"));
-	if (envHome.IsDirectory()) 
-		return envHome;
-		
-	std::wstring home;
-		
-	//  ..try executables binpath (when we find sciteglobal.properties there.)
-	if (home.empty()) {
-		std::wstring wPath;
-		GUI::gui_char path[MAX_PATH];
-		if (::GetModuleFileNameW(0, path, ELEMENTS(path)) != 0) {
-			//  just get  the Path
-		GUI::gui_char *lastSlash = wcsrchr(path, pathSepChar);
-			if (lastSlash) *lastSlash = '\0';
-				wPath = path;
-			FilePath wfilePath = wPath.append(L"\\SciTEGlobal.properties");
-			if (wfilePath.Exists())
-		return FilePath(path);
-	}
-}
 	
-	// if above are empty... define folder %userprofile%\scite as a fallback.
-	if (home.empty()) {
-		std::wstring wPath = _wgetenv(GUI_TEXT("USERPROFILE"));
-		FilePath wfilePath = FilePath(wPath + L"\\scite" ).NormalizePath();
-		if (wfilePath.IsDirectory())
-			home = wPath;
-}
-
-	return(home);
-}
-
-FilePath SciTEWin::GetSciteUserHome() {
-	// First looking for environment variable $SciTE_USERHOME to set SciteUserHome. 
+	// No, lets  look for preset environment variable $SciTE_USERHOME. 
 	FilePath fpUserHome = _wgetenv(GUI_TEXT("SciTE_USERHOME"));
 	if (fpUserHome.Exists())
 		return(fpUserHome);
 	
-	// If not present we just returnGetSciteDefaultHome()	
+	// Fallback - just returnGetSciteDefaultHome()	
 	return SciTEWin::GetSciteDefaultHome();			
 }
 
 FilePath SciTEWin::GetDefaultDirectory() {
-	return SciTEWin::GetSciteDefaultHome();
+/**
+ *		SciteDefaultDirectory -> Windows
+ *		1. We look for and follow %SciTE_HOME% 
+ *		2. Or we use exectables Path.
+ */
+
+	FilePath envHome =_wgetenv(GUI_TEXT("SciTE_HOME"));
+	if (envHome.IsDirectory()) 
+		return envHome;
+		
+	//  ..just use executables binpath
+		std::wstring wPath;
+		GUI::gui_char path[MAX_PATH];
+		if (::GetModuleFileNameW(0, path, ELEMENTS(path)) != 0) {
+			GUI::gui_char *lastSlash = wcsrchr(path, pathSepChar);
+			if (lastSlash) *lastSlash = '\0';
+				envHome = path;
+			}
+
+	return envHome;
 }
 
 // Help command lines contain topic!path

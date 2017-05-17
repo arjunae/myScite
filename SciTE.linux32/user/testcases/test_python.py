@@ -1,7 +1,6 @@
 #
 # simple python tracing supported via Debug Menu
 #
-
 # --- http://sebsauvage.net/python/snyppets/#getlinks1
 import HTMLParser, urllib
 

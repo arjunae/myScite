@@ -2,7 +2,7 @@
 io.stdout:setvbuf("no")
 --print("startupScript_reload")
 
-defaultHome = props["SciteUserHome"]
+defaultHome = props["SciteDefaultHome"]
 package.path =  package.path ..";"..defaultHome.."\\Addons\\?.lua;".. ";"..defaultHome.."\\Addons\\lua\\lua\\?.lua;"
 package.path=package.path..";C:\\Program Files (x86)\\Lua\\5.1\\lua\\?.lua"
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-extman\\?.lua;"
@@ -22,23 +22,23 @@ string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 
 -- Load extman.lua (also "eventmanager.lua")
-dofile(props["SciteUserHome"]..'\\Addons\\lua\\mod-extman\\extman.lua')
+dofile(defaultHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 
 -- Load mod-mitchell 
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
-dofile(props["SciteUserHome"]..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+dofile(defaultHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 
 -- Load mod-macros
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-macros\\?.lua;"
-dofile(props["SciteUserHome"]..'\\Addons\\lua\\mod-macros\\macros.lua')
+dofile(defaultHome..'\\Addons\\lua\\mod-macros\\macros.lua')
 
 -- Load Orthospell 
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
-dofile(props["SciteUserHome"]..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
+dofile(defaultHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 
 -- Load Sidebar
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-dofile(props["SciteUserHome"]..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
+dofile(defaultHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
 -- ##################  Lua Samples #####################
 -- ###############################################
@@ -61,10 +61,6 @@ function markLinks()
 		EditorMarkText(s, e-s, marker) -- common.lua
 		s,e =  editor:findtext( mask, SCFIND_REGEXP, s+1)
 	end
-end
-
-function OnDoubleClick()
--- print("DoubleClick")
 end
 
 function OnOpen(path)
