@@ -27,9 +27,9 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  REM ------- this batch can reside in a subdir to support a more clean directory structure
  
  :: ------- Check for and write path of %cmd% in scite_cmd
- IF EXIST %cmd% (  set scite_cmd="%cmd%"  ) 
- IF EXIST ..\%cmd% (  set scite_cmd="..\%cmd%"  ) 
- IF EXIST ..\..\%cmd% ( set scite_cmd="..\..\%cmd%") 
+ IF EXIST %cmd% (  set scite_cmd=%cmd%  ) 
+ IF EXIST ..\%cmd% (  set scite_cmd=..\%cmd%  ) 
+ IF EXIST ..\..\%cmd% ( set scite_cmd=..\..\%cmd%) 
  
  IF NOT EXIST %scite_cmd% (call :sub_fail) else (call :sub_continue ) 
  
@@ -37,8 +37,8 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  move /Y "%regfile%" "%userprofile%\desktop">NUL
  del /Q %tmp%\scite.tmp >NUL
 
+ echo   -------------------------------------------
  echo. .... copied to %userprofile%\desktop
-
  echo   -------------------------------------------
  echo.
  echo   Work Done - I hope you had a nice time !
@@ -76,29 +76,40 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  :: echo %scite_path_ext%
 
  set RegFile=%tmp%\add.scite.to.context.menu.reg
- set scite_cmd="\"%scite_path%\\%cmd%\" \"%%1\" \"-CWD:%scite_path_ext%\""
+ set scite_cmd_cwd=-CWD:%scite_path_ext%
+ set scite_cmd_open=-open new.txt
+ set scite_bin=\"%scite_path%\\%cmd%\"  
  
  echo Windows Registry Editor Version 5.00 > %RegFile%
  REM ---- Finally, write the .reg file, \" escapes double quotes
- echo ; -- Update ShellMenu Entry >> %RegFile%
+ echo ; -- Update ShellMenu Open With Scite >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE\command] >> %RegFile% 
- echo @=%scite_cmd% >> %RegFile%
- 
+ echo @="%scite_bin% \"%%1\"" >> %RegFile%
+ echo ; -- Update ShellMenu Open Scite Here >> %RegFile% 
+ echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite] >> %RegFile%
+ echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite] >> %RegFile%
+ echo @="Open Scite here" >> %RegFile%
+ echo ;"Icon"="C:\\scite.ico\" >> %RegFile%
+ echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite\command] >> %RegFile%
+ echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite\command] >> %RegFile%
+ echo @="%scite_bin% %scite_cmd_open%" >> %RegFile%
+
  ::echo. >>%RegFile%
  
  REM WorkAround Reactos 0.4.2 Bug.
  IF [%FIX_REACTOS%]==[1] ( 
  set scite_cmd="\"%scite_path%\\%cmd%\" %%1"
  )
+ 
  echo ; -- Update Program Entry >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >> %RegFile%
- echo @=%scite_cmd% >> %RegFile%
+ echo @="%scite_bin%" \"%%1\" >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >> %RegFile%
  echo ".*"="">> %RegFile%
 

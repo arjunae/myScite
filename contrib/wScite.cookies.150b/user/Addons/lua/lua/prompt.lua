@@ -2,7 +2,7 @@
 ------------------------------- Lua prompt -----------------------
 scite_require 'switch_buffers.lua'
 
---scite_Command 'Start Interactive Lua|start_lua_prompt'
+scite_Command 'Start Interactive Lua|start_lua_prompt'
 --scite_Command 'Load Lua into Session|load_current_lua_file'
 
 local lua_p
