@@ -1,7 +1,7 @@
 diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
 --- scintilla-scite/win32/SciTEWin.cxx	2016-12-17 18:53:36.000000000 +0100
 +++ scite/win32/SciTEWin.cxx	2016-12-03 13:55:12.000000000 +0100
-@@ -1369,12 +1369,14 @@
+@@ -1356,12 +1356,14 @@
  	        (left != static_cast<int>(CW_USEDEFAULT))) {
  		left += width;
  	}
@@ -18,7 +18,7 @@ diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
  	             WS_MINIMIZEBOX | WS_MAXIMIZEBOX |
  	             WS_CLIPCHILDREN,
  	             left, top, width, height,
-@@ -1387,6 +1389,12 @@
+@@ -1374,6 +1374,12 @@
  
  	if (props.GetInt("save.position"))
  		RestorePosition();

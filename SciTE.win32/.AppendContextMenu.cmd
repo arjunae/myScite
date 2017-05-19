@@ -30,9 +30,9 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  REM ------- this batch can reside in a subdir to support a more clean directory structure
 
  :: ------- Check for and write path of %cmd% in scite_cmd
- IF EXIST %cmd% (  set scite_cmd=%cmd%  ) 
- IF EXIST ..\%cmd% (  set scite_cmd=..\%cmd%  ) 
- IF EXIST ..\..\%cmd% ( set scite_cmd=..\..\%cmd%) 
+ IF EXIST %cmd% (  set scite_cmd="%cmd%"  ) 
+ IF EXIST ..\%cmd% (  set scite_cmd=.".\%cmd%"  ) 
+ IF EXIST ..\..\%cmd% ( set scite_cmd="..\..\%cmd%") 
  IF NOT EXIST %scite_cmd% (call :sub_fail_cmd) else (call :sub_continue ) 
 
  REM  ----- Code Continues here -----
@@ -120,7 +120,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >> %RegFile%
- echo @="%scite_bin% %%1" >> %RegFile%
+ echo @="%scite_bin% \"%%1\"" >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >> %RegFile%
  echo ".*"="">> %RegFile%
 

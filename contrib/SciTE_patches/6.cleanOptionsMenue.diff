@@ -86,9 +86,9 @@ diff -Nurw scintilla-scite/src/SciTEProps.cxx scite/src/SciTEProps.cxx
 +				std::string sEntry= GUI::UTF8FromString(entry);
 +				//  Depends on Foldernames to display properties sorted.
 +				if (sEntry.find("theme") != std::string::npos or sEntry.find("ddons") != std::string::npos)
-+						SetMenuItemNew(menuOptions, 2, IMPORT_START+stackPos, itemID, entry.c_str());
++						SetMenuItemNew(menuOptions, 3, IMPORT_START+stackPos, itemID, entry.c_str());
 +				if (sEntry.find("lang") != std::string::npos)
-+						SetMenuItemNew(menuOptions, 3, stackPos, itemID, entry.c_str()); 
++						SetMenuItemNew(menuOptions, 4, stackPos, itemID, entry.c_str()); 
  			}
  		}
  	}

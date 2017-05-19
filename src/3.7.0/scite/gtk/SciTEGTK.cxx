@@ -792,8 +792,8 @@ SciTEGTK::SciTEGTK(Extension *ext) : SciTEBase(ext) {
 	PropSetFile::SetCaseSensitiveFilenames(true);
 	propsPlatform.Set("PLAT_GTK", "1");
 	propsPlatform.Set("PLAT_UNIX", "1");
-	// Make UNIX %HOME% available to scite config.
 	
+	// Make UNIX %HOME% available to scite config.	
 	FilePath envHome =getenv("HOME");
 	if (envHome.IsDirectory())
 		propsPlatform.Set("env.home", envHome.AsUTF8().c_str());

@@ -1,7 +1,7 @@
 diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
 --- scintilla-scite/gtk/SciTEGTK.cxx	2016-12-22 20:53:48.000000000 +0100
 +++ scite/gtk/SciTEGTK.cxx	2016-12-22 17:35:02.000000000 +0100
-@@ -491,6 +491,7 @@
+@@ -486,6 +486,7 @@
  	GUI::Window wToolBarBox;
  	int toolbarDetachable;
  	int menuSource;
@@ -562,7 +562,7 @@ diff -Nurw scintilla-scite/win32/SciTERes.rc scite/win32/SciTERes.rc
 diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
 --- scintilla-scite/win32/SciTEWin.cxx	2016-12-22 20:53:54.000000000 +0100
 +++ scite/win32/SciTEWin.cxx	2016-12-22 17:35:02.000000000 +0100
-@@ -204,7 +204,8 @@
+@@ -205,7 +205,8 @@
  	uniqueInstance.Init(this);
  
  	hAccTable = ::LoadAccelerators(hInstance, TEXT("ACCELS")); // md
@@ -642,7 +642,7 @@ diff -Nurw scintilla-scite/win32/SciTEWinBar.cxx scite/win32/SciTEWinBar.cxx
  			}
  			break;
  		}
-@@ -451,6 +462,174 @@
+@@ -451,4 +462,172 @@
  
  // Keymod param is interpreted using the same notation (and much the same
  // code) as KeyMatch uses in SciTEWin.cxx.
