@@ -24,14 +24,14 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  REM WorkAround Reactos 0.4.2 Variable Expansion Bug.
  ::set FIX_REACTOS=1
 
- set cmd=SciTE.exe
- set scite_cmd=default
+ set file_name=SciTE.exe
+ set scite_cmd=empty
 
  REM -- this batch can reside in a subdir to support a more clean directory structure
  :: -- Check for and write path of %cmd% in scite_cmd
- IF EXIST %cmd% (  set scite_cmd="%cmd%"  ) 
- IF EXIST ..\%cmd% (  set scite_cmd=.".\%cmd%"  ) 
- IF EXIST ..\..\%cmd% ( set scite_cmd="..\..\%cmd%") 
+ IF EXIST %file_name% (  set scite_cmd="%file_name%"  ) 
+ IF EXIST ..\%file_name% (  set scite_cmd=.".\%file_name%"  ) 
+ IF EXIST ..\..\%file_name% ( set scite_cmd="..\..\%file_name%") 
  IF NOT EXIST %scite_cmd% (call :sub_fail_cmd) else (call :sub_continue ) 
 
  REM  -- Code Continues here --
@@ -68,7 +68,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
 
  REM -- Got that shorthand strReplace from
  REM -- http://www.dostips.com/DtTipsStringOperations.php
- REM -- Remove  \ %cmd%  from scite_path and extend systems PATH
+ REM -- Remove  %file_name% from scite_path and extend systems PATH
  set str=%scite_path%
  call set str=%str:\scite.exe =%
  set scite_path=%str%
@@ -90,7 +90,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  set RegFile=%tmp%\add.scite.to.context.menu.reg
  set scite_cmd_cwd=-CWD:%scite_path_ext%
  set scite_cmd_open=-open new.txt
- set scite_bin=\"%scite_path%\\%cmd%\"  
+ set file_namepath=\"%scite_path%\\%file_name%\"  
  
  REM Short Explanation
  REM -- Finally, write the .reg file, \" escapes double quotes
@@ -100,18 +100,18 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE\command] >> %RegFile% 
- echo @="%scite_bin% \"%%1\"" >> %RegFile%
+ echo @="%file_namepath% \"%%1\"" >> %RegFile%
  echo ; -- Update ShellMenu Open Scite Here >> %RegFile% 
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite] >> %RegFile%
  echo @="Open SciTE here" >> %RegFile%
  echo ;"Icon"="C:\\scite.ico\" >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite\command] >> %RegFile%
- echo @="%scite_bin% %scite_cmd_open%" >> %RegFile%
+ echo @="%file_namepath% %scite_cmd_open%" >> %RegFile%
 
  REM WorkAround Reactos 0.4.2 Bug.
  IF [%FIX_REACTOS%]==[1] ( 
- set scite_bin="\"%scite_path%\\%cmd%\""
+ set file_namepath="\"%scite_path%\\%file_name%\""
  )
 
 :: Short Explanation
@@ -122,10 +122,17 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
  echo "FriendlyAppName"="SCIntilla based TExteditor" >> %RegFile%
+ echo "InfoTip"="SCIntilla based TExteditor" >> %RegFile%
+ echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\Application] >> %RegFile%
+ echo "ApplicationCompany"="Scintilla.org Scite" >> %RegFile%
+ echo "ApplicationName"="SciTE" >> %RegFile%
+ echo "ApplicationDescription"="Scintilla based Texteditor" >> %RegFile%
+ echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\DefaultIcon] >> %RegFile%
+ echo @="%scite_path%\\%file_name%,1" >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >> %RegFile%
- echo @="%scite_bin% \"%%1\"" >> %RegFile%
+ echo @="%file_namepath% \"%%1\"" >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >> %RegFile%
  echo ".*"="">> %RegFile%
 
@@ -136,7 +143,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
 
 :sub_fail_cmd
  echo.
- echo Please fix: %cmd% was'nt found or Filename did'nt match variable "cmd"
+ echo Please fix: %file_name% was'nt found or Filename did'nt match variable "file_name"
  echo ...Try to copy this file to scites root dir...
  echo ...any key...
  pause >NUL

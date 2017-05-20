@@ -15,6 +15,13 @@ Windows Registry Editor Version 5.00
 [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] 
 "FriendlyAppName"="SCIntilla based TExteditor" 
+"InfoTip"="SCIntilla based TExteditor" 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\Application] 
+"ApplicationCompany"="Scintilla.org Scite" 
+"ApplicationName"="SciTE" 
+"ApplicationDescription"="Scintilla based Texteditor" 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\DefaultIcon] 
+@="E:\\projects\\_myScite\\_myScite.github\\SciTE.win32\\SciTE.exe,1" 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] 
