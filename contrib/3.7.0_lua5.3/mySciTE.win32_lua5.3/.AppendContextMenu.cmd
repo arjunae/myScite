@@ -27,19 +27,18 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  set cmd=SciTE.exe
  set scite_cmd=default
 
- REM ------- this batch can reside in a subdir to support a more clean directory structure
-
- :: ------- Check for and write path of %cmd% in scite_cmd
- IF EXIST %cmd% (  set scite_cmd=%cmd%  ) 
- IF EXIST ..\%cmd% (  set scite_cmd=..\%cmd%  ) 
- IF EXIST ..\..\%cmd% ( set scite_cmd=..\..\%cmd%) 
+ REM -- this batch can reside in a subdir to support a more clean directory structure
+ :: -- Check for and write path of %cmd% in scite_cmd
+ IF EXIST %cmd% (  set scite_cmd="%cmd%"  ) 
+ IF EXIST ..\%cmd% (  set scite_cmd=.".\%cmd%"  ) 
+ IF EXIST ..\..\%cmd% ( set scite_cmd="..\..\%cmd%") 
  IF NOT EXIST %scite_cmd% (call :sub_fail_cmd) else (call :sub_continue ) 
 
- REM  ----- Code Continues here -----
- echo   ---------------------------------------------
- echo.  About to add SciTE to Explorers Context Menu 
- echo   ---------------------------------------------
- echo.
+ REM  -- Code Continues here --
+ echo. --
+ echo. -- About to add "open with SciTE" and open Scite here" to Explorers Context Menu. 
+ echo. --
+ echo. 
  
  choice /C AM /M "Press [A] for automatic Install or [M] If you want to do that manually" 
  if %ERRORLEVEL% == 1 regedit %regfile%
@@ -57,14 +56,13 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo   ---------------------------------------------
  echo.
  
- :: Clean up...
+ :: -- Clean up...
  del /Q %tmp%\scite.tmp >NUL
-
  goto :freunde
  
 :sub_continue
 
- REM ------- Search for %scite_cmd%, expand its path to file scite.tmp
+ REM -- Search for %scite_cmd%, expand its path to file scite.tmp
  FOR /D  %%I IN (%scite_cmd%) do echo %%~fI > %tmp%\scite.tmp
  set /P scite_path=<%tmp%\scite.tmp
 
@@ -94,7 +92,9 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  set scite_cmd_open=-open new.txt
  set scite_bin=\"%scite_path%\\%cmd%\"  
  
+ REM Short Explanation
  REM -- Finally, write the .reg file, \" escapes double quotes
+ REM -- using the safe way here. Windows will automatically update all needed Entries. 
  echo Windows Registry Editor Version 5.00 > %RegFile%
  echo ; -- Update ShellMenu Open With Scite >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE] >> %RegFile%
@@ -104,7 +104,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo ; -- Update ShellMenu Open Scite Here >> %RegFile% 
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite] >> %RegFile%
- echo @="Open Scite here" >> %RegFile%
+ echo @="Open SciTE here" >> %RegFile%
  echo ;"Icon"="C:\\scite.ico\" >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite\command] >> %RegFile%
  echo @="%scite_bin% %scite_cmd_open%" >> %RegFile%
@@ -113,14 +113,19 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  IF [%FIX_REACTOS%]==[1] ( 
  set scite_bin="\"%scite_path%\\%cmd%\""
  )
- 
+
+:: Short Explanation
+:: The following simple mechanism registers Scite to Windows known Applications list.
+:: Windows will display that, when a User chooses the "open with" Enty in Explorers Context menu.
+:: When a System already has some Apps installed, the new SciTE Entry will appear within the ("more Apps") submenu.  
  echo ; -- Update Program Entry >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
+ echo "FriendlyAppName"="SCIntilla based TExteditor" >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >> %RegFile%
- echo @="%scite_bin% %%1" >> %RegFile%
+ echo @="%scite_bin% \"%%1\"" >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >> %RegFile%
  echo ".*"="">> %RegFile%
 
@@ -143,3 +148,4 @@ exit
 ::ping 1.0.3.0 /n 1 /w 3000 >NUL
 echo Now, please press your favorite key to be Done. HanD! 
 pause >NUL
+ 

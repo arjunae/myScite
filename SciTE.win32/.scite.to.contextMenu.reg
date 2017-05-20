@@ -7,13 +7,14 @@ Windows Registry Editor Version 5.00
 ; -- Update ShellMenu Open Scite Here  
 [-HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite] 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite] 
-@="Open Scite here" 
+@="Open SciTE here" 
 ;"Icon"="C:\\scite.ico\" 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite\command] 
 @="\"E:\\projects\\_myScite\\_myScite.github\\SciTE.win32\\SciTE.exe\"   -open new.txt" 
 ; -- Update Program Entry 
 [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] 
+"FriendlyAppName"="SCIntilla based TExteditor" 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] 
