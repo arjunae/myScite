@@ -36,7 +36,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
 
  REM  -- Code Continues here --
  echo. --
- echo. -- About to add "open with SciTE" and open Scite here" to Explorers Context Menu. 
+ echo. -- About to add "open with SciTE" and open SciTE here" to Explorers Context Menu. 
  echo. --
  echo. 
  
@@ -48,7 +48,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
   echo. .... copied to %userprofile%\desktop
   echo   ---------------------------------------------
   echo.
-  )
+ )
  
  echo   ---------------------------------------------
  echo   Work Done - I hope you had a nice time !
@@ -105,19 +105,17 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite] >> %RegFile%
  echo @="Open SciTE here" >> %RegFile%
- echo ;"Icon"="C:\\scite.ico\" >> %RegFile%
+ echo "Icon"="%scite_path%\\%file_name%,1" >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite\command] >> %RegFile%
  echo @="%file_namepath% %scite_cmd_open%" >> %RegFile%
-
+ echo. >> %RegFile%
+ 
  REM WorkAround Reactos 0.4.2 Bug.
  IF [%FIX_REACTOS%]==[1] ( 
- set file_namepath="\"%scite_path%\\%file_name%\""
+  set file_namepath="\"%scite_path%\\%file_name%\""
  )
 
-:: Short Explanation
-:: The following simple mechanism registers Scite to Windows known Applications list.
-:: Windows will display that, when a User chooses the "open with" Enty in Explorers Context menu.
-:: When a System already has some Apps installed, the new SciTE Entry will appear within the ("more Apps") submenu.  
+:: The following simple mechanism registers Scite to Windows known Applications.
  echo ; -- Update Program Entry >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
@@ -129,12 +127,24 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo "ApplicationDescription"="Scintilla based Texteditor" >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\DefaultIcon] >> %RegFile%
  echo @="%scite_path%\\%file_name%,1" >> %RegFile%
+ echo. >> %RegFile%
+ 
+:: Include Scite within the Explorers Context menu "open With" list 
+:: When a System already has some Apps installed, the new SciTE Entry will appear within the ("more Apps") submenu.   
+ echo ; -- Update Explorers "open with" list >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >> %RegFile%
  echo @="%file_namepath% \"%%1\"" >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] >> %RegFile%
  echo ".*"="">> %RegFile%
+ echo. >> %RegFile%
+ 
+:: Register Scite to be known for windows "start" command
+ echo [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
+ echo [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
+ echo @="%file_namepath%" >> %RegFile%
+ echo "Path"="%scite_path%" >> %RegFile%
 
  :: echo ..... Finished writing to  %RegFile% ....
  copy "%RegFile%" .scite.to.contextMenu.reg>NUL
@@ -155,4 +165,3 @@ exit
 ::ping 1.0.3.0 /n 1 /w 3000 >NUL
 echo Now, please press your favorite key to be Done. HanD! 
 pause >NUL
- 

@@ -8,9 +8,10 @@ Windows Registry Editor Version 5.00
 [-HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite] 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite] 
 @="Open SciTE here" 
-;"Icon"="C:\\scite.ico\" 
+"Icon"="E:\\projects\\_myScite\\_myScite.github\\SciTE.win32\\SciTE.exe,1" 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite\command] 
 @="\"E:\\projects\\_myScite\\_myScite.github\\SciTE.win32\\SciTE.exe\"   -open new.txt" 
+ 
 ; -- Update Program Entry 
 [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] 
@@ -22,9 +23,16 @@ Windows Registry Editor Version 5.00
 "ApplicationDescription"="Scintilla based Texteditor" 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\DefaultIcon] 
 @="E:\\projects\\_myScite\\_myScite.github\\SciTE.win32\\SciTE.exe,1" 
+ 
+; -- Explorers "open with" list 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] 
 @="\"E:\\projects\\_myScite\\_myScite.github\\SciTE.win32\\SciTE.exe\"   \"%1\"" 
 [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] 
 ".*"=""
+ 
+[-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] 
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] 
+@="\"E:\\projects\\_myScite\\_myScite.github\\SciTE.win32\\SciTE.exe\"  " 
+"Path"="E:\\projects\\_myScite\\_myScite.github\\SciTE.win32" 
