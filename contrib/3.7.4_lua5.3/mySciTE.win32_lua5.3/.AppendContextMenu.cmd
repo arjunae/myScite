@@ -141,6 +141,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo. >> %RegFile%
  
 :: Register Scite to be known for windows "start" command
+:: https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx
  echo [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
  echo @="%file_namepath%" >> %RegFile%
