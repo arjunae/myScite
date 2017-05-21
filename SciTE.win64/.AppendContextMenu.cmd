@@ -43,7 +43,13 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  choice /C AM /M "Press [A] for automatic Install or [M] If you want to do that manually" 
  if %ERRORLEVEL% == 1 regedit %regfile%
  if %ERRORLEVEL% == 2 (
+  echo. .... Ok- Now opening %regfile% for editing .... 
+  echo. .... Please press your favorite key when done. 
+  %scite_filepath% "%regfile%"
+  pause> NUL
+  copy "%RegFile%" .scite.to.contextMenu.reg>NUL
   move /Y "%regfile%" "%userprofile%\desktop">NUL
+  echo.
   echo   ---------------------------------------------
   echo. .... copied to %userprofile%\desktop
   echo   ---------------------------------------------
@@ -154,7 +160,6 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo ; [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
  
  :: echo ..... Finished writing to  %RegFile% ....
- copy "%RegFile%" .scite.to.contextMenu.reg>NUL
  exit /b
  :end_sub
 
