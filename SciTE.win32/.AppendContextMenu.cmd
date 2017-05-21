@@ -25,18 +25,18 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  ::set FIX_REACTOS=1
 
  set file_name=SciTE.exe
- set scite_cmd=empty
+ set scite_filepath=empty
 
  REM -- this batch can reside in a subdir to support a more clean directory structure
- :: -- Check for and write path of %cmd% in scite_cmd
- IF EXIST %file_name% (  set scite_cmd="%file_name%"  ) 
- IF EXIST ..\%file_name% (  set scite_cmd=.".\%file_name%"  ) 
- IF EXIST ..\..\%file_name% ( set scite_cmd="..\..\%file_name%") 
- IF NOT EXIST %scite_cmd% (call :sub_fail_cmd) else (call :sub_continue ) 
+ :: -- Check for and write path of %file_name% in scite_filepath
+ IF EXIST %file_name% (  set scite_filepath="%file_name%"  ) 
+ IF EXIST ..\%file_name% (  set scite_filepath=.".\%file_name%"  ) 
+ IF EXIST ..\..\%file_name% ( set scite_filepath="..\..\%file_name%") 
+ IF NOT EXIST %scite_filepath% (call :sub_fail_cmd) else (call :sub_continue ) 
 
  REM  -- Code Continues here --
  echo. --
- echo. -- About to add "open with SciTE" and open SciTE here" to Explorers Context Menu. 
+ echo. -- About to add "open with SciTE" and "open SciTE here" to Explorers Context Menu. 
  echo. --
  echo. 
  
@@ -62,18 +62,18 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  
 :sub_continue
 
- REM -- Search for %scite_cmd%, expand its path to file scite.tmp
- FOR /D  %%I IN (%scite_cmd%) do echo %%~fI > %tmp%\scite.tmp
+ REM -- Search in %scite_cmd%, expand its path to scite_path
+ FOR /D  %%I IN (%scite_filepath%) do echo %%~fI > %tmp%\scite.tmp
  set /P scite_path=<%tmp%\scite.tmp
 
  REM -- Got that shorthand strReplace from
  REM -- http://www.dostips.com/DtTipsStringOperations.php
- REM -- Remove  %file_name% from scite_path and extend systems PATH
+ REM -- create scite_path by removing \%file_name% from scite_filepath
  set str=%scite_path%
  call set str=%str:\scite.exe =%
  set scite_path=%str%
 
- :: -- replace string \ with \\ 
+ :: -- scite_path: replace string \ with \\
  set word=\\
  set str=%scite_path%
  CALL set str=%%str:\=%word%%%
@@ -83,29 +83,28 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  set word=\\\\
  set str=%scite_path%
  CALL set str=%%str:\\=%word%%%
- set scite_path_ext=%str%
- :: echo %scite_path_ext%
+ set scite_path_cwd=%str%
 
  REM -- Define usable comand line options for SciTE here
  set RegFile=%tmp%\add.scite.to.context.menu.reg
- set scite_cmd_cwd=-CWD:%scite_path_ext%
+ set scite_cmd_cwd=-CWD:%scite_path_cwd%
  set scite_cmd_open=-open new.txt
  set file_namepath=\"%scite_path%\\%file_name%\"  
- 
+
  REM Short Explanation
  REM -- Finally, write the .reg file, \" escapes double quotes
  REM -- using the safe way here. Windows will automatically update all needed Entries. 
  echo Windows Registry Editor Version 5.00 > %RegFile%
- echo ; -- Update ShellMenu Open With Scite >> %RegFile%
+ echo. >> %RegFile%
+ echo ; -- Update ContextMenu "Open With Scite" and "Open Scite Here" >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE\command] >> %RegFile% 
  echo @="%file_namepath% \"%%1\"" >> %RegFile%
- echo ; -- Update ShellMenu Open Scite Here >> %RegFile% 
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite] >> %RegFile%
  echo @="Open SciTE here" >> %RegFile%
- echo "Icon"="%scite_path%\\%file_name%,1" >> %RegFile%
+ echo "Icon"="%scite_path%\\%file_name%,0" >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite\command] >> %RegFile%
  echo @="%file_namepath% %scite_cmd_open%" >> %RegFile%
  echo. >> %RegFile%
@@ -119,14 +118,14 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo ; -- Update Program Entry >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
- echo "FriendlyAppName"="SCIntilla based TExteditor" >> %RegFile%
+ echo "FriendlyAppName"="Scintilla based TExteditor" >> %RegFile%
  echo "InfoTip"="SCIntilla based TExteditor" >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\Application] >> %RegFile%
  echo "ApplicationCompany"="Scintilla.org Scite" >> %RegFile%
  echo "ApplicationName"="SciTE" >> %RegFile%
  echo "ApplicationDescription"="Scintilla based Texteditor" >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\DefaultIcon] >> %RegFile%
- echo @="%scite_path%\\%file_name%,1" >> %RegFile%
+ echo @="%scite_path%\\%file_name%,0" >> %RegFile%
  echo. >> %RegFile%
  
 :: Include Scite within the Explorers Context menu "open With" list 
@@ -142,11 +141,18 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  
 :: Register Scite to be known for windows "start" command
 :: https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx
+ echo ; -- Register Scite to be known for windows "start" command >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
  echo @="%file_namepath%" >> %RegFile%
  echo "Path"="%scite_path%" >> %RegFile%
-
+ echo. >> %RegFile%
+ 
+ echo ; -- Uninstall >> %RegFile%
+ echo ; [-HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE]  >> %RegFile%
+ echo ; [-HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite]>> %RegFile%
+ echo ; [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
+ 
  :: echo ..... Finished writing to  %RegFile% ....
  copy "%RegFile%" .scite.to.contextMenu.reg>NUL
  exit /b
