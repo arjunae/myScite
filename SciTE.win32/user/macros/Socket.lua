@@ -2,7 +2,11 @@
 -- ^^tell Scite to use its internal Lua interpreter.
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local socket = require "socket"
--- library provides "auxiliar", "except", "timeout", "buffer","inet", "tcp", "udp", "select", "dns"
+-- library provides 
+-- "_VERSION", "_DEBUG", "gettime", "newtry", "protect", "select", "sink", "skip", "sleep", "source", "try" "auxiliar", "except", "timeout", "buffer","inet"
+-- socket.dns: "dns.toip", "dns.tohostname", "dns.gethostname"
+-- socket.tcp: "tcp.accept", "tcp.bind", "tcp.close", "tcp.connect", "tcp.getpeername","tcp.getstats", "tcp.recieve", "tcp.send", "tcp.setoption", "tcp.setstats", "tcp.settimeout", "tcp.shutdown"
+-- socket.udp: "udp.close", "udp.getpeername", "udp.getsockname", "udp.receive", "udp.receivefrom", "udp.send", "udp.sendto", "udp.setpeername", "udp.setsockname", "udp.setoption", "udp.settimeout" 
 -- socket.lua layer provides "connect4", "connect6", "bind"
     
 print("Hello from " .. socket._VERSION .."!")
