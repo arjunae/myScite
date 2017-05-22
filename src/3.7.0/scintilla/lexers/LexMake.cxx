@@ -63,20 +63,25 @@ static void ColouriseMakeLine(
 			return;
 		}
 	}
-	// Style for Variables $(...)
+	// Style for Variables $(...) and $ prefixed automatic variables $@%<?^+* ...
 	int varCount = 0;
 	while (i < lengthLine) {
-		if (((i + 1) < lengthLine) && (lineBuffer[i] == '$' && lineBuffer[i + 1] == '(')) {
+		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && (strpbrk( "(@%<?^+*",&lineBuffer[i+1])) >0)  {
 			styler.ColourTo(startLine + i - 1, state);
 			state = SCE_MAKE_VARIABLE;
 			varCount++;
-		} else if (state == SCE_MAKE_VARIABLE && lineBuffer[i] == ')') {
+		} else if (state == SCE_MAKE_VARIABLE && lineBuffer[i]==')') {
+			if (--varCount == 0) {
+				styler.ColourTo(startLine + i, state);
+				state = SCE_MAKE_DEFAULT;
+			}
+		} else if (state == SCE_MAKE_VARIABLE && lineBuffer[i-1]=='$' && (strpbrk( "@%<?^+*",&lineBuffer[i]) >0)) {
 			if (--varCount == 0) {
 				styler.ColourTo(startLine + i, state);
 				state = SCE_MAKE_DEFAULT;
 			}
 		}
-
+		
 		// skip identifier and target styling if this is a command line
 		if (!bSpecial && !bCommand) {
 			if (lineBuffer[i] == ':') {
