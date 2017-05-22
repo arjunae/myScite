@@ -63,13 +63,14 @@ static void ColouriseMakeLine(
 			return;
 		}
 	}
+	// Style for Variables $(...)
 	int varCount = 0;
 	while (i < lengthLine) {
 		if (((i + 1) < lengthLine) && (lineBuffer[i] == '$' && lineBuffer[i + 1] == '(')) {
 			styler.ColourTo(startLine + i - 1, state);
-			state = SCE_MAKE_IDENTIFIER;
+			state = SCE_MAKE_VARIABLE;
 			varCount++;
-		} else if (state == SCE_MAKE_IDENTIFIER && lineBuffer[i] == ')') {
+		} else if (state == SCE_MAKE_VARIABLE && lineBuffer[i] == ')') {
 			if (--varCount == 0) {
 				styler.ColourTo(startLine + i, state);
 				state = SCE_MAKE_DEFAULT;
