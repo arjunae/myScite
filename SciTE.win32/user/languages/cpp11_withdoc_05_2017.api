@@ -1,3 +1,6 @@
+##
+# CPP11 API Additions, as fetched from CPlusPlus.com / Februar2017, Marcedo@HabmalneFrage.de | https://sourceforge.net/projects/scite-webdev
+##
 max_align_t()Param: ()\t\nDesc: Type with widest scalar alignment (type)\t\nProto: no-proto\t\n[cpp11] [<cstddef> (stddef.h)]
 nullptr_t(nullptr);Param: ()\t\nDesc: Null pointer type (C++) (type)\t\nProto: typedef decltype(nullptr) nullptr_t;\t\n[cpp11] [<cstddef> (stddef.h)]
 array(T)Param: (Type of the elements contained.)\t\nDesc: Array class (class template)\t\nProto: template < class T, size_t N > class array;\t\n[cpp11 ] [<array>]
