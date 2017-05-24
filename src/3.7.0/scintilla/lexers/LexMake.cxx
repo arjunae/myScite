@@ -80,7 +80,7 @@ static void ColouriseMakeLine(
 	unsigned int state_prev;
 	while (i < lengthLine) {
 		// same Style for Variables $(...) 
-		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && lineBuffer[i] == '(')  {
+		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && lineBuffer[i+1] == '(')  {
 			styler.ColourTo(startLine + i - 1, state);
 			state_prev = state;
 			state = SCE_MAKE_VARIABLE;
@@ -90,8 +90,8 @@ static void ColouriseMakeLine(
 			styler.ColourTo(startLine + i - 1, state);
 			state_prev = state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
-			varCount++;			
-		} else if (state == SCE_MAKE_VARIABLE && lineBuffer[i]==')') {
+			//varCount++;			
+			} else if ((state == SCE_MAKE_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && lineBuffer[i]==')') {
 			if (--varCount == 0) {
 				styler.ColourTo(startLine + i, state);
 				state = state_prev;
