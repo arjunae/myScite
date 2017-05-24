@@ -63,10 +63,11 @@ static void ColouriseMakeLine(
 			return;
 		}
 	}
-	// Style for Variables $(...) and $ prefixed automatic variables $@%<?^+* ...
+	
 	int varCount = 0;
-	while (i < lengthLine) {
-		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && (strpbrk( "(@%<?^+*",&lineBuffer[i+1])) >0)  {
+	while (i < lengthLine) { 
+		// same Style for Variables $(...) and $ based automatic Variables $@
+		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && (strchr( "(@%<?^+*",(int)lineBuffer[i+1]) >0))  {
 			styler.ColourTo(startLine + i - 1, state);
 			state = SCE_MAKE_VARIABLE;
 			varCount++;
@@ -75,13 +76,27 @@ static void ColouriseMakeLine(
 				styler.ColourTo(startLine + i, state);
 				state = SCE_MAKE_DEFAULT;
 			}
-		} else if (state == SCE_MAKE_VARIABLE && lineBuffer[i-1]=='$' && (strpbrk( "@%<?^+*",&lineBuffer[i]) >0)) {
+		} else if (state == SCE_MAKE_VARIABLE && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0) && lineBuffer[i-1]=='$') {
 			if (--varCount == 0) {
 				styler.ColourTo(startLine + i, state);
 				state = SCE_MAKE_DEFAULT;
 			}
 		}
 		
+	/*	
+		// Style for automatic Variables in standard variables (@%<^+)
+		if (((i + 1) < lengthLine) && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0))  {
+			styler.ColourTo(startLine + i - 1, state);
+			state = SCE_MAKE_VARIABLE2;
+			varCount++;
+		} else if (state == SCE_MAKE_VARIABLE2 && (strchr( "@%<^+",(int)lineBuffer[i-1]) >0) && (strchr( "DF",(int)lineBuffer[i]) >0)) {
+			if (--varCount == 0) {
+				styler.ColourTo(startLine + i, state);
+				state = SCE_MAKE_DEFAULT;
+			}
+		}
+	*/
+	
 		// skip identifier and target styling if this is a command line
 		if (!bSpecial && !bCommand) {
 			if (lineBuffer[i] == ':') {
@@ -113,8 +128,12 @@ static void ColouriseMakeLine(
 		if (!isspacechar(lineBuffer[i])) {
 			lastNonSpace = i;
 		}
+		
 		i++;
 	}
+	
+	
+	
 	if (state == SCE_MAKE_IDENTIFIER) {
 		styler.ColourTo(endPos, SCE_MAKE_IDEOL);	// Error, variable reference not ended
 	} else {
