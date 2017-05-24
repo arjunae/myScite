@@ -75,38 +75,40 @@ static void ColouriseMakeLine(
 		}
 	}
 	
-	int varCount = 0;
-	while (i < lengthLine) { 
+	int varCount = 0; // increments on $
+	int inVarCount = 0; // increments on identifiers within $vars @...D/F
+	unsigned int state_prev;
+	while (i < lengthLine) {
 		// same Style for Variables $(...) and $ based automatic Variables $@
 		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && (strchr( "(@%<?^+*",(int)lineBuffer[i+1]) >0))  {
 			styler.ColourTo(startLine + i - 1, state);
+			state_prev = state;
 			state = SCE_MAKE_VARIABLE;
 			varCount++;
 		} else if (state == SCE_MAKE_VARIABLE && lineBuffer[i]==')') {
 			if (--varCount == 0) {
 				styler.ColourTo(startLine + i, state);
-				state = SCE_MAKE_DEFAULT;
+				state = state_prev;
 			}
 		} else if (state == SCE_MAKE_VARIABLE && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0) && lineBuffer[i-1]=='$') {
 			if (--varCount == 0) {
 				styler.ColourTo(startLine + i, state);
-				state = SCE_MAKE_DEFAULT;
+				state = state_prev;
 			}
 		}
 		
-	/*	
 		// Style for automatic Variables in standard variables (@%<^+)
-		if (((i + 1) < lengthLine) && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0))  {
-			styler.ColourTo(startLine + i - 1, state);
-			state = SCE_MAKE_VARIABLE2;
-			varCount++;
-		} else if (state == SCE_MAKE_VARIABLE2 && (strchr( "@%<^+",(int)lineBuffer[i-1]) >0) && (strchr( "DF",(int)lineBuffer[i]) >0)) {
-			if (--varCount == 0) {
+		if (((i + 1) < lengthLine) && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0) && (strchr( "DF",(int)lineBuffer[i+1]) >0))  {
+			styler.ColourTo(startLine + i -1 , state);
+			state_prev=state;
+			state = SCE_MAKE_IN_VARIABLE;
+			inVarCount++;
+		} else if (state == SCE_MAKE_IN_VARIABLE && (strchr( "@%<^+",(int)lineBuffer[i-1]) >0) && (strchr( "DF",(int)lineBuffer[i]) >0)) {
+			if (--inVarCount == 0) {
 				styler.ColourTo(startLine + i, state);
-				state = SCE_MAKE_DEFAULT;
+				state = state_prev;
 			}
 		}
-	*/
 	
 		// skip identifier and target styling if this is a command line
 		if (!bSpecial && !bCommand) {
