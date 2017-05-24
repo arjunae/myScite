@@ -37,13 +37,24 @@ static void ColouriseMakeLine(
     Sci_PositionU lengthLine,
     Sci_PositionU startLine,
     Sci_PositionU endPos,
+		WordList *keywordlists[],
     Accessor &styler) {
-
+	
 	Sci_PositionU i = 0;
 	Sci_Position lastNonSpace = -1;
 	unsigned int state = SCE_MAKE_DEFAULT;
 	bool bSpecial = false;
 
+	/*
+	// todo fetch current word to search for below
+	WordList &kwDirective = *keywordlists[0]; // Directives
+
+	if (kwDirective.InList(words)) {
+		styler.ColourTo(endPos, SCE_MAKE_VARIABLE);
+		return;
+	}	
+	*/
+	
 	// check for a tab character in column 0 indicating a command
 	bool bCommand = false;
 	if ((lengthLine > 0) && (lineBuffer[0] == '\t'))
@@ -132,8 +143,6 @@ static void ColouriseMakeLine(
 		i++;
 	}
 	
-	
-	
 	if (state == SCE_MAKE_IDENTIFIER) {
 		styler.ColourTo(endPos, SCE_MAKE_IDEOL);	// Error, variable reference not ended
 	} else {
@@ -141,7 +150,7 @@ static void ColouriseMakeLine(
 	}
 }
 
-static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler) {
+static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
 	char lineBuffer[1024];
 	styler.StartAt(startPos);
 	styler.StartSegment(startPos);
@@ -152,13 +161,13 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 		if (AtEOL(styler, i) || (linePos >= sizeof(lineBuffer) - 1)) {
 			// End of line (or of line buffer) met, colourise it
 			lineBuffer[linePos] = '\0';
-			ColouriseMakeLine(lineBuffer, linePos, startLine, i, styler);
+			ColouriseMakeLine(lineBuffer, linePos, startLine, i, keywords, styler);
 			linePos = 0;
 			startLine = i + 1;
 		}
 	}
 	if (linePos > 0) {	// Last line does not have ending characters
-		ColouriseMakeLine(lineBuffer, linePos, startLine, startPos + length - 1, styler);
+		ColouriseMakeLine(lineBuffer, linePos, startLine, startPos + length - 1, keywords, styler);
 	}
 }
 
