@@ -79,18 +79,24 @@ static void ColouriseMakeLine(
 	int inVarCount = 0; // increments on identifiers within $vars @...D/F
 	unsigned int state_prev;
 	while (i < lengthLine) {
-		// same Style for Variables $(...) and $ based automatic Variables $@
-		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && (strchr( "(@%<?^+*",(int)lineBuffer[i+1]) >0))  {
+		// same Style for Variables $(...) 
+		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && lineBuffer[i] == '(')  {
 			styler.ColourTo(startLine + i - 1, state);
 			state_prev = state;
 			state = SCE_MAKE_VARIABLE;
 			varCount++;
+		// and $ based automatic Variables $@
+		} else if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && (strchr( "@%<?^+*",(int)lineBuffer[i+1]) >0) ) {
+			styler.ColourTo(startLine + i - 1, state);
+			state_prev = state;
+			state = SCE_MAKE_AUTOM_VARIABLE;
+			varCount++;			
 		} else if (state == SCE_MAKE_VARIABLE && lineBuffer[i]==')') {
 			if (--varCount == 0) {
 				styler.ColourTo(startLine + i, state);
 				state = state_prev;
 			}
-		} else if (state == SCE_MAKE_VARIABLE && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0) && lineBuffer[i-1]=='$') {
+		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0) && lineBuffer[i-1]=='$') {
 			if (--varCount == 0) {
 				styler.ColourTo(startLine + i, state);
 				state = state_prev;
@@ -101,9 +107,9 @@ static void ColouriseMakeLine(
 		if (((i + 1) < lengthLine) && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0) && (strchr( "DF",(int)lineBuffer[i+1]) >0))  {
 			styler.ColourTo(startLine + i -1 , state);
 			state_prev=state;
-			state = SCE_MAKE_IN_VARIABLE;
+			state = SCE_MAKE_AUTOM_VARIABLE;
 			inVarCount++;
-		} else if (state == SCE_MAKE_IN_VARIABLE && (strchr( "@%<^+",(int)lineBuffer[i-1]) >0) && (strchr( "DF",(int)lineBuffer[i]) >0)) {
+		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr( "@%<^+",(int)lineBuffer[i-1]) >0) && (strchr( "DF",(int)lineBuffer[i]) >0)) {
 			if (--inVarCount == 0) {
 				styler.ColourTo(startLine + i, state);
 				state = state_prev;
