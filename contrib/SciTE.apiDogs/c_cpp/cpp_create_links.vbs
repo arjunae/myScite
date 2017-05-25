@@ -158,7 +158,7 @@ Function fParseResult(obrowser)
           checkdupe = checkdupe & link.href
           If link.outerText <> "C library:" Then olistEntries.Add link.href
         Else
-          debug_log ("ign Dupe:" & link.href)
+          debug_log ("Warn->Ignoring Dupe:" & link.href)
         End If
     Next
   Next
@@ -216,21 +216,23 @@ Function fParseResult(obrowser)
               debug_log (myApiEntry.outerText & "|" & myApiEntry.href & "|" & oApiEntry("api_descr_short"))
               obrowser.StatusText = "Parse ... " & myApiEntry.href
             ' ----  Write to api_links file. First entry is entries_count
-            If InStr(1, dupecheck, myApiEntry.outerText) = 0 Then
-              dupecheck = dupecheck & ";" & myApiEntry.outerText
+            If InStr(1, dupecheck, myApiEntry.href) = 0 Then
+            ' Fix lround been in llround case by comparing href
+              dupecheck = dupecheck & ";" & myApiEntry.href
               oApiEntries.Add oApiEntry
-              oFile_links.WriteLine "7" _
+              oFile_links.WriteLine "8" _
               & "|" & oApiEntry("api_name") _
               & "|" & oApiEntry("api_href") _
               & "|" & oApiEntry("api_compat") _
               & "|" & oApiEntry("api_descr_short") _
               & "|" & oApiEntry("api_class_name") _
               & "|" & oApiEntry("api_class_type") _
-              & "|" & oApiEntry("api_class_descr")
+              & "|" & oApiEntry("api_class_descr") _
+              & "|" & oApiEntry("api_class_dupe")
             Else
               ' Sidebar bottomBox also holds a copy of itself for sidebars sort function, so just ign them.
               ' Also overloadable functions can have multiple mentions. atm we ignore those dupes too, even when they can differ in detail
-              debug_log ("dupe found: " & oApiEntry("api_name"))
+              'debug_log ("dupe found: " & oApiEntry("api_name"))
             End If
           End If
         Next

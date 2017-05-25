@@ -6,6 +6,7 @@
 // The License.txt file describes the conditions under which this software may be distributed.
 
 #include <stdlib.h>
+#include <iostream>
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -43,18 +44,10 @@ static void ColouriseMakeLine(
 	Sci_PositionU i = 0;
 	Sci_Position lastNonSpace = -1;
 	unsigned int state = SCE_MAKE_DEFAULT;
+	unsigned int state_prev =SCE_MAKE_DEFAULT;
+
 	bool bSpecial = false;
 
-	/*
-	// todo fetch current word to search for below
-	WordList &kwDirective = *keywordlists[0]; // Directives
-
-	if (kwDirective.InList(words)) {
-		styler.ColourTo(endPos, SCE_MAKE_VARIABLE);
-		return;
-	}	
-	*/
-	
 	// check for a tab character in column 0 indicating a command
 	bool bCommand = false;
 	if ((lengthLine > 0) && (lineBuffer[0] == '\t'))
@@ -64,6 +57,9 @@ static void ColouriseMakeLine(
 	while ((i < lengthLine) && isspacechar(lineBuffer[i])) {
 		i++;
 	}
+	// Create Word Buffer for current Line (from lexBatch)
+	std::string wordBuffer;	// Word Buffer  (change to std::string)
+		
 	if (i < lengthLine) {
 		if (lineBuffer[i] == '#') {	// Comment
 			styler.ColourTo(endPos, SCE_MAKE_COMMENT);
@@ -74,11 +70,38 @@ static void ColouriseMakeLine(
 			return;
 		}
 	}
-	
+
 	int varCount = 0; // increments on $
 	int inVarCount = 0; // increments on identifiers within $vars @...D/F
-	unsigned int state_prev;
+	
+	std::string t;
+	
 	while (i < lengthLine) {
+  t=lineBuffer[i];
+	wordBuffer.append(t);
+	
+	// color keywords within current line
+	WordList &kwDirective = *keywordlists[0]; // Make generic kws
+	
+	// search for keywords backwards from current position
+	std::string wordPart;
+	for (unsigned int j=1;j<=wordBuffer.size();j++) {
+		wordPart.insert(0,wordBuffer.substr(wordBuffer.size()-j,1));
+		if (kwDirective.InList(wordPart.c_str())) {
+			styler.ColourTo(startLine +i -wordPart.size(),state );
+			state=SCE_MAKE_OPERATOR;
+			wordPart.clear();
+			}
+		}
+		
+		if (!(kwDirective.InList(wordBuffer.c_str())) && state==SCE_MAKE_OPERATOR){
+			styler.ColourTo(startLine +i,state );
+			state=SCE_MAKE_DEFAULT;
+		}
+	
+		//if (CompareCaseInsensitive(wordBuffer,"bla")==1)
+		//	styler.ColourTo(startLine +i, SCE_MAKE_VARIABLE);
+					
 		// same Style for Variables $(...) 
 		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && lineBuffer[i+1] == '(')  {
 			styler.ColourTo(startLine + i - 1, state);
@@ -179,8 +202,9 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	}
 }
 
-static const char *const emptyWordListDesc[] = {
+static const char *const makefileWordListDesc[] = {
+	"generic",
 	0
 };
 
-LexerModule lmMake(SCLEX_MAKEFILE, ColouriseMakeDoc, "makefile", 0, emptyWordListDesc);
+LexerModule lmMake(SCLEX_MAKEFILE, ColouriseMakeDoc, "makefile", 0, makefileWordListDesc);
