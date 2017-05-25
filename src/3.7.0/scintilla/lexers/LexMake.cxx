@@ -38,13 +38,13 @@ static void ColouriseMakeLine(
     Sci_PositionU lengthLine,
     Sci_PositionU startLine,
     Sci_PositionU endPos,
-		WordList *keywordlists[],
+    WordList *keywordlists[],
     Accessor &styler) {
 	
 	Sci_PositionU i = 0;
 	Sci_Position lastNonSpace = -1;
 	unsigned int state = SCE_MAKE_DEFAULT;
-	unsigned int state_prev =SCE_MAKE_DEFAULT;
+	unsigned int state_prev = SCE_MAKE_DEFAULT;
 
 	bool bSpecial = false;
 
@@ -57,9 +57,10 @@ static void ColouriseMakeLine(
 	while ((i < lengthLine) && isspacechar(lineBuffer[i])) {
 		i++;
 	}
+	
 	// Create Word Buffer for current Line (from lexBatch)
-	std::string wordBuffer;	// Word Buffer  (change to std::string)
-		
+	std::string wordBuffer;	// Word Buffer  
+	
 	if (i < lengthLine) {
 		if (lineBuffer[i] == '#') {	// Comment
 			styler.ColourTo(endPos, SCE_MAKE_COMMENT);
@@ -74,35 +75,35 @@ static void ColouriseMakeLine(
 	int varCount = 0; // increments on $
 	int inVarCount = 0; // increments on identifiers within $vars @...D/F
 	
-	std::string t;
-	
+	std::string tmp;
 	while (i < lengthLine) {
-  t=lineBuffer[i];
-	wordBuffer.append(t);
-	
-	// color keywords within current line
-	WordList &kwDirective = *keywordlists[0]; // Make generic kws
-	
-	// search for keywords backwards from current position
-	std::string wordPart;
-	for (unsigned int j=1;j<=wordBuffer.size();j++) {
-		wordPart.insert(0,wordBuffer.substr(wordBuffer.size()-j,1));
-		if (kwDirective.InList(wordPart.c_str())) {
-			styler.ColourTo(startLine +i -wordPart.size(),state );
-			state=SCE_MAKE_OPERATOR;
-			wordPart.clear();
+		tmp=lineBuffer[i]; // convert linebuffer to be std::string 
+		wordBuffer.append(tmp);
+		
+		// color keywords within current line
+		WordList &kwDirective = *keywordlists[0]; // Makefile->generic kwds
+		
+		// search for longest keyword match backwards from current position. case dependent.
+		std::string wordPart; 
+		unsigned int longest_match=0;
+		unsigned int matchpos=0;
+		for (matchpos=0; matchpos<=wordBuffer.size(); matchpos++) {
+			wordPart.insert(0,wordBuffer.substr(wordBuffer.size()-matchpos, 1));
+			if (kwDirective.InList(wordPart.c_str())) {
+			longest_match=matchpos;
 			}
 		}
 		
-		if (!(kwDirective.InList(wordBuffer.c_str())) && state==SCE_MAKE_OPERATOR){
-			styler.ColourTo(startLine +i,state );
+		if (longest_match>0) {
+			styler.ColourTo(startLine +i -longest_match ,state );
+			state=SCE_MAKE_OPERATOR;
+		} else if (longest_match==0 && state==SCE_MAKE_OPERATOR){
+			styler.ColourTo(startLine +i-1 ,state );
 			state=SCE_MAKE_DEFAULT;
 		}
-	
-		//if (CompareCaseInsensitive(wordBuffer,"bla")==1)
-		//	styler.ColourTo(startLine +i, SCE_MAKE_VARIABLE);
-					
-		// same Style for Variables $(...) 
+		
+		
+		// Style for Variables $(...) 
 		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && lineBuffer[i+1] == '(')  {
 			styler.ColourTo(startLine + i - 1, state);
 			state_prev = state;
@@ -113,7 +114,6 @@ static void ColouriseMakeLine(
 			styler.ColourTo(startLine + i - 1, state);
 			state_prev = state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
-			//varCount++;			
 			} else if ((state == SCE_MAKE_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && lineBuffer[i]==')') {
 			if (--varCount == 0) {
 				styler.ColourTo(startLine + i, state);
@@ -170,7 +170,6 @@ static void ColouriseMakeLine(
 		if (!isspacechar(lineBuffer[i])) {
 			lastNonSpace = i;
 		}
-		
 		i++;
 	}
 	
