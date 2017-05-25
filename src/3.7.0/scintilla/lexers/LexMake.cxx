@@ -77,6 +77,7 @@ static void ColouriseMakeLine(
 	
 	std::string tmp;
 	while (i < lengthLine) {
+	
 		tmp=lineBuffer[i]; // convert linebuffer to be std::string 
 		wordBuffer.append(tmp);
 		
@@ -96,23 +97,22 @@ static void ColouriseMakeLine(
 		
 		if (longest_match>0) {
 			styler.ColourTo(startLine +i -longest_match ,state );
+			state_prev = state;
 			state=SCE_MAKE_OPERATOR;
 		} else if (longest_match==0 && state==SCE_MAKE_OPERATOR){
 			styler.ColourTo(startLine +i-1 ,state );
-			state=SCE_MAKE_DEFAULT;
+			state=state_prev;
 		}
 		
 		
 		// Style for Variables $(...) 
 		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && lineBuffer[i+1] == '(')  {
-			styler.ColourTo(startLine + i - 1, state);
-			state_prev = state;
+			styler.ColourTo(startLine + i -1, state);
 			state = SCE_MAKE_VARIABLE;
 			varCount++;
 		// and $ based automatic Variables $@
 		} else if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && (strchr( "@%<?^+*",(int)lineBuffer[i+1]) >0) ) {
-			styler.ColourTo(startLine + i - 1, state);
-			state_prev = state;
+			styler.ColourTo(startLine + i -1, state);
 			state = SCE_MAKE_AUTOM_VARIABLE;
 			} else if ((state == SCE_MAKE_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && lineBuffer[i]==')') {
 			if (--varCount == 0) {
@@ -120,10 +120,8 @@ static void ColouriseMakeLine(
 				state = state_prev;
 			}
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0) && lineBuffer[i-1]=='$') {
-			if (--varCount == 0) {
 				styler.ColourTo(startLine + i, state);
-				state = state_prev;
-			}
+				state = SCE_MAKE_DEFAULT;
 		}
 		
 		// Style for automatic Variables in standard variables (@%<^+)
@@ -134,11 +132,11 @@ static void ColouriseMakeLine(
 			inVarCount++;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr( "@%<^+",(int)lineBuffer[i-1]) >0) && (strchr( "DF",(int)lineBuffer[i]) >0)) {
 			if (--inVarCount == 0) {
-				styler.ColourTo(startLine + i, state);
+				styler.ColourTo(startLine + i-1, state);
 				state = state_prev;
 			}
 		}
-	
+		
 		// skip identifier and target styling if this is a command line
 		if (!bSpecial && !bCommand) {
 			if (lineBuffer[i] == ':') {
@@ -146,26 +144,35 @@ static void ColouriseMakeLine(
 					// it's a ':=', so style as an identifier
 					if (lastNonSpace >= 0)
 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-					styler.ColourTo(startLine + i - 1, SCE_MAKE_DEFAULT);
-					styler.ColourTo(startLine + i + 1, SCE_MAKE_OPERATOR);
+					styler.ColourTo(startLine + i+1, SCE_MAKE_DEFAULT);
+					styler.ColourTo(startLine + i + 1, SCE_MAKE_DEFAULT);
 				} else {
 					// We should check that no colouring was made since the beginning of the line,
 					// to avoid colouring stuff like /OUT:file
 					if (lastNonSpace >= 0)
-						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
-					styler.ColourTo(startLine + i - 1, SCE_MAKE_DEFAULT);
+					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
+					styler.ColourTo(startLine + i, state_prev);
 					styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
 				}
 				bSpecial = true;	// Only react to the first ':' of the line
-				state = SCE_MAKE_DEFAULT;
+				state = state_prev;
 			} else if (lineBuffer[i] == '=') {
 				if (lastNonSpace >= 0)
 					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-				styler.ColourTo(startLine + i - 1, SCE_MAKE_DEFAULT);
+				styler.ColourTo(startLine + i - 1, state_prev);
 				styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
 				bSpecial = true;	// Only react to the first '=' of the line
-				state = SCE_MAKE_DEFAULT;
+				state = state_prev;				
+			} else if (lineBuffer[i] == '{') {		
+				styler.ColourTo(startLine + i - 1, state_prev);			
+				styler.ColourTo(startLine + i, SCE_MAKE_TARGET);
+				state = state_prev;
+			} else if (lineBuffer[i] == '}') {
+				styler.ColourTo(startLine + i - 1, state_prev);	
+				styler.ColourTo(startLine + i, SCE_MAKE_TARGET);
+				state = state_prev;
 			}
+
 		}
 		if (!isspacechar(lineBuffer[i])) {
 			lastNonSpace = i;
@@ -176,7 +183,7 @@ static void ColouriseMakeLine(
 	if (state == SCE_MAKE_IDENTIFIER) {
 		styler.ColourTo(endPos, SCE_MAKE_IDEOL);	// Error, variable reference not ended
 	} else {
-		styler.ColourTo(endPos, SCE_MAKE_DEFAULT);
+		styler.ColourTo(endPos, state_prev);
 	}
 }
 
