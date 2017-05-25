@@ -136,22 +136,22 @@ static void ColouriseMakeLine(
 				state = state_prev;
 			}
 		}
-		
+
 		// skip identifier and target styling if this is a command line
 		if (!bSpecial && !bCommand) {
 			if (lineBuffer[i] == ':') {
 				if (((i + 1) < lengthLine) && (lineBuffer[i + 1] == '=')) {
 					// it's a ':=', so style as an identifier
 					if (lastNonSpace >= 0)
-						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-					styler.ColourTo(startLine + i+1, SCE_MAKE_DEFAULT);
+					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
+					styler.ColourTo(startLine + i - 1, SCE_MAKE_DEFAULT);
 					styler.ColourTo(startLine + i + 1, SCE_MAKE_DEFAULT);
 				} else {
 					// We should check that no colouring was made since the beginning of the line,
 					// to avoid colouring stuff like /OUT:file
 					if (lastNonSpace >= 0)
 					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
-					styler.ColourTo(startLine + i, state_prev);
+					styler.ColourTo(startLine + i - 1, state_prev);
 					styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
 				}
 				bSpecial = true;	// Only react to the first ':' of the line
