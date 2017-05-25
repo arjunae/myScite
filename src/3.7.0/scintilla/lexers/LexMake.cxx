@@ -82,57 +82,69 @@ static void ColouriseMakeLine(
 		wordBuffer.append(tmp);
 		
 		// color keywords within current line
-		WordList &kwDirective = *keywordlists[0]; // Makefile->generic kwds
+		WordList &kwGeneric = *keywordlists[0]; // Makefile->generic	
+		WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
 		
 		// search for longest keyword match backwards from current position. case dependent.
 		std::string wordPart; 
-		unsigned int longest_match=0;
-		unsigned int matchpos=0;
-		for (matchpos=0; matchpos<=wordBuffer.size(); matchpos++) {
+		unsigned int match_kw0=0;
+		unsigned int match_kw1=0;
+		for (unsigned int matchpos=0; matchpos<=wordBuffer.size(); matchpos++) {
 			wordPart.insert(0,wordBuffer.substr(wordBuffer.size()-matchpos, 1));
-			if (kwDirective.InList(wordPart.c_str())) {
-			longest_match=matchpos;
-			}
+			if (kwGeneric.InList(wordPart.c_str()))
+				match_kw0=matchpos;
+			if (kwFunctions.InList(wordPart.c_str()))
+				match_kw1=matchpos;
 		}
-		
-		if (longest_match>0) {
-			styler.ColourTo(startLine +i -longest_match ,state );
+	
+		// style for Directives. Rule: prepended by whitespace or at line start. 
+		if (match_kw0 >0 && (isspacechar(lineBuffer[i -match_kw0]) || lineBuffer[i -match_kw0] == 0) ) {
+			styler.ColourTo(startLine +i -match_kw0, state );
 			state_prev = state;
 			state=SCE_MAKE_OPERATOR;
-		} else if (longest_match==0 && state==SCE_MAKE_OPERATOR){
-			styler.ColourTo(startLine +i-1 ,state );
+		} else if (match_kw0 == 0 && state == SCE_MAKE_OPERATOR){
+			styler.ColourTo(startLine +i, state);
+			state=state_prev;
+		}
+
+		// style functions $(sort,subst...) and predefined Variables Rule: have to be prepended by '('.
+		if (match_kw1 >0 && lineBuffer[i -match_kw1] == '(' ) {
+			styler.ColourTo(startLine +i -match_kw1, state );
+			state_prev = state;
+			state=SCE_MAKE_OPERATOR;
+		} else if (match_kw1 == 0 && state == SCE_MAKE_OPERATOR){
+			styler.ColourTo(startLine +i, state);
 			state=state_prev;
 		}
 		
-		
-		// Style for Variables $(...) 
+		// Style User Variables Rule: $(...) 
 		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && lineBuffer[i+1] == '(')  {
-			styler.ColourTo(startLine + i -1, state);
+			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_VARIABLE;
 			varCount++;
-		// and $ based automatic Variables $@
+		// ... and $ based automatic Variables Rule: $@
 		} else if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && (strchr( "@%<?^+*",(int)lineBuffer[i+1]) >0) ) {
-			styler.ColourTo(startLine + i -1, state);
+			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_AUTOM_VARIABLE;
 			} else if ((state == SCE_MAKE_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && lineBuffer[i]==')') {
 			if (--varCount == 0) {
-				styler.ColourTo(startLine + i, state);
+				styler.ColourTo(startLine +i, state);
 				state = state_prev;
 			}
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0) && lineBuffer[i-1]=='$') {
-				styler.ColourTo(startLine + i, state);
+				styler.ColourTo(startLine +i, state);
 				state = SCE_MAKE_DEFAULT;
 		}
 		
-		// Style for automatic Variables in standard variables (@%<^+)
+		// Style for automatic Variables in standard Variables Rule: @%<^+'D'||'F'
 		if (((i + 1) < lengthLine) && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0) && (strchr( "DF",(int)lineBuffer[i+1]) >0))  {
-			styler.ColourTo(startLine + i -1 , state);
+			styler.ColourTo(startLine +i -1 , state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
 			inVarCount++;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr( "@%<^+",(int)lineBuffer[i-1]) >0) && (strchr( "DF",(int)lineBuffer[i]) >0)) {
 			if (--inVarCount == 0) {
-				styler.ColourTo(startLine + i-1, state);
+				styler.ColourTo(startLine +i -1, state);
 				state = state_prev;
 			}
 		}
@@ -140,18 +152,18 @@ static void ColouriseMakeLine(
 		// skip identifier and target styling if this is a command line
 		if (!bSpecial && !bCommand) {
 			if (lineBuffer[i] == ':') {
-				if (((i + 1) < lengthLine) && (lineBuffer[i + 1] == '=')) {
+				if (((i + 1) < lengthLine) && (lineBuffer[i +1] == '=')) {
 					// it's a ':=', so style as an identifier
 					if (lastNonSpace >= 0)
 					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-					styler.ColourTo(startLine + i - 1, SCE_MAKE_DEFAULT);
-					styler.ColourTo(startLine + i + 1, SCE_MAKE_DEFAULT);
+					styler.ColourTo(startLine + i -1, SCE_MAKE_DEFAULT);
+					styler.ColourTo(startLine + i +1, SCE_MAKE_OPERATOR);
 				} else {
 					// We should check that no colouring was made since the beginning of the line,
 					// to avoid colouring stuff like /OUT:file
 					if (lastNonSpace >= 0)
 					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
-					styler.ColourTo(startLine + i - 1, state_prev);
+					styler.ColourTo(startLine + i -1, state_prev);
 					styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
 				}
 				bSpecial = true;	// Only react to the first ':' of the line
@@ -159,16 +171,16 @@ static void ColouriseMakeLine(
 			} else if (lineBuffer[i] == '=') {
 				if (lastNonSpace >= 0)
 					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-				styler.ColourTo(startLine + i - 1, state_prev);
+				styler.ColourTo(startLine + i -1, state_prev);
 				styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
 				bSpecial = true;	// Only react to the first '=' of the line
 				state = state_prev;				
 			} else if (lineBuffer[i] == '{') {		
-				styler.ColourTo(startLine + i - 1, state_prev);			
+				styler.ColourTo(startLine + i -1, state_prev);			
 				styler.ColourTo(startLine + i, SCE_MAKE_TARGET);
 				state = state_prev;
 			} else if (lineBuffer[i] == '}') {
-				styler.ColourTo(startLine + i - 1, state_prev);	
+				styler.ColourTo(startLine + i -1, state_prev);	
 				styler.ColourTo(startLine + i, SCE_MAKE_TARGET);
 				state = state_prev;
 			}
@@ -210,6 +222,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 
 static const char *const makefileWordListDesc[] = {
 	"generic",
+	"functions",
 	0
 };
 
