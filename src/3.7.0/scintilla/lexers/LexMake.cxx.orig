@@ -34,13 +34,13 @@ static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 }
 
 static void ColouriseMakeLine(
-	char *lineBuffer,
-	Sci_PositionU lengthLine,
-	Sci_PositionU startLine,
-	Sci_PositionU endPos,
-	WordList *keywordlists[],
-	Accessor &styler) {
-
+    char *lineBuffer,
+    Sci_PositionU lengthLine,
+    Sci_PositionU startLine,
+    Sci_PositionU endPos,
+    WordList *keywordlists[],
+    Accessor &styler) {
+	
 	Sci_PositionU i = 0;
 	Sci_Position lastNonSpace = -1;
 	unsigned int state = SCE_MAKE_DEFAULT;
@@ -56,10 +56,10 @@ static void ColouriseMakeLine(
 	while ((i < lengthLine) && isspacechar(lineBuffer[i])) {
 		i++;
 	}
-
+	
 	// Create Word Buffer for current Line (from lexBatch)
-	std::string wordBuffer;	// Word Buffer
-
+	std::string wordBuffer;	// Word Buffer  
+	
 	if (i < lengthLine) {
 		if (lineBuffer[i] == '#') {	// Comment
 			styler.ColourTo(endPos, SCE_MAKE_COMMENT);
@@ -73,63 +73,56 @@ static void ColouriseMakeLine(
 
 	int varCount = 0; // increments on $
 	int inVarCount = 0; // increments on identifiers within $vars @...D/F
-
+	
 	std::string tmp;
 	while (i < lengthLine) {
-
-		tmp=lineBuffer[i]; // convert linebuffer to be std::string
+	
+		tmp=lineBuffer[i]; // convert linebuffer to be std::string 
 		wordBuffer.append(tmp);
-
+		
 		// color keywords within current line
 		WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
 		WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
-
+		
 		// search for longest keyword match backwards from current position. Case dependent.
-		std::string wordPart;
+		std::string wordPart; 
 		unsigned int match_kw0=0;
 		unsigned int match_kw1=0;
 		for (unsigned int matchpos=0; matchpos<=wordBuffer.size(); matchpos++) {
-			wordPart.insert(0, wordBuffer.substr(wordBuffer.size()-matchpos, 1));
+			wordPart.insert(0,wordBuffer.substr(wordBuffer.size()-matchpos, 1));
 			if (kwGeneric.InList(wordPart.c_str()))
 				match_kw0=matchpos;
 			if (kwFunctions.InList(wordPart.c_str()))
 				match_kw1=matchpos;
 		}
-
-		// style for Directives. Rule: Prepended by whitespace, = or line start.
-		if (match_kw0 >0 
-			&& (isspacechar(lineBuffer[i -match_kw0]) 
-			|| lineBuffer[i -match_kw0] == 0 
-			|| lineBuffer[i -match_kw0] == '=')) {
-			styler.ColourTo(startLine +i -match_kw0, state);
+	
+		// style for Directives. Rule: prepended by whitespace or at line start. 
+		if (match_kw0 >0 && (isspacechar(lineBuffer[i -match_kw0]) || lineBuffer[i -match_kw0] == 0) ) {
+			styler.ColourTo(startLine +i -match_kw0, state );
 			state_prev = state;
 			state=SCE_MAKE_DIRECTIVE;
-		} else if (match_kw0 == 0 && state == SCE_MAKE_DIRECTIVE) {
+		} else if (match_kw0 == 0 && state == SCE_MAKE_DIRECTIVE){
 			styler.ColourTo(startLine +i, state);
 			state=state_prev;
-			wordBuffer.clear();
-			wordPart.clear();
 		}
 
 		// style functions $(sort,subst...) and predefined Variables Rule: have to be prepended by '('.
-		if (match_kw1 >0 && lineBuffer[i -match_kw1] == '(') {
-			styler.ColourTo(startLine +i -match_kw1, state);
+		if (match_kw1 >0 && lineBuffer[i -match_kw1] == '(' ) {
+			styler.ColourTo(startLine +i -match_kw1, state );
 			state_prev = state;
 			state=SCE_MAKE_OPERATOR;
-		} else if (match_kw1 == 0 && state == SCE_MAKE_OPERATOR) {
+		} else if (match_kw1 == 0 && state == SCE_MAKE_OPERATOR){
 			styler.ColourTo(startLine +i-1, state);
 			state=state_prev;
-			wordBuffer.clear();
-			wordPart.clear();
 		}
-
-		// Style User Variables Rule: $(...)
+		
+		// Style User Variables Rule: $(...) 
 		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && lineBuffer[i+1] == '(')  {
 			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_USER_VARIABLE;
 			varCount++;
-			// ... and $ based automatic Variables Rule: $@
-		} else if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && (strchr("@%<?^+*", (int)lineBuffer[i+1]) >0)) {
+		// ... and $ based automatic Variables Rule: $@
+		} else if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && (strchr( "@%<?^+*",(int)lineBuffer[i+1]) >0) ) {
 			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_AUTOM_VARIABLE;
 		} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && lineBuffer[i]==')') {
@@ -137,21 +130,21 @@ static void ColouriseMakeLine(
 				styler.ColourTo(startLine +i, state);
 				state = state_prev;
 			}
-		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)lineBuffer[i]) >0) && lineBuffer[i-1]=='$') {
-			styler.ColourTo(startLine +i, state);
-			state = SCE_MAKE_DEFAULT;
+		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0) && lineBuffer[i-1]=='$') {
+				styler.ColourTo(startLine +i, state);
+				state = SCE_MAKE_DEFAULT;
 		}
-
+		
 		// Style for automatic Variables Rule: @%<^+'D'||'F'
-		if (((i + 1) < lengthLine) && (strchr("@%<?^+*", (int)lineBuffer[i]) >0) && (strchr("DF", (int)lineBuffer[i+1]) >0))  {
-			styler.ColourTo(startLine +i -1, state);
+		if (((i + 1) < lengthLine) && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0) && (strchr( "DF",(int)lineBuffer[i+1]) >0))  {
+			styler.ColourTo(startLine +i -1 , state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
 			inVarCount++;
-		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<^+", (int)lineBuffer[i-1]) >0) && (strchr("DF", (int)lineBuffer[i]) >0)) {
+		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr( "@%<^+",(int)lineBuffer[i-1]) >0) && (strchr( "DF",(int)lineBuffer[i]) >0)) {
 			if (--inVarCount == 0) {
 				styler.ColourTo(startLine +i, state);
-				state = state_prev;
+				state = state_prev; 
 			}
 		}
 
@@ -180,13 +173,13 @@ static void ColouriseMakeLine(
 				styler.ColourTo(startLine + i -1, state_prev);
 				styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
 				bSpecial = true;	// Only react to the first '=' of the line
-				state = state_prev;
-			} else if (lineBuffer[i] == '{') {
-				styler.ColourTo(startLine + i -1, state_prev);
+				state = state_prev;				
+			} else if (lineBuffer[i] == '{') {		
+				styler.ColourTo(startLine + i -1, state_prev);			
 				styler.ColourTo(startLine + i, SCE_MAKE_TARGET);
 				state = state_prev;
 			} else if (lineBuffer[i] == '}') {
-				styler.ColourTo(startLine + i -1, state_prev);
+				styler.ColourTo(startLine + i -1, state_prev);	
 				styler.ColourTo(startLine + i, SCE_MAKE_TARGET);
 				state = state_prev;
 			}
@@ -197,7 +190,7 @@ static void ColouriseMakeLine(
 		}
 		i++;
 	}
-
+	
 	if (state == SCE_MAKE_IDENTIFIER) {
 		styler.ColourTo(endPos, SCE_MAKE_IDEOL);	// Error, variable reference not ended
 	} else {

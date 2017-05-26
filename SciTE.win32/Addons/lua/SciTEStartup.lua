@@ -48,7 +48,7 @@ function markLinks()
 --
 	local marker=10
 	editor.IndicStyle[marker] = INDIC_COMPOSITIONTHIN
-	editor.IndicFore[marker]  = 0xDE0202
+	editor.IndicFore[marker]  = 0xBE3333
 	
 	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
 	body="[a-zA-Z0-9]?." 	-- followed by a word  (eg www or the domain)
