@@ -1,5 +1,5 @@
 --- LexMake.cxx	2017-04-01 19:11:22.000000000 +0200
-+++ LexMake_mod.cxx	2017-05-26 00:50:38.000000000 +0200
++++ LexMake_mod.cxx	2017-05-26 15:49:12.000000000 +0200
 @@ -6,6 +6,7 @@
  // The License.txt file describes the conditions under which this software may be distributed.
  
@@ -70,8 +70,8 @@
 +		if (match_kw0 >0 && (isspacechar(lineBuffer[i -match_kw0]) || lineBuffer[i -match_kw0] == 0) ) {
 +			styler.ColourTo(startLine +i -match_kw0, state );
 +			state_prev = state;
-+			state=SCE_MAKE_OPERATOR;
-+		} else if (match_kw0 == 0 && state == SCE_MAKE_OPERATOR){
++			state=SCE_MAKE_DIRECTIVE;
++		} else if (match_kw0 == 0 && state == SCE_MAKE_DIRECTIVE){
 +			styler.ColourTo(startLine +i, state);
 +			state=state_prev;
 +		}
@@ -82,7 +82,7 @@
 +			state_prev = state;
 +			state=SCE_MAKE_OPERATOR;
 +		} else if (match_kw1 == 0 && state == SCE_MAKE_OPERATOR){
-+			styler.ColourTo(startLine +i, state);
++			styler.ColourTo(startLine +i-1, state);
 +			state=state_prev;
 +		}
 +		
@@ -90,14 +90,14 @@
 +		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && lineBuffer[i+1] == '(')  {
  			styler.ColourTo(startLine + i - 1, state);
 -			state = SCE_MAKE_IDENTIFIER;
-+			state = SCE_MAKE_VARIABLE;
++			state = SCE_MAKE_USER_VARIABLE;
  			varCount++;
 -		} else if (state == SCE_MAKE_IDENTIFIER && lineBuffer[i] == ')') {
 +		// ... and $ based automatic Variables Rule: $@
 +		} else if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && (strchr( "@%<?^+*",(int)lineBuffer[i+1]) >0) ) {
 +			styler.ColourTo(startLine +i -1, state);
 +			state = SCE_MAKE_AUTOM_VARIABLE;
-+			} else if ((state == SCE_MAKE_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && lineBuffer[i]==')') {
++			} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && lineBuffer[i]==')') {
  			if (--varCount == 0) {
  				styler.ColourTo(startLine + i, state);
 +				state = state_prev;
@@ -107,7 +107,7 @@
  				state = SCE_MAKE_DEFAULT;
  			}
 +		
-+		// Style for automatic Variables in standard Variables Rule: @%<^+'D'||'F'
++		// Style for automatic Variables Rule: @%<^+'D'||'F'
 +		if (((i + 1) < lengthLine) && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0) && (strchr( "DF",(int)lineBuffer[i+1]) >0))  {
 +			styler.ColourTo(startLine +i -1 , state);
 +			state_prev=state;
@@ -115,8 +115,8 @@
 +			inVarCount++;
 +		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr( "@%<^+",(int)lineBuffer[i-1]) >0) && (strchr( "DF",(int)lineBuffer[i]) >0)) {
 +			if (--inVarCount == 0) {
-+				styler.ColourTo(startLine +i -1, state);
-+				state = state_prev;
++				styler.ColourTo(startLine +i, state);
++				state = state_prev; 
 +			}
  		}
  
@@ -196,14 +196,16 @@
  
 -LexerModule lmMake(SCLEX_MAKEFILE, ColouriseMakeDoc, "makefile", 0, emptyWordListDesc);
 +LexerModule lmMake(SCLEX_MAKEFILE, ColouriseMakeDoc, "makefile", 0, makefileWordListDesc);
+
 --- SciLexer.h	2017-04-14 20:58:48.000000000 +0200
 +++ SciLexer_mod.h	2017-05-24 22:10:04.000000000 +0200
-@@ -548,6 +548,8 @@
+@@ -548,6 +548,9 @@
  #define SCE_MAKE_IDENTIFIER 3
  #define SCE_MAKE_OPERATOR 4
  #define SCE_MAKE_TARGET 5
-+#define SCE_MAKE_VARIABLE 6
++#define SCE_MAKE_USER_VARIABLE 6
 +#define SCE_MAKE_AUTOM_VARIABLE 7
++#define SCE_MAKE_DIRECTIVE 8
  #define SCE_MAKE_IDEOL 9
  #define SCE_DIFF_DEFAULT 0
  #define SCE_DIFF_COMMENT 1

@@ -101,8 +101,8 @@ static void ColouriseMakeLine(
 		if (match_kw0 >0 && (isspacechar(lineBuffer[i -match_kw0]) || lineBuffer[i -match_kw0] == 0) ) {
 			styler.ColourTo(startLine +i -match_kw0, state );
 			state_prev = state;
-			state=SCE_MAKE_OPERATOR;
-		} else if (match_kw0 == 0 && state == SCE_MAKE_OPERATOR){
+			state=SCE_MAKE_DIRECTIVE;
+		} else if (match_kw0 == 0 && state == SCE_MAKE_DIRECTIVE){
 			styler.ColourTo(startLine +i, state);
 			state=state_prev;
 		}
@@ -113,20 +113,20 @@ static void ColouriseMakeLine(
 			state_prev = state;
 			state=SCE_MAKE_OPERATOR;
 		} else if (match_kw1 == 0 && state == SCE_MAKE_OPERATOR){
-			styler.ColourTo(startLine +i, state);
+			styler.ColourTo(startLine +i-1, state);
 			state=state_prev;
 		}
 		
 		// Style User Variables Rule: $(...) 
 		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && lineBuffer[i+1] == '(')  {
 			styler.ColourTo(startLine +i -1, state);
-			state = SCE_MAKE_VARIABLE;
+			state = SCE_MAKE_USER_VARIABLE;
 			varCount++;
 		// ... and $ based automatic Variables Rule: $@
 		} else if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && (strchr( "@%<?^+*",(int)lineBuffer[i+1]) >0) ) {
 			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_AUTOM_VARIABLE;
-			} else if ((state == SCE_MAKE_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && lineBuffer[i]==')') {
+			} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && lineBuffer[i]==')') {
 			if (--varCount == 0) {
 				styler.ColourTo(startLine +i, state);
 				state = state_prev;
@@ -136,7 +136,7 @@ static void ColouriseMakeLine(
 				state = SCE_MAKE_DEFAULT;
 		}
 		
-		// Style for automatic Variables in standard Variables Rule: @%<^+'D'||'F'
+		// Style for automatic Variables Rule: @%<^+'D'||'F'
 		if (((i + 1) < lengthLine) && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0) && (strchr( "DF",(int)lineBuffer[i+1]) >0))  {
 			styler.ColourTo(startLine +i -1 , state);
 			state_prev=state;
@@ -144,8 +144,8 @@ static void ColouriseMakeLine(
 			inVarCount++;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr( "@%<^+",(int)lineBuffer[i-1]) >0) && (strchr( "DF",(int)lineBuffer[i]) >0)) {
 			if (--inVarCount == 0) {
-				styler.ColourTo(startLine +i -1, state);
-				state = state_prev;
+				styler.ColourTo(startLine +i, state);
+				state = state_prev; 
 			}
 		}
 
