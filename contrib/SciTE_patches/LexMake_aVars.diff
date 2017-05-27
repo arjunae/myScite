@@ -227,6 +227,7 @@
  
 -LexerModule lmMake(SCLEX_MAKEFILE, ColouriseMakeDoc, "makefile", 0, emptyWordListDesc);
 +LexerModule lmMake(SCLEX_MAKEFILE, ColouriseMakeDoc, "makefile", 0, makefileWordListDesc);
+
 --- SciLexer.h	2017-04-14 20:58:48.000000000 +0200
 +++ SciLexer_mod.h	2017-05-27 06:58:46.000000000 +0200
 @@ -548,6 +548,9 @@
