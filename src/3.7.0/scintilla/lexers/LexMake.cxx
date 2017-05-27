@@ -34,13 +34,13 @@ static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 }
 
 static void ColouriseMakeLine(
-	char *lineBuffer,
+	std::string slineBuffer,
 	Sci_PositionU lengthLine,
 	Sci_PositionU startLine,
 	Sci_PositionU endPos,
 	WordList *keywordlists[],
 	Accessor &styler) {
-
+	
 	Sci_PositionU i = 0;
 	Sci_Position lastNonSpace = -1;
 	unsigned int state = SCE_MAKE_DEFAULT;
@@ -49,11 +49,11 @@ static void ColouriseMakeLine(
 
 	// check for a tab character in column 0 indicating a command
 	bool bCommand = false;
-	if ((lengthLine > 0) && (lineBuffer[0] == '\t'))
+	if ((lengthLine > 0) && (slineBuffer[0] == '\t'))
 		bCommand = true;
 
 	// Skip initial spaces
-	while ((i < lengthLine) && isspacechar(lineBuffer[i])) {
+	while ((i < lengthLine) && isspacechar(slineBuffer[i])) {
 		i++;
 	}
 
@@ -61,11 +61,11 @@ static void ColouriseMakeLine(
 	std::string wordBuffer;	// Word Buffer
 
 	if (i < lengthLine) {
-		if (lineBuffer[i] == '#') {	// Comment
+		if (slineBuffer[i] == '#') {	// Comment
 			styler.ColourTo(endPos, SCE_MAKE_COMMENT);
 			return;
 		}
-		if (lineBuffer[i] == '!') {	// Special directive
+		if (slineBuffer[i] == '!') {	// Special directive
 			styler.ColourTo(endPos, SCE_MAKE_PREPROCESSOR);
 			return;
 		}
@@ -74,11 +74,8 @@ static void ColouriseMakeLine(
 	int varCount = 0; // increments on $
 	int inVarCount = 0; // increments on identifiers within $vars @...D/F
 
-	std::string tmp;
 	while (i < lengthLine) {
-
-		tmp=lineBuffer[i]; // convert linebuffer to be std::string
-		wordBuffer.append(tmp);
+		wordBuffer.append(slineBuffer.substr(i,1));
 
 		// color keywords within current line
 		WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
@@ -98,57 +95,53 @@ static void ColouriseMakeLine(
 
 		// style for Directives. Rule: Prepended by whitespace, = or line start.
 		if (match_kw0 >0 
-			&& (isspacechar(lineBuffer[i -match_kw0]) 
-			|| lineBuffer[i -match_kw0] == 0 
-			|| lineBuffer[i -match_kw0] == '=')) {
+			&& (isspacechar(slineBuffer[i -match_kw0]) 
+			|| slineBuffer[i -match_kw0] == 0 
+			|| slineBuffer[i -match_kw0] == '=')) {
 			styler.ColourTo(startLine +i -match_kw0, state);
 			state_prev = state;
 			state=SCE_MAKE_DIRECTIVE;
 		} else if (match_kw0 == 0 && state == SCE_MAKE_DIRECTIVE) {
-			styler.ColourTo(startLine +i, state);
+			styler.ColourTo(startLine +i -1, state);
 			state=state_prev;
-			wordBuffer.clear();
-			wordPart.clear();
 		}
 
 		// style functions $(sort,subst...) and predefined Variables Rule: have to be prepended by '('.
-		if (match_kw1 >0 && lineBuffer[i -match_kw1] == '(') {
+		if (match_kw1 >0 && slineBuffer[i -match_kw1] == '(') {
 			styler.ColourTo(startLine +i -match_kw1, state);
 			state_prev = state;
 			state=SCE_MAKE_OPERATOR;
 		} else if (match_kw1 == 0 && state == SCE_MAKE_OPERATOR) {
 			styler.ColourTo(startLine +i-1, state);
 			state=state_prev;
-			wordBuffer.clear();
-			wordPart.clear();
 		}
 
 		// Style User Variables Rule: $(...)
-		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && lineBuffer[i+1] == '(')  {
+		if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(')  {
 			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_USER_VARIABLE;
 			varCount++;
 			// ... and $ based automatic Variables Rule: $@
-		} else if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && (strchr("@%<?^+*", (int)lineBuffer[i+1]) >0)) {
+		} else if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
 			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_AUTOM_VARIABLE;
-		} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && lineBuffer[i]==')') {
+		} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && slineBuffer[i]==')') {
 			if (--varCount == 0) {
 				styler.ColourTo(startLine +i, state);
 				state = state_prev;
 			}
-		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)lineBuffer[i]) >0) && lineBuffer[i-1]=='$') {
+		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && slineBuffer[i-1]=='$') {
 			styler.ColourTo(startLine +i, state);
 			state = SCE_MAKE_DEFAULT;
 		}
 
 		// Style for automatic Variables Rule: @%<^+'D'||'F'
-		if (((i + 1) < lengthLine) && (strchr("@%<?^+*", (int)lineBuffer[i]) >0) && (strchr("DF", (int)lineBuffer[i+1]) >0))  {
+		if (((i + 1) < lengthLine) && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && (strchr("DF", (int)slineBuffer[i+1]) >0))  {
 			styler.ColourTo(startLine +i -1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
 			inVarCount++;
-		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<^+", (int)lineBuffer[i-1]) >0) && (strchr("DF", (int)lineBuffer[i]) >0)) {
+		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<^+", (int)slineBuffer[i-1]) >0) && (strchr("DF", (int)slineBuffer[i]) >0)) {
 			if (--inVarCount == 0) {
 				styler.ColourTo(startLine +i, state);
 				state = state_prev;
@@ -157,8 +150,8 @@ static void ColouriseMakeLine(
 
 		// skip identifier and target styling if this is a command line
 		if (!bSpecial && !bCommand) {
-			if (lineBuffer[i] == ':') {
-				if (((i + 1) < lengthLine) && (lineBuffer[i +1] == '=')) {
+			if (slineBuffer[i] == ':') {
+				if (((i + 1) < lengthLine) && (slineBuffer[i +1] == '=')) {
 					// it's a ':=', so style as an identifier
 					if (lastNonSpace >= 0)
 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
@@ -174,27 +167,33 @@ static void ColouriseMakeLine(
 				}
 				bSpecial = true;	// Only react to the first ':' of the line
 				state = state_prev;
-			} else if (lineBuffer[i] == '=') {
+			} else if (slineBuffer[i] == '=') {
 				if (lastNonSpace >= 0)
 					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
 				styler.ColourTo(startLine + i -1, state_prev);
 				styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
 				bSpecial = true;	// Only react to the first '=' of the line
 				state = state_prev;
-			} else if (lineBuffer[i] == '{') {
+			} else if (slineBuffer[i] == '{') {
 				styler.ColourTo(startLine + i -1, state_prev);
 				styler.ColourTo(startLine + i, SCE_MAKE_TARGET);
 				state = state_prev;
-			} else if (lineBuffer[i] == '}') {
+			} else if (slineBuffer[i] == '}') {
 				styler.ColourTo(startLine + i -1, state_prev);
 				styler.ColourTo(startLine + i, SCE_MAKE_TARGET);
 				state = state_prev;
 			}
 
 		}
-		if (!isspacechar(lineBuffer[i])) {
+		if (!isspacechar(slineBuffer[i])) {
 			lastNonSpace = i;
 		}
+		
+		if (state != SCE_MAKE_DEFAULT) {
+			wordBuffer.clear();
+			wordPart.clear();
+		}
+		
 		i++;
 	}
 

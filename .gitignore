@@ -4,7 +4,7 @@
 # Hint: When changeiing entries, remember using git rm -r *.* --cached
 #
 
-#- ignore temporary objects and archives, anywhere in the tree.
+#- temporary objects and archives, anywhere in the tree.
 *.o
 *.obj
 *.pyd
@@ -14,8 +14,14 @@
 *.tmp
 clidebug.cmd
 
-#-  ignore temporary binaries within scintilla and scites bin dir. 
+#- temporary binaries within scintilla and scites bin dir. 
 **bin
 
-#- ignore local scite session files 
+#- local scite session files 
 *.session
+
+#- patch and aStyle backups
+*.orig
+
+#- temporary linker files 
+win32/*.

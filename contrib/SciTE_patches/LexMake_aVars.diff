@@ -1,5 +1,5 @@
 --- LexMake.cxx	2017-04-01 19:11:22.000000000 +0200
-+++ LexMake_mod.cxx	2017-05-26 15:49:12.000000000 +0200
++++ LexMake_mod.cxx	2017-05-27 06:54:40.000000000 +0200
 @@ -6,6 +6,7 @@
  // The License.txt file describes the conditions under which this software may be distributed.
  
@@ -8,33 +8,48 @@
  #include <string.h>
  #include <stdio.h>
  #include <stdarg.h>
-@@ -37,11 +38,14 @@
+@@ -33,53 +34,124 @@
+ }
+ 
+ static void ColouriseMakeLine(
+-    char *lineBuffer,
++	std::string slineBuffer,
      Sci_PositionU lengthLine,
      Sci_PositionU startLine,
      Sci_PositionU endPos,
-+    WordList *keywordlists[],
++	WordList *keywordlists[],
      Accessor &styler) {
  
  	Sci_PositionU i = 0;
  	Sci_Position lastNonSpace = -1;
  	unsigned int state = SCE_MAKE_DEFAULT;
 +	unsigned int state_prev = SCE_MAKE_DEFAULT;
-+
  	bool bSpecial = false;
  
  	// check for a tab character in column 0 indicating a command
-@@ -53,6 +57,10 @@
- 	while ((i < lengthLine) && isspacechar(lineBuffer[i])) {
+ 	bool bCommand = false;
+-	if ((lengthLine > 0) && (lineBuffer[0] == '\t'))
++	if ((lengthLine > 0) && (slineBuffer[0] == '\t'))
+ 		bCommand = true;
+ 
+ 	// Skip initial spaces
+-	while ((i < lengthLine) && isspacechar(lineBuffer[i])) {
++	while ((i < lengthLine) && isspacechar(slineBuffer[i])) {
  		i++;
  	}
-+	
++
 +	// Create Word Buffer for current Line (from lexBatch)
-+	std::string wordBuffer;	// Word Buffer  
-+	
++	std::string wordBuffer;	// Word Buffer
++
  	if (i < lengthLine) {
- 		if (lineBuffer[i] == '#') {	// Comment
+-		if (lineBuffer[i] == '#') {	// Comment
++		if (slineBuffer[i] == '#') {	// Comment
  			styler.ColourTo(endPos, SCE_MAKE_COMMENT);
-@@ -63,17 +71,82 @@
+ 			return;
+ 		}
+-		if (lineBuffer[i] == '!') {	// Special directive
++		if (slineBuffer[i] == '!') {	// Special directive
+ 			styler.ColourTo(endPos, SCE_MAKE_PREPROCESSOR);
  			return;
  		}
  	}
@@ -42,86 +57,94 @@
 +
 +	int varCount = 0; // increments on $
 +	int inVarCount = 0; // increments on identifiers within $vars @...D/F
-+	
-+	std::string tmp;
++
  	while (i < lengthLine) {
 -		if (((i + 1) < lengthLine) && (lineBuffer[i] == '$' && lineBuffer[i + 1] == '(')) {
-+	
-+		tmp=lineBuffer[i]; // convert linebuffer to be std::string 
-+		wordBuffer.append(tmp);
-+		
++		wordBuffer.append(slineBuffer.substr(i,1));
++
 +		// color keywords within current line
-+		WordList &kwGeneric = *keywordlists[0]; // Makefile->generic	
++		WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
 +		WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
-+		
-+		// search for longest keyword match backwards from current position. case dependent.
-+		std::string wordPart; 
++
++		// search for longest keyword match backwards from current position. Case dependent.
++		std::string wordPart;
 +		unsigned int match_kw0=0;
 +		unsigned int match_kw1=0;
 +		for (unsigned int matchpos=0; matchpos<=wordBuffer.size(); matchpos++) {
-+			wordPart.insert(0,wordBuffer.substr(wordBuffer.size()-matchpos, 1));
++			wordPart.insert(0, wordBuffer.substr(wordBuffer.size()-matchpos, 1));
 +			if (kwGeneric.InList(wordPart.c_str()))
 +				match_kw0=matchpos;
 +			if (kwFunctions.InList(wordPart.c_str()))
 +				match_kw1=matchpos;
 +		}
-+	
-+		// style for Directives. Rule: prepended by whitespace or at line start. 
-+		if (match_kw0 >0 && (isspacechar(lineBuffer[i -match_kw0]) || lineBuffer[i -match_kw0] == 0) ) {
-+			styler.ColourTo(startLine +i -match_kw0, state );
++
++		// style for Directives. Rule: Prepended by whitespace, = or line start.
++		if (match_kw0 >0 
++			&& (isspacechar(slineBuffer[i -match_kw0]) 
++			|| slineBuffer[i -match_kw0] == 0 
++			|| slineBuffer[i -match_kw0] == '=')) {
++			styler.ColourTo(startLine +i -match_kw0, state);
 +			state_prev = state;
 +			state=SCE_MAKE_DIRECTIVE;
-+		} else if (match_kw0 == 0 && state == SCE_MAKE_DIRECTIVE){
-+			styler.ColourTo(startLine +i, state);
++		} else if (match_kw0 == 0 && state == SCE_MAKE_DIRECTIVE) {
++			styler.ColourTo(startLine +i -1, state);
 +			state=state_prev;
 +		}
 +
 +		// style functions $(sort,subst...) and predefined Variables Rule: have to be prepended by '('.
-+		if (match_kw1 >0 && lineBuffer[i -match_kw1] == '(' ) {
-+			styler.ColourTo(startLine +i -match_kw1, state );
++		if (match_kw1 >0 && slineBuffer[i -match_kw1] == '(') {
++			styler.ColourTo(startLine +i -match_kw1, state);
 +			state_prev = state;
 +			state=SCE_MAKE_OPERATOR;
-+		} else if (match_kw1 == 0 && state == SCE_MAKE_OPERATOR){
++		} else if (match_kw1 == 0 && state == SCE_MAKE_OPERATOR) {
 +			styler.ColourTo(startLine +i-1, state);
 +			state=state_prev;
 +		}
-+		
-+		// Style User Variables Rule: $(...) 
-+		if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && lineBuffer[i+1] == '(')  {
++
++		// Style User Variables Rule: $(...)
++		if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(')  {
  			styler.ColourTo(startLine + i - 1, state);
 -			state = SCE_MAKE_IDENTIFIER;
 +			state = SCE_MAKE_USER_VARIABLE;
  			varCount++;
 -		} else if (state == SCE_MAKE_IDENTIFIER && lineBuffer[i] == ')') {
-+		// ... and $ based automatic Variables Rule: $@
-+		} else if (((i + 1) < lengthLine) && lineBuffer[i] == '$' && (strchr( "@%<?^+*",(int)lineBuffer[i+1]) >0) ) {
++			// ... and $ based automatic Variables Rule: $@
++		} else if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
 +			styler.ColourTo(startLine +i -1, state);
 +			state = SCE_MAKE_AUTOM_VARIABLE;
-+			} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && lineBuffer[i]==')') {
++		} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && slineBuffer[i]==')') {
  			if (--varCount == 0) {
  				styler.ColourTo(startLine + i, state);
 +				state = state_prev;
 +			}
-+		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0) && lineBuffer[i-1]=='$') {
-+				styler.ColourTo(startLine +i, state);
++		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && slineBuffer[i-1]=='$') {
++			styler.ColourTo(startLine +i, state);
  				state = SCE_MAKE_DEFAULT;
  			}
-+		
++
 +		// Style for automatic Variables Rule: @%<^+'D'||'F'
-+		if (((i + 1) < lengthLine) && (strchr( "@%<?^+*",(int)lineBuffer[i]) >0) && (strchr( "DF",(int)lineBuffer[i+1]) >0))  {
-+			styler.ColourTo(startLine +i -1 , state);
++		if (((i + 1) < lengthLine) && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && (strchr("DF", (int)slineBuffer[i+1]) >0))  {
++			styler.ColourTo(startLine +i -1, state);
 +			state_prev=state;
 +			state = SCE_MAKE_AUTOM_VARIABLE;
 +			inVarCount++;
-+		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr( "@%<^+",(int)lineBuffer[i-1]) >0) && (strchr( "DF",(int)lineBuffer[i]) >0)) {
++		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<^+", (int)slineBuffer[i-1]) >0) && (strchr("DF", (int)slineBuffer[i]) >0)) {
 +			if (--inVarCount == 0) {
 +				styler.ColourTo(startLine +i, state);
-+				state = state_prev; 
++				state = state_prev;
 +			}
  		}
  
  		// skip identifier and target styling if this is a command line
-@@ -90,33 +163,43 @@
+ 		if (!bSpecial && !bCommand) {
+-			if (lineBuffer[i] == ':') {
+-				if (((i + 1) < lengthLine) && (lineBuffer[i + 1] == '=')) {
++			if (slineBuffer[i] == ':') {
++				if (((i + 1) < lengthLine) && (slineBuffer[i +1] == '=')) {
+ 					// it's a ':=', so style as an identifier
+ 					if (lastNonSpace >= 0)
+ 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
+@@ -90,33 +162,49 @@
  					// to avoid colouring stuff like /OUT:file
  					if (lastNonSpace >= 0)
  						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
@@ -131,8 +154,9 @@
  				}
  				bSpecial = true;	// Only react to the first ':' of the line
 -				state = SCE_MAKE_DEFAULT;
+-			} else if (lineBuffer[i] == '=') {
 +				state = state_prev;
- 			} else if (lineBuffer[i] == '=') {
++			} else if (slineBuffer[i] == '=') {
  				if (lastNonSpace >= 0)
  					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
 -				styler.ColourTo(startLine + i - 1, SCE_MAKE_DEFAULT);
@@ -140,24 +164,31 @@
  				styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
  				bSpecial = true;	// Only react to the first '=' of the line
 -				state = SCE_MAKE_DEFAULT;
-+				state = state_prev;				
-+			} else if (lineBuffer[i] == '{') {		
-+				styler.ColourTo(startLine + i -1, state_prev);			
++				state = state_prev;
++			} else if (slineBuffer[i] == '{') {
++				styler.ColourTo(startLine + i -1, state_prev);
 +				styler.ColourTo(startLine + i, SCE_MAKE_TARGET);
 +				state = state_prev;
-+			} else if (lineBuffer[i] == '}') {
-+				styler.ColourTo(startLine + i -1, state_prev);	
++			} else if (slineBuffer[i] == '}') {
++				styler.ColourTo(startLine + i -1, state_prev);
 +				styler.ColourTo(startLine + i, SCE_MAKE_TARGET);
 +				state = state_prev;
  			}
 +
  		}
- 		if (!isspacechar(lineBuffer[i])) {
+-		if (!isspacechar(lineBuffer[i])) {
++		if (!isspacechar(slineBuffer[i])) {
  			lastNonSpace = i;
  		}
++		
++		if (state != SCE_MAKE_DEFAULT) {
++			wordBuffer.clear();
++			wordPart.clear();
++		}
++		
  		i++;
  	}
-+	
++
  	if (state == SCE_MAKE_IDENTIFIER) {
  		styler.ColourTo(endPos, SCE_MAKE_IDEOL);	// Error, variable reference not ended
  	} else {
@@ -171,7 +202,7 @@
  	char lineBuffer[1024];
  	styler.StartAt(startPos);
  	styler.StartSegment(startPos);
-@@ -127,18 +210,20 @@
+@@ -127,18 +215,20 @@
  		if (AtEOL(styler, i) || (linePos >= sizeof(lineBuffer) - 1)) {
  			// End of line (or of line buffer) met, colourise it
  			lineBuffer[linePos] = '\0';
@@ -196,9 +227,8 @@
  
 -LexerModule lmMake(SCLEX_MAKEFILE, ColouriseMakeDoc, "makefile", 0, emptyWordListDesc);
 +LexerModule lmMake(SCLEX_MAKEFILE, ColouriseMakeDoc, "makefile", 0, makefileWordListDesc);
-
 --- SciLexer.h	2017-04-14 20:58:48.000000000 +0200
-+++ SciLexer_mod.h	2017-05-24 22:10:04.000000000 +0200
++++ SciLexer_mod.h	2017-05-27 06:58:46.000000000 +0200
 @@ -548,6 +548,9 @@
  #define SCE_MAKE_IDENTIFIER 3
  #define SCE_MAKE_OPERATOR 4
