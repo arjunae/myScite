@@ -91,8 +91,8 @@ static void ColouriseMakeLine(
 				match_kw0=matchpos;
 			if (kwFunctions.InList(wordPart.c_str()))
 				match_kw1=matchpos;
-		}
-
+		}		
+		
 		// style for Directives. Rule: Prepended by whitespace, = or line start.
 		if (match_kw0 >0 
 			&& (isspacechar(slineBuffer[i -match_kw0]) 
@@ -189,9 +189,9 @@ static void ColouriseMakeLine(
 			lastNonSpace = i;
 		}
 		
-		if (state != SCE_MAKE_DEFAULT) {
-			wordBuffer.clear();
+		if (state_prev != SCE_MAKE_DEFAULT) {
 			wordPart.clear();
+			wordBuffer.clear();
 		}
 		
 		i++;
