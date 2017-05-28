@@ -195,12 +195,12 @@ static void ColouriseMakeLine(
 		if (!isspacechar(slineBuffer[i])) {
 			lastNonSpace = i;
 		}
-		
+
 		if (state_prev != SCE_MAKE_DEFAULT) {
 			wordPart.clear();
 			wordBuffer.clear();
 		}
-		
+
 		i++;
 	}
 

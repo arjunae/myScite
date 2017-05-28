@@ -1,14 +1,32 @@
 --- LexMake.cxx	2017-04-01 19:11:22.000000000 +0200
-+++ LexMake_mod.cxx	2017-05-27 06:54:40.000000000 +0200
-@@ -6,6 +6,7 @@
- // The License.txt file describes the conditions under which this software may be distributed.
++++ LexMake_mod.cxx	2017-05-28 19:20:58.000000000 +0200
+@@ -1,11 +1,20 @@
+ // Scintilla source code edit control
+-/** @file LexMake.cxx
+- ** Lexer for make files.
+- **/
+-// Copyright 1998-2001 by Neil Hodgson <neilh@scintilla.org>
+-// The License.txt file describes the conditions under which this software may be distributed.
++/**
++ * @file LexMake.cxx
++ * @date 28.05.2017
++ * @brief Lexer for make files
++ * @author Neil Hodgson, Thorsten Kani
++ *
++ * Copyright 1998-2001 by Neil Hodgson <neilh@scintilla.org>
++ * The License.txt file describes the conditions under which this software may
++ * be distributed.
++ *
++ * 28.05.2017: Styles for Directives / internal functions / internal and automatic Vars 
++ *
++ */
  
  #include <stdlib.h>
 +#include <iostream>
  #include <string.h>
  #include <stdio.h>
  #include <stdarg.h>
-@@ -33,53 +34,124 @@
+@@ -33,53 +42,123 @@
  }
  
  static void ColouriseMakeLine(
@@ -38,8 +56,6 @@
  		i++;
  	}
 +
-+	// Create Word Buffer for current Line (from lexBatch)
-+	std::string wordBuffer;	// Word Buffer
 +
  	if (i < lengthLine) {
 -		if (lineBuffer[i] == '#') {	// Comment
@@ -57,6 +73,7 @@
 +
 +	int varCount = 0; // increments on $
 +	int inVarCount = 0; // increments on identifiers within $vars @...D/F
++	std::string wordBuffer;	// Word Buffer (see LexBatch)
 +
  	while (i < lengthLine) {
 -		if (((i + 1) < lengthLine) && (lineBuffer[i] == '$' && lineBuffer[i + 1] == '(')) {
@@ -76,8 +93,8 @@
 +				match_kw0=matchpos;
 +			if (kwFunctions.InList(wordPart.c_str()))
 +				match_kw1=matchpos;
-+		}
-+
++		}		
++		
 +		// style for Directives. Rule: Prepended by whitespace, = or line start.
 +		if (match_kw0 >0 
 +			&& (isspacechar(slineBuffer[i -match_kw0]) 
@@ -144,7 +161,7 @@
  					// it's a ':=', so style as an identifier
  					if (lastNonSpace >= 0)
  						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-@@ -90,33 +162,49 @@
+@@ -90,33 +169,49 @@
  					// to avoid colouring stuff like /OUT:file
  					if (lastNonSpace >= 0)
  						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
@@ -180,12 +197,12 @@
 +		if (!isspacechar(slineBuffer[i])) {
  			lastNonSpace = i;
  		}
-+		
-+		if (state != SCE_MAKE_DEFAULT) {
-+			wordBuffer.clear();
++
++		if (state_prev != SCE_MAKE_DEFAULT) {
 +			wordPart.clear();
++			wordBuffer.clear();
 +		}
-+		
++
  		i++;
  	}
 +
@@ -202,7 +219,7 @@
  	char lineBuffer[1024];
  	styler.StartAt(startPos);
  	styler.StartSegment(startPos);
-@@ -127,18 +215,20 @@
+@@ -127,18 +222,20 @@
  		if (AtEOL(styler, i) || (linePos >= sizeof(lineBuffer) - 1)) {
  			// End of line (or of line buffer) met, colourise it
  			lineBuffer[linePos] = '\0';

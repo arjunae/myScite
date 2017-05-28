@@ -582,6 +582,43 @@ count_if(InputIterator first, InputIterator last, UnaryPredicate pred)Param: (In
 distance(InputIterator first, InputIterator last)Param: (Iterator pointing to the initial element.)\t\nDesc: Return distance between iterators (function template)\t\nProto: template<class InputIterator>\t\ntypename iterator_traits<InputIterator>::difference_type\t\n distance (InputIterator first, InputIterator last);\t\n|[cpp98 cpp11]|[<iterator>]
 sizeof(type)Desc:Returns size in bytes of the object representation of type. [c89 c99 c11]
 
+# test for class member calltips. Here basic_string
+.get_allocator()Desc: member of basic_string
+.assign()Desc: member of basic_string
+.at()Desc: member of basic_string
+.front()Desc: member of basic_string
+.back()Desc: member of basic_string
+.data()Desc: member of basic_string
+.c_str()Desc: member of basic_string
+.begin()Desc: member of basic_string
+.end()Desc: member of basic_string
+.rbegin()Desc: member of basic_string
+.rend()Desc: member of basic_string
+.empty()Desc: member of basic_string
+.size()Desc: member of basic_string
+.length()Desc: member of basic_string
+.max_size()Desc: member of basic_string
+.reserve capacity()Desc: member of basic_string
+.shrink_to_fit()Desc: member of basic_string
+.clear()Desc: member of basic_string
+.insert()Desc: member of basic_string
+.erase()Desc: member of basic_string
+.push_back()Desc: member of basic_string
+.pop_back()Desc: member of basic_string
+.append()Desc: member of basic_string
+.compare()Desc: member of basic_string
+.replace()Desc: member of basic_string
+.substr()Desc: member of basic_string
+.copy()Desc: member of basic_string
+.resize()Desc: member of basic_string
+.swap()Desc: member of basic_string
+.find()Desc: member of basic_string
+.rfind()Desc: member of basic_string
+.find_first_of()Desc: member of basic_string
+.find_first_not_of()Desc: member of basic_string
+.find_last_of()Desc: member of basic_string
+.find_last_not_of()Desc: member of basic_string
+.npos()Desc: member of basic_string
 
 # Constants / special macros
 FENV_ACCESS()Param: ()\t\nDesc: Access to Floating-point environment (pragma)\t\nProto:\t\n#pragma STDC FENV_ACCESS on\t\n#pragma STDC FENV_ACCESS off\t\n|[c99 cpp11]|[<cfenv> (fenv.h)]
