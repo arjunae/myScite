@@ -286,6 +286,9 @@ c32rtomb( char * pmb, char32_t c32, mbstate_t * ps )Param: (Pointer to an array 
 mbrtoc16( char16_t * pc16, const char * pmb, size_t max, mbstate_t * ps)Param: (Pointer to an object of type char16_t.)\t\nDesc: Convert multibyte sequence to 16-bit character (function)\t\nProto: size_t mbrtoc16 ( char16_t * pc16, const char * pmb, size_t max, mbstate_t * ps);\t\n|[c11 cpp11]|[<cuchar> (uchar.h)]
 mbrtoc32( char32_t * pc32, const char * pmb, size_t max, mbstate_t * ps)Param: (Pointer to an object of type char32_t.)\t\nDesc: Convert multibyte sequence to 32-bit character (function)\t\nProto: size_t mbrtoc32 ( char32_t * pc32, const char * pmb, size_t max, mbstate_t * ps);\t\n|[c11 cpp11]|[<cuchar> (uchar.h)]
 at_quick_exit(void *func void)Param: (Function to be called.)\t\nDesc: Set function to be executed on quick exit (function)\t\nProto: int at_quick_exit (void (*func)(void));\t\n|[c11 cpp11]|[<cstdlib> (stdlib.h)]
+make_unique(Args&&... args)Param: Llist of argumentsto construct an instance of T)\t\nDesc: Make unique (function template)\t\nProto: template <class T, class... Args>\t\nunique_ptr<T> make_unique (Args&&... args);\t\n|[cpp14]|[<memory>]
+alignas(type-id)Desc:Specifies the alignment requirement of a type or an object.[cpp11]
+alignof(type-id)Desc:Queries alignment requirements of a type.[cpp11]
 
 # Constants / special macros
 ATOMIC_FLAG_INIT()Param: ()\t\nDesc: Initialization of atomic flag (macro)\t\nProto: ATOMIC_FLAG_INIT\t\n[cpp11]|[<atomic>]
