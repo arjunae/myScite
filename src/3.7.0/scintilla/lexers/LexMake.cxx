@@ -1,9 +1,17 @@
 // Scintilla source code edit control
-/** @file LexMake.cxx
- ** Lexer for make files.
- **/
-// Copyright 1998-2001 by Neil Hodgson <neilh@scintilla.org>
-// The License.txt file describes the conditions under which this software may be distributed.
+/**
+ * @file LexMake.cxx
+ * @date 28.05.2017
+ * @brief Lexer for make files
+ * @author Neil Hodgson, Thorsten Kani
+ *
+ * Copyright 1998-2001 by Neil Hodgson <neilh@scintilla.org>
+ * The License.txt file describes the conditions under which this software may
+ * be distributed.
+ *
+ * 28.05.2017: Styles for Directives / internal functions / internal and automatic Vars 
+ *
+ */
 
 #include <stdlib.h>
 #include <iostream>
@@ -56,6 +64,7 @@ static void ColouriseMakeLine(
 	while ((i < lengthLine) && isspacechar(slineBuffer[i])) {
 		i++;
 	}
+
 
 	// Create Word Buffer for current Line (from lexBatch)
 	std::string wordBuffer;	// Word Buffer
