@@ -66,9 +66,6 @@ static void ColouriseMakeLine(
 	}
 
 
-	// Create Word Buffer for current Line (from lexBatch)
-	std::string wordBuffer;	// Word Buffer
-
 	if (i < lengthLine) {
 		if (slineBuffer[i] == '#') {	// Comment
 			styler.ColourTo(endPos, SCE_MAKE_COMMENT);
@@ -82,6 +79,7 @@ static void ColouriseMakeLine(
 
 	int varCount = 0; // increments on $
 	int inVarCount = 0; // increments on identifiers within $vars @...D/F
+	std::string wordBuffer;	// Word Buffer (see LexBatch)
 
 	while (i < lengthLine) {
 		wordBuffer.append(slineBuffer.substr(i,1));
