@@ -36,8 +36,6 @@
 using namespace Scintilla;
 #endif
 
-static const int MAX_KEYWORD_LEN=30;
-
 static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 	return (styler[i] == '\n') ||
 	       ((styler[i] == '\r') && (styler.SafeGetCharAt(i + 1) != '\n'));
@@ -66,7 +64,6 @@ static void ColouriseMakeLine(
 	while ((i < lengthLine) && isspacechar(slineBuffer[i])) {
 		i++;
 	}
-
 
 	if (i < lengthLine) {
 		if (slineBuffer[i] == '#') {	// Comment
@@ -198,8 +195,8 @@ static void ColouriseMakeLine(
 			lastNonSpace = i;
 		}
 
-		// clear lookBack Buffer on any styleChange and on MAX_KEYWORD_LEN.  (currently 30 chars)
-		if (state_prev != SCE_MAKE_DEFAULT || wordBuffer.size() >= MAX_KEYWORD_LEN ) {
+		// clear lookBack Buffer on any styleChange and on whitespace.
+		if (state_prev != SCE_MAKE_DEFAULT || !isalpha(slineBuffer[i]) ) {
 			wordPart.clear();
 			wordBuffer.clear();
 		}

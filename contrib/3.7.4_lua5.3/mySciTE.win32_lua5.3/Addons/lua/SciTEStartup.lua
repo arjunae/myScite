@@ -49,12 +49,12 @@ function markLinks()
 -- search for textlinks and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
 --
 	local marker=10
-	editor.IndicStyle[marker] = INDIC_DIAGONAL -- INDIC_COMPOSITIONTHIN
-	editor.IndicFore[marker]  = 0xDE0202
+	editor.IndicStyle[marker] = INDIC_COMPOSITIONTHIN
+	editor.IndicFore[marker]  = 0xBE3333
 	
 	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
 	body="[a-zA-Z0-9]?." 	-- followed by a word  (eg www or the domain)
-	suffix="[^ \r\n\"\'<]+" 	-- ends with space, newline < " or '
+	suffix="[^ \r\n\t\"\'<]+" 	-- ends with space, newline,tab < " or '
 	mask=prefix..body..suffix 
 	EditorClearMarks(marker) -- common.lua
 	local s,e = editor:findtext( mask, SCFIND_REGEXP, 0)
@@ -62,20 +62,10 @@ function markLinks()
 		EditorMarkText(s, e-s, marker) -- common.lua
 		s,e =  editor:findtext( mask, SCFIND_REGEXP, s+1)
 	end
+	
+	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :) 
 end
 
-function OnDoubleClick()
--- print("DoubleClick")
-end
+scite_OnOpenSwitch(markLinks)
 
-function OnOpen(path)
-	 markLinks()
-end
-
-function OnSwitchFile(path)
-	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) 	-- Neals funny bufferSwitch Cursor colors :)    
-	markLinks()
-end
-
--- Test MenuCommand
--- scite.MenuCommand(IDM_MONOFONT)
+-- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand

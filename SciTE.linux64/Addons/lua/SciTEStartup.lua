@@ -5,12 +5,12 @@ io.stdout:setvbuf("no")
 defaultHome = props["SciteDefaultHome"]
 package.path = package.path ..";"..defaultHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..defaultHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-extman\\?.lua;"
-package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
+package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.so;"
 
 --~ If available, use spawner-ex to help reduce flickering within scite_popen
 local pathSpawner= props["spawner.extension.path"]
 if not pathSpawner~="" then
- fnInit,err= package.loadlib(pathSpawner.."/spawner-ex.dll",'luaopen_spawner')
+ fnInit,err= package.loadlib(pathSpawner.."/spawner-ex.so",'luaopen_spawner')
  if not err then fnInit() end
 end
 
