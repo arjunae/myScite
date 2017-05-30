@@ -2,14 +2,11 @@
 /**
  * @file LexMake.cxx
  * @brief Lexer for make files
- * @author Neil Hodgson
+ * @author Neil Hodgson, Thorsten Kani(marcedo@HabMalneFrage.de)
  *
  * Copyright 1998-2001 by Neil Hodgson <neilh@scintilla.org>
  * The License.txt file describes the conditions under which this software may
  * be distributed.
- *
- * 28.05.2017:  Thorsten Kani, Styles for Directives / internal functions / internal and automatic Vars.
- *
  *
  */
 
@@ -78,33 +75,34 @@ static void ColouriseMakeLine(
 
 	int varCount = 0; // increments on $
 	int inVarCount = 0; // increments on identifiers within $vars @...D/F
-	std::string wordBuffer;	// Word Buffer (see LexBatch)
 
 	while (i < lengthLine) {
-		wordBuffer.append(slineBuffer.substr(i,1));
-
 		// color keywords within current line
 		WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
 		WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
 
-		// search for longest keyword match backwards from current position. Case dependent.
+		// search for longest keyword match backwards from current position to next word boundary. Case dependent.
 		std::string wordPart;
 		unsigned int match_kw0=0;
 		unsigned int match_kw1=0;
-		for (unsigned int matchpos=0; matchpos<=wordBuffer.size(); matchpos++) {
-			wordPart.insert(0, wordBuffer.substr(wordBuffer.size()-matchpos, 1));
+		for (unsigned int marker=0; marker<=i; marker++) {
+			wordPart.insert(0, slineBuffer.substr(i-marker, 1));
 			if (kwGeneric.InList(wordPart.c_str()))
-				match_kw0=matchpos;
+					match_kw0=marker;
 			if (kwFunctions.InList(wordPart.c_str()))
-				match_kw1=matchpos;
+				match_kw1=marker;
+			if (!isalpha(slineBuffer[i -match_kw0])) {
+				wordPart.clear();
+				break;
+			}
 		}		
-		
+
 		// style for Directives. Rule: Prepended by whitespace, = or line start.
-		if (match_kw0 >0 
-			&& (isspacechar(slineBuffer[i -match_kw0]) 
-			|| slineBuffer[i -match_kw0] == 0 
-			|| slineBuffer[i -match_kw0] == '=')) {
-			styler.ColourTo(startLine +i -match_kw0, state);
+		if (match_kw0 >0 		
+		&& (slineBuffer[i -match_kw0-1] == '=' 
+		|| isspacechar(slineBuffer[i -match_kw0 -1])		
+		|| i -match_kw0 == 0)) {
+			styler.ColourTo(startLine +i -match_kw0 -1, state);
 			state_prev = state;
 			state=SCE_MAKE_DIRECTIVE;
 		} else if (match_kw0 == 0 && state == SCE_MAKE_DIRECTIVE) {
@@ -113,8 +111,8 @@ static void ColouriseMakeLine(
 		}
 
 		// style functions $(sort,subst...) and predefined Variables Rule: have to be prepended by '('.
-		if (match_kw1 >0 && slineBuffer[i -match_kw1] == '(') {
-			styler.ColourTo(startLine +i -match_kw1, state);
+		if (match_kw1 >0 && slineBuffer[i -match_kw1 -1] == '(') {
+			styler.ColourTo(startLine +i -match_kw1 -1, state);
 			state_prev = state;
 			state=SCE_MAKE_OPERATOR;
 		} else if (match_kw1 == 0 && state == SCE_MAKE_OPERATOR) {
@@ -193,12 +191,6 @@ static void ColouriseMakeLine(
 		}
 		if (!isspacechar(slineBuffer[i])) {
 			lastNonSpace = i;
-		}
-
-		// clear lookBack Buffer on any styleChange and on whitespace.
-		if (state_prev != SCE_MAKE_DEFAULT || !isalpha(slineBuffer[i]) ) {
-			wordPart.clear();
-			wordBuffer.clear();
 		}
 
 		i++;

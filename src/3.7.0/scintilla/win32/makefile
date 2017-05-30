@@ -15,9 +15,8 @@ LIBSMINGW = -lstdc++
 STRIPOPTION = -s
 CXXSTD = gnu++0x
 endif
-
 .SUFFIXES: .cxx
-ifeq ($(OS),Windows_NT)
+ifeq (OS),Windows_NT)
 DEL = del /q
 else
 DEL = rm -f
