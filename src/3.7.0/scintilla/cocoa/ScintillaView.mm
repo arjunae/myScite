@@ -248,7 +248,10 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor)
 - (void) updateTrackingAreas
 {
   if (trackingArea)
+  {
     [self removeTrackingArea:trackingArea];
+    [trackingArea release];
+  }
 
   int opts = (NSTrackingActiveAlways | NSTrackingInVisibleRect | NSTrackingMouseEnteredAndExited | NSTrackingMouseMoved);
   trackingArea = [[NSTrackingArea alloc] initWithRect:[self bounds]
@@ -298,7 +301,8 @@ static NSCursor *cursorFromEnum(Window::Cursor cursor)
   [super resetCursorRects];
 
   // We only have one cursor rect: our bounds.
-  [self addCursorRect: [self bounds] cursor: mCurrentCursor];
+  const NSRect visibleBounds = mOwner.backend->GetBounds();
+  [self addCursorRect: visibleBounds cursor: mCurrentCursor];
   [mCurrentCursor setOnMouseEntered: YES];
 }
 
@@ -1244,6 +1248,7 @@ sourceOperationMaskForDraggingContext: (NSDraggingContext) context
 - (void) dealloc
 {
   [mCurrentCursor release];
+  [trackingArea release];
   [super dealloc];
 }
 
@@ -1559,6 +1564,7 @@ sourceOperationMaskForDraggingContext: (NSDraggingContext) context
 - (void) dealloc
 {
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  mBackend->Finalise();
   delete mBackend;
   mBackend = NULL;
   mContent.owner = nil;

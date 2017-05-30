@@ -1,4 +1,4 @@
--- go@ dofile *
+--go@ dofile $(FilePath)
 -- ^^tell Scite to use its internal Lua interpreter.
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 print("Hello from scitelua!")
@@ -7,7 +7,6 @@ print("Hello from scitelua!")
 -- ## MsWin widget Library
 -- ##################
 require 'gui'
-
 
 function test_gui()
 -- testcases for lib GUI

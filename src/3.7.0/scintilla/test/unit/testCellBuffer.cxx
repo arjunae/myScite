@@ -2,7 +2,9 @@
 
 #include <cstring>
 #include <stdexcept>
+#include <vector>
 #include <algorithm>
+#include <memory>
 
 #include "Platform.h"
 

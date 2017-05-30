@@ -1,15 +1,15 @@
 // Scintilla source code edit control
 /**
  * @file LexMake.cxx
- * @date 28.05.2017
  * @brief Lexer for make files
- * @author Neil Hodgson, Thorsten Kani
+ * @author Neil Hodgson
  *
  * Copyright 1998-2001 by Neil Hodgson <neilh@scintilla.org>
  * The License.txt file describes the conditions under which this software may
  * be distributed.
  *
- * 28.05.2017: Styles for Directives / internal functions / internal and automatic Vars 
+ * 28.05.2017:  Thorsten Kani, Styles for Directives / internal functions / internal and automatic Vars.
+ *
  *
  */
 
@@ -35,6 +35,8 @@
 #ifdef SCI_NAMESPACE
 using namespace Scintilla;
 #endif
+
+static const int MAX_KEYWORD_LEN=30;
 
 static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 	return (styler[i] == '\n') ||
@@ -196,7 +198,8 @@ static void ColouriseMakeLine(
 			lastNonSpace = i;
 		}
 
-		if (state_prev != SCE_MAKE_DEFAULT) {
+		// clear lookBack Buffer on any styleChange and on MAX_KEYWORD_LEN.  (currently 30 chars)
+		if (state_prev != SCE_MAKE_DEFAULT || wordBuffer.size() >= MAX_KEYWORD_LEN ) {
 			wordPart.clear();
 			wordBuffer.clear();
 		}

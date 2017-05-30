@@ -60,16 +60,10 @@ function markLinks()
 		EditorMarkText(s, e-s, marker) -- common.lua
 		s,e =  editor:findtext( mask, SCFIND_REGEXP, s+1)
 	end
+	
+	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :) 
 end
 
-function OnOpen(path)
-	 markLinks()
-end
+scite_OnOpenSwitch(markLinks)
 
-function OnSwitchFile(path)
-	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :)    
-	markLinks()
-end
-
--- Test MenuCommand
--- scite.MenuCommand(IDM_MONOFONT)
+-- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand

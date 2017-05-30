@@ -1,3 +1,4 @@
+--go@ dofile $(FilePath)
 -----------------------------------------------------------------------
 -- Basic Calculator for SciTE
 -- Kein-Hong Man <khman@users.sf.net> (version information below)
