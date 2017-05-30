@@ -75,28 +75,40 @@ static void ColouriseMakeLine(
 
 	int varCount = 0; // increments on $
 	int inVarCount = 0; // increments on identifiers within $vars @...D/F
-
+	
+	bool bInString=false;
+	const int iMaxKwLen=30;
+ 	
 	while (i < lengthLine) {
 		// color keywords within current line
 		WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
 		WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
 
-		// search for longest keyword match backwards from current position to next word boundary. Case dependent.
-		std::string wordPart;
 		unsigned int match_kw0=0;
 		unsigned int match_kw1=0;
-		for (unsigned int marker=0; marker<=i; marker++) {
-			wordPart.insert(0, slineBuffer.substr(i-marker, 1));
-			if (kwGeneric.InList(wordPart.c_str()))
+		std::string wordPart;
+		
+		// wordboundary toggle
+		if (isalpha(slineBuffer[i]) && !isalpha(slineBuffer[i-1])) {
+			bInString=true;
+		} else if (bInString && !isalpha(slineBuffer[i])) {
+			bInString=false;
+			wordPart.clear();
+		}  
+		
+		if (bInString) {
+		// for every word, search for longest keyword match backwards. Case dependent.
+			for (unsigned int marker=0; marker<=i; marker++) {
+					wordPart.insert(0, slineBuffer.substr(i-marker, 1));
+				if (kwGeneric.InList(wordPart.c_str()))
 					match_kw0=marker;
-			if (kwFunctions.InList(wordPart.c_str()))
-				match_kw1=marker;
-			if (!isalpha(slineBuffer[i -match_kw0])) {
-				wordPart.clear();
-				break;
-			}
-		}		
-
+				if (kwFunctions.InList(wordPart.c_str()))
+					match_kw1=marker;
+				if (marker>iMaxKwLen) 
+					break;
+			}		
+		}
+		
 		// style for Directives. Rule: Prepended by whitespace, = or line start.
 		if (match_kw0 >0 		
 		&& (slineBuffer[i -match_kw0-1] == '=' 
