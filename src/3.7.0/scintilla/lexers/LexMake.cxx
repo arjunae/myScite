@@ -99,13 +99,13 @@ static void ColouriseMakeLine(
 		if (bInString) {
 		// for every word, search for longest keyword match backwards. Case dependent.
 			for (unsigned int marker=0; marker<=i; marker++) {
-					wordPart.insert(0, slineBuffer.substr(i-marker, 1));
+				if (marker>iMaxKwLen) 
+					break;
+				wordPart.insert(0, slineBuffer.substr(i-marker, 1));
 				if (kwGeneric.InList(wordPart.c_str()))
 					match_kw0=marker;
 				if (kwFunctions.InList(wordPart.c_str()))
 					match_kw1=marker;
-				if (marker>iMaxKwLen) 
-					break;
 			}		
 		}
 		
