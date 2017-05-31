@@ -1,5 +1,5 @@
 --- lexMake.cxx	2017-04-01 19:11:22.000000000 +0200
-+++ LexMake_mod.cxx	2017-05-31 16:53:38.000000000 +0200
++++ LexMake_mod.cxx	2017-05-31 17:14:10.000000000 +0200
 @@ -1,11 +1,17 @@
  // Scintilla source code edit control
 -/** @file LexMake.cxx
@@ -19,11 +19,11 @@
 + */
  
  #include <stdlib.h>
-+#include <iostream>
++#include <string>
  #include <string.h>
  #include <stdio.h>
  #include <stdarg.h>
-@@ -33,53 +39,136 @@
+@@ -33,53 +39,137 @@
  }
  
  static void ColouriseMakeLine(
@@ -72,22 +72,23 @@
 +	
 +	bool bInString=false;
 +	const int iMaxKwLen=30;
-+ 	
++	
++	// color keywords within current line
++	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
++	WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
++		
  	while (i < lengthLine) {
 -		if (((i + 1) < lengthLine) && (lineBuffer[i] == '$' && lineBuffer[i + 1] == '(')) {
-+		// color keywords within current line
-+		WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
-+		WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
 +
 +		unsigned int match_kw0=0;
 +		unsigned int match_kw1=0;
 +		std::string wordPart;
 +		
 +		// dont style on nonKeyWordChars or when already styling other content.
-+		if (isalpha(slineBuffer[i]) && !isalpha(slineBuffer[i-1]) 
++		if (isgraph(slineBuffer[i]) && !isgraph(slineBuffer[i-1]) 
 +		&& (state == SCE_MAKE_DEFAULT || state == SCE_MAKE_USER_VARIABLE)) {
 +			bInString=true;
-+		} else if (!isalpha(slineBuffer[i])) {
++		} else if (!isgraph(slineBuffer[i])) {
 +			bInString=false;
 +			wordPart.clear();
 +		}  
@@ -114,8 +115,7 @@
 +			state_prev = state;
 +			state=SCE_MAKE_DIRECTIVE;
 +		} else if (match_kw0 == 0 && state == SCE_MAKE_DIRECTIVE) {
- 			styler.ColourTo(startLine + i - 1, state);
--			state = SCE_MAKE_IDENTIFIER;
++			styler.ColourTo(startLine +i -1, state);
 +			state=state_prev;
 +		}
 +
@@ -131,7 +131,8 @@
 +
 +		// Style User Variables Rule: $(...)
 +		if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(')  {
-+			styler.ColourTo(startLine +i -1, state);
+ 			styler.ColourTo(startLine + i - 1, state);
+-			state = SCE_MAKE_IDENTIFIER;
 +			state = SCE_MAKE_USER_VARIABLE;
  			varCount++;
 -		} else if (state == SCE_MAKE_IDENTIFIER && lineBuffer[i] == ')') {
@@ -171,7 +172,7 @@
  					// it's a ':=', so style as an identifier
  					if (lastNonSpace >= 0)
  						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-@@ -90,33 +179,44 @@
+@@ -90,33 +180,44 @@
  					// to avoid colouring stuff like /OUT:file
  					if (lastNonSpace >= 0)
  						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
@@ -224,7 +225,7 @@
  	char lineBuffer[1024];
  	styler.StartAt(startPos);
  	styler.StartSegment(startPos);
-@@ -127,18 +227,20 @@
+@@ -127,18 +228,20 @@
  		if (AtEOL(styler, i) || (linePos >= sizeof(lineBuffer) - 1)) {
  			// End of line (or of line buffer) met, colourise it
  			lineBuffer[linePos] = '\0';

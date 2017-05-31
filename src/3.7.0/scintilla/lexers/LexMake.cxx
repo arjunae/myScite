@@ -11,7 +11,7 @@
  */
 
 #include <stdlib.h>
-#include <iostream>
+#include <string>
 #include <string.h>
 #include <stdio.h>
 #include <stdarg.h>
@@ -78,21 +78,22 @@ static void ColouriseMakeLine(
 	
 	bool bInString=false;
 	const int iMaxKwLen=30;
- 	
+	
+	// color keywords within current line
+	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
+	WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
+		
 	while (i < lengthLine) {
-		// color keywords within current line
-		WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
-		WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
 
 		unsigned int match_kw0=0;
 		unsigned int match_kw1=0;
 		std::string wordPart;
 		
 		// dont style on nonKeyWordChars or when already styling other content.
-		if (isalpha(slineBuffer[i]) && !isalpha(slineBuffer[i-1]) 
+		if (isgraph(slineBuffer[i]) && !isgraph(slineBuffer[i-1]) 
 		&& (state == SCE_MAKE_DEFAULT || state == SCE_MAKE_USER_VARIABLE)) {
 			bInString=true;
-		} else if (!isalpha(slineBuffer[i])) {
+		} else if (!isgraph(slineBuffer[i])) {
 			bInString=false;
 			wordPart.clear();
 		}  
