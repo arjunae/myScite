@@ -88,16 +88,17 @@ static void ColouriseMakeLine(
 		unsigned int match_kw1=0;
 		std::string wordPart;
 		
-		// wordboundary toggle
-		if (isalpha(slineBuffer[i]) && !isalpha(slineBuffer[i-1])) {
+		// dont style on nonKeyWordChars or when already styling other content.
+		if (isalpha(slineBuffer[i]) && !isalpha(slineBuffer[i-1]) 
+		&& (state == SCE_MAKE_DEFAULT || state == SCE_MAKE_USER_VARIABLE)) {
 			bInString=true;
-		} else if (bInString && !isalpha(slineBuffer[i])) {
+		} else if (!isalpha(slineBuffer[i])) {
 			bInString=false;
 			wordPart.clear();
 		}  
-		
+
+		// for every word, search for longest keyword match backwards. Case dependent.		
 		if (bInString) {
-		// for every word, search for longest keyword match backwards. Case dependent.
 			for (unsigned int marker=0; marker<=i; marker++) {
 				if (marker>iMaxKwLen) 
 					break;

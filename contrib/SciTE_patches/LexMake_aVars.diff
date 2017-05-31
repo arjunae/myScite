@@ -1,5 +1,5 @@
 --- lexMake.cxx	2017-04-01 19:11:22.000000000 +0200
-+++ LexMake_mod.cxx	2017-05-30 20:59:58.000000000 +0200
++++ LexMake_mod.cxx	2017-05-31 16:53:38.000000000 +0200
 @@ -1,11 +1,17 @@
  // Scintilla source code edit control
 -/** @file LexMake.cxx
@@ -23,7 +23,7 @@
  #include <string.h>
  #include <stdio.h>
  #include <stdarg.h>
-@@ -33,53 +39,135 @@
+@@ -33,53 +39,136 @@
  }
  
  static void ColouriseMakeLine(
@@ -83,24 +83,25 @@
 +		unsigned int match_kw1=0;
 +		std::string wordPart;
 +		
-+		// wordboundary toggle
-+		if (isalpha(slineBuffer[i]) && !isalpha(slineBuffer[i-1])) {
++		// dont style on nonKeyWordChars or when already styling other content.
++		if (isalpha(slineBuffer[i]) && !isalpha(slineBuffer[i-1]) 
++		&& (state == SCE_MAKE_DEFAULT || state == SCE_MAKE_USER_VARIABLE)) {
 +			bInString=true;
-+		} else if (bInString && !isalpha(slineBuffer[i])) {
++		} else if (!isalpha(slineBuffer[i])) {
 +			bInString=false;
 +			wordPart.clear();
 +		}  
-+		
++
++		// for every word, search for longest keyword match backwards. Case dependent.		
 +		if (bInString) {
-+		// for every word, search for longest keyword match backwards. Case dependent.
 +			for (unsigned int marker=0; marker<=i; marker++) {
-+					wordPart.insert(0, slineBuffer.substr(i-marker, 1));
++				if (marker>iMaxKwLen) 
++					break;
++				wordPart.insert(0, slineBuffer.substr(i-marker, 1));
 +				if (kwGeneric.InList(wordPart.c_str()))
 +					match_kw0=marker;
 +				if (kwFunctions.InList(wordPart.c_str()))
 +					match_kw1=marker;
-+				if (marker>iMaxKwLen) 
-+					break;
 +			}		
 +		}
 +		
@@ -170,7 +171,7 @@
  					// it's a ':=', so style as an identifier
  					if (lastNonSpace >= 0)
  						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-@@ -90,33 +178,44 @@
+@@ -90,33 +179,44 @@
  					// to avoid colouring stuff like /OUT:file
  					if (lastNonSpace >= 0)
  						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
@@ -223,7 +224,7 @@
  	char lineBuffer[1024];
  	styler.StartAt(startPos);
  	styler.StartSegment(startPos);
-@@ -127,18 +226,20 @@
+@@ -127,18 +227,20 @@
  		if (AtEOL(styler, i) || (linePos >= sizeof(lineBuffer) - 1)) {
  			// End of line (or of line buffer) met, colourise it
  			lineBuffer[linePos] = '\0';
