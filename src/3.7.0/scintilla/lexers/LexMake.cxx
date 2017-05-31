@@ -76,7 +76,7 @@ static void ColouriseMakeLine(
 	int varCount = 0; // increments on $
 	int inVarCount = 0; // increments on identifiers within $vars @...D/F
 	
-	bool bInString=false;
+	bool bFoundWord=false;
 	const int iMaxKwLen=30;
 	
 	// color keywords within current line
@@ -88,18 +88,17 @@ static void ColouriseMakeLine(
 		unsigned int match_kw0=0;
 		unsigned int match_kw1=0;
 		std::string wordPart;
-		
-		// dont style on nonKeyWordChars or when already styling other content.
+
+		// search for longest keyword match backwards. Case dependent.			
+		// Rules: for every new word in line / dont style on nonKeyWordChars or when already styling other content.
 		if (isgraph(slineBuffer[i]) && !isgraph(slineBuffer[i-1]) 
 		&& (state == SCE_MAKE_DEFAULT || state == SCE_MAKE_USER_VARIABLE)) {
-			bInString=true;
+			bFoundWord=true;
 		} else if (!isgraph(slineBuffer[i])) {
-			bInString=false;
-			wordPart.clear();
+			bFoundWord=false;
 		}  
 
-		// for every word, search for longest keyword match backwards. Case dependent.		
-		if (bInString) {
+		if (bFoundWord) {
 			for (unsigned int marker=0; marker<=i; marker++) {
 				if (marker>iMaxKwLen) 
 					break;
@@ -122,7 +121,7 @@ static void ColouriseMakeLine(
 		} else if (match_kw0 == 0 && state == SCE_MAKE_DIRECTIVE) {
 			styler.ColourTo(startLine +i -1, state);
 			state=state_prev;
-		}
+		} 
 
 		// style functions $(sort,subst...) and predefined Variables Rule: have to be prepended by '('.
 		if (match_kw1 >0 && slineBuffer[i -match_kw1 -1] == '(') {
@@ -205,6 +204,9 @@ static void ColouriseMakeLine(
 		}
 		if (!isspacechar(slineBuffer[i])) {
 			lastNonSpace = i;
+		} else {
+			wordPart.clear();
+			bFoundWord=false; // stop keywordsearch till next wordBoundary.
 		}
 
 		i++;
