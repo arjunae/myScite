@@ -20,13 +20,19 @@ local panel_width= 150
 	-- Attach an event handler
 	wnd:on_close(function() print("gui window closed") end)
 
+	-- define a rtf colorformat 
+	local rtf = [[{\rtf {\colortbl; \red30 \green60 \blue90;} ]]
+
 	-- Now, lets create 2 Tabulators
 	local tab0= gui.panel(panel_width)
-	memo=gui.memo()
-	tab0:add(memo, "top", 25)
+	memo0=gui.memo()
+	memo0:set_text(rtf.."Heyo from tab0 :) ")		
+	tab0:add(memo0, "top", 80)
+	
 	local tab1= gui.panel(panel_width)
-	memo=gui.memo()
-	tab1:add(memo, "bottom", 25)
+	memo1=gui.memo()
+	memo1:set_text(rtf.."\\cf1Heyo from tab1 :p ")
+	tab1:add(memo1, "top", 80)
 	
 	-- And add them to our main window
 	local tabs= gui.tabbar(wnd)
@@ -36,6 +42,7 @@ local panel_width= 150
 	wnd:client(tab0)	
 	-- again, add an event handler for our tabs
 	tabs:on_select(function(ind)
+
 		print("selected tab "..ind)
 	end)
 	

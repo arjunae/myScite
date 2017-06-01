@@ -1,3 +1,4 @@
+--go@ dofile $(FilePath)
 -----------------------------------------------------------------------
 -- Basic Calculator for SciTE
 -- Kein-Hong Man <khman@users.sf.net> (version information below)
@@ -549,7 +550,7 @@ function Calculator()
 --~   scite_OnChar(HandleChar)
   props["default.file.ext"] = ".vbs"
   scite.Open("")                        -- create a new buffer
-  --scite.MenuCommand(IDM_MONOFONT)
+  scite.MenuCommand(IDM_MONOFONT)
   buffer[SIG] = true;
   buffer.Help = false
   CalcInit()                            -- initialize calculator
