@@ -1,3 +1,4 @@
+# Redefine Scites Options Menu. Introduces Submenus Edit, Config Files and Languages.
 diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
 --- scintilla-scite/gtk/SciTEGTK.cxx	2017-03-07 23:19:44.000000000 +0100
 +++ scite/gtk/SciTEGTK.cxx	2017-02-26 07:28:04.000000000 +0100
