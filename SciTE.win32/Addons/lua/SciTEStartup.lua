@@ -2,7 +2,7 @@
 io.stdout:setvbuf("no")
 --print("startupScript_reload")
 
-defaultHome = props["SciteDefaultHome"]
+defaultHome = props["SciteUserHome"]
 package.path = package.path ..";"..defaultHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..defaultHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
