@@ -200,5 +200,5 @@ function IsURI(s)
 	return n and n-1 -- the `-1` is indeed needed
 end
 
-dofile(defaultHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
+--dofile(defaultHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
 dofile(defaultHome..'\\Addons\\lua\\mod-sidebar\\ctagsd.lua')

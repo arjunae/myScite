@@ -35,7 +35,7 @@ dofile(defaultHome..'\\Addons\\lua\\mod-macros\\macros.lua')
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
 dofile(defaultHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 
--- Load Sidebar
+-- Load CTags
 package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(defaultHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
