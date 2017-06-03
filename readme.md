@@ -1,7 +1,7 @@
 ~ mySciTE.webdev ~
 
 [02.06.2017] currentGit
-- antialiased fonts style .json & .mib Files.
+- antialiased fonts. / style .json & .mib Files.
 - unified mingw makefiles in lua repo
 - added luacom (call windows com objects like speech / mshtml and others)
 - added luasocket (ip socket support)
