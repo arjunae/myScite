@@ -1,5 +1,5 @@
-# Enable Nainbwindow transparency. Needs Windows >=2k.
-# Introduce writeable Property window.transparency
+///@brief Enable Mainwindow transparency. Needs Windows >=2k.
+// Introduce writeable Property window.transparency
 diff -Nurw scintilla-scite/win32/SciTEWin.cxx scite/win32/SciTEWin.cxx
 --- scintilla-scite/win32/SciTEWin.cxx	2016-12-17 18:53:36.000000000 +0100
 +++ scite/win32/SciTEWin.cxx	2016-12-03 13:55:12.000000000 +0100

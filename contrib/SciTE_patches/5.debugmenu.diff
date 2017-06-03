@@ -1,3 +1,4 @@
+///@brief Introduce Menu Debug and add Window Messages 601-611. 
 diff -Nurw scintilla-scite/src/SciTE.h scite/src/SciTE.h
 --- scintilla-scite/src/SciTE.h	2017-01-20 21:49:26.000000000 +0100
 +++ scite/src/SciTE.h	2017-01-20 17:46:14.000000000 +0100

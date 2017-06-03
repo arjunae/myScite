@@ -1,3 +1,4 @@
+///@brief regrow Autocomplete List when hitting backspace.
 diff -Nurw scintilla-scite/src/SciTEBase.cxx scite/src/SciTEBase.cxx
 --- scintilla-scite/src/SciTEBase.cxx	2016-10-08 14:58:36.000000000 +0200
 +++ scite/src/SciTEBase.cxx	2016-10-08 14:59:12.000000000 +0200
