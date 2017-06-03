@@ -2,10 +2,10 @@
 io.stdout:setvbuf("no")
 --print("startupScript_reload")
 
-defaultHome = props["SciteUserHome"]
-package.path = package.path ..";"..defaultHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..defaultHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
-package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-extman\\?.lua;"
-package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.dll;"
+myHome = props["SciteUserHome"].."/user"
+package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
+package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
+package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
 
 --~ If available, use spawner-ex to help reduce flickering within scite_popen
 local pathSpawner= props["spawner.extension.path"]
@@ -20,24 +20,27 @@ math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 
--- Load extman.lua (also "eventmanager.lua")
-dofile(defaultHome..'\\Addons\\lua\\mod-extman\\extman.lua')
+-- Load extman.lua 
+dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
+
+-- chainload eventmanager / extman remake used by some lua mods
+dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
 -- Load mod-mitchell 
-package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
-dofile(defaultHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
+dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 
 -- Load mod-macros
-package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-macros\\?.lua;"
-dofile(defaultHome..'\\Addons\\lua\\mod-macros\\macros.lua')
+package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-macros\\?.lua;"
+dofile(myHome..'\\Addons\\lua\\mod-macros\\macros.lua')
 
 -- Load Orthospell 
-package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
-dofile(defaultHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
+package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
+dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 
--- Load Sidebar
-package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-dofile(defaultHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
+-- Load Ctags
+package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
+dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
 -- ##################  Lua Samples #####################
 -- ###############################################

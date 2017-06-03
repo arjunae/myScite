@@ -12,9 +12,6 @@ Description:	a (simple) URI recognizer as Lua module
 Requires:	lpeg>=0.10 (with `re` module)
 --]]
 
-package.path =  package.path ..";"..defaultHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-
-
 --[[ http://tools.ietf.org/html/rfc3986#appendix-A
 Appendix A. Collected ABNF for URI
 
@@ -200,5 +197,5 @@ function IsURI(s)
 	return n and n-1 -- the `-1` is indeed needed
 end
 
-dofile(defaultHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
-dofile(defaultHome..'\\Addons\\lua\\mod-sidebar\\ctagsd.lua')
+--dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
+dofile(myHome..'\\Addons\\lua\\mod-sidebar\\ctagsd.lua')
