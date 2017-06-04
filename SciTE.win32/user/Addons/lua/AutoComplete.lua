@@ -1,6 +1,8 @@
 --go@ dofile $(FilePath)
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- AutoComplete v0.8 by Lexikos
+-- adapted to also function with scite. --
+
 --[[
 Tested on SciTE4AutoHotkey 3.0.06.01; may also work on SciTE 3.1.0 or later.
 To use this script with SciTE4AutoHotkey:
@@ -15,26 +17,9 @@ local IGNORE_STYLES = { -- Should include comments, strings and errors.
     [SCLEX_LUA]  = {1,2,3,6,7,8,12}
 }
 
-local INCREMENTAL = true
-local IGNORE_CASE = true
-local CASE_CORRECT = true
-local CASE_CORRECT_INSTANT = false
-local WRAP_ARROW_KEYS = false
-local CHOOSE_SINGLE = props["autocomplete.choose.single"]
-
--- Number of chars to type before the autocomplete list appears:
-local MIN_PREFIX_LEN = 2
--- Length of shortest word to add to the autocomplete list:
-local MIN_IDENTIFIER_LEN = 2
--- List of regex patterns for finding suggestions for the autocomplete menu:
-local IDENTIFIER_PATTERNS = {"[a-z_][a-z_0-9]+"}
-
--- Override settings that interfere with this script:
-props["autocomplete.ahk1.start.characters"] = ""
-props["autocomplete.ahk2.start.characters"] = ""
-
--- This feature is very awkward when combined with automatic popups:
-props["autocomplete.choose.single"] = "0"
+function shouldIgnorePos(pos)
+    return isInTable(IGNORE_STYLES[editor.Lexer], editor.StyleAt[pos])
+end
 
 function isInTable(table, elem)
 	if table == null then return false end
@@ -46,27 +31,31 @@ function isInTable(table, elem)
 	return false
 end
 
-function  shouldIgnorePos(pos)
-    return isInTable(IGNORE_STYLES[editor.Lexer], editor.StyleAt[pos])
-end
+local INCREMENTAL = true
+local IGNORE_CASE = true
+local CASE_CORRECT = true
+local CASE_CORRECT_INSTANT = false
+local WRAP_ARROW_KEYS = false
+local CHOOSE_SINGLE = props["autocomplete.choose.single"]
 
+-- Number of chars to type before the autocomplete list appears:
+local MIN_PREFIX_LEN = 2
+-- Length of shortest word to add to the autocomplete list:
+local MIN_IDENTIFIER_LEN = 4
+-- List of regex patterns for finding suggestions for the autocomplete menu:
+local IDENTIFIER_PATTERNS = {"[a-z_][a-z_0-9]+"}
 
-function buildNames()
-    list_names = {}
-    local text = editor:GetText()
-    for i, pattern in ipairs(IDENTIFIER_PATTERNS) do
-        for word in string.gmatch(text, pattern) do
-            if string.len(word) >= MIN_IDENTIFIER_LEN then
-                list_names[word] = true
-            end
-        end
-    end
-end
+-- Override settings that interfere with this script:
+props["autocomplete.ahk1.start.characters"] = ""
+props["autocomplete.ahk2.start.characters"] = ""
+
+-- This feature is very awkward when combined with automatic popups:
+props["autocomplete.choose.single"] = "0"
 
 local names = {}
 
 local notempty = next
-local shouldIgnorePos -- init'd by buildNames().
+--local shouldIgnorePos -- init'd by buildNames().
 local normalize
 
 if IGNORE_CASE then
@@ -89,7 +78,6 @@ local function setLexerSpecificStuff()
     end
 end
 
-
 local apiCache = {} -- Names from api files, stored by lexer name.
 
 local function getApiNames()
@@ -99,9 +87,8 @@ local function getApiNames()
     end
     local apiNames = {}
     local apiFiles = props["APIPath"] or ""
-print ("ac>build_names->apipath:"..props["APIPath"] )
-print ("ac>fixme: doesnt handle string term ; correctly")
-    apiFiles:gsub(";", function(apiFile) -- For each in ;-delimited list.  -- (Fix: above may return a single, unparsable ";" ..... )
+    apiFiles:gsub(";", function(apiFile) -- For each in ;-delimited list.  
+    if apiFile:match(";") then return end -- above may return a single, unparsable ";" 
     for name in io.lines(apiFile) do
         name = name:gsub("[\(, ].*", "") -- Discard parameters/comments.
             if string.len(name) > 0 then
@@ -149,6 +136,7 @@ local function buildNames()
     end
     table.sort(names, function(a,b) return normalize(a) < normalize(b) end)
     buffer.namesForAutoComplete = names -- Cache it for OnSwitchFile.
+    print ("ac>buildNames:  ...Created a new keywordlist")
 end
 
 
@@ -182,23 +170,21 @@ local function handleChar(char, calledByHotkey)
             -- Otherwise, we were called explicitly without a param.
         end
     end
-    
-    -- FIXHere
- --[[   if not editor:AutoCActive() and shouldIgnorePos(startPos) and not calledByHotkey then
+
+ if not editor:AutoCActive() and shouldIgnorePos(startPos) and not calledByHotkey then
         -- User is typing in a comment or string, so don't automatically
         -- pop up the auto-complete window.
         return
     end
-    ]]
  
     local prefix = normalize(editor:textrange(startPos, pos))
-print("ac>handle_char->Min_len->"..MIN_PREFIX_LEN.." gotWord: "..prefix)
 
     menuItems = {}
     for i, name in ipairs(names) do
         local s = normalize(string.sub(name, 1, len))
         if s >= prefix then
             if s == prefix then 
+                print("ac>handle_char->Min_len->"..MIN_PREFIX_LEN.." gotWord: "..prefix)
                 table.insert(menuItems, name)
             else
                 break -- There will be no more matches.
