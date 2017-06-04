@@ -1,6 +1,5 @@
 --go@ dofile $(FilePath)
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 -- AutoComplete v0.8 by Lexikos
 --[[
 Tested on SciTE4AutoHotkey 3.0.06.01; may also work on SciTE 3.1.0 or later.
@@ -100,8 +99,8 @@ local function getApiNames()
     end
     local apiNames = {}
     local apiFiles = props["APIPath"] or ""
-    print ("ac>build_names->apipath:"..props["APIPath"] )
-    print ("ac>fixme: doesnt handle string term ; correctly")
+print ("ac>build_names->apipath:"..props["APIPath"] )
+print ("ac>fixme: doesnt handle string term ; correctly")
     apiFiles:gsub(";", function(apiFile) -- For each in ;-delimited list.  -- (Fix: above may return a single, unparsable ";" ..... )
     for name in io.lines(apiFile) do
         name = name:gsub("[\(, ].*", "") -- Discard parameters/comments.
@@ -193,7 +192,7 @@ local function handleChar(char, calledByHotkey)
     ]]
  
     local prefix = normalize(editor:textrange(startPos, pos))
-print("ac>handle_char->->Min_len->"..MIN_PREFIX_LEN.." gotWord: "..prefix)
+print("ac>handle_char->Min_len->"..MIN_PREFIX_LEN.." gotWord: "..prefix)
 
     menuItems = {}
     for i, name in ipairs(names) do
