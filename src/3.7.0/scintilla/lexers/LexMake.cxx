@@ -48,6 +48,7 @@ static void ColouriseMakeLine(
 	
 	Sci_PositionU i = 0;
 	Sci_Position lastNonSpace = -1;
+	Sci_PositionU lastSpace = 0;
 	unsigned int state = SCE_MAKE_DEFAULT;
 	unsigned int state_prev = SCE_MAKE_DEFAULT;
 	bool bSpecial = false;
@@ -77,7 +78,7 @@ static void ColouriseMakeLine(
 	int inVarCount = 0; // increments on identifiers within $vars @...D/F
 	
 	bool bFoundWord=false;
-	const int iMaxKwLen=30;
+	const int MAX_KW_LEN=20; // Maximum Length allowed for a makefile Keyword 
 	
 	// color keywords within current line
 	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
@@ -85,22 +86,23 @@ static void ColouriseMakeLine(
 		
 	while (i < lengthLine) {
 
-		unsigned int match_kw0=0;
-		unsigned int match_kw1=0;
+		Sci_PositionU match_kw0=0;
+		Sci_PositionU match_kw1=0;
 		std::string wordPart;
 
 		// search for longest keyword match backwards. Case dependent.			
-		// Rules: for every new word in line / dont style on nonKeyWordChars or when already styling other content.
+		// Rules: for every new word within line / dont style on nonKeyWordChars / not when already styling other content.
 		if (isgraph(slineBuffer[i]) && !isgraph(slineBuffer[i-1]) 
 		&& (state == SCE_MAKE_DEFAULT || state == SCE_MAKE_USER_VARIABLE)) {
 			bFoundWord=true;
 		} else if (!isgraph(slineBuffer[i])) {
 			bFoundWord=false;
 		}  
-
+		
+		// ...Oh, and only look back till last space or MAX_KW_LEN, please.
 		if (bFoundWord) {
-			for (unsigned int marker=0; marker<=i; marker++) {
-				if (marker>iMaxKwLen) 
+			for (Sci_PositionU marker=0; marker<=i; marker++) {
+				if ((lastSpace >0 && marker>lastSpace) || (marker > MAX_KW_LEN)) 
 					break;
 				wordPart.insert(0, slineBuffer.substr(i-marker, 1));
 				if (kwGeneric.InList(wordPart.c_str()))
@@ -207,6 +209,7 @@ static void ColouriseMakeLine(
 		} else {
 			wordPart.clear();
 			bFoundWord=false; // stop keywordsearch till next wordBoundary.
+			lastSpace=i; // max search till last Space.
 		}
 
 		i++;
