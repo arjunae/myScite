@@ -9,7 +9,6 @@
  * be distributed.
  *
  */
- dadada
  
 #include <stdlib.h>
 #include <string>

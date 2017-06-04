@@ -33,7 +33,7 @@ local panel_width= 150
 	memo1=gui.memo()
 	memo1:set_text(rtf.."\\cf1Heyo from tab1 :p ")
 	tab1:add(memo1, "top", 80)
-	
+
 	-- And add them to our main window
 	local tabs= gui.tabbar(wnd)
 	tabs:add_tab("0", tab0)
