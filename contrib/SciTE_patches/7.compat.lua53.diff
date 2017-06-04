@@ -1,0 +1,426 @@
+///@brief prepare scite to be compiled with lua5.3
+///makfile: use "del" instead "rm" on win / link statically.   
+diff -Nurw scintilla-scite/src/LuaExtension.cxx scite/src/LuaExtension.cxx
+--- scintilla-scite/src/LuaExtension.cxx	2016-10-16 13:59:54.000000000 +0200
++++ scite/src/LuaExtension.cxx	2017-04-14 20:58:54.000000000 +0200
+@@ -24,12 +24,19 @@
+ #include "IFaceTable.h"
+ #include "SciTEKeys.h"
+ 
++#define LUA_COMPAT_5_1
+ extern "C" {
+ #include "lua.h"
+ #include "lualib.h"
+ #include "lauxlib.h"
+ }
+ 
++#if (LUA_VERSION_NUM < 502)
++#define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
++#else
++#define LUA_GLOBALSINDEX LUA_RIDX_GLOBALS
++#endif
++
+ #if defined(_WIN32) && defined(_MSC_VER)
+ 
+ // MSVC looks deeper into the code than other compilers, sees that
+@@ -119,11 +126,21 @@
+ 	lua_error(L);
+ }
+ 
++// lua_absindex for LUA <5.1
+ inline int absolute_index(lua_State *L, int index) {
+-	return ((index < 0) && (index != LUA_REGISTRYINDEX) && (index != LUA_GLOBALSINDEX))
+-	       ? (lua_gettop(L) + index + 1) : index;
++	if (index > LUA_REGISTRYINDEX && index < 0)
++		return lua_gettop(L) + index + 1;
++	else
++		return index;
+ }
+ 
++/**
++* merge_table / clone_table / clear_table utilized to
++* "soft-replace" an existing global scope instead of using using new_table,
++* because then startup script would be bound to a different copy
++* of the globals than the extension script.
++**/
++
+ // copy the contents of one table into another returning the size
+ static int merge_table(lua_State *L, int destTableIdx, int srcTableIdx, bool copyMetatable = false) {
+ 	int count = 0;
+@@ -429,8 +446,8 @@
+ 		if (!hasError) {
+ 			sptr_t result = host->Send(p, SCI_FINDTEXT, static_cast<uptr_t>(flags), SptrFromPointer(&ft));
+ 			if (result >= 0) {
+-				lua_pushnumber(L, static_cast<LUA_NUMBER>(ft.chrgText.cpMin));
+-				lua_pushnumber(L, static_cast<LUA_NUMBER>(ft.chrgText.cpMax));
++				lua_pushinteger(L, static_cast<int>(ft.chrgText.cpMin));
++				lua_pushinteger(L, static_cast<int>(ft.chrgText.cpMax));
+ 				return 2;
+ 			} else {
+ 				lua_pushnil(L);
+@@ -497,10 +514,10 @@
+ 		const char *key = lua_tostring(L, 2);
+ 
+ 		if (0 == strcmp(key, "pos")) {
+-			lua_pushnumber(L, pmo->startPos);
++			lua_pushinteger(L, pmo->startPos);
+ 			return 1;
+ 		} else if (0 == strcmp(key, "len")) {
+-			lua_pushnumber(L, pmo->endPos - pmo->startPos);
++			lua_pushinteger(L, pmo->endPos - pmo->startPos);
+ 			return 1;
+ 		} else if (0 == strcmp(key, "text")) {
+ 			// If the document is changed while in the match loop, this will be broken.
+@@ -831,7 +848,7 @@
+ 	if (luaState) {
+ 		lua_getglobal(luaState, name);
+ 		if (lua_isfunction(luaState, -1)) {
+-			lua_pushnumber(luaState, numberArg);
++			lua_pushinteger(luaState, numberArg);
+ 			lua_pushstring(luaState, stringArg);
+ 			handled = call_function(luaState, 2);
+ 		} else {
+@@ -846,8 +863,8 @@
+ 	if (luaState) {
+ 		lua_getglobal(luaState, name);
+ 		if (lua_isfunction(luaState, -1)) {
+-			lua_pushnumber(luaState, numberArg);
+-			lua_pushnumber(luaState, numberArg2);
++			lua_pushinteger(luaState, numberArg);
++			lua_pushinteger(luaState, numberArg2);
+ 			handled = call_function(luaState, 2);
+ 		} else {
+ 			lua_pop(luaState, 1);
+@@ -920,7 +937,20 @@
+ 	// - numeric return type gets returned to lua as a number (following the stringresult)
+ 	// - other return types e.g. void get dropped.
+ 
+-	sptr_t result = host->Send(p, func.value, params[0], params[1]);
++	sptr_t result = 0;
++	try {
++		result = host->Send(p, func.value, params[0], params[1]);
++	} catch (GUI::ScintillaFailure &sf) {
++		std::string failureExplanation;
++		failureExplanation += ">Lua: Scintilla failure ";
++		failureExplanation += StdStringFromInteger(static_cast<int>(sf.status));
++		failureExplanation += " for message ";
++		failureExplanation += StdStringFromInteger(func.value);
++		failureExplanation += ".\n";
++		// Reset status before continuing
++		host->Send(p, SCI_SETSTATUS, SC_STATUS_OK, 0);
++		host->Trace(failureExplanation.c_str());
++	}
+ 
+ 	int resultCount = 0;
+ 
+@@ -934,7 +964,7 @@
+ 		lua_pushboolean(L, static_cast<int>(result));
+ 		resultCount++;
+ 	} else if (IFaceTypeIsNumeric(func.returnType)) {
+-		lua_pushnumber(L, static_cast<int>(result));
++		lua_pushinteger(L, static_cast<int>(result));
+ 		resultCount++;
+ 	}
+ 
+@@ -1124,7 +1154,7 @@
+ 						} else {
+ 							// the nil will do as a false value.
+ 							// just push an arbitrary numeric value that Scintilla will ignore
+-							lua_pushnumber(L, 0);
++							lua_pushinteger(L, 0);
+ 						}
+ 						return iface_function_helper(L, prop.SetterFunction());
+ 
+@@ -1181,12 +1211,12 @@
+ 
+ 		int i = IFaceTable::FindConstant(name);
+ 		if (i >= 0) {
+-			lua_pushnumber(L, IFaceTable::constants[i].value);
++			lua_pushinteger(L, IFaceTable::constants[i].value);
+ 			return 1;
+ 		} else {
+ 			i = IFaceTable::FindFunctionByConstantName(name);
+ 			if (i >= 0) {
+-				lua_pushnumber(L, IFaceTable::functions[i].value);
++				lua_pushinteger(L, IFaceTable::functions[i].value);
+ 
+ 				// FindFunctionByConstantName is slow, so cache the result into the
+ 				// global table.  My tests show this gives an order of magnitude
+@@ -1226,36 +1256,41 @@
+ }
+ 
+ static void PublishGlobalBufferData() {
++// release 1.62
++// A Lua table called 'buffer' is associated with each buffer
++// and can be used to maintain buffer-specific state.
+ 	lua_pushliteral(luaState, "buffer");
+ 	if (curBufferIndex >= 0) {
+ 		lua_pushliteral(luaState, "SciTE_BufferData_Array");
+ 		lua_rawget(luaState, LUA_REGISTRYINDEX);
++		// Create new SciTE_BufferData_Array / append to LUA_REGISTRYINDEX
+ 		if (!lua_istable(luaState, -1)) {
+ 			lua_pop(luaState, 1);
+-
+ 			lua_newtable(luaState);
+ 			lua_pushliteral(luaState, "SciTE_BufferData_Array");
+ 			lua_pushvalue(luaState, -2);
+ 			lua_rawset(luaState, LUA_REGISTRYINDEX);
+ 		}
++		//  create new entry for current buffer in SciTE_BufferData_Array(idx)
+ 		lua_rawgeti(luaState, -1, curBufferIndex);
+ 		if (!lua_istable(luaState, -1)) {
+-			// create new buffer-data
+ 			lua_pop(luaState, 1);
+ 			lua_newtable(luaState);
+ 			// remember it
+ 			lua_pushvalue(luaState, -1);
+ 			lua_rawseti(luaState, -3, curBufferIndex);
+ 		}
+-		// Replace SciTE_BufferData_Array in the stack, leaving (buffer=-1, 'buffer'=-2)
++		// replace SciTE_BufferData_Array on the Stack (Leaving (buffer=-1, 'buffer'=-2))
++		// done to apply the expanded  SciTE_BufferData_Array ?
+ 		lua_replace(luaState, -2);
+ 	} else {
+-		// for example, during startup, before any InitBuffer / ActivateBuffer
++		/// ensure that the luatable "buffer" will be empty during startup and before any InitBuffer / ActivateBuffer
+ 		lua_pushnil(luaState);
+ 	}
+-	lua_rawset(luaState, LUA_GLOBALSINDEX);
++	lua_setglobal(luaState, "buffer");
+ }
+ 
++
+ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
+ 	bool reload = forceReload;
+ 	if (checkProperties) {
+@@ -1274,10 +1309,11 @@
+ 		// copy of the initialized global environment, and uses that to re-init the scope.
+ 
+ 		if (!reload) {
++			lua_pushglobaltable(luaState);
+ 			lua_getfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
+ 			if (lua_istable(luaState, -1)) {
+-				clear_table(luaState, LUA_GLOBALSINDEX, true);
+-				merge_table(luaState, LUA_GLOBALSINDEX, -1, true);
++				clear_table(luaState, -2, true);
++				merge_table(luaState, -2, -1, true);
+ 				lua_pop(luaState, 1);
+ 
+ 				// restore initial package.loaded state
+@@ -1308,7 +1344,9 @@
+ 
+ 		// Don't replace global scope using new_table, because then startup script is
+ 		// bound to a different copy of the globals than the extension script.
+-		clear_table(luaState, LUA_GLOBALSINDEX, true);
++
++		lua_pushglobaltable(luaState);
++		clear_table(luaState, -1, true);
+ 
+ 		// Lua 5.1: _LOADED is in LUA_REGISTRYINDEX, so it must be cleared before
+ 		// loading libraries or they will not load because Lua's package system
+@@ -1317,7 +1355,7 @@
+ 		lua_setfield(luaState, LUA_REGISTRYINDEX, "_LOADED");
+ 
+ 	} else if (!luaDisabled) {
+-		luaState = lua_open();
++		luaState = luaL_newstate();
+ 		if (!luaState) {
+ 			luaDisabled = true;
+ 			host->Trace("> Lua: scripting engine failed to initialise\n");
+@@ -1399,12 +1437,15 @@
+ 
+ 	lua_setglobal(luaState, "scite");
+ 
+-	// Metatable for global namespace, to publish iface constants
++	// append a Metatable onto global namespace, to publish iface constants
++	lua_pushglobaltable(luaState);
+ 	if (luaL_newmetatable(luaState, "SciTE_MT_GlobalScope")) {
+ 		lua_pushcfunction(luaState, cf_global_metatable_index);
+ 		lua_setfield(luaState, -2, "__index");
+ 	}
+-	lua_setmetatable(luaState, LUA_GLOBALSINDEX);
++	
++	lua_setmetatable(luaState, -2);
++	lua_pop(luaState,1);
+ 
+ 	if (checkProperties && reload) {
+ 		CheckStartupScript();
+@@ -1430,11 +1471,14 @@
+ 		}
+ 	}
+ 
+-	// Clone the initial state (including metatable) in the registry so that it can be restored.
++	// Clone the initial (globalsindex) state (including metatable) in the registry so that it can be restored.
+ 	// (If reset==1 this will not be used, but this is a shallow copy, not very expensive, and
+ 	// who knows what the value of reset will be the next time InitGlobalScope runs.)
+-	clone_table(luaState, LUA_GLOBALSINDEX, true);
++
++	lua_pushglobaltable(luaState);
++	clone_table(luaState, -1, true);
+ 	lua_setfield(luaState, LUA_REGISTRYINDEX, "SciTE_InitialState");
++	lua_pop(luaState, 1);
+ 
+ 	// Clone loaded packages (package.loaded) state in the registry so that it can be restored.
+ 	lua_getfield(luaState, LUA_REGISTRYINDEX, "_LOADED");
+@@ -1507,9 +1551,11 @@
+ 
+ 
+ bool LuaExtension::InitBuffer(int index) {
+-	//char msg[100];
+-	//sprintf(msg, "InitBuffer(%d)\n", index);
+-	//host->Trace(msg);
++	/*
++	char msg[100];
++	sprintf(msg, "InitBuffer(%d)\n", index);
++	host->Trace(msg);
++	*/
+ 
+ 	if (index > maxBufferIndex)
+ 		maxBufferIndex = index;
+@@ -1535,9 +1581,11 @@
+ }
+ 
+ bool LuaExtension::ActivateBuffer(int index) {
+-	//char msg[100];
+-	//sprintf(msg, "ActivateBuffer(%d)\n", index);
+-	//host->Trace(msg);
++	/*
++	char msg[100];
++	sprintf(msg, "ActivateBuffer(%d)\n", index);
++	host->Trace(msg);
++	*/
+ 
+ 	// Probably don't need to do anything with Lua here.  Setting
+ 	// curBufferIndex is important so that InitGlobalScope knows
+@@ -1586,15 +1634,22 @@
+ }
+ 
+ bool LuaExtension::OnExecute(const char *s) {
++// gets called when selecting a luaScript within the tools menu
++// pcalls string.find(s) -> if that succeeds, insert the function onto the stack and try to call_function(s).
+ 	bool handled = false;
++	/*	std::string msg = "lua: selected Tools->";
++		msg.append(s);
++		msg.append("\n");
++		host->Trace(msg.c_str());
++	*/
+ 
+ 	if (luaState || InitGlobalScope(false)) {
+ 		// May as well use Lua's pattern matcher to parse the command.
+ 		// Scintilla's RESearch was the other option.
+ 		int stackBase = lua_gettop(luaState);
+-
++		lua_pushglobaltable(luaState);
+ 		lua_pushliteral(luaState, "string");
+-		lua_rawget(luaState, LUA_GLOBALSINDEX);
++		lua_rawget(luaState, -2);
+ 		if (lua_istable(luaState, -1)) {
+ 			lua_pushliteral(luaState, "find");
+ 			lua_rawget(luaState, -2);
+@@ -1603,7 +1658,7 @@
+ 				lua_pushliteral(luaState, "^%s*([%a_][%a%d_]*)%s*(.-)%s*$");
+ 				int status = lua_pcall(luaState, 2, 4, 0);
+ 				if (status==0) {
+-					lua_insert(luaState, stackBase+1);
++					lua_insert(luaState, stackBase+1);	//function
+ 					lua_gettable(luaState, LUA_GLOBALSINDEX);
+ 					if (!lua_isnil(luaState, -1)) {
+ 						if (lua_isfunction(luaState, -1)) {
+@@ -1623,7 +1678,6 @@
+ 		} else {
+ 			host->Trace("> Lua: string library not loaded\n");
+ 		}
+-
+ 		lua_settop(luaState, stackBase);
+ 	}
+ 
+@@ -1712,28 +1766,28 @@
+ 	static int Line(lua_State *L) {
+ 		StylingContext *context = Context(L);
+ 		int position = luaL_checkint(L, 2);
+-		lua_pushnumber(L, context->styler->GetLine(position));
++		lua_pushinteger(L, context->styler->GetLine(position));
+ 		return 1;
+ 	}
+ 
+ 	static int CharAt(lua_State *L) {
+ 		StylingContext *context = Context(L);
+ 		int position = luaL_checkint(L, 2);
+-		lua_pushnumber(L, context->styler->SafeGetCharAt(position));
++		lua_pushinteger(L, context->styler->SafeGetCharAt(position));
+ 		return 1;
+ 	}
+ 
+ 	static int StyleAt(lua_State *L) {
+ 		StylingContext *context = Context(L);
+ 		int position = luaL_checkint(L, 2);
+-		lua_pushnumber(L, context->styler->StyleAt(position));
++		lua_pushinteger(L, context->styler->StyleAt(position));
+ 		return 1;
+ 	}
+ 
+ 	static int LevelAt(lua_State *L) {
+ 		StylingContext *context = Context(L);
+ 		int line = luaL_checkint(L, 2);
+-		lua_pushnumber(L, context->styler->LevelAt(line));
++		lua_pushinteger(L, context->styler->LevelAt(line));
+ 		return 1;
+ 	}
+ 
+@@ -1748,7 +1802,7 @@
+ 	static int LineState(lua_State *L) {
+ 		StylingContext *context = Context(L);
+ 		int line = luaL_checkint(L, 2);
+-		lua_pushnumber(L, context->styler->GetLineState(line));
++		lua_pushinteger(L, context->styler->GetLineState(line));
+ 		return 1;
+ 	}
+ 
+@@ -1867,7 +1921,7 @@
+ 
+ 	static int Position(lua_State *L) {
+ 		StylingContext *context = Context(L);
+-		lua_pushnumber(L, context->currentPos);
++		lua_pushinteger(L, context->currentPos);
+ 		return 1;
+ 	}
+ 
+@@ -1885,7 +1939,7 @@
+ 
+ 	static int State(lua_State *L) {
+ 		StylingContext *context = Context(L);
+-		lua_pushnumber(L, context->state);
++		lua_pushinteger(L, context->state);
+ 		return 1;
+ 	}
+ 
+@@ -2054,7 +2108,7 @@
+ 	if (luaState) {
+ 		lua_getglobal(luaState, "OnKey");
+ 		if (lua_isfunction(luaState, -1)) {
+-			lua_pushnumber(luaState, keyval);
++			lua_pushinteger(luaState, keyval);
+ 			lua_pushboolean(luaState, (SCMOD_SHIFT & modifiers) != 0 ? 1 : 0); // shift/lock
+ 			lua_pushboolean(luaState, (SCMOD_CTRL  & modifiers) != 0 ? 1 : 0); // control
+ 			lua_pushboolean(luaState, (SCMOD_ALT   & modifiers) != 0 ? 1 : 0); // alt
+diff -Nurw scintilla-scite/win32/makefile scite/win32/makefile
+--- scintilla-scite/win32/makefile	2016-10-16 13:59:54.000000000 +0200
++++ scite/win32/makefile	2017-04-09 12:17:24.000000000 +0200
+@@ -27,7 +27,7 @@
+ endif
+ endif
+ else
+-	DEL = rm -f
++	DEL = del /f /q
+ 	COPY = cp -a
+ 	UXLIB:=-luxtheme
+ endif
+@@ -74,7 +74,7 @@
+ 
+ CXXFLAGS = $(CFLAGS) -pedantic --std=gnu++11
+ 
+-LDFLAGS=-mwindows -lmsimg32 -lcomctl32 -limm32 -lole32 -luuid -loleaut32 $(UXLIB) $(LUA_LDFLAGS)
++LDFLAGS=-mwindows -lmsimg32 -lcomctl32 -limm32 -lole32 -luuid -loleaut32 --static $(UXLIB) $(LUA_LDFLAGS)
+ 
+ .cxx.o:
+ 	$(CXX) $(CXXFLAGS) -c $< -o $@
