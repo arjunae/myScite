@@ -13,11 +13,13 @@ To use this script with SciTE4AutoHotkey:
 ]]
 print("ac>Ok. Save the current file to test")
 -- List of styles per lexer that autocomplete should not occur within.
+
+local SCLEX_GENERIC = 1024
 local IGNORE_STYLES = { -- Should include comments, strings and errors.
     [SCLEX_LUA]  = {1,2,3,6,7,8,12},
     [SCLEX_HTML]  = {1,2,3,6,7,8,12},
     [SCLEX_CPP]  = {1,2,3,6,7,8,12},
-    [SCLEX_NULL]  = {1,2,3,6,7,8,12}    
+    [SCLEX_GENERIC]  = {1,2,3,6,7,8,12}    
 }
 
 function file_exists(name)
@@ -72,8 +74,9 @@ local function setLexerSpecificStuff()
     -- Also disables autocomplete popups while typing there.
     local iLexer=editor.Lexer
     if type(IGNORE_STYLES[iLexer])=="nil" then 
-        print("ac>Current lexer not supported. Using generic Data.")
-        iLexer=SCLEX_NULL
+        print("ac>Current lexer not supported. Using generic Mode.")
+        iLexer=SCLEX_GENERIC
+        print (SCLEX_GENERIC)
     end
     if IGNORE_STYLES[iLexer] then
     -- Define a function for calling later:
@@ -96,7 +99,7 @@ local function getApiNames()
     local apiNames = {}
     local apiFiles = props["APIPath"] or ""
     apiFiles:gsub("[^;]+", function(apiFile) -- For each in ;-delimited list.
-    if not file_exists(apiFile) then print ("ac>ignoring nonExistant: "..apiFile) return end
+    if not file_exists(apiFile) then print ("ac>ignoring nonExistant apiFile: "..apiFile) return end
     for name in io.lines(apiFile) do
         name = name:gsub("[\(, ].*", "") -- Discard parameters/comments.
             if string.len(name) > 0 then
