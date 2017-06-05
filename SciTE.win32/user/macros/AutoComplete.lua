@@ -11,14 +11,17 @@ To use this script with SciTE4AutoHotkey:
         dofile(props['SciteUserHome'].."/AutoComplete.lua")
   - Restart SciTE.
 ]]
-print("ac>supports lua. Save the current file to test")
+print("ac>supports lua, html and cpp lexer . Save the current file to test")
 -- List of styles per lexer that autocomplete should not occur within.
 local IGNORE_STYLES = { -- Should include comments, strings and errors.
-    [SCLEX_LUA]  = {1,2,3,6,7,8,12}
+    [SCLEX_LUA]  = {1,2,3,6,7,8,12},
+    [SCLEX_HTML]  = {1,2,3,6,7,8,12},
+    [SCLEX_CPP]  = {1,2,3,6,7,8,12}
 }
 
-function shouldIgnorePos(pos)
-    return isInTable(IGNORE_STYLES[editor.Lexer], editor.StyleAt[pos])
+function file_exists(name)
+   local f=io.open(name,"r")
+   if f~=nil then io.close(f) return true else return false end
 end
 
 function isInTable(table, elem)
@@ -55,7 +58,7 @@ props["autocomplete.choose.single"] = "0"
 local names = {}
 
 local notempty = next
---local shouldIgnorePos -- init'd by buildNames().
+local shouldIgnorePos -- init'd by buildNames().
 local normalize
 
 if IGNORE_CASE then
@@ -67,6 +70,7 @@ end
 local function setLexerSpecificStuff()
     -- Disable collection of words in comments, strings, etc.
     -- Also disables autocomplete popups while typing there.
+    if not type(IGNORE_STYLES[editor.Lexer])=="table" then print("ac>current file not supported") end
     if IGNORE_STYLES[editor.Lexer] then
     -- Define a function for calling later:
         shouldIgnorePos = function(pos)
@@ -87,8 +91,8 @@ local function getApiNames()
     end
     local apiNames = {}
     local apiFiles = props["APIPath"] or ""
-
     apiFiles:gsub("[^;]+", function(apiFile) -- For each in ;-delimited list.
+    if not file_exists(apiFile) then print ("ac>ignoring nonExistant: "..apiFile) return end
     for name in io.lines(apiFile) do
         name = name:gsub("[\(, ].*", "") -- Discard parameters/comments.
             if string.len(name) > 0 then
@@ -118,6 +122,7 @@ local function buildNames()
                 break
             end
             if not shouldIgnorePos(startPos) then
+
                 if endPos-startPos+1 >= MIN_IDENTIFIER_LEN then
                     -- Create one key-value pair per unique word:
                     local name = editor:textrange(startPos, endPos)
@@ -171,7 +176,7 @@ local function handleChar(char, calledByHotkey)
         end
     end
 
- if not editor:AutoCActive() and shouldIgnorePos(startPos) and not calledByHotkey then
+    if not editor:AutoCActive() and shouldIgnorePos(startPos) and not calledByHotkey then
         -- User is typing in a comment or string, so don't automatically
         -- pop up the auto-complete window.
         return
