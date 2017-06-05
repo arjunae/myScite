@@ -1,4 +1,4 @@
-<?phpAutoComplete.lua
+<?php
      $STDERR = fopen('php://stderr', 'w+');
  #     fwrite($STDERR, "\n.......\nsome stderr info\n");
      $STDOUT = fopen('php://stdout','w');
