@@ -11,12 +11,13 @@ To use this script with SciTE4AutoHotkey:
         dofile(props['SciteUserHome'].."/AutoComplete.lua")
   - Restart SciTE.
 ]]
-print("ac>supports lua, html and cpp lexer . Save the current file to test")
+print("ac>Ok. Save the current file to test")
 -- List of styles per lexer that autocomplete should not occur within.
 local IGNORE_STYLES = { -- Should include comments, strings and errors.
     [SCLEX_LUA]  = {1,2,3,6,7,8,12},
     [SCLEX_HTML]  = {1,2,3,6,7,8,12},
-    [SCLEX_CPP]  = {1,2,3,6,7,8,12}
+    [SCLEX_CPP]  = {1,2,3,6,7,8,12},
+    [SCLEX_NULL]  = {1,2,3,6,7,8,12}    
 }
 
 function file_exists(name)
@@ -47,7 +48,6 @@ local MIN_PREFIX_LEN = 2
 local MIN_IDENTIFIER_LEN = 2
 -- List of regex patterns for finding suggestions for the autocomplete menu:
 local IDENTIFIER_PATTERNS = {"[a-z_][a-z_0-9]+"}
-
 -- Override settings that interfere with this script:
 props["autocomplete.start.characters"] = ""
 props["autocomplete.start.characters"] = ""
@@ -70,11 +70,15 @@ end
 local function setLexerSpecificStuff()
     -- Disable collection of words in comments, strings, etc.
     -- Also disables autocomplete popups while typing there.
-    if not type(IGNORE_STYLES[editor.Lexer])=="table" then print("ac>current file not supported") end
-    if IGNORE_STYLES[editor.Lexer] then
+    local iLexer=editor.Lexer
+    if type(IGNORE_STYLES[iLexer])=="nil" then 
+        print("ac>Current lexer not supported. Using generic Data.")
+        iLexer=SCLEX_NULL
+    end
+    if IGNORE_STYLES[iLexer] then
     -- Define a function for calling later:
-        shouldIgnorePos = function(pos)
-            return isInTable(IGNORE_STYLES[editor.Lexer], editor.StyleAt[pos])
+        shouldIgnorePos = function(pos)       
+            return isInTable(IGNORE_STYLES[iLexer], editor.StyleAt[pos])
         end
     else
         -- Optional: Disable autocomplete popups for unknown lexers.
@@ -121,8 +125,8 @@ local function buildNames()
             if not startPos then
                 break
             end
+            
             if not shouldIgnorePos(startPos) then
-
                 if endPos-startPos+1 >= MIN_IDENTIFIER_LEN then
                     -- Create one key-value pair per unique word:
                     local name = editor:textrange(startPos, endPos)
