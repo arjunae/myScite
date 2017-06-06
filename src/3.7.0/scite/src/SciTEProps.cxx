@@ -1,4 +1,4 @@
-// SciTE - Scintilla based Text Editor
+﻿// SciTE - Scintilla based Text Editor
 /** @file SciTEProps.cxx
  ** Properties management.
  **/
@@ -69,7 +69,7 @@ void SciTEBase::SetImportMenu() {
 				sFile=localiser.Text("Open") + L" " + sFile;
 				
 				//  Depends on Foldernames to display properties sorted.
-				if (sEntry.find(L"theme") != std::wstring::npos or sEntry.find(L"ddons") != std::wstring::npos) {					
+				if (sEntry.find(L"theme") != std::wstring::npos || sEntry.find(L"ddons") != std::wstring::npos) {					
 					SetMenuItemNew(menuOptions, 1, IMPORT_START+stackPos, itemID,  + sFile.c_str());
 				}
 				if (sEntry.find(L"lang") != std::wstring::npos) {
