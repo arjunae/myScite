@@ -1,24 +1,18 @@
--- Extman is a Lua script manager for SciTE. It enables multiple scripts to capture standard events
--- without interfering with each other. For instance, scite_OnDoubleClick() will register handlers
--- for scripts that need to know when a double-click event has happened. (To know whether it
--- was in the output or editor pane, just test editor.Focus).  It provides a useful function scite_Command
--- which allows you to define new commands without messing around with property files (see the
--- examples in the scite_lua directory.)
+-- Extman is a Lua script manager for SciTE. (Update: 2017)
+-- It enables multiple scripts to capture standard events without interfering with each other. 
+-- e.g. scite_OnDoubleClick() will register handlers for scripts that need to know when a double-click event has happened. 
+-- (To know whether it was in the output or editor pane, just test editor.Focus). 
+-- It provides a useful function scite_Command  which allows you to define new commands 
+-- without messing around with property files (see the examples in the scite_lua directory.)
+--
 -- extman defines three new convenience handlers as well:
---scite_OnWord (called when user has entered a word)
---scite_OnEditorLine (called when a line is entered into the editor)
---scite_OnOutputLine (called when a line is entered into the output pane)
+-- scite_OnWord (called when user has entered a word)
+-- scite_OnEditorLine (called when a line is entered into the editor)
+-- scite_OnOutputLine (called when a line is entered into the output pane)
 
 -- this is an opportunity for you to make regular Lua packages available to SciTE
 --~ package.path = package.path..';C:\\lang\\lua\\lua\\?.lua'
 --~ package.cpath = package.cpath..';c:\\lang\\lua\\?.dll'
-
-defaultHome = props["SciteDefaultHome"]
-package.path =  package.path ..";"..defaultHome.."/Addons/?.lua;".. ";"..defaultHome.."/Addons/lua/lua/?.lua;"
---package.path=package.path..";C:/Program Files (x86)/Lua/5.1/lua/?.lua"
-package.path = package.path .. ";"..defaultHome.."/Addons/lua/mod-extman/?.lua;"
-
-package.cpath = package.cpath .. ";"..defaultHome.."/Addons/lua/c/?.dll;"
 
 -- useful function for getting a property, or a default if not present.
 function scite_GetProp(key,default)
@@ -49,12 +43,14 @@ local _DwellStart = {}
 local _Close = {}
 -- new
 local _remove = {}
+local _DirChange = {}
+
+-- Shorties
 local append = table.insert
 local find = string.find
 local size = table.getn
 local sub = string.sub
 local gsub = string.gsub
-
 
 -- file must be quoted if it contains spaces!
 function quote_if_needed(target)
@@ -159,6 +155,7 @@ function OnClose()
     return DispatchOne(_Close)
 end
 
+
 -- may optionally ask that this handler be immediately
 -- removed after it's called
 local function append_unique(tbl,fn,rem)
@@ -254,6 +251,11 @@ local function buffer_switch(f)
    end
 end
 
+-- (arjunea) ported from "official" lua5.1/scites switch_buffers.lua
+function scite_OnDirChange(dir)
+  return DispatchOne(_DirChange,dir)	
+end
+
 scite_OnOpen(buffer_switch)
 scite_OnSwitchFile(buffer_switch)
 
@@ -287,7 +289,7 @@ end
 
  local word_start,in_word,current_word
 -- (Nicolas) this is in Ascii as SciTE always passes chars in this "encoding" to OnChar
-local wordchars = '[A-Za-z�-��-�]'  -- wuz %w
+local wordchars = '[A-Za-z?-??-?]'  -- wuz %w
 
  local function on_word_char(s)
      if not in_word then
@@ -403,8 +405,8 @@ if GTK then
     path_pattern = '(.*)/[^%./]+%.%w+$'
     dirsep = '/'
 else
-    tempfile = '\\scite_temp1'
-    path_pattern = '(.*)\\[^%.\\]+%.%w+$'
+    tempfile = os.getenv 'TMP' .. '\\scite_temp1'
+    path_pattern = '(.*)[\\/][^%.\\/]+%.%w+$'
     dirsep = '\\'
 end
 
@@ -414,11 +416,18 @@ function path_of(s)
 end
 
 local extman_path = path_of(props['ext.lua.startup.script'])
-local lua_path = scite_GetProp('ext.lua.directory',extman_path..dirsep..'scite-lua')
+local lua_path = scite_GetProp('ext.lua.directory',extman_path..dirsep..'scite_lua')
 
 function extman_Path()
     return extman_path
 end
+
+--[[
+fn,err = package.loadlib(extman_path.."/gui.dll","luaopen_gui")
+if fn then fn() else
+  --DISABLED:print(err)
+end
+]]
 
 -- this version of scite-gdb uses the new spawner extension library.
 local fn,err,spawner_path
@@ -433,7 +442,7 @@ end
 if fn then
     fn() -- register spawner
 else
-    print('cannot load spawner '..err)
+    --DISABLED: print('cannot load spawner '..err)
 end
 
 -- a general popen function that uses the spawner library if found; otherwise falls back
@@ -664,16 +673,16 @@ function scite_CurrentFile()
     return props['FilePath']
 end
 
--- (Nicolas)
-if GTK then
-    function scite_DirectoryExists(path)
-        return os.execute('test -d "'..path..'"') == 0
-    end
-else
-    -- what is the Win32 equivalent??
-    function scite_DirectoryExists(path)
-        return true
-    end
+--- Check if a file or directory exists in this path (hisham-h-m)
+function scite_DirectoryExists(path)
+   local ok, err, code = os.rename(path, path)
+   if not ok then
+      if code == 13 then
+         -- Permission denied, but it exists
+         return true
+      end
+   end
+   return ok, err
 end
 
 function split(s,delim)
@@ -791,6 +800,7 @@ function scite_Command(tbl)
   end
 end
 
+
 -- use this to launch Lua Tool menu commands directly by name
 -- (commands are not guaranteed to work properly if you just call the Lua function)
 function scite_MenuCommand(cmd)
@@ -884,7 +894,6 @@ end
 --~    silent_dofile(current_file)
 --~ end
 
--- chainload eventmanager / extman remake used by some lua mods
-dofile(props["SciteDefaultHome"]..'/Addons/lua/mod-extman/eventmanager.lua')
--- Load SciTEStartup.lua
-dofile(props["SciteDefaultHome"]..'/Addons/lua/SciTEStartup.lua') 
+--~ require"remdebug.engine"
+--~ remdebug.engine.start()
+

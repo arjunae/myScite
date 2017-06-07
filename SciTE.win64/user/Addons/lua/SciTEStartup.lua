@@ -7,13 +7,6 @@ package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..m
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
 
---~ If available, use spawner-ex to help reduce flickering within scite_popen
-local pathSpawner= props["spawner.extension.path"]
-if not pathSpawner~="" then
- fnInit,err= package.loadlib(pathSpawner.."/spawner-ex.dll",'luaopen_spawner')
- if not err then fnInit() end
-end
-
 --lua >=5.2.x renamed functions: 
 local unpack = table.unpack or unpack
 math.mod = math.fmod or math.mod
@@ -38,7 +31,7 @@ dofile(myHome..'\\Addons\\lua\\mod-macros\\macros.lua')
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 
--- Load Ctags
+-- Load Sidebar
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
