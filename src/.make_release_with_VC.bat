@@ -18,8 +18,8 @@ if "%Tools%"=="" (
 ::--------------------------------------------------
 
 ::call vcvars32.bat
-::call vcvarsall.bat x86_amd64
-call vcvarsall.bat x86
+call vcvarsall.bat x86_amd64
+::call vcvarsall.bat x86
 
 if "%1"=="DEBUG" set parameter1=DEBUG=1
 
@@ -31,8 +31,9 @@ cd ..\..\scite\win32
 nmake %parameter1% -f scite.mak
 if errorlevel 1 goto :error
 
-::copy /Y ..\bin\SciTE.exe ..\..\..\pack\
-::copy /Y ..\bin\SciLexer.dll ..\..\..\pack\
+copy /Y ..\bin\SciTE.exe ..\..\..\..\SciTE.win32
+copy /Y ..\bin\SciLexer.dll ..\..\..\..\SciTE.win32
+
 goto end
 
 :error

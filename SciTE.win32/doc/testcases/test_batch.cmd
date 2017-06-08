@@ -22,7 +22,7 @@ FOR /R %%I IN (*.*) DO (
 )
 
 ::runas /noprofile /user:Tho cmd
-exit /b
+exit /b 0
 :end_sub
 
 :freude

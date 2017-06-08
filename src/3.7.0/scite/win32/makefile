@@ -63,7 +63,8 @@ endif
 INCLUDEDIRS=-I ../../scintilla/include -I ../src $(LUA_INCLUDES)
 RCINCLUDEDIRS=--include-dir ../src
 
-CBASEFLAGS = -W -Wall $(INCLUDEDIRS) $(LUA_DEFINES) $(WIDEFLAGS) $(VERSION_DEFINES)
+CBASEFLAGS = -W -Wall $(INCLUDEDIRS) $(LUA_DEFINES) $(WIDEFLAGS) $(VERSION_DEFINES) 
+#-ffunction-sections -fdata-sections -Os
 
 ifdef DEBUG
 CFLAGS=-DDEBUG -g $(CBASEFLAGS)
@@ -75,7 +76,7 @@ endif
 CXXFLAGS = $(CFLAGS) -pedantic --std=gnu++11
 
 LDFLAGS=-mwindows -lmsimg32 -lcomctl32 -limm32 -lole32 -luuid -loleaut32 --static $(UXLIB) $(LUA_LDFLAGS)
-
+#-Wl,--gc-sections 
 .cxx.o:
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 

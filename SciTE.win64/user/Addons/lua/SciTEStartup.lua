@@ -19,6 +19,10 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 -- chainload eventmanager / extman remake used by some lua mods
 dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
+-- Load Orthospell 
+package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
+dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
+
 -- Load mod-mitchell 
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
@@ -26,10 +30,6 @@ dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 -- Load mod-macros
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-macros\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-macros\\macros.lua')
-
--- Load Orthospell 
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 
 -- Load Sidebar
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
