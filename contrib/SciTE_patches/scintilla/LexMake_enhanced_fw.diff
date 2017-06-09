@@ -1,5 +1,5 @@
 --- LexMake.cxx	2017-04-01 19:11:22.000000000 +0200
-+++ LexMake_mod.cxx	2017-06-09 07:36:34.000000000 +0200
++++ LexMake_mod.cxx	2017-06-09 09:43:28.000000000 +0200
 @@ -1,11 +1,17 @@
  // Scintilla source code edit control
 -/** @file LexMake.cxx
@@ -23,11 +23,12 @@
  #include <string.h>
  #include <stdio.h>
  #include <stdarg.h>
-@@ -32,54 +38,153 @@
+@@ -32,54 +38,154 @@
  	       ((styler[i] == '\r') && (styler.SafeGetCharAt(i + 1) != '\n'));
  }
  
 +// todo: store and style User defined Vars. ( myvar=... )
++// todo: add code to style compiler options.
  static void ColouriseMakeLine(
 -    char *lineBuffer,
 +	std::string slineBuffer,
@@ -188,7 +189,7 @@
  					// it's a ':=', so style as an identifier
  					if (lastNonSpace >= 0)
  						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-@@ -90,33 +195,44 @@
+@@ -90,33 +196,44 @@
  					// to avoid colouring stuff like /OUT:file
  					if (lastNonSpace >= 0)
  						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
@@ -241,7 +242,7 @@
  	char lineBuffer[1024];
  	styler.StartAt(startPos);
  	styler.StartSegment(startPos);
-@@ -127,18 +243,20 @@
+@@ -127,18 +244,20 @@
  		if (AtEOL(styler, i) || (linePos >= sizeof(lineBuffer) - 1)) {
  			// End of line (or of line buffer) met, colourise it
  			lineBuffer[linePos] = '\0';

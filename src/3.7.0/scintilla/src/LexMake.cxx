@@ -103,7 +103,7 @@ static void ColouriseMakeLine(
 			strLen++;
 			startMark=i;
 		} else if (strLen>0) {
-			strLen++; // ... within a word dimension boundary.
+			strLen++; // ... within a word
 		}
 
 		// got the other End, copy the word:
@@ -115,7 +115,7 @@ static void ColouriseMakeLine(
 	
 		if (strSearch.size()>0) {
 		
-		// we now search for the word within Directives (which, of course will open the Tardis too.).... 
+		// we now search for the word within Directives.... 
 		// Rule: Prepended by whitespace, line start or .'='. 
 		if (kwGeneric.InList(strSearch.c_str())
 		 && (isspace(slineBuffer[i -strSearch.size()]) >0

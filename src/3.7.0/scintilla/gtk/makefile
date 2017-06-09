@@ -5,6 +5,9 @@
 # GNU make does not like \r\n line endings so should be saved to CVS in binary form.
 # Builds for GTK+ 2 and no longer supports GTK+ 1.
 # Also works with ming32-make on Windows.
+
+srcdir ?= .
+
 .SUFFIXES: .cxx .c .o .h .a .list
 ifdef CLANG
 CXX = clang++ -Wno-deprecated-register
@@ -24,6 +27,7 @@ GTKVERSION=gtk+-2.0
 endif
 
 # Environment variable windir always defined on Win32
+
 ifndef windir
 ifeq ($(shell uname),Darwin)
 RANLIB = ranlib
@@ -33,6 +37,7 @@ endif
 # Enable Position Independent Code except on Windows where it is the default so the flag produces a warning
 ifndef windir
 PICFLAGS = -fPIC
+endif
 ifdef windir
 CC = gcc
 DEL = del /q
@@ -69,7 +74,7 @@ else
 CTFLAGS=-DDEBUG -g $(CXXBASEFLAGS) $(THREADFLAGS)
 endif
 else
--DNDEBUG -Os $(CXXBASEFLAGS) $(THREADFLAGS)
+CTFLAGS=-DNDEBUG -Os $(CXXBASEFLAGS) $(THREADFLAGS)
 endif
 
 CXXTFLAGS:=--std=gnu++0x $(CTFLAGS) $(REFLAGS)

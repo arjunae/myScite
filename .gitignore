@@ -1,7 +1,7 @@
 #
 # myScites .gitignore.  
 # Hint: examine ignored files with	git status --ignored
-# Hint: When changeiing entries, remember using git rm -r *.* --cached
+# Hint: When changing entries, remember using git rm -r *.* --cached
 #
 
 #- temporary objects and archives, anywhere in the tree.
@@ -23,5 +23,7 @@ clidebug.cmd
 #- patch and aStyle backups
 *.orig
 
-#- temporary linker files 
-win32/*.
+#- temporary linker and executable files 
+*.pdb
+**win32/*.dll
+**win32/*.exe
