@@ -1,0 +1,280 @@
+--- LexMake.cxx	2017-04-01 19:11:22.000000000 +0200
++++ LexMake_mod.cxx	2017-06-09 07:36:34.000000000 +0200
+@@ -1,11 +1,17 @@
+ // Scintilla source code edit control
+-/** @file LexMake.cxx
+- ** Lexer for make files.
+- **/
+-// Copyright 1998-2001 by Neil Hodgson <neilh@scintilla.org>
+-// The License.txt file describes the conditions under which this software may be distributed.
++/**
++ * @file LexMake.cxx
++ * @brief Lexer for make files
++ * @author Neil Hodgson, Thorsten Kani(marcedo@HabMalneFrage.de)
++ *
++ * Copyright 1998-2001 by Neil Hodgson <neilh@scintilla.org>
++ * The License.txt file describes the conditions under which this software may
++ * be distributed.
++ *
++ */
+ 
+ #include <stdlib.h>
++#include <string>
+ #include <string.h>
+ #include <stdio.h>
+ #include <stdarg.h>
+@@ -32,54 +38,153 @@
+ 	       ((styler[i] == '\r') && (styler.SafeGetCharAt(i + 1) != '\n'));
+ }
+ 
++// todo: store and style User defined Vars. ( myvar=... )
+ static void ColouriseMakeLine(
+-    char *lineBuffer,
++	std::string slineBuffer,
+     Sci_PositionU lengthLine,
+     Sci_PositionU startLine,
+     Sci_PositionU endPos,
++	WordList *keywordlists[],
+     Accessor &styler) {
+ 
+ 	Sci_PositionU i = 0;
+ 	Sci_Position lastNonSpace = -1;
++
+ 	unsigned int state = SCE_MAKE_DEFAULT;
++	unsigned int state_prev = SCE_MAKE_DEFAULT;
+ 	bool bSpecial = false;
+ 
+ 	// check for a tab character in column 0 indicating a command
+ 	bool bCommand = false;
+-	if ((lengthLine > 0) && (lineBuffer[0] == '\t'))
++	if ((lengthLine > 0) && (slineBuffer[0] == '\t'))
+ 		bCommand = true;
+ 
+ 	// Skip initial spaces
+-	while ((i < lengthLine) && isspacechar(lineBuffer[i])) {
++	while ((i < lengthLine) && isspacechar(slineBuffer[i])) {
+ 		i++;
+ 	}
++
+ 	if (i < lengthLine) {
+-		if (lineBuffer[i] == '#') {	// Comment
++		if (slineBuffer[i] == '#') {	// Comment
+ 			styler.ColourTo(endPos, SCE_MAKE_COMMENT);
+ 			return;
+ 		}
+-		if (lineBuffer[i] == '!') {	// Special directive
++		if (slineBuffer[i] == '!') {	// Special directive
+ 			styler.ColourTo(endPos, SCE_MAKE_PREPROCESSOR);
+ 			return;
+ 		}
+ 	}
+-	int varCount = 0;
++
++	signed char varCount = 0; // increments on $
++	signed char inVarCount = 0; // increments on identifiers within $vars @...D/F
++	
++	// color keywords within current line
++	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
++	WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
++	
++	int strLen=0;
++	int startMark=0;
++	unsigned char theStart=i; // One Byte ought to be enough for everyone....?
+ 	while (i < lengthLine) {
+-		if (((i + 1) < lengthLine) && (lineBuffer[i] == '$' && lineBuffer[i + 1] == '(')) {
++
++	// ForwardSearch Searchstring.
++	// Travels to the Future and retrieves Lottery draw results. 
++	std::string strSearch;
++	
++	if (isgraph(slineBuffer[i]) == 0) {
++				startMark=0;
++				strLen=0;	
++			}
++
++		// got alphanumerics, we mark the wordBoundary: 
++		if (isalnum(slineBuffer[i])>0 
++		 && strLen == 0) { 
++			strLen++;
++			startMark=i;
++		} else if (strLen>0) {
++			strLen++; // ... within a word
++		}
++
++		// got the other End, copy the word:
++		if (isalnum(slineBuffer[i+1]) == 0 && strLen>0) {
++			strSearch=slineBuffer.substr(startMark,strLen);
++			strLen=0;
++			startMark=0;
++		}
++	
++		if (strSearch.size()>0) {
++		
++		// we now search for the word within Directives.... 
++		// Rule: Prepended by whitespace, line start or .'='. 
++		if (kwGeneric.InList(strSearch.c_str())
++		 && (isspace(slineBuffer[i -strSearch.size()]) >0
++			|| i+1 -strSearch.size() == theStart
++			|| slineBuffer[i -strSearch.size()] == '=')) {		
++			styler.ColourTo(startLine + i-strSearch.size(), state);
++			state_prev=state;
++			state=SCE_MAKE_DIRECTIVE;
++			styler.ColourTo(startLine + i, state);
++			state=state_prev;
++		} else if (state == SCE_MAKE_DIRECTIVE) {
++			state=state_prev;
++			styler.ColourTo(endPos, state);
++		}
++		
++		// ....and within functions $(sort,subst...) and how about some predefined Variables ?
++		// Rule: have to be prepended by '('.
++		if (kwFunctions.InList(strSearch.c_str()) 
++		 && slineBuffer[i -strSearch.size()] == '(') {
++			styler.ColourTo(startLine + i-strSearch.size(), state);
++			state_prev=state;
++			state=SCE_MAKE_OPERATOR;
++			styler.ColourTo(startLine + i, state);
++			state=state_prev;
++		} else if (state == SCE_MAKE_OPERATOR) {
++			state=state_prev;
++			styler.ColourTo(endPos, state);
++			
++		}
++		startMark=0;
++		strLen=0;
++		strSearch.clear();
++	}
++
++		// Style User Variables Rule: $(...)
++		if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(') {
+ 			styler.ColourTo(startLine + i - 1, state);
+-			state = SCE_MAKE_IDENTIFIER;
++			state = SCE_MAKE_USER_VARIABLE;
+ 			varCount++;
+-		} else if (state == SCE_MAKE_IDENTIFIER && lineBuffer[i] == ')') {
++			// ... and $ based automatic Variables Rule: $@
++		} else if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
++			styler.ColourTo(startLine +i -1, state);
++			state = SCE_MAKE_AUTOM_VARIABLE;
++		} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && slineBuffer[i] == ')') {
+ 			if (--varCount == 0) {
+ 				styler.ColourTo(startLine + i, state);
++				state = state_prev;
++			}
++		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && slineBuffer[i-1] == '$') {
++			styler.ColourTo(startLine +i, state);
+ 				state = SCE_MAKE_DEFAULT;
+ 			}
++
++		// Style for automatic Variables Rule: @%<^+'D'||'F'
++		if (((i + 1) < lengthLine) && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && (strchr("DF", (int)slineBuffer[i+1]) >0)) {
++			styler.ColourTo(startLine +i -1, state);
++			state_prev=state;
++			state = SCE_MAKE_AUTOM_VARIABLE;
++			inVarCount++;
++		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<^+", (int)slineBuffer[i-1]) >0) && (strchr("DF", (int)slineBuffer[i]) >0)) {
++			if (--inVarCount == 0) {
++				styler.ColourTo(startLine +i, state);
++				state = state_prev;
++			}
+ 		}
+ 
+ 		// skip identifier and target styling if this is a command line
+ 		if (!bSpecial && !bCommand) {
+-			if (lineBuffer[i] == ':') {
+-				if (((i + 1) < lengthLine) && (lineBuffer[i + 1] == '=')) {
++			if (slineBuffer[i] == ':') {
++				if (((i + 1) < lengthLine) && (slineBuffer[i +1] == '=')) {
+ 					// it's a ':=', so style as an identifier
+ 					if (lastNonSpace >= 0)
+ 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
+@@ -90,33 +195,44 @@
+ 					// to avoid colouring stuff like /OUT:file
+ 					if (lastNonSpace >= 0)
+ 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
+-					styler.ColourTo(startLine + i - 1, SCE_MAKE_DEFAULT);
++					styler.ColourTo(startLine + i -1, state_prev);
+ 					styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
+ 				}
+ 				bSpecial = true;	// Only react to the first ':' of the line
+-				state = SCE_MAKE_DEFAULT;
+-			} else if (lineBuffer[i] == '=') {
++				state = state_prev;
++			} else if (slineBuffer[i] == '=') {
+ 				if (lastNonSpace >= 0)
+ 					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
+-				styler.ColourTo(startLine + i - 1, SCE_MAKE_DEFAULT);
++				styler.ColourTo(startLine + i -1, state_prev);
+ 				styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
+ 				bSpecial = true;	// Only react to the first '=' of the line
+-				state = SCE_MAKE_DEFAULT;
++				state = state_prev;
++			} else if (slineBuffer[i] == '{') {
++				styler.ColourTo(startLine + i -1, state_prev);
++				styler.ColourTo(startLine + i, SCE_MAKE_TARGET);
++				state = state_prev;
++			} else if (slineBuffer[i] == '}') {
++				styler.ColourTo(startLine + i -1, state_prev);
++				styler.ColourTo(startLine + i, SCE_MAKE_TARGET);
++				state = state_prev;
+ 			}
++
+ 		}
+-		if (!isspacechar(lineBuffer[i])) {
++			
++		if (!isspacechar(slineBuffer[i])) {
+ 			lastNonSpace = i;
+ 		}
+ 		i++;
+ 	}
++
+ 	if (state == SCE_MAKE_IDENTIFIER) {
+ 		styler.ColourTo(endPos, SCE_MAKE_IDEOL);	// Error, variable reference not ended
+ 	} else {
+-		styler.ColourTo(endPos, SCE_MAKE_DEFAULT);
++		styler.ColourTo(endPos, state_prev);
+ 	}
+ }
+ 
+-static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler) {
++static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
+ 	char lineBuffer[1024];
+ 	styler.StartAt(startPos);
+ 	styler.StartSegment(startPos);
+@@ -127,18 +243,20 @@
+ 		if (AtEOL(styler, i) || (linePos >= sizeof(lineBuffer) - 1)) {
+ 			// End of line (or of line buffer) met, colourise it
+ 			lineBuffer[linePos] = '\0';
+-			ColouriseMakeLine(lineBuffer, linePos, startLine, i, styler);
++			ColouriseMakeLine(lineBuffer, linePos, startLine, i, keywords, styler);
+ 			linePos = 0;
+ 			startLine = i + 1;
+ 		}
+ 	}
+ 	if (linePos > 0) {	// Last line does not have ending characters
+-		ColouriseMakeLine(lineBuffer, linePos, startLine, startPos + length - 1, styler);
++		ColouriseMakeLine(lineBuffer, linePos, startLine, startPos + length - 1, keywords, styler);
+ 	}
+ }
+ 
+-static const char *const emptyWordListDesc[] = {
++static const char *const makefileWordListDesc[] = {
++	"generic",
++	"functions",
+ 	0
+ };
+ 
+-LexerModule lmMake(SCLEX_MAKEFILE, ColouriseMakeDoc, "makefile", 0, emptyWordListDesc);
++LexerModule lmMake(SCLEX_MAKEFILE, ColouriseMakeDoc, "makefile", 0, makefileWordListDesc);
+--- SciLexer.h	2017-04-14 20:58:48.000000000 +0200
++++ SciLexer_mod.h	2017-05-27 06:58:46.000000000 +0200
+@@ -548,6 +548,9 @@
+ #define SCE_MAKE_IDENTIFIER 3
+ #define SCE_MAKE_OPERATOR 4
+ #define SCE_MAKE_TARGET 5
++#define SCE_MAKE_USER_VARIABLE 6
++#define SCE_MAKE_AUTOM_VARIABLE 7
++#define SCE_MAKE_DIRECTIVE 8
+ #define SCE_MAKE_IDEOL 9
+ #define SCE_DIFF_DEFAULT 0
+ #define SCE_DIFF_COMMENT 1

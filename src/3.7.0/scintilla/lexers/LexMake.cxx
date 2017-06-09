@@ -9,7 +9,7 @@
  * be distributed.
  *
  */
- 
+
 #include <stdlib.h>
 #include <string>
 #include <string.h>
@@ -35,9 +35,11 @@ using namespace Scintilla;
 
 static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 	return (styler[i] == '\n') ||
-	       ((styler[i] == '\r') && (styler.SafeGetCharAt(i + 1) != '\n'));
+	    ((styler[i] == '\r') && (styler.SafeGetCharAt(i + 1) != '\n'));
 }
 
+// todo: store and style User defined Vars. ( myvar=... )
+// todo: add code to style compiler options.
 static void ColouriseMakeLine(
 	std::string slineBuffer,
 	Sci_PositionU lengthLine,
@@ -48,7 +50,7 @@ static void ColouriseMakeLine(
 	
 	Sci_PositionU i = 0;
 	Sci_Position lastNonSpace = -1;
-	Sci_PositionU lastSpace = 0;
+
 	unsigned int state = SCE_MAKE_DEFAULT;
 	unsigned int state_prev = SCE_MAKE_DEFAULT;
 	bool bSpecial = false;
@@ -74,69 +76,82 @@ static void ColouriseMakeLine(
 		}
 	}
 
-	int varCount = 0; // increments on $
-	int inVarCount = 0; // increments on identifiers within $vars @...D/F
-	
-	bool bFoundWord=false;
-	const int MAX_KW_LEN=20; // Maximum Length allowed for a makefile Keyword 
+	signed char varCount = 0; // increments on $
+	signed char inVarCount = 0; // increments on identifiers within $vars @...D/F
 	
 	// color keywords within current line
 	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
 	WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
-		
+	
+	int strLen=0;
+	int startMark=0;
+	unsigned char theStart=i; // One Byte ought to be enough for everyone....?
 	while (i < lengthLine) {
 
-		Sci_PositionU match_kw0=0;
-		Sci_PositionU match_kw1=0;
-		std::string wordPart;
+	// ForwardSearch Searchstring.
+	// Travels to the Future and retrieves Lottery draw results. 
+	std::string strSearch;
+	
+	if (isgraph(slineBuffer[i]) == 0) {
+				startMark=0;
+				strLen=0;	
+			}
 
-		// search for longest keyword match backwards. Case dependent.			
-		// Rules: for every new word within line / dont style on nonKeyWordChars / not when already styling other content.
-		if (isgraph(slineBuffer[i]) && !isgraph(slineBuffer[i-1]) 
-		&& (state == SCE_MAKE_DEFAULT || state == SCE_MAKE_USER_VARIABLE)) {
-			bFoundWord=true;
-		} else if (!isgraph(slineBuffer[i])) {
-			bFoundWord=false;
-		}  
-		
-		// ...Oh, and only look back till last space or MAX_KW_LEN, please.
-		if (bFoundWord) {
-			for (Sci_PositionU marker=0; marker<=i; marker++) {
-				if ((lastSpace >0 && marker>lastSpace) || (marker > MAX_KW_LEN)) 
-					break;
-				wordPart.insert(0, slineBuffer.substr(i-marker, 1));
-				if (kwGeneric.InList(wordPart.c_str()))
-					match_kw0=marker;
-				if (kwFunctions.InList(wordPart.c_str()))
-					match_kw1=marker;
-			}		
+		// got alphanumerics, we mark the wordBoundary: 
+		if (isalnum(slineBuffer[i])>0 
+		 && strLen == 0) { 
+			strLen++;
+			startMark=i;
+		} else if (strLen>0) {
+			strLen++; // ... within a word
 		}
+
+		// got the other End, copy the word:
+		if (isalnum(slineBuffer[i+1]) == 0 && strLen>0) {
+			strSearch=slineBuffer.substr(startMark,strLen);
+			strLen=0;
+			startMark=0;
+		}
+	
+		if (strSearch.size()>0) {
 		
-		// style for Directives. Rule: Prepended by whitespace, = or line start.
-		if (match_kw0 >0 		
-		&& (slineBuffer[i -match_kw0-1] == '=' 
-		|| isspacechar(slineBuffer[i -match_kw0 -1])		
-		|| i -match_kw0 == 0)) {
-			styler.ColourTo(startLine +i -match_kw0 -1, state);
-			state_prev = state;
+		// we now search for the word within Directives.... 
+		// Rule: Prepended by whitespace, line start or .'='. 
+		if (kwGeneric.InList(strSearch.c_str())
+		 && (isspace(slineBuffer[i -strSearch.size()]) >0
+			|| i+1 -strSearch.size() == theStart
+			|| slineBuffer[i -strSearch.size()] == '=')) {		
+			styler.ColourTo(startLine + i-strSearch.size(), state);
+			state_prev=state;
 			state=SCE_MAKE_DIRECTIVE;
-		} else if (match_kw0 == 0 && state == SCE_MAKE_DIRECTIVE) {
-			styler.ColourTo(startLine +i -1, state);
+			styler.ColourTo(startLine + i, state);
 			state=state_prev;
-		} 
-
-		// style functions $(sort,subst...) and predefined Variables Rule: have to be prepended by '('.
-		if (match_kw1 >0 && slineBuffer[i -match_kw1 -1] == '(') {
-			styler.ColourTo(startLine +i -match_kw1 -1, state);
-			state_prev = state;
-			state=SCE_MAKE_OPERATOR;
-		} else if (match_kw1 == 0 && state == SCE_MAKE_OPERATOR) {
-			styler.ColourTo(startLine +i-1, state);
+		} else if (state == SCE_MAKE_DIRECTIVE) {
 			state=state_prev;
+			styler.ColourTo(endPos, state);
 		}
+		
+		// ....and within functions $(sort,subst...) and how about some predefined Variables ?
+		// Rule: have to be prepended by '('.
+		if (kwFunctions.InList(strSearch.c_str()) 
+		 && slineBuffer[i -strSearch.size()] == '(') {
+			styler.ColourTo(startLine + i-strSearch.size(), state);
+			state_prev=state;
+			state=SCE_MAKE_OPERATOR;
+			styler.ColourTo(startLine + i, state);
+			state=state_prev;
+		} else if (state == SCE_MAKE_OPERATOR) {
+			state=state_prev;
+			styler.ColourTo(endPos, state);
+			
+		}
+		startMark=0;
+		strLen=0;
+		strSearch.clear();
+	}
 
 		// Style User Variables Rule: $(...)
-		if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(')  {
+		if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(') {
 			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_USER_VARIABLE;
 			varCount++;
@@ -144,18 +159,18 @@ static void ColouriseMakeLine(
 		} else if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
 			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_AUTOM_VARIABLE;
-		} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && slineBuffer[i]==')') {
+		} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && slineBuffer[i] == ')') {
 			if (--varCount == 0) {
 				styler.ColourTo(startLine +i, state);
 				state = state_prev;
 			}
-		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && slineBuffer[i-1]=='$') {
+		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && slineBuffer[i-1] == '$') {
 			styler.ColourTo(startLine +i, state);
 			state = SCE_MAKE_DEFAULT;
 		}
 
 		// Style for automatic Variables Rule: @%<^+'D'||'F'
-		if (((i + 1) < lengthLine) && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && (strchr("DF", (int)slineBuffer[i+1]) >0))  {
+		if (((i + 1) < lengthLine) && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && (strchr("DF", (int)slineBuffer[i+1]) >0)) {
 			styler.ColourTo(startLine +i -1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
@@ -204,14 +219,10 @@ static void ColouriseMakeLine(
 			}
 
 		}
+			
 		if (!isspacechar(slineBuffer[i])) {
 			lastNonSpace = i;
-		} else {
-			wordPart.clear();
-			bFoundWord=false; // stop keywordsearch till next wordBoundary.
-			lastSpace=i; // max search till last Space.
-		}
-
+		} 
 		i++;
 	}
 
