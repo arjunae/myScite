@@ -88,7 +88,7 @@ static void ColouriseMakeLine(
 	// Travels to the Future and retrieves Lottery draw results. 
 	std::string strSearch;
 	
-	/// cpplusplus.com: any return values of isgraph (and co) >0 should be considered true. 
+	/// cpplusplus.com: any return values from isgraph (and co) >0 should be considered true. 
 	if (isgraph(slineBuffer[i]) == 0) { 
 				startMark=0;
 				strLen=0;	
@@ -146,8 +146,8 @@ static void ColouriseMakeLine(
 		strSearch.clear();
 	}
 				
-		// Capture the Flags. Start match on  '-'  Flagchars are any other then space, "." or '=' which ends the match.
-		if (((i + 1) < lengthLine) && isalnum(slineBuffer[i])==0 && slineBuffer[i+1]=='-') {
+		// Capture the Flags. Start match: (whitespace ''-' ) Endmatch:  whitespace, "." or '='
+		if (((i + 1) < lengthLine) && slineBuffer[i+1]=='-' && (isspace(slineBuffer[i])>0 || slineBuffer[i]=='-')) {
 			styler.ColourTo(startLine +i, state);
 			state_prev=SCE_MAKE_DEFAULT;
 			state = SCE_MAKE_FLAGS;
@@ -155,12 +155,11 @@ static void ColouriseMakeLine(
 			styler.ColourTo(startLine +i, state);
 				state = state_prev;			
 			}
-		
+
 		// Style User Variables Rule: $(...)
 		if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(') {
 			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_USER_VARIABLE;
-
 			// ... and $ based automatic Variables Rule: $@
 		} else if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
 			styler.ColourTo(startLine +i -1, state);
