@@ -38,6 +38,7 @@ endif
 ifndef windir
 PICFLAGS = -fPIC
 endif
+
 ifdef windir
 CC = gcc
 DEL = del /q
@@ -95,7 +96,7 @@ GLIB_GENMARSHAL_FLAGS = --prefix=scintilla_marshal
 .list.c:
 	$(GLIB_GENMARSHAL) --body $(GLIB_GENMARSHAL_FLAGS) $< > $@
 
-LEXOBJS:=$(addsuffix .o,$(basename $(sort  $(notdir $(wildcard $(srcdir)/../lexers/Lex*.cxx)))))
+LEXOBJS:=$(addsuffix .o,$(basename $(sort $(notdir $(wildcard $(srcdir)/../lexers/Lex*.cxx)))))
 
 all: $(COMPLIB)
 

@@ -1,5 +1,5 @@
 --- LexMake.cxx	2017-04-01 19:11:22.000000000 +0200
-+++ LexMake_mod.cxx	2017-06-09 09:43:28.000000000 +0200
++++ LexMake_mod.cxx	2017-06-10 17:59:10.000000000 +0200
 @@ -1,11 +1,17 @@
  // Scintilla source code edit control
 -/** @file LexMake.cxx
@@ -23,12 +23,11 @@
  #include <string.h>
  #include <stdio.h>
  #include <stdarg.h>
-@@ -32,54 +38,154 @@
+@@ -32,54 +38,156 @@
  	       ((styler[i] == '\r') && (styler.SafeGetCharAt(i + 1) != '\n'));
  }
  
-+// todo: store and style User defined Vars. ( myvar=... )
-+// todo: add code to style compiler options.
++// todo: store and style User defined Varnames. ( myvar=... )
  static void ColouriseMakeLine(
 -    char *lineBuffer,
 +	std::string slineBuffer,
@@ -70,10 +69,7 @@
  		}
  	}
 -	int varCount = 0;
-+
-+	signed char varCount = 0; // increments on $
-+	signed char inVarCount = 0; // increments on identifiers within $vars @...D/F
-+	
++ 
 +	// color keywords within current line
 +	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
 +	WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
@@ -88,7 +84,8 @@
 +	// Travels to the Future and retrieves Lottery draw results. 
 +	std::string strSearch;
 +	
-+	if (isgraph(slineBuffer[i]) == 0) {
++	/// cpplusplus.com: any return values of isgraph (and co) >0 should be considered true. 
++	if (isgraph(slineBuffer[i]) == 0) { 
 +				startMark=0;
 +				strLen=0;	
 +			}
@@ -99,7 +96,7 @@
 +			strLen++;
 +			startMark=i;
 +		} else if (strLen>0) {
-+			strLen++; // ... within a word
++			strLen++; // ... within a word dimension boundary.
 +		}
 +
 +		// got the other End, copy the word:
@@ -111,7 +108,7 @@
 +	
 +		if (strSearch.size()>0) {
 +		
-+		// we now search for the word within Directives.... 
++		// we now search for the word within the Directives Space.
 +		// Rule: Prepended by whitespace, line start or .'='. 
 +		if (kwGeneric.InList(strSearch.c_str())
 +		 && (isspace(slineBuffer[i -strSearch.size()]) >0
@@ -127,7 +124,7 @@
 +			styler.ColourTo(endPos, state);
 +		}
 +		
-+		// ....and within functions $(sort,subst...) and how about some predefined Variables ?
++		// ....and within functions $(sort,subst...) / used to style internal Variables too.
 +		// Rule: have to be prepended by '('.
 +		if (kwFunctions.InList(strSearch.c_str()) 
 +		 && slineBuffer[i -strSearch.size()] == '(') {
@@ -139,47 +136,54 @@
 +		} else if (state == SCE_MAKE_OPERATOR) {
 +			state=state_prev;
 +			styler.ColourTo(endPos, state);
-+			
 +		}
 +		startMark=0;
 +		strLen=0;
 +		strSearch.clear();
 +	}
-+
++				
++		// Capture the Flags. Start match on  '-'  Flagchars are any other then space, "." or '=' which ends the match.
++		if (((i + 1) < lengthLine) && isalnum(slineBuffer[i])==0 && slineBuffer[i+1]=='-') {
++			styler.ColourTo(startLine +i, state);
++			state_prev=SCE_MAKE_DEFAULT;
++			state = SCE_MAKE_FLAGS;
++			}  else if (state == SCE_MAKE_FLAGS && (isspace(slineBuffer[i+1])>0 || (slineBuffer[i+1]=='=' || slineBuffer[i+1]=='.'))) {
++			styler.ColourTo(startLine +i, state);
++				state = state_prev;			
++			}
++		
 +		// Style User Variables Rule: $(...)
 +		if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(') {
  			styler.ColourTo(startLine + i - 1, state);
 -			state = SCE_MAKE_IDENTIFIER;
-+			state = SCE_MAKE_USER_VARIABLE;
- 			varCount++;
+-			varCount++;
 -		} else if (state == SCE_MAKE_IDENTIFIER && lineBuffer[i] == ')') {
+-			if (--varCount == 0) {
++			state = SCE_MAKE_USER_VARIABLE;
++
 +			// ... and $ based automatic Variables Rule: $@
 +		} else if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
 +			styler.ColourTo(startLine +i -1, state);
 +			state = SCE_MAKE_AUTOM_VARIABLE;
 +		} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && slineBuffer[i] == ')') {
- 			if (--varCount == 0) {
- 				styler.ColourTo(startLine + i, state);
++				styler.ColourTo(startLine +i, state);
 +				state = state_prev;
-+			}
 +		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && slineBuffer[i-1] == '$') {
-+			styler.ColourTo(startLine +i, state);
+ 				styler.ColourTo(startLine + i, state);
  				state = SCE_MAKE_DEFAULT;
  			}
 +
-+		// Style for automatic Variables Rule: @%<^+'D'||'F'
++		// Style for automatic Variables. FluxCompensators orders: @%<^+'D'||'F'
 +		if (((i + 1) < lengthLine) && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && (strchr("DF", (int)slineBuffer[i+1]) >0)) {
 +			styler.ColourTo(startLine +i -1, state);
 +			state_prev=state;
 +			state = SCE_MAKE_AUTOM_VARIABLE;
-+			inVarCount++;
 +		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<^+", (int)slineBuffer[i-1]) >0) && (strchr("DF", (int)slineBuffer[i]) >0)) {
-+			if (--inVarCount == 0) {
 +				styler.ColourTo(startLine +i, state);
 +				state = state_prev;
-+			}
  		}
  
++
  		// skip identifier and target styling if this is a command line
  		if (!bSpecial && !bCommand) {
 -			if (lineBuffer[i] == ':') {
@@ -189,7 +193,7 @@
  					// it's a ':=', so style as an identifier
  					if (lastNonSpace >= 0)
  						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-@@ -90,33 +196,44 @@
+@@ -90,33 +198,44 @@
  					// to avoid colouring stuff like /OUT:file
  					if (lastNonSpace >= 0)
  						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
@@ -242,7 +246,7 @@
  	char lineBuffer[1024];
  	styler.StartAt(startPos);
  	styler.StartSegment(startPos);
-@@ -127,18 +244,20 @@
+@@ -127,18 +246,20 @@
  		if (AtEOL(styler, i) || (linePos >= sizeof(lineBuffer) - 1)) {
  			// End of line (or of line buffer) met, colourise it
  			lineBuffer[linePos] = '\0';
@@ -260,7 +264,7 @@
  
 -static const char *const emptyWordListDesc[] = {
 +static const char *const makefileWordListDesc[] = {
-+	"generic",
++	"generica",
 +	"functions",
  	0
  };
@@ -268,8 +272,8 @@
 -LexerModule lmMake(SCLEX_MAKEFILE, ColouriseMakeDoc, "makefile", 0, emptyWordListDesc);
 +LexerModule lmMake(SCLEX_MAKEFILE, ColouriseMakeDoc, "makefile", 0, makefileWordListDesc);
 --- SciLexer.h	2017-04-14 20:58:48.000000000 +0200
-+++ SciLexer_mod.h	2017-05-27 06:58:46.000000000 +0200
-@@ -548,6 +548,9 @@
++++ SciLexer_mod.h	2017-06-09 22:24:02.000000000 +0200
+@@ -548,7 +548,11 @@
  #define SCE_MAKE_IDENTIFIER 3
  #define SCE_MAKE_OPERATOR 4
  #define SCE_MAKE_TARGET 5
@@ -277,5 +281,7 @@
 +#define SCE_MAKE_AUTOM_VARIABLE 7
 +#define SCE_MAKE_DIRECTIVE 8
  #define SCE_MAKE_IDEOL 9
++#define SCE_MAKE_FLAGS 10
  #define SCE_DIFF_DEFAULT 0
  #define SCE_DIFF_COMMENT 1
+#define SCE_DIFF_COMMAND 2

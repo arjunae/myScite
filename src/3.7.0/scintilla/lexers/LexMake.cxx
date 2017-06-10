@@ -38,8 +38,7 @@ static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 	    ((styler[i] == '\r') && (styler.SafeGetCharAt(i + 1) != '\n'));
 }
 
-// todo: store and style User defined Vars. ( myvar=... )
-// todo: add code to style compiler options.
+// todo: store and style User defined Varnames. ( myvar=... )
 static void ColouriseMakeLine(
 	std::string slineBuffer,
 	Sci_PositionU lengthLine,
@@ -75,10 +74,7 @@ static void ColouriseMakeLine(
 			return;
 		}
 	}
-
-	signed char varCount = 0; // increments on $
-	signed char inVarCount = 0; // increments on identifiers within $vars @...D/F
-	
+ 
 	// color keywords within current line
 	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
 	WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
@@ -92,7 +88,8 @@ static void ColouriseMakeLine(
 	// Travels to the Future and retrieves Lottery draw results. 
 	std::string strSearch;
 	
-	if (isgraph(slineBuffer[i]) == 0) {
+	/// cpplusplus.com: any return values of isgraph (and co) >0 should be considered true. 
+	if (isgraph(slineBuffer[i]) == 0) { 
 				startMark=0;
 				strLen=0;	
 			}
@@ -115,7 +112,7 @@ static void ColouriseMakeLine(
 	
 		if (strSearch.size()>0) {
 		
-		// we now search for the word within Directives (which, of course will open the Tardis too.).... 
+		// we now search for the word within the Directives Space.
 		// Rule: Prepended by whitespace, line start or .'='. 
 		if (kwGeneric.InList(strSearch.c_str())
 		 && (isspace(slineBuffer[i -strSearch.size()]) >0
@@ -131,7 +128,7 @@ static void ColouriseMakeLine(
 			styler.ColourTo(endPos, state);
 		}
 		
-		// ....and within functions $(sort,subst...) and how about some predefined Variables ?
+		// ....and within functions $(sort,subst...) / used to style internal Variables too.
 		// Rule: have to be prepended by '('.
 		if (kwFunctions.InList(strSearch.c_str()) 
 		 && slineBuffer[i -strSearch.size()] == '(') {
@@ -143,44 +140,49 @@ static void ColouriseMakeLine(
 		} else if (state == SCE_MAKE_OPERATOR) {
 			state=state_prev;
 			styler.ColourTo(endPos, state);
-			
 		}
 		startMark=0;
 		strLen=0;
 		strSearch.clear();
 	}
-
+				
+		// Capture the Flags. Start match on  '-'  Flagchars are any other then space, "." or '=' which ends the match.
+		if (((i + 1) < lengthLine) && isalnum(slineBuffer[i])==0 && slineBuffer[i+1]=='-') {
+			styler.ColourTo(startLine +i, state);
+			state_prev=SCE_MAKE_DEFAULT;
+			state = SCE_MAKE_FLAGS;
+			}  else if (state == SCE_MAKE_FLAGS && (isspace(slineBuffer[i+1])>0 || (slineBuffer[i+1]=='=' || slineBuffer[i+1]=='.'))) {
+			styler.ColourTo(startLine +i, state);
+				state = state_prev;			
+			}
+		
 		// Style User Variables Rule: $(...)
 		if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(') {
 			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_USER_VARIABLE;
-			varCount++;
+
 			// ... and $ based automatic Variables Rule: $@
 		} else if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
 			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_AUTOM_VARIABLE;
 		} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && slineBuffer[i] == ')') {
-			if (--varCount == 0) {
 				styler.ColourTo(startLine +i, state);
 				state = state_prev;
-			}
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && slineBuffer[i-1] == '$') {
 			styler.ColourTo(startLine +i, state);
 			state = SCE_MAKE_DEFAULT;
 		}
 
-		// Style for automatic Variables Rule: @%<^+'D'||'F'
+		// Style for automatic Variables. FluxCompensators orders: @%<^+'D'||'F'
 		if (((i + 1) < lengthLine) && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && (strchr("DF", (int)slineBuffer[i+1]) >0)) {
 			styler.ColourTo(startLine +i -1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
-			inVarCount++;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<^+", (int)slineBuffer[i-1]) >0) && (strchr("DF", (int)slineBuffer[i]) >0)) {
-			if (--inVarCount == 0) {
 				styler.ColourTo(startLine +i, state);
 				state = state_prev;
-			}
 		}
+
 
 		// skip identifier and target styling if this is a command line
 		if (!bSpecial && !bCommand) {
@@ -255,7 +257,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 }
 
 static const char *const makefileWordListDesc[] = {
-	"generic",
+	"generica",
 	"functions",
 	0
 };

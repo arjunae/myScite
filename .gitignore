@@ -25,5 +25,3 @@ clidebug.cmd
 
 #- temporary linker and executable files 
 *.pdb
-**win32/*.dll
-**win32/*.exe

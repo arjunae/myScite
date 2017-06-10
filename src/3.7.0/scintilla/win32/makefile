@@ -12,11 +12,12 @@ else
 # MinGW GCC
 LDMINGW = -Wl,--enable-runtime-pseudo-reloc-v2 -Wl,--add-stdcall-alias
 LIBSMINGW = -lstdc++
-STRIPOPTION = -s 
+STRIPOPTION = -s
 CXXSTD = gnu++0x
 endif
+
 .SUFFIXES: .cxx
-ifeq (OS),Windows_NT)
+ifeq ($(OS),Windows_NT)
 DEL = del /q
 else
 DEL = rm -f
@@ -42,7 +43,7 @@ ifneq "$(shell $(CXX) -c CheckD2D.cxx 2>&1)" ""
 D2DFLAGS=-DDISABLE_D2D
 endif
 
-CXXBASEFLAGS=--std=$(CXXSTD) -Os -Wall -pedantic $(INCLUDEDIRS) $(D2DFLAGS) -D_CRT_SECURE_NO_DEPRECATE=1 
+CXXBASEFLAGS=--std=$(CXXSTD) -Wall -pedantic $(INCLUDEDIRS) $(D2DFLAGS) -D_CRT_SECURE_NO_DEPRECATE=1
 
 ifdef NO_CXX11_REGEX
 REFLAGS=-DNO_CXX11_REGEX
