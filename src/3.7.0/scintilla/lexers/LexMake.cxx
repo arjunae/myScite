@@ -39,6 +39,8 @@ static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 }
 
 // todo: store and style User defined Varnames. ( myvar=... )
+// todo: handle line continuation character. "\"
+// todo: handle VC Makefiles ( eg //D and strings in general)
 static void ColouriseMakeLine(
 	std::string slineBuffer,
 	Sci_PositionU lengthLine,
