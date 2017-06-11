@@ -1,13 +1,15 @@
 ~ mySciTE.webdev ~
 
-[07.06.2017] currentGit
+[11.06.2017] currentGit
 - antialiased fonts. / style .json & .mib Files.
-- unified mingw makefiles in lua repo
-- included luasocket (ip socket support) & luacom (call windows com objects like speech / mshtml and others)
+- unified mingw makefiles in lua repo, recompiled all libs. (used Os for a better size/opt weight.)
+- included luasocket (ip socket support) 
+- included luacom (win com objects. eg speech / mshtml and others)
 - reworked env.home & env.userhome (handle readonly places / use profiles)
-- reworked c/cpp syntax colouring for isoc99 / isocpp98 / isocpp11 + apiFiles. 
-- signal unsafe c functions 
+- reworked c/cpp syntax colouring for isoc99 / isocpp98 / isocpp11 + apiFiles.
+- style nonstandart and unsafe c functions.
 - more userfriendly appendContextMenu script / Extman Update
+- improved makefile Lexer. (Styles Flags, internal vars & functions, styles User Vars)
 
 [13.04.2017] STABLE-150
 - Rebased from wScite 3.6.7 to 3.7.0
