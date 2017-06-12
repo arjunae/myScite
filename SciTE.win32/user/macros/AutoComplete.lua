@@ -1,7 +1,7 @@
 --go@ dofile $(FilePath)
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- AutoComplete v0.8 by Lexikos
--- adapted to also function with scite. --
+-- 12.07.17 - Sanitiy checks for scite. --
 
 --[[
 Tested on SciTE4AutoHotkey 3.0.06.01; may also work on SciTE 3.1.0 or later.
@@ -11,11 +11,17 @@ To use this script with SciTE4AutoHotkey:
         dofile(props['SciteUserHome'].."/AutoComplete.lua")
   - Restart SciTE.
 ]]
-print("ac>Ok. Save the current file to test")
--- List of styles per lexer that autocomplete should not occur within.
 
+print("ac>Ok. Save the current file to test")
+
+-- List of styles per lexer that autocomplete should not occur within.
+local SCLEX_AHK1 = 200
+local SCLEX_AHK2 = 201 --?
 local SCLEX_GENERIC = 1024
+
 local IGNORE_STYLES = { -- Should include comments, strings and errors.
+    [SCLEX_AHK1] = {1,2,6,20},
+    [SCLEX_AHK2] = {1,2,3,5,15},
     [SCLEX_LUA]  = {1,2,3,6,7,8,12},
     [SCLEX_HTML]  = {1,2,3,6,7,8,12},
     [SCLEX_CPP]  = {1,2,3,6,7,8,12},
