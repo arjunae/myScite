@@ -69,13 +69,16 @@ static void ColouriseBatchLine(
 	WordList &keywords2 = *keywordlists[1];     // External Commands (optional)
 
 	// CHOICE, ECHO, GOTO, PROMPT and SET have Default Text that may contain Regular Keywords
-	//   Toggling Regular Keyword Checking off improves readability
-	// Other Regular Keywords and External Commands / Programs might also benefit from toggling
-	//   Need a more robust algorithm to properly toggle Regular Keyword Checking
+	//	Toggling Regular Keyword Checking off improves readability
+	//	Other Regular Keywords and External Commands / Programs might also benefit from toggling
+	// Need a more robust algorithm to properly toggle Regular Keyword Checking
+	
 	bool continueProcessing = true;	// Used to toggle Regular Keyword Checking
+	
 	// Special Keywords are those that allow certain characters without whitespace after the command
 	// Examples are: cd. cd\ md. rd. dir| dir> echo: echo. path=
 	// Special Keyword Buffer used to determine if the first n characters is a Keyword
+	
 	char sKeywordBuffer[10];	// Special Keyword Buffer
 	bool sKeywordFound;		// Exit Special Keyword for-loop if found
 
@@ -83,8 +86,10 @@ static void ColouriseBatchLine(
 	while ((offset < lengthLine) && (isspacechar(lineBuffer[offset]))) {
 		offset++;
 	}
+	
 	// Colorize Default Text
 	styler.ColourTo(startLine + offset - 1, SCE_BAT_DEFAULT);
+	
 	// Set External Command / Program Location
 	cmdLoc = offset;
 
@@ -98,6 +103,7 @@ static void ColouriseBatchLine(
 			styler.ColourTo(endPos, SCE_BAT_LABEL);
 		}
 		return;
+		
 	// Check for Drive Change (Drive Change is internal command) - return if found
 	} else if ((IsAlphabetic(lineBuffer[offset])) &&
 		(lineBuffer[offset + 1] == ':') &&
@@ -118,7 +124,9 @@ static void ColouriseBatchLine(
 	while ((offset < lengthLine) && (isspacechar(lineBuffer[offset]))) {
 		offset++;
 	}
-
+	
+/// todo: somhow tame this procedural Spaghettycode Monster.... 
+	
 	// Read remainder of line word-at-a-time or remainder-of-word-at-a-time
 	while (offset < lengthLine) {
 		if (offset > startLine) {

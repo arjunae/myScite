@@ -50,6 +50,7 @@ function test_TextToSpeech(sText, sLang)
 ' 
 ' sText -> Text to speak
 ' sLang -> Language to search for  
+' returns result true or false if sLang was not found.
 
   'set oLex =WScript.CreateObject("SAPI.SpLexicon") 'https://msdn.microsoft.com/de-de/library/ms717899(v=vs.85).aspx
 
@@ -57,10 +58,14 @@ function test_TextToSpeech(sText, sLang)
     if isobject (otts.GetVoices.Item(cnt)) then 
       set voice=otts.GetVoices.Item(cnt)
       'wscript.echo (voice.GetDescription) & " -> ID: " & cnt & vbCr & voice.ID
-      'wscript.echo sLang, voice.GetDescription
       if InStr( lCase(voice.GetDescription), LCase(sLang) ) >0 then 
         set oTTS.voice = voice
         oTTS.speak(sText)
+        result=true
+        wscript.echo sLang, voice.GetDescription
+      else   
+        set voice =otts.GetVoices.Item(0)
+        result=false
       end if
     end if 
   next
@@ -70,9 +75,10 @@ function test_TextToSpeech(sText, sLang)
   'wscript.echo oTTS.GetVoices.Item(0).GetDescription
   'wscript.echo oTTS.GetVoices.Item(1).GetDescription
 
+  return(result)
 end function
 
-sText = "Messungen der Sonnenstrahlung offenbaren eine rote Zone, die bis nach Deutschland reicht. Was geht vor? "
+sText = "Messungen der Sonnenstrahlung offenbaren eine rote Zone die bis nach Deutschland reicht. Was geht dort vor sich? "
 sLang = "German"
 
 'sText = "As of March 2017, Wikipedia has about forty thousand high-quality articles known as Featured Articles and Good Articles that cover vital topics."
@@ -83,8 +89,12 @@ sLang = "German"
 
 ' =================== '
 function main() 
+
   if instr(1,wscript.fullName,"cscript") then bConsole=true
   ret = test_TextToSpeech(sText, sLang)
+  if ret = false then
+    wscript.Echo("Could not find " & sLang & " please try another language")
+  end if  
   ret = test_comIE()
 end function
 '==================='
