@@ -12,7 +12,7 @@
 #include <stddef.h>
 #include <fcntl.h>
 #include <time.h>
-#include <locale.h>
+#include <locale.h> 
 
 #include <string>
 #include <vector>
@@ -62,17 +62,17 @@ void SciTEBase::SetImportMenu() {
 		for (int stackPos = 0; stackPos < static_cast<int>(importFiles.size()) && stackPos < importMax; stackPos++) {
 			int itemID = importCmdID + stackPos;
 			if (importFiles[stackPos].IsSet()) {
-				std::wstring sEntry = importFiles[stackPos].Name().AsInternal();
+				GUI::gui_string sEntry = importFiles[stackPos].Name().AsInternal(); 
 				//std::wstring sPath= sEntry.substr(0,sEntry.rfind(L"/"));  /// Do some automagic in the future...
-				std::wstring sFile= sEntry.substr(sEntry.rfind(L"/")+1,std::wstring::npos);
-				sFile= sFile.substr(sFile.rfind(L"\\")+1,std::wstring::npos);
-				sFile=localiser.Text("Open") + L" " + sFile;
+				GUI::gui_string sFile= sEntry.substr(sEntry.rfind(GUI_TEXT("/"))+1, GUI::gui_string::npos);
+				sFile= sFile.substr(sFile.rfind(GUI_TEXT("\\"))+1,GUI::gui_string::npos);
+				//sFile=localiser.Text("Open") + L" " + sFile;
 				
 				//  Depends on Foldernames to display properties sorted.
-				if (sEntry.find(L"theme") != std::wstring::npos || sEntry.find(L"ddons") != std::wstring::npos) {					
+				if (sEntry.find(GUI_TEXT("theme")) != GUI::gui_string::npos || sEntry.find(GUI_TEXT("ddons")) != GUI::gui_string::npos) {					
 					SetMenuItemNew(menuOptions, 1, IMPORT_START+stackPos, itemID,  + sFile.c_str());
 				}
-				if (sEntry.find(L"lang") != std::wstring::npos) {
+				if (sEntry.find(GUI_TEXT("lang")) != GUI::gui_string::npos) {
 					SetMenuItemNew(menuOptions, 2, stackPos, itemID, sFile.c_str()); 
 				}
 			}

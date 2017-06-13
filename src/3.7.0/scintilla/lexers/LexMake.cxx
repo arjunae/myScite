@@ -148,8 +148,11 @@ static void ColouriseMakeLine(
 		strSearch.clear();
 	}
 				
-		// Capture the Flags. Start match: (whitespace ''-' ) Endmatch:  whitespace, "." or '='
-		if (((i + 1) < lengthLine) && slineBuffer[i+1]=='-' && (isspace(slineBuffer[i])>0 || slineBuffer[i]=='-')) {
+		// Capture the Flags. Start match: (whitespace/= | '-' ) Endmatch:  whitespace, "." or '='
+		if (((i + 1) < lengthLine) 
+		&& slineBuffer[i+1]=='-' 
+		&& (isspace(slineBuffer[i])>0 || slineBuffer[i]=='=')
+		|| slineBuffer[i]=='-') {
 			styler.ColourTo(startLine +i, state);
 			state_prev=SCE_MAKE_DEFAULT;
 			state = SCE_MAKE_FLAGS;
