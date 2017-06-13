@@ -1,6 +1,6 @@
 ~# mySciTE.webdev -~
 
-[11.06.2017] currentGit
+[13.06.2017] currentGit
 # antialiased fonts. Style .json & .mib Files. Add Forth, Add Fortran api.
 # lua repo: unified mingw makefiles recompiled all libs with Os for a better opt balance.
 # included luasocket (ip socket support) 
