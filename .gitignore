@@ -25,3 +25,6 @@ clidebug.cmd
 
 #- temporary linker and executable files 
 *.pdb
+
+#- vscode Project files
+.vsCode/

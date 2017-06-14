@@ -116,10 +116,11 @@ static void ColouriseMakeLine(
 		
 		// we now search for the word within the Directives Space.
 		// Rule: Prepended by whitespace, line start or .'='. 
+
 		if (kwGeneric.InList(strSearch.c_str())
-		 && (isspace(slineBuffer[i -strSearch.size()]) >0
+		 && (isspace(styler.SafeGetCharAt(startLine +i -strSearch.size()) >0
 			|| i+1 -strSearch.size() == theStart
-			|| slineBuffer[i -strSearch.size()] == '=')) {		
+			|| styler.SafeGetCharAt(startLine +i -strSearch.size()) == '='))) {		
 			styler.ColourTo(startLine + i-strSearch.size(), state);
 			state_prev=state;
 			state=SCE_MAKE_DIRECTIVE;
@@ -133,7 +134,7 @@ static void ColouriseMakeLine(
 		// ....and within functions $(sort,subst...) / used to style internal Variables too.
 		// Rule: have to be prepended by '('.
 		if (kwFunctions.InList(strSearch.c_str()) 
-		 && slineBuffer[i -strSearch.size()] == '(') {
+		 && styler.SafeGetCharAt(startLine +i -strSearch.size()) == '(') {
 			styler.ColourTo(startLine + i-strSearch.size(), state);
 			state_prev=state;
 			state=SCE_MAKE_OPERATOR;
@@ -159,7 +160,7 @@ static void ColouriseMakeLine(
 		} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && slineBuffer[i] == ')') {
 				styler.ColourTo(startLine +i, state);
 				state = state_prev;
-		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && slineBuffer[i-1] == '$') {
+		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) &&  styler.SafeGetCharAt(startLine+i-1) == '$') {
 			styler.ColourTo(startLine +i, state);
 			state = state_prev;
 		}
@@ -214,9 +215,8 @@ static void ColouriseMakeLine(
 		}
 		
 		// Capture the Flags. Start match:  ("=-") or ('-' | nonwhitespace + '-' ) Endmatch: (whitespace | ".")
-		if (( (i + 1) < lengthLine && slineBuffer[i+1]=='-') 
-		&& ((isspace(slineBuffer[i])>0 || slineBuffer[i]=='-')
-		|| (slineBuffer[i]=='=' && slineBuffer[i+1]=='-'))) {
+		if (( (i + 1) < lengthLine && slineBuffer[i+1]=='-') && ((isspace(slineBuffer[i])>0 || slineBuffer[i]=='-')
+		|| ((i + 1) < lengthLine && slineBuffer[i]=='=' && slineBuffer[i+1]=='-'))) {
 			styler.ColourTo(startLine +i, state);
 			state_prev=SCE_MAKE_DEFAULT;
 			state = SCE_MAKE_FLAGS;
