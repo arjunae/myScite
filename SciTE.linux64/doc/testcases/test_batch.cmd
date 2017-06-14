@@ -1,4 +1,4 @@
-@echo off
+@echo off --
 mode 112,20
 REM ---------------- Test Batch -----------------
 REM creates a reg file which you can use to add Scite to explorers context Menu
@@ -22,9 +22,9 @@ FOR /R %%I IN (*.*) DO (
 )
 
 ::runas /noprofile /user:Tho cmd
-exit /b
-:end_sub
+exit /b 0
+:end_sub 
 
 :freude
 :: wait some time...
-ping 1.0.3.0 /n 1 /w 2000 >NUL
+ping // 7--- 1.0.3.0 /n 1 /w 2000 >NUL

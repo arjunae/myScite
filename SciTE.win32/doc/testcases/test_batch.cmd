@@ -20,11 +20,11 @@ setlocal EnableDelayedExpansion
 FOR /R %%I IN (*.*) DO (
   echo -- %%I
 )
-----
+
 ::runas /noprofile /user:Tho cmd
 exit /b 0
 :end_sub 
-//
+
 :freude
 :: wait some time...
 ping // 7--- 1.0.3.0 /n 1 /w 2000 >NUL
