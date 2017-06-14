@@ -51,7 +51,7 @@ static void ColouriseMakeLine(
 	
 	Sci_PositionU i = 0;
 	Sci_Position lastNonSpace = -1;
-
+	
 	unsigned int state = SCE_MAKE_DEFAULT;
 	unsigned int state_prev = SCE_MAKE_DEFAULT;
 	bool bSpecial = false;
@@ -147,20 +147,7 @@ static void ColouriseMakeLine(
 		strLen=0;
 		strSearch.clear();
 	}
-				
-		// Capture the Flags. Start match: (whitespace/= | '-' ) Endmatch:  whitespace, "." or '='
-		if (((i + 1) < lengthLine) 
-		&& slineBuffer[i+1]=='-' 
-		&& (isspace(slineBuffer[i])>0 || slineBuffer[i]=='=')
-		|| slineBuffer[i]=='-') {
-			styler.ColourTo(startLine +i, state);
-			state_prev=SCE_MAKE_DEFAULT;
-			state = SCE_MAKE_FLAGS;
-			}  else if (state == SCE_MAKE_FLAGS && (isspace(slineBuffer[i+1])>0 || (slineBuffer[i+1]=='=' || slineBuffer[i+1]=='.'))) {
-			styler.ColourTo(startLine +i, state);
-				state = state_prev;			
-			}
-
+		
 		// Style User Variables Rule: $(...)
 		if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(') {
 			styler.ColourTo(startLine +i -1, state);
@@ -174,7 +161,7 @@ static void ColouriseMakeLine(
 				state = state_prev;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && slineBuffer[i-1] == '$') {
 			styler.ColourTo(startLine +i, state);
-			state = SCE_MAKE_DEFAULT;
+			state = state_prev;
 		}
 
 		// Style for automatic Variables. FluxCompensators orders: @%<^+'D'||'F'
@@ -186,8 +173,8 @@ static void ColouriseMakeLine(
 				styler.ColourTo(startLine +i, state);
 				state = state_prev;
 		}
-
-
+		
+	
 		// skip identifier and target styling if this is a command line
 		if (!bSpecial && !bCommand) {
 			if (slineBuffer[i] == ':') {
@@ -209,7 +196,7 @@ static void ColouriseMakeLine(
 				state = state_prev;
 			} else if (slineBuffer[i] == '=') {
 				if (lastNonSpace >= 0)
-					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
+				styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
 				styler.ColourTo(startLine + i -1, state_prev);
 				styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
 				bSpecial = true;	// Only react to the first '=' of the line
@@ -225,10 +212,21 @@ static void ColouriseMakeLine(
 			}
 
 		}
-			
-		if (!isspacechar(slineBuffer[i])) {
+		
+		// Capture the Flags. Start match:  ("=-") or ('-' | nonwhitespace + '-' ) Endmatch: (whitespace | ".")
+		if (( (i + 1) < lengthLine && slineBuffer[i+1]=='-') 
+		&& ((isspace(slineBuffer[i])>0 || slineBuffer[i]=='-')
+		|| (slineBuffer[i]=='=' && slineBuffer[i+1]=='-'))) {
+			styler.ColourTo(startLine +i, state);
+			state_prev=SCE_MAKE_DEFAULT;
+			state = SCE_MAKE_FLAGS;
+			}  else if (state == SCE_MAKE_FLAGS && (isspace(slineBuffer[i+1])>0  || slineBuffer[i+1]=='.')) {
+			styler.ColourTo(startLine +i, state);
+				state = state_prev;			
+			}
+		if ( !isspacechar(slineBuffer[i]) )
 			lastNonSpace = i;
-		} 
+		
 		i++;
 	}
 

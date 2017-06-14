@@ -1,5 +1,5 @@
 --- LexMake.cxx	2017-04-01 19:11:22.000000000 +0200
-+++ LexMake_mod.cxx	2017-06-10 17:59:10.000000000 +0200
++++ LexMake_mod.cxx	2017-06-14 03:50:06.000000000 +0200
 @@ -1,11 +1,17 @@
  // Scintilla source code edit control
 -/** @file LexMake.cxx
@@ -23,11 +23,13 @@
  #include <string.h>
  #include <stdio.h>
  #include <stdarg.h>
-@@ -32,54 +38,156 @@
+@@ -32,54 +38,147 @@
  	       ((styler[i] == '\r') && (styler.SafeGetCharAt(i + 1) != '\n'));
  }
  
 +// todo: store and style User defined Varnames. ( myvar=... )
++// todo: handle line continuation character. "\"
++// todo: handle VC Makefiles ( eg //D and strings in general)
  static void ColouriseMakeLine(
 -    char *lineBuffer,
 +	std::string slineBuffer,
@@ -39,7 +41,7 @@
  
  	Sci_PositionU i = 0;
  	Sci_Position lastNonSpace = -1;
-+
++	
  	unsigned int state = SCE_MAKE_DEFAULT;
 +	unsigned int state_prev = SCE_MAKE_DEFAULT;
  	bool bSpecial = false;
@@ -84,7 +86,7 @@
 +	// Travels to the Future and retrieves Lottery draw results. 
 +	std::string strSearch;
 +	
-+	/// cpplusplus.com: any return values of isgraph (and co) >0 should be considered true. 
++	/// cpplusplus.com: any return values from isgraph (and co) >0 should be considered true. 
 +	if (isgraph(slineBuffer[i]) == 0) { 
 +				startMark=0;
 +				strLen=0;	
@@ -141,16 +143,6 @@
 +		strLen=0;
 +		strSearch.clear();
 +	}
-+				
-+		// Capture the Flags. Start match on  '-'  Flagchars are any other then space, "." or '=' which ends the match.
-+		if (((i + 1) < lengthLine) && isalnum(slineBuffer[i])==0 && slineBuffer[i+1]=='-') {
-+			styler.ColourTo(startLine +i, state);
-+			state_prev=SCE_MAKE_DEFAULT;
-+			state = SCE_MAKE_FLAGS;
-+			}  else if (state == SCE_MAKE_FLAGS && (isspace(slineBuffer[i+1])>0 || (slineBuffer[i+1]=='=' || slineBuffer[i+1]=='.'))) {
-+			styler.ColourTo(startLine +i, state);
-+				state = state_prev;			
-+			}
 +		
 +		// Style User Variables Rule: $(...)
 +		if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(') {
@@ -160,7 +152,6 @@
 -		} else if (state == SCE_MAKE_IDENTIFIER && lineBuffer[i] == ')') {
 -			if (--varCount == 0) {
 +			state = SCE_MAKE_USER_VARIABLE;
-+
 +			// ... and $ based automatic Variables Rule: $@
 +		} else if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
 +			styler.ColourTo(startLine +i -1, state);
@@ -170,7 +161,8 @@
 +				state = state_prev;
 +		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && slineBuffer[i-1] == '$') {
  				styler.ColourTo(startLine + i, state);
- 				state = SCE_MAKE_DEFAULT;
+-				state = SCE_MAKE_DEFAULT;
++			state = state_prev;
  			}
 +
 +		// Style for automatic Variables. FluxCompensators orders: @%<^+'D'||'F'
@@ -183,7 +175,7 @@
 +				state = state_prev;
  		}
  
-+
++	
  		// skip identifier and target styling if this is a command line
  		if (!bSpecial && !bCommand) {
 -			if (lineBuffer[i] == ':') {
@@ -193,7 +185,7 @@
  					// it's a ':=', so style as an identifier
  					if (lastNonSpace >= 0)
  						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-@@ -90,33 +198,44 @@
+@@ -90,33 +189,55 @@
  					// to avoid colouring stuff like /OUT:file
  					if (lastNonSpace >= 0)
  						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
@@ -226,10 +218,22 @@
 +
  		}
 -		if (!isspacechar(lineBuffer[i])) {
-+			
-+		if (!isspacechar(slineBuffer[i])) {
- 			lastNonSpace = i;
+-			lastNonSpace = i;
++		
++		// Capture the Flags. Start match:  ("=-") or ('-' | nonwhitespace + '-' ) Endmatch: (whitespace | ".")
++		if (( (i + 1) < lengthLine && slineBuffer[i+1]=='-') 
++		&& ((isspace(slineBuffer[i])>0 || slineBuffer[i]=='-')
++		|| (slineBuffer[i]=='=' && slineBuffer[i+1]=='-'))) {
++			styler.ColourTo(startLine +i, state);
++			state_prev=SCE_MAKE_DEFAULT;
++			state = SCE_MAKE_FLAGS;
++			}  else if (state == SCE_MAKE_FLAGS && (isspace(slineBuffer[i+1])>0  || slineBuffer[i+1]=='.')) {
++			styler.ColourTo(startLine +i, state);
++				state = state_prev;			
  		}
++		if ( !isspacechar(slineBuffer[i]) )
++			lastNonSpace = i;
++		
  		i++;
  	}
 +
@@ -246,7 +250,7 @@
  	char lineBuffer[1024];
  	styler.StartAt(startPos);
  	styler.StartSegment(startPos);
-@@ -127,18 +246,20 @@
+@@ -127,18 +248,20 @@
  		if (AtEOL(styler, i) || (linePos >= sizeof(lineBuffer) - 1)) {
  			// End of line (or of line buffer) met, colourise it
  			lineBuffer[linePos] = '\0';
@@ -284,4 +288,5 @@
 +#define SCE_MAKE_FLAGS 10
  #define SCE_DIFF_DEFAULT 0
  #define SCE_DIFF_COMMENT 1
-#define SCE_DIFF_COMMAND 2
+ #define SCE_DIFF_COMMAND 2
+
