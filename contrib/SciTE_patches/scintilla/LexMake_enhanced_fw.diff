@@ -1,5 +1,6 @@
+///@info Fire Prevention Information should be free and easy to read.
 --- LexMake.cxx	2017-04-01 19:11:22.000000000 +0200
-+++ LexMake_mod.cxx	2017-06-14 03:50:06.000000000 +0200
++++ LexMake_mod.cxx	2017-06-15 16:34:18.000000000 +0200
 @@ -1,11 +1,17 @@
  // Scintilla source code edit control
 -/** @file LexMake.cxx
@@ -23,7 +24,7 @@
  #include <string.h>
  #include <stdio.h>
  #include <stdarg.h>
-@@ -32,54 +38,147 @@
+@@ -32,54 +38,148 @@
  	       ((styler[i] == '\r') && (styler.SafeGetCharAt(i + 1) != '\n'));
  }
  
@@ -112,10 +113,11 @@
 +		
 +		// we now search for the word within the Directives Space.
 +		// Rule: Prepended by whitespace, line start or .'='. 
++
 +		if (kwGeneric.InList(strSearch.c_str())
-+		 && (isspace(slineBuffer[i -strSearch.size()]) >0
++		 && (isspace(styler.SafeGetCharAt(startLine +i -strSearch.size()) >0
 +			|| i+1 -strSearch.size() == theStart
-+			|| slineBuffer[i -strSearch.size()] == '=')) {		
++			|| styler.SafeGetCharAt(startLine +i -strSearch.size()) == '='))) {		
 +			styler.ColourTo(startLine + i-strSearch.size(), state);
 +			state_prev=state;
 +			state=SCE_MAKE_DIRECTIVE;
@@ -129,7 +131,7 @@
 +		// ....and within functions $(sort,subst...) / used to style internal Variables too.
 +		// Rule: have to be prepended by '('.
 +		if (kwFunctions.InList(strSearch.c_str()) 
-+		 && slineBuffer[i -strSearch.size()] == '(') {
++		 && styler.SafeGetCharAt(startLine +i -strSearch.size()) == '(') {
 +			styler.ColourTo(startLine + i-strSearch.size(), state);
 +			state_prev=state;
 +			state=SCE_MAKE_OPERATOR;
@@ -145,7 +147,7 @@
 +	}
 +		
 +		// Style User Variables Rule: $(...)
-+		if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(') {
++		if (!AtEOL(styler,i) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(') {
  			styler.ColourTo(startLine + i - 1, state);
 -			state = SCE_MAKE_IDENTIFIER;
 -			varCount++;
@@ -153,20 +155,20 @@
 -			if (--varCount == 0) {
 +			state = SCE_MAKE_USER_VARIABLE;
 +			// ... and $ based automatic Variables Rule: $@
-+		} else if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
++		} else if ((!AtEOL(styler,i)< lengthLine) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
 +			styler.ColourTo(startLine +i -1, state);
 +			state = SCE_MAKE_AUTOM_VARIABLE;
 +		} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && slineBuffer[i] == ')') {
 +				styler.ColourTo(startLine +i, state);
 +				state = state_prev;
-+		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && slineBuffer[i-1] == '$') {
++		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) &&  styler.SafeGetCharAt(startLine+i-1) == '$') {
  				styler.ColourTo(startLine + i, state);
 -				state = SCE_MAKE_DEFAULT;
 +			state = state_prev;
  			}
 +
 +		// Style for automatic Variables. FluxCompensators orders: @%<^+'D'||'F'
-+		if (((i + 1) < lengthLine) && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && (strchr("DF", (int)slineBuffer[i+1]) >0)) {
++		if (!AtEOL(styler,i) && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && (strchr("DF", (int)slineBuffer[i+1]) >0)) {
 +			styler.ColourTo(startLine +i -1, state);
 +			state_prev=state;
 +			state = SCE_MAKE_AUTOM_VARIABLE;
@@ -181,11 +183,11 @@
 -			if (lineBuffer[i] == ':') {
 -				if (((i + 1) < lengthLine) && (lineBuffer[i + 1] == '=')) {
 +			if (slineBuffer[i] == ':') {
-+				if (((i + 1) < lengthLine) && (slineBuffer[i +1] == '=')) {
++				if (!AtEOL(styler,i) && (slineBuffer[i +1] == '=')) {
  					// it's a ':=', so style as an identifier
  					if (lastNonSpace >= 0)
  						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-@@ -90,33 +189,55 @@
+@@ -90,33 +190,54 @@
  					// to avoid colouring stuff like /OUT:file
  					if (lastNonSpace >= 0)
  						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
@@ -221,9 +223,8 @@
 -			lastNonSpace = i;
 +		
 +		// Capture the Flags. Start match:  ("=-") or ('-' | nonwhitespace + '-' ) Endmatch: (whitespace | ".")
-+		if (( (i + 1) < lengthLine && slineBuffer[i+1]=='-') 
-+		&& ((isspace(slineBuffer[i])>0 || slineBuffer[i]=='-')
-+		|| (slineBuffer[i]=='=' && slineBuffer[i+1]=='-'))) {
++		if (( !AtEOL(styler,i) && slineBuffer[i+1]=='-') && ((isspace(slineBuffer[i])>0 || slineBuffer[i]=='-')
++		|| (!AtEOL(styler,i) && slineBuffer[i]=='=' && slineBuffer[i+1]=='-'))) {
 +			styler.ColourTo(startLine +i, state);
 +			state_prev=SCE_MAKE_DEFAULT;
 +			state = SCE_MAKE_FLAGS;

@@ -409,8 +409,11 @@ PropSetFile::ReadLineState PropSetFile::ReadLine(const char *lineBuffer, ReadLin
 				}
 			}
 		} else if (filter.IsValid(importName)) {
+			importName = Expand(importName.c_str());
+			if (importName[0]==pathSepChar)
+                importName=importName.substr(1,std::string::npos);
 			importName += ".properties";
-			FilePath importPath(directoryForImports, FilePath(GUI::StringFromUTF8(Expand(importName)))); 
+			FilePath importPath(directoryForImports, FilePath(GUI::StringFromUTF8(importName)));
 			Import(importPath, directoryForImports, filter, imports, depth+1);
 		}
 	} else if (!IsCommentLine(lineBuffer)) {

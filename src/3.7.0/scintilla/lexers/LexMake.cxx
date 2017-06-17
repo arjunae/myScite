@@ -10,7 +10,7 @@
  *
  */
 
-#include <stdlib.h>
+#include <stdlib.h> 
 #include <string>
 #include <string.h>
 #include <stdio.h>
@@ -150,11 +150,11 @@ static void ColouriseMakeLine(
 	}
 		
 		// Style User Variables Rule: $(...)
-		if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(') {
+		if (!AtEOL(styler,i) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(') {
 			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_USER_VARIABLE;
 			// ... and $ based automatic Variables Rule: $@
-		} else if (((i + 1) < lengthLine) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
+		} else if ((!AtEOL(styler,i)< lengthLine) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
 			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_AUTOM_VARIABLE;
 		} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && slineBuffer[i] == ')') {
@@ -166,7 +166,7 @@ static void ColouriseMakeLine(
 		}
 
 		// Style for automatic Variables. FluxCompensators orders: @%<^+'D'||'F'
-		if (((i + 1) < lengthLine) && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && (strchr("DF", (int)slineBuffer[i+1]) >0)) {
+		if (!AtEOL(styler,i) && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && (strchr("DF", (int)slineBuffer[i+1]) >0)) {
 			styler.ColourTo(startLine +i -1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
@@ -179,7 +179,7 @@ static void ColouriseMakeLine(
 		// skip identifier and target styling if this is a command line
 		if (!bSpecial && !bCommand) {
 			if (slineBuffer[i] == ':') {
-				if (((i + 1) < lengthLine) && (slineBuffer[i +1] == '=')) {
+				if (!AtEOL(styler,i) && (slineBuffer[i +1] == '=')) {
 					// it's a ':=', so style as an identifier
 					if (lastNonSpace >= 0)
 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
@@ -215,8 +215,8 @@ static void ColouriseMakeLine(
 		}
 		
 		// Capture the Flags. Start match:  ("=-") or ('-' | nonwhitespace + '-' ) Endmatch: (whitespace | ".")
-		if (( (i + 1) < lengthLine && slineBuffer[i+1]=='-') && ((isspace(slineBuffer[i])>0 || slineBuffer[i]=='-')
-		|| ((i + 1) < lengthLine && slineBuffer[i]=='=' && slineBuffer[i+1]=='-'))) {
+		if (( !AtEOL(styler,i) && slineBuffer[i+1]=='-') && ((isspace(slineBuffer[i])>0 || slineBuffer[i]=='-')
+		|| (!AtEOL(styler,i) && slineBuffer[i]=='=' && slineBuffer[i+1]=='-'))) {
 			styler.ColourTo(startLine +i, state);
 			state_prev=SCE_MAKE_DEFAULT;
 			state = SCE_MAKE_FLAGS;
