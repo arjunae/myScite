@@ -1,0 +1,266 @@
+	rc -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -foSciTERes.res SciTERes.rc
+Microsoft (R) Windows (R) Resource Compiler Version 6.3.9600.17336
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+	cl -Zi -TP -MP -W4 -EHsc -Zc:forScope -Zc:wchar_t -D_CRT_SECURE_NO_DEPRECATE=1 -D_CRT_NONSTDC_NO_DEPRECATE -DUNICODE -D_UNICODE  -O1 -Oi -MT -DNDEBUG -GL -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -c ..\src\Cookie.cxx ..\src\Credits.cxx ..\src\ExportHTML.cxx ..\src\ExportPDF.cxx ..\src\ExportRTF.cxx ..\src\ExportTEX.cxx ..\src\ExportXML.cxx ..\src\FilePath.cxx ..\src\FileWorker.cxx ..\src\IFaceTable.cxx ..\src\JobQueue.cxx ..\src\MatchMarker.cxx ..\src\MultiplexExtension.cxx ..\src\PropSetFile.cxx ..\src\SciTEBase.cxx ..\src\SciTEBuffers.cxx ..\src\SciTEIO.cxx ..\src\SciTEProps.cxx ..\src\StringHelpers.cxx ..\src\StringList.cxx ..\src\StyleDefinition.cxx ..\src\StyleWriter.cxx ..\src\Utf8_16.cxx ..\src\LuaExtension.cxx 
+Cookie.cxx
+Credits.cxx
+ExportHTML.cxx
+ExportPDF.cxx
+ExportRTF.cxx
+ExportTEX.cxx
+ExportXML.cxx
+FilePath.cxx
+FileWorker.cxx
+IFaceTable.cxx
+JobQueue.cxx
+MatchMarker.cxx
+MultiplexExtension.cxx
+PropSetFile.cxx
+SciTEBase.cxx
+SciTEBuffers.cxx
+SciTEIO.cxx
+SciTEProps.cxx
+StringHelpers.cxx
+StringList.cxx
+StyleDefinition.cxx
+..\src\SciTEProps.cxx(133): warning C4309: 'static_cast': truncation of constant value
+StyleWriter.cxx
+Utf8_16.cxx
+LuaExtension.cxx
+	cl -Zi -TP -MP -W4 -EHsc -Zc:forScope -Zc:wchar_t -D_CRT_SECURE_NO_DEPRECATE=1 -D_CRT_NONSTDC_NO_DEPRECATE -DUNICODE -D_UNICODE  -O1 -Oi -MT -DNDEBUG -GL -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -c .\DirectorExtension.cxx .\GUIWin.cxx .\SciTEWinBar.cxx .\SciTEWinDlg.cxx .\Strips.cxx .\UniqueInstance.cxx .\WinMutex.cxx .\SciTEWin.cxx 
+DirectorExtension.cxx
+GUIWin.cxx
+SciTEWinBar.cxx
+SciTEWinDlg.cxx
+.\SciTEWinBar.cxx(235): warning C4244: 'argument': conversion from 'const uptr_t' to 'int', possible loss of data
+.\SciTEWinBar.cxx(516): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
+.\SciTEWinBar.cxx(523): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
+Strips.cxx
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(496): warning C4312: 'type cast': conversion from 'unsigned long' to 'void *' of greater size (compiling source file .\SciTEWinBar.cxx)
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(494): note: while compiling class template member function 'unsigned int TMap<int,int,std::string,const char *>::HashKey(ARG_KEY)'
+        with
+        [
+            ARG_KEY=int
+        ] (compiling source file .\SciTEWinBar.cxx)
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(480): note: see reference to function template instantiation 'unsigned int TMap<int,int,std::string,const char *>::HashKey(ARG_KEY)' being compiled
+        with
+        [
+            ARG_KEY=int
+        ] (compiling source file .\SciTEWinBar.cxx)
+e:\projects\_myscite\_myscite.github\src\3.7.0\scite\win32\SciTEWin.h(182): note: see reference to class template instantiation 'TMap<int,int,std::string,const char *>' being compiled (compiling source file .\SciTEWinBar.cxx)
+UniqueInstance.cxx
+WinMutex.cxx
+SciTEWin.cxx
+.\SciTEWin.cxx(1382): warning C4244: 'argument': conversion from 'int' to 'BYTE', possible loss of data
+	cl -TC -MP -W3 -wd4244 -D_CRT_SECURE_NO_DEPRECATE=1 -DLUA_USER_H=\"scite_lua_win.h\"  -O1 -Oi -MT -DNDEBUG -GL -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -c ..\lua\src\lapi.c ..\lua\src\lcode.c ..\lua\src\ldebug.c ..\lua\src\ldo.c ..\lua\src\ldump.c ..\lua\src\lfunc.c ..\lua\src\lgc.c ..\lua\src\llex.c ..\lua\src\lmem.c ..\lua\src\lobject.c ..\lua\src\lopcodes.c ..\lua\src\lparser.c ..\lua\src\lstate.c ..\lua\src\lstring.c ..\lua\src\ltable.c ..\lua\src\ltm.c ..\lua\src\lundump.c ..\lua\src\lvm.c ..\lua\src\lzio.c 
+lapi.c
+lcode.c
+ldebug.c
+ldo.c
+ldump.c
+lfunc.c
+lgc.c
+llex.c
+lmem.c
+lobject.c
+lopcodes.c
+lparser.c
+lstate.c
+lstring.c
+ltable.c
+ltm.c
+lundump.c
+lvm.c
+lzio.c
+	cl -TC -MP -W3 -wd4244 -D_CRT_SECURE_NO_DEPRECATE=1 -DLUA_USER_H=\"scite_lua_win.h\"  -O1 -Oi -MT -DNDEBUG -GL -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -c ..\lua\src\lib\lauxlib.c ..\lua\src\lib\lbaselib.c ..\lua\src\lib\ldblib.c ..\lua\src\lib\liolib.c ..\lua\src\lib\lmathlib.c ..\lua\src\lib\ltablib.c ..\lua\src\lib\lstrlib.c ..\lua\src\lib\loadlib.c ..\lua\src\lib\loslib.c ..\lua\src\lib\linit.c 
+lauxlib.c
+lbaselib.c
+ldblib.c
+liolib.c
+lmathlib.c
+ltablib.c
+lstrlib.c
+loadlib.c
+loslib.c
+linit.c
+	link -OPT:REF -LTCG -DEBUG  -OUT:..\bin\SciTE.exe Cookie.obj Credits.obj DirectorExtension.obj ExportHTML.obj ExportPDF.obj ExportRTF.obj ExportTEX.obj ExportXML.obj FilePath.obj FileWorker.obj GUIWin.obj IFaceTable.obj JobQueue.obj MatchMarker.obj MultiplexExtension.obj PropSetFile.obj SciTEBase.obj SciTEBuffers.obj SciTEIO.obj SciTEProps.obj SciTEWinBar.obj SciTEWinDlg.obj StringHelpers.obj StringList.obj Strips.obj StyleDefinition.obj StyleWriter.obj UniqueInstance.obj Utf8_16.obj WinMutex.obj SciTEWin.obj LuaExtension.obj lapi.obj lcode.obj ldebug.obj ldo.obj ldump.obj lfunc.obj lgc.obj llex.obj lmem.obj lobject.obj lopcodes.obj lparser.obj lstate.obj lstring.obj ltable.obj ltm.obj lundump.obj lvm.obj lzio.obj lauxlib.obj lbaselib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj lstrlib.obj loadlib.obj loslib.obj linit.obj SciTERes.res KERNEL32.lib USER32.lib GDI32.lib MSIMG32.lib COMDLG32.lib COMCTL32.lib ADVAPI32.lib IMM32.lib SHELL32.LIB OLE32.LIB OLEAUT32.LIB UXTHEME.LIB
+Microsoft (R) Incremental Linker Version 14.00.24210.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+   Creating library ..\bin\SciTE.lib and object ..\bin\SciTE.exp
+Generating code
+Finished generating code
+	cl -Zi -TP -MP -W4 -EHsc -Zc:forScope -Zc:wchar_t -D_CRT_SECURE_NO_DEPRECATE=1 -D_CRT_NONSTDC_NO_DEPRECATE -DUNICODE -D_UNICODE  -O1 -Oi -MT -DNDEBUG -GL -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -DSTATIC_BUILD -c -FoSc1.obj SciTEWin.cxx
+SciTEWin.cxx
+SciTEWin.cxx(1382): warning C4244: 'argument': conversion from 'int' to 'BYTE', possible loss of data
+	rc -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -dSTATIC_BUILD -foSc1Res.res SciTERes.rc
+Microsoft (R) Windows (R) Resource Compiler Version 6.3.9600.17336
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+	link -OPT:REF -LTCG -DEBUG  -OUT:..\bin\Sc1.exe Cookie.obj Credits.obj DirectorExtension.obj ExportHTML.obj ExportPDF.obj ExportRTF.obj ExportTEX.obj ExportXML.obj FilePath.obj FileWorker.obj GUIWin.obj IFaceTable.obj JobQueue.obj MatchMarker.obj MultiplexExtension.obj PropSetFile.obj SciTEBase.obj SciTEBuffers.obj SciTEIO.obj SciTEProps.obj SciTEWinBar.obj SciTEWinDlg.obj StringHelpers.obj StringList.obj Strips.obj StyleDefinition.obj StyleWriter.obj UniqueInstance.obj Utf8_16.obj WinMutex.obj Sc1.obj ..\..\scintilla\win32\Accessor.obj ..\..\scintilla\win32\AutoComplete.obj ..\..\scintilla\win32\CallTip.obj ..\..\scintilla\win32\CaseConvert.obj ..\..\scintilla\win32\CaseFolder.obj ..\..\scintilla\win32\Catalogue.obj ..\..\scintilla\win32\CellBuffer.obj ..\..\scintilla\win32\CharacterCategory.obj ..\..\scintilla\win32\CharacterSet.obj ..\..\scintilla\win32\CharClassify.obj ..\..\scintilla\win32\ContractionState.obj ..\..\scintilla\win32\Decoration.obj ..\..\scintilla\win32\Document.obj ..\..\scintilla\win32\EditModel.obj ..\..\scintilla\win32\Editor.obj ..\..\scintilla\win32\EditView.obj ..\..\scintilla\win32\ExternalLexer.obj ..\..\scintilla\win32\HanjaDic.obj ..\..\scintilla\win32\Indicator.obj ..\..\scintilla\win32\KeyMap.obj ..\..\scintilla\win32\LexerBase.obj ..\..\scintilla\win32\LexerModule.obj ..\..\scintilla\win32\LexerSimple.obj ..\..\scintilla\win32\LineMarker.obj ..\..\scintilla\win32\PerLine.obj ..\..\scintilla\win32\MarginView.obj ..\..\scintilla\win32\PlatWin.obj ..\..\scintilla\win32\PositionCache.obj ..\..\scintilla\win32\PropSetSimple.obj ..\..\scintilla\win32\RESearch.obj ..\..\scintilla\win32\RunStyles.obj ..\..\scintilla\win32\ScintillaBaseL.obj ..\..\scintilla\win32\ScintillaWinL.obj ..\..\scintilla\win32\Selection.obj ..\..\scintilla\win32\Style.obj ..\..\scintilla\win32\StyleContext.obj ..\..\scintilla\win32\UniConversion.obj ..\..\scintilla\win32\ViewStyle.obj ..\..\scintilla\win32\WordList.obj ..\..\scintilla\win32\XPM.obj LuaExtension.obj lapi.obj lcode.obj ldebug.obj ldo.obj ldump.obj lfunc.obj lgc.obj llex.obj lmem.obj lobject.obj lopcodes.obj lparser.obj lstate.obj lstring.obj ltable.obj ltm.obj lundump.obj lvm.obj lzio.obj lauxlib.obj lbaselib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj lstrlib.obj loadlib.obj loslib.obj linit.obj ..\..\scintilla\win32\Lexers.lib Sc1Res.res KERNEL32.lib USER32.lib GDI32.lib MSIMG32.lib COMDLG32.lib COMCTL32.lib ADVAPI32.lib IMM32.lib SHELL32.LIB OLE32.LIB OLEAUT32.LIB UXTHEME.LIB
+Microsoft (R) Incremental Linker Version 14.00.24210.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+   Creating library ..\bin\Sc1.lib and object ..\bin\Sc1.exp
+Generating code
+Finished generating code
+	copy ..\..\scintilla\bin\Scintilla.dll ..\bin\Scintilla.dll
+        1 Datei(en) kopiert.
+	copy ..\..\scintilla\bin\SciLexer.dll ..\bin\SciLexer.dll
+        1 Datei(en) kopiert.
+	cl -Zi -TP -MP -W4 -EHsc -Zc:forScope -Zc:wchar_t -D_CRT_SECURE_NO_DEPRECATE=1 -D_CRT_NONSTDC_NO_DEPRECATE -DUNICODE -D_UNICODE  -O1 -Oi -MT -DNDEBUG -GL -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -c .\SciTEWinBar.cxx 
+SciTEWinBar.cxx
+.\SciTEWinBar.cxx(235): warning C4244: 'argument': conversion from 'const uptr_t' to 'int', possible loss of data
+.\SciTEWinBar.cxx(516): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
+.\SciTEWinBar.cxx(523): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(496): warning C4312: 'type cast': conversion from 'unsigned long' to 'void *' of greater size
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(494): note: while compiling class template member function 'unsigned int TMap<int,int,std::string,const char *>::HashKey(ARG_KEY)'
+        with
+        [
+            ARG_KEY=int
+        ]
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(480): note: see reference to function template instantiation 'unsigned int TMap<int,int,std::string,const char *>::HashKey(ARG_KEY)' being compiled
+        with
+        [
+            ARG_KEY=int
+        ]
+e:\projects\_myscite\_myscite.github\src\3.7.0\scite\win32\SciTEWin.h(182): note: see reference to class template instantiation 'TMap<int,int,std::string,const char *>' being compiled
+	link -OPT:REF -LTCG -DEBUG  -OUT:..\bin\SciTE.exe Cookie.obj Credits.obj DirectorExtension.obj ExportHTML.obj ExportPDF.obj ExportRTF.obj ExportTEX.obj ExportXML.obj FilePath.obj FileWorker.obj GUIWin.obj IFaceTable.obj JobQueue.obj MatchMarker.obj MultiplexExtension.obj PropSetFile.obj SciTEBase.obj SciTEBuffers.obj SciTEIO.obj SciTEProps.obj SciTEWinBar.obj SciTEWinDlg.obj StringHelpers.obj StringList.obj Strips.obj StyleDefinition.obj StyleWriter.obj UniqueInstance.obj Utf8_16.obj WinMutex.obj SciTEWin.obj LuaExtension.obj lapi.obj lcode.obj ldebug.obj ldo.obj ldump.obj lfunc.obj lgc.obj llex.obj lmem.obj lobject.obj lopcodes.obj lparser.obj lstate.obj lstring.obj ltable.obj ltm.obj lundump.obj lvm.obj lzio.obj lauxlib.obj lbaselib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj lstrlib.obj loadlib.obj loslib.obj linit.obj SciTERes.res KERNEL32.lib USER32.lib GDI32.lib MSIMG32.lib COMDLG32.lib COMCTL32.lib ADVAPI32.lib IMM32.lib SHELL32.LIB OLE32.LIB OLEAUT32.LIB UXTHEME.LIB
+Microsoft (R) Incremental Linker Version 14.00.24210.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+   Creating library ..\bin\SciTE.lib and object ..\bin\SciTE.exp
+Generating code
+Finished generating code
+	link -OPT:REF -LTCG -DEBUG  -OUT:..\bin\Sc1.exe Cookie.obj Credits.obj DirectorExtension.obj ExportHTML.obj ExportPDF.obj ExportRTF.obj ExportTEX.obj ExportXML.obj FilePath.obj FileWorker.obj GUIWin.obj IFaceTable.obj JobQueue.obj MatchMarker.obj MultiplexExtension.obj PropSetFile.obj SciTEBase.obj SciTEBuffers.obj SciTEIO.obj SciTEProps.obj SciTEWinBar.obj SciTEWinDlg.obj StringHelpers.obj StringList.obj Strips.obj StyleDefinition.obj StyleWriter.obj UniqueInstance.obj Utf8_16.obj WinMutex.obj Sc1.obj ..\..\scintilla\win32\Accessor.obj ..\..\scintilla\win32\AutoComplete.obj ..\..\scintilla\win32\CallTip.obj ..\..\scintilla\win32\CaseConvert.obj ..\..\scintilla\win32\CaseFolder.obj ..\..\scintilla\win32\Catalogue.obj ..\..\scintilla\win32\CellBuffer.obj ..\..\scintilla\win32\CharacterCategory.obj ..\..\scintilla\win32\CharacterSet.obj ..\..\scintilla\win32\CharClassify.obj ..\..\scintilla\win32\ContractionState.obj ..\..\scintilla\win32\Decoration.obj ..\..\scintilla\win32\Document.obj ..\..\scintilla\win32\EditModel.obj ..\..\scintilla\win32\Editor.obj ..\..\scintilla\win32\EditView.obj ..\..\scintilla\win32\ExternalLexer.obj ..\..\scintilla\win32\HanjaDic.obj ..\..\scintilla\win32\Indicator.obj ..\..\scintilla\win32\KeyMap.obj ..\..\scintilla\win32\LexerBase.obj ..\..\scintilla\win32\LexerModule.obj ..\..\scintilla\win32\LexerSimple.obj ..\..\scintilla\win32\LineMarker.obj ..\..\scintilla\win32\PerLine.obj ..\..\scintilla\win32\MarginView.obj ..\..\scintilla\win32\PlatWin.obj ..\..\scintilla\win32\PositionCache.obj ..\..\scintilla\win32\PropSetSimple.obj ..\..\scintilla\win32\RESearch.obj ..\..\scintilla\win32\RunStyles.obj ..\..\scintilla\win32\ScintillaBaseL.obj ..\..\scintilla\win32\ScintillaWinL.obj ..\..\scintilla\win32\Selection.obj ..\..\scintilla\win32\Style.obj ..\..\scintilla\win32\StyleContext.obj ..\..\scintilla\win32\UniConversion.obj ..\..\scintilla\win32\ViewStyle.obj ..\..\scintilla\win32\WordList.obj ..\..\scintilla\win32\XPM.obj LuaExtension.obj lapi.obj lcode.obj ldebug.obj ldo.obj ldump.obj lfunc.obj lgc.obj llex.obj lmem.obj lobject.obj lopcodes.obj lparser.obj lstate.obj lstring.obj ltable.obj ltm.obj lundump.obj lvm.obj lzio.obj lauxlib.obj lbaselib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj lstrlib.obj loadlib.obj loslib.obj linit.obj ..\..\scintilla\win32\Lexers.lib Sc1Res.res KERNEL32.lib USER32.lib GDI32.lib MSIMG32.lib COMDLG32.lib COMCTL32.lib ADVAPI32.lib IMM32.lib SHELL32.LIB OLE32.LIB OLEAUT32.LIB UXTHEME.LIB
+Microsoft (R) Incremental Linker Version 14.00.24210.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+   Creating library ..\bin\Sc1.lib and object ..\bin\Sc1.exp
+Generating code
+Finished generating code
+	cl -Zi -TP -MP -W4 -EHsc -Zc:forScope -Zc:wchar_t -D_CRT_SECURE_NO_DEPRECATE=1 -D_CRT_NONSTDC_NO_DEPRECATE -DUNICODE -D_UNICODE  -O1 -Oi -MT -DNDEBUG -GL -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -c .\SciTEWinBar.cxx 
+SciTEWinBar.cxx
+.\SciTEWinBar.cxx(235): warning C4244: 'argument': conversion from 'const uptr_t' to 'int', possible loss of data
+.\SciTEWinBar.cxx(516): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
+.\SciTEWinBar.cxx(523): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(496): warning C4312: 'type cast': conversion from 'unsigned long' to 'void *' of greater size
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(494): note: while compiling class template member function 'unsigned int TMap<int,int,std::string,const char *>::HashKey(ARG_KEY)'
+        with
+        [
+            ARG_KEY=int
+        ]
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(480): note: see reference to function template instantiation 'unsigned int TMap<int,int,std::string,const char *>::HashKey(ARG_KEY)' being compiled
+        with
+        [
+            ARG_KEY=int
+        ]
+e:\projects\_myscite\_myscite.github\src\3.7.0\scite\win32\SciTEWin.h(182): note: see reference to class template instantiation 'TMap<int,int,std::string,const char *>' being compiled
+	link -OPT:REF -LTCG -DEBUG  -OUT:..\bin\SciTE.exe Cookie.obj Credits.obj DirectorExtension.obj ExportHTML.obj ExportPDF.obj ExportRTF.obj ExportTEX.obj ExportXML.obj FilePath.obj FileWorker.obj GUIWin.obj IFaceTable.obj JobQueue.obj MatchMarker.obj MultiplexExtension.obj PropSetFile.obj SciTEBase.obj SciTEBuffers.obj SciTEIO.obj SciTEProps.obj SciTEWinBar.obj SciTEWinDlg.obj StringHelpers.obj StringList.obj Strips.obj StyleDefinition.obj StyleWriter.obj UniqueInstance.obj Utf8_16.obj WinMutex.obj SciTEWin.obj LuaExtension.obj lapi.obj lcode.obj ldebug.obj ldo.obj ldump.obj lfunc.obj lgc.obj llex.obj lmem.obj lobject.obj lopcodes.obj lparser.obj lstate.obj lstring.obj ltable.obj ltm.obj lundump.obj lvm.obj lzio.obj lauxlib.obj lbaselib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj lstrlib.obj loadlib.obj loslib.obj linit.obj SciTERes.res KERNEL32.lib USER32.lib GDI32.lib MSIMG32.lib COMDLG32.lib COMCTL32.lib ADVAPI32.lib IMM32.lib SHELL32.LIB OLE32.LIB OLEAUT32.LIB UXTHEME.LIB
+Microsoft (R) Incremental Linker Version 14.00.24210.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+   Creating library ..\bin\SciTE.lib and object ..\bin\SciTE.exp
+Generating code
+Finished generating code
+	link -OPT:REF -LTCG -DEBUG  -OUT:..\bin\Sc1.exe Cookie.obj Credits.obj DirectorExtension.obj ExportHTML.obj ExportPDF.obj ExportRTF.obj ExportTEX.obj ExportXML.obj FilePath.obj FileWorker.obj GUIWin.obj IFaceTable.obj JobQueue.obj MatchMarker.obj MultiplexExtension.obj PropSetFile.obj SciTEBase.obj SciTEBuffers.obj SciTEIO.obj SciTEProps.obj SciTEWinBar.obj SciTEWinDlg.obj StringHelpers.obj StringList.obj Strips.obj StyleDefinition.obj StyleWriter.obj UniqueInstance.obj Utf8_16.obj WinMutex.obj Sc1.obj ..\..\scintilla\win32\Accessor.obj ..\..\scintilla\win32\AutoComplete.obj ..\..\scintilla\win32\CallTip.obj ..\..\scintilla\win32\CaseConvert.obj ..\..\scintilla\win32\CaseFolder.obj ..\..\scintilla\win32\Catalogue.obj ..\..\scintilla\win32\CellBuffer.obj ..\..\scintilla\win32\CharacterCategory.obj ..\..\scintilla\win32\CharacterSet.obj ..\..\scintilla\win32\CharClassify.obj ..\..\scintilla\win32\ContractionState.obj ..\..\scintilla\win32\Decoration.obj ..\..\scintilla\win32\Document.obj ..\..\scintilla\win32\EditModel.obj ..\..\scintilla\win32\Editor.obj ..\..\scintilla\win32\EditView.obj ..\..\scintilla\win32\ExternalLexer.obj ..\..\scintilla\win32\HanjaDic.obj ..\..\scintilla\win32\Indicator.obj ..\..\scintilla\win32\KeyMap.obj ..\..\scintilla\win32\LexerBase.obj ..\..\scintilla\win32\LexerModule.obj ..\..\scintilla\win32\LexerSimple.obj ..\..\scintilla\win32\LineMarker.obj ..\..\scintilla\win32\PerLine.obj ..\..\scintilla\win32\MarginView.obj ..\..\scintilla\win32\PlatWin.obj ..\..\scintilla\win32\PositionCache.obj ..\..\scintilla\win32\PropSetSimple.obj ..\..\scintilla\win32\RESearch.obj ..\..\scintilla\win32\RunStyles.obj ..\..\scintilla\win32\ScintillaBaseL.obj ..\..\scintilla\win32\ScintillaWinL.obj ..\..\scintilla\win32\Selection.obj ..\..\scintilla\win32\Style.obj ..\..\scintilla\win32\StyleContext.obj ..\..\scintilla\win32\UniConversion.obj ..\..\scintilla\win32\ViewStyle.obj ..\..\scintilla\win32\WordList.obj ..\..\scintilla\win32\XPM.obj LuaExtension.obj lapi.obj lcode.obj ldebug.obj ldo.obj ldump.obj lfunc.obj lgc.obj llex.obj lmem.obj lobject.obj lopcodes.obj lparser.obj lstate.obj lstring.obj ltable.obj ltm.obj lundump.obj lvm.obj lzio.obj lauxlib.obj lbaselib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj lstrlib.obj loadlib.obj loslib.obj linit.obj ..\..\scintilla\win32\Lexers.lib Sc1Res.res KERNEL32.lib USER32.lib GDI32.lib MSIMG32.lib COMDLG32.lib COMCTL32.lib ADVAPI32.lib IMM32.lib SHELL32.LIB OLE32.LIB OLEAUT32.LIB UXTHEME.LIB
+Microsoft (R) Incremental Linker Version 14.00.24210.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+   Creating library ..\bin\Sc1.lib and object ..\bin\Sc1.exp
+Generating code
+Finished generating code
+	cl -Zi -TP -MP -W4 -EHsc -Zc:forScope -Zc:wchar_t -D_CRT_SECURE_NO_DEPRECATE=1 -D_CRT_NONSTDC_NO_DEPRECATE -DUNICODE -D_UNICODE  -O1 -Oi -MT -DNDEBUG -GL -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -c .\SciTEWinBar.cxx 
+SciTEWinBar.cxx
+.\SciTEWinBar.cxx(235): warning C4244: 'argument': conversion from 'const uptr_t' to 'int', possible loss of data
+.\SciTEWinBar.cxx(516): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
+.\SciTEWinBar.cxx(523): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(496): warning C4312: 'type cast': conversion from 'unsigned long' to 'void *' of greater size
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(494): note: while compiling class template member function 'unsigned int TMap<int,int,std::string,const char *>::HashKey(ARG_KEY)'
+        with
+        [
+            ARG_KEY=int
+        ]
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(480): note: see reference to function template instantiation 'unsigned int TMap<int,int,std::string,const char *>::HashKey(ARG_KEY)' being compiled
+        with
+        [
+            ARG_KEY=int
+        ]
+e:\projects\_myscite\_myscite.github\src\3.7.0\scite\win32\SciTEWin.h(182): note: see reference to class template instantiation 'TMap<int,int,std::string,const char *>' being compiled
+	link -OPT:REF -LTCG -DEBUG  -OUT:..\bin\SciTE.exe Cookie.obj Credits.obj DirectorExtension.obj ExportHTML.obj ExportPDF.obj ExportRTF.obj ExportTEX.obj ExportXML.obj FilePath.obj FileWorker.obj GUIWin.obj IFaceTable.obj JobQueue.obj MatchMarker.obj MultiplexExtension.obj PropSetFile.obj SciTEBase.obj SciTEBuffers.obj SciTEIO.obj SciTEProps.obj SciTEWinBar.obj SciTEWinDlg.obj StringHelpers.obj StringList.obj Strips.obj StyleDefinition.obj StyleWriter.obj UniqueInstance.obj Utf8_16.obj WinMutex.obj SciTEWin.obj LuaExtension.obj lapi.obj lcode.obj ldebug.obj ldo.obj ldump.obj lfunc.obj lgc.obj llex.obj lmem.obj lobject.obj lopcodes.obj lparser.obj lstate.obj lstring.obj ltable.obj ltm.obj lundump.obj lvm.obj lzio.obj lauxlib.obj lbaselib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj lstrlib.obj loadlib.obj loslib.obj linit.obj SciTERes.res KERNEL32.lib USER32.lib GDI32.lib MSIMG32.lib COMDLG32.lib COMCTL32.lib ADVAPI32.lib IMM32.lib SHELL32.LIB OLE32.LIB OLEAUT32.LIB UXTHEME.LIB
+Microsoft (R) Incremental Linker Version 14.00.24210.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+   Creating library ..\bin\SciTE.lib and object ..\bin\SciTE.exp
+Generating code
+Finished generating code
+	link -OPT:REF -LTCG -DEBUG  -OUT:..\bin\Sc1.exe Cookie.obj Credits.obj DirectorExtension.obj ExportHTML.obj ExportPDF.obj ExportRTF.obj ExportTEX.obj ExportXML.obj FilePath.obj FileWorker.obj GUIWin.obj IFaceTable.obj JobQueue.obj MatchMarker.obj MultiplexExtension.obj PropSetFile.obj SciTEBase.obj SciTEBuffers.obj SciTEIO.obj SciTEProps.obj SciTEWinBar.obj SciTEWinDlg.obj StringHelpers.obj StringList.obj Strips.obj StyleDefinition.obj StyleWriter.obj UniqueInstance.obj Utf8_16.obj WinMutex.obj Sc1.obj ..\..\scintilla\win32\Accessor.obj ..\..\scintilla\win32\AutoComplete.obj ..\..\scintilla\win32\CallTip.obj ..\..\scintilla\win32\CaseConvert.obj ..\..\scintilla\win32\CaseFolder.obj ..\..\scintilla\win32\Catalogue.obj ..\..\scintilla\win32\CellBuffer.obj ..\..\scintilla\win32\CharacterCategory.obj ..\..\scintilla\win32\CharacterSet.obj ..\..\scintilla\win32\CharClassify.obj ..\..\scintilla\win32\ContractionState.obj ..\..\scintilla\win32\Decoration.obj ..\..\scintilla\win32\Document.obj ..\..\scintilla\win32\EditModel.obj ..\..\scintilla\win32\Editor.obj ..\..\scintilla\win32\EditView.obj ..\..\scintilla\win32\ExternalLexer.obj ..\..\scintilla\win32\HanjaDic.obj ..\..\scintilla\win32\Indicator.obj ..\..\scintilla\win32\KeyMap.obj ..\..\scintilla\win32\LexerBase.obj ..\..\scintilla\win32\LexerModule.obj ..\..\scintilla\win32\LexerSimple.obj ..\..\scintilla\win32\LineMarker.obj ..\..\scintilla\win32\PerLine.obj ..\..\scintilla\win32\MarginView.obj ..\..\scintilla\win32\PlatWin.obj ..\..\scintilla\win32\PositionCache.obj ..\..\scintilla\win32\PropSetSimple.obj ..\..\scintilla\win32\RESearch.obj ..\..\scintilla\win32\RunStyles.obj ..\..\scintilla\win32\ScintillaBaseL.obj ..\..\scintilla\win32\ScintillaWinL.obj ..\..\scintilla\win32\Selection.obj ..\..\scintilla\win32\Style.obj ..\..\scintilla\win32\StyleContext.obj ..\..\scintilla\win32\UniConversion.obj ..\..\scintilla\win32\ViewStyle.obj ..\..\scintilla\win32\WordList.obj ..\..\scintilla\win32\XPM.obj LuaExtension.obj lapi.obj lcode.obj ldebug.obj ldo.obj ldump.obj lfunc.obj lgc.obj llex.obj lmem.obj lobject.obj lopcodes.obj lparser.obj lstate.obj lstring.obj ltable.obj ltm.obj lundump.obj lvm.obj lzio.obj lauxlib.obj lbaselib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj lstrlib.obj loadlib.obj loslib.obj linit.obj ..\..\scintilla\win32\Lexers.lib Sc1Res.res KERNEL32.lib USER32.lib GDI32.lib MSIMG32.lib COMDLG32.lib COMCTL32.lib ADVAPI32.lib IMM32.lib SHELL32.LIB OLE32.LIB OLEAUT32.LIB UXTHEME.LIB
+Microsoft (R) Incremental Linker Version 14.00.24210.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+   Creating library ..\bin\Sc1.lib and object ..\bin\Sc1.exp
+Generating code
+Finished generating code
+	cl -Zi -TP -MP -W4 -EHsc -Zc:forScope -Zc:wchar_t -D_CRT_SECURE_NO_DEPRECATE=1 -D_CRT_NONSTDC_NO_DEPRECATE -DUNICODE -D_UNICODE  -O1 -Oi -MT -DNDEBUG -GL -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -c .\SciTEWinBar.cxx 
+SciTEWinBar.cxx
+.\SciTEWinBar.cxx(235): warning C4244: 'argument': conversion from 'const uptr_t' to 'int', possible loss of data
+.\SciTEWinBar.cxx(516): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
+.\SciTEWinBar.cxx(523): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(496): warning C4312: 'type cast': conversion from 'unsigned long' to 'void *' of greater size
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(494): note: while compiling class template member function 'unsigned int TMap<int,int,std::string,const char *>::HashKey(ARG_KEY)'
+        with
+        [
+            ARG_KEY=int
+        ]
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(480): note: see reference to function template instantiation 'unsigned int TMap<int,int,std::string,const char *>::HashKey(ARG_KEY)' being compiled
+        with
+        [
+            ARG_KEY=int
+        ]
+e:\projects\_myscite\_myscite.github\src\3.7.0\scite\win32\SciTEWin.h(182): note: see reference to class template instantiation 'TMap<int,int,std::string,const char *>' being compiled
+	link -OPT:REF -LTCG -DEBUG  -OUT:..\bin\SciTE.exe Cookie.obj Credits.obj DirectorExtension.obj ExportHTML.obj ExportPDF.obj ExportRTF.obj ExportTEX.obj ExportXML.obj FilePath.obj FileWorker.obj GUIWin.obj IFaceTable.obj JobQueue.obj MatchMarker.obj MultiplexExtension.obj PropSetFile.obj SciTEBase.obj SciTEBuffers.obj SciTEIO.obj SciTEProps.obj SciTEWinBar.obj SciTEWinDlg.obj StringHelpers.obj StringList.obj Strips.obj StyleDefinition.obj StyleWriter.obj UniqueInstance.obj Utf8_16.obj WinMutex.obj SciTEWin.obj LuaExtension.obj lapi.obj lcode.obj ldebug.obj ldo.obj ldump.obj lfunc.obj lgc.obj llex.obj lmem.obj lobject.obj lopcodes.obj lparser.obj lstate.obj lstring.obj ltable.obj ltm.obj lundump.obj lvm.obj lzio.obj lauxlib.obj lbaselib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj lstrlib.obj loadlib.obj loslib.obj linit.obj SciTERes.res KERNEL32.lib USER32.lib GDI32.lib MSIMG32.lib COMDLG32.lib COMCTL32.lib ADVAPI32.lib IMM32.lib SHELL32.LIB OLE32.LIB OLEAUT32.LIB UXTHEME.LIB
+Microsoft (R) Incremental Linker Version 14.00.24210.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+   Creating library ..\bin\SciTE.lib and object ..\bin\SciTE.exp
+Generating code
+Finished generating code
+	link -OPT:REF -LTCG -DEBUG  -OUT:..\bin\Sc1.exe Cookie.obj Credits.obj DirectorExtension.obj ExportHTML.obj ExportPDF.obj ExportRTF.obj ExportTEX.obj ExportXML.obj FilePath.obj FileWorker.obj GUIWin.obj IFaceTable.obj JobQueue.obj MatchMarker.obj MultiplexExtension.obj PropSetFile.obj SciTEBase.obj SciTEBuffers.obj SciTEIO.obj SciTEProps.obj SciTEWinBar.obj SciTEWinDlg.obj StringHelpers.obj StringList.obj Strips.obj StyleDefinition.obj StyleWriter.obj UniqueInstance.obj Utf8_16.obj WinMutex.obj Sc1.obj ..\..\scintilla\win32\Accessor.obj ..\..\scintilla\win32\AutoComplete.obj ..\..\scintilla\win32\CallTip.obj ..\..\scintilla\win32\CaseConvert.obj ..\..\scintilla\win32\CaseFolder.obj ..\..\scintilla\win32\Catalogue.obj ..\..\scintilla\win32\CellBuffer.obj ..\..\scintilla\win32\CharacterCategory.obj ..\..\scintilla\win32\CharacterSet.obj ..\..\scintilla\win32\CharClassify.obj ..\..\scintilla\win32\ContractionState.obj ..\..\scintilla\win32\Decoration.obj ..\..\scintilla\win32\Document.obj ..\..\scintilla\win32\EditModel.obj ..\..\scintilla\win32\Editor.obj ..\..\scintilla\win32\EditView.obj ..\..\scintilla\win32\ExternalLexer.obj ..\..\scintilla\win32\HanjaDic.obj ..\..\scintilla\win32\Indicator.obj ..\..\scintilla\win32\KeyMap.obj ..\..\scintilla\win32\LexerBase.obj ..\..\scintilla\win32\LexerModule.obj ..\..\scintilla\win32\LexerSimple.obj ..\..\scintilla\win32\LineMarker.obj ..\..\scintilla\win32\PerLine.obj ..\..\scintilla\win32\MarginView.obj ..\..\scintilla\win32\PlatWin.obj ..\..\scintilla\win32\PositionCache.obj ..\..\scintilla\win32\PropSetSimple.obj ..\..\scintilla\win32\RESearch.obj ..\..\scintilla\win32\RunStyles.obj ..\..\scintilla\win32\ScintillaBaseL.obj ..\..\scintilla\win32\ScintillaWinL.obj ..\..\scintilla\win32\Selection.obj ..\..\scintilla\win32\Style.obj ..\..\scintilla\win32\StyleContext.obj ..\..\scintilla\win32\UniConversion.obj ..\..\scintilla\win32\ViewStyle.obj ..\..\scintilla\win32\WordList.obj ..\..\scintilla\win32\XPM.obj LuaExtension.obj lapi.obj lcode.obj ldebug.obj ldo.obj ldump.obj lfunc.obj lgc.obj llex.obj lmem.obj lobject.obj lopcodes.obj lparser.obj lstate.obj lstring.obj ltable.obj ltm.obj lundump.obj lvm.obj lzio.obj lauxlib.obj lbaselib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj lstrlib.obj loadlib.obj loslib.obj linit.obj ..\..\scintilla\win32\Lexers.lib Sc1Res.res KERNEL32.lib USER32.lib GDI32.lib MSIMG32.lib COMDLG32.lib COMCTL32.lib ADVAPI32.lib IMM32.lib SHELL32.LIB OLE32.LIB OLEAUT32.LIB UXTHEME.LIB
+Microsoft (R) Incremental Linker Version 14.00.24210.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+   Creating library ..\bin\Sc1.lib and object ..\bin\Sc1.exp
+Generating code
+Finished generating code
+	cl -Zi -TP -MP -W4 -EHsc -Zc:forScope -Zc:wchar_t -D_CRT_SECURE_NO_DEPRECATE=1 -D_CRT_NONSTDC_NO_DEPRECATE -DUNICODE -D_UNICODE  -O1 -Oi -MT -DNDEBUG -GL -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -c .\SciTEWinBar.cxx 
+SciTEWinBar.cxx
+.\SciTEWinBar.cxx(235): warning C4244: 'argument': conversion from 'const uptr_t' to 'int', possible loss of data
+.\SciTEWinBar.cxx(516): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
+.\SciTEWinBar.cxx(523): warning C4267: '=': conversion from 'size_t' to 'UINT', possible loss of data
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(496): warning C4312: 'type cast': conversion from 'unsigned long' to 'void *' of greater size
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(494): note: while compiling class template member function 'unsigned int TMap<int,int,std::string,const char *>::HashKey(ARG_KEY)'
+        with
+        [
+            ARG_KEY=int
+        ]
+E:\projects\_myScite\_myScite.github\src\3.7.0\scite\src\Containers.h(480): note: see reference to function template instantiation 'unsigned int TMap<int,int,std::string,const char *>::HashKey(ARG_KEY)' being compiled
+        with
+        [
+            ARG_KEY=int
+        ]
+e:\projects\_myscite\_myscite.github\src\3.7.0\scite\win32\SciTEWin.h(182): note: see reference to class template instantiation 'TMap<int,int,std::string,const char *>' being compiled
+	link -OPT:REF -LTCG -DEBUG  -OUT:..\bin\SciTE.exe Cookie.obj Credits.obj DirectorExtension.obj ExportHTML.obj ExportPDF.obj ExportRTF.obj ExportTEX.obj ExportXML.obj FilePath.obj FileWorker.obj GUIWin.obj IFaceTable.obj JobQueue.obj MatchMarker.obj MultiplexExtension.obj PropSetFile.obj SciTEBase.obj SciTEBuffers.obj SciTEIO.obj SciTEProps.obj SciTEWinBar.obj SciTEWinDlg.obj StringHelpers.obj StringList.obj Strips.obj StyleDefinition.obj StyleWriter.obj UniqueInstance.obj Utf8_16.obj WinMutex.obj SciTEWin.obj LuaExtension.obj lapi.obj lcode.obj ldebug.obj ldo.obj ldump.obj lfunc.obj lgc.obj llex.obj lmem.obj lobject.obj lopcodes.obj lparser.obj lstate.obj lstring.obj ltable.obj ltm.obj lundump.obj lvm.obj lzio.obj lauxlib.obj lbaselib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj lstrlib.obj loadlib.obj loslib.obj linit.obj SciTERes.res KERNEL32.lib USER32.lib GDI32.lib MSIMG32.lib COMDLG32.lib COMCTL32.lib ADVAPI32.lib IMM32.lib SHELL32.LIB OLE32.LIB OLEAUT32.LIB UXTHEME.LIB
+Microsoft (R) Incremental Linker Version 14.00.24210.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+   Creating library ..\bin\SciTE.lib and object ..\bin\SciTE.exp
+Generating code
+Finished generating code
+	link -OPT:REF -LTCG -DEBUG  -OUT:..\bin\Sc1.exe Cookie.obj Credits.obj DirectorExtension.obj ExportHTML.obj ExportPDF.obj ExportRTF.obj ExportTEX.obj ExportXML.obj FilePath.obj FileWorker.obj GUIWin.obj IFaceTable.obj JobQueue.obj MatchMarker.obj MultiplexExtension.obj PropSetFile.obj SciTEBase.obj SciTEBuffers.obj SciTEIO.obj SciTEProps.obj SciTEWinBar.obj SciTEWinDlg.obj StringHelpers.obj StringList.obj Strips.obj StyleDefinition.obj StyleWriter.obj UniqueInstance.obj Utf8_16.obj WinMutex.obj Sc1.obj ..\..\scintilla\win32\Accessor.obj ..\..\scintilla\win32\AutoComplete.obj ..\..\scintilla\win32\CallTip.obj ..\..\scintilla\win32\CaseConvert.obj ..\..\scintilla\win32\CaseFolder.obj ..\..\scintilla\win32\Catalogue.obj ..\..\scintilla\win32\CellBuffer.obj ..\..\scintilla\win32\CharacterCategory.obj ..\..\scintilla\win32\CharacterSet.obj ..\..\scintilla\win32\CharClassify.obj ..\..\scintilla\win32\ContractionState.obj ..\..\scintilla\win32\Decoration.obj ..\..\scintilla\win32\Document.obj ..\..\scintilla\win32\EditModel.obj ..\..\scintilla\win32\Editor.obj ..\..\scintilla\win32\EditView.obj ..\..\scintilla\win32\ExternalLexer.obj ..\..\scintilla\win32\HanjaDic.obj ..\..\scintilla\win32\Indicator.obj ..\..\scintilla\win32\KeyMap.obj ..\..\scintilla\win32\LexerBase.obj ..\..\scintilla\win32\LexerModule.obj ..\..\scintilla\win32\LexerSimple.obj ..\..\scintilla\win32\LineMarker.obj ..\..\scintilla\win32\PerLine.obj ..\..\scintilla\win32\MarginView.obj ..\..\scintilla\win32\PlatWin.obj ..\..\scintilla\win32\PositionCache.obj ..\..\scintilla\win32\PropSetSimple.obj ..\..\scintilla\win32\RESearch.obj ..\..\scintilla\win32\RunStyles.obj ..\..\scintilla\win32\ScintillaBaseL.obj ..\..\scintilla\win32\ScintillaWinL.obj ..\..\scintilla\win32\Selection.obj ..\..\scintilla\win32\Style.obj ..\..\scintilla\win32\StyleContext.obj ..\..\scintilla\win32\UniConversion.obj ..\..\scintilla\win32\ViewStyle.obj ..\..\scintilla\win32\WordList.obj ..\..\scintilla\win32\XPM.obj LuaExtension.obj lapi.obj lcode.obj ldebug.obj ldo.obj ldump.obj lfunc.obj lgc.obj llex.obj lmem.obj lobject.obj lopcodes.obj lparser.obj lstate.obj lstring.obj ltable.obj ltm.obj lundump.obj lvm.obj lzio.obj lauxlib.obj lbaselib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj lstrlib.obj loadlib.obj loslib.obj linit.obj ..\..\scintilla\win32\Lexers.lib Sc1Res.res KERNEL32.lib USER32.lib GDI32.lib MSIMG32.lib COMDLG32.lib COMCTL32.lib ADVAPI32.lib IMM32.lib SHELL32.LIB OLE32.LIB OLEAUT32.LIB UXTHEME.LIB
+Microsoft (R) Incremental Linker Version 14.00.24210.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+   Creating library ..\bin\Sc1.lib and object ..\bin\Sc1.exp
+Generating code
+Finished generating code

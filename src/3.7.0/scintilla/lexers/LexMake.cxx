@@ -118,10 +118,10 @@ static void ColouriseMakeLine(
 		// Rule: Prepended by whitespace, line start or .'='. 
 
 		if (kwGeneric.InList(strSearch.c_str())
-		 && (isspace(styler.SafeGetCharAt(startLine +i -strSearch.size()) >0
-			|| i+1 -strSearch.size() == theStart
-			|| styler.SafeGetCharAt(startLine +i -strSearch.size()) == '='))) {		
-			styler.ColourTo(startLine + i-strSearch.size(), state);
+		 && (isspace(styler.SafeGetCharAt(startLine +i -(Sci_PositionU)strSearch.size()) >0
+			|| i+1 -(Sci_PositionU)strSearch.size() == theStart
+			|| styler.SafeGetCharAt(startLine +i -(Sci_PositionU)strSearch.size()) == '='))) {		
+			styler.ColourTo(startLine + i-(Sci_PositionU)strSearch.size(), state);
 			state_prev=state;
 			state=SCE_MAKE_DIRECTIVE;
 			styler.ColourTo(startLine + i, state);
@@ -134,8 +134,8 @@ static void ColouriseMakeLine(
 		// ....and within functions $(sort,subst...) / used to style internal Variables too.
 		// Rule: have to be prepended by '('.
 		if (kwFunctions.InList(strSearch.c_str()) 
-		 && styler.SafeGetCharAt(startLine +i -strSearch.size()) == '(') {
-			styler.ColourTo(startLine + i-strSearch.size(), state);
+		 && styler.SafeGetCharAt(startLine +i -(Sci_PositionU)strSearch.size()) == '(') {
+			styler.ColourTo(startLine + i-(Sci_PositionU)strSearch.size(), state);
 			state_prev=state;
 			state=SCE_MAKE_OPERATOR;
 			styler.ColourTo(startLine + i, state);
@@ -154,7 +154,7 @@ static void ColouriseMakeLine(
 			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_USER_VARIABLE;
 			// ... and $ based automatic Variables Rule: $@
-		} else if ((!AtEOL(styler,i)< lengthLine) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
+		} else if ((!AtEOL(styler,i)) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
 			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_AUTOM_VARIABLE;
 		} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && slineBuffer[i] == ')') {

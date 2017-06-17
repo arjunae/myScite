@@ -490,10 +490,10 @@ protected:
 				return pAssoc;
 		}
 		return 0;
-	}
+	} 
 	unsigned int HashKey(ARG_KEY key) {
 		// default identity hash - works for most primitive values
-		return ((size_t)(void*)(unsigned long)key) >> 4;
+		return ((intptr_t)(unsigned int)key) >> 4;
 	}
 };
 

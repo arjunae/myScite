@@ -4,27 +4,29 @@
 # Hint: When changing entries, remember using git rm -r *.* --cached
 #
 
-#- temporary objects and archives, anywhere in the tree.
+#- temporary linker files, objects and archives, anywhere in the tree.
+*.tmp
 *.o
 *.obj
 *.pyd
 *.a
 *.lib
 *.class
-*.tmp
-clidebug.cmd
+*.res
+*.exp
+
+#- Debugging symbols
+*.pdb
 
 #- temporary binaries within scintilla and scites bin dir. 
 **bin
 
 #- local scite session files 
 *.session
+clidebug.cmd
 
 #- patch and aStyle backups
 *.orig
-
-#- temporary linker and executable files 
-*.pdb
 
 #- vscode Project files
 .vsCode/
