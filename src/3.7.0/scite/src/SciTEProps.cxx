@@ -62,23 +62,23 @@ void SciTEBase::SetImportMenu() {
 		for (int stackPos = 0; stackPos < static_cast<int>(importFiles.size()) && stackPos < importMax; stackPos++) {
 			int itemID = importCmdID + stackPos;
 			if (importFiles[stackPos].IsSet()) {
-				GUI::gui_string sEntry = importFiles[stackPos].Name().AsInternal(); 
-				//std::wstring sPath= sEntry.substr(0,sEntry.rfind(L"/"));  /// Do some automagic in the future...
+				GUI::gui_string sEntry = importFiles[stackPos].Name().AsInternal();
 				GUI::gui_string sFile= sEntry.substr(sEntry.rfind(GUI_TEXT("/"))+1, GUI::gui_string::npos);
-				sFile= sFile.substr(sFile.rfind(GUI_TEXT("\\"))+1,GUI::gui_string::npos);
-				//sFile=localiser.Text("Open") + L" " + sFile;
-				
-				//  Depends on Foldernames to display properties sorted.
-				if (sEntry.find(GUI_TEXT("theme")) != GUI::gui_string::npos || sEntry.find(GUI_TEXT("ddons")) != GUI::gui_string::npos) {					
-					SetMenuItemNew(menuOptions, 1, IMPORT_START+stackPos, itemID,  + sFile.c_str());
+				sFile= sFile.substr(sFile.rfind(GUI_TEXT("/"))+1,GUI::gui_string::npos);
+				sFile=localiser.Text("Open") + GUI_TEXT(" ") + sFile;
+
+				//  Depends on names to display properties sorted.
+				if (sFile.find(GUI_TEXT("theme")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ettings")) != GUI::gui_string::npos) {
+					SetMenuItemNew(menuOptions, 1, IMPORT_START+stackPos, itemID, sFile.c_str());
+				} else {
+					SetMenuItemNew(menuOptions, 2, stackPos, itemID, sFile.c_str());
 				}
-				if (sEntry.find(GUI_TEXT("lang")) != GUI::gui_string::npos) {
-					SetMenuItemNew(menuOptions, 2, stackPos, itemID, sFile.c_str()); 
-				}
+
 			}
 		}
 	}
 }
+
 
 void SciTEBase::ImportMenu(int pos) {
 	if (pos >= 0) {
