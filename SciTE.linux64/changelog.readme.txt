@@ -1,14 +1,30 @@
 	  ~- mySciTE.webdev -~
-
-	[Linux64-development] 08.12.2016
+		
+	[13.06.2017] currentGit
+	# antialiased fonts. Style .json & .mib Files. Add Forth, Add Fortran api.
+	# lua repo: unified mingw makefiles recompiled all libs with Os for a better opt balance.
+	# included luasocket (ip socket support) 
+	# included luacom (win com objects. eg speech / mshtml and others)
+	# reworked env.home & env.userhome (handle readonly places / use profiles)
+	# reworked c/cpp syntax colouring for iso c99/cpp98/cpp11 + apiFiles.
+	# style nonstandart and unsafe c functions.
+	# more userfriendly appendContextMenu script / Extman Update
+	# improved makefile Lexer. (Styles Flags, internal vars & functions, User Vars)
+	# removed pthreads dll Dependency. Add Keyword Index to lua5.1 chm Help.
+	# linked with scintilla 3.7.5
+		
+	[Linux-development] 26.02.2017
+	- myScite Binaries for generic-linux 32 Bit Systems.
+	
+	[Linux-development] 08.12.2016
 	- myScite Binaries for generic-linux 64 Bit Systems.
 	- profiles with env.scite_userhome / $(env.home)
 	- Sync Configfiles
 
-	[Linux64-development] 10.11.2016
+	[Linux-development] 10.11.2016
 	- Sync Configfiles
 		
-	[Linux64-development]
+	[Linux-development]
 	- Link with scintilla/scite 3.6.7
 	- first results for optionsMenu patch
 	- expects config File in /usr/share/scite

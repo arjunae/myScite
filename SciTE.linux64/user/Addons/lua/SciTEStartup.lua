@@ -2,10 +2,10 @@
 io.stdout:setvbuf("no")
 --print("startupScript_reload")
 
-defaultHome = props["SciteDefaultHome"]
-package.path = package.path ..";"..defaultHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..defaultHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
-package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-extman\\?.lua;"
-package.cpath = package.cpath .. ";"..defaultHome.."\\Addons\\lua\\c\\?.so;"
+defaultHome = props["SciteUserHome"].."/user"
+package.path = package.path ..";"..defaultHome.."/Addons/lua/lua/?.lua;".. ";"..defaultHome.."/Addons/lua/lua/socket/?.lua;"
+package.path = package.path .. ";"..defaultHome.."/Addons/lua/mod-extman/?.lua;"
+package.cpath = package.cpath .. ";"..defaultHome.."/Addons/lua/c/?.so;"
 
 --~ If available, use spawner-ex to help reduce flickering within scite_popen
 local pathSpawner= props["spawner.extension.path"]
@@ -21,19 +21,12 @@ string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 
 -- Load extman.lua (also "eventmanager.lua")
-dofile(defaultHome..'\\Addons\\lua\\mod-extman\\extman.lua')
+dofile(defaultHome..'/Addons/lua/mod-extman/extman.lua')
 
 -- Load mod-mitchell 
-package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
-dofile(defaultHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+package.path = package.path .. ";"..defaultHome.."/Addons/lua/mod-mitchell/?.lua;"
+dofile(defaultHome..'/Addons/lua/mod-mitchell/scite.lua')
 
--- Load mod-macros
-package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-macros\\?.lua;"
-dofile(defaultHome..'\\Addons\\lua\\mod-macros\\macros.lua')
-
--- Load Orthospell 
-package.path = package.path .. ";"..defaultHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
-dofile(defaultHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 
 -- ##################  Lua Samples #####################
 -- ###############################################
