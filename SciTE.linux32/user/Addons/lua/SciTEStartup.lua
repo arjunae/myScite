@@ -13,8 +13,11 @@ math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 
--- Load extman.lua (also "eventmanager.lua")
+-- Load extman.lua
 dofile(defaultHome..'/Addons/lua/mod-extman/extman.lua')
+
+-- chainload eventmanager / extman remake used by some lua mods
+dofile(defaultHome..'/Addons/lua/mod-extman/eventmanager.lua')
 
 -- Load mod-mitchell 
 package.path = package.path .. ";"..defaultHome.."/Addons/lua/mod-mitchell/?.lua;"

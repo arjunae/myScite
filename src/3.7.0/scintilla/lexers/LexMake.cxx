@@ -84,7 +84,9 @@ static void ColouriseMakeLine(
 	int strLen=0;
 	int startMark=0;
 	unsigned char theStart=i; // One Byte ought to be enough for everyone....?
-	while (i < lengthLine) {
+	int iWarnEOL=0; //  unclosed string refcount.
+	
+	while (i < lengthLine ) {
 
 	// ForwardSearch Searchstring.
 	// Travels to the Future and retrieves Lottery draw results. 
@@ -116,7 +118,6 @@ static void ColouriseMakeLine(
 		
 		// we now search for the word within the Directives Space.
 		// Rule: Prepended by whitespace, line start or .'='. 
-
 		if (kwGeneric.InList(strSearch.c_str())
 		 && (isspace(styler.SafeGetCharAt(startLine +i -(Sci_PositionU)strSearch.size()) >0
 			|| i+1 -(Sci_PositionU)strSearch.size() == theStart
@@ -139,10 +140,12 @@ static void ColouriseMakeLine(
 			state_prev=state;
 			state=SCE_MAKE_OPERATOR;
 			styler.ColourTo(startLine + i, state);
+			iWarnEOL++;
 			state=state_prev;
 		} else if (state == SCE_MAKE_OPERATOR) {
 			state=state_prev;
 			styler.ColourTo(endPos, state);
+			iWarnEOL--;
 		}
 		startMark=0;
 		strLen=0;
@@ -153,14 +156,16 @@ static void ColouriseMakeLine(
 		if (!AtEOL(styler,i) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(') {
 			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_USER_VARIABLE;
+			iWarnEOL++;
 			// ... and $ based automatic Variables Rule: $@
 		} else if ((!AtEOL(styler,i)) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
 			styler.ColourTo(startLine +i -1, state);
-			state = SCE_MAKE_AUTOM_VARIABLE;
+			state = SCE_MAKE_AUTOM_VARIABLE;			
 		} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && slineBuffer[i] == ')') {
 				styler.ColourTo(startLine +i, state);
 				state = state_prev;
-		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) &&  styler.SafeGetCharAt(startLine+i-1) == '$') {
+				iWarnEOL--;
+		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && styler.SafeGetCharAt(startLine+i-1) == '$') {
 			styler.ColourTo(startLine +i, state);
 			state = state_prev;
 		}
@@ -170,12 +175,12 @@ static void ColouriseMakeLine(
 			styler.ColourTo(startLine +i -1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
+			iWarnEOL++;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<^+", (int)slineBuffer[i-1]) >0) && (strchr("DF", (int)slineBuffer[i]) >0)) {
 				styler.ColourTo(startLine +i, state);
 				state = state_prev;
 		}
-		
-	
+
 		// skip identifier and target styling if this is a command line
 		if (!bSpecial && !bCommand) {
 			if (slineBuffer[i] == ':') {
@@ -204,33 +209,35 @@ static void ColouriseMakeLine(
 				state = state_prev;
 			} else if (slineBuffer[i] == '{') {
 				styler.ColourTo(startLine + i -1, state_prev);
-				styler.ColourTo(startLine + i, SCE_MAKE_TARGET);
+				styler.ColourTo(startLine + i, SCE_MAKE_IDENTIFIER);
 				state = state_prev;
+				iWarnEOL++;
 			} else if (slineBuffer[i] == '}') {
 				styler.ColourTo(startLine + i -1, state_prev);
-				styler.ColourTo(startLine + i, SCE_MAKE_TARGET);
+				styler.ColourTo(startLine + i, SCE_MAKE_IDENTIFIER);
 				state = state_prev;
+				iWarnEOL--;
 			}
-
 		}
-		
-		// Capture the Flags. Start match:  ("=-") or ('-' | nonwhitespace + '-' ) Endmatch: (whitespace | ".")
+
+		// Capture the Flags. Start match:  ("=-") or ('-' | nonwhitespace + '-' ) Endmatch: (whitespace | "./\")
 		if (( !AtEOL(styler,i) && slineBuffer[i+1]=='-') && ((isspace(slineBuffer[i])>0 || slineBuffer[i]=='-')
 		|| (!AtEOL(styler,i) && slineBuffer[i]=='=' && slineBuffer[i+1]=='-'))) {
 			styler.ColourTo(startLine +i, state);
 			state_prev=SCE_MAKE_DEFAULT;
 			state = SCE_MAKE_FLAGS;
-			}  else if (state == SCE_MAKE_FLAGS && (isspace(slineBuffer[i+1])>0  || slineBuffer[i+1]=='.')) {
+			}  else if (!AtEOL(styler,i) && state == SCE_MAKE_FLAGS && (strchr("\t ./\\", (int)slineBuffer[i+1])) >0) {
 			styler.ColourTo(startLine +i, state);
 				state = state_prev;			
 			}
+
 		if ( !isspacechar(slineBuffer[i]) )
 			lastNonSpace = i;
-		
+
 		i++;
 	}
 
-	if (state == SCE_MAKE_IDENTIFIER) {
+	if (iWarnEOL > 0) {
 		styler.ColourTo(endPos, SCE_MAKE_IDEOL);	// Error, variable reference not ended
 	} else {
 		styler.ColourTo(endPos, state_prev);
