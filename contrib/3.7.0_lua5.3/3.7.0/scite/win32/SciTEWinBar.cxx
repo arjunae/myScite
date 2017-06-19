@@ -510,18 +510,9 @@ void SciTEWin::SetToolBar() {
 		}
 		::DeleteDC(hCompatibleDC);
 		::DeleteDC(hDesktopDC);
-		if ( oldToolbarBitmapID == 0 ) {
-			TBADDBITMAP addbmp = {0,(size_t)hToolbarBitmapNew};
-			if ( ::SendMessage(hwndToolBar,TB_ADDBITMAP,iIconsCount,(LPARAM)&addbmp) != (LRESULT)-1 ) {
-				oldToolbarBitmapID = (size_t)hToolbarBitmapNew;
-			}
-		} else {
-			HINSTANCE hInstanceOld = 0;
-			if ( oldToolbarBitmapID == IDR_BUTTONS ) hInstanceOld = hInstance;
-			TBREPLACEBITMAP repBmp = { hInstanceOld, oldToolbarBitmapID, 0, (size_t)hToolbarBitmapNew, iIconsCount };
-			if ( ::SendMessage(hwndToolBar,TB_REPLACEBITMAP,0,(LPARAM)&repBmp) ) {
-				oldToolbarBitmapID = (size_t)hToolbarBitmapNew;
-			}
+		TBADDBITMAP addbmp = {0,(UINT)(intptr_t)hToolbarBitmapNew};
+		if ( ::SendMessage(hwndToolBar,TB_ADDBITMAP,iIconsCount,(LPARAM)&addbmp) != (LRESULT)-1 ) {
+			oldToolbarBitmapID = (intptr_t)hToolbarBitmapNew;
 		}
 		if ( hToolbarBitmap != 0 ) ::DeleteObject( hToolbarBitmap );
 		hToolbarBitmap = hToolbarBitmapNew;
@@ -529,12 +520,12 @@ void SciTEWin::SetToolBar() {
 		if ( oldToolbarBitmapID == 0 ) {
 			TBADDBITMAP addbmp = { hInstance, IDR_BUTTONS };
 			if ( ::SendMessage( hwndToolBar, TB_ADDBITMAP, 31, (LPARAM)&addbmp ) != (LRESULT)-1 ) {
-				oldToolbarBitmapID = (size_t)IDR_BUTTONS;
+				oldToolbarBitmapID = (intptr_t)IDR_BUTTONS;
 			}
 		} else if ( oldToolbarBitmapID != IDR_BUTTONS ) {
 			TBREPLACEBITMAP repBmp = { 0, oldToolbarBitmapID, hInstance, IDR_BUTTONS, 31 };
 			if ( ::SendMessage(hwndToolBar,TB_REPLACEBITMAP,0,(LPARAM)&repBmp) ) {
-				oldToolbarBitmapID = (size_t)IDR_BUTTONS;
+				oldToolbarBitmapID = (intptr_t)IDR_BUTTONS;
 			}
 		}
 		if ( hToolbarBitmap != 0 ) ::DeleteObject( hToolbarBitmap );
@@ -630,6 +621,7 @@ void SciTEWin::SetToolBar() {
 	delete []tbb;
 	CheckMenus();
 }
+
 void SciTEWin::SetMenuItemNew(int menuNumber, int subMenuNumber, int position, int itemID,
                            const GUI::gui_char *text, const GUI::gui_char *mnemonic) {
 	// On Windows the menu items are modified if they already exist or are created

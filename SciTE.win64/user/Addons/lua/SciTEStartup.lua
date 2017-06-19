@@ -27,10 +27,6 @@ dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 
--- Load mod-macros
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-macros\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-macros\\macros.lua')
-
 -- Load Sidebar
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')

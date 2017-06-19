@@ -7,11 +7,10 @@
 #ifndef PLATCOCOA_H
 #define PLATCOCOA_H
 
-#include <assert.h>
-
 #include <sys/time.h>
 
 #include <cstdlib>
+#include <cassert>
 #include <cstring>
 #include <cstdio>
 
@@ -22,7 +21,7 @@
 
 #include "QuartzTextLayout.h"
 
-NSRect PRectangleToNSRect(Scintilla::PRectangle& rc);
+NSRect PRectangleToNSRect(const Scintilla::PRectangle& rc);
 Scintilla::PRectangle NSRectToPRectangle(NSRect& rc);
 CFStringEncoding EncodingFromCharacterSet(bool unicode, int characterSet);
 
@@ -48,12 +47,12 @@ private:
   CGContextRef gc;
 
   /** The text layout instance */
-  QuartzTextLayout*	textLayout;
+  std::unique_ptr<QuartzTextLayout> textLayout;
   int codePage;
   int verticalDeviceResolution;
 
   /** If the surface is a bitmap context, contains a reference to the bitmap data. */
-  uint8_t* bitmapData;
+  std::unique_ptr<uint8_t[]> bitmapData;
   /** If the surface is a bitmap context, stores the dimensions of the bitmap. */
   int bitmapWidth;
   int bitmapHeight;

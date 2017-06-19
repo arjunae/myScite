@@ -405,7 +405,7 @@ local function init_breakpoints()
 	if not initialized then
 		active_cursor = MarkerType(active_cursor_idx,SC_MARK_BACKGROUND,nil,props['stdcolor.active'])
 		signalled_cursor = MarkerType(signalled_cursor_idx,SC_MARK_BACKGROUND,nil,props['stdcolor.error'])
-		breakpoint = MarkerType(breakpoint_idx,SC_MARK_ARROW,nil,'red')
+		breakpoint = MarkerType(breakpoint_idx,SC_MARK_ARROW,nil,props['stdcolor.breakpoint'])
 		initialized = true
 	end
 end

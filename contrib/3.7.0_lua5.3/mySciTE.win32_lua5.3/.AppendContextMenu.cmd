@@ -160,7 +160,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo ; [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
  
  :: echo ..... Finished writing to  %RegFile% ....
- exit /b
+ exit /b 0
  :end_sub
 
 :sub_fail_cmd

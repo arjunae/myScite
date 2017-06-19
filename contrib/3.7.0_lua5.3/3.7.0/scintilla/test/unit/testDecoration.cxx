@@ -1,9 +1,11 @@
 // Unit Tests for Scintilla internal data structures
 
-#include <string.h>
+#include <cstring>
 
 #include <stdexcept>
+#include <vector>
 #include <algorithm>
+#include <memory>
 
 #include "Platform.h"
 
@@ -24,7 +26,7 @@ TEST_CASE("Decoration") {
 	Decoration deco(indicator);
 
 	SECTION("HasCorrectIndicator") {
-		REQUIRE(indicator == deco.indicator);
+		REQUIRE(indicator == deco.Indicator());
 	}
 
 	SECTION("IsEmptyInitially") {

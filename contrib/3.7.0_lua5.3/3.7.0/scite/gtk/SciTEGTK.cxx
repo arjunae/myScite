@@ -792,8 +792,8 @@ SciTEGTK::SciTEGTK(Extension *ext) : SciTEBase(ext) {
 	PropSetFile::SetCaseSensitiveFilenames(true);
 	propsPlatform.Set("PLAT_GTK", "1");
 	propsPlatform.Set("PLAT_UNIX", "1");
-	// Make UNIX %HOME% available to scite config.
 	
+	// Make UNIX %HOME% available to scite config.	
 	FilePath envHome =getenv("HOME");
 	if (envHome.IsDirectory())
 		propsPlatform.Set("env.home", envHome.AsUTF8().c_str());
@@ -905,15 +905,15 @@ FilePath SciTEGTK::GetSciteDefaultHome() {
 #ifdef SYSCONF_PATH // default guaranteed to exist by OS
  	const std::string cdefault = SYSCONF_PATH; 
 #else	
-		const std::string cdefault = getenv("HOME");
+	const std::string cdefault = getenv("HOME");
 #endif
 
-	// 1 use SciTE_HOME
+	// use plats SciTE_HOME
 	homePath=getenv("SciTE_HOME");
 	if (homePath.Exists())
 		return homePath;
 	
-	homePath=	SciTEGTK::GetDefaultDirectory();
+	homePath = SciTEGTK::GetDefaultDirectory();
 	if (homePath.Exists())
 		return homePath;
 	
@@ -925,7 +925,7 @@ FilePath SciTEGTK::GetSciteUserHome() {
 * to set SciteUserHome. If not present we use GetSciteDefaultHome
 */
 
-	// 1 set & use scite_home from env.scite_home
+	// 1 set & use scite_home from scites env.scite_userhome
 	std::string home=props.GetNewExpandString("env.scite_userhome");
 	home=FilePath(home).NormalizePath().AsUTF8().c_str();	
 	if (home.find("/") != std::string::npos) {
@@ -933,13 +933,17 @@ FilePath SciTEGTK::GetSciteUserHome() {
 		return FilePath(home);
 	}
 	
-	//  try $scite_userhome
+	// try plats scite_userhome
 	FilePath homePath=getenv("SciTE_USERHOME");
+        homePath.NormalizePath();
 		if (homePath.Exists())
 			return homePath;
 
-	// use fallback, guranteed to exist by OS.	 		 
-	return SciTEGTK::GetSciteDefaultHome();
+	// use fallback, guranteed to exist by OS.
+    home=SciTEGTK::GetSciteDefaultHome().AsUTF8().c_str(); 	
+    putenv( (char *) ("SciTE_USERHOME="+home).c_str() );
+    
+	return FilePath(home);
 	}
 
 FilePath SciTEGTK::GetDefaultDirectory() {
@@ -948,12 +952,15 @@ FilePath SciTEGTK::GetDefaultDirectory() {
 	char buf[PATH_MAX + 1];	
 	
 	if (readlink("/proc/self/exe", buf, sizeof(buf) - 1) >0) {	
-		envHome = buf; 
-		envHome = envHome.substr(0, envHome.rfind('/'));
+		envHome = buf;         
 	} else {
 		// Dont force proc to be available.	
 		envHome = sciteExecutable.AsInternal();
 	}
+
+    // strip down to last path
+	    envHome = envHome.substr(0, envHome.rfind(pathSepChar));
+
 	return  FilePath(envHome);
 }
 

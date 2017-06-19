@@ -12,16 +12,18 @@
  * This file is dual licensed under LGPL v2.1 and the Scintilla license (http://www.scintilla.org/License.txt).
  */
 
-#include <assert.h>
 #include <sys/time.h>
 
+#include <cstddef>
 #include <cstdlib>
+#include <cassert>
 #include <cstring>
 #include <cstdio>
 
 #include <stdexcept>
 #include <vector>
 #include <map>
+#include <memory>
 
 #import <Foundation/NSGeometry.h>
 
@@ -43,7 +45,7 @@ extern sptr_t scintilla_send_message(void* sci, unsigned int iMessage, uptr_t wP
 /**
  * Converts a PRectangle as used by Scintilla to standard Obj-C NSRect structure .
  */
-NSRect PRectangleToNSRect(PRectangle& rc)
+NSRect PRectangleToNSRect(const PRectangle& rc)
 {
   return NSMakeRect(rc.left, rc.top, rc.Width(), rc.Height());
 }
@@ -151,11 +153,11 @@ SurfaceImpl::SurfaceImpl()
   y = 0;
   gc = NULL;
 
-  textLayout = new QuartzTextLayout(NULL);
+  textLayout.reset(new QuartzTextLayout(nullptr));
   codePage = 0;
   verticalDeviceResolution = 0;
 
-  bitmapData = NULL; // Release will try and delete bitmapData if != NULL
+  bitmapData.reset(); // Release will try and delete bitmapData if != nullptr
   bitmapWidth = 0;
   bitmapHeight = 0;
 
@@ -167,22 +169,20 @@ SurfaceImpl::SurfaceImpl()
 SurfaceImpl::~SurfaceImpl()
 {
   Release();
-  delete textLayout;
 }
 
 //--------------------------------------------------------------------------------------------------
 
 void SurfaceImpl::Release()
 {
-  textLayout->setContext (NULL);
-  if ( bitmapData != NULL )
+  textLayout->setContext(nullptr);
+  if (bitmapData)
   {
-    delete[] bitmapData;
+    bitmapData.reset();
     // We only "own" the graphics context if we are a bitmap context
-    if (gc != NULL)
+    if (gc)
       CGContextRelease(gc);
   }
-  bitmapData = NULL;
   gc = NULL;
 
   bitmapWidth = 0;
@@ -241,9 +241,9 @@ void SurfaceImpl::InitPixMap(int width, int height, Surface* surface_, WindowID 
     return;
 
   // Create the bitmap.
-  bitmapData = new uint8_t[bitmapByteCount];
+  bitmapData.reset(new uint8_t[bitmapByteCount]);
   // create the context
-  gc = CGBitmapContextCreate(bitmapData,
+  gc = CGBitmapContextCreate(bitmapData.get(),
                              width,
                              height,
                              BITS_PER_COMPONENT,
@@ -255,15 +255,14 @@ void SurfaceImpl::InitPixMap(int width, int height, Surface* surface_, WindowID 
   {
     // the context couldn't be created for some reason,
     // and we have no use for the bitmap without the context
-    delete[] bitmapData;
-    bitmapData = NULL;
+    bitmapData.reset();
   }
   textLayout->setContext (gc);
 
   // the context retains the color space, so we can release it
   CGColorSpaceRelease(colorSpace);
 
-  if (gc != NULL && bitmapData != NULL)
+  if (gc && bitmapData)
   {
     // "Erase" to white.
     CGContextClearRect( gc, CGRectMake( 0, 0, width, height ) );
@@ -317,8 +316,8 @@ void SurfaceImpl::FillColour(const ColourDesired& back)
 CGImageRef SurfaceImpl::GetImage()
 {
   // For now, assume that GetImage can only be called on PixMap surfaces.
-  if (bitmapData == NULL)
-    return NULL;
+  if (!bitmapData)
+    return nullptr;
 
   CGContextFlush(gc);
 
@@ -332,7 +331,7 @@ CGImageRef SurfaceImpl::GetImage()
 
   // Make a copy of the bitmap data for the image creation and divorce it
   // From the SurfaceImpl lifetime
-  CFDataRef dataRef = CFDataCreate(kCFAllocatorDefault, bitmapData, bitmapByteCount);
+  CFDataRef dataRef = CFDataCreate(kCFAllocatorDefault, bitmapData.get(), bitmapByteCount);
 
   // Create a data provider.
   CGDataProviderRef dataProvider = CGDataProviderCreateWithCFData(dataRef);
@@ -1368,21 +1367,14 @@ static NSImage* ImageFromXPM(XPM* pxpm)
     const int width = pxpm->GetWidth();
     const int height = pxpm->GetHeight();
     PRectangle rcxpm(0, 0, width, height);
-    Surface* surfaceXPM = Surface::Allocate(SC_TECHNOLOGY_DEFAULT);
-    if (surfaceXPM)
-    {
-      surfaceXPM->InitPixMap(width, height, NULL, NULL);
-      SurfaceImpl* surfaceIXPM = static_cast<SurfaceImpl*>(surfaceXPM);
-      CGContextClearRect(surfaceIXPM->GetContext(), CGRectMake(0, 0, width, height));
-      pxpm->Draw(surfaceXPM, rcxpm);
-      img = [[[NSImage alloc] initWithSize:NSZeroSize] autorelease];
-      CGImageRef imageRef = surfaceIXPM->GetImage();
-      NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithCGImage: imageRef];
-      [img addRepresentation: bitmapRep];
-      [bitmapRep release];
-      CGImageRelease(imageRef);
-      delete surfaceXPM;
-    }
+    std::unique_ptr<Surface> surfaceXPM(Surface::Allocate(SC_TECHNOLOGY_DEFAULT));
+    surfaceXPM->InitPixMap(width, height, NULL, NULL);
+    SurfaceImpl* surfaceIXPM = static_cast<SurfaceImpl*>(surfaceXPM.get());
+    CGContextClearRect(surfaceIXPM->GetContext(), CGRectMake(0, 0, width, height));
+    pxpm->Draw(surfaceXPM.get(), rcxpm);
+    CGImageRef imageRef = surfaceIXPM->GetImage();
+    img = [[NSImage alloc] initWithCGImage:imageRef size: NSZeroSize];
+    CGImageRelease(imageRef);
   }
   return img;
 }
@@ -1525,13 +1517,10 @@ public:
   }
 };
 
-// Map from icon type to an NSImage*
-typedef std::map<NSInteger, NSImage*> ImageMap;
-
 class ListBoxImpl : public ListBox, IListBox
 {
 private:
-  ImageMap images;
+  NSMutableDictionary *images;
   int lineHeight;
   bool unicodeMode;
   int desiredVisibleRows;
@@ -1553,6 +1542,7 @@ private:
 
 public:
   ListBoxImpl() :
+    images(nil),
     lineHeight(10),
     unicodeMode(false),
     desiredVisibleRows(5),
@@ -1568,8 +1558,11 @@ public:
     doubleClickAction(nullptr),
     doubleClickActionData(nullptr)
   {
+    images = [[NSMutableDictionary alloc] init];
   }
-  ~ListBoxImpl() override {}
+  ~ListBoxImpl() override {
+    [images release];
+  }
 
   // ListBox methods
   void SetFont(Font& font) override;
@@ -1692,6 +1685,7 @@ PRectangle ListBoxImpl::GetDesiredRect()
 
   rcDesired.bottom = rcDesired.top + static_cast<XYPOSITION>(itemHeight * rows);
   rcDesired.right = rcDesired.left + maxItemWidth + aveCharWidth;
+  rcDesired.right += 4; // Ensures no truncation of text
 
   if (Length() > rows)
   {
@@ -1704,7 +1698,7 @@ PRectangle ListBoxImpl::GetDesiredRect()
     [scroller setHasVerticalScroller:NO];
   }
   rcDesired.right += maxIconWidth;
-  rcDesired.right += 6;
+  rcDesired.right += 6; // For icon space
 
   return rcDesired;
 }
@@ -1751,19 +1745,15 @@ void ListBoxImpl::Append(char* s, int type)
     maxItemWidth = width;
     [colText setWidth: maxItemWidth];
   }
-  ImageMap::iterator it = images.find(type);
-  if (it != images.end())
+  NSImage *img = images[@(type)];
+  if (img)
   {
-    NSImage* img = it->second;
-    if (img)
+    XYPOSITION widthIcon = static_cast<XYPOSITION>(img.size.width);
+    if (widthIcon > maxIconWidth)
     {
-      XYPOSITION widthIcon = static_cast<XYPOSITION>(img.size.width);
-      if (widthIcon > maxIconWidth)
-      {
-        [colIcon setHidden: NO];
-        maxIconWidth = widthIcon;
-        [colIcon setWidth: maxIconWidth];
-      }
+      [colIcon setHidden: NO];
+      maxIconWidth = widthIcon;
+      [colIcon setWidth: maxIconWidth];
     }
   }
 }
@@ -1846,49 +1836,22 @@ void ListBoxImpl::RegisterImage(int type, const char* xpm_data)
 {
   XPM xpm(xpm_data);
   NSImage* img = ImageFromXPM(&xpm);
-  [img retain];
-  ImageMap::iterator it=images.find(type);
-  if (it == images.end())
-  {
-    images[type] = img;
-  }
-  else
-  {
-    [it->second release];
-    it->second = img;
-  }
+  [images setObject:img forKey:@(type)];
+  [img release];
 }
 
-void ListBoxImpl::RegisterRGBAImage(int type, int width, int height, const unsigned char *pixelsImage) {
-	CGImageRef imageRef = ImageCreateFromRGBA(width, height, pixelsImage, false);
-	NSSize sz = {static_cast<CGFloat>(width), static_cast<CGFloat>(height)};
-	NSImage *img = [[[NSImage alloc] initWithSize: sz] autorelease];
-	NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithCGImage: imageRef];
-	[img addRepresentation: bitmapRep];
-	[bitmapRep release];
-	CGImageRelease(imageRef);
-	[img retain];
-	ImageMap::iterator it=images.find(type);
-	if (it == images.end())
-	{
-		images[type] = img;
-	}
-	else
-	{
-		[it->second release];
-		it->second = img;
-	}
+void ListBoxImpl::RegisterRGBAImage(int type, int width, int height, const unsigned char *pixelsImage)
+{
+  CGImageRef imageRef = ImageCreateFromRGBA(width, height, pixelsImage, false);
+  NSImage *img = [[NSImage alloc] initWithCGImage:imageRef size: NSZeroSize];
+  CGImageRelease(imageRef);
+  [images setObject:img forKey:@(type)];
+  [img release];
 }
 
 void ListBoxImpl::ClearRegisteredImages()
 {
-  for (ImageMap::iterator it=images.begin();
-      it != images.end(); ++it)
-  {
-    [it->second release];
-    it->second = nil;
-  }
-  images.clear();
+  [images removeAllObjects];
 }
 
 int ListBoxImpl::Rows()
@@ -1898,16 +1861,7 @@ int ListBoxImpl::Rows()
 
 NSImage* ListBoxImpl::ImageForRow(NSInteger row)
 {
-  ImageMap::iterator it = images.find(ld.GetType(row));
-  if (it != images.end())
-  {
-    NSImage* img = it->second;
-    return img;
-  }
-  else
-  {
-    return nil;
-  }
+  return images[@(ld.GetType(row))];
 }
 
 NSString* ListBoxImpl::TextForRow(NSInteger row)

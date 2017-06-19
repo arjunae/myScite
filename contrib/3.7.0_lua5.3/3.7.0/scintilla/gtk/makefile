@@ -6,7 +6,7 @@
 # Builds for GTK+ 2 and no longer supports GTK+ 1.
 # Also works with ming32-make on Windows.
 
-srcdir ?= .
+ srcdir ?= .
 
 .SUFFIXES: .cxx .c .o .h .a .list
 ifdef CLANG
@@ -38,7 +38,7 @@ endif
 ifndef windir
 PICFLAGS = -fPIC
 endif
-
+  
 ifdef windir
 CC = gcc
 DEL = del /q
@@ -96,7 +96,7 @@ GLIB_GENMARSHAL_FLAGS = --prefix=scintilla_marshal
 .list.c:
 	$(GLIB_GENMARSHAL) --body $(GLIB_GENMARSHAL_FLAGS) $< > $@
 
-LEXOBJS:=$(addsuffix .o,$(basename $(notdir $(wildcard $(srcdir)/../lexers/Lex*.cxx))))
+LEXOBJS:=$(addsuffix .o,$(basename $(sort $(notdir $(wildcard $(srcdir)/../lexers/Lex*.cxx)))))
 
 all: $(COMPLIB)
 

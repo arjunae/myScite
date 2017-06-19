@@ -1662,7 +1662,7 @@ bool SciTEBase::StartAutoComplete() {
 		std::string words = GetNearestWords(root.c_str(), root.length(),
 			calltipParametersStart.c_str(), autoCompleteIgnoreCase);
 		// Show list on x typed chars (root.length() >0) 
-			if (words.length() and root.length() ) { 
+			if (words.length() && root.length() ) { 
 			EliminateDuplicateWords(words);
 			wEditor.Call(SCI_AUTOCSETSEPARATOR, ' ');
 			wEditor.CallString(SCI_AUTOCSHOW, root.length(), words.c_str());
@@ -4035,7 +4035,7 @@ void SciTEBase::Notify(const SCNotification *notification) {
 			EnableAMenuItem(IDM_UNDO, true);
 			EnableAMenuItem(IDM_REDO, false);
 			// Grow Autocomplete list on backspace
-			if (!wEditor.Call(SCI_CALLTIPACTIVE) and wEditor.Call(SCI_AUTOCACTIVE)) { 
+			if (!wEditor.Call(SCI_CALLTIPACTIVE) && wEditor.Call(SCI_AUTOCACTIVE)) { 
 				StartAutoComplete();
 			}
 			if (CurrentBuffer()->findMarks == Buffer::fmMarked) {

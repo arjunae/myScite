@@ -248,3 +248,107 @@ src=
 <unnamed>
 many=
 <usage>
+
+#https://msdn.microsoft.com/de-de/library/microsoft.visualbasic.constants_fields(v=vs.110).aspx
+vbAbort@@Indicates that the Abort button was clicked in a message box. Returned by the MsgBox function.
+vbAbortRetryIgnore@@Indicates that the Abort, Retry, and Ignore buttons will be displayed when the MsgBox function is called.
+vbApplicationModal@@Indicates that the message box will be displayed as a modal dialog box when the MsgBox function is called.
+vbArchive@@Indicates that the file has changed since the last backup operation for file-access functions.
+vbArray@@Indicates that the type of a variant object is an array. Returned by the VarType function.
+vbBack@@Represents a backspace character for print and display functions.
+vbBinaryCompare@@Specifies that a binary comparison should be performed when comparison functions are called.
+vbBoolean@@Indicates that the type of a variant object is Boolean. Returned by the VarType function.
+vbByte@@Indicates that the type of a variant object is Byte. Returned by the VarType function.
+vbCancel@@Indicates that the Cancel button was clicked in a message box. Returned by the MsgBox function.
+vbCr@@Represents a carriage-return character for print and display functions.
+vbCritical@@Indicates that the critical message icon will be displayed when the MsgBox function is called.
+vbCrLf@@Represents a carriage-return character combined with a linefeed character for print and display functions.
+vbCurrency@@Indicates that the type of a variant object is Currency. Returned by the VarType function.
+vbDate@@Indicates that the type of a variant object is Date. Returned by the VarType function.
+vbDecimal@@Indicates that the type of a variant object is Decimal. Returned by the VarType function.
+vbDefaultButton1@@Indicates that the leftmost button is selected as the default button when the message box appears.
+vbDefaultButton2@@Indicates that the second button from the left is selected as the default button when the message box appears.
+vbDefaultButton3@@Indicates that the third button from the left is selected as the default button when the message box appears.
+vbDirectory@@Indicates that the file is a directory or folder for file-access functions.
+vbDouble@@Indicates that the type of a variant object is Double. Returned by the VarType function.
+vbEmpty@@Indicates that the type of a variant object is Empty. Returned by the VarType function.
+vbExclamation@@Indicates that the exclamation icon will be displayed when the MsgBox function is called.
+vbFalse@@Indicates that a Boolean value of False should be used when number-formatting functions are called.
+vbFirstFourDays@@Indicates that the first week of the year that has at least four days should be used when date-related functions are called.
+vbFirstFullWeek@@Indicates that the first full week of the year should be used when date-related functions are called.
+vbFirstJan1@@Indicates that the week of the year in which January 1 occurs should be used when date-related functions are called.
+vbFormFeed@@Represents a form-feed character for print functions.
+vbFriday@@Specifies that Friday should be used as the first day of the week when date-related functions are called.
+vbGeneralDate@@Indicates that the general date format for the current culture should be used when the FormatDateTime function is called.
+vbGet@@Specifies that a property value should be retrieved when the CallByName function is called.
+vbHidden@@Indicates that the file is a hidden file for file-access functions.
+vbHide@@Indicates that the window style is hidden for the invoked program when the Shell function is called.
+vbHiragana@@Indicates Hiragana characters should be converted to Katakana characters when the StrConv function is called.
+vbIgnore@@Indicates that the Ignore button was clicked in a message box. Returned by the MsgBox function.
+vbInformation@@Indicates that the information icon will display when the MsgBox function is called.
+vbInteger@@Indicates that the type of a variant object is Integer. Returned by the VarType function.
+vbKatakana@@Indicates that Katakana characters should be converted to Hiragana characters when the StrConv function is called.
+vbLet@@Indicates that a property value should be set to an object instance when the CallByName function is called.
+vbLf@@Represents a linefeed character for print and display functions.
+vbLinguisticCasing@@Indicates that characters should be converted to use linguistic rules for casing instead of file system rules for casing to when the StrConv function is called.
+vbLong@@Indicates the type of a variant object is Long. Returned by the VarType function.
+vbLongDate@@Indicates that the long date format for the current culture should be used when the FormatDateTime function is called.
+vbLongTime@@Indicates that the long time format for the current culture should be used when the FormatDateTime function is called.
+vbLowerCase@@Indicates that characters should be converted to lowercase when the StrConv function is called.
+vbMaximizedFocus@@Indicates that the window style is maximized with focus for the invoked program when the Shell function is called.
+vbMethod@@Specifies that a method should be called when the CallByName function is called.
+vbMinimizedFocus@@Indicates that the window style is minimized with focus for the invoked program when the Shell function is called.
+vbMinimizedNoFocus@@Indicates that the window style is minimized without focus for the invoked program when the Shell function is called.
+vbMonday@@Specifies that Monday should be used as the first day of the week when date-related functions are called.
+vbMsgBoxHelp@@Indicates that the Help button will be displayed when the MsgBox function is called.
+vbMsgBoxRight@@Indicates that text will be right-aligned when the MsgBox function is called.
+vbMsgBoxRtlReading@@Indicates that right-to-left reading text (Hebrew and Arabic systems) will be displayed when the MsgBox function is called.
+vbMsgBoxSetForeground@@Indicates that the message box will display in the foreground when the MsgBox function is called.
+vbNarrow@@Indicates that wide (double-byte) characters should be converted to narrow (single-byte) characters when the StrConv function is called.
+vbNewLine@@Represents a newline character for print and display functions.
+vbNo@@Indicates that the No button was clicked in a message box. Returned by the MsgBox function.
+vbNormal@@Indicates that the file is a normal file for file-access functions.
+vbNormalFocus@@Indicates that the window style is normal with focus for the invoked program when the Shell function is called.
+vbNormalNoFocus@@Indicates that the window style is normal without focus for the invoked program when the Shell function is called.
+vbNull@@Indicates that the type of a variant object is Nothing. Returned by the VarType function.
+vbNullChar@@Represents a null character for print and display functions.
+vbNullString@@Represents a zero-length string for print and display functions, and for calling external procedures.
+vbObject@@Indicates that the type of a variant object is Object. Returned by the VarType function.
+vbObjectError@@Represents the object error number. User-defined error numbers should be greater than this value.
+vbOK@@Indicates that the OK button was clicked in a message box. Returned by the MsgBox function.
+vbOKCancel@@Indicates that the OK and Cancel buttons will be displayed when the MsgBox function is called.
+vbOKOnly@@Indicates that only the OK button will be displayed when the MsgBox function is called.
+vbProperCase@@Indicates that the first letter of every word in a string should be converted to uppercase and the remaining characters to lowercase when the StrConv function is called.
+vbQuestion@@Indicates that the question icon will be displayed when the MsgBox function is called.
+vbReadOnly@@Indicates that the file is a read-only file for file-access functions.
+vbRetry@@Indicates that the Retry button was clicked in a message box. Returned by the MsgBox function.
+vbRetryCancel@@Indicates that the Retry and Cancel buttons will be displayed when the MsgBox function is called.
+vbSaturday@@Specifies that Saturday should be used as the first day of the week when date-related functions are called.
+vbSet@@Indicates that a property value should be set when the CallByName function is called.
+vbShortDate@@Indicates that the short-date format for the current culture should be used when the FormatDateTime function is called.
+vbShortTime@@Indicates that the short-time format for the current culture should be used when the FormatDateTime function is called.
+vbSimplifiedChinese@@Indicates that characters should be converted to Simplified Chinese when the StrConv function is called.
+vbSingle@@Indicates that the type of a variant object is Single. Returned by the VarType function.
+vbString@@Indicates that the type of a variant object is String. Returned by the VarType function.
+vbSunday@@Specifies that Sunday should be used as the first day of the week when date-related functions are called.
+vbSystem@@Indicates that the file is a system file for file-access functions.
+vbSystemModal@@Indicates that the message box will be displayed as a modal dialog box when the MsgBox function is called.
+vbTab@@Represents a tab character for print and display functions.
+vbTextCompare@@Indicates that a text comparison should be performed when comparison functions are called.
+vbThursday@@Specifies that Thursday should be used as the first day of the week when date-related functions are called.
+vbTraditionalChinese@@Indicates that characters should be converted to Traditional Chinese when the StrConv function is called.
+vbTrue@@Indicates that a Boolean value of True should be used when number-formatting functions are called.
+vbTuesday@@Specifies that Tuesday should be used as the first day of the week when date-related functions are called.
+vbUpperCase@@Indicates that characters should be converted to uppercase when the StrConv function is called.
+vbUseDefault@@Indicates that the default Boolean value should be used when number-formatting functions are called.
+vbUserDefinedType@@Indicates that the type of a variant object is a user-defined type. Returned by the VarType function.
+vbUseSystem@@Indicates that the week specified by your system as the first week of the year should be used when date-related functions are called.
+vbUseSystemDayOfWeek@@Indicates that the day specified by your system as the first day of the week should be used when date-related functions are called.
+vbVariant@@Indicates that the type of a variant object is Variant. Returned by the VarType function.
+vbVerticalTab@@Represents a carriage-return character for print functions.
+vbVolume@@Indicates the volume label file attribute for file-access functions.
+vbWednesday@@Specifies that Wednesday should be used as the first day of the week when date-related functions are called.
+vbWide@@Indicates that narrow (single-byte) characters should be converted to wide (double-byte) characters when the StrConv function is called.
+vbYes@@Indicates that the Yes button was clicked in a message box. Returned by the MsgBox function.
+vbYesNo@@Indicates that the Yes and No buttons will be displayed when the MsgBox function is called.
+vbYesNoCancel@@Indicates that the Yes, No, and Cancel buttons will be displayed when the MsgBox function is called.

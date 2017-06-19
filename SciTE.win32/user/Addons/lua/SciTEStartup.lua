@@ -23,10 +23,6 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 
--- Load mod-macros
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-macros\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-macros\\macros.lua')
-
 -- Load Orthospell 
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')

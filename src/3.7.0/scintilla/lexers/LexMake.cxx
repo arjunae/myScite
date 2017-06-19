@@ -212,7 +212,7 @@ static void ColouriseMakeLine(
 				styler.ColourTo(startLine + i, SCE_MAKE_IDENTIFIER);
 				state = state_prev;
 				iWarnEOL++;
-			} else if (slineBuffer[i] == '}') {
+			} else if (state=SCE_MAKE_IDENTIFIER && slineBuffer[i] == '}') {
 				styler.ColourTo(startLine + i -1, state_prev);
 				styler.ColourTo(startLine + i, SCE_MAKE_IDENTIFIER);
 				state = state_prev;

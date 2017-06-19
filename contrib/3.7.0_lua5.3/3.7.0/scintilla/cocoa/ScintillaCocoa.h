@@ -13,10 +13,11 @@
  * This file is dual licensed under LGPL v2.1 and the Scintilla license (http://www.scintilla.org/License.txt).
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <time.h>
-#include <ctype.h>
+#include <cstddef>
+#include <cstdlib>
+#include <cctype>
+#include <cstdio>
+#include <ctime>
 
 #include <stdexcept>
 #include <string>
@@ -32,6 +33,7 @@
 #endif
 
 #include "Position.h"
+#include "UniqueString.h"
 #include "SplitVector.h"
 #include "Partitioning.h"
 #include "RunStyles.h"
@@ -103,10 +105,6 @@ private:
 
   bool enteredSetScrollingSize;
 
-  // Private so ScintillaCocoa objects can not be copied
-  ScintillaCocoa(const ScintillaCocoa &) : ScintillaBase() {}
-  ScintillaCocoa &operator=(const ScintillaCocoa &) { return * this; }
-
   bool GetPasteboardData(NSPasteboard* board, SelectionText* selectedText);
   void SetPasteboardData(NSPasteboard* board, const SelectionText& selectedText);
   int TargetAsUTF8(char *text);
@@ -127,15 +125,18 @@ protected:
   void DiscardOverdraw() override;
   void Redraw() override;
 
-  void Initialise() override;
-  void Finalise() override;
+  void Init();
   CaseFolder *CaseFolderForEncoding() override;
   std::string CaseMapString(const std::string &s, int caseMapping) override;
   void CancelModes() override;
 
 public:
   ScintillaCocoa(ScintillaView* sciView_, SCIContentView* viewContent, SCIMarginView* viewMargin);
+  // Deleted so ScintillaCocoa objects can not be copied.
+  ScintillaCocoa(const ScintillaCocoa &) = delete;
+  ScintillaCocoa &operator=(const ScintillaCocoa &) = delete;
   ~ScintillaCocoa() override;
+  void Finalise() override;
 
   void SetDelegate(id<ScintillaNotificationProtocol> delegate_);
   void RegisterNotifyCallback(intptr_t windowid, SciNotifyFunc callback);
@@ -158,10 +159,10 @@ public:
   void SetMouseCapture(bool on) override;
   bool HaveMouseCapture() override;
   void WillDraw(NSRect rect);
-  void ScrollText(int linesToMove) override;
+  void ScrollText(Sci::Line linesToMove) override;
   void SetVerticalScrollPos() override;
   void SetHorizontalScrollPos() override;
-  bool ModifyScrollBars(int nMax, int nPage) override;
+  bool ModifyScrollBars(Sci::Line nMax, Sci::Line nPage) override;
   bool SetScrollingSize(void);
   void Resize();
   void UpdateForScroll();
@@ -197,7 +198,7 @@ public:
   void ObserverAdd();
   void ObserverRemove();
   void IdleWork() override;
-  void QueueIdleWork(WorkNeeded::workItems items, int upTo) override;
+  void QueueIdleWork(WorkNeeded::workItems items, Sci::Position upTo) override;
   int InsertText(NSString* input);
   NSRange PositionsFromCharacters(NSRange rangeCharacters) const;
   NSRange CharactersFromPositions(NSRange rangePositions) const;
@@ -205,6 +206,7 @@ public:
   NSInteger VisibleLineForIndex(NSInteger index);
   NSRange RangeForVisibleLine(NSInteger lineVisible);
   NSRect FrameForRange(NSRange rangeCharacters);
+  NSRect GetBounds() const;
   void SelectOnlyMainSelection();
   void ConvertSelectionVirtualSpace();
   bool ClearAllSelections();
