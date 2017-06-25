@@ -10,7 +10,6 @@ local GTK = scite_GetProp('PLAT_GTK')
 local stripText = ''
 
 function do_set_menu()
-
 end
 
 --Fixme calling scite_command from within events.
@@ -375,32 +374,31 @@ end
 local spawner_obj
 
 function do_step()
-	dbg:step()
+	if status=="active" then dbg:step() end
 end
 
---i scite_webdev 
+-- Arjunea
 function OnStrip(control, change)
-	if control == 2 and change == 1  --[[ OK clicked --]] then
-		scite.StripShow("") -- hide
+	if control == 2 and change == 1 then -- OK clicked
+		scite.StripShow("") 
 		stripText = scite.StripValue(1)
 		props['debug.target'] = stripText
 		do_run()
-		end
+	end	
+	if control == 3 and change == 1 then -- Cancel clicked
+		scite.StripShow("") 
+	end
 end
---i scite_webdev 
 
 function do_run()
-
-   
 	if status == 'idle' then
-	-- i scite_webdev
+	-- Arjunea
 		if not (props['debug.asktarget']=='' or props['debug.asktarget'] == '0') and (#stripText == 0 ) then
 				scite.StripShow("") -- clear strip
-				scite.StripShow("!'Target name:'["..props['FilePath'].."]((OK))((&Cancel))")
+				scite.StripShow("!'Target name:'["..props['FilePath'].."]((OK))(&Cancel)")
 				return
 		end
 			lfs.chdir(props['FileDir']) 
-	-- i Scite_webdev
 		if	do_launch() then
 			set_status('running')
 		else
@@ -414,18 +412,20 @@ function do_run()
 end
 
 function do_kill()
-	if status == 'running' then
-		-- this actually kills the debugger process
-		spawner_obj:kill()
-	else
-		-- this will ask the debugger nicely to exit
-		dbg:quit()
+	if status== 'running' or status == 'active' then
+		if status == 'running' then
+			-- this actually kills the debugger process
+			spawner_obj:kill()
+		else
+			-- this will ask the debugger nicely to exit
+			dbg:quit()
+		end
+		 closing_process()
 	end
-    closing_process()
 end
 
 function do_next()
-	dbg:step_over()
+	if status=="active" then dbg:step_over() end
 end
 
 function breakpoint_from_position(lno)
@@ -499,35 +499,37 @@ local function catdbg_write (s)
 end
 
 function do_inspect()
-    local w = current_expr()
-    if len(w) > 0 then
-        if catdbg then dbg:set_display_handler(catdbg_write) end
-        dbg:inspect(w)
-    end
+	if status=="active" then
+		 local w = current_expr()
+		 if len(w) > 0 then
+			  if catdbg then dbg:set_display_handler(catdbg_write) end
+			  dbg:inspect(w)
+		 end
+	end	 
 end
 
 function do_locals()
-	dbg:locals()
+	if status=="active" then dbg:locals() end
 end
 
 function do_watch()
-    dbg:watch(current_expr())
+    if status=="active" then dbg:watch(current_expr()) end
 end
 
 function do_backtrace()
-	dbg:backtrace(scite_GetProp('debug.backtrace.depth','20'))
+	if status=="active" then dbg:backtrace(scite_GetProp('debug.backtrace.depth','20')) end
 end
 
 function do_up()
-	dbg:up()
+	if status=="active" then dbg:up() end
 end
 
 function do_down()
-	dbg:down()
+	if status=="active" then dbg:down() end
 end
 
 function do_finish()
-    dbg:finish()
+    if status=="active" then dbg:finish() end
 end
 
 local root

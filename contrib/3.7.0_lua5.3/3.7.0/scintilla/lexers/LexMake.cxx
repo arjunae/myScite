@@ -85,7 +85,7 @@ static void ColouriseMakeLine(
 	int startMark=0;
 	unsigned char theStart=i; // One Byte ought to be enough for everyone....?
 	int iWarnEOL=0; //  unclosed string refcount.
-	
+
 	while (i < lengthLine ) {
 
 	// ForwardSearch Searchstring.
@@ -113,39 +113,32 @@ static void ColouriseMakeLine(
 			strLen=0;
 			startMark=0;
 		}
-	
+
 		if (strSearch.size()>0) {
-		
+	
 		// we now search for the word within the Directives Space.
 		// Rule: Prepended by whitespace, line start or .'='. 
 		if (kwGeneric.InList(strSearch.c_str())
-		 && (isspace(styler.SafeGetCharAt(startLine +i -(Sci_PositionU)strSearch.size()) >0
-			|| i+1 -(Sci_PositionU)strSearch.size() == theStart
-			|| styler.SafeGetCharAt(startLine +i -(Sci_PositionU)strSearch.size()) == '='))) {		
-			styler.ColourTo(startLine + i-(Sci_PositionU)strSearch.size(), state);
+			&& (i+1 -(Sci_PositionU)strSearch.size() == theStart
+			|| styler.SafeGetCharAt(startLine +i -(Sci_PositionU)strSearch.size()) == '=')) {
 			state_prev=state;
 			state=SCE_MAKE_DIRECTIVE;
 			styler.ColourTo(startLine + i, state);
+		} else if (!AtEOL(styler,i) && state == SCE_MAKE_DIRECTIVE && isspacechar(slineBuffer[i+1]) >0) {
 			state=state_prev;
-		} else if (state == SCE_MAKE_DIRECTIVE) {
-			state=state_prev;
-			styler.ColourTo(endPos, state);
+			styler.ColourTo(startLine +i, state);
 		}
 		
 		// ....and within functions $(sort,subst...) / used to style internal Variables too.
-		// Rule: have to be prepended by '('.
+		// Rule: have to be prefiixed by '(' 
 		if (kwFunctions.InList(strSearch.c_str()) 
 		 && styler.SafeGetCharAt(startLine +i -(Sci_PositionU)strSearch.size()) == '(') {
-			styler.ColourTo(startLine + i-(Sci_PositionU)strSearch.size(), state);
 			state_prev=state;
 			state=SCE_MAKE_OPERATOR;
-			styler.ColourTo(startLine + i, state);
-			iWarnEOL++;
+			styler.ColourTo(startLine + i+1, state);
 			state=state_prev;
-		} else if (state == SCE_MAKE_OPERATOR) {
-			state=state_prev;
-			styler.ColourTo(endPos, state);
-			iWarnEOL--;
+		} else if (slineBuffer[i] == ')') {
+			styler.ColourTo(startLine +i, state);
 		}
 		startMark=0;
 		strLen=0;
@@ -155,16 +148,16 @@ static void ColouriseMakeLine(
 		// Style User Variables Rule: $(...)
 		if (!AtEOL(styler,i) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(') {
 			styler.ColourTo(startLine +i -1, state);
+			state_prev=state;
 			state = SCE_MAKE_USER_VARIABLE;
-			iWarnEOL++;
 			// ... and $ based automatic Variables Rule: $@
 		} else if ((!AtEOL(styler,i)) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
 			styler.ColourTo(startLine +i -1, state);
+			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;			
-		} else if ((state == SCE_MAKE_USER_VARIABLE || state == SCE_MAKE_AUTOM_VARIABLE) && slineBuffer[i] == ')') {
-				styler.ColourTo(startLine +i, state);
-				state = state_prev;
-				iWarnEOL--;
+		} else if (SCE_MAKE_USER_VARIABLE && slineBuffer[i] == ')') {
+			styler.ColourTo(startLine +i, state);
+			state = SCE_MAKE_DEFAULT;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && styler.SafeGetCharAt(startLine+i-1) == '$') {
 			styler.ColourTo(startLine +i, state);
 			state = state_prev;
@@ -175,7 +168,6 @@ static void ColouriseMakeLine(
 			styler.ColourTo(startLine +i -1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
-			iWarnEOL++;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<^+", (int)slineBuffer[i-1]) >0) && (strchr("DF", (int)slineBuffer[i]) >0)) {
 				styler.ColourTo(startLine +i, state);
 				state = state_prev;
@@ -188,7 +180,7 @@ static void ColouriseMakeLine(
 					// it's a ':=', so style as an identifier
 					if (lastNonSpace >= 0)
 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-					styler.ColourTo(startLine + i -1, SCE_MAKE_DEFAULT);
+					styler.ColourTo(startLine + i -1, state_prev);
 					styler.ColourTo(startLine + i +1, SCE_MAKE_OPERATOR);
 				} else {
 					// We should check that no colouring was made since the beginning of the line,
@@ -207,19 +199,8 @@ static void ColouriseMakeLine(
 				styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
 				bSpecial = true;	// Only react to the first '=' of the line
 				state = state_prev;
-			} else if (slineBuffer[i] == '{') {
-				styler.ColourTo(startLine + i -1, state_prev);
-				styler.ColourTo(startLine + i, SCE_MAKE_IDENTIFIER);
-				state = state_prev;
-				iWarnEOL++;
-			} else if (slineBuffer[i] == '}') {
-				styler.ColourTo(startLine + i -1, state_prev);
-				styler.ColourTo(startLine + i, SCE_MAKE_IDENTIFIER);
-				state = state_prev;
-				iWarnEOL--;
-			}
 		}
-
+	}
 		// Capture the Flags. Start match:  ("=-") or ('-' | nonwhitespace + '-' ) Endmatch: (whitespace | "./\")
 		if (( !AtEOL(styler,i) && slineBuffer[i+1]=='-') && ((isspace(slineBuffer[i])>0 || slineBuffer[i]=='-')
 		|| (!AtEOL(styler,i) && slineBuffer[i]=='=' && slineBuffer[i+1]=='-'))) {
@@ -230,18 +211,30 @@ static void ColouriseMakeLine(
 			styler.ColourTo(startLine +i, state);
 				state = state_prev;			
 			}
-
+		
+			if (strchr("({[", (int)slineBuffer[i]) >0) {
+				iWarnEOL++;
+			} else if (strchr(")]}", (int)slineBuffer[i]) >0) {
+				iWarnEOL--;
+			}
+		
 		if ( !isspacechar(slineBuffer[i]) )
 			lastNonSpace = i;
 
 		i++;
 	}
+			
 
-	if (iWarnEOL > 0) {
-		styler.ColourTo(endPos, SCE_MAKE_IDEOL);	// Error, variable reference not ended
+	if (iWarnEOL > 0) { 	
+		state_prev=state;
+		state=SCE_MAKE_IDEOL; // Error, variable reference not ended
+	} else if (state==SCE_MAKE_IDEOL && iWarnEOL == 0){
+		state=state_prev;
 	} else {
-		styler.ColourTo(endPos, state_prev);
+		state=SCE_MAKE_DEFAULT;
 	}
+	styler.ColourTo(endPos, state);
+		
 }
 
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {

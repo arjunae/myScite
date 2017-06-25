@@ -22,9 +22,7 @@ local function RunSelectedScript(str)
   for i,v in ipairs(AppList) do
     if str == v[1] then
       loadscript(v[2]) -- change this to suit your environment
-      if type(_G[v[3]]) == "function" then 
-        _G[v[3]]() 
-      end
+      if type(_G[v[3]]) == "function" then _G[v[3]]() end
     end
   end
 end
@@ -38,6 +36,6 @@ function ChooseScript()
   end
 end
 
-scite_Command('Macro Scripts|ChooseScript|Ctrl+9')
+scite_Command('Macro Scripts|ChooseScript|Ctrl+2')
 
 --end

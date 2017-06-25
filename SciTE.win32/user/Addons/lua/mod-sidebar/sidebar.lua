@@ -381,6 +381,7 @@ function FileMan_ListFILL()
 	if not folders then return end
 	local table_folders = {}
 	for i, d in ipairs(folders) do
+--	print(i,d)
 		table_folders[i] = {'['..d..']', {d,'d'}}
 	end
 	table.sort(table_folders, function(a, b) return a[1]:lower() < b[1]:lower() end)

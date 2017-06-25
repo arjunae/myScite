@@ -18,13 +18,13 @@ if "%Tools%"=="" (
 ::--------------------------------------------------
 
 ::call vcvars32.bat
-::call vcvarsall.bat x86_amd64
-call vcvarsall.bat x86
+call vcvarsall.bat amd64
+::call vcvarsall.bat x86
 
 if "%1"=="DEBUG" set parameter1=DEBUG=1
 REM set parameter1=DEBUG=1
 
- cd 3.7.0\scintilla\win32
+cd 3.7.0\scintilla\win32
 nmake %parameter1% -f scintilla.mak
 if errorlevel 1 goto :error
 
@@ -32,13 +32,39 @@ cd ..\..\scite\win32
 nmake %parameter1% -f scite.mak
 if errorlevel 1 goto :error
 
+echo :--------------------------------------------------
+echo .... done ....
+echo :--------------------------------------------------
+::--------------------------------------------------
+:: This littl hack looks for a platform PE Signature at offset 120+
+:: Should work compiler independent for uncompressed binaries.
+set PLAT=""
+set off32=""
+set off64=""
+
+for /f "delims=:" %%A in ('findstr /o "^.*PE..L" ..\bin\SciTE.exe') do ( set off32=%%A ) 
+if %off32%==120 set PLAT=WIN32
+
+for /f "delims=:" %%A in ('findstr /o "^.*PE..d" ..\bin\SciTE.exe') do ( set off64=%%A ) 
+if %off64%==120 set PLAT=WIN64
+
+echo .... Targets platform [%PLAT%] ......
+If [%PLAT%]==[WIN32] (
+echo .... Copying to SciTE.win32 ......
 copy /Y ..\bin\SciTE.exe ..\..\..\..\SciTE.win32
 copy /Y ..\bin\SciLexer.dll ..\..\..\..\SciTE.win32
+)
+
+If [%PLAT%]==[WIN64] (
+echo ... Copying to SciTE.win64
+copy /Y ..\bin\SciTE.exe ..\..\..\..\SciTE.win64
+copy /Y ..\bin\SciLexer.dll ..\..\..\..\SciTE.win64
+)
 
 goto end
 
 :error
-pause
 
 :end
+pause
 cd ..\..

@@ -6,7 +6,7 @@ require 'lfs'
 
 -- load scripts dynamically from scripts folder
 local AppList = {}
-for f in lfs.dir(props['SciteDefaultHome'].."\\user\\macros") do 
+for f in lfs.dir(props['SciteUserHome'].."\\user\\macros") do 
 	if f ~= "." and f ~= ".." then
 		AppList[#AppList+1] = {f, f, f:sub(1,-5)}
 	end

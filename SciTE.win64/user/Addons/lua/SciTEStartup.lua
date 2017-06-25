@@ -13,19 +13,22 @@ math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 
+local socket = require "socket"
+  socket.select(nil, nil, 1)
+
 -- Load extman.lua 
 dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 
 -- chainload eventmanager / extman remake used by some lua mods
 dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
--- Load Orthospell 
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
-
 -- Load mod-mitchell 
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+
+-- Load Orthospell 
+package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
+dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 
 -- Load Sidebar
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
@@ -56,6 +59,6 @@ function markLinks()
 	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :) 
 end
 
-scite_OnOpenSwitch(markLinks)
+--scite_OnOpenSwitch(markLinks)
 
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
