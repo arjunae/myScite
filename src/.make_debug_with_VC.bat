@@ -50,15 +50,15 @@ if %off64%==120 set PLAT=WIN64
 
 echo .... Targets platform [%PLAT%] ......
 If [%PLAT%]==[WIN32] (
-echo .... Copying to SciTE.win32 ......
-copy /Y ..\bin\SciTE.exe ..\..\..\..\SciTE.win32
-copy /Y ..\bin\SciLexer.dll ..\..\..\..\SciTE.win32
+echo .... move to SciTE.win32 ......
+move ..\bin\SciTE.exe ..\..\..\..\SciTE.win32
+move ..\bin\SciLexer.dll ..\..\..\..\SciTE.win32
 )
 
 If [%PLAT%]==[WIN64] (
-echo ... Copying to SciTE.win64
-copy /Y ..\bin\SciTE.exe ..\..\..\..\SciTE.win64
-copy /Y ..\bin\SciLexer.dll ..\..\..\..\SciTE.win64
+echo ... move to SciTE.win64
+move ..\bin\SciTE.exe ..\..\..\..\SciTE.win64
+move ..\bin\SciLexer.dll ..\..\..\..\SciTE.win64
 )
 
 goto end

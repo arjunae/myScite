@@ -1,16 +1,17 @@
 ~ mySciTE.webdev ~
 
-[19.06.2017] mySciTE.June.RC2
-- antialiased fonts. Style .json & .mib Files. Add Forth, Add Fortran api.
-- lua repo: unified mingw makefiles recompiled all libs with Os for a better opt balance.
+[29.06.2017] mySciTE.June
+- antialiased fonts. Style .json & .mib Files. / Add Forth and Fortran api.
+- lua repo: unified mingw makefiles. / Recompiled all libs with Os for a better opt balance.
 - included luasocket (ip socket support) 
 - included luacom (win com objects. eg speech / mshtml and others)
 - reworked env.home & env.userhome (handle readonly places / use profiles)
 - reworked c/cpp syntax colouring for iso c99/cpp98/cpp11 + apiFiles.
-- style nonstandart and unsafe c functions.
+- style nonstandart and unsafe c functions. / Added w32 types.
 - more userfriendly appendContextMenu script / Extman Update
 - improved makefile Lexer. (Styles Flags, internal vars & functions, User Vars)
 - removed pthreads dll Dependency. Add Keyword Index to lua5.1 chm Help.
+- many BugFixes / We finally, Linux 32 and 64bit binaries made their way here :)
 
 [13.04.2017] STABLE-150
 - Rebased from wScite 3.6.7 to 3.7.0

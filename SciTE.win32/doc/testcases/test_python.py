@@ -17,12 +17,12 @@ p = linkParser()
 p.feed(htmlSource)
 
 for link in p.links:
-	print link
+	print (link)
 
 # --------------------------------
 
 def say(x):
-	print x
+	print (x)
 	
 def two(x,y):
 	say(x)

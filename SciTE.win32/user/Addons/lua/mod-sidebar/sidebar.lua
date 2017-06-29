@@ -98,6 +98,7 @@ function ReadAbbrevFile(file, abbr_table)
 		return scite_iter
 	end
 	--------------------------------------------
+	
 	local abbrev_file, err, errcode = io.open(file)
 	if not abbrev_file then return abbrev_file, err, errcode end
 
@@ -295,7 +296,7 @@ list_favorites:context_menu {
 	'Add active buffer|Favorites_AddCurrentBuffer',
 	'Delete item\tDel|Favorites_DeleteItem',
 }
--------------------------
+----------------------
 local tab1 = gui.panel(panel_width)
 
 local list_func_height = win_height/3
@@ -357,12 +358,17 @@ local function FileMan_ShowPath()
 	memo_path:set_text(rtf..path..mask)
 end
 
+
 memo_path:on_key(function(key)
 	if key == 13 then
 		local new_path = memo_path:get_text()
 		if new_path ~= '' then
 			new_path = new_path:match('[^*]+')..'\\'
-			local is_folder = gui.files(new_path..'*', true)
+			local is_folder 
+			for entry,attrib in gui.dir(new_path) do
+				if attrib==16 then is_folder=true end
+			end
+			
 			if is_folder then
 				current_path = new_path
 			end

@@ -4,7 +4,7 @@
 :: ---------------------------------------
 
 set toolFolder=python
-set toolName=%toolFolder%
+set toolName=micropython
 set toolExt=.exe
 set toolParam=%*
 

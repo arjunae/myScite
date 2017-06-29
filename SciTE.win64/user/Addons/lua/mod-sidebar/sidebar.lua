@@ -44,8 +44,9 @@ Version 1.29.0
 --]]--------------------------------------------------
 require 'gui'
 require 'lpeg'
-require 'shell'
-
+-- arjunea: removed shell dependency. 
+-- Moved shell.inputbox to gui / Use gui.run and gui.msgbox 
+--require 'shell'
 
 -- �se scite.gettranslation ?
 -- local _DEBUG = true --включает вывод отладочной информации
@@ -484,7 +485,7 @@ end
 function FileMan_FileRename()
 	local filename = FileMan_GetSelectedItem()
 	if filename == '' or filename == '..' then return end
-	local filename_new = shell.inputbox("Rename", "Enter new file name:", filename, function(name) return not name:match('[\\/:|*?"<>]') end)
+	local filename_new  gui.inputbox("Rename", "Enter new file name:", filename, function(name) return not name:match('[\\/:|*?"<>]') end)
 	if filename_new == nil then return end
 	if filename_new ~= '' and filename_new ~= filename then
 		os.rename(current_path..filename, current_path..filename_new)
@@ -496,8 +497,8 @@ function FileMan_FileDelete()
 	local filename, attr = FileMan_GetSelectedItem()
 	if filename == '' then return end
 	if attr == 'd' then return end
-	if shell.msgbox("Are you sure you want to DELETE this file?\n"..filename, "DELETE", 4+256) == 6 then
-	-- if gui.message("Are you sure you want to DELETE this file?\n"..filename, "query") then
+	--if shell.msgbox("Are you sure you want to DELETE this file?\n"..filename, "DELETE", 4+256) == 6 then
+	if gui.message("Are you sure you want to DELETE this file?\n"..filename, "query") then
 		os.remove(current_path..filename)
 		FileMan_ListFILL()
 	end
@@ -543,7 +544,7 @@ function FileMan_FileExec(params)
 		FileMan_FileExecWithSciTE(CommandBuild('wscript'))
 	-- Other
 	else
-		local ret, descr = shell.exec(current_path..filename..params)
+		local ret, descr = gui.run(filename,params,current_path)
 		if not ret then
 			print (">Exec: "..filename)
 			print ("Error: "..descr)
