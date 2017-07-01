@@ -42,10 +42,10 @@ set PLAT=""
 set off32=""
 set off64=""
 
-for /f "delims=:" %%A in ('findstr /o "^.*PE..L" ..\bin\SciTE.exe') do ( set off32=%%A ) 
+for /f "delims=:" %%A in ('findstr /o "^.*PE..L.. " ..\bin\SciTE.exe') do ( set off32=%%A ) 
 if %off32%==120 set PLAT=WIN32
 
-for /f "delims=:" %%A in ('findstr /o "^.*PE..d" ..\bin\SciTE.exe') do ( set off64=%%A ) 
+for /f "delims=:" %%A in ('findstr /o "^.*PE..d.. " ..\bin\SciTE.exe') do ( set off64=%%A ) 
 if %off64%==120 set PLAT=WIN64
 
 echo .... Targets platform [%PLAT%] ......
