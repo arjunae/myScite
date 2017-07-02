@@ -14,6 +14,3 @@ l.TYPE = l.CONSTANT
 
 -- lua WTF ....try copying that line over the entries above ?!
 property['style.default'] = 'font:'..font..',size:'..size..','..props["colour.foreground"]..","..props["colour.background"]
-
-
-
