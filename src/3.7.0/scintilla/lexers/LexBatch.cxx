@@ -56,52 +56,52 @@ static bool IsBSeparator(char ch) {
 
 
 struct sBatchState {
+	int status;
 	int offset;
 	int wbLen;
 	int wbPos;
 	int cmdLoc;
 	int startLine;
-};
+} pBatchState;
 
 /// @info colour a keyword prefixed by a separator.
 /// @return offset and cmdloc
 
-static void ColourSeparatorKw(
+static int ColourSeparatorKw(
 	char *wordBuffer,
-	sBatchState *batchState, 
-	Accessor &styler,
-	WordList keywords2) {
-	
-		int cmdLoc;
-		int offset;
-		int wbLen; 
-		int startLine;
+	sBatchState *pBatchState, 
+	WordList *keywords2,	
+	Accessor &styler) {
+
 		
 		if (IsBSeparator(wordBuffer[0])) {
 			// then Check for External Command / Program following the sep.
-		 if ((cmdLoc == offset - wbLen) && ((wordBuffer[0] == ':') || (wordBuffer[0] == '\\') || (wordBuffer[0] == '.'))) {				
+		 if ((pBatchState->cmdLoc == pBatchState->offset - pBatchState->wbLen) && ((wordBuffer[0] == ':') || (wordBuffer[0] == '\\') || (wordBuffer[0] == '.'))) {				
 				// Yo. Reset Offset to re-process remainder of word
-				offset -= (wbLen - 1);
+				pBatchState->status =1;
+				pBatchState->offset -= (pBatchState->wbLen - 1);
 				
 				// Colorize External Command / Program
 				if (!keywords2) {
-					styler.ColourTo(startLine + offset - 1, SCE_BAT_COMMAND);
-				} else if (keywords2.InList(wordBuffer)) {
-					styler.ColourTo(startLine + offset - 1, SCE_BAT_COMMAND);
+					styler.ColourTo(pBatchState->startLine + pBatchState->offset - 1, SCE_BAT_COMMAND);
+				} else if (keywords2->InList(wordBuffer)) {
+					styler.ColourTo(pBatchState->startLine + pBatchState->offset - 1, SCE_BAT_COMMAND);
 				} else {
-					styler.ColourTo(startLine + offset - 1, SCE_BAT_DEFAULT);
+					styler.ColourTo(pBatchState->startLine + pBatchState->offset - 1, SCE_BAT_DEFAULT);
 				}
 				
 				// Reset External Command / Program Location
-				cmdLoc = offset;
+				pBatchState->cmdLoc = pBatchState->offset;
 			} else {
 				// No ExtCmd found - Reset Offset to re-process remainder of word
-				offset -= (wbLen - 1);
+				pBatchState->offset -= (pBatchState->wbLen - 1);
+				pBatchState->status =0;
 				// Colorize Default Text
-				styler.ColourTo(startLine + offset - 1, SCE_BAT_DEFAULT);
+				styler.ColourTo(pBatchState->startLine + pBatchState->offset - 1, SCE_BAT_DEFAULT);
 			}
 		}	
-//returns batchstate
+
+		return (pBatchState->status);
 }
 
 
@@ -199,38 +199,27 @@ static void ColouriseBatchLine(
 			styler.ColourTo(endPos, SCE_BAT_COMMENT);
 			return;
 		}
-		// So, we have checked that the current word is not a comment.
-		// now Check for a Separator at position zero.
-		
-/// refactorisation 1
-/// @info colour a keyword prefixed by a separator.
-/// @return offset and cmdloc
-//ColourSeparatorKw(wordBuffer, batchState,keywords2,styler);
 
-		if (IsBSeparator(wordBuffer[0])) {
-			// then Check for External Command / Program following the sep.
-		 if ((cmdLoc == offset - wbLen) && ((wordBuffer[0] == ':') || (wordBuffer[0] == '\\') || (wordBuffer[0] == '.'))) {				
-				// Yo. Reset Offset to re-process remainder of word
-				offset -= (wbLen - 1);
-				
-				// Colorize External Command / Program
-				if (!keywords2) {
-					styler.ColourTo(startLine + offset - 1, SCE_BAT_COMMAND);
-				} else if (keywords2.InList(wordBuffer)) {
-					styler.ColourTo(startLine + offset - 1, SCE_BAT_COMMAND);
-				} else {
-					styler.ColourTo(startLine + offset - 1, SCE_BAT_DEFAULT);
-				}
-				
-				// Reset External Command / Program Location
-				cmdLoc = offset;
-			} else {
-				// No ExtCmd found - Reset Offset to re-process remainder of word
-				offset -= (wbLen - 1);
-				// Colorize Default Text
-				styler.ColourTo(startLine + offset - 1, SCE_BAT_DEFAULT);
-			}
-		}	
+
+	// So, we have checked that the current word is not a comment.
+	// now Check for a Separator at position zero.
+	
+/// refactorisation 1 lets see if we are on the right track....	
+		
+	pBatchState.offset=offset;
+	pBatchState.wbLen=wbLen;
+	pBatchState.wbPos=wbPos;
+	pBatchState.cmdLoc=cmdLoc;
+	pBatchState.startLine=startLine;
+	
+	pBatchState.status=ColourSeparatorKw(wordBuffer, &pBatchState, &keywords2, styler);
+
+	offset=pBatchState.offset;
+	wbLen=pBatchState.wbLen;
+	wbPos=pBatchState.wbPos;
+	cmdLoc=pBatchState.cmdLoc;
+	startLine=pBatchState.startLine;
+
 			
 /// refactorisation 2	
 	
