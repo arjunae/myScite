@@ -133,7 +133,7 @@ static void ColouriseMakeLine(
 			// check if we get a match with Keywordlist externalCommands
 			// Rule: Prepended by line start or " \t\r\n /\":,\=" 
 			if (kwExtCmd.InList(strSearch.c_str())
-				&& (i+1 -wordLen == theStart || (AtStartChar(styler, i-wordLen)))) {
+				&& (i+1 -wordLen == theStart || AtStartChar(styler,startLine +i -wordLen))){
 				styler.ColourTo(startLine +i-wordLen, state);
 				state_prev=state;
 				state=SCE_MAKE_EXTCMD;
@@ -145,14 +145,15 @@ static void ColouriseMakeLine(
 		
 			// we now search for the word within the Directives Space.
 			// Rule: Prepended by whitespace, line start or .'='. 
-			if (kwGeneric.InList(strSearch.c_str())
-				&& (i+1 -wordLen == theStart || styler.SafeGetCharAt(startLine +i -wordLen) == '=')) {
+			if (kwGeneric.InList(strSearch.c_str()) && state!=SCE_MAKE_DIRECTIVE
+				&& (i+1 -wordLen == theStart || styler.SafeGetCharAt(startLine +i -wordLen-1) == '=')) {
+				styler.ColourTo(startLine +i-wordLen, state);
 				state_prev=state;
 				state=SCE_MAKE_DIRECTIVE;
 				styler.ColourTo(startLine + i, state);
-			} else if (state == SCE_MAKE_DIRECTIVE && (isgraph(slineBuffer[i])==0)) {
-				state=SCE_MAKE_DEFAULT;
-				styler.ColourTo(startLine +i, state);
+			} else if (state == SCE_MAKE_DIRECTIVE) {
+				state=state_prev;
+				styler.ColourTo(startLine +i, SCE_MAKE_DEFAULT);				
 			}
 	
 			// ....and within functions $(sort,subst...) / used to style internal Variables too.
@@ -174,12 +175,12 @@ static void ColouriseMakeLine(
 		}
 		
 		// Style User Variables Rule: $(...)
-		if (!AtEOL(styler,i) && slineBuffer[i] == '$' && slineBuffer[i+1] == '(') {
+		if (i<lengthLine && slineBuffer[i] == '$' && slineBuffer[i+1] == '(') {
 			styler.ColourTo(startLine +i-1, SCE_MAKE_DEFAULT); // styles the $ too.
 			state_prev=state;
 			state = SCE_MAKE_USER_VARIABLE;
 			// ... and $ based automatic Variables Rule: $@%<?^+*
-		} else if ((!AtEOL(styler,i)) && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
+		} else if (i<lengthLine && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
 			styler.ColourTo(startLine +i -1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;			
@@ -192,7 +193,7 @@ static void ColouriseMakeLine(
 		}
 
 		// Style for automatic Variables. FluxCompensators orders: @%<^+'D'||'F'
-		if (!AtEOL(styler,i) && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && (strchr("DF", (int)slineBuffer[i+1]) >0)) {
+		if (i<lengthLine && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && (strchr("DF", (int)slineBuffer[i+1]) >0)) {
 			styler.ColourTo(startLine +i -1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
@@ -204,7 +205,7 @@ static void ColouriseMakeLine(
 		// skip identifier and target styling if this is a command line
 		if (!bSpecial && !bCommand && state==SCE_MAKE_DEFAULT) {
 			if (slineBuffer[i] == ':') {
-				if (!AtEOL(styler,i) && (slineBuffer[i +1] == '=')) {
+				if (i<lengthLine && (slineBuffer[i +1] == '=')) {
 					// it's a ':=', so style as an identifier
 					if (lastNonSpace >= 0)
 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
