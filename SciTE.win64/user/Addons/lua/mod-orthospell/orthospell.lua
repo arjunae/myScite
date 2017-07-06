@@ -7,7 +7,7 @@
 
 -- In order to work, the following files are necessary:
 --   - 'hunspell.dll' get it from 'https://code.google.com/p/luahunspell/downloads/list'
---   - 'shell.dll' from http://scite-ru.googlecode.com/hg/pack/tools/LuaLib/shell.dll
+--   - 'gui.dll'
 --   - 'extman.lua'; not all versions work with orthospell! Download it from
 --      tools.diorama.ch (the version recommended by Matt White will work too)
 --  The dll libraries must be placed into the SciTE root directory (arjunae: no need to. statically linked lib )
@@ -22,7 +22,7 @@
 -- arjunae:Nov16 - switch to orthospell.home with package.loadlib. (was require("hunspell"))
 
 -- global variables
-local sciteHome = props["SciteDefaultHome"]
+local sciteHome = props["SciteUserHome"]
 local dictpath = scite_GetProp("spell.dictpath", sciteHome)
 local userdict = scite_GetProp("spell.userdict", nil)
 local dictlist = split(scite_GetProp("spell.dictname", "en_US"),"|")
@@ -162,8 +162,8 @@ end
 
 -- beginn main
 
-if not shell then  -- if not the extman.lua is used that comes with Orthospell
-	require ("shell")
+if not gui then  -- if not the extman.lua is used that comes with Orthospell
+	require ("gui")
 end
 
 -- Arjunae --  changed to loadlib to be more flexible
@@ -371,15 +371,15 @@ function check_codePage(str,to)
 -- convert to or from utf-8
 		if cpMode == 2 then -- utf iso
 			if to == toDic then
-				str = shell.from_utf8 (str)
+				str = gui.from_utf8 (str)
 			else
-				str = shell.to_utf8(str)
+				str = gui.to_utf8(str)
 			end
 		elseif cpMode == 1  then -- iso utf
 			if to == toDic then
-				str = shell.to_utf8(str)
+				str = gui.to_utf8(str)
 			else
-				str = shell.from_utf8(str)
+				str = gui.from_utf8(str)
 			end
 		end
 	return str
@@ -420,7 +420,7 @@ function create_regEx()
 	local wreg = "(["
 	local lngReg = string.gsub(langChars,"%-","%%-")
 	if cpMode > 1 then  -- document is UTF-8
-		wreg = wreg..utfChars..shell.to_utf8(lngReg)
+		wreg = wreg..utfChars..guil.to_utf8(lngReg)
 	else
 		wreg = wreg..isoChars..lngReg
 	end

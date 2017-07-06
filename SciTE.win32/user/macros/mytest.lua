@@ -7,9 +7,12 @@ print("Hello from scitelua!")
 -- ## MsWin widget Library
 -- ##################
 require 'gui'
-
+require 'shell'
 function test_gui()
 -- testcases for lib GUI
+
+print(gui.to_utf8("9999"))
+print(shell.to_utf8("9999"))
 
 local panel_width= 150
 
