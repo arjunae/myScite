@@ -46,9 +46,10 @@ static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 }
 
 static inline bool AtStartChar(Accessor &styler, Sci_PositionU i) {
-	return (strchr("\t\r\n /\\;\":,\' '", (int)(styler.SafeGetCharAt(i))) >0 );
+	return (strchr("@\t\r\n \":,' '({", (int)(styler.SafeGetCharAt(i))) >0 );
 }
 
+		
 static void ColouriseMakeLine(
 	std::string slineBuffer,
 	Sci_PositionU lengthLine,
@@ -62,6 +63,7 @@ static void ColouriseMakeLine(
 	unsigned int state = SCE_MAKE_DEFAULT;
 	unsigned int state_prev = SCE_MAKE_DEFAULT;
 	bool bSpecial = false;
+	int iWarnEOL = 0; //  unclosed bracket/string refcount.
 
 	// check for a tab character in column 0 indicating a command
 	bool bCommand = false;
@@ -75,12 +77,6 @@ static void ColouriseMakeLine(
 	unsigned int theStart=i; // One Byte ought (not) to be enough for everyone....?
 
 	if (i < lengthLine) {
-		if (slineBuffer[i] == '#') {	// Comment
-			state_prev=state;
-			state=SCE_MAKE_COMMENT;
-			styler.ColourTo(endPos, state);
-			return;
-		}
 		if (slineBuffer[i] == '!') {	// Special directive
 			state_prev=state;
 			state=SCE_MAKE_PREPROCESSOR;
@@ -97,7 +93,6 @@ static void ColouriseMakeLine(
 	unsigned int strLen=0;
 	unsigned int startMark=0;
 	bool inString=false;
-	int iWarnEOL=0; //  unclosed string refcount.
 
 	while (i < lengthLine ) {
 
@@ -132,20 +127,20 @@ static void ColouriseMakeLine(
 		
 			// check if we get a match with Keywordlist externalCommands
 			// Rule: Prepended by line start or " \t\r\n /\":,\=" 
-			if (kwExtCmd.InList(strSearch.c_str())
-				&& (i+1 -wordLen == theStart || AtStartChar(styler,startLine +i -wordLen))){
+			if (kwExtCmd.InList(strSearch.c_str()) && inString==false
+				&& (i+1 -wordLen == theStart || AtStartChar(styler,startLine +i -wordLen))) {
 				styler.ColourTo(startLine +i-wordLen, state);
 				state_prev=state;
 				state=SCE_MAKE_EXTCMD;
 				styler.ColourTo(startLine + i, state);
 			} else if (state == SCE_MAKE_EXTCMD) {
 				state=state_prev;
-				styler.ColourTo(startLine +i, state);
+				styler.ColourTo(startLine +i, SCE_MAKE_DEFAULT);
 			}
 		
 			// we now search for the word within the Directives Space.
 			// Rule: Prepended by whitespace, line start or .'='. 
-			if (kwGeneric.InList(strSearch.c_str()) && state!=SCE_MAKE_DIRECTIVE
+			if (kwGeneric.InList(strSearch.c_str()) && inString==false
 				&& (i+1 -wordLen == theStart || styler.SafeGetCharAt(startLine +i -wordLen-1) == '=')) {
 				styler.ColourTo(startLine +i-wordLen, state);
 				state_prev=state;
@@ -175,7 +170,7 @@ static void ColouriseMakeLine(
 		}
 		
 		// Style User Variables Rule: $(...)
-		if (i<lengthLine && slineBuffer[i] == '$' && slineBuffer[i+1] == '(') {
+		if (i<lengthLine && slineBuffer[i] == '$' && (strchr("{(", (int)slineBuffer[i+1]) >0)) {
 			styler.ColourTo(startLine +i-1, SCE_MAKE_DEFAULT); // styles the $ too.
 			state_prev=state;
 			state = SCE_MAKE_USER_VARIABLE;
@@ -184,7 +179,7 @@ static void ColouriseMakeLine(
 			styler.ColourTo(startLine +i -1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;			
-		} else if (SCE_MAKE_USER_VARIABLE && slineBuffer[i] == ')') {
+		} else if (SCE_MAKE_USER_VARIABLE && (strchr("})", (int)slineBuffer[i]) >0)) {
 			styler.ColourTo(startLine +i -1, state);
 			state = SCE_MAKE_DEFAULT;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i]) >0)) {
@@ -239,32 +234,46 @@ static void ColouriseMakeLine(
 				state = SCE_MAKE_FLAGS;
 		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\":,\''.", (int)slineBuffer[i+1]) >0){
 				styler.ColourTo(startLine +i, state);
-				state = state_prev;			
+				state = SCE_MAKE_DEFAULT;			
 		}
-
+	
 		// lets signal a warning on unclosed Strings or Brackets.
-		if (strchr("({[", (int)slineBuffer[i]) >0) {
+		if (strchr("({", (int)slineBuffer[i]) >0) {
 				state_prev=state;
+				styler.ColourTo(startLine + i-1, state);
 				state=SCE_MAKE_IDENTIFIER;
 				styler.ColourTo(startLine + i, state);
 				state=state_prev;
 				iWarnEOL++;
-		} else if	(!inString && slineBuffer[i] =='\"') {
+		} else if	(!inString && strchr("\"", (int)slineBuffer[i]) >0) {
 				inString=true;
 				iWarnEOL++;
-		} else if (inString && slineBuffer[i] =='\"') {
+		} else if (inString && strchr("\"", (int)slineBuffer[i]) >0) {
 				inString=false;
 				iWarnEOL--;
-		} else if (strchr(")]}", (int)slineBuffer[i]) >0) {
+		} else if (strchr(")}", (int)slineBuffer[i]) >0) {
 				state_prev=state;
 				state=SCE_MAKE_IDENTIFIER;
 				styler.ColourTo(startLine + i, state);
 				state=state_prev;
 				iWarnEOL--;
-		}	
-			
+		}
+		
 		if ( !isspacechar(slineBuffer[i]) )
 			lastNonSpace = i;
+
+		if (slineBuffer[i] == '#') {	// support GNUMake inline Comments  
+			state_prev=state;
+			state=SCE_MAKE_COMMENT;
+			styler.ColourTo(endPos, state);
+			return;
+		}
+	
+		if (slineBuffer[i] =='\\' && strchr("\r\n", (int)slineBuffer[i+1]) >0) { 
+			state=SCE_MAKE_DEFAULT; // Line continuation
+			styler.ColourTo(endPos, state);
+			return;
+		}
 
 	i++;
 	}
@@ -275,6 +284,7 @@ static void ColouriseMakeLine(
 	} else if (state==SCE_MAKE_IDEOL && iWarnEOL == 0) {
 		state=state_prev;
 	}
+	
 	styler.ColourTo(endPos, state);
 
 }
