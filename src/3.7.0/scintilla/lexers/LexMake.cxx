@@ -46,7 +46,7 @@ static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 }
 
 static inline bool AtStartChar(Accessor &styler, Sci_PositionU i) {
-	return (strchr("-@\t\r\n \":,' '({", (int)(styler.SafeGetCharAt(i))) >0);
+	return (strchr("&|-@\t\r\n \":, '({", (int)(styler.SafeGetCharAt(i))) >0);
 }
 
 static void ColouriseMakeLine(
