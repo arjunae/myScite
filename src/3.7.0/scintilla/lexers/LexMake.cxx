@@ -48,8 +48,8 @@ static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 static inline bool AtStartChar(Accessor &styler, Sci_PositionU i) {
 	return (strchr("&|-@\t\r\n \":, '({", (int)(styler.SafeGetCharAt(i))) >0);
 }
-
-static void ColouriseMakeLine(
+	
+static unsigned int ColouriseMakeLine(
 	std::string slineBuffer,
 	Sci_PositionU lengthLine,
 	Sci_PositionU startLine,
@@ -62,7 +62,6 @@ static void ColouriseMakeLine(
 	unsigned int state = SCE_MAKE_DEFAULT;
 	unsigned int state_prev = SCE_MAKE_DEFAULT;
 	bool bSpecial = false;
-	int iWarnEOL = 0; //  unclosed bracket/string refcount.
 
 	// check for a tab character in column 0 indicating a command
 	bool bCommand = false;
@@ -80,7 +79,7 @@ static void ColouriseMakeLine(
 			state_prev=state;
 			state=SCE_MAKE_PREPROCESSOR;
 			styler.ColourTo(endPos, state);
-			return;
+			return(state);
 		}
 	}
 
@@ -92,6 +91,7 @@ static void ColouriseMakeLine(
 	unsigned int strLen=0;
 	unsigned int startMark=0;
 	bool inString=false;
+	int iWarnEOL=0;
 
 	while (i < lengthLine) {
 
@@ -143,7 +143,7 @@ static void ColouriseMakeLine(
 		}
 
 		// got the other End, copy the word:
-		if (isalnum(slineBuffer[i+1]) == 0 && strLen > 0) {
+		if ( isalnum(styler.SafeGetCharAt(startLine +i+1)) == 0 && strLen > 0) {
 			strSearch=slineBuffer.substr(startMark, strLen);
 			strLen=0;
 			startMark=0;
@@ -198,12 +198,12 @@ static void ColouriseMakeLine(
 		}
 
 		// Style User Variables Rule: $(...)
-		if (i<lengthLine && slineBuffer[i] == '$' && (strchr("{(", (int)slineBuffer[i+1]) >0)) {
+		if (slineBuffer[i] == '$' && (strchr("{(", (int)styler.SafeGetCharAt(startLine +i+1)) >0)) {
 			styler.ColourTo(startLine +i-1, SCE_MAKE_DEFAULT); // styles the $ too.
 			state_prev=state;
 			state = SCE_MAKE_USER_VARIABLE;
 			// ... and $ based automatic Variables Rule: $@%<?^+*
-		} else if (i<lengthLine && slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)slineBuffer[i+1]) >0)) {
+		} else if (slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)styler.SafeGetCharAt(startLine +i+1)) >0)) {
 			styler.ColourTo(startLine +i -1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
@@ -216,7 +216,7 @@ static void ColouriseMakeLine(
 		}
 
 		// Style for automatic Variables. FluxCompensators orders: @%<^+'D'||'F'
-		if (i<lengthLine && (strchr("@%<?^+*", (int)slineBuffer[i]) >0) && (strchr("DF", (int)slineBuffer[i+1]) >0)) {
+		if ((strchr("@%<?^+*", (int)slineBuffer[i]) >0) && (strchr("DF", (int)styler.SafeGetCharAt(startLine +i+1)) >0)) {
 			styler.ColourTo(startLine +i -1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
@@ -226,15 +226,15 @@ static void ColouriseMakeLine(
 		}
 
 		// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'.")
-		if ((inString==false && (isalnum(slineBuffer[i])==0 && slineBuffer[i+1]=='-'))
-				|| (i == theStart && slineBuffer[i] == '-') ) {
+		if ((i<lengthLine && inString==false && (isalnum(slineBuffer[i])==0 && slineBuffer[i+1]=='-'))
+				|| (i == theStart && slineBuffer[i] == '-')) {
 			styler.ColourTo(startLine +i, SCE_MAKE_DEFAULT);
 			state_prev=state;
 			state = SCE_MAKE_FLAGS;
-		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\":,\''.", (int)slineBuffer[i+1]) >0) {
+		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\":,\''.", (int)styler.SafeGetCharAt(startLine +i+1)) >0) {
 			styler.ColourTo(startLine +i, state);
 			state = SCE_MAKE_DEFAULT;
-		}
+		} 
 
 		// lets signal a warning on unclosed Strings or Brackets.
 		if (strchr("({", (int)slineBuffer[i]) >0) {
@@ -243,19 +243,13 @@ static void ColouriseMakeLine(
 			state=SCE_MAKE_IDENTIFIER;
 			styler.ColourTo(startLine + i, state);
 			state=state_prev;
-			iWarnEOL++;
-		} else if	(!inString && slineBuffer[i]=='\"') {
-			inString=true;
-			iWarnEOL++;
-		} else if	(inString && slineBuffer[i]=='\"') {
-			inString=false;
-			iWarnEOL--;
+			//iWarnEOL++;
 		} else if (strchr(")}", (int)slineBuffer[i]) >0) {
 			state_prev=state;
 			state=SCE_MAKE_IDENTIFIER;
 			styler.ColourTo(startLine + i, state);
 			state=state_prev;
-			iWarnEOL--;
+			//iWarnEOL--;
 		}
 
 		if (!isspacechar(slineBuffer[i]))
@@ -266,48 +260,101 @@ static void ColouriseMakeLine(
 			state_prev=state;
 			state=SCE_MAKE_COMMENT;
 			styler.ColourTo(endPos, state);
-			return;
+			return(state);
 		}
 
-		if (slineBuffer[i] =='\\' && strchr("\r\n", (int)slineBuffer[i+1]) >0) {
-			state=SCE_MAKE_DEFAULT; // Line continuation
-			styler.ColourTo(endPos, state);
-			return;
+		// todo; maybe use a loop and colour unclosed multilines separately
+		if (inString && slineBuffer[i]=='\"') {
+			iWarnEOL=0;
+			inString=false;
+		} else if	(!inString && slineBuffer[i]=='\"') {
+			inString=true;
+			iWarnEOL=1;
 		}
 
 		i++;
 	}
 
-	if (iWarnEOL > 0) {
-		state_prev=state;
+	if (iWarnEOL==1){
 		state=SCE_MAKE_IDEOL; // Error, String or bracket reference unclosed.
-	} else if (state==SCE_MAKE_IDEOL && iWarnEOL == 0) {
-		state=state_prev;
-	}
-
+		} 
+		
 	styler.ColourTo(endPos, state);
-
+	
+		return(state);
 }
 
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
 	char lineBuffer[1024];
-	styler.StartAt(startPos);
-	styler.StartSegment(startPos);
-	Sci_PositionU linePos = 0;
+	
+	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable lenght. 
+	// Its up to the lexer to check if the cursor position is in Fact part of previous Lines continuation.
+	
+	// took me much longer to get that obvious fact then to come up with that nearly oneLiner....
+	// this simple Implementation just changes the styling start position to start at the line before.
+
+	Sci_Position o_startPos=0;
+	Sci_Position lineCurrent = styler.GetLine(startPos);
+	
+	// get a Reference to the previous Line
+	if (lineCurrent>0) {
+	Sci_Position oLastLine = styler.LineStart(lineCurrent-1);
+	
+	//...check if it is a continuated line and modify stylers startpos.
+	// todo - get linecontinuations that extends a single Line.
+		while(styler[++oLastLine]!='\n');
+
+		if(styler[oLastLine-1]=='\\' || styler[oLastLine-2]=='\\'){
+			o_startPos = styler.LineStart(lineCurrent-1);
+		} else {
+			o_startPos=startPos;
+		}
+		
+	}
+	
+	styler.StartSegment(o_startPos);
+	styler.StartAt(o_startPos);
+ 	length=length+(startPos-o_startPos);
+	startPos=o_startPos;
+
+ 	Sci_PositionU linePos = 0;
 	Sci_PositionU startLine = startPos;
+	unsigned int stateEOL;
+	
 	for (Sci_PositionU i = startPos; i < startPos + length; i++) {
 		lineBuffer[linePos++] = styler[i];
-		if (AtEOL(styler, i) || (linePos >= sizeof(lineBuffer) - 1)) {
-			// End of line (or of line buffer) met, colourise it
-			lineBuffer[linePos] = '\0';
-			ColouriseMakeLine(lineBuffer, linePos, startLine, i, keywords, styler);
-			linePos = 0;
+		
+		// End of line (or of max line buffer) met, colourise it
+		if (AtEOL(styler, i) || (linePos >= sizeof(lineBuffer) - 1)  ) {
+			if ( styler.SafeGetCharAt(i-2) !='\\') {
+			// normal line,without continuation.	
+				lineBuffer[linePos] = '\0';
+				stateEOL = ColouriseMakeLine(lineBuffer, linePos, startLine, i, keywords, styler);
+			} else if (styler.SafeGetCharAt(i-2) =='\\') {
+			 // get continuatiuons Extends (bareBones)
+				while(linePos <= sizeof(lineBuffer) - 1) {
+					i++;
+					lineBuffer[linePos++] = styler[i];
+				 	if (AtEOL(styler,i) && styler.SafeGetCharAt(i-1) !='\\' && styler.SafeGetCharAt(i-2) !='\\'){	 
+					break;
+					}
+				}
+				lineBuffer[linePos] = '\0';
+				stateEOL = ColouriseMakeLine(lineBuffer, linePos, startLine, i, keywords, styler);
+				styler.ChangeLexerState(startLine,i);
+			}
+
 			startLine = i + 1;
+			linePos = 0;
 		}
+
 	}
 	if (linePos > 0) {	// Last line does not have ending characters
 		ColouriseMakeLine(lineBuffer, linePos, startLine, startPos + length - 1, keywords, styler);
 	}
+	
+
+
 }
 
 static const char *const makefileWordListDesc[] = {

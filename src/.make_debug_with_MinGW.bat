@@ -19,11 +19,11 @@ echo ::    SciTE Debug	::
 echo ::...::..:::...::..::.:.::
 
 cd 3.7.0\scintilla\win32
-mingw32-make
+mingw32-make -j %NUMBER_OF_PROCESSORS%
 if errorlevel 1 goto :error
 
 cd ..\..\scite\win32
-mingw32-make
+mingw32-make -j %NUMBER_OF_PROCESSORS%
 if errorlevel 1 goto :error
 
 echo :--------------------------------------------------
