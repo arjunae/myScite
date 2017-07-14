@@ -2,7 +2,10 @@
 -- ^^tell Scite to use its internal Lua interpreter.
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-scite.SendEditor(SCI_SETCARETFORE, 255, 0)
+function marker_define(idx,typ)
+-- Test scite object namespace
+	editor:MarkerDefine(idx,typ)
+end
 
 function print_registryidx()
 -- Print scites registryindex namespace
@@ -11,10 +14,6 @@ function print_registryidx()
 	end
 end
 
-function marker_define(idx,typ)
--- Test scite object namespace
-	editor:MarkerDefine(idx,typ)
-end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 line=0
