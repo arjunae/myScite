@@ -235,7 +235,6 @@ static unsigned int ColouriseMakeLine(
 			styler.ColourTo(startLine +i, state);
 			state = SCE_MAKE_DEFAULT;
 		} 
-
 		// lets signal a warning on unclosed Strings or Brackets.
 		if (strchr("({", (int)slineBuffer[i]) >0) {
 			state_prev=state;
@@ -243,14 +242,14 @@ static unsigned int ColouriseMakeLine(
 			state=SCE_MAKE_IDENTIFIER;
 			styler.ColourTo(startLine + i, state);
 			state=state_prev;
-			//iWarnEOL++;
+			iWarnEOL++;
 		} else if (strchr(")}", (int)slineBuffer[i]) >0) {
 			state_prev=state;
 			state=SCE_MAKE_IDENTIFIER;
 			styler.ColourTo(startLine + i, state);
-			state=state_prev;
-			//iWarnEOL--;
+			iWarnEOL--;
 		}
+
 
 		if (!isspacechar(slineBuffer[i]))
 			lastNonSpace = i;
@@ -263,25 +262,69 @@ static unsigned int ColouriseMakeLine(
 			return(state);
 		}
 
-		// todo; maybe use a loop and colour unclosed multilines separately
 		if (inString && slineBuffer[i]=='\"') {
-			iWarnEOL=0;
+			iWarnEOL--;
 			inString=false;
 		} else if	(!inString && slineBuffer[i]=='\"') {
 			inString=true;
-			iWarnEOL=1;
+			iWarnEOL++;
 		}
 
 		i++;
 	}
 
-	if (iWarnEOL==1){
+	if (iWarnEOL>0){
 		state=SCE_MAKE_IDEOL; // Error, String or bracket reference unclosed.
-		} 
+	} else if (iWarnEOL<1) {
+		state=SCE_MAKE_DEFAULT;	
+	} 
 		
 	styler.ColourTo(endPos, state);
 	
-		return(state);
+	return(state);
+}
+
+// returns a multilines startPosition or current Lines start 
+// if the Position does not belong to a Multiline Segment
+static int ckMultiLine(Accessor &styler, Sci_Position offset){
+	
+	int status=0; // 1=cont_end 2=cont_middle/start
+	Sci_Position firstMLSegment=0;
+	Sci_Position finalMLSegment=0;
+	
+	// check if current lines last visible char is a continuation
+	Sci_Position pos=offset;
+	while(styler[++pos]!='\n'); 
+	while(isgraph(styler[--pos])==0); 
+
+  	if (styler[pos]=='\\') {
+		status=2;
+	} else {
+		status=1;
+		finalMLSegment=offset;
+	}
+	
+	//  check for continuation segments start
+	pos = styler.LineStart(styler.GetLine(pos)-1);
+	firstMLSegment=pos;
+	while (status>0){
+		while(styler[++pos]!='\n'); 
+		while(isgraph(styler[--pos])==0); 
+		if (styler[pos]!='\\') {
+			if (status==1){
+				firstMLSegment=finalMLSegment;
+				break; // no MultiLine
+			} else { 
+				break; // firstSegment reached. 
+			}
+		} else { // continue search
+			status=2;
+			pos = styler.LineStart(styler.GetLine(pos)-1);
+		}
+	}
+	
+	//pos = styler.LineStart(styler.GetLine(offset));	
+	return(firstMLSegment);
 }
 
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
@@ -293,68 +336,54 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	// took me much longer to get that obvious fact then to come up with that nearly oneLiner....
 	// this simple Implementation just changes the styling start position to start at the line before.
 
-	Sci_Position o_startPos=0;
-	Sci_Position lineCurrent = styler.GetLine(startPos);
-	
-	// get a Reference to the previous Line
-	if (lineCurrent>0) {
-	Sci_Position oLastLine = styler.LineStart(lineCurrent-1);
-	
-	//...check if it is a continuated line and modify stylers startpos.
-	// todo - get linecontinuations that extends a single Line.
-		while(styler[++oLastLine]!='\n');
-
-		if(styler[oLastLine-1]=='\\' || styler[oLastLine-2]=='\\'){
-			o_startPos = styler.LineStart(lineCurrent-1);
-		} else {
-			o_startPos=startPos;
-		}
-		
-	}
-	
+	// find that (Multi)lines start. 
+	Sci_Position o_startPos=ckMultiLine(styler,startPos);
 	styler.StartSegment(o_startPos);
 	styler.StartAt(o_startPos);
  	length=length+(startPos-o_startPos);
 	startPos=o_startPos;
 
- 	Sci_PositionU linePos = 0;
-	Sci_PositionU startLine = startPos;
-	unsigned int stateEOL;
-	
-	for (Sci_PositionU i = startPos; i < startPos + length; i++) {
-		lineBuffer[linePos++] = styler[i];
+ 	Sci_PositionU lineLength = 0;
+	Sci_PositionU lineStart = startPos;
+	Sci_PositionU ywo;
+
+	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
+		lineBuffer[lineLength++] = styler[at];
 		
-		// End of line (or of max line buffer) met, colourise it
-		if (AtEOL(styler, i) || (linePos >= sizeof(lineBuffer) - 1)  ) {
-			if ( styler.SafeGetCharAt(i-2) !='\\') {
-			// normal line,without continuation.	
-				lineBuffer[linePos] = '\0';
-				stateEOL = ColouriseMakeLine(lineBuffer, linePos, startLine, i, keywords, styler);
-			} else if (styler.SafeGetCharAt(i-2) =='\\') {
-			 // get continuatiuons Extends (bareBones)
-				while(linePos <= sizeof(lineBuffer) - 1) {
-					i++;
-					lineBuffer[linePos++] = styler[i];
-				 	if (AtEOL(styler,i) && styler.SafeGetCharAt(i-1) !='\\' && styler.SafeGetCharAt(i-2) !='\\'){	 
-					break;
+		// End of line (or of max line buffer) met.
+		if (AtEOL(styler, at) || (lineLength >= sizeof(lineBuffer) - 1)  ) {
+			ywo=at;
+			// if we have a continuated line - 
+			while(isgraph(styler[--ywo])==0); 
+			if(styler[ywo] =='\\' ) { 			
+				while(ywo <= sizeof(lineBuffer) - 1) {
+					// ...get its lineEnd 
+					while(styler[++ywo] && styler[ywo]!='\n')
+						lineBuffer[lineLength++] = styler[ywo];
+
+					// ... but check if this lines End is another continuation 
+					while(isgraph(styler[--ywo])==0);
+					if(styler[ywo] !='\\') {
+						break;
+					} else {
+						ywo+=2;
 					}
 				}
-				lineBuffer[linePos] = '\0';
-				stateEOL = ColouriseMakeLine(lineBuffer, linePos, startLine, i, keywords, styler);
-				styler.ChangeLexerState(startLine,i);
+				at=ywo;
+			
 			}
-
-			startLine = i + 1;
-			linePos = 0;
-		}
+			lineBuffer[lineLength] = '\0';
+			ColouriseMakeLine(lineBuffer, lineLength, lineStart, at, keywords, styler);
+				
+			lineStart = at + 1;
+			lineLength = 0;
+		}	
 
 	}
-	if (linePos > 0) {	// Last line does not have ending characters
-		ColouriseMakeLine(lineBuffer, linePos, startLine, startPos + length - 1, keywords, styler);
+	if (lineLength > 0) {	// Last line does not have ending characters
+		ColouriseMakeLine(lineBuffer, lineLength, lineStart, startPos + length - 1, keywords, styler);
 	}
 	
-
-
 }
 
 static const char *const makefileWordListDesc[] = {
