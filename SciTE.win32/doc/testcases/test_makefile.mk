@@ -200,8 +200,6 @@ menu-dev: .title
 	@make -s .menu-item tgt="install-uri-template" desc="Install uri_template a php extension. Might require sudo."
 	@echo ""
 
-
-
 menu-deploy: .title
 	@make -s .menu-heading title="Deployment"
 	@echo "    Parameters: package=vendor/package (required)"

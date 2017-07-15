@@ -63,7 +63,7 @@ static unsigned int ColouriseMakeLine(
 	unsigned int state_prev = SCE_MAKE_DEFAULT;
 	bool bSpecial = false;
 
-	//styler.Flush();
+	styler.Flush();
 
 	// check for a tab character in column 0 indicating a command
 	bool bCommand = false;
@@ -99,7 +99,6 @@ static unsigned int ColouriseMakeLine(
 
 		char chNext=styler.SafeGetCharAt(startLine +i+1);
 
-
 		// skip identifier and target styling if this is a command line
 		if (!bSpecial && !bCommand && state==SCE_MAKE_DEFAULT) {
 			if (slineBuffer[i] == ':') {
@@ -127,6 +126,29 @@ static unsigned int ColouriseMakeLine(
 				bSpecial = true;	// Only react to the first '=' of the line
 				state = state_prev;
 			}
+		}
+
+		// lets signal a warning on unclosed Strings or Brackets.
+		if (strchr("({", (int)slineBuffer[i]) >0) {
+			state_prev=state;
+			state=SCE_MAKE_IDENTIFIER;
+			if (i>0)
+				styler.ColourTo(startLine + i-1, state_prev);
+			styler.ColourTo(startLine + i, state);
+			state=state_prev;
+			iWarnEOL++;
+		} else if (strchr(")}", (int)slineBuffer[i]) >0) {
+			state_prev=state;
+			state=SCE_MAKE_IDENTIFIER;
+			styler.ColourTo(startLine + i, state);
+			state=state_prev;
+			iWarnEOL--;
+		}	else if (inString && slineBuffer[i]=='\"') {
+			iWarnEOL--;
+			inString=false;
+		} else if	(!inString && slineBuffer[i]=='\"') {
+			inString=true;
+			iWarnEOL++;
 		}
 
 		// ForwardSearch Searchstring.
@@ -230,36 +252,14 @@ static unsigned int ColouriseMakeLine(
 		// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'.")
 		if ((i<lengthLine && inString==false && (isalnum(slineBuffer[i])==0 && chNext=='-'))
 				|| (i == theStart && slineBuffer[i] == '-')) {
-			styler.ColourTo(startLine + i, state);
+			styler.ColourTo(startLine + i, state_prev);
 			state_prev=state;
 			state = SCE_MAKE_FLAGS;
-		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\":,\''.", (int)slineBuffer[i]) >0) {
-			styler.ColourTo(startLine + i-1, state);
+		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\":,\''.", (int)chNext) >0) {
+			styler.ColourTo(startLine + i, state);
+			styler.ColourTo(startLine + i, state_prev);
+
 			state = SCE_MAKE_DEFAULT;
-		}
-
-
-		if (inString && slineBuffer[i]=='\"') {
-			iWarnEOL--;
-			inString=false;
-		} else if	(!inString && slineBuffer[i]=='\"') {
-			inString=true;
-			iWarnEOL++;
-		}
-
-		// lets signal a warning on unclosed Strings or Brackets.
-		if (strchr("({", (int)slineBuffer[i]) >0) {
-			state_prev=state;
-			state=SCE_MAKE_IDENTIFIER;
-			styler.ColourTo(startLine + i, state);
-			state=state_prev;
-			iWarnEOL++;
-		} else if (strchr(")}", (int)slineBuffer[i]) >0) {
-			state_prev=state;
-			state=SCE_MAKE_IDENTIFIER;
-			styler.ColourTo(startLine + i, state);
-			state=state_prev;
-			iWarnEOL--;
 		}
 
 		if (slineBuffer[i] == '#' && iWarnEOL<1) {	// support GNUMake inline Comments
@@ -282,9 +282,11 @@ static unsigned int ColouriseMakeLine(
 	}
 
 	styler.ColourTo(endPos, state);
+	//styler.ChangeLexerState(startLine, endPos);
 
 	return (state);
 }
+
 /**
 // @brief returns a multilines startPosition or current Lines start
 // if the Position does not belong to a Multiline Segment
@@ -320,7 +322,6 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 				currMLSegment=finalMLSegment;
 				break; // no MultiLine
 			} else {
-
 				break; // firstSegment reached.
 			}
 		} else { // continue search
@@ -334,7 +335,7 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 }
 
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
-	char lineBuffer[1024]; // ok. i _really_ do like vectors now.
+	char lineBuffer[1024]; // ok. i _really_ do like vectors from now on...
 
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
 	// Its up to the lexer to check if the cursor position is in Fact part of a previous Lines continuation.
@@ -362,22 +363,21 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 			while (isgraph(styler[ywo--])==0 && lineLength>2);
 			ywo++;
 			if (styler.SafeGetCharAt(ywo) =='\\') {
+				// ...get its lineEnd
 				while (ywo <length) {
-					ywo++;
-					// ...get its lineEnd
 					// c fun: imagin a corner case without \n.
 					//where linelength would exeec lineBuffers lenght and invalidate var start within memory...
-					while (styler[++ywo] && styler[ywo]!='\n' && styler[ywo]!='\0')
+					while (styler[ywo++] && styler[ywo]!='\n' && styler[ywo]!='\0')
 						lineBuffer[lineLength++] = styler[ywo];
 
 					// ... but check if this lines is another continuation
 					Sci_Position pos;
-
 					for (pos=ywo; isgraph(styler.SafeGetCharAt(pos))==0; pos--);
-					if (styler[pos] !='\\') { // Fin. Request Screen redraw.
+					if (styler[pos] !='\\') {	// Fin. Request Screen redraw.
 						styler.ChangeLexerState(startPos, startPos+length);
 						break;
 					}
+					ywo++;
 				}
 				at=ywo++;
 
