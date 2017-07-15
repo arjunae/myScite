@@ -5,7 +5,7 @@
 #
 # Make sure you have GNU Make, and type `make` in this Makefile folder.
 #
-
+	
 # General Configuration
 VERSION         = 0.1.13
 FOUNDATION_HOME = $(shell pwd)/.foundation
@@ -82,6 +82,7 @@ help-default help: .title
 	@make -s .menu-item tgt="menu-deploy" desc="Show Deploy & Release"
 	@echo ""
 
+
 menu-test: .title
 	@make -s .menu-heading title="Project Testing"
 	@make -s .menu-item tgt="test" desc="Run project tests"
@@ -92,7 +93,7 @@ menu-test: .title
 	@make -s .menu-item tgt="bootstrap-php-opt" desc="Optimized all purpose bootstrap.php with static pear path in test folder"
 	@make -s .menu-item tgt="phpunit-xml" desc="(Re)create phpunit.xml in test folder"
 	@make -s .menu-item tgt="travis-yml" desc="(Re)create .travis.yml in root folder"
-	@make -s .menu-item tgt="travis-lint" desc="Validate your .travis.yml configuration"
+	@make -s .menu-item tgt="travis-lint"	desc="Validate your .travis.yml configuration"
 	@make -s .menu-item tgt="test-skelgen" desc="Generate boilerplate PHPUnit skeleton tests per class see help-skelgen"
 	@make -s .menu-item tgt="test-skelgen-all" desc="Generate tests for all classes and it's overwrite safe of course"
 	@make -s .menu-item tgt="phantomjs-snapshot" desc="Take a snapshot of that page with the webkit headless browser"
@@ -114,7 +115,7 @@ menu-project: .title
 	@make -s .menu-item tgt="clean-unix-line-ends" desc="Fixes unix line endings"
 	@make -s .menu-item tgt="clean-trailing_spaces" desc="Removes trailing whitespace"
 	@make -s .menu-item tgt="clean-single-blank-lines" desc="Removes multiple blank lines adds blank line at end of file"
-	@make -s .menu-item tgt="clean-remove-eof-php-tag" desc="Removes php tag at the end of a file if exists"
+	@make -s .menu-item tgtclean-remove-eof-php-tag
 	@make -s .menu-item tgt="clean-up-makefile-baks" desc="Delete all Makefile.bak files"
 	@echo ""
 	@make -s .menu-heading title="Metrics and Standards"
@@ -163,8 +164,6 @@ menu-package: .title
 	@make -s .menu-item tgt="info-composer" desc="Show information about your composer"
 	@make -s .menu-item tgt="install-composer" desc="Download and install composer"
 	@echo ""
-
-
 
 menu-dev: .title
 	@make -s .menu-heading title="Development Info"
@@ -352,7 +351,8 @@ test-skelgen:	.check-foundation
 		echo; \
 	fi; \
 
-test-skelgen-all:
+skelgenall:
+
 	@$(eval source-folder=$(shell $(CONFIG_TOOL) library-folder))
 	@find $(source-folder) -type f -name "*.php" \
 	  | sed -E 's%$(source-folder)/(.*).php%class=\\"\1\\"%' \
@@ -944,3 +944,5 @@ release: test package packagecommit pear pear-push tag
 	@$(GIT) push
 	@$(GIT) push --tags
 	@echo "Done. " `$(CONFIG_TOOL) package-name`-`$(CONFIG_TOOL) package-version`
+
+	
