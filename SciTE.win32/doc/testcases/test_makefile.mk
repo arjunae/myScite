@@ -5,7 +5,7 @@
 #
 # Make sure you have GNU Make, and type `make` in this Makefile folder.
 #
-	
+
 # General Configuration
 VERSION         = 0.1.13
 FOUNDATION_HOME = $(shell pwd)/.foundation
@@ -289,7 +289,7 @@ clean-up-makefile-baks:
 	@echo -e "    > $(.BOLD)(Re)patching .gitignore$(.CLEAR)"
 	$(GENERATE_TOOL) config-template gitignore > gitignore.tmp && 
   
-mv -f gitignore.tmp .gitignore
+	mv -f gitignore.tmp .gitignore
 
 	@make -f $(THIS) -s .needs-file file='.gitignore' text='Checking .gitignore...'
 

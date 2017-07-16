@@ -49,6 +49,27 @@ static inline bool AtStartChar(Accessor &styler, Sci_PositionU i) {
 	return (strchr("&|-@\t\r\n \":, '({", (int)(styler.SafeGetCharAt(i))) >0);
 }
 
+
+static inline bool IsNewline(const int ch) {
+    return (ch == '\n' || ch == '\r');
+}
+
+// win10 -german chars צהü.. translate to negative values ?
+static inline bool IsGraphic(int ch) {
+	if (IsASCII(ch) && isalpha(ch))
+		return(1);
+		
+	return(0);
+}
+
+static inline bool IsAlphaNum(int ch){
+	if ((IsASCII(ch) && isalpha(ch)) || (ch >= '0') && (ch <= '9'))
+		return(1);
+		
+	return(0);
+}
+
+
 static unsigned int ColouriseMakeLine(
 	std::string slineBuffer,
 	Sci_PositionU lengthLine,
@@ -96,6 +117,14 @@ static unsigned int ColouriseMakeLine(
 	while (i < lengthLine) {
 
 		char chNext=styler.SafeGetCharAt(startLine +i+1);
+
+		if (slineBuffer[i] == '#' && iWarnEOL<1) {	// support GNUMake inline Comments
+			state_prev=state;
+			state=SCE_MAKE_COMMENT;
+			if (i>0) styler.ColourTo(startLine+i-1, state_prev);
+			styler.ColourTo(endPos, state);
+			return (state);
+		}
 
 		// skip identifier and target styling if this is a command line
 		if (!inString && !bSpecial && !bCommand && state==SCE_MAKE_DEFAULT) {
@@ -153,14 +182,14 @@ static unsigned int ColouriseMakeLine(
 		// Travels to the Future and retrieves Lottery draw results.
 		std::string strSearch;
 
-		/// cpplusplus.com: any return values from isgraph (and co) >0 should be considered true.
-		if (isgraph(slineBuffer[i]) == 0) {
+		/// cpplusplus.com: any return values from IsAlphaNum (and co) >0 should be considered true.
+		if (IsGraphic(slineBuffer[i]) == 0) {
 			startMark=0;
 			strLen=0;
 		}
 
 		// got alphanumerics we mark the wordBoundary.
-		if (isalnum(slineBuffer[i])>0 && strLen == 0) {
+		if (IsAlphaNum(slineBuffer[i])==1 && strLen == 0) {
 			strLen++;
 			startMark=i; // absolute position of current words begin.
 		} else if (strLen>0) {
@@ -168,7 +197,7 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		// got the other End, copy the word:
-		if (isalnum(chNext) == 0 && strLen > 0) {
+		if (IsAlphaNum(chNext) == 0 && strLen > 0) {
 			strSearch=slineBuffer.substr(startMark, strLen);
 			strLen=0;
 			startMark=0;
@@ -223,19 +252,22 @@ static unsigned int ColouriseMakeLine(
 
 		// Style User Variables Rule: $(...)
 		if (slineBuffer[i] == '$' && (strchr("{(", (int)chNext) >0)) {
-			styler.ColourTo(startLine +i-1, SCE_MAKE_DEFAULT); // styles the $ too.
+			styler.ColourTo(startLine +i, SCE_MAKE_DEFAULT);
 			state_prev=state;
 			state = SCE_MAKE_USER_VARIABLE;
 			// ... and $ based automatic Variables Rule: $@%<?^+*
 		} else if (slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)chNext)) >0) {
+			if (i>0) styler.ColourTo(startLine + i-1, SCE_MAKE_DEFAULT);
 			styler.ColourTo(startLine +i-1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
 		} else if (SCE_MAKE_USER_VARIABLE && (strchr("})", (int)chNext) >0)) {
 			styler.ColourTo(startLine +i, state);
+			styler.ColourTo(startLine + i, state_prev);
 			state = state_prev;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i])) >0) {
 			styler.ColourTo(startLine +i, state);
+			styler.ColourTo(startLine + i, state_prev);
 			state = state_prev;
 		}
 
@@ -245,13 +277,15 @@ static unsigned int ColouriseMakeLine(
 			state = SCE_MAKE_AUTOM_VARIABLE;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<^+", (int)styler.SafeGetCharAt(startLine+i-1))>0 && (strchr("DF", (int)slineBuffer[i]) >0))) {
 			styler.ColourTo(startLine +i, state);
+			styler.ColourTo(startLine + i, state_prev);
 			state = state_prev;
 		}
 
 		// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'.")
-		if ((i<lengthLine && inString==false && (isalnum(slineBuffer[i])==0 && chNext=='-'))
+		if ((i<lengthLine && inString==false && (IsAlphaNum(slineBuffer[i])==0 && chNext=='-'))
 				|| (i == theStart && slineBuffer[i] == '-')) {
-			styler.ColourTo(startLine + i, state_prev);
+
+			styler.ColourTo(startLine + i, SCE_MAKE_DEFAULT);
 			state_prev=state;
 			state = SCE_MAKE_FLAGS;
 		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\":,\''.", (int)chNext) >0) {
@@ -259,13 +293,6 @@ static unsigned int ColouriseMakeLine(
 			styler.ColourTo(startLine + i, state_prev);
 
 			state = SCE_MAKE_DEFAULT;
-		}
-
-		if (slineBuffer[i] == '#' && iWarnEOL<1) {	// support GNUMake inline Comments
-			state_prev=state;
-			state=SCE_MAKE_COMMENT;
-			styler.ColourTo(endPos, state);
-			return (state);
 		}
 
 		if (!isspacechar(slineBuffer[i]))
@@ -300,7 +327,7 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 	Sci_Position pos=offset;
 	while (styler[pos++]!='\n');
 	// moves to last visible char
-	while (isgraph(styler.SafeGetCharAt(--pos)==0)) ;
+	while (IsGraphic(styler.SafeGetCharAt(--pos)==0)) ;
 	pos--;
 	if (styler[pos]=='\\') {
 		status=2;
@@ -313,8 +340,8 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 	//  check for continuation segments start
 	pos = styler.LineStart(styler.GetLine(pos)-1);
 	while (currMLSegment >0) {
-		while (styler[--pos]!='\n');
-		while (isgraph(styler.SafeGetCharAt(--pos)==0));
+		while (styler[++pos]!='\n');
+		while (IsGraphic(styler.SafeGetCharAt(--pos)==0));
 		pos--;
 		if (styler[pos]!='\\') {
 			if (status==1) {
@@ -350,7 +377,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 
 	Sci_PositionU lineLength = 0;
 	Sci_PositionU lineStart = startPos;
-	
+
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
 		Sci_Position ywo=0;
 		lineBuffer[lineLength++] = styler[at];
@@ -360,23 +387,27 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 			ywo=at;
 
 			// check last visible char for beeing a continuation
-			while (isgraph(styler[--ywo])==0 );
-									
-			if (styler.SafeGetCharAt(ywo) =='\\') {
-				// ...get its lineEnd
-				while (lineLength<MAX-1) {
-					// c fun: imagine a corner case without \n or \0:
-					// so linelength could exeed lineBuffers length and invalidate var start within memory...
-					while (styler[ywo++] && styler[ywo]!='\n' && styler[ywo]!='\0')
-				  if (lineLength<MAX) lineBuffer[lineLength++] = styler[ywo];
+			while (IsNewline(styler[--ywo]));
 
-					// ... but check if this lines is another continuation.
+			if (styler.SafeGetCharAt(ywo) =='\\') {
+				lineLength--;
+				lineLength--;
+				// ...get continuations lineEnd
+				while (lineLength<MAX-1) {
+					// get segments lineEnd
+					while (styler[ywo++] && styler[ywo-1]!='\n' && styler[ywo-1]!='\0'){
+						if (lineLength<MAX) lineBuffer[lineLength++] = styler[ywo];
+					}	
+					// .. copy newline char
+					lineBuffer[lineLength++]=styler[ywo];
+
+					// ...check if this segemnt is another continuation.
 					Sci_Position pos=0;
-					for (pos=ywo; isgraph(styler.SafeGetCharAt(pos))==0; pos--);
+					for (pos=ywo-1; IsNewline(styler.SafeGetCharAt(pos));pos--);
 					if (styler[pos] !='\\')
 						break; //Fini. last segment found.
 				}
-				at=ywo;
+				at=lineStart+lineLength;
 			}
 
 			lineBuffer[lineLength] = '\0';
