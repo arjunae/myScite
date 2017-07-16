@@ -63,8 +63,6 @@ static unsigned int ColouriseMakeLine(
 	unsigned int state_prev = SCE_MAKE_DEFAULT;
 	bool bSpecial = false;
 
-	styler.Flush();
-
 	// check for a tab character in column 0 indicating a command
 	bool bCommand = false;
 	if ((lengthLine > 0) && (slineBuffer[0] == '\t'))
@@ -100,7 +98,7 @@ static unsigned int ColouriseMakeLine(
 		char chNext=styler.SafeGetCharAt(startLine +i+1);
 
 		// skip identifier and target styling if this is a command line
-		if (!bSpecial && !bCommand && state==SCE_MAKE_DEFAULT) {
+		if (!inString && !bSpecial && !bCommand && state==SCE_MAKE_DEFAULT) {
 			if (slineBuffer[i] == ':') {
 				if (i<lengthLine && (chNext == '=')) {
 					// it's a ':=', so style as an identifier
@@ -132,14 +130,14 @@ static unsigned int ColouriseMakeLine(
 		if (strchr("({", (int)slineBuffer[i]) >0) {
 			state_prev=state;
 			state=SCE_MAKE_IDENTIFIER;
-			if (i>0)
-				styler.ColourTo(startLine + i-1, state_prev);
+			if (i>0) styler.ColourTo(startLine + i-1, state_prev);
 			styler.ColourTo(startLine + i, state);
 			state=state_prev;
 			iWarnEOL++;
 		} else if (strchr(")}", (int)slineBuffer[i]) >0) {
 			state_prev=state;
 			state=SCE_MAKE_IDENTIFIER;
+			if (i>0) styler.ColourTo(startLine + i-1, state_prev);
 			styler.ColourTo(startLine + i, state);
 			state=state_prev;
 			iWarnEOL--;
@@ -194,7 +192,7 @@ static unsigned int ColouriseMakeLine(
 			}
 
 			// we now search for the word within the Directives Space.
-			// Rule: Prepended by whitespace,precedet by line start or .'='.
+			// Rule: Prepended by whitespace, precedet by line start or .'='.
 			if (kwGeneric.InList(strSearch.c_str()) && inString==false && (strchr("\t\r\n ;", (int)chNext) >0)
 					&& (i+1 -wordLen == theStart || styler.SafeGetCharAt(startLine +i -wordLen-1) == '=')) {
 				state_prev=state;
@@ -206,15 +204,16 @@ static unsigned int ColouriseMakeLine(
 			}
 
 			// ....and within functions $(sort,subst...) / used to style internal Variables too.
-			// Rule: have to be prefiixed by '('
+			// Rule: have to be prefixed by '(' and precedet by whitespace or ;)
 			if (kwFunctions.InList(strSearch.c_str())
 					&& styler.SafeGetCharAt(startLine +i -wordLen -1) == '$'
 					&& styler.SafeGetCharAt(startLine +i -wordLen) == '(') {
 				state_prev=state;
 				state=SCE_MAKE_OPERATOR;
 				styler.ColourTo(startLine + i, state);
-			} else if (slineBuffer[i] == ')') {
-				//state=SCE_MAKE_DEFAULT;
+			} else if (state ==SCE_MAKE_OPERATOR && strchr("\t ;)", (int)chNext)) {
+				state=SCE_MAKE_DEFAULT;
+				styler.ColourTo(startLine + i, state);
 			}
 
 			startMark=0;
@@ -299,9 +298,9 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 
 	// check if current lines last visible char is a continuation
 	Sci_Position pos=offset;
-	while (styler[++pos]!='\n');
+	while (styler[pos++]!='\n');
 	// moves to last visible char
-	while (isgraph(styler.SafeGetCharAt(--pos)==0));
+	while (isgraph(styler.SafeGetCharAt(--pos)==0)) ;
 	pos--;
 	if (styler[pos]=='\\') {
 		status=2;
@@ -314,7 +313,7 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 	//  check for continuation segments start
 	pos = styler.LineStart(styler.GetLine(pos)-1);
 	while (currMLSegment >0) {
-		while (styler[++pos]!='\n');
+		while (styler[--pos]!='\n');
 		while (isgraph(styler.SafeGetCharAt(--pos)==0));
 		pos--;
 		if (styler[pos]!='\\') {
@@ -335,7 +334,8 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 }
 
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
-	char lineBuffer[1024]; // ok. i _really_ do like vectors from now on...
+	const int MAX=1024;
+	char lineBuffer[MAX]; // ok. i _really_ do like vectors from now on...
 
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
 	// Its up to the lexer to check if the cursor position is in Fact part of a previous Lines continuation.
@@ -350,9 +350,9 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 
 	Sci_PositionU lineLength = 0;
 	Sci_PositionU lineStart = startPos;
-	Sci_Position ywo=0;
-
+	
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
+		Sci_Position ywo=0;
 		lineBuffer[lineLength++] = styler[at];
 
 		// End of line (or of max line buffer) met.
@@ -360,35 +360,35 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 			ywo=at;
 
 			// check last visible char for beeing a continuation
-			while (isgraph(styler[ywo--])==0 && lineLength>2);
-			ywo++;
+			while (isgraph(styler[--ywo])==0 );
+									
 			if (styler.SafeGetCharAt(ywo) =='\\') {
 				// ...get its lineEnd
-				while (ywo <length) {
-					// c fun: imagin a corner case without \n.
-					//where linelength would exeec lineBuffers lenght and invalidate var start within memory...
+				while (lineLength<MAX-1) {
+					// c fun: imagine a corner case without \n or \0:
+					// so linelength could exeed lineBuffers length and invalidate var start within memory...
 					while (styler[ywo++] && styler[ywo]!='\n' && styler[ywo]!='\0')
-						lineBuffer[lineLength++] = styler[ywo];
+				  if (lineLength<MAX) lineBuffer[lineLength++] = styler[ywo];
 
-					// ... but check if this lines is another continuation
-					Sci_Position pos;
+					// ... but check if this lines is another continuation.
+					Sci_Position pos=0;
 					for (pos=ywo; isgraph(styler.SafeGetCharAt(pos))==0; pos--);
-					if (styler[pos] !='\\') {	// Fin. Request Screen redraw.
-						styler.ChangeLexerState(startPos, startPos+length);
-						break;
-					}
-					ywo++;
+					if (styler[pos] !='\\')
+						break; //Fini. last segment found.
 				}
-				at=ywo++;
-
+				at=ywo;
 			}
-			lineBuffer[lineLength] = '\0';
 
+			lineBuffer[lineLength] = '\0';
 			ColouriseMakeLine(lineBuffer, lineLength, lineStart, at, keywords, styler);
-			lineStart = at + 1;
+			lineStart = at+1;
 			lineLength = 0;
+			// Fini -> Request Screen redraw.
+			styler.ChangeLexerState(startPos, startPos+length);
+			styler.Flush();
 		}
-	}
+
+	} // handle lines without an EOL mark.
 	if (lineLength>0)
 		ColouriseMakeLine(lineBuffer, lineLength, lineStart, startPos+length -1, keywords, styler);
 }

@@ -339,7 +339,7 @@ test-skelgen:	.check-foundation
 	@test -f $(shell $(CONFIG_TOOL) test-folder)/bootstrap.php || make -f $(THIS) bootstrap-php > /dev/null
 	@$(eval source-folder=$(shell $(CONFIG_TOOL) library-folder))
 	-@if test "$(class)"; then \
-		echo -e "    > $(.BOLD)Class $(class) found. Generating... $(.CLEAR)"; \
+	  echo -e "    > $(.BOLD)Class $(class) found. Generating... $(.CLEAR)"; \
 		cd $(shell $(CONFIG_TOOL) test-folder) && ${FOUNDATION_HOME}/repo/bin/phpunit-skelgen-classname "${class}" $(source-folder); \
 	else \
 		echo -e "$(.WARN) Class not found."; \
@@ -881,7 +881,7 @@ clean-trailing-spaces:
 	else \
 		find . -type f -name "*.php" -exec make -s -f $(THIS) clean-trailing-spaces file="{}" \;; \
 		echo; echo -e "    > $(.BOLD) Done removing trailing spaces.$(.CLEAR)"; \
-	fi;
+	fi;	
 
 clean-unix-line-ends:
 	@printf "."
