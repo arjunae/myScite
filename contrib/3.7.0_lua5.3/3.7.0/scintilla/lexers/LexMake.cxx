@@ -57,7 +57,7 @@ static inline bool IsNewline(const int ch) {
 // win10 -german chars äüö.. translate to negative values ?
 static inline int IsAlphaNum(int ch) {
 	if(ch>0) return(isalnum(ch));
-	if ((IsASCII(ch) && isalpha(ch)) || (ch >= '0') && (ch <= '9'))
+	if ((IsASCII(ch) && isalpha(ch)) || ((ch >= '0') && (ch <= '9')))
 		return (1);
 
 	return (0);
@@ -151,7 +151,7 @@ static unsigned int ColouriseMakeLine(
 				styler.ColourTo(startLine + i -1, state_prev);
 				styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
 				bSpecial = true;	// Only react to the first '=' of the line
-				state = state_prev;
+				state = SCE_MAKE_DEFAULT;
 			}
 		}
 
@@ -159,14 +159,14 @@ static unsigned int ColouriseMakeLine(
 		if (strchr("({", (int)slineBuffer[i]) >0) {
 			state_prev=state;
 			state=SCE_MAKE_IDENTIFIER;
-			if (i>0) styler.ColourTo(startLine + i-1, state_prev);
+			if (i>0) styler.ColourTo(startLine + i-1, SCE_MAKE_DEFAULT);
 			styler.ColourTo(startLine + i, state);
 			state=state_prev;
 			iWarnEOL++;
 		} else if (strchr(")}", (int)slineBuffer[i]) >0) {
 			state_prev=state;
 			state=SCE_MAKE_IDENTIFIER;
-			if (i>0) styler.ColourTo(startLine + i-1, state_prev);
+			if (i>0) styler.ColourTo(startLine + i-1, SCE_MAKE_DEFAULT);
 			styler.ColourTo(startLine + i, state);
 			state=state_prev;
 			iWarnEOL--;
@@ -211,7 +211,7 @@ static unsigned int ColouriseMakeLine(
 			// Rule: Prepended by line start or " \t\r\n /\":,\=" Ends on eol,whitespace or ;
 			if (kwExtCmd.InList(strSearch.c_str()) && inString==false && (strchr("\t\r\n ;", (int)chNext) >0)
 					&& (i+1 -wordLen == theStart || AtStartChar(styler, startLine +i -wordLen))) {
-				styler.ColourTo(startLine +i-wordLen, state);
+				styler.ColourTo(startLine +i-wordLen, SCE_MAKE_DEFAULT);
 				state_prev=state;
 				state=SCE_MAKE_EXTCMD;
 				styler.ColourTo(startLine +i, state);
@@ -228,8 +228,8 @@ static unsigned int ColouriseMakeLine(
 				state=SCE_MAKE_DIRECTIVE;
 				styler.ColourTo(startLine + i, state);
 			} else if (state == SCE_MAKE_DIRECTIVE) {
-				state=state_prev;
-				styler.ColourTo(startLine +i, SCE_MAKE_DEFAULT);
+				state=SCE_MAKE_DEFAULT;
+				styler.ColourTo(startLine +i, state);
 			}
 
 			// ....and within functions $(sort,subst...) / used to style internal Variables too.
@@ -284,14 +284,12 @@ static unsigned int ColouriseMakeLine(
 		// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'.")
 		if ((i<lengthLine && inString==false && (IsAlphaNum(slineBuffer[i])==0 && chNext=='-'))
 				|| (i == theStart && slineBuffer[i] == '-')) {
-
 			styler.ColourTo(startLine + i, SCE_MAKE_DEFAULT);
 			state_prev=state;
 			state = SCE_MAKE_FLAGS;
 		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\":,\''.", (int)chNext) >0) {
 			styler.ColourTo(startLine + i, state);
 			styler.ColourTo(startLine + i, state_prev);
-
 			state = SCE_MAKE_DEFAULT;
 		}
 
@@ -314,8 +312,8 @@ static unsigned int ColouriseMakeLine(
 }
 
 /**
-// @brief returns a multilines startPosition or current Lines start
-// if the Position does not belong to a Multiline Segment
+// @brief returns a multilines startPosition or current lines start
+// if the Position does not belong to a Multiline Segment.
 **/
 static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 
@@ -329,7 +327,7 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 	// moves to last visible char
 	while (IsGraphic(styler.SafeGetCharAt(--pos)==0)) ;
 	pos--;
-	if (styler[pos]=='\\') {
+	if (styler[pos]=='\\' ) {
 		status=2;
 	} else {
 		status=1;
@@ -343,7 +341,7 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 		while (styler[++pos]!='\n');
 		while (IsGraphic(styler.SafeGetCharAt(--pos)==0));
 		pos--;
-		if (styler[pos]!='\\') {
+		if (styler[pos]!='\\' && styler[pos+1]!='\\') {
 			if (status==1) {
 				currMLSegment=finalMLSegment;
 				break; // no MultiLine
@@ -361,7 +359,7 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 }
 
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
-	const int MAX=1024;
+	const int MAX=4096;
 	char lineBuffer[MAX]; // ok. i _really_ do like vectors from now on...
 	memset(lineBuffer, 0, sizeof(*lineBuffer));
 
@@ -408,14 +406,15 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 					Sci_Position pos=0;
 					for (pos=ywo-1; IsNewline(styler.SafeGetCharAt(pos)); pos--);
 
-					if (styler[pos] !='\\')
-						break; //Fini. last segment found.
-
+					if (styler[pos] !='\\'){
+						lineLength-=2;
+						break;
+					} // ... Fini, last segment found.
 				}
 				at=lineStart+lineLength;
 			}
 
-			lineBuffer[lineLength] = '\0';
+			if (lineLength<MAX) lineBuffer[lineLength] = '\0';
 			ColouriseMakeLine(lineBuffer, lineLength, lineStart, at, keywords, styler);
 			lineStart = at+1;
 			lineLength = 0;

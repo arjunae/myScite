@@ -43,8 +43,7 @@ default: help-default;   # default target
 Makefile: ;              # skip prerequisite discovery
 
 .title:
-	@if [[ ! -n "$(notitle)" ]]; then 
-
+	@if [[ ! -n "$(notitle)" ]]; then \
 		echo ""; \
 	fi; \
 
@@ -292,7 +291,7 @@ clean-up-makefile-baks:
 	@echo -e "    > $(.BOLD)(Re)patching .gitignore$(.CLEAR)"
 	$(GENERATE_TOOL) config-template gitignore > gitignore.tmp && 
   
-mv -f gitignore.tmp .gitignore
+	mv -f gitignore.tmp .gitignore
 
 	@make -f $(THIS) -s .needs-file file='.gitignore' text='Checking .gitignore...'
 
@@ -411,7 +410,8 @@ phantomjs-inject phantomjs-inject-verbose: .check-foundation
 	@if [ -z '$(code)' ]; then \
 	  while read -r; do \
 	    lines="$${lines} $${REPLY}"; \
-	  done <&0; \
+	  done <&0; 
+
 	  phantomjs ${FOUNDATION_HOME}/repo/bin/jquery-console-phantom.js "$(url)" "$${lines}" "${VERBOSE}"; \
 	else \
 	  phantomjs ${FOUNDATION_HOME}/repo/bin/jquery-console-phantom.js "$(url)" '$(code)' "${VERBOSE}"; \
@@ -912,7 +912,7 @@ clean-all-whitespace: .check-foundation
 		make -s -f $(THIS) clean-trailing-spaces file="$(file)"; \
 		make -s -f $(THIS) clean-single-blank-lines file="$(file)"; \
 	else \
-		make -s -f $(THIS) clean-tabs2spaces; make -s -f $(THIS) clean-unix-line-ends; make -s -f $(THIS) clean-trailing-spaces; make -s -f $(THIS) clean-single-blank-lines; \
+		make -s -f $(THIS) clean-tabs2spaces;	make -s -f $(THIS) clean-unix-line-ends; make -s -f $(THIS) clean-trailing-spaces; make -s -f $(THIS) clean-single-blank-lines; \
 	fi;
 
 clean-remove-eof-php-tag:
