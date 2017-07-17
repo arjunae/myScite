@@ -7,9 +7,9 @@
  * - GNUMake Directives, internal $(sort subst..) function Keywords,
  * - $@%<?^+* Automatic Variables, "-" Flags and Keywords for externalCommands
  * - Warns on more unclosed Brackets or doublequoted Strings.
+ * - handles multiLine Continuations.
  * @brief todos
  * todo: store and style User defined Varnames. ( myvar=... )
- * todo: handle line continuation character. "\"
  * todo: handle VC Makefiles ( eg //D , strings and numbers in general.)
  * @brief Copyright 1998-2001 by Neil Hodgson <neilh@scintilla.org>
  * The License.txt file describes the conditions under which this software may
@@ -51,22 +51,22 @@ static inline bool AtStartChar(Accessor &styler, Sci_PositionU i) {
 
 
 static inline bool IsNewline(const int ch) {
-    return (ch == '\n' || ch == '\r');
+	return (ch == '\n' || ch == '\r');
 }
 
-// win10 -german chars öäü.. translate to negative values ?
+// win10 -german chars ï¿½ï¿½ï¿½.. translate to negative values ?
 static inline bool IsGraphic(int ch) {
 	if (IsASCII(ch) && isalpha(ch))
-		return(1);
-		
-	return(0);
+		return (1);
+
+	return (0);
 }
 
-static inline bool IsAlphaNum(int ch){
+static inline bool IsAlphaNum(int ch) {
 	if ((IsASCII(ch) && isalpha(ch)) || (ch >= '0') && (ch <= '9'))
-		return(1);
-		
-	return(0);
+		return (1);
+
+	return (0);
 }
 
 
@@ -363,6 +363,7 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
 	const int MAX=1024;
 	char lineBuffer[MAX]; // ok. i _really_ do like vectors from now on...
+	memset(lineBuffer, 0, sizeof(*lineBuffer));
 
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
 	// Its up to the lexer to check if the cursor position is in Fact part of a previous Lines continuation.
@@ -388,24 +389,28 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 
 			// check last visible char for beeing a continuation
 			while (IsNewline(styler[--ywo]));
-
 			if (styler.SafeGetCharAt(ywo) =='\\') {
-				lineLength--;
-				lineLength--;
+
+				// ...Ok, resync position
+				while (at-- &&(at>=ywo))
+					lineLength--;
+
 				// ...get continuations lineEnd
 				while (lineLength<MAX-1) {
 					// get segments lineEnd
-					while (styler[ywo++] && styler[ywo-1]!='\n' && styler[ywo-1]!='\0'){
+					while (styler[ywo++] && styler[ywo-1]!='\n' && styler[ywo-1]!='\0')
 						if (lineLength<MAX) lineBuffer[lineLength++] = styler[ywo];
-					}	
+
 					// .. copy newline char
 					lineBuffer[lineLength++]=styler[ywo];
 
 					// ...check if this segemnt is another continuation.
 					Sci_Position pos=0;
-					for (pos=ywo-1; IsNewline(styler.SafeGetCharAt(pos));pos--);
+					for (pos=ywo-1; IsNewline(styler.SafeGetCharAt(pos)); pos--);
+
 					if (styler[pos] !='\\')
 						break; //Fini. last segment found.
+
 				}
 				at=lineStart+lineLength;
 			}
