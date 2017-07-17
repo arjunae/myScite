@@ -54,19 +54,19 @@ static inline bool IsNewline(const int ch) {
 	return (ch == '\n' || ch == '\r');
 }
 
-// win10 -german chars ���.. translate to negative values ?
-static inline bool IsGraphic(int ch) {
-	if (IsASCII(ch) && isalpha(ch))
+// win10 -german chars äüö.. translate to negative values ?
+static inline int IsAlphaNum(int ch) {
+	if(ch>0) return(isalnum(ch));
+	if ((IsASCII(ch) && isalpha(ch)) || (ch >= '0') && (ch <= '9'))
 		return (1);
 
 	return (0);
 }
 
-static inline bool IsAlphaNum(int ch) {
-	if ((IsASCII(ch) && isalpha(ch)) || (ch >= '0') && (ch <= '9'))
-		return (1);
 
-	return (0);
+static inline int IsGraphic(int ch) {
+	if (ch>0) return(isgraph(ch));
+	return(IsAlphaNum(ch));
 }
 
 
@@ -189,7 +189,7 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		// got alphanumerics we mark the wordBoundary.
-		if (IsAlphaNum(slineBuffer[i])==1 && strLen == 0) {
+		if (IsAlphaNum(slineBuffer[i])>=1 && strLen == 0) {
 			strLen++;
 			startMark=i; // absolute position of current words begin.
 		} else if (strLen>0) {
@@ -380,7 +380,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	Sci_PositionU lineStart = startPos;
 
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
-		Sci_Position ywo=0;
+		Sci_PositionU ywo=0;
 		lineBuffer[lineLength++] = styler[at];
 
 		// End of line (or of max line buffer) met.

@@ -82,7 +82,6 @@ help-default help: .title
 	@make -s .menu-item tgt="menu-deploy" desc="Show Deploy & Release"
 	@echo ""
 
-
 menu-test: .title
 	@make -s .menu-heading title="Project Testing"
 	@make -s .menu-item tgt="test" desc="Run project tests"
@@ -93,7 +92,7 @@ menu-test: .title
 	@make -s .menu-item tgt="bootstrap-php-opt" desc="Optimized all purpose bootstrap.php with static pear path in test folder"
 	@make -s .menu-item tgt="phpunit-xml" desc="(Re)create phpunit.xml in test folder"
 	@make -s .menu-item tgt="travis-yml" desc="(Re)create .travis.yml in root folder"
-	@make -s .menu-item tgt="travis-lint"	desc="Validate your .travis.yml configuration"
+	@make -s .menu-item tgt="travis-lint" desc="Validate your .travis.yml configuration"
 	@make -s .menu-item tgt="test-skelgen" desc="Generate boilerplate PHPUnit skeleton tests per class see help-skelgen"
 	@make -s .menu-item tgt="test-skelgen-all" desc="Generate tests for all classes and it's overwrite safe of course"
 	@make -s .menu-item tgt="phantomjs-snapshot" desc="Take a snapshot of that page with the webkit headless browser"
@@ -115,7 +114,7 @@ menu-project: .title
 	@make -s .menu-item tgt="clean-unix-line-ends" desc="Fixes unix line endings"
 	@make -s .menu-item tgt="clean-trailing_spaces" desc="Removes trailing whitespace"
 	@make -s .menu-item tgt="clean-single-blank-lines" desc="Removes multiple blank lines adds blank line at end of file"
-	@make -s .menu-item tgtclean-remove-eof-php-tag
+	@make -s .menu-item tgt="clean-remove-eof-php-tag" desc="Removes php tag at the end of a file if exists"
 	@make -s .menu-item tgt="clean-up-makefile-baks" desc="Delete all Makefile.bak files"
 	@echo ""
 	@make -s .menu-heading title="Metrics and Standards"
@@ -165,6 +164,8 @@ menu-package: .title
 	@make -s .menu-item tgt="install-composer" desc="Download and install composer"
 	@echo ""
 
+
+
 menu-dev: .title
 	@make -s .menu-heading title="Development Info"
 	@echo "    Parameters: package=vendor/package (required)"
@@ -199,6 +200,8 @@ menu-dev: .title
 	@make -s .menu-item tgt="install-travis-lint" desc="Install travis-lint configuration checker - Requires ruby gems"
 	@make -s .menu-item tgt="install-uri-template" desc="Install uri_template a php extension. Might require sudo."
 	@echo ""
+
+
 
 menu-deploy: .title
 	@make -s .menu-heading title="Deployment"
@@ -289,7 +292,7 @@ clean-up-makefile-baks:
 	@echo -e "    > $(.BOLD)(Re)patching .gitignore$(.CLEAR)"
 	$(GENERATE_TOOL) config-template gitignore > gitignore.tmp && 
   
-	mv -f gitignore.tmp .gitignore
+mv -f gitignore.tmp .gitignore
 
 	@make -f $(THIS) -s .needs-file file='.gitignore' text='Checking .gitignore...'
 
@@ -339,7 +342,7 @@ test-skelgen:	.check-foundation
 	@test -f $(shell $(CONFIG_TOOL) test-folder)/bootstrap.php || make -f $(THIS) bootstrap-php > /dev/null
 	@$(eval source-folder=$(shell $(CONFIG_TOOL) library-folder))
 	-@if test "$(class)"; then \
-	  echo -e "    > $(.BOLD)Class $(class) found. Generating... $(.CLEAR)"; \
+		echo -e "    > $(.BOLD)Class $(class) found. Generating... $(.CLEAR)"; \
 		cd $(shell $(CONFIG_TOOL) test-folder) && ${FOUNDATION_HOME}/repo/bin/phpunit-skelgen-classname "${class}" $(source-folder); \
 	else \
 		echo -e "$(.WARN) Class not found."; \
@@ -349,8 +352,7 @@ test-skelgen:	.check-foundation
 		echo; \
 	fi; \
 
-skelgenall:
-
+test-skelgen-all:
 	@$(eval source-folder=$(shell $(CONFIG_TOOL) library-folder))
 	@find $(source-folder) -type f -name "*.php" \
 	  | sed -E 's%$(source-folder)/(.*).php%class=\\"\1\\"%' \
@@ -881,7 +883,7 @@ clean-trailing-spaces:
 	else \
 		find . -type f -name "*.php" -exec make -s -f $(THIS) clean-trailing-spaces file="{}" \;; \
 		echo; echo -e "    > $(.BOLD) Done removing trailing spaces.$(.CLEAR)"; \
-	fi;	
+	fi;
 
 clean-unix-line-ends:
 	@printf "."
@@ -942,5 +944,3 @@ release: test package packagecommit pear pear-push tag
 	@$(GIT) push
 	@$(GIT) push --tags
 	@echo "Done. " `$(CONFIG_TOOL) package-name`-`$(CONFIG_TOOL) package-version`
-
-	
