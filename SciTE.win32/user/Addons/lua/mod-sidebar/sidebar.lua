@@ -5,7 +5,7 @@ Version 1.29.0
 ------------------------------------------------------
   Note: Require gui.dll
                lpeg.dll
-              
+              shell.dll
              COMMON.lua (function GetCurrentWord)
              eventmanager.lua (function AddEventHandler)
 
@@ -44,6 +44,9 @@ Version 1.29.0
 --]]--------------------------------------------------
 require 'gui'
 require 'lpeg'
+-- arjunea: removed shell dependency. 
+-- Moved shell.inputbox to gui / Use gui.run and gui.msgbox 
+--require 'shell'
 
 -- �se scite.gettranslation ?
 -- local _DEBUG = true --включает вывод отладочной информации
@@ -96,7 +99,6 @@ function ReadAbbrevFile(file, abbr_table)
 		return scite_iter
 	end
 	--------------------------------------------
-	
 	local abbrev_file, err, errcode = io.open(file)
 	if not abbrev_file then return abbrev_file, err, errcode end
 
@@ -294,7 +296,7 @@ list_favorites:context_menu {
 	'Add active buffer|Favorites_AddCurrentBuffer',
 	'Delete item\tDel|Favorites_DeleteItem',
 }
-----------------------
+-------------------------
 local tab1 = gui.panel(panel_width)
 
 local list_func_height = win_height/3
@@ -356,7 +358,6 @@ local function FileMan_ShowPath()
 	memo_path:set_text(rtf..path..mask)
 end
 
-
 memo_path:on_key(function(key)
 	if key == 13 then
 		local new_path = memo_path:get_text()
@@ -381,14 +382,15 @@ end)
 ----------------------------------------------------------
 function FileMan_ListFILL()
 	if current_path == '' then return end
+--[[
 	local folders = gui.files(current_path..'*', true)
 	if not folders then return end
 	local table_folders = {}
 	for i, d in ipairs(folders) do
---	print(i,d)
 		table_folders[i] = {'['..d..']', {d,'d'}}
 	end
 	table.sort(table_folders, function(a, b) return a[1]:lower() < b[1]:lower() end)
+
 	local files = gui.files(current_path..file_mask)
 	local table_files = {}
 	if files then
@@ -397,14 +399,33 @@ function FileMan_ListFILL()
 		end
 	end
 	table.sort(table_files, function(a, b) return a[1]:lower() < b[1]:lower() end)
+--]]
+
+	--This utilizes lfs iterator version
+	local table_folders = {}
+	for entry, attrib in gui.dir(current_path) do --  folders=16, files=32
+		if attrib==16 and entry~=".." and entry~="." then 
+			table.insert(table_folders, {'['..entry..']', {entry,'d'}})
+		end	 
+	end	
+	table.sort(table_folders, function(a, b) return a[1]:lower() < b[1]:lower() end)
+
+	local table_files = {}
+	for entry, attrib in gui.dir(current_path) do --  folders=16, files=32
+		if attrib==32 then --  folders=16, files=32
+			table.insert(table_files, {entry, {entry}}) 
+		end
+	end
+	table.sort(table_files, function(a, b) return a[1]:lower() < b[1]:lower() end)	
+
 
 	list_dir:clear()
 	list_dir:add_item ('[..]', {'..','d'})
 	for i = 1, #table_folders do
-		list_dir:add_item(table_folders[i][1], table_folders[i][2])
+		list_dir:add_item(table_folders[i][1],table_folders[i][2])
 	end
 	for i = 1, #table_files do
-		list_dir:add_item(table_files[i][1], table_files[i][2])
+		list_dir:add_item(table_files[i][1],table_files[i][2])
 	end
 	list_dir:set_selected_item(0)
 	FileMan_ShowPath()
@@ -464,7 +485,7 @@ end
 function FileMan_FileRename()
 	local filename = FileMan_GetSelectedItem()
 	if filename == '' or filename == '..' then return end
-	local filename_new = gui.inputbox("Rename", "Enter new file name:", filename, function(name) return not name:match('[\\/:|*?"<>]') end)
+	local filename_new  gui.inputbox("Rename", "Enter new file name:", filename, function(name) return not name:match('[\\/:|*?"<>]') end)
 	if filename_new == nil then return end
 	if filename_new ~= '' and filename_new ~= filename then
 		os.rename(current_path..filename, current_path..filename_new)
@@ -476,8 +497,8 @@ function FileMan_FileDelete()
 	local filename, attr = FileMan_GetSelectedItem()
 	if filename == '' then return end
 	if attr == 'd' then return end
-	if gui.msgbox("Are you sure you want to DELETE this file?\n"..filename, "DELETE", 4+256) == 6 then
-	-- if gui.message("Are you sure you want to DELETE this file?\n"..filename, "query") then
+	--if shell.msgbox("Are you sure you want to DELETE this file?\n"..filename, "DELETE", 4+256) == 6 then
+	if gui.message("Are you sure you want to DELETE this file?\n"..filename, "query") then
 		os.remove(current_path..filename)
 		FileMan_ListFILL()
 	end
@@ -523,7 +544,7 @@ function FileMan_FileExec(params)
 		FileMan_FileExecWithSciTE(CommandBuild('wscript'))
 	-- Other
 	else
-		local ret, descr = gui.run(current_path..filename..params)
+		local ret, descr = gui.run(filename,params,current_path)
 		if not ret then
 			print (">Exec: "..filename)
 			print ("Error: "..descr)
@@ -532,7 +553,7 @@ function FileMan_FileExec(params)
 end
 
 function FileMan_FileExecWithParams()
-	if gui.inputbox('Exec "'..FileMan_GetSelectedItem()..'". Please set params:') then
+	if scite.ShowParametersDialog('Exec "'..FileMan_GetSelectedItem()..'". Please set params:') then
 		local params = ''
 		for p = 1, 4 do
 			local ps = props[tostring(p)]
@@ -561,7 +582,9 @@ local function FileMan_OpenItem()
 		gui.chdir(dir_or_file)
 		if dir_or_file == '..' then
 			local new_path = current_path:gsub('(.*\\).*\\$', '%1')
-			if not gui.files(new_path..'*',true) then return end
+			for entry,attrib in gui.dir(new_path..'*') do
+				if attrib==32 then return end
+			end
 			current_path = new_path
 		else
 			current_path = current_path..dir_or_file..'\\'

@@ -377,7 +377,7 @@ function check_codePage(str,to)
 			end
 		elseif cpMode == 1  then -- iso utf
 			if to == toDic then
-				str = gui.to_utf8(str)
+				str = guiComWeb.lua.to_utf8(str)
 			else
 				str = gui.from_utf8(str)
 			end

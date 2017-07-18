@@ -9,8 +9,8 @@ require "luacom"
 
 sUrl = "http://www.bla.de"
 
---luacom.config.abort_on_error = true 
---luacom.config.abort_on_API_error = true 
+luacom.config.abort_on_error = true 
+luacom.config.abort_on_API_error = true 
 
 oWeb = {} -- OLE object
 _oWeb = {} -- it's events
@@ -38,7 +38,7 @@ function test_luaCom()
 end
 
 function _oWeb:NavigateComplete2(a,url)
---	print("event NavigateComplete recieved! Url:"..url) 
+	print("event NavigateComplete recieved! Url:"..url) 
 end
 
 function _oWeb:DocumentComplete(oWin,url) 

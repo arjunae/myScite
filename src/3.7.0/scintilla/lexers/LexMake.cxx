@@ -3,11 +3,11 @@
  * @file LexMake.cxx
  * @author Neil Hodgson, Thorsten Kani(marcedo@HabMalneFrage.de)
  * @brief Lexer for make files
- * @brief 26.06.17 | Thorsten Kani | Add more Styles
+ * @brief 18.07.17 | Thorsten Kani | Add more Styles
  * - GNUMake Directives, internal $(sort subst..) function Keywords,
  * - $@%<?^+* Automatic Variables, "-" Flags and Keywords for externalCommands
  * - Warns on more unclosed Brackets or doublequoted Strings.
- * - handles multiLine Continuations.
+ * - Handles multiLine Continuations.
  * @brief todos
  * todo: store and style User defined Varnames. ( myvar=... )
  * todo: handle VC Makefiles ( eg //D , strings and numbers in general.)
@@ -54,7 +54,7 @@ static inline bool IsNewline(const int ch) {
 	return (ch == '\n' || ch == '\r');
 }
 
-// win10 -german chars ï¿½ ï¿½ ï¿½.. translate to negative values ?
+// win10 -german chars ö ï¿½ ï¿½.. translate to negative values ?
 static inline int IsAlphaNum(int ch) {
 	if (ch>0) return (isalnum(ch));
 	if ((IsASCII(ch) && isalpha(ch)) || ((ch >= '0') && (ch <= '9')))
@@ -280,7 +280,7 @@ static unsigned int ColouriseMakeLine(
 			state = state_prev;
 		}
 
-		// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'.")
+		// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'")
 		if ((i<lengthLine && inString==false && (IsAlphaNum(slineBuffer[i])==0 && chNext=='-'))
 				|| (i == theStart && slineBuffer[i] == '-')) {
 
@@ -293,7 +293,7 @@ static unsigned int ColouriseMakeLine(
 
 			state_prev=state;
 			state = SCE_MAKE_FLAGS;
-		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''.", (int)chNext) >0) {
+		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''", (int)chNext) >0) {
 			styler.ColourTo(startLine + i, state);
 			styler.ColourTo(startLine + i, state_prev);
 			state = SCE_MAKE_DEFAULT;
@@ -343,9 +343,10 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 	pos = styler.LineStart(styler.GetLine(pos)-1);
 	while (currMLSegment >0) {
 		while (styler[++pos]!='\n');
+		if(styler[pos+1]=='\r' || styler[pos+1]=='\n') break; // empty line reached
 		while (IsGraphic(styler.SafeGetCharAt(--pos)==0));
 		pos--;
-		if (styler[pos]!='\\' && styler[pos+1]!='\\') {
+		if (styler[pos]!='\\') {
 			if (status==1) {
 				currMLSegment=finalMLSegment;
 				break; // no MultiLine
@@ -413,7 +414,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 					for (pos=ywo-1; IsNewline(styler.SafeGetCharAt(pos)); pos--);
 
 					if (styler[pos] !='\\') {
-						lineLength-=2;
+						lineLength-=1;
 						break;
 					} // ... Fini, last segment found.
 				}

@@ -44,7 +44,7 @@ Version 1.29.0
 --]]--------------------------------------------------
 require 'gui'
 require 'lpeg'
-require 'shell'
+
 
 -- �se scite.gettranslation ?
 -- local _DEBUG = true --включает вывод отладочной информации
@@ -377,6 +377,7 @@ end)
 ----------------------------------------------------------
 function FileMan_ListFILL()
 	if current_path == '' then return end
+--[[
 	local folders = gui.files(current_path..'*', true)
 	if not folders then return end
 	local table_folders = {}
@@ -384,6 +385,7 @@ function FileMan_ListFILL()
 		table_folders[i] = {'['..d..']', {d,'d'}}
 	end
 	table.sort(table_folders, function(a, b) return a[1]:lower() < b[1]:lower() end)
+
 	local files = gui.files(current_path..file_mask)
 	local table_files = {}
 	if files then
@@ -392,14 +394,33 @@ function FileMan_ListFILL()
 		end
 	end
 	table.sort(table_files, function(a, b) return a[1]:lower() < b[1]:lower() end)
+--]]
+
+	--This utilizes lfs iterator version
+	local table_folders = {}
+	for entry, attrib in gui.dir(current_path) do --  folders=16, files=32
+		if attrib==16 and entry~=".." and entry~="." then 
+			table.insert(table_folders, {'['..entry..']', {entry,'d'}})
+		end	 
+	end	
+	table.sort(table_folders, function(a, b) return a[1]:lower() < b[1]:lower() end)
+
+	local table_files = {}
+	for entry, attrib in gui.dir(current_path) do --  folders=16, files=32
+		if attrib==32 then --  folders=16, files=32
+			table.insert(table_files, {entry, {entry}}) 
+		end
+	end
+	table.sort(table_files, function(a, b) return a[1]:lower() < b[1]:lower() end)	
+
 
 	list_dir:clear()
 	list_dir:add_item ('[..]', {'..','d'})
 	for i = 1, #table_folders do
-		list_dir:add_item(table_folders[i][1], table_folders[i][2])
+		list_dir:add_item(table_folders[i][1],table_folders[i][2])
 	end
 	for i = 1, #table_files do
-		list_dir:add_item(table_files[i][1], table_files[i][2])
+		list_dir:add_item(table_files[i][1],table_files[i][2])
 	end
 	list_dir:set_selected_item(0)
 	FileMan_ShowPath()
@@ -556,7 +577,9 @@ local function FileMan_OpenItem()
 		gui.chdir(dir_or_file)
 		if dir_or_file == '..' then
 			local new_path = current_path:gsub('(.*\\).*\\$', '%1')
-			if not gui.files(new_path..'*',true) then return end
+			for entry,attrib in gui.dir(new_path..'*') do
+				if attrib==32 then return end
+			end
 			current_path = new_path
 		else
 			current_path = current_path..dir_or_file..'\\'
