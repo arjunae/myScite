@@ -7,9 +7,10 @@
 
 require "luacom"
 
-sUrl = "http://www.yahoo.com"
-luacom.config.abort_on_error = true 
-luacom.config.abort_on_API_error = true 
+sUrl = "http://www.bla.de"
+
+--luacom.config.abort_on_error = true 
+--luacom.config.abort_on_API_error = true 
 
 oWeb = {} -- OLE object
 _oWeb = {} -- it's events
@@ -32,19 +33,22 @@ function test_luaCom()
 	event_handler = luacom.ImplInterface(_oWeb, "InternetExplorer.Application", "DWebBrowserEvents2") 
 	if event_handler == nil then print("Error implementing Events") end 
 	cookie = luacom.addConnection(oWeb, event_handler)
+	event_handler=nil
+	cookie=nil
 end
 
-function _oWeb:NavigateComplete2(a,url) 
+function _oWeb:NavigateComplete2(a,url)
 --	print("event NavigateComplete recieved! Url:"..url) 
 end
 
 function _oWeb:DocumentComplete(oWin,url) 
 -- fires for every frame, so only react on root location completetition
-	  if oWeb.locationURL  == url then
+		if oWeb.locationURL  == url then
 			print("event DocumentComplete recieved! ")
 			print("Url: "..url.." Root: "..oWeb.locationURL)
 		   siteParser(oWin)
 		end
+		oWin=nil
 end
 
 function siteParser(oWin)
@@ -68,6 +72,7 @@ function siteParser(oWin)
 	--	content=oDoc.head.innerhtml
 	--	print(content)	
 	oDoc=nil
+	oWin=nil;
 	print("Fin")
 end
 

@@ -11,6 +11,8 @@ require 'gui'
 function test_gui()
 -- testcases for lib GUI
 
+print(gui.to_utf8("UTF"))
+
 local panel_width= 150
 
 	-- First, we need a main window.
@@ -33,7 +35,7 @@ local panel_width= 150
 	memo1=gui.memo()
 	memo1:set_text(rtf.."\\cf1Heyo from tab1 :p ")
 	tab1:add(memo1, "top", 80)
-	
+
 	-- And add them to our main window
 	local tabs= gui.tabbar(wnd)
 	tabs:add_tab("0", tab0)
@@ -43,7 +45,7 @@ local panel_width= 150
 	-- again, add an event handler for our tabs
 	tabs:on_select(function(ind)
 
-		print("selected tab "..ind)
+	print("selected tab "..ind)
 	end)
 	
 	wnd:show()

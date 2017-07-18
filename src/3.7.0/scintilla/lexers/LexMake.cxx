@@ -54,9 +54,9 @@ static inline bool IsNewline(const int ch) {
 	return (ch == '\n' || ch == '\r');
 }
 
-// win10 -german chars äüö.. translate to negative values ?
+// win10 -german chars � � �.. translate to negative values ?
 static inline int IsAlphaNum(int ch) {
-	if(ch>0) return(isalnum(ch));
+	if (ch>0) return (isalnum(ch));
 	if ((IsASCII(ch) && isalpha(ch)) || ((ch >= '0') && (ch <= '9')))
 		return (1);
 
@@ -65,10 +65,9 @@ static inline int IsAlphaNum(int ch) {
 
 
 static inline int IsGraphic(int ch) {
-	if (ch>0) return(isgraph(ch));
-	return(IsAlphaNum(ch));
+	if (ch>0) return (isgraph(ch));
+	return (IsAlphaNum(ch));
 }
-
 
 static unsigned int ColouriseMakeLine(
 	std::string slineBuffer,
@@ -284,10 +283,17 @@ static unsigned int ColouriseMakeLine(
 		// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'.")
 		if ((i<lengthLine && inString==false && (IsAlphaNum(slineBuffer[i])==0 && chNext=='-'))
 				|| (i == theStart && slineBuffer[i] == '-')) {
-			styler.ColourTo(startLine + i, SCE_MAKE_DEFAULT);
+
+			// style both -
+			if (i>0 && (slineBuffer[i]=='-') && chNext=='-') {
+			//	styler.ColourTo(startLine + i-1, SCE_MAKE_DEFAULT);
+			} else {
+				styler.ColourTo(startLine + i, SCE_MAKE_DEFAULT);
+			}
+
 			state_prev=state;
 			state = SCE_MAKE_FLAGS;
-		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\":,\''.", (int)chNext) >0) {
+		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''.", (int)chNext) >0) {
 			styler.ColourTo(startLine + i, state);
 			styler.ColourTo(startLine + i, state_prev);
 			state = SCE_MAKE_DEFAULT;
@@ -306,8 +312,6 @@ static unsigned int ColouriseMakeLine(
 	}
 
 	styler.ColourTo(endPos, state);
-	//styler.ChangeLexerState(startLine, endPos);
-
 	return (state);
 }
 
@@ -327,7 +331,7 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 	// moves to last visible char
 	while (IsGraphic(styler.SafeGetCharAt(--pos)==0)) ;
 	pos--;
-	if (styler[pos]=='\\' ) {
+	if (styler[pos]=='\\') {
 		status=2;
 	} else {
 		status=1;
@@ -359,10 +363,12 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 }
 
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
+	
 	const int MAX=4096;
 	char lineBuffer[MAX]; // ok. i _really_ do like vectors from now on...
 	memset(lineBuffer, 0, sizeof(*lineBuffer));
-
+	styler.Flush();
+	
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
 	// Its up to the lexer to check if the cursor position is in Fact part of a previous Lines continuation.
 	// took me much longer to get that obvious fact then to come up with a nearly oneLiner....
@@ -406,21 +412,21 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 					Sci_Position pos=0;
 					for (pos=ywo-1; IsNewline(styler.SafeGetCharAt(pos)); pos--);
 
-					if (styler[pos] !='\\'){
+					if (styler[pos] !='\\') {
 						lineLength-=2;
 						break;
 					} // ... Fini, last segment found.
 				}
 				at=lineStart+lineLength;
 			}
-
+			
 			if (lineLength<MAX) lineBuffer[lineLength] = '\0';
 			ColouriseMakeLine(lineBuffer, lineLength, lineStart, at, keywords, styler);
 			lineStart = at+1;
 			lineLength = 0;
 			// Fini -> Request Screen redraw.
 			styler.ChangeLexerState(startPos, startPos+length);
-			styler.Flush();
+
 		}
 
 	} // handle lines without an EOL mark.

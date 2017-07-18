@@ -7,12 +7,11 @@ print("Hello from scitelua!")
 -- ## MsWin widget Library
 -- ##################
 require 'gui'
-require 'shell'
+
 function test_gui()
 -- testcases for lib GUI
 
-print(gui.to_utf8("9999"))
-print(shell.to_utf8("9999"))
+print(gui.to_utf8("UTF"))
 
 local panel_width= 150
 
@@ -46,7 +45,7 @@ local panel_width= 150
 	-- again, add an event handler for our tabs
 	tabs:on_select(function(ind)
 
-		print("selected tab "..ind)
+	print("selected tab "..ind)
 	end)
 	
 	wnd:show()

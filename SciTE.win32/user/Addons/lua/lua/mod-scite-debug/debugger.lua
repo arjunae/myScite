@@ -217,7 +217,7 @@ function Dbg:default_target()
     if ext then
 		-- Ndless SDK: don't use a relative path. Use any ELF file.
       --  local res = props['FileDir']..'\\' --scite_webdev
-         local res = props['FileName'] -- c scite_webdev
+         local res = props['FileName'] -- Arjunae
 		  if ext ~= '' then res = res..'.'..ext end
         return res
     else
@@ -742,7 +742,7 @@ end
 -- find the Unix/GTK equivalent! It is meant to bring the debugger
 -- SciTE instance to the front.
 function raise_scite()
-	--spawner.foreground()
+	spawner.foreground()
 end
 
 -- output of inspected variables goes here; this mechanism allows us
@@ -759,10 +759,10 @@ end
 function closing_process()
     print 'quitting debugger'
 	 stripText=""
---	spawner_obj:close()
+	--spawner_obj:close()
     set_status('idle')
     if catdbg ~= nil then print(catdbg); catdbg:close() end
--- scite_LeaveInteractivePrompt()   
+	scite_LeaveInteractivePrompt()   
 	RemoveLastMarker(true)
 	os.remove(dbg.cmd_file)
 end

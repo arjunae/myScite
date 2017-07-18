@@ -126,7 +126,6 @@ menu-project: .title
 	@echo ""
 
 
-
 menu-package: .title
 	@make -s .menu-heading title="Package Description"
 	@make -s .menu-item tgt="package-ini" desc="Creates the basic package.ini file"
@@ -162,7 +161,6 @@ menu-package: .title
 	@make -s .menu-item tgt="info-composer" desc="Show information about your composer"
 	@make -s .menu-item tgt="install-composer" desc="Download and install composer"
 	@echo ""
-
 
 
 menu-dev: .title
@@ -216,7 +214,8 @@ menu-deploy: .title
 	@make -s .menu-item tgt="pear-push" desc="Pushes the latest PEAR package. Custom pear_repo='' and pear_package='' available."
 	@make -s .menu-item tgt="release" desc="Runs tests, coverage reports, tag the build and pushes to package repositories"
 	@echo ""
-
+sdf -sdf
+sdfs --fdgd
 .exit:
 	@(echo -e "$(.ERROR) $(text)";exit 1)
 
