@@ -3,11 +3,11 @@
  * @file LexMake.cxx
  * @author Neil Hodgson, Thorsten Kani(marcedo@HabMalneFrage.de)
  * @brief Lexer for make files
- * @brief 26.06.17 | Thorsten Kani | Add more Styles
+ * @brief 18.07.17 | Thorsten Kani | Add more Styles
  * - GNUMake Directives, internal $(sort subst..) function Keywords,
  * - $@%<?^+* Automatic Variables, "-" Flags and Keywords for externalCommands
  * - Warns on more unclosed Brackets or doublequoted Strings.
- * - handles multiLine Continuations.
+ * - Handles multiLine Continuations.
  * @brief todos
  * todo: store and style User defined Varnames. ( myvar=... )
  * todo: handle VC Makefiles ( eg //D , strings and numbers in general.)
@@ -169,7 +169,7 @@ static unsigned int ColouriseMakeLine(
 			styler.ColourTo(startLine + i, state);
 			state=state_prev;
 			iWarnEOL--;
-		}	else if (inString && slineBuffer[i]=='\"') {
+		} else if (inString && slineBuffer[i]=='\"') {
 			iWarnEOL--;
 			inString=false;
 		} else if	(!inString && slineBuffer[i]=='\"') {
@@ -281,16 +281,14 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'")
-		if ((i<lengthLine && inString==false && (IsAlphaNum(slineBuffer[i])==0 && chNext=='-'))
+		if ((i<lengthLine && inString==false
+				&& (IsAlphaNum(slineBuffer[i])==0 && chNext=='-'))
 				|| (i == theStart && slineBuffer[i] == '-')) {
-
-			// style both -
-			if (i>0 && (slineBuffer[i]=='-') && chNext=='-') {
-			//	styler.ColourTo(startLine + i-1, SCE_MAKE_DEFAULT);
+			if (i>0 && (slineBuffer[i]=='-') && chNext=='-') { // style both -
+				styler.ColourTo(startLine + i-1, SCE_MAKE_DEFAULT);
 			} else {
 				styler.ColourTo(startLine + i, SCE_MAKE_DEFAULT);
 			}
-
 			state_prev=state;
 			state = SCE_MAKE_FLAGS;
 		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''", (int)chNext) >0) {
@@ -323,6 +321,7 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 
 	int status=0; // 1=cont_end 2=cont_middle/start
 	Sci_Position currMLSegment=0;
+	Sci_Position prevMLSegment=0;
 	Sci_Position finalMLSegment=0;
 
 	// check if current lines last visible char is a continuation
@@ -342,8 +341,10 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 	//  check for continuation segments start
 	pos = styler.LineStart(styler.GetLine(pos)-1);
 	while (currMLSegment >0) {
+		currMLSegment=pos;
 		while (styler[++pos]!='\n');
-		if(styler[pos+1]=='\r' || styler[pos+1]=='\n') break; // empty line reached
+		if (styler[pos+1]=='\r' || styler[pos+1]=='\n')
+			break; // empty line reached
 		while (IsGraphic(styler.SafeGetCharAt(--pos)==0));
 		pos--;
 		if (styler[pos]!='\\') {
@@ -351,10 +352,11 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 				currMLSegment=finalMLSegment;
 				break; // no MultiLine
 			} else {
+				currMLSegment=prevMLSegment;
 				break; // firstSegment reached.
 			}
 		} else { // continue search
-			currMLSegment=styler.LineStart(styler.GetLine(pos));
+			prevMLSegment=styler.LineStart(styler.GetLine(pos));
 			pos = styler.LineStart(styler.GetLine(pos)-1);
 			status=2;
 		}
@@ -364,12 +366,12 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 }
 
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
-	
+
 	const int MAX=4096;
 	char lineBuffer[MAX]; // ok. i _really_ do like vectors from now on...
 	memset(lineBuffer, 0, sizeof(*lineBuffer));
 	styler.Flush();
-	
+
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
 	// Its up to the lexer to check if the cursor position is in Fact part of a previous Lines continuation.
 	// took me much longer to get that obvious fact then to come up with a nearly oneLiner....
@@ -397,7 +399,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 			if (styler.SafeGetCharAt(ywo) =='\\') {
 
 				// ...Ok, resync position
-				while (at-- &&(at>=ywo))
+				while (lineLength>0 && at-- && (at>=ywo))
 					lineLength--;
 
 				// ...get continuations lineEnd
@@ -409,25 +411,26 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 					// .. copy newline char
 					lineBuffer[lineLength++]=styler[ywo];
 
-					// ...check if this segemnt is another continuation.
+					// ...check if this segment is another continuation.
 					Sci_Position pos=0;
 					for (pos=ywo-1; IsNewline(styler.SafeGetCharAt(pos)); pos--);
 
 					if (styler[pos] !='\\') {
-						lineLength-=1;
+						//lineLength-=2;
 						break;
 					} // ... Fini, last segment found.
 				}
-				at=lineStart+lineLength;
+				at=ywo-1;
+
 			}
-			
+
 			if (lineLength<MAX) lineBuffer[lineLength] = '\0';
+
 			ColouriseMakeLine(lineBuffer, lineLength, lineStart, at, keywords, styler);
 			lineStart = at+1;
 			lineLength = 0;
-			// Fini -> Request Screen redraw.
-			styler.ChangeLexerState(startPos, startPos+length);
 
+			styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
 		}
 
 	} // handle lines without an EOL mark.

@@ -28,7 +28,7 @@ dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 
 -- Load Orthospell 
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
---dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
+dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 
 -- Load Sidebar
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
