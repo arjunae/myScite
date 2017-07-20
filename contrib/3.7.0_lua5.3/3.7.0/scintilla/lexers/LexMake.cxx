@@ -132,23 +132,23 @@ static unsigned int ColouriseMakeLine(
 					// it's a ':=', so style as an identifier
 					if (lastNonSpace >= 0)
 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-					styler.ColourTo(startLine + i -1, state_prev);
-					styler.ColourTo(startLine + i +1, SCE_MAKE_OPERATOR);
+					styler.ColourTo(startLine + i -1, SCE_MAKE_DEFAULT);
+					//styler.ColourTo(startLine + i +1, SCE_MAKE_OPERATOR);
 				} else {
 					// We should check that no colouring was made since the beginning of the line,
 					// to avoid colouring stuff like /OUT:file
 					if (lastNonSpace >= 0)
 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
-					styler.ColourTo(startLine + i -1, state_prev);
-					styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
+					styler.ColourTo(startLine + i -1, SCE_MAKE_DEFAULT);
+					//styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
 				}
 				bSpecial = true;	// Only react to the first ':' of the line
-				state = state_prev;
+				state = SCE_MAKE_DEFAULT;
 			} else if (slineBuffer[i] == '=') {
 				if (lastNonSpace >= 0)
 					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-				styler.ColourTo(startLine + i -1, state_prev);
-				styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
+				styler.ColourTo(startLine + i -1, SCE_MAKE_DEFAULT);
+				//styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
 				bSpecial = true;	// Only react to the first '=' of the line
 				state = SCE_MAKE_DEFAULT;
 			}
@@ -334,20 +334,19 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 		status=2;
 	} else {
 		status=1;
-		currMLSegment=offset;
 		finalMLSegment=offset;
 	}
 
 	//  check for continuation segments start
 	pos = styler.LineStart(styler.GetLine(pos)-1);
-	while (currMLSegment >0) {
+	while (pos != currMLSegment ) {
 		currMLSegment=pos;
 		while (styler[++pos]!='\n');
 		if (styler[pos+1]=='\r' || styler[pos+1]=='\n')
 			break; // empty line reached
-		while (IsGraphic(styler.SafeGetCharAt(--pos)==0));
+		while (iscntrl(styler.SafeGetCharAt(--pos)));
 		pos--;
-		if (styler[pos]!='\\') {
+		if (styler[pos]!='\\' && styler[pos+1]!='\\') {
 			if (status==1) {
 				currMLSegment=finalMLSegment;
 				break; // no MultiLine
@@ -388,6 +387,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
 		Sci_PositionU ywo=0;
+
 		lineBuffer[lineLength++] = styler[at];
 
 		// End of line (or of max line buffer) met.
@@ -397,35 +397,33 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 			// check last visible char for beeing a continuation
 			while (IsNewline(styler[--ywo]));
 			if (styler.SafeGetCharAt(ywo) =='\\') {
-
+			
 				// ...Ok, resync position
-				while (lineLength>0 && at-- && (at>=ywo))
+				while (lineLength>0 && at-- &&(at>=ywo))
 					lineLength--;
 
 				// ...get continuations lineEnd
 				while (lineLength<MAX-1) {
-					// get segments lineEnd
-					while (styler[ywo++] && styler[ywo-1]!='\n' && styler[ywo-1]!='\0')
+					// ...get next segments lineEnd
+					while (styler[ywo++] && styler[ywo-1]!='\n' )
 						if (lineLength<MAX) lineBuffer[lineLength++] = styler[ywo];
 
-					// .. copy newline char
-					lineBuffer[lineLength++]=styler[ywo];
-
-					// ...check if this segment is another continuation.
+					// ...exit if this segment is not another continuation.
+					lineBuffer[lineLength++] = styler[ywo];
 					Sci_Position pos=0;
 					for (pos=ywo-1; IsNewline(styler.SafeGetCharAt(pos)); pos--);
-
-					if (styler[pos] !='\\') {
-						//lineLength-=2;
-						break;
-					} // ... Fini, last segment found.
+					if (styler[pos] !='\\') { // ... Fini, copy last segment.
+						while (styler[ywo++]!='\n'); 
+						if (lineLength<MAX) lineBuffer[lineLength++] = styler[ywo];
+					break;
+					}
 				}
-				at=ywo-1;
-
+				at=lineStart+lineLength;
+				at--;
 			}
 
 			if (lineLength<MAX) lineBuffer[lineLength] = '\0';
-
+			
 			ColouriseMakeLine(lineBuffer, lineLength, lineStart, at, keywords, styler);
 			lineStart = at+1;
 			lineLength = 0;
@@ -436,6 +434,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	} // handle lines without an EOL mark.
 	if (lineLength>0)
 		ColouriseMakeLine(lineBuffer, lineLength, lineStart, startPos+length -1, keywords, styler);
+
 }
 
 static const char *const makefileWordListDesc[] = {

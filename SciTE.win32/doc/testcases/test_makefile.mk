@@ -43,17 +43,17 @@ default: help-default;   # default target
 Makefile: ;              # skip prerequisite discovery
 
 .title:
-	@if [[ ! -n "$(notitle)" ]]; then \
+	@if [[ ! -n "$(notitle)" ]]; then 
+
 		echo ""; \
 	fi; \
 
 .check-foundation: .title
 	@make -v|grep -qi GNU || echo -e "\nWARNING: Foundation Makefile was developed for use with GNU Make\
 	using other flavoured binaries may have unwanted consequences.\n"
-	@make -v|grep -q 'built for .*apple' && echo -e "\nWARNING: he apple built edition of GNU Make have several\
+	@make -v|grep -q 'built for .*apple' && echo -e "\nWARNING: The apple built edition of GNU Make have several\
 	known quirks and is not recommended. For best results, install make with homebrew and link it in out of\
-	"keg only" or create an alias to the non apple distributed version of GNU Make instead.\n"|| true
-
+	"keg only" or create an alias to the non apple distributed version of GNU Make instead.\n" || true
 	@[[ -d $(FOUNDATION_HOME) ]] ||\
 		(make -s -f $(THIS) .prompt-yesno message='Update Makefile? ' && \
 		make -s -f $(THIS) foundation) 
@@ -127,6 +127,7 @@ menu-project: .title
 	@echo ""
 
 
+
 menu-package: .title
 	@make -s .menu-heading title="Package Description"
 	@make -s .menu-item tgt="package-ini" desc="Creates the basic package.ini file"
@@ -162,6 +163,7 @@ menu-package: .title
 	@make -s .menu-item tgt="info-composer" desc="Show information about your composer"
 	@make -s .menu-item tgt="install-composer" desc="Download and install composer"
 	@echo ""
+
 
 
 menu-dev: .title
@@ -215,8 +217,7 @@ menu-deploy: .title
 	@make -s .menu-item tgt="pear-push" desc="Pushes the latest PEAR package. Custom pear_repo='' and pear_package='' available."
 	@make -s .menu-item tgt="release" desc="Runs tests, coverage reports, tag the build and pushes to package repositories"
 	@echo ""
-sdf -sdf
-sdfs --fdgd
+
 .exit:
 	@(echo -e "$(.ERROR) $(text)";exit 1)
 
@@ -291,7 +292,7 @@ clean-up-makefile-baks:
 	@echo -e "    > $(.BOLD)(Re)patching .gitignore$(.CLEAR)"
 	$(GENERATE_TOOL) config-template gitignore > gitignore.tmp && 
   
-	mv -f gitignore.tmp .gitignore
+mv -f gitignore.tmp .gitignore
 
 	@make -f $(THIS) -s .needs-file file='.gitignore' text='Checking .gitignore...'
 
@@ -410,8 +411,7 @@ phantomjs-inject phantomjs-inject-verbose: .check-foundation
 	@if [ -z '$(code)' ]; then \
 	  while read -r; do \
 	    lines="$${lines} $${REPLY}"; \
-	  done <&0; 
-
+	  done <&0; \
 	  phantomjs ${FOUNDATION_HOME}/repo/bin/jquery-console-phantom.js "$(url)" "$${lines}" "${VERBOSE}"; \
 	else \
 	  phantomjs ${FOUNDATION_HOME}/repo/bin/jquery-console-phantom.js "$(url)" '$(code)' "${VERBOSE}"; \
@@ -912,7 +912,7 @@ clean-all-whitespace: .check-foundation
 		make -s -f $(THIS) clean-trailing-spaces file="$(file)"; \
 		make -s -f $(THIS) clean-single-blank-lines file="$(file)"; \
 	else \
-		make -s -f $(THIS) clean-tabs2spaces;	make -s -f $(THIS) clean-unix-line-ends; make -s -f $(THIS) clean-trailing-spaces; make -s -f $(THIS) clean-single-blank-lines; \
+		make -s -f $(THIS) clean-tabs2spaces; make -s -f $(THIS) clean-unix-line-ends; make -s -f $(THIS) clean-trailing-spaces; make -s -f $(THIS) clean-single-blank-lines; \
 	fi;
 
 clean-remove-eof-php-tag:
