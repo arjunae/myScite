@@ -57,7 +57,7 @@ move ..\bin\SciLexer.dll ..\..\..\..\SciTE.win32
 
 If [%PLAT%]==[WIN64] (
 echo ... move to SciTE.win64
-move ..\bin\SciTE.exe ..\..\..\..\SciTE.win64
+::move ..\bin\SciTE.exe ..\..\..\..\SciTE.win64
 move ..\bin\SciLexer.dll ..\..\..\..\SciTE.win64
 )
 

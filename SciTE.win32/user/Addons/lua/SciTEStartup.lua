@@ -1,3 +1,6 @@
+-- track the amount of allocated memory 
+session_used_memory=collectgarbage("count")*1024
+
 -- Windows requires this for us to immediately see all lua output.
 io.stdout:setvbuf("no")
 --print("startupScript_reload")

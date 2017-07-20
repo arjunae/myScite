@@ -1,3 +1,6 @@
+-- track the amount of allocated memory 
+session_used_memory=collectgarbage("count")*1024
+
 -- Windows requires this for us to immediately see all lua output.
 io.stdout:setvbuf("no")
 --print("startupScript_reload")
@@ -12,9 +15,6 @@ local unpack = table.unpack or unpack
 math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
-
-local socket = require "socket"
-  socket.select(nil, nil, 1)
 
 -- Load extman.lua 
 dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
@@ -59,6 +59,6 @@ function markLinks()
 	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :) 
 end
 
---scite_OnOpenSwitch(markLinks)
+scite_OnOpenSwitch(markLinks)
 
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand

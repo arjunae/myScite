@@ -120,7 +120,7 @@ static unsigned int ColouriseMakeLine(
 		if (slineBuffer[i] == '#' && iWarnEOL<1) {	// support GNUMake inline Comments
 			state_prev=state;
 			state=SCE_MAKE_COMMENT;
-			if (i>0) styler.ColourTo(startLine+i-1, state_prev);
+			if (i>0) styler.ColourTo(startLine + i-1, state_prev);
 			styler.ColourTo(endPos, state);
 			return (state);
 		}
@@ -133,14 +133,14 @@ static unsigned int ColouriseMakeLine(
 					if (lastNonSpace >= 0)
 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
 					styler.ColourTo(startLine + i -1, SCE_MAKE_DEFAULT);
-					//styler.ColourTo(startLine + i +1, SCE_MAKE_OPERATOR);
+					styler.ColourTo(startLine + i +1, SCE_MAKE_OPERATOR);
 				} else {
 					// We should check that no colouring was made since the beginning of the line,
 					// to avoid colouring stuff like /OUT:file
 					if (lastNonSpace >= 0)
 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
 					styler.ColourTo(startLine + i -1, SCE_MAKE_DEFAULT);
-					//styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
+					styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
 				}
 				bSpecial = true;	// Only react to the first ':' of the line
 				state = SCE_MAKE_DEFAULT;
@@ -148,7 +148,7 @@ static unsigned int ColouriseMakeLine(
 				if (lastNonSpace >= 0)
 					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
 				styler.ColourTo(startLine + i -1, SCE_MAKE_DEFAULT);
-				//styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
+				styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
 				bSpecial = true;	// Only react to the first '=' of the line
 				state = SCE_MAKE_DEFAULT;
 			}
@@ -167,7 +167,8 @@ static unsigned int ColouriseMakeLine(
 			state=SCE_MAKE_IDENTIFIER;
 			if (i>0) styler.ColourTo(startLine + i-1, SCE_MAKE_DEFAULT);
 			styler.ColourTo(startLine + i, state);
-			state=state_prev;
+			state=SCE_MAKE_DEFAULT;
+			styler.ColourTo(startLine + i, state);
 			iWarnEOL--;
 		} else if (inString && slineBuffer[i]=='\"') {
 			iWarnEOL--;
@@ -210,10 +211,10 @@ static unsigned int ColouriseMakeLine(
 			// Rule: Prepended by line start or " \t\r\n /\":,\=" Ends on eol,whitespace or ;
 			if (kwExtCmd.InList(strSearch.c_str()) && inString==false && (strchr("\t\r\n ;", (int)chNext) >0)
 					&& (i+1 -wordLen == theStart || AtStartChar(styler, startLine +i -wordLen))) {
-				styler.ColourTo(startLine +i-wordLen, SCE_MAKE_DEFAULT);
+				styler.ColourTo(startLine + i-wordLen, SCE_MAKE_DEFAULT);
 				state_prev=state;
 				state=SCE_MAKE_EXTCMD;
-				styler.ColourTo(startLine +i, state);
+				styler.ColourTo(startLine + i, state);
 			} else if (state == SCE_MAKE_EXTCMD) {
 				state=SCE_MAKE_DEFAULT;
 				styler.ColourTo(startLine + i, state);
@@ -228,11 +229,11 @@ static unsigned int ColouriseMakeLine(
 				styler.ColourTo(startLine + i, state);
 			} else if (state == SCE_MAKE_DIRECTIVE) {
 				state=SCE_MAKE_DEFAULT;
-				styler.ColourTo(startLine +i, state);
+				styler.ColourTo(startLine + i, state);
 			}
 
 			// ....and within functions $(sort,subst...) / used to style internal Variables too.
-			// Rule: have to be prefixed by '(' and precedet by whitespace or ;)
+			// Rule: have to be prefixed by '(' and preceeded by whitespace or ;)
 			if (kwFunctions.InList(strSearch.c_str())
 					&& styler.SafeGetCharAt(startLine +i -wordLen -1) == '$'
 					&& styler.SafeGetCharAt(startLine +i -wordLen) == '(') {
@@ -243,7 +244,6 @@ static unsigned int ColouriseMakeLine(
 				state=SCE_MAKE_DEFAULT;
 				styler.ColourTo(startLine + i, state);
 			}
-
 			startMark=0;
 			strLen=0;
 			strSearch.clear();
@@ -261,11 +261,11 @@ static unsigned int ColouriseMakeLine(
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
 		} else if (SCE_MAKE_USER_VARIABLE && (strchr("})", (int)chNext) >0)) {
-			styler.ColourTo(startLine +i, state);
-			styler.ColourTo(startLine + i, state_prev);
+			styler.ColourTo(startLine + i, state);
+			styler.ColourTo(startLine + i, SCE_MAKE_DEFAULT);
 			state = state_prev;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i])) >0) {
-			styler.ColourTo(startLine +i, state);
+			styler.ColourTo(startLine + i, state);
 			styler.ColourTo(startLine + i, state_prev);
 			state = state_prev;
 		}
@@ -360,7 +360,6 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 			status=2;
 		}
 	}
-
 	return (currMLSegment);
 }
 

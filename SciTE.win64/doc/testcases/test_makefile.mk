@@ -389,7 +389,7 @@ install-phantomjs: .check-foundation
 
 .check-phantomjs:
 	@(make -s -f $(THIS) info-phantomjs \
-	|| make -s -f $(THIS) install-phantomjs)  \
+	|| make -s -f $(THIS) install-phantomjs )  \
 	|| (echo -e "$(.ERROR) Unable to install phantomjs. Aborting..." && false)
 
 phantomjs-inject phantomjs-inject-verbose: .check-foundation 
