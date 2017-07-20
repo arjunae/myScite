@@ -4,25 +4,27 @@
 -- ######### LuaCom ########
 -- ## WIN Common Object Model Support for lua 
 -- ####################### 
-print("lua allocated mem:"..session_used_memory)
+print("lua allocated mem:"..session_used_memory.."kb")
 
 require "luacom"
+--assert (loadlib ("luacom.dll","luacom_openlib")) ()
 
-sUrl = "http://www.yahoo.de"
+sUrl = "http://de.movies.yahoo.com"
 
-luacom.config.abort_on_error = true 
-luacom.config.abort_on_API_error = true 
+--luacom.config.abort_on_error = true 
+--luacom.config.abort_on_API_error = true 
 
 oWeb = {} -- OLE object
 _oWeb = {} -- it's events
+tabs_title = ""
 
 function test_luaCom()
 -- ##  Print all links from a given URL  (Noo, we're not doin any Web-Scraping at home here :)
 	sID=luacom.CLSIDfromProgID("InternetExplorer.Application")
 	print("start Browser with CLSID "..sID)
 
-	oWeb=assert(luacom.CreateObject("InternetExplorer.Application")) 
-	if not oWeb then
+	oWeb=luacom.CreateObject("InternetExplorer.Application")
+	if oWeb==nil then
 		print ("clean_up")
 		collectgarbage()
 	end
@@ -38,6 +40,7 @@ function test_luaCom()
 	if event_handler == nil then print("Error implementing Events") end 
 	cookie = luacom.addConnection(oWeb, event_handler)
 	
+	oWeb=nil;
 	event_handler=nil
 	cookie=nil
 end
@@ -48,18 +51,23 @@ end
 
 function _oWeb:DocumentComplete(oWin,url) 
 -- fires for every frame, so only react on root location completetition
-		if oWeb.locationURL  == url then
+		if oWin.locationURL  == url then
 			print("event DocumentComplete recieved! ")
-			print("Url: "..url.." Root: "..oWeb.locationURL)
-		   siteParser(oWin)
+			print("Url: "..url.." Root: "..oWin.locationURL)
+		   siteParser(oWin.Document)
+			
+		-- using the optional get / set prefix to access properties showed to be saver. 
+		if tabs_title =="" then 
+			tabs_title = "myTitle"
+			oWin.Document:settitle(tabs_title) 
+		end
+		
 		end
 end
 
-function siteParser(oWin)
+function siteParser(oDoc)
 	-- Retrieves our IHTMLDocument. We can use all listed extensions from 1 - 8: (Mai2016)
 	-- https://msdn.microsoft.com/en-us/library/ff975572(v=vs.85).aspx
-	
-	oDoc=oWin.Document
 	
 	-- Now print out all links found within the Site
 	eTmp=oDoc.body:getElementsByTagName("a")
@@ -85,6 +93,7 @@ function _oWeb:OnQuit()
 	oWin=nil
 	oWeb=nil
 	_oWeb=nil
+	tabs_title=nil
 	script_used_memory=(collectgarbage("count")*1024) - session_used_memory
 	print("... Script allocated "..script_used_memory.." kb memory")
 	print("freeing memory ...")
@@ -97,3 +106,6 @@ end
 test_luaCom()
 --	sID=luacom.CLSIDfromProgID("SAPI.SpVoice")
 --	print("CLSID "..sID)
+
+talk = assert (luacom.CreateObject ("SAPI.SpVoice"), "cannot open SAPI")
+talk:Speak ("Bla. Ha HA .Haaaa... Bla!")
