@@ -18,8 +18,8 @@ if "%Tools%"=="" (
 ::--------------------------------------------------
 
 ::call vcvars32.bat
-::call vcvarsall.bat amd64
-call vcvarsall.bat x86
+call vcvarsall.bat amd64
+::call vcvarsall.bat x86
 
 if "%1"=="DEBUG" set parameter1=DEBUG=1
 REM set parameter1=DEBUG=1
