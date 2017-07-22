@@ -238,7 +238,7 @@ $(LEXCOMPONENT): $(LOBJS) $(DIR_O)\ScintRes.res
 	$(LD) $(LDFLAGS) -DEF:Scintilla.def -DLL -OUT:$@ $** $(LIBS)
 
 $(LEXLIB): $(LEXOBJS)
-	LIB /OUT:$@ $(LEXOBJS)
+	LIB /OUT:$@ /LTCG $(LEXOBJS)
 
 # Define how to build all the objects and what they depend on
 

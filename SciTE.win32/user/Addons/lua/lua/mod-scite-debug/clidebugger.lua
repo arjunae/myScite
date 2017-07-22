@@ -92,7 +92,8 @@ function Clidebug:command_line(target)
 	local ppath = ppath..slashify(join(scite_GetProp("ext.lua.directory"),'?.lua;'))
 	local pcpath = slashify(join(scite_GetProp("ext.luamodules.directory"),'?.dll;'))
 	local pcpath = pcpath..slashify(join(scite_GetProp("ext.luamodules.directory"),'?.so;'))
-	local res = 'cmd /c ' ..self.lua..' -e "package.path=\''..ppath..'..package.path\';package.cpath=\''..pcpath..'\'\" -lclidebug '..self.target..' '..self:parameter_string()
+	local startupFile = "startup"
+	local res = 'cmd /c ' ..self.lua..' -l \"'..startupFile..'\"   -e "package.path=\''..ppath..'..package.path\';package.cpath=\''..pcpath..'\'\" -lclidebug '..self.target..' '..self:parameter_string()
 	if ext == 'wlua' then
 		res = 'cmd /c '..res
 	end

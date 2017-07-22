@@ -414,21 +414,20 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 				// ...get continuations lineEnd
 				while (lineLength<MAX-1) {
 					// ...get next segments lineEnd
-					while (styler[ywo++] && styler[ywo-1]!='\n')
+					while (styler[ywo++] && styler[ywo]!='\n')
 						if (lineLength<MAX) lineBuffer[lineLength++] = styler[ywo];
 
 					// ...exit if this segment is not another continuation.
 					lineBuffer[lineLength++] = styler[ywo];
 					Sci_Position pos=0;
 					for (pos=ywo-1; IsNewline(styler.SafeGetCharAt(pos)); pos--);
-					if (styler[pos] !='\\') { // ... Fini, copy last segment.
-						while (styler[ywo++]!='\n');
-						if (lineLength<MAX) lineBuffer[lineLength++] = styler[ywo];
+					if (styler[pos] !='\\') { // ... Fini.
 						break;
 					}
 				}
+				lineLength--;
 				at=lineStart+lineLength;
-				at--;
+
 			}
 
 			if (lineLength<MAX) lineBuffer[lineLength] = '\0';

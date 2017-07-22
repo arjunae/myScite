@@ -4,13 +4,13 @@
  * @author Neil Hodgson, Thorsten Kani(marcedo@HabMalneFrage.de)
  * @brief Lexer for make files
  * @brief 18.07.17 | Thorsten Kani | Add more Styles
- * - GNUMake Directives, internal $(sort subst..) function Keywords,
- * - $@%<?^+* Automatic Variables, "-" Flags and Keywords for externalCommands
+ * - GNUMake Directives, internal function Keywords  $(sort subst..) ,
+ * - Automatic Variables $@%<?^+* , Flags "-" and Keywords for externalCommands
  * - Warns on more unclosed Brackets or doublequoted Strings.
- * - Handles multiLine Continuations.
+ * - Handles multiLine Continuations, inlineComments and styles Strings.
  * @brief todos
  * todo: store and style User defined Varnames. ( myvar=... )
- * todo: handle VC Makefiles ( eg //D , strings and numbers in general.)
+ * todo: handle VC Makefiles ( eg //D and numbers in general.)
  * @brief Copyright 1998-2001 by Neil Hodgson <neilh@scintilla.org>
  * The License.txt file describes the conditions under which this software may
  * be distributed.
@@ -153,27 +153,27 @@ static unsigned int ColouriseMakeLine(
 
 		// lets signal a warning on unclosed Strings or Brackets.
 		if (strchr("({", (int)slineBuffer[i]) >0) {
-			state_prev=state;
-			state=SCE_MAKE_IDENTIFIER;
-			if (i>0) styler.ColourTo(startLine + i-1, SCE_MAKE_DEFAULT);
+			state_prev = state;
+			state = SCE_MAKE_IDENTIFIER;
+			if (i>0) styler.ColourTo(startLine + i-1, state_prev);
 			styler.ColourTo(startLine + i, state);
-			state=state_prev;
+			state = state_prev;
 			iWarnEOL++;
 		} else if (strchr(")}", (int)slineBuffer[i]) >0) {
-			state_prev=state;
-			state=SCE_MAKE_IDENTIFIER;
-			if (i>0) styler.ColourTo(startLine + i-1, SCE_MAKE_DEFAULT);
+			state_prev = state;
+			state = SCE_MAKE_IDENTIFIER;
+			//if (i>0) styler.ColourTo(startLine + i-1, state_prev);
 			styler.ColourTo(startLine + i, state);
-			state=SCE_MAKE_DEFAULT;
+			//state = SCE_MAKE_DEFAULT;
 			styler.ColourTo(startLine + i, state_prev);
 			iWarnEOL--;
 		} else if (inString && slineBuffer[i]=='\"') {
 			state_prev=state;
-			state=SCE_MAKE_IDENTIFIER;
-			if (i>0) styler.ColourTo(startLine + i-1, SCE_MAKE_DEFAULT);
+			if (i>0) styler.ColourTo(startLine + i-1, SCE_MAKE_STRING);
+			state = SCE_MAKE_IDENTIFIER;
 			styler.ColourTo(startLine + i, state);
-			state=SCE_MAKE_DEFAULT;
 			styler.ColourTo(startLine + i, state_prev);
+			state=state_prev;
 			iWarnEOL--;
 			inString=false;
 		} else if	(!inString && slineBuffer[i]=='\"') {
@@ -181,7 +181,8 @@ static unsigned int ColouriseMakeLine(
 			state=SCE_MAKE_IDENTIFIER;
 			if (i>0) styler.ColourTo(startLine + i-1, state_prev);
 			styler.ColourTo(startLine + i, state);
-			state=state_prev;
+			state=SCE_MAKE_STRING;
+			styler.ColourTo(startLine + i, state);
 			inString=true;
 			iWarnEOL++;
 		}
@@ -219,8 +220,8 @@ static unsigned int ColouriseMakeLine(
 			// Rule: Prepended by line start or " \t\r\n /\":,\=" Ends on eol,whitespace or ;
 			if (kwExtCmd.InList(strSearch.c_str()) && inString==false && (strchr("\t\r\n ;)", (int)chNext) >0)
 					&& (i+1 -wordLen == theStart || AtStartChar(styler, startLine +i -wordLen))) {
-				styler.ColourTo(startLine + i-wordLen, SCE_MAKE_DEFAULT);
 				state_prev=state;
+				styler.ColourTo(startLine + i-wordLen, state_prev);
 				state=SCE_MAKE_EXTCMD;
 				styler.ColourTo(startLine + i, state);
 			} else if (state == SCE_MAKE_EXTCMD) {
@@ -247,6 +248,7 @@ static unsigned int ColouriseMakeLine(
 					&& styler.SafeGetCharAt(startLine +i -wordLen -1) == '$'
 					&& styler.SafeGetCharAt(startLine +i -wordLen) == '(') {
 				state_prev=state;
+				if (i>0) styler.ColourTo(startLine + i-wordLen, state_prev);
 				state=SCE_MAKE_OPERATOR;
 				styler.ColourTo(startLine + i, state);
 				styler.ColourTo(startLine + i, SCE_MAKE_DEFAULT);
@@ -262,11 +264,11 @@ static unsigned int ColouriseMakeLine(
 		// Style User Variables Rule: $(...)
 		if (slineBuffer[i] == '$' && (strchr("{(", (int)chNext) >0)) {
 			state_prev=state;
-			if (i>0) styler.ColourTo(startLine + i-1, SCE_MAKE_DEFAULT);
+			if (i>0) styler.ColourTo(startLine + i-1, state_prev);
 			state = SCE_MAKE_USER_VARIABLE;
 			// ... and $ based automatic Variables Rule: $@%<?^+*
 		} else if (slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)chNext)) >0) {
-			if (i>0) styler.ColourTo(startLine + i-1, SCE_MAKE_DEFAULT);
+			if (i>0) styler.ColourTo(startLine + i-1, state_prev);
 			styler.ColourTo(startLine +i-1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
@@ -294,12 +296,12 @@ static unsigned int ColouriseMakeLine(
 		if ((i<lengthLine && inString==false
 				&& (IsAlphaNum(slineBuffer[i])==0 && chNext=='-'))
 				|| (i == theStart && slineBuffer[i] == '-')) {
-			if (i>0 && (slineBuffer[i]=='-') && chNext=='-') { // style both -
-				styler.ColourTo(startLine + i-1, state);
-			} else {
-				styler.ColourTo(startLine + i, state);
-			}
 			state_prev=state;
+			if (i>0 && (slineBuffer[i]=='-') && chNext=='-') { // style both -
+				styler.ColourTo(startLine + i-1, state_prev);
+			} else {
+				styler.ColourTo(startLine + i, state_prev);
+			}
 			state = SCE_MAKE_FLAGS;
 		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''", (int)chNext) >0) {
 			styler.ColourTo(startLine + i, state);
@@ -414,21 +416,20 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 				// ...get continuations lineEnd
 				while (lineLength<MAX-1) {
 					// ...get next segments lineEnd
-					while (styler[ywo++] && styler[ywo-1]!='\n')
+					while (styler[ywo++] && styler[ywo]!='\n')
 						if (lineLength<MAX) lineBuffer[lineLength++] = styler[ywo];
 
 					// ...exit if this segment is not another continuation.
 					lineBuffer[lineLength++] = styler[ywo];
 					Sci_Position pos=0;
 					for (pos=ywo-1; IsNewline(styler.SafeGetCharAt(pos)); pos--);
-					if (styler[pos] !='\\') { // ... Fini, copy last segment.
-						while (styler[ywo++]!='\n');
-						if (lineLength<MAX) lineBuffer[lineLength++] = styler[ywo];
+					if (styler[pos] !='\\') { // ... Fini.
 						break;
 					}
 				}
+				lineLength--;
 				at=lineStart+lineLength;
-				at--;
+
 			}
 
 			if (lineLength<MAX) lineBuffer[lineLength] = '\0';
