@@ -5,7 +5,7 @@
 #
 # Make sure you have GNU Make, and type `make` in this Makefile folder.
 #
-	
+
 # General Configuration
 VERSION         = 0.1.13
 FOUNDATION_HOME = $(shell pwd)/.foundation
@@ -44,9 +44,8 @@ Makefile: ;              # skip prerequisite discovery
 
 .title:
 	@if [[ ! -n "$(notitle)" ]]; then 
-
 		echo ""; \
-	fi; \
+	fi;
 
 .check-foundation: .title
 	@make -v|grep -qi GNU || echo -e "\nWARNING: Foundation Makefile was developed for use with GNU Make\
@@ -54,6 +53,7 @@ Makefile: ;              # skip prerequisite discovery
 	@make -v|grep -q 'built for .*apple' && echo -e "\nWARNING: The apple built edition of GNU Make have several\
 	known quirks and is not recommended. For best results, install make with homebrew and link it in out of\
 	"keg only" or create an alias to the non apple distributed version of GNU Make instead.\n" || true
+
 	@[[ -d $(FOUNDATION_HOME) ]] ||\
 		(make -s -f $(THIS) .prompt-yesno message='Update Makefile? ' && \
 		make -s -f $(THIS) foundation) 
@@ -391,6 +391,8 @@ install-phantomjs: .check-foundation
 	@(make -s -f $(THIS) info-phantomjs \
 	|| make -s -f $(THIS) install-phantomjs )  \
 	|| (echo -e "$(.ERROR) Unable to install phantomjs. Aborting..." && false)
+
+	"sfsfsfd ) fdhgrgth )  sdfsdf"
 
 phantomjs-inject phantomjs-inject-verbose: .check-foundation 
 	@make -s -f $(THIS) .check-phantomjs notitle=1
