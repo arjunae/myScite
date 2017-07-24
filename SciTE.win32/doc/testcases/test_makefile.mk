@@ -392,8 +392,6 @@ install-phantomjs: .check-foundation
 	|| make -s -f $(THIS) install-phantomjs )  \
 	|| (echo -e "$(.ERROR) Unable to install phantomjs. Aborting..." && false)
 
-	"sfsfsfd ) fdhgrgth )  sdfsdf"
-
 phantomjs-inject phantomjs-inject-verbose: .check-foundation 
 	@make -s -f $(THIS) .check-phantomjs notitle=1
 	@[[ -z "$(url)" ]] && echo -e "Usage: make phantomjs-snapshot url=<site-url> [code=jQuery Script] or use stdin\n\n \
