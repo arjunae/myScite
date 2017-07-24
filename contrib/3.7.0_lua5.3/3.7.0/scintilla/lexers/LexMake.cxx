@@ -380,9 +380,8 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	styler.Flush();
 
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
-	// Its up to the lexer to check if the cursor position is in Fact part of a previous Lines continuation.
-	// took me much longer to get that obvious fact then to come up with a nearly oneLiner....
-
+	// If that Position is within a continued Line, we notify that position to Scintilla here: 
+	
 	// find that (Multi)lines start.
 	Sci_Position o_startPos=ckMultiLine(styler, startPos);
 	styler.StartSegment(o_startPos);
@@ -403,14 +402,18 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 			ywo=at;
 
 			// check last visible char for beeing a continuation
-			// coops with unix and windows style line ends.
+			// cope with unix and windows style line ends.
 			while (IsNewline(styler[--ywo]))
 				if (styler[ywo]=='\n') break; // empty line
 	
+			// ...seen a Multiline continuation char
 			if (styler.SafeGetCharAt(ywo) =='\\') {
-				// ...Ok, resync position
+			
+			// todo:refactor to ckMultiLineEnd()
+			
+				// set linebuffers Pos
 				while(lineLength>0 && lineBuffer[--lineLength] && lineBuffer[lineLength-1]!='\\' );
-												
+													
 				// ...get continuations lineEnd
 				while (lineLength<MAX-1) {
 
@@ -420,16 +423,13 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 						if (styler[ywo]=='\n' || styler[ywo]=='\0' ) break;
 					}					
 					
-					// ...no more continuations==Fini
+					// ...Final continuation==Fini
 					if (styler[ywo-1] !='\\' && styler[ywo-2] !='\\' && styler[ywo]=='\n' ) { 
-						at=lineStart+lineLength-1;
-						break;// Case: Normal Continuation end
+						at=lineStart+lineLength-1; // Continuation end reached.
+						break;
 					} else if (styler[ywo]=='\0' || styler[ywo+1]=='\0') {
-						while(lineLength>0 && iscntrl(lineBuffer[--lineLength]));
-						at=lineStart+lineLength;
-						break;// Case: During writing the line.
-					} else if (styler[ywo-1] !='\\' && styler[ywo-2] !='\\' && styler[ywo+1]!='\n' ) {
-						at=lineStart+lineLength;
+						lineLength--;	// handle continuated lines without an EOL mark. 
+						at=lineStart+lineLength-1;
 						break;
 					}
 
@@ -444,8 +444,8 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 			styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
 		}
 
-	} // handle lines without an EOL mark.
-	//if (lineLength>0)
+	} 
+	//if (lineLength>0) // handle normal lines without an EOL mark.
 	//	ColouriseMakeLine(lineBuffer, lineLength, lineStart, startPos+length -1, keywords, styler);
 
 }
