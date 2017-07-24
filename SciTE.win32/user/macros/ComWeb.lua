@@ -11,7 +11,7 @@ require "luacom"
 
 sUrl = "http://de.movies.yahoo.com"
 
---luacom.config.abort_on_error = true 
+luacom.config.abort_on_error = true 
 --luacom.config.abort_on_API_error = true
 
 _oWeb = {} -- it's events
@@ -23,15 +23,17 @@ function test_luaCom()
 	--sID=luacom.CLSIDfromProgID("InternetExplorer.Application")
 	--print("start Browser with CLSID "..sID)
 
-	oWeb=luacom.CreateObject("InternetExplorer.Application")
-	if type(oWeb)==nil then
-		print ("clean_up")
+	oWeb=luacom.GetObject("InternetExplorer.Application")
+	if oWeb == nil then oWeb=luacom.CreateObject("InternetExplorer.Application")  end
+	if type(oWeb)=='nil' then
+		print ("Cant initialize Browser - cleaning up")
 		collectgarbage()
+		return
 	end
 	
 	-- DWebBrowserEvents2: https://msdn.microsoft.com/en-us/library/aa768283(v=vs.85).aspx
 	event_handler = luacom.ImplInterface(_oWeb, "InternetExplorer.Application", "DWebBrowserEvents2") 
-	if type(event_handler) == nil then print("Error implementing Events") end
+	if type(event_handler) == 'nil' then print("Error implementing Events") end
 	
 	res,cookie = luacom.addConnection(oWeb, event_handler)
 	if res ~= 3 then print("Error implementing Events") end 
@@ -101,9 +103,10 @@ end
 
 -- ######### run Test ###############
 
+--sID=luacom.CLSIDfromProgID("SAPI.SpVoice")
+--print("CLSID "..sID)
+
 test_luaCom()
---	sID=luacom.CLSIDfromProgID("SAPI.SpVoice")
---	print("CLSID "..sID)
 
 talk = assert (luacom.CreateObject ("SAPI.SpVoice"), "cannot open SAPI")
 talk:Speak ("Bla. Ha HA .Haaaa... Bla!")

@@ -301,13 +301,12 @@ static unsigned int ColouriseMakeLine(
 		}
 
 	/// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'")
-		if ((i<lengthLine && inString==false && (IsAlphaNum(slineBuffer[i])==0 && chNext=='-')) || (i == theStart && slineBuffer[i] == '-')) {
-			state_prev=state;
-			if (i>0 && (slineBuffer[i]=='-') && chNext=='-') // style both -
-				styler.ColourTo(startLine + i-1, state_prev);
-			else 
-				styler.ColourTo(startLine + i, state_prev);
+		if ((i<lengthLine && inString==false && (IsAlphaNum(slineBuffer[i])==0 && chNext=='-')) 
+		|| (i == theStart && slineBuffer[i] == '-')) {
+			state_prev=state; 
 			state = SCE_MAKE_FLAGS;
+			bool j= (i>0 && (slineBuffer[i]=='-') && chNext=='-') ? 1:0; // style both '-'
+ 			styler.ColourTo(startLine + i-j, state_prev);
 		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''", (int)chNext) >0) {
 			styler.ColourTo(startLine + i, state);
 			styler.ColourTo(startLine + i, state_prev);
@@ -380,6 +379,44 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 	return (currMLSegment);
 }
 
+
+/**
+// @brief returns a multilines length or current lines length
+// if the Position does not belong to a Multiline Segment.
+**/
+static int ckMultiLineLen(Accessor &styler, Sci_Position ywo) {
+	unsigned int length=0;
+	
+		// check last visible char for beeing a continuation
+		// cope with unix and windows style line ends.
+		while (IsNewline(styler[--ywo]))
+			if (styler[ywo]=='\n') return(length); // empty Line	
+	
+		if (styler[ywo]=='\\') {
+			// ...get continuations lineEnd
+			while (length<4095) {
+
+				//..get Segments lineEnd
+				while (styler[ywo++]){
+					length++;
+					if (styler[ywo]=='\n' || styler[ywo]=='\0' ) break;
+				}					
+				
+				// ...Final continuation==Fini
+				if (styler[ywo-1] !='\\' && styler[ywo-2] !='\\' && styler[ywo]=='\n' ) { 
+					return(length-1); // Continuation end reached.
+					break;
+				} else if (styler[ywo]=='\0' || styler[ywo+1]=='\0') {
+					return(length--);	// handle continuated lines without an EOL mark. 
+					break;
+				}
+
+			}
+		}
+		return(length);
+}
+
+
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
 
 	const int MAX=4096;
@@ -416,8 +453,6 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	
 			// ...seen a Multiline continuation char
 			if (styler.SafeGetCharAt(ywo) =='\\') {
-			
-		// todo:refactor to ckMultiLineEnd()
 			
 				// set linebuffers Pos
 				while(lineLength>0 && lineBuffer[--lineLength] && lineBuffer[lineLength-1]!='\\' );
@@ -457,6 +492,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 		ColouriseMakeLine(lineBuffer, lineLength, lineStart, startPos+length -1, keywords, styler);
 
 }
+
 
 static const char *const makefileWordListDesc[] = {
 	"generica",
