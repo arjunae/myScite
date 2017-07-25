@@ -252,7 +252,6 @@ static unsigned int ColouriseMakeLine(
 				&& styler.SafeGetCharAt(startLine +i -wordLen -1) == '$'
 				&& styler.SafeGetCharAt(startLine +i -wordLen) == '(') {
 			state_prev=state;
-			if (i>0) styler.ColourTo(startLine + i-wordLen,  SCE_MAKE_DEFAULT);
 			state=SCE_MAKE_OPERATOR;
 			styler.ColourTo(startLine + i, state);
 			styler.ColourTo(startLine + i, SCE_MAKE_DEFAULT);
@@ -384,36 +383,48 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 // @brief returns a multilines length or current lines length
 // if the Position does not belong to a Multiline Segment.
 **/
-static int ckMultiLineLen(Accessor &styler, Sci_Position ywo) {
-	unsigned int length=0;
-	
+static int MultiLineLen(Accessor &styler, Sci_Position offset) {
+	Sci_PositionU length=0;
+	Sci_Position ywo=offset;
+
 		// check last visible char for beeing a continuation
 		// cope with unix and windows style line ends.
-		while (IsNewline(styler[--ywo]))
-			if (styler[ywo]=='\n') return(length); // empty Line	
-	
-		if (styler[ywo]=='\\') {
-			// ...get continuations lineEnd
+		while (ywo>0 && IsNewline(styler[ywo--])){
+			if (styler[ywo]=='\n') return(offset-ywo); // empty Line
+		}
+			
+		if (styler[ywo+1]=='\\') {
+
+			// ..begin at current lines startpos
+			while (ywo>=0 && !IsNewline(styler[--ywo]));
+			
+			// ...get continued lines length
 			while (length<4095) {
 
 				//..get Segments lineEnd
 				while (styler[ywo++]){
 					length++;
 					if (styler[ywo]=='\n' || styler[ywo]=='\0' ) break;
-				}					
+				}		 			
 				
 				// ...Final continuation==Fini
 				if (styler[ywo-1] !='\\' && styler[ywo-2] !='\\' && styler[ywo]=='\n' ) { 
-					return(length-1); // Continuation end reached.
+					return(length); // Continuation end reached.
 					break;
-				} else if (styler[ywo]=='\0' || styler[ywo+1]=='\0') {
-					return(length--);	// handle continuated lines without an EOL mark. 
+				} else if (styler[ywo]=='\0' ) {
+					return(length);	// handle continuated lines without an EOL mark. 
 					break;
 				}
-
+			
 			}
+			
+		} else {
+		// Handle non-contigous lines 
+			if (styler[ywo]!='\n')
+				while (ywo>=0 && styler[--ywo]!='\n');
+		
+			return(offset-ywo);
 		}
-		return(length);
 }
 
 
@@ -421,6 +432,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 
 	const int MAX=4096;
 	char lineBuffer[MAX]; // ok. i _really_ do like vectors from now on...
+	
 	memset(lineBuffer, 0, sizeof(*lineBuffer));
 	styler.Flush();
 
@@ -438,14 +450,14 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	Sci_PositionU lineStart = startPos;
 
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
-		Sci_PositionU ywo=0;
+		Sci_Position ywo=0;
 
 		lineBuffer[lineLength++] = styler[at];
 
 		// End of line (or of max line buffer) met.
 		if (AtEOL(styler, at) || (lineLength >= sizeof(lineBuffer) - 1)) {
 			ywo=at;
-
+			
 			// check last visible char for beeing a continuation
 			// cope with unix and windows style line ends.
 			while (IsNewline(styler[--ywo]))
@@ -458,7 +470,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 				while(lineLength>0 && lineBuffer[--lineLength] && lineBuffer[lineLength-1]!='\\' );
 													
 				// ...get continuations lineEnd
-				while (lineLength<MAX-1) {
+				while ( lineLength<MAX-1 ) {
 
 					//..get Segments lineEnd
 					while (styler[ywo++]){
@@ -466,20 +478,23 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 						if (styler[ywo]=='\n' || styler[ywo]=='\0' ) break;
 					}					
 					
-					// ...Final continuation==Fini
+					// Continuation end reached==Fini
 					if (styler[ywo-1] !='\\' && styler[ywo-2] !='\\' && styler[ywo]=='\n' ) { 
-						at=lineStart+lineLength-1; // Continuation end reached.
+						break;		
+					} else if (styler[ywo]=='\0') {
+						lineLength--;	// Continuated line without an EOL mark reached. 
 						break;
-					} else if (styler[ywo]=='\0' || styler[ywo+1]=='\0') {
-						lineLength--;	// handle continuated lines without an EOL mark. 
-						at=lineStart+lineLength-1;
-						break;
-					}
-
+					}	
 				}
-		
 			}
-
+			
+			lineLength=MultiLineLen(styler,at); // planned to replace aboves logic
+			
+			//for (int j=lineLength;j>0;j-- )
+			//	lineBuffer[j++]=styler[at++];
+		
+			at=lineStart+lineLength-1;
+			
 			ColouriseMakeLine(lineBuffer, lineLength, lineStart, at, keywords, styler);
 			lineStart = at+1;
 			lineLength = 0;
