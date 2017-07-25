@@ -252,7 +252,6 @@ static unsigned int ColouriseMakeLine(
 				&& styler.SafeGetCharAt(startLine +i -wordLen -1) == '$'
 				&& styler.SafeGetCharAt(startLine +i -wordLen) == '(') {
 			state_prev=state;
-			if (i>0) styler.ColourTo(startLine + i-wordLen,  SCE_MAKE_DEFAULT);
 			state=SCE_MAKE_OPERATOR;
 			styler.ColourTo(startLine + i, state);
 			styler.ColourTo(startLine + i, SCE_MAKE_DEFAULT);
@@ -301,13 +300,12 @@ static unsigned int ColouriseMakeLine(
 		}
 
 	/// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'")
-		if ((i<lengthLine && inString==false && (IsAlphaNum(slineBuffer[i])==0 && chNext=='-')) || (i == theStart && slineBuffer[i] == '-')) {
-			state_prev=state;
-			if (i>0 && (slineBuffer[i]=='-') && chNext=='-') // style both -
-				styler.ColourTo(startLine + i-1, state_prev);
-			else 
-				styler.ColourTo(startLine + i, state_prev);
+		if ((i<lengthLine && inString==false && (IsAlphaNum(slineBuffer[i])==0 && chNext=='-')) 
+		|| (i == theStart && slineBuffer[i] == '-')) {
+			state_prev=state; 
 			state = SCE_MAKE_FLAGS;
+			bool j= (i>0 && (slineBuffer[i]=='-') && chNext=='-') ? 1:0; // style both '-'
+ 			styler.ColourTo(startLine + i-j, state_prev);
 		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''", (int)chNext) >0) {
 			styler.ColourTo(startLine + i, state);
 			styler.ColourTo(startLine + i, state_prev);
@@ -334,7 +332,7 @@ static unsigned int ColouriseMakeLine(
 // @brief returns a multilines startPosition or current lines start
 // if the Position does not belong to a Multiline Segment.
 **/
-static int ckMultiLine(Accessor &styler, Sci_Position offset) {
+static int GetLineStart(Accessor &styler, Sci_Position offset) {
 
 	int status=0; // 1=cont_end 2=cont_middle/start
 	Sci_Position currMLSegment=0;
@@ -380,10 +378,60 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 	return (currMLSegment);
 }
 
+/**
+// @brief returns a multilines length or current lines length
+// if the Position does not belong to a Multiline Segment.
+**/
+static int GetLineLen(Accessor &styler, Sci_Position offset) {
+	Sci_PositionU length=0;
+	Sci_Position ywo=offset;
+
+		// check last visible char for beeing a continuation
+		// cope with unix and windows style line ends.
+		while (ywo>0 && IsNewline(styler[ywo--])){
+			if (styler[ywo]=='\n') return(offset-ywo); // empty Line
+		}
+			
+		if (styler[ywo+1]=='\\') {
+
+			// ..begin at current lines startpos
+			while (ywo>=0 && !IsNewline(styler[--ywo]));
+			
+			// ...get continued lines length
+			while (length<4095) {
+
+				//..get Segments lineEnd
+				while (styler[ywo++]){
+					length++;
+					if (styler[ywo]=='\n' || styler[ywo]=='\0' ) break;
+				}		 			
+				
+				// ...Final continuation==Fini
+				if (styler[ywo-1] !='\\' && styler[ywo-2] !='\\' && styler[ywo]=='\n' ) { 
+					return(length); // Continuation end reached.
+					break;
+				} else if (styler[ywo]=='\0' ) {
+					return(length-1);	// handle continuated lines without an EOL mark. 
+					break;
+				}
+			
+			}
+			
+		} else {
+		// Handle non-contigous lines 
+			if (styler[ywo]!='\n')
+				while (ywo>=0 && styler[--ywo]!='\n');
+		
+			return(offset-ywo);
+		}
+}
+
+
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
 
 	const int MAX=4096;
 	char lineBuffer[MAX]; // ok. i _really_ do like vectors from now on...
+	
 	memset(lineBuffer, 0, sizeof(*lineBuffer));
 	styler.Flush();
 
@@ -391,24 +439,23 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	// If that Position is within a continued Line, we notify that position to Scintilla here: 
 	
 	// finds a (Multi)lines start.
-	Sci_Position o_startPos=ckMultiLine(styler, startPos);
+	Sci_Position o_startPos=GetLineStart(styler, startPos);
 	styler.StartSegment(o_startPos);
 	styler.StartAt(o_startPos);
 	length=length+(startPos-o_startPos);
 	startPos=o_startPos;
 
-	Sci_PositionU lineLength = 0;
+	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
 
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
-		Sci_PositionU ywo=0;
-
-		lineBuffer[lineLength++] = styler[at];
-
+	
+		lineBuffer[linePos++] = styler[at];
 		// End of line (or of max line buffer) met.
-		if (AtEOL(styler, at) || (lineLength >= sizeof(lineBuffer) - 1)) {
-			ywo=at;
-
+		if (AtEOL(styler, at) || (linePos>= sizeof(lineBuffer) - 1)) {
+		
+		/*	ywo=at;
+			
 			// check last visible char for beeing a continuation
 			// cope with unix and windows style line ends.
 			while (IsNewline(styler[--ywo]))
@@ -417,46 +464,51 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 			// ...seen a Multiline continuation char
 			if (styler.SafeGetCharAt(ywo) =='\\') {
 			
-		// todo:refactor to ckMultiLineEnd()
-			
 				// set linebuffers Pos
-				while(lineLength>0 && lineBuffer[--lineLength] && lineBuffer[lineLength-1]!='\\' );
+				while(linePos>0 && lineBuffer[--linePos] && lineBuffer[linePos-1]!='\\' );
 													
 				// ...get continuations lineEnd
-				while (lineLength<MAX-1) {
+				while ( linePos<MAX-1 ) {
 
 					//..get Segments lineEnd
 					while (styler[ywo++]){
-					if (lineLength<MAX) lineBuffer[lineLength++] = styler[ywo];
+					if (linePos<MAX) lineBuffer[linePos++] = styler[ywo];
 						if (styler[ywo]=='\n' || styler[ywo]=='\0' ) break;
 					}					
 					
-					// ...Final continuation==Fini
+					// Continuation end reached==Fini
 					if (styler[ywo-1] !='\\' && styler[ywo-2] !='\\' && styler[ywo]=='\n' ) { 
-						at=lineStart+lineLength-1; // Continuation end reached.
+						break;		
+					} else if (styler[ywo]=='\0') {
+						linePos--;	// Continuated line without an EOL mark reached. 
 						break;
-					} else if (styler[ywo]=='\0' || styler[ywo+1]=='\0') {
-						lineLength--;	// handle continuated lines without an EOL mark. 
-						at=lineStart+lineLength-1;
-						break;
-					}
-
+					}	
 				}
-		
 			}
+		*/
+			unsigned int mlLength=GetLineLen(styler,at); 
+			
+			// copy the remaining chars of the lineBuffer
+			if (mlLength!=linePos)
+				for (int j=linePos-1;j<=mlLength;j++)
+					lineBuffer[j]=styler[at++];
+		
+			at=lineStart+mlLength-1;
 
-			ColouriseMakeLine(lineBuffer, lineLength, lineStart, at, keywords, styler);
+			ColouriseMakeLine(lineBuffer, mlLength, lineStart, at, keywords, styler);
+			memset(lineBuffer, 0, mlLength);
 			lineStart = at+1;
-			lineLength = 0;
-
+			linePos=0;
+			mlLength = 0;
 			styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
 		}
 
 	} 
-	if (lineLength>0) // handle normal lines without an EOL mark.
-		ColouriseMakeLine(lineBuffer, lineLength, lineStart, startPos+length -1, keywords, styler);
+	if (linePos>0) // handle normal lines without an EOL mark.
+		ColouriseMakeLine(lineBuffer, linePos, lineStart, startPos+length -1, keywords, styler);
 
 }
+
 
 static const char *const makefileWordListDesc[] = {
 	"generica",

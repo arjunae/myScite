@@ -16,7 +16,7 @@ luacom.config.abort_on_error = true
 
 _oWeb = {} -- it's events
 cookie={} -- event connection point
-tabs_title = ""
+tabs_name = ""
 
 function test_luaCom()
 -- ##  Print all links from a given URL  (Noo, we're not doin any Web-Scraping at home here :)
@@ -24,13 +24,14 @@ function test_luaCom()
 	--print("start Browser with CLSID "..sID)
 
 	oWeb=luacom.GetObject("InternetExplorer.Application")
-	if oWeb == nil then oWeb=luacom.CreateObject("InternetExplorer.Application")  end
+
+	if type(oWeb)=='nil' then oWeb=luacom.CreateObject("InternetExplorer.Application")  end
 	if type(oWeb)=='nil' then
 		print ("Cant initialize Browser - cleaning up")
 		collectgarbage()
 		return
 	end
-	
+
 	-- DWebBrowserEvents2: https://msdn.microsoft.com/en-us/library/aa768283(v=vs.85).aspx
 	event_handler = luacom.ImplInterface(_oWeb, "InternetExplorer.Application", "DWebBrowserEvents2") 
 	if type(event_handler) == 'nil' then print("Error implementing Events") end
@@ -87,18 +88,17 @@ end
 function _oWeb:OnQuit() 
 
 	print("event Quit recieved!")
-	--luacom.releaseConnection(cookie,oWeb)	
 	oWin=nil
 	oWeb=nil
-	_oWeb=nil
 	cookie=nil
-	tabs_title=nil
+	tabs_name=nil
 	script_used_memory=(collectgarbage("count")*1024) - session_used_memory
 	print("... Script allocated "..script_used_memory.." kb memory")
 	print("freeing memory ...")
 	collectgarbage(step,script_used_memory/1024)
 	print("Fin")
-	
+	luacom.releaseConnection(_oWeb)
+	_oWeb=nil
 end
 
 -- ######### run Test ###############
@@ -110,4 +110,3 @@ test_luaCom()
 
 talk = assert (luacom.CreateObject ("SAPI.SpVoice"), "cannot open SAPI")
 talk:Speak ("Bla. Ha HA .Haaaa... Bla!")
-	

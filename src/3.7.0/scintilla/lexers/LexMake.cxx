@@ -332,7 +332,7 @@ static unsigned int ColouriseMakeLine(
 // @brief returns a multilines startPosition or current lines start
 // if the Position does not belong to a Multiline Segment.
 **/
-static int ckMultiLine(Accessor &styler, Sci_Position offset) {
+static int GetLineStart(Accessor &styler, Sci_Position offset) {
 
 	int status=0; // 1=cont_end 2=cont_middle/start
 	Sci_Position currMLSegment=0;
@@ -378,12 +378,11 @@ static int ckMultiLine(Accessor &styler, Sci_Position offset) {
 	return (currMLSegment);
 }
 
-
 /**
 // @brief returns a multilines length or current lines length
 // if the Position does not belong to a Multiline Segment.
 **/
-static int MultiLineLen(Accessor &styler, Sci_Position offset) {
+static int GetLineLen(Accessor &styler, Sci_Position offset) {
 	Sci_PositionU length=0;
 	Sci_Position ywo=offset;
 
@@ -412,7 +411,7 @@ static int MultiLineLen(Accessor &styler, Sci_Position offset) {
 					return(length); // Continuation end reached.
 					break;
 				} else if (styler[ywo]=='\0' ) {
-					return(length);	// handle continuated lines without an EOL mark. 
+					return(length-1);	// handle continuated lines without an EOL mark. 
 					break;
 				}
 			
@@ -440,23 +439,22 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	// If that Position is within a continued Line, we notify that position to Scintilla here: 
 	
 	// finds a (Multi)lines start.
-	Sci_Position o_startPos=ckMultiLine(styler, startPos);
+	Sci_Position o_startPos=GetLineStart(styler, startPos);
 	styler.StartSegment(o_startPos);
 	styler.StartAt(o_startPos);
 	length=length+(startPos-o_startPos);
 	startPos=o_startPos;
 
-	Sci_PositionU lineLength = 0;
+	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
 
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
-		Sci_Position ywo=0;
-
-		lineBuffer[lineLength++] = styler[at];
-
+	
+		lineBuffer[linePos++] = styler[at];
 		// End of line (or of max line buffer) met.
-		if (AtEOL(styler, at) || (lineLength >= sizeof(lineBuffer) - 1)) {
-			ywo=at;
+		if (AtEOL(styler, at) || (linePos>= sizeof(lineBuffer) - 1)) {
+		
+		/*	ywo=at;
 			
 			// check last visible char for beeing a continuation
 			// cope with unix and windows style line ends.
@@ -467,14 +465,14 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 			if (styler.SafeGetCharAt(ywo) =='\\') {
 			
 				// set linebuffers Pos
-				while(lineLength>0 && lineBuffer[--lineLength] && lineBuffer[lineLength-1]!='\\' );
+				while(linePos>0 && lineBuffer[--linePos] && lineBuffer[linePos-1]!='\\' );
 													
 				// ...get continuations lineEnd
-				while ( lineLength<MAX-1 ) {
+				while ( linePos<MAX-1 ) {
 
 					//..get Segments lineEnd
 					while (styler[ywo++]){
-					if (lineLength<MAX) lineBuffer[lineLength++] = styler[ywo];
+					if (linePos<MAX) lineBuffer[linePos++] = styler[ywo];
 						if (styler[ywo]=='\n' || styler[ywo]=='\0' ) break;
 					}					
 					
@@ -482,29 +480,32 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 					if (styler[ywo-1] !='\\' && styler[ywo-2] !='\\' && styler[ywo]=='\n' ) { 
 						break;		
 					} else if (styler[ywo]=='\0') {
-						lineLength--;	// Continuated line without an EOL mark reached. 
+						linePos--;	// Continuated line without an EOL mark reached. 
 						break;
 					}	
 				}
 			}
+		*/
+			unsigned int mlLength=GetLineLen(styler,at); 
 			
-			lineLength=MultiLineLen(styler,at); // planned to replace aboves logic
-			
-			//for (int j=lineLength;j>0;j-- )
-			//	lineBuffer[j++]=styler[at++];
+			// copy the remaining chars of the lineBuffer
+			if (mlLength!=linePos)
+				for (int j=linePos-1;j<=mlLength;j++)
+					lineBuffer[j]=styler[at++];
 		
-			at=lineStart+lineLength-1;
-			
-			ColouriseMakeLine(lineBuffer, lineLength, lineStart, at, keywords, styler);
-			lineStart = at+1;
-			lineLength = 0;
+			at=lineStart+mlLength-1;
 
+			ColouriseMakeLine(lineBuffer, mlLength, lineStart, at, keywords, styler);
+			memset(lineBuffer, 0, mlLength);
+			lineStart = at+1;
+			linePos=0;
+			mlLength = 0;
 			styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
 		}
 
 	} 
-	if (lineLength>0) // handle normal lines without an EOL mark.
-		ColouriseMakeLine(lineBuffer, lineLength, lineStart, startPos+length -1, keywords, styler);
+	if (linePos>0) // handle normal lines without an EOL mark.
+		ColouriseMakeLine(lineBuffer, linePos, lineStart, startPos+length -1, keywords, styler);
 
 }
 
