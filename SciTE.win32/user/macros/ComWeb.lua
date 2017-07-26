@@ -27,7 +27,8 @@ function test_luaCom()
 
 	if type(oWeb)=='nil' then oWeb=luacom.CreateObject("InternetExplorer.Application")  end
 	if type(oWeb)=='nil' then
-		print ("Cant initialize Browser - cleaning up")
+		print ("Cant initialize Browser -please try again-")
+		print("cleaning up...")
 		collectgarbage()
 		return
 	end

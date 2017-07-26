@@ -229,7 +229,8 @@ static unsigned int ColouriseMakeLine(
 				styler.ColourTo(startLine + i-wordLen, state_prev);
 				state=SCE_MAKE_EXTCMD;
 				styler.ColourTo(startLine + i, state);
-			} else if (state == SCE_MAKE_EXTCMD) {
+				styler.ColourTo(startLine + i, SCE_MAKE_DEFAULT);
+				} else if (state == SCE_MAKE_EXTCMD) {
 				state=SCE_MAKE_DEFAULT;
 				styler.ColourTo(startLine + i, state);
 			}
@@ -303,7 +304,7 @@ static unsigned int ColouriseMakeLine(
 		/// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'")
 		if ((i<lengthLine && inString==false && (IsAlphaNum(slineBuffer[i])==0 && chNext=='-'))
 				|| (i == theStart && slineBuffer[i] == '-')) {
-			state_prev=state;
+			state_prev=SCE_MAKE_DEFAULT;
 			state = SCE_MAKE_FLAGS;
 			bool j= (i>0 && (slineBuffer[i]=='-') && chNext=='-') ? 1:0; // style both '-'
 			styler.ColourTo(startLine + i-j, state_prev);
@@ -425,6 +426,8 @@ static int GetLineLen(Accessor &styler, Sci_Position offset) {
 
 		return (offset-ywo);
 	}
+	
+	return (offset-ywo);
 }
 
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
@@ -457,7 +460,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 
 			// copy the remaining chars of the lineBuffer
 			if (mlLength!=linePos)
-				for (int j=linePos-1; j<=mlLength; j++)
+				for (unsigned int j=linePos-1; j<=mlLength; j++)
 					lineBuffer[j]=styler[at++];
 
 			at=lineStart+mlLength-1;
