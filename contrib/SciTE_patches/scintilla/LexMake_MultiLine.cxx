@@ -359,7 +359,7 @@ static int GetLineStart(Accessor &styler, Sci_Position offset) {
 	while (pos != currMLSegment) {
 		currMLSegment=pos;
 		while (styler[++pos]!='\n');
-		if (status==2 && styler[pos+1]=='\r' || styler[pos+1]=='\n')
+		if ((status==2 && styler[pos+1]=='\r') || styler[pos+1]=='\n')
 			break; // empty line reached
 		while (iscntrl(styler.SafeGetCharAt(--pos)));
 		pos--;
@@ -439,7 +439,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	styler.Flush();
 
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
-	// If that Position is within a continued Line, we notify that position to Scintilla here:
+	// If that Position is within a continued Mulltiline, we notify the start positionof that Line to Scintilla here:
 
 	// finds a (Multi)lines start.
 	Sci_Position o_startPos=GetLineStart(styler, startPos);

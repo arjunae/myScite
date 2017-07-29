@@ -14,10 +14,15 @@ sUrl = "http://de.movies.yahoo.com"
 luacom.config.abort_on_error = true 
 --luacom.config.abort_on_API_error = true
 
-_oWeb = {} -- it's events
+-- DWebBrowserEvents2: https://msdn.microsoft.com/en-us/library/aa768283(v=vs.85).aspx
+_oWeb = {} -- event handler
+_oWeb.NavigateComplete2= function (self) end
+_oWeb.DocumentComplete= function (self) end
+_oWeb.Quit= function (self) end
+
 cookie={} -- event connection point
 tabs_name = ""
-
+		
 function test_luaCom()
 -- ##  Print all links from a given URL  (Noo, we're not doin any Web-Scraping at home here :)
 	--sID=luacom.CLSIDfromProgID("InternetExplorer.Application")
@@ -33,7 +38,6 @@ function test_luaCom()
 		return
 	end
 
-	-- DWebBrowserEvents2: https://msdn.microsoft.com/en-us/library/aa768283(v=vs.85).aspx
 	event_handler = luacom.ImplInterface(_oWeb, "InternetExplorer.Application", "DWebBrowserEvents2") 
 	if type(event_handler) == 'nil' then print("Error implementing Events") end
 	
@@ -43,20 +47,22 @@ function test_luaCom()
 	oWeb.Height = 300
 	oWeb.Width = 650
 	oWeb.Visible = true
-	oWeb:Navigate(sUrl)
-		
-	print ("waiting for Events")
+	oWeb:Navigate2(sUrl)
+
+	print ("#> waiting for Events ...")
+	
 end
 
-function _oWeb:NavigateComplete2(a,url)
-	--print("event NavigateComplete recieved! Url:"..url) 
+function _oWeb:NavigateComplete2(pObj,url)
+	--print("#> Event NavigateComplete recieved! Url:"..url) 
 end
 
 function _oWeb:DocumentComplete(oWin,url) 
 -- fires for every frame, so only react on root location completetition
 		if oWin.locationURL  == url then
-			print("event DocumentComplete recieved! ")
-			print("Url: "..url.." Root: "..oWin.locationURL)
+			print ("#> Event DocumentComplete recieved! ")
+			print ("#> Url: "..url.." Root: "..oWin.locationURL)
+			print ("#> ReadyState: "..oWin.readyState)
 		   siteParser(oWin.Document)
 		end
 end
@@ -83,21 +89,21 @@ function siteParser(oDoc)
 ]]	
 	
 	print(oDoc.head.innerhtml)
-	print("Fin->DumpSite")
+	print("#:::::::::::  Fin->DumpSite :::::::::::#")
 end
 
 function _oWeb:OnQuit() 
 
-	print("event Quit recieved!")
+	print("#> Event Quit recieved!")
 	oWin=nil
 	oWeb=nil
 	cookie=nil
 	tabs_name=nil
 	script_used_memory=(collectgarbage("count")*1024) - session_used_memory
-	print("... Script allocated "..script_used_memory.." kb memory")
-	print("freeing memory ...")
+	print("#>... Script allocated "..script_used_memory.." kb memory")
+	print("#> freeing memory ...")
 	collectgarbage(step,script_used_memory/1024)
-	print("Fin")
+	print("#> Fin")
 	luacom.releaseConnection(_oWeb)
 	_oWeb=nil
 end
