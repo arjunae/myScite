@@ -6,7 +6,7 @@
 # src: http://www.computerperformance.co.uk/powershell/powershell_ipconfig.htm
 
 $strComputer = "."
-$colItems = Get-WmiObject -class "Win32_NetworkAdapterConfiguration" `
+$colItems = Get-WmiObject -class 'Win32_NetworkAdapterConfiguration' `
 -computername $strComputer | Where {$_.IPEnabled -Match "True"}
 foreach ($objItem in $colItems) {
    Clear-Host
@@ -26,7 +26,8 @@ function Get-ProgID {
   #.Example      
   #  Get-ProgID      
   #.Example      
-  #  Get-ProgID | Where-Object { $_.ProgID -like "*Image*" }       
+  #  Get-ProgID | Where-Object { $_.ProgID -like "*Image*" }
+  
   param()      
   $paths = @("REGISTRY::HKEY_CLASSES_ROOT\CLSID")      
   if ($env:Processor_Architecture -eq "amd64") {      

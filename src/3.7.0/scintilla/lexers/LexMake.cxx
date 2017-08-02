@@ -46,7 +46,7 @@ static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 }
 
 static inline bool AtStartChar(Accessor &styler, Sci_PositionU i) {
-	return (strchr("&|@\t\r\n -\":, '({", (int)(styler.SafeGetCharAt(i))) >0);
+	return (strchr("&|@\t\r\n -\":, '", (int)(styler.SafeGetCharAt(i))) >0);
 }
 
 static inline bool IsNewline(const int ch) {
@@ -76,6 +76,8 @@ static unsigned int ColouriseMakeLine(
 
 	Sci_PositionU i = 0; // primary line position counter
 	Sci_Position lastNonSpace = -1;
+	Sci_Position lastSpaceWord = 0;
+	
 	unsigned int state = SCE_MAKE_DEFAULT;
 	unsigned int state_prev = SCE_MAKE_DEFAULT;
 
@@ -127,7 +129,7 @@ static unsigned int ColouriseMakeLine(
 		/// Style Target lines
 		// skip identifier and target styling if this is a command line
 		if (!inString && !bSpecial && !bCommand && state==SCE_MAKE_DEFAULT) {
-			if (slineBuffer[i] == ':') {
+			if (slineBuffer[i] == ':' && (lastSpaceWord==0 || IsNewline(chNext)))  {
 				if (i<lengthLine && (chNext == '=')) {
 					// it's a ':=', so style as an identifier
 					if (lastNonSpace >= 0)
@@ -137,6 +139,8 @@ static unsigned int ColouriseMakeLine(
 				} else {
 					// We should check that no colouring was made since the beginning of the line,
 					// to avoid colouring stuff like /OUT:file
+					if (lastSpaceWord >0 && lastSpaceWord < lastNonSpace-1)
+						styler.ColourTo(startLine + lastSpaceWord, SCE_MAKE_DEFAULT);
 					if (lastNonSpace >= 0)
 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
 					styler.ColourTo(startLine + i -1, SCE_MAKE_DEFAULT);
@@ -145,6 +149,8 @@ static unsigned int ColouriseMakeLine(
 				bSpecial = true;	// Only react to the first ':' of the line
 				state = SCE_MAKE_DEFAULT;
 			} else if (slineBuffer[i] == '=') {
+				if (lastSpaceWord >0 && lastSpaceWord < lastNonSpace-1)
+					styler.ColourTo(startLine + lastSpaceWord, SCE_MAKE_DEFAULT);
 				if (lastNonSpace >= 0)
 					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
 				styler.ColourTo(startLine + i -1, SCE_MAKE_DEFAULT);
@@ -314,9 +320,14 @@ static unsigned int ColouriseMakeLine(
 			state = SCE_MAKE_DEFAULT;
 		}
 
-		if (!isspacechar(slineBuffer[i]))
+		if (!isspacechar(slineBuffer[i])) {
 			lastNonSpace = i;
-
+		}
+		
+		if (i<lengthLine && IsGraphic(slineBuffer[i])==0 && IsGraphic(chNext)>0){
+			lastSpaceWord=i;
+		}
+		
 		i++;
 	}
 
