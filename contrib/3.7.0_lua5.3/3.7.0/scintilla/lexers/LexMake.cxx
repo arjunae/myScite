@@ -46,7 +46,7 @@ static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 }
 
 static inline bool AtStartChar(Accessor &styler, Sci_PositionU i) {
-	return (strchr("&|@\t\r\n -\":, '", (int)(styler.SafeGetCharAt(i))) >0);
+	return (strchr("&|@\t\r\n -\":, '({", (int)(styler.SafeGetCharAt(i))) >0);
 }
 
 static inline bool IsNewline(const int ch) {
@@ -135,7 +135,7 @@ static unsigned int ColouriseMakeLine(
 		/// Style Target lines
 		// skip identifier and target styling if this is a command line
 		if (!inString && !bSpecial && !bCommand && state==SCE_MAKE_DEFAULT) {
-			if (slineBuffer[i] == ':' && (lastSpaceWord==0 || IsNewline(chNext)))  {
+			if (slineBuffer[i] == ':') {
 				if (i<lengthLine && (chNext == '=')) {
 					// it's a ':=', so style as an identifier
 					if (lastNonSpace >= 0)
