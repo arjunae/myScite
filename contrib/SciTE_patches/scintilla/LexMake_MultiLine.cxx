@@ -46,7 +46,7 @@ static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 }
 
 static inline bool AtStartChar(Accessor &styler, Sci_PositionU i) {
-	return (strchr("&|@\t\r\n -\":, '({", (int)(styler.SafeGetCharAt(i))) >0);
+	return (strchr("&|@\t\r\n -\":, '", (int)(styler.SafeGetCharAt(i))) >0);
 }
 
 static inline bool IsNewline(const int ch) {
@@ -66,6 +66,11 @@ static inline int IsGraphic(int ch) {
 	return (IsAlphaNum(ch));
 }
 
+static inline void ColourHere(Accessor &styler, Sci_PositionU pos, unsigned int style1, unsigned int style2) {
+	styler.ColourTo(pos, style1);
+	styler.ColourTo(pos, style2);
+}
+
 static unsigned int ColouriseMakeLine(
 	std::string slineBuffer,
 	Sci_PositionU lengthLine,
@@ -76,6 +81,8 @@ static unsigned int ColouriseMakeLine(
 
 	Sci_PositionU i = 0; // primary line position counter
 	Sci_Position lastNonSpace = -1;
+	Sci_Position lastSpaceWord = 0;
+	
 	unsigned int state = SCE_MAKE_DEFAULT;
 	unsigned int state_prev = SCE_MAKE_DEFAULT;
 
@@ -114,6 +121,7 @@ static unsigned int ColouriseMakeLine(
 	while (i < lengthLine) {
 
 		char chNext=styler.SafeGetCharAt(startLine +i+1);
+		unsigned int current=startLine+i;
 
 		/// style GNUMake inline Comments
 		if (slineBuffer[i] == '#' && iWarnEOL<1) {
@@ -127,7 +135,7 @@ static unsigned int ColouriseMakeLine(
 		/// Style Target lines
 		// skip identifier and target styling if this is a command line
 		if (!inString && !bSpecial && !bCommand && state==SCE_MAKE_DEFAULT) {
-			if (slineBuffer[i] == ':') {
+			if (slineBuffer[i] == ':' && (lastSpaceWord==0 || IsNewline(chNext)))  {
 				if (i<lengthLine && (chNext == '=')) {
 					// it's a ':=', so style as an identifier
 					if (lastNonSpace >= 0)
@@ -137,6 +145,8 @@ static unsigned int ColouriseMakeLine(
 				} else {
 					// We should check that no colouring was made since the beginning of the line,
 					// to avoid colouring stuff like /OUT:file
+					if (lastSpaceWord >0 && lastSpaceWord < lastNonSpace-1)
+						styler.ColourTo(startLine + lastSpaceWord, SCE_MAKE_DEFAULT);
 					if (lastNonSpace >= 0)
 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
 					styler.ColourTo(startLine + i -1, SCE_MAKE_DEFAULT);
@@ -145,6 +155,8 @@ static unsigned int ColouriseMakeLine(
 				bSpecial = true;	// Only react to the first ':' of the line
 				state = SCE_MAKE_DEFAULT;
 			} else if (slineBuffer[i] == '=') {
+				if (lastSpaceWord >0 && lastSpaceWord < lastNonSpace-1)
+					styler.ColourTo(startLine + lastSpaceWord, SCE_MAKE_DEFAULT);
 				if (lastNonSpace >= 0)
 					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
 				styler.ColourTo(startLine + i -1, SCE_MAKE_DEFAULT);
@@ -173,17 +185,15 @@ static unsigned int ColouriseMakeLine(
 		if (inString && slineBuffer[i]=='\"') {
 			state_prev=state;
 			if (i>0) styler.ColourTo(startLine + i-1, SCE_MAKE_STRING);
-			styler.ColourTo(startLine + i, SCE_MAKE_IDENTIFIER);
 			state=SCE_MAKE_DEFAULT;
-			styler.ColourTo(startLine + i, state);
+			ColourHere(styler, current, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL--;
 			inString=false;
 		} else if	(!inString && slineBuffer[i]=='\"') {
 			state_prev = state;
 			state=SCE_MAKE_STRING;
 			if (i>0) styler.ColourTo(startLine + i-1, state_prev);
-			styler.ColourTo(startLine + i, SCE_MAKE_IDENTIFIER);
-			styler.ColourTo(startLine + i, SCE_MAKE_STRING);
+			ColourHere(styler, current, SCE_MAKE_IDENTIFIER, SCE_MAKE_STRING);
 			inString=true;
 			iWarnEOL++;
 		}
@@ -228,9 +238,8 @@ static unsigned int ColouriseMakeLine(
 				state_prev=state;
 				styler.ColourTo(startLine + i-wordLen, state_prev);
 				state=SCE_MAKE_EXTCMD;
-				styler.ColourTo(startLine + i, state);
-				styler.ColourTo(startLine + i, SCE_MAKE_DEFAULT);
-				} else if (state == SCE_MAKE_EXTCMD) {
+				ColourHere(styler, current, state, SCE_MAKE_DEFAULT);
+			} else if (state == SCE_MAKE_EXTCMD) {
 				state=SCE_MAKE_DEFAULT;
 				styler.ColourTo(startLine + i, state);
 			}
@@ -241,8 +250,7 @@ static unsigned int ColouriseMakeLine(
 					&& (i+1 -wordLen == theStart || styler.SafeGetCharAt(startLine +i -wordLen-1) == '=')) {
 				state_prev=state;
 				state=SCE_MAKE_DIRECTIVE;
-				styler.ColourTo(startLine + i, state);
-				styler.ColourTo(startLine + i, SCE_MAKE_DEFAULT);
+				ColourHere(styler, current, SCE_MAKE_DIRECTIVE, SCE_MAKE_DEFAULT);
 			} else if (state == SCE_MAKE_DIRECTIVE) {
 				state=SCE_MAKE_DEFAULT;
 				styler.ColourTo(startLine + i, state);
@@ -255,13 +263,11 @@ static unsigned int ColouriseMakeLine(
 					&& styler.SafeGetCharAt(startLine +i -wordLen) == '(') {
 				state_prev=state;
 				state=SCE_MAKE_OPERATOR;
-				styler.ColourTo(startLine + i, state);
-				styler.ColourTo(startLine + i, SCE_MAKE_DEFAULT);
+				ColourHere(styler, current, state, SCE_MAKE_DEFAULT);
 			} else if (state ==SCE_MAKE_OPERATOR) {
 				state=SCE_MAKE_DEFAULT;
 				styler.ColourTo(startLine + i, state);
 			}
-
 			startMark=0;
 			strLen=0;
 			strSearch.clear();
@@ -273,8 +279,7 @@ static unsigned int ColouriseMakeLine(
 			state_prev=state;
 			state = SCE_MAKE_USER_VARIABLE;
 		} else if (state == SCE_MAKE_USER_VARIABLE && (strchr("})", (int)chNext) >0)) {
-			styler.ColourTo(startLine + i, state);
-			styler.ColourTo(startLine + i, state_prev);
+			ColourHere(styler, current, state, state_prev);
 			state = SCE_MAKE_DEFAULT;
 		}
 
@@ -283,10 +288,8 @@ static unsigned int ColouriseMakeLine(
 			if (i>0) styler.ColourTo(startLine + i-1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
-
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i])) >0) {
-			styler.ColourTo(startLine + i, state);
-			styler.ColourTo(startLine + i, state_prev);
+			ColourHere(styler, current, state, state_prev);
 			state = state_prev;
 		}
 
@@ -296,8 +299,7 @@ static unsigned int ColouriseMakeLine(
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<^+", (int)styler.SafeGetCharAt(startLine+i-1))>0 && (strchr("DF", (int)slineBuffer[i]) >0))) {
-			styler.ColourTo(startLine +i, state);
-			styler.ColourTo(startLine + i, state_prev);
+			ColourHere(styler, current, state, state_prev);
 			state = state_prev;
 		}
 
@@ -309,14 +311,18 @@ static unsigned int ColouriseMakeLine(
 			bool j= (i>0 && (slineBuffer[i]=='-') && chNext=='-') ? 1:0; // style both '-'
 			styler.ColourTo(startLine + i-j, state_prev);
 		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''", (int)chNext) >0) {
-			styler.ColourTo(startLine + i, state);
-			styler.ColourTo(startLine + i, state_prev);
+			ColourHere(styler, current, state, state_prev);
 			state = SCE_MAKE_DEFAULT;
 		}
 
-		if (!isspacechar(slineBuffer[i]))
+		if (!isspacechar(slineBuffer[i])) {
 			lastNonSpace = i;
-
+		}
+		
+		if (i<lengthLine && IsGraphic(slineBuffer[i])==0 && IsGraphic(chNext)>0){
+			lastSpaceWord=i;
+		}
+		
 		i++;
 	}
 
@@ -476,6 +482,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	}
 	if (linePos>0) // handle normal lines without an EOL mark.
 		ColouriseMakeLine(lineBuffer, linePos, lineStart, startPos+length -1, keywords, styler);
+
 }
 
 static const char *const makefileWordListDesc[] = {
