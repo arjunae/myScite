@@ -142,7 +142,7 @@ static unsigned int ColouriseMakeLine(
 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
 					styler.ColourTo(startLine + i -1, SCE_MAKE_DEFAULT);
 					styler.ColourTo(startLine + i +1, SCE_MAKE_OPERATOR);
-				} else {
+				} else if(isspace(chNext)) {
 					// We should check that no colouring was made since the beginning of the line,
 					// to avoid colouring stuff like /OUT:file
 					if (lastSpaceWord >0 && lastSpaceWord < lastNonSpace-1)
@@ -199,7 +199,6 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Style Keywords
-
 		// ForwardSearch Searchstring.
 		// Travels to the Future and retrieves Lottery draw results.
 		std::string strSearch;
@@ -319,7 +318,8 @@ static unsigned int ColouriseMakeLine(
 			lastNonSpace = i;
 		}
 		
-		if (i<lengthLine && IsGraphic(slineBuffer[i])==0 && IsGraphic(chNext)>0){
+		if (i<lengthLine && IsGraphic(slineBuffer[i])==0 
+			&& strchr("\t =", (int)chNext)==0){
 			lastSpaceWord=i;
 		}
 		
