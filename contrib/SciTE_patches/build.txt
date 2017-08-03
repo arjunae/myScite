@@ -29,6 +29,6 @@
     see [ http://upx.sourceforge.net/ ]
 
     SciTEs binaries can bee statically (un)linked to libgcc (size. +-1M)
-    just append the flag -static to LDFLAGS within the makefile.
+    just modify the flag -static to LDFLAGS within the makefile.
     
     Okay.. So HaveFun(tm) - Arjunae 
