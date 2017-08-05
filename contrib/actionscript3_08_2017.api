@@ -727,7 +727,7 @@ ElementExistenceEvent@@\t\nspark.events|The ElementExistenceEvent class represen
 ElementFormat@@\t\nflash.text.engine|The ElementFormat class represents formatting information which can be applied to a ContentElement.
 ElementRange@@\t\nflashx.textLayout.edit|The ElementRange class represents the range of objects selected within a text flow.
 Ellipse@@\t\nspark.primitives|The Ellipse class is a filled graphic element that draws an ellipse.
-EmailValidator@@\t\nmx.validators|The EmailValidator class validates that a String has a single @ sign, a period in the domain name and that the top-level domain suffix has two, three, four, or six characters.
+EmailValidator@@\t\nmx.validators|The EmailValidator class validates that a String has a single@sign, a period in the domain name and that the top-level domain suffix has two, three, four, or six characters.
 EmphasizedButtonSkin@@\t\nmx.skins.wireframe|The wireframe skin class for the emphasized state of the MX Button component.
 EncryptedLocalStore@@\t\nflash.data|The EncryptedLocalStore class (ELS) provides an encrypted local storage mechanism that can be used as a small cache for an application's private data.
 Endian@@\t\nflash.utils|The Endian class contains values that denote the byte order used to represent multibyte numbers.
@@ -2590,3 +2590,110 @@ Zoom@@\t\nfl.transitions|The Zoom class zooms the movie clip object in or out by
 Zoom@@\t\nmx.effects|The Zoom effect zooms the object in or out on a center point.
 ZoomInstance@@\t\nmx.effects.effectClasses|The ZoomInstance class implements the instance class for the Zoom effect.
 ZoomViewTransition@@\t\nspark.transitions|The ZoomViewTransition class performs a zoom in or out transition for views.
+
+# Global Functions
+Array@@Creates a new array.
+Boolean@@Converts the expression parameter to a Boolean value and returns the value.
+decodeURI@@Decodes an encoded URI into a string.
+decodeURIComponent@@Decodes an encoded URI component into a string.
+encodeURI@@Encodes a string into a valid URI (Uniform Resource Identifier).
+encodeURIComponent@@Encodes a string into a valid URI component.
+escape@@Converts the parameter to a string and encodes it in a URL-encoded format, where most nonalphanumeric characters are replaced with % hexadecimal sequences.
+int@@Converts a given numeric value to an integer value.
+isFinite@@Returns true if the value is a finite number, or false if the value is Infinity or -Infinity.
+isNaN@@Returns true if the value is NaN(not a number).
+isXMLName@@Determines whether the specified string is a valid name for an XML element or attribute.
+Number@@Converts a given value to a Number value.
+Object@@Every value in ActionScript 3.0 is an object, which means that calling Object() on a value returns that value.
+parseFloat@@Converts a string to a floating-point number.
+parseInt@@Converts a string to an integer.
+String@@Returns a string representation of the specified parameter.
+trace@@Displays expressions, or writes to log files, while debugging.
+uint@@Converts a given numeric value to an unsigned integer value.
+unescape@@Evaluates the parameter str as a string, decodes the string from URL-encoded format (converting all hexadecimal sequences to ASCII characters), and returns the string.
+Vector@@Creates a new Vector instance whose elements are instances of the specified data type.
+XML@@Converts an object to an XML object.
+XMLList@@Converts an object to an XMLList object.
+Infinity@@A special value representing positive Infinity.
+NaN@@A special member of the Number data type that represents a value that is "not a number" (NaN).
+undefined@@A special value that applies to untyped variables that have not been initialized or dynamic object properties that are not initialized.
+
+#GLobals- Statements,Keywords,Directive
+break@@Appears within a loop (for, for..in, for each..in, do..while, or while) or within a block of statements associated with a particular case within a switch statement.
+case@@Defines a jump target for the switch statement.
+continue@@Jumps past all remaining statements in the innermost loop and starts the next iteration of the loop as if control had passed through to the end of the loop normally.
+default@@Defines the default case for a switch statement.
+do..while@@Similar to a while loop, except that the statements are executed once before the initial evaluation of the condition.
+else@@Specifies the statements to run if the condition in the if statement returns false.
+for@@Evaluates the init (initialize) expression once and then starts a looping sequence.
+for..in@@Iterates over the dynamic properties of an object or elements in an array and executes statement for each property or element.
+for..each..in@@Iterates over the items of a collection and executes statement for each item.
+if@@Evaluates a condition to determine the next statement to execute.
+label@@Associates a statement with an identifier that can be referenced by break or continue.
+return@@Causes execution to return immediately to the calling function.
+super@@Invokes the superclass or parent version of a method or constructor.
+switch@@Causes control to transfer to one of several statements, depending on the value of an expression.
+throw@@Generates, or throws, an error that can be handled, or caught, by a catch code block.
+try..catch..finally@@Encloses a block of code in which an error can occur, and then responds to the error.
+while@@Evaluates a condition and if the condition evaluates to true, executes one or more statements before looping back to evaluate the condition again.
+with@@Establishes a default object to be used for the execution of a statement or statements, potentially reducing the amount of code that needs to be written.
+dynamic@@Specifies that instances of a class may possess dynamic properties added at runtime.
+final@@Specifies that a method cannot be overridden or that a class cannot be extended.
+internal@@Specifies that a class, variable, constant or function is available to any caller within the same package.
+native@@Specifies that a function or method is implemented by Flash Player in native code.
+override@@Specifies that a method replaces an inherited method.
+private@@Specifies that a variable, constant, method or namespace is available only to the class that defines it.
+protected@@Specifies that a variable, constant, method, or namespace is available only to the class that defines it and to any subclasses of that class.
+public@@Specifies that a class, variable, constant or method is available to any caller.
+static@@Specifies that a variable, constant, or method belongs to the class, rather than to instances of the class.
+...@@rest parameter@@Specifies that a function will accept any number of comma-delimited arguments.
+class@@Defines a class, which lets you instantiate objects that share methods and properties that you define.
+const@@Specifies a constant, which is a variable that can be assigned a value only once.
+extends@@Defines a class that is a subclass of another class.
+function@@Comprises a set of statements that you define to perform a certain task.
+get@@Defines a getter, which is a method that can be read like a property.
+implements@@Specifies that a class implements one or more interfaces.
+interface@@Defines an interface.
+namespace@@Allows you to control the visibility of definitions.
+package@@Allows you to organize your code into discrete groups that can be imported by other scripts.
+set@@Defines a setter, which is a method that appears in the public interface as a property.
+var@@Specifies a variable.
+default_xml_namespace@@The default xml namespace directive sets the default namespace to use for XML objects.
+import@@Makes externally defined classes and packages available to your code.
+include@@Includes the contents of the specified file, as if the commands in the file are part of the calling script.
+use_namespace@@Causes the specified namespaces to be added to the set of open namespaces.
+AS3@@Defines methods and properties of the core ActionScript classes that are fixed properties instead of prototype properties.
+flash_proxy@@Defines methods of the Proxy class.
+object_proxy@@Defines methods of the ObjectProxy class.
+false@@A Boolean value representing false.
+null@@A special value that can be assigned to variables or returned by a function if no data was provided.
+this@@A reference to a method's containing object.
+true@@A Boolean value representing true.
+
+#Globals- Functions
+
+Vector(length:uint = 0, fixed:Boolean = false)\r\nCreates a Vector with the specified base type.
+concat(... args):Vector.<T>\r\nConcatenates the Vectors specified in the parameters list with the elements in this Vector and creates a new Vector.
+every(callback:Function, thisObject:Object = null):Boolean\r\nExecutes a test function on each item in the Vector until an item is reached that returns false for the specified function.
+filter(callback:Function, thiunsObject:Object = null):Vector.<T>\r\nExecutes a test function on each item in the Vector and returns a new Vector containing all items that return true for the specified function.
+forEach(callback:Function, thisObject:Object = null):void\r\nExecutes a function on each item in the Vector.
+hasOwnProperty(name:String):Boolean\r\nIndicates whether an object has a specified property defined.
+indexOf(searchElement:T, fromIndex:int = 0):int\r\nSearches for an item in the Vector and returns the index position of the item.
+isPrototypeOf(theClass:Object):Boolean\r\nIndicates whether an instance of the Object class is in the prototype chain of the object specified as the parameter.
+join(sep:String = ","):String\r\nConverts the elements in the Vector to strings, inserts the specified separator between the elements, concatenates them, and returns the resulting string.
+lastIndexOf(searchElement:T, fromIndex:int = 0x7fffffff):int\r\nSearches for an item in the Vector, working backward from the specified index position, and returns the index position of the matching item.
+map(callback:Function, thisObject:Object = null):Vector.<T>\r\nExecutes a function on each item in the Vector, and returns a new Vector of items corresponding to the results of calling the function on each item in this Vector.
+pop():T\r\nRemoves the last element from the Vector and returns that element.
+propertyIsEnumerable(name:String):Boolean\r\nIndicates whether the specified property exists and is enumerable.
+push(... args):uint\r\nAdds one or more elements to the end of the Vector and returns the new length of the Vector.
+reverse():Vector.<T>\r\nReverses the order of the elements in the Vector.
+setPropertyIsEnumerable(name:String, isEnum:Boolean = true):void\r\nSets the availability of a dynamic property for loop operations.
+shift():T\r\nRemoves the first element from the Vector and returns that element.
+slice(startIndex:int = 0, endIndex:int = 16777215):Vector.<T>\r\nReturns a new Vector that consists of a range of elements from the original Vector, without modifying the original Vector.
+some(callback:Function, thisObject:Object = null):Boolean\r\nExecutes a test function on each item in the Vector until an item is reached that returns true.
+sort(sortBehavior:*):Vector.<T>\r\n Sorts the elements in the Vector object, and also returns a sorted Vector object.
+splice(startIndex:int, deleteCount:uint = 4294967295, ... items):Vector.<T>\r\nAdds elements to and removes elements from the Vector.
+toLocaleString():String\r\nReturns a string that represents the elements in the specified Vector.
+toString():String\r\nReturns a string that represents the elements in the Vector.
+unshift(... args):uint\r\n Adds one or more elements to the beginning of the Vector and returns the new length of the Vector.
+valueOf():Object\r\nReturns the primitive value of the specified object.
