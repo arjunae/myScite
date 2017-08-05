@@ -2711,4 +2711,20 @@ Vector()Creates a new Vector instance whose elements are instances of the specif
 XML()Converts an object to an XML object.
 XMLList()Converts an object to an XMLList object.
 
-#tod: Add Toplevel classes members (eg toJSON / Vector ...)
+#tod: Add Toplevel / often used classes members (eg toJSON / Vector ...)	
+
+clearInterval(id:uint):void\r\n|flash.utils|Cancels a specified setInterval() call.
+clearTimeout(id:uint):void\r\n|flash.utils|Cancels a specified setTimeout() call.
+describeType(value:*):XML\r\n|flash.utils|Produces an XML object that describes the ActionScript object named as the parameter of the method.
+escapeMultiByte(value:String):String\r\n|flash.utils|Returns an escaped copy of the input string encoded as either UTF-8 or system code page, depending on the value of System.useCodePage.
+getDefinitionByName(name:String):Object\r\n|flash.utils|Returns a reference to the class object of the class specified by the name parameter.
+getQualifiedClassName(value:*):String\r\n|flash.utils|Returns the fully qualified class name of an object.
+getQualifiedSuperclassName(value:*):String\r\n|flash.utils|Returns the fully qualified class name of the base class of the object specified by the value parameter.
+getTimer():int\r\n|flash.utils|Used to compute relative time.
+setInterval(closure:Function, delay:Number, ... arguments):uint\r\n|flash.utils|Runs a function at a specified interval (in milliseconds).
+setTimeout(closure:Function, delay:Number, ... arguments):uint\r\n|flash.utils|Runs a specified function after a specified delay (in milliseconds).
+unescapeMultiByte(value:String):String\r\n|flash.utils|Returns an unescaped copy of the input string, which is decoded from either system code page page or UTF-8 depending on the value of System.useCodePage.
+
+BIG_ENDIAN@@:String[static] Indicates the most significant byte of the multibyte number appears first in the sequence of bytes.
+LITTLE_ENDIAN@@:String[static] Indicates the least significant byte of the multibyte number appears first in the sequence of bytes.
+
