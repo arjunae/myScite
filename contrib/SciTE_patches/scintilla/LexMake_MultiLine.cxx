@@ -439,8 +439,8 @@ static int GetLineLen(Accessor &styler, Sci_Position offset) {
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
 
 	const int MAX=4096;
-	char lineBuffer[MAX]; // ok. i _really_ do like vectors from now on...
-
+	char lineBuffer[MAX]; 
+	
 	memset(lineBuffer, 0, sizeof(*lineBuffer));
 	styler.Flush();
 
@@ -457,13 +457,18 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
 
+	// ok. i _really_ do like vectors from now on...
+	// MAX Line lenght limit: 
+	if (length>=MAX)
+		return;
+
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
 
 		lineBuffer[linePos++] = styler[at];
 		// End of line (or of max line buffer) met.
 		if (AtEOL(styler, at) || (linePos>= sizeof(lineBuffer) - 1)) {
 			unsigned int mlLength=GetLineLen(styler, at);
-
+		
 			// copy the remaining chars of the lineBuffer
 			if (mlLength!=linePos)
 				for (unsigned int j=linePos-1; j<=mlLength; j++)
