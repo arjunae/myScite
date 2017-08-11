@@ -119,15 +119,16 @@ static unsigned int ColouriseMakeLine(
 	}
 
 	while (i < lengthLine) {
-
-		char chNext=styler.SafeGetCharAt(startLine +i+1);
-		unsigned int current=startLine+i;
+	
+		unsigned int currentPos=startLine+i;
+		char chCurr=styler.SafeGetCharAt(currentPos);
+		char chNext=styler.SafeGetCharAt(currentPos+1);
 
 		/// style GNUMake inline Comments
 		if (slineBuffer[i] == '#' && iWarnEOL<1) {
 			state_prev=state;
 			state=SCE_MAKE_COMMENT;
-			if (i>0) styler.ColourTo(startLine + i-1, state_prev);
+			if (i>0) styler.ColourTo(currentPos-1, state_prev);
 			styler.ColourTo(endPos, state);
 			return (state);
 		}
@@ -135,13 +136,13 @@ static unsigned int ColouriseMakeLine(
 		/// Style Target lines
 		// skip identifier and target styling if this is a command line
 		if (!inString && !bSpecial && !bCommand && state==SCE_MAKE_DEFAULT) {
-			if (slineBuffer[i] == ':') {
+			if (chCurr == ':') {
 				if (i<lengthLine && (chNext == '=')) {
 					// it's a ':=', so style as an identifier
 					if (lastNonSpace >= 0)
 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-					styler.ColourTo(startLine + i -1, SCE_MAKE_DEFAULT);
-					styler.ColourTo(startLine + i +1, SCE_MAKE_OPERATOR);
+					styler.ColourTo(currentPos -1, SCE_MAKE_DEFAULT);
+					styler.ColourTo(currentPos +1, SCE_MAKE_OPERATOR);
 				} else if(isspace(chNext)) {
 					// We should check that no colouring was made since the beginning of the line,
 					// to avoid colouring stuff like /OUT:file
@@ -149,51 +150,51 @@ static unsigned int ColouriseMakeLine(
 						styler.ColourTo(startLine + lastSpaceWord, SCE_MAKE_DEFAULT);
 					if (lastNonSpace >= 0)
 						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
-					styler.ColourTo(startLine + i -1, SCE_MAKE_DEFAULT);
-					styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
+					styler.ColourTo(currentPos -1, SCE_MAKE_DEFAULT);
+					styler.ColourTo(currentPos, SCE_MAKE_OPERATOR);
 				}
 				bSpecial = true;	// Only react to the first ':' of the line
 				state = SCE_MAKE_DEFAULT;
-			} else if (slineBuffer[i] == '=') {
+			} else if (chCurr== '=') {
 				if (lastSpaceWord >0 && lastSpaceWord < lastNonSpace-1)
 					styler.ColourTo(startLine + lastSpaceWord, SCE_MAKE_DEFAULT);
 				if (lastNonSpace >= 0)
 					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-				styler.ColourTo(startLine + i -1, SCE_MAKE_DEFAULT);
-				styler.ColourTo(startLine + i, SCE_MAKE_OPERATOR);
+				styler.ColourTo(currentPos -1, SCE_MAKE_DEFAULT);
+				styler.ColourTo(currentPos, SCE_MAKE_OPERATOR);
 				bSpecial = true;	// Only react to the first '=' of the line
 				state = SCE_MAKE_DEFAULT;
 			}
 		}
 
 		/// lets signal a warning on unclosed Strings or Brackets.
-		if (strchr("({", (int)slineBuffer[i]) >0) {
+		if (strchr("({", (int)chCurr) >0) {
 			state_prev = state;
-			if (i>0) styler.ColourTo(startLine + i-1, state_prev);
-			styler.ColourTo(startLine + i, SCE_MAKE_IDENTIFIER);
+			if (i>0) styler.ColourTo(currentPos-1, state_prev);
+			styler.ColourTo(currentPos, SCE_MAKE_IDENTIFIER);
 			state = state_prev;
 			iWarnEOL++;
-		} else if (strchr(")}", (int)slineBuffer[i]) >0) {
+		} else if (strchr(")}", (int)chCurr) >0) {
 			state_prev = state;
-			if (i>0) styler.ColourTo(startLine + i-1, state_prev);
-			styler.ColourTo(startLine + i, SCE_MAKE_IDENTIFIER);
+			if (i>0) styler.ColourTo(currentPos-1, state_prev);
+			styler.ColourTo(currentPos, SCE_MAKE_IDENTIFIER);
 			state = state_prev;
 			iWarnEOL--;
 		}
 
 		/// Style Strings
-		if (inString && slineBuffer[i]=='\"') {
+		if (inString && chCurr=='\"') {
 			state_prev=state;
-			if (i>0) styler.ColourTo(startLine + i-1, SCE_MAKE_STRING);
+			if (i>0) styler.ColourTo(currentPos-1, SCE_MAKE_STRING);
 			state=SCE_MAKE_DEFAULT;
-			ColourHere(styler, current, SCE_MAKE_IDENTIFIER, state);
+			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL--;
 			inString=false;
-		} else if	(!inString && slineBuffer[i]=='\"') {
+		} else if	(!inString && chCurr=='\"') {
 			state_prev = state;
 			state=SCE_MAKE_STRING;
-			if (i>0) styler.ColourTo(startLine + i-1, state_prev);
-			ColourHere(styler, current, SCE_MAKE_IDENTIFIER, SCE_MAKE_STRING);
+			if (i>0) styler.ColourTo(currentPos-1, state_prev);
+			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, SCE_MAKE_STRING);
 			inString=true;
 			iWarnEOL++;
 		}
@@ -204,13 +205,13 @@ static unsigned int ColouriseMakeLine(
 		std::string strSearch;
 
 		/// cpplusplus.com: any return values from IsAlphaNum (and co) >0 should be considered true.
-		if (IsGraphic(slineBuffer[i]) == 0) {
+		if (IsGraphic(chCurr) == 0) {
 			startMark=0;
 			strLen=0;
 		}
 
 		// got alphanumerics we mark the wordBoundary.
-		if (IsAlphaNum(slineBuffer[i])>=1 && strLen == 0) {
+		if (IsAlphaNum(chCurr)>=1 && strLen == 0) {
 			strLen++;
 			startMark=i; // absolute position of current words begin.
 		} else if (strLen>0) {
@@ -231,41 +232,43 @@ static unsigned int ColouriseMakeLine(
 
 			// check if we get a match with Keywordlist externalCommands
 			// Rule: Prepended by line start or " \t\r\n /\":,\=" Ends on eol,whitespace or ;
-			if (kwExtCmd.InList(strSearch.c_str()) && inString==false && (strchr("\t\r\n ;)", (int)chNext) >0)
+			if (kwExtCmd.InList(strSearch.c_str()) 
+					&& inString==false && (strchr("\t\r\n ;)", (int)chNext) >0)
 					&& (i+1 -wordLen == theStart || AtStartChar(styler, startLine +i -wordLen))) {
-				if (i>0) styler.ColourTo(startLine + i-wordLen, SCE_MAKE_DEFAULT);
+				if (i>0) styler.ColourTo(currentPos-wordLen, SCE_MAKE_DEFAULT);
 				state_prev=state;
-				styler.ColourTo(startLine + i-wordLen, state_prev);
 				state=SCE_MAKE_EXTCMD;
-				ColourHere(styler, current, state, SCE_MAKE_DEFAULT);
+				styler.ColourTo(currentPos-wordLen, state_prev);
+				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			} else if (state == SCE_MAKE_EXTCMD) {
 				state=SCE_MAKE_DEFAULT;
-				styler.ColourTo(startLine + i, state);
+				styler.ColourTo(currentPos, state);
 			}
 
 			// we now search for the word within the Directives Space.
-			// Rule: Prepended by whitespace, precedet by line start or .'='.
-			if (kwGeneric.InList(strSearch.c_str()) && inString==false && (strchr("\t\r\n ;)", (int)chNext) >0)
+			// Rule: Prepended by whitespace, preceedet by line start or .'='.
+			if (kwGeneric.InList(strSearch.c_str()) 
+					&& inString==false && (strchr("\t\r\n ;)", (int)chNext) >0)
 					&& (i+1 -wordLen == theStart || styler.SafeGetCharAt(startLine +i -wordLen-1) == '=')) {
 				state_prev=state;
 				state=SCE_MAKE_DIRECTIVE;
-				ColourHere(styler, current, SCE_MAKE_DIRECTIVE, SCE_MAKE_DEFAULT);
+				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			} else if (state == SCE_MAKE_DIRECTIVE) {
 				state=SCE_MAKE_DEFAULT;
-				styler.ColourTo(startLine + i, state);
+				styler.ColourTo(currentPos, state);
 			}
 
 			// ....and within functions $(sort,subst...) / used to style internal Variables too.
-			// Rule: have to be prefixed by '(' and preceeded by whitespace or ;)
+			// Rule: have to be prefixed by '(' and preceedet by whitespace or ;)
 			if (kwFunctions.InList(strSearch.c_str())
 					&& styler.SafeGetCharAt(startLine +i -wordLen -1) == '$'
 					&& styler.SafeGetCharAt(startLine +i -wordLen) == '(') {
 				state_prev=state;
 				state=SCE_MAKE_OPERATOR;
-				ColourHere(styler, current, state, SCE_MAKE_DEFAULT);
+				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			} else if (state ==SCE_MAKE_OPERATOR) {
 				state=SCE_MAKE_DEFAULT;
-				styler.ColourTo(startLine + i, state);
+				styler.ColourTo(currentPos, state);
 			}
 			startMark=0;
 			strLen=0;
@@ -273,52 +276,52 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Style User Variables Rule: $(...)
-		if (slineBuffer[i] == '$' && (strchr("{(", (int)chNext) >0)) {
-			if (i>0) styler.ColourTo(startLine + i-1, state);
+		if (chCurr == '$' && (strchr("{(", (int)chNext) >0)) {
+			if (i>0) styler.ColourTo(currentPos-1, state);
 			state_prev=state;
 			state = SCE_MAKE_USER_VARIABLE;
 		} else if (state == SCE_MAKE_USER_VARIABLE && (strchr("})", (int)chNext) >0)) {
-			ColourHere(styler, current, state, state_prev);
+			ColourHere(styler, currentPos, state, state_prev);
 			state = SCE_MAKE_DEFAULT;
 		}
 
 		/// ... and $ based automatic Variables Rule: $@%<?^+*
-		if (slineBuffer[i] == '$' && (strchr("@%<?^+*", (int)chNext)) >0) {
-			if (i>0) styler.ColourTo(startLine + i-1, state);
+		if (chCurr == '$' && (strchr("@%<?^+*", (int)chNext)) >0) {
+			if (i>0) styler.ColourTo(currentPos-1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i])) >0) {
-			ColourHere(styler, current, state, state_prev);
+			ColourHere(styler, currentPos, state, state_prev);
 			state = state_prev;
 		}
 
 		/// Style for automatic Variables. FluxCompensators orders: @%<^+'D'||'F'
-		if ((strchr("@%<?^+*", (int)slineBuffer[i]) >0) && (strchr("DF", (int)chNext) >0)) {
-			if (i>0) styler.ColourTo(startLine + i-1, state);
+		if ((strchr("@%<?^+*", (int)chCurr) >0) && (strchr("DF", (int)chNext) >0)) {
+			if (i>0) styler.ColourTo(currentPos-1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
-		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<^+", (int)styler.SafeGetCharAt(startLine+i-1))>0 && (strchr("DF", (int)slineBuffer[i]) >0))) {
-			ColourHere(styler, current, state, state_prev);
+		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<^+", (int)styler.SafeGetCharAt(currentPos-1))>0 && (strchr("DF", (int)chCurr) >0))) {
+			ColourHere(styler, currentPos, state, state_prev);
 			state = state_prev;
 		}
 
 		/// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'")
-		if ((i<lengthLine && inString==false && (IsAlphaNum(slineBuffer[i])==0 && chNext=='-'))
-				|| (i == theStart && slineBuffer[i] == '-')) {
+		if ((i<lengthLine && inString==false && (IsAlphaNum(chCurr)==0 && chNext=='-'))
+				|| (i == theStart && chCurr == '-')) {
 			state_prev=SCE_MAKE_DEFAULT;
 			state = SCE_MAKE_FLAGS;
-			bool j= (i>0 && (slineBuffer[i]=='-') && chNext=='-') ? 1:0; // style both '-'
-			styler.ColourTo(startLine + i-j, state_prev);
+			bool j= (i>0 && (chCurr=='-') && chNext=='-') ? 1:0; // style both '-'
+			styler.ColourTo(currentPos-j, state_prev);
 		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''", (int)chNext) >0) {
-			ColourHere(styler, current, state, state_prev);
+			ColourHere(styler, currentPos, state, state_prev);
 			state = SCE_MAKE_DEFAULT;
 		}
 
-		if (!isspacechar(slineBuffer[i])) {
+		if (!isspacechar(chCurr)) {
 			lastNonSpace = i;
 		}
 		
-		if (i<lengthLine && IsGraphic(slineBuffer[i])==0 
+		if (i<lengthLine && IsGraphic(chCurr)==0 
 			&& strchr("\t =", (int)chNext)==0){
 			lastSpaceWord=i;
 		}
@@ -395,7 +398,6 @@ static int GetLineLen(Accessor &styler, Sci_Position offset) {
 	Sci_Position ywo=offset;
 
 	// check last visible char for beeing a continuation
-	// cope with unix and windows style line ends.
 	while (ywo>0 && IsNewline(styler[ywo--])) {
 		if (styler[ywo]=='\n') return (offset-ywo); // empty Line
 	}
@@ -415,6 +417,7 @@ static int GetLineLen(Accessor &styler, Sci_Position offset) {
 			}
 
 			// ...Final continuation==Fini
+			// cope with unix and windows style line ends.
 			if (styler[ywo-1] !='\\' && styler[ywo-2] !='\\' && styler[ywo]=='\n') {
 				return (length); // Continuation end reached.
 				break;
@@ -445,7 +448,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	styler.Flush();
 
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
-	// If that Position is within a continued Mulltiline, we notify the start positionof that Line to Scintilla here:
+	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:
 
 	// finds a (Multi)lines start.
 	Sci_Position o_startPos=GetLineStart(styler, startPos);
@@ -457,21 +460,19 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
 
-	// ok. i _really_ do like vectors from now on...
-	// MAX Line lenght limit: 
-	if (length>=MAX)
-		return;
-
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
 
 		lineBuffer[linePos++] = styler[at];
 		// End of line (or of max line buffer) met.
 		if (AtEOL(styler, at) || (linePos>= sizeof(lineBuffer) - 1)) {
 			unsigned int mlLength=GetLineLen(styler, at);
-		
-			// copy the remaining chars of the lineBuffer
+			
+			if (mlLength>=MAX)
+				break;
+
+			// Copy the remaining chars to the lineBuffer.
 			if (mlLength!=linePos)
-				for (unsigned int j=linePos-1; j<=mlLength; j++)
+				for (unsigned int j=linePos-1; j<=mlLength ; j++)
 					lineBuffer[j]=styler[at++];
 
 			at=lineStart+mlLength-1;
