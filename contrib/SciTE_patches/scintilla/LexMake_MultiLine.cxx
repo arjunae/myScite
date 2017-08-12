@@ -99,18 +99,18 @@ static unsigned int ColouriseMakeLine(
 
 	// check for a tab character in column 0 indicating a command
 	bool bCommand = false;
-	if ((lengthLine > 0) && (slineBuffer[0] == '\t'))
+	if ((lengthLine > 0) && (styler.SafeGetCharAt(startLine) == '\t'))
 		bCommand = true;
 
 	// Skip initial spaces and tabs for current Line. Spot that Position to check for later.
-	while ((i < lengthLine) && isspacechar(slineBuffer[i]))
+	while ((i < lengthLine) && isspacechar(styler.SafeGetCharAt(startLine+i)))
 		i++;
 
 	unsigned int theStart=i; // One Byte ought (not) to be enough for everyone....?
 
 	// Style special directive
 	if (i < lengthLine) {
-		if (slineBuffer[i] == '!') {
+		if (styler.SafeGetCharAt(startLine+i) == '!') {
 			state_prev=state;
 			state=SCE_MAKE_PREPROCESSOR;
 			styler.ColourTo(endPos, state);
@@ -125,7 +125,7 @@ static unsigned int ColouriseMakeLine(
 		char chNext=styler.SafeGetCharAt(currentPos+1);
 
 		/// style GNUMake inline Comments
-		if (slineBuffer[i] == '#' && iWarnEOL<1) {
+		if (chCurr == '#' && iWarnEOL<1) {
 			state_prev=state;
 			state=SCE_MAKE_COMMENT;
 			if (i>0) styler.ColourTo(currentPos-1, state_prev);
@@ -166,26 +166,21 @@ static unsigned int ColouriseMakeLine(
 				state = SCE_MAKE_DEFAULT;
 			}
 		}
-
+		
 		/// lets signal a warning on unclosed Strings or Brackets.
 		if (strchr("({", (int)chCurr) >0) {
-			state_prev = state;
-			if (i>0) styler.ColourTo(currentPos-1, state_prev);
+			if (i>0) styler.ColourTo(currentPos-1, state);
 			styler.ColourTo(currentPos, SCE_MAKE_IDENTIFIER);
-			state = state_prev;
 			iWarnEOL++;
 		} else if (strchr(")}", (int)chCurr) >0) {
-			state_prev = state;
-			if (i>0) styler.ColourTo(currentPos-1, state_prev);
-			styler.ColourTo(currentPos, SCE_MAKE_IDENTIFIER);
-			state = state_prev;
+			if (i>0) styler.ColourTo(currentPos-1, state);
+			ColourHere(styler, currentPos,SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL--;
 		}
 
 		/// Style Strings
 		if (inString && chCurr=='\"') {
-			state_prev=state;
-			if (i>0) styler.ColourTo(currentPos-1, SCE_MAKE_STRING);
+			if (i>0) styler.ColourTo(currentPos-1, state);
 			state=SCE_MAKE_DEFAULT;
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL--;
@@ -227,7 +222,6 @@ static unsigned int ColouriseMakeLine(
 
 		// Ok, now we have some materia within our char buffer.  Check whats in:
 		if (strSearch.size()>0) {
-
 			Sci_PositionU wordLen=(Sci_PositionU)strSearch.size();
 
 			// check if we get a match with Keywordlist externalCommands
@@ -282,7 +276,7 @@ static unsigned int ColouriseMakeLine(
 			state = SCE_MAKE_USER_VARIABLE;
 		} else if (state == SCE_MAKE_USER_VARIABLE && (strchr("})", (int)chNext) >0)) {
 			ColourHere(styler, currentPos, state, state_prev);
-			state = SCE_MAKE_DEFAULT;
+			state = state_prev;
 		}
 
 		/// ... and $ based automatic Variables Rule: $@%<?^+*
@@ -290,7 +284,7 @@ static unsigned int ColouriseMakeLine(
 			if (i>0) styler.ColourTo(currentPos-1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
-		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)slineBuffer[i])) >0) {
+		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)chCurr) >0)) {
 			ColourHere(styler, currentPos, state, state_prev);
 			state = state_prev;
 		}
@@ -300,7 +294,9 @@ static unsigned int ColouriseMakeLine(
 			if (i>0) styler.ColourTo(currentPos-1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
-		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<^+", (int)styler.SafeGetCharAt(currentPos-1))>0 && (strchr("DF", (int)chCurr) >0))) {
+		} else if (state == SCE_MAKE_AUTOM_VARIABLE 
+				&& (strchr("@%<^+", (int)styler.SafeGetCharAt(currentPos-1))>0 
+				&& (strchr("DF", (int)chCurr) >0))) {
 			ColourHere(styler, currentPos, state, state_prev);
 			state = state_prev;
 		}
@@ -403,12 +399,11 @@ static int GetLineLen(Accessor &styler, Sci_Position offset) {
 	}
 
 	if (styler[ywo+1]=='\\') {
-
 		// ..begin at current lines startpos
 		while (ywo>=0 && !IsNewline(styler[--ywo]));
 
 		// ...get continued lines length
-		while (length<4095) {
+		while (true) {
 
 			//..get Segments lineEnd
 			while (styler[ywo++]) {
@@ -425,9 +420,7 @@ static int GetLineLen(Accessor &styler, Sci_Position offset) {
 				return (length-1);	// handle continuated lines without an EOL mark.
 				break;
 			}
-
 		}
-
 	} else {
 		// Handle non-contigous lines
 		if (styler[ywo]!='\n')
@@ -443,13 +436,11 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 
 	const int MAX=4096;
 	char lineBuffer[MAX]; 
-	
 	memset(lineBuffer, 0, sizeof(*lineBuffer));
 	styler.Flush();
 
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
 	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:
-
 	// finds a (Multi)lines start.
 	Sci_Position o_startPos=GetLineStart(styler, startPos);
 	styler.StartSegment(o_startPos);
@@ -484,11 +475,9 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 			mlLength = 0;
 			styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
 		}
-
 	}
 	if (linePos>0) // handle normal lines without an EOL mark.
 		ColouriseMakeLine(lineBuffer, linePos, lineStart, startPos+length -1, keywords, styler);
-
 }
 
 static const char *const makefileWordListDesc[] = {
