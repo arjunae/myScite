@@ -89,7 +89,9 @@ static unsigned int ColouriseMakeLine(
 	bool bSpecial = false; // Only react to the first '=' or ':' of the line.
 	unsigned int strLen=0; // Keyword candidate length.
 	unsigned int startMark=0; // Keyword candidates startPos.
-	bool inString=false; // set when a String begins.
+	bool inString=false; // set when a double quoted String begins.
+	bool inSqString=false; // set when a single quoted String begins.
+	
 	int iWarnEOL=0;// unclosed string bracket refcount.
 
 	/// keywords
@@ -114,29 +116,28 @@ static unsigned int ColouriseMakeLine(
 			state_prev=state;
 			state=SCE_MAKE_PREPROCESSOR;
 			styler.ColourTo(endPos, state);
-			return (state);
+			return(state);
 		}
 	}
 	
-
 	while (i < lengthLine) {
-	
 		unsigned int currentPos=startLine+i;
 		char chCurr=styler.SafeGetCharAt(currentPos);
 		char chNext=styler.SafeGetCharAt(currentPos+1);
 
 		/// style GNUMake inline Comments
-		if (chCurr == '#' && iWarnEOL<1) {
+		if (chCurr == '#' && !inString && !inSqString) {
 			state_prev=state;
 			state=SCE_MAKE_COMMENT;
 			if (i>0) styler.ColourTo(currentPos-1, state_prev);
 			ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
-			return (state);
+			return(state);
 		}
-
+		
 		/// Style Target lines
 		// skip identifier and target styling if this is a command line
-		if (!inString && !bSpecial && !bCommand && state==SCE_MAKE_DEFAULT) {
+		if (!bSpecial && !bCommand) {
+		state_prev=state;
 			if (chCurr == ':') {
 				if (i<lengthLine && (chNext == '=')) {
 					// it's a ':=', so style as an identifier
@@ -164,8 +165,8 @@ static unsigned int ColouriseMakeLine(
 				styler.ColourTo(currentPos -1, SCE_MAKE_DEFAULT);
 				styler.ColourTo(currentPos, SCE_MAKE_OPERATOR);
 				//bSpecial = true;	// Only react to the first '=' of the line
-				state = SCE_MAKE_DEFAULT;
-			}
+				}
+			state = state_prev;
 		}
 		
 		/// lets signal a warning on unclosed Strings or Brackets.
@@ -179,7 +180,7 @@ static unsigned int ColouriseMakeLine(
 			iWarnEOL--;
 		}
 
-		/// Style Strings
+		/// Style double quoted Strings
 		if (inString && chCurr=='\"') {
 			if (i>0) styler.ColourTo(currentPos-1, state);
 			state=SCE_MAKE_DEFAULT;
@@ -190,13 +191,27 @@ static unsigned int ColouriseMakeLine(
 			state_prev = state;
 			state=SCE_MAKE_STRING;
 			if (i>0) styler.ColourTo(currentPos-1, state_prev);
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, SCE_MAKE_STRING);
+			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			inString=true;
 			iWarnEOL++;
 		}
 
-		/// Colour some other Delimiters...Just because its Fun :)
-		if (strchr("[+<'|'>:&]", (int)chCurr) >0) {
+		/// Style single quoted Strings. Don't EOL check for now. 
+		if (!inString && inSqString && chCurr=='\'') {
+			if (i>0) styler.ColourTo(currentPos-1, state);
+			state=SCE_MAKE_DEFAULT;
+			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			inSqString=false;
+		} else if	(!inString && !inSqString && chCurr=='\'') {
+			state_prev = state;
+			state=SCE_MAKE_STRING;
+			if (i>0) styler.ColourTo(currentPos-1, state_prev);
+			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			inSqString=true;
+		}
+		
+		/// hm. Colour some Delimiters...Just because its Fun :)
+		if (strchr("[+<'|\">:&]", (int)chCurr) >0) {
 			if (i>0) styler.ColourTo(currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 		}
@@ -325,7 +340,8 @@ static unsigned int ColouriseMakeLine(
 		}
 		
 		if ((i<lengthLine && IsGraphic(chCurr)==0 
-		&& strchr("\t =", (int)chNext)==0) || chCurr=='?'){
+		&& strchr("\t =", (int)chNext)==0) 
+    || strchr("$&?", (int)chCurr) > 0) {
 			lastSpaceWord=i;
 		}
 		
@@ -338,7 +354,7 @@ static unsigned int ColouriseMakeLine(
 		state=SCE_MAKE_DEFAULT;
 	}
 
-	ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);;
+	ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
 	return (state);
 }
 
@@ -442,45 +458,41 @@ static int GetLineLen(Accessor &styler, Sci_Position offset) {
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
 
 	const int MAX=4096;
-	char lineBuffer[MAX]; 
+	char lineBuffer[MAX]; //Note: allocate him on the heap. 
 	memset(lineBuffer, 0, sizeof(*lineBuffer));
 	styler.Flush();
 
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
 	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:
 	// finds a (Multi)lines start.
-	Sci_Position o_startPos=GetLineStart(styler, startPos);
+	Sci_PositionU o_startPos=GetLineStart(styler, startPos);
 	styler.StartSegment(o_startPos);
 	styler.StartAt(o_startPos);
 	length=length+(startPos-o_startPos);
 	startPos=o_startPos;
-
+	
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
-
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
 
 		lineBuffer[linePos++] = styler[at];
 		// End of line (or of max line buffer) met.
 		if (AtEOL(styler, at) || (linePos>= sizeof(lineBuffer) - 1)) {
-			unsigned int mlLength=GetLineLen(styler, at);
-			
-			if (mlLength>=MAX)
-				mlLength=MAX;
+			Sci_PositionU lineLength=GetLineLen(styler, at);
+			lineLength=(lineLength<MAX) ? lineLength:MAX;
 
 			// Copy the remaining chars to the lineBuffer.
-			if (mlLength!=linePos)
-				for (unsigned int j=linePos-1; j<=mlLength ; j++)
-					lineBuffer[j]=styler[at++];
+			if (lineLength != linePos)
+				for (Sci_PositionU pos=linePos-1; pos<=lineLength ; pos++)
+					lineBuffer[pos]=styler[at++];
 
-			at=lineStart+mlLength-1;
-
-			ColouriseMakeLine(lineBuffer, mlLength, lineStart, at, keywords, styler);
-			memset(lineBuffer, 0, mlLength);
+			at=lineStart+lineLength-1;
+			
+			ColouriseMakeLine(lineBuffer, lineLength, lineStart, at, keywords, styler);
+			memset(lineBuffer, 0, lineLength);
 			lineStart = at+1;
 			linePos=0;
-			mlLength = 0;
-			styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
+			styler.ChangeLexerState(startPos, startPos+lineLength); // Fini -> Request Screen redraw.
 		}
 	}
 	if (linePos>0) // handle normal lines without an EOL mark.
