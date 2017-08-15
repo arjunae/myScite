@@ -291,9 +291,7 @@ clean-up-makefile-baks:
 
 .gen-gitignore:
 	@echo -e "    > $(.BOLD)(Re)patching .gitignore$(.CLEAR)"
-	$(GENERATE_TOOL) config-template gitignore > gitignore.tmp && 
-  
-mv -f gitignore.tmp .gitignore
+	$(GENERATE_TOOL) config-template gitignore > gitignore.tmp && mv -f gitignore.tmp .gitignore
 
 	@make -f $(THIS) -s .needs-file file='.gitignore' text='Checking .gitignore...'
 
