@@ -1,5 +1,13 @@
 ~ mySciTE.webdev ~
 
+[XX.09.2017] myScite.Development
+- API: Actionscript3, FreeBasic, ArduinoC. Ordered cpp by header.
+- Themeing: TonedDown Colors to be more EyeFriendly and readable.
+- Lexer: enhanced Makefile Lexer Features. (keywords and styles) 
+- Lexer: Added scintillua antlr lexer. 
+- luaLibs: moved shell.dll->ibox to gui.dll. (now more efficient and 50% smaller.)
+- others: mor Fun for lua Testcases :) 
+
 [29.06.2017] mySciTE.June
 - antialiased fonts. Style .json & .mib Files. / Add Forth and Fortran api.
 - lua repo: unified mingw makefiles. / Recompiled all libs with Os for a better opt balance.
@@ -11,7 +19,7 @@
 - more userfriendly appendContextMenu script / Extman Update
 - improved makefile Lexer. (Styles Flags, internal vars & functions, User Vars)
 - removed pthreads dll Dependency. Add Keyword Index to lua5.1 chm Help.
-- many BugFixes / We finally, Linux 32 and 64bit binaries made their way here :)
+- many BugFixes / We finally, Linux32 and 64bit binaries made their way here :)
 
 [13.04.2017] STABLE-150
 - Rebased from wScite 3.6.7 to 3.7.0
