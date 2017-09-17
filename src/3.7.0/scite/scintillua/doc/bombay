@@ -1,0 +1,84 @@
+#!/usr/bin/lua
+-- Copyright 2007-2015 Mitchell mitchell.att.foicica.com. See LICENSE.
+
+local output_dir, template_dir = '.', '.'
+local title, mainstyle = 'Foicica'
+local pages = {}
+for i = 1, #arg do
+  local v = arg[i]
+  if v == '-d' then
+    output_dir = arg[i + 1]
+    table.remove(arg, i + 1)
+  elseif v == '-t' then
+    template_dir = arg[i + 1]
+    table.remove(arg, i + 1)
+  elseif v == '--title' then
+    title = arg[i + 1]
+    table.remove(arg, i + 1)
+  elseif v == '-h' or v == '--help' then
+    --[[
+    print("Usage: bombay [options] markdown_files\n\z
+           Generates a set of linked web pages from markdown files provided.\n\z
+           Uses `discount` (www.pell.portland.or.us/~orc/Code/​discount).\n\z
+           Available options are:\n\z
+           -d path                output directory path\n\z
+           -t path                template directory path\n\z
+           -h, --help             print this help and exit\n\z
+               --title text       text appended to each page title\n\z
+    os.exit()
+    ]]
+  elseif v then
+    pages[#pages + 1] = v
+  end
+end
+table.sort(pages, function(a, b)
+  return a:match('[^/\\]+$') < b:match('[^/\\]+$')
+end)
+
+local HTML = [[
+  <!doctype html>
+  <html>
+    <head>
+      <title>%(title)</title>
+      <link rel="stylesheet" href="style.css" type="text/css" />
+      <link rel="icon" href="icon.png" type="image/png" />
+      <meta charset="utf-8" />
+    </head>
+    <body>
+      <div id="content">
+        <div id="header">
+          %(header)
+        </div>
+        <div id="main">
+          %(main)
+        </div>
+        <div id="footer">
+          %(footer)
+        </div>
+      </div>
+    </body>
+  </html>
+]]
+local template = {}
+
+-- Create the header and footer.
+local p = io.popen('markdown "'..template_dir..'/.header.md"')
+template.header = p:read('*all')
+p:close()
+p = io.popen('markdown "'..template_dir..'/.footer.md"')
+template.footer = p:read('*all')
+p:close()
+
+-- Write HTML.
+for _, page in ipairs(pages) do
+  local page_name = page:match('[^/\\]+$')
+  local nice_name = page_name:match('^%A*(.-)%.md$'):gsub('(%l)(%u)', '%1 %2')
+  template.title = nice_name..' - '..title
+  p = io.popen('markdown -f toc,definitionlist -T "'..page..'"')
+  template.main = p:read('*all'):match('^.-\n</ul>\n(.+)$')
+  p:close()
+  f = io.open(output_dir..'/'..page_name:gsub('%.md$', '.html'), 'wb')
+  local html = HTML:gsub('%%%(([^)]+)%)', template)
+  f:write(html)
+  f:close()
+end

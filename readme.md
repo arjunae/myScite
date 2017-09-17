@@ -2,11 +2,11 @@
 
 [XX.09.2017] myScite.Development
 - API: Actionscript3, FreeBasic, ArduinoC. Ordered cpp by header.
-- Themeing: TonedDown Colors to be more EyeFriendly and readable.
+- Theming: TonedDown Colors to be more EyeFriendly and readable.
 - Lexer: enhanced Makefile Lexer Features. (keywords and styles) 
 - Lexer: Added scintillua antlr lexer. 
-- luaLibs: moved shell.dll->ibox to gui.dll. (now more efficient and 50% smaller.)
-- others: mor Fun for lua Testcases :) 
+- luaLibs: moved shell.dll->ibox to gui.dll. (Now more efficient and 50% smaller.)
+- others: more Fun for lua Testcases :) 
 
 [29.06.2017] mySciTE.June
 - antialiased fonts. Style .json & .mib Files. / Add Forth and Fortran api.

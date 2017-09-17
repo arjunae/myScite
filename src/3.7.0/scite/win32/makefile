@@ -36,6 +36,9 @@ PROG	= ../bin/SciTE.exe
 PROGSTATIC = ../bin/Sc1.exe
 WIDEFLAGS=-DUNICODE -D_UNICODE
 
+SCINTILLUA_LEXER = LexLPeg.o
+SCINTILLUA_SRC = LexLPeg.cxx
+
 vpath %.h ../src ../../scintilla/include
 vpath %.cxx ../src
 vpath %.o ../../scintilla/win32
@@ -46,12 +49,14 @@ LUA_CORE_OBJS = lapi.o lcode.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o \
 		lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o \
 		ltable.o ltm.o lundump.o lvm.o lzio.o
 
-LUA_LIB_OBJS =	lauxlib.o lbaselib.o ldblib.o liolib.o lmathlib.o ltablib.o \
+LUA_LIB_OBJS = lauxlib.o lbaselib.o ldblib.o liolib.o lmathlib.o ltablib.o \
 		lstrlib.o loadlib.o loslib.o linit.o
 
-LUA_OBJS = LuaExtension.o $(LUA_CORE_OBJS) $(LUA_LIB_OBJS)
-
-vpath %.c ../lua/src ../lua/src/lib
+SCINTILLUA_OBJS = lpcap.o lpcode.o lpprint.o lptree.o lpvm.o
+					
+LUA_OBJS = LuaExtension.o $(LUA_CORE_OBJS) $(LUA_LIB_OBJS) $(SCINTILLUA_OBJS)
+ 
+vpath %.c ../lua/src ../lua/src/lib ../scintillua/lua/src ../scintillua/lua/src/lib
 
 LUA_INCLUDES = -I ../lua/include
 #LUA_SCRIPTS = ..\bin\SciTEExtension.lua ..\bin\SciTEStartup.lua
@@ -60,7 +65,7 @@ else
 LUA_DEFINES = -DNO_LUA
 endif
 
-INCLUDEDIRS=-I ../../scintilla/include -I ../src $(LUA_INCLUDES)
+INCLUDEDIRS=-I ../../scintilla/include -I ../src $(LUA_INCLUDES) -I ../scintillua/lua/src
 RCINCLUDEDIRS=--include-dir ../src
 
 CBASEFLAGS = -W -Wall $(INCLUDEDIRS) $(LUA_DEFINES) $(WIDEFLAGS) $(VERSION_DEFINES) 
@@ -167,6 +172,9 @@ deps:
 
 embedded: ../src/Embedded.properties
 
+$(SCINTILLUA_LEXER): $(SCINTILLUA_SRC)
+	g++ $(CFLAGS) -DLPEG_LEXER -c $< -o $@
+		
 ../bin/Scintilla.dll:	../../scintilla/bin/Scintilla.dll
 ifeq ($(OS),Windows_NT)
 	$(COPY) $(subst /,\, $< $(@D))
