@@ -1,6 +1,6 @@
 ~ mySciTE.webdev ~
 
-[XX.09.2017] myScite.Development
+[22.09.2017] myScite.160
 - API: Actionscript3, FreeBasic, ArduinoC. Ordered cpp by header.
 - Theming: TonedDown Colors to be more EyeFriendly and readable.
 - Lexer: enhanced Makefile Lexer Features. (keywords and styles) 

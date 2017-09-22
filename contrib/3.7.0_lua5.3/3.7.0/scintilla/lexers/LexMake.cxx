@@ -53,7 +53,7 @@ static inline bool IsNewline(const int ch) {
 	return (ch == '\n' || ch == '\r');
 }
 
-// win10 -german chars ï¿½ ï¿½ ï¿½.. translate to negative values ?
+// win10 -german chars ö ½ ï¿½ .. translate to negative values ?
 static inline int IsAlphaNum(int ch) {
 	if ((IsASCII(ch) && isalpha(ch)) || ((ch >= '0') && (ch <= '9')))
 		return (1);
@@ -243,7 +243,7 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		// Ok, now we have some materia within our char buffer.  Check whats in:
-		if (strSearch.size()>0) {
+		if (strSearch.size()>0 && IsAlphaNum(chNext) == 0) {
 			Sci_PositionU wordLen=(Sci_PositionU)strSearch.size();
 
 			// check if we get a match with Keywordlist externalCommands
@@ -341,7 +341,7 @@ static unsigned int ColouriseMakeLine(
 		
 		if ((i<lengthLine && IsGraphic(chNext)!=NULL 
 		&& strchr("\t =", (int)chCurr)!=NULL ) 
-    || strchr("();?&", (int)chNext)!=NULL ) {
+		|| strchr("();?&", (int)chNext)!=NULL ) {
 			lastSpaceWord=i;
 		}
 		

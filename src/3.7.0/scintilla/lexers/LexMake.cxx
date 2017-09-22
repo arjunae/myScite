@@ -243,7 +243,7 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		// Ok, now we have some materia within our char buffer.  Check whats in:
-		if (strSearch.size()>0) {
+		if (strSearch.size()>0 && IsAlphaNum(chNext) == 0) {
 			Sci_PositionU wordLen=(Sci_PositionU)strSearch.size();
 
 			// check if we get a match with Keywordlist externalCommands
