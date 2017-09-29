@@ -16,11 +16,11 @@ var str = "asdf".replace (/ ^['"]/, "");
 
 // Underscore Library
 	var fs = new ActiveXObject("Scripting.FileSystemObject");
-	res = eval(fs.OpenTextFile("./data/underscore.js").ReadAll()); //  save_as_ansi...
+	result = eval(fs.OpenTextFile("./data/underscore.js").ReadAll()); //  save_as_ansi...
 
-	if ( typeof(_)=="function" ) {
+	if ( typeof(_)=="function") {
 		WScript.stdout.write("- Underscore v" + _.VERSION + " with .jScript Steampunk :)\n");
-		res=eval(fs.OpenTextFile("./data/underscore.string.js").ReadAll()); //  save_as_ansi...
+		result=eval(fs.OpenTextFile("./data/underscore.string.js").ReadAll()); //  save_as_ansi...
 	 _.mixin(s.exports());  /// without s.include, s.contains, s.reverse and s.join.
 	 
 	 // Underscore.string Compare

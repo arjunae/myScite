@@ -44,7 +44,6 @@ Makefile: ;              # skip prerequisite discovery
 
 .title:
 	@if [[ ! -n "$(notitle)" ]]; then 
-
 		echo ""; \
 	fi; \
 

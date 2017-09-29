@@ -220,7 +220,7 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Operators..
-		if (strchr("?&+=", (int)chCurr) !=NULL) {
+		if (strchr("@!?&+=", (int)chCurr) !=NULL) {
 			if (i>0) styler.ColourTo(currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
 		}
