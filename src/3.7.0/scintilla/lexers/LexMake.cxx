@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+ï»¿// Scintilla source code edit control
 /**
  * @file LexMake.cxx
  * @author Neil Hodgson, Thorsten Kani(marcedo@HabMalneFrage.de)
@@ -53,7 +53,7 @@ static inline bool IsNewline(const int ch) {
 	return (ch == '\n' || ch == '\r');
 }
 
-// win10 -german chars ö ½ ï¿½ .. translate to negative values ?
+// win10 -german chars Ã¶ Ãœ .. translate to negative values ?
 static inline int IsAlphaNum(int ch) {
 	if ((IsASCII(ch) && isalpha(ch)) || ((ch >= '0') && (ch <= '9')))
 		return (1);
@@ -124,7 +124,7 @@ static unsigned int ColouriseMakeLine(
 	while (i < lengthLine) {
 		unsigned int currentPos=startLine+i;
 
-		char chPrev=styler.SafeGetCharAt(currentPos-1);
+		//char chPrev=styler.SafeGetCharAt(currentPos-1);
 		char chCurr=styler.SafeGetCharAt(currentPos);
 		char chNext=styler.SafeGetCharAt(currentPos+1);
 
@@ -160,9 +160,9 @@ static unsigned int ColouriseMakeLine(
 				}
 				//bSpecial = true;	// Only react to the first ':' of the line
 				state = SCE_MAKE_DEFAULT;
-			} else if (chCurr== '=') {
+			} else if (chCurr== '=' && state != SCE_MAKE_FLAGS) {
 				if (lastSpaceWord >0 && lastSpaceWord < lastNonSpace-1)
-					styler.ColourTo(startLine + lastSpaceWord, SCE_MAKE_DEFAULT);
+					styler.ColourTo(startLine + lastSpaceWord, SCE_MAKE_IDENTIFIER);
 				if (lastNonSpace >= 0)
 					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
 				styler.ColourTo(currentPos -1, SCE_MAKE_DEFAULT);
@@ -174,11 +174,9 @@ static unsigned int ColouriseMakeLine(
 
 		/// lets signal a warning on unclosed Strings or Brackets.
 		if (strchr("({", (int)chCurr)!=NULL) {
-			if (i>0) styler.ColourTo(currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL++;
 		} else if (strchr(")}>", (int)chCurr)!=NULL) {
-			if (i>0) styler.ColourTo(currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL--;
 		}
@@ -204,13 +202,13 @@ static unsigned int ColouriseMakeLine(
 			if (i>0) styler.ColourTo(currentPos-1, state);
 			state=SCE_MAKE_DEFAULT;
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
-			inSqString=false;
+			inSqString = false;
 		} else if	(!inString && !inSqString && chCurr=='\'') {
 			state_prev = state;
 			state=SCE_MAKE_STRING;
 			if (i>0) styler.ColourTo(currentPos-1, state_prev);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
-			inSqString=true;
+			inSqString = true;
 		}
 
 		/// hm. Colour some Delimiters...Just because its Fun :)
@@ -225,7 +223,7 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
 		}
 
-		/// Numbers; _very_ simple for now. 
+		/// Numbers; _very_ simple for now.
 		if (isdigit(chCurr) !=NULL) {
 			if (i>0) styler.ColourTo(currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_PREPROCESSOR, state);
@@ -312,6 +310,7 @@ static unsigned int ColouriseMakeLine(
 			state_prev=state;
 			state = SCE_MAKE_USER_VARIABLE;
 		} else if (state == SCE_MAKE_USER_VARIABLE && (strchr("})", (int)chNext)!=NULL)) {
+			if (state_prev==SCE_MAKE_USER_VARIABLE) state_prev = SCE_MAKE_DEFAULT;		
 			ColourHere(styler, currentPos, state, state_prev);
 			state = state_prev;
 		}

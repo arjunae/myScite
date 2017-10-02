@@ -1,41 +1,44 @@
-/**
- * 3 Syntax basics
- * http://doc.rust-lang.org/tutorial.html#syntax-basics
- *
- * @license MIT license <http://www.opensource.org/licenses/mit-license.php>
- */
+// tcp tunnel over ssh
+
+extern crate ssh2; // see http://alexcrichton.com/ssh2-rs/
+
+use std::io::Read;
+use std::io::Write;
+use std::str;
+use std::net;
+
 fn main() {
-	/*
-	 * The let keyword introduces a local variable.
-	 * Variables are immutable by default.
-	 * To introduce a local variable that you can re-assign later, use let mut instead.
-	 */
-	let hi = "hi";
-	let mut count = 0;
+  // establish SSH session with remote host
+  println!("Connecting to host...");
+  // substitute appropriate value for IPv4
+  let tcp = net::TcpStream::connect("<IPv4>:22").unwrap();
+  let mut session = ssh2::Session::new().unwrap();
+  session.handshake(&tcp).unwrap();
+  // substitute appropriate values for username and password
+  // session.userauth_password("<username>", "<password>").unwrap();
+  assert!(session.authenticated());
+  println!("SSH session authenticated.");
 
-	while count < 10 {
-		println!("{}, count: {}", hi, count);
-		count += 1;
-	}
+  // start listening for TCP connections
+  let listener = net::TcpListener::bind("localhost:5000").unwrap();
+  println!("Started listening, ready to accept");
+  for stream in listener.incoming() {
+    println!("===============================================================================");
 
-	/*
-	 * Although Rust can almost always infer the types of local variables,
-	 * you can specify a variable's type by following it in the let with a colon, then the type name.
-	 * Static items, on the other hand, always require a type annotation.
-	 */
-	static MONSTER_FACTOR: f64 = 57.8;
-	let monster_size = MONSTER_FACTOR * 10.0;
-	println!("{}", monster_size);
-	let monster_size = 50;
-	println!("{}", monster_size);
+    // read the incoming request
+    let mut stream = stream.unwrap();
+    let mut request = vec![0; 8192];
+    let read_bytes = stream.read(&mut request).unwrap();
+    println!("REQUEST ({} BYTES):\n{}", read_bytes, str::from_utf8(&request).unwrap());
 
-	/*
-	 * 3.4 Syntax extensions
-	 * http://doc.rust-lang.org/tutorial.html#syntax-extensions
-	 */
-	// {} will print the "default format" of a type
-	println!("{} is {}", "the answer", 43);
+    // send the incoming request over ssh on to the remote localhost and port
+    // where an HTTP server is listening
+    let mut channel = session.channel_direct_tcpip("localhost", 8080, None).unwrap();
+    channel.write(&request).unwrap();
 
-	// // {:?} will conveniently print any type
-	println!("whats that.. {:?}", monster_size);
-}
+    // read the remote server's response (all of it, for simplicity's sake)
+    // and forward it to the local TCP connection's stream
+    let mut response = Vec::new();
+    let read_bytes = channel.read_to_end(&mut response).unwrap();
+    stream.write(&response).unwrap();
+    println!("SENT {} BYTES AS RESPONSE", read_bytes);
