@@ -31,24 +31,40 @@ function markLinks()
 --
 -- search for textlinks and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
 --
-	local marker=10
-	editor.IndicStyle[marker] = INDIC_COMPOSITIONTHIN
-	editor.IndicFore[marker]  = 0xBE3333
+	local marker_a=10
+	editor.IndicStyle[marker_a] = INDIC_COMPOSITIONTHIN
+	editor.IndicFore[marker_a] = 0xBE3333
 	
 	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
 	body="[a-zA-Z0-9]?." 	-- followed by a word  (eg www or the domain)
 	suffix="[^ \r\n\t\"\'<]+" 	-- ends with space, newline,tab < " or '
-	mask=prefix..body..suffix 
-	EditorClearMarks(marker) -- common.lua
+	mask = prefix..body..suffix 
+	EditorClearMarks(marker_a) -- common.lua
 	local s,e = editor:findtext( mask, SCFIND_REGEXP, 0)
 	while s do
-		EditorMarkText(s, e-s, marker) -- common.lua
+		EditorMarkText(s, e-s, marker_a) -- common.lua
 		s,e =  editor:findtext( mask, SCFIND_REGEXP, s+1)
+	end
+	
+--	
+-- Now mark any param Values in above text URLS
+--
+	local marker_b=11
+	editor.IndicStyle[marker_b] = INDIC_TEXTFORE
+	editor.IndicFore[marker_b]  = 0x708ADD
+	mask_b="=[a-zA-Z0-9%_+%.%-]?[^& \r\n\t\"\'<]" -- Any alphaNum any _+.- Ends with space, newline,tab < " or '
+	local s,e = editor:findtext(mask_b , SCFIND_REGEXP, 0)
+
+	while s do
+		if editor:IndicatorValueAt(marker_a,s)==1 then
+			EditorMarkText(s, (e-s), marker_b) 
+		end -- common.lua
+		s,e =  editor:findtext( mask_b, SCFIND_REGEXP, s+1)
 	end
 	
 	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :) 
 end
 
 scite_OnOpenSwitch(markLinks)
-
+-- print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
