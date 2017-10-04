@@ -162,7 +162,7 @@ static unsigned int ColouriseMakeLine(
 				state = SCE_MAKE_DEFAULT;
 			} else if (chCurr== '=' && state != SCE_MAKE_FLAGS) {
 				if (lastSpaceWord >0 && lastSpaceWord < lastNonSpace-1)
-					styler.ColourTo(startLine + lastSpaceWord, SCE_MAKE_IDENTIFIER);
+					styler.ColourTo(startLine + lastSpaceWord, SCE_MAKE_DEFAULT);
 				if (lastNonSpace >= 0)
 					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
 				styler.ColourTo(currentPos -1, SCE_MAKE_DEFAULT);
@@ -174,9 +174,11 @@ static unsigned int ColouriseMakeLine(
 
 		/// lets signal a warning on unclosed Strings or Brackets.
 		if (strchr("({", (int)chCurr)!=NULL) {
+			if (i>0) styler.ColourTo(currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL++;
 		} else if (strchr(")}>", (int)chCurr)!=NULL) {
+			if (i>0) styler.ColourTo(currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL--;
 		}

@@ -43,12 +43,12 @@ function markLinks()
 --
 	local marker=10
 	editor.IndicStyle[marker] = INDIC_COMPOSITIONTHIN
-	editor.IndicFore[marker]  = 0xBE3333
+	editor.IndicFore[marker] = 0xBE3333
 	
 	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
 	body="[a-zA-Z0-9]?." 	-- followed by a word  (eg www or the domain)
 	suffix="[^ \r\n\t\"\'<]+" 	-- ends with space, newline,tab < " or '
-	mask=prefix..body..suffix 
+	mask = prefix..body..suffix 
 	EditorClearMarks(marker) -- common.lua
 	local s,e = editor:findtext( mask, SCFIND_REGEXP, 0)
 	while s do
@@ -56,6 +56,19 @@ function markLinks()
 		s,e =  editor:findtext( mask, SCFIND_REGEXP, s+1)
 	end
 	
+-- Mark Params following a = in another Style
+-- todo - only in URL Strings (contained in aboves marker?)
+--[[ 
+	local marker_b=11
+	editor.IndicStyle[marker_b] = INDIC_TEXTFORE
+	editor.IndicFore[marker_b]  = 0x708ADD
+	mask_b="=[a-zA-Z0-9%_+%.%-]?[^& \r\n\t\"\'<]" -- Any alphaNum any _+.- Ends with space, newline,tab < " or '
+	local s,e = editor:findtext(mask_b , SCFIND_REGEXP, 0)	
+	while s do
+		EditorMarkText(s, (e-s), marker_b) -- common.lua
+		s,e =  editor:findtext( mask_b, SCFIND_REGEXP, s+1)
+	end
+--]]
 	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :) 
 end
 

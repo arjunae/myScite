@@ -28,13 +28,14 @@ OR PERFORMANCE OF THIS SOFTWARE.
 	Authors:  (see Help -> About Scite)
 	Neil Hodgson <neilh@scintilla.org>
 
- [user.toolbar] patch for SciTE was forked from scite-ru:
+ [user.toolbar] patch for SciTE was forked from scite-ru
  
 	URL: https://bitbucket.org/scite-ru/scite-ru.bitbucket.org/downloads
 
- [scintillua]
+ [scintillua] by Mitchell
 	
-
+	URL: https://foicica.com/scintillua/
+	
 ###### Command	:: 	Key ###########
 
 	Magnify text size.	::	Ctrl+Keypad+

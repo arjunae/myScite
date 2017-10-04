@@ -49,7 +49,7 @@ Sub Convert(byval sInputFile as string, byval sOutputFile as string)
   Do While Not EOF(1)
     Line Input #1, sLine
     If LCase(Left(sLine, 8)) = "declare " Then
-      sLine=Mid(sLine,9)
+      sLine= Mid(sLine,9)
     EndIf
     If LCase(Left(sLine, 9)) = "function " Or Left(sLine, 4) = "sub " Then
       iPos = InStr(sLine, """")
