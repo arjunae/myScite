@@ -64,12 +64,11 @@ function markLinks()
 	editor.IndicStyle[marker_b] = INDIC_TEXTFORE
 	editor.IndicFore[marker_b]  = props["colour.url_param"]
 
-	
 	local marker_c=12 -- The URL Params Value
 	editor.IndicStyle[marker_c] = INDIC_TEXTFORE
 	editor.IndicFore[marker_c]  = props["colour.url_param_value"]
 	
-	mask_b="%?[a-zA-Z0-9%_+%.%-]?[=]" -- ?& Any alphaNum any _+.- Ends with space, newline, tab < " or '
+	mask_b="%?[a-zA-Z0-9%_+%.%-%[%]?[=]" -- ?& Any alphaNum any _+.- Ends with space, newline, tab < " or '
 	mask_c="=[a-zA-Z0-9%_+%.%-]?[^& \r\n\t\"\'<]" -- =  Any alphaNum any _+.- Ends with space, newline, tab < " or '
 	
 	local sA,eA = editor:findtext(mask_b, SCFIND_REGEXP, 0)
