@@ -40,8 +40,9 @@ dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 function markLinks()
 --
 -- search for textlinks and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
---
-	local marker_a=10
+-- todo: Use variables for Themebility
+-- 
+	local marker_a=10 -- The whole Textlink
 	editor.IndicStyle[marker_a] = INDIC_COMPOSITIONTHIN
 	editor.IndicFore[marker_a] = 0xBE3333
 	
@@ -61,14 +62,15 @@ function markLinks()
 --
 	local marker_b=11 -- The URL Param
 	editor.IndicStyle[marker_b] = INDIC_TEXTFORE
-	editor.IndicFore[marker_b]  = 0x3ABB8B
+	editor.IndicFore[marker_b]  = props["colour.url_param"]
+
 	
 	local marker_c=12 -- The URL Params Value
 	editor.IndicStyle[marker_c] = INDIC_TEXTFORE
-	editor.IndicFore[marker_c]  = 0x208ADD
+	editor.IndicFore[marker_c]  = props["colour.url_param_value"]
 	
-	mask_b="%?[a-zA-Z0-9%_+%.%-]?[=]" -- ?& Any alphaNum any _+.- Ends with space, newline,tab < " or '
-	mask_c="=[a-zA-Z0-9%_+%.%-]?[^& \r\n\t\"\'<]" -- =  Any alphaNum any _+.- Ends with space, newline,tab < " or '
+	mask_b="%?[a-zA-Z0-9%_+%.%-]?[=]" -- ?& Any alphaNum any _+.- Ends with space, newline, tab < " or '
+	mask_c="=[a-zA-Z0-9%_+%.%-]?[^& \r\n\t\"\'<]" -- =  Any alphaNum any _+.- Ends with space, newline, tab < " or '
 	
 	local sA,eA = editor:findtext(mask_b, SCFIND_REGEXP, 0)
 	while sA do
