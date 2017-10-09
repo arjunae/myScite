@@ -14,6 +14,7 @@ local l =  require('lexer')
 l.TYPE = l.CONSTANT
 --property['style.type'] ='fore:#9A9A9A'
 
+property['style.default'] = 'font:'..font..',size:'..size..','..props["colour.foreground"]..","..props["colour.background"]
 
 --property['style.nothing'] = ''
 --property['style.class'] = 

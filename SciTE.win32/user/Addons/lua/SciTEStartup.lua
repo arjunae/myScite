@@ -40,7 +40,6 @@ dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 function markLinks()
 --
 -- search for textlinks and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
--- todo: Use variables for Themebility
 -- 
 	local marker_a=10 -- The whole Textlink
 	editor.IndicStyle[marker_a] = INDIC_COMPOSITIONTHIN
