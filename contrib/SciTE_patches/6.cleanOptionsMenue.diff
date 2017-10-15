@@ -1,5 +1,4 @@
-///@brief Redefine Scites Options Menu. Introduces Submenus Edit, Config Files and Languages.
-// rework SciteBase::readEnvironment to be more readable.
+///@brief Redefine Scites Options Menu. Introduces Submenus Edit, Config Files and Languages; Rework SciteBase::readEnvironment to be more readable.
 diff -Nurw scintilla-scite/gtk/SciTEGTK.cxx scite/gtk/SciTEGTK.cxx
 --- scintilla-scite/gtk/SciTEGTK.cxx	2017-03-07 23:19:44.000000000 +0100
 +++ scite/gtk/SciTEGTK.cxx	2017-02-26 07:28:04.000000000 +0100
