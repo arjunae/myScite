@@ -35,7 +35,7 @@ package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
 -- ##################  Lua Samples #####################
--- ###############################################
+--   ##############################################
 
 function markLinks()
 --
