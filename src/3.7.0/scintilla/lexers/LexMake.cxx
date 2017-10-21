@@ -71,9 +71,10 @@ static inline void ColourHere(Accessor &styler, Sci_PositionU pos, unsigned int 
 	styler.ColourTo(pos, style2);
 }
 
-// Global scoped, because the range given to us ends withbin a string.	
+// Global scoped, because the range given to us might end within a string.	
 bool inString = false;		// set when a double quoted String begins.
-
+bool inSqString = false;	// set when a single quoted String begins.
+	
 static unsigned int ColouriseMakeLine(
 	std::string slineBuffer,
 	Sci_PositionU lengthLine,
@@ -88,18 +89,13 @@ static unsigned int ColouriseMakeLine(
 	Sci_Position lastSpaceWord = 0;
 
 	bool bSpecial = false;		// Only react to the first '=' or ':' of the line.
+	int iWarnEOL=0; // unclosed string bracket refcount.
 	unsigned int strLen = 0;	// Keyword candidate length.
 	unsigned int startMark = 0; // Keyword candidates startPos.
-
-	int iWarnEOL=0; // unclosed string bracket refcount.
-	
 	unsigned int SCE_MAKE_NUMBER = SCE_MAKE_IDENTIFIER;
 	unsigned int SCE_MAKE_FUNCTION = SCE_MAKE_OPERATOR;
-	
 	unsigned int state = SCE_MAKE_DEFAULT;
 	unsigned int state_prev = startStyle;
-	
-	bool inSqString = false;	// set when a single quoted String begins.
 		
 	/// keywords
 	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
@@ -478,11 +474,11 @@ static int GetLineLen(Accessor &styler, Sci_Position offset) {
 }
 
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
-
+	
+	int startStyle=SCE_MAKE_DEFAULT;
 	const int MAX=4096;
 	char lineBuffer[MAX]; //Note: allocate him on the heap.
 	memset(lineBuffer, 0, sizeof(*lineBuffer));
-	int startStyle;
 
 	styler.Flush();
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
@@ -493,10 +489,9 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	styler.StartAt(o_startPos);
 	length=length+(startPos-o_startPos);
 
-	if(o_startPos==startPos) startStyle=SCE_MAKE_DEFAULT;
-	
 	startPos=o_startPos;
-
+	inString=false;
+	
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
@@ -506,7 +501,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 		if (AtEOL(styler, at) || (linePos>= sizeof(lineBuffer) - 1)) {
 			Sci_PositionU lineLength=GetLineLen(styler, at);
 			lineLength=(lineLength<MAX) ? lineLength:MAX;
-
+					
 			// Copy the remaining chars to the lineBuffer.
 			if (lineLength != linePos)
 				for (Sci_PositionU posi=linePos-1; posi<=lineLength ; posi++)
@@ -521,8 +516,10 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 			styler.ChangeLexerState(startPos, startPos+lineLength); // Fini -> Request Screen redraw.
 		}
 	}
-	if (linePos>0) // handle normal lines without an EOL mark.
+	if (linePos>0){ // handle normal lines without an EOL mark.
 		startStyle=ColouriseMakeLine(lineBuffer, linePos, lineStart, startPos+length -1, keywords, styler, startStyle);
+		styler.ChangeLexerState(startPos, startPos+length-1); // Fini -> Request Screen redraw.
+		}
 }
 
 static const char *const makefileWordListDesc[] = {

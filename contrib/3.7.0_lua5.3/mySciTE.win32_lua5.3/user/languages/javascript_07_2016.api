@@ -774,7 +774,7 @@ write(str1, str2, ... , strN)Sends strings to the script debugger.\t\nDebug.writ
 writeln(str1, str2, ... , strN)Sends strings to the script debugger, followed by a newline character.\t\nDebug.writeln([str1 [, str2 [, ... [, strN]]]]) >JS1.6
 watch(prop, handler)Runs a function when a property has been assigned a value.\t\nDiscouraged. use getters/seters instead. >JS1.6
 unwatch(prop, handler) removes a watchpoint set with the watch() method.\t\nDiscouraged. use getters/seters instead. >JS1.6
- >JS1.6
+
 # Javascript Constants >JS1.6
 Math.E()The mathematical constant e. This is Euler's number, the base of natural logarithms. (e~2718) >JS1.6
 Math.LN10()The natural logarithm of 10. (ln10~2302) >JS1.6
@@ -791,7 +791,7 @@ Number.MIN_SAFE_INTEGER()The smallest number that can be safely represented in J
 Number.MIN_VALUE()The closest number to zero that can be represented in JavaScript. Equal to approximately 5.00E-324. (~) >JS1.6
 Number.NEGATIVE_INFINITY()A value that is less than the largest negative number that can be represented in JavaScript. >JS1.6
 Number.POSITIVE_INFINITY()A value greater than the largest number that can be represented in JavaScript. \t\nJavaScript displays POSITIVE_INFINITY values as infinity.  (~) >JS1.6
- >JS1.6
+
 E()The mathematical constant e. This is Euler's number, the base of natural logarithms. (e~2718) >JS1.6
 EPSILON()The smallest number that can be represented in JavaScript.\t\nEqual to approximately 2.2204460492503130808472633361816E-16. (~) >JS1.6
 Infinity()A number that is larger than the largest floating point number.\t\nReturns an initial value of Number. >JS1.6
@@ -812,7 +812,6 @@ SQRT1_2()The square root of 0.5, or, equivalently, one divided by the square roo
 SQRT2()The square root of 2. (sqrt2~1414) >JS1.6
 
 # Javascript reserved Keywords
-
 abstract
 break
 byte
