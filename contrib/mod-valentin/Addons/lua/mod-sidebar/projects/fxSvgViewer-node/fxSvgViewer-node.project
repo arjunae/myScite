@@ -1,0 +1,43 @@
+[Settings]
+
+; Notes:
+; Pathes to directories under "Group" relative to this project INI file (but 
+; project INI files can be stored anywhere). Pathes under "Files" also relative
+; to project INI file, pathes under "Files <group name>" relative to 
+; corresponding directory as specified under "Group".
+
+; Display name of project (if omitted, extracted from INI filename)
+; Used as name of publish folder, so only filesystem compatible chars allowed
+Name=fxSvgViewer-node
+
+; Project-Type (relevant only for publishing)
+Type=node
+
+; Project directories
+[Group]
+=assets
+=assets/icons
+
+; Files in project's root directory
+[Files]
+=fxSvgViewer-node.js
+=readme.txt
+=test.svg
+
+[Files assets/icons]
+=app.png
+
+; Publish settings for Windows
+[PublishWin]
+
+; Node modules to include (separated by SPACE)
+Libs=node-qt
+
+; Additional to standalone publish folder also create a (mac-compatible) ZIP file?
+Zip=0
+
+; Files in project root folder that are moved to the top level publish folder
+MoveToAppRoot=readme.txt test.svg
+
+; Don't change this!
+Args=Libs Zip MoveToAppRoot

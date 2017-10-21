@@ -1,0 +1,25 @@
+--!movie
+--!encoding=utf-8
+
+global $
+
+----------------------------------------
+--
+----------------------------------------
+on startMovie
+
+  -- libs
+  $.import("console").show()
+
+  $.console.log("Hello world!")
+
+  -- window settings
+  _movie.stage.title = "Hello World!"
+  _movie.stage.titlebarOptions.visible = TRUE
+  _movie.stage.rect = rect(0,0,320, 240)
+  _movie.centerStage = 1
+
+  -- show the window
+  _movie.stage.visible = 1
+
+end

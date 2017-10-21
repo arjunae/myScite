@@ -1,0 +1,52 @@
+[Settings]
+
+; Notes:
+; Pathes to directories under "Group" relative to this project INI file (but 
+; project INI files can be stored anywhere). Pathes under "Files" also relative
+; to project INI file, pathes under "Files <group name>" relative to 
+; corresponding directory as specified under "Group".
+
+; Display name of project (if omitted, extracted from INI filename)
+; Used as name of publish folder, so only filesystem compatible chars allowed
+Name=fxSvgViewer-lua
+
+; Project-Type (relevant only for publishing)
+Type=lua
+
+; Project directories
+[Group]
+=assets
+=assets/icons
+
+; Files in project's root directory
+[Files]
+=fxSvgViewer-lua.lua
+=readme.txt
+=test.svg
+
+[Files assets/icons]
+=app.png
+
+; Publish settings for Windows
+[PublishWin]
+
+; List of libraries (separated by SPACE) to copy from %LUA_DIR%\lua
+; Specified WITHOUT ending *.lua!
+; If in addition to <foo>.lua also a folder <foo> is found, it's copied as well.
+Libs=
+
+; List of libraries (separated by SPACE) to copy from %LUA_DIR%\clibs
+; Specified WITHOUT ending, since they can either be DLLs or folders
+Clibs=qtcore qtgui qtsvg
+
+; List of additional DLLs (separated by SPACE) to copy from %LUA_DIR%
+Dlls=libgcc_s_dw2-1.dll mingwm10.dll QtCore4.dll QtGui4.dll QtSvg4.dll QtXml4.dll
+
+; Additional to standalone publish folder also create a (mac-compatible) ZIP file?
+Zip=0
+
+; Files in project root folder that are moved to the top level publish folder
+MoveToAppRoot=readme.txt test.svg
+
+; Don't change this!
+Args=Libs Clibs Dlls Zip MoveToAppRoot

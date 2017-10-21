@@ -238,7 +238,7 @@ static unsigned int ColouriseMakeLine(
 		// Travels to the Future and retrieves Lottery draw results.
 		std::string strSearch;
 
-		/// cpplusplus.com: any return values from IsAlphaNum (and co) >0 should be considered true.
+		// cpplusplus.com: any return values from IsAlphaNum (and co) >0 should be considered true.
 		if (IsGraphic(chCurr) == 0) {
 			startMark=0;
 			strLen=0;
