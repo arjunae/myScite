@@ -3,8 +3,10 @@
 ::...::..:::...::..::.:.::
 
 @echo off
-set PATH=E:\MinGW\bin;%PATH%;
 setlocal enabledelayedexpansion enableextensions
+
+:: MinGW Path has to be set, othberwise please define here:
+set PATH=E:\MinGW\bin;%PATH%;
 
 :: ... use customized CMD Terminal
 if "%1"=="" (
@@ -28,8 +30,9 @@ if errorlevel 1 goto :error
 echo :--------------------------------------------------
 echo .... done ....
 echo :--------------------------------------------------
+::
 ::--------------------------------------------------
-:: This littl hack looks for a platform PE Signature at offset 120+
+:: Now use this littl hack to look for a platform PE Signature at offset 120+
 :: Should work compiler independent for uncompressed binaries.
 set PLAT=""
 set off32=""

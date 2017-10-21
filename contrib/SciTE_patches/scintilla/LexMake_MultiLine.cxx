@@ -71,6 +71,9 @@ static inline void ColourHere(Accessor &styler, Sci_PositionU pos, unsigned int 
 	styler.ColourTo(pos, style2);
 }
 
+// Global scoped, because the range given to us ends withbin a string.	
+bool inString = false;		// set when a double quoted String begins.
+
 static unsigned int ColouriseMakeLine(
 	std::string slineBuffer,
 	Sci_PositionU lengthLine,
@@ -84,22 +87,25 @@ static unsigned int ColouriseMakeLine(
 	Sci_Position lastNonSpace = -1;
 	Sci_Position lastSpaceWord = 0;
 
-	unsigned int state = startStyle;
-	unsigned int state_prev = SCE_MAKE_DEFAULT;
-
-	bool bSpecial = false; // Only react to the first '=' or ':' of the line.
-	unsigned int strLen=0; // Keyword candidate length.
-	unsigned int startMark=0; // Keyword candidates startPos.
-	bool inString=false; // set when a double quoted String begins.
-	bool inSqString=false; // set when a single quoted String begins.
+	bool bSpecial = false;		// Only react to the first '=' or ':' of the line.
+	unsigned int strLen = 0;	// Keyword candidate length.
+	unsigned int startMark = 0; // Keyword candidates startPos.
 
 	int iWarnEOL=0; // unclosed string bracket refcount.
-
+	
+	unsigned int SCE_MAKE_NUMBER = SCE_MAKE_IDENTIFIER;
+	unsigned int SCE_MAKE_FUNCTION = SCE_MAKE_OPERATOR;
+	
+	unsigned int state = SCE_MAKE_DEFAULT;
+	unsigned int state_prev = startStyle;
+	
+	bool inSqString = false;	// set when a single quoted String begins.
+		
 	/// keywords
 	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
 	WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
 	WordList &kwExtCmd = *keywordlists[2]; // Makefile->external Commands (mkdir,rm,attrib...)
-
+	
 	// check for a tab character in column 0 indicating a command
 	bool bCommand = false;
 	if ((lengthLine > 0) && (styler.SafeGetCharAt(startLine) == '\t'))
@@ -162,7 +168,7 @@ static unsigned int ColouriseMakeLine(
 				state = SCE_MAKE_DEFAULT;
 			} else if (chCurr== '=' && state != SCE_MAKE_FLAGS) {
 				if (lastSpaceWord >0 && lastSpaceWord < lastNonSpace-1)
-					styler.ColourTo(startLine + lastSpaceWord, SCE_MAKE_IDENTIFIER);
+					styler.ColourTo(startLine + lastSpaceWord, SCE_MAKE_DEFAULT);
 				if (lastNonSpace >= 0)
 					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
 				styler.ColourTo(currentPos -1, SCE_MAKE_DEFAULT);
@@ -174,9 +180,11 @@ static unsigned int ColouriseMakeLine(
 
 		/// lets signal a warning on unclosed Strings or Brackets.
 		if (strchr("({", (int)chCurr)!=NULL) {
+			if (i>0) styler.ColourTo(currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL++;
 		} else if (strchr(")}>", (int)chCurr)!=NULL) {
+			if (i>0) styler.ColourTo(currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL--;
 		}
@@ -187,10 +195,10 @@ static unsigned int ColouriseMakeLine(
 			state=SCE_MAKE_DEFAULT;
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL--;
-			inString=false;
+			inString = false;
 		} else if	(!inString && chCurr=='\"') {
 			state_prev = state;
-			state=SCE_MAKE_STRING;
+			state = SCE_MAKE_STRING;
 			if (i>0) styler.ColourTo(currentPos-1, state_prev);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			inString=true;
@@ -200,33 +208,33 @@ static unsigned int ColouriseMakeLine(
 		/// Style single quoted Strings. Don't EOL check for now.
 		if (!inString && inSqString && chCurr=='\'') {
 			if (i>0) styler.ColourTo(currentPos-1, state);
-			state=SCE_MAKE_DEFAULT;
+			state = SCE_MAKE_DEFAULT;
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			inSqString = false;
 		} else if	(!inString && !inSqString && chCurr=='\'') {
 			state_prev = state;
-			state=SCE_MAKE_STRING;
+			state = SCE_MAKE_STRING;
 			if (i>0) styler.ColourTo(currentPos-1, state_prev);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			inSqString = true;
 		}
 
 		/// hm. Colour some Delimiters...Just because its Fun :)
-		if (strchr("[<'|\">]", (int)chCurr) !=NULL) {
+		if (strchr("[<'|\">]", (int)chCurr) != NULL) {
 			if (i>0) styler.ColourTo(currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 		}
 
 		/// Operators..
-		if (strchr("@!?&+=", (int)chCurr) !=NULL) {
+		if (strchr("@!?&+=", (int)chCurr) != NULL) {
 			if (i>0) styler.ColourTo(currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
 		}
 
 		/// Numbers; _very_ simple for now.
-		if (isdigit(chCurr) !=NULL) {
+		if (isdigit(chCurr) > 0) {
 			if (i>0) styler.ColourTo(currentPos-1, state);
-			ColourHere(styler, currentPos, SCE_MAKE_PREPROCESSOR, state);
+			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, state);
 		}
 
 		/// Style Keywords
@@ -292,10 +300,10 @@ static unsigned int ColouriseMakeLine(
 			if (kwFunctions.InList(strSearch.c_str())
 					&& styler.SafeGetCharAt(startLine +i -wordLen -1) == '$'
 					&& styler.SafeGetCharAt(startLine +i -wordLen) == '(') {
-				state_prev=state;
-				state=SCE_MAKE_OPERATOR;
+				state_prev = state;
+				state = SCE_MAKE_FUNCTION;
 				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
-			} else if (state ==SCE_MAKE_OPERATOR) {
+			} else if (state == SCE_MAKE_FUNCTION) {
 				state=SCE_MAKE_DEFAULT;
 				styler.ColourTo(currentPos, state);
 			}
@@ -353,15 +361,15 @@ static unsigned int ColouriseMakeLine(
 			lastNonSpace = i;
 		}
 
-		if ((i<lengthLine && IsGraphic(chNext)!=NULL
-				&& strchr("\t =", (int)chCurr)!=NULL)
-				|| strchr("();?&", (int)chNext)!=NULL) {
+		if ((i<lengthLine && IsGraphic(chNext) > 0
+				&& strchr("\t =", (int)chCurr) != NULL)
+				|| strchr("();?&", (int)chNext) != NULL) {
 			lastSpaceWord=i;
 		}
 
 		i++;
 	}
-
+	
 	if (iWarnEOL>0) {
 		state=SCE_MAKE_IDEOL;
 	} else if (iWarnEOL<1) {
@@ -474,7 +482,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	const int MAX=4096;
 	char lineBuffer[MAX]; //Note: allocate him on the heap.
 	memset(lineBuffer, 0, sizeof(*lineBuffer));
-	int startStyle=SCE_MAKE_DEFAULT;
+	int startStyle;
 
 	styler.Flush();
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
@@ -484,6 +492,9 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	styler.StartSegment(o_startPos);
 	styler.StartAt(o_startPos);
 	length=length+(startPos-o_startPos);
+
+	if(o_startPos==startPos) startStyle=SCE_MAKE_DEFAULT;
+	
 	startPos=o_startPos;
 
 	Sci_PositionU linePos = 0;
@@ -503,7 +514,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 
 			at=lineStart+lineLength-1;
 
-			ColouriseMakeLine(lineBuffer, lineLength, lineStart, at, keywords, styler, startStyle);
+			startStyle = ColouriseMakeLine(lineBuffer, lineLength, lineStart, at, keywords, styler, startStyle);
 			memset(lineBuffer, 0, lineLength);
 			lineStart = at+1;
 			linePos=0;
@@ -511,7 +522,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 		}
 	}
 	if (linePos>0) // handle normal lines without an EOL mark.
-		ColouriseMakeLine(lineBuffer, linePos, lineStart, startPos+length -1, keywords, styler, startStyle);
+		startStyle=ColouriseMakeLine(lineBuffer, linePos, lineStart, startPos+length -1, keywords, styler, startStyle);
 }
 
 static const char *const makefileWordListDesc[] = {
