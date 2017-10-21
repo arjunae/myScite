@@ -131,7 +131,7 @@ static unsigned int ColouriseMakeLine(
 		char chNext=styler.SafeGetCharAt(currentPos+1);
 
 		/// style GNUMake inline Comments
-		if (chCurr == '#' && !inString && !inSqString) {
+		if (chCurr == '#' && state==SCE_MAKE_DEFAULT) {
 			state_prev=state;
 			state=SCE_MAKE_COMMENT;
 			if (i>0) styler.ColourTo(currentPos-1, state_prev);
@@ -266,15 +266,14 @@ static unsigned int ColouriseMakeLine(
 			// check if we get a match with Keywordlist externalCommands
 			// Rule: Prepended by line start or " \t\r\n /\":,\=" Ends on eol,whitespace or ;
 			if (kwExtCmd.InList(strSearch.c_str())
-					&& inString==false && (strchr("\t\r\n ;)", (int)chNext) !=NULL)
+					&& state!=SCE_MAKE_STRING && (strchr("\t\r\n ;)", (int)chNext) !=NULL) 
 					&& (i+1 -wordLen == theStart || AtStartChar(styler, startLine +i -wordLen))) {
-				if (i>0) styler.ColourTo(currentPos-wordLen, SCE_MAKE_DEFAULT);
+				if (i>0) 	ColourHere(styler, currentPos-wordLen, state, SCE_MAKE_DEFAULT);
 				state_prev=state;
 				state=SCE_MAKE_EXTCMD;
-				styler.ColourTo(currentPos-wordLen, state_prev);
 				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			} else if (state == SCE_MAKE_EXTCMD) {
-				state=SCE_MAKE_DEFAULT;
+				state=state_prev;
 				styler.ColourTo(currentPos, state);
 			}
 
