@@ -487,12 +487,15 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	styler.StartSegment(o_startPos);
 	styler.StartAt(o_startPos);
 	length=length+(startPos-o_startPos);
-
 	startPos=o_startPos;
-	inString=false;
 	
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
+	
+	// Reset String Detectors 
+	inString = false;		
+	inSqString = false;
+	
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
 
 		lineBuffer[linePos++] = styler[at];
