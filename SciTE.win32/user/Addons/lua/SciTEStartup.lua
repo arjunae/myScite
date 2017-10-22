@@ -43,7 +43,7 @@ function markLinks()
 -- 
 	local marker_a=10 -- The whole Textlink
 	editor.IndicStyle[marker_a] = INDIC_COMPOSITIONTHIN
-	editor.IndicFore[marker_a] = 0xBE3333
+	editor.IndicFore[marker_a] = 0xBE3344
 	
 	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
 	body="[a-zA-Z0-9]?." 	-- followed by a word  (eg www or the domain)
