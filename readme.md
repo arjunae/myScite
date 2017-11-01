@@ -1,6 +1,9 @@
 ~ mySciTE.webdev ~
 
-[09.10.2017] myScite.160
+[XX.11.2017] Development
+- Add Lisp / Scheme / Clojure properties
+
+[09.10.2017] myScite.stable.160.Augustine
 - API: Actionscript3, FreeBasic, ArduinoC. Ordered cpp by header.
 - Theming: TonedDown Colors to be more EyeFriendly and readable.
 - Lexer: enhanced Makefile Lexer Features. (keywords and styles) 
@@ -8,7 +11,7 @@
 - luaLibs: moved shell.dll->ibox to gui.dll. (Now more efficient and 50% smaller.)
 - others: more Fun for lua Testcases :) Reactos: recompiled with MinGW & MSVC8
 
-[29.06.2017] mySciTE.June
+[29.06.2017] mySciTE.stable.153.June
 - antialiased fonts. Style .json & .mib Files. / Add Forth and Fortran api.
 - lua repo: unified mingw makefiles. / Recompiled all libs with Os for a better opt balance.
 - included luasocket (ip socket support) 

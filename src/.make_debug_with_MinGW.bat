@@ -9,7 +9,7 @@ setlocal
 
 :: ... use customized CMD Terminal
 if "%1"=="" (
-  reg import ...\contrib\TinyTonCMD\TinyTonCMD.reg
+  reg import ..\contrib\TinyTonCMD\TinyTonCMD.reg
   start "TinyTonCMD" .make_debug_with_MinGW.bat tiny
   EXIT
 )

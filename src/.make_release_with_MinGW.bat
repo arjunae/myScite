@@ -5,12 +5,12 @@
 @echo off
 setlocal enabledelayedexpansion enableextensions
 
-:: MinGW Path has to be set, othberwise please define here:
-set PATH=E:\MinGW\bin;%PATH%;
+:: MinGW Path has to be set, otherwise please define here:
+::set PATH=E:\MinGW\bin;%PATH%;
 
 :: ... use customized CMD Terminal
 if "%1"=="" (
-  reg import ...\contrib\TinyTonCMD\TinyTonCMD.reg
+  reg import ..\contrib\TinyTonCMD\TinyTonCMD.reg
   start "TinyTonCMD" .make_release_with_MinGW.bat tiny
   EXIT
 )
