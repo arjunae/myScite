@@ -1,7 +1,9 @@
 ~ mySciTE.webdev ~
 
 [XX.11.2017] Development
-- Add Lisp / Scheme / Clojure properties
+- Add: Lisp / Scheme / Clojure properties
+- Fix: lexMake: String detection
+- Fix: remove MSVC10 dependency
 
 [09.10.2017] myScite.stable.160.Augustine
 - API: Actionscript3, FreeBasic, ArduinoC. Ordered cpp by header.

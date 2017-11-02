@@ -23,17 +23,16 @@ dofile(defaultHome..'/Addons/lua/mod-extman/eventmanager.lua')
 package.path = package.path .. ";"..defaultHome.."/Addons/lua/mod-mitchell/?.lua;"
 dofile(defaultHome..'/Addons/lua/mod-mitchell/scite.lua')
 
-
 -- ##################  Lua Samples #####################
--- ###############################################
+--   ##############################################
 
 function markLinks()
 --
 -- search for textlinks and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
---
-	local marker_a=10
+-- 
+	local marker_a=10 -- The whole Textlink
 	editor.IndicStyle[marker_a] = INDIC_COMPOSITIONTHIN
-	editor.IndicFore[marker_a] = 0xBE3333
+	editor.IndicFore[marker_a] = 0xBE3344
 	
 	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
 	body="[a-zA-Z0-9]?." 	-- followed by a word  (eg www or the domain)
@@ -47,19 +46,33 @@ function markLinks()
 	end
 	
 --	
--- Now mark any param Values in above text URLS
+-- Now mark any params and their Values in above text URLS
 --
-	local marker_b=11
+	local marker_b=11 -- The URL Param
 	editor.IndicStyle[marker_b] = INDIC_TEXTFORE
-	editor.IndicFore[marker_b]  = 0x708ADD
-	mask_b="=[a-zA-Z0-9%_+%.%-]?[^& \r\n\t\"\'<]" -- Any alphaNum any _+.- Ends with space, newline,tab < " or '
-	local s,e = editor:findtext(mask_b , SCFIND_REGEXP, 0)
+	editor.IndicFore[marker_b]  = props["colour.url_param"]
 
-	while s do
-		if editor:IndicatorValueAt(marker_a,s)==1 then
-			EditorMarkText(s, (e-s), marker_b) 
+	local marker_c=12 -- The URL Params Value
+	editor.IndicStyle[marker_c] = INDIC_TEXTFORE
+	editor.IndicFore[marker_c]  = props["colour.url_param_value"]
+	
+	mask_b="%?[a-zA-Z0-9%_+%.%-%[%]?[=]" -- ?& Any alphaNum any _+.- Ends with space, newline, tab < " or '
+	mask_c="=[a-zA-Z0-9%_+%.%-%@]?[^& \r\n\t\"\'<]" -- =  Any alphaNum any _+.- Ends with space, newline, tab < " or '
+	
+	local sA,eA = editor:findtext(mask_b, SCFIND_REGEXP, 0)
+	while sA do
+		if editor:IndicatorValueAt(marker_a,sA)==1 then
+			EditorMarkText(sA, (eA-sA), marker_b) 
 		end -- common.lua
-		s,e =  editor:findtext( mask_b, SCFIND_REGEXP, s+1)
+		sA,eA = editor:findtext( mask_b, SCFIND_REGEXP, sA+1)
+	end
+	
+	local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)	
+	while sB do
+		if editor:IndicatorValueAt(marker_a,sB)==1 then
+			EditorMarkText(sB+1, (eB-sB)-1, marker_c) 
+		end -- common.lua
+		sB,eB = editor:findtext( mask_c, SCFIND_REGEXP, sB+1)
 	end
 	
 	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :) 

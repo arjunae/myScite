@@ -34,17 +34,17 @@ dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
+
 -- ##################  Lua Samples #####################
--- ###############################################
+--   ##############################################
 
 function markLinks()
 --
 -- search for textlinks and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
--- todo: Use variables for Themebility
 -- 
 	local marker_a=10 -- The whole Textlink
 	editor.IndicStyle[marker_a] = INDIC_COMPOSITIONTHIN
-	editor.IndicFore[marker_a] = 0xBE3333
+	editor.IndicFore[marker_a] = 0xBE3344
 	
 	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
 	body="[a-zA-Z0-9]?." 	-- followed by a word  (eg www or the domain)
@@ -64,13 +64,12 @@ function markLinks()
 	editor.IndicStyle[marker_b] = INDIC_TEXTFORE
 	editor.IndicFore[marker_b]  = props["colour.url_param"]
 
-	
 	local marker_c=12 -- The URL Params Value
 	editor.IndicStyle[marker_c] = INDIC_TEXTFORE
 	editor.IndicFore[marker_c]  = props["colour.url_param_value"]
 	
-	mask_b="%?[a-zA-Z0-9%_+%.%-]?[=]" -- ?& Any alphaNum any _+.- Ends with space, newline, tab < " or '
-	mask_c="=[a-zA-Z0-9%_+%.%-]?[^& \r\n\t\"\'<]" -- =  Any alphaNum any _+.- Ends with space, newline, tab < " or '
+	mask_b="%?[a-zA-Z0-9%_+%.%-%[%]?[=]" -- ?& Any alphaNum any _+.- Ends with space, newline, tab < " or '
+	mask_c="=[a-zA-Z0-9%_+%.%-%@]?[^& \r\n\t\"\'<]" -- =  Any alphaNum any _+.- Ends with space, newline, tab < " or '
 	
 	local sA,eA = editor:findtext(mask_b, SCFIND_REGEXP, 0)
 	while sA do
