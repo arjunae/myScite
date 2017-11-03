@@ -41,7 +41,7 @@ function markLinks()
 	local marker_a=10 -- The whole Textlink
 	editor.IndicStyle[marker_a] = INDIC_COMPOSITIONTHIN
 	editor.IndicFore[marker_a] = 0xBE3344
-	
+
 	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
 	body="[a-zA-Z0-9]?." 	-- followed by a word  (eg www or the domain)
 	suffix="[^ \r\n\t\"\'<]+" 	-- ends with space, newline,tab < " or '
@@ -52,15 +52,15 @@ function markLinks()
 		EditorMarkText(s, e-s, marker_a) -- common.lua
 		s,e =  editor:findtext( mask, SCFIND_REGEXP, s+1)
 	end
-	
+
 --	
 -- Now mark any params and their Values in above text URLS
 --
 	local marker_b=11 -- The URL Param
 	editor.IndicStyle[marker_b] = INDIC_TEXTFORE
 	editor.IndicFore[marker_b]  = props["colour.url_param"]
-	mask_b="[?&].*?[=]" -- ?& Any alphaNum any _+.- Ends with space, newline, tab < " or '
-	
+	mask_b="[?&].*[=]" --Begin with ?& Any Char/Digit Ends with = 
+
 	local sA,eA = editor:findtext(mask_b, SCFIND_REGEXP, 0)
 	while sA do
 		if editor:IndicatorValueAt(marker_a,sA)==1 then
@@ -68,13 +68,13 @@ function markLinks()
 		end -- common.lua
 		sA,eA = editor:findtext( mask_b, SCFIND_REGEXP, sA+1)
 	end
-	
+
 	-- Values
 	local marker_c=12 -- The URL Params Value
 	editor.IndicStyle[marker_c] = INDIC_TEXTFORE
 	editor.IndicFore[marker_c]  = props["colour.url_param_value"]
-	mask_c="=[^&?]?[^& \r\n\t\"\'<]" -- =  Any alphaNum any _+.- Ends with space, newline, tab < " or '
-	
+	mask_c="=[^&?].*?[& \t\"\'<\xA]" -- Begin with = Any alphaNum any _+.- Ends with space, tab, " or ' < , newline
+
 	local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)	
 	while sB do
 		if editor:IndicatorValueAt(marker_a,sB)==1 then
@@ -82,10 +82,11 @@ function markLinks()
 		end -- common.lua
 		sB,eB = editor:findtext( mask_c, SCFIND_REGEXP, sB+1)
 	end
-	
+
 	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :) 
 end
 
 scite_OnOpenSwitch(markLinks)
+--eMail \([a-zA-Z0-9@.]+\)
 -- print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
