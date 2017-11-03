@@ -5,6 +5,7 @@
 - Fix: lexMake: String detection
 - Fix: remove MSVC10 dependency
 - New: adapted theme solarized
+- Fix: more flexibility while loading hunspell.dll
 
 [09.10.2017] myScite.stable.160.Augustine
 - API: Actionscript3, FreeBasic, ArduinoC. Ordered cpp by header.
