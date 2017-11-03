@@ -4,6 +4,7 @@
 - Add: Lisp / Scheme / Clojure properties
 - Fix: lexMake: String detection
 - Fix: remove MSVC10 dependency
+- New: adapted theme solarized
 
 [09.10.2017] myScite.stable.160.Augustine
 - API: Actionscript3, FreeBasic, ArduinoC. Ordered cpp by header.
