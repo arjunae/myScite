@@ -3,7 +3,7 @@ session_used_memory=collectgarbage("count")*1024
 
 -- Windows requires this for us to immediately see all lua output.
 io.stdout:setvbuf("no")
---print("startupScript_reload")
+--print("startupScript_reload")   
 
 myHome = props["SciteUserHome"].."/user"
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"

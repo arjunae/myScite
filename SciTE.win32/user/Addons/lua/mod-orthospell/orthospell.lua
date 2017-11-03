@@ -166,21 +166,23 @@ if not gui then  -- if not the extman.lua is used that comes with Orthospell
 	require ("gui")
 end
 
--- Arjunae --  changed to loadlib to be more flexible
+-- Arjunae --  changed to loadlib and require as a fallback to be more flexible
 if not scite_FileExists(props["orthospell.home"].."\\hunspell.dll") then
 end
 -- using statically linked hunspell, which can reside anywhere - so just do...
 if not scite_FileExists(dictpath.."\\"..dictname..".aff") then
 		print ("Orthospell: The dictionary "..dictname.." is not installed")
 else
-	fnInit, err =package.loadlib(props["orthospell.home"].."\\hunspell.dll",'luaopen_hunspell')
-	if err~=NULL then 
-		print("Orthospell: hunspell.dll not found or orthospell.home unset. Trying to require...")
-		require("hunspell") 
-	else
+	local fnInit, status =package.loadlib(props["orthospell.home"].."\\hunspell.dll",'luaopen_hunspell')
+	if status~=NULL then 
+	--print("Orthospell: hunspell.dll not found or orthospell.home unset. Trying to require...")
+		status, hunspell = pcall(require,"hunspell")
+	if (type(hunspell) == "table")  then end -- print("Hunspell found via require.") end
+		else
 	assert(type(fnInit) == "function", err)
 	fnInit()
 end
+
 	if (type(hunspell) ~= "table") then assert ("Orthospell: hunspell.dll was not found") end
 	hspell = true
 		hunspell.init(dictpath.."\\"..dictname..".aff", dictpath.."\\"..dictname..".dic")
@@ -189,6 +191,13 @@ end
 		get_langParam(dictname)
 		dicInit = true
 end
+
+		
+	
+-- adding a user dictionary
+if userdict then add_userDict() end
+get_langParam(dictname)
+dicInit = true
 
 function inline_spell()
 	if not dicInit then print ("No dictionary loaded!") return end
