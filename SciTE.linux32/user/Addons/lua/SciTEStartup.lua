@@ -1,3 +1,7 @@
+--
+-- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
+--
+
 -- Windows requires this for us to immediately see all lua output.
 io.stdout:setvbuf("no")
 --print("startupScript_reload")

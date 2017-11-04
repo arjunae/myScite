@@ -203,10 +203,10 @@ dicInit = true
 
 function inline_spell()
 	if not dicInit then print ("No dictionary loaded!") return end
-	if buffer["SpellMode"] then
+	--if buffer["SpellMode"] then
 		reset_page()
-		return
-	end
+	--	return
+	--end
 	buffer["SpellMode"] = true
 	cpMode = get_cpMode()
 	spChars = pcall(set_wordChars)  -- use a character set that suits natural languages
@@ -476,6 +476,7 @@ end
 
 -- menu creation
 
+--[[
 if (hspell) then
 	local ext, shtct = "", ""
 	if props["file.patterns.spell"] ~= "" then
@@ -485,7 +486,8 @@ if (hspell) then
 	if scite_GetProp("spell.contextmenu", "0") == "1" then
 		scite_Command(toggleSpell.."|inline_spell|Context")
 	else
-		scite_Command(toggleSpell.."|inline_spell"..ext.."|F12")
+		--scite_Command(toggleSpell.."|inline_spell|Context")
+		--scite_Command(toggleSpell.."|inline_spell"..ext.."|F12")
 	end
 	if dictlist[2] then
 		for i in ipairs(dictlist) do
@@ -498,4 +500,37 @@ if (hspell) then
 		end
 	end
 	scite_OnDoubleClick(spell_suggest)
+end
+--]]
+
+if dictlist[2] then
+	for i in ipairs(dictlist) do
+		flang = get_language(dictlist[i])
+		if not scite_FileExists(dictpath.."\\"..dictlist[i]..".aff") then
+			print ("The dictionary "..dictlist[i].." is not installed")
+		else
+			scite_Command(flang.."|change_dict "..i..ext..shtct)
+		end
+	end
+end
+
+-- Marcedo: adapted for use with myScites MacroScripts feature
+scite.StripShow("!'HunSpell listening '(&Activate Spelling)(&Hide Spelling)(&Close)")
+
+function OnStrip(control, change)
+	
+	if control == 1 then --Start Spelling
+		inline_spell()
+		scite_OnDoubleClick(spell_suggest)
+	end
+
+	if control == 2 then --Quit 	
+		reset_page()
+	end
+	
+	if control == 3 then --Quit 	
+		reset_page()
+		scite.StripShow("") -- hide the dialog
+	end
+
 end

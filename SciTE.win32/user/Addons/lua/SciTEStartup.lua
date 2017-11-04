@@ -1,3 +1,7 @@
+--
+-- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
+--
+
 -- track the amount of allocated memory 
 session_used_memory=collectgarbage("count")*1024
 
@@ -25,10 +29,6 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 -- Load mod-mitchell 
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
-
--- Load Orthospell 
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 
 -- Load Sidebar
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
@@ -115,5 +115,5 @@ end
 scite_OnOpenSwitch(markLinks)
 scite_OnOpenSwitch(markeMail)
 
--- print(editor.StyleAt[1])
+--print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand

@@ -1,3 +1,7 @@
+--
+-- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
+--
+
 -- track the amount of allocated memory 
 session_used_memory=collectgarbage("count")*1024
 
