@@ -515,7 +515,7 @@ if dictlist[2] then
 end
 
 -- Marcedo: adapted for use with myScites MacroScripts feature
-scite.StripShow("!'HunSpell listening '(&Activate Spelling)(&Hide Spelling)(&Close)")
+scite.StripShow("!'HunSpell listening '(&Toggle Spelling)(&Close)")
 
 function OnStrip(control, change)
 	
@@ -525,10 +525,6 @@ function OnStrip(control, change)
 	end
 
 	if control == 2 then --Quit 	
-		reset_page()
-	end
-	
-	if control == 3 then --Quit 	
 		reset_page()
 		scite.StripShow("") -- hide the dialog
 	end
