@@ -100,7 +100,7 @@ function markeMail()
 	editor.IndicStyle[marker_mail] = INDIC_COMPOSITIONTHIN
 	editor.IndicFore[marker_mail] = 0xB72233
 
-	prefix="[a-zA-Z0-9]+@" -- first part till @
+	prefix="[a-zA-Z0-9._-]+@" -- first part till @
 	body="[a-zA-Z0-9]+[.]" -- domain part
 	suffix="[a-zA-Z]+" -- TLD
 	mask = prefix..body..suffix

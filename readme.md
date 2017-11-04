@@ -14,7 +14,7 @@
 - Lexer: enhanced Makefile Lexer Features. (keywords and styles) 
 - Lexer: Added scintillua antlr lexer. 
 - luaLibs: moved shell.dll->ibox to gui.dll. (Now more efficient and 50% smaller.)
-- others: more Fun for lua Testcases :) Reactos: recompiled with MinGW & MSVC8
+- others: more Fun for lua Testcases :) Reactos: recompiled with MinGW & MSVC10
 
 [29.06.2017] mySciTE.stable.153.June
 - antialiased fonts. Style .json & .mib Files. / Add Forth and Fortran api.
