@@ -203,10 +203,10 @@ dicInit = true
 
 function inline_spell()
 	if not dicInit then print ("No dictionary loaded!") return end
-	--if buffer["SpellMode"] then
+	if buffer["SpellMode"] then
 		reset_page()
-	--	return
-	--end
+		return
+	end
 	buffer["SpellMode"] = true
 	cpMode = get_cpMode()
 	spChars = pcall(set_wordChars)  -- use a character set that suits natural languages
