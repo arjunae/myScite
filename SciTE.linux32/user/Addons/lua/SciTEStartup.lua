@@ -22,6 +22,7 @@ dofile(defaultHome..'/Addons/lua/mod-extman/eventmanager.lua')
 -- Load mod-mitchell 
 package.path = package.path .. ";"..defaultHome.."/Addons/lua/mod-mitchell/?.lua;"
 dofile(defaultHome..'/Addons/lua/mod-mitchell/scite.lua')
+
 -- ##################  Lua Samples #####################
 --   ##############################################
 
@@ -29,6 +30,7 @@ function markLinks()
 --
 -- search for textlinks and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
 -- 
+
 	local marker_a=10 -- The whole Textlink
 	editor.IndicStyle[marker_a] = INDIC_COMPOSITIONTHIN
 	editor.IndicFore[marker_a] = 0xBE3344
@@ -66,7 +68,7 @@ function markLinks()
 	local marker_c=12 -- The URL Params Value
 	editor.IndicStyle[marker_c] = INDIC_TEXTFORE
 	editor.IndicFore[marker_c]  = props["colour.url_param_value"]
-	mask_c="=[^&\? <]+[&\?\t\w\d \x0A\x0D]" -- Begin with = Any alphaNum any _+.- Ends with space, tab, " or ' < , newline
+	mask_c="=[^&\? <]+[&\? a-zA-z0-9$]" -- Begin with = Any alphaNum any _+.- Ends with space, tab, " or ' < , newline
 
 	local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)	
 	while sB do
@@ -79,7 +81,28 @@ function markLinks()
 	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :) 
 end
 
+function markeMail()
+--
+-- search for eMail Links and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
+-- 
+	local marker_mail=13 -- The whole Textlink
+	editor.IndicStyle[marker_mail] = INDIC_COMPOSITIONTHIN
+	editor.IndicFore[marker_mail] = 0xB72233
+
+	prefix="[a-zA-Z0-9]+@" -- first part till @
+	body="[a-zA-Z0-9]+[.]" -- domain part
+	suffix="[a-zA-Z]+" -- TLD
+	mask = prefix..body..suffix
+	EditorClearMarks(marker_mail) -- common.lua
+	local startpos,endpos = editor:findtext( mask, SCFIND_REGEXP, 0)
+	while startpos do
+		EditorMarkText(startpos, endpos-startpos, marker_mail) -- common.lua
+		startpos,endpos =  editor:findtext( mask, SCFIND_REGEXP, startpos+1)
+	end
+end
+
 scite_OnOpenSwitch(markLinks)
---eMail \([a-zA-Z0-9@.]+\)
+scite_OnOpenSwitch(markeMail)
+
 -- print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
