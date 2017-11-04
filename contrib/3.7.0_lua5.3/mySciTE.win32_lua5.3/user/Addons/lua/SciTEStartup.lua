@@ -1,6 +1,9 @@
+-- track the amount of allocated memory 
+session_used_memory=collectgarbage("count")*1024
+
 -- Windows requires this for us to immediately see all lua output.
 io.stdout:setvbuf("no")
---print("startupScript_reload")
+--print("startupScript_reload")   
 
 myHome = props["SciteUserHome"].."/user"
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
@@ -25,7 +28,7 @@ dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 
 -- Load Orthospell 
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
---dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
+dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 
 -- Load Sidebar
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
@@ -56,6 +59,8 @@ function markLinks()
 --	
 -- Now mark any params and their Values in above text URLS
 --
+
+	-- Keys 
 	local marker_b=11 -- The URL Param
 	editor.IndicStyle[marker_b] = INDIC_TEXTFORE
 	editor.IndicFore[marker_b]  = props["colour.url_param"]
@@ -73,7 +78,7 @@ function markLinks()
 	local marker_c=12 -- The URL Params Value
 	editor.IndicStyle[marker_c] = INDIC_TEXTFORE
 	editor.IndicFore[marker_c]  = props["colour.url_param_value"]
-	mask_c="=[^&?].*?[& \t\"\'<\xA]" -- Begin with = Any alphaNum any _+.- Ends with space, tab, " or ' < , newline
+	mask_c="=[^&\? <]+[&\?\t\w\d \x0A\x0D]" -- Begin with = Any alphaNum any _+.- Ends with space, tab, " or ' < , newline
 
 	local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)	
 	while sB do

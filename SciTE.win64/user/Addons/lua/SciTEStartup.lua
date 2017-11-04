@@ -59,6 +59,8 @@ function markLinks()
 --	
 -- Now mark any params and their Values in above text URLS
 --
+
+	-- Keys 
 	local marker_b=11 -- The URL Param
 	editor.IndicStyle[marker_b] = INDIC_TEXTFORE
 	editor.IndicFore[marker_b]  = props["colour.url_param"]
@@ -76,7 +78,7 @@ function markLinks()
 	local marker_c=12 -- The URL Params Value
 	editor.IndicStyle[marker_c] = INDIC_TEXTFORE
 	editor.IndicFore[marker_c]  = props["colour.url_param_value"]
-	mask_c="=[^&?].*?[& \t\"\'<\xA]" -- Begin with = Any alphaNum any _+.- Ends with space, tab, " or ' < , newline
+	mask_c="=[^&\? <]+[&\?\t\w\d \x0A\x0D]" -- Begin with = Any alphaNum any _+.- Ends with space, tab, " or ' < , newline
 
 	local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)	
 	while sB do

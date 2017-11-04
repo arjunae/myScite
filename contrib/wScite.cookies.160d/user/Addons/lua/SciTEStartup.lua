@@ -1,18 +1,14 @@
+-- track the amount of allocated memory 
+session_used_memory=collectgarbage("count")*1024
+
 -- Windows requires this for us to immediately see all lua output.
 io.stdout:setvbuf("no")
---print("startupScript_reload")
+--print("startupScript_reload")   
 
-myHome = props["SciteDefaultHome"].."/user"
+myHome = props["SciteUserHome"].."/user"
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
-
---~ If available, use spawner-ex to help reduce flickering within scite_popen
-local pathSpawner= props["spawner.extension.path"]
-if not pathSpawner~="" then
- fnInit,err= package.loadlib(pathSpawner.."/spawner-ex.dll",'luaopen_spawner')
- if not err then fnInit() end
-end
 
 --lua >=5.2.x renamed functions: 
 local unpack = table.unpack or unpack
@@ -26,9 +22,17 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 -- chainload eventmanager / extman remake used by some lua mods
 dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
+-- Load mod-mitchell 
+package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
+dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+
+-- Load Orthospell 
+package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
+dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
+
 -- Load Sidebar
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-ctags\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
+package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
+dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -55,6 +59,8 @@ function markLinks()
 --	
 -- Now mark any params and their Values in above text URLS
 --
+
+	-- Keys 
 	local marker_b=11 -- The URL Param
 	editor.IndicStyle[marker_b] = INDIC_TEXTFORE
 	editor.IndicFore[marker_b]  = props["colour.url_param"]
@@ -72,7 +78,7 @@ function markLinks()
 	local marker_c=12 -- The URL Params Value
 	editor.IndicStyle[marker_c] = INDIC_TEXTFORE
 	editor.IndicFore[marker_c]  = props["colour.url_param_value"]
-	mask_c="=[^&?].*?[& \t\"\'<\xA]" -- Begin with = Any alphaNum any _+.- Ends with space, tab, " or ' < , newline
+	mask_c="=[^&\? <]+[&\?\t\w\d \x0A\x0D]" -- Begin with = Any alphaNum any _+.- Ends with space, tab, " or ' < , newline
 
 	local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)	
 	while sB do
