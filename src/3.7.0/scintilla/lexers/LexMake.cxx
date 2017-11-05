@@ -273,9 +273,9 @@ static unsigned int ColouriseMakeLine(
 				state=SCE_MAKE_EXTCMD;
 				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			} else if (state == SCE_MAKE_EXTCMD) {
-				state=state_prev;
+				state=SCE_MAKE_DEFAULT;
 				styler.ColourTo(currentPos, state);
-			}
+				}
 
 			// we now search for the word within the Directives Space.
 			// Rule: Prepended by whitespace, preceedet by line start or .'='.
