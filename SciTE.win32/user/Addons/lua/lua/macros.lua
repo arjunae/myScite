@@ -36,6 +36,6 @@ function ChooseScript()
   end
 end
 
-scite_Command('Macro Scripts|ChooseScript|Ctrl+2')
+scite_Command('Macro Scripts|ChooseScript|Ctrl+9')
 
 --end

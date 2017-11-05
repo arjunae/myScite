@@ -58,7 +58,7 @@ function markLinks()
 	end
 
 --	
--- Now mark any params and their Values in above text URLS
+-- Now mark any params and their Values - based in above text URLS
 --
 
 	-- Keys 
@@ -79,7 +79,7 @@ function markLinks()
 	local marker_c=12 -- The URL Params Value
 	editor.IndicStyle[marker_c] = INDIC_TEXTFORE
 	editor.IndicFore[marker_c]  = props["colour.url_param_value"]
-	mask_c="=[^&\? <]+[&\? a-zA-z0-9$]" -- Begin with = Any alphaNum any _+.- Ends with space, tab, " or ' < , newline
+	mask_c="=[^& <]+[& a-zA-z0-9$]" -- Begin with = ends with Any alphaNum 
 
 	local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)	
 	while sB do
@@ -101,7 +101,7 @@ function markeMail()
 	editor.IndicFore[marker_mail] = 0xB72233
 
 	prefix="[a-zA-Z0-9._-]+@" -- first part till @
-	body="[a-zA-Z0-9]+[.]" -- domain part
+	body="[a-zA-Z0-9]+.*[.]" -- (sub.)domain part
 	suffix="[a-zA-Z]+" -- TLD
 	mask = prefix..body..suffix
 	EditorClearMarks(marker_mail) -- common.lua
@@ -115,5 +115,5 @@ end
 scite_OnOpenSwitch(markLinks)
 scite_OnOpenSwitch(markeMail)
 
--- print(editor.StyleAt[1])
+--print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand

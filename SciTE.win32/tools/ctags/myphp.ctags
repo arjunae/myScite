@@ -4,5 +4,5 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.8	//
-main	E:\projects\_myScite\_myScite.github\SciTE.win32\user\testcases\test_cpp.cpp	/^int main() {$/;"	f
-mySay	E:\projects\_myScite\_myScite.github\SciTE.win32\user\testcases\test_cpp.cpp	/^void mySay(char *myString) {$/;"	f
+main	D:\projects\_myScite\_myScite.github\SciTE.win32\doc\testcases\test_cpp.cpp	/^int main() {$/;"	f
+mySay	D:\projects\_myScite\_myScite.github\SciTE.win32\doc\testcases\test_cpp.cpp	/^void mySay(char *myString) {$/;"	f
