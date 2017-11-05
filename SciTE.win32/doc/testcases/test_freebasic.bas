@@ -36,6 +36,7 @@ declare function DlgProc(byval hWnd as HWND, byval uMsg as UINT, byval wParam as
 
 '''
 ''' Program end
+
 '''
 
 Sub Convert(byval sInputFile as string, byval sOutputFile as string)

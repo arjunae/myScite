@@ -23,6 +23,7 @@ set file=%%I
 call :sub_platform
 )
 
+BREAK
 
 FOR /R %%I IN (*.EXE) DO ( 
 set file=%%I
@@ -38,14 +39,14 @@ SET PLAT=NIL
 SET OFFSET=0
 
 REM Offsets MSVC/MINGW==120 BORLAND==131 PaCKERS >xxx
-for /f "delims=:" %%A in ('findstr /o "^.*PE..L." "%file%"') do ( 
-if %%A LEQ 250 (SET PLAT=win32) ELSE (SET PLAT=NIL) 
-if %%A LEQ 250 (SET OFFSET=%%A) ELSE (SET OFFSET=-1)
+for /f "delims=:" %%A in ( 'findstr /o "^.*PE..L." "%file%"' ) do ( 
+if %%A LEQ 250 ( SET PLAT=win32 ) ELSE ( SET PLAT=NIL ) 
+if %%A LEQ 250 ( SET OFFSET=%%A ) ELSE ( SET OFFSET=-1 )
 )
 
 for /f "delims=:" %%B in ('findstr /o "^.*PE..d." "%file%"') do (
-if %%B LEQ 250 (SET PLAT=win64) ELSE (SET PLAT=NIL)
-if %%B LEQ 250 (SET OFFSET=%%B) ELSE (SET OFFSET=-1)
+if %%B LEQ 250 ( SET PLAT=win64 ) ELSE ( SET PLAT=NIL )
+if %%B LEQ 250 ( SET OFFSET=%%B ) ELSE ( SET OFFSET=-1 )
 )
 
 IF PLAT NEQ NIL echo -- [ %PLAT% ] [ %OFFSET% ] %FILE%

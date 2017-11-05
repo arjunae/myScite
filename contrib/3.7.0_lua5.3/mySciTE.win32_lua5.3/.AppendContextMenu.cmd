@@ -32,7 +32,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  IF EXIST %file_name% (  set scite_filepath="%file_name%"  ) 
  IF EXIST ..\%file_name% (  set scite_filepath=.".\%file_name%"  ) 
  IF EXIST ..\..\%file_name% ( set scite_filepath="..\..\%file_name%") 
- IF NOT EXIST %scite_filepath% (call :sub_fail_cmd) else (call :sub_continue ) 
+ IF NOT EXIST %scite_filepath% ( call :sub_fail_cmd ) else ( call :sub_continue ) 
 
  REM  -- Code Continues here --
  echo. --
