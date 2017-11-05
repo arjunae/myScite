@@ -23,8 +23,6 @@ set file=%%I
 call :sub_platform
 )
 
-BREAK
-
 FOR /R %%I IN (*.EXE) DO ( 
 set file=%%I
 call :sub_platform

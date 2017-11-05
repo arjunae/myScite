@@ -1,0 +1,258 @@
+diff -Nurw scite/gtk/SciTEGTK.cxx scintilla-scite/gtk/SciTEGTK.cxx
+--- scite/gtk/SciTEGTK.cxx	2017-11-05 13:27:12.000000000 +0100
++++ scintilla-scite/gtk/SciTEGTK.cxx	2017-11-05 13:24:10.000000000 +0100
+@@ -567,6 +567,9 @@
+ 	bool UpdateOutputSize();
+ 
+ 	GtkWidget *MenuItemFromAction(int itemID);
++	virtual void SetMenuItemNew(int menuNumber, int SubMenuNumber, int position, int itemID,
++														const char *text, const char *mnemonic = 0);
++	
+ 	void SetMenuItem(int menuNumber, int position, int itemID,
+ 	                         const char *text, const char *mnemonic = 0) override;
+ 	void DestroyMenuItem(int menuNumber, int itemID) override;
+@@ -1306,6 +1309,48 @@
+ 	return sCaption;
+ }
+ 
++void SciTEGTK::SetMenuItemNew(int, int, int, int itemID, const char *text, const char *mnemonic) {
++	DestroyMenuItem(0, itemID);
++
++	// On GTK+ the menuNumber and position are ignored as the menu item already exists and is in the right
++	// place so only needs to be shown and have its text set.
++
++	std::string itemText = GtkFromWinCaption(text);
++
++	long keycode = 0;
++	if (mnemonic && *mnemonic) {
++		keycode = SciTEKeys::ParseKeyCode(mnemonic);
++		if (keycode) {
++			itemText += " ";
++			itemText += mnemonic;
++		}
++		// the keycode could be used to make a custom accelerator table
++		// but for now, the menu's item data is used instead for command
++		// tools, and for other menu entries it is just discarded.
++	}
++
++	// Reorder shift and ctrl indicators for compatibility with other menus
++	Substitute(itemText, "Ctrl+Shift+", "Shift+Ctrl+");
++
++	GtkWidget *item = MenuItemFromAction(itemID);
++	if (item) {
++		GList *al = gtk_container_get_children(GTK_CONTAINER(item));
++		for (unsigned int ii = 0; ii < g_list_length(al); ii++) {
++			gpointer d = g_list_nth(al, ii);
++			GtkWidget **w = (GtkWidget **)d;
++			gtk_label_set_text_with_mnemonic(GTK_LABEL(*w), itemText.c_str());
++		}
++		g_list_free(al);
++		gtk_widget_show(item);
++
++		if (itemID >= IDM_TOOLS && itemID < IDM_TOOLS + toolMax) {
++			// Stow the keycode for later retrieval.
++			// Do this even if 0, in case the menu already existed (e.g. ModifyMenu)
++			g_object_set_data(G_OBJECT(item), "key", GINT_TO_POINTER(static_cast<int>(keycode)));
++		}
++	}
++}
++
+ void SciTEGTK::SetMenuItem(int, int, int itemID, const char *text, const char *mnemonic) {
+ 	DestroyMenuItem(0, itemID);
+ 
+diff -Nurw scite/src/SciTEBase.h scintilla-scite/src/SciTEBase.h
+--- scite/src/SciTEBase.h	2017-11-05 13:27:12.000000000 +0100
++++ scintilla-scite/src/SciTEBase.h	2017-11-05 13:22:46.000000000 +0100
+@@ -833,6 +833,8 @@
+ 	virtual void SizeContentWindows() = 0;
+ 	virtual void SizeSubWindows() = 0;
+ 
++	virtual void SetMenuItemNew(int menuNumber, int subMenuNumber, int position, int itemID,
++		const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0) = 0;
+ 	virtual void SetMenuItem(int menuNumber, int position, int itemID,
+ 		const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0) = 0;
+ 	virtual void RedrawMenu() {}
+diff -Nurw scite/src/SciTEProps.cxx scintilla-scite/src/SciTEProps.cxx
+--- scite/src/SciTEProps.cxx	2017-11-05 13:27:12.000000000 +0100
++++ scintilla-scite/src/SciTEProps.cxx	2017-11-05 13:22:46.000000000 +0100
+@@ -64,7 +64,12 @@
+ 				GUI::gui_string entry = localiser.Text("Open");
+ 				entry += GUI_TEXT(" ");
+ 				entry += importFiles[stackPos].Name().AsInternal();
+-				SetMenuItem(menuOptions, IMPORT_START + stackPos, itemID, entry.c_str());
++				std::string sEntry= GUI::UTF8FromString(entry);
++				//  Depends on Foldernames to display properties sorted.
++				if (sEntry.find("theme") != std::string::npos || sEntry.find("ddons") != std::string::npos)
++						SetMenuItemNew(menuOptions, 3, IMPORT_START+stackPos, itemID, entry.c_str());
++				if (sEntry.find("lang") != std::string::npos)
++						SetMenuItemNew(menuOptions, 4, stackPos, itemID, entry.c_str()); 
+ 			}
+ 		}
+ 	}
+@@ -106,21 +111,24 @@
+ const GUI::gui_char propLocalFileName[] = GUI_TEXT("SciTE.properties");
+ const GUI::gui_char propDirectoryFileName[] = GUI_TEXT("SciTEDirectory.properties");
+ 
++/** 
++Push system env on propsPlatform. Format Key=value
++*/
+ void SciTEBase::ReadEnvironment() {
+ #if defined(__unix__)
+ 	extern char **environ;
+-	char **e = environ;
++	char **env = environ;
+ #else
+-	char **e = _environ;
++	char **env = _environ;
+ #endif
+-	for (; e && *e; e++) {
++	for (; env && *env; env++) {
+ 		char key[1024];
+-		char *k = *e;
+-		char *v = strchr(k, '=');
+-		if (v && (static_cast<size_t>(v - k) < sizeof(key))) {
+-			memcpy(key, k, v - k);
+-			key[v - k] = '\0';
+-			propsPlatform.Set(key, v + 1);
++		char *me = *env; 
++		char *value = strchr(me, '=');
++		if (value && (static_cast<int>(value - me) < static_cast<int>(sizeof(key)))) {
++			memcpy(key, me, value - me);
++			key[value - me] = '\0';
++			propsPlatform.Set(key, value + 1);
+ 		}
+ 	}
+ }
+diff -Nurw scite/win32/makefile scintilla-scite/win32/makefile
+--- scite/win32/makefile	2017-05-26 00:25:04.000000000 +0200
++++ scintilla-scite/win32/makefile	2017-11-05 13:22:46.000000000 +0100
+@@ -27,7 +27,7 @@
+ endif
+ endif
+ else
+-	DEL = rm -f
++	DEL = del /f /q
+ 	COPY = cp -a
+ 	UXLIB:=-luxtheme
+ endif
+@@ -74,7 +74,7 @@
+ 
+ CXXFLAGS = $(CFLAGS) -pedantic --std=gnu++11
+ 
+-LDFLAGS=-mwindows -lmsimg32 -lcomctl32 -limm32 -lole32 -luuid -loleaut32 $(UXLIB) $(LUA_LDFLAGS)
++LDFLAGS=-mwindows -lmsimg32 -lcomctl32 -limm32 -lole32 -luuid -loleaut32 --static $(UXLIB) $(LUA_LDFLAGS)
+ 
+ .cxx.o:
+ 	$(CXX) $(CXXFLAGS) -c $< -o $@
+diff -Nurw scite/win32/SciTERes.rc scintilla-scite/win32/SciTERes.rc
+--- scite/win32/SciTERes.rc	2017-11-05 13:27:30.000000000 +0100
++++ scintilla-scite/win32/SciTERes.rc	2017-11-05 13:22:46.000000000 +0100
+@@ -138,12 +138,14 @@
+ 
+ POPUP "&Options"
+ BEGIN
++	MENUITEM "&Read-Only",				IDM_READONLY
++	POPUP "Editor" 
++	BEGIN
+ 	MENUITEM "&Always On Top",			IDM_ONTOP
+ 	MENUITEM "Open Files &Here",		IDM_OPENFILESHERE
+ 	MENUITEM "Vertical &Split",			IDM_SPLITVERTICAL
+ 	MENUITEM "&Wrap",			IDM_WRAP
+ 	MENUITEM "Wrap Out&put",			IDM_WRAPOUTPUT
+-	MENUITEM "&Read-Only",				IDM_READONLY
+ 	MENUITEM SEPARATOR
+ 	POPUP "&Line End Characters"
+ 	BEGIN
+@@ -152,18 +154,25 @@
+ 		MENUITEM "&LF",		IDM_EOL_LF
+ 	END
+ 	MENUITEM "&Convert Line End Characters",	IDM_EOL_CONVERT
+-	MENUITEM SEPARATOR
+ 	MENUITEM "Change Inden&tation Settings...\tCtrl+Shift+I",	IDM_TABSIZE
+ 	MENUITEM "Use &Monospaced Font\tCtrl+F11",	IDM_MONOFONT
+-	MENUITEM SEPARATOR
+-	MENUITEM "Open Local &Options File",		IDM_OPENLOCALPROPERTIES
+-	MENUITEM "Open &Directory Options File",		IDM_OPENDIRECTORYPROPERTIES
++	END
++  POPUP "Config Files"
++	BEGIN
++		MENUITEM "Open Local Options File",		IDM_OPENLOCALPROPERTIES
+ 	MENUITEM "Open &User Options File",		IDM_OPENUSERPROPERTIES
+ 	MENUITEM "Open &Global Options File",		IDM_OPENGLOBALPROPERTIES
++		MENUITEM "Open Directory Options File",		IDM_OPENDIRECTORYPROPERTIES
+ 	MENUITEM "Open A&bbreviations File",		IDM_OPENABBREVPROPERTIES
+ 	MENUITEM "Open Lua Startup Scr&ipt", 		IDM_OPENLUAEXTERNALFILE
++	END
++	 POPUP "Languages"
++			BEGIN
++			// Content: All Language Specific Properties
+ 	MENUITEM SEPARATOR
+-END // used: abcghlmoprstux
++			END
++
++END // used: abcghilmprstux
+ 
+ POPUP "&Language"
+ BEGIN
+diff -Nurw scite/win32/SciTEWin.h scintilla-scite/win32/SciTEWin.h
+--- scite/win32/SciTEWin.h	2017-11-05 13:27:12.000000000 +0100
++++ scintilla-scite/win32/SciTEWin.h	2017-11-05 13:25:34.000000000 +0100
+@@ -250,6 +250,8 @@
+ 	void ShowOutputOnMainThread() override;
+ 	void SizeContentWindows() override;
+ 	void SizeSubWindows() override;
++	virtual void SetMenuItemNew(int menuNumber, int subMenuNumber, int position, int itemID,
++	                         const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0);
+ 
+ 	void SetMenuItem(int menuNumber, int position, int itemID,
+ 	                         const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0) override;
+diff -Nurw scite/win32/SciTEWinBar.cxx scintilla-scite/win32/SciTEWinBar.cxx
+--- scite/win32/SciTEWinBar.cxx	2017-11-05 13:27:12.000000000 +0100
++++ scintilla-scite/win32/SciTEWinBar.cxx	2017-11-05 13:22:46.000000000 +0100
+@@ -636,7 +636,46 @@
+ 	delete []tbb;
+ 	CheckMenus();
+ }
++void SciTEWin::SetMenuItemNew(int menuNumber, int subMenuNumber, int position, int itemID,
++                           const GUI::gui_char *text, const GUI::gui_char *mnemonic) {
++	// On Windows the menu items are modified if they already exist or are created
++    HMENU hmenu = ::GetSubMenu(::GetMenu(MainHWND()), menuNumber);
++ // About to modify a submenu (eg Options-> Config Files)   
++	if(subMenuNumber >0) {
++    HMENU smenu = ::GetSubMenu(hmenu, subMenuNumber);
++    hmenu = smenu;
++  }
++	GUI::gui_string sTextMnemonic = text;
++	long keycode = 0;
++	if (mnemonic && *mnemonic) {
++		keycode = SciTEKeys::ParseKeyCode(GUI::UTF8FromString(mnemonic).c_str());
++		if (keycode) {
++			sTextMnemonic += GUI_TEXT("\t");
++			sTextMnemonic += mnemonic;
++		}
++		// the keycode could be used to make a custom accelerator table
++		// but for now, the menu's item data is used instead for command
++		// tools, and for other menu entries it is just discarded.
++	}
+ 
++	UINT typeFlags = (text[0]) ? MF_STRING : MF_SEPARATOR;
++	if (::GetMenuState(hmenu, itemID, MF_BYCOMMAND) == (UINT)(-1)) {
++		// Not present so insert
++		::InsertMenuW(hmenu, position, MF_BYPOSITION | typeFlags, itemID, sTextMnemonic.c_str());
++	} else {
++		::ModifyMenuW(hmenu, itemID, MF_BYCOMMAND | typeFlags, itemID, sTextMnemonic.c_str());
++	}
++
++	if (itemID >= IDM_TOOLS && itemID < IDM_TOOLS + toolMax) {
++		// Stow the keycode for later retrieval.
++		// Do this even if 0, in case the menu already existed (e.g. ModifyMenu)
++		MENUITEMINFO mii;
++		mii.cbSize = sizeof(MENUITEMINFO);
++		mii.fMask = MIIM_DATA;
++		mii.dwItemData = keycode;
++		::SetMenuItemInfo(hmenu, itemID, FALSE, &mii);
++	}
++}
+ 
+ 
+ void SciTEWin::SetMenuItem(int menuNumber, int position, int itemID,

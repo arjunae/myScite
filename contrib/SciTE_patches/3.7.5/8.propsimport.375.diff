@@ -1,0 +1,14 @@
+diff -Nurw scite/src/PropSetFile.cxx scintilla-scite/src/PropSetFile.cxx
+--- scite/src/PropSetFile.cxx	2017-11-05 14:12:06.000000000 +0100
++++ scintilla-scite/src/PropSetFile.cxx	2017-05-26 00:25:04.000000000 +0200
+@@ -424,9 +424,6 @@
+ 				}
+ 			}
+ 		} else if (filter.IsValid(importName)) {
+-			importName = Expand(importName.c_str());
+-			if (importName[0]==pathSepChar)
+-			importName=importName.substr(1,std::string::npos);
+ 			importName += ".properties";
+ 			FilePath importPath(directoryForImports, FilePath(GUI::StringFromUTF8(importName)));
+ 			Import(importPath, directoryForImports, filter, imports, depth+1);
+Binary files scite/win32/buttons.bmp and scintilla-scite/win32/buttons.bmp differ

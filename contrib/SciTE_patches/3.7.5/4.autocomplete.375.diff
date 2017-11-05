@@ -1,0 +1,25 @@
+///@brief regrow Autocomplete List when hitting backspace.
+diff -Nurw scintilla-scite/src/SciTEBase.cxx scite/src/SciTEBase.cxx
+--- scintilla-scite/src/SciTEBase.cxx	2016-10-08 14:58:36.000000000 +0200
++++ scite/src/SciTEBase.cxx	2016-10-08 14:59:12.000000000 +0200
+@@ -1661,7 +1661,8 @@
+ 	if (apis) {
+ 		std::string words = GetNearestWords(root.c_str(), root.length(),
+ 			calltipParametersStart.c_str(), autoCompleteIgnoreCase);
+-		if (words.length()) {
++		// Show list on x typed chars (root.length() >0) 
++			if (words.length() && root.length() ) { 
+ 			EliminateDuplicateWords(words);
+ 			wEditor.Call(SCI_AUTOCSETSEPARATOR, ' ');
+ 			wEditor.CallString(SCI_AUTOCSHOW, root.length(), words.c_str());
+@@ -3958,6 +3959,10 @@
+ 			//this will be called a lot, and usually means "typing".
+ 			EnableAMenuItem(IDM_UNDO, true);
+ 			EnableAMenuItem(IDM_REDO, false);
++			// Grow Autocomplete list on backspace
++			if (!wEditor.Call(SCI_CALLTIPACTIVE) && wEditor.Call(SCI_AUTOCACTIVE)) { 
++				StartAutoComplete();
++			}
+ 			if (CurrentBuffer()->findMarks == Buffer::fmMarked) {
+ 				CurrentBuffer()->findMarks = Buffer::fmModified;
+ 			}
