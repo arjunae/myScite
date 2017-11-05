@@ -1,12 +1,11 @@
 ~ mySciTE.webdev ~
 
 [XX.11.2017] Development
-- Add: Lisp / Scheme / Clojure properties
-- Fix: lexMake: String detection
-- Fix: remove MSVC10 dependency
-- New: adapted theme solarized
+- Add: Lisp / Scheme / Clojure / GO Language Keywords
+- Fix: lexMake: String detection / Fix: remove MSVC10 dependency
 - Fix: lua: more flexibility while loading hunspell.dll
 - Add: lua: highlight eMail Links.
+- New: adapted theme solarized
 
 [09.10.2017] myScite.stable.160.Augustine
 - API: Actionscript3, FreeBasic, ArduinoC. Ordered cpp by header.
