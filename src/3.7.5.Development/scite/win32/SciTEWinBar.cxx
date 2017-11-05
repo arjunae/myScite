@@ -516,18 +516,9 @@ void SciTEWin::SetToolBar() {
 		}
 		::DeleteDC(hCompatibleDC);
 		::DeleteDC(hDesktopDC);
-		if ( oldToolbarBitmapID == 0 ) {
-			TBADDBITMAP addbmp = {0,(size_t)hToolbarBitmapNew};
+		TBADDBITMAP addbmp = {0,(UINT)(intptr_t)hToolbarBitmapNew};
 			if ( ::SendMessage(hwndToolBar,TB_ADDBITMAP,iIconsCount,(LPARAM)&addbmp) != (LRESULT)-1 ) {
-				oldToolbarBitmapID = (size_t)hToolbarBitmapNew;
-			}
-		} else {
-			HINSTANCE hInstanceOld = 0;
-			if ( oldToolbarBitmapID == IDR_BUTTONS ) hInstanceOld = hInstance;
-			TBREPLACEBITMAP repBmp = { hInstanceOld, oldToolbarBitmapID, 0, (size_t)hToolbarBitmapNew, iIconsCount };
-			if ( ::SendMessage(hwndToolBar,TB_REPLACEBITMAP,0,(LPARAM)&repBmp) ) {
-				oldToolbarBitmapID = (size_t)hToolbarBitmapNew;
-			}
+			oldToolbarBitmapID = (intptr_t)hToolbarBitmapNew;
 		}
 		if ( hToolbarBitmap != 0 ) ::DeleteObject( hToolbarBitmap );
 		hToolbarBitmap = hToolbarBitmapNew;
@@ -535,12 +526,12 @@ void SciTEWin::SetToolBar() {
 		if ( oldToolbarBitmapID == 0 ) {
 			TBADDBITMAP addbmp = { hInstance, IDR_BUTTONS };
 			if ( ::SendMessage( hwndToolBar, TB_ADDBITMAP, 31, (LPARAM)&addbmp ) != (LRESULT)-1 ) {
-				oldToolbarBitmapID = (size_t)IDR_BUTTONS;
+				oldToolbarBitmapID = (intptr_t)IDR_BUTTONS;
 			}
 		} else if ( oldToolbarBitmapID != IDR_BUTTONS ) {
 			TBREPLACEBITMAP repBmp = { 0, oldToolbarBitmapID, hInstance, IDR_BUTTONS, 31 };
 			if ( ::SendMessage(hwndToolBar,TB_REPLACEBITMAP,0,(LPARAM)&repBmp) ) {
-				oldToolbarBitmapID = (size_t)IDR_BUTTONS;
+				oldToolbarBitmapID = (intptr_t)IDR_BUTTONS;
 			}
 		}
 		if ( hToolbarBitmap != 0 ) ::DeleteObject( hToolbarBitmap );
@@ -730,11 +721,20 @@ void SciTEWin::DestroyMenuItem(int menuNumber, int itemID) {
 	}
 }
 
+static void CheckToolbarButton(HWND wTools, int id, bool enable) {
+	if (wTools) {
+		::SendMessage(wTools, TB_CHECKBUTTON, id,
+		          LongFromTwoShorts(static_cast<short>(enable ? TRUE : FALSE), 0));
+	}
+}
+
 void SciTEWin::CheckAMenuItem(int wIDCheckItem, bool val) {
-	if (val)
+	if (val) {	
 		CheckMenuItem(::GetMenu(MainHWND()), wIDCheckItem, MF_CHECKED | MF_BYCOMMAND);
-	else
+	} else {
 		CheckMenuItem(::GetMenu(MainHWND()), wIDCheckItem, MF_UNCHECKED | MF_BYCOMMAND);
+	::CheckToolbarButton(reinterpret_cast<HWND>(wToolBar.GetID()), wIDCheckItem, val); //[user.toolbar]
+	}
 }
 
 void EnableButton(HWND wTools, int id, bool enable) {
@@ -751,8 +751,19 @@ void SciTEWin::EnableAMenuItem(int wIDCheckItem, bool val) {
 		::EnableMenuItem(::GetMenu(MainHWND()), wIDCheckItem, MF_DISABLED | MF_GRAYED | MF_BYCOMMAND);
 	::EnableButton(HwndOf(wToolBar), wIDCheckItem, val);
 }
+ 
+ void SciTEWin::CheckMenus() {
+// check user toolbar buttons status
+	if (props.GetInt("toolbar.visible") != 0) {
+		std::string fileNameForExtension = ExtensionFileName();
+		for (int i = 0; i < toolbarUsersPressableButtons.GetSize(); i++) {
+			std::string prefix = "command.checked." + StdStringFromInteger(toolbarUsersPressableButtons[i] - IDM_TOOLS) + ".";
+			std::string val = props.GetNewExpandString(prefix.c_str(), fileNameForExtension.c_str());
+			int ischecked = val.empty() ? 0 : atoi(val.c_str());
+			::CheckToolbarButton(reinterpret_cast<HWND>(wToolBar.GetID()), toolbarUsersPressableButtons[i], ischecked);
+		}
+	}
 
-void SciTEWin::CheckMenus() {
 	SciTEBase::CheckMenus();
 	::CheckMenuRadioItem(::GetMenu(MainHWND()), IDM_EOL_CRLF, IDM_EOL_LF,
 	                   wEditor.Call(SCI_GETEOLMODE) - SC_EOL_CRLF + IDM_EOL_CRLF, 0);
@@ -764,7 +775,9 @@ void SciTEWin::LocaliseMenu(HMENU hmenu) {
 	for (int i = 0; i <= ::GetMenuItemCount(hmenu); i++) {
 		GUI::gui_char buff[200];
 		buff[0] = '\0';
-		MENUITEMINFOW mii = MENUITEMINFOW();
+		//MENUITEMINFOW mii = MENUITEMINFOW();
+		MENUITEMINFOW mii;
+		memset(&mii, 0, sizeof(mii));
 		mii.cbSize = sizeof(mii);
 		mii.fMask = MIIM_CHECKMARKS | MIIM_DATA | MIIM_ID |
 		            MIIM_STATE | MIIM_SUBMENU | MIIM_TYPE;
@@ -831,6 +844,8 @@ void SciTEWin::LocaliseDialog(HWND wDialog) {
 #define TB_LOADIMAGES (WM_USER + 50)
 #endif
 
+/*!-remove-[user.toolbar]
+ struct BarButton {
 struct BarButton {
 	int id;
 	int cmd;
@@ -856,6 +871,7 @@ static BarButton bbs[] = {
     { STD_FIND,     IDM_FIND },
     { STD_REPLACE,  IDM_REPLACE },
 };
+*/
 
 static WNDPROC stDefaultTabProc = NULL;
 static LRESULT PASCAL TabWndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam) {
@@ -1088,6 +1104,7 @@ void SciTEWin::Creation() {
 	               0);
 	wToolBar = hwndToolBar;
 
+	/*!-remove-[user.toolbar] 
 	::SendMessage(hwndToolBar, TB_BUTTONSTRUCTSIZE, sizeof(TBBUTTON), 0);
 	::SendMessage(hwndToolBar, TB_SETBITMAPSIZE, 0, tbLarge ? MAKELPARAM(24, 24) : MAKELPARAM(16, 16));
 	::SendMessage(hwndToolBar, TB_LOADIMAGES, 
@@ -1119,7 +1136,7 @@ void SciTEWin::Creation() {
 	}
 
 	::SendMessage(hwndToolBar, TB_ADDBUTTONS, ELEMENTS(bbs), reinterpret_cast<LPARAM>(tbb));
-
+*/
 	wToolBar.Show();
 
 	INITCOMMONCONTROLSEX icce;
