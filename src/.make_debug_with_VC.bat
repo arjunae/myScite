@@ -24,7 +24,7 @@ call vcvarsall.bat x86
 if "%1"=="DEBUG" set parameter1=DEBUG=1
 set parameter1=DEBUG=1
 
-cd 3.7.0\scintilla\win32
+cd 3.7.5\scintilla\win32
 nmake %parameter1% -f scintilla.mak
 if errorlevel 1 goto :error
 

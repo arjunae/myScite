@@ -6,6 +6,7 @@
 - Fix: lua: more flexibility while loading hunspell.dll
 - Add: lua: highlight eMail Links.
 - New: adapted theme solarized
+- Upd: Based on scintilla-scite 3.7.5 now. (was 3.7.0)
 
 [09.10.2017] myScite.stable.160.Augustine
 - API: Actionscript3, FreeBasic, ArduinoC. Ordered cpp by header.
