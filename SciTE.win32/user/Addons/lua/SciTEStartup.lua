@@ -2,31 +2,31 @@
 -- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
 --
 
--- track the amount of allocated memory 
+-- track the amount of allocated memory
 session_used_memory=collectgarbage("count")*1024
 
 -- Windows requires this for us to immediately see all lua output.
 io.stdout:setvbuf("no")
---print("startupScript_reload")   
+--print("startupScript_reload")
 
 myHome = props["SciteUserHome"].."/user"
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
 
---lua >=5.2.x renamed functions: 
+--lua >=5.2.x renamed functions:
 local unpack = table.unpack or unpack
 math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 
--- Load extman.lua 
+-- Load extman.lua
 dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 
 -- chainload eventmanager / extman remake used by some lua mods
 dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
--- Load mod-mitchell 
+-- Load mod-mitchell
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 
@@ -65,12 +65,12 @@ function markLinks()
 	local marker_b=11 -- The URL Param
 	editor.IndicStyle[marker_b] = INDIC_TEXTFORE
 	editor.IndicFore[marker_b]  = props["colour.url_param"]
-	mask_b="[?&].*[=]" --Begin with ?& Any Char/Digit Ends with = 
+	mask_b="[?&].*[=]" --Begin with ?& Any Char/Digit Ends with =
 
 	local sA,eA = editor:findtext(mask_b, SCFIND_REGEXP, 0)
 	while sA do
 		if editor:IndicatorValueAt(marker_a,sA)==1 then
-			EditorMarkText(sA, (eA-sA), marker_b) 
+			EditorMarkText(sA, (eA-sA), marker_b)
 		end -- common.lua
 		sA,eA = editor:findtext( mask_b, SCFIND_REGEXP, sA+1)
 	end
@@ -79,17 +79,17 @@ function markLinks()
 	local marker_c=12 -- The URL Params Value
 	editor.IndicStyle[marker_c] = INDIC_TEXTFORE
 	editor.IndicFore[marker_c]  = props["colour.url_param_value"]
-	mask_c="=[^& <]+[& a-zA-z0-9$]" -- Begin with = ends with Any alphaNum 
+	mask_c="=[^& <]+[& a-zA-z0-9$]" -- Begin with = ends with Any alphaNum
 
-	local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)	
+	local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)
 	while sB do
 		if editor:IndicatorValueAt(marker_a,sB)==1 then
-			EditorMarkText(sB+1, (eB-sB)-1, marker_c) 
+			EditorMarkText(sB+1, (eB-sB)-1, marker_c)
 		end -- common.lua
 		sB,eB = editor:findtext( mask_c, SCFIND_REGEXP, sB+1)
 	end
 
-	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :) 
+	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :)
 end
 
 function markeMail()

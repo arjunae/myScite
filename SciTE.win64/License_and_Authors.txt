@@ -32,7 +32,7 @@ OR PERFORMANCE OF THIS SOFTWARE.
  
 	URL: https://bitbucket.org/scite-ru/scite-ru.bitbucket.org/downloads
 
- [scintillua] by Mitchell
+ [scintillua] by Mitchell Foral
 	
 	URL: https://foicica.com/scintillua/
 	
