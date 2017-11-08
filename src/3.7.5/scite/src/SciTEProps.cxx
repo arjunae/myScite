@@ -52,24 +52,28 @@ const GUI::gui_char menuAccessIndicator[] = GUI_TEXT("&");
 #include "Worker.h"
 #include "MatchMarker.h"
 #include "SciTEBase.h"
-
 void SciTEBase::SetImportMenu() {
+// Reset Options->configFiles
 	for (int i = 0; i < importMax; i++) {
-		DestroyMenuItem(menuOptions, importCmdID + i);
+     DestroyMenuItem(menuOptions,1300+ i);
 	}
+  //importCmdID, FillUp above Menu with property fileNames
 	if (!importFiles.empty()) {
 		for (int stackPos = 0; stackPos < static_cast<int>(importFiles.size()) && stackPos < importMax; stackPos++) {
 			int itemID = importCmdID + stackPos;
 			if (importFiles[stackPos].IsSet()) {
-				GUI::gui_string entry = localiser.Text("Open");
-				entry += GUI_TEXT(" ");
-				entry += importFiles[stackPos].Name().AsInternal();
-				std::string sEntry= GUI::UTF8FromString(entry);
-				//  Depends on Foldernames to display properties sorted.
-				if (sEntry.find("theme") != std::string::npos || sEntry.find("ddons") != std::string::npos || sEntry.find("ools") != std::string::npos) 
-						SetMenuItemNew(menuOptions, 2, IMPORT_START+stackPos, itemID, entry.c_str());
-				if (sEntry.find("lang") != std::string::npos)
-						SetMenuItemNew(menuOptions, 3, stackPos, itemID, entry.c_str()); 
+				GUI::gui_string sEntry = importFiles[stackPos].Name().AsInternal();
+				GUI::gui_string sFile= sEntry.substr(sEntry.rfind(GUI_TEXT("/"))+1, GUI::gui_string::npos);
+				sFile= sFile.substr(sFile.rfind(GUI_TEXT("/"))+1,GUI::gui_string::npos);
+				sFile=localiser.Text("Open") + GUI_TEXT(" ") + sFile;
+
+				//  Depends on names to display properties sorted.
+				if (sFile.find(GUI_TEXT("theme")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ettings")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ools")) != GUI::gui_string::npos) {
+					SetMenuItemNew(menuOptions, 1, IMPORT_START+stackPos, itemID, sFile.c_str());
+				} else {
+					SetMenuItemNew(menuOptions, 2, stackPos, itemID, sFile.c_str());
+				}
+
 			}
 		}
 	}
