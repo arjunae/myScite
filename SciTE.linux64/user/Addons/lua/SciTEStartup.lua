@@ -104,9 +104,26 @@ function markeMail()
 		startpos,endpos =  editor:findtext( mask, SCFIND_REGEXP, startpos+1)
 	end
 end
+function markGUID()
+--
+-- search for eMail Links and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
+-- 
+	local marker_guid=14 -- The whole Textlink
+	editor.IndicStyle[marker_guid] = INDIC_TEXTFORE
+	editor.IndicFore[marker_guid] = 0x608090
+
+	mask = "[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+"
+	EditorClearMarks(marker_guid) -- common.lua
+	local startpos,endpos = editor:findtext( mask, SCFIND_REGEXP, 0)
+	while startpos do
+		EditorMarkText(startpos, endpos-startpos, marker_guid) -- common.lua
+		startpos,endpos =  editor:findtext( mask, SCFIND_REGEXP, startpos+1)
+	end
+end
 
 scite_OnOpenSwitch(markLinks)
 scite_OnOpenSwitch(markeMail)
+scite_OnOpenSwitch(markGUID)
 
--- print(editor.StyleAt[1])
+--print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
