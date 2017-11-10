@@ -40,7 +40,7 @@ dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 function markLinks()
 --
 -- search for textlinks and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
--- 
+-- https://www.test.de/
 
 	local marker_a=10 -- The whole Textlink
 	editor.IndicStyle[marker_a] = INDIC_COMPOSITIONTHIN
@@ -59,7 +59,7 @@ function markLinks()
 
 --	
 -- Now mark any params and their Values - based in above text URLS
---
+-- http://www.test.de/?key1=test&key2=a12
 
 	-- Keys 
 	local marker_b=11 -- The URL Param
@@ -93,9 +93,10 @@ function markLinks()
 end
 
 function markeMail()
---
--- search for eMail Links and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
 -- 
+-- search for eMail Links and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
+-- d.Name@users.source-server.net
+
 	local marker_mail=13 -- The whole Textlink
 	editor.IndicStyle[marker_mail] = INDIC_COMPOSITIONTHIN
 	editor.IndicFore[marker_mail] = 0xB72233
@@ -115,13 +116,14 @@ end
 
 function markGUID()
 --
--- search for eMail Links and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
--- 
+-- search for GUIDS and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
+-- {D3A4D768-B42D-4B87-B5C2-8236EA49BA6F}
+ 
 	local marker_guid=14 -- The whole Textlink
 	editor.IndicStyle[marker_guid] = INDIC_TEXTFORE
-	editor.IndicFore[marker_guid] = 0x608090
+	editor.IndicFore[marker_guid] = 0x608030
 
-	mask = "[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+"
+	mask = "[{A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9]+-[A-Z0-9}]+"
 	EditorClearMarks(marker_guid) -- common.lua
 	local startpos,endpos = editor:findtext( mask, SCFIND_REGEXP, 0)
 	while startpos do

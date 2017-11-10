@@ -4,7 +4,7 @@
 - Add: Lisp / Scheme / Clojure / GO Language Keywords
 - Fix: lexMake: String detection / Fix: remove MSVC10 dependency
 - Fix: lua: more flexibility while loading hunspell.dll
-- Add: lua: highlight eMail Links.
+- Add: lua: highlight eMail Links / Highlight GUIDs
 - New: adapted theme solarized
 - Upd: Based on scintilla-scite 3.7.5 now. (was 3.7.0)
 
