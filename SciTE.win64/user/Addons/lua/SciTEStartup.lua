@@ -79,7 +79,8 @@ function markLinks()
 	local marker_c=12 -- The URL Params Value
 	editor.IndicStyle[marker_c] = INDIC_TEXTFORE
 	editor.IndicFore[marker_c]  = props["colour.url_param_value"]
-	mask_c="=[^& <]+[& a-zA-z0-9$]" -- Begin with = ends with Any alphaNum
+	mask_c="=[^& <]+[a-zA-Z0-9]?" -- Begin with = ends with Any alphaNum
+
 
 	local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)
 	while sB do
