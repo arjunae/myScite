@@ -93,6 +93,7 @@ function markLinks()
 	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :)
 end
 
+
 function markeMail()
 -- 
 -- search for eMail Links and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html

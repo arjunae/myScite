@@ -10,6 +10,7 @@ local socket = require "socket"
 -- socket.lua layer provides "connect4", "connect6", "bind"
     
 print("Hello from " .. socket._VERSION .."!")
+print("UDP/TCP Socket-Test:")
 
 print("Test -  UDP socket 5088")
 local u = socket.udp() assert(u:setsockname("*", 5088)) u:close()
@@ -32,4 +33,17 @@ for i, alt in ipairs(addresses) do
   end
 end
 
+print("done!")
+
+print("HTTP-Test:")
+-- load the http module
+local io = require("io")
+local http = require("socket.http")
+local ltn12 = require("ltn12")
+
+-- connect to server "www.example.com" and tries to retrieve
+-- "/private/index.html". Fails because authentication is needed.
+content, status, auth = http.request("http://www.testseite.de/")
+print("response", content) -- response
+print("response code", status) -- status code
 print("done!")
