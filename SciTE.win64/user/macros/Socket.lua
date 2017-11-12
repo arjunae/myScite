@@ -44,6 +44,12 @@ local ltn12 = require("ltn12")
 -- connect to server "www.example.com" and tries to retrieve
 -- "/private/index.html". Fails because authentication is needed.
 content, status, auth = http.request("http://www.testseite.de/")
-print("response", content) -- response
-print("response code", status) -- status code
+print("response:", content) -- response
+print("response code:", status) -- status code
+
+print("Authentication Info:")
+for k, v in pairs( auth ) do
+  print(k, v)
+end
+
 print("done!")

@@ -16,6 +16,9 @@ end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+local pprint = require('pprint')
+pprint(_G)
+
 line=0
 marker_define(0,0)
 
@@ -25,6 +28,11 @@ editor:MarkerAdd(line,0)
 editor:MarkerDelete(line,0)
 
 --print_registryidx()
-print (_VERSION)
+print ("lua Version",_VERSION)
 -- Test Scite->lua global Variable namespace
-print(IDM_NEXTMSG)
+print("Value of IDM_NEXTMSG", IDM_NEXTMSG)
+
+-- Print the global Namespace using pprint
+local pprint=require("pprint")
+pprint.pformat({})
+pprint(_G)
