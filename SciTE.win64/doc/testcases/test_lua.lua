@@ -15,21 +15,34 @@ function print_registryidx()
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+print("Test serpent, an object serializer with prettyPrint capabilities on _G:")
 local serpent = require("serpent")
 --print(serpent.dump(_G)) -- full serialization
 --print(serpent.line(_G)) -- single line, no self-ref section
 print(serpent.block(_G,{nocode = true,maxlevel=1})) -- multi-line indented, no self-ref section
 
-line=0
-marker_define(0,0)
-
--- test some scite pane api functions
-editor:GotoLine(line+10)
-editor:MarkerAdd(line,0)
-editor:MarkerDelete(line,0)
-
+print("Test sha2 with plain lua implemented bit32.lua on SciTEUser.properties:") 
+sha2= require "sha2"
+local file = assert(io.open ("SciTEUser.properties", 'rb'))
+local x = sha2.new256()
+for b in file:lines(2^12) do
+ x:add(b)
+end
+file:close()
+print(x:close())
+  
 --print_registryidx()
 print ("lua Version",_VERSION)
 -- Test Scite->lua global Variable namespace
 print("Value of IDM_NEXTMSG", IDM_NEXTMSG)
+
+-- test some scite pane api functions
+line=0
+marker_define(0,0)
+
+editor:GotoLine(line+10)
+editor:MarkerAdd(line,0)
+editor:MarkerDelete(line,0)
 

@@ -5,7 +5,7 @@
 - Fix: lexMake: String detection / Fix: remove MSVC10 dependency
 - Fix: lua: more flexibility while loading hunspell.dll
 - Add: highlight eMail Links && Highlight GUIDs
-- Add: luasocket, mime, Add HTTP Test
+- Add: lua: luasocket, mime, http, sha2 & serpent. Add Tests
 - New: adapted theme solarized
 - Upd: Based on scintilla-scite 3.7.5 now. (was 3.7.0)
 
