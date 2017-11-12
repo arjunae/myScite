@@ -2,7 +2,7 @@
 ------------------------------- Lua prompt -----------------------
 scite_require 'switch_buffers.lua'
 
-scite_Command 'Start Interactive Lua|start_lua_prompt'
+--scite_Command 'Start Interactive Lua|start_lua_prompt'
 --scite_Command 'Load Lua into Session|load_current_lua_file'
 
 local lua_p
@@ -108,6 +108,7 @@ end
 function start_lua_prompt()
 	if lua_p ~= nil then return end
 	local cmd = props['lua.prompt']
+   print(props['lua.prompt'])
 	lua_interactive = cmd:find('-i',1,true)
 	scite.MenuCommand(IDM_WRAPOUTPUT)
 	lua_p = spawner.new(cmd)

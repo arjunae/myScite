@@ -16,7 +16,6 @@ end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 print("Test serpent, an object serializer with prettyPrint capabilities on _G:")
 local serpent = require("serpent")
 --print(serpent.dump(_G)) -- full serialization
@@ -45,4 +44,3 @@ marker_define(0,0)
 editor:GotoLine(line+10)
 editor:MarkerAdd(line,0)
 editor:MarkerDelete(line,0)
-
