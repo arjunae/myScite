@@ -15,6 +15,10 @@ function print_registryidx()
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+local serpent = require("serpent")
+--print(serpent.dump(_G)) -- full serialization
+--print(serpent.line(_G)) -- single line, no self-ref section
+print(serpent.block(_G,{nocode = true,maxlevel=1})) -- multi-line indented, no self-ref section
 
 line=0
 marker_define(0,0)
@@ -25,6 +29,7 @@ editor:MarkerAdd(line,0)
 editor:MarkerDelete(line,0)
 
 --print_registryidx()
-print (_VERSION)
+print ("lua Version",_VERSION)
 -- Test Scite->lua global Variable namespace
-print(IDM_NEXTMSG)
+print("Value of IDM_NEXTMSG", IDM_NEXTMSG)
+

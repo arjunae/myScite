@@ -15,9 +15,10 @@ function print_registryidx()
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-local pprint = require('pprint')
-pprint(_G)
+local serpent = require("serpent")
+--print(serpent.dump(_G)) -- full serialization
+--print(serpent.line(_G)) -- single line, no self-ref section
+print(serpent.block(_G,{nocode = true,maxlevel=1})) -- multi-line indented, no self-ref section
 
 line=0
 marker_define(0,0)
@@ -32,7 +33,3 @@ print ("lua Version",_VERSION)
 -- Test Scite->lua global Variable namespace
 print("Value of IDM_NEXTMSG", IDM_NEXTMSG)
 
--- Print the global Namespace using pprint
-local pprint=require("pprint")
-pprint.pformat({})
-pprint(_G)

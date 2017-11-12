@@ -28,7 +28,7 @@ int main() {
 
 // out a greeting
 	printf(msg_plain);
-	
+
 // check for a file
 	int exists = access((char *)file_name.c_str(), F_OK);
 
