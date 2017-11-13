@@ -1,7 +1,36 @@
 --go@ dofile $(FilePath)
 -- ^^tell Scite to use its internal Lua interpreter.
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+local defaultHome= props["SciteDefaultHome"]
 print("Hello from scitelua!")
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+print("-> Test CRC32:") 
+--[[
+crc32.crc32 = function (crc_in, data)
+crc_in -> 4 Byte input CRC, automatically padded.
+data->  input data to apply to CRC, as a Lua string.
+returns -> updated CRC. 
+]]
+	
+local C32 = require 'crc32'
+local crc32=C32.crc32
+--print ('CyclicRedundancyCheck==', crc32(0, 'CyclicRedundancyCheck')) 
+
+local crccalc = C32.newcrc32()
+local crccalc_mt = getmetatable(crccalc)
+assert(crccalc_mt.reset) -- reset to zero
+local file = assert(io.open (defaultHome.."\\".."SciLexer.dll", 'rb'))
+while true do
+	local bytes = file:read(4096)
+	if not bytes then break end
+	crccalc:update(bytes)
+end	
+
+file:close()
+--print("SciLexer CRC32 Hash:",crccalc:tohex())
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- ####### LuaGui ######
 -- ## MsWin widget Library
@@ -27,7 +56,7 @@ print(gui.to_utf8("UTF"))
 	-- Now, lets create 2 Tabulators
 	local tab0= gui.panel(panel_width)
 	local memo0=gui.memo()
-	memo0:set_text(rtf.."\\cf1Heyo from tab0 :) ")		
+	memo0:set_text(rtf.."\\cf1Heyo from tab0 :) \\line  SciLexer.dll CRC32 Hash: " .. crccalc:tohex())		
 	tab0:add(memo0, "top", panel_height)
 
 	-- fill the scond one with the contents of guis globalScope
