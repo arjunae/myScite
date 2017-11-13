@@ -34,10 +34,6 @@ package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
 --dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 
--- Load CTags
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-ctags\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
-
 -- ##################  Lua Samples #####################
 --   ##############################################
 

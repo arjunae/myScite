@@ -1,5 +1,6 @@
---creating an Interactive Lua prompt ...from official lua5.1 Dist
+--creating an Interactive Lua prompt
 ------------------------------- Lua prompt -----------------------
+scite_require 'switch_buffers.lua'
 
 --scite_Command 'Start Interactive Lua|start_lua_prompt'
 --scite_Command 'Load Lua into Session|load_current_lua_file'
@@ -110,7 +111,6 @@ function start_lua_prompt()
    print(props['lua.prompt'])
 	lua_interactive = cmd:find('-i',1,true)
 	scite.MenuCommand(IDM_WRAPOUTPUT)
-
 	lua_p = spawner.new(cmd)
 	lua_p:set_output('write_output')
 	lua_p:run()
@@ -302,4 +302,3 @@ function scite_LeaveInteractivePrompt ()
 	scite_OnKey(handle_keys,'remove')
 end
 
---start_lua_prompt()

@@ -30,14 +30,9 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 --dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 
--- Load CTags
---package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
---dofile(myHome..'\\Addons\\lua\\mod-sidebar\\ctagsd.lua')
-
--- Load Sidebar
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
-
+-- Load Orthospell 
+package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
+--dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
 
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -84,7 +79,7 @@ function markLinks()
 	local marker_c=12 -- The URL Params Value
 	editor.IndicStyle[marker_c] = INDIC_TEXTFORE
 	editor.IndicFore[marker_c]  = props["colour.url_param_value"]
-	mask_c="=[^& <]+[&a-zA-z0-9]" -- Begin with = ends with Any alphaNum
+	mask_c="=[^& <]+[& a-zA-z0-9$]" -- Begin with = ends with Any alphaNum
 
 	local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)
 	while sB do
