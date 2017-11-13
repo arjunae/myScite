@@ -1,6 +1,7 @@
 -- go@ dofile $(FilePath) 
 -- ^^tell Scite to use its internal Lua interpreter.
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+local defaultHome= props["SciteDefaultHome"]
 
 function marker_define(idx,typ)
 -- Test scite object namespace
@@ -25,7 +26,7 @@ print(serpent.block(_G,{nocode = true,maxlevel=1})) -- multi-line indented, no s
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 print("-> Test sha2 with plain lua implemented bit32.lua")  -- native CVersion >= lua5.2
 sha2= require "sha2"
-local file = assert(io.open ("SciTEUser.properties", 'rb'))
+local file = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
 local sha256 = sha2.new256()
 for b in file:lines(2^12) do
  sha256:add(b)
@@ -38,7 +39,7 @@ print("-> Test MD5:")
 
 local md5 = require 'md5'
 local m = md5.new()
-local file = assert(io.open ("SciTEUser.properties", 'rb'))
+local file = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
 for b in file:lines() do
 	m:update(b)
 end
@@ -61,7 +62,7 @@ local crc32=C32.crc32
 local crccalc = C32.newcrc32()
 local crccalc_mt = getmetatable(crccalc)
 assert(crccalc_mt.reset) -- reset to zero
-local file = assert(io.open ("SciTEUser.properties", 'rb'))
+local file = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
 for b in file:lines() do
 	crccalc:update(b)
 end
