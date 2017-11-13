@@ -10,6 +10,7 @@ io.stdout:setvbuf("no")
 --print("startupScript_reload")
 
 myHome = props["SciteUserHome"].."/user"
+defaultHome = props["SciteDefaultHome"]
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
@@ -135,9 +136,32 @@ function markGUID()
 	end
 end
 
+function testSciLexer(origHash)
+
+	local C32 = require 'crc32'
+	local crc32=C32.crc32
+
+	local crccalc = C32.newcrc32()
+	local crccalc_mt = getmetatable(crccalc)
+	assert(crccalc_mt.reset) -- reset to zero
+	local file = assert(io.open (defaultHome.."\\".."SciLexer.dll", 'rb'))
+	while true do
+		local bytes = file:read(4096)
+		if not bytes then break end
+		crccalc:update(bytes)
+	end	
+
+	file:close()
+	
+	SciLexerHash=crccalc:tohex()
+	
+	if SciLexerHash~=origHash then print("You are using a modified SciLexer.dll with CRC32 Hash: "..crccalc:tohex()) end
+end
+
 scite_OnOpenSwitch(markLinks)
 scite_OnOpenSwitch(markeMail)
 scite_OnOpenSwitch(markGUID)
+testSciLexer("df6d322b")
 
 --print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand

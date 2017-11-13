@@ -29,7 +29,7 @@ end
 
 file:close()
 --print("SciLexer CRC32 Hash:",crccalc:tohex())
-
+--df6d322b
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- ####### LuaGui ######
@@ -56,7 +56,7 @@ print(gui.to_utf8("UTF"))
 	-- Now, lets create 2 Tabulators
 	local tab0= gui.panel(panel_width)
 	local memo0=gui.memo()
-	memo0:set_text(rtf.."\\cf1Heyo from tab0 :) \\line  SciLexer.dll CRC32 Hash: " .. crccalc:tohex())		
+	memo0:set_text(rtf.."\\cf1Heyo from tab0 :) \\line  SciLexer.dll CRC32 Hash: " .. crccalc:tohex() .." should be: df6d322b" ) 		
 	tab0:add(memo0, "top", panel_height)
 
 	-- fill the scond one with the contents of guis globalScope
