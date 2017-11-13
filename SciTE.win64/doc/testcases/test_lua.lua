@@ -16,7 +16,6 @@ end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 print("Test serpent, an object serializer with prettyPrint capabilities on _G:")
 local serpent = require("serpent")
 --print(serpent.dump(_G)) -- full serialization
@@ -32,11 +31,16 @@ for b in file:lines(2^12) do
 end
 file:close()
 print(x:close())
-  
+
+print("Test CRC32:") 
+local C32 = require 'crc32'
+local crc32=C32.crc32
+print ('CyclicRedundancyCheck==', crc32(0, 'CyclicRedundancyCheck')) 
+
 --print_registryidx()
-print ("lua Version",_VERSION)
+print ("lua Version==",_VERSION)
 -- Test Scite->lua global Variable namespace
-print("Value of IDM_NEXTMSG", IDM_NEXTMSG)
+print("Value of IDM_NEXTMSG==", IDM_NEXTMSG)
 
 -- test some scite pane api functions
 line=0
@@ -45,4 +49,3 @@ marker_define(0,0)
 editor:GotoLine(line+10)
 editor:MarkerAdd(line,0)
 editor:MarkerDelete(line,0)
-
