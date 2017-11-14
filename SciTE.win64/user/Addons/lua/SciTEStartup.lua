@@ -94,6 +94,8 @@ function markLinks()
 	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :)
 end
 
+--~~~~~~~~~~~~~~~~~~~~
+
 
 function markeMail()
 -- 
@@ -116,6 +118,7 @@ function markeMail()
 	end
 end
 
+--~~~~~~~~~~~~~~~~~~~~
 
 function markGUID()
 --
@@ -136,6 +139,7 @@ function markGUID()
 	end
 end
 
+--~~~~~~~~~~~~~~~~~~~~
 
 function testSciLexer(origHash)
 --
@@ -158,6 +162,8 @@ function testSciLexer(origHash)
 	SciLexerHash=crccalc:tohex()
 	if SciLexerHash~=origHash then print("You are using a modified SciLexer.dll with CRC32 Hash: "..crccalc:tohex()) end
 end
+
+--~~~~~~~~~~~~~~~~~~~~
 
 scite_OnOpenSwitch(markLinks)
 scite_OnOpenSwitch(markeMail)
