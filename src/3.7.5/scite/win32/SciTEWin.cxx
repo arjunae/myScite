@@ -480,7 +480,7 @@ FilePath SciTEWin::GetSciteUserHome() {
 	if (!wenvPathSciteHome.empty()) {
 			_wputenv((wchar_t *)wenv.c_str()); 
 			return(FilePath((wchar_t *)wenvPathSciteHome.c_str()));
-	}
+		}
 	
 	// No, lets  look for preset environment variable $SciTE_USERHOME. 
 	FilePath fpUserHome = _wgetenv(GUI_TEXT("SciTE_USERHOME"));
@@ -489,7 +489,7 @@ FilePath SciTEWin::GetSciteUserHome() {
 	
 	// Fallback - just returnGetSciteDefaultHome()	
 	return SciTEWin::GetSciteDefaultHome();			
-		}
+	}
 
 FilePath SciTEWin::GetDefaultDirectory() {
 /**
@@ -2236,17 +2236,12 @@ uptr_t SciTEWin::EventLoop() {
 #ifndef LOAD_LIBRARY_SEARCH_SYSTEM32
 #define LOAD_LIBRARY_SEARCH_SYSTEM32 0x800
 #endif
-#ifndef LOAD_LIBRARY_SEARCH_USER_DIRS
-#define LOAD_LIBRARY_SEARCH_USER_DIRS 0x400
-#endif
 
 static void RestrictDLLPath() {
 	// Try to limit the locations where DLLs will be loaded from to prevent binary planting.
 	// That is where a bad DLL is placed in the current directory or in the PATH.
 	typedef BOOL(WINAPI *SetDefaultDllDirectoriesSig)(DWORD DirectoryFlags);
 	typedef BOOL(WINAPI *SetDllDirectorySig)(LPCTSTR lpPathName);
-	typedef BOOL(WINAPI *AddDllDirectorySig)(LPCTSTR lpPathName);
-	
 	HMODULE kernel32 = ::GetModuleHandle(TEXT("kernel32.dll"));
 	if (kernel32) {
 		// SetDefaultDllDirectories is stronger, limiting search path to just the application and
@@ -2254,12 +2249,7 @@ static void RestrictDLLPath() {
 		SetDefaultDllDirectoriesSig SetDefaultDllDirectoriesFn = (SetDefaultDllDirectoriesSig)::GetProcAddress(
 			kernel32, "SetDefaultDllDirectories");
 		if (SetDefaultDllDirectoriesFn) {
-			SetDefaultDllDirectoriesFn(LOAD_LIBRARY_SEARCH_APPLICATION_DIR | LOAD_LIBRARY_SEARCH_SYSTEM32 | LOAD_LIBRARY_SEARCH_USER_DIRS);
-			// Explicitly Allow loading dlls from the lua/c dir using SetDllDirectory.  --> todo: use a user defined config property for this.  
-			AddDllDirectorySig AddDllDirectoryFn = (AddDllDirectorySig)::GetProcAddress(
-			kernel32, "AddDllDirectoryW");
-			if (AddDllDirectoryFn) 
-				AddDllDirectoryFn(TEXT(""));
+			SetDefaultDllDirectoriesFn(LOAD_LIBRARY_SEARCH_APPLICATION_DIR | LOAD_LIBRARY_SEARCH_SYSTEM32);
 		} else {
 			SetDllDirectorySig SetDllDirectoryFn = (SetDllDirectorySig)::GetProcAddress(
 				kernel32, "SetDllDirectoryW");

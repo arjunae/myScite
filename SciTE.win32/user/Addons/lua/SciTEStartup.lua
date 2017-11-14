@@ -162,7 +162,7 @@ end
 scite_OnOpenSwitch(markLinks)
 scite_OnOpenSwitch(markeMail)
 scite_OnOpenSwitch(markGUID)
-testSciLexer("df6d322b") -- SciLexers CRC32 Hash for the current Version
+testSciLexer("c1636137") -- SciLexers CRC32 Hash for the current Version
 
 --print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand

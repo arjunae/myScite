@@ -69,9 +69,9 @@ void SciTEBase::SetImportMenu() {
 
 				//  Depends on names to display properties sorted.
 				if (sFile.find(GUI_TEXT("theme")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ettings")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ools")) != GUI::gui_string::npos) {
-					SetMenuItemNew(menuOptions, 1, IMPORT_START+stackPos, itemID, sFile.c_str());
+					SetMenuItemNew(menuOptions, 2, IMPORT_START+stackPos, itemID, sFile.c_str());
 				} else {
-					SetMenuItemNew(menuOptions, 2, stackPos, itemID, sFile.c_str());
+					SetMenuItemNew(menuOptions, 3, stackPos, itemID, sFile.c_str());
 				}
 
 			}
