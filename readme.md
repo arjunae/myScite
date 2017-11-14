@@ -4,9 +4,10 @@
 - Add: Lisp / Scheme / Clojure / GO Language Keywords
 - Fix: lexMake: String detection / Fix: remove MSVC10 dependency
 - Fix: lua: more flexibility while loading hunspell.dll
-- Add: highlight eMail Links && Highlight GUIDs
+- New: highlight eMail Links && Highlight GUIDs
 - Add: lua: luasocket, mime, http, sha2, underscore & serpent. Add Tests
 - New: adapted theme solarized
+- New: CRC Verify SciLexer.dll during Start. 
 - Upd: Based on scintilla-scite 3.7.5 now. (was 3.7.0)
 
 [09.10.2017] myScite.stable.160.Augustine

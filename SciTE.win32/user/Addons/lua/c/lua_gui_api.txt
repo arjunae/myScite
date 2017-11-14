@@ -1,6 +1,7 @@
 #-----------------------
 # LIB GUI - Main Methods
 #-----------------------
+To use this DLL, you need to call `require("gui")`; putting gui.dll next to your SciTE.exe should work fine.
 
 gui.window ("title")\n create new top-level windows  /extern lib "gui"/
 gui.panel (width)\n create panel  /extern lib "gui"/
@@ -19,7 +20,7 @@ gui.files (path_with_mask, true)\n list of files (nil/false) or folders (true)  
 gui.chdir (dir)\n change current dir  /extern lib "gui"/
 gui.message (msg,kind)\n message box with the desired message text  /extern lib "gui"/
 gui.prompt_value (prompt,default)\n ask the user to enter a single string value  /extern lib "gui"/
-gui.run (program_or_document, parameters)\n launch a program or open a document  /extern lib "gui"/
+gui.run (program_or_document, parameters)\n launch a program or open a document without screen distortion  /extern lib "gui"/
 
 #-----------------------
 # LIB GUI - window Methods
@@ -81,6 +82,15 @@ mem:set_text('{\\rtf{\\fonttbl{\\f0\\fcharset0 Helv;}}\\f0\\fs16'..'sample text'
 mem:set_memo_colour("#FFFFFF", "#000000")\n foreground, background
 mem:bounds()
 
-also: 
-toolbar
-tree
+#~ gui.toolbar
+The items are of the form "IMAGE:TOOLTIP|ACTION", where the IMAGE is a bitmap file (default extension .bmp),
+the TOOLTIP is the text displayed when the mouse hovers over the item, and ACTION is either the name of a global Lua function or one of the IDM_ SciTE menu constants (as listed in commands.html)
+The IMAGE can also be one of the following standard icons: COPY,CUT,DELETE,FILENEW,FILEOPEN,FILESAVE,FIND,HELP,PASTE,PRINT,REDOW,REPLACE,UNDO.
+
+tt = gui.toolbar("toolbar!", {
+	"watch.bmp:watch this!|joy",
+	"stop.bmp:stop doin that!|sorrow",
+	"run.bmp:run,run,run|IDM_OPEN",
+},16,[[c:\Program Files\scite]])
+tt:position(500,300)
+

@@ -136,13 +136,17 @@ function markGUID()
 	end
 end
 
+
 function testSciLexer(origHash)
+--
+-- quickCheck SciLexer.dll's CRC32 Hash and inform the User if its a nonStock Version. 
+--
 
 	local C32 = require 'crc32'
 	local crc32=C32.crc32
-
 	local crccalc = C32.newcrc32()
 	local crccalc_mt = getmetatable(crccalc)
+	
 	assert(crccalc_mt.reset) -- reset to zero
 	local file = assert(io.open (defaultHome.."\\".."SciLexer.dll", 'rb'))
 	while true do
@@ -150,18 +154,15 @@ function testSciLexer(origHash)
 		if not bytes then break end
 		crccalc:update(bytes)
 	end	
-
 	file:close()
-	
 	SciLexerHash=crccalc:tohex()
-	
 	if SciLexerHash~=origHash then print("You are using a modified SciLexer.dll with CRC32 Hash: "..crccalc:tohex()) end
 end
 
 scite_OnOpenSwitch(markLinks)
 scite_OnOpenSwitch(markeMail)
 scite_OnOpenSwitch(markGUID)
-testSciLexer("70176a06")
+testSciLexer("70176a06") -- SciLexers CRC32 Hash for the current Version
 
 --print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
