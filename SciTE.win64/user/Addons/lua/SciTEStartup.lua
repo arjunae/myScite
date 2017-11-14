@@ -35,6 +35,8 @@ dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
+dofile(myHome..'\\macros\\Autocomplete.lua')
+
 -- ##################  Lua Samples #####################
 --   ##############################################
 
@@ -96,7 +98,6 @@ end
 
 --~~~~~~~~~~~~~~~~~~~~
 
-
 function markeMail()
 -- 
 -- search for eMail Links and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
@@ -145,12 +146,11 @@ function testSciLexer(origHash)
 --
 -- quickCheck SciLexer.dll's CRC32 Hash and inform the User if its a nonStock Version. 
 --
-
 	local C32 = require 'crc32'
 	local crc32=C32.crc32
 	local crccalc = C32.newcrc32()
 	local crccalc_mt = getmetatable(crccalc)
-	
+
 	assert(crccalc_mt.reset) -- reset to zero
 	local file = assert(io.open (defaultHome.."\\".."SciLexer.dll", 'rb'))
 	while true do

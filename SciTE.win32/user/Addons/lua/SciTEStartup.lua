@@ -35,6 +35,8 @@ dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
+dofile(myHome..'\\macros\\Autocomplete.lua')
+
 -- ##################  Lua Samples #####################
 --   ##############################################
 
