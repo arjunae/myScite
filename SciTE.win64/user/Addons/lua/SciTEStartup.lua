@@ -18,30 +18,35 @@ math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--~~~~~~~~~~~~~
 -- track the amount of lua allocated memory
-local session_used_memory 
-function OnInit() -- called once when Scite starts 
-	session_used_memory=collectgarbage("count")*1024
-end
-
+_G.session_used_memory=collectgarbage("count")*1024
+	
 -- Load extman.lua
 dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 
 -- chainload eventmanager / extman remake used by some lua mods
 dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
+	
+function OnInit() -- called once when Scite starts 
+	--print("Initial memory:",_G.session_used_memory)
 
--- Load mod-mitchell
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+	-- Load mod-mitchell
+	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
+	dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+	
+	-- Load enhanced Autocomplete
+	package.path = package.path .. ";"..myHome.."\\macros\?.lua;"
+	dofile(myHome..'\\macros\\Autocomplete.lua')
 
--- Load Sidebar
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
+	-- Load Sidebar
+	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
+	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
+	
+	--print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)
+end
 
-dofile(myHome..'\\macros\\Autocomplete.lua')
-
--- ##################  Lua Samples #####################
+	-- ##################  Lua Samples #####################
 --   ##############################################
 
 function markLinks()
@@ -87,7 +92,6 @@ function markLinks()
 	editor.IndicStyle[marker_c] = INDIC_TEXTFORE
 	editor.IndicFore[marker_c]  = props["colour.url_param_value"]
 	mask_c="=[^& <]+[a-zA-Z0-9]?" -- Begin with = ends with Any alphaNum
-
 
 	local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)
 	while sB do
@@ -162,7 +166,7 @@ function testSciLexer(origHash)
 	end	
 	file:close()
 	SciLexerHash=crccalc:tohex()
-	if SciLexerHash~=origHash then print("You are using a modified SciLexer.dll with CRC32 Hash: "..crccalc:tohex()) end
+	if SciLexerHash~=origHash then print("SciteStartup.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..crccalc:tohex()) end
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
