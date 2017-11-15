@@ -1,0 +1,17 @@
+diff -Nurw scintilla/include/Scintilla.iface scintilla_mod/include/Scintilla.iface
+--- scintilla/include/Scintilla.iface	2017-05-26 00:25:00.000000000 +0200
++++ scintilla_mod/include/Scintilla.iface	2017-11-15 14:01:12.000000000 +0100
+@@ -3386,7 +3386,13 @@
+ val SCE_MAKE_IDENTIFIER=3
+ val SCE_MAKE_OPERATOR=4
+ val SCE_MAKE_TARGET=5
++val SCE_MAKE_USER_VARIABLE 6
++val SCE_MAKE_AUTOM_VARIABLE 7
++val SCE_MAKE_DIRECTIVE 8
+ val SCE_MAKE_IDEOL=9
++val SCE_MAKE_FLAGS 10
++val SCE_MAKE_EXTCMD 11
++val SCE_MAKE_STRING 12
+ # Lexical states for SCLEX_DIFF
+ lex Diff=SCLEX_DIFF SCE_DIFF_
+ val SCE_DIFF_DEFAULT=0

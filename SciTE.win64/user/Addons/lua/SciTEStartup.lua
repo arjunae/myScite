@@ -29,7 +29,6 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
 function OnInit() -- called once when Scite starts (SciteStartups DocumentReady)
-	--print("Initial memory:",_G.session_used_memory)
 
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"

@@ -1,0 +1,68 @@
+diff -Nurw scite/src/others.properties scite_mod/src/others.properties
+--- scite/src/others.properties	2017-05-26 00:25:04.000000000 +0200
++++ scite_mod/src/others.properties	2017-11-15 14:25:36.000000000 +0100
+@@ -103,22 +103,54 @@
+ 
+ comment.block.batch=REM ~
+ 
+-# Makefile styles
++# ... GNU make keywords https://www.gnu.org/software/make/manual/html_node/Quick-Reference.html
++# ... Rule: @line start or prepended by whitespace and end before {\t\r\n ;}
++keywordclass.make.directives= \
++define endef undefine if ifdef ifndef ifeq ifneq else endif include override export unexport vpath .PHONY
++# ... Rule: vars start with [  ({ ] 
++keywordclass.make.variables= \
++VPATH SHELL MAKESHELL MAKE MAKE_HOST MAKELEVEL MAKEFLAGS GNUMAKEFLAGS MAKECMDGOALS MAKEFILES MAKEFILE_LIST CURDIR SUFFIXES .LIBPATTERNS .VARIABLES OVERRIDES 
++keywordclass.make.functions=\
++subst patsubst findstring filter filter-out sort sort-list word words wordlist firstword lastword dir notdir suffixes basename \
++addsuffix addprefix join wildcard realpath abspath error warning shell origin flavor foreach if then and call eval file value
++# ... Rule: extCmds have to be prepended by lineStart or [ &|-@\t\r\n \":, '({ ] and end before [\t\r\n ;]
++keywordclass.make.extcmd=\
++autoconf autoheader ar awk break case cc chmod curl cp cd gcc g++ cl cat copy date del diff do done echo elif esac env exist \
++exit exec export false find for in if fi lib link ln ls make mkdir nmake pwd not return rmdir sed sort sudo then true rm mv test touch print \
++printf while xargs expand grep egrep printf php python sh sleep tar read unzip wget zip gpg
++
++keywords.$(file.patterns.make)=$(keywordclass.make.directives) 
++keywords2.$(file.patterns.make)=$(keywordclass.make.functions) $(keywordclass.make.variables)
++keywords3.$(file.patterns.make)=$(keywordclass.make.extcmd)
++
++# ---- Makefile styles
+ 
+ # Default
+-style.makefile.0=fore:#000000
++style.makefile.0=$(colour.default)
+ # Comment: #
+-style.makefile.1=$(colour.other.comment),$(font.code.comment.box)
++style.makefile.1=$(colour.code.comment.line),$(font.code.comment.box)
+ # Pre-processor or other comment: !
+-style.makefile.2=$(colour.preproc)
+-# Variable: $(x)
+-style.makefile.3=fore:#000080
++style.makefile.2=fore:#A75037
++# Identifier (User Variable Definition)
++style.makefile.3=fore:#030303
+ # Operator
+-style.makefile.4=$(colour.other.operator)
++style.makefile.4=fore:#304075
+ # Target
+-style.makefile.5=fore:#A00000
+-# Error
+-style.makefile.9=$(colour.error),eolfilled
++style.makefile.5=fore:#604030,underlined
++# User Variable
++style.makefile.6=fore:#21208A
++# Automatic Variables, internal Variables
++style.makefile.7=fore:#A97742 
++# Directive
++style.makefile.8=fore:#402556
++# Error (unclosed String)
++style.makefile.9=fore:#DFDF00,back:#DD0000
++# Flags
++style.makefile.10=fore:#A75037
++# External Commands
++style.makefile.11=fore:#304060
++# Strings
++style.makefile.12=fore:#5F004F
+ # Matched Operators
+ style.makefile.34=fore:#0000FF,notbold
+ style.makefile.35=fore:#FF0000,notbold

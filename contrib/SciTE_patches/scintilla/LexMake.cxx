@@ -1,16 +1,16 @@
 ﻿// Scintilla source code edit control
 /**
  * @file LexMake.cxx
- * @author Neil Hodgson, Thorsten Kani(marcedo@HabMalneFrage.de)
+ * @author Neil Hodgson
+ * @author Thorsten Kani(marcedo@HabMalneFrage.de)
  * @brief Lexer for make files
  * @brief 18.07.17 | Thorsten Kani | Add more Styles
  * - GNUMake Directives, internal function Keywords  $(sort subst..) ,
- * - Automatic Variables $@%<?^+* , Flags "-" and Keywords for externalCommands
+ * - Automatic Variables: $[@%<?^+*] , Flags: "-" and Keywords for externalCommands
  * - Warns on more unclosed Brackets or doublequoted Strings.
  * - Handles multiLine Continuations, inlineComments, styles Strings and Numbers
  * @brief todos
- * todo: store and style User defined Varnames. ( myvar=... )
- * todo: handle VC Makefiles ( eg //D )
+  * todo: handle VC Makefiles ( eg //D )
  * @brief Copyright 1998-2001 by Neil Hodgson <neilh@scintilla.org>
  * The License.txt file describes the conditions under which this software may
  * be distributed.
