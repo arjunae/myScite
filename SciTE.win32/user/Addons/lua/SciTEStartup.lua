@@ -2,9 +2,6 @@
 -- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
 --
 
--- track the amount of allocated memory
-session_used_memory=collectgarbage("count")*1024
-
 -- Windows requires this for us to immediately see all lua output.
 io.stdout:setvbuf("no")
 --print("startupScript_reload")
@@ -20,6 +17,13 @@ local unpack = table.unpack or unpack
 math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- track the amount of lua allocated memory
+local session_used_memory 
+function OnInit() -- called once when Scite starts 
+	session_used_memory=collectgarbage("count")*1024
+end
 
 -- Load extman.lua
 dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
@@ -96,8 +100,7 @@ function markLinks()
 	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :)
 end
 
---~~~~~~~~~~~~~~~~~~~~
-
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function markeMail()
 -- 
 -- search for eMail Links and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
@@ -119,8 +122,7 @@ function markeMail()
 	end
 end
 
---~~~~~~~~~~~~~~~~~~~~
-
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function markGUID()
 --
 -- search for GUIDS and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
@@ -140,8 +142,7 @@ function markGUID()
 	end
 end
 
---~~~~~~~~~~~~~~~~~~~~
-
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function testSciLexer(origHash)
 --
 -- quickCheck SciLexer.dll's CRC32 Hash and inform the User if its a nonStock Version. 
@@ -164,15 +165,11 @@ function testSciLexer(origHash)
 	if SciLexerHash~=origHash then print("You are using a modified SciLexer.dll with CRC32 Hash: "..crccalc:tohex()) end
 end
 
---~~~~~~~~~~~~~~~~~~~~
-
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 scite_OnOpenSwitch(markLinks)
 scite_OnOpenSwitch(markeMail)
 scite_OnOpenSwitch(markGUID)
 testSciLexer("c1636137") -- SciLexers CRC32 Hash for the current Version
 
---function OnInit()
 --print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
---print("Scite Started")
---end
