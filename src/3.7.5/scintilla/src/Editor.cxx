@@ -8185,9 +8185,6 @@ sptr_t Editor::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam) {
 	
 	case SCI_SETMOUSECAPTURE:
 		SetMouseCapture(wParam != 0);
-				vs.viewEOL = wParam != 0;
-		InvalidateStyleRedraw();
-
 		break;
 		
 	case SCI_SETIDENTIFIER:

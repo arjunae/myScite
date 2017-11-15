@@ -1,4 +1,3 @@
-// experimental: Port single click Event OnClick(shift,atrl,alt) from scite.ru to scintilla Mainline.
 diff -Nurw scintilla/include/Scintilla.h scintilla_mod/include/Scintilla.h
 --- scintilla/include/Scintilla.h	2017-05-26 00:25:00.000000000 +0200
 +++ scintilla_mod/include/Scintilla.h	2017-11-15 18:28:50.000000000 +0100
@@ -34,7 +33,7 @@ diff -Nurw scintilla/include/Scintilla.iface scintilla_mod/include/Scintilla.ifa
  # Deprecated in 3.5.5
 diff -Nurw scintilla/src/Editor.cxx scintilla_mod/src/Editor.cxx
 --- scintilla/src/Editor.cxx	2017-05-26 00:25:02.000000000 +0200
-+++ scintilla_mod/src/Editor.cxx	2017-11-15 19:29:02.000000000 +0100
++++ scintilla_mod/src/Editor.cxx	2017-11-15 21:20:24.000000000 +0100
 @@ -2331,6 +2331,16 @@
  	NotifyParent(scn);
  }
@@ -69,15 +68,6 @@ diff -Nurw scintilla/src/Editor.cxx scintilla_mod/src/Editor.cxx
  
  	if (NotifyMarginClick(pt, modifiers))
  		return;
-@@ -4462,7 +4473,7 @@
- 		SetSelection(newPos);
- 	}
- 	if (((curTime - lastClickTime) < Platform::DoubleClickTime()) && Close(pt, lastClick, doubleClickCloseThreshold)) {
--		//Platform::DebugPrintf("Double click %d %d = %d\n", curTime, lastClickTime, curTime - lastClickTime);
-+		//Platform::DebugPrintf("Double click %d %d = %d\n", curTime, lastClickTime, curTime - lastClickTime);
- 		SetMouseCapture(true);
- 		if (FineTickerAvailable()) {
- 			FineTickerStart(tickScroll, 100, 10);
 @@ -4612,12 +4623,14 @@
  				sel.Rectangular() = SelectionRange(newPos, anchorCurrent);
  				SetRectangularRange();
@@ -93,15 +83,12 @@ diff -Nurw scintilla/src/Editor.cxx scintilla_mod/src/Editor.cxx
  }
  
  void Editor::RightButtonDownWithModifiers(Point pt, unsigned int, int modifiers) {
-@@ -8170,6 +8183,13 @@
+@@ -8170,6 +8183,10 @@
  		pdoc->ChangeLexerState(static_cast<int>(wParam), static_cast<int>(lParam));
  		break;
  
 +	case SCI_SETMOUSECAPTURE:
 +		SetMouseCapture(wParam != 0);
-+				vs.viewEOL = wParam != 0;
-+		InvalidateStyleRedraw();
-+
 +		break;
 +		
  	case SCI_SETIDENTIFIER:
