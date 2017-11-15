@@ -4865,7 +4865,8 @@ evt void MarginRightClick=2031(int modifiers, int position, int margin)
 # There are no provisional APIs currently, but some arguments to SCI_SETTECHNOLOGY are provisional.
 
 cat Provisional
-
+evt void Click=2061(int modifiers)
+set void SetMouseCapture=4061(bool on,)
 cat Deprecated
 
 # Deprecated in 3.5.5

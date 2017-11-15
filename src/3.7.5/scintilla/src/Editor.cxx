@@ -2331,6 +2331,16 @@ void Editor::NotifyModifyAttempt() {
 	NotifyParent(scn);
 }
 
+void Editor::NotifyClick(Point pt, bool shift, bool ctrl, bool alt) {
+	SCNotification scn = {};
+	scn.nmhdr.code = SCN_CLICK;
+	scn.line = LineFromLocation(pt);
+	scn.position = PositionFromLocation(pt, true);
+	scn.modifiers = (shift ? SCI_SHIFT : 0) | (ctrl ? SCI_CTRL : 0) |
+		(alt ? SCI_ALT : 0);
+	NotifyParent(scn);
+}
+
 void Editor::NotifyDoubleClick(Point pt, int modifiers) {
 	SCNotification scn = {};
 	scn.nmhdr.code = SCN_DOUBLECLICK;
@@ -4433,7 +4443,7 @@ static bool AllowVirtualSpace(int virtualSpaceOptions, bool rectangular) {
 
 void Editor::ButtonDownWithModifiers(Point pt, unsigned int curTime, int modifiers) {
 	SetHoverIndicatorPoint(pt);
-	//Platform::DebugPrintf("ButtonDown %d %d = %d alt=%d %d\n", curTime, lastClickTime, curTime - lastClickTime, alt, inDragDrop);
+	//Platform::DebugPrintf("ButtonDown %d %d = %d %d\n", curTime, lastClickTime, curTime - lastClickTime, inDragDrop);
 	ptMouseLast = pt;
 	const bool ctrl = (modifiers & SCI_CTRL) != 0;
 	const bool shift = (modifiers & SCI_SHIFT) != 0;
@@ -4444,6 +4454,7 @@ void Editor::ButtonDownWithModifiers(Point pt, unsigned int curTime, int modifie
 	newCharPos = MovePositionOutsideChar(newCharPos, -1);
 	inDragDrop = ddNone;
 	sel.SetMoveExtends(false);
+	bool notifyClick = false;
 
 	if (NotifyMarginClick(pt, modifiers))
 		return;
@@ -4612,12 +4623,14 @@ void Editor::ButtonDownWithModifiers(Point pt, unsigned int curTime, int modifie
 				sel.Rectangular() = SelectionRange(newPos, anchorCurrent);
 				SetRectangularRange();
 			}
+			notifyClick = true;
 		}
 	}
 	lastClickTime = curTime;
 	lastClick = pt;
 	lastXChosen = static_cast<int>(pt.x) + xOffset;
 	ShowCaretAtCurrentPosition();
+	if (notifyClick) NotifyClick(pt, shift, ctrl, alt);
 }
 
 void Editor::RightButtonDownWithModifiers(Point pt, unsigned int, int modifiers) {
@@ -8169,7 +8182,14 @@ sptr_t Editor::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam) {
 	case SCI_CHANGELEXERSTATE:
 		pdoc->ChangeLexerState(static_cast<int>(wParam), static_cast<int>(lParam));
 		break;
+	
+	case SCI_SETMOUSECAPTURE:
+		SetMouseCapture(wParam != 0);
+				vs.viewEOL = wParam != 0;
+		InvalidateStyleRedraw();
 
+		break;
+		
 	case SCI_SETIDENTIFIER:
 		SetCtrlID(static_cast<int>(wParam));
 		break;
