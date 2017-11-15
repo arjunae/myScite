@@ -4,7 +4,6 @@
 
 -- Windows requires this for us to immediately see all lua output.
 io.stdout:setvbuf("no")
---print("startupScript_reload")
 
 myHome = props["SciteUserHome"].."/user"
 defaultHome = props["SciteDefaultHome"]
@@ -23,12 +22,13 @@ string.gfind = string.gmatch or string.gfind
 _G.session_used_memory=collectgarbage("count")*1024
 	
 -- Load extman.lua
+-- This will automatically run any lua script located in \User\Addons\lua\lua
 dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 
 -- chainload eventmanager / extman remake used by some lua mods
 dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
-	
-function OnInit() -- called once when Scite starts 
+
+function OnInit() -- called once when Scite starts (SciteStartups DocumentReady)
 	--print("Initial memory:",_G.session_used_memory)
 
 	-- Load mod-mitchell
@@ -46,7 +46,7 @@ function OnInit() -- called once when Scite starts
 	--print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)
 end
 
-	-- ##################  Lua Samples #####################
+-- ##################  Lua Samples #####################
 --   ##############################################
 
 function markLinks()
@@ -165,7 +165,7 @@ function testSciLexer(origHash)
 		crccalc:update(bytes)
 	end	
 	file:close()
-	SciLexerHash=crccalc:tohex()
+	SciLexerHash=crccalc:tohex()	
 	if SciLexerHash~=origHash then print("SciteStartup.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..crccalc:tohex()) end
 end
 
@@ -173,7 +173,8 @@ end
 scite_OnOpenSwitch(markLinks)
 scite_OnOpenSwitch(markeMail)
 scite_OnOpenSwitch(markGUID)
-testSciLexer("70176a06") -- SciLexers CRC32 Hash for the current Version
+testSciLexer("cc2545a8") -- SciLexers CRC32 Hash for the current Version
 
+--print("startupScript_reload")
 --print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
