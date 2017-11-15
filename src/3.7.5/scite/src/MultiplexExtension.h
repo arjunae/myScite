@@ -65,6 +65,7 @@ public:
 	virtual bool OnSavePointReached();
 	virtual bool OnSavePointLeft();
 	virtual bool OnStyle(unsigned int, int, int, StyleWriter *);
+	virtual bool OnClick(int);
 	virtual bool OnDoubleClick();
 	virtual bool OnUpdateUI();
 	virtual bool OnMarginClick();

@@ -176,6 +176,16 @@ bool MultiplexExtension::OnStyle(unsigned int p, int q, int r, StyleWriter *s) {
 	return false;
 }
 
+bool MultiplexExtension::OnClick(int modifiers) {
+	bool handled = false;
+	for (Extension *pexp : extensions ) {
+		if (pexp->OnClick(modifiers) && !handled){
+			handled = true;
+		}
+	}
+	return handled;
+}
+
 bool MultiplexExtension::OnDoubleClick() {
 	for (Extension *pexp : extensions) {
 		if (pexp->OnDoubleClick()) {

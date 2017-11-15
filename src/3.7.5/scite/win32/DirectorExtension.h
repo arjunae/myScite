@@ -30,6 +30,7 @@ public:
 	virtual bool OnSavePointReached();
 	virtual bool OnSavePointLeft();
 	virtual bool OnStyle(unsigned int startPos, int lengthDoc, int initStyle, StyleWriter *styler);
+	virtual bool OnClick(int);
 	virtual bool OnDoubleClick();
 	virtual bool OnUpdateUI();
 	virtual bool OnMarginClick();

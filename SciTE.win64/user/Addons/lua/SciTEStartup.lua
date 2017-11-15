@@ -173,7 +173,7 @@ end
 scite_OnOpenSwitch(markLinks)
 scite_OnOpenSwitch(markeMail)
 scite_OnOpenSwitch(markGUID)
-testSciLexer("cc2545a8") -- SciLexers CRC32 Hash for the current Version
+testSciLexer("c57987c4") -- SciLexers CRC32 Hash for the current Version
 
 --print("startupScript_reload")
 --print(editor.StyleAt[1])

@@ -246,6 +246,10 @@ bool DirectorExtension::OnStyle(unsigned int, int, int, StyleWriter *) {
 	return false;
 }
 
+bool DirectorExtension::OnClick(int){
+	return false;
+}
+
 // These should probably have arguments
 
 bool DirectorExtension::OnDoubleClick() {

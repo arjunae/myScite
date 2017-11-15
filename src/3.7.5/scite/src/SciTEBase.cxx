@@ -4012,6 +4012,10 @@ void SciTEBase::Notify(SCNotification *notification) {
 		SetBuffersMenu();
 		break;
 
+/*	
+Todo: Scinitlla emitting Single Click events
+*/
+
 	case SCN_DOUBLECLICK:
 		if (extender)
 			handled = extender->OnDoubleClick();

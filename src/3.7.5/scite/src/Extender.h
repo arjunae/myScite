@@ -76,6 +76,7 @@ public:
 	virtual bool OnStyle(unsigned int, int, int, StyleWriter *) {
 		return false;
 	}
+	virtual bool OnClick(int) { return false; }
 	virtual bool OnDoubleClick() { return false; }
 	virtual bool OnUpdateUI() { return false; }
 	virtual bool OnMarginClick() { return false; }
