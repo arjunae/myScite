@@ -171,5 +171,8 @@ scite_OnOpenSwitch(markeMail)
 scite_OnOpenSwitch(markGUID)
 testSciLexer("c1636137") -- SciLexers CRC32 Hash for the current Version
 
+--function OnInit()
 --print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
+--print("Scite Started")
+--end
