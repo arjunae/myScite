@@ -12,7 +12,7 @@ To use this script with SciTE4AutoHotkey:
   - Restart SciTE.
 ]]
 
-print("ac>Ok. Save the current file to test")
+--print("ac>Ok. Save the current file to test")
 
 -- List of styles per lexer that autocomplete should not occur within.
 local SCLEX_AHK1 = 200
@@ -22,10 +22,25 @@ local SCLEX_GENERIC = 1024
 local IGNORE_STYLES = { -- Should include comments, strings and errors.
     [SCLEX_AHK1] = {1,2,6,20},
     [SCLEX_AHK2] = {1,2,3,5,15},
-    [SCLEX_LUA]  = {1,2,3,6,7,8,12},
-    [SCLEX_HTML]  = {1,2,3,6,7,8,12},
+    [SCLEX_BATCH] = {1,3},
+    [SCLEX_BASH] = {1,2,5,6,12,13},
+    [SCLEX_CMAKE] = {1,2,3,4,7},
+    [SCLEX_CSS] = {4,9,13,14},
+    [SCLEX_COFFEESCRIPT] = {1,2,3,6,7,12,15,18,22,24},
     [SCLEX_CPP]  = {1,2,3,6,7,8,12},
-    [SCLEX_GENERIC]  = {1,2,3,6,7,8,12}    
+    [SCLEX_FREEBASIC]  = {1,4,9},
+    [SCLEX_HASKELL]  = {4,5,9,13,14,15,16,19},
+    [SCLEX_HTML]  = {1,2,3,6,7,8,12},
+    [SCLEX_LUA]  = {1,2,3,6,7,8,12},
+    [SCLEX_MAKEFILE]  = {1,9,12},
+    [SCLEX_PYTHON]  = {1,3,4, 12, 13},
+    [SCLEX_RUBY]  = {1,2,6,7},
+    [SCLEX_RUST]  = {1,2,3,4},
+    [SCLEX_SPICE]  = {8},
+    [SCLEX_POWERSHELL]  = {1,2,3,13,16},
+    [SCLEX_PERL]  = {1,2,6,7,22,23,24,25,26,27,44},
+    [SCLEX_VHDL]  = {1,2,4,7,14,15},
+    [SCLEX_GENERIC]  = {1,2,3,6,7,8}
 }
 
 function file_exists(name)
@@ -80,9 +95,8 @@ local function setLexerSpecificStuff()
     -- Also disables autocomplete popups while typing there.
     local iLexer=editor.Lexer
     if type(IGNORE_STYLES[iLexer])=="nil" then 
-        print("ac>Current lexer not supported. Using generic Mode.")
+        --print("ac>Current lexer not supported. Using generic Mode.")
         iLexer=SCLEX_GENERIC
-        print (SCLEX_GENERIC)
     end
     if IGNORE_STYLES[iLexer] then
     -- Define a function for calling later:
@@ -118,7 +132,6 @@ local function getApiNames()
     apiCache[lexer] = apiNames -- Even if it's empty.
     return apiNames
 end
-
 
 local function buildNames()
     setLexerSpecificStuff()
@@ -305,6 +318,7 @@ local events = {
     OnChar          = handleChar,
     OnKey           = handleKey,
     OnSave          = buildNames,
+    OnDwellStart  = buildNames, -- fix: only raised on MouseMove ? 
     OnSwitchFile    = function()
         -- Use this file's cached list if possible:
         names = buffer.namesForAutoComplete

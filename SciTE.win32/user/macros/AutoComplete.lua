@@ -25,6 +25,7 @@ local IGNORE_STYLES = { -- Should include comments, strings and errors.
     [SCLEX_BATCH] = {1,3},
     [SCLEX_BASH] = {1,2,5,6,12,13},
     [SCLEX_CMAKE] = {1,2,3,4,7},
+    [SCLEX_CSS] = {4,9,13,14},
     [SCLEX_COFFEESCRIPT] = {1,2,3,6,7,12,15,18,22,24},
     [SCLEX_CPP]  = {1,2,3,6,7,8,12},
     [SCLEX_FREEBASIC]  = {1,4,9},
