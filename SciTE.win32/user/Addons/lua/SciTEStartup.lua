@@ -28,16 +28,15 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 -- chainload eventmanager / extman remake used by some lua mods
 dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
-function OnInit() -- called once when Scite starts (SciteStartups DocumentReady)
+-- Load enhanced Autocomplete
+dofile(myHome..'\\macros\\AutoComplete.lua')
+
+function OnInit() -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
-	
-	-- Load enhanced Autocomplete
-	package.path = package.path .. ";"..myHome.."\\macros\?.lua;"
-	dofile(myHome..'\\macros\\Autocomplete.lua')
-
+		
 	-- Load Sidebar
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')

@@ -28,16 +28,15 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 -- chainload eventmanager / extman remake used by some lua mods
 dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
-function OnInit() -- called once when Scite starts (SciteStartups DocumentReady)
+-- Load enhanced Autocomplete
+dofile(myHome..'\\macros\\AutoComplete.lua')
+
+function OnInit() -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
-	
-	-- Load enhanced Autocomplete
-	package.path = package.path .. ";"..myHome.."\\macros\?.lua;"
-	dofile(myHome..'\\macros\\Autocomplete.lua')
-
+		
 	-- Load Sidebar
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
@@ -133,7 +132,7 @@ function markGUID()
 
 	local marker_guid=14 -- The whole Textlink
 	editor.IndicStyle[marker_guid] = INDIC_TEXTFORE
-	editor.IndicFore[marker_guid] = 0x608085
+	editor.IndicFore[marker_guid] = 0x577785
 -- Scintillas RESearch.cxx doesnt support match counting, so just define the basic guid format:
 	mask = "........-....-....-....-............"
 
@@ -172,6 +171,7 @@ end
 scite_OnOpenSwitch(markLinks)
 scite_OnOpenSwitch(markeMail)
 scite_OnOpenSwitch(markGUID)
+
 testSciLexer("02e972d4") -- SciLexers CRC32 Hash for the current Version
 
 function OnClick(shft,ctrl,alt)
