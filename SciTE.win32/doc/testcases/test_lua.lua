@@ -15,6 +15,13 @@ function print_registryidx()
 	end
 end
 
+function testOnClick()
+	local pos = editor.CurrentPos
+	local ln = editor:LineFromPosition(pos)
+	local col = editor.Column[pos]
+	print("clickedeClick",shft,ctrl,alt,ln..","..col)
+end
+
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 print("-> Test serpent, an object serializer with prettyPrint capabilities on _G:")
@@ -83,6 +90,7 @@ print("-> Test SciTE lua wrapper")
 print ("lua Version String ==",_VERSION)
 -- Test Scite->lua global Variable namespace
 print("Value of IDM_NEXTMSG ==", IDM_NEXTMSG)
+scite_OnClick(testOnClick,shft,ctrl,alt)
 
 line=0
 marker_define(0,0)

@@ -2331,14 +2331,17 @@ void Editor::NotifyModifyAttempt() {
 	NotifyParent(scn);
 }
 
-void Editor::NotifyClick(Point pt, bool shift, bool ctrl, bool alt) {
+void Editor::NotifyClick(Point pt, int modifiers) {
 	SCNotification scn = {};
 	scn.nmhdr.code = SCN_CLICK;
 	scn.line = LineFromLocation(pt);
 	scn.position = PositionFromLocation(pt, true);
-	scn.modifiers = (shift ? SCI_SHIFT : 0) | (ctrl ? SCI_CTRL : 0) |
-		(alt ? SCI_ALT : 0);
+	scn.modifiers = modifiers;
 	NotifyParent(scn);
+}
+
+void Editor::NotifyClick(Point pt, bool shift, bool ctrl, bool alt) {
+	NotifyClick(pt, ModifierFlags(shift, ctrl, alt));
 }
 
 void Editor::NotifyDoubleClick(Point pt, int modifiers) {
@@ -4423,7 +4426,7 @@ void Editor::DwellEnd(bool mouseMoved) {
 	if (FineTickerAvailable()) {
 		FineTickerCancel(tickDwell);
 		if (mouseMoved && (dwellDelay < SC_TIME_FOREVER)) {
-			//FineTickerStart(tickDwell, dwellDelay, dwellDelay/10);
+			FineTickerStart(tickDwell, dwellDelay, dwellDelay/10);
 		}
 	}
 }
