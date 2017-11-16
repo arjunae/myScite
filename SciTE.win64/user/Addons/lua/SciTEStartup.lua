@@ -174,9 +174,15 @@ scite_OnOpenSwitch(markGUID)
 
 testSciLexer("02e972d4") -- SciLexers CRC32 Hash for the current Version
 
+--[[
 function OnClick(shft,ctrl,alt)
---	print("clickedeClick",shft,ctrl,alt)
+--todo-- change calculator and TicTacToe :))
+	local pos = editor.CurrentPos
+	local ln = editor:LineFromPosition(pos)
+	local col = editor.Column[pos]
+	print("clickedeClick",shft,ctrl,alt,ln..","..col)
 end
+]]
 
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
