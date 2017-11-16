@@ -44,6 +44,9 @@ local _Close = {}
 -- new
 local _remove = {}
 local _DirChange = {}
+-- Needs 10B_Event_OnClick.diff
+-- see https://github.com/arjunae/myScite/tree/devel/contrib/SciTE_patches/scintilla
+local _Click = {}
 
 -- Shorties
 local append = table.insert
@@ -155,6 +158,11 @@ function OnClose()
     return DispatchOne(_Close)
 end
 
+-- New
+function OnClick(shft,ctrl,alt)
+    return Dispatch4(_Click,shft,ctrl,alt)
+end
+
 
 -- may optionally ask that this handler be immediately
 -- removed after it's called
@@ -189,6 +197,10 @@ ex_append_unique = append_unique
 -- this is how you register your own handlers with extman
 function scite_OnMarginClick(fn,rem)
   append_unique(_MarginClick,fn,rem)
+end
+
+function scite_OnClick(fn,rem)
+  append_unique(_Click,fn,rem)
 end
 
 function scite_OnDoubleClick(fn,rem)

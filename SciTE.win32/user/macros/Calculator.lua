@@ -546,9 +546,10 @@ end
 -- calculator initialization (opens a new file and set up handlers)
 ------------------------------------------------------------------------
 function Calculator()
---~   scite_OnDoubleClick(HandleClick)      -- set up handlers
---~   scite_OnChar(HandleChar)
-  props["default.file.ext"] = ".vbs"
+   scite_OnClick(HandleClick)      -- set up handlers
+   scite_OnDoubleClick(HandleClick)      -- set up handlers
+   scite_OnChar(HandleChar)
+--~  props["default.file.ext"] = ".vbs"
   scite.Open("")                        -- create a new buffer
   scite.MenuCommand(IDM_MONOFONT)
   buffer[SIG] = true;
@@ -562,8 +563,9 @@ function Calculator()
   --MakeMonospace()
 end
 
-AddEventHandler("OnDoubleClick", HandleClick)
-AddEventHandler("OnChar", HandleChar)
+--AddEventHandler("OnClick", HandleClick)
+--AddEventHandler("OnDoubleClick", HandleClick)
+--AddEventHandler("OnChar", HandleChar)
 
 -- end of script
 Calculator()
