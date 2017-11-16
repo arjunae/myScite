@@ -133,7 +133,7 @@ function markGUID()
 
 	local marker_guid=14 -- The whole Textlink
 	editor.IndicStyle[marker_guid] = INDIC_TEXTFORE
-	editor.IndicFore[marker_guid] = 0x608085
+	editor.IndicFore[marker_guid] = 0x577785
 -- Scintillas RESearch.cxx doesnt support match counting, so just define the basic guid format:
 	mask = "........-....-....-....-............"
 
@@ -173,7 +173,7 @@ scite_OnOpenSwitch(markLinks)
 scite_OnOpenSwitch(markeMail)
 scite_OnOpenSwitch(markGUID)
 
-testSciLexer("6ddaccd6") -- SciLexers CRC32 Hash for the current Version
+testSciLexer("91d3d1c6") -- SciLexers CRC32 Hash for the current Version
 
 function OnClick(shft,ctrl,alt)
 --	print("clickedeClick",shft,ctrl,alt)
