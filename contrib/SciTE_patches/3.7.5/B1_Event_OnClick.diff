@@ -1,0 +1,114 @@
+diff -Nurw scite/src/Extender.h scite_mod/src/Extender.h
+--- scite/src/Extender.h	2017-05-26 00:25:02.000000000 +0200
++++ scite_mod/src/Extender.h	2017-11-15 12:19:34.000000000 +0100
+@@ -76,6 +76,7 @@
+ 	virtual bool OnStyle(unsigned int, int, int, StyleWriter *) {
+ 		return false;
+ 	}
++	virtual bool OnClick(int) { return false; }
+ 	virtual bool OnDoubleClick() { return false; }
+ 	virtual bool OnUpdateUI() { return false; }
+ 	virtual bool OnMarginClick() { return false; }
+diff -Nurw scite/src/LuaExtension.cxx scite_mod/src/LuaExtension.cxx
+--- scite/src/LuaExtension.cxx	2017-05-26 00:25:04.000000000 +0200
++++ scite_mod/src/LuaExtension.cxx	2017-11-15 11:45:22.000000000 +0100
+@@ -1681,6 +1681,12 @@
+ }
+ 
+ bool LuaExtension::OnOpen(const char *filename) {
++// Signal SciTEs first startup 
++	static bool IsFirstCall = true;
++	if(IsFirstCall) {
++		CallNamedFunction("OnInit", 0, 0);
++		IsFirstCall = false;
++	}
+ 	return CallNamedFunction("OnOpen", filename);
+ }
+ 
+@@ -2077,6 +2083,22 @@
+ 		} else {
+ 			lua_pop(luaState, 1);
+ 		}
++	}
++	return handled;
++}
++
++bool LuaExtension::OnClick(int modifiers) {
++	bool handled = false;
++	if (luaState) {
++		lua_getglobal(luaState, "OnClick");
++		if (lua_isfunction(luaState, -1)) {
++			lua_pushboolean(luaState, (SCMOD_SHIFT & modifiers) != 0 ? 1 : 0); // shift/lock
++			lua_pushboolean(luaState, (SCMOD_CTRL  & modifiers) != 0 ? 1 : 0); // control
++			lua_pushboolean(luaState, (SCMOD_ALT   & modifiers) != 0 ? 1 : 0); // alt
++			handled = call_function(luaState, 3);
++		} else {
++			lua_pop(luaState, 1);
++		}
+ 	}
+ 	return handled;
+ }
+diff -Nurw scite/src/LuaExtension.h scite_mod/src/LuaExtension.h
+--- scite/src/LuaExtension.h	2017-05-26 00:25:04.000000000 +0200
++++ scite_mod/src/LuaExtension.h	2017-11-15 11:45:56.000000000 +0100
+@@ -33,6 +33,7 @@
+ 	virtual bool OnSavePointReached();
+ 	virtual bool OnSavePointLeft();
+ 	virtual bool OnStyle(unsigned int startPos, int lengthDoc, int initStyle, StyleWriter *styler);
++	virtual bool OnClick(int);
+ 	virtual bool OnDoubleClick();
+ 	virtual bool OnUpdateUI();
+ 	virtual bool OnMarginClick();
+diff -Nurw scite/src/MultiplexExtension.cxx scite_mod/src/MultiplexExtension.cxx
+--- scite/src/MultiplexExtension.cxx	2017-05-26 00:25:04.000000000 +0200
++++ scite_mod/src/MultiplexExtension.cxx	2017-11-15 12:18:36.000000000 +0100
+@@ -176,6 +176,16 @@
+ 	return false;
+ }
+ 
++bool MultiplexExtension::OnClick(int modifiers) {
++	bool handled = false;
++	for (Extension *pexp : extensions ) {
++		if (pexp->OnClick(modifiers) && !handled){
++			handled = true;
++		}
++	}
++	return handled;
++}
++
+ bool MultiplexExtension::OnDoubleClick() {
+ 	for (Extension *pexp : extensions) {
+ 		if (pexp->OnDoubleClick()) {
+diff -Nurw scite/src/MultiplexExtension.h scite_mod/src/MultiplexExtension.h
+--- scite/src/MultiplexExtension.h	2017-05-26 00:25:04.000000000 +0200
++++ scite_mod/src/MultiplexExtension.h	2017-11-15 12:06:34.000000000 +0100
+@@ -65,6 +65,7 @@
+ 	virtual bool OnSavePointReached();
+ 	virtual bool OnSavePointLeft();
+ 	virtual bool OnStyle(unsigned int, int, int, StyleWriter *);
++	virtual bool OnClick(int);
+ 	virtual bool OnDoubleClick();
+ 	virtual bool OnUpdateUI();
+ 	virtual bool OnMarginClick();
+diff -Nurw scite/src/SciTEBase.cxx scite_mod/src/SciTEBase.cxx
+--- scite/src/SciTEBase.cxx	2017-11-05 14:08:52.000000000 +0100
++++ scite_mod/src/SciTEBase.cxx	2017-11-15 19:08:10.000000000 +0100
+@@ -4012,6 +4012,18 @@
+ 		SetBuffersMenu();
+ 		break;
+ 
++	case SCN_CLICK:
++		if (extender) {
++			handled = extender->OnClick(notification->modifiers);
++			if (handled) {
++				if (notification->nmhdr.idFrom == IDM_RUNWIN)
++					wOutput.Call(SCI_SETMOUSECAPTURE, 0);
++				else
++					wEditor.Call(SCI_SETMOUSECAPTURE, 0);
++			}
++		}
++		break;
++
+ 	case SCN_DOUBLECLICK:
+ 		if (extender)
+ 			handled = extender->OnDoubleClick();
