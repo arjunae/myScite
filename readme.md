@@ -1,11 +1,11 @@
 ~ mySciTE.webdev ~
 
-[15.11.2017] Development
+[17.11.2017] Development
 - Add: Lisp / Scheme / Clojure / GO Language Keywords
 - Fix: lexMake: String detection / Fix: remove MSVC10 dependency
 - Fix: lua: more flexibility while loading hunspell.dll
 - Add: lua: luasocket, mime, http, sha2, underscore & serpent. Add Tests
-- New: lua: Event OnInit (called once on Scite Startup) 
+- New: lua: Events OnClick (singleClick) && OnInit (called once on Scite Startup) 
 - New: lexer: Highlight eMail Links && Highlight GUIDs / Increase FindMarks Speed. 
 - New: Theme: Adapted theme solarized
 - New: CRC Verify SciLexer.dll during Start. 

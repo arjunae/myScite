@@ -521,6 +521,7 @@ function OnStrip(control, change)
 	
 	if control == 1 then --Start Spelling
 		inline_spell()
+		scite_OnClick(spell_suggest)
 		scite_OnDoubleClick(spell_suggest)
 	end
 

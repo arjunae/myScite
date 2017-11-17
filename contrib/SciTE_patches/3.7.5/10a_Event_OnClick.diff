@@ -1,4 +1,4 @@
-// Experimental: SciTE support for single OnClick(shift,ctrl,alt); ported from SciTE.ru 
+// SciTE support for single OnClick(shift,ctrl,alt); ported from SciTE.ru 
 diff -Nurw scite/src/Extender.h scite_mod/src/Extender.h
 --- scite/src/Extender.h	2017-05-26 00:25:02.000000000 +0200
 +++ scite_mod/src/Extender.h	2017-11-15 12:19:34.000000000 +0100
