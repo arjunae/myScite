@@ -28,21 +28,20 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 -- chainload eventmanager / extman remake used by some lua mods
 dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
+-- Load mod-mitchell
+package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
+dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+		
+-- Load Sidebar
+package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
+dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
+
 -- Load enhanced Autocomplete
 dofile(myHome..'\\macros\\AutoComplete.lua')
 
-function OnInit() -- called after above and only once when Scite starts (SciteStartups DocumentReady)
-
-	-- Load mod-mitchell
-	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
-	dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
-		
-	-- Load Sidebar
-	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
-	
+--function OnInit() -- called after above and only once when Scite starts (SciteStartups DocumentReady)	
 	--print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)
-end
+--end
 
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -172,17 +171,7 @@ scite_OnOpenSwitch(markLinks)
 scite_OnOpenSwitch(markeMail)
 scite_OnOpenSwitch(markGUID)
 
-testSciLexer("02e972d4") -- SciLexers CRC32 Hash for the current Version
-
---[[
-function OnClick(shft,ctrl,alt)
---todo-- change calculator and TicTacToe :))
-	local pos = editor.CurrentPos
-	local ln = editor:LineFromPosition(pos)
-	local col = editor.Column[pos]
-	print("clickedeClick",shft,ctrl,alt,ln..","..col)
-end
-]]
+testSciLexer("c2424389") -- SciLexers CRC32 Hash for the current Version
 
 --print("startupScript_reload")
 --print(editor.StyleAt[1])

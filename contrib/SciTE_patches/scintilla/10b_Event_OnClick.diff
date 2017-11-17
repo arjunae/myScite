@@ -33,25 +33,54 @@ diff -Nurw scintilla/include/Scintilla.iface scintilla_mod/include/Scintilla.ifa
  # Deprecated in 3.5.5
 diff -Nurw scintilla/src/Editor.cxx scintilla_mod/src/Editor.cxx
 --- scintilla/src/Editor.cxx	2017-05-26 00:25:02.000000000 +0200
-+++ scintilla_mod/src/Editor.cxx	2017-11-15 21:20:24.000000000 +0100
-@@ -2331,6 +2331,16 @@
++++ scintilla_mod/src/Editor.cxx	2017-11-17 07:57:14.000000000 +0100
+@@ -2331,6 +2331,19 @@
  	NotifyParent(scn);
  }
  
-+void Editor::NotifyClick(Point pt, bool shift, bool ctrl, bool alt) {
++void Editor::NotifyClick(Point pt, int modifiers) {
 +	SCNotification scn = {};
 +	scn.nmhdr.code = SCN_CLICK;
 +	scn.line = LineFromLocation(pt);
 +	scn.position = PositionFromLocation(pt, true);
-+	scn.modifiers = (shift ? SCI_SHIFT : 0) | (ctrl ? SCI_CTRL : 0) |
-+		(alt ? SCI_ALT : 0);
++	scn.modifiers = modifiers;
 +	NotifyParent(scn);
++}
++
++void Editor::NotifyClick(Point pt, bool shift, bool ctrl, bool alt) {
++	NotifyClick(pt, ModifierFlags(shift, ctrl, alt));
 +}
 +
  void Editor::NotifyDoubleClick(Point pt, int modifiers) {
  	SCNotification scn = {};
  	scn.nmhdr.code = SCN_DOUBLECLICK;
-@@ -4433,7 +4443,7 @@
+@@ -4402,10 +4415,14 @@
+ }
+ 
+ void Editor::DwellEnd(bool mouseMoved) {
+-	if (mouseMoved)
++	/**if (mouseMoved)
+ 		ticksToDwell = dwellDelay;
+ 	else
+ 		ticksToDwell = SC_TIME_FOREVER;
++	*/
++	//Arjunae: fix dwelling
++	ticksToDwell = dwellDelay;
++			
+ 	if (dwelling && (dwellDelay < SC_TIME_FOREVER)) {
+ 		dwelling = false;
+ 		NotifyDwelling(ptMouseLast, dwelling);
+@@ -4413,7 +4430,8 @@
+ 	if (FineTickerAvailable()) {
+ 		FineTickerCancel(tickDwell);
+ 		if (mouseMoved && (dwellDelay < SC_TIME_FOREVER)) {
+-			//FineTickerStart(tickDwell, dwellDelay, dwellDelay/10);
++		//Arjunae: Fix dwelling
++			FineTickerStart(tickDwell, dwellDelay, dwellDelay/10);
+ 		}
+ 	}
+ }
+@@ -4433,7 +4451,7 @@
  
  void Editor::ButtonDownWithModifiers(Point pt, unsigned int curTime, int modifiers) {
  	SetHoverIndicatorPoint(pt);
@@ -60,7 +89,7 @@ diff -Nurw scintilla/src/Editor.cxx scintilla_mod/src/Editor.cxx
  	ptMouseLast = pt;
  	const bool ctrl = (modifiers & SCI_CTRL) != 0;
  	const bool shift = (modifiers & SCI_SHIFT) != 0;
-@@ -4444,6 +4454,7 @@
+@@ -4444,6 +4462,7 @@
  	newCharPos = MovePositionOutsideChar(newCharPos, -1);
  	inDragDrop = ddNone;
  	sel.SetMoveExtends(false);
@@ -68,7 +97,7 @@ diff -Nurw scintilla/src/Editor.cxx scintilla_mod/src/Editor.cxx
  
  	if (NotifyMarginClick(pt, modifiers))
  		return;
-@@ -4612,12 +4623,14 @@
+@@ -4612,12 +4631,14 @@
  				sel.Rectangular() = SelectionRange(newPos, anchorCurrent);
  				SetRectangularRange();
  			}
@@ -83,7 +112,7 @@ diff -Nurw scintilla/src/Editor.cxx scintilla_mod/src/Editor.cxx
  }
  
  void Editor::RightButtonDownWithModifiers(Point pt, unsigned int, int modifiers) {
-@@ -8170,6 +8183,10 @@
+@@ -8170,6 +8191,10 @@
  		pdoc->ChangeLexerState(static_cast<int>(wParam), static_cast<int>(lParam));
  		break;
  
@@ -96,11 +125,12 @@ diff -Nurw scintilla/src/Editor.cxx scintilla_mod/src/Editor.cxx
  		break;
 diff -Nurw scintilla/src/Editor.h scintilla_mod/src/Editor.h
 --- scintilla/src/Editor.h	2017-05-26 00:25:02.000000000 +0200
-+++ scintilla_mod/src/Editor.h	2017-11-15 17:48:58.000000000 +0100
-@@ -424,6 +424,7 @@
++++ scintilla_mod/src/Editor.h	2017-11-16 21:55:24.000000000 +0100
+@@ -424,6 +424,8 @@
  	void NotifyChar(int ch);
  	void NotifySavePoint(bool isSavePoint);
  	void NotifyModifyAttempt();
++	virtual void NotifyClick(Point pt, int modifiers);	
 +	virtual void NotifyClick(Point pt, bool shift, bool ctrl, bool alt);
  	virtual void NotifyDoubleClick(Point pt, int modifiers);
  	virtual void NotifyDoubleClick(Point pt, bool shift, bool ctrl, bool alt);

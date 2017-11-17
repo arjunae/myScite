@@ -4415,10 +4415,15 @@ void Editor::WordSelection(Sci::Position pos) {
 }
 
 void Editor::DwellEnd(bool mouseMoved) {
-	if (mouseMoved)
+	/**if (mouseMoved)
 		ticksToDwell = dwellDelay;
 	else
-		ticksToDwell = SC_TIME_FOREVER;
+	ticksToDwell = SC_TIME_FOREVER;
+	*/
+	
+	//Arjunae: fix dwelling
+	ticksToDwell = dwellDelay;
+			
 	if (dwelling && (dwellDelay < SC_TIME_FOREVER)) {
 		dwelling = false;
 		NotifyDwelling(ptMouseLast, dwelling);
@@ -4426,6 +4431,7 @@ void Editor::DwellEnd(bool mouseMoved) {
 	if (FineTickerAvailable()) {
 		FineTickerCancel(tickDwell);
 		if (mouseMoved && (dwellDelay < SC_TIME_FOREVER)) {
+		//Arjunae: Fix dwelling
 			FineTickerStart(tickDwell, dwellDelay, dwellDelay/10);
 		}
 	}

@@ -129,11 +129,15 @@ local function getApiNames()
         return ""
     end)
     
-    apiCache[lexer] = apiNames -- Even if it's empty.
+    if lexer~=nil then
+        apiCache[lexer] = apiNames -- Even if it's empty
+    end
+    
     return apiNames
 end
 
 local function buildNames()
+--print("build names")
     setLexerSpecificStuff()
     -- Reset our array of names.
     names = {}
@@ -318,7 +322,7 @@ local events = {
     OnChar          = handleChar,
     OnKey           = handleKey,
     OnSave          = buildNames,
-    OnDwellStart  = buildNames, -- fix: only raised on MouseMove ? 
+    OnDwellStart  = buildNames, -- fix:raised on any User Interaction (Mousemove/Keybord Nav...) 
     OnSwitchFile    = function()
         -- Use this file's cached list if possible:
         names = buffer.namesForAutoComplete
