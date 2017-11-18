@@ -39,10 +39,6 @@ dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 -- Load enhanced Autocomplete
 dofile(myHome..'\\macros\\AutoComplete.lua')
 
---function OnInit() -- called after above and only once when Scite starts (SciteStartups DocumentReady)	
-	--print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)
---end
-
 -- ##################  Lua Samples #####################
 --   ##############################################
 
@@ -167,9 +163,16 @@ function testSciLexer(origHash)
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scite_OnOpenSwitch(markLinks)
-scite_OnOpenSwitch(markeMail)
-scite_OnOpenSwitch(markGUID)
+
+function OnInit() -- called after above and only once when Scite starts (SciteStartups DocumentReady)	
+	--print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)
+	if editor.Lexer~=1 then
+		scite_OnOpenSwitch(markLinks)
+		scite_OnOpenSwitch(markeMail)
+		scite_OnOpenSwitch(markGUID)
+	end
+
+end
 
 testSciLexer("c2424389") -- SciLexers CRC32 Hash for the current Version
 

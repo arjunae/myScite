@@ -33,16 +33,19 @@ local IGNORE_STYLES = { -- Should include comments, strings and errors.
     [SCLEX_HTML]  = {1,2,3,6,7,8,12},
     [SCLEX_LUA]  = {1,2,3,6,7,8,12},
     [SCLEX_MAKEFILE]  = {1,9,12},
+    [SCLEX_MARKDOWN]  = {},
+    [SCLEX_PERL]  = {1,2,6,7,22,23,24,25,26,27,44},
     [SCLEX_PYTHON]  = {1,3,4, 12, 13},
     [SCLEX_RUBY]  = {1,2,6,7},
     [SCLEX_RUST]  = {1,2,3,4},
     [SCLEX_SPICE]  = {8},
+    [SCLEX_PROPERTIES]  = {1},
     [SCLEX_POWERSHELL]  = {1,2,3,13,16},
-    [SCLEX_PERL]  = {1,2,6,7,22,23,24,25,26,27,44},
     [SCLEX_VHDL]  = {1,2,4,7,14,15},
     [SCLEX_GENERIC]  = {1,2,3,6,7,8}
 }
 
+ 
 function file_exists(name)
    local f=io.open(name,"r")
    if f~=nil then io.close(f) return true else return false end
@@ -94,8 +97,9 @@ local function setLexerSpecificStuff()
     -- Disable collection of words in comments, strings, etc.
     -- Also disables autocomplete popups while typing there.
     local iLexer=editor.Lexer
-    if type(IGNORE_STYLES[iLexer])=="nil" then 
-        --print("ac>Current lexer not supported. Using generic Mode.")
+    --print (editor.Lexer)
+    if type(IGNORE_STYLES[iLexer])=="nil" and editor.Lexer~=1 then -- Performance: Disable Ac for the Null Lexer
+        print("ac>Current lexer not supported. Using generic Mode.")
         iLexer=SCLEX_GENERIC
     end
     if IGNORE_STYLES[iLexer] then
@@ -129,45 +133,51 @@ local function getApiNames()
         return ""
     end)
     
-    apiCache[lexer] = apiNames -- Even if it's empty.
+    if lexer~=nil then
+        apiCache[lexer] = apiNames -- Even if it's empty
+    end
+    
     return apiNames
 end
 
 local function buildNames()
-    setLexerSpecificStuff()
-    -- Reset our array of names.
-    names = {}
-    -- Collect all words matching the given patterns.
-    local unique = {}
-    for i, pattern in ipairs(IDENTIFIER_PATTERNS) do
-        local startPos, endPos
-        endPos = 0
-        while true do
-            startPos, endPos = editor:findtext(pattern, SCFIND_REGEXP, endPos + 1)
-            if not startPos then
-                break
-            end
-            
-            if not shouldIgnorePos(startPos) then
-                if endPos-startPos+1 >= MIN_IDENTIFIER_LEN then
-                    -- Create one key-value pair per unique word:
-                    local name = editor:textrange(startPos, endPos)
-                    unique[normalize(name)] = name
+    --print("build names")
+    if editor.Lexer~=1 then -- Perfomance: Disable Ac for the Null Lexer.
+        setLexerSpecificStuff()
+        -- Reset our array of names.
+        names = {}
+        -- Collect all words matching the given patterns.
+        local unique = {}
+        for i, pattern in ipairs(IDENTIFIER_PATTERNS) do
+            local startPos, endPos
+            endPos = 0
+            while true do
+                startPos, endPos = editor:findtext(pattern, SCFIND_REGEXP, endPos + 1)
+                if not startPos then
+                    break
+                end
+                
+                if not shouldIgnorePos(startPos) then
+                    if endPos-startPos+1 >= MIN_IDENTIFIER_LEN then
+                        -- Create one key-value pair per unique word:
+                        local name = editor:textrange(startPos, endPos)
+                        unique[normalize(name)] = name
+                    end
                 end
             end
         end
-    end
-    -- Build an ordered array from the table of names.
-    for name in pairs(getApiNames()) do
-        -- This also "case-corrects"; e.g. "gui" -> "Gui".
-        unique[normalize(name)] = name
-    end
-    for _,name in pairs(unique) do
-        table.insert(names, name)
-    end
-    table.sort(names, function(a,b) return normalize(a) < normalize(b) end)
-    buffer.namesForAutoComplete = names -- Cache it for OnSwitchFile.
-    --print ("ac>buildNames:  ...Created a new keywordlist")
+        -- Build an ordered array from the table of names.
+        for name in pairs(getApiNames()) do
+            -- This also "case-corrects"; e.g. "gui" -> "Gui".
+            unique[normalize(name)] = name
+        end
+        for _,name in pairs(unique) do
+            table.insert(names, name)
+        end
+        table.sort(names, function(a,b) return normalize(a) < normalize(b) end)
+        buffer.namesForAutoComplete = names -- Cache it for OnSwitchFile.
+        --print ("ac>buildNames:  ...Created a new keywordlist")
+    end    
 end
 
 
@@ -318,7 +328,7 @@ local events = {
     OnChar          = handleChar,
     OnKey           = handleKey,
     OnSave          = buildNames,
-    OnDwellStart  = buildNames, -- fix: only raised on MouseMove ? 
+    OnDwellStart  = buildNames, -- fix:raised on any User Interaction (Mousemove/Keybord Nav...) 
     OnSwitchFile    = function()
         -- Use this file's cached list if possible:
         names = buffer.namesForAutoComplete

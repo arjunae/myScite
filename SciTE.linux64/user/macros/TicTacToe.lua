@@ -75,10 +75,15 @@ local function Error(msg) _ALERT(STR.Prompt..msg) end       -- error msg
 ------------------------------------------------------------------------
 -- simple check for extman, partially emulate if okay to do so
 ------------------------------------------------------------------------
-if (OnDoubleClick or OnChar) and not scite_Command then
+if (OnClick or OnDoubleClick or OnChar) and not scite_Command then
   Error(MSG.Conflict)
 else
   -- simple way to add a handler only, can't remove like extman does
+  if not scite_OnClick then
+    local _OnCK
+    scite_OnClick = function(f) _OnCK = f end
+    OnClick = function(c) if _OnCK then return _OnCK(c) end end
+  end
   if not scite_OnDoubleClick then
     local _OnDC
     scite_OnDoubleClick = function(f) _OnDC = f end
@@ -296,11 +301,13 @@ local function HandleChar(c) return TicTacClick(c) end
 -- game initialization (opens a new file and set up handlers)
 ------------------------------------------------------------------------
 function TicTacToe()
+  scite_OnClick(HandleClick)
   scite_OnDoubleClick(HandleClick)
   scite_OnChar(HandleChar)
   scite.Open("")
   buffer[STR.Sig] = true;
   local t = {}
+    scite.MenuCommand(IDM_MONOFONT)
   Refresh(t, ComputerStart(t))
 end
 
