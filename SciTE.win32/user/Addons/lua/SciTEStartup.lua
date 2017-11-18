@@ -166,16 +166,15 @@ end
 
 function OnInit() -- called after above and only once when Scite starts (SciteStartups DocumentReady)	
 	--print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)
+	testSciLexer("a09308fd") -- SciLexers CRC32 Hash for the current Version
 	if editor.Lexer~=1 then
 		scite_OnOpenSwitch(markLinks)
 		scite_OnOpenSwitch(markeMail)
 		scite_OnOpenSwitch(markGUID)
 	end
-
 end
 
-testSciLexer("a09308fd") -- SciLexers CRC32 Hash for the current Version
-
+-- print(editor.StyleAt[1])
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand

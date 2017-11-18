@@ -99,7 +99,7 @@ local function setLexerSpecificStuff()
     local iLexer=editor.Lexer
     --print (editor.Lexer)
     if type(IGNORE_STYLES[iLexer])=="nil" and editor.Lexer~=1 then -- Performance: Disable Ac for the Null Lexer
-        print("ac>Current lexer not supported. Using generic Mode.")
+       -- print("ac>Current lexer not supported. Using generic Mode.")
         iLexer=SCLEX_GENERIC
     end
     if IGNORE_STYLES[iLexer] then
