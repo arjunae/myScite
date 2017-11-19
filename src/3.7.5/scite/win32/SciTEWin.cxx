@@ -2250,7 +2250,7 @@ static void RestrictDLLPath() {
 		SetDefaultDllDirectoriesSig SetDefaultDllDirectoriesFn = (SetDefaultDllDirectoriesSig)::GetProcAddress(
 			kernel32, "SetDefaultDllDirectories");
 		if (SetDefaultDllDirectoriesFn) {
-			SetDefaultDllDirectoriesFn(LOAD_LIBRARY_SEARCH_APPLICATION_DIR | LOAD_LIBRARY_SEARCH_SYSTEM32);
+			//SetDefaultDllDirectoriesFn(LOAD_LIBRARY_SEARCH_APPLICATION_DIR | LOAD_LIBRARY_SEARCH_SYSTEM32);
 		} else {
 			SetDllDirectorySig SetDllDirectoryFn = (SetDllDirectorySig)::GetProcAddress(
 				kernel32, "SetDllDirectoryW");

@@ -189,7 +189,7 @@ LUA_CORE_OBJS = lapi.obj lcode.obj ldebug.obj ldo.obj ldump.obj lfunc.obj lgc.ob
 LUA_LIB_OBJS =	lauxlib.obj lbaselib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj \
                 lstrlib.obj loadlib.obj loslib.obj linit.obj
 
-LUA_OBJS = LuaExtension.obj $(LUA_CORE_OBJS) $(LUA_LIB_OBJS)
+LUA_OBJS = 	LuaExtension.obj $(LUA_CORE_OBJS) $(LUA_LIB_OBJS)
 
 OBJS = $(OBJS) $(LUA_OBJS)
 OBJSSTATIC = $(OBJSSTATIC) $(LUA_OBJS)
@@ -202,8 +202,8 @@ CXXFLAGS=$(CXXFLAGS) $(INCLUDEDIRS)
 CCFLAGS=$(CCFLAGS) $(INCLUDEDIRS)
 
 
-ALL: $(PROG) $(PROGSTATIC) $(DLLS) $(PROPS)
-
+ALL: $(PROG) $(DLLS) $(PROPS)
+#$(PROGSTATIC) 
 clean:
 	del /q $(DIR_BIN)\*.exe *.o *.obj $(DIR_BIN)\*.dll *.res *.map $(DIR_BIN)\*.exp $(DIR_BIN)\*.lib $(DIR_BIN)\*.pdb
 

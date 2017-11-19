@@ -1,16 +1,16 @@
 ﻿// Scintilla source code edit control
 /**
  * @file LexMake.cxx
- * @author Neil Hodgson
- * @author Thorsten Kani(marcedo@HabMalneFrage.de)
+ * @author Neil Hodgson, Thorsten Kani(marcedo@HabMalneFrage.de)
  * @brief Lexer for make files
  * @brief 18.07.17 | Thorsten Kani | Add more Styles
  * - GNUMake Directives, internal function Keywords  $(sort subst..) ,
- * - Automatic Variables: $[@%<?^+*] , Flags: "-" and Keywords for externalCommands
+ * - Automatic Variables $@%<?^+* , Flags "-" and Keywords for externalCommands
  * - Warns on more unclosed Brackets or doublequoted Strings.
- * - Handles multiLine Continuations, inlineComments, styles Strings and Numbers
+ * - Handles multiLine Continuations, inlineComments styles Strings and Numbers.
  * @brief todos
-  * todo: handle VC Makefiles ( eg //D )
+ * todo: store and style User defined Varnames. ( myvar=... )
+ * todo: handle VC Makefiles ( eg //D )
  * @brief Copyright 1998-2001 by Neil Hodgson <neilh@scintilla.org>
  * The License.txt file describes the conditions under which this software may
  * be distributed.
@@ -54,8 +54,16 @@ static inline bool IsNewline(const int ch) {
 }
 
 // win10 -german chars ö Ü .. translate to negative values ?
+static inline int IsNum(int ch) {
+	if ((ch >= '0') && (ch <= '9'))
+		return (1);
+
+	return (0);
+}
+
+// win10 -german chars ö Ü .. translate to negative values ?
 static inline int IsAlphaNum(int ch) {
-	if ((IsASCII(ch) && isalpha(ch)) || ((ch >= '0') && (ch <= '9')))
+	if ((IsASCII(ch) && isalpha(ch)) || (IsNum(ch)))
 		return (1);
 
 	return (0);
@@ -88,7 +96,6 @@ static unsigned int ColouriseMakeLine(
 	Sci_Position lastNonSpace = -1;
 	Sci_Position lastSpaceWord = 0;
 
-	bool bSpecial = false;		// Only react to the first '=' or ':' of the line.
 	int iWarnEOL=0; // unclosed string bracket refcount.
 	unsigned int strLen = 0;	// Keyword candidate length.
 	unsigned int startMark = 0; // Keyword candidates startPos.
@@ -96,7 +103,7 @@ static unsigned int ColouriseMakeLine(
 	unsigned int SCE_MAKE_FUNCTION = SCE_MAKE_OPERATOR;
 	unsigned int state = SCE_MAKE_DEFAULT;
 	unsigned int state_prev = startStyle;
-		
+	
 	/// keywords
 	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
 	WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
@@ -119,7 +126,7 @@ static unsigned int ColouriseMakeLine(
 			state_prev=state;
 			state=SCE_MAKE_PREPROCESSOR;
 			styler.ColourTo(endPos, state);
-			return (state);
+			return(0);
 		}
 	}
 
@@ -129,6 +136,7 @@ static unsigned int ColouriseMakeLine(
 		//char chPrev=styler.SafeGetCharAt(currentPos-1);
 		char chCurr=styler.SafeGetCharAt(currentPos);
 		char chNext=styler.SafeGetCharAt(currentPos+1);
+		char chNexxt=styler.SafeGetCharAt(currentPos+2);
 
 		/// style GNUMake inline Comments
 		if (chCurr == '#' && state==SCE_MAKE_DEFAULT) {
@@ -136,50 +144,33 @@ static unsigned int ColouriseMakeLine(
 			state=SCE_MAKE_COMMENT;
 			if (i>0) styler.ColourTo(currentPos-1, state_prev);
 			ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
-			return (state);
+			return(state);
 		}
 
 		/// Style Target lines
 		// skip identifier and target styling if this is a command line
-		if (!bSpecial && !bCommand) {
-			state_prev=state;
-			if (chCurr == ':') {
-				if (i<lengthLine && (chNext == '=')) {
-					// it's a ':=', so style as an identifier
-					if (lastNonSpace >= 0)
-						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-					styler.ColourTo(currentPos -1, SCE_MAKE_DEFAULT);
-					styler.ColourTo(currentPos +1, SCE_MAKE_OPERATOR);
-				} else if (isspace(chNext)) {
-					// We should check that no colouring was made since the beginning of the line,
-					// to avoid colouring stuff like /OUT:file
-					if (lastSpaceWord >0 && lastSpaceWord < lastNonSpace-1)
-						styler.ColourTo(startLine + lastSpaceWord, SCE_MAKE_DEFAULT);
-					if (lastNonSpace >= 0)
-						styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
-					styler.ColourTo(currentPos -1, SCE_MAKE_DEFAULT);
-					ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, SCE_MAKE_DEFAULT);
-				}
-				//bSpecial = true;	// Only react to the first ':' of the line
-				state = SCE_MAKE_DEFAULT;
-			} else if (chCurr== '=' && state != SCE_MAKE_FLAGS) {
-				if (lastSpaceWord >0 && lastSpaceWord < lastNonSpace-1)
-					styler.ColourTo(startLine + lastSpaceWord, SCE_MAKE_DEFAULT);
-				if (lastNonSpace >= 0)
-					styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
+		if (!bCommand && state==SCE_MAKE_DEFAULT) {
+			if (chCurr == ':' && (lastSpaceWord==0 || IsNewline(chNext) )) {
+				styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_TARGET);
 				styler.ColourTo(currentPos -1, SCE_MAKE_DEFAULT);
-				ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, SCE_MAKE_DEFAULT);
-				//bSpecial = true;	// Only react to the first '=' of the line
+				styler.ColourTo(currentPos, SCE_MAKE_OPERATOR);
+			} else if (chCurr == ':' && chNext == '=') {
+				// it's a ':=', so style as an identifier
+				styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
+				styler.ColourTo(currentPos -1, SCE_MAKE_DEFAULT);
+				styler.ColourTo(currentPos +1, SCE_MAKE_OPERATOR);		
+			} else if (chNext=='=' && isspace(chNexxt)) {
+				styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
+				styler.ColourTo(startLine + i+1, SCE_MAKE_OPERATOR);		
 			}
-			state = state_prev;
 		}
-
+		
 		/// lets signal a warning on unclosed Strings or Brackets.
 		if (strchr("({", (int)chCurr)!=NULL) {
 			if (i>0) styler.ColourTo(currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL++;
-		} else if (strchr(")}>", (int)chCurr)!=NULL) {
+		} else if (strchr(")}", (int)chCurr)!=NULL) {
 			if (i>0) styler.ColourTo(currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL--;
@@ -215,21 +206,15 @@ static unsigned int ColouriseMakeLine(
 			inSqString = true;
 		}
 
-		/// hm. Colour some Delimiters...Just because its Fun :)
-		if (strchr("[<'|\">]", (int)chCurr) != NULL) {
-			if (i>0) styler.ColourTo(currentPos-1, state);
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
-		}
-
 		/// Operators..
-		if (strchr("@!?&+=", (int)chCurr) != NULL) {
-			if (i>0) styler.ColourTo(currentPos-1, state);
-			ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
+		if (strchr("@!?&+[|]<>=", (int)chNext) != NULL) {
+		//	if (i>0) styler.ColourTo(currentPos, state);
+		//	ColourHere(styler, currentPos+1, SCE_MAKE_OPERATOR, state);
 		}
-
+	
 		/// Numbers; _very_ simple for now.
-		if (isdigit(chCurr) > 0) {
-			if (i>0) styler.ColourTo(currentPos-1, state);
+		if(IsNum(chCurr) > 0) {
+			styler.ColourTo(currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, state);
 		}
 
@@ -351,14 +336,13 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos, state, state_prev);
 			state = SCE_MAKE_DEFAULT;
 		}
-
+		
 		if (!isspacechar(chCurr)) {
 			lastNonSpace = i;
 		}
 
-		if ((i<lengthLine && IsGraphic(chNext) > 0
-				&& strchr("\t =", (int)chCurr) != NULL)
-				|| strchr("();?&", (int)chNext) != NULL) {
+		if (i<lengthLine && IsGraphic(chNext) > 0
+				&& strchr("\t =:", (int)chCurr) != NULL) {
 			lastSpaceWord=i;
 		}
 
@@ -372,9 +356,8 @@ static unsigned int ColouriseMakeLine(
 	}
 
 	ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
-	return (state);
+	return(0);
 }
-
 /**
 // @brief returns a multilines startPosition or current lines start
 // if the Position does not belong to a Multiline Segment.
@@ -488,7 +471,6 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	styler.StartAt(o_startPos);
 	length=length+(startPos-o_startPos);
 	startPos=o_startPos;
-	
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
 	
@@ -503,20 +485,19 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 		if (AtEOL(styler, at) || (linePos>= sizeof(lineBuffer) - 1)) {
 			Sci_PositionU lineLength=GetLineLen(styler, at);
 			lineLength=(lineLength<MAX) ? lineLength:MAX;
-					
+			lineLength=lineLength-1;
 			// Copy the remaining chars to the lineBuffer.
 			if (lineLength != linePos)
 				for (Sci_PositionU posi=linePos-1; posi<=lineLength ; posi++)
 					lineBuffer[posi]=styler[at++];
 
-			at=lineStart+lineLength-1;
+			at=lineStart+lineLength;
 
 			startStyle = ColouriseMakeLine(lineBuffer, lineLength, lineStart, at, keywords, styler, startStyle);
 			memset(lineBuffer, 0, lineLength);
 			lineStart = at+1;
 			linePos=0;
-			styler.ChangeLexerState(startPos, startPos+lineLength); // Fini -> Request Screen redraw.
-		}
+			}
 	}
 	if (linePos>0){ // handle normal lines without an EOL mark.
 		startStyle=ColouriseMakeLine(lineBuffer, linePos, lineStart, startPos+length -1, keywords, styler, startStyle);

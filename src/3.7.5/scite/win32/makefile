@@ -50,6 +50,7 @@ LUA_LIB_OBJS =	lauxlib.o lbaselib.o ldblib.o liolib.o lmathlib.o ltablib.o \
 		lstrlib.o loadlib.o loslib.o linit.o
 
 LUA_OBJS = LuaExtension.o $(LUA_CORE_OBJS) $(LUA_LIB_OBJS)
+#LUA_OBJS = LuaExtension.o  liblua5.1.a
 
 vpath %.c ../lua/src ../lua/src/lib
 
@@ -66,7 +67,7 @@ RCINCLUDEDIRS=--include-dir ../src
 CBASEFLAGS = -W -Wall $(INCLUDEDIRS) $(LUA_DEFINES) $(WIDEFLAGS) $(VERSION_DEFINES)
 
 ifdef DEBUG
-CFLAGS=-DDEBUG -g $(CBASEFLAGS)
+CFLAGS=-DDEBUG -ggdb $(CBASEFLAGS)
 else
 CFLAGS=-DNDEBUG -Os $(CBASEFLAGS)
 STRIPFLAG="-Wl,-s"
@@ -194,7 +195,7 @@ endif
 	grep -v -h "^[#]" $(PROPS) >../src/Embedded.properties
 
 $(PROG): $(OBJS)
-	$(CXX) $(STRIPFLAG) -Xlinker --subsystem -Xlinker windows -o  $@ $^ $(LDFLAGS)
+	$(CXX) $(STRIPFLAG) -Xlinker --subsystem -Xlinker windows -o $@  $^ $(LDFLAGS) 
 
 OBJSSTATIC = \
 	$(SHAREDOBJS) \

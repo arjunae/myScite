@@ -11,8 +11,8 @@ if "%1"=="" (
 	EXIT
 )
 mode 130,18
-cd 3.7.5
-del /S /Q *.dll *.exe *.a *.aps *.bsc  *.dsw *.idb *.ilc *.ild *.ilf *.ilk *.ils *.lib *.map *.ncb *.obj *.o *.opt *.pdb *.plg *.res *.sbr *.tds *.exp *.pyc *.orig *.rej 2>NUL
+::cd 3.7.5/SCite 
+del /S /Q *.dll *.exe  *.aps *.bsc  *.dsw *.idb *.ilc *.ild *.ilf *.ilk *.ils *.lib *.map *.ncb *.obj *.o *.opt *.pdb *.plg *.res *.sbr *.tds *.exp *.pyc *.orig *.rej 2>NUL
 echo :--------------------------------------------------
 echo .... done ....
 echo :--------------------------------------------------
