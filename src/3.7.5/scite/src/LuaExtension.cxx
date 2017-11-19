@@ -31,9 +31,6 @@ extern "C" {
 #include "lauxlib.h"
 }
 
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-
 #if (LUA_VERSION_NUM < 502)
 #define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
 #else

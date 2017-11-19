@@ -141,8 +141,9 @@ local function getApiNames()
 end
 
 local function buildNames()
-    --print("build names")
-    if editor.Lexer~=1 then -- Perfomance: Disable Ac for the Null Lexer.
+  --print("build names buffer state:",buffer.dirty)
+  -- Perfomance: Disable Ac for the Null Lexer/ only rebuild list when the buffer was modified
+    if editor.Lexer~=1 and buffer.dirty==true then 
         setLexerSpecificStuff()
         -- Reset our array of names.
         names = {}
@@ -176,6 +177,7 @@ local function buildNames()
         end
         table.sort(names, function(a,b) return normalize(a) < normalize(b) end)
         buffer.namesForAutoComplete = names -- Cache it for OnSwitchFile.
+        buffer.dirty=false
         --print ("ac>buildNames:  ...Created a new keywordlist")
     end    
 end
@@ -188,6 +190,7 @@ local function handleChar(char, calledByHotkey)
     local pos = editor.CurrentPos
     local startPos = editor:WordStartPosition(pos, true)
     local len = pos - startPos
+    buffer.dirty=true
     
     if not INCREMENTAL and editor:AutoCActive() then
         -- Nothing to do.
@@ -334,6 +337,7 @@ local events = {
         names = buffer.namesForAutoComplete
         if not names then
             -- Otherwise, build a new list.
+            buffer.dirty=true
             buildNames()
         else
             setLexerSpecificStuff()
@@ -344,6 +348,7 @@ local events = {
         -- words in comments and strings.
         editor:Colourise(0, editor.Length)
         -- Then do the real work.
+        buffer.dirty=true
         buildNames()
     end
 }
