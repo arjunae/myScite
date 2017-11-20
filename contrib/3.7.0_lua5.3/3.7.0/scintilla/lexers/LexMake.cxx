@@ -74,6 +74,7 @@ static inline int IsGraphic(int ch) {
 	return (IsAlphaNum(ch));
 }
 
+
 static inline void ColourHere(Accessor &styler, Sci_PositionU pos, unsigned int style1, unsigned int style2) {
 	styler.ColourTo(pos, style1);
 	styler.ColourTo(pos, style2);
@@ -505,6 +506,139 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 		}
 }
 
+//
+// Folding code from cMake, with small changes. 
+//
+
+static int calculateFoldMake(Sci_PositionU start, Sci_PositionU end, int foldlevel, Accessor &styler, bool bElse)
+{
+    // If the word is too long, it is not what we are looking for
+    if ( end - start > 20 )
+        return foldlevel;
+
+    int newFoldlevel = foldlevel;
+
+    char s[20]; // The key word we are looking for has atmost 13 characters
+    for (unsigned int i = 0; i < end - start + 1 && i < 19; i++) {
+        s[i] = static_cast<char>( styler[ start + i ] );
+        s[i + 1] = '\0';
+    }
+
+    if ( CompareCaseInsensitive(s, "IF") == 0 || CompareCaseInsensitive(s, "WHILE") == 0
+         || CompareCaseInsensitive(s, "MACRO") == 0 || CompareCaseInsensitive(s, "FOREACH") == 0
+         || CompareCaseInsensitive(s, "ELSEIF") == 0 )
+        newFoldlevel++;
+    else if ( CompareCaseInsensitive(s, "ENDIF") == 0 || CompareCaseInsensitive(s, "ENDWHILE") == 0
+              || CompareCaseInsensitive(s, "ENDMACRO") == 0 || CompareCaseInsensitive(s, "ENDFOREACH") == 0
+							||  CompareCaseInsensitive(s, "FI") == 0)
+							
+        newFoldlevel--;
+    else if ( bElse && CompareCaseInsensitive(s, "ELSEIF") == 0 )
+        newFoldlevel++;
+    else if ( bElse && CompareCaseInsensitive(s, "ELSE") == 0 )
+        newFoldlevel++;
+
+    return newFoldlevel;
+}
+
+static bool MakeNextLineHasElse(Sci_PositionU start, Sci_PositionU end, Accessor &styler)
+{
+    Sci_Position nNextLine = -1;
+    for ( Sci_PositionU i = start; i < end; i++ ) {
+        char cNext = styler.SafeGetCharAt( i );
+        if ( cNext == '\n' ) {
+            nNextLine = i+1;
+            break;
+        }
+    }
+
+    if ( nNextLine == -1 ) // We never foudn the next line...
+        return false;
+
+    for ( Sci_PositionU firstChar = nNextLine; firstChar < end; firstChar++ ) {
+        char cNext = styler.SafeGetCharAt( firstChar );
+        if ( cNext == ' ' )
+            continue;
+        if ( cNext == '\t' )
+            continue;
+        if ( styler.Match(firstChar, "ELSE")  || styler.Match(firstChar, "else"))
+            return true;
+        break;
+    }
+
+    return false;
+}
+
+static void FoldMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler)
+{
+    // No folding enabled, no reason to continue...
+    if ( styler.GetPropertyInt("fold") == 0 )
+        return;
+
+    bool foldAtElse = styler.GetPropertyInt("fold.at.else", 0) == 1;
+
+    Sci_Position lineCurrent = styler.GetLine(startPos);
+    Sci_PositionU safeStartPos = styler.LineStart( lineCurrent );
+
+    bool bArg1 = true;
+    Sci_Position nWordStart = -1;
+
+    int levelCurrent = SC_FOLDLEVELBASE;
+    if (lineCurrent > 0)
+        levelCurrent = styler.LevelAt(lineCurrent-1) >> 16;
+    int levelNext = levelCurrent;
+
+    for (Sci_PositionU i = safeStartPos; i < startPos + length; i++) {
+        char chCurr = styler.SafeGetCharAt(i);
+
+        if ( bArg1 ) {
+            if ( nWordStart == -1 && (IsAlphaNum(chCurr)) ) {
+                nWordStart = i;
+            }
+            else if ( IsAlphaNum(chCurr) == false && nWordStart > -1 ) {
+                int newLevel = calculateFoldMake( nWordStart, i-1, levelNext, styler, foldAtElse);
+
+                if ( newLevel == levelNext ) {
+                    if ( foldAtElse ) {
+                        if ( MakeNextLineHasElse(i, startPos + length, styler) )
+                            levelNext--;
+                    }
+                }
+                else
+                    levelNext = newLevel;
+                bArg1 = false;
+            }
+        }
+
+        if ( chCurr == '\n' ) {
+            if ( bArg1 && foldAtElse) {
+                if ( MakeNextLineHasElse(i, startPos + length, styler) )
+                    levelNext--;
+            }
+
+            // If we are on a new line...
+            int levelUse = levelCurrent;
+            int lev = levelUse | levelNext << 16;
+            if (levelUse < levelNext )
+                lev |= SC_FOLDLEVELHEADERFLAG;
+            if (lev != styler.LevelAt(lineCurrent))
+                styler.SetLevel(lineCurrent, lev);
+
+            lineCurrent++;
+            levelCurrent = levelNext;
+            bArg1 = true; // New line, lets look at first argument again
+            nWordStart = -1;
+        }
+    }
+
+    int levelUse = levelCurrent;
+    int lev = levelUse | levelNext << 16;
+    if (levelUse < levelNext)
+        lev |= SC_FOLDLEVELHEADERFLAG;
+    if (lev != styler.LevelAt(lineCurrent))
+        styler.SetLevel(lineCurrent, lev);
+}
+
 static const char *const makefileWordListDesc[] = {
 	"generica",
 	"functions",
@@ -512,4 +646,4 @@ static const char *const makefileWordListDesc[] = {
 	0
 };
 
-LexerModule lmMake(SCLEX_MAKEFILE, ColouriseMakeDoc, "makefile", 0, makefileWordListDesc);
+LexerModule lmMake(SCLEX_MAKEFILE, ColouriseMakeDoc, "makefile", FoldMakeDoc, makefileWordListDesc);

@@ -173,7 +173,7 @@ function OnInit()
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 	--print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)
-	TestSciLexer("b08a0310") -- SciLexers CRC32 Hash for the current Version
+	TestSciLexer("8f71b1aa") -- SciLexers CRC32 Hash for the current Version
 	scite_OnOpenSwitch(markLinks)
 	scite_OnOpenSwitch(markeMail)
 	scite_OnOpenSwitch(markGUID)
