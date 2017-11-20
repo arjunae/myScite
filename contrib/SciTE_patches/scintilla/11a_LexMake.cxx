@@ -488,7 +488,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 
 			// Copy the remaining chars to the lineBuffer.
 			if (lineLength != linePos)
-				for (Sci_PositionU posi=linePos-1; posi<=lineLength ; posi++)
+				for (Sci_PositionU posi=linePos; posi<=lineLength ; posi++)
 					lineBuffer[posi]=styler[at++];
 
 			at=lineStart+lineLength-1;
