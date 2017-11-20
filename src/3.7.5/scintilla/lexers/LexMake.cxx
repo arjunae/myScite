@@ -136,7 +136,6 @@ static unsigned int ColouriseMakeLine(
 		//char chPrev=styler.SafeGetCharAt(currentPos-1);
 		char chCurr=styler.SafeGetCharAt(currentPos);
 		char chNext=styler.SafeGetCharAt(currentPos+1);
-		char chNexxt=styler.SafeGetCharAt(currentPos+2);
 
 		/// style GNUMake inline Comments
 		if (chCurr == '#' && state==SCE_MAKE_DEFAULT) {
@@ -159,9 +158,9 @@ static unsigned int ColouriseMakeLine(
 				styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
 				styler.ColourTo(currentPos -1, SCE_MAKE_DEFAULT);
 				styler.ColourTo(currentPos +1, SCE_MAKE_OPERATOR);		
-			} else if (chNext=='=' && isspace(chNexxt)) {
+			} else if (chCurr=='=' && isspace(chNext)) {
 				styler.ColourTo(startLine + lastNonSpace, SCE_MAKE_IDENTIFIER);
-				styler.ColourTo(startLine + i+1, SCE_MAKE_OPERATOR);		
+				styler.ColourTo(currentPos, SCE_MAKE_OPERATOR);		
 			}
 		}
 		
@@ -207,9 +206,9 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Operators..
-		if (strchr("@!?&+[|]<>=", (int)chNext) != NULL) {
-		//	if (i>0) styler.ColourTo(currentPos, state);
-		//	ColourHere(styler, currentPos+1, SCE_MAKE_OPERATOR, state);
+		if (state==SCE_MAKE_DEFAULT && strchr("!?&|+<>[]", (int)chCurr) != NULL) {
+			if (i>0) styler.ColourTo(currentPos-1, state);
+			ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
 		}
 	
 		/// Numbers; _very_ simple for now.
@@ -355,9 +354,10 @@ static unsigned int ColouriseMakeLine(
 		state=SCE_MAKE_DEFAULT;
 	}
 
-	ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
+	if(styler[endPos]=='\n') ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
 	return(0);
 }
+
 /**
 // @brief returns a multilines startPosition or current lines start
 // if the Position does not belong to a Multiline Segment.
@@ -482,16 +482,16 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 
 		lineBuffer[linePos++] = styler[at];
 		// End of line (or of max line buffer) met.
-		if (AtEOL(styler, at) || (linePos>= sizeof(lineBuffer) - 1)) {
+		if (styler[at] =='\n' || (linePos>= sizeof(lineBuffer) - 1)) {
 			Sci_PositionU lineLength=GetLineLen(styler, at);
 			lineLength=(lineLength<MAX) ? lineLength:MAX;
-			lineLength=lineLength-1;
+
 			// Copy the remaining chars to the lineBuffer.
 			if (lineLength != linePos)
 				for (Sci_PositionU posi=linePos-1; posi<=lineLength ; posi++)
 					lineBuffer[posi]=styler[at++];
 
-			at=lineStart+lineLength;
+			at=lineStart+lineLength-1;
 
 			startStyle = ColouriseMakeLine(lineBuffer, lineLength, lineStart, at, keywords, styler, startStyle);
 			memset(lineBuffer, 0, lineLength);

@@ -418,7 +418,8 @@ phantomjs-inject phantomjs-inject-verbose: .check-foundation
 	fi;\
 
 phantomjs-snapshot: .check-foundation .check-phantomjs
-	[[ -z "$(url)" ]] && echo -e "Usage: make phantomjs-snapshot url=<site-url>\n" && exit 11 || true
+
+ [[ -z "$(url)" ]] && echo -e "Usage: make phantomjs-snapshot url=<site-url>\n" && exit 11 || true
 	mkdir -p `$(CONFIG_TOOL) sandbox-folder `/snapshots
 	mv -f $(shell echo -e $(shell phantomjs ${FOUNDATION_HOME}/repo/bin/snapshot.phantom.js "$(url)")) `$(CONFIG_TOOL) sandbox-folder `/snapshots/.
 	@echo -e "$(.WARN) Wait for the browser to close..."
