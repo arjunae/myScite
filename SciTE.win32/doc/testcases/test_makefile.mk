@@ -439,6 +439,9 @@ project-init: .check-foundation
 	fi; \
 	make -s -f $(THIS) .project-init
 
+sdfsdf\
+echo
+
 .project-init: git-init project-folders phpunit-xml bootstrap-php package git-add-all
 	sleep 2
 	$(GIT) add -A
