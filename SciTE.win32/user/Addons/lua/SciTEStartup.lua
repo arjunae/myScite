@@ -134,7 +134,7 @@ function markGUID()
 	editor.IndicStyle[marker_guid] = INDIC_TEXTFORE
 	editor.IndicFore[marker_guid] = 0x577785
 -- Scintillas RESearch.cxx doesnt support match counting, so just define the basic guid format:
-	mask = "........-....-....-....-............"
+	mask = "........-\\w\\w\\w\\w-\\w\\w\\w\\w-\\w\\w\\w\\w-............"
 	if editor.Lexer~=1 then -- Performance: Exclude Null Lexer	
 		EditorClearMarks(marker_guid) -- common.lua
 		local startpos,endpos = editor:findtext( mask, SCFIND_REGEXP, 0)
@@ -173,7 +173,7 @@ function OnInit()
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 	--print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)
-	TestSciLexer("50089863") -- SciLexers CRC32 Hash for the current Version
+	TestSciLexer("4731c34c") -- SciLexers CRC32 Hash for the current Version
 	scite_OnOpenSwitch(markLinks)
 	scite_OnOpenSwitch(markeMail)
 	scite_OnOpenSwitch(markGUID)

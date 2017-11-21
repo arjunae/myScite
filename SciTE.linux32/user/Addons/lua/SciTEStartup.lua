@@ -117,7 +117,7 @@ function markGUID()
 	editor.IndicStyle[marker_guid] = INDIC_TEXTFORE
 	editor.IndicFore[marker_guid] = 0x608085
 -- Scintillas RESearch.cxx doesnt support match counting, so just define the basic guid format:
-	mask = "........-....-....-....-............"
+	mask = "........-\\w\\w\\w\\w-\\w\\w\\w\\w-\\w\\w\\w\\w-............"
 
 	EditorClearMarks(marker_guid) -- common.lua
 	local startpos,endpos = editor:findtext( mask, SCFIND_REGEXP, 0)

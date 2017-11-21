@@ -128,7 +128,7 @@
  *                      by user setting. The word must also be preceded and/or
  *                      followed by any character outside those mentioned.
  *
- *      [11]    \l      a backslash followed by d, D, s, S, w or W,
+ *      [11]    \\l   a double backslash followed by d, D, s, S, w or W,
  *                      becomes a character class (both inside and
  *                      outside sets []).
  *                        d: decimal digits

@@ -1,8 +1,8 @@
 ~# mySciTE.webdev -~
 
-[17.11.2017] Development
+[21.11.2017] Development
 # Add: Lisp / Scheme / Clojure / GO Language Keywords
-# Fix: lexMake: String detection / Fix: remove MSVC10 dependency
+# Fix: lexMakeEOF & Add Folding / Fix: remove MSVC10 dependency
 # Fix: lua: more flexibility while loading hunspell.dll
 # Add: lua: luasocket, mime, http, sha2, underscore & serpent. Add Tests
 # New: lua: Events OnClick (singleClick) && OnInit (called once on Scite Startup) 

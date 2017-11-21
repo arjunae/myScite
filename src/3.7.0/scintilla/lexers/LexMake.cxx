@@ -46,7 +46,7 @@ static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 }
 
 static inline bool AtStartChar(Accessor &styler, Sci_PositionU i) {
-	return (strchr("&|@\t\r\n -\":, '({", (int)(styler.SafeGetCharAt(i)))!=NULL);
+	return (strchr("&|@\t\r\n -\":;, '({", (int)(styler.SafeGetCharAt(i)))!=NULL);
 }
 
 static inline bool IsNewline(const int ch) {
@@ -497,7 +497,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	}
 
 //
-// Folding code from cMake, with small changes fo bash scripts. 
+// Folding code from cMake, with small changes for bash scripts. 
 //
 
 static int calculateFoldMake(Sci_PositionU start, Sci_PositionU end, int foldlevel, Accessor &styler, bool bElse)
@@ -514,9 +514,10 @@ static int calculateFoldMake(Sci_PositionU start, Sci_PositionU end, int foldlev
         s[i + 1] = '\0';
     }
 
-    if ( CompareCaseInsensitive(s, "IF") == 0 || CompareCaseInsensitive(s, "WHILE") == 0
+    if ( CompareCaseInsensitive(s, "IF") == 0 || CompareCaseInsensitive(s, "IFEQ") == 0 
+				 ||CompareCaseInsensitive(s, "IFNDEF") == 0  || CompareCaseInsensitive(s, "WHILE") == 0
          || CompareCaseInsensitive(s, "MACRO") == 0 || CompareCaseInsensitive(s, "FOREACH") == 0
-         || CompareCaseInsensitive(s, "ELSEIF") == 0 )
+         || CompareCaseInsensitive(s, "ELSEIF") == 0   || CompareCaseInsensitive(s, "ELIF") == 0 )
         newFoldlevel++;
     else if ( CompareCaseInsensitive(s, "ENDIF") == 0 || CompareCaseInsensitive(s, "ENDWHILE") == 0
               || CompareCaseInsensitive(s, "ENDMACRO") == 0 || CompareCaseInsensitive(s, "ENDFOREACH") == 0
