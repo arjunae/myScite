@@ -178,7 +178,6 @@ function OnInit()
 	scite_OnOpenSwitch(markeMail)
 	scite_OnOpenSwitch(markGUID)
 end
-
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand

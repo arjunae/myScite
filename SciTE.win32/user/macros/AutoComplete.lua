@@ -11,8 +11,8 @@ To use this script with SciTE4AutoHotkey:
         dofile(props['SciteUserHome'].."/AutoComplete.lua")
   - Restart SciTE.
 ]]
-
---print("ac>Ok. Save the current file to test")
+-- Maximal filesize that this script should handle
+local AC_MAX_SIZE = 262144 --260kB
 
 -- List of styles per lexer that autocomplete should not occur within.
 local SCLEX_AHK1 = 200
@@ -44,11 +44,21 @@ local IGNORE_STYLES = { -- Should include comments, strings and errors.
     [SCLEX_VHDL]  = {1,2,4,7,14,15},
     [SCLEX_GENERIC]  = {1,2,3,6,7,8}
 }
-
  
 function file_exists(name)
    local f=io.open(name,"r")
    if f~=nil then io.close(f) return true else return false end
+end
+
+function file_size (filePath)
+    if filePath ~=""  then 
+      local  myFile=io.open(filePath,"r")
+       --local current = myFile:seek()      -- get current position
+       local size = myFile:seek("end")    -- get file size
+       myFile:seek("set", current)        -- restore position
+       myFile:close()
+       return size
+    end
 end
 
 function isInTable(table, elem)
@@ -140,10 +150,19 @@ local function getApiNames()
     return apiNames
 end
 
+
 local function buildNames()
-  --print("build names buffer state:",buffer.dirty)
-  -- Perfomance: Disable Ac for the Null Lexer/ only rebuild list when the buffer was modified
+--print("build names buffer state:",buffer.dirty)
+  
+  -- Perfomance: 
+  -- Disable Ac for the Null Lexer
+  -- only rebuild list when the buffer was modified
+  -- use a user settable maximum size for AutoComplete to be active
+
     if editor.Lexer~=1 and buffer.dirty==true then 
+        local fSize= file_size(props["FilePath"]) 
+        if fSize > AC_MAX_SIZE then print(fSize) end
+ 
         setLexerSpecificStuff()
         -- Reset our array of names.
         names = {}
