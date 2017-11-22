@@ -1,14 +1,14 @@
 ﻿// Scintilla source code edit control
 /**
  * @file LexMake.cxx
- * @author Neil Hodgson, Thorsten Kani(marcedo@HabMalneFrage.de)
+ * @author Neil Hodgson, 
+ * @author Thorsten Kani(marcedo@HabMalneFrage.de)
  * @brief Lexer for make files
- * @brief 18.07.17 | Thorsten Kani | Add more Styles
- * - GNUMake Directives, internal function Keywords  $(sort subst..) ,
- * - Automatic Variables $@%<?^+* , Flags "-" and Keywords for externalCommands
+ * - Styles GNUMake Directives, internal function Keywords  $(sort subst..) ,
+ * - Automatic Variables $[@%<?^+*] , Flags "-" and Keywords for externalCommands
  * - Warns on more unclosed Brackets or doublequoted Strings.
  * - Handles multiLine Continuations, inlineComments styles Strings and Numbers.
- * @brief 20.11.17 | Thorsten Kani | cleanUp | Folding from cMake.
+ * @brief 20.11.17 | Thorsten Kani | fixEOL && cleanUp | Folding from cMake.
  * @brief todos
  * todo: handle VC Makefiles ( eg //D )
  * @brief Copyright 1998-2001 by Neil Hodgson <neilh@scintilla.org>
@@ -53,7 +53,7 @@ static inline bool IsNewline(const int ch) {
 	return (ch == '\n' || ch == '\r');
 }
 
-// win10 -german chars ö Ü .. translate to negative values ?
+// replacement functions because german umlauts ö Ü .. translate to negative values.
 static inline int IsNum(int ch) {
 	if ((ch >= '0') && (ch <= '9'))
 		return (1);
@@ -61,9 +61,16 @@ static inline int IsNum(int ch) {
 	return (0);
 }
 
-// win10 -german chars ö Ü .. translate to negative values ?
+static inline int IsAlpha(int ch) {
+	if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z'))
+		return (1);
+
+	return (0);
+}
+
+
 static inline int IsAlphaNum(int ch) {
-	if ((IsASCII(ch) && isalpha(ch)) || (IsNum(ch)))
+	if (IsAlpha(ch) || IsNum(ch))
 		return (1);
 
 	return (0);
@@ -90,8 +97,7 @@ static unsigned int ColouriseMakeLine(
 	int startStyle) {
 
 	Sci_PositionU i = 0; // primary line position counter
-	//Sci_Position lastNonSpace = -1;
-	Sci_Position lastSpaceWord = 0;
+	Sci_PositionU styleBreak = 0;
 
 	int iWarnEOL=0; // unclosed string bracket refcount.
 	unsigned int strLen = 0;	// Keyword candidate length.
@@ -119,23 +125,20 @@ static unsigned int ColouriseMakeLine(
 
 	unsigned int theStart=i; // One Byte ought (not) to be enough for everyone....?
 
-	// Style special directive
-	if (i < lengthLine) {
-		if (styler.SafeGetCharAt(startLine+i) == '!') {
-			state_prev=state;
-			state=SCE_MAKE_PREPROCESSOR;
-			styler.ColourTo(endPos, state);
-			return(0);
-		}
-	}
-
 	while (i < lengthLine) {
 		unsigned int currentPos=startLine+i;
 
-		//char chPrev=styler.SafeGetCharAt(currentPos-1);
+		char chPrev=styler.SafeGetCharAt(currentPos-1);
 		char chCurr=styler.SafeGetCharAt(currentPos);
 		char chNext=styler.SafeGetCharAt(currentPos+1);
-
+		
+		/// style GNUMake Preproc
+		if (i == theStart && chCurr == '!') {
+			state=SCE_MAKE_PREPROCESSOR;
+			styler.ColourTo(endPos, state);
+			return(state);
+		}
+		
 		/// style GNUMake inline Comments
 		if (chCurr == '#' && state==SCE_MAKE_DEFAULT) {
 			state_prev=state;
@@ -145,29 +148,39 @@ static unsigned int ColouriseMakeLine(
 			return(state);
 		}
 
+		/// Style Target lines
+		// Find a good position for a style stopper.
+		if (i<lengthLine && IsGraphic(chNext) 
+			&& (strchr(" \t \"\'#!?&|+{}()[]<>;,=-", (int)chCurr) != NULL)|| IsNum(chCurr)) {
+			styleBreak=currentPos;
+		}
+
+		// skip identifier and target styling if this is a command line
+		if (!bCommand && state==SCE_MAKE_DEFAULT) {
+			if (chCurr == ':' && chNext != ':' && chNext != '=') {
+				if(styleBreak>0 && styleBreak<currentPos && IsAlpha(chPrev)) 
+					ColourHere(styler, styleBreak, SCE_MAKE_DEFAULT, state);
+				ColourHere(styler, currentPos-1, SCE_MAKE_TARGET, state);
+			} else if (chCurr == ':' && chNext == '=') {
+				// it's a ':=', so style as an identifier
+				ColourHere(styler, currentPos-2, SCE_MAKE_IDENTIFIER, state);
+			} else if (chCurr=='=' && chPrev != ':' && chNext !='=') {
+				if(styleBreak>0 && styleBreak<currentPos && IsAlpha(chPrev)) 
+					ColourHere(styler, styleBreak, SCE_MAKE_DEFAULT, state);
+				ColourHere(styler, currentPos-1, SCE_MAKE_IDENTIFIER, state);		
+			}
+		}
+
 		/// Operators..
-		if (state==SCE_MAKE_DEFAULT && strchr("!?&|+[]<>", (int)chCurr) != NULL) {
+		if (state==SCE_MAKE_DEFAULT && strchr("!?&|+[]<>;:=", (int)chCurr) != NULL) {
 			if (i>0) styler.ColourTo(currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
 		}
 	
 		/// Numbers; _very_ simple for now.
-		if(state==SCE_MAKE_DEFAULT && IsNum(chCurr) > 0) {
+		if(state==SCE_MAKE_DEFAULT && IsNum(chCurr)) {
 			styler.ColourTo(currentPos-1, SCE_MAKE_DEFAULT);
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
-		}
-
-		/// Style Target lines
-		// skip identifier and target styling if this is a command line
-		if (!bCommand && state==SCE_MAKE_DEFAULT) {
-			if (chCurr == ':' && (lastSpaceWord==0 || IsNewline(chNext) )) {
-				ColourHere(styler, currentPos, SCE_MAKE_TARGET, state);
-			} else if (chCurr == ':' && chNext == '=') {
-				// it's a ':=', so style as an identifier
-				ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
-			} else if (chCurr=='=' && isspace(chNext)) {
-				ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);		
-			}
 		}
 		
 		/// lets signal a warning on unclosed Strings or Brackets.
@@ -319,8 +332,7 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'")
-		if ((state==SCE_MAKE_DEFAULT && i<lengthLine && inString==false && (IsAlphaNum(chCurr)==0 && chNext=='-'))
-				|| (i == theStart && chCurr == '-')) {
+		if ((state==SCE_MAKE_DEFAULT && i<lengthLine && (IsAlphaNum(chCurr)==0 && chNext=='-')) || (i == theStart && chCurr == '-')) {
 			state_prev=SCE_MAKE_DEFAULT;
 			state = SCE_MAKE_FLAGS;
 			bool j= (i>0 && (chCurr=='-') && chNext=='-') ? 1:0; // style both '-'
@@ -329,15 +341,7 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos, state, state_prev);
 			state = SCE_MAKE_DEFAULT;
 		}
-		
-	//	if (!isspacechar(chCurr)) 
-	//		lastNonSpace = i;
-		
-
-		if (i<lengthLine && IsGraphic(chNext) > 0 && strchr("\t =:", (int)chCurr) != NULL) {
-			lastSpaceWord=i;
-		}
-
+	
 		i++;
 	}
 	
@@ -493,8 +497,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length, keywords, styler, startStyle);
 		styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
 	}
-
-	}
+}
 
 //
 // Folding code from cMake, with small changes for bash scripts. 
@@ -514,15 +517,14 @@ static int calculateFoldMake(Sci_PositionU start, Sci_PositionU end, int foldlev
         s[i + 1] = '\0';
     }
 
-    if ( CompareCaseInsensitive(s, "IF") == 0 || CompareCaseInsensitive(s, "IFEQ") == 0 
+    if ( CompareCaseInsensitive(s, "IF") == 0 || CompareCaseInsensitive(s, "IFEQ") == 0  || CompareCaseInsensitive(s, "IFNEQ") == 0 
 				 ||CompareCaseInsensitive(s, "IFNDEF") == 0  || CompareCaseInsensitive(s, "WHILE") == 0
          || CompareCaseInsensitive(s, "MACRO") == 0 || CompareCaseInsensitive(s, "FOREACH") == 0
          || CompareCaseInsensitive(s, "ELSEIF") == 0   || CompareCaseInsensitive(s, "ELIF") == 0 )
         newFoldlevel++;
     else if ( CompareCaseInsensitive(s, "ENDIF") == 0 || CompareCaseInsensitive(s, "ENDWHILE") == 0
-              || CompareCaseInsensitive(s, "ENDMACRO") == 0 || CompareCaseInsensitive(s, "ENDFOREACH") == 0
-							||  CompareCaseInsensitive(s, "FI") == 0)
-							
+					|| CompareCaseInsensitive(s, "ENDMACRO") == 0 || CompareCaseInsensitive(s, "ENDFOREACH") == 0
+					||  CompareCaseInsensitive(s, "FI") == 0)
         newFoldlevel--;
     else if ( bElse && CompareCaseInsensitive(s, "ELSEIF") == 0 )
         newFoldlevel++;
