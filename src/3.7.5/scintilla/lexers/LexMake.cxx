@@ -82,9 +82,10 @@ static inline int IsGraphic(int ch) {
 }
 
 
-static inline void ColourHere(Accessor &styler, Sci_PositionU pos, unsigned int style1, unsigned int style2) {
+static inline unsigned int ColourHere(Accessor &styler, Sci_PositionU pos, unsigned int style1, unsigned int style2) {
 	styler.ColourTo(pos, style1);
 	styler.ColourTo(pos, style2);
+	return (pos);
 }
 
 static unsigned int ColouriseMakeLine(
@@ -134,7 +135,7 @@ static unsigned int ColouriseMakeLine(
 		char chNext=styler.SafeGetCharAt(currentPos+1);
 		
 		/// style GNUMake Preproc
-		if (i == theStart && chCurr == '!') {
+		if (chCurr == '!') {
 			state=SCE_MAKE_PREPROCESSOR;
 			styler.ColourTo(endPos, state);
 			return(state);
@@ -145,42 +146,42 @@ static unsigned int ColouriseMakeLine(
 			state_prev=state;
 			state=SCE_MAKE_COMMENT;
 			if (i>0) styler.ColourTo(currentPos-1, state_prev);
-			ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
+			stylerPos = stylerPos = ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
 			return(state);
 		}
 
 		/// Style Target lines
 		// Find a good position for a style stopper.
-		if (i<lengthLine && IsGraphic(chNext) 
-			&& (strchr(" \t \"\'#!?&|+{}()[]<>;=,", (int)chCurr) != NULL)) {
+		if (i>theStart && IsGraphic(chNext) 
+			&& (strchr(" \t \"\' \\ /#!?&|+{}()[]<>;=,", (int)chCurr) != NULL)) {
 			styleBreak=currentPos;
 		}
 
 		// skip identifier and target styling if this is a command line
 		if (!bCommand && state==SCE_MAKE_DEFAULT) {
-			if (chCurr == ':' && chNext != ':' && chNext != '=') {
+			if (chCurr == ':'		&& chNext != '=') {
 				if(styleBreak>0 && styleBreak<currentPos && styleBreak>stylerPos) 
-					ColourHere(styler, styleBreak, SCE_MAKE_DEFAULT, state);
-				ColourHere(styler, currentPos-1, SCE_MAKE_TARGET, state);
+					stylerPos = stylerPos = ColourHere(styler, styleBreak, SCE_MAKE_DEFAULT, state);
+				stylerPos = stylerPos = ColourHere(styler, currentPos-1, SCE_MAKE_TARGET, state);
 			} else if (chCurr == ':' && chNext == '=') {
 				// it's a ':=', so style as an identifier
-				ColourHere(styler, currentPos-2, SCE_MAKE_IDENTIFIER, state);
-			} else if (chCurr=='=' && chPrev != ':' && chNext !='=') {
-					ColourHere(styler, currentPos-1, SCE_MAKE_IDENTIFIER, state);		
+				stylerPos = stylerPos = ColourHere(styler, currentPos-2, SCE_MAKE_IDENTIFIER, state);
+			} else if (chCurr=='=' && chPrev != ':') {
+					stylerPos = stylerPos = ColourHere(styler, currentPos-1, SCE_MAKE_IDENTIFIER, state);		
 			}
 		}
 
 		/// Operators..
 		if (state==SCE_MAKE_DEFAULT && strchr("!?&|+[]<>;:=", (int)chCurr) != NULL) {
 			if (i>0) styler.ColourTo(currentPos-1, state);
-			ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
+			stylerPos = stylerPos = ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
 			stylerPos=currentPos;
 		}
 	
 		/// Numbers; _very_ simple for now.s
 		if(state==SCE_MAKE_DEFAULT && IsNum(chCurr) && !IsAlpha(chPrev))  {
 			styler.ColourTo(currentPos-1, SCE_MAKE_DEFAULT);
-			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
+			stylerPos = stylerPos = ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 			stylerPos=currentPos;
 		}
 		
@@ -188,11 +189,11 @@ static unsigned int ColouriseMakeLine(
 		/// lets signal a warning on unclosed Strings or Brackets.
 		if (strchr("({", (int)chCurr)!=NULL) {
 			if (i>0) styler.ColourTo(currentPos-1, state);
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			stylerPos = stylerPos = ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL++;
 		} else if (strchr(")}", (int)chCurr)!=NULL) {
 			if (i>0) styler.ColourTo(currentPos-1, state);
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			stylerPos = stylerPos = ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL--;
 		}
 
@@ -200,14 +201,14 @@ static unsigned int ColouriseMakeLine(
 		if (inString && chCurr=='\"') {
 			if (i>0) styler.ColourTo(currentPos-1, state);
 			state=SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			stylerPos = stylerPos = ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL--;
 			inString = false;
 		} else if	(!inString && chCurr=='\"') {
 			state_prev = state;
 			state = SCE_MAKE_STRING;
 			if (i>0) styler.ColourTo(currentPos-1, state_prev);
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			stylerPos = stylerPos = ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			inString=true;
 			iWarnEOL++;
 		}
@@ -216,13 +217,13 @@ static unsigned int ColouriseMakeLine(
 		if (!inString && inSqString && chCurr=='\'') {
 			if (i>0) styler.ColourTo(currentPos-1, state);
 			state = SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			stylerPos = stylerPos = ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			inSqString = false;
 		} else if	(!inString && !inSqString && chCurr=='\'') {
 			state_prev = state;
 			state = SCE_MAKE_STRING;
 			if (i>0) styler.ColourTo(currentPos-1, state_prev);
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			stylerPos = stylerPos = ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			inSqString = true;
 		}
 
@@ -261,10 +262,10 @@ static unsigned int ColouriseMakeLine(
 			if (kwExtCmd.InList(strSearch.c_str())
 				 && (strchr("\t\r\n ;)", (int)chNext) !=NULL) 
 					&& (i+1 -wordLen == theStart || AtStartChar(styler, startLine +i -wordLen))) {
-				if (i>0) 	ColourHere(styler, currentPos-wordLen, state, SCE_MAKE_DEFAULT);
+				if (i>0) 	stylerPos = stylerPos = ColourHere(styler, currentPos-wordLen, state, SCE_MAKE_DEFAULT);
 				state_prev=state;
 				state=SCE_MAKE_EXTCMD;
-				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
+				stylerPos = ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			} else if (state == SCE_MAKE_EXTCMD) {
 				state=SCE_MAKE_DEFAULT;
 				styler.ColourTo(currentPos, state);
@@ -277,7 +278,7 @@ static unsigned int ColouriseMakeLine(
 					&& (i+1 -wordLen == theStart || styler.SafeGetCharAt(startLine +i -wordLen-1) == '=')) {
 				state_prev=state;
 				state=SCE_MAKE_DIRECTIVE;
-				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
+				stylerPos = ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			} else if (state == SCE_MAKE_DIRECTIVE) {
 				state=SCE_MAKE_DEFAULT;
 				styler.ColourTo(currentPos, state);
@@ -290,7 +291,7 @@ static unsigned int ColouriseMakeLine(
 					&& styler.SafeGetCharAt(startLine +i -wordLen) == '(') {
 				state_prev = state;
 				state = SCE_MAKE_FUNCTION;
-				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
+				stylerPos = ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			} else if (state == SCE_MAKE_FUNCTION) {
 				state=SCE_MAKE_DEFAULT;
 				styler.ColourTo(currentPos, state);
@@ -307,7 +308,7 @@ static unsigned int ColouriseMakeLine(
 			state = SCE_MAKE_USER_VARIABLE;
 		} else if (state == SCE_MAKE_USER_VARIABLE && (strchr("})", (int)chNext)!=NULL)) {
 			if (state_prev==SCE_MAKE_USER_VARIABLE) state_prev = SCE_MAKE_DEFAULT;		
-			ColourHere(styler, currentPos, state, state_prev);
+			stylerPos = ColourHere(styler, currentPos, state, state_prev);
 			state = state_prev;
 		}
 
@@ -317,7 +318,7 @@ static unsigned int ColouriseMakeLine(
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)chCurr)!=NULL)) {
-			ColourHere(styler, currentPos, state, state_prev);
+			stylerPos = ColourHere(styler, currentPos, state, state_prev);
 			state = state_prev;
 		}
 
@@ -329,7 +330,7 @@ static unsigned int ColouriseMakeLine(
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE
 				&& (strchr("@%<^+", (int)styler.SafeGetCharAt(currentPos-1))!=NULL
 				    && (strchr("DF", (int)chCurr) !=NULL))) {
-			ColourHere(styler, currentPos, state, state_prev);
+			stylerPos = ColourHere(styler, currentPos, state, state_prev);
 			state = SCE_MAKE_DEFAULT;
 		}
 
@@ -341,7 +342,7 @@ static unsigned int ColouriseMakeLine(
 			bool j= (i>0 && (chCurr=='-') && chNext=='-') ? 1:0; // style both '-'
 			styler.ColourTo(currentPos-j, state_prev);
 		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''", (int)chNext) !=NULL) {
-			ColourHere(styler, currentPos, state, state_prev);
+			stylerPos = ColourHere(styler, currentPos, state, state_prev);
 			stylerPos=currentPos;
 			state = SCE_MAKE_DEFAULT;
 		}
@@ -355,7 +356,7 @@ static unsigned int ColouriseMakeLine(
 		state=SCE_MAKE_DEFAULT;
 	}
 
-	if(styler[endPos]=='\n') ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
+	if(styler[endPos]=='\n') stylerPos = ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
 	return(0);
 }
 

@@ -191,7 +191,7 @@ function OnInit()
 --
 
 	--print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)
-	TestSciLexer("2f1242b1") -- SciLexers CRC32 Hash for the current Version
+	TestSciLexer("04823fd0") -- SciLexers CRC32 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
 end
 

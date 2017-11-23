@@ -12,7 +12,7 @@ To use this script with SciTE4AutoHotkey:
   - Restart SciTE.
 ]]
 -- Maximal filesize that this script should handle
-local AC_MAX_SIZE =131072 --13kB
+local AC_MAX_SIZE =131072 --131kB
 
 -- List of styles per lexer that autocomplete should not occur within.
 local SCLEX_AHK1 = 200
