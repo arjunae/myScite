@@ -8,6 +8,21 @@
 ------------------------------------------
 
 --------------------------
+-- returns the size of a given file.
+--------------------------
+function file_size (filePath)
+    if  filePath ~=""  then 
+        local myFile,err=io.open(filePath,"r")
+        local size = myFile:seek("end")    -- get file size
+        myFile:close()
+        return size
+    else
+        return 0
+    end
+	if err then print (err) end
+end
+
+--------------------------
 -- ????
 --------------------------
 function charset_iconv(in_charset, out_charset, text)

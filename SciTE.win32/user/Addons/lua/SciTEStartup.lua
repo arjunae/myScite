@@ -144,8 +144,24 @@ function markGUID()
 		end
 	end
 end
-
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+function StyleStuff()
+---
+--- highlite http and eMail links and GUIDs
+---
+	local AC_MAX_SIZE =131072 --131kB
+	local fSize
+
+	if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
+	if fSize < AC_MAX_SIZE then 
+		scite_OnOpenSwitch(markLinks)
+		scite_OnOpenSwitch(markeMail)
+		scite_OnOpenSwitch(markGUID)	  
+	end
+end
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 function TestSciLexer(origHash)
 --
 -- quickCheck SciLexer.dll's CRC32 Hash and inform the User if its a nonStock Version. 
@@ -168,15 +184,15 @@ function TestSciLexer(origHash)
 	if SciLexerHash~=origHash then print("SciteStartup.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..crccalc:tohex()) end
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 function OnInit() 
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 	--print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)
-	TestSciLexer("3f5fbf34") -- SciLexers CRC32 Hash for the current Version
-	scite_OnOpenSwitch(markLinks)
-	scite_OnOpenSwitch(markeMail)
-	scite_OnOpenSwitch(markGUID)
+	TestSciLexer("d6286a9c") -- SciLexers CRC32 Hash for the current Version
+	scite_OnOpenSwitch(StyleStuff)
+	
 end
 --print("startupScript_reload")
 --print(editor.StyleAt[1])

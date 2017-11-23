@@ -151,7 +151,7 @@ static unsigned int ColouriseMakeLine(
 		/// Style Target lines
 		// Find a good position for a style stopper.
 		if (i<lengthLine && IsGraphic(chNext) 
-			&& (strchr(" \t \"\'#!?&|+{}()[]<>;,=-", (int)chCurr) != NULL)|| IsNum(chCurr)) {
+			&& (strchr(" \t \"\'#!?&|+{}()[]<>;,=-", (int)chCurr) != NULL)) {
 			styleBreak=currentPos;
 		}
 
@@ -177,8 +177,8 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
 		}
 	
-		/// Numbers; _very_ simple for now.
-		if(state==SCE_MAKE_DEFAULT && IsNum(chCurr)) {
+		/// Numbers; _very_ simple for now.s
+		if(state==SCE_MAKE_DEFAULT && IsNum(chCurr) && !IsAlpha(chNext))  {
 			styler.ColourTo(currentPos-1, SCE_MAKE_DEFAULT);
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 		}

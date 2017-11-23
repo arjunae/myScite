@@ -12,7 +12,7 @@ To use this script with SciTE4AutoHotkey:
   - Restart SciTE.
 ]]
 -- Maximal filesize that this script should handle
-local AC_MAX_SIZE = 262144 --260kB
+local AC_MAX_SIZE =131072 --13kB
 
 -- List of styles per lexer that autocomplete should not occur within.
 local SCLEX_AHK1 = 200
@@ -50,15 +50,19 @@ function file_exists(name)
    if f~=nil then io.close(f) return true else return false end
 end
 
+--------------------------
+-- returns the size of a given file.
+--------------------------
 function file_size (filePath)
-    if filePath ~=""  then 
-      local  myFile=io.open(filePath,"r")
-       --local current = myFile:seek()      -- get current position
-       local size = myFile:seek("end")    -- get file size
-       myFile:seek("set", current)        -- restore position
-       myFile:close()
-       return size
+    if  filePath ~=""  or filePath ~= nil then 
+        local myFile,err=io.open(filePath,"r")
+        local size = myFile:seek("end")    -- get file size
+        myFile:close()
+        return size
+    else
+        return 0
     end
+	if err then print (err) end
 end
 
 function isInTable(table, elem)
@@ -153,52 +157,52 @@ end
 
 local function buildNames()
 --print("build names buffer state:",buffer.dirty)
-  
+   local fSize=0
   -- Perfomance: 
   -- Disable Ac for the Null Lexer
   -- only rebuild list when the buffer was modified
   -- use a user settable maximum size for AutoComplete to be active
 
     if editor.Lexer~=1 and buffer.dirty==true then 
-        local fSize= file_size(props["FilePath"]) 
-        if fSize > AC_MAX_SIZE then print(fSize) end
- 
-        setLexerSpecificStuff()
-        -- Reset our array of names.
-        names = {}
-        -- Collect all words matching the given patterns.
-        local unique = {}
-        for i, pattern in ipairs(IDENTIFIER_PATTERNS) do
-            local startPos, endPos
-            endPos = 0
-            while true do
-                startPos, endPos = editor:findtext(pattern, SCFIND_REGEXP, endPos + 1)
-                if not startPos then
-                    break
-                end
-                
-                if not shouldIgnorePos(startPos) then
-                    if endPos-startPos+1 >= MIN_IDENTIFIER_LEN then
-                        -- Create one key-value pair per unique word:
-                        local name = editor:textrange(startPos, endPos)
-                        unique[normalize(name)] = name
+    if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
+        if fSize < AC_MAX_SIZE then      
+            setLexerSpecificStuff()
+            -- Reset our array of names.
+            names = {}
+            -- Collect all words matching the given patterns.
+            local unique = {}
+            for i, pattern in ipairs(IDENTIFIER_PATTERNS) do
+                local startPos, endPos
+                endPos = 0
+                while true do
+                    startPos, endPos = editor:findtext(pattern, SCFIND_REGEXP, endPos + 1)
+                    if not startPos then
+                        break
+                    end
+                    
+                    if not shouldIgnorePos(startPos) then
+                        if endPos-startPos+1 >= MIN_IDENTIFIER_LEN then
+                            -- Create one key-value pair per unique word:
+                            local name = editor:textrange(startPos, endPos)
+                            unique[normalize(name)] = name
+                        end
                     end
                 end
             end
-        end
-        -- Build an ordered array from the table of names.
-        for name in pairs(getApiNames()) do
-            -- This also "case-corrects"; e.g. "gui" -> "Gui".
-            unique[normalize(name)] = name
-        end
-        for _,name in pairs(unique) do
-            table.insert(names, name)
-        end
-        table.sort(names, function(a,b) return normalize(a) < normalize(b) end)
-        buffer.namesForAutoComplete = names -- Cache it for OnSwitchFile.
-        buffer.dirty=false
-        --print ("ac>buildNames:  ...Created a new keywordlist")
-    end    
+            -- Build an ordered array from the table of names.
+            for name in pairs(getApiNames()) do
+                -- This also "case-corrects"; e.g. "gui" -> "Gui".
+                unique[normalize(name)] = name
+            end
+            for _,name in pairs(unique) do
+                table.insert(names, name)
+            end
+            table.sort(names, function(a,b) return normalize(a) < normalize(b) end)
+            buffer.namesForAutoComplete = names -- Cache it for OnSwitchFile.
+            buffer.dirty=false
+            --print ("ac>buildNames:  ...Created a new keywordlist")
+        end    
+    end
 end
 
 

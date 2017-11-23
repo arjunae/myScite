@@ -124,6 +124,7 @@ static unsigned int ColouriseMakeLine(
 		i++;
 
 	unsigned int theStart=i; // One Byte ought (not) to be enough for everyone....?
+	unsigned int stylerPos=i; // Keep a Reference to the last styled Position.
 
 	while (i < lengthLine) {
 		unsigned int currentPos=startLine+i;
@@ -151,23 +152,21 @@ static unsigned int ColouriseMakeLine(
 		/// Style Target lines
 		// Find a good position for a style stopper.
 		if (i<lengthLine && IsGraphic(chNext) 
-			&& (strchr(" \t \"\'#!?&|+{}()[]<>;,=-", (int)chCurr) != NULL)|| IsNum(chCurr)) {
+			&& (strchr(" \t \"\'#!?&|+{}()[]<>;=,", (int)chCurr) != NULL)) {
 			styleBreak=currentPos;
 		}
 
 		// skip identifier and target styling if this is a command line
 		if (!bCommand && state==SCE_MAKE_DEFAULT) {
 			if (chCurr == ':' && chNext != ':' && chNext != '=') {
-				if(styleBreak>0 && styleBreak<currentPos && IsAlpha(chPrev)) 
+				if(styleBreak>0 && styleBreak<currentPos && styleBreak>stylerPos) 
 					ColourHere(styler, styleBreak, SCE_MAKE_DEFAULT, state);
 				ColourHere(styler, currentPos-1, SCE_MAKE_TARGET, state);
 			} else if (chCurr == ':' && chNext == '=') {
 				// it's a ':=', so style as an identifier
 				ColourHere(styler, currentPos-2, SCE_MAKE_IDENTIFIER, state);
 			} else if (chCurr=='=' && chPrev != ':' && chNext !='=') {
-				if(styleBreak>0 && styleBreak<currentPos && IsAlpha(chPrev)) 
-					ColourHere(styler, styleBreak, SCE_MAKE_DEFAULT, state);
-				ColourHere(styler, currentPos-1, SCE_MAKE_IDENTIFIER, state);		
+					ColourHere(styler, currentPos-1, SCE_MAKE_IDENTIFIER, state);		
 			}
 		}
 
@@ -175,14 +174,17 @@ static unsigned int ColouriseMakeLine(
 		if (state==SCE_MAKE_DEFAULT && strchr("!?&|+[]<>;:=", (int)chCurr) != NULL) {
 			if (i>0) styler.ColourTo(currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
+			stylerPos=currentPos;
 		}
 	
-		/// Numbers; _very_ simple for now.
-		if(state==SCE_MAKE_DEFAULT && IsNum(chCurr)) {
+		/// Numbers; _very_ simple for now.s
+		if(state==SCE_MAKE_DEFAULT && IsNum(chCurr) && !IsAlpha(chPrev))  {
 			styler.ColourTo(currentPos-1, SCE_MAKE_DEFAULT);
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
+			stylerPos=currentPos;
 		}
 		
+
 		/// lets signal a warning on unclosed Strings or Brackets.
 		if (strchr("({", (int)chCurr)!=NULL) {
 			if (i>0) styler.ColourTo(currentPos-1, state);
@@ -251,13 +253,13 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		// Ok, now we have some materia within our char buffer.  Check whats in:
-		if (strSearch.size()>0 && IsAlphaNum(chNext) == 0) {
+		if (state!=SCE_MAKE_STRING && strSearch.size()>0 && IsAlphaNum(chNext) == 0) {
 			Sci_PositionU wordLen=(Sci_PositionU)strSearch.size();
 
 			// check if we get a match with Keywordlist externalCommands
 			// Rule: Prepended by line start or " \t\r\n /\":,\=" Ends on eol,whitespace or ;
 			if (kwExtCmd.InList(strSearch.c_str())
-					&& state!=SCE_MAKE_STRING && (strchr("\t\r\n ;)", (int)chNext) !=NULL) 
+				 && (strchr("\t\r\n ;)", (int)chNext) !=NULL) 
 					&& (i+1 -wordLen == theStart || AtStartChar(styler, startLine +i -wordLen))) {
 				if (i>0) 	ColourHere(styler, currentPos-wordLen, state, SCE_MAKE_DEFAULT);
 				state_prev=state;
@@ -266,12 +268,12 @@ static unsigned int ColouriseMakeLine(
 			} else if (state == SCE_MAKE_EXTCMD) {
 				state=SCE_MAKE_DEFAULT;
 				styler.ColourTo(currentPos, state);
-				}
+			}
 
 			// we now search for the word within the Directives Space.
-			// Rule: Prepended by whitespace, preceedet by line start or .'='.
+			// Rule: Prepended by whitespace, preceeded by line start or .'='.
 			if (kwGeneric.InList(strSearch.c_str())
-					&& inString==false && (strchr("\t\r\n ;)", (int)chNext) !=NULL)
+					&& (strchr("\t\r\n ;)", (int)chNext) !=NULL)
 					&& (i+1 -wordLen == theStart || styler.SafeGetCharAt(startLine +i -wordLen-1) == '=')) {
 				state_prev=state;
 				state=SCE_MAKE_DIRECTIVE;
@@ -332,13 +334,15 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'")
-		if ((state==SCE_MAKE_DEFAULT && i<lengthLine && (IsAlphaNum(chCurr)==0 && chNext=='-')) || (i == theStart && chCurr == '-')) {
+		if ((state==SCE_MAKE_DEFAULT && (chCurr==' ' || chCurr=='\t') && chNext=='-')
+			|| (i == theStart && chCurr == '-')) {
 			state_prev=SCE_MAKE_DEFAULT;
 			state = SCE_MAKE_FLAGS;
 			bool j= (i>0 && (chCurr=='-') && chNext=='-') ? 1:0; // style both '-'
 			styler.ColourTo(currentPos-j, state_prev);
 		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''", (int)chNext) !=NULL) {
 			ColourHere(styler, currentPos, state, state_prev);
+			stylerPos=currentPos;
 			state = SCE_MAKE_DEFAULT;
 		}
 	
