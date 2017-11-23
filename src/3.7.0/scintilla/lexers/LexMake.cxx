@@ -46,7 +46,7 @@ static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 }
 
 static inline bool AtStartChar(Accessor &styler, Sci_PositionU i) {
-	return (strchr("&|@\t\r\n -\":;, '({", (int)(styler.SafeGetCharAt(i)))!=NULL);
+	return (strchr("&|@\t\r\n -\":;, '({=", (int)(styler.SafeGetCharAt(i)))!=NULL);
 }
 
 static inline bool IsNewline(const int ch) {
@@ -336,8 +336,8 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'")
-		if ((state==SCE_MAKE_DEFAULT && (chCurr==' ' || chCurr=='\t') && chNext=='-')
-			|| (i == theStart && chCurr == '-')) {
+		if ((state==SCE_MAKE_DEFAULT && (AtStartChar(styler,currentPos)) && chNext=='-')
+			|| (currentPos == theStart && chCurr == '-')) {
 			state_prev=SCE_MAKE_DEFAULT;
 			state = SCE_MAKE_FLAGS;
 			bool j= (i>0 && (chCurr=='-') && chNext=='-') ? 1:0; // style both '-'

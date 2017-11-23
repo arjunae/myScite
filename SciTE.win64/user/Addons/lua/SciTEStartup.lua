@@ -23,21 +23,21 @@ _G.session_used_memory=collectgarbage("count")*1024
 	
 -- Load extman.lua
 -- This will automatically run any lua script located in \User\Addons\lua\lua
-dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
+--dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 
 -- chainload eventmanager / extman remake used by some lua mods
-dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
+--dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
 -- Load mod-mitchell
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+--dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 		
 -- Load Sidebar
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
+--dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
 -- Load enhanced Autocomplete
-dofile(myHome..'\\macros\\AutoComplete.lua')
+--dofile(myHome..'\\macros\\AutoComplete.lua')
 
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -191,10 +191,15 @@ function OnInit()
 --
 
 	--print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)
-	TestSciLexer("b3220c5d") -- SciLexers CRC32 Hash for the current Version
-	scite_OnOpenSwitch(StyleStuff)
+	--TestSciLexer("b3220c5d") -- SciLexers CRC32 Hash for the current Version
+	--scite_OnOpenSwitch(StyleStuff)
 end
 
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
+print("huhu")
+
+bla=require"lfs"
+--print(bla)
+

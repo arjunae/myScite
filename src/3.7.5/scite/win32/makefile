@@ -41,6 +41,7 @@ vpath %.cxx ../src
 vpath %.o ../../scintilla/win32
 vpath %.a ../../scintilla/win32
 
+
 ifndef NO_LUA
 LUA_CORE_OBJS = lapi.o lcode.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o \
 		lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o \
@@ -50,7 +51,9 @@ LUA_LIB_OBJS =	lauxlib.o lbaselib.o ldblib.o liolib.o lmathlib.o ltablib.o \
 		lstrlib.o loadlib.o loslib.o linit.o
 
 LUA_OBJS = LuaExtension.o $(LUA_CORE_OBJS) $(LUA_LIB_OBJS)
-#LUA_OBJS = LuaExtension.o  liblua5.1.a
+# or
+#LUA_OBJS = LuaExtension.o 
+#LUA_DLL=lua5.1.dll
 
 vpath %.c ../lua/src ../lua/src/lib
 
@@ -75,7 +78,7 @@ endif
 
 CXXFLAGS = $(CFLAGS) -pedantic --std=gnu++11
 
-LDFLAGS=-mwindows -lmsimg32 -lcomctl32 -limm32 -lole32 -luuid -loleaut32 --static $(UXLIB) $(LUA_LDFLAGS)
+LDFLAGS=-mwindows -lmsimg32 -lcomctl32 -limm32 -lole32 -luuid -loleaut32 --static $(LUA_DLL) $(UXLIB) $(LUA_LDFLAGS)
 
 .cxx.o:
 	$(CXX) $(CXXFLAGS) -c $< -o $@

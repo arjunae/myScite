@@ -9,6 +9,7 @@ session_used_memory=collectgarbage("count")*1024
 io.stdout:setvbuf("no")
 --print("startupScript_reload")   
 
+defaultHome = props["SciteDefaultHome"]
 myHome = props["SciteDefaultHome"].."/user"
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
@@ -31,8 +32,10 @@ package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;
 --dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 
 -- Load Orthospell 
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-hunspell\\?.lua;"
---dofile(myHome..'\\Addons\\lua\\mod-orthospell\\orthospell.lua')
+dofile(myHome..'\\macros\\orthospell.lua')
+
+-- Load enhanced Autocomplete
+dofile(myHome..'\\macros\\AutoComplete.lua')
 
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -46,17 +49,18 @@ function markLinks()
 	editor.IndicStyle[marker_a] = INDIC_COMPOSITIONTHIN
 	editor.IndicFore[marker_a] = 0xBE3344
 
-	prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
-	body="[a-zA-Z0-9]?." 	-- followed by a word  (eg www or the domain)
-	suffix="[^ \r\n\t\"\'<]+" 	-- ends with space, newline,tab < " or '
-	mask = prefix..body..suffix 
-	EditorClearMarks(marker_a) -- common.lua
-	local s,e = editor:findtext( mask, SCFIND_REGEXP, 0)
-	while s do
-		EditorMarkText(s, e-s, marker_a) -- common.lua
-		s,e =  editor:findtext( mask, SCFIND_REGEXP, s+1)
+	if editor.Lexer~=1 then -- Performance: Exclude Null Lexer	
+		prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
+		body="[a-zA-Z0-9]?." 	-- followed by a word  (eg www or the domain)
+		suffix="[^ \r\n\t\"\'<]+" 	-- ends with space, newline,tab < " or '
+		mask = prefix..body..suffix 
+		EditorClearMarks(marker_a) -- common.lua
+		local s,e = editor:findtext( mask, SCFIND_REGEXP, 0)
+		while s do
+			EditorMarkText(s, e-s, marker_a) -- common.lua
+			s,e =  editor:findtext( mask, SCFIND_REGEXP, s+1)
+		end
 	end
-
 --	
 -- Now mark any params and their Values - based in above text URLS
 -- http://www.test.de/?key1=test&key2=a12
@@ -65,33 +69,36 @@ function markLinks()
 	local marker_b=11 -- The URL Param
 	editor.IndicStyle[marker_b] = INDIC_TEXTFORE
 	editor.IndicFore[marker_b]  = props["colour.url_param"]
-	mask_b="[?&].*[=]" --Begin with ?& Any Char/Digit Ends with =
+	
+	if editor.Lexer~=1 then -- Performance: Exclude Null Lexer	
+		mask_b="[?&].*[=]" --Begin with ?& Any Char/Digit Ends with =
+		local sA,eA = editor:findtext(mask_b, SCFIND_REGEXP, 0)
+		while sA do
+			if editor:IndicatorValueAt(marker_a,sA)==1 then
+				EditorMarkText(sA, (eA-sA), marker_b)
+			end -- common.lua
+			sA,eA = editor:findtext( mask_b, SCFIND_REGEXP, sA+1)
+		end
 
-	local sA,eA = editor:findtext(mask_b, SCFIND_REGEXP, 0)
-	while sA do
-		if editor:IndicatorValueAt(marker_a,sA)==1 then
-			EditorMarkText(sA, (eA-sA), marker_b)
-		end -- common.lua
-		sA,eA = editor:findtext( mask_b, SCFIND_REGEXP, sA+1)
-	end
+		-- Values
+		local marker_c=12 -- The URL Params Value
+		editor.IndicStyle[marker_c] = INDIC_TEXTFORE
+		editor.IndicFore[marker_c]  = props["colour.url_param_value"]
+		mask_c="=[^& <]+[a-zA-Z0-9]?" -- Begin with = ends with Any alphaNum
 
-	-- Values
-	local marker_c=12 -- The URL Params Value
-	editor.IndicStyle[marker_c] = INDIC_TEXTFORE
-	editor.IndicFore[marker_c]  = props["colour.url_param_value"]
-	mask_c="=[^& <]+[& a-zA-z0-9$]" -- Begin with = ends with Any alphaNum
-
-	local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)
-	while sB do
-		if editor:IndicatorValueAt(marker_a,sB)==1 then
-			EditorMarkText(sB+1, (eB-sB)-1, marker_c)
-		end -- common.lua
-		sB,eB = editor:findtext( mask_c, SCFIND_REGEXP, sB+1)
+		local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)
+		while sB do
+			if editor:IndicatorValueAt(marker_a,sB)==1 then
+				EditorMarkText(sB+1, (eB-sB)-1, marker_c)
+			end -- common.lua
+			sB,eB = editor:findtext( mask_c, SCFIND_REGEXP, sB+1)
+		end
 	end
 
 	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :)
 end
 
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function markeMail()
 -- 
 -- search for eMail Links and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
@@ -100,20 +107,22 @@ function markeMail()
 	local marker_mail=13 -- The whole Textlink
 	editor.IndicStyle[marker_mail] = INDIC_COMPOSITIONTHIN
 	editor.IndicFore[marker_mail] = 0xB72233
-
-	prefix="[a-zA-Z0-9._-]+@" -- first part till @
-	body="[a-zA-Z0-9]+.*[.]" -- (sub.)domain part
-	suffix="[a-zA-Z]+" -- TLD
-	mask = prefix..body..suffix
-	EditorClearMarks(marker_mail) -- common.lua
-	local startpos,endpos = editor:findtext( mask, SCFIND_REGEXP, 0)
-	while startpos do
-		EditorMarkText(startpos, endpos-startpos, marker_mail) -- common.lua
-		startpos,endpos =  editor:findtext( mask, SCFIND_REGEXP, startpos+1)
+	
+	if editor.Lexer~=1 then -- Performance: Exclude Null Lexer	
+		prefix="[a-zA-Z0-9._-]+@" -- first part till @
+		body="[a-zA-Z0-9]+.*[.]" -- (sub.)domain part
+		suffix="[a-zA-Z]+" -- TLD
+		mask = prefix..body..suffix
+		EditorClearMarks(marker_mail) -- common.lua
+		local startpos,endpos = editor:findtext( mask, SCFIND_REGEXP, 0)
+		while startpos do
+			EditorMarkText(startpos, endpos-startpos, marker_mail) -- common.lua
+			startpos,endpos =  editor:findtext( mask, SCFIND_REGEXP, startpos+1)
+		end
 	end
 end
 
-
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function markGUID()
 --
 -- search for GUIDS and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
@@ -121,21 +130,59 @@ function markGUID()
 
 	local marker_guid=14 -- The whole Textlink
 	editor.IndicStyle[marker_guid] = INDIC_TEXTFORE
-	editor.IndicFore[marker_guid] = 0x608085
+	editor.IndicFore[marker_guid] = 0x577785
 -- Scintillas RESearch.cxx doesnt support match counting, so just define the basic guid format:
-	mask = "........-....-....-....-............"
-
-	EditorClearMarks(marker_guid) -- common.lua
-	local startpos,endpos = editor:findtext( mask, SCFIND_REGEXP, 0)
-	while startpos do
-		EditorMarkText(startpos, endpos-startpos, marker_guid) -- common.lua
-		startpos,endpos =  editor:findtext( mask, SCFIND_REGEXP, startpos+1)
+	mask = "........-\\w\\w\\w\\w-\\w\\w\\w\\w-\\w\\w\\w\\w-............"
+	if editor.Lexer~=1 then -- Performance: Exclude Null Lexer	
+		EditorClearMarks(marker_guid) -- common.lua
+		local startpos,endpos = editor:findtext( mask, SCFIND_REGEXP, 0)
+		while startpos do
+			EditorMarkText(startpos, endpos-startpos, marker_guid) -- common.lua
+			startpos,endpos =  editor:findtext( mask, SCFIND_REGEXP, startpos+1)
+		end
 	end
 end
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-scite_OnOpenSwitch(markLinks)
-scite_OnOpenSwitch(markeMail)
-scite_OnOpenSwitch(markGUID)
+function StyleStuff()
+---
+--- highlite http and eMail links and GUIDs
+---
+	local AC_MAX_SIZE =131072 --131kB
+	local fSize
 
+	scite_OnOpenSwitch(markLinks)
+	scite_OnOpenSwitch(markeMail)
+	scite_OnOpenSwitch(markGUID)	  
+	
+end
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+function TestSciLexer(origHash)
+--
+-- quickCheck SciLexer.dll's CRC32 Hash and inform the User if its a nonStock Version. 
+--
+
+	local C32 = require 'crc32'
+	local crc32=C32.crc32
+	local crccalc = C32.newcrc32()
+	local crccalc_mt = getmetatable(crccalc)
+
+	assert(crccalc_mt.reset) -- reset to zero
+	local file = assert(io.open (defaultHome.."\\".."SciLexer.dll", 'rb'))
+	while true do
+		local bytes = file:read(4096)
+		if not bytes then break end
+		crccalc:update(bytes)
+	end	
+	file:close()
+	SciLexerHash=crccalc:tohex()	
+	if SciLexerHash~=origHash then print("SciteStartup.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..crccalc:tohex()) end
+end
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	TestSciLexer("ca91a6ac") -- SciLexers CRC32 Hash for the current Version
+	scite_OnOpenSwitch(StyleStuff)
+	
+--print("startupScript_reload")
 --print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand

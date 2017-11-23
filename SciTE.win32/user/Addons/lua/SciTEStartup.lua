@@ -171,7 +171,7 @@ function TestSciLexer(origHash)
 	local crc32=C32.crc32
 	local crccalc = C32.newcrc32()
 	local crccalc_mt = getmetatable(crccalc)
-	
+
 	assert(crccalc_mt.reset) -- reset to zero
 	local file = assert(io.open (defaultHome.."\\".."SciLexer.dll", 'rb'))
 	while true do
