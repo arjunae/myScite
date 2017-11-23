@@ -7,7 +7,7 @@
 #
 
 # General Configuration
-VERSION         = 0.1.13
+VERSION         = 5.1.13
 FOUNDATION_HOME = $(shell pwd)/.foundation
 CONFIG_TOOL     = ${FOUNDATION_HOME}/repo/bin/project-config.php
 GENERATE_TOOL   = ${FOUNDATION_HOME}/repo/bin/project-generate.php

@@ -198,8 +198,3 @@ end
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
-print("huhu")
-
-bla=require"lfs"
---print(bla)
-

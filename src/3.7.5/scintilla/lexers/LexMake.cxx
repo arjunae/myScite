@@ -133,7 +133,7 @@ static unsigned int ColouriseMakeLine(
 		char chNext=styler.SafeGetCharAt(currentPos+1);
 		
 		/// style GNUMake Preproc
-		if (chCurr == '!') {
+		if (currentPos==theStart && chCurr == '!') {
 			state=SCE_MAKE_PREPROCESSOR;
 			if(styler[endPos]=='\n') styler.ColourTo(endPos, state);
 			return(state);
@@ -169,19 +169,6 @@ static unsigned int ColouriseMakeLine(
 			}
 		}
 
-		/// Operators..
-		if (state==SCE_MAKE_DEFAULT && strchr("!?&|+[]<>;:=", (int)chCurr) != NULL) {
-			if (i>0) styler.ColourTo(currentPos-1, state);
-			stylerPos =  ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
-			stylerPos=currentPos;
-		}
-	
-		/// Numbers; _very_ simple for now.s
-		if(state==SCE_MAKE_DEFAULT && IsNum(chCurr) && !IsAlpha(chPrev))  {
-			styler.ColourTo(currentPos-1, SCE_MAKE_DEFAULT);
-			stylerPos = ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
-			stylerPos=currentPos;
-		}
 
 		/// lets signal a warning on unclosed Strings or Brackets.
 		if (strchr("({", (int)chCurr)!=NULL) {
@@ -252,7 +239,7 @@ static unsigned int ColouriseMakeLine(
 
 		// Ok, now we have some materia within our char buffer, so check whats in.
 		// Do not match in Strings and the next char has to be either whitespace or ctrl.  
-		if (state!=SCE_MAKE_STRING && strSearch.size()>0 && IsAlphaNum(chNext) == 0) {
+		if (state!=SCE_MAKE_STRING && strSearch.size()>0 && IsAlpha(chNext) == 0) {
 			//Sci_PositionU wordLen=(Sci_PositionU)strSearch.size();
 
 			// check if we get a match with Keywordlist externalCommands
@@ -297,9 +284,27 @@ static unsigned int ColouriseMakeLine(
 				styler.ColourTo(currentPos, state);
 			}
 			
+			// Colour Strings which end with a number
+			if (IsNum(chCurr) && stylerPos < startMark) {
+				if (startMark>stylerPos) styler.ColourTo(startMark-1, SCE_MAKE_DEFAULT);
+				stylerPos = ColourHere(styler, currentPos,  SCE_MAKE_FLAGS, SCE_MAKE_DEFAULT);
+			}
+			
 			startMark=0;
 			strLen=0;
 			strSearch.clear();
+		}
+
+		/// Operators..
+		if (state==SCE_MAKE_DEFAULT && strchr("!?&|+[]<>;:=", (int)chCurr) != NULL && stylerPos < currentPos) {
+			if (currentPos>stylerPos) styler.ColourTo(currentPos-1, state);
+			stylerPos =  ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
+		}
+	
+		/// Numbers; _very_ simple for now.
+		if(state==SCE_MAKE_DEFAULT && IsNum(chCurr) && stylerPos < currentPos)  {
+			if (currentPos>stylerPos) styler.ColourTo(currentPos-1, state);
+			stylerPos = ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 		}
 
 		/// Style User Variables Rule: $(...)
