@@ -56,6 +56,7 @@ end
 function file_size (filePath)
     if  filePath ~=""  or filePath ~= nil then 
         local myFile,err=io.open(filePath,"r")
+        if err then return 0 end -- todo handle filePath containing Unicode chars 
         local size = myFile:seek("end")    -- get file size
         myFile:close()
         return size
@@ -139,7 +140,7 @@ local function getApiNames()
     apiFiles:gsub("[^;]+", function(apiFile) -- For each in ;-delimited list.
     if not file_exists(apiFile) then print ("ac>ignoring nonExistant apiFile: "..apiFile) return end
     for name in io.lines(apiFile) do
-        name = name:gsub("[\(, ].*", "") -- Discard parameters/comments.
+        name = name:gsub("[(, ].*", "") -- Discard parameters/comments.
             if string.len(name) > 0 then
                 apiNames[name] = true
             end

@@ -1,12 +1,13 @@
 ~ mySciTE.webdev ~
 
-[21.11.2017] Development
+[24.11.2017] Development
 - Add: Lisp / Scheme / Clojure / GO Language Keywords
 - Fix: lexMakeEOF & Add Folding / Fix: remove MSVC10 dependency
 - Fix: lua: more flexibility while loading hunspell.dll
 - Add: lua: luasocket, mime, http, sha2, underscore & serpent. Add Tests
 - New: lua: Events OnClick (singleClick) && OnInit (called once on Scite Startup) 
 - New: lexer: Highlight eMail Links && Highlight GUIDs / Increase FindMarks Speed. 
+- New: lua: AutoComplete any enabled by default.
 - New: Theme: Adapted theme solarized
 - New: CRC Verify SciLexer.dll during Start. 
 - Upd: Based on scintilla-scite 3.7.5 now. (was 3.7.0)
