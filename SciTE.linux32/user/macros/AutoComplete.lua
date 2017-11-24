@@ -32,7 +32,7 @@ local IGNORE_STYLES = { -- Should include comments, strings and errors.
     [SCLEX_HASKELL]  = {4,5,9,13,14,15,16,19},
     [SCLEX_HTML]  = {1,2,3,6,7,8,12},
     [SCLEX_LUA]  = {1,2,3,6,7,8,12},
-    [SCLEX_MAKEFILE]  = {1,9,12},
+    [SCLEX_MAKEFILE]  = {1,12},
     [SCLEX_MARKDOWN]  = {},
     [SCLEX_PERL]  = {1,2,6,7,22,23,24,25,26,27,44},
     [SCLEX_PYTHON]  = {1,3,4, 12, 13},
@@ -98,7 +98,7 @@ props["autocomplete.choose.single"] = "0"
 local names = {}
 
 local notempty = next
-local shouldIgnorePos -- init'd by buildNames().
+local shouldIgnorePos= function(self) end -- init'd by buildNames().
 local normalize
 
 if IGNORE_CASE then
@@ -164,44 +164,44 @@ local function buildNames()
   -- use a user settable maximum size for AutoComplete to be active
 
     if editor.Lexer~=1 and buffer.dirty==true then 
-    if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
-        if fSize < AC_MAX_SIZE then      
-            setLexerSpecificStuff()
-            -- Reset our array of names.
-            names = {}
-            -- Collect all words matching the given patterns.
-            local unique = {}
-            for i, pattern in ipairs(IDENTIFIER_PATTERNS) do
-                local startPos, endPos
-                endPos = 0
-                while true do
-                    startPos, endPos = editor:findtext(pattern, SCFIND_REGEXP, endPos + 1)
-                    if not startPos then
-                        break
-                    end
-                    
-                    if not shouldIgnorePos(startPos) then
-                        if endPos-startPos+1 >= MIN_IDENTIFIER_LEN then
-                            -- Create one key-value pair per unique word:
-                            local name = editor:textrange(startPos, endPos)
-                            unique[normalize(name)] = name
-                        end
+      if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
+      if fSize > AC_MAX_SIZE then  return end  
+    
+        setLexerSpecificStuff()
+        -- Reset our array of names.
+        names = {}
+        -- Collect all words matching the given patterns.
+        local unique = {}
+        for i, pattern in ipairs(IDENTIFIER_PATTERNS) do
+            local startPos, endPos
+            endPos = 0
+            while true do
+                startPos, endPos = editor:findtext(pattern, SCFIND_REGEXP, endPos + 1)
+                if not startPos then
+                    break
+                end
+                
+                if not shouldIgnorePos(startPos) then
+                    if endPos-startPos+1 >= MIN_IDENTIFIER_LEN then
+                        -- Create one key-value pair per unique word:
+                        local name = editor:textrange(startPos, endPos)
+                        unique[normalize(name)] = name
                     end
                 end
             end
-            -- Build an ordered array from the table of names.
-            for name in pairs(getApiNames()) do
-                -- This also "case-corrects"; e.g. "gui" -> "Gui".
-                unique[normalize(name)] = name
-            end
-            for _,name in pairs(unique) do
-                table.insert(names, name)
-            end
-            table.sort(names, function(a,b) return normalize(a) < normalize(b) end)
-            buffer.namesForAutoComplete = names -- Cache it for OnSwitchFile.
-            buffer.dirty=false
-            --print ("ac>buildNames:  ...Created a new keywordlist")
-        end    
+        end
+        -- Build an ordered array from the table of names.
+        for name in pairs(getApiNames()) do
+            -- This also "case-corrects"; e.g. "gui" -> "Gui".
+            unique[normalize(name)] = name
+        end
+        for _,name in pairs(unique) do
+            table.insert(names, name)
+        end
+        table.sort(names, function(a,b) return normalize(a) < normalize(b) end)
+        buffer.namesForAutoComplete = names -- Cache it for OnSwitchFile.
+        buffer.dirty=false
+        --print ("ac>buildNames:  ...Created a new keywordlist")   
     end
 end
 
@@ -214,6 +214,9 @@ local function handleChar(char, calledByHotkey)
     local startPos = editor:WordStartPosition(pos, true)
     local len = pos - startPos
     buffer.dirty=true
+    
+    if ipairs==nil then ipairs={} end
+    if editor.Lexer==1  then return end
     
     if not INCREMENTAL and editor:AutoCActive() then
         -- Nothing to do.
@@ -297,6 +300,8 @@ end
 
 
 local function handleKey(key, shift, ctrl, alt)
+   if editor.Lexer==1  then return end
+    
     if key == 0x20 and ctrl and not (shift or alt) then -- ^Space
         handleChar(nil, true)
         return true

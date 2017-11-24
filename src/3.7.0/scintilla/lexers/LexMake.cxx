@@ -284,10 +284,10 @@ static unsigned int ColouriseMakeLine(
 				styler.ColourTo(currentPos, state);
 			}
 			
-			// Colour Strings which end with a number
+			// Colour Strings which end with a digit
 			if (IsNum(chCurr) && stylerPos < startMark) {
 				if (startMark>stylerPos) styler.ColourTo(startMark-1, SCE_MAKE_DEFAULT);
-				stylerPos = ColourHere(styler, currentPos,  SCE_MAKE_FLAGS, SCE_MAKE_DEFAULT);
+				stylerPos = ColourHere(styler, currentPos,  SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 			}
 			
 			startMark=0;

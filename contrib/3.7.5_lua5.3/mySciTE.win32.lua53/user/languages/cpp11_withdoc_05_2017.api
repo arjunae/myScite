@@ -1,0 +1,379 @@
+##
+# C/CPP11 API Additions, ordered by header. As fetched from CPlusPlus.com / Februar2017, Marcedo@HabmalneFrage.de | https://sourceforge.net/projects/scite-webdev
+##
+proj(const complex<T>& x)Param: (Complex value.)\t\nDesc: Complex projection. (function template)\t\nProto: template<class T> complex<T> proj (const complex<T>& x);\t\n|[cpp11]|[<complex>]
+condition_variable()Param: ()\t\nDesc: Condition variable (class)\t\nProto: class condition_variable;\t\n|[cpp11 ]|[<condition_variable>]
+condition_variable_any()Param: ()\t\nDesc: Condition variable (any lock) (class)\t\nProto: class condition_variable_any;\t\n|[cpp11 ]|[<condition_variable>]
+cv_status()Param: ()\t\nDesc: Condition variable status (enum class)\t\nProto: enum class cv_status;\t\n|[cpp11]|[<condition_variable>]
+notify_all_at_thread_exit(condition_variable& cond, unique_lock<mutex> lck)Param: (A condition_variable object to notify all at thread exit.)\t\nDesc: Notify all at thread exit (function)\t\nProto: void notify_all_at_thread_exit (condition_variable& cond, unique_lock<mutex> lck);\t\n|[cpp11]|[<condition_variable>]
+max_align_t()Param: ()\t\nDesc: Type with widest scalar alignment (type)\t\nProto: no-proto\t\n|[cpp11]|[<cstddef> (stddef.h)]
+nullptr_t(nullptr);Param: ()\t\nDesc: Null pointer type (C++) (type)\t\nProto: typedef decltype(nullptr) nullptr_t;\t\n|[cpp11]|[<cstddef> (stddef.h)]
+rethrow_exception(exception_ptr p)Param: (An exception_ptr object pointing to an exception object.)\t\nDesc: Rethrow exception (function)\t\nProto: |[cpp11]|[<exception>]
+throw_with_nested(T&& e)Param: (An object or reference of a non-union class not derived from nested_exception.)\t\nDesc: Throw with nested (function)\t\nProto: |[cpp11]|[<exception>]
+current_exception( void * ptr, size_t size, size_t count, FILE * stream )Param: ()\t\nDesc: Get smart pointer to current exception (function)\t\nProto: exception_ptr current_exception() noexcept;\t\n|[cpp11]|[<exception>]
+get_terminate( void * ptr, size_t size, size_t count, FILE * stream )Param: ()\t\nDesc: Get terminate handler function (function)\t\nProto: terminate_handler get_terminate() noexcept;\t\n|[cpp11]|[<exception>]
+get_unexpected( void * ptr, size_t size, size_t count, FILE * stream )Param: ()\t\nDesc: Get unexpected handler function (function)\t\nProto: unexpected_handler get_unexpected() noexcept;\t\n|[cpp11]|[<exception>]
+make_exception_ptr(E e)Param: (An object or reference.)\t\nDesc: Make exception_ptr (function template)\t\nProto: template <class E>\t\nexception_ptr make_exception_ptr (E e) noexcept;\t\n|[cpp11]|[<exception>]
+nested_exception()Param: ()\t\nDesc: Nested exception class (class)\t\nProto: class nested_exception;\t\n|[cpp11 ]|[<exception>]
+rethrow_if_nested(const T& e)Param: (An object or reference.)\t\nDesc: Rethrow if nested (function)\t\nProto: template <class T>\t\nvoid rethrow_if_nested (const T& e);\t\n|[cpp11]|[<exception>]
+forward_list(T)Param: (Type of the elements.)\t\nDesc: Forward list (class template)\t\nProto: template < class T, class Alloc = allocator<T> > class forward_list;\t\n|[cpp11 ]|[<forward_list>]
+bind(fn)Param: (A function object, pointer to function or pointer to member.)\t\nDesc: Bind function arguments (function template)\t\nProto: long-proto\t\n|[cpp11]|[<functional>]
+bit_and(T)Param: (Type of the arguments and return type of the functional call.)\t\nDesc: Bitwise AND function object class (class template)\t\nProto: template <class T> struct bit_and;\t\n|[cpp11]|[<functional>]
+bit_xor(T)Param: (Type of the arguments and return type of the functional call.)\t\nDesc: Bitwise XOR function object class (class template)\t\nProto: template <class T> struct bit_xor;\t\n|[cpp11]|[<functional>]
+bad_function_call()Param: ()\t\nDesc: Exception thrown on bad call (class)\t\nProto: class bad_function_call;\t\n|[cpp11]|[<functional>]
+cref(elem)Param: (An lvalue reference, whose const reference is stored in the object.)\t\nDesc: Construct reference_wrapper to const (function template)\t\nProto: long-proto\t\n|[cpp11]|[<functional>]
+function(T)Param: (A type.)\t\nDesc: Function wrapper (class template)\t\nProto: template <class T> function; \t\n|[cpp11 ]|[<functional>]
+hash()Param: ()\t\nDesc: Default hash function object class (class template)\t\nProto: template <class T> struct hash;\t\n|[cpp11]|[<functional>]
+is_bind_expression(T)Param: (A type.)\t\nDesc: Is bind expression (class template)\t\nProto: template <class T> struct is_bind_expression;\t\n|[cpp11]|[<functional>]
+is_placeholder(T)Param: (A type.)\t\nDesc: Is placeholder (class template)\t\nProto: template <class T> struct is_placeholder;\t\n|[cpp11]|[<functional>]
+mem_fn(Ret T::* pm)Param: (Pointer to a member function.)\t\nDesc: Convert member function to function object (function template)\t\nProto: template <class Ret, class T>\t\n/* unspecified */ mem_fn (Ret T::* pm);\t\n|[cpp11]|[<functional>]
+placeholders()Param: ()\t\nDesc: Bind argument placeholders (namespace)\t\nProto: namespace placeholders {\t\nextern /* unspecified */ _1;extern /* unspecified */ _2;extern /* unspecified */ _3;// ...\t\n}\t\n|[cpp11]|[<functional>]
+reference_wrapper(T)Param: (Type of the referred element.)\t\nDesc: Reference wrapper (class template)\t\nProto: template <class T> class reference_wrapper;\t\n|[cpp11 ]|[<functional>]
+future()Param: ()\t\nDesc: Future (class template)\t\nProto: template <class T> future;template <class R&> future<R&>; \t\n|[cpp11 ]|[<future>]
+future_error()Param: ()\t\nDesc: Future error exception (class)\t\nProto: class future_error : public logic_error;\t\n|[cpp11 ]|[<future>]
+future_errc()Param: ()\t\nDesc: Error conditions for future objects (enum class)\t\nProto: enum class future_errc;\t\n|[cpp11 ]|[<future>]
+future_status()Param: ()\t\nDesc: Return value for timed future operations (enum class)\t\nProto: enum class future_status;\t\n|[cpp11]|[<future>]
+future_category( void * ptr, size_t size, size_t count, FILE * stream )Param: ()\t\nDesc: Return future category (function)\t\nProto: const error_category& future_category() noexcept;\t\n|[cpp11]|[<future>]
+launch()Param: ()\t\nDesc: Launching policy for async (enum class)\t\nProto: enum class launch;\t\n|[cpp11]|[<future>]
+packaged_task()Param: ()\t\nDesc: Packaged task (class template)\t\nProto: template <class T> packaged_task;\t\n|[cpp11 ]|[<future>]
+promise()Param: ()\t\nDesc: Promise (class template)\t\nProto: template <class T> promise;template <class R&> promise<R&>; \t\n|[cpp11 ]|[<future>]
+shared_future()Param: ()\t\nDesc: Shared future (class template)\t\nProto: template <class T> shared_future;template <class R&> shared_future<R&>; \t\n|[cpp11 ]|[<future>]
+initializer_list(T)Param: (Type of the elements.)\t\nDesc: Initializer list (class template)\t\nProto: template<class T> class initializer_list;\t\n|[cpp11 ]|[<initializer_list>]
+get_money(moneyT& mon, bool intl = false)Param: (Object where the monetary value is stored.)\t\nDesc: Get monetary value (function)\t\nProto: template <class moneyT>\t\n/*unspecified*/ get_money (moneyT& mon, bool intl = false);\t\n|[cpp11]|[<iomanip>]
+get_time(struct tm* tmb, const charT* fmt)Param: (Pointer to an object of type struct tm where the time and date information extracted is stored.)\t\nDesc: Get date and time (function)\t\nProto: template <class charT>\t\n/*unspecified*/ get_time (struct tm* tmb, const charT* fmt);\t\n|[cpp11]|[<iomanip>]
+put_money(const moneyT& mon, bool intl = false)Param: (Monetary value.)\t\nDesc: Put monetary value (function)\t\nProto: template <class moneyT>\t\n/*unspecified*/ put_money (const moneyT& mon, bool intl = false);\t\n|[cpp11]|[<iomanip>]
+put_time(const struct tm* tmb, const charT* fmt)Param: (Pointer to the object of type struct tm with the date and time information to format.)\t\nDesc: Put date and time (function)\t\nProto: template <class charT>\t\n/*unspecified*/ put_time (const struct tm* tmb, const charT* fmt);\t\n|[cpp11]|[<iomanip>]
+defaultfloat(ios_base& str)Param: (Stream object whose floatfield format flag is affected.)\t\nDesc: no-Description (other)\t\nProto: ios_base& defaultfloat (ios_base& str);\t\n|[cpp11]|[<ios>]
+hexfloat(ios_base& str)Param: (Stream object whose floatfield format flag is affected.)\t\nDesc: no-Description (other)\t\nProto: ios_base& hexfloat (ios_base& str);\t\n|[cpp11]|[<ios>]
+io_errc()Param: ()\t\nDesc: Input/output error conditions (enum class)\t\nProto: enum class io_errc;\t\n|[cpp11 ]|[<ios>]
+iostream_category( void * ptr, size_t size, size_t count, FILE * stream )Param: ()\t\nDesc: Return iostream category (function)\t\nProto: const error_category& iostream_category();\t\n|[cpp11]|[<ios>]
+begin(Container& cont)Param: (An object of a class type for which member begin is defined.)\t\nDesc: Iterator to beginning (function template)\t\nProto: template <class Container> auto begin (Container& cont) -> decltype (cont.begin());template <class Container> auto begin (const Container& cont) -> decltype (cont.begin());\t\n|[cpp11]|[<iterator>]
+make_move_iterator(const Iterator& it)Param: (An iterator.)\t\nDesc: Construct move iterator (function template)\t\nProto: template <class Iterator> move_iterator<Iterator> make_move_iterator (const Iterator& it);\t\n|[cpp11]|[<iterator>]
+wbuffer_convert(Codecvt)Param: (Type of the conversion object: This shall be a class with the same properties as the codecvt locale facet, such as one of the standard classes defined in header <codecvt>.)\t\nDesc: no-Description (other)\t\nProto: template < class Codecvt, class Elem = wchar_t, class Tr = char_traits<Elem> > class wbuffer_convert\t\n: public std::basic_streambuf<Elem,Tr>;\t\n|[cpp11 ]|[<locale>]
+wstring_convert(Codecvt)Param: (Type of the conversion object: This shall be a class with the same properties as the codecvt locale facet, such as one of the standard classes defined in header <codecvt>.)\t\nDesc: no-Description (other)\t\nProto: template < class Codecvt, class Elem = wchar_t, class Wide_alloc = std::allocator<Elem>, class Byte_alloc = std::allocator<char> > class wstring_convert;\t\n|[cpp11 ]|[<locale>]
+default_delete(T)Param: (The type of object to be deleted.)\t\nDesc: Default deleter (class template)\t\nProto: non-specialized\t\ntemplate <class T> class default_delete;array specialization\t\ntemplate <class T> class default_delete<T|[cpp11 ]|[<memory>]
+unique_ptr(T)Param: (The type of the managed object, aliased as member type element_type.)\t\nDesc: Unique pointer (class template)\t\nProto: non-specialized\t\ntemplate <class T, class D = default_delete<T>> class unique_ptr;array specialization\t\ntemplate <class T, class D> class unique_ptr<T|[cpp11 ]|[<memory>]
+allocator_arg_t()Param: ()\t\nDesc: Allocator arg type (class)\t\nProto: struct allocator_arg_t {};\t\n|[cpp11]|[<memory>]
+allocator_traits(Alloc)Param: (The allocator type, aliased as member type allocator_type.)\t\nDesc: Allocator traits (class template)\t\nProto: template <class Alloc> struct allocator_traits;\t\n|[cpp11 ]|[<memory>]
+allocate_shared(const Alloc& alloc, Args&&... args)Param: (An allocator object.)\t\nDesc: Allocate shared_ptr (function template)\t\nProto: template <class T, class Alloc, class... Args>\t\nshared_ptr<T> allocate_shared (const Alloc& alloc, Args&&... args);\t\n|[cpp11]|[<memory>]
+addressof(T& ref)Param: (An object or function.)\t\nDesc: Address of object or function (function template)\t\nProto: template <class T> T* addressof (T& ref) noexcept;\t\n|[cpp11]|[<memory>]
+bad_weak_ptr()Param: ()\t\nDesc: no-Description (other)\t\nProto: class bad_weak_ptr: public exception;\t\n|[cpp11 ]|[<memory>]
+const_pointer_cast(const shared_ptr<T>& sp)Param: (A shared_pointer.)\t\nDesc: Const cast of shared_ptr (function template)\t\nProto: template <class T, class U>\t\nshared_ptr<T> const_pointer_cast (const shared_ptr<U>& sp) noexcept;\t\n|[cpp11]|[<memory>]
+declare_no_pointers(char* p, size_t n)Param: (Pointer to the first byte of the range to be declared.)\t\nDesc: Declare memory block as containing no pointers (function)\t\nProto: void declare_no_pointers (char* p, size_t n);\t\n|[cpp11]|[<memory>]
+dynamic_pointer_cast(const shared_ptr<T>& sp)Param: (A shared_ptr.)\t\nDesc: Dynamic cast of shared_ptr (function template)\t\nProto: template <class T, class U>\t\nshared_ptr<T> dynamic_pointer_cast (const shared_ptr<U>& sp) noexcept;\t\n|[cpp11]|[<memory>]
+declare_reachable(void* p)Param: (A safely-derived pointer, or a null pointer.)\t\nDesc: Declare pointer as reachable (function)\t\nProto: void declare_reachable (void* p);\t\n|[cpp11]|[<memory>]
+enable_shared_from_this(T)Param: (Full type of the pointed class (generally the final class inheriting from this).)\t\nDesc: Enable shared_from_this (class template)\t\nProto: template <class T> class enable_shared_from_this;\t\n|[cpp11 ]|[<memory>]
+get_pointer_safety( void * ptr, size_t size, size_t count, FILE * stream )Param: ()\t\nDesc: Get pointer safety (function)\t\nProto: pointer_safety get_pointer_safety() noexcept;\t\n|[cpp11]|[<memory>]
+get_deleter(const shared_ptr<T>& sp)Param: (A shared_ptr object.)\t\nDesc: Get deleter from shared_ptr (function template)\t\nProto: template <class D, class T>\t\nD* get_deleter (const shared_ptr<T>& sp) noexcept;\t\n|[cpp11]|[<memory>]
+make_shared(Args&&... args)Param: (List of elements passed to T's constructor.)\t\nDesc: Make shared_ptr (function template)\t\nProto: template <class T, class... Args>\t\nshared_ptr<T> make_shared (Args&&... args);\t\n|[cpp11]|[<memory>]
+owner_less(Ptr)Param: (The type of the managed pointers to be ordered according to owned resource, aliased as member types first_argument_type and second_argument_type.)\t\nDesc: Owner-based less-than operation (class template)\t\nProto: template <class Ptr> struct owner_less;template <class T> struct owner_less<shared_ptr<T>>;template <class T> struct owner_less<weak_ptr<T>>;\t\n|[cpp11]|[<memory>]
+pointer_traits(Ptr)Param: (Pointer-like type.)\t\nDesc: Pointer traits (class template)\t\nProto: template <class Ptr> class pointer_traits; // template\t\ntemplate <class T> class pointer_traits<T*>; // template specialization\t\n|[cpp11 ]|[<memory>]
+pointer_safety()Param: ()\t\nDesc: Pointer safety enum (enum class)\t\nProto: enum class pointer_safety { relaxed, preferred, strict };\t\n|[cpp11]|[<memory>]
+shared_ptr(T)Param: (The type of the managed object, aliased as member type element_type.)\t\nDesc: Shared pointer (class template)\t\nProto: template <class T> class shared_ptr;\t\n|[cpp11 ]|[<memory>]
+static_pointer_cast(const shared_ptr<T>& sp)Param: (A shared_pointer.)\t\nDesc: Static cast of shared_ptr (function template)\t\nProto: template <class T, class U>\t\nshared_ptr<T> static_pointer_cast (const shared_ptr<U>& sp) noexcept;\t\n|[cpp11]|[<memory>]
+uses_allocator(T)Param: (A type.)\t\nDesc: no-Description (other)\t\nProto: template <class T, class Alloc> struct uses_allocator;\t\n|[cpp11]|[<memory>]
+uninitialized_copy_n( InputIterator first, Size n,ForwardIterator result )Param: (Forward iterator to the initial position in an uninitialized sequence of at least n elements.)\t\nDesc: Copy block of memory (function template)\t\nProto: template <class InputIterator, class Size, class ForwardIterator>\t\nForwardIterator uninitialized_copy_n ( InputIterator first, Size n,ForwardIterator result );\t\n|[cpp11]|[<memory>]
+undeclare_no_pointers(char* p, size_t n)Param: (Pointer to the first byte of the range.)\t\nDesc: Undeclare memory block as containing no pointers (function)\t\nProto: void undeclare_no_pointers (char* p, size_t n);\t\n|[cpp11]|[<memory>]
+undeclare_reachable(T* p)Param: (A pointer pointing to an object previously declared as reachable with declare_reachable.)\t\nDesc: Undeclare pointer as reachable (function template)\t\nProto: template <class T> T* undeclare_reachable (T* p);\t\n|[cpp11]|[<memory>]
+allocator_traits(Alloc)Param: (The allocator type, aliased as member type allocator_type.)\t\nDesc: Allocator traits (class template)\t\nProto: template <class Alloc> struct allocator_traits;\t\n|[cpp11 ]|[<memory>]
+pointer_traits(Ptr)Param: (Pointer-like type.)\t\nDesc: Pointer traits (class template)\t\nProto: template <class Ptr> class pointer_traits; // template\t\ntemplate <class T> class pointer_traits<T*>; // template specialization\t\n|[cpp11 ]|[<memory>]
+adopt_lock_t()Param: ()\t\nDesc: Type of adopt_lock (class)\t\nProto: struct adopt_lock_t {};\t\n|[cpp11]|[<mutex>]
+call_once(once_flag& flag, Fn&& fn, Args&&... args)Param: (Object used by the function to track the state of invocations.)\t\nDesc: Call function once (public member function)\t\nProto: template <class Fn, class... Args> void call_once (once_flag& flag, Fn&& fn, Args&&... args);\t\n|[cpp11]|[<mutex>]
+defer_lock_t()Param: ()\t\nDesc: Type of defer_lock (class)\t\nProto: struct defer_lock_t {};\t\n|[cpp11]|[<mutex>]
+lock_guard(Mutex)Param: (A mutex-like type.)\t\nDesc: Lock guard (class template)\t\nProto: template <class Mutex> class lock_guard;\t\n|[cpp11 ]|[<mutex>]
+mutex()Param: ()\t\nDesc: Mutex class (class)\t\nProto: class mutex;\t\n|[cpp11 ]|[<mutex>]
+once_flag()Param: ()\t\nDesc: Flag argument type for call_once (class)\t\nProto: struct once_flag;\t\n|[cpp11]|[<mutex>]
+recursive_mutex()Param: ()\t\nDesc: Recursive mutex class (class)\t\nProto: class recursive_mutex;\t\n|[cpp11 ]|[<mutex>]
+recursive_timed_mutex()Param: ()\t\nDesc: Recursive timed mutex (class)\t\nProto: class recursive_timed_mutex;\t\n|[cpp11 ]|[<mutex>]
+try_to_lock_t()Param: ()\t\nDesc: Type of try_to_lock (class)\t\nProto: struct try_to_lock_t {};\t\n|[cpp11]|[<mutex>]
+try_lock(Mutex1& a, Mutex2& b, Mutexes&... cde)Param: (Objects to try-lock.)\t\nDesc: Try to lock multiple mutexes (function template)\t\nProto: template <class Mutex1, class Mutex2, class... Mutexes>\t\nint try_lock (Mutex1& a, Mutex2& b, Mutexes&... cde);\t\n|[cpp11]|[<mutex>]
+unique_lock(Mutex)Param: (A mutex-like type.)\t\nDesc: Unique lock (class template)\t\nProto: template <class Mutex> class unique_lock;\t\n|[cpp11 ]|[<mutex>]
+bad_array_new_length()Param: ()\t\nDesc: Exception on bad array length (class)\t\nProto: class bad_array_new_length;\t\n|[cpp11]|[<new>]
+get_new_handler( void * ptr, size_t size, size_t count, FILE * stream )Param: ()\t\nDesc: Get new handler function (function)\t\nProto: new_handler get_new_handler() noexcept;\t\n|[cpp11]|[<new>]
+iota(ForwardIterator first, ForwardIterator last, T val)Param: (Forward iterators to the initial and final positions of the sequence to be written.)\t\nDesc: Store increasing sequence (function template)\t\nProto: template <class ForwardIterator, class T>\t\nvoid iota (ForwardIterator first, ForwardIterator last, T val);\t\n|[cpp11]|[<numeric>]
+bernoulli_distribution()Param: ()\t\nDesc: Bernoulli distribution (class)\t\nProto: class bernoulli_distribution;\t\n|[cpp11 ]|[<random>]
+binomial_distribution(IntType)Param: (An integer type.)\t\nDesc: Binomial distribution (class template)\t\nProto: template <class IntType = int> class binomial_distribution;\t\n|[cpp11 ]|[<random>]
+cauchy_distribution(RealType)Param: (A floating-point type.)\t\nDesc: Cauchy distribution (class template)\t\nProto: template <class RealType = double> class cauchy_distribution;\t\n|[cpp11 ]|[<random>]
+chi_squared_distribution(RealType)Param: (A floating-point type.)\t\nDesc: Chi-squared distribution (class template)\t\nProto: template <class RealType = double> class chi_squared_distribution;\t\n|[cpp11 ]|[<random>]
+discrete_distribution(IntType)Param: (An integer type.)\t\nDesc: Discrete distribution (class template)\t\nProto: template <class IntType = int> class discrete_distribution;\t\n|[cpp11 ]|[<random>]
+default_random_engine()Param: ()\t\nDesc: Default random engine (class)\t\nProto: no-proto\t\n|[cpp11]|[<random>]
+discard_block_engine(Engine)Param: (A random number engine type.)\t\nDesc: Discard-block random number engine adaptor (class template)\t\nProto: template <class Engine, size_t p, size_t r>\t\nclass discard_block_engine;\t\n|[cpp11 ]|[<random>]
+exponential_distribution(RealType)Param: (A floating-point type.)\t\nDesc: Exponential distribution (class template)\t\nProto: template <class RealType = double> class exponential_distribution;\t\n|[cpp11 ]|[<random>]
+extreme_value_distribution(RealType)Param: (A floating-point type.)\t\nDesc: Extreme Value distribution (class template)\t\nProto: template <class RealType = double> class extreme_value_distribution;\t\n|[cpp11 ]|[<random>]
+fisher_f_distribution(RealType)Param: (A floating-point type.)\t\nDesc: Fisher F-distribution (class template)\t\nProto: template <class RealType = double> class fisher_f_distribution;\t\n|[cpp11 ]|[<random>]
+gamma_distribution(RealType)Param: (A floating-point type.)\t\nDesc: Gamma distribution (class template)\t\nProto: template <class RealType = double> class gamma_distribution;\t\n|[cpp11 ]|[<random>]
+geometric_distribution(IntType)Param: (An integer type.)\t\nDesc: Geometric distribution (class template)\t\nProto: template <class IntType = int> class geometric_distribution;\t\n|[cpp11 ]|[<random>]
+generate_canonical(URNG& g)Param: (A floating-point type.)\t\nDesc: Generate canonical numbers (function template)\t\nProto: template <class RealType, size_t bits, class URNG>\t\nRealType generate_canonical (URNG& g);\t\n|[cpp11]|[<random>]
+independent_bits_engine(Engine)Param: (A random number engine type.)\t\nDesc: Independent-bits random number engine adaptor (class template)\t\nProto: template <class Engine, size_t w, class UIntType>\t\nclass independent_bits_engine;\t\n|[cpp11 ]|[<random>]
+knuth_b()Param: ()\t\nDesc: Knuth-B generator (class)\t\nProto: typedef shuffle_order_engine <minstd_rand0,256> knuth_b;\t\n|[cpp11]|[<random>]
+lognormal_distribution(RealType)Param: (A floating-point type.)\t\nDesc: Lognormal distribution (class template)\t\nProto: template <class RealType = double> class lognormal_distribution;\t\n|[cpp11 ]|[<random>]
+linear_congruential_engine(UIntType)Param: (An unsigned integer type.)\t\nDesc: Linear congruential random number engine (class template)\t\nProto: template <class UIntType, UIntType a, UIntType c, UIntType m>\t\nclass linear_congruential_engine;\t\n|[cpp11 ]|[<random>]
+mersenne_twister_engine(UIntType)Param: (An unsigned integer type.)\t\nDesc: Mersenne twister random number engine (class template)\t\nProto: template <class UIntType, size_t w, size_t n, size_t m, size_t r,UIntType a, size_t u, UIntType d, size_t s,UIntType b, size_t t,UIntType c, size_t l, UIntType f>\t\nclass mersenne_twister_engine;\t\n|[cpp11 ]|[<random>]
+minstd_rand()Param: ()\t\nDesc: Minimal Standard minstd_rand generator (class)\t\nProto: typedef linear_congruential_engine<uint_fast32_t, 48271, 0, 2147483647> minstd_rand;\t\n|[cpp11]|[<random>]
+minstd_rand0()Param: ()\t\nDesc: Minimal Standard minstd_rand0 generator (class)\t\nProto: typedef linear_congruential_engine<uint_fast32_t, 16807, 0, 2147483647> minstd_rand0;\t\n|[cpp11]|[<random>]
+mt19937()Param: ()\t\nDesc: Mersenne Twister 19937 generator (class)\t\nProto: typedef mersenne_twister_engine<uint_fast32_t,\t\n32,624,397,31,0x9908b0df,11,0xffffffff,7,0x9d2c5680,15,0xefc60000,18,1812433253>\t\nmt19937;\t\n|[cpp11]|[<random>]
+mt19937_64()Param: ()\t\nDesc: Mersene Twister 19937 generator (64 bit) (class)\t\nProto: typedef mersenne_twister_engine<uint_fast64_t,\t\n64,312,156,31,0xb5026f5aa96619e9,\t\n29,0x5555555555555555,\t\n17,0x71d67fffeda60000,\t\n37,0xfff7eee000000000,\t\n43,6364136223846793005> mt19937_64;\t\n|[cpp11]|[<random>]
+negative_binomial_distribution(IntType)Param: (An integer type.)\t\nDesc: Negative binomial distribution (class template)\t\nProto: template <class IntType = int> class negative_binomial_distribution;\t\n|[cpp11 ]|[<random>]
+piecewise_constant_distribution(RealType)Param: (A floating-point type.)\t\nDesc: Piecewise constant distribution (class template)\t\nProto: template <class RealType = double> class piecewise_constant_distribution;\t\n|[cpp11 ]|[<random>]
+piecewise_linear_distribution(RealType)Param: (A floating-point type.)\t\nDesc: Piecewise linear distribution (class template)\t\nProto: template <class RealType = double> class piecewise_linear_distribution;\t\n|[cpp11 ]|[<random>]
+poisson_distribution(IntType)Param: (An integer type.)\t\nDesc: Poisson distribution (class template)\t\nProto: template <class IntType = int> class poisson_distribution;\t\n|[cpp11 ]|[<random>]
+random_device()Param: ()\t\nDesc: True random number generator (class)\t\nProto: class random_device;\t\n|[cpp11 ]|[<random>]
+ranlux24()Param: ()\t\nDesc: Ranlux 24 generator (class)\t\nProto: typedef discard_block_engine <ranlux24_base, 223, 23> ranlux24;\t\n|[cpp11]|[<random>]
+ranlux24_base()Param: ()\t\nDesc: Ranlux 24 base generator (class)\t\nProto: typedef subtract_with_carry_engine <uint_fast32_t, 24, 10, 24> ranlux24_base;\t\n|[cpp11]|[<random>]
+ranlux48()Param: ()\t\nDesc: Ranlux 48 generator (class)\t\nProto: typedef discard_block_engine <ranlux48_base, 389, 11> ranlux48;\t\n|[cpp11]|[<random>]
+ranlux48_base()Param: ()\t\nDesc: Ranlux 48 base generator (class)\t\nProto: typedef subtract_with_carry_engine <uint_fast64_t, 48, 5, 12> ranlux48_base;\t\n|[cpp11]|[<random>]
+student_t_distribution(RealType)Param: (A floating-point type.)\t\nDesc: Student T-Distribution (class template)\t\nProto: template <class RealType = double> class student_t_distribution;\t\n|[cpp11 ]|[<random>]
+shuffle_order_engine(Engine)Param: (A random number engine type.)\t\nDesc: Shuffle-order random number engine adaptor (class template)\t\nProto: template <class Engine, size_t k> class shuffle_order_engine;\t\n|[cpp11 ]|[<random>]
+subtract_with_carry_engine(UIntType)Param: (An unsigned integer type.)\t\nDesc: Subtract-with-carry random number engine (class template)\t\nProto: template <class UIntType, size_t w, size_t s, size_t r>\t\nclass subtract_with_carry_engine;\t\n|[cpp11 ]|[<random>]
+seed_seq()Param: ()\t\nDesc: Seed sequence (class)\t\nProto: class seed_seq;\t\n|[cpp11 ]|[<random>]
+uniform_int_distribution(IntType)Param: (An integer type.)\t\nDesc: Uniform discrete distribution (class template)\t\nProto: template <class IntType = int> class uniform_int_distribution;\t\n|[cpp11 ]|[<random>]
+uniform_real_distribution(RealType)Param: (A floating-point type.)\t\nDesc: Uniform real distribution (class template)\t\nProto: template <class RealType = double> class uniform_real_distribution;\t\n|[cpp11 ]|[<random>]
+weibull_distribution(RealType)Param: (A floating-point type.)\t\nDesc: Weibull distribution (class template)\t\nProto: template <class RealType = double> class weibull_distribution;\t\n|[cpp11 ]|[<random>]
+ratio_add(R1,R2)Param: (ratio types to be added.)\t\nDesc: Add two ratios (class template)\t\nProto: template <class R1, class R2> ratio_add;\t\n|[cpp11]|[<ratio>]
+ratio_divide(R1,R2)Param: (ratio types to be divided.)\t\nDesc: Divide ratios (class template)\t\nProto: template <class R1, class R2> ratio_divide;\t\n|[cpp11]|[<ratio>]
+ratio_equal(R1,R2)Param: (ratio types to be compared.)\t\nDesc: Compare ratios (class template)\t\nProto: template <class R1, class R2> ratio_equal;\t\n|[cpp11]|[<ratio>]
+ratio_greater(R1,R2)Param: (ratio types to be compared.)\t\nDesc: Compare ratios for greater than inequality (class template)\t\nProto: template <class R1, class R2> ratio_greater;\t\n|[cpp11]|[<ratio>]
+ratio_greater_equal(R1,R2)Param: (ratio types to be compared.)\t\nDesc: Compare ratios for equality or greater-than inequality (class template)\t\nProto: template <class R1, class R2> ratio_greater_equal;\t\n|[cpp11]|[<ratio>]
+ratio_less(R1,R2)Param: (ratio types to be compared.)\t\nDesc: Compare ratios for less-than inequality (class template)\t\nProto: template <class R1, class R2> ratio_less;\t\n|[cpp11]|[<ratio>]
+ratio_less_equal(R1,R2)Param: (ratio types to be compared.)\t\nDesc: Compare ratios for equality or less-than inequality (class template)\t\nProto: template <class R1, class R2> ratio_less_equal;\t\n|[cpp11]|[<ratio>]
+ratio_multiply(R1,R2)Param: (ratio types to be multiplied.)\t\nDesc: Multiply two ratios (class template)\t\nProto: template <class R1, class R2> ratio_multiply;\t\n|[cpp11]|[<ratio>]
+ratio_not_equal(R1,R2)Param: (ratio types to be compared.)\t\nDesc: Compare ratios for inequality (class template)\t\nProto: template <class R1, class R2> ratio_not_equal;\t\n|[cpp11]|[<ratio>]
+ratio_subtract(R1,R2)Param: (ratio types to be subtracted.)\t\nDesc: Subtract ratios (class template)\t\nProto: template <class R1, class R2> ratio_subtract;\t\n|[cpp11]|[<ratio>]
+basic_regex(charT)Param: (The character type.)\t\nDesc: Regular expression (class template)\t\nProto: template <class charT, class traits = regex_traits<charT> > class basic_regex;\t\n|[cpp11 ]|[<regex>]
+cmatch()Param: ()\t\nDesc: match_results for string literals (class)\t\nProto: typedef match_results<const char*> cmatch;\t\n|[cpp11]|[<regex>]
+csub_match()Param: ()\t\nDesc: sub_match for string literals (class)\t\nProto: typedef sub_match<const char*> csub_match;\t\n|[cpp11]|[<regex>]
+match_results(BidirectionalIterator)Param: (A bidirectional iterator type that iterates on the target sequence of characters.)\t\nDesc: Match results (class template)\t\nProto: template < class BidirectionalIterator, class Alloc = allocator< sub_match<BidirectionalIterator> > > class match_results;\t\n|[cpp11 ]|[<regex>]
+regex_constants()Param: ()\t\nDesc: regex constants (namespace)\t\nProto: no-proto\t\n|[cpp11]|[<regex>]
+regex_error()Param: ()\t\nDesc: Regex exception (class)\t\nProto: class regex_error : public runtime_error { /* ... */ };\t\n|[cpp11 ]|[<regex>]
+regex_iterator(BidirectionalIterator)Param: (A bidirectional iterator type that iterates on the target sequence of characters.)\t\nDesc: Regex iterator (class template)\t\nProto: template <class BidirectionalIterator,class charT=typename iterator_traits<BidirectionalIterator>::value_type,class traits=regex_traits<charT> > class regex_iterator;\t\n|[cpp11 ]|[<regex>]
+regex_token_iterator(BidirectionalIterator)Param: (A bidirectional iterator type that iterates on the target sequence of characters.)\t\nDesc: Regex token iterator (class template)\t\nProto: template <class BidirectionalIterator,class charT=typename iterator_traits<BidirectionalIterator>::value_type,class traits=regex_traits<charT> > class regex_token_iterator;\t\n|[cpp11 ]|[<regex>]
+regex_traits(charT)Param: (The character type.)\t\nDesc: Regex traits (class template)\t\nProto: template <class charT> class regex_traits;\t\n|[cpp11 ]|[<regex>]
+regex_replace(s)Param: (A string with the target sequence (the subject).)\t\nDesc: Replace matched sequence (function template)\t\nProto: long-proto\t\n|[cpp11]|[<regex>]
+regex_match(s)Param: (A string with the target sequence (the subject) against which the regex expression is matched.)\t\nDesc: Match sequence (function template)\t\nProto: template <class charT, class traits> bool regex_match (const charT* s, const basic_regex<charT,traits>& rgx, regex_constants::match_flag_type flags = regex_constants::match_default);\t\n|[cpp11]|[<regex>]
+regex_search(s)Param: (A string with the target sequence (the subject) to be searched for a match of the regex expression.)\t\nDesc: Search sequence (function template)\t\nProto: template <class charT, class traits> bool regex_search (const charT* s, const basic_regex<charT,traits>& rgx, regex_constants::match_flag_type flags = regex_constants::match_default);\t\n|[cpp11]|[<regex>]
+sub_match(BidirectionalIterator)Param: (A bidirectional iterator type that iterates on a sequence of characters.)\t\nDesc: Sub-expression match (class template)\t\nProto: template <class BidirectionalIterator>\t\nclass sub_match : public pair <BidirectionalIterator, BidirectionalIterator>;\t\n|[cpp11 ]|[<regex>]
+ssub_match()Param: ()\t\nDesc: sub_match for strings (class)\t\nProto: typedef sub_match<string::const_iterator> ssub_match;\t\n|[cpp11]|[<regex>]
+wcmatch()Param: ()\t\nDesc: match_results for wide string literals (class)\t\nProto: typedef match_results<const wchar_t*> wcmatch;\t\n|[cpp11]|[<regex>]
+wcsub_match()Param: ()\t\nDesc: sub_match for wide string literals (class)\t\nProto: typedef sub_match<const wchar_t*> csub_match;\t\n|[cpp11]|[<regex>]
+wregex()Param: ()\t\nDesc: Regex for wchar_t (class)\t\nProto: typedef basic_regex<wchar_t> wregex;\t\n|[cpp11]|[<regex>]
+wsmatch()Param: ()\t\nDesc: match_results for wide string objects (class)\t\nProto: typedef match_results<wstring::const_iterator> smatch;\t\n|[cpp11]|[<regex>]
+wssub_match()Param: ()\t\nDesc: sub_match for wide strings (class)\t\nProto: typedef sub_match<wstring::const_iterator> ssub_match;\t\n|[cpp11]|[<regex>]
+basic_regex(charT)Param: (The character type.)\t\nDesc: Regular expression (class template)\t\nProto: template <class charT, class traits = regex_traits<charT> > class basic_regex;\t\n|[cpp11 ]|[<regex>]
+stoi(const string& str, size_t* idx = 0, int base = 10)Param: (String object with the representation of an integral number.)\t\nDesc: Convert string to integer (function template)\t\nProto: int stoi (const string& str, size_t* idx = 0, int base = 10);\t\nProto: int stoi (const wstring& str, size_t* idx = 0, int base = 10);\t\n|[cpp11]|[<string>]
+to_string(val)Param: (Numerical value.)\t\nDesc: Convert numerical value to string (function)\t\nProto: long-proto\t\n|[cpp11]|[<string>]
+to_wstring(val)Param: (Numerical value.)\t\nDesc: Convert numerical value to wide string (function)\t\nProto: long-proto\t\n|[cpp11]|[<string>]
+u16string()Param: ()\t\nDesc: String of 16-bit characters (class)\t\nProto: typedef basic_string<char16_t> u16string;\t\n|[cpp11]|[<string>]
+u32string()Param: ()\t\nDesc: String of 32-bit characters (class)\t\nProto: typedef basic_string<char32_t> u32string;\t\n|[cpp11]|[<string>]
+error_category()Param: ()\t\nDesc: Error category (abstract class)\t\nProto: class error_category;\t\n|[cpp11 ]|[<system_error>]
+error_code()Param: ()\t\nDesc: Error code (class)\t\nProto: class error_code;\t\n|[cpp11 ]|[<system_error>]
+error_condition()Param: ()\t\nDesc: Error condition (class)\t\nProto: class error_condition;\t\n|[cpp11 ]|[<system_error>]
+generic_category( void * ptr, size_t size, size_t count, FILE * stream )Param: ()\t\nDesc: Return generic category (function)\t\nProto: const error_category& generic_category() noexcept;\t\n|[cpp11]|[<system_error>]
+is_error_code_enum(T)Param: (A type.)\t\nDesc: error_code enum flag (class)\t\nProto: template <class T>\t\nstruct is_error_code_enum : public false_type {};\t\n|[cpp11]|[<system_error>]
+is_error_condition_enum(T)Param: (A type.)\t\nDesc: error_condition enum flag (class)\t\nProto: template <class T>\t\nstruct is_error_condition_enum : public false_type {};template<>\t\nstruct is_error_condition_enum<errc> : true_type {};\t\n|[cpp11]|[<system_error>]
+make_error_code(errc e)Param: (An enum value of type errc (see errc).)\t\nDesc: Make error code (function)\t\nProto: error_code make_error_code (errc e) noexcept;\t\n|[cpp11]|[<system_error>]
+make_error_condition(errc e)Param: (An enum value of type errc (see errc).)\t\nDesc: Make error condition (function)\t\nProto: error_condition make_error_condition (errc e) noexcept;\t\n|[cpp11]|[<system_error>]
+system_error()Param: ()\t\nDesc: System error exception (class)\t\nProto: class system_error : public runtime_error;\t\n|[cpp11 ]|[<system_error>]
+system_category( void * ptr, size_t size, size_t count, FILE * stream )Param: ()\t\nDesc: Return system category (function)\t\nProto: const error_category& system_category() noexcept;\t\n|[cpp11]|[<system_error>]
+this_thread()Param: ()\t\nDesc: This thread (namespace)\t\nProto: no-proto\t\n|[cpp11 ]|[<thread>]
+forward_as_tuple(Types&&... args)Param: (List of elements to be forwarded as a tuple object of references.)\t\nDesc: Forward as tuple (function template)\t\nProto: template<class... Types> tuple<Types&&...> forward_as_tuple (Types&&... args) noexcept;\t\n|[cpp11]|[<tuple>]
+ignore()Param: ()\t\nDesc: Ignore assignment (object)\t\nProto: const ignore;\t\n|[cpp11]|[<tuple>]
+make_tuple(Types&&... args)Param: (List of elements that the constructed tuple shall contain.)\t\nDesc: Construct tuple (function template)\t\nProto: template<class... Types>\t\ntuple<VTypes...> make_tuple (Types&&... args);\t\n|[cpp11]|[<tuple>]
+tuple(Types...)Param: (A list of types used for the elements, in the same order as they are going to be ordered in the tuple.)\t\nDesc: Tuple (class template)\t\nProto: template <class... Types> class tuple;\t\n|[cpp11 ]|[<tuple>]
+tuple_element(I)Param: (Order number of the element within the tuple (zero-based).)\t\nDesc: Tuple element type (class template)\t\nProto: long-proto\t\n|[cpp11]|[<tuple>]
+tuple_size(T)Param: (Type for which the tuple size is obtained.)\t\nDesc: Tuple size traits (class template)\t\nProto: long-proto\t\n|[cpp11]|[<tuple>]
+tuple_cat(Tuples&&... tpls)Param: (Comma-separated list of tuple objects.)\t\nDesc: Concatenate tuples (function template)\t\nProto: template <class... Tuples>\t\ntuple<CTypes...> tuple_cat (Tuples&&... tpls);\t\n|[cpp11]|[<tuple>]
+tie(Types&... args)Param: (List of objects (lvalues) to be tied as elements of a tuple.)\t\nDesc: Tie arguments to tuple elements (function template)\t\nProto: template<class... Types> tuple<Types&...> tie (Types&... args) noexcept;\t\n|[cpp11]|[<tuple>]
+alignment_of(T)Param: (A complete object type, or an array thereof, or a reference to a complete object type.)\t\nDesc: Alignment of (class template)\t\nProto: template <class T> struct alignment_of;\t\n|[cpp11]|[<type_traits>]
+add_const(T)Param: (A type.)\t\nDesc: Add const qualification (class template)\t\nProto: template <class T> struct add_const;\t\n|[cpp11]|[<type_traits>]
+add_cv(T)Param: (A type.)\t\nDesc: Add const volatile qualification (class template)\t\nProto: template <class T> struct add_cv;\t\n|[cpp11]|[<type_traits>]
+add_lvalue_reference(T)Param: (A type.)\t\nDesc: Add lvalue reference (class template)\t\nProto: template <class T> struct add_lvalue_reference;\t\n|[cpp11]|[<type_traits>]
+add_pointer(T)Param: (A type.)\t\nDesc: Add pointer (class template)\t\nProto: template <class T> struct add_pointer;\t\n|[cpp11]|[<type_traits>]
+add_rvalue_reference(T)Param: (A type.)\t\nDesc: Add rvalue reference (class template)\t\nProto: template <class T> struct add_rvalue_reference;\t\n|[cpp11]|[<type_traits>]
+add_volatile(T)Param: (A type.)\t\nDesc: Add volatile qualification (class template)\t\nProto: template <class T> struct add_volatile;\t\n|[cpp11]|[<type_traits>]
+aligned_storage(Len)Param: (The size of the storage object, in bytes.)\t\nDesc: Aligned storage (class template)\t\nProto: template <size_t Len, size_t Align = /* default alignment */>\t\nstruct aligned_storage;\t\n|[cpp11]|[<type_traits>]
+aligned_union(Len)Param: (The minimum size of the storage object, in bytes.)\t\nDesc: Aligned union (class template)\t\nProto: template <size_t Len, class... Types> struct aligned_union;\t\n|[cpp11]|[<type_traits>]
+conditional(Cond)Param: (A compile-time constant of type bool.)\t\nDesc: Conditional type (class template)\t\nProto: template <bool Cond, class T, class F> struct conditional;\t\n|[cpp11]|[<type_traits>]
+decay(T)Param: (A type.)\t\nDesc: Decay type (class template)\t\nProto: template <class T> struct decay;\t\n|[cpp11]|[<type_traits>]
+extent(T)Param: (A type.)\t\nDesc: Array dimension extent (class template)\t\nProto: template <class T, unsigned I = 0> struct extent;\t\n|[cpp11]|[<type_traits>]
+enable_if(Cond)Param: (A compile-time constant of type bool.)\t\nDesc: Enable type if condition is met (class template)\t\nProto: template <bool Cond, class T = void> struct enable_if;\t\n|[cpp11]|[<type_traits>]
+false_type()Param: ()\t\nDesc: False type (class)\t\nProto: typedef integral_constant<bool,false> false_type;\t\n|[cpp11]|[<type_traits>]
+has_virtual_destructor(T)Param: (A complete type, or )\t\nDesc: Has virtual destructor (class template)\t\nProto: template <class T> struct has_virtual_destructor;\t\n|[cpp11]|[<type_traits>]
+integral_constant(T)Param: (Type of the integral constant.)\t\nDesc: Integral constant (class template)\t\nProto: template <class T, T v>struct integral_constant;\t\n|[cpp11 ]|[<type_traits>]
+is_abstract(T)Param: (A complete type, or )\t\nDesc: Is abstract class (class template)\t\nProto: template <class T> struct is_abstract;\t\n|[cpp11]|[<type_traits>]
+is_arithmetic(T)Param: (A type.)\t\nDesc: Is arithmetic type (class template)\t\nProto: template <class T> struct is_arithmetic;\t\n|[cpp11]|[<type_traits>]
+is_array(T)Param: (A type.)\t\nDesc: Is array (class template)\t\nProto: template <class T> struct is_array;\t\n|[cpp11]|[<type_traits>]
+is_assignable(T, U)Param: (Complete types, or )\t\nDesc: Is assignable (class template)\t\nProto: template <class T, class U> struct is_assignable;\t\n|[cpp11]|[<type_traits>]
+is_base_of(Base)Param: (A type.)\t\nDesc: Is base class of (class template)\t\nProto: template <class Base, class Derived> struct is_base_of;\t\n|[cpp11]|[<type_traits>]
+is_class(T)Param: (A type.)\t\nDesc: Is non-union class (class template)\t\nProto: template <class T> struct is_class;\t\n|[cpp11]|[<type_traits>]
+is_compound(T)Param: (A type.)\t\nDesc: Is compound type (class template)\t\nProto: template <class T> struct is_compound;\t\n|[cpp11]|[<type_traits>]
+is_const(T)Param: (A type.)\t\nDesc: Is const-qualified (class template)\t\nProto: template <class T> struct is_const;\t\n|[cpp11]|[<type_traits>]
+is_constructible(T)Param: (A complete type, or )\t\nDesc: Is constructible (class template)\t\nProto: template <class T, class... Args> struct is_constructible;\t\n|[cpp11]|[<type_traits>]
+is_convertible(From, To)Param: (Complete types, or )\t\nDesc: Is convertible (class template)\t\nProto: template <class From, class To> struct is_convertible;\t\n|[cpp11]|[<type_traits>]
+is_copy_assignable(T)Param: (A complete type, or )\t\nDesc: Is copy assignable (class template)\t\nProto: template <class T> struct is_copy_assignable;\t\n|[cpp11]|[<type_traits>]
+is_copy_constructible(T)Param: (A complete type, or )\t\nDesc: Is copy constructible (class template)\t\nProto: template <class T> struct is_copy_constructible;\t\n|[cpp11]|[<type_traits>]
+is_default_constructible(T)Param: (A complete type, or )\t\nDesc: Is default constructible (class template)\t\nProto: template <class T> struct is_default_constructible;\t\n|[cpp11]|[<type_traits>]
+is_destructible(T)Param: (A complete type, or )\t\nDesc: Is destructible (class template)\t\nProto: template <class T> struct is_destructible;\t\n|[cpp11]|[<type_traits>]
+is_empty(T)Param: (\t\nC++11\t\n\t\nC++14\t\n\t\n\t\n\t\nA complete type, or )\t\nDesc: Is empty class (class template)\t\nProto: template <class T> struct is_empty;\t\n|[cpp11]|[<type_traits>]
+is_enum(T)Param: (A type.)\t\nDesc: Is enum (class template)\t\nProto: template <class T> struct is_enum;\t\n|[cpp11]|[<type_traits>]
+is_floating_point(T)Param: (A type.)\t\nDesc: Is floating point (class template)\t\nProto: template <class T> struct is_floating_point;\t\n|[cpp11]|[<type_traits>]
+is_function(T)Param: (A type.)\t\nDesc: Is function (class template)\t\nProto: template <class T> struct is_function;\t\n|[cpp11]|[<type_traits>]
+is_fundamental(T)Param: (A type.)\t\nDesc: Is fundamental type (class template)\t\nProto: template <class T> struct is_fundamental;\t\n|[cpp11]|[<type_traits>]
+is_integral(T)Param: (A type.)\t\nDesc: Is integral (class template)\t\nProto: template <class T> struct is_integral;\t\n|[cpp11]|[<type_traits>]
+is_literal_type(T)Param: (A complete type, or )\t\nDesc: Is literal type (class template)\t\nProto: template <class T> struct is_literal_type;\t\n|[cpp11]|[<type_traits>]
+is_lvalue_reference(T)Param: (A type.)\t\nDesc: Is lvalue reference (class template)\t\nProto: template <class T> struct is_lvalue_reference;\t\n|[cpp11]|[<type_traits>]
+is_member_function_pointer(T)Param: (A type.)\t\nDesc: Is member function pointer (class template)\t\nProto: template <class T> struct is_member_function_pointer;\t\n|[cpp11]|[<type_traits>]
+is_member_object_pointer(T)Param: (A type.)\t\nDesc: Is member object pointer (class template)\t\nProto: template <class T> struct is_member_object_pointer;\t\n|[cpp11]|[<type_traits>]
+is_member_pointer(T)Param: (A type.)\t\nDesc: Is member pointer type (class template)\t\nProto: template <class T> struct is_member_pointer;\t\n|[cpp11]|[<type_traits>]
+is_move_assignable(T)Param: (A complete type, or )\t\nDesc: Is move assignable (class template)\t\nProto: template <class T> struct is_move_assignable;\t\n|[cpp11]|[<type_traits>]
+is_move_constructible(T)Param: (A complete type, or )\t\nDesc: Is move constructible (class template)\t\nProto: template <class T> struct is_move_constructible;\t\n|[cpp11]|[<type_traits>]
+is_nothrow_assignable(T, U)Param: (Complete types, or )\t\nDesc: Is assignable throwing no exceptions (class template)\t\nProto: template <class T, class U> struct is_nothrow_assignable;\t\n|[cpp11]|[<type_traits>]
+is_nothrow_constructible(T)Param: (A complete type, or )\t\nDesc: Is constructible throwing no exceptions (class template)\t\nProto: template <class T, class... Args> struct is_nothrow_constructible;\t\n|[cpp11]|[<type_traits>]
+is_nothrow_copy_assignable(T)Param: (A complete type, or )\t\nDesc: Is copy assignable throwing no exceptions (class template)\t\nProto: template <class T> struct is_nothrow_copy_assignable;\t\n|[cpp11]|[<type_traits>]
+is_nothrow_copy_constructible(T)Param: (A complete type, or )\t\nDesc: Is copy constructible throwing no exceptions (class template)\t\nProto: template <class T> struct is_nothrow_copy_constructible;\t\n|[cpp11]|[<type_traits>]
+is_nothrow_default_constructible(T)Param: (A complete type, or )\t\nDesc: Is default constructible throwing no exceptions (class template)\t\nProto: template <class T> struct is_nothrow_default_constructible;\t\n|[cpp11]|[<type_traits>]
+is_nothrow_destructible(T)Param: (A complete type, or )\t\nDesc: Is nothrow destructible (class template)\t\nProto: template <class T> struct is_nothrow_destructible;\t\n|[cpp11]|[<type_traits>]
+is_nothrow_move_assignable(T)Param: (A complete type, or )\t\nDesc: Is move assignable throwing no exception (class template)\t\nProto: template <class T> struct is_nothrow_move_assignable;\t\n|[cpp11]|[<type_traits>]
+is_nothrow_move_constructible(T)Param: (A complete type, or )\t\nDesc: Is move constructible throwing no exceptions (class template)\t\nProto: template <class T> struct is_nothrow_move_constructible;\t\n|[cpp11]|[<type_traits>]
+is_object(T)Param: (A type.)\t\nDesc: Is object type (class template)\t\nProto: template <class T> struct is_object;\t\n|[cpp11]|[<type_traits>]
+is_pod(T)Param: (A complete type, or )\t\nDesc: Is POD type (class template)\t\nProto: template <class T> struct is_pod;\t\n|[cpp11]|[<type_traits>]
+is_pointer(T)Param: (A type.)\t\nDesc: Is pointer (class template)\t\nProto: template <class T> struct is_pointer;\t\n|[cpp11]|[<type_traits>]
+is_polymorphic(T)Param: (A complete type, or )\t\nDesc: Is polymorphic (class template)\t\nProto: template <class T> struct is_polymorphic;\t\n|[cpp11 cpp14]|[<type_traits>]
+is_reference(T)Param: (A type.)\t\nDesc: Is reference type (class template)\t\nProto: template <class T> struct is_reference;\t\n|[cpp11]|[<type_traits>]
+is_rvalue_reference(T)Param: (A type.)\t\nDesc: Is rvalue reference (class template)\t\nProto: template <class T> struct is_rvalue_reference;\t\n|[cpp11]|[<type_traits>]
+is_same(T, U)Param: (Types.)\t\nDesc: Is same type (class template)\t\nProto: template <class T, class U> struct is_same;\t\n|[cpp11]|[<type_traits>]
+is_scalar(T)Param: (A type.)\t\nDesc: Is scalar type (class template)\t\nProto: template <class T> struct is_scalar;\t\n|[cpp11]|[<type_traits>]
+is_signed(T)Param: (A type.)\t\nDesc: Is signed type (class template)\t\nProto: template <class T> struct is_signed;\t\n|[cpp11]|[<type_traits>]
+is_standard_layout(T)Param: (A complete type, or )\t\nDesc: Is standard-layout type (class template)\t\nProto: template <class T> struct is_standard_layout;\t\n|[cpp11]|[<type_traits>]
+is_trivial(T)Param: (A complete type, or )\t\nDesc: Is trivial type (class template)\t\nProto: template <class T> struct is_trivial;\t\n|[cpp11]|[<type_traits>]
+is_trivially_assignable(T, U)Param: (Complete types, or )\t\nDesc: Is trivially assignable (class template)\t\nProto: template <class T, class U> struct is_trivially_assignable;\t\n|[cpp11]|[<type_traits>]
+is_trivially_constructible(T)Param: (A complete type, or )\t\nDesc: Is trivially constructible (class template)\t\nProto: template <class T, class... Args> struct is_trivially_constructible;\t\n|[cpp11]|[<type_traits>]
+is_trivially_copyable(T)Param: (A complete type, or )\t\nDesc: Is trivially copyable (class template)\t\nProto: template <class T> struct is_trivially_copyable;\t\n|[cpp11]|[<type_traits>]
+is_trivially_copy_assignable(T)Param: (A complete type, or )\t\nDesc: Is trivially copy assignable (class template)\t\nProto: template <class T> struct is_trivially_copy_assignable;\t\n|[cpp11]|[<type_traits>]
+is_trivially_copy_constructible(T)Param: (A complete type, or )\t\nDesc: Is trivially copy constructible (class template)\t\nProto: template <class T> struct is_trivially_copy_constructible;\t\n|[cpp11]|[<type_traits>]
+is_trivially_default_constructible(T)Param: (A complete type, or )\t\nDesc: Is trivially default constructible (class template)\t\nProto: template <class T> struct is_trivially_default_constructible;\t\n|[cpp11]|[<type_traits>]
+is_trivially_destructible(T)Param: (A complete type, or )\t\nDesc: Is trivially destructible (class template)\t\nProto: template <class T> struct is_trivially_destructible;\t\n|[cpp11]|[<type_traits>]
+is_trivially_move_assignable(T)Param: (A complete type, or )\t\nDesc: Is trivially move assignable (class template)\t\nProto: template <class T> struct is_trivially_move_assignable;\t\n|[cpp11]|[<type_traits>]
+is_trivially_move_constructible(T)Param: (A complete type, or )\t\nDesc: Is trivially move constructible (class template)\t\nProto: template <class T> struct is_trivially_move_constructible;\t\n|[cpp11]|[<type_traits>]
+is_union(T)Param: (A type.)\t\nDesc: Is union (class template)\t\nProto: template <class T> struct is_union;\t\n|[cpp11]|[<type_traits>]
+is_unsigned(T)Param: (A type.)\t\nDesc: Is unsigned type (class template)\t\nProto: template <class T> struct is_unsigned;\t\n|[cpp11]|[<type_traits>]
+is_void(T)Param: (A type.)\t\nDesc: Is void (class template)\t\nProto: template <class T> struct is_void;\t\n|[cpp11]|[<type_traits>]
+is_volatile(T)Param: (A type.)\t\nDesc: Is volatile-qualified (class template)\t\nProto: template <class T> struct is_volatile;\t\n|[cpp11]|[<type_traits>]
+make_signed(T)Param: (An integer type (except bool), or an enumeration type.)\t\nDesc: Make signed (class template)\t\nProto: template <class T> struct make_signed;\t\n|[cpp11]|[<type_traits>]
+make_unsigned(T)Param: (An integer type (except bool), or an enumeration type.)\t\nDesc: Make unsigned (class template)\t\nProto: template <class T> struct make_unsigned;\t\n|[cpp11]|[<type_traits>]
+rank(T)Param: (A type.)\t\nDesc: Array rank (class template)\t\nProto: template <class T> struct rank;\t\n|[cpp11]|[<type_traits>]
+remove_all_extents(T)Param: (A type.)\t\nDesc: Remove all array extents (class template)\t\nProto: template <class T> struct remove_all_extents;\t\n|[cpp11]|[<type_traits>]
+remove_const(T)Param: (A type.)\t\nDesc: Remove const qualification (class template)\t\nProto: template <class T> struct remove_const;\t\n|[cpp11]|[<type_traits>]
+remove_cv(T)Param: (A type.)\t\nDesc: Remove cv qualification (class template)\t\nProto: template <class T> struct remove_cv;\t\n|[cpp11]|[<type_traits>]
+remove_extent(T)Param: (A type.)\t\nDesc: Remove array extent (class template)\t\nProto: template <class T> struct remove_extent;\t\n|[cpp11]|[<type_traits>]
+remove_pointer(T)Param: (A type.)\t\nDesc: Remove pointer (class template)\t\nProto: template <class T> struct remove_pointer;\t\n|[cpp11]|[<type_traits>]
+remove_reference(T)Param: (A type.)\t\nDesc: Remove reference (class template)\t\nProto: template <class T> struct remove_reference;\t\n|[cpp11]|[<type_traits>]
+remove_volatile(T)Param: (A type.)\t\nDesc: Remove volatile qualification (class template)\t\nProto: template <class T> struct remove_volatile;\t\n|[cpp11]|[<type_traits>]
+result_of(Fn)Param: (A callable type (i.)\t\nDesc: Result of call (class template)\t\nProto: template <class Fn, class... ArgTypes> struct result_of<Fn(ArgTypes...)>;\t\n|[cpp11]|[<type_traits>]
+true_type()Param: ()\t\nDesc: True type (class)\t\nProto: typedef integral_constant<bool,true> true_type;\t\n|[cpp11]|[<type_traits>]
+underlying_type(T)Param: (An enumeration type (enum).)\t\nDesc: Underlying type of enum (class template)\t\nProto: template <class T> struct underlying_type;\t\n|[cpp11]|[<type_traits>]
+is_null_pointer(T)Param: (A type.)\t\nDesc: no-Description (other)\t\nProto: template <class T> struct is_null_pointer;\t\n|[cpp14]|[<type_traits>]
+type_index()Param: ()\t\nDesc: Type index (class)\t\nProto: class type_index;\t\n|[cpp11 ]|[<typeindex>]
+unordered_map(Key)Param: (Type of the key values.)\t\nDesc: Unordered Map (class template)\t\nProto: long-proto\t\n|[cpp11 ]|[<unordered_map>]
+unordered_multimap(Key)Param: (Type of the key values.)\t\nDesc: Unordered Multimap (class template)\t\nProto: long-proto\t\n|[cpp11 ]|[<unordered_map>]
+unordered_multiset(Key)Param: (Type of the elements.)\t\nDesc: Unordered Multiset (class template)\t\nProto: long-proto\t\n|[cpp11 ]|[<unordered_set>]
+unordered_set(Key)Param: (Type of the elements.)\t\nDesc: Unordered Set (class template)\t\nProto: long-proto\t\n|[cpp11 ]|[<unordered_set>]
+declval( void * ptr, size_t size, size_t count, FILE * stream )Param: ()\t\nDesc: Declaration value (function template)\t\nProto: template <class T>\t\ntypename add_rvalue_reference<T>::type declval() noexcept;\t\n|[cpp11]|[<utility>]
+move_if_noexcept(T& arg)Param: (An object.)\t\nDesc: Move if noexcept (function template)\t\nProto: !is_copy_constructible<T>::value,T&&, const T& >::type move_if_noexcept(T& arg) noexcept;\t\n|[cpp11]|[<utility>]
+piecewise_construct_t()Param: ()\t\nDesc: Piecewise construct type (type)\t\nProto: struct piecewise_construct_t {};\t\n|[cpp11]|[<utility>]
+bit_or(T)Param: (Type of the arguments and return type of the functional call.)\t\nDesc: Bitwise OR function object class (class template)\t\nProto: template <class T> struct bit_or;\t\n[class template]|[cpp11]
+c16rtomb( char * pmb, char16_t c16, mbstate_t * ps )Param: (Pointer to an array large enough to hold a multibyte sequence.)\t\nDesc: Convert 16-bit character to multibyte sequence (function)\t\nProto: size_t c16rtomb ( char * pmb, char16_t c16, mbstate_t * ps );\t\n|[c11 cpp11]|[<cuchar> (uchar.h)]
+c32rtomb( char * pmb, char32_t c32, mbstate_t * ps )Param: (Pointer to an array large enough to hold a multibyte sequence.)\t\nDesc: Convert 32-bit character to multibyte sequence (function)\t\nProto: size_t c32rtomb ( char * pmb, char32_t c32, mbstate_t * ps );\t\n|[c11 cpp11]|[<cuchar> (uchar.h)]
+mbrtoc16( char16_t * pc16, const char * pmb, size_t max, mbstate_t * ps)Param: (Pointer to an object of type char16_t.)\t\nDesc: Convert multibyte sequence to 16-bit character (function)\t\nProto: size_t mbrtoc16 ( char16_t * pc16, const char * pmb, size_t max, mbstate_t * ps);\t\n|[c11 cpp11]|[<cuchar> (uchar.h)]
+mbrtoc32( char32_t * pc32, const char * pmb, size_t max, mbstate_t * ps)Param: (Pointer to an object of type char32_t.)\t\nDesc: Convert multibyte sequence to 32-bit character (function)\t\nProto: size_t mbrtoc32 ( char32_t * pc32, const char * pmb, size_t max, mbstate_t * ps);\t\n|[c11 cpp11]|[<cuchar> (uchar.h)]
+at_quick_exit(void *func void)Param: (Function to be called.)\t\nDesc: Set function to be executed on quick exit (function)\t\nProto: int at_quick_exit (void (*func)(void));\t\n|[c11 cpp11]|[<cstdlib> (stdlib.h)]
+make_unique(Args&&... args)Param: Llist of argumentsto construct an instance of T)\t\nDesc: Make unique (function template)\t\nProto: template <class T, class... Args>\t\nunique_ptr<T> make_unique (Args&&... args);\t\n|[cpp14]|[<memory>]
+alignas(type-id)Desc:Specifies the alignment requirement of a type or an object.[cpp11]
+alignof(type-id)Desc:Queries alignment requirements of a type.[cpp11]
+
+# Constants / types / special macros
+ATOMIC_FLAG_INIT()Param: ()\t\nDesc: Initialization of atomic flag (macro)\t\nProto: ATOMIC_FLAG_INIT\t\n[cpp11]|[<atomic>]
+ATOMIC_VAR_INIT(val)Param: (Value to use for initialization.)\t\nDesc: Initialization of atomic variable (macro)\t\nProto: ATOMIC_VAR_INIT(val)\t\n[cpp11]|[<atomic>]
+signed@@signed char
+unsigned@@unsigned int,unsigned short,unsigned short int,unsigned long int,unsigned long long
+short
+void
+bool
+float
+char
+double
+int
+long 
+short
+signed 
+wchar_t
+char16_t
+char32_t
+
+# ...Limits.h
+is_specialized(bool)	"true for all arithmetic types (i.e., those for which numeric_limits is specialized).
+false@@...for all other types."
+min@@Minimum finite value. For floating types with denormalization (variable number of exponent bits): minimum positive normalized value. 
+CHAR_MIN@@Minimum finite value.
+SCHAR_MIN@@Minimum finite value.
+SHRT_MIN@@Minimum finite value.
+INT_MIN@@Minimum finite value.
+LONG_MIN@@Minimum finite value.
+LLONG_MIN@@Minimum finite value.
+FLT_MIN@@Minimum finite value.
+DBL_MIN@@Minimum finite value.
+LDBL_MIN@@Minimum finite value.
+max@@Maximum finite value.
+CHAR_MAX@@Maximum finite value.
+SCHAR_MAX@@Maximum finite value.
+UCHAR_MAX@@Maximum finite value.
+SHRT_MAX@@Maximum finite value.
+USHRT_MAX@@Maximum finite value.
+INT_MAX@@Maximum finite value.
+UINT_MAX@@Maximum finite value.
+LONG_MAX@@Maximum finite value.
+ULONG_MAX@@Maximum finite value.
+LLONG_MAX@@Maximum finite value.
+ULLONG_MAX@@Maximum finite value.
+UINT_LEAST16_MAX@@Maximum finite value.
+UINT_LEAST32_MAX@@Maximum finite value.
+FLT_MAX@@Maximum finite value.
+DBL_MAX@@Maximum finite value.
+LDBL_MAX@@Maximum finite value.
+lowest()Minimum finite value. (since C++11) For integral types: the same as min. For floating-point types: implementation-dependent; generally, the negative of max.
+digits(int)	"For integer types: number of non-sign bits (radix base digits) in the representation.For floating types: number of digits (in radix base) in the mantissa (equivalent to FLT_MANT_DIG, DBL_MANT_DIG or LDBL_MANT_DIG)."
+digits10(int)"Number of digits (in decimal basehat can be represented without change.Equivalent to FLT_DIG, DBL_DIG or LDBL_DIG for floating types."
+max_digits10(int)Number of digits (in decimal base) required to ensure that values that differ are always differentiated.
+is_signed(bool)true if type is signed.
+is_integer(bool)true if type is integer.
+is_exact(bool)true if type uses exact representations.
+radix(int)"For integer types: base of the representation. For floating types: base of the exponent of the representation (equivalent to FLT_RADIX)."
+epsilon()"Machine epsilon (the difference between 1 and the least value greater than 1 that is representable). Equivalent to FLT_EPSILON, DBL_EPSILON or LDBL_EPSILON for floating types."
+round_error() Measure of the maximum rounding error.
+min_exponent(int)"Minimum negative integer value such that radix raised to (min_exponent-1) generates a normalized floating-point number.Equivalent to FLT_MIN_EXP, DBL_MIN_EXP or LDBL_MIN_EXP for floating types."
+min_exponent10(int)"Minimum negative integer value such that 10 raised to that power generates a normalized floating-point number.Equivalent to FLT_MIN_10_EXP, DBL_MIN_10_EXP or LDBL_MIN_10_EXP for floating types."
+max_exponent(int)"Maximum integer value such that radix raised to (max_exponent-1) generates a representable finite floating-point number.Equivalent to FLT_MAX_EXP, DBL_MAX_EXP or LDBL_MAX_EXP for floating types."
+max_exponent10(int)"Maximum integer value such that 10 raised to that power generates a normalized finite floating-point number.Equivalent to FLT_MAX_10_EXP, DBL_MAX_10_EXP or LDBL_MAX_10_EXP for floating types."
+has_infinity(bool)true if the type has a representation for positive infinity.
+has_quiet_NaN(bool)true if the type has a representation for a quiet (non-signaling) "Not-a-Number".
+has_signaling_NaN(bool)true if the type has a representation for a signaling "Not-a-Number".
+has_denorm(float_denorm_style)"Denormalized values -representations with a variable number of exponent bits-. A type may have any of the following enum values:
+denorm_absent@@ if it does not allow denormalized values.
+denorm_present@@ if it allows denormalized values.
+denorm_indeterminate@@ if indeterminate at compile time.
+has_denorm_loss(bool)true if a loss of accuracy is detected as a denormalization loss, rather than an inexact result.
+infinity() Representation of positive infinity, if available.
+quiet_NaN() Representation of quiet (non-signaling) "Not-a-Number", if available.
+signaling_NaN() Representation of signaling "Not-a-Number", if available.
+denorm_min() "Minimum positive denormalized value.For types not allowing denormalized values: same as min()."
+is_iec559(bool)"true if the type adheres to IEC-559 / IEEE-754 standard.An IEC-559 type always has has_infinity, has_quiet_NaN and has_signaling_NaN set to true; And infinity, quiet_NaN and signaling_NaN return some non-zero value."
+is_bounded(bool)true if the set of values represented by the type is finite.
+is_modulo(bool)true if the type is modulo. A type is modulo if it is possible to add two positive numbers and have a result that wraps around to a third number that is less.
+traps(bool)true if trapping is implemented for the type.
+tinyness_before(bool)true if tinyness is detected before rounding.
+round_style@@	"Rounding style. see round_"
+float_round_style@@	"Rounding style. see round_"
+round_toward_zero@@ if it rounds toward zero.
+round_to_nearest@@ if it rounds to the nearest representable value.
+round_toward_infinity@@ if it rounds toward infinity.
+round_toward_neg_infinity@@ if it rounds toward negative infinity.
+round_indeterminate@@ if the rounding style is indeterminable at compile time."
