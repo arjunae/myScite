@@ -1,6 +1,6 @@
 ~# mySciTE.webdev -~
 
-[24.11.2017] myScite.180.Artie.stable
+[25.11.2017] myScite.180.Artie.stable
 # Add: Lisp / Scheme / Clojure / GO Language Keywords
 # Fix: lexMakeEOF & Add Folding / Fix: remove MSVC10 dependency
 # Fix: lua: more flexibility while loading hunspell.dll

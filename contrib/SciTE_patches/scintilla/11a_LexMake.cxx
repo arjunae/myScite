@@ -99,8 +99,8 @@ static unsigned int ColouriseMakeLine(
 	Sci_PositionU styleBreak = 0;
 
 	int iWarnEOL=0; // unclosed string bracket refcount.
-	unsigned int strLen = 0;	// Keyword candidate length.
-	unsigned int startMark = 0; // Keyword candidates startPos.
+	Sci_PositionU strLen = 0;	// Keyword candidate length.
+	Sci_PositionU startMark = 0; // Keyword candidates startPos.
 	unsigned int SCE_MAKE_NUMBER = SCE_MAKE_IDENTIFIER;
 	unsigned int SCE_MAKE_FUNCTION = SCE_MAKE_OPERATOR;
 	unsigned int state = SCE_MAKE_DEFAULT;
@@ -123,10 +123,10 @@ static unsigned int ColouriseMakeLine(
 		i++;
 
 	unsigned int theStart=startLine+i; // One Byte ought (not) to be enough for everyone....?
-	unsigned int stylerPos=i; // Keep a Reference to the last styled Position.
+	Sci_PositionU stylerPos=i; // Keep a Reference to the last styled Position.
 
 	while (i < lengthLine) {
-		unsigned int currentPos=startLine+i;
+		Sci_PositionU currentPos=startLine+i;
 
 		char chPrev=styler.SafeGetCharAt(currentPos-1);
 		char chCurr=styler.SafeGetCharAt(currentPos);
@@ -135,7 +135,7 @@ static unsigned int ColouriseMakeLine(
 		/// style GNUMake Preproc
 		if (currentPos==theStart && chCurr == '!') {
 			state=SCE_MAKE_PREPROCESSOR;
-			if(styler[endPos]=='\n') styler.ColourTo(endPos, state);
+			styler.ColourTo(endPos, state);
 			return(state);
 		}
 		
@@ -361,7 +361,8 @@ static unsigned int ColouriseMakeLine(
 		state=SCE_MAKE_DEFAULT;
 	}
 
-	if(styler[endPos]=='\n') stylerPos = ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
+	stylerPos = ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
+
 	return(state);
 }
 
@@ -504,7 +505,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 		}
 	}
 	if (linePos>0){ // handle normal lines without an EOL mark.
-		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length, keywords, styler, startStyle);
+		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length-1, keywords, styler, startStyle);
 		styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
 	}
 }
