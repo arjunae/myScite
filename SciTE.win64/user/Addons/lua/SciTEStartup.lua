@@ -23,21 +23,21 @@ _G.session_used_memory=collectgarbage("count")*1024
 	
 -- Load extman.lua
 -- This will automatically run any lua script located in \User\Addons\lua\lua
---dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
+dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 
 -- chainload eventmanager / extman remake used by some lua mods
---dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
+dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
 -- Load mod-mitchell
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
---dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 		
 -- Load Sidebar
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
---dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
+dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
 -- Load enhanced Autocomplete
---dofile(myHome..'\\macros\\AutoComplete.lua')
+dofile(myHome..'\\macros\\AutoComplete.lua')
 
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -151,7 +151,7 @@ function StyleStuff()
 --- highlite http and eMail links and GUIDs
 ---
 	local AC_MAX_SIZE =131072 --131kB
-	local fSize
+	local fSize =0
 
 	if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
 	if fSize < AC_MAX_SIZE then 
@@ -171,7 +171,7 @@ function TestSciLexer(origHash)
 	local crc32=C32.crc32
 	local crccalc = C32.newcrc32()
 	local crccalc_mt = getmetatable(crccalc)
-	
+
 	assert(crccalc_mt.reset) -- reset to zero
 	local file = assert(io.open (defaultHome.."\\".."SciLexer.dll", 'rb'))
 	while true do
@@ -189,12 +189,11 @@ function OnInit()
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
-
 	--print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)
-	--TestSciLexer("b3220c5d") -- SciLexers CRC32 Hash for the current Version
-	--scite_OnOpenSwitch(StyleStuff)
+	TestSciLexer("d9e62894") -- SciLexers CRC32 Hash for the current Version
+	scite_OnOpenSwitch(StyleStuff)
+	
 end
-
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
 -- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand

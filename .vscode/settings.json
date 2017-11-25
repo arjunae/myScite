@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "utility": "cpp",
+        "lstrlib.c": "cpp",
+        "ldo.c": "cpp",
+        "ldump.c": "cpp",
+        "lparser.c": "cpp",
+        "ldebug.c": "cpp",
+        "lauxlib.c": "cpp",
+        "liolib.c": "cpp",
+        "loadlib.c": "cpp"
+    }
+}

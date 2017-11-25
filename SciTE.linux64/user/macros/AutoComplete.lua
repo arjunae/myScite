@@ -54,7 +54,7 @@ end
 -- returns the size of a given file.
 --------------------------
 function file_size (filePath)
-    if  filePath ~=""  or filePath ~= nil then 
+    if  filePath ~=""  and filePath ~= nil then 
         local myFile,err=io.open(filePath,"r")
         if err then return 0 end -- todo handle filePath containing Unicode chars 
         local size = myFile:seek("end")    -- get file size
@@ -63,7 +63,6 @@ function file_size (filePath)
     else
         return 0
     end
-	if err then print (err) end
 end
 
 function isInTable(table, elem)

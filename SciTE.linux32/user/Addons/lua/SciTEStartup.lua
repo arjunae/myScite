@@ -27,6 +27,9 @@ dofile(defaultHome..'/Addons/lua/mod-extman/eventmanager.lua')
 package.path = package.path .. ";"..defaultHome.."/Addons/lua/mod-mitchell/?.lua;"
 dofile(defaultHome..'/Addons/lua/mod-mitchell/scite.lua')
 
+-- Start AutoComplete "Any"
+dofile(defaultHome..'/macros/AutoComplete.lua')
+
 -- ##################  Lua Samples #####################
 --   ##############################################
 

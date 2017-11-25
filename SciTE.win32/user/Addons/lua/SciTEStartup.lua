@@ -151,7 +151,7 @@ function StyleStuff()
 --- highlite http and eMail links and GUIDs
 ---
 	local AC_MAX_SIZE =131072 --131kB
-	local fSize
+	local fSize =0
 
 	if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
 	if fSize < AC_MAX_SIZE then 
