@@ -101,7 +101,7 @@ static unsigned int ColouriseMakeLine(
 	int iWarnEOL=0; // unclosed string bracket refcount.
 	Sci_PositionU strLen = 0;	// Keyword candidate length.
 	Sci_PositionU startMark = 0; // Keyword candidates startPos. >0 while searching for a Keyword
-	unsigned int SCE_MAKE_NUMBER = SCE_MAKE_IDENTIFIER;
+
 	unsigned int SCE_MAKE_FUNCTION = SCE_MAKE_OPERATOR;
 	unsigned int state = SCE_MAKE_DEFAULT;
 	unsigned int state_prev = startStyle;
