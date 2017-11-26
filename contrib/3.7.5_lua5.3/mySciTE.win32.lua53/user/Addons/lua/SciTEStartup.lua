@@ -190,7 +190,7 @@ end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function OnInit()
-	TestSciLexer("6f7167bc") -- SciLexers CRC32 Hash for the current Version
+	TestSciLexer("c3b78ed0") -- SciLexers CRC32 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
 end
 

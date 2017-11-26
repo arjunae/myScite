@@ -177,7 +177,7 @@ else
 	if err~=NULL then 
 		--print("Orthospell: hunspell.dll not found or orthospell.home unset. Trying to require...")
 		status, hunspell = pcall(require,"hunspell")
-		if (type(hunspell) ~= "table")  then end --print("Hunspell not found via require.") end
+			assert(type(fnInit) == "table", err) --print("Hunspell not found via require.") end
 	else		
 		assert(type(fnInit) == "function", err)
 		fnInit()

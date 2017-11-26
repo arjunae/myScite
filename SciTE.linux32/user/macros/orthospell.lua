@@ -43,7 +43,7 @@ local spChars
 local spellChars = props["chars.alpha"]..props["chars.accented"]
 local txtChars, htmlChars, texChars
 local allText
-local ortho = os.getenv("temp").."\\ortho.dic"
+local ortho = "en_US.dict"
 
 -- begin of customization (define your additions and changes here)
 
@@ -163,21 +163,21 @@ end
 -- beginn main
 
 if not gui then  -- if not the extman.lua is used that comes with Orthospell
-	require ("gui")
+--	require ("gui") --UTF functions
 end
 
 -- Arjunae --  changed to loadlib and require as a fallback to be more flexible
-if not scite_FileExists(props["orthospell.home"].."\\hunspell.dll") then end
+if not scite_FileExists(props["orthospell.home"].."/hunspell.so") then end
 
 -- using statically linked hunspell, which can reside anywhere - so just do...
-if not scite_FileExists(dictpath.."\\"..dictname..".aff") then
+if not scite_FileExists(dictpath.."/"..dictname..".aff") then
 		print ("Orthospell: The dictionary "..dictname.." is not installed")
 else
-	local fnInit, err =package.loadlib(props["orthospell.home"].."\\hunspell.dll",'luaopen_hunspell')
+	local fnInit, err =package.loadlib(props["orthospell.home"].."/hunspell.so",'luaopen_hunspell')
 	if err~=NULL then 
-		--print("Orthospell: hunspell.dll not found or orthospell.home unset. Trying to require...")
+		print("Orthospell: hunspell.so not found or orthospell.home unset. Trying to require...")
 		status, hunspell = pcall(require,"hunspell")
-			assert(type(fnInit) == "table", err) --print("Hunspell not found via require.") end
+	assert(type(fnInit) == "table", err)
 	else		
 		assert(type(fnInit) == "function", err)
 		fnInit()
@@ -187,7 +187,7 @@ end
 --Hunspell should be loaded and initialized by now.
 if (type(hunspell) == "table") then 
 hspell = true
-	hunspell.init(dictpath.."\\"..dictname..".aff", dictpath.."\\"..dictname..".dic")
+	hunspell.init(dictpath.."/"..dictname..".aff", dictpath.."/"..dictname..".dic")
 	-- adding a user dictionary
 	if userdict then add_userDict() end
 	get_langParam(dictname)
@@ -380,7 +380,7 @@ end
 
 function check_codePage(str,to)
 -- convert to or from utf-8
-		if cpMode == 2 then -- utf iso
+--[[		if cpMode == 2 then -- utf iso
 			if to == toDic then
 				str = gui.from_utf8 (str)
 			else
@@ -388,11 +388,12 @@ function check_codePage(str,to)
 			end
 		elseif cpMode == 1  then -- iso utf
 			if to == toDic then
-				str = guiComWeb.lua.to_utf8(str)
+				str = gui.to_utf8(str)
 			else
 				str = gui.from_utf8(str)
 			end
 		end
+		--]]
 	return str
 end
 
@@ -431,7 +432,8 @@ function create_regEx()
 	local wreg = "(["
 	local lngReg = string.gsub(langChars,"%-","%%-")
 	if cpMode > 1 then  -- document is UTF-8
-		wreg = wreg..utfChars..guil.to_utf8(lngReg)
+	wreg = wreg..utfChars..lngReg
+	--	wreg = wreg..utfChars..guil.to_utf8(lngReg)
 	else
 		wreg = wreg..isoChars..lngReg
 	end

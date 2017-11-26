@@ -10,6 +10,11 @@ To use this script with SciTE4AutoHotkey:
   - Add the following to UserLuaScript.lua:
         dofile(props['SciteUserHome'].."/AutoComplete.lua")
   - Restart SciTE.
+ @info 24.11.2017 Marcedo@habMalNeFrage.de
+ - Adapted for mySciTE 3.7.5
+ - Performance: exclude NULL Lexer; 
+    Use a FileSize maximum; 
+    Only regenerate Data on changed File
 ]]
 -- Maximal filesize that this script should handle
 local AC_MAX_SIZE =131072 --131kB
@@ -54,15 +59,15 @@ end
 -- returns the size of a given file.
 --------------------------
 function file_size (filePath)
-    if  filePath ~=""  or filePath ~= nil then 
+    if  filePath ~=""  and filePath ~= nil then 
         local myFile,err=io.open(filePath,"r")
+        if err then return 0 end -- todo handle filePath containing Unicode chars 
         local size = myFile:seek("end")    -- get file size
         myFile:close()
         return size
     else
         return 0
     end
-	if err then print (err) end
 end
 
 function isInTable(table, elem)
@@ -85,7 +90,7 @@ local CHOOSE_SINGLE = props["autocomplete.choose.single"]
 -- Number of chars to type before the autocomplete list appears:
 local MIN_PREFIX_LEN = 2
 -- Length of shortest word to add to the autocomplete list:
-local MIN_IDENTIFIER_LEN = 2
+local MIN_IDENTIFIER_LEN = 4
 -- List of regex patterns for finding suggestions for the autocomplete menu:
 local IDENTIFIER_PATTERNS = {"[a-z_][a-z_0-9]+"}
 -- Override settings that interfere with this script:
