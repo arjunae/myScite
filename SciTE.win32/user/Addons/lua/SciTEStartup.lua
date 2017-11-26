@@ -159,7 +159,9 @@ function StyleStuff()
 		scite_OnOpenSwitch(markeMail)
 		scite_OnOpenSwitch(markGUID)	  
 	end
+
 end
+
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function TestSciLexer(origHash)
@@ -185,6 +187,17 @@ function TestSciLexer(origHash)
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+function HandleProjectPath()
+--
+-- handle Project Folders
+--
+
+	local projectPath=props["SciteDirectoryHome"]
+-- recreate cTags	
+--	if projectPath then print(projectPath) end
+
+end
+
 function OnInit() 
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
@@ -192,7 +205,7 @@ function OnInit()
 	--print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)
 	TestSciLexer("6ae5f442") -- SciLexers CRC32 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
-	
+	scite_OnOpenSwitch(HandleProjectPath)
 end
 --print("startupScript_reload")
 --print(editor.StyleAt[1])

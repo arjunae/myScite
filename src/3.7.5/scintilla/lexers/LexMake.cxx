@@ -100,11 +100,12 @@ static unsigned int ColouriseMakeLine(
 
 	int iWarnEOL=0; // unclosed string bracket refcount.
 	Sci_PositionU strLen = 0;	// Keyword candidate length.
-	Sci_PositionU startMark = 0; // Keyword candidates startPos.
+	Sci_PositionU startMark = 0; // Keyword candidates startPos. >0 while searching for a Keyword
 	unsigned int SCE_MAKE_NUMBER = SCE_MAKE_IDENTIFIER;
 	unsigned int SCE_MAKE_FUNCTION = SCE_MAKE_OPERATOR;
 	unsigned int state = SCE_MAKE_DEFAULT;
 	unsigned int state_prev = startStyle;
+	
 	bool inString = false;		// set when a double quoted String begins.
 	bool inSqString = false;	// set when a single quoted String begins.
 
@@ -169,7 +170,6 @@ static unsigned int ColouriseMakeLine(
 			}
 		}
 
-
 		/// lets signal a warning on unclosed Strings or Brackets.
 		if (strchr("({", (int)chCurr)!=NULL) {
 			if (i>0) styler.ColourTo(currentPos-1, state);
@@ -225,7 +225,7 @@ static unsigned int ColouriseMakeLine(
 		// got alphanumerics we mark the wordBoundary.
 		if (IsAlpha(chCurr)>=1 && strLen == 0) {
 			strLen++;
-			startMark=i; // words relative position (slineBuffer)
+			startMark=i; // words relative start position (slineBuffer)
 		} else if (strLen>0) {
 			strLen++; // ... within a word dimension boundary.
 		}
@@ -247,7 +247,8 @@ static unsigned int ColouriseMakeLine(
 			if (kwExtCmd.InList(strSearch.c_str())
 				 && strchr("\t\r\n ;)", (int)chNext) !=NULL
 				 &&  AtStartChar(styler, startMark-1)) {
-				if (startMark > startLine) styler.ColourTo(startMark-1, state);
+				if (startMark > startLine && startMark > stylerPos)
+					styler.ColourTo(startMark-1, state);
 				state_prev=state;
 				state=SCE_MAKE_EXTCMD;
 				stylerPos = ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
@@ -261,7 +262,8 @@ static unsigned int ColouriseMakeLine(
 			if (kwGeneric.InList(strSearch.c_str())
 					&& (strchr("\t\r\n ;)", (int)chNext) !=NULL)
 					&& (startMark==theStart || styler.SafeGetCharAt( startMark-1) == '=')) {
-				if (startMark > startLine) styler.ColourTo(startMark-1, state);
+				if (startMark > startLine && startMark > stylerPos)
+					styler.ColourTo(startMark-1, state);		
 				state_prev=state;
 				state=SCE_MAKE_DIRECTIVE;
 				stylerPos = ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
@@ -275,7 +277,8 @@ static unsigned int ColouriseMakeLine(
 			if (kwFunctions.InList(strSearch.c_str())
 					&& styler.SafeGetCharAt( startMark -2 ) == '$'
 					&& styler.SafeGetCharAt( startMark -1 ) == '(') {
-				if (startMark > startLine) styler.ColourTo(startMark-1, state);
+				if (startMark > startLine && startMark > stylerPos) 
+					styler.ColourTo(startMark-1, state);
 				state_prev = state;
 				state = SCE_MAKE_FUNCTION;
 				stylerPos = ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
@@ -284,7 +287,7 @@ static unsigned int ColouriseMakeLine(
 				styler.ColourTo(currentPos, state);
 			}
 			
-			// Colour Strings which end with a digit
+			// Colour Strings which end with a Number
 			if (IsNum(chCurr) && stylerPos < startMark) {
 				if (startMark>stylerPos) styler.ColourTo(startMark-1, SCE_MAKE_DEFAULT);
 				stylerPos = ColourHere(styler, currentPos,  SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
@@ -302,7 +305,7 @@ static unsigned int ColouriseMakeLine(
 		}
 	
 		/// Numbers; _very_ simple for now.
-		if(state==SCE_MAKE_DEFAULT && IsNum(chCurr) && stylerPos < currentPos)  {
+		if(state==SCE_MAKE_DEFAULT && startMark==0 && IsNum(chCurr) && stylerPos < currentPos)  {
 			if (currentPos>stylerPos) styler.ColourTo(currentPos-1, state);
 			stylerPos = ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 		}

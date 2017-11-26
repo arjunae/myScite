@@ -15,6 +15,7 @@ To use this script with SciTE4AutoHotkey:
  - Performance: exclude NULL Lexer; 
     Use a FileSize maximum; 
     Only regenerate Data on changed File
+    renew List OnDwell
 ]]
 -- Maximal filesize that this script should handle
 local AC_MAX_SIZE =131072 --131kB
@@ -50,6 +51,28 @@ local IGNORE_STYLES = { -- Should include comments, strings and errors.
     [SCLEX_GENERIC]  = {1,2,3,6,7,8}
 }
  
+local INCREMENTAL = true
+local IGNORE_CASE = false
+local CASE_CORRECT = true
+local CASE_CORRECT_INSTANT = false
+local WRAP_ARROW_KEYS = false
+local CHOOSE_SINGLE = props["autocomplete.choose.single"]
+
+-- Number of chars to type before the autocomplete list appears:
+local MIN_PREFIX_LEN = 2
+-- Length of shortest word to add to the autocomplete list:
+local MIN_IDENTIFIER_LEN = 3
+-- List of regex patterns for finding suggestions for the autocomplete menu:
+local IDENTIFIER_PATTERNS = {"[a-z_][a-z_0-9]+"}
+-- Override settings that interfere with this script:
+props["autocomplete.start.characters"] = ""
+props["autocomplete.start.characters"] = ""
+
+-- This feature is very awkward when combined with automatic popups:
+props["autocomplete.choose.single"] = "0"
+
+--~~~~~~~~~~~~~~~~~~~~~~~
+
 function file_exists(name)
    local f=io.open(name,"r")
    if f~=nil then io.close(f) return true else return false end
@@ -80,25 +103,6 @@ function isInTable(table, elem)
 	return false
 end
 
-local INCREMENTAL = true
-local IGNORE_CASE = true
-local CASE_CORRECT = true
-local CASE_CORRECT_INSTANT = false
-local WRAP_ARROW_KEYS = false
-local CHOOSE_SINGLE = props["autocomplete.choose.single"]
-
--- Number of chars to type before the autocomplete list appears:
-local MIN_PREFIX_LEN = 2
--- Length of shortest word to add to the autocomplete list:
-local MIN_IDENTIFIER_LEN = 4
--- List of regex patterns for finding suggestions for the autocomplete menu:
-local IDENTIFIER_PATTERNS = {"[a-z_][a-z_0-9]+"}
--- Override settings that interfere with this script:
-props["autocomplete.start.characters"] = ""
-props["autocomplete.start.characters"] = ""
-
--- This feature is very awkward when combined with automatic popups:
-props["autocomplete.choose.single"] = "0"
 
 local names = {}
 
