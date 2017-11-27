@@ -1,7 +1,7 @@
 ~ mySciTE.webdev ~
 
 [27.11.2017] Development
-Add: Scite Project Settings for scite sources.
+- Add: Scite Project Settings for scite sources.
 
 [25.11.2017] mySciTE.stable.180.Artie
 - Add: Lisp / Scheme / Clojure / GO Language Keywords
