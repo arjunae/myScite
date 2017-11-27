@@ -165,17 +165,18 @@ end
 function find_ctag(f,partial)
   -- search for tags files first
   local result
-  result = props['ctags.path.php']
-  if not result then
-    result = locate_tags(props['FileDir'])
-  end
+    
+  result = props['project.ctags']
+  if result then result = props["SciteDirectoryHome"].."\\"..props['project.ctags'] end
+  if not result then result = props['ctags.path.php'] end
+  if not result then result = locate_tags(props['FileDir']) end
   if not result then
     print("No tags found!")
     return
   end
 
   if result ~= gTagFile then
-    --print("Reloading tag from:"..result)
+   -- print("Reloading tag from:"..result)
     gTagFile = result
     tags = ReadTagFile(gTagFile)
   end
