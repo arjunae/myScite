@@ -80,9 +80,20 @@ static inline int IsGraphic(int ch) {
 	return (IsAlphaNum(ch));
 }
 
+Sci_PositionU stylerPos; // Keep a Reference to the last styled Position.
+
+static inline unsigned int ColourHere(Accessor &styler, Sci_PositionU pos, unsigned int style1) {
+	if (pos<stylerPos) return stylerPos;
+	styler.ColourTo(pos, style1);
+	stylerPos=pos;
+	return (pos);
+}
+
 static inline unsigned int ColourHere(Accessor &styler, Sci_PositionU pos, unsigned int style1, unsigned int style2) {
+	if (pos<stylerPos) return stylerPos;
 	styler.ColourTo(pos, style1);
 	styler.ColourTo(pos, style2);
+	stylerPos=pos;
 	return (pos);
 }
 
@@ -101,7 +112,7 @@ static unsigned int ColouriseMakeLine(
 	int iWarnEOL=0; // unclosed string bracket refcount.
 	Sci_PositionU strLen = 0;	// Keyword candidate length.
 	Sci_PositionU startMark = 0; // Keyword candidates startPos. >0 while searching for a Keyword
-	unsigned int SCE_MAKE_NUMBER = SCE_MAKE_IDENTIFIER;
+
 	unsigned int SCE_MAKE_FUNCTION = SCE_MAKE_OPERATOR;
 	unsigned int state = SCE_MAKE_DEFAULT;
 	unsigned int state_prev = startStyle;
@@ -124,7 +135,7 @@ static unsigned int ColouriseMakeLine(
 		i++;
 
 	unsigned int theStart=startLine+i; // One Byte ought (not) to be enough for everyone....?
-	Sci_PositionU stylerPos=i; // Keep a Reference to the last styled Position.
+	stylerPos=theStart; // Keep a Reference to the last styled Position.
 
 	while (i < lengthLine) {
 		Sci_PositionU currentPos=startLine+i;
@@ -144,8 +155,8 @@ static unsigned int ColouriseMakeLine(
 		if (chCurr == '#' && state==SCE_MAKE_DEFAULT) {
 			state_prev=state;
 			state=SCE_MAKE_COMMENT;
-			if (i>0) styler.ColourTo(currentPos-1, state_prev);
-			stylerPos = ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
+			ColourHere(styler, currentPos-1, state_prev);
+			ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
 			return(state);
 		}
 
@@ -160,54 +171,54 @@ static unsigned int ColouriseMakeLine(
 		if (!bCommand && state==SCE_MAKE_DEFAULT) {
 			if (chCurr == ':' && chNext != '=') {
 				if(styleBreak>0 && styleBreak<currentPos && styleBreak>stylerPos) 
-					stylerPos = ColourHere(styler, styleBreak, SCE_MAKE_DEFAULT, state);
-				stylerPos = ColourHere(styler, currentPos-1, SCE_MAKE_TARGET, state);
+					ColourHere(styler, styleBreak, SCE_MAKE_DEFAULT, state);
+				ColourHere(styler, currentPos-1, SCE_MAKE_TARGET, state);
 			} else if (chCurr == ':' && chNext == '=') {
 				// it's a ':=', so style as an identifier
-				stylerPos = ColourHere(styler, currentPos-2, SCE_MAKE_IDENTIFIER, state);
+				ColourHere(styler, currentPos-2, SCE_MAKE_IDENTIFIER, state);
 			} else if (chCurr=='=' && chPrev != ':') {
-					stylerPos = ColourHere(styler, currentPos-1, SCE_MAKE_IDENTIFIER, state);		
+					ColourHere(styler, currentPos-1, SCE_MAKE_IDENTIFIER, state);		
 			}
 		}
 
 		/// lets signal a warning on unclosed Strings or Brackets.
 		if (strchr("({", (int)chCurr)!=NULL) {
-			if (i>0) styler.ColourTo(currentPos-1, state);
-			stylerPos = ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			ColourHere(styler, currentPos-1, state);
+			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL++;
 		} else if (strchr(")}", (int)chCurr)!=NULL) {
-			if (i>0) styler.ColourTo(currentPos-1, state);
-			stylerPos = ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			if (i>0) ColourHere(styler, currentPos-1, state);
+			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL--;
 		}
 
 		/// Style double quoted Strings
 		if (inString && chCurr=='\"') {
-			if (i>0) styler.ColourTo(currentPos-1, state);
+			ColourHere(styler, currentPos-1, state);
 			state=SCE_MAKE_DEFAULT;
-			stylerPos = ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL--;
 			inString = false;
 		} else if	(!inString && chCurr=='\"') {
 			state_prev = state;
 			state = SCE_MAKE_STRING;
-			if (i>0) styler.ColourTo(currentPos-1, state_prev);
-			stylerPos = ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			ColourHere(styler, currentPos-1, state_prev);
+			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			inString=true;
 			iWarnEOL++;
 		}
 
 		/// Style single quoted Strings. Don't EOL check for now.
 		if (!inString && inSqString && chCurr=='\'') {
-			if (i>0) styler.ColourTo(currentPos-1, state);
+			ColourHere(styler, currentPos-1, state);
 			state = SCE_MAKE_DEFAULT;
-			stylerPos = ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			inSqString = false;
 		} else if	(!inString && !inSqString && chCurr=='\'') {
 			state_prev = state;
 			state = SCE_MAKE_STRING;
-			if (i>0) styler.ColourTo(currentPos-1, state_prev);
-			stylerPos = ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			ColourHere(styler, currentPos-1, state_prev);
+			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			inSqString = true;
 		}
 
@@ -251,10 +262,10 @@ static unsigned int ColouriseMakeLine(
 					styler.ColourTo(startMark-1, state);
 				state_prev=state;
 				state=SCE_MAKE_EXTCMD;
-				stylerPos = ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
+				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			} else if (state == SCE_MAKE_EXTCMD) {
 				state=SCE_MAKE_DEFAULT;
-				styler.ColourTo(currentPos, state);
+				ColourHere(styler, currentPos, state);
 			}
 
 			// we now search for the word within the Directives Space.
@@ -266,10 +277,10 @@ static unsigned int ColouriseMakeLine(
 					styler.ColourTo(startMark-1, state);		
 				state_prev=state;
 				state=SCE_MAKE_DIRECTIVE;
-				stylerPos = ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
+				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			} else if (state == SCE_MAKE_DIRECTIVE) {
 				state=SCE_MAKE_DEFAULT;
-				styler.ColourTo(currentPos, state);
+				ColourHere(styler, currentPos, state);
 			}
 
 			// ....and within functions $(sort,subst...) / used to style internal Variables too.
@@ -281,16 +292,16 @@ static unsigned int ColouriseMakeLine(
 					styler.ColourTo(startMark-1, state);
 				state_prev = state;
 				state = SCE_MAKE_FUNCTION;
-				stylerPos = ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
+				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			} else if (state == SCE_MAKE_FUNCTION) {
 				state=SCE_MAKE_DEFAULT;
-				styler.ColourTo(currentPos, state);
+				ColourHere(styler, currentPos, state);
 			}
 			
 			// Colour Strings which end with a Number
 			if (IsNum(chCurr) && stylerPos < startMark) {
 				if (startMark>stylerPos) styler.ColourTo(startMark-1, SCE_MAKE_DEFAULT);
-				stylerPos = ColourHere(styler, currentPos,  SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
+				ColourHere(styler, currentPos,  SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 			}
 			
 			startMark=0;
@@ -300,46 +311,46 @@ static unsigned int ColouriseMakeLine(
 
 		/// Operators..
 		if (state==SCE_MAKE_DEFAULT && strchr("!?&|+[]<>;:=", (int)chCurr) != NULL && stylerPos < currentPos) {
-			if (currentPos>stylerPos) styler.ColourTo(currentPos-1, state);
-			stylerPos =  ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
+			ColourHere(styler, currentPos-1, state);
+			ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
 		}
 	
 		/// Numbers; _very_ simple for now.
 		if(state==SCE_MAKE_DEFAULT && startMark==0 && IsNum(chCurr) && stylerPos < currentPos)  {
-			if (currentPos>stylerPos) styler.ColourTo(currentPos-1, state);
-			stylerPos = ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
+			ColourHere(styler, currentPos-1, state);
+			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 		}
 
 		/// Style User Variables Rule: $(...)
 		if (chCurr == '$' && (strchr("{(", (int)chNext)!=NULL)) {
-			if (currentPos > startLine) styler.ColourTo(currentPos-1, state);
+		  stylerPos =ColourHere(styler, currentPos-1, state);
 			state_prev=state;
 			state = SCE_MAKE_USER_VARIABLE;
 		} else if (state == SCE_MAKE_USER_VARIABLE && (strchr("})", (int)chNext)!=NULL)) {
 			if (state_prev==SCE_MAKE_USER_VARIABLE) state_prev = SCE_MAKE_DEFAULT;		
-			stylerPos = ColourHere(styler, currentPos, state, state_prev);
+			ColourHere(styler, currentPos, state, state_prev);
 			state = state_prev;
 		}
 
 		/// ... and $ based automatic Variables Rule: $@%<?^+*
 		if (chCurr == '$' && (strchr("@%<?^+*", (int)chNext))!=NULL) {
-			if (currentPos > startLine) styler.ColourTo(currentPos-1, state);
+			ColourHere(styler, currentPos-1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)chCurr)!=NULL)) {
-			stylerPos = ColourHere(styler, currentPos, state, state_prev);
+			ColourHere(styler, currentPos, state, state_prev);
 			state = state_prev;
 		}
 
 		/// Style for automatic Variables. FluxCompensators orders: @%<^+'D'||'F'
 		if ((strchr("@%<?^+*", (int)chCurr) >0) && (strchr("DF", (int)chNext)!=NULL)) {
-			if (currentPos > startLine) styler.ColourTo(currentPos-1, state);
+			ColourHere(styler, currentPos-1, state);
 			state_prev=state;
 			state = SCE_MAKE_AUTOM_VARIABLE;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE
 				&& (strchr("@%<^+", (int)styler.SafeGetCharAt(currentPos-1))!=NULL
 				    && (strchr("DF", (int)chCurr) !=NULL))) {
-			stylerPos = ColourHere(styler, currentPos, state, state_prev);
+			ColourHere(styler, currentPos, state, state_prev);
 			state = SCE_MAKE_DEFAULT;
 		}
 
@@ -351,7 +362,7 @@ static unsigned int ColouriseMakeLine(
 			bool j= (i>0 && (chCurr=='-') && chNext=='-') ? 1:0; // style both '-'
 			if (currentPos-j > startLine) styler.ColourTo(currentPos-j, state_prev);
 		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''", (int)chNext) !=NULL) {
-			stylerPos = ColourHere(styler, currentPos, state, state_prev);
+			ColourHere(styler, currentPos, state, state_prev);
 			state = SCE_MAKE_DEFAULT;
 		}
 	
@@ -364,7 +375,7 @@ static unsigned int ColouriseMakeLine(
 		state=SCE_MAKE_DEFAULT;
 	}
 
-	stylerPos = ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
+	ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
 
 	return(state);
 }
