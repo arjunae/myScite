@@ -260,7 +260,7 @@ static unsigned int ColouriseMakeLine(
 			if (kwExtCmd.InList(strSearch.c_str())
 					&& strchr("\t\r\n ;)", (int)chNext) !=NULL
 					&&  AtStartChar(styler, startMark-1)) {
-				if (startMark > startLine && startMark > stylerPos)
+				if (startMark >= startLine && startMark >= stylerPos)
 					styler.ColourTo(startMark-1, state);
 				state_prev=state;
 				state=SCE_MAKE_EXTCMD;
@@ -275,7 +275,7 @@ static unsigned int ColouriseMakeLine(
 			if (kwGeneric.InList(strSearch.c_str())
 					&& (strchr("\t\r\n ;)", (int)chNext) !=NULL)
 					&& (startMark==theStart || styler.SafeGetCharAt(startMark-1) == '=')) {
-				if (startMark > startLine && startMark > stylerPos)
+				if (startMark >= startLine && startMark >= stylerPos)
 					styler.ColourTo(startMark-1, state);
 				state_prev=state;
 				state=SCE_MAKE_DIRECTIVE;
@@ -290,7 +290,7 @@ static unsigned int ColouriseMakeLine(
 			if (kwFunctions.InList(strSearch.c_str())
 					&& styler.SafeGetCharAt(startMark -2) == '$'
 					&& styler.SafeGetCharAt(startMark -1) == '(') {
-				if (startMark > startLine && startMark > stylerPos)
+				if (startMark >= startLine && startMark >= stylerPos)
 					styler.ColourTo(startMark-1, state);
 				state_prev = state;
 				state = SCE_MAKE_FUNCTION;
@@ -301,7 +301,7 @@ static unsigned int ColouriseMakeLine(
 			}
 
 			// Colour Strings which end with a Number
-			if (IsNum(chCurr) && stylerPos < startMark) {
+			if (IsNum(chCurr)) {
 				if (startMark>stylerPos) styler.ColourTo(startMark-1, SCE_MAKE_DEFAULT);
 				ColourHere(styler, currentPos,  SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 			}
@@ -312,13 +312,13 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Operators..
-		if (state==SCE_MAKE_DEFAULT && strchr("!?&|+[]<>;:=", (int)chCurr) != NULL && stylerPos < currentPos) {
+		if (state==SCE_MAKE_DEFAULT && strchr("!?&|+[]<>;:=", (int)chCurr) != NULL) {
 			ColourHere(styler, currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
 		}
 
 		/// Numbers; _very_ simple for now.
-		if (state==SCE_MAKE_DEFAULT && startMark==0 && IsNum(chCurr) && stylerPos < currentPos)  {
+		if (state==SCE_MAKE_DEFAULT && startMark==0 && IsNum(chCurr))  {
 			ColourHere(styler, currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 		}
