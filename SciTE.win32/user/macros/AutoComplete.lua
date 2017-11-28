@@ -155,11 +155,10 @@ local function getApiNames()
         return ""
     end)
     
-      -- test: fill in uniqued tagNames
-		-- todo: one per project.
-      local filepath=props["project.path"].."\\".."ctags.tags"
-      
-		if file_exists(filepath) then 
+    -- Fills in uniqued tagNames
+    local filepath=props["project.path"].."\\"..props["project.ctags.filename"]
+
+    if file_exists(filepath) then 
         for name in io.lines(filepath) do
             local lastName=name
             name = name:match("([%w_.:]+)") -- Discard parameters/comments.

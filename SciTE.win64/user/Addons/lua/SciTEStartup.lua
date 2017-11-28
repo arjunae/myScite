@@ -185,6 +185,20 @@ function TestSciLexer(origHash)
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+function HandleProjectPath()
+--
+-- handle Project Folders
+--
+local projectPath
+
+	if props["SciteDirectoryHome"] ~= props["FileDir"] then
+		props["project.path"] = props["SciteDirectoryHome"]
+		--print("Project File found: "..props["project.path"]) 
+	end
+
+end
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 function OnInit() 
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
@@ -192,6 +206,7 @@ function OnInit()
 	--print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)
 	TestSciLexer("657db4c7") -- SciLexers CRC32 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
+	scite_OnOpenSwitch(HandleProjectPath)
 	
 end
 --print("startupScript_reload")

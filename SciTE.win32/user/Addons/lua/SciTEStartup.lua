@@ -194,12 +194,12 @@ function HandleProjectPath()
 local projectPath
 
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
-		projectPath=props["SciteDirectoryHome"]
-		props["project.path"] =  projectPath
+		props["project.path"] = props["SciteDirectoryHome"]
 		--print("Project File found: "..props["project.path"]) 
 	end
 
 end
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function OnInit() 
 --
