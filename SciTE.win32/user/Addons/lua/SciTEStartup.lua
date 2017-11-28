@@ -192,13 +192,12 @@ function HandleProjectPath()
 -- handle Project Folders
 --
 local projectPath
-	if props["SciteDirectoryHome"] then
+
+	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		projectPath=props["SciteDirectoryHome"]
 		props["project.path"] =  projectPath
-	--	print(props["project.path"])
+		--print("Project File found: "..props["project.path"]) 
 	end
-	--	print("Project File found: "..projectPath) 
-		-- recreate cTags	
 
 end
 

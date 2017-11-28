@@ -103,7 +103,6 @@ function isInTable(table, elem)
 	return false
 end
 
-
 local names = {}
 
 local notempty = next
@@ -156,6 +155,18 @@ local function getApiNames()
         return ""
     end)
     
+      -- test: fill in uniqued tagNames
+		-- todo: one per project.
+      local filepath=props["project.path"].."\\".."ctags.tags"
+      
+		if file_exists(filepath) then 
+        for name in io.lines(filepath) do
+            local lastName=name
+            name = name:match("([%w_.:]+)") -- Discard parameters/comments.
+            if string.len(name) > 0  and name~=lastName then apiNames[name]=true end
+        end
+    end	
+        
     if lexer~=nil then
         apiCache[lexer] = apiNames -- Even if it's empty
     end
@@ -204,9 +215,12 @@ local function buildNames()
             -- This also "case-corrects"; e.g. "gui" -> "Gui".
             unique[normalize(name)] = name
         end
+        
         for _,name in pairs(unique) do
             table.insert(names, name)
         end
+        
+      
         table.sort(names, function(a,b) return normalize(a) < normalize(b) end)
         buffer.namesForAutoComplete = names -- Cache it for OnSwitchFile.
         buffer.dirty=false
