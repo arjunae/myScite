@@ -210,7 +210,10 @@ function OnInit()
 	TestSciLexer("14a33da6") -- SciLexers CRC32 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
 	scite_OnOpenSwitch(HandleProjectPath)
+
+-- force Monospace	
+-- scite.MenuCommand(IDM_MONOFONT)
+
 end
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
--- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
