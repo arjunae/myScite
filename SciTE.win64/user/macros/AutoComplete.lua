@@ -156,16 +156,34 @@ local function getApiNames()
     end)
     
     -- Fills in uniqued tagNames
-    local filepath=props["project.path"].."\\"..props["project.ctags.filename"]
-
-    if file_exists(filepath) then 
-        for name in io.lines(filepath) do
-            local lastName=name
-            name = name:match("([%w_.:]+)") -- Discard parameters/comments.
-            if string.len(name) > 0  and name~=lastName then apiNames[name]=true end
-        end
-    end	
+    local cTagsFilePath=props["project.path"].."\\"..props["project.ctags.filename"]
+    local cTagsAPIPath=props["project.path"].."\\".."cTags.api"
+    local apiExt= {}  -- Table keeping cTags in api file Format 
+    if file_exists(cTagsFilePath) then 
+        local lastName=""
+        local lastEntry=""
+        cTagsFile= io.open(cTagsAPIPath,"w")
+        io.output(cTagsFile)        
         
+        for entry in io.lines(cTagsFilePath) do
+            local params = entry:match("(%(.*%))") or "" -- parameters for Calltips 
+            local name = entry:match("([%w_.:]+)") -- Only the Names for List Entries
+            if string.len(name) > 0  and name~=lastName then --Dupe Check
+                lastName = name
+                apiNames[name]=true           
+            end
+            if string.len(params) > 0  and name..params~=lastEntry then --Dupe Check
+                lastEntry=name..params
+                io.write(lastEntry.."\n") -- projects cTags APICalltips file
+            end
+       
+        end
+        io.close(cTagsFile)
+        -- Append the Projects api Path
+        projectEXT=props["file.patterns.project"]
+        props["api."..projectEXT] =props["api."..projectEXT] ..";"..cTagsAPIPath 
+    end
+
     if lexer~=nil then
         apiCache[lexer] = apiNames -- Even if it's empty
     end

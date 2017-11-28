@@ -8,7 +8,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-
 #include <string>
 #include <vector>
 #include <set>
@@ -22,7 +21,6 @@
 
 #include "Scintilla.h"
 #include "ILexer.h"
-
 #include "GUI.h"
 #include "StringList.h"
 #include "StringHelpers.h"
