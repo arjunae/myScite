@@ -122,8 +122,8 @@ local tags
 local function OpenTag(tag)
   -- ask SciTE to open the file
   local fileNamePath
-  local path = props["SciteDirectoryHome"] -- extract_path(gTagFile)
-  if path  then fileNamePath=path ..dirSep.. tag.file end
+  local path= extract_path(gTagFile)
+  if path  then fileNamePath= tag.file end
   set_mark()
   scite.Open(fileNamePath)
   -- depending on what kind of tag, either search for the pattern,
