@@ -217,3 +217,4 @@ function OnInit()
 end
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
+--print(props["Path"])
