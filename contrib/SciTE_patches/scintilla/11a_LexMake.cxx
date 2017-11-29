@@ -317,7 +317,7 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
 		}
 
-		/// Numbers; _very_ simple for now.
+		/// Digits; _very_ simple for now.
 		if (state==SCE_MAKE_DEFAULT && startMark==0 && IsNum(chCurr))  {
 			ColourHere(styler, currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
