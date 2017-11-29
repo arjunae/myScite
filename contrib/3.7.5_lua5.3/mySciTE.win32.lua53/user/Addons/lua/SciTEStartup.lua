@@ -189,9 +189,26 @@ function TestSciLexer(origHash)
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+function HandleProjectPath()
+--
+-- handle Project Folders
+--
+
+	if props["SciteDirectoryHome"] ~= props["FileDir"] then
+		props["project.path"] = props["SciteDirectoryHome"]
+		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
+	else
+		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
+		--print("Project File found: "..props["project.path"]) 
+	end
+		
+end
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 function OnInit()
-	TestSciLexer("c3b78ed0") -- SciLexers CRC32 Hash for the current Version
+	--TestSciLexer("20bf63c1") -- SciLexers CRC32 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
+	scite_OnOpenSwitch(HandleProjectPath)
 end
 
 --print("startupScript_reload")

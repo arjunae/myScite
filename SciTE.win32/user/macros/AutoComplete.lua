@@ -94,10 +94,10 @@ end
 -- Deal with different Path Separators o linux/win
 --
 local function dirSep()
-if props["PLAT_GTK"] then
-    return("/")
-else
+if props["PLAT_WIN"] then
     return("\\")
+else
+    return("/")
 end
 end
 
@@ -140,10 +140,12 @@ end
 --
 --   Fills in uniqued tagNames
 --
+cTagNames=""
+
 local function appendCTags(apiNames)    
     local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
     local cTagsAPIPath=props["project.path"]..dirSep().."cTags.api"
-    local apiExt= {}  -- Table keeping cTags in api file Format 
+
     if file_exists(cTagsFilePath) then 
         local lastName=""
         local lastEntry=""
@@ -159,14 +161,13 @@ local function appendCTags(apiNames)
             end
             if string.len(params) > 0  and name..params~=lastEntry then --Dupe Check
                 lastEntry=name..params
+                cTagNames=cTagNames.." "..name
                 io.write(lastEntry.."\n") -- projects cTags APICalltips file
             end
        
         end
+
         io.close(cTagsFile)
-        -- Append the Projects api Path
-        projectEXT=props["file.patterns.project"]
-        props["api."..projectEXT] =props["api."..projectEXT] ..";"..cTagsAPIPath 
     end
 end
 
@@ -235,11 +236,10 @@ local function buildNames()
 --print("build names buffer state:",buffer.dirty)
 
    local fSize=0
-
+    
     if editor.Lexer~=1 and buffer.dirty==true then 
       if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
       if fSize > AC_MAX_SIZE then  return end  
-    
         setLexerSpecificStuff()
         -- Reset our array of names.
         names = {}

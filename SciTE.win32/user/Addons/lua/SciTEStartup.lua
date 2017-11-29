@@ -144,7 +144,7 @@ function markGUID()
 		end
 	end
 end
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function StyleStuff()
 ---
@@ -158,6 +158,7 @@ function StyleStuff()
 		scite_OnOpenSwitch(markLinks)
 		scite_OnOpenSwitch(markeMail)
 		scite_OnOpenSwitch(markGUID)	  
+		
 	end
 
 end
@@ -191,16 +192,25 @@ function HandleProjectPath()
 --
 -- handle Project Folders
 --
-local projectPath
 
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		props["project.path"] = props["SciteDirectoryHome"]
 		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
+	
+        -- Append the Projects api Path
+        projectEXT=props["file.patterns.project"]
+        props["api."..projectEXT] =props["api."..projectEXT] ..";"..props["SciteDirectoryHome"].."\\".."cTags.api"
+
+        -- test: expose the functions collected by cTags for syntax highlitening         
+        props["substyles.cpp.11"]=20
+        props["substylewords.11.20."..projectEXT] = cTagNames
+        props["style.cpp.11.20"]="fore:#627A90"
+	--	print("Project File found: "..props["project.path"]) 		  
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
-		--print("Project File found: "..props["project.path"]) 
+
 	end
-		
+
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -213,6 +223,7 @@ function OnInit()
 	scite_OnOpenSwitch(StyleStuff)
 	scite_OnOpenSwitch(HandleProjectPath)
 
+
 -- force Monospace	
 -- scite.MenuCommand(IDM_MONOFONT)
 
@@ -220,3 +231,9 @@ end
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
 --print(props["Path"])
+       
+		--props["api.*.cxx"] =props["SciteUserHome"].."\\".."cTags.api"
+		
+		-- todo: Make SciteDirectoryHome available on startup:
+		--print(props["SciteDirectoryHome"])
+		
