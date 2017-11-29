@@ -2,6 +2,7 @@
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- AutoComplete v0.8 by Lexikos
 -- 12.07.17 - Sanitiy checks for scite. --
+-- 29.11.17 - Documentation, Performance and appendCTags 
 
 --[[
 Tested on SciTE4AutoHotkey 3.0.06.01; may also work on SciTE 3.1.0 or later.
@@ -10,12 +11,13 @@ To use this script with SciTE4AutoHotkey:
   - Add the following to UserLuaScript.lua:
         dofile(props['SciteUserHome'].."/AutoComplete.lua")
   - Restart SciTE.
- @info 24.11.2017 Marcedo@habMalNeFrage.de
+ @info 29.11.2017 Marcedo@habMalNeFrage.de
  - Adapted for mySciTE 3.7.5
  - Performance: exclude NULL Lexer; 
     Use a FileSize maximum; 
     Only regenerate Data on changed File
-    renew List OnDwell
+    renew Keyword List OnDwell
+- appendCTags() function (Autocomplete Project)    
 ]]
 -- Maximal filesize that this script should handle
 local AC_MAX_SIZE =131072 --131kB
@@ -58,6 +60,8 @@ local CASE_CORRECT_INSTANT = false
 local WRAP_ARROW_KEYS = false
 local CHOOSE_SINGLE = props["autocomplete.choose.single"]
 
+-- Names from api files, stored by lexer name.
+local apiCache = {} 
 -- Number of chars to type before the autocomplete list appears:
 local MIN_PREFIX_LEN = 2
 -- Length of shortest word to add to the autocomplete list:
@@ -73,36 +77,6 @@ props["autocomplete.choose.single"] = "0"
 
 --~~~~~~~~~~~~~~~~~~~~~~~
 
-function file_exists(name)
-   local f=io.open(name,"r")
-   if f~=nil then io.close(f) return true else return false end
-end
-
---------------------------
--- returns the size of a given file.
---------------------------
-function file_size (filePath)
-    if  filePath ~=""  and filePath ~= nil then 
-        local myFile,err=io.open(filePath,"r")
-        if err then return 0 end -- todo handle filePath containing Unicode chars 
-        local size = myFile:seek("end")    -- get file size
-        myFile:close()
-        return size
-    else
-        return 0
-    end
-end
-
-function isInTable(table, elem)
-	if table == null then return false end
-	for k,i in ipairs(table) do
-		if i == elem then
-			return true
-		end
-	end
-	return false
-end
-
 local names = {}
 
 local notempty = next
@@ -115,49 +89,59 @@ else
     normalize = function(word) return word end
 end
 
-local function setLexerSpecificStuff()
-    -- Disable collection of words in comments, strings, etc.
-    -- Also disables autocomplete popups while typing there.
-    local iLexer=editor.Lexer
-    --print (editor.Lexer)
-    if type(IGNORE_STYLES[iLexer])=="nil" and editor.Lexer~=1 then -- Performance: Disable Ac for the Null Lexer
-       -- print("ac>Current lexer not supported. Using generic Mode.")
-        iLexer=SCLEX_GENERIC
-    end
-    if IGNORE_STYLES[iLexer] then
-    -- Define a function for calling later:
-        shouldIgnorePos = function(pos)       
-            return isInTable(IGNORE_STYLES[iLexer], editor.StyleAt[pos])
-        end
+--
+-- Deal with different Path Separators o linux/win
+--
+local function dirSep()
+if props["PLAT_GTK"] then
+    return("/")
+else
+    return("\\")
+end
+end
+
+--
+-- returns if a given fileNamePath exists
+--
+local function file_exists(name)
+   local f=io.open(name,"r")
+   if f~=nil then io.close(f) return true else return false end
+end
+
+--
+-- returns the size of a given fileNamePath.
+--
+function file_size (filePath)
+    if  filePath ~=""  and filePath ~= nil then 
+        local myFile,err=io.open(filePath,"r")
+        if err then return 0 end -- todo handle filePath containing Unicode chars 
+        local size = myFile:seek("end")    -- get file size
+        myFile:close()
+        return size
     else
-        -- Optional: Disable autocomplete popups for unknown lexers.
-        shouldIgnorePos = function(pos) return true end
+        return 0
     end
 end
 
-local apiCache = {} -- Names from api files, stored by lexer name.
+--
+-- checks for a Value in a Table
+--
+local function isInTable(table, elem)
+	if table == null then return false end
+	for k,i in ipairs(table) do
+		if i == elem then
+			return true
+		end
+	end
+	return false
+end
 
-local function getApiNames()
-    local lexer = editor.LexerLanguage
-    if apiCache[lexer] then
-        return apiCache[lexer]
-    end
-    local apiNames = {}
-    local apiFiles = props["APIPath"] or ""
-    apiFiles:gsub("[^;]+", function(apiFile) -- For each in ;-delimited list.
-    if not file_exists(apiFile) then print ("ac>ignoring nonExistant apiFile: "..apiFile) return end
-    for name in io.lines(apiFile) do
-        name = name:gsub("[(, ].*", "") -- Discard parameters/comments.
-            if string.len(name) > 0 then
-                apiNames[name] = true
-            end
-        end
-        return ""
-    end)
-    
-    -- Fills in uniqued tagNames
-    local cTagsFilePath=props["project.path"].."\\"..props["project.ctags.filename"]
-    local cTagsAPIPath=props["project.path"].."\\".."cTags.api"
+--
+--   Fills in uniqued tagNames
+--
+local function appendCTags(apiNames)    
+    local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
+    local cTagsAPIPath=props["project.path"]..dirSep().."cTags.api"
     local apiExt= {}  -- Table keeping cTags in api file Format 
     if file_exists(cTagsFilePath) then 
         local lastName=""
@@ -183,7 +167,54 @@ local function getApiNames()
         projectEXT=props["file.patterns.project"]
         props["api."..projectEXT] =props["api."..projectEXT] ..";"..cTagsAPIPath 
     end
+end
 
+
+--
+-- Disable collection of words in comments, strings, etc.
+-- Also disables autocomplete popups while typing there.
+--
+local function setLexerSpecificStuff()
+    local iLexer=editor.Lexer
+    --print (editor.Lexer)
+    if type(IGNORE_STYLES[iLexer])=="nil" and editor.Lexer~=1 then -- Performance: Disable Ac for the Null Lexer
+       -- print("ac>Current lexer not supported. Using generic Mode.")
+        iLexer=SCLEX_GENERIC
+    end
+    if IGNORE_STYLES[iLexer] then
+    -- Define a function for calling later:
+        shouldIgnorePos = function(pos)       
+            return isInTable(IGNORE_STYLES[iLexer], editor.StyleAt[pos])
+        end
+    else
+        -- Optional: Disable autocomplete popups for unknown lexers.
+        shouldIgnorePos = function(pos) return true end
+    end
+end
+
+--
+-- Append current Lexers Api Files
+--
+local function getApiNames()
+    local lexer = editor.LexerLanguage
+    if apiCache[lexer] then
+        return apiCache[lexer]
+    end
+    local apiNames = {}
+    local apiFiles = props["APIPath"] or ""
+    apiFiles:gsub("[^;]+", function(apiFile) -- For each in ;-delimited list.
+    if not file_exists(apiFile) then print ("ac>ignoring nonExistant apiFile: "..apiFile) return end
+    for name in io.lines(apiFile) do
+        name = name:gsub("[(, ].*", "") -- Discard parameters/comments.
+            if string.len(name) > 0 then
+                apiNames[name] = true
+            end
+        end
+        return ""
+    end)
+
+    appendCTags(apiNames)
+    
     if lexer~=nil then
         apiCache[lexer] = apiNames -- Even if it's empty
     end
@@ -191,14 +222,18 @@ local function getApiNames()
     return apiNames
 end
 
-
+--
+-- create AutoCompletes Keyword list
+--
 local function buildNames()
+-- Perfomance: 
+-- Disable Ac for the Null Lexer
+-- only rebuild list when the buffer was modified
+-- use a user settable maximum size for AutoComplete to be active
+
 --print("build names buffer state:",buffer.dirty)
+
    local fSize=0
-  -- Perfomance: 
-  -- Disable Ac for the Null Lexer
-  -- only rebuild list when the buffer was modified
-  -- use a user settable maximum size for AutoComplete to be active
 
     if editor.Lexer~=1 and buffer.dirty==true then 
       if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
@@ -237,7 +272,6 @@ local function buildNames()
             table.insert(names, name)
         end
         
-      
         table.sort(names, function(a,b) return normalize(a) < normalize(b) end)
         buffer.namesForAutoComplete = names -- Cache it for OnSwitchFile.
         buffer.dirty=false
@@ -399,7 +433,7 @@ local events = {
     OnChar          = handleChar,
     OnKey           = handleKey,
     OnSave          = buildNames,
-    OnDwellStart  = buildNames, -- fix:raised on any User Interaction (Mousemove/Keybord Nav...) 
+    OnDwellStart  = buildNames, -- should be raised on any User Interaction (Mousemove/Keybord Nav...) 
     OnSwitchFile    = function()
         -- Use this file's cached list if possible:
         names = buffer.namesForAutoComplete
