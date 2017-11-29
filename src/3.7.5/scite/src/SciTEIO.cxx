@@ -608,8 +608,11 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 	if (lineNumbers && lineNumbersExpand)
 		SetLineNumberWidth();
 	UpdateStatusBar(true);
-	if (extender && !asynchronous)
+	if (extender && !asynchronous) {
 		extender->OnOpen(filePath.AsUTF8().c_str());
+	ReadProperties(); //Arjunae: Allow SciTE start-up with extender changed properties.
+	}
+		
 	return true;
 }
 

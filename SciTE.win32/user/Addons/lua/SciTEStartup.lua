@@ -36,9 +36,8 @@ dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
--- Load enhanced Autocomplete
-dofile(myHome..'\\macros\\AutoComplete.lua')
-
+-- Start AutoComplete
+dofile(myHome..'\\macros\\AutoComplete.lua') -- Load enhanced Autocomplete
 -- ##################  Lua Samples #####################
 --   ##############################################
 
@@ -158,11 +157,8 @@ function StyleStuff()
 		scite_OnOpenSwitch(markLinks)
 		scite_OnOpenSwitch(markeMail)
 		scite_OnOpenSwitch(markGUID)	  
-		
 	end
-
 end
-
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function TestSciLexer(origHash)
@@ -199,16 +195,15 @@ function HandleProjectPath()
 	
         -- Append the Projects api Path
         projectEXT=props["file.patterns.project"]
-        props["api."..projectEXT] =props["api."..projectEXT] ..";"..props["SciteDirectoryHome"].."\\".."cTags.api"
+        props["api."..projectEXT] =props["APIPath"]..";"..props["project.path"].."\\".."cTags.api"
 
-        -- test: expose the functions collected by cTags for syntax highlitening         
+        -- test: expose the functions collected by cTags for syntax highlitening a Projects API 
+			-- NeedsWork(tm)
         props["substyles.cpp.11"]=20
         props["substylewords.11.20."..projectEXT] = cTagNames
-        props["style.cpp.11.20"]="fore:#627A90"
-	--	print("Project File found: "..props["project.path"]) 		  
+        props["style.cpp.11.20"]="fore:#6080A0"
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
-
 	end
 
 end
@@ -218,22 +213,14 @@ function OnInit()
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
-	--print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)
-	TestSciLexer("14a33da6") -- SciLexers CRC32 Hash for the current Version
+	TestSciLexer("80473c77") -- SciLexers CRC32 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
-	scite_OnOpenSwitch(HandleProjectPath)
+	scite_OnOpenSwitch(HandleProjectPath)   
 
-
--- force Monospace	
--- scite.MenuCommand(IDM_MONOFONT)
-
+-- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
+-- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
 end
+
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
 --print(props["Path"])
-       
-		--props["api.*.cxx"] =props["SciteUserHome"].."\\".."cTags.api"
-		
-		-- todo: Make SciteDirectoryHome available on startup:
-		--print(props["SciteDirectoryHome"])
-		

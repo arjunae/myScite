@@ -22,6 +22,7 @@
 
 #endif
 
+
 #ifdef STATIC_BUILD
 const GUI::gui_char appName[] = GUI_TEXT("Sc1");
 #else
