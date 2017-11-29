@@ -195,9 +195,12 @@ local projectPath
 
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		props["project.path"] = props["SciteDirectoryHome"]
+		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
+	else
+		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
 		--print("Project File found: "..props["project.path"]) 
 	end
-
+		
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

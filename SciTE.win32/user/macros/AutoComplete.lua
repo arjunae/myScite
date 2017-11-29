@@ -1,6 +1,7 @@
 --go@ dofile $(FilePath)
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- AutoComplete v0.8 by Lexikos
+-- AutoComplete by Lexikos. Updates by Marcedo
+-- Version: 0.9
 -- 12.07.17 - Sanitiy checks for scite. --
 -- 29.11.17 - Documentation, Performance and appendCTags 
 
