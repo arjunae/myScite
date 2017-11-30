@@ -59,7 +59,6 @@ extern "C" {
 // the normal SciTE convention.  There is some grey area of course,
 // and for these I just make a judgement call
 
-
 static ExtensionAPI *host = 0;
 static lua_State *luaState = 0;
 static bool luaDisabled = false;

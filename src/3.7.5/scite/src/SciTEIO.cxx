@@ -337,9 +337,10 @@ void SciTEBase::TextRead(FileWorker *pFileWorker) {
 		pFileLoader->pLoader = 0;
 		SwitchDocumentAt(iBuffer, pdocLoading);
 		if (iBuffer == buffers.Current()) {
-			CompleteOpen(ocCompleteCurrent);
+
 			if (extender)
 				extender->OnOpen(buffers.buffers[iBuffer].AsUTF8().c_str());
+			CompleteOpen(ocCompleteCurrent);
 			RestoreState(buffers.buffers[iBuffer], true);
 			DisplayAround(buffers.buffers[iBuffer]);
 			wEditor.Call(SCI_SCROLLCARET);

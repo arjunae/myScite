@@ -21,7 +21,7 @@ To use this script with SciTE4AutoHotkey:
 - appendCTags() function (Autocomplete Project)    
 ]]
 -- Maximal filesize that this script should handle
-local AC_MAX_SIZE =131072 --131kB
+local AC_MAX_SIZE =262144 --260k
 
 -- List of styles per lexer that autocomplete should not occur within.
 local SCLEX_AHK1 = 200
@@ -153,14 +153,13 @@ local function appendCTags(apiNames)
         io.output(cTagsFile)        
         
         for entry in io.lines(cTagsFilePath) do
-            local params = entry:match("(%(.*%))") or "" -- parameters for Calltips 
+            -- parameters for Calltips
+            local params = entry:match("(%(.*%))") or "" -- functions
+ --           if not params then params= entry:match("d$") or "" end -- Constants 
             local name = entry:match("([%w_.:]+)") -- Only the Names for List Entries
-            if string.len(name) > 0  and name~=lastName then --Dupe Check
-                lastName = name
-                apiNames[name]=true           
-            end
             if string.len(params) > 0  and name..params~=lastEntry then --Dupe Check
                 lastEntry=name..params
+                apiNames[name]=true    
                 cTagNames=cTagNames.." "..name
                 io.write(lastEntry.."\n") -- projects cTags APICalltips file
             end

@@ -201,7 +201,7 @@ function HandleProjectPath()
 			-- NeedsWork(tm)
         props["substyles.cpp.11"]=20
         props["substylewords.11.20."..projectEXT] = cTagNames
-        props["style.cpp.11.20"]="fore:#6080A0"
+        props["style.cpp.11.20"]="fore:#608096"
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
 	end
@@ -213,7 +213,7 @@ function OnInit()
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
-	TestSciLexer("80473c77") -- SciLexers CRC32 Hash for the current Version
+	TestSciLexer("be7ed5ec") -- SciLexers CRC32 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
 	scite_OnOpenSwitch(HandleProjectPath)   
 
