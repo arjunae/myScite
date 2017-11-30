@@ -1,6 +1,7 @@
 --go@ dofile $(FilePath)
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- AutoComplete v0.8 by Lexikos
+-- AutoComplete by Lexikos. Updates by Marcedo
+-- Version: 0.9
 -- 12.07.17 - Sanitiy checks for scite. --
 -- 29.11.17 - Documentation, Performance and appendCTags 
 
@@ -20,8 +21,13 @@ To use this script with SciTE4AutoHotkey:
 - appendCTags() function (Autocomplete Project)    
 ]]
 -- Maximal filesize that this script should handle
-local AC_MAX_SIZE =131072 --131kB
+local AC_MAX_SIZE =262144 --260k
 
+-- Default colour for cTag generated ProjectAPI
+if props["colour.projectapi"]=="" then
+ props["colour.projectapi"]="fore:#608096"
+end 
+ 
 -- List of styles per lexer that autocomplete should not occur within.
 local SCLEX_AHK1 = 200
 local SCLEX_AHK2 = 201 --?
@@ -88,15 +94,15 @@ if IGNORE_CASE then
 else
     normalize = function(word) return word end
 end
-
+		
 --
 -- Deal with different Path Separators o linux/win
 --
 local function dirSep()
-if props["PLAT_GTK"] then
-    return("/")
-else
+if props["PLAT_WIN"] then
     return("\\")
+else
+    return("/")
 end
 end
 
@@ -137,36 +143,50 @@ local function isInTable(table, elem)
 end
 
 --
---   Fills in uniqued tagNames
+--   Appends uniqued tagNames to given table
+--   Append tagNames to currentLexers substyle 11.20
 --
+local cTagNames="" -- globally cached function names
+cTagAPI={} -- globally cached projectAPI functions(param)
+local updateCTags=1
+
 local function appendCTags(apiNames)    
     local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
     local cTagsAPIPath=props["project.path"]..dirSep().."cTags.api"
-    local apiExt= {}  -- Table keeping cTags in api file Format 
-    if file_exists(cTagsFilePath) then 
+  
+    if file_exists(cTagsFilePath) and updateCTags==1 then 
         local lastName=""
         local lastEntry=""
+        cTagNames=""
         cTagsFile= io.open(cTagsAPIPath,"w")
         io.output(cTagsFile)        
         
         for entry in io.lines(cTagsFilePath) do
-            local params = entry:match("(%(.*%))") or "" -- parameters for Calltips 
+            -- parameters for Calltips
+            local params = entry:match("(%(.*%))") or "" -- functions
+ --           if not params then params= entry:match("d$") or "" end -- Constants 
             local name = entry:match("([%w_.:]+)") -- Only the Names for List Entries
-            if string.len(name) > 0  and name~=lastName then --Dupe Check
-                lastName = name
-                apiNames[name]=true           
-            end
             if string.len(params) > 0  and name..params~=lastEntry then --Dupe Check
                 lastEntry=name..params
+                cTagAPI[name]=true
+                cTagNames=cTagNames.." "..name
                 io.write(lastEntry.."\n") -- projects cTags APICalltips file
             end
-       
         end
         io.close(cTagsFile)
-        -- Append the Projects api Path
-        projectEXT=props["file.patterns.project"]
-        props["api."..projectEXT] =props["api."..projectEXT] ..";"..cTagsAPIPath 
+        buffer.projectName= props["project.name"]
+        updateCTags=0
     end
+
+    -- test: Expose the functions collected by cTags for syntax highlitening a Projects API      
+    projectEXT=props["file.patterns.project"]
+    local currentLexer=props["Language"]
+
+    props["substyles."..currentLexer..".11"]=20
+    props["substylewords.11.20."..projectEXT] = cTagNames
+    props["style."..currentLexer..".11.20"]=props["colour.projectapi"]
+
+    apiNames=cTagAPI  --use the cached Version
 end
 
 
@@ -234,11 +254,11 @@ local function buildNames()
 --print("build names buffer state:",buffer.dirty)
 
    local fSize=0
-
+    
     if editor.Lexer~=1 and buffer.dirty==true then 
       if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
       if fSize > AC_MAX_SIZE then  return end  
-    
+
         setLexerSpecificStuff()
         -- Reset our array of names.
         names = {}

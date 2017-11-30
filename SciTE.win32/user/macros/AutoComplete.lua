@@ -23,6 +23,11 @@ To use this script with SciTE4AutoHotkey:
 -- Maximal filesize that this script should handle
 local AC_MAX_SIZE =262144 --260k
 
+-- Default colour for cTag generated ProjectAPI
+if props["colour.projectapi"]=="" then
+ props["colour.projectapi"]="fore:#608096"
+end 
+ 
 -- List of styles per lexer that autocomplete should not occur within.
 local SCLEX_AHK1 = 200
 local SCLEX_AHK2 = 201 --?
@@ -138,17 +143,18 @@ local function isInTable(table, elem)
 end
 
 --
---   Fills in uniqued tagNames
+--   Appends uniqued tagNames to given table
+--   Append tagNames to currentLexers substyle 11.20
 --
-local cTagNames=""
-cTagAPI={}
+local cTagNames="" -- globally cached function names
+cTagAPI={} -- globally cached projectAPI functions(param)
 local updateCTags=1
 
 local function appendCTags(apiNames)    
     local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
     local cTagsAPIPath=props["project.path"]..dirSep().."cTags.api"
   
-    if file_exists(cTagsFilePath) then --and updateCTags==1 then 
+    if file_exists(cTagsFilePath) and updateCTags==1 then 
         local lastName=""
         local lastEntry=""
         cTagNames=""
@@ -166,22 +172,21 @@ local function appendCTags(apiNames)
                 cTagNames=cTagNames.." "..name
                 io.write(lastEntry.."\n") -- projects cTags APICalltips file
             end
-       
         end
-        
         io.close(cTagsFile)
         buffer.projectName= props["project.name"]
         updateCTags=0
     end
 
-    -- test: expose the functions collected by cTags for syntax highlitening a Projects API 
-    -- NeedsWork(tm)       
+    -- test: Expose the functions collected by cTags for syntax highlitening a Projects API      
     projectEXT=props["file.patterns.project"]
-    props["substyles.cpp.11"]=20
-    props["substylewords.11.20."..projectEXT] = cTagNames
-    props["style.cpp.11.20"]="fore:#608096"
+    local currentLexer=props["Language"]
 
-    apiNames=cTagAPI  --use a cached Version
+    props["substyles."..currentLexer..".11"]=20
+    props["substylewords.11.20."..projectEXT] = cTagNames
+    props["style."..currentLexer..".11.20"]=props["colour.projectapi"]
+
+    apiNames=cTagAPI  --use the cached Version
 end
 
 

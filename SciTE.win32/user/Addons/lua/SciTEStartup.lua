@@ -1,8 +1,6 @@
 --
 -- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
 --
-if cTagNames==nil then cTagNames="" end 
-
 
 -- Windows requires this for us to immediately see all lua output.
 io.stdout:setvbuf("no")
@@ -203,7 +201,6 @@ function HandleProjectPath()
 
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---		if updateCTags==nil then updateCTags=1 end
 function OnInit() 
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
