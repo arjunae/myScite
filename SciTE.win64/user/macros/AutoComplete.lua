@@ -151,15 +151,18 @@ cTagAPI={} -- globally cached projectAPI functions(param)
 local updateCTags=1
 
 local function appendCTags(apiNames)    
+    local sysTmp=os.getenv("tmp")
     local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
-    local cTagsAPIPath=props["project.path"]..dirSep().."cTags.api"
+    local cTagsAPIPath=sysTmp..dirSep().."cTags.api"
+    props["project.ctags.apipath"]=cTagsAPIPath
+
   
     if file_exists(cTagsFilePath) and updateCTags==1 then 
         local lastName=""
         local lastEntry=""
         cTagNames=""
         cTagsFile= io.open(cTagsAPIPath,"w")
-        io.output(cTagsFile)        
+        io.output(cTagsFile)   -- projects cTags APICalltips file
         
         for entry in io.lines(cTagsFilePath) do
             -- parameters for Calltips
@@ -170,7 +173,7 @@ local function appendCTags(apiNames)
                 lastEntry=name..params
                 cTagAPI[name]=true
                 cTagNames=cTagNames.." "..name
-                io.write(lastEntry.."\n") -- projects cTags APICalltips file
+                io.write(lastEntry.."\n") 
             end
         end
         io.close(cTagsFile)

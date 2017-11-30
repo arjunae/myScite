@@ -194,7 +194,7 @@ function HandleProjectPath()
 		props["project.path"] = props["SciteDirectoryHome"]
 		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
 		projectEXT=props["file.patterns.project"]
-		props["api."..projectEXT] =props["APIPath"]..";"..props["project.path"].."\\".."cTags.api"
+		props["api."..projectEXT] =props["APIPath"]..";"..props["project.ctags.apipath"]
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
 	end
@@ -218,3 +218,5 @@ end
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
 --print(props["Path"])
+
+
