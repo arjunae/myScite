@@ -1,9 +1,9 @@
 --go@ dofile $(FilePath)
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- AutoComplete by Lexikos. Updates by Marcedo
+-- AutoComplete by Lexikos. Updates 2017 by Marcedo
 -- Version: 0.9
--- 12.07.17 - Sanitiy checks for scite. --
--- 29.11.17 - Documentation, Performance and appendCTags 
+-- 12.07.17 - Sanity checks for SciTE.
+-- 29.11.17 - Documentation, Performance Tweaks and appendCTags 
 
 --[[
 Tested on SciTE4AutoHotkey 3.0.06.01; may also work on SciTE 3.1.0 or later.
@@ -153,7 +153,7 @@ local updateCTags=1
 local function appendCTags(apiNames)    
     local sysTmp=os.getenv("tmp")
     local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
-    local cTagsAPIPath=sysTmp..dirSep().."cTags.api"
+    local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" --    should we reuse an existing File ?
     props["project.ctags.apipath"]=cTagsAPIPath
 
   
@@ -167,10 +167,10 @@ local function appendCTags(apiNames)
         for entry in io.lines(cTagsFilePath) do
             -- parameters for Calltips
             local params = entry:match("(%(.*%))") or "" -- functions
- --           if not params then params= entry:match("d$") or "" end -- Constants 
+            --if not params then params= entry:match("d$") or "" end -- Constants 
             local name = entry:match("([%w_.:]+)") -- Only the Names for List Entries
             if string.len(params) > 0  and name..params~=lastEntry then --Dupe Check
-                lastEntry=name..params
+                lastEntry=name..params -- cope with ctag writing dupes
                 cTagAPI[name]=true
                 cTagNames=cTagNames.." "..name
                 io.write(lastEntry.."\n") 
