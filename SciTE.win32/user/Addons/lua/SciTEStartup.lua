@@ -1,6 +1,8 @@
 --
 -- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
 --
+if cTagNames==nil then cTagNames="" end 
+
 
 -- Windows requires this for us to immediately see all lua output.
 io.stdout:setvbuf("no")
@@ -36,8 +38,9 @@ dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
--- Start AutoComplete
-dofile(myHome..'\\macros\\AutoComplete.lua') -- Load enhanced Autocomplete
+-- Load enhanced Autocomplete
+dofile(myHome..'\\macros\\AutoComplete.lua')
+
 -- ##################  Lua Samples #####################
 --   ##############################################
 
@@ -192,31 +195,25 @@ function HandleProjectPath()
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		props["project.path"] = props["SciteDirectoryHome"]
 		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
-	
-        -- Append the Projects api Path
-        projectEXT=props["file.patterns.project"]
-        props["api."..projectEXT] =props["APIPath"]..";"..props["project.path"].."\\".."cTags.api"
-
-        -- test: expose the functions collected by cTags for syntax highlitening a Projects API 
-			-- NeedsWork(tm)
-        props["substyles.cpp.11"]=20
-        props["substylewords.11.20."..projectEXT] = cTagNames
-        props["style.cpp.11.20"]="fore:#608096"
+		projectEXT=props["file.patterns.project"]
+		props["api."..projectEXT] =props["APIPath"]..";"..props["project.path"].."\\".."cTags.api"
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
 	end
 
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+--		if updateCTags==nil then updateCTags=1 end
 function OnInit() 
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
+
 	TestSciLexer("be7ed5ec") -- SciLexers CRC32 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
 	scite_OnOpenSwitch(HandleProjectPath)   
 
+	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
 end

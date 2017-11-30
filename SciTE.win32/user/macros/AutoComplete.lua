@@ -89,7 +89,7 @@ if IGNORE_CASE then
 else
     normalize = function(word) return word end
 end
-
+		
 --
 -- Deal with different Path Separators o linux/win
 --
@@ -140,15 +140,18 @@ end
 --
 --   Fills in uniqued tagNames
 --
-cTagNames=""
+local cTagNames=""
+cTagAPI={}
+local updateCTags=1
 
 local function appendCTags(apiNames)    
     local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
     local cTagsAPIPath=props["project.path"]..dirSep().."cTags.api"
-
-    if file_exists(cTagsFilePath) then 
+  
+    if file_exists(cTagsFilePath) then --and updateCTags==1 then 
         local lastName=""
         local lastEntry=""
+        cTagNames=""
         cTagsFile= io.open(cTagsAPIPath,"w")
         io.output(cTagsFile)        
         
@@ -159,15 +162,26 @@ local function appendCTags(apiNames)
             local name = entry:match("([%w_.:]+)") -- Only the Names for List Entries
             if string.len(params) > 0  and name..params~=lastEntry then --Dupe Check
                 lastEntry=name..params
-                apiNames[name]=true    
+                cTagAPI[name]=true
                 cTagNames=cTagNames.." "..name
                 io.write(lastEntry.."\n") -- projects cTags APICalltips file
             end
        
         end
-
+        
         io.close(cTagsFile)
+        buffer.projectName= props["project.name"]
+        updateCTags=0
     end
+
+    -- test: expose the functions collected by cTags for syntax highlitening a Projects API 
+    -- NeedsWork(tm)       
+    projectEXT=props["file.patterns.project"]
+    props["substyles.cpp.11"]=20
+    props["substylewords.11.20."..projectEXT] = cTagNames
+    props["style.cpp.11.20"]="fore:#608096"
+
+    apiNames=cTagAPI  --use a cached Version
 end
 
 
@@ -239,6 +253,7 @@ local function buildNames()
     if editor.Lexer~=1 and buffer.dirty==true then 
       if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
       if fSize > AC_MAX_SIZE then  return end  
+
         setLexerSpecificStuff()
         -- Reset our array of names.
         names = {}
