@@ -155,7 +155,6 @@ local function appendCTags(apiNames)
     local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
     local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" --    should we reuse an existing File ?
     props["project.ctags.apipath"]=cTagsAPIPath
-
   
     if file_exists(cTagsFilePath) and updateCTags==1 then 
         local lastName=""
@@ -176,22 +175,22 @@ local function appendCTags(apiNames)
                 io.write(lastEntry.."\n") 
             end
         end
+            
         io.close(cTagsFile)
         buffer.projectName= props["project.name"]
         updateCTags=0
+
+        -- test: Expose the functions collected by cTags for syntax highlitening a Projects API      
+        projectEXT=props["file.patterns.project"]
+        local currentLexer=props["Language"]
+        props["substyles."..currentLexer..".11"]=20
+        props["substylewords.11.20."..projectEXT] = cTagNames
+        props["style."..currentLexer..".11.20"]=props["colour.projectapi"]
     end
-
-    -- test: Expose the functions collected by cTags for syntax highlitening a Projects API      
-    projectEXT=props["file.patterns.project"]
-    local currentLexer=props["Language"]
-
-    props["substyles."..currentLexer..".11"]=20
-    props["substylewords.11.20."..projectEXT] = cTagNames
-    props["style."..currentLexer..".11.20"]=props["colour.projectapi"]
-
-    apiNames=cTagAPI  --use the cached Version
+    
+    --already done, so use the cached Version
+    apiNames=cTagAPI  
 end
-
 
 --
 -- Disable collection of words in comments, strings, etc.

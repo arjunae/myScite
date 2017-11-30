@@ -144,7 +144,7 @@ function markGUID()
 		end
 	end
 end
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function StyleStuff()
 ---
@@ -189,26 +189,33 @@ function HandleProjectPath()
 --
 -- handle Project Folders
 --
-local projectPath
 
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		props["project.path"] = props["SciteDirectoryHome"]
-		--print("Project File found: "..props["project.path"]) 
+		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
+		props["project.ctags.apipath"]=os.getenv("tmp")..dirSep..props["project.name"].."_cTags.api"
+		projectEXT=props["file.patterns.project"]
+		-- Now append to lexers API Path
+		props["api."..projectEXT] =props["APIPath"]..";"..props["project.ctags.apipath"]
+	else
+		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
 	end
 
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 function OnInit() 
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
-	--print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)
+
 	TestSciLexer("657db4c7") -- SciLexers CRC32 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
 	scite_OnOpenSwitch(HandleProjectPath)
 	
+-- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
+-- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
 end
+
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
--- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
+--print(props["Path"])
