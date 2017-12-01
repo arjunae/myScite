@@ -184,8 +184,12 @@ local function appendCTags(apiNames)
         buffer.projectName= props["project.name"]
         updateCTags=0
 
-        -- test: Expose the functions collected by cTags for syntax highlitening a Projects API      
+        -- Append Once to filetypes api path
         projectEXT=props["file.patterns.project"]
+        if origApiPath==nil then origApiPath=props["APIPath"] end
+        props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]
+        
+        -- test: Expose the functions collected by cTags for syntax highlitening a Projects API      
         local currentLexer=props["Language"]
         props["substyles."..currentLexer..".11"]=20
         props["substylewords.11.20."..projectEXT] = cTagNames

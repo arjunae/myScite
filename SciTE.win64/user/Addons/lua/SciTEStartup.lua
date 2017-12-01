@@ -36,8 +36,24 @@ dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+-- handle Project Folders (ctags, Autocomplete & highlitening)
+--
+
+if props["SciteDirectoryHome"] ~= props["FileDir"] then
+	props["project.path"] = props["SciteDirectoryHome"]
+	props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
+	props["project.ctags.apipath"]=os.getenv("tmp")..dirSep..props["project.name"].."_cTags.api"
+	buffer.projectName= props["project.name"]
+else
+	props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
+end
+
 -- Load enhanced Autocomplete
 dofile(myHome..'\\macros\\AutoComplete.lua')
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -63,6 +79,7 @@ function markLinks()
 			s,e =  editor:findtext( mask, SCFIND_REGEXP, s+1)
 		end
 	end
+
 --	
 -- Now mark any params and their Values - based in above text URLS
 -- http://www.test.de/?key1=test&key2=a12
@@ -99,8 +116,8 @@ function markLinks()
 
 	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :)
 end
-
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 function markeMail()
 -- 
 -- search for eMail Links and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
@@ -123,8 +140,8 @@ function markeMail()
 		end
 	end
 end
-
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 function markGUID()
 --
 -- search for GUIDS and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
@@ -185,24 +202,6 @@ function TestSciLexer(origHash)
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function HandleProjectPath()
---
--- handle Project Folders
---
-
-	if props["SciteDirectoryHome"] ~= props["FileDir"] then
-		props["project.path"] = props["SciteDirectoryHome"]
-		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
-		props["project.ctags.apipath"]=os.getenv("tmp")..dirSep..props["project.name"].."_cTags.api"
-		projectEXT=props["file.patterns.project"]
-		-- Now append to lexers API Path
-		props["api."..projectEXT] =props["APIPath"]..";"..props["project.ctags.apipath"]
-	else
-		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
-	end
-
-end
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function OnInit() 
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
@@ -210,12 +209,13 @@ function OnInit()
 
 	TestSciLexer("657db4c7") -- SciLexers CRC32 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
-	scite_OnOpenSwitch(HandleProjectPath)
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
 end
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
 --print(props["Path"])
+

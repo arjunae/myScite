@@ -37,26 +37,23 @@ package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 --
--- handle Project Folders
+-- handle Project Folders (ctags, Autocomplete & highlitening)
 --
 
 if props["SciteDirectoryHome"] ~= props["FileDir"] then
 	props["project.path"] = props["SciteDirectoryHome"]
 	props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
 	props["project.ctags.apipath"]=os.getenv("tmp")..dirSep..props["project.name"].."_cTags.api"
-	projectEXT=props["file.patterns.project"]
-	-- Now append to lexers API Path
-	if origApiPath==nil then origApiPath=props["APIPath"] end
-	props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]
-	
+	buffer.projectName= props["project.name"]
 else
 	props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
 end
 
 -- Load enhanced Autocomplete
 dofile(myHome..'\\macros\\AutoComplete.lua')
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 -- ##################  Lua Samples #####################
 --   ##############################################
