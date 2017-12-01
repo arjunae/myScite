@@ -166,7 +166,11 @@ local function appendCTags(apiNames)
             -- parameters for Calltips
             local params = entry:match("(%(.*%))") or "" -- functions
             local name = entry:match("([%w_.:]+)") -- Only the Names for List Entries
-            if entry:match("d$")=="d" then name= entry:match("([%w_.:]+)") or "" end -- Constants 
+            isConst=false
+            if entry:match("d$")=="d" then  -- Constants  
+                name= entry:match("([%w_.:]+)") or "" 
+                isConst=true
+            end
             if name..params~=lastEntry then --Dupe Check
                 if name~=lastname then 
                     -- Variables
@@ -175,9 +179,9 @@ local function appendCTags(apiNames)
                     if string.len(params) > 0 then cTagNames=cTagNames.." "..name end
                     lastname=name
                 end
-                -- Functions
-                lastEntry=name..params -- todo: write a helper to cope with ctags writing dupes from different files
-                io.write(lastEntry.."\n") 
+                -- write Functions with params
+                lastEntry=name..params
+                if not isConst and string.len(params)>2 then io.write(lastEntry.."\n") end -- faster then using a full bulkWrite
             end
         end
         io.close(cTagsFile)
