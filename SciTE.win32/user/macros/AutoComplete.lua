@@ -153,11 +153,10 @@ local updateCTags=1
 local function appendCTags(apiNames)    
     local sysTmp=os.getenv("tmp")
     local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
-    local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" --    should we reuse an existing File ?
+    local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" -- performance:  should we reuse an existing File ?
     props["project.ctags.apipath"]=cTagsAPIPath
   
     if file_exists(cTagsFilePath) and updateCTags==1 then 
-        local lastName=""
         local lastEntry=""
         cTagNames=""
         cTagsFile= io.open(cTagsAPIPath,"w")
@@ -166,16 +165,21 @@ local function appendCTags(apiNames)
         for entry in io.lines(cTagsFilePath) do
             -- parameters for Calltips
             local params = entry:match("(%(.*%))") or "" -- functions
-            --if not params then params= entry:match("d$") or "" end -- Constants 
             local name = entry:match("([%w_.:]+)") -- Only the Names for List Entries
-            if string.len(params) > 0  and name..params~=lastEntry then --Dupe Check
-                lastEntry=name..params -- cope with ctag writing dupes
-                cTagAPI[name]=true
-                cTagNames=cTagNames.." "..name
+            if entry:match("d$")=="d" then name= entry:match("([%w_.:]+)") or "" end -- Constants 
+            if name..params~=lastEntry then --Dupe Check
+                if name~=lastname then 
+                    -- Variables
+                    cTagAPI[name]=true 
+                    -- Highlitening
+                    if string.len(params) > 0 then cTagNames=cTagNames.." "..name end
+                    lastname=name
+                end
+                -- Functions
+                lastEntry=name..params -- todo: write a helper to cope with ctags writing dupes from different files
                 io.write(lastEntry.."\n") 
             end
         end
-            
         io.close(cTagsFile)
         buffer.projectName= props["project.name"]
         updateCTags=0
@@ -189,7 +193,7 @@ local function appendCTags(apiNames)
     end
     
     --already done, so use the cached Version
-    apiNames=cTagAPI  
+    return cTagAPI  
 end
 
 --
@@ -235,8 +239,7 @@ local function getApiNames()
         return ""
     end)
 
-    appendCTags(apiNames)
-    
+   apiNames= appendCTags(apiNames)
     if lexer~=nil then
         apiCache[lexer] = apiNames -- Even if it's empty
     end
@@ -286,7 +289,7 @@ local function buildNames()
         end
         -- Build an ordered array from the table of names.
         for name in pairs(getApiNames()) do
-            -- This also "case-corrects"; e.g. "gui" -> "Gui".
+            -- This also "case-corrects"; e.g. "gui" -> "Gui"
             unique[normalize(name)] = name
         end
         

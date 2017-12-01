@@ -335,7 +335,7 @@ COPYRIGHT_DATES	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\SciTE.h
 COPYRIGHT_YEARS	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\SciTE.h	15;"	d
 CRectContains	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\gtk\ScintillaGTK.cxx	/^static bool CRectContains(const cairo_rectangle_t &crcContainer, const cairo_rectangle_t &crcTest) {$/;"	f	file:
 CRectListContains	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\gtk\ScintillaGTK.cxx	/^static bool CRectListContains(const cairo_rectangle_list_t *crcListContainer, const cairo_rectangle_t &crcTest) {$/;"	f	file:
-CSI	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\SciTEBuffers.cxx	1851;"	d	file:
+CSI	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\SciTEBuffers.cxx	1854;"	d	file:
 CTWndProc	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\win32\ScintillaWin.cxx	/^LRESULT PASCAL ScintillaWin::CTWndProc($/;"	f	class:ScintillaWin
 CalcLargestMarkerHeight	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\ViewStyle.cxx	/^void ViewStyle::CalcLargestMarkerHeight() {$/;"	f	class:ViewStyle
 CalculateColumnWidths	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StripDefinition.h	/^	void CalculateColumnWidths(int widthToAllocate) {$/;"	f	class:StripDefinition
@@ -650,10 +650,10 @@ CompareDevCap	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\win32\Sci
 CompareNCaseInsensitive	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\lexlib\CharacterSet.cxx	/^int CompareNCaseInsensitive(const char *a, const char *b, size_t len) {$/;"	f	namespace:Scintilla
 CompareNCaseInsensitive	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^static int CompareNCaseInsensitive(const char *a, const char *b, size_t len) {$/;"	f	file:
 CompareNoCase	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringHelpers.cxx	/^int CompareNoCase(const char *a, const char *b) {$/;"	f
-CompareString	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^	explicit CompareString(size_t searchLen_) : searchLen(searchLen_) {}$/;"	f	struct:__anon36::CompareString
-CompareString	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^struct CompareString {$/;"	s	namespace:__anon36	file:
-CompareStringInsensitive	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^	explicit CompareStringInsensitive(size_t searchLen_) : searchLen(searchLen_) {}$/;"	f	struct:__anon36::CompareStringInsensitive
-CompareStringInsensitive	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^struct CompareStringInsensitive {$/;"	s	namespace:__anon36	file:
+CompareString	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^	explicit CompareString(size_t searchLen_) : searchLen(searchLen_) {}$/;"	f	struct:__anon35::CompareString
+CompareString	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^struct CompareString {$/;"	s	namespace:__anon35	file:
+CompareStringInsensitive	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^	explicit CompareStringInsensitive(size_t searchLen_) : searchLen(searchLen_) {}$/;"	f	struct:__anon35::CompareStringInsensitive
+CompareStringInsensitive	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^struct CompareStringInsensitive {$/;"	s	namespace:__anon35	file:
 Compile	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\RESearch.cxx	/^const char *RESearch::Compile(const char *pattern, Sci::Position length, bool caseSensitive, bool posix) {$/;"	f	class:RESearch
 Complete	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\lexlib\StyleContext.h	/^	void Complete() {$/;"	f	class:Scintilla::StyleContext
 Complete	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\MatchMarker.cxx	/^bool MatchMarker::Complete() const {$/;"	f	class:MatchMarker
@@ -1760,7 +1760,7 @@ GetLocalPropertiesFileName	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\
 GetLongLong	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\PropSetFile.cxx	/^long long PropSetFile::GetLongLong(const char *key, long long defaultValue) const {$/;"	f	class:PropSetFile
 GetMarginCursor	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\Editor.cxx	/^Window::Cursor Editor::GetMarginCursor(Point pt) const {$/;"	f	class:Editor
 GetMark	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\Document.cxx	/^int Document::GetMark(Sci::Line line) const {$/;"	f	class:Document
-GetMatch	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^	std::string GetMatch(std::vector<char *>::iterator start, std::vector<char *>::iterator end, const char *wordStart, const std::string &wordCharacters, int wordIndex, Compare comp) {$/;"	f	namespace:__anon36
+GetMatch	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^	std::string GetMatch(std::vector<char *>::iterator start, std::vector<char *>::iterator end, const char *wordStart, const std::string &wordCharacters, int wordIndex, Compare comp) {$/;"	f	namespace:__anon35
 GetMatches	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^static std::string GetMatches(std::vector<char *>::iterator start, std::vector<char *>::iterator end, const char *wordStart, char otherSeparator, bool exactLen, Compare comp) {$/;"	f	file:
 GetMaxLineState	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\Document.cxx	/^Sci::Line Document::GetMaxLineState() const {$/;"	f	class:Document
 GetMaxLineState	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\PerLine.cxx	/^Sci::Line LineState::GetMaxLineState() const {$/;"	f	class:LineState
@@ -2636,9 +2636,9 @@ LEXERSIMPLE_H	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\lexlib\Le
 LINEMARKER_H	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\LineMarker.h	9;"	d
 LINK_LEXER	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\Catalogue.cxx	71;"	d	file:
 LMMinder	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\ExternalLexer.h	/^class LMMinder {$/;"	c	namespace:Scintilla
-LOAD_LIBRARY_SEARCH_APPLICATION_DIR	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\win32\SciTEWin.cxx	2234;"	d	file:
+LOAD_LIBRARY_SEARCH_APPLICATION_DIR	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\win32\SciTEWin.cxx	2235;"	d	file:
 LOAD_LIBRARY_SEARCH_SYSTEM32	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\win32\PlatWin.cxx	51;"	d	file:
-LOAD_LIBRARY_SEARCH_SYSTEM32	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\win32\SciTEWin.cxx	2237;"	d	file:
+LOAD_LIBRARY_SEARCH_SYSTEM32	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\win32\SciTEWin.cxx	2238;"	d	file:
 LUA_COMPAT_5_1	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\LuaExtension.cxx	27;"	d	file:
 LUA_GLOBALSINDEX	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\LuaExtension.cxx	37;"	d	file:
 Label	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\gtk\Widget.cxx	/^void WTable::Label(GtkWidget *child) {$/;"	f	class:WTable
@@ -6735,17 +6735,17 @@ STYLE_LINENUMBER	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\includ
 STYLE_MAX	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\include\Scintilla.h	197;"	d
 SUBSTYLES_H	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\lexlib\SubStyles.h	9;"	d
 SUPPLEMENTAL_PLANE_FIRST	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\UniConversion.h	/^enum { SUPPLEMENTAL_PLANE_FIRST = 0x10000 };$/;"	e	enum:Scintilla::__anon101
-SURROGATE_FIRST_VALUE	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\Utf8_16.cxx	/^enum { SURROGATE_FIRST_VALUE = 0x10000 };$/;"	e	enum:__anon43	file:
+SURROGATE_FIRST_VALUE	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\Utf8_16.cxx	/^enum { SURROGATE_FIRST_VALUE = 0x10000 };$/;"	e	enum:__anon42	file:
 SURROGATE_LEAD_FIRST	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\UniConversion.h	/^enum { SURROGATE_LEAD_FIRST = 0xD800 };$/;"	e	enum:Scintilla::__anon97
-SURROGATE_LEAD_FIRST	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\Utf8_16.cxx	/^enum { SURROGATE_LEAD_FIRST = 0xD800 };$/;"	e	enum:__anon39	file:
+SURROGATE_LEAD_FIRST	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\Utf8_16.cxx	/^enum { SURROGATE_LEAD_FIRST = 0xD800 };$/;"	e	enum:__anon38	file:
 SURROGATE_LEAD_FIRST	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\win32\GUIWin.cxx	/^enum { SURROGATE_LEAD_FIRST = 0xD800 };$/;"	e	enum:GUI::__anon44	file:
 SURROGATE_LEAD_LAST	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\UniConversion.h	/^enum { SURROGATE_LEAD_LAST = 0xDBFF };$/;"	e	enum:Scintilla::__anon98
-SURROGATE_LEAD_LAST	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\Utf8_16.cxx	/^enum { SURROGATE_LEAD_LAST = 0xDBFF };$/;"	e	enum:__anon40	file:
+SURROGATE_LEAD_LAST	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\Utf8_16.cxx	/^enum { SURROGATE_LEAD_LAST = 0xDBFF };$/;"	e	enum:__anon39	file:
 SURROGATE_TRAIL_FIRST	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\UniConversion.h	/^enum { SURROGATE_TRAIL_FIRST = 0xDC00 };$/;"	e	enum:Scintilla::__anon99
-SURROGATE_TRAIL_FIRST	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\Utf8_16.cxx	/^enum { SURROGATE_TRAIL_FIRST = 0xDC00 };$/;"	e	enum:__anon41	file:
+SURROGATE_TRAIL_FIRST	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\Utf8_16.cxx	/^enum { SURROGATE_TRAIL_FIRST = 0xDC00 };$/;"	e	enum:__anon40	file:
 SURROGATE_TRAIL_FIRST	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\win32\GUIWin.cxx	/^enum { SURROGATE_TRAIL_FIRST = 0xDC00 };$/;"	e	enum:GUI::__anon45	file:
 SURROGATE_TRAIL_LAST	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\UniConversion.h	/^enum { SURROGATE_TRAIL_LAST = 0xDFFF };$/;"	e	enum:Scintilla::__anon100
-SURROGATE_TRAIL_LAST	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\Utf8_16.cxx	/^enum { SURROGATE_TRAIL_LAST = 0xDFFF };$/;"	e	enum:__anon42	file:
+SURROGATE_TRAIL_LAST	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\Utf8_16.cxx	/^enum { SURROGATE_TRAIL_LAST = 0xDFFF };$/;"	e	enum:__anon41	file:
 SURROGATE_TRAIL_LAST	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\win32\GUIWin.cxx	/^enum { SURROGATE_TRAIL_LAST = 0xDFFF };$/;"	e	enum:GUI::__anon46	file:
 SWndProc	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\win32\ScintillaWin.cxx	/^LRESULT PASCAL ScintillaWin::SWndProc($/;"	f	class:ScintillaWin
 SafeGetCharAt	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\lexlib\LexAccessor.h	/^	char SafeGetCharAt(Sci_Position position, char chDefault=' ') {$/;"	f	class:Scintilla::LexAccessor
@@ -8049,8 +8049,8 @@ _WIN32_WINNT	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\FilePath.c
 _WIN32_WINNT	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\FilePath.cxx	32;"	d	file:
 _WIN32_WINNT	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\FileWorker.cxx	24;"	d	file:
 _WIN32_WINNT	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\FileWorker.cxx	25;"	d	file:
-_WIN32_WINNT	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\win32\DirectorExtension.cxx	17;"	d	file:
 _WIN32_WINNT	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\win32\DirectorExtension.cxx	18;"	d	file:
+_WIN32_WINNT	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\win32\DirectorExtension.cxx	19;"	d	file:
 _WIN32_WINNT	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\win32\GUIWin.cxx	21;"	d	file:
 _WIN32_WINNT	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\win32\GUIWin.cxx	22;"	d	file:
 _WIN32_WINNT	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\win32\SciteWin.h	30;"	d
@@ -8217,13 +8217,13 @@ btnDotDot	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\gtk\SciTEGTK.cxx	
 btnStop	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\gtk\SciTEGTK.cxx	/^	GtkWidget *btnStop;$/;"	m	class:SciTEGTK	file:
 buf	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\lexlib\LexAccessor.h	/^	char buf[bufferSize+1];$/;"	m	class:Scintilla::LexAccessor
 buf	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StyleWriter.h	/^	char buf[bufferSize+1];$/;"	m	class:TextReader
-bufLen	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\SciTEIO.cxx	/^	enum {bufLen = 64 * 1024};$/;"	e	enum:BufferedFile::__anon35	file:
+bufLen	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\SciTEIO.cxx	/^	enum {bufLen = 64 * 1024};$/;"	e	enum:BufferedFile::__anon43	file:
 buffer	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\win32\PlatWin.cxx	/^	T *buffer;$/;"	m	class:Scintilla::VarBuffer	file:
 buffer	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\SciTEIO.cxx	/^	char buffer[bufLen];$/;"	m	class:BufferedFile	file:
 bufferCmdID	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\SciTEBase.h	/^	enum { fileStackCmdID = IDM_MRUFILE, bufferCmdID = IDM_BUFFER };$/;"	e	enum:SciTEBase::__anon19
 bufferMax	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\SciTEBase.h	/^	enum { bufferMax = IDM_IMPORT - IDM_BUFFER };$/;"	e	enum:SciTEBase::__anon31
 bufferSize	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\lexlib\LexAccessor.h	/^	enum {bufferSize=4000, slopSize=bufferSize\/8};$/;"	e	enum:Scintilla::LexAccessor::__anon70
-bufferSize	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StyleWriter.h	/^	enum {bufferSize=4000, slopSize=bufferSize\/8};$/;"	e	enum:TextReader::__anon38
+bufferSize	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StyleWriter.h	/^	enum {bufferSize=4000, slopSize=bufferSize\/8};$/;"	e	enum:TextReader::__anon37
 bufferStandard	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\win32\PlatWin.cxx	/^	T bufferStandard[lengthStandard];$/;"	m	class:Scintilla::VarBuffer	file:
 buffered	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\Document.cxx	/^	wchar_t buffered[2];$/;"	m	class:__anon78::UTF8Iterator	file:
 bufferedDraw	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\EditView.h	/^	bool bufferedDraw;$/;"	m	class:Scintilla::EditView
@@ -8770,7 +8770,7 @@ extraFontFlag	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\Style
 extraFontFlag	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\ViewStyle.h	/^	int extraFontFlag;$/;"	m	class:Scintilla::ViewStyle
 extraFontFlag	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\win32\PlatWin.cxx	/^	int extraFontFlag;$/;"	m	struct:Scintilla::FormatAndMetrics	file:
 extremePosition	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\lexlib\LexAccessor.h	/^	enum {extremePosition=0x7FFFFFFF};$/;"	e	enum:Scintilla::LexAccessor::__anon69
-extremePosition	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StyleWriter.h	/^	enum {extremePosition=0x7FFFFFFF};$/;"	e	enum:TextReader::__anon37
+extremePosition	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StyleWriter.h	/^	enum {extremePosition=0x7FFFFFFF};$/;"	e	enum:TextReader::__anon36
 fIndexOnFail	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\win32\SciTEWin.cxx	/^	BOOL fIndexOnFail;$/;"	m	struct:XHH_AKLINK	file:
 fReserved	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\win32\SciTEWin.cxx	/^	BOOL fReserved;$/;"	m	struct:XHH_AKLINK	file:
 faceName	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\include\Platform.h	/^	const char *faceName;$/;"	m	struct:Scintilla::FontParameters
@@ -9625,8 +9625,8 @@ operator !=	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\lexlib\Word
 operator !=	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\Document.cxx	/^	bool operator!=(const ByteIterator &other) const {$/;"	f	class:__anon78::ByteIterator
 operator !=	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\Document.cxx	/^	bool operator!=(const UTF8Iterator &other) const {$/;"	f	class:__anon78::UTF8Iterator
 operator ()	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\AutoComplete.cxx	/^	bool operator()(int a, int b) {$/;"	f	struct:Sorter
-operator ()	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^	bool operator()(const char *a, const char *b) const {$/;"	f	struct:__anon36::CompareString
-operator ()	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^	bool operator()(const char *a, const char *b) const {$/;"	f	struct:__anon36::CompareStringInsensitive
+operator ()	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^	bool operator()(const char *a, const char *b) const {$/;"	f	struct:__anon35::CompareString
+operator ()	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^	bool operator()(const char *a, const char *b) const {$/;"	f	struct:__anon35::CompareStringInsensitive
 operator *	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\Document.cxx	/^	char operator*() const {$/;"	f	class:__anon78::ByteIterator
 operator *	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\Document.cxx	/^	wchar_t operator*() const {$/;"	f	class:__anon78::UTF8Iterator
 operator ++	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\Document.cxx	/^	ByteIterator &operator++() {$/;"	f	class:__anon78::ByteIterator
@@ -10713,8 +10713,8 @@ sdWeight	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StyleDefinitio
 search	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\Document.cxx	/^	RESearch search;$/;"	m	class:BuiltinRegex	file:
 searchAnchor	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\Editor.h	/^	Sci::Position searchAnchor;$/;"	m	class:Scintilla::Editor
 searchFlags	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\Editor.h	/^	int searchFlags;$/;"	m	class:Scintilla::Editor
-searchLen	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^	size_t searchLen;$/;"	m	struct:__anon36::CompareString	file:
-searchLen	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^	size_t searchLen;$/;"	m	struct:__anon36::CompareStringInsensitive	file:
+searchLen	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^	size_t searchLen;$/;"	m	struct:__anon35::CompareString	file:
+searchLen	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StringList.cxx	/^	size_t searchLen;$/;"	m	struct:__anon35::CompareStringInsensitive	file:
 searchStartPosition	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\SciTEBase.h	/^	int searchStartPosition;$/;"	m	class:Searcher
 searchStrip	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\win32\SciteWin.h	/^	SearchStrip searchStrip;$/;"	m	class:SciTEWin
 search_xpm	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\gtk\pixmapsGNOME.h	/^static const char * search_xpm[] = {$/;"	v
@@ -10805,7 +10805,7 @@ sizeRGBAImage	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\Edito
 sizeZoomed	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\src\Style.h	/^	int sizeZoomed;$/;"	m	struct:Scintilla::FontMeasurements
 sleepTime	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\FileWorker.h	/^	int sleepTime;$/;"	m	struct:FileWorker
 slopSize	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\lexlib\LexAccessor.h	/^	enum {bufferSize=4000, slopSize=bufferSize\/8};$/;"	e	enum:Scintilla::LexAccessor::__anon70
-slopSize	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StyleWriter.h	/^	enum {bufferSize=4000, slopSize=bufferSize\/8};$/;"	e	enum:TextReader::__anon38
+slopSize	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\src\StyleWriter.h	/^	enum {bufferSize=4000, slopSize=bufferSize\/8};$/;"	e	enum:TextReader::__anon37
 small_scroller_class_init	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\gtk\PlatGTK.cxx	/^static void small_scroller_class_init(SmallScrollerClass *klass) {$/;"	f	file:
 small_scroller_get_preferred_height	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\gtk\PlatGTK.cxx	/^static void small_scroller_get_preferred_height(GtkWidget *widget, gint *min, gint *nat) {$/;"	f	file:
 small_scroller_init	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\gtk\PlatGTK.cxx	/^static void small_scroller_init(SmallScroller *){}$/;"	f	file:

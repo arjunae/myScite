@@ -48,7 +48,9 @@ if props["SciteDirectoryHome"] ~= props["FileDir"] then
 	props["project.ctags.apipath"]=os.getenv("tmp")..dirSep..props["project.name"].."_cTags.api"
 	projectEXT=props["file.patterns.project"]
 	-- Now append to lexers API Path
-	props["api."..projectEXT] =props["APIPath"]..";"..props["project.ctags.apipath"]
+	if origApiPath==nil then origApiPath=props["APIPath"] end
+	props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]
+	
 else
 	props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
 end
@@ -219,3 +221,4 @@ end
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
 --print(props["Path"])
+
