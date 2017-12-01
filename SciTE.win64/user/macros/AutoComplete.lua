@@ -12,22 +12,22 @@ To use this script with SciTE4AutoHotkey:
   - Add the following to UserLuaScript.lua:
         dofile(props['SciteUserHome'].."/AutoComplete.lua")
   - Restart SciTE.
+]]
+--[[  
  @info 29.11.2017 Marcedo@habMalNeFrage.de
  - Adapted for mySciTE 3.7.5
  - Performance: exclude NULL Lexer; 
     Use a FileSize maximum; 
     Only regenerate Data on changed File
     renew Keyword List OnDwell
-- appendCTags() function (Autocomplete Project)    
+- appendCTags() function (Autocomplete / Highlite Project)   
+->Config:
+    project.ctags.functions=1 / project.ctags.constants=1 
+    colour.project.functions=#XXXXXX / colour.project.constants=#XXXXXX
 ]]
 -- Maximal filesize that this script should handle
 local AC_MAX_SIZE =262144 --260k
 
--- Default colour for cTag generated ProjectAPI
-if props["colour.projectapi"]=="" then
- props["colour.projectapi"]="fore:#608096"
-end 
- 
 -- List of styles per lexer that autocomplete should not occur within.
 local SCLEX_AHK1 = 200
 local SCLEX_AHK2 = 201 --?
@@ -81,6 +81,12 @@ props["autocomplete.start.characters"] = ""
 -- This feature is very awkward when combined with automatic popups:
 props["autocomplete.choose.single"] = "0"
 
+-- Default Values for syntax Highlitening for substyles enabled Lexers
+if props["project.ctags.functions"]=="" then props["project.ctags.functions"]=0 end
+if props["colour.project.functions"]=="" then props["colour.project.functions"]="fore:#707090" end 
+if props["project.ctags.constants"]=="" then props["project.ctags.constants"]=0 end
+if props["colour.project.constants"]=="" then props["colour.project.constants"]="fore:#407090" end 
+
 --~~~~~~~~~~~~~~~~~~~~~~~
 
 local names = {}
@@ -131,11 +137,12 @@ end
 
 --
 -- checks for a Value in a Table
+-- copes with array like - table[value]=true constructs
 --
 local function isInTable(table, elem)
 	if table == null then return false end
 	for k,i in ipairs(table) do
-		if i == elem then
+      if k == elem or i == elem then
 			return true
 		end
 	end
@@ -146,7 +153,9 @@ end
 --   Appends uniqued tagNames to given table
 --   Append tagNames to currentLexers substyle 11.20
 --
-local cTagNames="" -- globally cached function names
+local cTagNames="" -- globally cached Variable names
+local cTagFunctions="" -- globally cached function names
+
 cTagAPI={} -- globally cached projectAPI functions(param)
 local updateCTags=1
 
@@ -158,15 +167,15 @@ local function appendCTags(apiNames)
   
     if file_exists(cTagsFilePath) and updateCTags==1 then 
         local lastEntry=""
+        isConst=false
         cTagNames=""
         cTagsFile= io.open(cTagsAPIPath,"w")
         io.output(cTagsFile)   -- projects cTags APICalltips file
         
         for entry in io.lines(cTagsFilePath) do
-            -- parameters for Calltips
-            local params = entry:match("(%(.*%))") or "" -- functions
-            local name = entry:match("([%w_.:]+)") -- Only the Names for List Entries
-            isConst=false
+            local params = entry:match("(%(.*%))") or "" -- functions parameters for Calltips
+            local name = entry:match("([%w_.:]+)") -- Only the Names for ACList Entries
+
             if entry:match("d$")=="d" then  -- Constants  
                 name= entry:match("([%w_.:]+)") or "" 
                 isConst=true
@@ -176,7 +185,11 @@ local function appendCTags(apiNames)
                     -- Variables
                     cTagAPI[name]=true 
                     -- Highlitening
-                    if string.len(params) > 0 then cTagNames=cTagNames.." "..name end
+                    if string.len(params) >0 then 
+                      if props["project.ctags.functions"]~="" then cTagFunctions=cTagFunctions.." "..name end
+                    else                    
+                        if props["project.ctags.constants"]~="" then cTagNames=cTagNames.." "..name end
+                    end
                     lastname=name
                 end
                 -- write Functions with params
@@ -196,8 +209,10 @@ local function appendCTags(apiNames)
         -- test: Expose the functions collected by cTags for syntax highlitening a Projects API      
         local currentLexer=props["Language"]
         props["substyles."..currentLexer..".11"]=20
+        props["substylewords.11.19."..projectEXT] = cTagFunctions
         props["substylewords.11.20."..projectEXT] = cTagNames
-        props["style."..currentLexer..".11.20"]=props["colour.projectapi"]
+        props["style."..currentLexer..".11.19"]=props["colour.project.functions"]
+        props["style."..currentLexer..".11.20"]=props["colour.project.constants"]
     end
     
     --already done, so use the cached Version

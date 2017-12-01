@@ -457,7 +457,7 @@ public:
 	std::string GetValue(int control);
 };
 
-// Manage the use of the GDK thread lock within glib signal handlers
+/// Manage the use of the GDK thread lock within glib signal handlers
 class ThreadLockMinder {
 public:
 #ifndef GDK_VERSION_3_6
