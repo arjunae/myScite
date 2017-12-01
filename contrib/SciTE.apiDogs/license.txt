@@ -1,7 +1,8 @@
 
-All parsers (prefixed with *.vbs) were written by Thorsten Kani. and are licensed under LGPL v2.1
+All parsers with the suffix *.vbs were written by Thorsten Kani and are licensed under LGPL v2.1
+Reason: I just finally wanted to release some ..stuff using LGPL :)
 
-Copyright (2016)  Thorsten Kani eMail:Marcedo@habmalnefrage.de
+Copyright (2017)  Thorsten Kani eMail:Marcedo@habmalnefrage.de
 
 This library is free software; you can redistribute it and/or
 modify it under the terms of the GNU Lesser General Public
