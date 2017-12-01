@@ -173,6 +173,7 @@ cTagAPI={} -- projectAPI functions(param)
 ------------------------------------
 
 local function appendCTags(apiNames)    
+    --print("ac>appendCtags")
     local sysTmp=os.getenv("tmp")
     local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
     local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" -- performance:  should we reuse an existing File ?
@@ -221,6 +222,7 @@ local function appendCTags(apiNames)
                     io.write(lastEntry.."\n") end -- faster then using a full bulkWrite
             end
         end
+        --print("ac>APIDaten gechrieben")
         io.close(cTagsFile)
         buffer.projectName= props["project.name"]
         updateCTags=0

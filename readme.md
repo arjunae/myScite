@@ -1,9 +1,10 @@
 ~ mySciTE.webdev ~
 
 [01.12.2017] Development.190
-- Add: Scite Project Settings for scite sources.
-- Add: cTag support for Projectfiles
-- Add: Project Syntax Higlightening (styles Class, Modules, Functions, Constants)
+- Add: Scite Project Support. Settings for scite sources included.
+- Add: cTag search support for Projectfiles.
+- Add: Project Syntax Higlightening (styles Class, Modules, Functions, Constants).
+- Switch to lua5.3 (Compiled with -DLUA_COMPAT_5_1).
 
 [25.11.2017] mySciTE.stable.180.Artie
 - Add: Lisp / Scheme / Clojure / GO Language Keywords
