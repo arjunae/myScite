@@ -7,6 +7,17 @@
 -- Custom Common Functions --
 ------------------------------------------
 
+--
+-- Deal with different Path Separators o linux/win
+--
+local function dirSep()
+if props["PLAT_WIN"] then
+    return("\\")
+else
+    return("/")
+end
+end
+
 --------------------------
 -- returns the size of a given file.
 --------------------------

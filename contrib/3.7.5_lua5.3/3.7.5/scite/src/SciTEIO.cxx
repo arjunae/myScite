@@ -337,9 +337,10 @@ void SciTEBase::TextRead(FileWorker *pFileWorker) {
 		pFileLoader->pLoader = 0;
 		SwitchDocumentAt(iBuffer, pdocLoading);
 		if (iBuffer == buffers.Current()) {
-			CompleteOpen(ocCompleteCurrent);
+
 			if (extender)
 				extender->OnOpen(buffers.buffers[iBuffer].AsUTF8().c_str());
+			CompleteOpen(ocCompleteCurrent);
 			RestoreState(buffers.buffers[iBuffer], true);
 			DisplayAround(buffers.buffers[iBuffer]);
 			wEditor.Call(SCI_SCROLLCARET);
@@ -608,8 +609,11 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 	if (lineNumbers && lineNumbersExpand)
 		SetLineNumberWidth();
 	UpdateStatusBar(true);
-	if (extender && !asynchronous)
+	if (extender && !asynchronous) {
 		extender->OnOpen(filePath.AsUTF8().c_str());
+	ReadProperties(); //Arjunae: Allow SciTE start-up with extender changed properties.
+	}
+		
 	return true;
 }
 

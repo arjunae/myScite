@@ -1,7 +1,9 @@
 --go@ dofile $(FilePath)
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- AutoComplete v0.8 by Lexikos
--- 12.07.17 - Sanitiy checks for scite. --
+-- AutoComplete by Lexikos. Updates 2017 by Marcedo
+-- Version: 0.9
+-- 12.07.17 - Sanity checks for SciTE.
+-- 29.11.17 - Documentation, Performance Tweaks and appendCTags 
 
 --[[
 Tested on SciTE4AutoHotkey 3.0.06.01; may also work on SciTE 3.1.0 or later.
@@ -10,15 +12,21 @@ To use this script with SciTE4AutoHotkey:
   - Add the following to UserLuaScript.lua:
         dofile(props['SciteUserHome'].."/AutoComplete.lua")
   - Restart SciTE.
- @info 24.11.2017 Marcedo@habMalNeFrage.de
+]]
+--[[  
+ @info 01.12.2017 Marcedo@habMalNeFrage.de
  - Adapted for mySciTE 3.7.5
  - Performance: exclude NULL Lexer; 
     Use a FileSize maximum; 
     Only regenerate Data on changed File
-    renew List OnDwell
+    Renew Keyword List OnDwell
+- appendCTags() function (Autocomplete / Highlite Project)   
+->Config:
+    project.ctags.class= .functions= .constants=1 
+    colour.project.class= .functions= .constants=fore:######
 ]]
 -- Maximal filesize that this script should handle
-local AC_MAX_SIZE =131072 --131kB
+local AC_MAX_SIZE =262144 --260k
 
 -- List of styles per lexer that autocomplete should not occur within.
 local SCLEX_AHK1 = 200
@@ -58,6 +66,8 @@ local CASE_CORRECT_INSTANT = false
 local WRAP_ARROW_KEYS = false
 local CHOOSE_SINGLE = props["autocomplete.choose.single"]
 
+-- Names from api files, stored by lexer name.
+local apiCache = {} 
 -- Number of chars to type before the autocomplete list appears:
 local MIN_PREFIX_LEN = 2
 -- Length of shortest word to add to the autocomplete list:
@@ -71,38 +81,18 @@ props["autocomplete.start.characters"] = ""
 -- This feature is very awkward when combined with automatic popups:
 props["autocomplete.choose.single"] = "0"
 
+-- Default Values for syntax Highlitening for substyles enabled Lexers
+if props["project.ctags.class"]=="" then props["project.ctags.class"]=0 end
+if props["colour.project.class"]=="" then props["colour.project.class"]="fore:#906690" end 
+if props["project.ctags.functions"]=="" then props["project.ctags.functions"]=0 end
+if props["colour.project.functions"]=="" then props["colour.project.functions"]="fore:#907090" end 
+if props["project.ctags.constants"]=="" then props["project.ctags.constants"]=0 end
+if props["colour.project.constants"]=="" then props["colour.project.constants"]="fore:#B07595" end 
+if props["project.ctags.modules"]=="" then props["project.ctags.modules"]=0 end
+if props["colour.project.modules"]=="" then props["colour.project.modules"]="fore:#9675B0" end 
+
+
 --~~~~~~~~~~~~~~~~~~~~~~~
-
-function file_exists(name)
-   local f=io.open(name,"r")
-   if f~=nil then io.close(f) return true else return false end
-end
-
---------------------------
--- returns the size of a given file.
---------------------------
-function file_size (filePath)
-    if  filePath ~=""  and filePath ~= nil then 
-        local myFile,err=io.open(filePath,"r")
-        if err then return 0 end -- todo handle filePath containing Unicode chars 
-        local size = myFile:seek("end")    -- get file size
-        myFile:close()
-        return size
-    else
-        return 0
-    end
-end
-
-function isInTable(table, elem)
-	if table == null then return false end
-	for k,i in ipairs(table) do
-		if i == elem then
-			return true
-		end
-	end
-	return false
-end
-
 
 local names = {}
 
@@ -115,10 +105,154 @@ if IGNORE_CASE then
 else
     normalize = function(word) return word end
 end
+		
+--
+-- Deal with different Path Separators o linux/win
+--
+local function dirSep()
+if props["PLAT_WIN"] then
+    return("\\")
+else
+    return("/")
+end
+end
 
+--
+-- returns if a given fileNamePath exists
+--
+local function file_exists(name)
+   local f=io.open(name,"r")
+   if f~=nil then io.close(f) return true else return false end
+end
+
+--
+-- returns the size of a given fileNamePath.
+--
+function file_size (filePath)
+    if  filePath ~=""  and filePath ~= nil then 
+        local myFile,err=io.open(filePath,"r")
+        if err then return 0 end -- todo handle filePath containing Unicode chars 
+        local size = myFile:seek("end")    -- get file size
+        myFile:close()
+        return size
+    else
+        return 0
+    end
+end
+
+--
+-- checks for a Value in a Table
+-- copes with array like - table[value]=true constructs
+--
+local function isInTable(table, elem)
+	if table == null then return false end
+	for k,i in ipairs(table) do
+      if k == elem or i == elem then
+			return true
+		end
+	end
+	return false
+end
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+--  appendCTags()
+--  Append tagNames to  existing currentLexers substyle 11
+--  Returns: uniqued tagNames to given table
+--
+-- lua version gives reasonable Speed on a 100k source and 100k API File. 
+--
+
+----- globally cached Names ---
+local cTagNames=""
+local cTagFunctions=""
+local cTagClass=""
+local cTagModules=""
+
+local updateCTags=1
+cTagAPI={} -- projectAPI functions(param)
+------------------------------------
+
+local function appendCTags(apiNames)    
+    local sysTmp=os.getenv("tmp")
+    local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
+    local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" -- performance:  should we reuse an existing File ?
+    props["project.ctags.apipath"]=cTagsAPIPath
+    cTagNames=""
+        
+    if file_exists(cTagsFilePath) and updateCTags==1 then 
+        local lastEntry=""
+        local cTagsFile= io.open(cTagsAPIPath,"w")
+        io.output(cTagsFile)   -- projects cTags APICalltips file
+        
+        for entry in io.lines(cTagsFilePath) do
+            local isClass, isConst, isModule=false
+            local params = entry:match("(%(.*%))") or "" -- function parameters for Calltips
+            local name = entry:match("([%w_.:]+)") -- "catchAll" Names for ACList Entries
+            
+            if entry:match("%\"\tc")=="\"\tc" then  -- Mark Classes (matches "[tab]c)
+                name= entry:match("([%w_.:]+)") or "" 
+                isClass=true
+            end
+            if entry:match("%\"\td")=="\"\td" then  -- Mark Constants (matches "[tab]d)  
+                name= entry:match("([%w_.:]+)") or "" 
+                isConst=true
+            end
+            if entry:match("%\"\tm")=="\"\tm" then  -- Mark Modules (matches "[tab]m)  
+                name= entry:match("([%w_.:]+)") or "" 
+                isModule=true
+            end
+            if name..params~=lastEntry then -- publish collected Data (dupe Checked)  
+                if name~=lastname then 
+                    ---- AutoComplete List entries
+                    cTagAPI[name]=true
+                    ----  Highlitening
+                    if string.len(params) >0 then 
+                        if props["project.ctags.functions"]~="" then cTagFunctions=cTagFunctions.." "..name end
+                    else                    
+                        if props["project.ctags.constants"]~="" and isConst then cTagNames=cTagNames.." "..name end
+                        if props["project.ctags.modules"]~="" and isModule then cTagModules=cTagModules.." "..name end
+                        if props["project.ctags.class"]~="" and isClass then cTagClass=cTagClass.." "..name end
+                    end
+                lastname=name
+                end
+                -- publish Function Descriptors to Project APIFile.
+                lastEntry=name..params
+                if not isConst and not isClass and string.len(params)>2 then 
+                    io.write(lastEntry.."\n") end -- faster then using a full bulkWrite
+            end
+        end
+        io.close(cTagsFile)
+        buffer.projectName= props["project.name"]
+        updateCTags=0
+
+        -- Append Once to filetypes api path
+        projectEXT=props["file.patterns.project"]
+        if origApiPath==nil then origApiPath=props["APIPath"] end
+        props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]
+
+        --Now Expose the functions collected by cTags for syntax highlitening a Projects API      
+        local currentLexer=props["Language"]
+        props["substyles."..currentLexer..".11"]=20
+        props["substylewords.11.17."..projectEXT] = cTagClass
+        props["substylewords.11.18."..projectEXT] = cTagFunctions
+        props["substylewords.11.19."..projectEXT] = cTagNames
+        props["substylewords.11.20."..projectEXT] = cTagModules
+        
+        props["style."..currentLexer..".11.17"]=props["colour.project.class"]
+        props["style."..currentLexer..".11.18"]=props["colour.project.functions"]
+        props["style."..currentLexer..".11.19"]=props["colour.project.constants"]
+        props["style."..currentLexer..".11.20"]=props["colour.project.modules"]
+    end
+    
+    --already done, so use the cached Version
+    return cTagAPI  
+end
+
+--
+-- Disable collection of words in comments, strings, etc.
+-- Also disables autocomplete popups while typing there.
+--
 local function setLexerSpecificStuff()
-    -- Disable collection of words in comments, strings, etc.
-    -- Also disables autocomplete popups while typing there.
     local iLexer=editor.Lexer
     --print (editor.Lexer)
     if type(IGNORE_STYLES[iLexer])=="nil" and editor.Lexer~=1 then -- Performance: Disable Ac for the Null Lexer
@@ -136,8 +270,9 @@ local function setLexerSpecificStuff()
     end
 end
 
-local apiCache = {} -- Names from api files, stored by lexer name.
-
+--
+-- Append current Lexers Api Files
+--
 local function getApiNames()
     local lexer = editor.LexerLanguage
     if apiCache[lexer] then
@@ -155,7 +290,8 @@ local function getApiNames()
         end
         return ""
     end)
-    
+
+   apiNames= appendCTags(apiNames)
     if lexer~=nil then
         apiCache[lexer] = apiNames -- Even if it's empty
     end
@@ -163,19 +299,23 @@ local function getApiNames()
     return apiNames
 end
 
-
+--
+-- create AutoCompletes Keyword list
+--
 local function buildNames()
---print("build names buffer state:",buffer.dirty)
-   local fSize=0
-  -- Perfomance: 
-  -- Disable Ac for the Null Lexer
-  -- only rebuild list when the buffer was modified
-  -- use a user settable maximum size for AutoComplete to be active
+-- Perfomance: 
+-- Disable Ac for the Null Lexer
+-- only rebuild list when the buffer was modified
+-- use a user settable maximum size for AutoComplete to be active
 
+--print("build names buffer state:",buffer.dirty)
+
+   local fSize=0
+    
     if editor.Lexer~=1 and buffer.dirty==true then 
       if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
       if fSize > AC_MAX_SIZE then  return end  
-    
+
         setLexerSpecificStuff()
         -- Reset our array of names.
         names = {}
@@ -201,12 +341,14 @@ local function buildNames()
         end
         -- Build an ordered array from the table of names.
         for name in pairs(getApiNames()) do
-            -- This also "case-corrects"; e.g. "gui" -> "Gui".
+            -- This also "case-corrects"; e.g. "gui" -> "Gui"
             unique[normalize(name)] = name
         end
+        
         for _,name in pairs(unique) do
             table.insert(names, name)
         end
+        
         table.sort(names, function(a,b) return normalize(a) < normalize(b) end)
         buffer.namesForAutoComplete = names -- Cache it for OnSwitchFile.
         buffer.dirty=false
@@ -368,7 +510,7 @@ local events = {
     OnChar          = handleChar,
     OnKey           = handleKey,
     OnSave          = buildNames,
-    OnDwellStart  = buildNames, -- fix:raised on any User Interaction (Mousemove/Keybord Nav...) 
+    OnDwellStart  = buildNames, -- should be raised on any User Interaction (Mousemove/Keybord Nav...) 
     OnSwitchFile    = function()
         -- Use this file's cached list if possible:
         names = buffer.namesForAutoComplete

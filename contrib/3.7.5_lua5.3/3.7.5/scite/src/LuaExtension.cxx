@@ -24,7 +24,6 @@
 #include "IFaceTable.h"
 #include "SciTEKeys.h"
 
-#define LUA_COMPAT_5_1
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
@@ -1679,7 +1678,7 @@ bool LuaExtension::OnOpen(const char *filename) {
 // Signal SciTEs first startup 
 	static bool IsFirstCall = true;
 	if(IsFirstCall) {
-		CallNamedFunction("OnInit", 0, 0);
+		CallNamedFunction("OnInit");
 		IsFirstCall = false;
 	}
 	return CallNamedFunction("OnOpen", filename);

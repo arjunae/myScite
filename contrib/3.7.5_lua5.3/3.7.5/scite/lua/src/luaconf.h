@@ -11,11 +11,6 @@
 #include <limits.h>
 #include <stddef.h>
 
-#define lua_getfenv	lua_getuservalue
-#define lua_setfenv	lua_setuservalue
-#define LUA_COMPAT_5_1
-#define LUA_COMPAT_MODULE
-
 /*
 ** ===================================================================
 ** Search for "@@" to find all configurable definitions.
@@ -255,8 +250,11 @@
 
 #else				/* }{ */
 
-//#define LUA_API		extern
+#if defined(_WIN32)
 #define LUA_API __declspec(dllexport)
+#else
+#define LUA_API         extern
+#endif
 
 #endif				/* } */
 
@@ -780,9 +778,15 @@
 ** without modifying the main part of the file.
 */
 
+#ifdef _MSC_VER
+/* Uninteresting "possible loss of data" and "cast truncates constant value" warnings */
+#pragma warning(disable: 4244 4310)
+#endif
 
-
-
+#if defined(__clang__)
+#pragma clang diagnostic ignored "-Wconversion"
+#pragma clang diagnostic ignored "-Wcomma"
+#endif
 
 #endif
 

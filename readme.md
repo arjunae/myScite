@@ -1,8 +1,9 @@
 ~ mySciTE.webdev ~
 
-[28.11.2017] Development
+[01.12.2017] Development.190
 - Add: Scite Project Settings for scite sources.
 - Add: cTag support for Projectfiles
+- Add: Project Syntax Higlightening (styles Class, Modules, Functions, Constants)
 
 [25.11.2017] mySciTE.stable.180.Artie
 - Add: Lisp / Scheme / Clojure / GO Language Keywords

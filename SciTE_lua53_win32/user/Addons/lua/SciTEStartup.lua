@@ -2,44 +2,58 @@
 -- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
 --
 
--- track the amount of allocated memory 
-session_used_memory=collectgarbage("count")*1024
-
 -- Windows requires this for us to immediately see all lua output.
 io.stdout:setvbuf("no")
---print("startupScript_reload")   
 
+myHome = props["SciteUserHome"].."/user"
 defaultHome = props["SciteDefaultHome"]
-myHome = props["SciteDefaultHome"].."/user"
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
 
---lua >=5.2.x renamed functions: 
+--lua >=5.2.x renamed functions:
 local unpack = table.unpack or unpack
 math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 
--- Start extman.lua 
+--~~~~~~~~~~~~~
+-- track the amount of lua allocated memory
+_G.session_used_memory=collectgarbage("count")*1024
+	
+-- Load extman.lua
+-- This will automatically run any lua script located in \User\Addons\lua\lua
 dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 
 -- chainload eventmanager / extman remake used by some lua mods
 dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
--- Start mod-mitchell 
+-- Load mod-mitchell
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
-
--- Start Orthospell 
---dofile(myHome..'\\macros\\orthospell.lua')
-
--- Start Sidebar
+		
+-- Load Sidebar
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
--- Start enhanced Autocomplete
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+-- handle Project Folders (ctags, Autocomplete & highlitening)
+--
+
+if props["SciteDirectoryHome"] ~= props["FileDir"] then
+	props["project.path"] = props["SciteDirectoryHome"]
+	props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
+	props["project.ctags.apipath"]=os.getenv("tmp")..dirSep..props["project.name"].."_cTags.api"
+	buffer.projectName= props["project.name"]
+else
+	props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
+end
+
+-- Load enhanced Autocomplete
 dofile(myHome..'\\macros\\AutoComplete.lua')
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -65,6 +79,7 @@ function markLinks()
 			s,e =  editor:findtext( mask, SCFIND_REGEXP, s+1)
 		end
 	end
+
 --	
 -- Now mark any params and their Values - based in above text URLS
 -- http://www.test.de/?key1=test&key2=a12
@@ -101,8 +116,8 @@ function markLinks()
 
 	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :)
 end
-
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 function markeMail()
 -- 
 -- search for eMail Links and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
@@ -125,8 +140,8 @@ function markeMail()
 		end
 	end
 end
-
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 function markGUID()
 --
 -- search for GUIDS and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
@@ -146,23 +161,21 @@ function markGUID()
 		end
 	end
 end
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function StyleStuff()
 ---
 --- highlite http and eMail links and GUIDs
 ---
-	
 	local AC_MAX_SIZE =131072 --131kB
-	local fSize=0
-	
+	local fSize =0
+
 	if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
-	if fSize<AC_MAX_SIZE then
+	if fSize < AC_MAX_SIZE then 
 		scite_OnOpenSwitch(markLinks)
 		scite_OnOpenSwitch(markeMail)
 		scite_OnOpenSwitch(markGUID)	  
 	end
-
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -177,7 +190,7 @@ function TestSciLexer(origHash)
 	local crccalc_mt = getmetatable(crccalc)
 
 	assert(crccalc_mt.reset) -- reset to zero
-	local file = assert(io.open (defaultHome.."\\".."SciLexer.dll", 'rb'))
+	local file = assert(io.open (defaultHome.."\\".."SciLexer.dll", 'r'))
 	while true do
 		local bytes = file:read(4096)
 		if not bytes then break end
@@ -189,28 +202,23 @@ function TestSciLexer(origHash)
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function HandleProjectPath()
+function OnInit() 
 --
--- handle Project Folders
+-- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 
-	if props["SciteDirectoryHome"] ~= props["FileDir"] then
-		props["project.path"] = props["SciteDirectoryHome"]
-		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
-	else
-		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
-		--print("Project File found: "..props["project.path"]) 
-	end
-		
+	TestSciLexer("0ceb912b") -- SciLexers CRC32 Hash for the current Version
+	scite_OnOpenSwitch(StyleStuff)
+	
+-- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
+-- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function OnInit()
-	--TestSciLexer("20bf63c1") -- SciLexers CRC32 Hash for the current Version
-	scite_OnOpenSwitch(StyleStuff)
-	scite_OnOpenSwitch(HandleProjectPath)
-end
-
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
--- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
+--print(props["Path"])
+
+-- local entry="ACCESSOR_H	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\lexlib\Accessor.h	9;\"	d"
+--local entry ="BaseWin	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\gtk\Widget.h	/^class BaseWin : public GUI::Window {$/;\"	c"
+--print(entry:match("\tc")=="\tc" )

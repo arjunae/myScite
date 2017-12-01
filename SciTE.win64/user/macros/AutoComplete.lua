@@ -85,9 +85,12 @@ props["autocomplete.choose.single"] = "0"
 if props["project.ctags.class"]=="" then props["project.ctags.class"]=0 end
 if props["colour.project.class"]=="" then props["colour.project.class"]="fore:#906690" end 
 if props["project.ctags.functions"]=="" then props["project.ctags.functions"]=0 end
-if props["colour.project.functions"]=="" then props["colour.project.functions"]="fore:#807080" end 
+if props["colour.project.functions"]=="" then props["colour.project.functions"]="fore:#907090" end 
 if props["project.ctags.constants"]=="" then props["project.ctags.constants"]=0 end
-if props["colour.project.constants"]=="" then props["colour.project.constants"]="fore:#707080" end 
+if props["colour.project.constants"]=="" then props["colour.project.constants"]="fore:#B07595" end 
+if props["project.ctags.modules"]=="" then props["project.ctags.modules"]=0 end
+if props["colour.project.modules"]=="" then props["colour.project.modules"]="fore:#9675B0" end 
+
 
 --~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -163,6 +166,8 @@ end
 local cTagNames=""
 local cTagFunctions=""
 local cTagClass=""
+local cTagModules=""
+
 local updateCTags=1
 cTagAPI={} -- projectAPI functions(param)
 ------------------------------------
@@ -180,7 +185,7 @@ local function appendCTags(apiNames)
         io.output(cTagsFile)   -- projects cTags APICalltips file
         
         for entry in io.lines(cTagsFilePath) do
-            local isClass, isConst=false
+            local isClass, isConst, isModule=false
             local params = entry:match("(%(.*%))") or "" -- function parameters for Calltips
             local name = entry:match("([%w_.:]+)") -- "catchAll" Names for ACList Entries
             
@@ -192,6 +197,10 @@ local function appendCTags(apiNames)
                 name= entry:match("([%w_.:]+)") or "" 
                 isConst=true
             end
+            if entry:match("%\"\tm")=="\"\tm" then  -- Mark Modules (matches "[tab]m)  
+                name= entry:match("([%w_.:]+)") or "" 
+                isModule=true
+            end
             if name..params~=lastEntry then -- publish collected Data (dupe Checked)  
                 if name~=lastname then 
                     ---- AutoComplete List entries
@@ -201,6 +210,7 @@ local function appendCTags(apiNames)
                         if props["project.ctags.functions"]~="" then cTagFunctions=cTagFunctions.." "..name end
                     else                    
                         if props["project.ctags.constants"]~="" and isConst then cTagNames=cTagNames.." "..name end
+                        if props["project.ctags.modules"]~="" and isModule then cTagModules=cTagModules.." "..name end
                         if props["project.ctags.class"]~="" and isClass then cTagClass=cTagClass.." "..name end
                     end
                 lastname=name
@@ -219,16 +229,19 @@ local function appendCTags(apiNames)
         projectEXT=props["file.patterns.project"]
         if origApiPath==nil then origApiPath=props["APIPath"] end
         props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]
-        
+
         --Now Expose the functions collected by cTags for syntax highlitening a Projects API      
         local currentLexer=props["Language"]
         props["substyles."..currentLexer..".11"]=20
-        props["substylewords.11.18."..projectEXT] = cTagClass
-        props["substylewords.11.19."..projectEXT] = cTagFunctions
-        props["substylewords.11.20."..projectEXT] = cTagNames
-        props["style."..currentLexer..".11.18"]=props["colour.project.class"]
-        props["style."..currentLexer..".11.19"]=props["colour.project.functions"]
-        props["style."..currentLexer..".11.20"]=props["colour.project.constants"]
+        props["substylewords.11.17."..projectEXT] = cTagClass
+        props["substylewords.11.18."..projectEXT] = cTagFunctions
+        props["substylewords.11.19."..projectEXT] = cTagNames
+        props["substylewords.11.20."..projectEXT] = cTagModules
+        
+        props["style."..currentLexer..".11.17"]=props["colour.project.class"]
+        props["style."..currentLexer..".11.18"]=props["colour.project.functions"]
+        props["style."..currentLexer..".11.19"]=props["colour.project.constants"]
+        props["style."..currentLexer..".11.20"]=props["colour.project.modules"]
     end
     
     --already done, so use the cached Version

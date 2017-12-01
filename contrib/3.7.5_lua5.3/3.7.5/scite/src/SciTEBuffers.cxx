@@ -1,5 +1,5 @@
 // SciTE - Scintilla based Text Editor
-/** @file SciTEBuffers.cxx
+/** @file SciTEBuffers.cxx 
  ** Buffers and jobs management.
  **/
 // Copyright 1998-2010 by Neil Hodgson <neilh@scintilla.org>
@@ -971,8 +971,11 @@ void SciTEBase::Close(bool updateUI, bool loadingSession, bool makingRoomForNew)
 		if (bufferNext.lifeState == Buffer::readAll) {
 			//restoreBookmarks = true;
 			CompleteOpen(ocCompleteSwitch);
-			if (extender)
+			if (extender){
 				extender->OnOpen(filePath.AsUTF8().c_str());
+				propsDiscovered = bufferNext.props;
+				propsDiscovered.superPS = &propsLocal;
+				}
 		}
 		if (closingLast) {
 			wEditor.Call(SCI_SETREADONLY, 0);

@@ -370,7 +370,7 @@ public:
 	WButton wButtonMarkAll;
 	enum { checks = 6 };
 	WCheckDraw wCheck[checks];
-
+	
 	FindStrip() {
 	}
 	void Creation(GtkWidget *container) override;
