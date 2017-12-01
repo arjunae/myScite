@@ -219,3 +219,6 @@ end
 --print(editor.StyleAt[1])
 --print(props["Path"])
 
+-- local entry="ACCESSOR_H	D:\projects\_myScite\_myScite.github\src\3.7.5\scintilla\lexlib\Accessor.h	9;\"	d"
+--local entry ="BaseWin	D:\projects\_myScite\_myScite.github\src\3.7.5\scite\gtk\Widget.h	/^class BaseWin : public GUI::Window {$/;\"	c"
+--print(entry:match("\tc")=="\tc" )
