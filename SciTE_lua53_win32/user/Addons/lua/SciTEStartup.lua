@@ -200,13 +200,13 @@ else
 end
 
 end
-
+	dofile(myHome..'\\macros\\AutoComplete.lua')
 function OnInit() 
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 	scite_OnOpenSwitch(HandleProject)	 
-	dofile(myHome..'\\macros\\AutoComplete.lua')
+
 	TestSciLexer("0ceb912b") -- SciLexers CRC32 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
 	
