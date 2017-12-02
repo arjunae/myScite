@@ -31,7 +31,7 @@ local serpent = require("serpent")
 print(serpent.block(_G,{nocode = true,maxlevel=1})) -- multi-line indented, no self-ref section
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-print("-> Test sha2 with plain lua implemented bit32.lua")  -- native CVersion >= lua5.2
+print("-> Test sha2")  -- native CVersion >= lua5.2
 sha2= require "sha2"
 local file = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
 local sha256 = sha2.new256()
