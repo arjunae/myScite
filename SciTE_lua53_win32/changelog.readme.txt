@@ -3,6 +3,6 @@
 [02.12.2017] Development.190 (lua5.3)
 # Add: Scite Project Support. Settings for scite sources included.
 # Add: cTag search support for Projectfiles.
-# Add: Project Syntax Higlightening (styles Class, Modules, Functions, Constants).
+# Add: Project Syntax Higlightening (styles Class, Modules, Functions, Constants, ENUMs).
 # Chg: MD5 Verify SciLexer.dll during Start.
 # Switch to lua5.3 (Compiled with -DLUA_COMPAT_5_1).

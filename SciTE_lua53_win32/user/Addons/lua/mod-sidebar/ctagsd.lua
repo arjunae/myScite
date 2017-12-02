@@ -1,13 +1,16 @@
 -- browse a tags database from SciTE!
 -- Set this property:
--- ctags.path.php=<full path to tags file>
--- 1. Multiple tags are handled correctly; a drop-down
--- list is presented
+-- project.ctags.filepath=<full path to tags file>
+-- 1. Multiple tags are handled correctly; a drop-down list is presented
 -- 2. There is a full stack of marks available.
--- 3. If ctags.path.php is not defined, will try to find a tags file in the current dir.
+-- 3. If project.ctags is not defined, will try to find a tags file in the current dir.
+-- 4. filepath is realtive to project.dir
+local GTK = scite_GetProp('PLAT_GTK')
+if GTK then dirSep="/" else dirSep="\\" end
+  
 if scite_Command then
 scite_Command {
-  'Find Tag|find_ctag  $(CurrentWord)|Ctrl+.',
+--  'Find Tag|find_ctag  $(CurrentWord)|Ctrl+.',
    'Go to Mark|goto_mark|Alt+.',
   'Set Mark|set_mark|Ctrl+\'',
 --   'Select from Mark|select_mark|Ctrl+/',
@@ -15,10 +18,11 @@ scite_Command {
 end
 
 local gMarkStack = {}
-local sizeof = table.getn
+local gMarkStack = {}
+--local sizeof = table.getn
 local push = table.insert
 local pop = table.remove
-local top = function(s) return s[sizeof(s)] end
+local top = function(s) return s[#s] end
 local _UserListSelection
 
 
@@ -117,11 +121,11 @@ local tags
 
 local function OpenTag(tag)
   -- ask SciTE to open the file
-  local file_name = tag.file
-  local path = extract_path(gTagFile)
-  --if path then file_name = path..'/'..file_name end
+  local fileNamePath
+  local path= extract_path(gTagFile)
+  if path  then fileNamePath= tag.file end
   set_mark()
-  scite.Open(file_name)
+  scite.Open(fileNamePath)
   -- depending on what kind of tag, either search for the pattern,
   -- or go to the line.
   local pattern = tag.pattern
@@ -162,17 +166,15 @@ end
 function find_ctag(f,partial)
   -- search for tags files first
   local result
-  result = props['ctags.path.php']
-  if not result then
-    result = locate_tags(props['FileDir'])
-  end
+  result = props['project.path'] ..dirSep.. props['project.ctags.filename']
+  if not result then result = locate_tags(props['FileDir']) end
   if not result then
     print("No tags found!")
     return
   end
 
   if result ~= gTagFile then
-    --print("Reloading tag from:"..result)
+ --   print("Reloading tag from:"..result)
     gTagFile = result
     tags = ReadTagFile(gTagFile)
   end
@@ -244,7 +246,7 @@ end
 function scite_UserListShow(list,start,fn)
   local s = ''
   local sep = '#'
-  local n = sizeof(list)
+  local n = #list
   for i = start,n-1 do
       s = s..list[i]..sep
   end

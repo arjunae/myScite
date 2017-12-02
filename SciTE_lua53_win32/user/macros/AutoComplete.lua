@@ -90,7 +90,8 @@ if props["project.ctags.constants"]=="" then props["project.ctags.constants"]=0 
 if props["colour.project.constants"]=="" then props["colour.project.constants"]="fore:#B07595" end 
 if props["project.ctags.modules"]=="" then props["project.ctags.modules"]=0 end
 if props["colour.project.modules"]=="" then props["colour.project.modules"]="fore:#9675B0" end 
-
+if props["project.ctags.enums"]=="" then props["project.ctags.enums"]=0 end
+if props["colour.project.enums"]=="" then props["colour.project.enums"]="fore:#3645B0" end 
 
 --~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -163,14 +164,16 @@ end
 --
 
 ----- globally cached Names ---
+
+cTagAPI={} -- projectAPI functions(param)
 local cTagNames=""
 local cTagFunctions=""
 local cTagClass=""
-local cTagModules=""
-
+local cTagModules =""
+local cTagENUMs=""
 local updateCTags=1
-cTagAPI={} -- projectAPI functions(param)
-------------------------------------
+
+--------
 
 local function appendCTags(apiNames)    
     --print("ac>appendCtags")
@@ -186,7 +189,7 @@ local function appendCTags(apiNames)
         io.output(cTagsFile)   -- projects cTags APICalltips file
         
         for entry in io.lines(cTagsFilePath) do
-            local isClass, isConst, isModule=false
+            local isFunction, isClass, isConst, isModule, isENUM=false
             local params = entry:match("(%(.*%))") or "" -- function parameters for Calltips
             local name = entry:match("([%w_.:]+)") -- "catchAll" Names for ACList Entries
             
@@ -202,23 +205,30 @@ local function appendCTags(apiNames)
                 name= entry:match("([%w_.:]+)") or "" 
                 isModule=true
             end
+            if entry:match("%\"\tg")=="\"\tg" then  -- Mark ENUMS (matches "[tab]g)  
+                name= entry:match("([%w_.:]+)") or "" 
+                isENUM=true
+            end
+            
             if name..params~=lastEntry then -- publish collected Data (dupe Checked)  
                 if name~=lastname then 
                     ---- AutoComplete List entries
                     cTagAPI[name]=true
                     ----  Highlitening
                     if string.len(params) >0 then 
+                        isFunction=true
                         if props["project.ctags.functions"]~="" then cTagFunctions=cTagFunctions.." "..name end
                     else                    
                         if props["project.ctags.constants"]~="" and isConst then cTagNames=cTagNames.." "..name end
                         if props["project.ctags.modules"]~="" and isModule then cTagModules=cTagModules.." "..name end
                         if props["project.ctags.class"]~="" and isClass then cTagClass=cTagClass.." "..name end
+                        if props["project.ctags.enums"]~="" and isENUM then cTagENUMs=cTagENUMs.." "..name end
                     end
                 lastname=name
                 end
                 -- publish Function Descriptors to Project APIFile.
                 lastEntry=name..params
-                if not isConst and not isClass and string.len(params)>2 then 
+                if isFunction and string.len(params)>2 then 
                     io.write(lastEntry.."\n") end -- faster then using a full bulkWrite
             end
         end
@@ -235,18 +245,20 @@ local function appendCTags(apiNames)
         --Now Expose the functions collected by cTags for syntax highlitening a Projects API      
         local currentLexer=props["Language"]
         props["substyles."..currentLexer..".11"]=20
-        props["substylewords.11.17."..projectEXT] = cTagClass
-        props["substylewords.11.18."..projectEXT] = cTagFunctions
-        props["substylewords.11.19."..projectEXT] = cTagNames
-        props["substylewords.11.20."..projectEXT] = cTagModules
-        
-        props["style."..currentLexer..".11.17"]=props["colour.project.class"]
-        props["style."..currentLexer..".11.18"]=props["colour.project.functions"]
-        props["style."..currentLexer..".11.19"]=props["colour.project.constants"]
-        props["style."..currentLexer..".11.20"]=props["colour.project.modules"]
+        props["substylewords.11.16."..projectEXT] = cTagClass
+        props["substylewords.11.17."..projectEXT] = cTagFunctions
+        props["substylewords.11.18."..projectEXT] = cTagNames
+        props["substylewords.11.19."..projectEXT] = cTagModules
+        props["substylewords.11.20."..projectEXT] = cTagENUMs
+                
+        props["style."..currentLexer..".11.16"]=props["colour.project.class"]
+        props["style."..currentLexer..".11.17"]=props["colour.project.functions"]
+        props["style."..currentLexer..".11.18"]=props["colour.project.constants"]
+        props["style."..currentLexer..".11.19"]=props["colour.project.modules"]
+        props["style."..currentLexer..".11.20"]=props["colour.project.enums"]
     end
     
-    --already done, so use the cached Version
+    -- updateCTags=0 so already done.  Using the cached Version
     return cTagAPI  
 end
 
@@ -277,10 +289,13 @@ end
 --
 local function getApiNames()
     local lexer = editor.LexerLanguage
+    local apiNames = {}
+    apiNames= appendCTags(apiNames)
+      
     if apiCache[lexer] then
         return apiCache[lexer]
     end
-    local apiNames = {}
+
     local apiFiles = props["APIPath"] or ""
     apiFiles:gsub("[^;]+", function(apiFile) -- For each in ;-delimited list.
     if not file_exists(apiFile) then print ("ac>ignoring nonExistant apiFile: "..apiFile) return end
@@ -293,7 +308,6 @@ local function getApiNames()
         return ""
     end)
 
-   apiNames= appendCTags(apiNames)
     if lexer~=nil then
         apiCache[lexer] = apiNames -- Even if it's empty
     end

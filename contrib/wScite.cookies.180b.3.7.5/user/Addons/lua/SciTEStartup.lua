@@ -2,39 +2,33 @@
 -- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
 --
 
+-- track the amount of allocated memory 
+session_used_memory=collectgarbage("count")*1024
+
 -- Windows requires this for us to immediately see all lua output.
 io.stdout:setvbuf("no")
+--print("startupScript_reload")   
 
-myHome = props["SciteUserHome"].."/user"
-defaultHome = props["SciteDefaultHome"]
+myHome = props["SciteDefaultHome"].."/user"
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
 
---lua >=5.2.x renamed functions:
+--lua >=5.2.x renamed functions: 
 local unpack = table.unpack or unpack
 math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 
---~~~~~~~~~~~~~
--- track the amount of lua allocated memory
-_G.session_used_memory=collectgarbage("count")*1024
-	
--- Load extman.lua
--- This will automatically run any lua script located in \User\Addons\lua\lua
+-- Load extman.lua 
 dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 
 -- chainload eventmanager / extman remake used by some lua mods
 dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
--- Load mod-mitchell
+-- Load mod-mitchell 
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
-		
--- Load Sidebar
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
+--dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
@@ -161,59 +155,12 @@ function markGUID()
 		end
 	end
 end
+
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-function StyleStuff()
----
---- highlite http and eMail links and GUIDs
----
-	local AC_MAX_SIZE =131072 --131kB
-	local fSize =0
-
-	if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
-	if fSize < AC_MAX_SIZE then 
-		scite_OnOpenSwitch(markLinks)
-		scite_OnOpenSwitch(markeMail)
-		scite_OnOpenSwitch(markGUID)	  
-	end
-end
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-function TestSciLexer(origHash)
---
--- quickCheck SciLexer.dll's CRC32 Hash and inform the User if its a nonStock Version. 
---
-
-	local C32 = require 'crc32'
-	local crc32=C32.crc32
-	local crccalc = C32.newcrc32()
-	local crccalc_mt = getmetatable(crccalc)
-
-	assert(crccalc_mt.reset) -- reset to zero
-	local file = assert(io.open (defaultHome.."\\".."SciLexer.dll", 'rb'))
-	while true do
-		local bytes = file:read(4096)
-		if not bytes then break end
-		crccalc:update(bytes)
-	end	
-	file:close()
-	SciLexerHash=crccalc:tohex()	
-	if SciLexerHash~=origHash then print("SciteStartup.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..crccalc:tohex()) end
-end
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-function OnInit() 
---
--- called after above and only once when Scite starts (SciteStartups DocumentReady)
---
-
-	TestSciLexer("be7ed5ec") -- SciLexers CRC32 Hash for the current Version
-	scite_OnOpenSwitch(StyleStuff)
-	
--- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
--- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
-end
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	scite_OnOpenSwitch(markLinks)
+	scite_OnOpenSwitch(markeMail)
+	scite_OnOpenSwitch(markGUID)
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 --print("startupScript_reload")
 --print(editor.StyleAt[1])

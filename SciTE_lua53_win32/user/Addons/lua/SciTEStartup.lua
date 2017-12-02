@@ -36,6 +36,10 @@ dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
+-- Load cTags finder
+dofile(myHome..'\\Addons\\lua\\mod-sidebar\\ctagsd.lua')
+
+-- Register enhanced Autocomplete
 dofile(myHome..'\\macros\\AutoComplete.lua')
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -188,15 +192,13 @@ function HandleProject()
 -- handle Project Folders (ctags, Autocomplete & highlitening)
 --
 
-if props["SciteDirectoryHome"] ~= props["FileDir"] then
-	props["project.path"] = props["SciteDirectoryHome"]
-	props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
-	--props["project.ctags.apipath"]=os.getenv("tmp")..dirSep..props["project.name"].."_cTags.api"
-	buffer.projectName= props["project.name"]
-else
-	props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
-end
-
+	if props["SciteDirectoryHome"] ~= props["FileDir"] then
+		props["project.path"] = props["SciteDirectoryHome"]
+		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
+		buffer.projectName= props["project.name"]
+	else
+		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
+	end
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
