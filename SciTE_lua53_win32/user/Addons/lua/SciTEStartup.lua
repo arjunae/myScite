@@ -39,9 +39,6 @@ dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 -- Load cTags finder
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\ctagsd.lua')
 
--- Register enhanced Autocomplete
-dofile(myHome..'\\macros\\AutoComplete.lua')
-
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- ##################  Lua Samples #####################
@@ -191,6 +188,7 @@ function HandleProject()
 --
 -- handle Project Folders (ctags, Autocomplete & highlitening)
 --
+-- Register enhanced Autocomplete
 
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		props["project.path"] = props["SciteDirectoryHome"]
@@ -199,14 +197,16 @@ function HandleProject()
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
 	end
+		dofile(myHome..'\\macros\\AutoComplete.lua')
 end
-
+HandleProject()
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function OnInit() 
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
+
 	scite_OnOpenSwitch(HandleProject)	 
 
 	TestSciLexer("f12a274b883ba4211c61dc0c5f41356c") -- SciLexers MD5 Hash for the current Version

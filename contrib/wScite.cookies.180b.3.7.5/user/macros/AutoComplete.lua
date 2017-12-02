@@ -82,17 +82,17 @@ props["autocomplete.start.characters"] = ""
 props["autocomplete.choose.single"] = "0"
 
 -- Default Values for syntax Highlitening for substyles enabled Lexers
-if props["project.ctags.class"]=="" then props["project.ctags.class"]=0 end
+if props["project.ctags.class"]=="" then props["project.ctags.class"]="0" end
 if props["colour.project.class"]=="" then props["colour.project.class"]="fore:#906690" end 
-if props["project.ctags.functions"]=="" then props["project.ctags.functions"]=0 end
+if props["project.ctags.functions"]=="" then props["project.ctags.functions"]="0" end
 if props["colour.project.functions"]=="" then props["colour.project.functions"]="fore:#907090" end 
-if props["project.ctags.constants"]=="" then props["project.ctags.constants"]=0 end
+if props["project.ctags.constants"]=="" then props["project.ctags.constants"]="0" end
 if props["colour.project.constants"]=="" then props["colour.project.constants"]="fore:#B07595" end 
-if props["project.ctags.modules"]=="" then props["project.ctags.modules"]=0 end
+if props["project.ctags.modules"]=="" then props["project.ctags.modules"]="0" end
 if props["colour.project.modules"]=="" then props["colour.project.modules"]="fore:#9675B0" end 
-if props["project.ctags.enums"]=="" then props["project.ctags.enums"]=0 end
-if props["colour.project.enums"]=="" then props["colour.project.enums"]="fore:#3645B0" end 
-
+if  props["project.ctags.enums"]=="" then props["project.ctags.enums"]="0" end
+if  props["colour.project.enums"]=="" then props["colour.project.enums"]="fore:#3645B0" end 
+props["project.ctags.functions"]="1"
 --~~~~~~~~~~~~~~~~~~~~~~~
 
 local names = {}
@@ -160,7 +160,7 @@ end
 --  Append tagNames to  existing currentLexers substyle 11
 --  Returns: uniqued tagNames to given table
 --
--- lua version gives reasonable Speed on a 100k source and 100k API File. 
+-- lua version gives reasonable Speed on a 100k source and 1M cTags File. 
 --
 
 ----- globally cached Names ---
@@ -191,21 +191,25 @@ local function appendCTags(apiNames)
         for entry in io.lines(cTagsFilePath) do
             local isFunction, isClass, isConst, isModule, isENUM=false
             local params = entry:match("(%(.*%))") or "" -- function parameters for Calltips
-            local name = entry:match("([%w_.:]+)") -- "catchAll" Names for ACList Entries
+            local name = "" --entry:match("([%w_.:]+)") -- "catchAll" Names for ACList Entries
+            local halt=false
             
             if entry:match("%\"\tc")=="\"\tc" then  -- Mark Classes (matches "[tab]c)
                 name= entry:match("([%w_.:]+)") or "" 
                 isClass=true
+                halt=true
             end
-            if entry:match("%\"\td")=="\"\td" then  -- Mark Constants (matches "[tab]d)  
+            if not halt and entry:match("%\"\td")=="\"\td" then  -- Mark Constants (matches "[tab]d)  
                 name= entry:match("([%w_.:]+)") or "" 
                 isConst=true
+                halt=true
             end
-            if entry:match("%\"\tm")=="\"\tm" then  -- Mark Modules (matches "[tab]m)  
+            if not halt and entry:match("%\"\tm")=="\"\tm" then  -- Mark Modules (matches "[tab]m)  
                 name= entry:match("([%w_.:]+)") or "" 
                 isModule=true
+                halt=true
             end
-            if entry:match("%\"\tg")=="\"\tg" then  -- Mark ENUMS (matches "[tab]g)  
+            if not halt and entry:match("%\"\tg")=="\"\t[gs]" or ""  then  -- Mark ENUMS and STRUCTs (matches "[tab]g/s)  
                 name= entry:match("([%w_.:]+)") or "" 
                 isENUM=true
             end
@@ -215,14 +219,15 @@ local function appendCTags(apiNames)
                     ---- AutoComplete List entries
                     cTagAPI[name]=true
                     ----  Highlitening
+                    local halt=false
                     if string.len(params) >0 then 
                         isFunction=true
-                        if props["project.ctags.functions"]~="" then cTagFunctions=cTagFunctions.." "..name end
+                        if props["project.ctags.functions"]~="0" then cTagFunctions=cTagFunctions.." "..name  end
                     else                    
-                        if props["project.ctags.constants"]~="" and isConst then cTagNames=cTagNames.." "..name end
-                        if props["project.ctags.modules"]~="" and isModule then cTagModules=cTagModules.." "..name end
-                        if props["project.ctags.class"]~="" and isClass then cTagClass=cTagClass.." "..name end
-                        if props["project.ctags.enums"]~="" and isENUM then cTagENUMs=cTagENUMs.." "..name end
+                        if props["project.ctags.constants"]~="0" and isConst then cTagNames=cTagNames.." "..name halt=true end
+                        if not halt and props["project.ctags.modules"]~="0" and isModule then cTagModules=cTagModules.." "..name halt=true end
+                        if not halt and props["project.ctags.class"]~="0" and isClass then cTagClass=cTagClass.." "..name  halt=true end
+                        if not halt and props["project.ctags.enums"]~="0" and isENUM then cTagENUMs=cTagENUMs.." "..name   end
                     end
                 lastname=name
                 end

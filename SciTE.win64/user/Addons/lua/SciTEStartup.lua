@@ -36,24 +36,6 @@ dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
--- handle Project Folders (ctags, Autocomplete & highlitening)
---
-
-if props["SciteDirectoryHome"] ~= props["FileDir"] then
-	props["project.path"] = props["SciteDirectoryHome"]
-	props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
-	props["project.ctags.apipath"]=os.getenv("tmp")..dirSep..props["project.name"].."_cTags.api"
-	buffer.projectName= props["project.name"]
-else
-	props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
-end
-
--- Load enhanced Autocomplete
-dofile(myHome..'\\macros\\AutoComplete.lua')
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -202,12 +184,33 @@ function TestSciLexer(origHash)
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+function HandleProject()
+--
+-- handle Project Folders (ctags, Autocomplete & highlitening)
+--
+-- Register enhanced Autocomplete
+
+	if props["SciteDirectoryHome"] ~= props["FileDir"] then
+		props["project.path"] = props["SciteDirectoryHome"]
+		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
+		buffer.projectName= props["project.name"]
+	else
+		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
+	end
+	dofile(myHome..'\\macros\\AutoComplete.lua')
+end
+HandleProject()
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 function OnInit() 
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 
-	TestSciLexer("657db4c7") -- SciLexers CRC32 Hash for the current Version
+	TestSciLexer("2919d80f") -- SciLexers CRC32 Hash for the current Version
+	scite_OnOpenSwitch(HandleProject)	 
 	scite_OnOpenSwitch(StyleStuff)
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
@@ -218,4 +221,3 @@ end
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
 --print(props["Path"])
-
