@@ -299,7 +299,7 @@ static unsigned int ColouriseMakeLine(
 			}
 			
 			// Colour Strings which end with a Number
-			if (IsNum(chCurr) && stylerPos < startMark) {
+			if (IsNum(chCurr) && stylerPos < startMark && styler.SafeGetCharAt(startMark-1) != '-') {
 				if (startMark>stylerPos) styler.ColourTo(startMark-1, SCE_MAKE_DEFAULT);
 				ColourHere(styler, currentPos,  SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 			}
@@ -307,18 +307,6 @@ static unsigned int ColouriseMakeLine(
 			startMark=0;
 			strLen=0;
 			strSearch.clear();
-		}
-
-		/// Operators..
-		if (state==SCE_MAKE_DEFAULT && strchr("!?&|+[]<>;:=", (int)chCurr) != NULL && stylerPos < currentPos) {
-			ColourHere(styler, currentPos-1, state);
-			ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
-		}
-	
-		/// Numbers; _very_ simple for now.
-		if(state==SCE_MAKE_DEFAULT && startMark==0 && IsNum(chCurr) && stylerPos < currentPos)  {
-			ColourHere(styler, currentPos-1, state);
-			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 		}
 
 		/// Style User Variables Rule: $(...)
@@ -355,17 +343,29 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'")
-		if ((state==SCE_MAKE_DEFAULT && (AtStartChar(styler,currentPos)) && chNext=='-')
+		if (( (AtStartChar(styler,currentPos)) && chNext=='-')
 			|| (currentPos == theStart && chCurr == '-')) {
-			state_prev=SCE_MAKE_DEFAULT;
+			state_prev=state;
 			state = SCE_MAKE_FLAGS;
 			bool j= (i>0 && (chCurr=='-') && chNext=='-') ? 1:0; // style both '-'
 			if (currentPos-j > startLine) styler.ColourTo(currentPos-j, state_prev);
 		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''", (int)chNext) !=NULL) {
 			ColourHere(styler, currentPos, state, state_prev);
-			state = SCE_MAKE_DEFAULT;
+			state = state_prev;
+		}
+		
+		/// Operators..
+		if (state==SCE_MAKE_DEFAULT && strchr("!?&|+[]<>;:=", (int)chCurr) != NULL && stylerPos < currentPos) {
+			ColourHere(styler, currentPos-1, state);
+			ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
 		}
 	
+		/// Numbers; _very_ simple for now.
+		if(state==SCE_MAKE_DEFAULT && startMark==0 && IsNum(chCurr) && stylerPos < currentPos)  {
+			ColourHere(styler, currentPos-1, state);
+			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
+		}
+
 		i++;
 	}
 	

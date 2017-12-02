@@ -218,6 +218,7 @@ local function appendCTags(apiNames)
                 -- publish Function Descriptors to Project APIFile.
                 lastEntry=name..params
                 if not isConst and not isClass and string.len(params)>2 then 
+                --todo: check for ctag.tags file attribute changes
                     io.write(lastEntry.."\n") end -- faster then using a full bulkWrite
             end
         end
