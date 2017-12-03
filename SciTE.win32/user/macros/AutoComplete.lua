@@ -169,7 +169,6 @@ local cTagENUMs=""
 -- write them to SciTEs properties
 -- probably should return something useful
 --
---
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local function writeProps()
 
@@ -232,52 +231,51 @@ local function appendCTags(apiNames)
         io.output(cTagsFile)   -- projects cTags APICalltips file
         
         for entry in io.lines(cTagsFilePath) do
-            local isFunction, isClass, isConst, isModule, isENUM=false
+            local isFunction, isClass, isConst, isModule, isENUM,skipper=false
 
             -- a poorMans exuberAnt cTag Tokenizer :)) --
             -- Gibt den LemmingAmeisen was sinnvolles zu tun(tm) --
-            
-            local params="" -- match (.*) function parameters for Calltips
-            typ1M="%/^([%w_]+)%s" -- INTPTR
-            typ2M="([%w_]+)%s"   -- CALLBACK
-            classM="([%w]+).*"   -- SciteWin
-            funcM="(%(.*%))"  -- AbbrevDlg(...)
-            typ1, typ2, class, func= entry:match(typ1M..typ2M..classM..funcM)
-            if  func then params=params..func end
-            if  typ1 then params=params..typ1 end
-            if  typ2 then params=params.." "..typ2 end
-            if  class then params=params.." =:) "..class end
-
+          
             -- "catchAll" Names for ACList Entries
             local name = entry:match("([%w_.:]+)") 
-            local skip=false
-            -- Mark Classes (matches "[tab]c)
-            if entry:match("%\"\tc")=="\"\tc" then  
-                name= entry:match("([%w_.:]+)") or "" 
-                isClass=true
-                skip=true
-            end
-            -- Mark Constants (matches "[tab]d)  
-            if not skip and entry:match("%\"\td")=="\"\td" then  
-                name= entry:match("([%w_.:]+)") or "" 
-                isConst=true
-                skip=true
-            end
-             -- Mark Modules (matches "[tab]m)  
-            if not skip and entry:match("%\"\tm")=="\"\tm" then 
+            
+            local params="" -- match (.*) function parameters for Calltips
+            patType="%/^([%w_: ]+ )" -- INTPTR
+            patClass="([%w]+).*"   -- SciteWin (::)
+            patFunc="(%(.*%))"  -- AbbrevDlg(...)
+            strTyp, strClass, strFunc= entry:match(patType..patClass..patFunc)
+            if  strFunc then params=params..strFunc end
+            if  strTyp then params=params..strTyp end
+            if  strClass then params=params.." =:) "..strClass end
+            if params then skipper=true isFunction=true end
+            
+            -- Mark Modules (matches "[tab]m)  
+            if  entry:match("%\"\tm")=="\"\tm" then 
                 name= entry:match("([%w_.:]+)") or "" 
                 isModule=true
-                skip=true
+                skipper=true
+            end
+            -- Mark Constants (matches "[tab]d)  
+            if not skipper and entry:match("%\"\td")=="\"\td" then  
+                name= entry:match("([%w_.:]+)") or "" 
+                isConst=true
+                skipper=true
             end
             -- Mark ENUMS and STRUCTs (matches "[tab]g/s)
-            if not skip then 
+            if not skipper then 
                 local tmp = entry:match("%\"\t[gs]")   
                 if tmp=="\"\tg" or tmp=="\"\ts" then 
                     name= entry:match("([%w_.:]+)") or "" 
                     isENUM=true
                 end
             end        
-            
+            -- Mark Classes (matches "[tab]c)
+            if entry:match("%\"\tc")=="\"\tc" then  
+                name= entry:match("([%w_.:]+)") or "" 
+                isClass=true
+                skipper=true
+            end
+
             -- publish collected Data (dupe Checked)  
             if name..params~=lastEntry then 
                 if name~=lastname then 
@@ -286,13 +284,13 @@ local function appendCTags(apiNames)
                     ----  Highlitening
                     local halt=false
                     if string.len(params) >0 then 
-                        isFunction=true
+                        
                         if props["project.ctags.functions"]=="1" then cTagFunctions=cTagFunctions.." "..name  end
                     else                    
-                        if props["project.ctags.constants"]=="1" and isConst then cTagNames=cTagNames.." "..name skip=true end
-                        if props["project.ctags.modules"]=="1" and isModule then cTagModules=cTagModules.." "..name skip=true end
-                        if props["project.ctags.class"]=="1" and isClass then cTagClass=cTagClass.." "..name  skip=true end
-                        if props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name   end
+                        if props["project.ctags.constants"]=="1" and isConst then cTagNames=cTagNames.." "..name end
+                        if props["project.ctags.modules"]=="1" and isModule then cTagModules=cTagModules.." "..name end
+                        if props["project.ctags.class"]=="1" and isClass then cTagClass=cTagClass.." "..name  end
+                        if props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name end
                     end
                 lastname=name
                 end
