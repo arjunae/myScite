@@ -98,13 +98,13 @@ enum { mbsAboutBox = 0x100000 };
 #define GKEY_F4 GDK_F4
 #endif
 
-static GdkWindow *WindowFromWidget(GtkWidget *w) {
+static GdkWindow *WindowFromWidget(GtkWidget *w)  {
 	return gtk_widget_get_window(w);
 }
 
 const char appName[] = "SciTE";
 
-static GtkWidget *PWidget(GUI::Window &w) {
+static GtkWidget *PWidget(WindowID wid) {get(GUI::Window &w) {
 	return static_cast<GtkWidget *>(w.GetID());
 }
 

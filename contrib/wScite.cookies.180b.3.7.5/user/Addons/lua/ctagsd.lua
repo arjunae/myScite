@@ -1,6 +1,9 @@
 --[[
 
 -- Browse a tags database from SciTE!
+-- 02.12.2017 -> Arjunae: 
+-- Extman support / project.ctags.filename / project.path / ALT-Click Tag!
+--
 -- Set this property:
 -- project.ctags.filename=<full path to tags file>
 -- 1. Multiple tags are handled correctly; a drop-down list is presented
@@ -29,7 +32,7 @@ local sizeof = table.getn
 local push = table.insert
 local pop = table.remove
 local top = function(s) return s[sizeof(s)] end
-local _UserListSelection
+local _UserListSelect
 
 
 -- Parse string
@@ -169,7 +172,6 @@ function locate_tags(dir)
     return filefound
 end
 
-
 function find_ctag(f,partial)
   -- search for tags files first
   local result
@@ -215,13 +217,15 @@ function find_ctag(f,partial)
     for i,t in ipairs(matches) do
       table.insert(list,i..' '..t.file..':'..t.pattern)
     end
+
     scite_UserListShow(list,1,function(s)
        local _,_,tok = find(s,'^(%d+)')
        local idx = tonumber(tok) -- very important!
        OpenTag(matches[idx])
-     end)
+      end
+    )
   else
-       OpenTag(matches[1]) 
+      OpenTag(matches[1]) 
   end
 end
 
@@ -249,28 +253,30 @@ function reset_tags()
     tags     = {}
 end
 
--- the handler is always reset!
-function scite_UserListShow(list,start,fn)
-  local s = ''
-  local sep = '#'
-  local n = sizeof(list)
-  for i = start,n-1 do
-      s = s..list[i]..sep
+--
+-- wordAtPosition()
+-- Returns the whole keyword under the cursor
+--
+function wordAtPosition()
+  local pos = editor.CurrentPos
+  local startPos=pos
+  local lineEnd = editor.LineEndPosition[editor:LineFromPosition(pos)]
+  local whatever,endPos = editor:findtext("[^a-zA-z0-9_-*]",SCFIND_REGEXP,pos,lineEnd) --words EndPos
+  if not endPos then endPos=lineEnd end
+  local tmp=""
+  
+  --search backwards for a Delimiter
+  while not string.find(editor:textrange(startPos,startPos+1),"[^%w_-]+")  do
+    startPos=startPos-1
   end
-  s = s..list[n]
-  s = s:gsub('\t',' '):gsub('[ \t]+',' '):gsub('[ ]+$','')
-  _UserListSelection = fn
-  local pane = editor
-  if not pane.Focus then pane = output end
-  pane.AutoCSeparator = string.byte(sep)
-  pane:UserListShow(13,s)
-  pane.AutoCSeparator = string.byte(' ')
+  tmp=editor:textrange(startPos+1,endPos-1)
+  return string.match(tmp,"[%w_-]+") -- just be sure. only return the keyword
 end
 
-AddEventHandler("OnUserListSelection", function(tp,str)
-  if _UserListSelection then
-     local callback = _UserListSelection
-     _UserListSelection = nil
-     return callback(str)
-  else return false end
-end)
+function modifiers(shift,strg,alt,x)
+--print(wordAtPosition())
+if alt==true then find_ctag (wordAtPosition()) end
+end
+
+scite_OnClick(modifiers)
+

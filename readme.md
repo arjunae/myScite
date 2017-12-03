@@ -4,6 +4,7 @@
 - Add: Scite Project Support. Settings for scite sources included.
 - Add: cTag search support for Projectfiles.
 - Add: Project Syntax Higlightening (styles Class, Modules, Functions, Constants, enums).
+- Add: ALT-Click on a Symbol for cTag Navigation
 - Switch to lua5.3 (Compiled with -DLUA_COMPAT_5_1).
 
 [25.11.2017] mySciTE.stable.180.Artie
