@@ -1,10 +1,16 @@
--- browse a tags database from SciTE!
+--[[
+
+-- Browse a tags database from SciTE!
 -- Set this property:
--- project.ctags.filepath=<full path to tags file>
+-- project.ctags.filename=<full path to tags file>
 -- 1. Multiple tags are handled correctly; a drop-down list is presented
 -- 2. There is a full stack of marks available.
--- 3. If project.ctags is not defined, will try to find a tags file in the current dir.
--- 4. filepath is realtive to project.dir
+-- 3. If $(project.path) is not defined, will try to find a tags file in the current dir.
+-- 4. if $(project.path) is defined assume --tag-relative=yes  (Tags relative to project.path)
+--     otherwise assume fully qualified Pathes in Tagfile
+
+]]
+
 local GTK = scite_GetProp('PLAT_GTK')
 if GTK then dirSep="/" else dirSep="\\" end
   
@@ -124,6 +130,7 @@ local function OpenTag(tag)
   local fileNamePath
   local path= extract_path(gTagFile)
   if path  then fileNamePath= tag.file end
+  if props["project.path"]~="" then fileNamePath = path..dirSep..tag.file end --Project relative Path
   set_mark()
   scite.Open(fileNamePath)
   -- depending on what kind of tag, either search for the pattern,
