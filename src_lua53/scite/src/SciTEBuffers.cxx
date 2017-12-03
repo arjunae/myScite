@@ -408,9 +408,12 @@ void SciTEBase::SetDocumentAt(int index, bool updateStack) {
 	bool restoreBookmarks = bufferNext.lifeState == Buffer::readAll;
 	PerformDeferredTasks();
 	if (bufferNext.lifeState == Buffer::readAll) {
-		CompleteOpen(ocCompleteSwitch);
-		if (extender)
+		if (extender) {
 			extender->OnOpen(filePath.AsUTF8().c_str());
+				propsDiscovered = bufferNext.props;
+				propsDiscovered.superPS = &propsLocal;
+		}
+	CompleteOpen(ocCompleteSwitch);
 	}
 	RestoreState(bufferNext, restoreBookmarks);
 
@@ -970,12 +973,12 @@ void SciTEBase::Close(bool updateUI, bool loadingSession, bool makingRoomForNew)
 		PerformDeferredTasks();
 		if (bufferNext.lifeState == Buffer::readAll) {
 			//restoreBookmarks = true;
-			CompleteOpen(ocCompleteSwitch);
 			if (extender){
 				extender->OnOpen(filePath.AsUTF8().c_str());
 				propsDiscovered = bufferNext.props;
 				propsDiscovered.superPS = &propsLocal;
 				}
+			CompleteOpen(ocCompleteSwitch);		
 		}
 		if (closingLast) {
 			wEditor.Call(SCI_SETREADONLY, 0);
