@@ -92,7 +92,7 @@ if props["project.ctags.modules"]=="" then props["project.ctags.modules"]="0" en
 if props["colour.project.modules"]=="" then props["colour.project.modules"]="fore:#9675B0" end 
 if  props["project.ctags.enums"]=="" then props["project.ctags.enums"]="0" end
 if  props["colour.project.enums"]=="" then props["colour.project.enums"]="fore:#3645B0" end 
-props["project.ctags.functions"]="1"
+
 --~~~~~~~~~~~~~~~~~~~~~~~
 
 local names = {}
@@ -175,15 +175,18 @@ local updateCTags=1
 
 --------
 
-local function appendCTags(apiNames)    
-    --print("ac>appendCtags")
+local function appendCTags(apiNames)
+
+if DEBUG then print("ac>appendCtags") end
     local sysTmp=os.getenv("tmp")
     local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
     local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" -- performance:  should we reuse an existing File ?
-    props["project.ctags.apipath"]=cTagsAPIPath
+    
+    if props["project.ctags.filename"]=="" then return apiNames end
     cTagNames=""
-        
-    if file_exists(cTagsFilePath) and updateCTags==1 then 
+    
+    if file_exists(cTagsFilePath)  and updateCTags==1 then 
+        props["project.ctags.apipath"]=cTagsAPIPath
         local lastEntry=""
         local cTagsFile= io.open(cTagsAPIPath,"w")
         io.output(cTagsFile)   -- projects cTags APICalltips file
@@ -237,11 +240,19 @@ local function appendCTags(apiNames)
                     io.write(lastEntry.."\n") end -- faster then using a full bulkWrite
             end
         end
-        --print("ac>APIDaten gechrieben")
+
         io.close(cTagsFile)
         buffer.projectName= props["project.name"]
         updateCTags=0
-
+        
+if DEBUG then
+        print(string.len(cTagClass) )
+        print(string.len(cTagFunctions) )
+        print(string.len(cTagNames) )
+        print(string.len(cTagModules) )
+        print(string.len(cTagModules) )
+        print(props["project.ctags.modules"])
+end
         -- Append Once to filetypes api path
         projectEXT=props["file.patterns.project"]
         if origApiPath==nil then origApiPath=props["APIPath"] end
@@ -273,7 +284,7 @@ end
 --
 local function setLexerSpecificStuff()
     local iLexer=editor.Lexer
-    --print (editor.Lexer)
+
     if type(IGNORE_STYLES[iLexer])=="nil" and editor.Lexer~=1 then -- Performance: Disable Ac for the Null Lexer
        -- print("ac>Current lexer not supported. Using generic Mode.")
         iLexer=SCLEX_GENERIC
@@ -293,8 +304,10 @@ end
 -- Append current Lexers Api Files
 --
 local function getApiNames()
+if DEBUG then print("ac>getApiNames") end
     local lexer = editor.LexerLanguage
     local apiNames = {}
+    
     apiNames= appendCTags(apiNames)
       
     if apiCache[lexer] then
@@ -332,11 +345,12 @@ local function buildNames()
 --print("build names buffer state:",buffer.dirty)
 
    local fSize=0
-    
+
     if editor.Lexer~=1 and buffer.dirty==true then 
       if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
-      if fSize > AC_MAX_SIZE then  return end  
-
+      if fSize > AC_MAX_SIZE then  return end
+      
+ if DEBUG then  print("ac>buildnames") end
         setLexerSpecificStuff()
         -- Reset our array of names.
         names = {}
@@ -535,13 +549,16 @@ local events = {
     OnSwitchFile    = function()
         -- Use this file's cached list if possible:
         names = buffer.namesForAutoComplete
+
         if not names then
             -- Otherwise, build a new list.
             buffer.dirty=true
             buildNames()
         else
             setLexerSpecificStuff()
+            if updateCTags==nil then appendCTags({}) end
         end
+if DEBUG then print("ac>onSwitchFile") end
     end,
     OnOpen          = function()
         -- Ensure the document is styled first, so we can filter out
@@ -550,6 +567,7 @@ local events = {
         -- Then do the real work.
         buffer.dirty=true
         buildNames()
+if DEBUG then print("ac>onOpen") end
     end
 }
 -- Add event handlers in a cooperative fashion:

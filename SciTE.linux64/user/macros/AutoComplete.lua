@@ -92,7 +92,7 @@ if props["project.ctags.modules"]=="" then props["project.ctags.modules"]="0" en
 if props["colour.project.modules"]=="" then props["colour.project.modules"]="fore:#9675B0" end 
 if  props["project.ctags.enums"]=="" then props["project.ctags.enums"]="0" end
 if  props["colour.project.enums"]=="" then props["colour.project.enums"]="fore:#3645B0" end 
-props["project.ctags.functions"]="1"
+
 --~~~~~~~~~~~~~~~~~~~~~~~
 
 local names = {}

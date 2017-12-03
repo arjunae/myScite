@@ -30,7 +30,7 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
 -- Load mod-mitchell
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+--dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 		
 -- Load Sidebar
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
@@ -188,7 +188,6 @@ function HandleProject()
 --
 -- handle Project Folders (ctags, Autocomplete & highlitening)
 --
--- Register enhanced Autocomplete
 
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		props["project.path"] = props["SciteDirectoryHome"]
@@ -197,9 +196,12 @@ function HandleProject()
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
 	end
-		dofile(myHome..'\\macros\\AutoComplete.lua')
+
 end
+
+-- Register enhanced Autocomplete
 HandleProject()
+dofile(myHome..'\\macros\\AutoComplete.lua')
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function OnInit() 
@@ -207,9 +209,8 @@ function OnInit()
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 
-	scite_OnOpenSwitch(HandleProject)	 
-
-	TestSciLexer("f12a274b883ba4211c61dc0c5f41356c") -- SciLexers MD5 Hash for the current Version
+	scite_OnOpenSwitch(HandleProject)
+	TestSciLexer("961b107850fb5dd02f9b6c06eb0ce77e") -- SciLexers MD5 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
