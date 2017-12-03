@@ -176,7 +176,7 @@ end
     -- Append Once to filetypes api path
     projectEXT=props["file.patterns.project"]
     if origApiPath==nil then origApiPath=props["APIPath"] end
-    props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]
+    props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]  -- todo: platform independent dirSep replacement
 
     --Now Expose the functions collected by cTags for syntax highlitening a Projects API      
     local currentLexer=props["Language"]
@@ -315,9 +315,7 @@ if DEBUG then print("ac>getApiNames") end
     local lexer = editor.LexerLanguage
     local apiNames = {}
       
-    apiNames= appendCTags(apiNames)
-    
-    if apiCache[lexer] then
+    if apiCache[lexer] and props["project.ctags.update"]=="0" then
         return apiCache[lexer]
     end
 
@@ -332,10 +330,13 @@ if DEBUG then print("ac>getApiNames") end
         end
         return ""
     end)
+    
+    apiNames= appendCTags(apiNames)
+        
     if lexer~=nil then
         apiCache[lexer] = apiNames -- Even if it's empty
     end
-    
+        
     return apiNames
 end
 
