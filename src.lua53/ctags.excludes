@@ -1,3 +1,4 @@
 lexers
-lua
+lua\
+lua/
 test

@@ -210,7 +210,7 @@ end
 --  Append tagNames to  existing currentLexers substyle 11
 --  Returns: uniqued tagNames to given table
 --
--- lua version gives reasonable Speed on a 100k source and 1M cTags File. 
+-- Optimized lua version. Gives reasonable Speed on a 100k source and 1M cTags File. 
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -238,7 +238,7 @@ local function appendCTags(apiNames)
           
             -- "catchAll" Names for ACList Entries
             local name = entry:match("([%w_.:]+)") 
-            
+ 
             local params="" -- match (.*) function parameters for Calltips
             patType="%/^([%w_: ]+ )" -- INTPTR
             patClass="([%w]+).*"   -- SciteWin (::)
@@ -248,33 +248,30 @@ local function appendCTags(apiNames)
             if  strTyp then params=params..strTyp end
             if  strClass then params=params.." =:) "..strClass end
             if params then skipper=true isFunction=true end
-            
-            -- Mark Modules (matches "[tab]m)  
-            if  entry:match("%\"\tm")=="\"\tm" then 
+
+           -- Mark Modules (matches "[tab]m)  
+            if entry:match("%\"\tm")=="\"\tm" then 
                 name= entry:match("([%w_.:]+)") or "" 
                 isModule=true
                 skipper=true
             end
             -- Mark Constants (matches "[tab]d)  
-            if not skipper and entry:match("%\"\td")=="\"\td" then  
+            if not skipper and  entry:match("%\"\td")=="\"\td" then  
                 name= entry:match("([%w_.:]+)") or "" 
                 isConst=true
                 skipper=true
             end
-            -- Mark ENUMS and STRUCTs (matches "[tab]g/s)
-            if not skipper then 
-                local tmp = entry:match("%\"\t[gs]")   
-                if tmp=="\"\tg" or tmp=="\"\ts" then 
-                    name= entry:match("([%w_.:]+)") or "" 
-                    isENUM=true
-                end
-            end        
             -- Mark Classes (matches "[tab]c)
-            if entry:match("%\"\tc")=="\"\tc" then  
+            if  not skipper and entry:match("%\"\tc")=="\"\tc" then  
                 name= entry:match("([%w_.:]+)") or "" 
                 isClass=true
-                skipper=true
             end
+            -- Mark ENUMS and STRUCTs (matches "[tab]g/s) 
+            local tmp = entry:match("%\"\t[gs]")   
+            if tmp=="\"\tg" or tmp=="\"\ts" then 
+                name= entry:match("([%w_.:]+)") or "" 
+                isENUM=true
+            end   
 
             -- publish collected Data (dupe Checked)  
             if name..params~=lastEntry then 
@@ -284,7 +281,6 @@ local function appendCTags(apiNames)
                     ----  Highlitening
                     local halt=false
                     if string.len(params) >0 then 
-                        
                         if props["project.ctags.functions"]=="1" then cTagFunctions=cTagFunctions.." "..name  end
                     else                    
                         if props["project.ctags.constants"]=="1" and isConst then cTagNames=cTagNames.." "..name end
