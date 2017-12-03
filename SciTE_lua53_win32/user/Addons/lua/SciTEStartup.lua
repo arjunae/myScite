@@ -210,7 +210,7 @@ function OnInit()
 --
 
 	scite_OnOpenSwitch(HandleProject)
-	TestSciLexer("988e9ddf1e361be18b42019cebfb7af3") -- SciLexers MD5 Hash for the current Version
+	--TestSciLexer("988e9ddf1e361be18b42019cebfb7af3") -- SciLexers MD5 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
@@ -221,3 +221,7 @@ end
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
 --print(props["Path"])
+
+entry="ANNOTATION_STANDARD	D:projects_myScite_myScite.githubsrc_lua53scintillaincludeScintilla.h	875;\"	d"
+--bla =string.len(entry:match("%\"\td") or "")>0
+--print(bla)

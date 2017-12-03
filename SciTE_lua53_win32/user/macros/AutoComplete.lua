@@ -165,11 +165,11 @@ local function writeProps()
 
 if DEBUG then
     print("ac>writeProps")
-    print(string.len(cTagClass) )
-    print(string.len(cTagFunctions) )
-    print(string.len(cTagNames) )
-    print(string.len(cTagModules) )
-    print(string.len(cTagModules) )
+    print("Classes:", string.len(cTagClass) )
+    print("Functions:", string.len(cTagFunctions) )
+    print("Vars:",string.len(cTagNames) )
+    print("Modules:",string.len(cTagModules) )
+    print("Enums", string.len(cTagENUMs) )
     print(props["project.ctags.modules"])
 end
 
@@ -223,7 +223,7 @@ local function appendCTags(apiNames)
         for entry in io.lines(cTagsFilePath) do
             local isFunction, isClass, isConst, isModule, isENUM=false
             local params = entry:match("(%(.*%))") or "" -- function parameters for Calltips
-            local name = "" --entry:match("([%w_.:]+)") -- "catchAll" Names for ACList Entries
+            local name = entry:match("([%w_.:]+)") -- "catchAll" Names for ACList Entries
             local skip=false
             
             if entry:match("%\"\tc")=="\"\tc" then  -- Mark Classes (matches "[tab]c)
@@ -241,10 +241,13 @@ local function appendCTags(apiNames)
                 isModule=true
                 skip=true
             end
-            if not skip and entry:match("%\"\tg")=="\"\t[gs]" or ""  then  -- Mark ENUMS and STRUCTs (matches "[tab]g/s)  
-                name= entry:match("([%w_.:]+)") or "" 
-                isENUM=true
-            end
+            if not skip then 
+                local tmp = entry:match("%\"\t[gs]")   -- Mark ENUMS and STRUCTs (matches "[tab]g/s)
+                if tmp=="\"\tg" or tmp=="\"\ts" then 
+                    name= entry:match("([%w_.:]+)") or "" 
+                    isENUM=true
+                end
+            end        
             
             if name..params~=lastEntry then -- publish collected Data (dupe Checked)  
                 if name~=lastname then 
@@ -257,9 +260,9 @@ local function appendCTags(apiNames)
                         if props["project.ctags.functions"]=="1" then cTagFunctions=cTagFunctions.." "..name  end
                     else                    
                         if props["project.ctags.constants"]=="1" and isConst then cTagNames=cTagNames.." "..name skip=true end
-                        if not skip and props["project.ctags.modules"]=="1" and isModule then cTagModules=cTagModules.." "..name skip=true end
-                        if not skip and props["project.ctags.class"]=="1" and isClass then cTagClass=cTagClass.." "..name  skip=true end
-                        if not skip and props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name   end
+                        if props["project.ctags.modules"]=="1" and isModule then cTagModules=cTagModules.." "..name skip=true end
+                        if props["project.ctags.class"]=="1" and isClass then cTagClass=cTagClass.." "..name  skip=true end
+                        if props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name   end
                     end
                 lastname=name
                 end
@@ -312,6 +315,8 @@ if DEBUG then print("ac>getApiNames") end
     local lexer = editor.LexerLanguage
     local apiNames = {}
       
+    apiNames= appendCTags(apiNames)
+    
     if apiCache[lexer] then
         return apiCache[lexer]
     end
@@ -327,8 +332,6 @@ if DEBUG then print("ac>getApiNames") end
         end
         return ""
     end)
-    apiNames= appendCTags(apiNames)
-    
     if lexer~=nil then
         apiCache[lexer] = apiNames -- Even if it's empty
     end
@@ -559,7 +562,7 @@ local events = {
             buildNames()
         else
             setLexerSpecificStuff()
-            if updateCTags==nil then writeProps() end
+         --   if updateCTags==nil then writeProps() end
         end
 if DEBUG then print("ac>onSwitchFile") end
     end,

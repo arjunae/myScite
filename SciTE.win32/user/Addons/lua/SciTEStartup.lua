@@ -221,3 +221,6 @@ end
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
 --print(props["Path"])
+--entry="selTypes	D:\projects\_myScite\_myScite.github\src_lua51\3.7.5\scintilla\src\Selection.h	/^	enum selTypes { noSel, selStream, selRectangle, selLines, selThin };$/;\"	a	class:Scintilla::Selection	access:public"
+--bla =string.len(entry:match("%\"\t[gs]") or "")
+--print(bla)
