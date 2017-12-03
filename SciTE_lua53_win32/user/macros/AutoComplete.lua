@@ -160,7 +160,17 @@ local cTagClass=""
 local cTagModules =""
 local cTagENUMs=""
 
---------
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+-- writeProps()
+-- publish cTag extrapolated Api Data -
+-- reads above cTag.* vars
+-- write them to SciTEs properties
+-- probably should return something useful
+--
+--
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local function writeProps()
 
 if DEBUG then
@@ -203,6 +213,7 @@ end
 --
 -- lua version gives reasonable Speed on a 100k source and 1M cTags File. 
 --
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 local function appendCTags(apiNames)
     local sysTmp=os.getenv("tmp")
@@ -222,34 +233,53 @@ local function appendCTags(apiNames)
         
         for entry in io.lines(cTagsFilePath) do
             local isFunction, isClass, isConst, isModule, isENUM=false
-            local params = entry:match("(%(.*%))") or "" -- function parameters for Calltips
-            local name = entry:match("([%w_.:]+)") -- "catchAll" Names for ACList Entries
-            local skip=false
+
+            -- a poorMans exuberAnt cTag Tokenizer :)) --
+            -- Gibt den LemmingAmeisen was sinnvolles zu tun(tm) --
             
-            if entry:match("%\"\tc")=="\"\tc" then  -- Mark Classes (matches "[tab]c)
+            local params="" -- match (.*) function parameters for Calltips
+            typ1M="%/^([%w_]+)%s" -- INTPTR
+            typ2M="([%w_]+)%s"   -- CALLBACK
+            classM="([%w]+).*"   -- SciteWin
+            funcM="(%(.*%))"  -- AbbrevDlg(...)
+            typ1, typ2, class, func= entry:match(typ1M..typ2M..classM..funcM)
+            if  func then params=params..func end
+            if  typ1 then params=params..typ1 end
+            if  typ2 then params=params.." "..typ2 end
+            if  class then params=params.." =:) "..class end
+
+            -- "catchAll" Names for ACList Entries
+            local name = entry:match("([%w_.:]+)") 
+            local skip=false
+            -- Mark Classes (matches "[tab]c)
+            if entry:match("%\"\tc")=="\"\tc" then  
                 name= entry:match("([%w_.:]+)") or "" 
                 isClass=true
                 skip=true
             end
-            if not skip and entry:match("%\"\td")=="\"\td" then  -- Mark Constants (matches "[tab]d)  
+            -- Mark Constants (matches "[tab]d)  
+            if not skip and entry:match("%\"\td")=="\"\td" then  
                 name= entry:match("([%w_.:]+)") or "" 
                 isConst=true
                 skip=true
             end
-            if not skip and entry:match("%\"\tm")=="\"\tm" then  -- Mark Modules (matches "[tab]m)  
+             -- Mark Modules (matches "[tab]m)  
+            if not skip and entry:match("%\"\tm")=="\"\tm" then 
                 name= entry:match("([%w_.:]+)") or "" 
                 isModule=true
                 skip=true
             end
+            -- Mark ENUMS and STRUCTs (matches "[tab]g/s)
             if not skip then 
-                local tmp = entry:match("%\"\t[gs]")   -- Mark ENUMS and STRUCTs (matches "[tab]g/s)
+                local tmp = entry:match("%\"\t[gs]")   
                 if tmp=="\"\tg" or tmp=="\"\ts" then 
                     name= entry:match("([%w_.:]+)") or "" 
                     isENUM=true
                 end
             end        
             
-            if name..params~=lastEntry then -- publish collected Data (dupe Checked)  
+            -- publish collected Data (dupe Checked)  
+            if name..params~=lastEntry then 
                 if name~=lastname then 
                     ---- AutoComplete List entries
                     cTagAPI[name]=true
@@ -266,7 +296,7 @@ local function appendCTags(apiNames)
                     end
                 lastname=name
                 end
-                -- publish Function Descriptors to Project APIFile.
+                -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=name..params
                 if isFunction and string.len(params)>2 then 
                     io.write(lastEntry.."\n") end -- faster then using a full bulkWrite
