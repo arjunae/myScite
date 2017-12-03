@@ -184,13 +184,10 @@ function TestSciLexer(origHash)
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 function HandleProject()
 --
 -- handle Project Folders (ctags, Autocomplete & highlitening)
 --
--- Register enhanced Autocomplete
 
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		props["project.path"] = props["SciteDirectoryHome"]
@@ -199,9 +196,12 @@ function HandleProject()
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
 	end
+	dofile(myHome..'\\macros\\AutoComplete.lua')
 end
-	HandleProject()
-		dofile(myHome..'\\macros\\AutoComplete.lua')
+
+-- Register enhanced Autocomplete
+HandleProject()
+
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function OnInit() 
@@ -210,7 +210,6 @@ function OnInit()
 --
 
 	TestSciLexer("2919d80f") -- SciLexers CRC32 Hash for the current Version
-	HandleProject()
 	scite_OnOpenSwitch(HandleProject)	 
 	scite_OnOpenSwitch(StyleStuff)
 	

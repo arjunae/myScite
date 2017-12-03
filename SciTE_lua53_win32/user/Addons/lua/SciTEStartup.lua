@@ -196,12 +196,12 @@ function HandleProject()
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
 	end
-
+dofile(myHome..'\\macros\\AutoComplete.lua')
 end
 
 -- Register enhanced Autocomplete
 HandleProject()
-dofile(myHome..'\\macros\\AutoComplete.lua')
+
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function OnInit() 
@@ -210,7 +210,7 @@ function OnInit()
 --
 
 	scite_OnOpenSwitch(HandleProject)
-	TestSciLexer("961b107850fb5dd02f9b6c06eb0ce77e") -- SciLexers MD5 Hash for the current Version
+	TestSciLexer("988e9ddf1e361be18b42019cebfb7af3") -- SciLexers MD5 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	

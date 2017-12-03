@@ -82,16 +82,12 @@ props["autocomplete.start.characters"] = ""
 props["autocomplete.choose.single"] = "0"
 
 -- Default Values for syntax Highlitening for substyles enabled Lexers
-if props["project.ctags.class"]=="" then props["project.ctags.class"]="0" end
+
 if props["colour.project.class"]=="" then props["colour.project.class"]="fore:#906690" end 
-if props["project.ctags.functions"]=="" then props["project.ctags.functions"]="0" end
 if props["colour.project.functions"]=="" then props["colour.project.functions"]="fore:#907090" end 
-if props["project.ctags.constants"]=="" then props["project.ctags.constants"]="0" end
 if props["colour.project.constants"]=="" then props["colour.project.constants"]="fore:#B07595" end 
-if props["project.ctags.modules"]=="" then props["project.ctags.modules"]="0" end
 if props["colour.project.modules"]=="" then props["colour.project.modules"]="fore:#9675B0" end 
-if  props["project.ctags.enums"]=="" then props["project.ctags.enums"]="0" end
-if  props["colour.project.enums"]=="" then props["colour.project.enums"]="fore:#3645B0" end 
+if props["colour.project.enums"]=="" then props["colour.project.enums"]="fore:#3645B0" end 
 
 --~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -154,14 +150,6 @@ local function isInTable(table, elem)
 	end
 	return false
 end
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
---  appendCTags()
---  Append tagNames to  existing currentLexers substyle 11
---  Returns: uniqued tagNames to given table
---
--- lua version gives reasonable Speed on a 100k source and 1M cTags File. 
---
 
 ----- globally cached Names ---
 
@@ -171,21 +159,62 @@ local cTagFunctions=""
 local cTagClass=""
 local cTagModules =""
 local cTagENUMs=""
-local updateCTags=1
 
 --------
+local function writeProps()
+
+if DEBUG then
+    print("ac>writeProps")
+    print(string.len(cTagClass) )
+    print(string.len(cTagFunctions) )
+    print(string.len(cTagNames) )
+    print(string.len(cTagModules) )
+    print(string.len(cTagModules) )
+    print(props["project.ctags.modules"])
+end
+
+    -- Append Once to filetypes api path
+    projectEXT=props["file.patterns.project"]
+    if origApiPath==nil then origApiPath=props["APIPath"] end
+    props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]
+
+    --Now Expose the functions collected by cTags for syntax highlitening a Projects API      
+    local currentLexer=props["Language"]
+    props["substyles."..currentLexer..".11"]=20
+    props["substylewords.11.16."..projectEXT] = cTagClass
+    props["substylewords.11.17."..projectEXT] = cTagFunctions
+    props["substylewords.11.18."..projectEXT] = cTagNames
+    props["substylewords.11.19."..projectEXT] = cTagModules
+    props["substylewords.11.20."..projectEXT] = cTagENUMs
+            
+    props["style."..currentLexer..".11.16"]=props["colour.project.class"]
+    props["style."..currentLexer..".11.17"]=props["colour.project.functions"]
+    props["style."..currentLexer..".11.18"]=props["colour.project.constants"]
+    props["style."..currentLexer..".11.19"]=props["colour.project.modules"]
+    props["style."..currentLexer..".11.20"]=props["colour.project.enums"]
+        
+end
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+--  appendCTags()
+--  Append tagNames to  existing currentLexers substyle 11
+--  Returns: uniqued tagNames to given table
+--
+-- lua version gives reasonable Speed on a 100k source and 1M cTags File. 
+--
 
 local function appendCTags(apiNames)
-
-if DEBUG then print("ac>appendCtags") end
     local sysTmp=os.getenv("tmp")
     local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
     local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" -- performance:  should we reuse an existing File ?
-    
+    local cTagsUpdate=props["project.ctags.update"]
     if props["project.ctags.filename"]=="" then return apiNames end
     cTagNames=""
     
-    if file_exists(cTagsFilePath)  and updateCTags==1 then 
+    if file_exists(cTagsFilePath)  and cTagsUpdate=="1" then
+    if DEBUG then print("ac>appendCtags" ,cTagsUpdate) end     
+    
         props["project.ctags.apipath"]=cTagsAPIPath
         local lastEntry=""
         local cTagsFile= io.open(cTagsAPIPath,"w")
@@ -195,24 +224,24 @@ if DEBUG then print("ac>appendCtags") end
             local isFunction, isClass, isConst, isModule, isENUM=false
             local params = entry:match("(%(.*%))") or "" -- function parameters for Calltips
             local name = "" --entry:match("([%w_.:]+)") -- "catchAll" Names for ACList Entries
-            local halt=false
+            local skip=false
             
             if entry:match("%\"\tc")=="\"\tc" then  -- Mark Classes (matches "[tab]c)
                 name= entry:match("([%w_.:]+)") or "" 
                 isClass=true
-                halt=true
+                skip=true
             end
-            if not halt and entry:match("%\"\td")=="\"\td" then  -- Mark Constants (matches "[tab]d)  
+            if not skip and entry:match("%\"\td")=="\"\td" then  -- Mark Constants (matches "[tab]d)  
                 name= entry:match("([%w_.:]+)") or "" 
                 isConst=true
-                halt=true
+                skip=true
             end
-            if not halt and entry:match("%\"\tm")=="\"\tm" then  -- Mark Modules (matches "[tab]m)  
+            if not skip and entry:match("%\"\tm")=="\"\tm" then  -- Mark Modules (matches "[tab]m)  
                 name= entry:match("([%w_.:]+)") or "" 
                 isModule=true
-                halt=true
+                skip=true
             end
-            if not halt and entry:match("%\"\tg")=="\"\t[gs]" or ""  then  -- Mark ENUMS and STRUCTs (matches "[tab]g/s)  
+            if not skip and entry:match("%\"\tg")=="\"\t[gs]" or ""  then  -- Mark ENUMS and STRUCTs (matches "[tab]g/s)  
                 name= entry:match("([%w_.:]+)") or "" 
                 isENUM=true
             end
@@ -225,12 +254,12 @@ if DEBUG then print("ac>appendCtags") end
                     local halt=false
                     if string.len(params) >0 then 
                         isFunction=true
-                        if props["project.ctags.functions"]~="0" then cTagFunctions=cTagFunctions.." "..name  end
+                        if props["project.ctags.functions"]=="1" then cTagFunctions=cTagFunctions.." "..name  end
                     else                    
-                        if props["project.ctags.constants"]~="0" and isConst then cTagNames=cTagNames.." "..name halt=true end
-                        if not halt and props["project.ctags.modules"]~="0" and isModule then cTagModules=cTagModules.." "..name halt=true end
-                        if not halt and props["project.ctags.class"]~="0" and isClass then cTagClass=cTagClass.." "..name  halt=true end
-                        if not halt and props["project.ctags.enums"]~="0" and isENUM then cTagENUMs=cTagENUMs.." "..name   end
+                        if props["project.ctags.constants"]=="1" and isConst then cTagNames=cTagNames.." "..name skip=true end
+                        if not skip and props["project.ctags.modules"]=="1" and isModule then cTagModules=cTagModules.." "..name skip=true end
+                        if not skip and props["project.ctags.class"]=="1" and isClass then cTagClass=cTagClass.." "..name  skip=true end
+                        if not skip and props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name   end
                     end
                 lastname=name
                 end
@@ -243,38 +272,13 @@ if DEBUG then print("ac>appendCtags") end
 
         io.close(cTagsFile)
         buffer.projectName= props["project.name"]
-        updateCTags=0
+        props["project.ctags.update"]="0"
         
-if DEBUG then
-        print(string.len(cTagClass) )
-        print(string.len(cTagFunctions) )
-        print(string.len(cTagNames) )
-        print(string.len(cTagModules) )
-        print(string.len(cTagModules) )
-        print(props["project.ctags.modules"])
-end
-        -- Append Once to filetypes api path
-        projectEXT=props["file.patterns.project"]
-        if origApiPath==nil then origApiPath=props["APIPath"] end
-        props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]
+        writeProps() -- Helper which applies the generated Data to their lexer styles
 
-        --Now Expose the functions collected by cTags for syntax highlitening a Projects API      
-        local currentLexer=props["Language"]
-        props["substyles."..currentLexer..".11"]=20
-        props["substylewords.11.16."..projectEXT] = cTagClass
-        props["substylewords.11.17."..projectEXT] = cTagFunctions
-        props["substylewords.11.18."..projectEXT] = cTagNames
-        props["substylewords.11.19."..projectEXT] = cTagModules
-        props["substylewords.11.20."..projectEXT] = cTagENUMs
-                
-        props["style."..currentLexer..".11.16"]=props["colour.project.class"]
-        props["style."..currentLexer..".11.17"]=props["colour.project.functions"]
-        props["style."..currentLexer..".11.18"]=props["colour.project.constants"]
-        props["style."..currentLexer..".11.19"]=props["colour.project.modules"]
-        props["style."..currentLexer..".11.20"]=props["colour.project.enums"]
-    end
-    
-    -- updateCTags=0 so already done.  Using the cached Version
+end
+
+    -- cTagsUpdate=0 so already done.  Using the cached Version
     return cTagAPI  
 end
 
@@ -306,10 +310,8 @@ end
 local function getApiNames()
 if DEBUG then print("ac>getApiNames") end
     local lexer = editor.LexerLanguage
-    local apiNames = {}
-    
-    apiNames= appendCTags(apiNames)
-      
+    local apiNames = {} --tweak for SciTE Mainline
+         apiNames= appendCTags(apiNames) 
     if apiCache[lexer] then
         return apiCache[lexer]
     end
@@ -326,6 +328,7 @@ if DEBUG then print("ac>getApiNames") end
         return ""
     end)
 
+    
     if lexer~=nil then
         apiCache[lexer] = apiNames -- Even if it's empty
     end
@@ -556,7 +559,7 @@ local events = {
             buildNames()
         else
             setLexerSpecificStuff()
-            if updateCTags==nil then appendCTags({}) end
+            if updateCTags==nil then writeProps() end
         end
 if DEBUG then print("ac>onSwitchFile") end
     end,
@@ -566,6 +569,7 @@ if DEBUG then print("ac>onSwitchFile") end
         editor:Colourise(0, editor.Length)
         -- Then do the real work.
         buffer.dirty=true
+        if props["project.ctags.update"]=="" then props["project.ctags.update"]="1" end
         buildNames()
 if DEBUG then print("ac>onOpen") end
     end
