@@ -232,7 +232,8 @@ local function appendCTags(apiNames)
         io.output(cTagsFile)   -- projects cTags APICalltips file
         
         for entry in io.lines(cTagsFilePath) do
-            local isFunction, isClass, isConst, isModule, isENUM,skipper=false
+            local isFunction, isClass, isConst, isModule, isENUM
+            local skipper=false
 
             -- a poorMans exuberAnt cTag Tokenizer :)) --
             -- Gibt den LemmingAmeisen was sinnvolles zu tun(tm) --
@@ -248,10 +249,10 @@ local function appendCTags(apiNames)
             if  strFunc then params=params..strFunc end
             if  strTyp then params=params..strTyp end
             if  strClass then params=params.." =:) "..strClass end
-            if params then skipper=true isFunction=true end
+            if string.len(params)>0 then skipper=true isFunction=true end
 
            -- Mark Modules (matches "[tab]m)  
-            if entry:match("%\"\tm")=="\"\tm" then 
+            if not skipper and entry:match("%\"\tm")=="\"\tm" then 
                 name= entry:match("([%w_.:]+)") or "" 
                 isModule=true
                 skipper=true
@@ -268,12 +269,13 @@ local function appendCTags(apiNames)
                 isClass=true
             end
             -- Mark ENUMS and STRUCTs (matches "[tab]g/s) 
-            local tmp = entry:match("%\"\t[gs]")   
-            if tmp=="\"\tg" or tmp=="\"\ts" then 
-                name= entry:match("([%w_.:]+)") or "" 
-                isENUM=true
-            end   
-
+            if not skipper then
+                local tmp = entry:match("%\"\t[gs]")   
+                if tmp=="\"\tg" or tmp=="\"\ts" then 
+                    name= entry:match("([%w_.:]+)") or "" 
+                    isENUM=true
+                end   
+            end
             -- publish collected Data (dupe Checked)  
             if name..params~=lastEntry then 
                 if name~=lastname then 
