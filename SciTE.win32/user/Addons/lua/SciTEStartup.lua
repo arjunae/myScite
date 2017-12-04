@@ -36,6 +36,8 @@ dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
+-- Load Exuberant cTag browser
+dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
 
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -218,6 +220,5 @@ function OnInit()
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
---print("startupScript_reload")
 --print(editor.StyleAt[1])
---print(props["Path"])
+--print(props["Path"])   

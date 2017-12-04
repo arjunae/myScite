@@ -154,7 +154,7 @@ local function OpenTag(tag)
 end
 
 function locate_tags(dir)
---function test(dir)
+
     local filefound = nil
     local slash, f
     _,_,slash = string.find(dir,"([/\\])")
@@ -230,7 +230,7 @@ function find_ctag(f,partial)
 end
 
 function locate_tags(dir)
---function test(dir)
+
     local filefound = nil
     local slash, f
     _,_,slash = string.find(dir,"([/\\])")
@@ -273,9 +273,17 @@ function wordAtPosition()
   return string.match(tmp,"[%w_-]+") -- just be sure. only return the keyword
 end
 
+--
+-- checks for modifierKeys used during the click event
+-- changes/restores userlist Font Size
+--
 function modifiers(shift,strg,alt,x)
---print(wordAtPosition())
-if alt==true then find_ctag (wordAtPosition()) end
+  local initialSize=scite.SendEditor(SCI_STYLEGETSIZE,32)
+  if props["userlist.font.size"]=="" then props["userlist.font.size"]="8.9" end
+  local newSize=tonumber(props["userlist.font.size"])
+  scite.SendEditor(SCI_STYLESETSIZE,32,newSize)
+  if alt==true then find_ctag (wordAtPosition()) end
+  scite.SendEditor(SCI_STYLESETSIZE,32,initialSize)
 end
 
 scite_OnClick(modifiers)

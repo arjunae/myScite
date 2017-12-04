@@ -36,8 +36,8 @@ package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
--- Load cTags finder
-dofile(myHome..'\\Addons\\lua\\mod-sidebar\\ctagsd.lua')
+-- Load cTags Browser
+dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

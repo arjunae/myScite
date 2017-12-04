@@ -198,4 +198,3 @@ function IsURI(s)
 end
 
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
-dofile(myHome..'\\Addons\\lua\\mod-sidebar\\ctagsd.lua')

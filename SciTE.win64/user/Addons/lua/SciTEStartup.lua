@@ -36,6 +36,8 @@ dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
+-- Load Exuberant cTag browser
+dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
 
 -- ##################  Lua Samples #####################
 --   ##############################################

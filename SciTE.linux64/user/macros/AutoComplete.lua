@@ -25,6 +25,7 @@ To use this script with SciTE4AutoHotkey:
     project.ctags.class= .functions= .constants=1 
     colour.project.class= .functions= .constants=fore:######
 ]]
+
 -- Maximal filesize that this script should handle
 local AC_MAX_SIZE =262144 --260k
 
@@ -376,8 +377,9 @@ local function buildNames()
 --print("build names buffer state:",buffer.dirty)
 
    local fSize=0
-
-    if editor.Lexer~=1 and buffer.dirty==true then 
+    local LexerName= props["Language"]
+        
+    if LexerName~="" and buffer.dirty==true then 
       if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
       if fSize > AC_MAX_SIZE then  return end
       
@@ -580,7 +582,6 @@ local events = {
     OnSwitchFile    = function()
         -- Use this file's cached list if possible:
         names = buffer.namesForAutoComplete
-
         if not names then
             -- Otherwise, build a new list.
             buffer.dirty=true

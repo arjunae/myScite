@@ -98,13 +98,13 @@ enum { mbsAboutBox = 0x100000 };
 #define GKEY_F4 GDK_F4
 #endif
 
-static GdkWindow *WindowFromWidget(GtkWidget *w)  {
+static GdkWindow *WindowFromWidget(GtkWidget *w) {
 	return gtk_widget_get_window(w);
 }
 
 const char appName[] = "SciTE";
 
-static GtkWidget *PWidget(WindowID wid) {get(GUI::Window &w) {
+static GtkWidget *PWidget(GUI::Window &w) {
 	return static_cast<GtkWidget *>(w.GetID());
 }
 
@@ -370,7 +370,7 @@ public:
 	WButton wButtonMarkAll;
 	enum { checks = 6 };
 	WCheckDraw wCheck[checks];
-
+	
 	FindStrip() {
 	}
 	void Creation(GtkWidget *container) override;
@@ -457,7 +457,7 @@ public:
 	std::string GetValue(int control);
 };
 
-/// Manage the use of the GDK thread lock within glib signal handlers
+// Manage the use of the GDK thread lock within glib signal handlers
 class ThreadLockMinder {
 public:
 #ifndef GDK_VERSION_3_6
