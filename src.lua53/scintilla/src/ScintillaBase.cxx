@@ -254,8 +254,11 @@ void ScintillaBase::AutoCompleteStart(int lenEntered, const char *list) {
 			return;
 		}
 	}
+	
+	int szEntry= (vs.styles[STYLE_DEFAULT].size / SC_FONT_SIZE_MULTIPLIER) +6;
+	
 	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
-				lenEntered, vs.lineHeight, IsUnicodeMode(), technology);
+				lenEntered, szEntry, IsUnicodeMode(), technology);
 
 	PRectangle rcClient = GetClientRectangle();
 	Point pt = LocationFromPosition(sel.MainCaret() - lenEntered);

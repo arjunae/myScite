@@ -130,8 +130,11 @@ local tags
 
 local function OpenTag(tag)
   -- ask SciTE to open the file
+  
+  if not tag then return end
   local fileNamePath
   local path= extract_path(gTagFile)
+
   if path  then fileNamePath= tag.file end
   if props["project.path"]~="" then fileNamePath = path..dirSep..tag.file end --Project relative Path
   set_mark()
@@ -278,14 +281,15 @@ end
 -- changes/restores userlist Font Size
 --
 function modifiers(shift,strg,alt,x)
+
   if (OnDoubleClick or OnChar or OnSwitchFile) and not scite_Command then
     print("ctagsd.lua>There is a handler conflict, please use extman")
     return
   end
 
   local initialSize=scite.SendEditor(SCI_STYLEGETSIZE,32)
-  if props["userlist.font.size"]=="" then props["userlist.font.size"]=initialSize end
-  local newSize=tonumber(props["userlist.font.size"])
+  if props["style.userlist.font.size"]=="" then props["style.userlist.font.size"]=initialSize end
+  local newSize=tonumber(props["style.userlist.font.size"])
   scite.SendEditor(SCI_STYLESETSIZE,32,newSize)
   if alt==true then find_ctag (wordAtPosition()) end
   scite.SendEditor(SCI_STYLESETSIZE,32,initialSize)
