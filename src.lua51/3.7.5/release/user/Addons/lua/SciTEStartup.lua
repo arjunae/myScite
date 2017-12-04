@@ -20,9 +20,6 @@ string.gfind = string.gmatch or string.gfind
 -- track the amount of lua allocated memory
 _G.session_used_memory=collectgarbage("count")*1024
 
--- Load enhanced Autocomplete
-dofile(myHome..'\\macros\\AutoComplete.lua')
-
 -- ##################  Lua Samples #####################
 --   ##############################################
 

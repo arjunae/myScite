@@ -198,6 +198,7 @@ function HandleProject()
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
 	end
+
 	dofile(myHome..'\\macros\\AutoComplete.lua')
 end
 
@@ -211,7 +212,7 @@ function OnInit()
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 
-	TestSciLexer("e3c54ec0") -- SciLexers CRC32 Hash for the current Version
+	TestSciLexer("223407c3") -- SciLexers CRC32 Hash for the current Version
 	scite_OnOpenSwitch(HandleProject)	 
 	scite_OnOpenSwitch(StyleStuff)
 	

@@ -22,4 +22,28 @@ diff -Nurw scintilla-scite/src/SciTEBase.cxx scite/src/SciTEBase.cxx
 +			}
  			if (CurrentBuffer()->findMarks == Buffer::fmMarked) {
  				CurrentBuffer()->findMarks = Buffer::fmModified;
- 			}
+ 			}--- SciTEProps.cxx	2017-11-29 23:10:12.000000000 +0100
++++ SciTEProps_m.cxx	2017-12-04 19:37:02.000000000 +0100
+@@ -938,6 +938,7 @@
+ 	sval = FindLanguageProperty("calltip.*.use.escapes");
+ 	callTipUseEscapes = sval == "1";
+ 
++	
+ 	calltipWordCharacters = FindLanguageProperty("calltip.*.word.characters",
+ 		"_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+ 	calltipParametersStart = FindLanguageProperty("calltip.*.parameters.start", "(");
+@@ -952,6 +953,14 @@
+ 		autoCompleteStartCharacters = props.GetExpandedString("autocomplete.*.start.characters");
+ 	// "" is a quite reasonable value for this setting
+ 
++	std::string autoCompleteStopCharacters;
++	sprintf(key, "autocomplete.%s.stop.characters", language.c_str());
++	autoCompleteStopCharacters = props.GetExpandedString(key);
++	if (autoCompleteStopCharacters == "")
++		autoCompleteStopCharacters = props.GetExpandedString("autocomplete.*.stop.characters");
++	wEditor.CallString(SCI_AUTOCSTOPS, 0,
++		autoCompleteStopCharacters.c_str());
++		
+ 	sprintf(key, "autocomplete.%s.fillups", language.c_str());
+ 	autoCompleteFillUpCharacters = props.GetExpandedString(key);
+ 	if (autoCompleteFillUpCharacters == "")

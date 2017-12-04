@@ -435,7 +435,7 @@ local function handleChar(char, calledByHotkey)
     local startPos = editor:WordStartPosition(pos, true)
     local len = pos - startPos
     buffer.dirty=true
-    
+
     if ipairs==nil then ipairs={} end
     if editor.Lexer==1  then return end
     

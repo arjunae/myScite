@@ -937,7 +937,8 @@ void SciTEBase::ReadProperties() {
 	callTipIgnoreCase = sval == "1";
 	sval = FindLanguageProperty("calltip.*.use.escapes");
 	callTipUseEscapes = sval == "1";
-
+	
+	
 	calltipWordCharacters = FindLanguageProperty("calltip.*.word.characters",
 		"_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 	calltipParametersStart = FindLanguageProperty("calltip.*.parameters.start", "(");
@@ -951,7 +952,15 @@ void SciTEBase::ReadProperties() {
 	if (autoCompleteStartCharacters == "")
 		autoCompleteStartCharacters = props.GetExpandedString("autocomplete.*.start.characters");
 	// "" is a quite reasonable value for this setting
-
+	
+	std::string autoCompleteStopCharacters;
+	sprintf(key, "autocomplete.%s.stop.characters", language.c_str());
+	autoCompleteStopCharacters = props.GetExpandedString(key);
+	if (autoCompleteStopCharacters == "")
+		autoCompleteStopCharacters = props.GetExpandedString("autocomplete.*.stop.characters");
+	wEditor.CallString(SCI_AUTOCSTOPS, 0,
+		autoCompleteStopCharacters.c_str());
+		
 	sprintf(key, "autocomplete.%s.fillups", language.c_str());
 	autoCompleteFillUpCharacters = props.GetExpandedString(key);
 	if (autoCompleteFillUpCharacters == "")
@@ -1034,7 +1043,7 @@ void SciTEBase::ReadProperties() {
 
 	bracesCheck = props.GetInt("braces.check");
 	bracesSloppy = props.GetInt("braces.sloppy");
-
+	
 	wEditor.Call(SCI_SETCHARSDEFAULT);
 	wordCharacters = props.GetNewExpandString("word.characters.", fileNameForExtension.c_str());
 	if (wordCharacters.length()) {

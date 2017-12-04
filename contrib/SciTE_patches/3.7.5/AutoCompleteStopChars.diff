@@ -1,0 +1,22 @@
+--- SciTEProps.cxx	2017-11-29 23:10:12.000000000 +0100
++++ SciTEProps_m.cxx	2017-12-04 19:17:46.000000000 +0100
+@@ -938,6 +938,7 @@
+ 	sval = FindLanguageProperty("calltip.*.use.escapes");
+ 	callTipUseEscapes = sval == "1";
+ 
++	
+ 	calltipWordCharacters = FindLanguageProperty("calltip.*.word.characters",
+ 		"_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+ 	calltipParametersStart = FindLanguageProperty("calltip.*.parameters.start", "(");
+@@ -952,6 +953,11 @@
+ 		autoCompleteStartCharacters = props.GetExpandedString("autocomplete.*.start.characters");
+ 	// "" is a quite reasonable value for this setting
+ 
++	sprintf(key, "autocomplete.%s.stop.characters", language.c_str());
++	autoCompleteStopCharacters = props.GetExpandedString(key);
++	if (autoCompleteStopCharacters == "")
++		autoCompleteStopCharacters = props.GetExpandedString("autocomplete.*.stop.characters");
++
+ 	sprintf(key, "autocomplete.%s.fillups", language.c_str());
+ 	autoCompleteFillUpCharacters = props.GetExpandedString(key);
+ 	if (autoCompleteFillUpCharacters == "")
