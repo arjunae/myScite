@@ -26,6 +26,8 @@ To use this script with SciTE4AutoHotkey:
     colour.project.class= .functions= .constants=fore:######
 ]]
 
+--DEBUG=1  --1: Trace Mode 2: Verbose Mode
+
 -- Maximal filesize that this script should handle
 local AC_MAX_SIZE =262144 --260k
 
@@ -174,13 +176,12 @@ local cTagENUMs=""
 local function writeProps()
 
 if DEBUG then
-    print("ac>writeProps")
-    print("Classes:", string.len(cTagClass) )
-    print("Functions:", string.len(cTagFunctions) )
-    print("Vars:",string.len(cTagNames) )
-    print("Modules:",string.len(cTagModules) )
-    print("Enums", string.len(cTagENUMs) )
-    print(props["project.ctags.modules"])
+    print("ac>writeProps:")
+    print("ac> cTagClass: ("..string.len(cTagClass).." bytes)" )
+    print("ac> cTagFunctions: ("..string.len(cTagFunctions).." bytes)" )
+    print("ac> cTagNames: ("..string.len(cTagNames).." bytes)" )
+    print("ac> cTagModules: ("..string.len(cTagModules).." bytes)" )
+    print("ac> cTagENUMs ("..string.len(cTagENUMs).." bytes)" )
 end
 
     -- Append Once to filetypes api path
@@ -238,10 +239,11 @@ local function appendCTags(apiNames)
             -- a poorMans exuberAnt cTag Tokenizer :)) --
             -- Gibt den LemmingAmeisen was sinnvolles zu tun(tm) --
           
-            -- "catchAll" Names for ACList Entries
-            local name = entry:match("([%w_]+)") or ""
+            local name =""
             local params="" -- match function parameters for Calltips
-            
+             -- "catchAll" Names for ACList Entries
+           local ACListEntry= entry:match("([%w_]+)") or ""
+           
             -- Mark Classes (matches "[tab]c)
             if  entry:match("%\"\tc")=="\"\tc" then  
                 name= entry:match("([%w_]+)") or "" 
@@ -279,21 +281,20 @@ local function appendCTags(apiNames)
                     isENUM=true
                 end   
             end
+            
             -- publish collected Data (dupe Checked)  
             if name..params~=lastEntry then 
                 if name~=lastname then 
                     ---- AutoComplete List entries
-                    cTagAPI[name]=true
+                    cTagAPI[ACListEntry]=true
                     ----  Highlitening
-
-                    if string.len(params) >0 then 
-                        if props["project.ctags.functions"]=="1" then cTagFunctions=cTagFunctions.." "..name  end
-                    else                    
+            if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
+                        if props["project.ctags.functions"]=="1" and isFunction then cTagFunctions=cTagFunctions.." "..name  end
                         if props["project.ctags.constants"]=="1" and isConst then cTagNames=cTagNames.." "..name end
                         if props["project.ctags.modules"]=="1" and isModule then cTagModules=cTagModules.." "..name end
                         if props["project.ctags.class"]=="1" and isClass then cTagClass=cTagClass.." "..name  end
                         if props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name end
-                    end
+                
                 lastname=name
                 end
                 -- publish Function Descriptors to Project APIFile.(calltips)
@@ -341,13 +342,15 @@ end
 -- Append current Lexers Api Files
 --
 local function getApiNames()
-if DEBUG then print("ac>getApiNames") end
+
     local lexer = editor.LexerLanguage
     local apiNames = {}
       
     if apiCache[lexer] and props["project.ctags.update"]=="0" then
         return apiCache[lexer]
     end
+    
+if DEBUG then print("ac>getApiNames") end
 
     local apiFiles = props["APIPath"] or ""
     apiFiles:gsub("[^;]+", function(apiFile) -- For each in ;-delimited list.
@@ -585,6 +588,7 @@ local events = {
     OnSave          = buildNames,
     OnDwellStart  = buildNames, -- should be raised on any User Interaction (Mousemove/Keybord Nav...) 
     OnSwitchFile    = function()
+    if DEBUG then print("ac>onSwitchFile") end
         -- Use this file's cached list if possible:
         names = buffer.namesForAutoComplete
         if not names then
@@ -595,9 +599,10 @@ local events = {
             setLexerSpecificStuff()
          --   if updateCTags==nil then writeProps() end
         end
-if DEBUG then print("ac>onSwitchFile") end
+
     end,
     OnOpen          = function()
+    if DEBUG then print("ac>onOpen") end
         -- Ensure the document is styled first, so we can filter out
         -- words in comments and strings.
         editor:Colourise(0, editor.Length)
@@ -605,7 +610,7 @@ if DEBUG then print("ac>onSwitchFile") end
         buffer.dirty=true
         if props["project.ctags.update"]=="" then props["project.ctags.update"]="1" end
         buildNames()
-if DEBUG then print("ac>onOpen") end
+
     end
 }
 -- Add event handlers in a cooperative fashion:
