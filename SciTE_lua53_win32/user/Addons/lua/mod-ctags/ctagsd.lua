@@ -278,6 +278,11 @@ end
 -- changes/restores userlist Font Size
 --
 function modifiers(shift,strg,alt,x)
+  if (OnDoubleClick or OnChar or OnSwitchFile) and not scite_Command then
+    print("ctagsd.lua>There is a handler conflict, please use extman")
+    return
+  end
+
   local initialSize=scite.SendEditor(SCI_STYLEGETSIZE,32)
   if props["userlist.font.size"]=="" then props["userlist.font.size"]="8.9" end
   local newSize=tonumber(props["userlist.font.size"])
