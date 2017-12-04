@@ -284,7 +284,7 @@ function modifiers(shift,strg,alt,x)
   end
 
   local initialSize=scite.SendEditor(SCI_STYLEGETSIZE,32)
-  if props["userlist.font.size"]=="" then props["userlist.font.size"]="8.9" end
+  if props["userlist.font.size"]=="" then props["userlist.font.size"]=initialSize end
   local newSize=tonumber(props["userlist.font.size"])
   scite.SendEditor(SCI_STYLESETSIZE,32,newSize)
   if alt==true then find_ctag (wordAtPosition()) end
