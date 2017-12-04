@@ -210,7 +210,9 @@ function OnInit()
 --
 
 	scite_OnOpenSwitch(HandleProject)
-	TestSciLexer("386dec917e2eb416f569cc488eadbac6") -- SciLexers MD5 Hash for the current Version
+	local MD5Check
+	if MD5Check==nil then TestSciLexer("386dec917e2eb416f569cc488eadbac6") end -- SciLexers MD5 Hash for the current Version
+	MD5Check=false
 	scite_OnOpenSwitch(StyleStuff)
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	

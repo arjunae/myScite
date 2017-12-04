@@ -232,55 +232,60 @@ local function appendCTags(apiNames)
         io.output(cTagsFile)   -- projects cTags APICalltips file
         
         for entry in io.lines(cTagsFilePath) do
-            local isFunction, isClass, isConst, isModule, isENUM,skipper=false
+            local isFunction, isClass, isConst, isModule, isENUM
+            local skipper=false
 
             -- a poorMans exuberAnt cTag Tokenizer :)) --
             -- Gibt den LemmingAmeisen was sinnvolles zu tun(tm) --
           
             -- "catchAll" Names for ACList Entries
-            local name = entry:match("([%w_.:]+)") 
- 
-            local params="" -- match (.*) function parameters for Calltips
-            patType="%/^([%w_: ]+ )" -- INTPTR
-            patClass="([%w]+).*"   -- SciteWin (::)
-            patFunc="(%(.*%))"  -- AbbrevDlg(...)
-            strTyp, strClass, strFunc= entry:match(patType..patClass..patFunc)
-            if  strFunc then params=params..strFunc end
-            if  strTyp then params=params..strTyp end
-            if  strClass then params=params.." =:) "..strClass end
-            if params then skipper=true isFunction=true end
-
-           -- Mark Modules (matches "[tab]m)  
-            if entry:match("%\"\tm")=="\"\tm" then 
-                name= entry:match("([%w_.:]+)") or "" 
+            local name = entry:match("([%w_]+)") or ""
+            local params="" -- match function parameters for Calltips
+            
+            -- Mark Classes (matches "[tab]c)
+            if  entry:match("%\"\tc")=="\"\tc" then  
+                name= entry:match("([%w_]+)") or "" 
+                isClass=true
+                skipper=true
+            end
+           -- Mark Modules (matches "[tab]m)  ...can have params too..
+            if not skipper and entry:match("%\"\tm")=="\"\tm" then 
+                name= entry:match("([%w_]+)") or "" 
                 isModule=true
                 skipper=true
+            end 
+            -- Mark Functions 
+            if not skipper then
+                patType="%/^([%w_: ]+ )" -- INTPTR
+                patClass="([%w]+).*"   -- SciteWin (::)
+                patFunc="(%(.*%))"  -- AbbrevDlg(...)
+                strTyp, strClass, strFunc= entry:match(patType..patClass..patFunc)
+                if  strFunc then params=params..strFunc end
+                if  strTyp then params=params..strTyp end
+                if  strClass then params=params.." =:) "..strClass end
+                if string.len(params)>0 then skipper=true isFunction=true end
             end
             -- Mark Constants (matches "[tab]d)  
             if not skipper and  entry:match("%\"\td")=="\"\td" then  
-                name= entry:match("([%w_.:]+)") or "" 
+                name= entry:match("([%w_]+)") or "" 
                 isConst=true
                 skipper=true
             end
-            -- Mark Classes (matches "[tab]c)
-            if  not skipper and entry:match("%\"\tc")=="\"\tc" then  
-                name= entry:match("([%w_.:]+)") or "" 
-                isClass=true
-            end
             -- Mark ENUMS and STRUCTs (matches "[tab]g/s) 
-            local tmp = entry:match("%\"\t[gs]")   
-            if tmp=="\"\tg" or tmp=="\"\ts" then 
-                name= entry:match("([%w_.:]+)") or "" 
-                isENUM=true
-            end   
-
+            if not skipper then
+                local tmp = entry:match("%\"\t[gs]")   
+                if tmp=="\"\tg" or tmp=="\"\ts" then 
+                    name= entry:match("([%w_]+)") or "" 
+                    isENUM=true
+                end   
+            end
             -- publish collected Data (dupe Checked)  
             if name..params~=lastEntry then 
                 if name~=lastname then 
                     ---- AutoComplete List entries
                     cTagAPI[name]=true
                     ----  Highlitening
-                    local halt=false
+
                     if string.len(params) >0 then 
                         if props["project.ctags.functions"]=="1" then cTagFunctions=cTagFunctions.." "..name  end
                     else                    
