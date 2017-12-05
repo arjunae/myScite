@@ -1,15 +1,50 @@
---- ScintillaBase.cxx	2017-12-04 16:29:50.238126900 +0100
-+++ ScintillaBase_m.cxx	2017-12-04 16:29:54.238336900 +0100
-@@ -254,8 +254,11 @@
+--- ScintillaBase.cxx	2017-05-26 00:25:02.000000000 +0200
++++ ScintillaBase_m.cxx	2017-12-05 15:11:26.000000000 +0100
+@@ -254,8 +254,12 @@
  			return;
  		}
  	}
-+	
-+	int szEntry= (vs.styles[STYLE_DEFAULT].size / SC_FONT_SIZE_MULTIPLIER) +6;
-+	
++
++	const Point TextInset(6, 6); // Padding
++	int szEntry= (vs.styles[STYLE_DEFAULT].size / SC_FONT_SIZE_MULTIPLIER +(int)TextInset.y);
  	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
 -				lenEntered, vs.lineHeight, IsUnicodeMode(), technology);
 +				lenEntered, szEntry, IsUnicodeMode(), technology);
++ 
  
  	PRectangle rcClient = GetClientRectangle();
  	Point pt = LocationFromPosition(sel.MainCaret() - lenEntered);
+--- PlatWin.cxx	2017-11-24 22:06:14.000000000 +0100
++++ PlatWin_m.cxx	2017-12-05 14:52:39.464664400 +0100
+@@ -2069,8 +2068,9 @@
+ 	static const Point TextInset;	// Padding around text
+ 	static const Point ImageInset;	// Padding around image
+ 
+-public:
+-	ListBoxX() : lineHeight(10), fontCopy(0), technology(0), lb(0), unicodeMode(false),
++	
++public: // static lineHeight
++	ListBoxX() : lineHeight(9), fontCopy(0), technology(0), lb(0), unicodeMode(false),
+ 		desiredVisibleRows(9), maxItemCharacters(0), aveCharWidth(8),
+ 		parent(NULL), ctrlID(0), doubleClickAction(NULL), doubleClickActionData(NULL),
+ 		widestItem(NULL), maxCharWidth(1), resizeHit(0), wheelDelta(0) {
+ 
+@@ -2415,7 +2418,8 @@
+ }
+ 
+ int ListBoxX::ItemHeight() const {
+-	int itemHeight = lineHeight + (static_cast<int>(TextInset.y) * 2);
++// Utility Function
++	int itemHeight = lineHeight + (static_cast<int>(TextInset.y) * 2); // Adds Padding
+ 	const int pixHeight = images.GetHeight() + (static_cast<int>(ImageInset.y) * 2);
+ 	if (itemHeight < pixHeight) {
+ 		itemHeight = pixHeight;
+@@ -2753,7 +2757,7 @@
+ 
+ 	case WM_MEASUREITEM: {
+ 			MEASUREITEMSTRUCT *pMeasureItem = reinterpret_cast<MEASUREITEMSTRUCT *>(lParam);
+-			pMeasureItem->itemHeight = static_cast<unsigned int>(ItemHeight());
++			pMeasureItem->itemHeight = static_cast<unsigned int>(ItemHeight());  // Apply
+ 		}
+ 		break;
+ 

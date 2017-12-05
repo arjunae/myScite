@@ -14,7 +14,6 @@
 #include <ctime>
 #include <cmath>
 #include <climits>
-
 #include <vector>
 #include <map>
 #include <memory>
@@ -2069,7 +2068,8 @@ class ListBoxX : public ListBox {
 	static const Point TextInset;	// Padding around text
 	static const Point ImageInset;	// Padding around image
 
-public:
+	
+public: // static lineHeight
 	ListBoxX() : lineHeight(9), fontCopy(0), technology(0), lb(0), unicodeMode(false),
 		desiredVisibleRows(9), maxItemCharacters(0), aveCharWidth(8),
 		parent(NULL), ctrlID(0), doubleClickAction(NULL), doubleClickActionData(NULL),
@@ -2146,9 +2146,12 @@ void ListBoxX::SetFont(Font &font) {
 			::DeleteObject(fontCopy);
 			fontCopy = 0;
 		}
+		
 		FormatAndMetrics *pfm = static_cast<FormatAndMetrics *>(font.GetID());
 		fontCopy = pfm->HFont();
+
 		::SendMessage(lb, WM_SETFONT, reinterpret_cast<WPARAM>(fontCopy), 0);
+
 	}
 }
 
@@ -2415,7 +2418,8 @@ void ListBoxX::AdjustWindowRect(PRectangle *rc) {
 }
 
 int ListBoxX::ItemHeight() const {
-	int itemHeight = lineHeight + (static_cast<int>(TextInset.y) * 2);
+// Utility Function
+	int itemHeight = lineHeight + (static_cast<int>(TextInset.y) * 2); // Adds Padding
 	const int pixHeight = images.GetHeight() + (static_cast<int>(ImageInset.y) * 2);
 	if (itemHeight < pixHeight) {
 		itemHeight = pixHeight;
@@ -2753,7 +2757,7 @@ LRESULT ListBoxX::WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam
 
 	case WM_MEASUREITEM: {
 			MEASUREITEMSTRUCT *pMeasureItem = reinterpret_cast<MEASUREITEMSTRUCT *>(lParam);
-			pMeasureItem->itemHeight = static_cast<unsigned int>(ItemHeight());
+			pMeasureItem->itemHeight = static_cast<unsigned int>(ItemHeight());  //go
 		}
 		break;
 

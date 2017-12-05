@@ -254,11 +254,12 @@ void ScintillaBase::AutoCompleteStart(int lenEntered, const char *list) {
 			return;
 		}
 	}
-	
-	int szEntry= (vs.styles[STYLE_DEFAULT].size / SC_FONT_SIZE_MULTIPLIER) +6;
-	
-	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
+
+	const Point TextInset(6, 6); // Padding
+	int szEntry= (vs.styles[STYLE_DEFAULT].size / SC_FONT_SIZE_MULTIPLIER +(int)TextInset.y);
+ 	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
 				lenEntered, szEntry, IsUnicodeMode(), technology);
+ 
 
 	PRectangle rcClient = GetClientRectangle();
 	Point pt = LocationFromPosition(sel.MainCaret() - lenEntered);
@@ -294,6 +295,7 @@ void ScintillaBase::AutoCompleteStart(int lenEntered, const char *list) {
 	rcac.bottom = static_cast<XYPOSITION>(std::min(static_cast<int>(rcac.top) + heightLB, static_cast<int>(rcPopupBounds.bottom)));
 	ac.lb->SetPositionRelative(rcac, wMain);
 	ac.lb->SetFont(vs.styles[STYLE_DEFAULT].font);
+	
 	unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[STYLE_DEFAULT].aveCharWidth);
 	ac.lb->SetAverageCharWidth(aveCharWidth);
 	ac.lb->SetDoubleClickAction(AutoCompleteDoubleClick, this);

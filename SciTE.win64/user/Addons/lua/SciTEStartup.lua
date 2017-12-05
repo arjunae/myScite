@@ -30,14 +30,16 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
 -- Load mod-mitchell
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+--dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 		
 -- Load Sidebar
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
--- Load Exuberant cTag browser
+-- Load cTags Browser
 dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -153,7 +155,6 @@ function StyleStuff()
 ---
 	local AC_MAX_SIZE =131072 --131kB
 	local fSize =0
-
 	if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
 	if fSize < AC_MAX_SIZE then 
 		scite_OnOpenSwitch(markLinks)
@@ -165,24 +166,21 @@ end
 
 function TestSciLexer(origHash)
 --
--- quickCheck SciLexer.dll's CRC32 Hash and inform the User if its a nonStock Version. 
+-- Check SciLexer.dll's MD5 Hash and inform the User if its a nonStock Version. 
 --
-
-	local C32 = require 'crc32'
-	local crc32=C32.crc32
-	local crccalc = C32.newcrc32()
-	local crccalc_mt = getmetatable(crccalc)
-
-	assert(crccalc_mt.reset) -- reset to zero
-	local file = assert(io.open (defaultHome.."\\".."SciLexer.dll", 'rb'))
-	while true do
-		local bytes = file:read(4096)
-		if not bytes then break end
-		crccalc:update(bytes)
-	end	
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+local md5 = require 'md5'
+local m = md5.new()
+local file = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
+while true do
+	local bytes = file:read(4096)
+	if not bytes then break end
+	m:update(bytes)
+end
 	file:close()
-	SciLexerHash=crccalc:tohex()	
-	if SciLexerHash~=origHash then print("SciteStartup.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..crccalc:tohex()) end
+
+	SciLexerHash= md5.tohex(m:finish())
+	if SciLexerHash~=origHash then print("SciteStartup.lua: You are using a modified SciLexer.dll with MD5 Hash: "..SciLexerHash) end
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -201,7 +199,7 @@ function HandleProject()
 	dofile(myHome..'\\macros\\AutoComplete.lua')
 end
 
--- Register enhanced Autocomplete
+-- Register the Autocomplete event Handlers early.
 HandleProject()
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -211,8 +209,10 @@ function OnInit()
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 
-	TestSciLexer("2919d80f") -- SciLexers CRC32 Hash for the current Version
-	scite_OnOpenSwitch(HandleProject)	 
+	scite_OnOpenSwitch(HandleProject)
+	local MD5Check
+	if MD5Check==nil then TestSciLexer("386dec917e2eb416f569cc488eadbac6") end -- SciLexers MD5 Hash for the current Version
+	MD5Check=false
 	scite_OnOpenSwitch(StyleStuff)
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
