@@ -219,6 +219,22 @@ function OnInit()
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+entry="ByteOffsetFromCharacterOffset	scintilla\\gtk\\ScintillaGTKAccessible.h	/^	Sci::Position ByteOffsetFromCharacterOffset(Sci::Position characterOffset) {$/;\"	f	class:Scintilla::ScintillaGTKAccessible	access:private	signature:(Sci::Position characterOffset)"
+--	entry="Action	scintilla\\src\\CellBuffer.cxx	/^Action::Action(Action &&other) {$/;\"	f	class:Action	signature:(Action &&other)"
+
+	params=""
+	 name= entry:match("([%w_~]+)") or "" 
+	patType="%/^([%s%w_:]+ ?)" -- INTPTR
+	 patClass="([%w]+).*"   -- SciteWin (::)
+	 patFunc="(%(.*%))"  -- AbbrevDlg(...)
+	 strTyp, strClass, strFunc= entry:match(patType..patClass..patFunc)
+	 if  strFunc then params=params..strFunc end
+	 if  strTyp then params=params..strTyp end
+	 if  strClass then params=params..strClass.." =:-) " end
+	 if string.len(params)>0 then skipper=true isFunction=true end
+--print( strTyp,strClass,strFunc, isFunction)
+--print(params)
+
 
 --print("startupScript_reload")
 --print(editor.StyleAt[1])

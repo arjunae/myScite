@@ -162,7 +162,7 @@ local cTagFunctions=""
 local cTagClass=""
 local cTagModules =""
 local cTagENUMs=""
-
+local cTagUnclassified=""
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
@@ -182,6 +182,8 @@ if DEBUG then
     print("ac> cTagNames: ("..string.len(cTagNames).." bytes)" )
     print("ac> cTagModules: ("..string.len(cTagModules).." bytes)" )
     print("ac> cTagENUMs ("..string.len(cTagENUMs).." bytes)" )
+    print("ac> cTagUnclassified ("..string.len(cTagUnclassified).." bytes)" )
+    print(cTagUnclassified)
 end
 
     -- Append Once to filetypes api path
@@ -242,48 +244,60 @@ local function appendCTags(apiNames)
             local name =""
             local params="" -- match function parameters for Calltips
              -- "catchAll" Names for ACList Entries
-           local ACListEntry= entry:match("([%w_]+)") or ""
+           local ACListEntry= entry:match("([%w_~]+)") or ""
            
-            -- Mark Classes (matches "[tab]c)
-            if  entry:match("%\"\tc")=="\"\tc" then  
-                name= entry:match("([%w_]+)") or "" 
-                isClass=true
-                skipper=true
-            end
+            -- Mark Classes & Namespaces (matches "[tab]c/n)
+            if not skipper then
+                local tmp = entry:match("%\"\t[cn]")   
+                if tmp=="\"\tc" or tmp=="\"\tn"  then 
+                    name= entry:match("([%w_]+)") or ""                    
+                    isClass=true
+                    skipper=true
+                end   
+           end     
            -- Mark Modules (matches "[tab]m)  ...can have params too..
             if not skipper and entry:match("%\"\tm")=="\"\tm" then 
-                name= entry:match("([%w_]+)") or "" 
+                strCls, name= entry:match("^(%w+)[%.]?(%w+).*")
+                if name and string.len(name)==1 then name=strCls..name end                
                 isModule=true
                 skipper=true
             end 
             -- Mark Functions 
             if not skipper then
-                patType="%/^([%w_: ]+ )" -- INTPTR
+                name= entry:match("([%w_~]+)") or "" 
+                patType="%/^([%s%w_:~]+ ?)" -- INTPTR
                 patClass="([%w]+).*"   -- SciteWin (::)
                 patFunc="(%(.*%))"  -- AbbrevDlg(...)
-                strTyp, strClass, strFunc= entry:match(patType..patClass..patFunc)
+                strTyp, strClass, strFunc= entry:match(patType..patClass..patFunc..".*")
                 if  strFunc then params=params..strFunc end
                 if  strTyp then params=params..strTyp end
-                if  strClass then params=params.." =:) "..strClass end
+                if  strClass then params=params..strClass.." =:-) " end
                 if string.len(params)>0 then skipper=true isFunction=true end
             end
-            -- Mark Constants (matches "[tab]d)  
-            if not skipper and  entry:match("%\"\td")=="\"\td" then  
-                name= entry:match("([%w_]+)") or "" 
-                isConst=true
-                skipper=true
-            end
-            -- Mark ENUMS and STRUCTs (matches "[tab]g/s) 
+            -- Mark Constants and Vars (matches "[tab]d/v)  
             if not skipper then
-                local tmp = entry:match("%\"\t[gs]")   
-                if tmp=="\"\tg" or tmp=="\"\ts" then 
-                    name= entry:match("([%w_]+)") or "" 
+                local tmp = entry:match("%\"\t[dv]")   
+                if tmp=="\"\td" or tmp=="\"\tv" then 
+                    name= entry:match("([%w_]+)") or ""                    
+                    isConst=true
+                    skipper=true
+                end   
+            end            -- Mark ENUMS, STRUCTs, typedefs and unions (matches "[tab]g/s/t/u) 
+            if not skipper then
+                local tmp = entry:match("%\"\t[gust]")   
+                if tmp=="\"\tg" or tmp=="\"\ts" or tmp=="\"\tt" then 
+                    name= entry:match("([%w_]+)") or ""                    
                     isENUM=true
                 end   
             end
-            
+            if not skipper then
+                cTagUnclassified=cTagUnclassified.." "..name
+                if DEBUG then
+                    if name and name..params~=lastEntry then print("Dupe: "..entry) else print("unmatched: "..entry) end
+                end
+            end
             -- publish collected Data (dupe Checked)  
-            if name..params~=lastEntry then 
+            if name and name..params~=lastEntry then 
                 if name~=lastname then 
                     ---- AutoComplete List entries
                     cTagAPI[ACListEntry]=true
@@ -294,7 +308,6 @@ local function appendCTags(apiNames)
                         if props["project.ctags.modules"]=="1" and isModule then cTagModules=cTagModules.." "..name end
                         if props["project.ctags.class"]=="1" and isClass then cTagClass=cTagClass.." "..name  end
                         if props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name end
-                
                 lastname=name
                 end
                 -- publish Function Descriptors to Project APIFile.(calltips)
