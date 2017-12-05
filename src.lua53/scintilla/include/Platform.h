@@ -402,7 +402,6 @@ public:
 	ListBox();
 	virtual ~ListBox();
 	static ListBox *Allocate();
-
 	virtual void SetFont(Font &font)=0;
 	virtual void Create(Window &parent, int ctrlID, Point location, int lineHeight_, bool unicodeMode_, int technology_)=0;
 	virtual void SetAverageCharWidth(int width)=0;
@@ -422,6 +421,8 @@ public:
 	virtual void ClearRegisteredImages()=0;
 	virtual void SetDoubleClickAction(CallBackAction, void *)=0;
 	virtual void SetList(const char* list, char separator, char typesep)=0;
+	virtual void SetForeBack(ColourDesired fore, ColourDesired back)=0;
+	
 };
 
 /**

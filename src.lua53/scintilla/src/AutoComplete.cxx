@@ -292,3 +292,6 @@ void AutoComplete::Select(const char *word) {
 	}
 }
 
+void AutoComplete::SetForeBack( ColourDesired fore, ColourDesired back) {
+	lb->SetForeBack(fore, back);
+}

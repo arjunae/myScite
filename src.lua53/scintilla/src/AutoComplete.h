@@ -22,7 +22,9 @@ class AutoComplete {
 	char typesep; // Type seperator
 	enum { maxItemLen=1000 };
 	std::vector<int> sortMatrix;
-
+	ColourDesired colourBG;
+	ColourDesired colourFG;
+	
 public:
 
 	bool ignoreCase;
@@ -86,6 +88,8 @@ public:
 
 	/// Select a list element that starts with word as the current element
 	void Select(const char *word);
+	
+	void SetForeBack(ColourDesired fore, ColourDesired back);
 };
 
 #ifdef SCI_NAMESPACE

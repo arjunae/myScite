@@ -2068,9 +2068,8 @@ class ListBoxX : public ListBox {
 	static const Point TextInset;	// Padding around text
 	static const Point ImageInset;	// Padding around image
 	
-	// test: define a fixed colourset for Userlists
-	COLORREF colourBG=RGB(200,200,200);
-	COLORREF colourFG=RGB(10,10,10);
+	ColourDesired colourBGa=0;
+	ColourDesired colourFGa=0;
 
 public: // static lineHeight
 	ListBoxX() : lineHeight(9), fontCopy(0), technology(0), lb(0), unicodeMode(false),
@@ -2084,6 +2083,9 @@ public: // static lineHeight
 			fontCopy = 0;
 		}
 	}
+
+
+	void SetForeBack(ColourDesired fore, ColourDesired back);
 	void SetFont(Font &font) override;
 	void Create(Window &parent_, int ctrlID_, Point location_, int lineHeight_, bool unicodeMode_, int technology_) override;
 	void SetAverageCharWidth(int width) override;
@@ -2115,6 +2117,11 @@ const Point ListBoxX::ItemInset(0, 0);
 const Point ListBoxX::TextInset(2, 0);
 const Point ListBoxX::ImageInset(1, 0);
 
+
+// test: define a fixed  default colourset for Userlists	
+	COLORREF colourBG=RGB(200,200,200);
+	COLORREF colourFG=RGB(10,10,10);
+	
 ListBox *ListBox::Allocate() {
 	ListBoxX *lb = new ListBoxX();
 	return lb;
@@ -2277,6 +2284,12 @@ void ListBoxX::RegisterRGBAImage(int type, int width, int height, const unsigned
 
 void ListBoxX::ClearRegisteredImages() {
 	images.Clear();
+}
+
+void ListBoxX::SetForeBack( ColourDesired fore, ColourDesired back) {
+		// convert to a COLORREF
+	 colourBG=RGB(back.GetRed(), back.GetGreen(), back.GetBlue());
+	 colourFG=RGB(fore.GetRed(), fore.GetGreen(), fore.GetBlue());
 }
 
 
