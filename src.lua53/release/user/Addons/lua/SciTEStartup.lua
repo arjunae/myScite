@@ -1,14 +1,9 @@
 --
--- mySciTE's Test Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
+-- mySciTE's Development Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
 --
 
--- Windows requires this for us to immediately see all lua output.
-io.stdout:setvbuf("no")
-
-myHome = props["SciteUserHome"].."/user"
-defaultHome = props["SciteDefaultHome"]
-package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;"
-package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
+io.stdout:setvbuf("no") -- Windows requires this for us to immediately see all lua output.
+_G.session_used_memory=collectgarbage("count")*1024 -- track the amount of lua allocated memory
 
 --lua >=5.2.x renamed functions:
 local unpack = table.unpack or unpack
@@ -16,19 +11,41 @@ math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 
---~~~~~~~~~~~~~
--- track the amount of lua allocated memory
-_G.session_used_memory=collectgarbage("count")*1024
-
+if props["PLAT_WIN"] then
+	myHome = props["SciteUserHome"].."\\user"
+	defaultHome = props["SciteDefaultHome"]
+	package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
+	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
+	package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
+	-- Load extman.lua
+	-- This will automatically run any lua script located in \User\Addons\lua\lua
+	dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
+	-- Load cTags Browser
+	dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
+end
+if props["PLAT_GTK"]==1 then
+	myHome = props["SciteUserHome"].."/user"
+	defaultHome = props["SciteDefaultHome"]
+	package.path = package.path ..";"..myHome.."/Addons/lua/lua/?.lua;".. ";"..myHome.."/Addons/lua/lua/socket/?.lua;"
+	package.path = package.path .. ";"..myHome.."/Addons/lua/mod-extman/?.lua;"
+	package.cpath = package.cpath .. ";"..myHome.."/Addons/lua/c/?.dll;"
+		-- Load extman.lua
+	-- This will automatically run any lua script located in \User\Addons\lua\lua
+	dofile(myHome..'/Addons/lua/mod-extman/extman.lua')
+	-- Load cTags Browser
+	dofile(myHome..'/Addons/lua/mod-ctags/ctagsd.lua')
+end
 -- ##################  Lua Samples #####################
 --   ##############################################
 
-function OnInit() 
+
 --
+-- OnInit()
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
-	
+function OnInit() 
+	--print(editor.StyleAt[1])
+	-- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
 end
---print("startupScript_reload")
---print(editor.StyleAt[1])
--- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
+
+

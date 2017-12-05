@@ -2067,9 +2067,6 @@ class ListBoxX : public ListBox {
 	static const Point ItemInset;	// Padding around whole item
 	static const Point TextInset;	// Padding around text
 	static const Point ImageInset;	// Padding around image
-	
-	ColourDesired colourBGa=0;
-	ColourDesired colourFGa=0;
 
 public: // static lineHeight
 	ListBoxX() : lineHeight(9), fontCopy(0), technology(0), lb(0), unicodeMode(false),
@@ -2083,7 +2080,6 @@ public: // static lineHeight
 			fontCopy = 0;
 		}
 	}
-
 
 	void SetForeBack(ColourDesired fore, ColourDesired back);
 	void SetFont(Font &font) override;
@@ -2117,7 +2113,6 @@ const Point ListBoxX::ItemInset(0, 0);
 const Point ListBoxX::TextInset(2, 0);
 const Point ListBoxX::ImageInset(1, 0);
 
-
 // test: define a fixed  default colourset for Userlists	
 	COLORREF colourBG=RGB(200,200,200);
 	COLORREF colourFG=RGB(10,10,10);
@@ -2139,7 +2134,7 @@ void ListBoxX::Create(Window &parent_, int ctrlID_, Point location_, int lineHei
 	// Window created as popup so not clipped within parent client area
 	wid = ::CreateWindowEx(
 		WS_EX_WINDOWEDGE, ListBoxX_ClassName, TEXT(""),
-		WS_POPUP | WS_THICKFRAME,
+		WS_POPUP ,
 		100,100, 150,80, hwndParent,
 		NULL,
 		hinstanceParent,

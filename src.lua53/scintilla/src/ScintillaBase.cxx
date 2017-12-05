@@ -260,7 +260,7 @@ void ScintillaBase::AutoCompleteStart(int lenEntered, const char *list) {
  	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
 				lenEntered, szEntry, IsUnicodeMode(), technology);
  
-	ac.SetForeBack(vs.styles[STYLE_CALLTIP].fore, vs.styles[STYLE_CALLTIP].back);
+	ac.SetForeBack(vs.styles[STYLE_USERLIST].fore, vs.styles[STYLE_USERLIST].back);
 	PRectangle rcClient = GetClientRectangle();
 	Point pt = LocationFromPosition(sel.MainCaret() - lenEntered);
 	PRectangle rcPopupBounds = wMain.GetMonitorRect(pt);

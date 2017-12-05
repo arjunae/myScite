@@ -422,7 +422,6 @@ public:
 	virtual void SetDoubleClickAction(CallBackAction, void *)=0;
 	virtual void SetList(const char* list, char separator, char typesep)=0;
 	virtual void SetForeBack(ColourDesired fore, ColourDesired back)=0;
-	
 };
 
 /**
