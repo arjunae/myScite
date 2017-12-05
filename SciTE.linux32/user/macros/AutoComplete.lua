@@ -26,7 +26,7 @@ To use this script with SciTE4AutoHotkey:
     colour.project.class= .functions= .constants=fore:######
 ]]
 
---DEBUG=1  --1: Trace Mode 2: Verbose Mode
+local DEBUG=0  --1: Trace Mode 2: Verbose Mode
 
 -- Maximal filesize that this script should handle
 local AC_MAX_SIZE =262144 --260k
@@ -162,6 +162,7 @@ local cTagFunctions=""
 local cTagClass=""
 local cTagModules =""
 local cTagENUMs=""
+local cTagOther=""
 local cTagUnclassified=""
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -175,7 +176,7 @@ local cTagUnclassified=""
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local function writeProps()
 
-if DEBUG then
+if DEBUG==1 then
     print("ac>writeProps:")
     print("ac> cTagClass: ("..string.len(cTagClass).." bytes)" )
     print("ac> cTagFunctions: ("..string.len(cTagFunctions).." bytes)" )
@@ -227,24 +228,23 @@ local function appendCTags(apiNames)
     cTagNames=""
     
     if file_exists(cTagsFilePath)  and cTagsUpdate=="1" then
-    if DEBUG then print("ac>appendCtags" ,cTagsUpdate) end     
+    if DEBUG==1 then print("ac>appendCtags" ,cTagsUpdate) end     
     
         props["project.ctags.apipath"]=cTagsAPIPath
         local lastEntry=""
         local cTagsFile= io.open(cTagsAPIPath,"w")
         io.output(cTagsFile)   -- projects cTags APICalltips file
+
+        -- a poorMans exuberAnt cTag Tokenizer :)) --
+        -- Gibt den LemmingAmeisen was sinnvolles zu tun(tm) --
         
         for entry in io.lines(cTagsFilePath) do
             local isFunction, isClass, isConst, isModule, isENUM
-            local skipper=false
-
-            -- a poorMans exuberAnt cTag Tokenizer :)) --
-            -- Gibt den LemmingAmeisen was sinnvolles zu tun(tm) --
-          
+            local skipper=false          
             local name =""
             local params="" -- match function parameters for Calltips
              -- "catchAll" Names for ACList Entries
-           local ACListEntry= entry:match("([%w_~]+)") or ""
+           local ACListEntry= entry:match("(~?[%w_]+)") or ""
            
             -- Mark Classes & Namespaces (matches "[tab]c/n)
             if not skipper then
@@ -264,7 +264,7 @@ local function appendCTags(apiNames)
             end 
             -- Mark Functions 
             if not skipper then
-                name= entry:match("([%w_~]+)") or "" 
+                name= entry:match("(~?[%w_]+)") or "" 
                 patType="%/^([%s%w_:~]+ ?)" -- INTPTR
                 patClass="([%w]+).*"   -- SciteWin (::)
                 patFunc="(%(.*%))"  -- AbbrevDlg(...)
@@ -282,18 +282,23 @@ local function appendCTags(apiNames)
                     isConst=true
                     skipper=true
                 end   
-            end            -- Mark ENUMS, STRUCTs, typedefs and unions (matches "[tab]g/s/t/u) 
+            end       
+            -- Mark ENUMS, STRUCTs, typedefs and unions (matches "[tab]g/s/t/u) 
             if not skipper then
                 local tmp = entry:match("%\"\t[gust]")   
-                if tmp=="\"\tg" or tmp=="\"\ts" or tmp=="\"\tt" then 
+                if tmp=="\"\tg" or tmp=="\"\ts" or tmp=="\"\tt" or tmp=="\"\tt" then 
                     name= entry:match("([%w_]+)") or ""                    
                     isENUM=true
                 end   
             end
+            -- Handle Tags that were not tokenized before
             if not skipper then
-                cTagUnclassified=cTagUnclassified.." "..name
-                if DEBUG then
-                    if name and name..params~=lastEntry then print("Dupe: "..entry) else print("unmatched: "..entry) end
+                cTagUnclassified= cTagUnclassified..entry
+                if name and name..params~=lastEntry then 
+                    cTagOther=  entry:match("([%w_]+)") 
+                    if DEBUG==1 then print("unmatched: "..entry) end
+                else
+                    if DEBUG==1 then print("Dupe: "..entry) end
                 end
             end
             -- publish collected Data (dupe Checked)  
@@ -307,7 +312,7 @@ local function appendCTags(apiNames)
                         if props["project.ctags.constants"]=="1" and isConst then cTagNames=cTagNames.." "..name end
                         if props["project.ctags.modules"]=="1" and isModule then cTagModules=cTagModules.." "..name end
                         if props["project.ctags.class"]=="1" and isClass then cTagClass=cTagClass.." "..name  end
-                        if props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name end
+                        if props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name.." "..cTagUnclassified end
                 lastname=name
                 end
                 -- publish Function Descriptors to Project APIFile.(calltips)
@@ -363,7 +368,7 @@ local function getApiNames()
         return apiCache[lexer]
     end
     
-if DEBUG then print("ac>getApiNames") end
+if DEBUG==1 then print("ac>getApiNames") end
 
     local apiFiles = props["APIPath"] or ""
     apiFiles:gsub("[^;]+", function(apiFile) -- For each in ;-delimited list.
@@ -404,7 +409,7 @@ local function buildNames()
       if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
       if fSize > AC_MAX_SIZE then  return end
       
- if DEBUG then  print("ac>buildnames") end
+ if DEBUG==1 then  print("ac>buildnames") end
         setLexerSpecificStuff()
         -- Reset our array of names.
         names = {}
@@ -601,7 +606,7 @@ local events = {
     OnSave          = buildNames,
     OnDwellStart  = buildNames, -- should be raised on any User Interaction (Mousemove/Keybord Nav...) 
     OnSwitchFile    = function()
-    if DEBUG then print("ac>onSwitchFile") end
+    if DEBUG==1 then print("ac>onSwitchFile") end
         -- Use this file's cached list if possible:
         names = buffer.namesForAutoComplete
         if not names then
@@ -615,7 +620,7 @@ local events = {
 
     end,
     OnOpen          = function()
-    if DEBUG then print("ac>onOpen") end
+    if DEBUG==1 then print("ac>onOpen") end
         -- Ensure the document is styled first, so we can filter out
         -- words in comments and strings.
         editor:Colourise(0, editor.Length)
