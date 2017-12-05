@@ -211,7 +211,7 @@ function OnInit()
 
 	scite_OnOpenSwitch(HandleProject)
 	local MD5Check
-	if MD5Check==nil then TestSciLexer("386dec917e2eb416f569cc488eadbac6") end -- SciLexers MD5 Hash for the current Version
+	if MD5Check==nil then TestSciLexer("0309f941dc8e5500f7b442332705d2a1") end -- SciLexers MD5 Hash for the current Version
 	MD5Check=false
 	scite_OnOpenSwitch(StyleStuff)
 	

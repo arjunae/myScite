@@ -256,7 +256,7 @@ void ScintillaBase::AutoCompleteStart(int lenEntered, const char *list) {
 	}
 
 	const Point TextInset(6, 6); // Padding
-	int szEntry= (vs.styles[STYLE_DEFAULT].size / SC_FONT_SIZE_MULTIPLIER +(int)TextInset.y);
+	int szEntry= (vs.styles[STYLE_USERLIST].size / SC_FONT_SIZE_MULTIPLIER +(int)TextInset.y);
  	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
 				lenEntered, szEntry, IsUnicodeMode(), technology);
  
@@ -294,9 +294,9 @@ void ScintillaBase::AutoCompleteStart(int lenEntered, const char *list) {
 	rcac.right = rcac.left + widthLB;
 	rcac.bottom = static_cast<XYPOSITION>(std::min(static_cast<int>(rcac.top) + heightLB, static_cast<int>(rcPopupBounds.bottom)));
 	ac.lb->SetPositionRelative(rcac, wMain);
-	ac.lb->SetFont(vs.styles[STYLE_DEFAULT].font);
+	ac.lb->SetFont(vs.styles[STYLE_USERLIST].font);
 	
-	unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[STYLE_DEFAULT].aveCharWidth);
+	unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[STYLE_USERLIST].aveCharWidth);
 	ac.lb->SetAverageCharWidth(aveCharWidth);
 	ac.lb->SetDoubleClickAction(AutoCompleteDoubleClick, this);
 

@@ -2067,8 +2067,11 @@ class ListBoxX : public ListBox {
 	static const Point ItemInset;	// Padding around whole item
 	static const Point TextInset;	// Padding around text
 	static const Point ImageInset;	// Padding around image
-
 	
+	// test: define a fixed colourset for Userlists
+	COLORREF colourBG=RGB(200,200,200);
+	COLORREF colourFG=RGB(10,10,10);
+
 public: // static lineHeight
 	ListBoxX() : lineHeight(9), fontCopy(0), technology(0), lb(0), unicodeMode(false),
 		desiredVisibleRows(9), maxItemCharacters(0), aveCharWidth(8),
@@ -2276,7 +2279,10 @@ void ListBoxX::ClearRegisteredImages() {
 	images.Clear();
 }
 
+
 void ListBoxX::Draw(DRAWITEMSTRUCT *pDrawItem) {
+	HBRUSH hBrushBack = CreateSolidBrush(colourBG);
+	
 	if ((pDrawItem->itemAction == ODA_SELECT) || (pDrawItem->itemAction == ODA_DRAWENTIRE)) {
 		RECT rcBox = pDrawItem->rcItem;
 		rcBox.left += TextOffset();
@@ -2284,14 +2290,14 @@ void ListBoxX::Draw(DRAWITEMSTRUCT *pDrawItem) {
 			RECT rcImage = pDrawItem->rcItem;
 			rcImage.right = rcBox.left;
 			// The image is not highlighted
-			::FillRect(pDrawItem->hDC, &rcImage, reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
+			::FillRect(pDrawItem->hDC, &rcImage, hBrushBack);//reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
 			::FillRect(pDrawItem->hDC, &rcBox, reinterpret_cast<HBRUSH>(COLOR_HIGHLIGHT+1));
-			::SetBkColor(pDrawItem->hDC, ::GetSysColor(COLOR_HIGHLIGHT));
-			::SetTextColor(pDrawItem->hDC, ::GetSysColor(COLOR_HIGHLIGHTTEXT));
+			::SetBkColor(pDrawItem->hDC,  colourBG);
+			::SetTextColor(pDrawItem->hDC, colourFG);// ::GetSysColor(COLOR_HIGHLIGHTTEXT));
 		} else {
-			::FillRect(pDrawItem->hDC, &pDrawItem->rcItem, reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
-			::SetBkColor(pDrawItem->hDC, ::GetSysColor(COLOR_WINDOW));
-			::SetTextColor(pDrawItem->hDC, ::GetSysColor(COLOR_WINDOWTEXT));
+			::FillRect(pDrawItem->hDC, &pDrawItem->rcItem, hBrushBack);//reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
+			::SetBkColor(pDrawItem->hDC, colourBG); //::GetSysColor(COLOR_WINDOW)
+			::SetTextColor(pDrawItem->hDC, colourFG); //::GetSysColor(COLOR_WINDOWTEXT));
 		}
 
 		const ListItemData item = lti.Get(pDrawItem->itemID);

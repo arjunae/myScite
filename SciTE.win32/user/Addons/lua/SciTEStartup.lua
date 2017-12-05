@@ -164,26 +164,6 @@ function StyleStuff()
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function TestSciLexer(origHash)
---
--- Check SciLexer.dll's MD5 Hash and inform the User if its a nonStock Version. 
---
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-local md5 = require 'md5'
-local m = md5.new()
-local file = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
-while true do
-	local bytes = file:read(4096)
-	if not bytes then break end
-	m:update(bytes)
-end
-	file:close()
-
-	SciLexerHash= md5.tohex(m:finish())
-	if SciLexerHash~=origHash then print("SciteStartup.lua: You are using a modified SciLexer.dll with MD5 Hash: "..SciLexerHash) end
-end
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 function HandleProject()
 --
 -- handle Project Folders (ctags, Autocomplete & highlitening)
@@ -210,9 +190,6 @@ function OnInit()
 --
 
 	scite_OnOpenSwitch(HandleProject)
-	local MD5Check
-	if MD5Check==nil then TestSciLexer("0309f941dc8e5500f7b442332705d2a1") end -- SciLexers MD5 Hash for the current Version
-	MD5Check=false
 	scite_OnOpenSwitch(StyleStuff)
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
