@@ -26,7 +26,7 @@ To use this script with SciTE4AutoHotkey:
     colour.project.class= .functions= .constants=fore:######
 ]]
 
-local DEBUG=0  --1: Trace Mode 2: Verbose Mode
+local DEBUG=0 --1: Trace Mode 2: Verbose Mode
 
 -- Maximal filesize that this script should handle
 local AC_MAX_SIZE =262144 --260k
@@ -157,13 +157,13 @@ end
 ----- globally cached Names ---
 
 cTagAPI={} -- projectAPI functions(param)
-local cTagNames=""
-local cTagFunctions=""
-local cTagClass=""
-local cTagModules =""
-local cTagENUMs=""
-local cTagOthers=""
-local cTagDupes="" -- Used when DEBUG==2
+ cTagNames=""
+ cTagFunctions=""
+ cTagClass=""
+ cTagModules =""
+ cTagENUMs=""
+ cTagOthers=""
+ cTagDupes="" -- Used when DEBUG==2
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
@@ -174,7 +174,7 @@ local cTagDupes="" -- Used when DEBUG==2
 -- probably should return something useful
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-local function writeProps()
+function writeProps()
 
 if DEBUG>=1 then
     print("ac>writeProps:")
@@ -202,7 +202,7 @@ end
     props["substylewords.11.19."..projectEXT] = cTagModules
     props["substylewords.11.20."..projectEXT] = cTagENUMs
 
-    props["style."..currentLexer..".11.16"]=props["colour.project.enums"]    
+    props["style."..currentLexer..".11.15"]=props["colour.project.enums"]    
     props["style."..currentLexer..".11.16"]=props["colour.project.class"]
     props["style."..currentLexer..".11.17"]=props["colour.project.functions"]
     props["style."..currentLexer..".11.18"]=props["colour.project.constants"]
@@ -213,24 +213,29 @@ end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
---  appendCTags()
+--  appendCTags(apiNames,cTagsFilePath,dryRun)
 --  Append tagNames to  existing currentLexers substyle 11
+--  Takes: apiNames: table, FullyQualified cTagsFilePath, short: optionally dont write Api file.
 --  Returns: uniqued tagNames to given table
 --
 -- Optimized lua version. Gives reasonable Speed on a 100k source and 1M cTags File. 
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-local function appendCTags(apiNames)
+function appendCTags(apiNames,cTagsFilePath,shortMode)
     local sysTmp=os.getenv("tmp")
-    local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
     local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" -- performance:  should we reuse an existing File ?
     local cTagsUpdate=props["project.ctags.update"]
     if props["project.ctags.filename"]=="" then return apiNames end
     cTagNames=""
     
+    -- Special Mode for external Handlers wanting only to append some Data
+    if shortMode then 
+        cTagsUpdate="1" 
+    end    
+    
     if file_exists(cTagsFilePath)  and cTagsUpdate=="1" then
-    if DEBUG>=1 then print("ac>appendCtags" ,cTagsUpdate) end     
+    if DEBUG>=1 then print("ac>appendCtags" ,cTagsFilePath, short) end     
     
         props["project.ctags.apipath"]=cTagsAPIPath
         local lastEntry=""
@@ -319,7 +324,8 @@ local function appendCTags(apiNames)
                 -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=name..params
                 if isFunction and string.len(params)>2 then 
-                    io.write(lastEntry.."\n") end -- faster then using a full bulkWrite
+                   if not dryRun then io.write(lastEntry.."\n") end
+                end -- faster then using a full bulkWrite
             end
         end
 
@@ -383,7 +389,8 @@ if DEBUG>=1 then print("ac>getApiNames") end
         return ""
     end)
     
-    apiNames= appendCTags(apiNames)
+    local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
+    apiNames= appendCTags(apiNames,cTagsFilePath,false)
         
     if lexer~=nil then
         apiCache[lexer] = apiNames -- Even if it's empty

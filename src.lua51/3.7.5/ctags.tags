@@ -625,6 +625,7 @@ CodePageFromCharSet	scintilla\win32\ScintillaWin.cxx	/^UINT CodePageFromCharSet(
 CodePageFromCharSet	scite\win32\SciTEWin.cxx	/^static UINT CodePageFromCharSet(DWORD characterSet, UINT documentCodePage) {$/;"	f	file:	signature:(DWORD characterSet, UINT documentCodePage)
 CodePageFromName	scite\win32\SciTEWin.cxx	/^static int CodePageFromName(const std::string &encodingName) {$/;"	f	file:	signature:(const std::string &encodingName)
 CodePageOfDocument	scintilla\win32\ScintillaWin.cxx	/^UINT ScintillaWin::CodePageOfDocument() const {$/;"	f	class:ScintillaWin	signature:() const
+CodingCookieValue	D:\projects\_myScite\_myScite.github\src.lua51\3.7.5\scite\src\Cookie.cxx	/^UniMode CodingCookieValue(const char *buf, size_t length) {$/;"	f	signature:(const char *buf, size_t length)
 CodingCookieValue	scite\src\Cookie.cxx	/^UniMode CodingCookieValue(const char *buf, size_t length) {$/;"	f	signature:(const char *buf, size_t length)
 Colour	scite\src\StyleDefinition.h	/^typedef long Colour;$/;"	t
 ColourDesired	scintilla\include\Platform.h	/^	ColourDesired(long lcol=0) {$/;"	f	class:Scintilla::ColourDesired	access:public	signature:(long lcol=0)
@@ -738,6 +739,7 @@ Converter	scintilla\gtk\Converter.h	/^	Converter(const char *charSetDestination,
 Converter	scintilla\gtk\Converter.h	/^class Converter {$/;"	c	namespace:Scintilla
 ConverterFor	scintilla\src\CaseConvert.cxx	/^ICaseConverter *ConverterFor(enum CaseConversion conversion) {$/;"	f	namespace:Scintilla	signature:(enum CaseConversion conversion)
 ConverterForConversion	scintilla\src\CaseConvert.cxx	/^CaseConverter *ConverterForConversion(enum CaseConversion conversion) {$/;"	f	namespace:__anon87	signature:(enum CaseConversion conversion)
+CookieValue	D:\projects\_myScite\_myScite.github\src.lua51\3.7.5\scite\src\Cookie.cxx	/^static UniMode CookieValue(const std::string &s) {$/;"	f	file:	signature:(const std::string &s)
 CookieValue	scite\src\Cookie.cxx	/^static UniMode CookieValue(const std::string &s) {$/;"	f	file:	signature:(const std::string &s)
 Copy	scintilla\gtk\PlatGTK.cxx	/^void SurfaceImpl::Copy(PRectangle rc, Point from, Surface &surfaceSource) {$/;"	f	class:SurfaceImpl	signature:(PRectangle rc, Point from, Surface &surfaceSource)
 Copy	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::Copy() {$/;"	f	class:ScintillaGTK	signature:()
@@ -792,6 +794,7 @@ Create	scite\gtk\Widget.cxx	/^void WEntry::Create(const GUI::gui_char *text) {$/
 Create	scite\gtk\Widget.cxx	/^void WProgress::Create() {$/;"	f	class:WProgress	signature:()
 Create	scite\gtk\Widget.cxx	/^void WStatic::Create(GUI::gui_string text) {$/;"	f	class:WStatic	signature:(GUI::gui_string text)
 Create	scite\gtk\Widget.cxx	/^void WToggle::Create(const GUI::gui_string &text) {$/;"	f	class:WToggle	signature:(const GUI::gui_string &text)
+Create	scite\gtk\Widget.cxx	/^void WToggle::illaWin.cxx	/^STDMETHODIMP DataObject_QueryInterface(DataObject *pd, REFIID riid, PVOID *ppv) {$/;"	f	signature:(DataObject *pd, REFIID riid, PVOID *ppv)
 Create	scite\win32\WinMutex.cxx	/^Mutex *Mutex::Create() {$/;"	f	class:Mutex	signature:()
 CreateAndAddFont	scintilla\src\ViewStyle.cxx	/^void ViewStyle::CreateAndAddFont(const FontSpecification &fs) {$/;"	f	class:ViewStyle	signature:(const FontSpecification &fs)
 CreateBuffers	scite\src\SciTEBuffers.cxx	/^void SciTEBase::CreateBuffers() {$/;"	f	class:SciTEBase	signature:()
@@ -849,6 +852,7 @@ CursorUpOrDown	scintilla\src\Editor.cxx	/^void Editor::CursorUpOrDown(int direct
 CustomDraw	scite\win32\Strips.cxx	/^LRESULT Strip::CustomDraw(NMHDR *pnmh) {$/;"	f	class:Strip	signature:(NMHDR *pnmh)
 Cut	scintilla\src\Editor.cxx	/^void Editor::Cut() {$/;"	f	class:Editor	signature:()
 CutText	scintilla\gtk\ScintillaGTKAccessible.cxx	/^void ScintillaGTKAccessible::AtkEditableTextIface::CutText(AtkEditableText *text, gint start, gint end) {$/;"	f	class:ScintillaGTKAccessible::AtkEditableTextIface	signature:(AtkEditableText *text, gint start, gint end)
+CutText	scintilla\gtk\ScintillaGTKAccessible.cxx	/^void ScintillaGTKAccessible::CutText(int startChar, int endChar) {$/;"	f	class:ScintillaGTKAccessib:(void *ptr)
 CutText	scintilla\gtk\ScintillaGTKAccessible.cxx	/^void ScintillaGTKAccessible::CutText(int startChar, int endChar) {$/;"	f	class:ScintillaGTKAccessible	signature:(int startChar, int endChar)
 Cxx11RegexFindText	scintilla\src\Document.cxx	/^Sci::Position Cxx11RegexFindText(Document *doc, Sci::Position minPos, Sci::Position maxPos, const char *s,$/;"	f	namespace:__anon90	signature:(Document *doc, Sci::Position minPos, Sci::Position maxPos, const char *s, bool caseSensitive, Sci::Position *length, RESearch &search)
 D2DPenColour	scintilla\win32\PlatWin.cxx	/^void SurfaceD2D::D2DPenColour(ColourDesired fore, int alpha) {$/;"	f	class:Scintilla::SurfaceD2D	signature:(ColourDesired fore, int alpha)
@@ -987,6 +991,7 @@ DeviceHeightFont	scintilla\gtk\PlatGTK.cxx	/^int SurfaceImpl::DeviceHeightFont(i
 DeviceHeightFont	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^int SurfaceImpl::DeviceHeightFont(int points)$/;"	f	class:Scintilla::SurfaceImpl	signature:(int points)
 DeviceHeightFont	scintilla\win32\PlatWin.cxx	/^int SurfaceD2D::DeviceHeightFont(int points) {$/;"	f	class:Scintilla::SurfaceD2D	signature:(int points)
 DeviceHeightFont	scintilla\win32\PlatWin.cxx	/^int SurfaceGDI::DeviceHeightFont(int points) {$/;"	f	class:Scintilla::SurfaceGDI	signature:(int points)
+Dialog	scite\gtk\Widget.h	/^class Diae	enum:BinOpr
 Dialog	scite\gtk\Widget.h	/^class Dialog : public GUI::Window {$/;"	c	inherits:GUI::Window
 Dialog	scite\win32\SciTEWinDlg.cxx	/^	explicit Dialog(HWND hDlg_) : hDlg(hDlg_) {$/;"	f	class:Dialog	access:public	signature:(HWND hDlg_)
 Dialog	scite\win32\SciTEWinDlg.cxx	/^class Dialog {$/;"	c	file:
@@ -1330,6 +1335,7 @@ ExternalLexerModule	scintilla\src\ExternalLexer.h	/^	ExternalLexerModule(int lan
 ExternalLexerModule	scintilla\src\ExternalLexer.h	/^class ExternalLexerModule : public LexerModule {$/;"	c	namespace:Scintilla	inherits:LexerModule
 ExternalMarginWidth	scintilla\src\ViewStyle.cxx	/^int ViewStyle::ExternalMarginWidth() const {$/;"	f	class:ViewStyle	signature:() const
 ExtractCharacter	scintilla\src\Document.cxx	/^Document::CharacterExtracted Document::ExtractCharacter(Sci::Position position) const {$/;"	f	class:Document	signature:(Sci::Position position) const
+ExtractLine	D:\projects\_myScite\_myScite.github\src.lua51\3.7.5\scite\src\Cookie.cxx	/^std::string ExtractLine(const char *buf, size_t length) {$/;"	f	signature:(const char *buf, size_t length)
 ExtractLine	scite\src\Cookie.cxx	/^std::string ExtractLine(const char *buf, size_t length) {$/;"	f	signature:(const char *buf, size_t length)
 FINALIZEDBIT	scite\lua\src\lgc.h	57;"	d
 FIRST_RESERVED	scite\lua\src\llex.h	14;"	d
@@ -3386,6 +3392,7 @@ NotifyNeedShown	scintilla\src\Editor.cxx	/^void Editor::NotifyNeedShown(Sci::Pos
 NotifyPainted	scintilla\src\Editor.cxx	/^void Editor::NotifyPainted() {$/;"	f	class:Editor	signature:()
 NotifyParent	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::NotifyParent(SCNotification scn) {$/;"	f	class:ScintillaGTK	signature:(SCNotification scn)
 NotifyParent	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::NotifyParent(SCNotification scn)$/;"	f	class:ScintillaQt	signature:(SCNotification scn)
+NotifyParent	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::NotifyParent(SCNotification scn) {$/;"	f	class:Sci *pStrip) {$/;"	f	class:Strip	signature:(GtkMenuItem *menuItem, Strip *pStrip)
 NotifyParent	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::NotifyParent(SCNotification scn) {$/;"	f	class:ScintillaWin	signature:(SCNotification scn)
 NotifyReadOnly	scintilla\gtk\ScintillaGTKAccessible.cxx	/^void ScintillaGTKAccessible::NotifyReadOnly() {$/;"	f	class:ScintillaGTKAccessible	signature:()
 NotifySavePoint	scintilla\qt\ScintillaEdit\ScintillaDocument.cpp	/^void WatcherHelper::NotifySavePoint(Document *, void *, bool atSavePoint) {$/;"	f	class:WatcherHelper	signature:(Document *, void *, bool atSavePoint)
@@ -8927,6 +8934,7 @@ codeTransparent	scintilla\src\XPM.h	/^	char codeTransparent;$/;"	m	class:Scintil
 codec	scintilla\qt\ScintillaEditBase\PlatQt.h	/^	QTextCodec *codec;$/;"	m	class:Scintilla::SurfaceImpl	access:private
 codec	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^	QTextCodec *codec;$/;"	m	class:CaseFolderDBCS	file:	access:private
 codecName	scintilla\qt\ScintillaEditBase\PlatQt.h	/^	const char *codecName;$/;"	m	class:Scintilla::SurfaceImpl	access:private
+codingCookie	D:\projects\_myScite\_myScite.github\src.lua51\3.7.5\scite\src\Cookie.cxx	/^static const char codingCookie[] = "coding";$/;"	v	file:
 codingCookie	scite\src\Cookie.cxx	/^static const char codingCookie[] = "coding";$/;"	v	file:
 collectingUndo	scintilla\src\CellBuffer.h	/^	bool collectingUndo;$/;"	m	class:Scintilla::CellBuffer	access:private
 colour	scintilla\src\ViewStyle.h	/^	ColourDesired colour;$/;"	m	struct:Scintilla::EdgeProperties	access:public
@@ -9043,6 +9051,7 @@ customDraw	scintilla\src\LineMarker.h	/^	DrawLineMarkerFn customDraw;$/;"	m	clas
 customDrawTabArrow	scintilla\src\EditView.h	/^	DrawTabArrowFn customDrawTabArrow;$/;"	m	class:Scintilla::EditView	access:public
 customDrawWrapMarker	scintilla\src\EditView.h	/^	DrawWrapMarkerFn customDrawWrapMarker;$/;"	m	class:Scintilla::EditView	access:public
 customDrawWrapMarker	scintilla\src\MarginView.h	/^	DrawWrapMarkerFn customDrawWrapMarker;$/;"	m	class:Scintilla::MarginView	access:public
+d
 data	scintilla\src\CellBuffer.h	/^	std::unique_ptr<char[]> data;$/;"	m	class:Scintilla::Action	access:public
 data	scintilla\win32\PlatWin.cxx	/^	std::vector<ListItemData> data;$/;"	m	class:Scintilla::LineToItem	file:	access:private
 data	scite\lua\src\lzio.h	/^  void* data;			\/* additional data *\/$/;"	m	struct:Zio	access:public
@@ -9705,6 +9714,7 @@ isBuilt	scite\src\JobQueue.h	/^	bool isBuilt;$/;"	m	class:JobQueue	access:public
 isDirty	scite\src\SciTEBase.h	/^	bool isDirty;$/;"	m	class:Buffer	access:public
 isEnabled	scintilla\src\Document.h	/^	bool isEnabled;$/;"	m	class:Scintilla::HighlightDelimiter	access:public
 isEnabled	scite\src\SciTEBase.h	/^	bool isEnabled;$/;"	m	struct:CurrentWordHighlight	access:public
+isEncodingChar	D:\projects\_myScite\_myScite.github\src.lua51\3.7.5\scite\src\Cookie.cxx	/^static bool isEncodingChar(char ch) {$/;"	f	file:	signature:(char ch)
 isEncodingChar	scite\src\Cookie.cxx	/^static bool isEncodingChar(char ch) {$/;"	f	file:	signature:(char ch)
 isFilter	scite\src\JobQueue.h	/^	bool isFilter;$/;"	m	struct:JobMode	access:public
 isKeyWordStart	scite\src\SciTEBase.h	/^    isKeyWordStart	\/\/ Keywords that cause indentation$/;"	e	enum:IndentationStatus
@@ -9715,6 +9725,7 @@ isOnlyWithSameStyle	scite\src\SciTEBase.h	/^	bool isOnlyWithSameStyle;$/;"	m	str
 isReadOnly	scite\src\SciTEBase.h	/^	bool isReadOnly;$/;"	m	class:Buffer	access:public
 isResizeable	scite\src\StripDefinition.h	/^	bool isResizeable;$/;"	m	struct:ColumnWidth	access:public
 isSet	scintilla\src\ViewStyle.h	/^	bool isSet;$/;"	m	class:Scintilla::ColourOptional	access:public
+isSpaceChar	D:\projects\_myScite\_myScite.github\src.lua51\3.7.5\scite\src\Cookie.cxx	/^static bool isSpaceChar(char ch) {$/;"	f	file:	signature:(char ch)
 isSpaceChar	scite\src\Cookie.cxx	/^static bool isSpaceChar(char ch) {$/;"	f	file:	signature:(char ch)
 is_collecting_undo	scintilla\qt\ScintillaEdit\ScintillaDocument.cpp	/^bool ScintillaDocument::is_collecting_undo() {$/;"	f	class:ScintillaDocument	signature:()
 is_cr_lf	scintilla\qt\ScintillaEdit\ScintillaDocument.cpp	/^bool ScintillaDocument::is_cr_lf(int pos) {$/;"	f	class:ScintillaDocument	signature:(int pos)
@@ -9786,6 +9797,7 @@ key	scite\gtk\SciTEGTK.cxx	/^	unsigned int key;	\/\/ For alphabetic keys has to 
 key	scite\src\Containers.h	/^		KEY key;$/;"	m	struct:TMap::Association	access:public
 key2tval	scite\lua\src\ltable.h	18;"	d
 keyPressEvent	scintilla\qt\ScintillaEditBase\ScintillaEditBase.cpp	/^void ScintillaEditBase::keyPressEvent(QKeyEvent *event)$/;"	f	class:ScintillaEditBase	signature:(QKeyEvent *event)
+keyPressEvent	scintilla\qt\ScintillaEditBase\ScintillaEditBase.cpp	/^void ScintillaEditBase::keyPressEvent(QKeyEvent *event)h	/^	enum { heightButton=23, heightStatic=12, widthCombo=20};$/;"	e	enum:Strip::__anon6
 keyWordLists	scintilla\lexlib\LexerBase.h	/^	WordList *keyWordLists[numWordLists+1];$/;"	m	class:Scintilla::LexerBase	access:protected
 kmap	scintilla\src\Editor.h	/^	KeyMap kmap;$/;"	m	class:Scintilla::Editor	access:protected
 kmap	scintilla\src\KeyMap.h	/^	std::map<KeyModifiers, unsigned int> kmap;$/;"	m	class:Scintilla::KeyMap	access:private
@@ -10023,6 +10035,7 @@ luaL_dostring	scite\lua\include\lauxlib.h	114;"	d
 luaL_getmetatable	scite\lua\include\lauxlib.h	117;"	d
 luaL_getn	scite\lua\include\lauxlib.h	22;"	d
 luaL_opt	scite\lua\include\lauxlib.h	119;"	d
+luaL_optint	scite\lua\iK	access:private
 luaL_optint	scite\lua\include\lauxlib.h	105;"	d
 luaL_optlong	scite\lua\include\lauxlib.h	107;"	d
 luaL_optstring	scite\lua\include\lauxlib.h	103;"	d
@@ -10082,6 +10095,7 @@ lua_h	scite\lua\include\lua.h	10;"	d
 lua_isboolean	scite\lua\include\lua.h	268;"	d
 lua_isfunction	scite\lua\include\lua.h	264;"	d
 lua_islightuserdata	scite\lua\include\lua.h	266;"	d
+lua_islightuserdata	scite\lua\include\lua.h	266;"	dComplete.h	/^	Sci::Position posStart;$/;"	m	class:Scintilla::AutoComplete	access:public
 lua_isnil	scite\lua\include\lua.h	267;"	d
 lua_isnone	scite\lua\include\lua.h	270;"	d
 lua_isnoneornil	scite\lua\include\lua.h	271;"	d
@@ -11260,6 +11274,7 @@ pixId	scintilla\win32\PlatWin.cxx	/^	int pixId;$/;"	m	struct:Scintilla::ListItem
 pixbuf	scintilla\gtk\PlatGTK.cxx	/^	GdkPixbuf *pixbuf;$/;"	m	struct:ListImage	file:	access:public
 pixbuf_renderer	scintilla\gtk\PlatGTK.cxx	/^	GtkCellRenderer* pixbuf_renderer;$/;"	m	class:ListBoxX	file:	access:private
 pixelBytes	scintilla\src\XPM.h	/^	std::vector<unsigned char> pixelBytes;$/;"	m	class:Scintilla::RGBAImage	access:private
+pixelBytes	scintilla\src\XPM.h	/^	std::vector<unsigned chib.h	136;"	d
 pixels	scintilla\src\XPM.h	/^	std::vector<unsigned char> pixels;$/;"	m	class:Scintilla::XPM	access:private
 pixhash	scintilla\gtk\PlatGTK.cxx	/^	void *pixhash;$/;"	m	class:ListBoxX	file:	access:private
 pixmapIndentGuide	scintilla\src\EditView.h	/^	std::unique_ptr<Surface> pixmapIndentGuide;$/;"	m	class:Scintilla::EditView	access:public

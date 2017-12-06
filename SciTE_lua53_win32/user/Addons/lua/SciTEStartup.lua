@@ -204,15 +204,32 @@ HandleProject()
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function AppendCTags()
+function AppendNewCTags()
 --
 -- Search the File for new CTags and append them.
 --
+
+
 	if props["project.name"]~="" then
 		ctagsBin=props["project.ctags.bin"]
 		ctagsOpt=props["project.ctags.opt"]
-		if ctagsBin and ctagsOpt then ctagsCMD=ctagsBin.." --append=yes "..ctagsOpt.." "..props["FilePath"] end
-		scite_Popen(ctagsCMD)
+		ctagsFP= props["project.ctags.filepath"]
+		ctagsTMP=os.getenv("tmp")..dirSep..props["project.name"]..".session.ctags" 
+
+		os.remove(ctagsTMP)
+		if ctagsBin and ctagsOpt and ctagsFP then 
+			ctagsCMD=ctagsBin.." -f "..ctagsTMP.." "..ctagsOpt.." "..props["FilePath"] 
+
+			-- add new ctags of the saved file to the session ctags file.
+			pipe=scite_Popen(ctagsCMD)
+			pipe:read('*a') --wait for the Command to complete
+			appendCTags({},ctagsTMP,true) 
+
+			 -- also add new ctags to the project file. 
+			ctagsCMD=ctagsBin.." --append=yes -f "..ctagsFP.." "..ctagsOpt.." "..props["FilePath"] 
+			scite_Popen(ctagsCMD)
+		end
+
 	end
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -224,9 +241,9 @@ function OnInit()
 --
 
 	scite_OnOpenSwitch(HandleProject)
-	scite_OnSave(AppendCTags)
+	scite_OnSave(AppendNewCTags)
 	local MD5Check
-	if MD5Check==nil then TestSciLexer("b723e7185cfe2ef8dd861305a0af0d27") end -- SciLexers MD5 Hash for the current Version
+--	if MD5Check==nil then TestSciLexer("b723e7185cfe2ef8dd861305a0af0d27") end -- SciLexers MD5 Hash for the current Version
 	MD5Check=false
 	scite_OnOpenSwitch(StyleStuff)
 	
