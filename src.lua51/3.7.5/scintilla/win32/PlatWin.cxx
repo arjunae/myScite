@@ -2129,7 +2129,7 @@ void ListBoxX::Create(Window &parent_, int ctrlID_, Point location_, int lineHei
 	// Window created as popup so not clipped within parent client area
 	wid = ::CreateWindowEx(
 		WS_EX_WINDOWEDGE, ListBoxX_ClassName, TEXT(""),
-		WS_POPUP | WS_THICKFRAME,
+		WS_POPUP,
 		100,100, 150,80, hwndParent,
 		NULL,
 		hinstanceParent,
@@ -2149,9 +2149,7 @@ void ListBoxX::SetFont(Font &font) {
 		
 		FormatAndMetrics *pfm = static_cast<FormatAndMetrics *>(font.GetID());
 		fontCopy = pfm->HFont();
-
 		::SendMessage(lb, WM_SETFONT, reinterpret_cast<WPARAM>(fontCopy), 0);
-
 	}
 }
 

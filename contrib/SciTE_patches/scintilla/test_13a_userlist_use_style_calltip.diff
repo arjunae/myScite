@@ -1,0 +1,155 @@
+Binary files scintilla/bin/SciLexer.dll and scintilla_m/bin/SciLexer.dll differ
+Binary files scintilla/bin/Scintilla.dll and scintilla_m/bin/Scintilla.dll differ
+diff -Nurw scintilla/include/Platform.h scintilla_m/include/Platform.h
+--- scintilla/include/Platform.h	2017-05-26 00:25:00.000000000 +0200
++++ scintilla_m/include/Platform.h	2017-12-05 20:45:20.000000000 +0100
+@@ -422,6 +421,7 @@
+ 	virtual void ClearRegisteredImages()=0;
+ 	virtual void SetDoubleClickAction(CallBackAction, void *)=0;
+ 	virtual void SetList(const char* list, char separator, char typesep)=0;
++	virtual void SetForeBack(ColourDesired fore, ColourDesired back)=0;
+ };
+ 
+ /**
+diff -Nurw scintilla/src/AutoComplete.cxx scintilla_m/src/AutoComplete.cxx
+--- scintilla/src/AutoComplete.cxx	2017-05-26 00:25:00.000000000 +0200
++++ scintilla_m/src/AutoComplete.cxx	2017-12-05 20:39:30.000000000 +0100
+@@ -292,3 +292,6 @@
+ 	}
+ }
+ 
++void AutoComplete::SetForeBack( ColourDesired fore, ColourDesired back) {
++	lb->SetForeBack(fore, back);
++}
+\ No newline at end of file
+diff -Nurw scintilla/src/AutoComplete.h scintilla_m/src/AutoComplete.h
+--- scintilla/src/AutoComplete.h	2017-05-26 00:25:00.000000000 +0200
++++ scintilla_m/src/AutoComplete.h	2017-12-05 20:46:00.000000000 +0100
+@@ -86,6 +86,8 @@
+ 
+ 	/// Select a list element that starts with word as the current element
+ 	void Select(const char *word);
++	
++	void SetForeBack(ColourDesired fore, ColourDesired back);
+ };
+ 
+ #ifdef SCI_NAMESPACE
+diff -Nurw scintilla/src/ScintillaBase.cxx scintilla_m/src/ScintillaBase.cxx
+--- scintilla/src/ScintillaBase.cxx	2017-05-26 00:25:02.000000000 +0200
++++ scintilla_m/src/ScintillaBase.cxx	2017-12-06 11:40:16.000000000 +0100
+@@ -254,9 +254,13 @@
+ 			return;
+ 		}
+ 	}
++
++	const Point TextInset(6, 6); // Padding
++	int szEntry= (vs.styles[STYLE_CALLIP].size / SC_FONT_SIZE_MULTIPLIER +(int)TextInset.y);
+ 	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
+-				lenEntered, vs.lineHeight, IsUnicodeMode(), technology);
++				lenEntered, szEntry, IsUnicodeMode(), technology);
+ 
++	ac.SetForeBack(vs.styles[STYLE_CALLIP].fore, vs.styles[STYLE_CALLIP].back);
+ 	PRectangle rcClient = GetClientRectangle();
+ 	Point pt = LocationFromPosition(sel.MainCaret() - lenEntered);
+ 	PRectangle rcPopupBounds = wMain.GetMonitorRect(pt);
+@@ -290,8 +294,9 @@
+ 	rcac.right = rcac.left + widthLB;
+ 	rcac.bottom = static_cast<XYPOSITION>(std::min(static_cast<int>(rcac.top) + heightLB, static_cast<int>(rcPopupBounds.bottom)));
+ 	ac.lb->SetPositionRelative(rcac, wMain);
+-	ac.lb->SetFont(vs.styles[STYLE_DEFAULT].font);
+-	unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[STYLE_DEFAULT].aveCharWidth);
++	ac.lb->SetFont(vs.styles[STYLE_CALLIP].font);
++	
++	unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[STYLE_CALLIP].aveCharWidth);
+ 	ac.lb->SetAverageCharWidth(aveCharWidth);
+ 	ac.lb->SetDoubleClickAction(AutoCompleteDoubleClick, this);
+ 
+diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
+--- scintilla/win32/PlatWin.cxx	2017-05-26 00:25:02.000000000 +0200
++++ scintilla_m/win32/PlatWin.cxx	2017-12-05 21:37:36.000000000 +0100
+@@ -14,7 +14,6 @@
+ #include <ctime>
+ #include <cmath>
+ #include <climits>
+-
+ #include <vector>
+ #include <map>
+ #include <memory>
+@@ -2069,8 +2068,8 @@
+ 	static const Point TextInset;	// Padding around text
+ 	static const Point ImageInset;	// Padding around image
+ 
+-public:
+-	ListBoxX() : lineHeight(10), fontCopy(0), technology(0), lb(0), unicodeMode(false),
++public: // static lineHeight
++	ListBoxX() : lineHeight(9), fontCopy(0), technology(0), lb(0), unicodeMode(false),
+ 		desiredVisibleRows(9), maxItemCharacters(0), aveCharWidth(8),
+ 		parent(NULL), ctrlID(0), doubleClickAction(NULL), doubleClickActionData(NULL),
+ 		widestItem(NULL), maxCharWidth(1), resizeHit(0), wheelDelta(0) {
+@@ -2081,6 +2080,8 @@
+ 			fontCopy = 0;
+ 		}
+ 	}
++
++	void SetForeBack(ColourDesired fore, ColourDesired back);
+ 	void SetFont(Font &font) override;
+ 	void Create(Window &parent_, int ctrlID_, Point location_, int lineHeight_, bool unicodeMode_, int technology_) override;
+ 	void SetAverageCharWidth(int width) override;
+@@ -2112,6 +2113,10 @@
+ const Point ListBoxX::TextInset(2, 0);
+ const Point ListBoxX::ImageInset(1, 0);
+ 
++// test: define a fixed  default colourset for Userlists	
++	COLORREF colourBG=RGB(200,200,200);
++	COLORREF colourFG=RGB(10,10,10);
++	
+ ListBox *ListBox::Allocate() {
+ 	ListBoxX *lb = new ListBoxX();
+ 	return lb;
+@@ -2129,7 +2134,7 @@
+ 	// Window created as popup so not clipped within parent client area
+ 	wid = ::CreateWindowEx(
+ 		WS_EX_WINDOWEDGE, ListBoxX_ClassName, TEXT(""),
+-		WS_POPUP | WS_THICKFRAME,
++		WS_POPUP ,
+ 		100,100, 150,80, hwndParent,
+ 		NULL,
+ 		hinstanceParent,
+@@ -2273,7 +2281,16 @@
+ 	images.Clear();
+ }
+ 
++void ListBoxX::SetForeBack( ColourDesired fore, ColourDesired back) {
++		// convert to a COLORREF
++	 colourBG=RGB(back.GetRed(), back.GetGreen(), back.GetBlue());
++	 colourFG=RGB(fore.GetRed(), fore.GetGreen(), fore.GetBlue());
++}
++
++
+ void ListBoxX::Draw(DRAWITEMSTRUCT *pDrawItem) {
++	HBRUSH hBrushBack = CreateSolidBrush(colourBG);
++	
+ 	if ((pDrawItem->itemAction == ODA_SELECT) || (pDrawItem->itemAction == ODA_DRAWENTIRE)) {
+ 		RECT rcBox = pDrawItem->rcItem;
+ 		rcBox.left += TextOffset();
+@@ -2281,14 +2298,14 @@
+ 			RECT rcImage = pDrawItem->rcItem;
+ 			rcImage.right = rcBox.left;
+ 			// The image is not highlighted
+-			::FillRect(pDrawItem->hDC, &rcImage, reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
++			::FillRect(pDrawItem->hDC, &rcImage, hBrushBack);//reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
+ 			::FillRect(pDrawItem->hDC, &rcBox, reinterpret_cast<HBRUSH>(COLOR_HIGHLIGHT+1));
+-			::SetBkColor(pDrawItem->hDC, ::GetSysColor(COLOR_HIGHLIGHT));
+-			::SetTextColor(pDrawItem->hDC, ::GetSysColor(COLOR_HIGHLIGHTTEXT));
++			::SetBkColor(pDrawItem->hDC,  colourBG);
++			::SetTextColor(pDrawItem->hDC, colourFG);// ::GetSysColor(COLOR_HIGHLIGHTTEXT));
+ 		} else {
+-			::FillRect(pDrawItem->hDC, &pDrawItem->rcItem, reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
+-			::SetBkColor(pDrawItem->hDC, ::GetSysColor(COLOR_WINDOW));
+-			::SetTextColor(pDrawItem->hDC, ::GetSysColor(COLOR_WINDOWTEXT));
++			::FillRect(pDrawItem->hDC, &pDrawItem->rcItem, hBrushBack);//reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
++			::SetBkColor(pDrawItem->hDC, colourBG); //::GetSysColor(COLOR_WINDOW)
++			::SetTextColor(pDrawItem->hDC, colourFG); //::GetSysColor(COLOR_WINDOWTEXT));
+ 		}
+ 
+ 		const ListItemData item = lti.Get(pDrawItem->itemID);
