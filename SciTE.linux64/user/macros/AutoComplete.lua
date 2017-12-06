@@ -163,7 +163,7 @@ local cTagClass=""
 local cTagModules =""
 local cTagENUMs=""
 local cTagOthers=""
-local cTagDupes=""
+local cTagDupes="" -- Used when DEBUG==2
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
@@ -296,9 +296,6 @@ local function appendCTags(apiNames)
                 if name and name..params~=lastEntry then 
                     cTagOther=  entry:match("([%w_]+)") 
                     if DEBUG==2 then print("unmatched: "..entry) end
-                else
-                    cTagDupes= cTagDupes..cTagOther -- include Dupes for stats in Trace mode
-                    if DEBUG==2 then print("Dupe: "..entry) end
                 end
             end
             -- publish collected Data (dupe Checked)  
@@ -315,6 +312,9 @@ local function appendCTags(apiNames)
                     if props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name  end
                     if props["project.ctags.others"]=="1" then cTagOthers=cTagOthers..cTagOther end
                     lastname=name
+                else
+                    if DEBUG then cTagDupes= cTagDupes..cTagOther  end -- include Dupes for stats in Trace mode
+                    if DEBUG==2 then print("Dupe: "..entry) end 
                 end
                 -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=name..params

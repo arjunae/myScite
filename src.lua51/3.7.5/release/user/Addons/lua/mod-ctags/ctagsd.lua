@@ -2,11 +2,12 @@
 
 -- Browse a tags database from SciTE!
 -- 02.12.2017 -> Arjunae: 
--- Extman support / project.ctags.filename / project.path / ALT-Click Tag!
+-- Extman support / project.ctags.filename / project.path /  project.ctags.listone & ALT-Click Tag!
 --
 -- Set this property:
 -- project.ctags.filename=<full path to tags file>
 -- 1. Multiple tags are handled correctly; a drop-down list is presented
+--     Define project.ctags.listone="1" to force showing a list for single entries.
 -- 2. There is a full stack of marks available.
 -- 3. If $(project.path) is not defined, will try to find a tags file in the current dir.
 -- 4. if $(project.path) is defined assume --tag-relative=yes  (Tags relative to project.path)
@@ -215,7 +216,9 @@ function find_ctag(f,partial)
   end
 
   if k == 0 then return end
-  if k > 1 then -- multiple tags found
+
+  
+  if k > 1  or props["project.ctags.listone"]=="1"  then -- multiple tags found
     local list = {}
     for i,t in ipairs(matches) do
       table.insert(list,i..' '..t.file..':'..t.pattern)
@@ -287,13 +290,15 @@ function modifiers(shift,strg,alt,x)
     return
   end
 
-  local initialSize=scite.SendEditor(SCI_STYLEGETSIZE,32)
-  if props["style.userlist.font.size"]=="" then props["style.userlist.font.size"]=initialSize end
-  local newSize=tonumber(props["style.userlist.font.size"])
-  scite.SendEditor(SCI_STYLESETSIZE,32,newSize)
-  if alt==true then find_ctag (wordAtPosition()) end
-  scite.SendEditor(SCI_STYLESETSIZE,32,initialSize)
+  if alt==true then
+    local initialSize=scite.SendEditor(SCI_STYLEGETSIZE,40)
+    if props["style.userlist.font.size"]=="" then props["style.userlist.font.size"]=initialSize end
+    local newSize=tonumber(props["style.userlist.font.size"])
+   scite.SendEditor(SCI_STYLESETSIZE,40,newSize)
+   find_ctag (wordAtPosition()) 
+   scite.SendEditor(SCI_STYLESETSIZE,40,initialSize)
+ end
+ 
 end
 
 scite_OnClick(modifiers)
-

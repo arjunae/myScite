@@ -2,7 +2,7 @@
 
 -- Browse a tags database from SciTE!
 -- 02.12.2017 -> Arjunae: 
--- Extman support / project.ctags.filename / project.path / ALT-Click Tag!
+-- Extman support / project.ctags.filename / project.path /  project.ctags.listone & ALT-Click Tag!
 --
 -- Set this property:
 -- project.ctags.filename=<full path to tags file>
@@ -15,7 +15,6 @@
 
 ]]
 
-props["project.ctags.listone"]="0" 
 local GTK = scite_GetProp('PLAT_GTK')
 if GTK then dirSep="/" else dirSep="\\" end
   
@@ -303,4 +302,3 @@ function modifiers(shift,strg,alt,x)
 end
 
 scite_OnClick(modifiers)
-
