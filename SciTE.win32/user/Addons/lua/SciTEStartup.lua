@@ -181,7 +181,19 @@ end
 
 -- Register the Autocomplete event Handlers early.
 HandleProject()
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+function AppendCTags()
+--
+-- Search the File for new CTags and append them.
+--
+	if props["project.name"]~="" then
+		ctagsBin=props["project.ctags.bin"]
+		ctagsOpt=props["project.ctags.opt"]
+		if ctagsBin and ctagsOpt then ctagsCMD=ctagsBin.." --append=yes "..ctagsOpt.." "..props["FilePath"] end
+		scite_Popen(ctagsCMD)
+	end
+end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function OnInit() 
@@ -190,6 +202,8 @@ function OnInit()
 --
 
 	scite_OnOpenSwitch(HandleProject)
+	scite_OnSave(AppendCTags())
+	
 	scite_OnOpenSwitch(StyleStuff)
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	

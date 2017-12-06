@@ -331,7 +331,7 @@ CLANG_ANALYZER_NORETURN	scintilla\include\Platform.h	/^	static void Assert(const
 CLANG_ANALYZER_NORETURN	scintilla\include\Platform.h	467;"	d
 CLANG_ANALYZER_NORETURN	scintilla\include\Platform.h	469;"	d
 CLANG_ANALYZER_NORETURN	scintilla\include\Platform.h	472;"	d
-CLEARTYPE_QUALITY	scintilla\win32\PlatWin.cxx	233;"	d	file:
+CLEARTYPE_QUALITY	scintilla\win32\PlatWin.cxx	232;"	d	file:
 CLO	scintilla\src\RESearch.cxx	230;"	d	file:
 CLQ	scintilla\src\RESearch.cxx	231;"	d	file:
 CLSID_HanjaDic	scintilla\win32\HanjaDic.cxx	/^	CLSID CLSID_HanjaDic;$/;"	m	class:Scintilla::HanjaDict::HanjaDic	file:	access:private
@@ -1335,7 +1335,7 @@ FINALIZEDBIT	scite\lua\src\lgc.h	57;"	d
 FIRST_RESERVED	scite\lua\src\llex.h	14;"	d
 FIXEDBIT	scite\lua\src\lgc.h	60;"	d
 FONTQUALITY_H	scintilla\src\FontQuality.h	10;"	d
-FONTS_CACHED	scintilla\win32\PlatWin.cxx	441;"	d	file:
+FONTS_CACHED	scintilla\win32\PlatWin.cxx	440;"	d	file:
 FRFindCmd	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::FRFindCmd() {$/;"	f	class:SciTEGTK	signature:()
 FRMarkAllCmd	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::FRMarkAllCmd() {$/;"	f	class:SciTEGTK	signature:()
 FRReplaceAllCmd	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::FRReplaceAllCmd() {$/;"	f	class:SciTEGTK	signature:()
@@ -2699,7 +2699,7 @@ LINEMARKER_H	scintilla\src\LineMarker.h	9;"	d
 LINK_LEXER	scintilla\src\Catalogue.cxx	71;"	d	file:
 LMMinder	scintilla\src\ExternalLexer.h	/^class LMMinder {$/;"	c	namespace:Scintilla
 LOAD_LIBRARY_SEARCH_APPLICATION_DIR	scite\win32\SciTEWin.cxx	2235;"	d	file:
-LOAD_LIBRARY_SEARCH_SYSTEM32	scintilla\win32\PlatWin.cxx	51;"	d	file:
+LOAD_LIBRARY_SEARCH_SYSTEM32	scintilla\win32\PlatWin.cxx	50;"	d	file:
 LOAD_LIBRARY_SEARCH_SYSTEM32	scite\win32\SciTEWin.cxx	2238;"	d	file:
 LUAC_FORMAT	scite\lua\src\lundump.h	31;"	d
 LUAC_HEADERSIZE	scite\lua\src\lundump.h	34;"	d
@@ -3014,7 +3014,7 @@ ListBoxImpl	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^ListBoxImpl::ListBoxImpl
 ListBoxImpl	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^class ListBoxImpl : public ListBox {$/;"	c	namespace:Scintilla	file:	inherits:ListBox
 ListBoxX	scintilla\gtk\PlatGTK.cxx	/^	ListBoxX() : widCached(0), frame(0), list(0), scroller(0), pixhash(NULL), pixbuf_renderer(0),$/;"	f	class:ListBoxX	access:public	signature:()
 ListBoxX	scintilla\gtk\PlatGTK.cxx	/^class ListBoxX : public ListBox {$/;"	c	file:	inherits:ListBox
-ListBoxX	scintilla\win32\PlatWin.cxx	/^	ListBoxX() : lineHeight(10), fontCopy(0), technology(0), lb(0), unicodeMode(false),$/;"	f	class:Scintilla::ListBoxX	access:public	signature:()
+ListBoxX	scintilla\win32\PlatWin.cxx	/^	ListBoxX() : lineHeight(9), fontCopy(0), technology(0), lb(0), unicodeMode(false),$/;"	f	class:Scintilla::ListBoxX	access:public	signature:()
 ListBoxX	scintilla\win32\PlatWin.cxx	/^class ListBoxX : public ListBox {$/;"	c	namespace:Scintilla	file:	inherits:ListBox
 ListBoxX_ClassName	scintilla\win32\PlatWin.cxx	/^const TCHAR ListBoxX_ClassName[] = TEXT("ListBoxX");$/;"	m	namespace:Scintilla	file:
 ListBoxX_Register	scintilla\win32\PlatWin.cxx	/^static bool ListBoxX_Register() {$/;"	f	namespace:Scintilla	signature:()
@@ -7054,7 +7054,7 @@ SIZE_OP	scite\lua\src\lopcodes.h	42;"	d
 SPACING	scintilla\gtk\PlatGTK.cxx	1689;"	d	file:
 SPARSESTATE_H	scintilla\lexlib\SparseState.h	11;"	d
 SPARSEVECTOR_H	scintilla\src\SparseVector.h	9;"	d
-SPI_GETFONTSMOOTHINGCONTRAST	scintilla\win32\PlatWin.cxx	47;"	d	file:
+SPI_GETFONTSMOOTHINGCONTRAST	scintilla\win32\PlatWin.cxx	46;"	d	file:
 SPI_GETWHEELSCROLLLINES	scintilla\gtk\ScintillaGTK.cxx	200;"	d	file:
 SPI_GETWHEELSCROLLLINES	scintilla\win32\ScintillaWin.cxx	95;"	d	file:
 SPLITVECTOR_H	scintilla\src\SplitVector.h	10;"	d
@@ -8149,7 +8149,7 @@ UNICODE_NOCHAR	scintilla\win32\ScintillaWin.cxx	103;"	d	file:
 UNICONVERSION_H	scintilla\src\UniConversion.h	9;"	d
 UNIQUESTRING_H	scintilla\src\UniqueString.h	10;"	d
 UNUSED	scite\lua\src\llimits.h	70;"	d
-USE_D2D	scintilla\win32\PlatWin.cxx	32;"	d	file:
+USE_D2D	scintilla\win32\PlatWin.cxx	31;"	d	file:
 USE_D2D	scintilla\win32\ScintillaWin.cxx	37;"	d	file:
 USE_GRID	scite\gtk\Widget.cxx	276;"	d	file:
 USE_GRID	scite\gtk\Widget.cxx	278;"	d	file:
@@ -8340,8 +8340,8 @@ WEntry	scite\gtk\Widget.h	/^class WEntry : public WBase {$/;"	c	inherits:WBase
 WHITE0BIT	scite\lua\src\lgc.h	54;"	d
 WHITE1BIT	scite\lua\src\lgc.h	55;"	d
 WHITEBITS	scite\lua\src\lgc.h	62;"	d
+WINVER	scintilla\win32\PlatWin.cxx	23;"	d	file:
 WINVER	scintilla\win32\PlatWin.cxx	24;"	d	file:
-WINVER	scintilla\win32\PlatWin.cxx	25;"	d	file:
 WINVER	scintilla\win32\ScintillaWin.cxx	27;"	d	file:
 WINVER	scintilla\win32\ScintillaWin.cxx	28;"	d	file:
 WINVER	scite\win32\SciteWin.h	31;"	d
@@ -8481,8 +8481,8 @@ _ScintillaClass	scintilla\include\ScintillaWidget.h	/^struct _ScintillaClass {$/
 _ScintillaObject	scintilla\include\ScintillaWidget.h	/^struct _ScintillaObject {$/;"	s
 _WIN32_IE	scite\win32\GUIWin.cxx	18;"	d	file:
 _WIN32_IE	scite\win32\SciteWin.h	27;"	d
+_WIN32_WINNT	scintilla\win32\PlatWin.cxx	21;"	d	file:
 _WIN32_WINNT	scintilla\win32\PlatWin.cxx	22;"	d	file:
-_WIN32_WINNT	scintilla\win32\PlatWin.cxx	23;"	d	file:
 _WIN32_WINNT	scintilla\win32\ScintillaWin.cxx	25;"	d	file:
 _WIN32_WINNT	scintilla\win32\ScintillaWin.cxx	26;"	d	file:
 _WIN32_WINNT	scite\src\FilePath.cxx	31;"	d	file:

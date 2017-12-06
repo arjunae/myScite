@@ -783,7 +783,6 @@ CountBytes	scintilla\src\XPM.cxx	/^int RGBAImage::CountBytes() const {$/;"	f	cla
 CountCharacters	scintilla\src\Document.cxx	/^Sci::Position Document::CountCharacters(Sci::Position startPos, Sci::Position endPos) const {$/;"	f	class:Document	signature:(Sci::Position startPos, Sci::Position endPos) const
 CountLineEnds	scite\src\SciTEIO.cxx	/^void SciTEBase::CountLineEnds(int &linesCR, int &linesLF, int &linesCRLF) {$/;"	f	class:SciTEBase	signature:(int &linesCR, int &linesLF, int &linesCRLF)
 CountUTF16	scintilla\src\Document.cxx	/^Sci::Position Document::CountUTF16(Sci::Position startPos, Sci::Position endPos) const {$/;"	f	class:Document	signature:(Sci::Position startPos, Sci::Position endPos) const
-Create	D:\projects\_myScite\_myScite.github\src.lua53\scite\gtk\GTKMutex.cxx	/^Mutex *Mutex::Create() {$/;"	f	class:Mutex	signature:()
 Create	scintilla\gtk\PlatGTK.cxx	/^void Font::Create(const FontParameters &fp) {$/;"	f	class:Font	signature:(const FontParameters &fp)
 Create	scintilla\gtk\PlatGTK.cxx	/^void ListBoxX::Create(Window &parent, int, Point, int, bool, int) {$/;"	f	class:ListBoxX	signature:(Window &parent, int, Point, int, bool, int)
 Create	scintilla\lexlib\LexerModule.cxx	/^ILexer *LexerModule::Create() const {$/;"	f	class:LexerModule	signature:() const
@@ -1669,8 +1668,6 @@ GKEY_Void	scite\gtk\Widget.cxx	24;"	d	file:
 GKEY_Void	scite\gtk\Widget.cxx	27;"	d	file:
 GObjectWatcher	scintilla\gtk\ScintillaGTK.h	/^	GObjectWatcher(GObject *obj) :$/;"	f	class:Scintilla::GObjectWatcher	access:public	signature:(GObject *obj)
 GObjectWatcher	scintilla\gtk\ScintillaGTK.h	/^class GObjectWatcher {$/;"	c	namespace:Scintilla
-GTKMutex	D:\projects\_myScite\_myScite.github\src.lua53\scite\gtk\GTKMutex.cxx	/^	GTKMutex() {$/;"	f	class:GTKMutex	file:	access:private	signature:()
-GTKMutex	D:\projects\_myScite\_myScite.github\src.lua53\scite\gtk\GTKMutex.cxx	/^class GTKMutex : public Mutex {$/;"	c	file:	inherits:Mutex
 GTKMutex	scite\gtk\GTKMutex.cxx	/^	GTKMutex() {$/;"	f	class:GTKMutex	file:	access:private	signature:()
 GTKMutex	scite\gtk\GTKMutex.cxx	/^class GTKMutex : public Mutex {$/;"	c	file:	inherits:Mutex
 GUI	scite\gtk\GUIGTK.cxx	/^namespace GUI {$/;"	n	file:
@@ -10391,7 +10388,6 @@ lvOriginal	scintilla\include\ILexer.h	/^enum { lvOriginal=0, lvSubStyles=1 };$/;
 lvSubStyles	scintilla\include\ILexer.h	/^enum { lvOriginal=0, lvSubStyles=1 };$/;"	e	enum:Scintilla::__anon13
 lvm_h	scite\lua\src\lvm.h	8;"	d
 lzio_h	scite\lua\src\lzio.h	9;"	d
-m	D:\projects\_myScite\_myScite.github\src.lua53\scite\gtk\GTKMutex.cxx	/^	GMutex m;$/;"	m	class:GTKMutex	file:	access:private
 m	scintilla\gtk\PlatGTK.cxx	/^	GModule* m;$/;"	m	class:DynamicLibraryImpl	file:	access:protected
 m	scite\gtk\GTKMutex.cxx	/^	GMutex m;$/;"	m	class:GTKMutex	file:	access:private
 mLine	scintilla\cocoa\QuartzTextLayout.h	/^	CTLineRef mLine;$/;"	m	class:QuartzTextLayout	access:private
@@ -11523,7 +11519,6 @@ plcob	scintilla\lexlib\OptionSet.h	/^	typedef bool T::*plcob;$/;"	t	class:Scinti
 plcoi	scintilla\lexlib\OptionSet.h	/^	typedef int T::*plcoi;$/;"	t	class:Scintilla::OptionSet::T	access:private
 plcos	scintilla\lexlib\OptionSet.h	/^	typedef std::string T::*plcos;$/;"	t	class:Scintilla::OptionSet::T	access:private
 pli	scintilla\src\Document.h	/^	std::unique_ptr<LexInterface> pli;$/;"	m	class:Scintilla::Document	access:private
-pm	D:\projects\_myScite\_myScite.github\src.lua53\scite\gtk\GTKMutex.cxx	/^	GMutex *pm;$/;"	m	class:GTKMutex	file:	access:private
 pm	scite\gtk\GTKMutex.cxx	/^	GMutex *pm;$/;"	m	class:GTKMutex	file:	access:private
 point2uint	scite\lua\src\llimits.h	59;"	d
 pointer	scintilla\qt\ScintillaEdit\ScintillaDocument.cpp	/^void *ScintillaDocument::pointer() {$/;"	f	class:ScintillaDocument	signature:()

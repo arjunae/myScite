@@ -168,7 +168,7 @@ function TestSciLexer(origHash)
 --
 -- Check SciLexer.dll's MD5 Hash and inform the User if its a nonStock Version. 
 --
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 local md5 = require 'md5'
 local m = md5.new()
 local file = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
@@ -204,12 +204,27 @@ HandleProject()
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+function AppendCTags()
+--
+-- Search the File for new CTags and append them.
+--
+	if props["project.name"]~="" then
+		ctagsBin=props["project.ctags.bin"]
+		ctagsOpt=props["project.ctags.opt"]
+		if ctagsBin and ctagsOpt then ctagsCMD=ctagsBin.." --append=yes "..ctagsOpt.." "..props["FilePath"] end
+		scite_Popen(ctagsCMD)
+	end
+end
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
 function OnInit() 
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 
 	scite_OnOpenSwitch(HandleProject)
+	scite_OnSave(AppendCTags)
 	local MD5Check
 	if MD5Check==nil then TestSciLexer("b723e7185cfe2ef8dd861305a0af0d27") end -- SciLexers MD5 Hash for the current Version
 	MD5Check=false
