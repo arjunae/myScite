@@ -1,5 +1,4 @@
 -- Extman is a Lua script manager for SciTE. (Update: 2017)
--- Extman is a Lua script manager for SciTE. (Update: 2017)
 -- It enables multiple scripts to capture standard events without interfering with each other. 
 -- e.g. scite_OnDoubleClick() will register handlers for scripts that need to know when a double-click event has happened. 
 -- (To know whether it was in the output or editor pane, just test editor.Focus). 
@@ -67,11 +66,10 @@ end
 
 function OnUserListSelection(tp,str)
   if _UserListSelection then
-    local callback = _UserListSelection
+     local callback = _UserListSelection
      _UserListSelection = nil
      return callback(str)
-       else return false 
-  end
+  else return false end
 end
 
 local function DispatchOne(handlers,arg)
@@ -273,7 +271,6 @@ end
 scite_OnOpen(buffer_switch)
 scite_OnSwitchFile(buffer_switch)
 
-
 local next_user_id = 13 -- arbitrary
 
 -- the handler is always reset!
@@ -464,6 +461,8 @@ end
 -- on os.execute
 function scite_Popen(cmd)
     if spawner then
+        spawner.verbose(scite_GetPropBool('debug.spawner.verbose',true))
+        spawner.fulllines(1)
         return spawner.popen(cmd)
     else
         cmd = cmd..' > '..tempfile

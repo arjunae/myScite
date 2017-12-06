@@ -461,6 +461,8 @@ end
 -- on os.execute
 function scite_Popen(cmd)
     if spawner then
+        spawner.verbose(scite_GetPropBool('debug.spawner.verbose',true))
+        spawner.fulllines(1)
         return spawner.popen(cmd)
     else
         cmd = cmd..' > '..tempfile

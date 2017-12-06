@@ -439,6 +439,7 @@ void SciTEBase::TextWritten(FileWorker *pFileWorker) {
 				}
 				if (extender)
 					extender->OnSave(buffers.buffers[iBuffer].AsUTF8().c_str());
+					ReadProperties();
 			} else {
 				buffers.buffers[iBuffer].isDirty = false;
 				buffers.buffers[iBuffer].failedSave = false;
@@ -1026,6 +1027,7 @@ bool SciTEBase::SaveBuffer(const FilePath &saveName, SaveFlags sf) {
 
 	if (retVal && extender && (sf & sfSynchronous)) {
 		extender->OnSave(saveName.AsUTF8().c_str());
+		ReadProperties();
 	}
 	UpdateStatusBar(true);
 	return retVal;
@@ -1136,6 +1138,7 @@ void SciTEBase::SaveAs(const GUI::gui_char *file, bool fixCase) {
 	BuffersMenu();
 	if (extender)
 		extender->OnSave(filePath.AsUTF8().c_str());
+		ReadProperties();
 }
 
 bool SciTEBase::SaveIfNotOpen(const FilePath &destFile, bool fixCase) {

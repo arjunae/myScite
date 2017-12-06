@@ -209,7 +209,6 @@ function AppendNewCTags()
 -- Search the File for new CTags and append them.
 --
 
-
 	if props["project.name"]~="" then
 		ctagsBin=props["project.ctags.bin"]
 		ctagsOpt=props["project.ctags.opt"]
@@ -226,14 +225,13 @@ function AppendNewCTags()
 			appendCTags({},ctagsTMP,true) 
 
 			 -- also add new ctags to the project file. 
-			ctagsCMD=ctagsBin.." --append=yes -f "..ctagsFP.." "..ctagsOpt.." "..props["FilePath"] 
+			ctagsCMD=ctagsBin.." --append=yes -f "..ctagsFP.." "..ctagsOpt
 			scite_Popen(ctagsCMD)
 		end
 
 	end
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 function OnInit() 
 --
