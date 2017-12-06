@@ -162,8 +162,8 @@ local cTagFunctions=""
 local cTagClass=""
 local cTagModules =""
 local cTagENUMs=""
-local cTagOther=""
-local cTagUnclassified=""
+local cTagOthers=""
+local cTagDupes=""
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
@@ -176,15 +176,15 @@ local cTagUnclassified=""
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local function writeProps()
 
-if DEBUG==1 then
+if DEBUG>=1 then
     print("ac>writeProps:")
-    print("ac> cTagClass: ("..string.len(cTagClass).." bytes)" )
-    print("ac> cTagFunctions: ("..string.len(cTagFunctions).." bytes)" )
     print("ac> cTagNames: ("..string.len(cTagNames).." bytes)" )
-    print("ac> cTagModules: ("..string.len(cTagModules).." bytes)" )
+    print("ac> cTagClass: ("..string.len(cTagClass).." bytes)" )
+    print("ac> cTagModules: ("..string.len(cTagModules).." bytes)" )  
+    print("ac> cTagFunctions: ("..string.len(cTagFunctions).." bytes)" )
     print("ac> cTagENUMs ("..string.len(cTagENUMs).." bytes)" )
-    print("ac> cTagUnclassified ("..string.len(cTagUnclassified).." bytes)" )
-    print(cTagUnclassified)
+    print("ac> cTagOthers ("..string.len(cTagOthers).." bytes)" )
+    print("ac> cTagDupes ("..string.len(cTagDupes).." bytes)" )
 end
 
     -- Append Once to filetypes api path
@@ -195,12 +195,14 @@ end
     --Now Expose the functions collected by cTags for syntax highlitening a Projects API      
     local currentLexer=props["Language"]
     props["substyles."..currentLexer..".11"]=20
+    props["substylewords.11.15."..projectEXT] = cTagOthers
     props["substylewords.11.16."..projectEXT] = cTagClass
     props["substylewords.11.17."..projectEXT] = cTagFunctions
     props["substylewords.11.18."..projectEXT] = cTagNames
     props["substylewords.11.19."..projectEXT] = cTagModules
     props["substylewords.11.20."..projectEXT] = cTagENUMs
-            
+
+    props["style."..currentLexer..".11.16"]=props["colour.project.enums"]    
     props["style."..currentLexer..".11.16"]=props["colour.project.class"]
     props["style."..currentLexer..".11.17"]=props["colour.project.functions"]
     props["style."..currentLexer..".11.18"]=props["colour.project.constants"]
@@ -228,7 +230,7 @@ local function appendCTags(apiNames)
     cTagNames=""
     
     if file_exists(cTagsFilePath)  and cTagsUpdate=="1" then
-    if DEBUG==1 then print("ac>appendCtags" ,cTagsUpdate) end     
+    if DEBUG>=1 then print("ac>appendCtags" ,cTagsUpdate) end     
     
         props["project.ctags.apipath"]=cTagsAPIPath
         local lastEntry=""
@@ -245,7 +247,13 @@ local function appendCTags(apiNames)
             local params="" -- match function parameters for Calltips
              -- "catchAll" Names for ACList Entries
            local ACListEntry= entry:match("(~?[%w_]+)") or ""
-           
+            -- Mark Constants and Vars (matches "[tab]d/v)  
+            local tmp = entry:match("%\"\t[dv]")   
+            if tmp=="\"\td" or tmp=="\"\tv" then 
+                name= entry:match("([%w_]+)") or ""                    
+                isConst=true
+                skipper=true
+            end   
             -- Mark Classes & Namespaces (matches "[tab]c/n)
             if not skipper then
                 local tmp = entry:match("%\"\t[cn]")   
@@ -274,15 +282,6 @@ local function appendCTags(apiNames)
                 if  strClass then params=params..strClass.." =:-) " end
                 if string.len(params)>0 then skipper=true isFunction=true end
             end
-            -- Mark Constants and Vars (matches "[tab]d/v)  
-            if not skipper then
-                local tmp = entry:match("%\"\t[dv]")   
-                if tmp=="\"\td" or tmp=="\"\tv" then 
-                    name= entry:match("([%w_]+)") or ""                    
-                    isConst=true
-                    skipper=true
-                end   
-            end       
             -- Mark ENUMS, STRUCTs, typedefs and unions (matches "[tab]g/s/t/u) 
             if not skipper then
                 local tmp = entry:match("%\"\t[gust]")   
@@ -292,13 +291,14 @@ local function appendCTags(apiNames)
                 end   
             end
             -- Handle Tags that were not tokenized before
+            local cTagOther=""
             if not skipper then
-                cTagUnclassified= cTagUnclassified..entry
                 if name and name..params~=lastEntry then 
                     cTagOther=  entry:match("([%w_]+)") 
-                    if DEBUG==1 then print("unmatched: "..entry) end
+                    if DEBUG==2 then print("unmatched: "..entry) end
                 else
-                    if DEBUG==1 then print("Dupe: "..entry) end
+                    cTagDupes= cTagDupes..cTagOther -- include Dupes for stats in Trace mode
+                    if DEBUG==2 then print("Dupe: "..entry) end
                 end
             end
             -- publish collected Data (dupe Checked)  
@@ -307,13 +307,14 @@ local function appendCTags(apiNames)
                     ---- AutoComplete List entries
                     cTagAPI[ACListEntry]=true
                     ----  Highlitening
-            if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
-                        if props["project.ctags.functions"]=="1" and isFunction then cTagFunctions=cTagFunctions.." "..name  end
-                        if props["project.ctags.constants"]=="1" and isConst then cTagNames=cTagNames.." "..name end
-                        if props["project.ctags.modules"]=="1" and isModule then cTagModules=cTagModules.." "..name end
-                        if props["project.ctags.class"]=="1" and isClass then cTagClass=cTagClass.." "..name  end
-                        if props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name.." "..cTagUnclassified end
-                lastname=name
+                    if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
+                    if props["project.ctags.functions"]=="1" and isFunction then cTagFunctions=cTagFunctions.." "..name  end
+                    if props["project.ctags.constants"]=="1" and isConst then cTagNames=cTagNames.." "..name end
+                    if props["project.ctags.modules"]=="1" and isModule then cTagModules=cTagModules.." "..name end
+                    if props["project.ctags.class"]=="1" and isClass then cTagClass=cTagClass.." "..name  end
+                    if props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name  end
+                    if props["project.ctags.others"]=="1" then cTagOthers=cTagOthers..cTagOther end
+                    lastname=name
                 end
                 -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=name..params
@@ -368,7 +369,7 @@ local function getApiNames()
         return apiCache[lexer]
     end
     
-if DEBUG==1 then print("ac>getApiNames") end
+if DEBUG>=1 then print("ac>getApiNames") end
 
     local apiFiles = props["APIPath"] or ""
     apiFiles:gsub("[^;]+", function(apiFile) -- For each in ;-delimited list.
@@ -409,7 +410,7 @@ local function buildNames()
       if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
       if fSize > AC_MAX_SIZE then  return end
       
- if DEBUG==1 then  print("ac>buildnames") end
+ if DEBUG>=1 then  print("ac>buildnames") end
         setLexerSpecificStuff()
         -- Reset our array of names.
         names = {}
@@ -606,7 +607,7 @@ local events = {
     OnSave          = buildNames,
     OnDwellStart  = buildNames, -- should be raised on any User Interaction (Mousemove/Keybord Nav...) 
     OnSwitchFile    = function()
-    if DEBUG==1 then print("ac>onSwitchFile") end
+    if DEBUG>=1 then print("ac>onSwitchFile") end
         -- Use this file's cached list if possible:
         names = buffer.namesForAutoComplete
         if not names then
@@ -620,7 +621,7 @@ local events = {
 
     end,
     OnOpen          = function()
-    if DEBUG==1 then print("ac>onOpen") end
+    if DEBUG>=1 then print("ac>onOpen") end
         -- Ensure the document is styled first, so we can filter out
         -- words in comments and strings.
         editor:Colourise(0, editor.Length)
