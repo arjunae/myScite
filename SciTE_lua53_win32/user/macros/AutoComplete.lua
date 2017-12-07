@@ -306,7 +306,7 @@ function appendCTags(apiNames,cTagsFilePath,appendMode)
              if name and name..params~=lastEntry then 
                 if name~=lastname then 
                     ---- AutoComplete List entries
-                    cTagAPI[ACListEntry]=true
+                    if not  appendMode then cTagAPI[ACListEntry]=true end
                     ----  Highlitening use String concatination, because its faster for onSave ( theres no dupe checking.)
                     if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
                     if props["project.ctags.functions"]=="1" and isFunction then cTagFunctions=cTagFunctions.." "..name  end

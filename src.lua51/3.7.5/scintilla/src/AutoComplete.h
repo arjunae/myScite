@@ -51,7 +51,7 @@ public:
 
 	/// Display the auto completion list positioned to be near a character position
 	void Start(Window &parent, int ctrlID, Sci::Position position, Point location,
-		int startLen_, int lineHeight, bool unicodeMode, int technology);
+		int startLen_, int lineHeight, bool unicodeMode, int technology, bool useThickFrame);
 
 	/// The stop chars are characters which, when typed, cause the auto completion list to disappear
 	void SetStopChars(const char *stopChars_);

@@ -9829,6 +9829,8 @@ h	scintilla\win32\PlatWin.cxx	/^	HMODULE h;$/;"	m	class:Scintilla::DynamicLibrar
 h	scite\lua\src\llex.h	/^  Table *h;  \/* to avoid collection\/reuse strings *\/$/;"	m	struct:LexState	access:public
 h	scite\lua\src\lstate.h	/^  struct Table h;$/;"	m	union:GCUnion	typeref:struct:GCUnion::Table	access:public
 hAccTable	scite\win32\SciteWin.h	/^	HACCEL hAccTable;$/;"	m	class:SciTEWin	access:protected
+hBrushBack	scintilla\win32\PlatWin.cxx	/^HBRUSH hBrushBack = CreateSolidBrush(colourBG);$/;"	m	namespace:Scintilla	file:
+hBrushBack	scintilla\win32\PlatWin.cxx	/^HBRUSH hBrushBack;$/;"	m	namespace:Scintilla	file:
 hDLLD2D	scintilla\win32\PlatWin.cxx	/^static HMODULE hDLLD2D = NULL;$/;"	m	namespace:Scintilla	file:
 hDLLDWrite	scintilla\win32\PlatWin.cxx	/^static HMODULE hDLLDWrite = NULL;$/;"	m	namespace:Scintilla	file:
 hDevMode	scite\win32\SciteWin.h	/^	HGLOBAL hDevMode;$/;"	m	class:SciTEWin	access:protected
@@ -12519,6 +12521,7 @@ usePerformanceCounter	scintilla\win32\PlatWin.cxx	/^static bool usePerformanceCo
 usePerformanceCounter	scite\win32\GUIWin.cxx	/^static bool usePerformanceCounter = false;$/;"	m	namespace:GUI	file:
 useStyleCallTip	scintilla\src\CallTip.h	/^	bool useStyleCallTip;   \/\/ if true, STYLE_CALLTIP should be used$/;"	m	class:Scintilla::CallTip	access:private
 useTabs	scintilla\src\Document.h	/^	bool useTabs;$/;"	m	class:Scintilla::Document	access:public
+useThickFrame	scintilla\win32\PlatWin.cxx	/^	int useThickFrame; \/\/ for backward compatibility$/;"	m	class:Scintilla::ListBoxX	file:	access:private
 user	scite\gtk\Widget.h	/^	void *user;$/;"	m	class:WCheckDraw	access:private
 userData	scintilla\src\Document.h	/^		void *userData;$/;"	m	struct:Scintilla::Document::WatcherWiter) const
 userData	scintilla\src\Document.h	/^		void *userData;$/;"	m	struct:Scintilla::Document::WatcherWithUserData	access:public
@@ -12711,6 +12714,7 @@ win	scite\win32\SciteWin.h	/^	GUI::Window win;$/;"	m	struct:Band	access:public
 winPlace	scite\win32\SciteWin.h	/^	WINDOWPLACEMENT winPlace;$/;"	m	class:SciTEWin	access:protected
 window	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^QWidget *window(WindowID wid)$/;"	f	namespace:Scintilla::__anon14	signature:(WindowID wid)
 windowName	scite\src\SciTEBase.h	/^	GUI::gui_string windowName;$/;"	m	class:SciTEBase	access:protected
+windowOpts	scintilla\win32\PlatWin.cxx	/^long windowOpts=WS_POPUP;$/;"	m	namespace:Scintilla	file:
 word1_x_xpm	scite\gtk\SciTEGTK.cxx	/^static const char * word1_x_xpm[] = {$/;"	v	file:
 wordCharacters	scite\src\SciTEBase.h	/^	std::string wordCharacters;$/;"	m	class:SciTEBase	access:protected
 wordListDescriptions	scintilla\lexlib\LexerModule.h	/^	const char * const * wordListDescriptions;$/;"	m	class:Scintilla::LexerModule	access:protected

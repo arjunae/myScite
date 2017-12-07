@@ -2048,6 +2048,8 @@ class ListBoxX : public ListBox {
 	int wheelDelta; // mouse wheel residue
 	COLORREF colourBG;
 	COLORREF colourFG;
+	bool useThickFrame;
+	HBRUSH hBrushBack;
 	
 	HWND GetHWND() const;
 	void AppendListItem(const char *text, const char *numword);
@@ -2076,9 +2078,10 @@ public:
 		desiredVisibleRows(9), maxItemCharacters(0), aveCharWidth(8),
 		parent(NULL), ctrlID(0), doubleClickAction(NULL), doubleClickActionData(NULL),
 		widestItem(NULL), maxCharWidth(1), resizeHit(0), wheelDelta(0), 
-		colourBG(RGB(212,212,212)), colourFG(RGB(0,0,0)) {
+		colourBG(RGB(215,215,215)), colourFG(RGB(0,0,0)), useThickFrame(1) {
 	}
 	~ListBoxX() override {
+	if (hBrushBack) ::DeleteObject(hBrushBack);
 		if (fontCopy) {
 			::DeleteObject(fontCopy);
 			fontCopy = 0;
@@ -2086,7 +2089,7 @@ public:
 	}
 	void SetForeBack(ColourDesired fore, ColourDesired back);
 	void SetFont(Font &font) override;
-	void Create(Window &parent_, int ctrlID_, Point location_, int lineHeight_, bool unicodeMode_, int technology_) override;
+	void Create(Window &parent_, int ctrlID_, Point location_, int lineHeight_, bool unicodeMode_, int technology_, bool useThickFrame_) override;
 	void SetAverageCharWidth(int width) override;
 	void SetVisibleRows(int rows) override;
 	int GetVisibleRows() const override;
@@ -2116,12 +2119,14 @@ const Point ListBoxX::ItemInset(0, 0);
 const Point ListBoxX::TextInset(2, 0);
 const Point ListBoxX::ImageInset(1, 0);
 
+long windowOpts=WS_POPUP;
+	
 ListBox *ListBox::Allocate() {
 	ListBoxX *lb = new ListBoxX();
 	return lb;
 }
 
-void ListBoxX::Create(Window &parent_, int ctrlID_, Point location_, int lineHeight_, bool unicodeMode_, int technology_) {
+void ListBoxX::Create(Window &parent_, int ctrlID_, Point location_, int lineHeight_, bool unicodeMode_, int technology_, bool useThickFrame_) {
 	parent = &parent_;
 	ctrlID = ctrlID_;
 	location = location_;
@@ -2130,10 +2135,17 @@ void ListBoxX::Create(Window &parent_, int ctrlID_, Point location_, int lineHei
 	technology = technology_;
 	HWND hwndParent = static_cast<HWND>(parent->GetID());
 	HINSTANCE hinstanceParent = GetWindowInstance(hwndParent);
+	if (useThickFrame_){
+		windowOpts=WS_POPUP | WS_THICKFRAME;
+		hBrushBack = reinterpret_cast<HBRUSH>(COLOR_WINDOW+1 );
+	} else {
+		hBrushBack = ::CreateSolidBrush(colourBG); // uses a grey shade for better visibility. 
+	}
+
 	// Window created as popup so not clipped within parent client area
 	wid = ::CreateWindowEx(
 		WS_EX_WINDOWEDGE, ListBoxX_ClassName, TEXT(""),
-		WS_POPUP,
+		windowOpts,
 		100,100, 150,80, hwndParent,
 		NULL,
 		hinstanceParent,
@@ -2145,7 +2157,7 @@ void ListBoxX::Create(Window &parent_, int ctrlID_, Point location_, int lineHei
 }
 
 void ListBoxX::SetForeBack( ColourDesired fore, ColourDesired back) {
-		// convert to a COLORREF
+	// convert to a COLORREF
 	 colourBG=RGB(back.GetRed(), back.GetGreen(), back.GetBlue());
 	 colourFG=RGB(fore.GetRed(), fore.GetGreen(), fore.GetBlue());
 }
@@ -2283,8 +2295,9 @@ void ListBoxX::ClearRegisteredImages() {
 	images.Clear();
 }
 
+
 void ListBoxX::Draw(DRAWITEMSTRUCT *pDrawItem) {
-HBRUSH hBrushBack = CreateSolidBrush(colourBG);
+
 	if ((pDrawItem->itemAction == ODA_SELECT) || (pDrawItem->itemAction == ODA_DRAWENTIRE)) {
 		RECT rcBox = pDrawItem->rcItem;
 		rcBox.left += TextOffset();
@@ -2427,7 +2440,7 @@ void ListBoxX::SetList(const char *list, char separator, char typesep) {
 
 void ListBoxX::AdjustWindowRect(PRectangle *rc) {
 	RECT rcw = RectFromPRectangle(*rc);
-	::AdjustWindowRectEx(&rcw,0, false, WS_EX_WINDOWEDGE);
+	::AdjustWindowRectEx(&rcw, windowOpts, false, WS_EX_WINDOWEDGE);
 	*rc = PRectangle::FromInts(rcw.left, rcw.top, rcw.right, rcw.bottom);
 }
 
@@ -2657,7 +2670,9 @@ void ListBoxX::Paint(HDC hDC) {
 	// unpainted area when at the end of a non-integrally sized list with a
 	// vertical scroll bar
 	RECT rc = { 0, 0, extent.x, extent.y };
-	::FillRect(bitmapDC, &rc, reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
+	
+	//::FillRect(bitmapDC, &rc, reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
+	::FillRect(bitmapDC, &rc,	hBrushBack);
 	// Paint the entire client area and vertical scrollbar
 	::SendMessage(lb, WM_PRINT, reinterpret_cast<WPARAM>(bitmapDC), PRF_CLIENT|PRF_NONCLIENT);
 	::BitBlt(hDC, 0, 0, extent.x, extent.y, bitmapDC, 0, 0, SRCCOPY);

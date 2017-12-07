@@ -57,11 +57,12 @@ bool AutoComplete::Active() const {
 
 void AutoComplete::Start(Window &parent, int ctrlID,
 	Sci::Position position, Point location, int startLen_,
-	int lineHeight, bool unicodeMode, int technology) {
+	int lineHeight, bool unicodeMode, int technology,bool useThickFrame) {
 	if (active) {
 		Cancel();
 	}
-	lb->Create(parent, ctrlID, location, lineHeight, unicodeMode, technology);
+
+	lb->Create(parent, ctrlID, location, lineHeight, unicodeMode, technology, useThickFrame);
 	lb->Clear();
 	active = true;
 	startLen = startLen_;

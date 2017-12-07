@@ -255,8 +255,10 @@ void ScintillaBase::AutoCompleteStart(int lenEntered, const char *list) {
 		}
 	}
 	
+	bool useThickFrame=true; // change to test  .todo: Make user settable 
+	
  	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
-				lenEntered, vs.lineHeight, IsUnicodeMode(), technology);
+				lenEntered, vs.lineHeight, IsUnicodeMode(), technology, useThickFrame);
 	
 	PRectangle rcClient = GetClientRectangle();
 	Point pt = LocationFromPosition(sel.MainCaret() - lenEntered);
