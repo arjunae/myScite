@@ -11282,6 +11282,10 @@ override	scite\gtk\SciTEGTK.cxx	/^	void AddToPopUp(const char *label, int cmd = 
 override	scite\gtk\SciTEGTK.cxx	/^	void CheckAMenuItem(int wIDCheckItem, bool val) override;$/;"	m	class:SciTEGTK	file:	access:protected
 override	scite\gtk\SciTEGTK.cxx	/^	void CheckMenus() override;$/;"	m	class:SciTEGTK	file:	access:protected
 override	scite\gtk\SciTEGTK.cxx	/^	void CheckMenusClipboard() override;$/;"	m	class:SciTEGTK	file:	access:protected
+override	scite\gtk\SciTEGTK.cxx	/^	void ChildFocus(GtkWidget *widget) override; Cli$/;"	m	class:UserStrip	file:	access:public
+override	scite\gtk\SciTEGTK.cxx	/^	void ChildFocus(GtkWidget *widget) override; Clic $/;"	m	class:UserStrip	file:	access:public
+override	scite\gtk\SciTEGTK.cxx	/^	void ChildFocus(GtkWidget *widget) override; Clic$/;"	m	class:UserStrip	file:	access:public
+override	scite\gtk\SciTEGTK.cxx	/^	void ChildFocus(GtkWidget *widget) override; Click$/;"	m	class:UserStrip	file:	access:public
 override	scite\gtk\SciTEGTK.cxx	/^	void ChildFocus(GtkWidget *widget) override;$/;"	m	class:FindStrip	file:	access:public
 override	scite\gtk\SciTEGTK.cxx	/^	void ChildFocus(GtkWidget *widget) override;$/;"	m	class:ReplaceStrip	file:	access:public
 override	scite\gtk\SciTEGTK.cxx	/^	void ChildFocus(GtkWidget *widget) override;$/;"	m	class:UserStrip	file:	access:public

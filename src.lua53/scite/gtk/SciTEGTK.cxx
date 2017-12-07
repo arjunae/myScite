@@ -446,10 +446,10 @@ public:
 	static void ActivateSignal(GtkWidget *w, UserStrip *pStrip);
 	static gboolean EscapeSignal(GtkWidget *w, GdkEventKey *event, UserStrip *pStrip);
 	void ClickThis(GtkWidget *w);
-	static void ClickSignal(GtkWidget *w, UserStrip *pStrip);
-	void ChildFocus(GtkWidget *widget) override;
+	static void ClickSignal(GtkWidget *w, UserStrip *pStrip); 
+	void ChildFocus(GtkWidget *widget) override; Click
 	gboolean Focus(GtkDirectionType direction) override;
-	void SetDescription(const char *description);
+	void SetDescription(const char *description); Clic
 	void SetExtender(Extension *extender_);
 	void SetSciTE(SciTEGTK *pSciTEGTK_);
 	void Set(int control, const char *value);
