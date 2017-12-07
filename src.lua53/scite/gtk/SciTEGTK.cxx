@@ -447,9 +447,9 @@ public:
 	static gboolean EscapeSignal(GtkWidget *w, GdkEventKey *event, UserStrip *pStrip);
 	void ClickThis(GtkWidget *w);
 	static void ClickSignal(GtkWidget *w, UserStrip *pStrip); 
-	void ChildFocus(GtkWidget *widget) override; Click
+	void ChildFocus(GtkWidget *widget) override;
 	gboolean Focus(GtkDirectionType direction) override;
-	void SetDescription(const char *description); Clic
+	void SetDescription(const char *description);
 	void SetExtender(Extension *extender_);
 	void SetSciTE(SciTEGTK *pSciTEGTK_);
 	void Set(int control, const char *value);
@@ -469,7 +469,7 @@ public:
 	}
 #endif
 };
-a
+
 class SciTEGTK : public SciTEBase {
 
 	friend class UserStrip;

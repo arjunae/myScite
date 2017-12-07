@@ -24,6 +24,7 @@
 #include "IFaceTable.h"
 #include "SciTEKeys.h"
 
+#define LUA_COMPAT_5_1
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
