@@ -107,7 +107,7 @@ local function extract_path(path)
 end
 
 local function ReadTagFile(file)
-  if not tags then return nil end
+ -- if not tags then return nil end
   local f = io.open(file)
   if not f then return nil end
   local tags = {}

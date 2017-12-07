@@ -197,7 +197,7 @@ function AppendNewCTags()
 
 		os.remove(os.getenv("tmp")..dirSep.."*.session.ctags")
 		if ctagsBin and ctagsOpt and ctagsFP then 
-			ctagsCMD=ctagsBin.." -f "..ctagsTMP.." "..ctagsOpt.." "..props["FilePath"] 
+			ctagsCMD=ctagsBin.." -u -f "..ctagsTMP.." "..ctagsOpt.." "..props["FilePath"] 
 
 			-- add new ctags of the saved file to the session ctags file.
 			if props["project.ctags.save_applies"]=="1" then
@@ -207,7 +207,7 @@ function AppendNewCTags()
 			end 
 
 			 -- also do a full refresh to the project file in a background task
-			ctagsCMD=ctagsBin.." --append=yes -f "..ctagsFP.." "..ctagsOpt
+			ctagsCMD=ctagsBin.." -f "..ctagsFP.." "..ctagsOpt
 			scite_Popen(ctagsCMD)
 		end
 

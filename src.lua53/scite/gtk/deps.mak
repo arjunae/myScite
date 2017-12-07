@@ -6,58 +6,32 @@ DirectorExtension.o: DirectorExtension.cxx \
  ../src/Extender.h DirectorExtension.h ../src/SciTE.h ../src/Mutex.h \
  ../src/JobQueue.h ../src/Cookie.h ../src/Worker.h ../src/MatchMarker.h \
  ../src/SciTEBase.h
-GUIWin.o: GUIWin.cxx ../../scintilla/include/Scintilla.h \
- ../../scintilla/include/Sci_Position.h ../src/GUI.h
-SciTEWin.o: SciTEWin.cxx SciTEWin.h ../../scintilla/include/Scintilla.h \
- ../../scintilla/include/Sci_Position.h ../../scintilla/include/ILexer.h \
- ../src/GUI.h ../src/StringList.h ../src/StringHelpers.h \
- ../src/FilePath.h ../src/StyleDefinition.h ../src/PropSetFile.h \
- ../src/StyleWriter.h ../src/Extender.h ../src/SciTE.h ../src/Mutex.h \
- ../src/JobQueue.h ../src/Cookie.h ../src/Worker.h ../src/FileWorker.h \
- ../src/MatchMarker.h ../src/SciTEBase.h ../src/SciTEKeys.h \
- UniqueInstance.h ../src/StripDefinition.h Strips.h \
- ../src/MultiplexExtension.h ../src/Extender.h DirectorExtension.h \
- ../src/LuaExtension.h
-SciTEWinBar.o: SciTEWinBar.cxx SciTEWin.h \
+GTKMutex.o: GTKMutex.cxx \
+ ../src/Mutex.h
+GUIGTK.o: GUIGTK.cxx \
  ../../scintilla/include/Scintilla.h \
- ../../scintilla/include/Sci_Position.h ../../scintilla/include/ILexer.h \
- ../src/GUI.h ../src/StringList.h ../src/StringHelpers.h \
- ../src/FilePath.h ../src/StyleDefinition.h ../src/PropSetFile.h \
- ../src/StyleWriter.h ../src/Extender.h ../src/SciTE.h ../src/Mutex.h \
- ../src/JobQueue.h ../src/Cookie.h ../src/Worker.h ../src/FileWorker.h \
- ../src/MatchMarker.h ../src/SciTEBase.h ../src/SciTEKeys.h \
- UniqueInstance.h ../src/StripDefinition.h Strips.h
-SciTEWinDlg.o: SciTEWinDlg.cxx SciTEWin.h \
+ ../../scintilla/include/Sci_Position.h \
+ ../../scintilla/include/ScintillaWidget.h ../src/GUI.h
+SciTEGTK.o: SciTEGTK.cxx \
  ../../scintilla/include/Scintilla.h \
- ../../scintilla/include/Sci_Position.h ../../scintilla/include/ILexer.h \
- ../src/GUI.h ../src/StringList.h ../src/StringHelpers.h \
- ../src/FilePath.h ../src/StyleDefinition.h ../src/PropSetFile.h \
- ../src/StyleWriter.h ../src/Extender.h ../src/SciTE.h ../src/Mutex.h \
- ../src/JobQueue.h ../src/Cookie.h ../src/Worker.h ../src/FileWorker.h \
- ../src/MatchMarker.h ../src/SciTEBase.h ../src/SciTEKeys.h \
- UniqueInstance.h ../src/StripDefinition.h Strips.h
-Strips.o: Strips.cxx SciTEWin.h ../../scintilla/include/Scintilla.h \
- ../../scintilla/include/Sci_Position.h ../../scintilla/include/ILexer.h \
- ../src/GUI.h ../src/StringList.h ../src/StringHelpers.h \
- ../src/FilePath.h ../src/StyleDefinition.h ../src/PropSetFile.h \
- ../src/StyleWriter.h ../src/Extender.h ../src/SciTE.h ../src/Mutex.h \
- ../src/JobQueue.h ../src/Cookie.h ../src/Worker.h ../src/FileWorker.h \
- ../src/MatchMarker.h ../src/SciTEBase.h ../src/SciTEKeys.h \
- UniqueInstance.h ../src/StripDefinition.h Strips.h
-UniqueInstance.o: UniqueInstance.cxx ../../scintilla/include/Scintilla.h \
- ../../scintilla/include/Sci_Position.h ../src/GUI.h SciTEWin.h \
- ../../scintilla/include/ILexer.h ../src/StringList.h \
+ ../../scintilla/include/Sci_Position.h \
+ ../../scintilla/include/ScintillaWidget.h \
+ ../../scintilla/include/ILexer.h ../src/GUI.h ../src/StringList.h \
  ../src/StringHelpers.h ../src/FilePath.h ../src/StyleDefinition.h \
- ../src/PropSetFile.h ../src/StyleWriter.h ../src/Extender.h \
- ../src/SciTE.h ../src/Mutex.h ../src/JobQueue.h ../src/Cookie.h \
- ../src/Worker.h ../src/FileWorker.h ../src/MatchMarker.h \
- ../src/SciTEBase.h ../src/SciTEKeys.h UniqueInstance.h \
- ../src/StripDefinition.h Strips.h
-WinMutex.o: WinMutex.cxx ../src/Mutex.h
+ ../src/PropSetFile.h ../src/Extender.h ../src/MultiplexExtension.h \
+ ../src/Extender.h DirectorExtension.h ../src/LuaExtension.h \
+ ../src/SciTE.h ../src/Mutex.h ../src/JobQueue.h pixmapsGNOME.h SciIcon.h \
+ Widget.h ../src/Cookie.h ../src/Worker.h ../src/MatchMarker.h \
+ ../src/SciTEBase.h ../src/SciTEKeys.h ../src/StripDefinition.h
+Widget.o: Widget.cxx \
+ ../../scintilla/include/Scintilla.h \
+ ../../scintilla/include/Sci_Position.h ../src/GUI.h \
+ ../src/StringHelpers.h Widget.h
 Cookie.o: ../src/Cookie.cxx ../../scintilla/include/Scintilla.h \
  ../../scintilla/include/Sci_Position.h ../src/GUI.h \
  ../src/StringHelpers.h ../src/Cookie.h
-Credits.o: ../src/Credits.cxx ../../scintilla/include/Scintilla.h \
+Credits.o: ../src/Credits.cxx \
+ ../../scintilla/include/Scintilla.h \
  ../../scintilla/include/Sci_Position.h ../../scintilla/include/ILexer.h \
  ../src/GUI.h ../src/StringList.h ../src/StringHelpers.h \
  ../src/FilePath.h ../src/StyleDefinition.h ../src/PropSetFile.h \

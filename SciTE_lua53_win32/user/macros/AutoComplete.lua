@@ -227,11 +227,13 @@ function appendCTags(apiNames,cTagsFilePath,appendMode)
     local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" -- performance:  should we reuse an existing File ?
     local cTagsUpdate=props["project.ctags.update"]
     if props["project.ctags.filename"]=="" then return apiNames end
-    local doFullSync=true --catches every single bit of stuff for Highlitghtning
+    
+     -- catches every single bit of stuff for Highlitghtning
+     -- turn on for testing.
+    local doFullSync="0"
     
     -- Special Mode for OnSave Handlers only wanting to append some Data
     if appendMode then 
-        doFullSync=props["project.ctags.save_full_sync"]
         cTagsUpdate="1" 
     end    
     
@@ -247,7 +249,7 @@ function appendCTags(apiNames,cTagsFilePath,appendMode)
         -- Gibt den LemmingAmeisen was sinnvolles zu tun(tm) --
         
         for entry in io.lines(cTagsFilePath) do
-            local isFunction=false isClass=false isConst=false isModule=false isENUM=false
+            local isFunction=false isClass=false isConst=false isModule=false isENUM=false isOther=false
             local skipper=false          
             local name =""
             local params="" -- match function parameters for Calltips
@@ -288,20 +290,23 @@ function appendCTags(apiNames,cTagsFilePath,appendMode)
                 if  strClass then params=params..strClass.." =:-) " end
                 if string.len(params)>0 then skipper=true isFunction=true end
             end
-            -- Mark ENUMS, STRUCTs, typedefs and unions (matches "[tab]g/s/t/u) 
+            -- Mark ENUMS, STRUCTs, typedefs and unions (matches "[tab]g/s/t/u/e) 
             if not skipper then
-                local tmp = entry:match("%\"\t[gust]")   
-                if tmp=="\"\tg" or tmp=="\"\ts" or tmp=="\"\tt" or tmp=="\"\tt" then 
+             --   if entry:match("%\"\t[geust]")   then
+                if entry:match("%\"\t[geust]")   then
                     name= entry:match("([%w_]+)") or ""                    
                     isENUM=true
+                    skipper=true
                 end   
             end
-            -- Handle Tags that were not tokenized before
+            -- Handle Tag entries that were not tokenized before.
+            -- This should normally stay empty but can be handy for new languages.
             local cTagOther=""
-            if not skipper and doFullSync=="1" then
-                if name and name..params~=lastEntry then 
-                    cTagOther=  entry:match("([%w_]+)") 
-                    if DEBUG==2 then print("unmatched: "..entry) end
+            if not skipper and name and doFullSync=="1" then
+                if string.len(name)>1 then 
+                    cTagOther= entry:match("([%w_]+)") 
+                    if DEBUG==1 then print("dupe: "..entry) end
+                    isOther=true;
                 end
             end
             -- publish collected Data (dupe Checked)  
@@ -316,7 +321,7 @@ function appendCTags(apiNames,cTagsFilePath,appendMode)
                     if props["project.ctags.modules"]=="1" and isModule then cTagModules=cTagModules.." "..name end
                     if props["project.ctags.class"]=="1" and isClass then cTagClass=cTagClass.." "..name  end
                     if props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name  end
-                    if props["project.ctags.others"]=="1" then cTagOthers=cTagOthers..cTagOther end
+                    if props["project.ctags.others"]=="1" and isOther then cTagOthers=cTagOthers.." "..cTagOther end
                     lastname=name
                 else
                     if DEBUG then cTagDupes= cTagDupes..cTagOther  end -- include Dupes for stats in Trace mode
