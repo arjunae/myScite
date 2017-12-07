@@ -2046,7 +2046,9 @@ class ListBoxX : public ListBox {
 	Point dragOffset;
 	Point location;	// Caret location at which the list is opened
 	int wheelDelta; // mouse wheel residue
-
+	COLORREF colourBG;
+	COLORREF colourFG;
+	
 	HWND GetHWND() const;
 	void AppendListItem(const char *text, const char *numword);
 	static void AdjustWindowRect(PRectangle *rc);
@@ -2073,7 +2075,8 @@ public:
 	ListBoxX() : lineHeight(10), fontCopy(0), technology(0), lb(0), unicodeMode(false),
 		desiredVisibleRows(9), maxItemCharacters(0), aveCharWidth(8),
 		parent(NULL), ctrlID(0), doubleClickAction(NULL), doubleClickActionData(NULL),
-		widestItem(NULL), maxCharWidth(1), resizeHit(0), wheelDelta(0){
+		widestItem(NULL), maxCharWidth(1), resizeHit(0), wheelDelta(0), 
+		colourBG(RGB(180,180,180)), colourFG(RGB(0,0,0)) {
 	}
 	~ListBoxX() override {
 		if (fontCopy) {
@@ -2112,9 +2115,7 @@ public:
 const Point ListBoxX::ItemInset(0, 0);
 const Point ListBoxX::TextInset(2, 0);
 const Point ListBoxX::ImageInset(1, 0);
-COLORREF colourBG=RGB(222,222,222);
-COLORREF colourFG=RGB(10,10,10);
-	
+
 ListBox *ListBox::Allocate() {
 	ListBoxX *lb = new ListBoxX();
 	return lb;

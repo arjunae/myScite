@@ -14,6 +14,7 @@
 #include <ctime>
 #include <cmath>
 #include <climits>
+
 #include <vector>
 #include <map>
 #include <memory>
@@ -2045,7 +2046,9 @@ class ListBoxX : public ListBox {
 	Point dragOffset;
 	Point location;	// Caret location at which the list is opened
 	int wheelDelta; // mouse wheel residue
-
+	COLORREF colourBG;
+	COLORREF colourFG;
+	
 	HWND GetHWND() const;
 	void AppendListItem(const char *text, const char *numword);
 	static void AdjustWindowRect(PRectangle *rc);
@@ -2068,12 +2071,12 @@ class ListBoxX : public ListBox {
 	static const Point TextInset;	// Padding around text
 	static const Point ImageInset;	// Padding around image
 
-	
-public: // static lineHeight
-	ListBoxX() : lineHeight(9), fontCopy(0), technology(0), lb(0), unicodeMode(false),
+public:
+	ListBoxX() : lineHeight(10), fontCopy(0), technology(0), lb(0), unicodeMode(false),
 		desiredVisibleRows(9), maxItemCharacters(0), aveCharWidth(8),
 		parent(NULL), ctrlID(0), doubleClickAction(NULL), doubleClickActionData(NULL),
-		widestItem(NULL), maxCharWidth(1), resizeHit(0), wheelDelta(0) {
+		widestItem(NULL), maxCharWidth(1), resizeHit(0), wheelDelta(0), 
+		colourBG(RGB(180,180,180)), colourFG(RGB(0,0,0)) {
 	}
 	~ListBoxX() override {
 		if (fontCopy) {
@@ -2081,6 +2084,7 @@ public: // static lineHeight
 			fontCopy = 0;
 		}
 	}
+	void SetForeBack(ColourDesired fore, ColourDesired back);
 	void SetFont(Font &font) override;
 	void Create(Window &parent_, int ctrlID_, Point location_, int lineHeight_, bool unicodeMode_, int technology_) override;
 	void SetAverageCharWidth(int width) override;
@@ -2140,13 +2144,18 @@ void ListBoxX::Create(Window &parent_, int ctrlID_, Point location_, int lineHei
 	location = Point::FromInts(locationw.x, locationw.y);
 }
 
+void ListBoxX::SetForeBack( ColourDesired fore, ColourDesired back) {
+		// convert to a COLORREF
+	 colourBG=RGB(back.GetRed(), back.GetGreen(), back.GetBlue());
+	 colourFG=RGB(fore.GetRed(), fore.GetGreen(), fore.GetBlue());
+}
+
 void ListBoxX::SetFont(Font &font) {
 	if (font.GetID()) {
 		if (fontCopy) {
 			::DeleteObject(fontCopy);
 			fontCopy = 0;
 		}
-		
 		FormatAndMetrics *pfm = static_cast<FormatAndMetrics *>(font.GetID());
 		fontCopy = pfm->HFont();
 		::SendMessage(lb, WM_SETFONT, reinterpret_cast<WPARAM>(fontCopy), 0);
@@ -2275,6 +2284,7 @@ void ListBoxX::ClearRegisteredImages() {
 }
 
 void ListBoxX::Draw(DRAWITEMSTRUCT *pDrawItem) {
+HBRUSH hBrushBack = CreateSolidBrush(colourBG);
 	if ((pDrawItem->itemAction == ODA_SELECT) || (pDrawItem->itemAction == ODA_DRAWENTIRE)) {
 		RECT rcBox = pDrawItem->rcItem;
 		rcBox.left += TextOffset();
@@ -2282,14 +2292,20 @@ void ListBoxX::Draw(DRAWITEMSTRUCT *pDrawItem) {
 			RECT rcImage = pDrawItem->rcItem;
 			rcImage.right = rcBox.left;
 			// The image is not highlighted
-			::FillRect(pDrawItem->hDC, &rcImage, reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
+			//::FillRect(pDrawItem->hDC, &rcImage, reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
+			::FillRect(pDrawItem->hDC, &rcImage, hBrushBack);
 			::FillRect(pDrawItem->hDC, &rcBox, reinterpret_cast<HBRUSH>(COLOR_HIGHLIGHT+1));
-			::SetBkColor(pDrawItem->hDC, ::GetSysColor(COLOR_HIGHLIGHT));
-			::SetTextColor(pDrawItem->hDC, ::GetSysColor(COLOR_HIGHLIGHTTEXT));
+			//::SetBkColor(pDrawItem->hDC, ::GetSysColor(COLOR_HIGHLIGHT));
+			//::SetTextColor(pDrawItem->hDC, ::GetSysColor(COLOR_HIGHLIGHTTEXT));
+			::SetBkColor(pDrawItem->hDC,  colourBG);
+			::SetTextColor(pDrawItem->hDC, colourFG);
 		} else {
-			::FillRect(pDrawItem->hDC, &pDrawItem->rcItem, reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
-			::SetBkColor(pDrawItem->hDC, ::GetSysColor(COLOR_WINDOW));
-			::SetTextColor(pDrawItem->hDC, ::GetSysColor(COLOR_WINDOWTEXT));
+			//::FillRect(pDrawItem->hDC, &pDrawItem->rcItem, reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
+			::FillRect(pDrawItem->hDC, &pDrawItem->rcItem, hBrushBack);
+		//::SetBkColor(pDrawItem->hDC, ::GetSysColor(COLOR_WINDOW));
+		//::SetTextColor(pDrawItem->hDC, ::GetSysColor(COLOR_WINDOWTEXT));
+			::SetBkColor(pDrawItem->hDC, colourBG); 
+			::SetTextColor(pDrawItem->hDC, colourFG); 
 		}
 
 		const ListItemData item = lti.Get(pDrawItem->itemID);
@@ -2411,13 +2427,12 @@ void ListBoxX::SetList(const char *list, char separator, char typesep) {
 
 void ListBoxX::AdjustWindowRect(PRectangle *rc) {
 	RECT rcw = RectFromPRectangle(*rc);
-	::AdjustWindowRectEx(&rcw, WS_THICKFRAME, false, WS_EX_WINDOWEDGE);
+	::AdjustWindowRectEx(&rcw,0, false, WS_EX_WINDOWEDGE);
 	*rc = PRectangle::FromInts(rcw.left, rcw.top, rcw.right, rcw.bottom);
 }
 
 int ListBoxX::ItemHeight() const {
-// Utility Function
-	int itemHeight = lineHeight + (static_cast<int>(TextInset.y) * 2); // Adds Padding
+	int itemHeight = lineHeight + (static_cast<int>(TextInset.y) * 2);
 	const int pixHeight = images.GetHeight() + (static_cast<int>(ImageInset.y) * 2);
 	if (itemHeight < pixHeight) {
 		itemHeight = pixHeight;
@@ -2755,7 +2770,7 @@ LRESULT ListBoxX::WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam
 
 	case WM_MEASUREITEM: {
 			MEASUREITEMSTRUCT *pMeasureItem = reinterpret_cast<MEASUREITEMSTRUCT *>(lParam);
-			pMeasureItem->itemHeight = static_cast<unsigned int>(ItemHeight());  //go
+			pMeasureItem->itemHeight = static_cast<unsigned int>(ItemHeight());
 		}
 		break;
 

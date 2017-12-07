@@ -17,7 +17,6 @@
 
 #include "StringHelpers.h"
 #include "Cookie.h"
-std::string ctLine(const char *buf, size_t length)
 
 std::string ExtractLine(const char *buf, size_t length) {
 	unsigned int endl = 0;

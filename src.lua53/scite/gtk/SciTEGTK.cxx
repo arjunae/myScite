@@ -469,7 +469,7 @@ public:
 	}
 #endif
 };
-
+a
 class SciTEGTK : public SciTEBase {
 
 	friend class UserStrip;

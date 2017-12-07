@@ -9118,8 +9118,15 @@ collectingUndo	scintilla\src\CellBuffer.h	/^	bool collectingUndo;$/;"	m	class:Sc
 colour	scintilla\src\ViewStyle.h	/^	ColourDesired colour;$/;"	m	struct:Scintilla::EdgeProperties	access:public
 colour	scite\src\StyleDefinition.h	/^	long colour;$/;"	m	struct:IndicatorDefinition	access:public
 colourBG	scintilla\src\CallTip.h	/^	ColourDesired colourBG;$/;"	m	class:Scintilla::CallTip	access:public
+colourBG	scintilla\win32\PlatWin.cxx	/^	COLORREF colourBG;$/;"	m	class:Scintilla::ListBoxX	file:	access:private
+colourBG	scintilla\win32\PlatWin.cxx	/^	COLORREF colourBG;$/;"	m	namespace:Scintilla	file:
+colourBG	scintilla\win32\PlatWin.cxx	/^COLORREF colourBG=RGB(180,180,180);$/;"	m	namespace:Scintilla	file:
+colourBG	scintilla\win32\PlatWin.cxx	/^COLORREF colourBG=RGB(200,200,200);$/;"	m	namespace:Scintilla	file:
 colourBG	scintilla\win32\PlatWin.cxx	/^COLORREF colourBG=RGB(222,222,222);$/;"	m	namespace:Scintilla	file:
 colourCodeTable	scintilla\src\XPM.h	/^	ColourDesired colourCodeTable[256];$/;"	m	class:Scintilla::XPM	access:private
+colourFG	scintilla\win32\PlatWin.cxx	/^	COLORREF colourFG;$/;"	m	class:Scintilla::ListBoxX	file:	access:private
+colourFG	scintilla\win32\PlatWin.cxx	/^	COLORREF colourFG;$/;"	m	namespace:Scintilla	file:
+colourFG	scintilla\win32\PlatWin.cxx	/^COLORREF colourFG=RGB(0,0,0);$/;"	m	namespace:Scintilla	file:
 colourFG	scintilla\win32\PlatWin.cxx	/^COLORREF colourFG=RGB(10,10,10);$/;"	m	namespace:Scintilla	file:
 colourFG	scintilla\win32\PlatWin.cxx	/^COLORREF colourFG=RGB(10,10,10);$/;"	m	namespublic	signature:()
 colourLight	scintilla\src\CallTip.h	/^	ColourDesired colourLight;$/;"	m	class:Scintilla::CallTip	access:public
