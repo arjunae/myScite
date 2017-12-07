@@ -26,7 +26,7 @@ To use this script with SciTE4AutoHotkey:
     colour.project.class= .functions= .constants=fore:######
 ]]
 
-local DEBUG=0  --1: Trace Mode 2: Verbose Mode
+local DEBUG=0 --1: Trace Mode 2: Verbose Mode
 
 -- Maximal filesize that this script should handle
 local AC_MAX_SIZE =262144 --260k
@@ -157,13 +157,13 @@ end
 ----- globally cached Names ---
 
 cTagAPI={} -- projectAPI functions(param)
-local cTagNames=""
-local cTagFunctions=""
-local cTagClass=""
-local cTagModules =""
-local cTagENUMs=""
-local cTagOthers=""
-local cTagDupes="" -- Used when DEBUG==2
+local cTagNames={}
+local cTagFunctions={}
+local cTagClass={}
+local cTagModules={}
+local cTagENUMs={}
+local cTagOthers={}
+local cTagDupes={} -- Used when DEBUG==2
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
@@ -174,17 +174,17 @@ local cTagDupes="" -- Used when DEBUG==2
 -- probably should return something useful
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-local function writeProps()
+function writeProps()
 
 if DEBUG>=1 then
     print("ac>writeProps:")
-    print("ac> cTagNames: ("..string.len(cTagNames).." bytes)" )
-    print("ac> cTagClass: ("..string.len(cTagClass).." bytes)" )
-    print("ac> cTagModules: ("..string.len(cTagModules).." bytes)" )  
-    print("ac> cTagFunctions: ("..string.len(cTagFunctions).." bytes)" )
-    print("ac> cTagENUMs ("..string.len(cTagENUMs).." bytes)" )
-    print("ac> cTagOthers ("..string.len(cTagOthers).." bytes)" )
-    print("ac> cTagDupes ("..string.len(cTagDupes).." bytes)" )
+    if TagNames then print("ac> cTagNames: ("..(#TagNames)..")" ) end
+    if cTagClass then print("ac> cTagClass: ("..(#cTagClass)..")" ) end
+    if cTagModules then print("ac> cTagModules: ("..(#cTagModules)..")" ) end
+    if cTagFunctions then print("ac> cTagFunctions: ("..(#cTagFunctions)..")" ) end
+    if cTagENUMs then print("ac> cTagENUMs ("..(#cTagENUMs)..")" ) end
+    if cTagOthers then print("ac> cTagOthers ("..(#cTagOthers)..")" ) end
+    if cTagDupes then print("ac> cTagDupes ("..(#cTagDupes)..")" ) end
 end
 
     -- Append Once to filetypes api path
@@ -195,14 +195,14 @@ end
     --Now Expose the functions collected by cTags for syntax highlitening a Projects API      
     local currentLexer=props["Language"]
     props["substyles."..currentLexer..".11"]=20
-    props["substylewords.11.15."..projectEXT] = cTagOthers
-    props["substylewords.11.16."..projectEXT] = cTagClass
-    props["substylewords.11.17."..projectEXT] = cTagFunctions
-    props["substylewords.11.18."..projectEXT] = cTagNames
-    props["substylewords.11.19."..projectEXT] = cTagModules
-    props["substylewords.11.20."..projectEXT] = cTagENUMs
+    props["substylewords.11.15."..projectEXT] = table.concat(cTagOthers," ")
+    props["substylewords.11.16."..projectEXT] = table.concat(cTagClass," ")
+    props["substylewords.11.17."..projectEXT] = table.concat(cTagFunctions," ")
+    props["substylewords.11.18."..projectEXT] = table.concat(cTagNames," ")
+    props["substylewords.11.19."..projectEXT] = table.concat(cTagModules," ")
+    props["substylewords.11.20."..projectEXT] = table.concat(cTagENUMs," ")
 
-    props["style."..currentLexer..".11.16"]=props["colour.project.enums"]    
+    props["style."..currentLexer..".11.15"]=props["colour.project.enums"]    
     props["style."..currentLexer..".11.16"]=props["colour.project.class"]
     props["style."..currentLexer..".11.17"]=props["colour.project.functions"]
     props["style."..currentLexer..".11.18"]=props["colour.project.constants"]
@@ -213,24 +213,28 @@ end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
---  appendCTags()
+--  appendCTags(apiNames,cTagsFilePath,dryRun)
 --  Append tagNames to  existing currentLexers substyle 11
+--  Takes: apiNames: table, FullyQualified cTagsFilePath, appendMode: optionally dont write Api file.
 --  Returns: uniqued tagNames to given table
 --
 -- Optimized lua version. Gives reasonable Speed on a 100k source and 1M cTags File. 
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-local function appendCTags(apiNames)
+function appendCTags(apiNames,cTagsFilePath,appendMode)
     local sysTmp=os.getenv("tmp")
-    local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
     local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" -- performance:  should we reuse an existing File ?
     local cTagsUpdate=props["project.ctags.update"]
     if props["project.ctags.filename"]=="" then return apiNames end
-    cTagNames=""
+    
+    -- Special Mode for OnSave Handlers wanting only to append some Data
+    if appendMode then 
+        cTagsUpdate="1" 
+    end    
     
     if file_exists(cTagsFilePath)  and cTagsUpdate=="1" then
-    if DEBUG>=1 then print("ac>appendCtags" ,cTagsUpdate) end     
+    if DEBUG>=1 then print("ac>appendCtags" ,cTagsFilePath, short) end     
     
         props["project.ctags.apipath"]=cTagsAPIPath
         local lastEntry=""
@@ -305,21 +309,34 @@ local function appendCTags(apiNames)
                     cTagAPI[ACListEntry]=true
                     ----  Highlitening
                     if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
-                    if props["project.ctags.functions"]=="1" and isFunction then cTagFunctions=cTagFunctions.." "..name  end
-                    if props["project.ctags.constants"]=="1" and isConst then cTagNames=cTagNames.." "..name end
-                    if props["project.ctags.modules"]=="1" and isModule then cTagModules=cTagModules.." "..name end
-                    if props["project.ctags.class"]=="1" and isClass then cTagClass=cTagClass.." "..name  end
-                    if props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name  end
-                    if props["project.ctags.others"]=="1" then cTagOthers=cTagOthers..cTagOther end
+                    if props["project.ctags.functions"]=="1" and isFunction then 
+                        table.insert (cTagFunctions,name)
+                    end
+                    if props["project.ctags.constants"]=="1" and isConst then
+                       table.insert (cTagNames,name)
+                    end
+                    if props["project.ctags.modules"]=="1" and isModule then
+                    table.insert (cTagModules,name)
+                    end
+                    if props["project.ctags.class"]=="1" and isClass then
+                         table.insert (cTagClass,name)     
+                    end
+                    if props["project.ctags.enums"]=="1" and isENUM then
+                        table.insert (cTagENUMs,name)  
+                    end
+                    if props["project.ctags.others"]=="1" then
+                         table.insert (cTagOthers,cTagOther)  
+                     end
                     lastname=name
                 else
-                    if DEBUG then cTagDupes= cTagDupes..cTagOther  end -- include Dupes for stats in Trace mode
+                    if DEBUG then table.insert (cTagDupes,cTagOther)  end -- include Dupes for stats in Trace mode
                     if DEBUG==2 then print("Dupe: "..entry) end 
                 end
                 -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=name..params
                 if isFunction and string.len(params)>2 then 
-                    io.write(lastEntry.."\n") end -- faster then using a full bulkWrite
+                   if not dryRun then io.write(lastEntry.."\n") end
+                end -- faster then using a full bulkWrite
             end
         end
 
@@ -383,7 +400,8 @@ if DEBUG>=1 then print("ac>getApiNames") end
         return ""
     end)
     
-    apiNames= appendCTags(apiNames)
+    local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
+    apiNames= appendCTags(apiNames,cTagsFilePath,false)
         
     if lexer~=nil then
         apiCache[lexer] = apiNames -- Even if it's empty

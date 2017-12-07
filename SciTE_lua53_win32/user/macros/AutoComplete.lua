@@ -303,36 +303,18 @@ function appendCTags(apiNames,cTagsFilePath,appendMode)
                 end
             end
             -- publish collected Data (dupe Checked)  
-            if name and name..params~=lastEntry then 
+             if name and name..params~=lastEntry then 
                 if name~=lastname then 
                     ---- AutoComplete List entries
                     cTagAPI[ACListEntry]=true
-                    ----  Highlitening
+                    ----  Highlitening use String concatination, because its faster for onSave ( theres no dupe checking.)
                     if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
-                    if props["project.ctags.functions"]=="1" and isFunction then 
-                        if appendMode and cTagFunctions:match(name)==nil  then cTagFunctions=cTagFunctions.." "..name end
-                        if not appendMode  then cTagFunctions=cTagFunctions.." "..name end 
-                    end
-                    if props["project.ctags.constants"]=="1" and isConst then
-                        if appendMode and cTagNames:match(name)==nil then cTagNames=cTagNames.." "..name end
-                        if not appendMode then cTagNames=cTagNames.." "..name end
-                    end
-                    if props["project.ctags.modules"]=="1" and isModule then
-                        if appendMode  and cTagModules:match(name)==nil then cTagModules=cTagModules.." "..name end
-                        if not appendMode  then cTagModules=cTagModules.." "..name end
-                    end
-                    if props["project.ctags.class"]=="1" and isClass then
-                        if appendMode  and  cTagClass:match(name)==nil then cTagClass=cTagClass.." "..name  end
-                        if not appendMode  then cTagClass=cTagClass.." "..name  end     
-                    end
-                    if props["project.ctags.enums"]=="1" and isENUM then
-                        if appendMode and cTagENUMs:match(name)==nil then cTagENUMs=cTagENUMs.." "..name  end
-                        if not appendMode then cTagENUMs=cTagENUMs.." "..name  end
-                    end
-                    if props["project.ctags.others"]=="1" then
-                        if appendMode and cTagOthers:match(cTagOther)==nil then cTagOthers=cTagOthers..cTagOther end
-                        if not appendMode then cTagOthers=cTagOthers..cTagOther  end
-                     end
+                    if props["project.ctags.functions"]=="1" and isFunction then cTagFunctions=cTagFunctions.." "..name  end
+                    if props["project.ctags.constants"]=="1" and isConst then cTagNames=cTagNames.." "..name end
+                    if props["project.ctags.modules"]=="1" and isModule then cTagModules=cTagModules.." "..name end
+                    if props["project.ctags.class"]=="1" and isClass then cTagClass=cTagClass.." "..name  end
+                    if props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name  end
+                    if props["project.ctags.others"]=="1" then cTagOthers=cTagOthers..cTagOther end
                     lastname=name
                 else
                     if DEBUG then cTagDupes= cTagDupes..cTagOther  end -- include Dupes for stats in Trace mode
