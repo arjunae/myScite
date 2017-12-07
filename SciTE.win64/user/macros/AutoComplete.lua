@@ -227,9 +227,11 @@ function appendCTags(apiNames,cTagsFilePath,appendMode)
     local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" -- performance:  should we reuse an existing File ?
     local cTagsUpdate=props["project.ctags.update"]
     if props["project.ctags.filename"]=="" then return apiNames end
+    local doFullSync=true --catches every single bit of stuff for Highlitghtning
     
-    -- Special Mode for OnSave Handlers wanting only to append some Data
+    -- Special Mode for OnSave Handlers only wanting to append some Data
     if appendMode then 
+        doFullSync=props["project.ctags.save_full_sync"]
         cTagsUpdate="1" 
     end    
     
@@ -245,7 +247,7 @@ function appendCTags(apiNames,cTagsFilePath,appendMode)
         -- Gibt den LemmingAmeisen was sinnvolles zu tun(tm) --
         
         for entry in io.lines(cTagsFilePath) do
-            local isFunction, isClass, isConst, isModule, isENUM
+            local isFunction=false isClass=false isConst=false isModule=false isENUM=false
             local skipper=false          
             local name =""
             local params="" -- match function parameters for Calltips
@@ -296,7 +298,7 @@ function appendCTags(apiNames,cTagsFilePath,appendMode)
             end
             -- Handle Tags that were not tokenized before
             local cTagOther=""
-            if not skipper then
+            if not skipper and doFullSync=="1" then
                 if name and name..params~=lastEntry then 
                     cTagOther=  entry:match("([%w_]+)") 
                     if DEBUG==2 then print("unmatched: "..entry) end
