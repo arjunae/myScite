@@ -2076,7 +2076,7 @@ public:
 		desiredVisibleRows(9), maxItemCharacters(0), aveCharWidth(8),
 		parent(NULL), ctrlID(0), doubleClickAction(NULL), doubleClickActionData(NULL),
 		widestItem(NULL), maxCharWidth(1), resizeHit(0), wheelDelta(0), 
-		colourBG(RGB(180,180,180)), colourFG(RGB(0,0,0)) {
+		colourBG(RGB(212,212,212)), colourFG(RGB(0,0,0)) {
 	}
 	~ListBoxX() override {
 		if (fontCopy) {

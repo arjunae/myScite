@@ -2,12 +2,12 @@
 
 -- Browse a tags database from SciTE!
 -- 02.12.2017 -> Arjunae: 
--- Extman support / project.ctags.filename / project.path /  project.ctags.listone & ALT-Click Tag!
+-- Extman support / project.ctags.filename / project.path /  project.ctags.list_one & ALT-Click Tag!
 --
 -- Set this property:
 -- project.ctags.filename=<full path to tags file>
 -- 1. Multiple tags are handled correctly; a drop-down list is presented
---     Define project.ctags.listone="1" to force showing a list for single entries.
+--     Define project.ctags.list_one="1" to force showing a list for single entries.
 -- 2. There is a full stack of marks available.
 -- 3. If $(project.path) is not defined, will try to find a tags file in the current dir.
 -- 4. if $(project.path) is defined assume --tag-relative=yes  (Tags relative to project.path)
@@ -218,7 +218,7 @@ function find_ctag(f,partial)
   if k == 0 then return end
 
   
-  if k > 1  or props["project.ctags.listone"]=="1"  then -- multiple tags found
+  if k > 1  or props["project.ctags.list_one"]=="1"  then -- multiple tags found
     local list = {}
     for i,t in ipairs(matches) do
       table.insert(list,i..' '..t.file..':'..t.pattern)

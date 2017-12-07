@@ -220,9 +220,11 @@ function AppendNewCTags()
 			ctagsCMD=ctagsBin.." -f "..ctagsTMP.." "..ctagsOpt.." "..props["FilePath"] 
 
 			-- add new ctags of the saved file to the session ctags file.
-			local pipe=scite_Popen(ctagsCMD)
-			local tmp= pipe:read('*a') -- synchronous -waits for the Command to complete
-			appendCTags({},ctagsTMP,true) 
+			if props["project.ctags.save_applies"]=="1" then
+				local pipe=scite_Popen(ctagsCMD)
+				local tmp= pipe:read('*a') -- synchronous -waits for the Command to complete
+				appendCTags({},ctagsTMP,true) 
+			end 
 
 			 -- also do a full refresh to the project file in a background task
 			ctagsCMD=ctagsBin.." --append=yes -f "..ctagsFP.." "..ctagsOpt

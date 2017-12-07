@@ -184,6 +184,37 @@ HandleProject()
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+function AppendNewCTags()
+--
+-- Search the File for new CTags and append them.
+--
+
+	if props["project.name"]~="" and props["file.patterns.project"]:match(props["FileExt"])~=nil then
+		ctagsBin=props["project.ctags.bin"]
+		ctagsOpt=props["project.ctags.opt"]
+		ctagsFP= props["project.ctags.filepath"]
+		ctagsTMP=os.getenv("tmp")..dirSep..props["project.name"]..".session.ctags" 
+
+		os.remove(os.getenv("tmp")..dirSep.."*.session.ctags")
+		if ctagsBin and ctagsOpt and ctagsFP then 
+			ctagsCMD=ctagsBin.." -f "..ctagsTMP.." "..ctagsOpt.." "..props["FilePath"] 
+
+			-- add new ctags of the saved file to the session ctags file.
+			if props["project.ctags.save_applies"]=="1" then
+				local pipe=scite_Popen(ctagsCMD)
+				local tmp= pipe:read('*a') -- synchronous -waits for the Command to complete
+				appendCTags({},ctagsTMP,true) 
+			end 
+
+			 -- also do a full refresh to the project file in a background task
+			ctagsCMD=ctagsBin.." --append=yes -f "..ctagsFP.." "..ctagsOpt
+			scite_Popen(ctagsCMD)
+		end
+
+	end
+end
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 function OnInit() 
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
@@ -191,7 +222,8 @@ function OnInit()
 
 	scite_OnOpenSwitch(HandleProject)
 	scite_OnOpenSwitch(StyleStuff)
-	
+	scite_OnSave(AppendNewCTags)
+		
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
 end
