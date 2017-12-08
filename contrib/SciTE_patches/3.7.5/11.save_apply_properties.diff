@@ -1,3 +1,4 @@
+///@brief Allow to apply lua changed props during load and save.
 diff -Nurw scintilla-scite/src/SciTEIO.cxx scite/src/SciTEIO.cxx
 --- scintilla-scite/src/SciTEIO.cxx	2017-05-26 00:25:04.000000000 +0200
 +++ scite/src/SciTEIO.cxx	2017-12-08 12:02:26.000000000 +0100

@@ -1,3 +1,4 @@
+///@brief Place Language Config Items into submenu Config Files.
 diff -Nurw scite/gtk/SciTEGTK.cxx scintilla-scite/gtk/SciTEGTK.cxx
 --- scite/gtk/SciTEGTK.cxx	2017-11-05 13:27:12.000000000 +0100
 +++ scintilla-scite/gtk/SciTEGTK.cxx	2017-11-05 13:24:10.000000000 +0100

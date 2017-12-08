@@ -22,6 +22,7 @@ class AutoComplete {
 	char typesep; // Type seperator
 	enum { maxItemLen=1000 };
 	std::vector<int> sortMatrix;
+	Font font;
 	
 public:
 
@@ -51,7 +52,7 @@ public:
 
 	/// Display the auto completion list positioned to be near a character position
 	void Start(Window &parent, int ctrlID, Sci::Position position, Point location,
-		int startLen_, int lineHeight, bool unicodeMode, int technology, bool useThickFrame);
+		int startLen_, const char *faceName, int characterSet, int size,  bool unicodeMode, int technology, bool useThickFrame, Window &wParent);
 
 	/// The stop chars are characters which, when typed, cause the auto completion list to disappear
 	void SetStopChars(const char *stopChars_);

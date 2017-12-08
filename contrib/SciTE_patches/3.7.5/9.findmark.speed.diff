@@ -1,3 +1,4 @@
+///@brief allow findmarks to respond more quickly (from 250ms to 150ms)
 diff -Nurw scintilla-scite/src/MatchMarker.cxx scite/src/MatchMarker.cxx
 --- scintilla-scite/src/MatchMarker.cxx	2017-05-26 00:25:04.000000000 +0200
 +++ scite/src/MatchMarker.cxx	2017-11-14 15:41:30.000000000 +0100
@@ -8,7 +9,7 @@ diff -Nurw scintilla-scite/src/MatchMarker.cxx scite/src/MatchMarker.cxx
 -		// Limit the search duration to 250 ms. Avoid to freeze editor for huge lines.
 -		if (searchElapsedTime.Duration() > 0.25) {
 +		// Limit the search duration to 150 ms. Avoid to freeze editor for huge lines.
-+		// testwise adapted, because of generally raised Systems speeds.
++		// adapted, because of generally raised Systems speeds.
 +		// Should make that a configureble Option...
 +		if (searchElapsedTime.Duration() > 0.15) { 
  			// Clear all indicators because timer has expired.

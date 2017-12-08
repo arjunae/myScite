@@ -1,3 +1,4 @@
+///@brief Enables: import $(var)/sample.properties
 diff -Nurw scintilla-scite/src/PropSetFile.cxx scite/src/PropSetFile.cxx
 --- scintilla-scite/src/PropSetFile.cxx	2017-05-26 00:25:04.000000000 +0200
 +++ scite/src/PropSetFile.cxx	2017-11-08 03:45:32.000000000 +0100

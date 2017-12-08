@@ -23,6 +23,7 @@ if props["PLAT_WIN"] then
 	-- Load cTags Browser
 	dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
 end
+
 if props["PLAT_GTK"]==1 then
 	myHome = props["SciteUserHome"].."/user"
 	defaultHome = props["SciteDefaultHome"]
@@ -38,12 +39,7 @@ end
 -- ##################  Lua Samples #####################
 --   ##############################################
 
-
---
--- OnInit()
--- called after above and only once when Scite starts (SciteStartups DocumentReady)
---
-function OnInit() 
+function OnLoad() 
 	--print(editor.StyleAt[1])
 	-- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
 end

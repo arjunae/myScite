@@ -7890,7 +7890,7 @@ StackPrev	scite\src\SciTEBuffers.cxx	/^int BufferList::StackPrev() {$/;"	f	class
 StandardASCII	scintilla\src\CaseFolder.cxx	/^void CaseFolderTable::StandardASCII() {$/;"	f	class:CaseFolderTable	signature:()
 Start	scintilla\lexlib\SubStyles.h	/^	int Start() const {$/;"	f	class:Scintilla::WordClassifier	access:public	signature:() const
 Start	scintilla\lexlib\SubStyles.h	/^	int Start(int styleBase) {$/;"	f	class:Scintilla::SubStyles	access:public	signature:(int styleBase)
-Start	scintilla\src\AutoComplete.cxx	/^void AutoComplete::Start(Window &parent, int ctrlID,$/;"	f	class:AutoComplete	signature:(Window &parent, int ctrlID, Sci::Position position, Point location, int startLen_, int lineHeight, bool unicodeMode, int technology,bool useThickFrame)
+Start	scintilla\src\AutoComplete.cxx	/^void AutoComplete::Start(Window &parent, int ctrlID,$/;"	f	class:AutoComplete	signature:(Window &parent, int ctrlID, Sci::Position position, Point location, int startLen_, const char *faceName, int characterSet, int size, bool unicodeMode, int technology,bool useThickFrame,Window &wParent)
 Start	scintilla\src\Decoration.cxx	/^int DecorationList::Start(int indicator, int position) {$/;"	f	class:DecorationList	signature:(int indicator, int position)
 Start	scintilla\src\Selection.cxx	/^SelectionPosition Selection::Start() const {$/;"	f	class:Selection	signature:() const
 Start	scintilla\src\Selection.h	/^	SelectionPosition Start() const {$/;"	f	struct:Scintilla::SelectionRange	access:public	signature:() const
@@ -9526,6 +9526,7 @@ foldState	scite\src\SciTEBase.h	/^	std::vector<int> foldState;$/;"	m	class:Buffe
 foldState	scite\src\SciTEBase.h	/^	std::vector<int> foldState;$/;"	m	struct:BufferState	access:public
 foldmarginColour	scintilla\src\ViewStyle.h	/^	ColourOptional foldmarginColour;$/;"	m	class:Scintilla::ViewStyle	access:public
 foldmarginHighlightColour	scintilla\src\ViewStyle.h	/^	ColourOptional foldmarginHighlightColour;$/;"	m	class:Scintilla::ViewStyle	access:public
+font	scintilla\src\AutoComplete.h	/^	Font font;$/;"	m	class:Scintilla::AutoComplete	access:private
 font	scintilla\src\CallTip.h	/^	Font font;$/;"	m	class:Scintilla::CallTip	access:private
 font	scintilla\src\Style.h	/^	FontAlias font;$/;"	m	class:Scintilla::Style	access:public
 font	scintilla\src\ViewStyle.h	/^	Font font;$/;"	m	class:Scintilla::FontRealised	access:public

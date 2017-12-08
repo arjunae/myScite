@@ -46,6 +46,7 @@ AutoComplete::AutoComplete() :
 }
 
 AutoComplete::~AutoComplete() {
+	font.Release();
 	if (lb) {
 		lb->Destroy();
 	}
@@ -57,11 +58,17 @@ bool AutoComplete::Active() const {
 
 void AutoComplete::Start(Window &parent, int ctrlID,
 	Sci::Position position, Point location, int startLen_,
-	int lineHeight, bool unicodeMode, int technology,bool useThickFrame) {
+ const char *faceName, int characterSet, int size, bool unicodeMode, int technology,bool useThickFrame,Window &wParent) {
 	if (active) {
 		Cancel();
 	}
-
+	std::unique_ptr<Surface> surfaceMeasure(Surface::Allocate(technology));
+	surfaceMeasure->Init(wParent.GetID());
+	surfaceMeasure->SetUnicodeMode(unicodeMode);
+	XYPOSITION deviceHeight = static_cast<XYPOSITION>(surfaceMeasure->DeviceHeightFont(size));
+	FontParameters fp(faceName, deviceHeight / SC_FONT_SIZE_MULTIPLIER, SC_WEIGHT_NORMAL, false, 0, technology, characterSet);
+	font.Create(fp);
+	int lineHeight = RoundXYPosition(surfaceMeasure->Height(font));
 	lb->Create(parent, ctrlID, location, lineHeight, unicodeMode, technology, useThickFrame);
 	lb->Clear();
 	active = true;

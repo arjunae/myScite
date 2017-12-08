@@ -21,8 +21,8 @@ To use this script with SciTE4AutoHotkey:
     Renew Keyword List OnDwell
 - appendCTags() function (Autocomplete / Highlite Project)   
 ->Config:
-    project.ctags.class= .functions= .constants=1 
-    colour.project.class= .functions= .constants=fore:######
+    project.ctags.class= .functions= .constants= .modules= .enums=1 
+    colour.project.class= .functions= .constants= .modules= .enums=fore:######
 ]]
 
 local DEBUG=0 --1: Trace Mode 2: Verbose Mode
@@ -227,7 +227,7 @@ function appendCTags(apiNames,cTagsFilePath,createAPIFile)
     local cTagsUpdate=props["project.ctags.update"]
     if props["project.ctags.filename"]=="" then return apiNames end
     
-     -- catches every single bit of stuff for Highlitghtning
+     -- catches not otherwise matched Stuff for Highlitghtning
      -- turn on for testing.
     local doFullSync="0"
     
