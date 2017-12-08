@@ -230,7 +230,7 @@ function appendCTags(apiNames,cTagsFilePath,appendMode)
     
      -- catches every single bit of stuff for Highlitghtning
      -- turn on for testing.
-    local doFullSync="0"
+    local doFullSync="1"
     
     -- Special Mode for OnSave Handlers only wanting to append some Data
     if appendMode then 
@@ -273,7 +273,7 @@ function appendCTags(apiNames,cTagsFilePath,appendMode)
            end     
            -- Mark Modules (matches "[tab]m)  ...can have params too..
             if not skipper and entry:match("%\"\tm")=="\"\tm" then 
-                strCls, name= entry:match("^(%w+)[%.]?(%w+).*")
+                strCls, name= entry:match("^([%w_]+)[%.]?([%w_]+).*")
                 if name and string.len(name)==1 then name=strCls..name end                
                 isModule=true
                 skipper=true
@@ -282,7 +282,7 @@ function appendCTags(apiNames,cTagsFilePath,appendMode)
             if not skipper then
                 name= entry:match("(~?[%w_]+)") or "" 
                 patType="%/^([%s%w_:~]+ ?)" -- INTPTR
-                patClass="([%w]+).*"   -- SciteWin (::)
+                patClass="([%w_]+).*"   -- SciteWin (::)
                 patFunc="(%(.*%))"  -- AbbrevDlg(...)
                 strTyp, strClass, strFunc= entry:match(patType..patClass..patFunc..".*")
                 if  strFunc then params=params..strFunc end
@@ -302,10 +302,10 @@ function appendCTags(apiNames,cTagsFilePath,appendMode)
             -- Handle Tag entries that were not tokenized before.
             -- This should normally stay empty but can be handy for new languages.
             local cTagOther=""
-            if not skipper and name and doFullSync=="1" then
+            if not skipper and name and name..params~=lastEntry and doFullSync=="1" then
                 if string.len(name)>1 then 
-                    cTagOther= entry:match("([%w_]+)") 
-                    if DEBUG==1 then print("dupe: "..entry) end
+                    cTagOther= entry:match("(.*%s)") 
+                    if DEBUG==1 then print("other: "..entry) end
                     isOther=true;
                 end
             end

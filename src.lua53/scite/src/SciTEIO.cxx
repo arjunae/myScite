@@ -336,11 +336,10 @@ void SciTEBase::TextRead(FileWorker *pFileWorker) {
 		sptr_t pdocLoading = reinterpret_cast<sptr_t>(pFileLoader->pLoader->ConvertToDocument());
 		pFileLoader->pLoader = 0;
 		SwitchDocumentAt(iBuffer, pdocLoading);
-		if (iBuffer == buffers.Current()) {
-
+		if (iBuffer == buffers.Current()) {			
+		CompleteOpen(ocCompleteCurrent);
 			if (extender)
 				extender->OnOpen(buffers.buffers[iBuffer].AsUTF8().c_str());
-			CompleteOpen(ocCompleteCurrent);
 			RestoreState(buffers.buffers[iBuffer], true);
 			DisplayAround(buffers.buffers[iBuffer]);
 			wEditor.Call(SCI_SCROLLCARET);
@@ -1027,7 +1026,7 @@ bool SciTEBase::SaveBuffer(const FilePath &saveName, SaveFlags sf) {
 
 	if (retVal && extender && (sf & sfSynchronous)) {
 		extender->OnSave(saveName.AsUTF8().c_str());
-		ReadProperties();
+		ReadProperties(); //Arjunae: Apply extender changed properties.
 	}
 	UpdateStatusBar(true);
 	return retVal;
@@ -1138,7 +1137,7 @@ void SciTEBase::SaveAs(const GUI::gui_char *file, bool fixCase) {
 	BuffersMenu();
 	if (extender)
 		extender->OnSave(filePath.AsUTF8().c_str());
-		ReadProperties();
+		ReadProperties();//Arjunae: Apply extender changed properties.
 }
 
 bool SciTEBase::SaveIfNotOpen(const FilePath &destFile, bool fixCase) {

@@ -1,0 +1,40 @@
+diff -Nurw scintilla-scite/src/SciTEIO.cxx scite/src/SciTEIO.cxx
+--- scintilla-scite/src/SciTEIO.cxx	2017-05-26 00:25:04.000000000 +0200
++++ scite/src/SciTEIO.cxx	2017-12-08 11:17:44.000000000 +0100
+@@ -438,6 +438,7 @@
+ 				}
+ 				if (extender)
+ 					extender->OnSave(buffers.buffers[iBuffer].AsUTF8().c_str());
++					ReadProperties();
+ 			} else {
+ 				buffers.buffers[iBuffer].isDirty = false;
+ 				buffers.buffers[iBuffer].failedSave = false;
+@@ -608,8 +609,11 @@
+ 	if (lineNumbers && lineNumbersExpand)
+ 		SetLineNumberWidth();
+ 	UpdateStatusBar(true);
+-	if (extender && !asynchronous)
++	if (extender && !asynchronous) {
+ 		extender->OnOpen(filePath.AsUTF8().c_str());
++	ReadProperties(); //Arjunae: Allow SciTE start-up with extender changed properties.
++	}
++		
+ 	return true;
+ }
+ 
+@@ -1022,6 +1026,7 @@
+ 
+ 	if (retVal && extender && (sf & sfSynchronous)) {
+ 		extender->OnSave(saveName.AsUTF8().c_str());
++		ReadProperties(); //Arjunae: Apply extender changed properties.
+ 	}
+ 	UpdateStatusBar(true);
+ 	return retVal;
+@@ -1132,6 +1137,7 @@
+ 	BuffersMenu();
+ 	if (extender)
+ 		extender->OnSave(filePath.AsUTF8().c_str());
++		ReadProperties();//Arjunae: Apply extender changed properties.
+ }
+ 
+ bool SciTEBase::SaveIfNotOpen(const FilePath &destFile, bool fixCase) {
