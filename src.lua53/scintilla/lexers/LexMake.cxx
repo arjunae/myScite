@@ -502,6 +502,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 		// End of line (or of max line buffer) met.
 		if (styler[at] =='\n') {
 			Sci_PositionU lineLength=GetLineLen(styler, at);
+			if (lineLength==0) lineLength++;
 
 			// Copy the remaining chars to the lineBuffer.
 			if (lineLength != linePos)

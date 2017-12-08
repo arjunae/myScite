@@ -59,7 +59,6 @@ extern "C" {
 // the normal SciTE convention.  There is some grey area of course,
 // and for these I just make a judgement call
 
-
 static ExtensionAPI *host = 0;
 static lua_State *luaState = 0;
 static bool luaDisabled = false;
@@ -809,7 +808,8 @@ static bool call_function(lua_State *L, int nargs, bool ignoreFunctionReturnValu
 static bool HasNamedFunction(const char *name) {
 	bool hasFunction = false;
 	if (luaState) {
-		hasFunction = lua_getglobal(luaState, name) != LUA_TNIL;
+		lua_getglobal(luaState, name);
+		hasFunction = lua_isfunction(luaState, -1);
 		lua_pop(luaState, 1);
 	}
 	return hasFunction;
@@ -818,7 +818,8 @@ static bool HasNamedFunction(const char *name) {
 static bool CallNamedFunction(const char *name) {
 	bool handled = false;
 	if (luaState) {
-		if (lua_getglobal(luaState, name) != LUA_TNIL) {
+		lua_getglobal(luaState, name);
+		if (lua_isfunction(luaState, -1)) {
 			handled = call_function(luaState, 0);
 		} else {
 			lua_pop(luaState, 1);
@@ -830,7 +831,8 @@ static bool CallNamedFunction(const char *name) {
 static bool CallNamedFunction(const char *name, const char *arg) {
 	bool handled = false;
 	if (luaState) {
-		if (lua_getglobal(luaState, name) != LUA_TNIL) {
+		lua_getglobal(luaState, name);
+		if (lua_isfunction(luaState, -1)) {
 			lua_pushstring(luaState, arg);
 			handled = call_function(luaState, 1);
 		} else {
@@ -843,7 +845,8 @@ static bool CallNamedFunction(const char *name, const char *arg) {
 static bool CallNamedFunction(const char *name, int numberArg, const char *stringArg) {
 	bool handled = false;
 	if (luaState) {
-		if (lua_getglobal(luaState, name) != LUA_TNIL) {
+		lua_getglobal(luaState, name);
+		if (lua_isfunction(luaState, -1)) {
 			lua_pushinteger(luaState, numberArg);
 			lua_pushstring(luaState, stringArg);
 			handled = call_function(luaState, 2);
@@ -857,7 +860,8 @@ static bool CallNamedFunction(const char *name, int numberArg, const char *strin
 static bool CallNamedFunction(const char *name, int numberArg, int numberArg2) {
 	bool handled = false;
 	if (luaState) {
-		if (lua_getglobal(luaState, name) != LUA_TNIL) {
+		lua_getglobal(luaState, name);
+		if (lua_isfunction(luaState, -1)) {
 			lua_pushinteger(luaState, numberArg);
 			lua_pushinteger(luaState, numberArg2);
 			handled = call_function(luaState, 2);
@@ -1679,7 +1683,7 @@ bool LuaExtension::OnOpen(const char *filename) {
 // Signal SciTEs first startup 
 	static bool IsFirstCall = true;
 	if(IsFirstCall) {
-		CallNamedFunction("OnInit");
+		CallNamedFunction("OnInit", 0, 0);
 		IsFirstCall = false;
 	}
 	return CallNamedFunction("OnOpen", filename);
@@ -2020,7 +2024,8 @@ struct StylingContext {
 bool LuaExtension::OnStyle(unsigned int startPos, int lengthDoc, int initStyle, StyleWriter *styler) {
 	bool handled = false;
 	if (luaState) {
-		if (lua_getglobal(luaState, "OnStyle") != LUA_TNIL) {
+		lua_getglobal(luaState, "OnStyle");
+		if (lua_isfunction(luaState, -1)) {
 
 			StylingContext sc;
 			sc.startPos = startPos;
@@ -2116,7 +2121,8 @@ bool LuaExtension::OnUserListSelection(int listType, const char *selection) {
 bool LuaExtension::OnKey(int keyval, int modifiers) {
 	bool handled = false;
 	if (luaState) {
-		if (lua_getglobal(luaState, "OnKey") != LUA_TNIL) {
+		lua_getglobal(luaState, "OnKey");
+		if (lua_isfunction(luaState, -1)) {
 			lua_pushinteger(luaState, keyval);
 			lua_pushboolean(luaState, (SCMOD_SHIFT & modifiers) != 0 ? 1 : 0); // shift/lock
 			lua_pushboolean(luaState, (SCMOD_CTRL  & modifiers) != 0 ? 1 : 0); // control
