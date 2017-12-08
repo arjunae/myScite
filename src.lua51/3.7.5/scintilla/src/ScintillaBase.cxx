@@ -255,11 +255,12 @@ void ScintillaBase::AutoCompleteStart(int lenEntered, const char *list) {
 		}
 	}
 	
-	bool useThickFrame=true; // change to test  .todo: Make user settable 
-	
- 	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
-				lenEntered, vs.lineHeight, IsUnicodeMode(), technology, useThickFrame);
-	
+	bool useThickFrame=false; // change to test  .todo: Make user settable 
+	int acStyle = ( vs.styles[STYLE_USERLIST].size > 0) ? STYLE_USERLIST : STYLE_DEFAULT;
+
+	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
+				lenEntered, vs.styles[acStyle].fontName,  vs.styles[acStyle].characterSet, vs.styles[acStyle].sizeZoomed, IsUnicodeMode(), technology, useThickFrame, wMain);
+
 	PRectangle rcClient = GetClientRectangle();
 	Point pt = LocationFromPosition(sel.MainCaret() - lenEntered);
 	PRectangle rcPopupBounds = wMain.GetMonitorRect(pt);
@@ -293,13 +294,10 @@ void ScintillaBase::AutoCompleteStart(int lenEntered, const char *list) {
 	rcac.right = rcac.left + widthLB;
 	rcac.bottom = static_cast<XYPOSITION>(std::min(static_cast<int>(rcac.top) + heightLB, static_cast<int>(rcPopupBounds.bottom)));
 	ac.lb->SetPositionRelative(rcac, wMain);
-	ac.lb->SetFont(vs.styles[STYLE_USERLIST].font);
-	
-	if ( vs.styles[STYLE_USERLIST].back.AsLong() != vs.styles[STYLE_DEFAULT].back.AsLong())  {
-		ac.SetForeBack(vs.styles[STYLE_USERLIST].fore, vs.styles[STYLE_USERLIST].back);
-	}
-	
-	unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[STYLE_USERLIST].aveCharWidth);
+	ac.lb->SetFont(vs.styles[acStyle].font);
+	ac.SetForeBack(vs.styles[acStyle].fore, vs.styles[acStyle].back);
+
+	unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[acStyle].aveCharWidth);
 	ac.lb->SetAverageCharWidth(aveCharWidth);
 	ac.lb->SetDoubleClickAction(AutoCompleteDoubleClick, this);
 

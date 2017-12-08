@@ -2074,7 +2074,7 @@ class ListBoxX : public ListBox {
 	static const Point ImageInset;	// Padding around image
 
 public:
-	ListBoxX() : lineHeight(10), fontCopy(0), technology(0), lb(0), unicodeMode(false),
+	ListBoxX() : lineHeight(9), fontCopy(0), technology(0), lb(0), unicodeMode(false),
 		desiredVisibleRows(9), maxItemCharacters(0), aveCharWidth(8),
 		parent(NULL), ctrlID(0), doubleClickAction(NULL), doubleClickActionData(NULL),
 		widestItem(NULL), maxCharWidth(1), resizeHit(0), wheelDelta(0), 

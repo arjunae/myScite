@@ -1,5 +1,11 @@
 ~# mySciTE.webdev -~
 
+[02.12.2017] Development.190 (lua5.1)
+# Add: Scite Project Support. Settings for scite sources included.
+# Add: cTag search support for Projectfiles.
+# Add: Project Syntax Higlightening (styles Class, Modules, Functions, Constants, ENUMs).
+# Add: ALT-Click on a Symbol for cTag Navigation
+
 [25.11.2017] myScite.180.Artie.stable
 # Add: Lisp / Scheme / Clojure / GO Language Keywords
 # Fix: lexMakeEOF & Add Folding / Fix: remove MSVC10 dependency
