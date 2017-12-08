@@ -151,33 +151,35 @@ diff -Nurw scintilla/src/RESearch.cxx scintilla_m/src/RESearch.cxx
   *                        d: decimal digits
 diff -Nurw scintilla/src/ScintillaBase.cxx scintilla_m/src/ScintillaBase.cxx
 --- scintilla/src/ScintillaBase.cxx	2017-05-26 00:25:02.000000000 +0200
-+++ scintilla_m/src/ScintillaBase.cxx	2017-12-08 19:17:04.000000000 +0100
-@@ -254,8 +254,11 @@
++++ scintilla_m/src/ScintillaBase.cxx	2017-12-08 21:57:00.000000000 +0100
+@@ -254,8 +254,16 @@
  			return;
  		}
  	}
 +	
-+	bool useThickFrame=false; // change to test  .todo: Make user settable 
++		// Backward Compatibility. 
++	bool useThickFrame=true; // change to test  .todo: Make user settable 
++	int acStyle =STYLE_DEFAULT
 +	
++	// Decision -> Shouldnt we just allocate style.40 and bump up val STYLE_LASTPREDEFINED=40 ?
++	if (!useThickFrame) acStyle ( vs.styles[STYLE_CALLTIP].size > 0) ? STYLE_CALLTIP : STYLE_DEFAULT;
++
  	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
 -				lenEntered, vs.lineHeight, IsUnicodeMode(), technology);
-+				lenEntered, vs.styles[STYLE_CALLTIP].fontName,  vs.styles[STYLE_CALLTIP].characterSet, vs.styles[STYLE_CALLTIP].sizeZoomed, IsUnicodeMode(), technology, useThickFrame, wMain);
++				lenEntered, vs.styles[acStyle].fontName,  vs.styles[acStyle].characterSet, vs.styles[acStyle].sizeZoomed, IsUnicodeMode(), technology, useThickFrame, wMain);
  
  	PRectangle rcClient = GetClientRectangle();
  	Point pt = LocationFromPosition(sel.MainCaret() - lenEntered);
-@@ -290,8 +293,13 @@
+@@ -290,8 +298,10 @@
  	rcac.right = rcac.left + widthLB;
  	rcac.bottom = static_cast<XYPOSITION>(std::min(static_cast<int>(rcac.top) + heightLB, static_cast<int>(rcPopupBounds.bottom)));
  	ac.lb->SetPositionRelative(rcac, wMain);
 -	ac.lb->SetFont(vs.styles[STYLE_DEFAULT].font);
 -	unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[STYLE_DEFAULT].aveCharWidth);
-+	ac.lb->SetFont(vs.styles[STYLE_CALLTIP].font);
-+	
-+	if ( vs.styles[STYLE_CALLTIP].back.AsLong() != vs.styles[STYLE_DEFAULT].back.AsLong())  {
-+		ac.SetForeBack(vs.styles[STYLE_DEFAULT].fore, vs.styles[STYLE_CALLTIP].back);
-+	}
-+	
-+	unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[STYLE_CALLTIP].aveCharWidth);
++	ac.lb->SetFont(vs.styles[acStyle].font);
++	ac.SetForeBack(vs.styles[acStyle].fore, vs.styles[acStyle].back);
++
++	unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[acStyle].aveCharWidth);
  	ac.lb->SetAverageCharWidth(aveCharWidth);
  	ac.lb->SetDoubleClickAction(AutoCompleteDoubleClick, this);
  
