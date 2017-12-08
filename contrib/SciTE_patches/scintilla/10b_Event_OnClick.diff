@@ -1,3 +1,4 @@
+///@brief Scintilla support for single OnClick(shift,ctrl,alt); ported from SciTE.ru 
 diff -Nurw scintilla/include/Scintilla.h scintilla_mod/include/Scintilla.h
 --- scintilla/include/Scintilla.h	2017-05-26 00:25:00.000000000 +0200
 +++ scintilla_mod/include/Scintilla.h	2017-11-15 18:28:50.000000000 +0100

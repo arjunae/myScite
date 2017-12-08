@@ -1,3 +1,6 @@
+///@brief smaller and styleable Autcocomplete lists . WorkInProgress. Test with
+// style.*.38=back:#DFD0D0,fore:#0A0A40,$(font.base),size:9
+// 258  bool useThickFrame=false; // change here to test. todo: Make user settable 
 diff -Nurw scintilla/gtk/PlatGTK.cxx scintilla_m/gtk/PlatGTK.cxx
 --- scintilla/gtk/PlatGTK.cxx	2017-05-26 00:25:00.000000000 +0200
 +++ scintilla_m/gtk/PlatGTK.cxx	2017-12-08 01:59:08.000000000 +0100

@@ -152,7 +152,7 @@ function appendCTags(apiNames,cTagsFilePath,projectName,createAPIFile)
         io.close(cTagsFile)
 
         cTagsUpdate=0
-        writeProps() -- Helper which applies the generated Data to their lexer styles
+        writeProps(projectName) -- Helper which applies the generated Data to their lexer styles
 
 end
 
@@ -170,7 +170,7 @@ end
 -- probably should return something useful
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function writeProps()
+function writeProps(projectName)
 
 if DEBUG>=1 then
     print("ac>writeProps:")
@@ -182,6 +182,18 @@ if DEBUG>=1 then
     print("ac> cTagOthers ("..string.len(cTagOthers).." bytes)" )
     print("ac> cTagDupes ("..string.len(cTagDupes).." bytes)" )
 end
+
+propFile=io.open(os.getenv("tmp")..dirSep()..projectName..".properties")
+propFile= io.output(propFile)
+io.output(propFile) 
+io.write("projectName.cTagClasses="..cTagClass)
+io.write("projectName.cTagModules="..cTagModules) 
+io.write("projectName.cTagFunctions="..cTagFunctions) 
+io.write("projectName.cTagNames="..cTagNames)
+io.write("projectName.cTagENUMs="..cTagENUMs)
+io.write("projectName.cTagOthers="..cTagOthers) 
+io.close(propFile)
+
 end
 
 appendCTags({},"D:\\projects\\_myScite\\_myScite.github\\src.lua53\\ctags.tags","scintilla_scite",true)
