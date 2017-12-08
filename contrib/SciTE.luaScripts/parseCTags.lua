@@ -183,15 +183,15 @@ if DEBUG>=1 then
     print("ac> cTagDupes ("..string.len(cTagDupes).." bytes)" )
 end
 
-propFile=io.open(os.getenv("tmp")..dirSep()..projectName..".properties")
+propFile=io.open(os.getenv("tmp")..dirSep()..projectName..".properties","w")
 propFile= io.output(propFile)
 io.output(propFile) 
-io.write("projectName.cTagClasses="..cTagClass)
-io.write("projectName.cTagModules="..cTagModules) 
-io.write("projectName.cTagFunctions="..cTagFunctions) 
-io.write("projectName.cTagNames="..cTagNames)
-io.write("projectName.cTagENUMs="..cTagENUMs)
-io.write("projectName.cTagOthers="..cTagOthers) 
+io.write("projectName.cTagClasses="..cTagClass.."\n")
+io.write("projectName.cTagModules="..cTagModules.."\n") 
+io.write("projectName.cTagFunctions="..cTagFunctions.."\n") 
+io.write("projectName.cTagNames="..cTagNames.."\n")
+io.write("projectName.cTagENUMs="..cTagENUMs.."\n")
+io.write("projectName.cTagOthers="..cTagOthers.."\n") 
 io.close(propFile)
 
 end
