@@ -164,6 +164,31 @@ function StyleStuff()
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+function TestSciLexer(origHash)
+--
+-- quickCheck SciLexer.dll's CRC32 Hash and inform the User if its a nonStock Version. 
+--
+
+	local C32 = require 'crc32'
+	local crc32=C32.crc32
+	local crccalc = C32.newcrc32()
+	local crccalc_mt = getmetatable(crccalc)
+
+	assert(crccalc_mt.reset) -- reset to zero
+	-- crc32 was made for eating strings...:)
+	local file,err = assert(io.open (defaultHome.."\\".."SciLexer.dll", "r"))
+	while true do
+		local bytes = file:read(8192)
+		if not bytes then break end
+		crccalc:update(bytes)
+	end	
+	file:close()
+	SciLexerHash=crccalc:tohex()
+	file=nil crccalc_mt=nil crccalc=nil crc32=nil C32=nil
+	if SciLexerHash~=origHash then print("SciteStartup.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SciLexerHash) end
+end
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 function HandleProject()
 --
 -- handle Project Folders (ctags, Autocomplete & highlitening)
@@ -203,7 +228,7 @@ function AppendNewCTags()
 			if props["project.ctags.save_applies"]=="1" then
 				local pipe=scite_Popen(ctagsCMD)
 				local tmp= pipe:read('*a') -- synchronous -waits for the Command to complete
-				appendCTags({},ctagsTMP,true) 
+				appendCTags({},ctagsTMP,false) 
 			end 
 
 			 -- also do a full refresh to the project file in a background task
@@ -221,9 +246,10 @@ function OnInit()
 --
 
 	scite_OnOpenSwitch(HandleProject)
-	scite_OnOpenSwitch(StyleStuff)
 	scite_OnSave(AppendNewCTags)
-		
+	TestSciLexer("8fb8ede3") -- SciLexers MD5 Hash for the current Version
+	scite_OnOpenSwitch(StyleStuff)
+	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
 end

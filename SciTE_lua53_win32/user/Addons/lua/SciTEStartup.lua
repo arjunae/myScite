@@ -175,15 +175,16 @@ function TestSciLexer(origHash)
 	local crccalc_mt = getmetatable(crccalc)
 
 	assert(crccalc_mt.reset) -- reset to zero
-	-- crc32 was made for eating strings...
-	local file = io.open (defaultHome.."\\".."SciLexer.dll", "r")
+	-- crc32 was made for eating strings...:)
+	local file,err = assert(io.open (defaultHome.."\\".."SciLexer.dll", "r"))
 	while true do
 		local bytes = file:read(8192)
 		if not bytes then break end
 		crccalc:update(bytes)
 	end	
 	file:close()
-	SciLexerHash=crccalc:tohex()	
+	SciLexerHash=crccalc:tohex()
+	file=nil crccalc_mt=nil crccalc=nil crc32=nil C32=nil
 	if SciLexerHash~=origHash then print("SciteStartup.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SciLexerHash) end
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
