@@ -1,7 +1,15 @@
- ~ How to apply the patches to vanilla SciTes Sources ~
+ ~ How to apply the patches to vanilla SciTEs Sources ~
 
--- Download the sources. For SciTE 3.7.0 you would choose:
-[ https://sourceforge.net/p/scintilla/scite/ci/rel-3-7-0/tree/ ]
+-- Note: if you are about to patch using an MSYS/CygWin/GITbash or alike,
+-- make sure to deactivate Windows Automatic case conversion "Feature"
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced]
+"DontPrettyPath"=dword:00000001
+
+--
+
+-- Download the sources. For SciTE 3.7.5 you would choose:
+[ https://sourceforge.net/p/scintilla/scite/ci/rel-3-7-5/tree/ ]
 
 -- Extract that archive to a local folder.
 -- Rename your downloaded sources to [scintilla-scite]. 

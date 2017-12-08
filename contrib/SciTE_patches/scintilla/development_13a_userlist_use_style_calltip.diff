@@ -252,3 +252,53 @@ diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
  	// Paint the entire client area and vertical scrollbar
  	::SendMessage(lb, WM_PRINT, reinterpret_cast<WPARAM>(bitmapDC), PRF_CLIENT|PRF_NONCLIENT);
  	::BitBlt(hDC, 0, 0, extent.x, extent.y, bitmapDC, 0, 0, SRCCOPY);
+diff -Nurw scintilla/gtk/PlatGTK.cxx scintilla_m/gtk/PlatGTK.cxx
+--- scintilla/gtk/PlatGTK.cxx	2017-05-26 00:25:00.000000000 +0200
++++ scintilla_m/gtk/PlatGTK.cxx	2017-12-07 20:09:06.000000000 +0100
+@@ -1225,6 +1225,9 @@
+ 	int desiredVisibleRows;
+ 	unsigned int maxItemCharacters;
+ 	unsigned int aveCharWidth;
++	long colourBG;
++	long colourFG;
++	bool useThickFrame;
+ #if GTK_CHECK_VERSION(3,0,0)
+ 	GtkCssProvider *cssProvider;
+ #endif
+@@ -1233,9 +1236,7 @@
+ 	void *doubleClickActionData;
+ 
+ 	ListBoxX() : widCached(0), frame(0), list(0), scroller(0), pixhash(NULL), pixbuf_renderer(0),
+-		renderer(0),
+-		desiredVisibleRows(5), maxItemCharacters(0),
+-		aveCharWidth(1),
++		renderer(0), desiredVisibleRows(5), maxItemCharacters(0), aveCharWidth(1), 
+ #if GTK_CHECK_VERSION(3,0,0)
+ 		cssProvider(NULL),
+ #endif
+@@ -1257,8 +1258,9 @@
+ 		}
+ #endif
+ 	}
++	void SetForeBack(ColourDesired fore, ColourDesired back);
+ 	void SetFont(Font &font) override;
+-	void Create(Window &parent, int ctrlID, Point location_, int lineHeight_, bool unicodeMode_, int technology_) override;
++	void Create(Window &parent, int ctrlID, Point location_, int lineHeight_, bool unicodeMode_, int technology_, bool useThickFrame) override;
+ 	void SetAverageCharWidth(int width) override;
+ 	void SetVisibleRows(int rows) override;
+ 	int GetVisibleRows() const override;
+@@ -1431,7 +1433,13 @@
+ #endif
+ }
+ 
+-void ListBoxX::Create(Window &parent, int, Point, int, bool, int) {
++void ListBoxX::SetForeBack( ColourDesired fore, ColourDesired back) {
++	// todo: Implement
++	// colourBG=RGB(back.GetRed(), back.GetGreen(), back.GetBlue());
++	// colourFG=RGB(fore.GetRed(), fore.GetGreen(), fore.GetBlue());
++}
++
++void ListBoxX::Create(Window &parent, int, Point, int, bool, int,bool) {
+ 	if (widCached != 0) {
+ 		wid = widCached;
+ 		return;
