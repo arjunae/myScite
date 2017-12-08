@@ -175,7 +175,8 @@ function TestSciLexer(origHash)
 	local crccalc_mt = getmetatable(crccalc)
 
 	assert(crccalc_mt.reset) -- reset to zero
-	local file = io.open (defaultHome.."\\".."SciLexer.dll", 'rb')
+	-- crc32 was made for eating strings...
+	local file = io.open (defaultHome.."\\".."SciLexer.dll", "r")
 	while true do
 		local bytes = file:read(8192)
 		if not bytes then break end
@@ -183,7 +184,7 @@ function TestSciLexer(origHash)
 	end	
 	file:close()
 	SciLexerHash=crccalc:tohex()	
-	if SciLexerHash~=origHash then print("SciteStartup.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..crccalc:tohex()) end
+	if SciLexerHash~=origHash then print("SciteStartup.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SciLexerHash) end
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -245,7 +246,7 @@ function OnInit()
 
 	scite_OnOpenSwitch(HandleProject)
 	scite_OnSave(AppendNewCTags)
-	TestSciLexer("00bebd7e") -- SciLexers MD5 Hash for the current Version
+	TestSciLexer("8fb8ede3") -- SciLexers MD5 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
