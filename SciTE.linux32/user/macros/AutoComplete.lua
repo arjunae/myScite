@@ -12,8 +12,7 @@ To use this script with SciTE4AutoHotkey:
   - Add the following to UserLuaScript.lua:
         dofile(props['SciteUserHome'].."/AutoComplete.lua")
   - Restart SciTE.
-]]
---[[  
+
  @info 01.12.2017 Marcedo@habMalNeFrage.de
  - Adapted for mySciTE 3.7.5
  - Performance: exclude NULL Lexer; 
@@ -214,15 +213,15 @@ end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 --  appendCTags(apiNames,cTagsFilePath,dryRun)
---  Append tagNames to  existing currentLexers substyle 11
---  Takes: apiNames: table, FullyQualified cTagsFilePath, appendMode: optionally dont write Api file.
+--  Parse a ctag File, write filteret tagNames to predefined Vars.
+--  Takes: apiNames: table, FullyQualified cTagsFilePath, createAPIFile: optionally write Api file to tmp.
 --  Returns: uniqued tagNames to given table
 --
 -- Optimized lua version. Gives reasonable Speed on a 100k source and 1M cTags File. 
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function appendCTags(apiNames,cTagsFilePath,appendMode)
+function appendCTags(apiNames,cTagsFilePath,createAPIFile)
     local sysTmp=os.getenv("tmp")
     local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" -- performance:  should we reuse an existing File ?
     local cTagsUpdate=props["project.ctags.update"]
@@ -230,14 +229,9 @@ function appendCTags(apiNames,cTagsFilePath,appendMode)
     
      -- catches every single bit of stuff for Highlitghtning
      -- turn on for testing.
-    local doFullSync="1"
+    local doFullSync="0"
     
-    -- Special Mode for OnSave Handlers only wanting to append some Data
-    if appendMode then 
-        cTagsUpdate="1" 
-    end    
-    
-    if file_exists(cTagsFilePath)  and cTagsUpdate=="1" then
+    if file_exists(cTagsFilePath)  and (cTagsUpdate=="1" or createAPIFile==0) then
     if DEBUG>=1 then print("ac>appendCtags" ,cTagsFilePath, short) end     
     
         props["project.ctags.apipath"]=cTagsAPIPath
@@ -330,7 +324,7 @@ function appendCTags(apiNames,cTagsFilePath,appendMode)
                 -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=name..params
                 if isFunction and string.len(params)>2 then 
-                   if not dryRun then io.write(lastEntry.."\n") end
+                   if createAPIFile then io.write(lastEntry.."\n") end
                 end -- faster then using a full bulkWrite
             end
         end
@@ -396,7 +390,7 @@ if DEBUG>=1 then print("ac>getApiNames") end
     end)
     
     local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
-    apiNames= appendCTags(apiNames,cTagsFilePath,false)
+    apiNames= appendCTags(apiNames,cTagsFilePath,true)
         
     if lexer~=nil then
         apiCache[lexer] = apiNames -- Even if it's empty

@@ -436,9 +436,10 @@ void SciTEBase::TextWritten(FileWorker *pFileWorker) {
 				if (pathSaved.SameNameAs(CurrentBuffer()->AsInternal())) {
 					wEditor.Call(SCI_SETSAVEPOINT);
 				}
-				if (extender)
+				if (extender) {
 					extender->OnSave(buffers.buffers[iBuffer].AsUTF8().c_str());
 					ReadProperties();
+					}
 			} else {
 				buffers.buffers[iBuffer].isDirty = false;
 				buffers.buffers[iBuffer].failedSave = false;
@@ -1135,9 +1136,10 @@ void SciTEBase::SaveAs(const GUI::gui_char *file, bool fixCase) {
 	Redraw();
 	SetWindowName();
 	BuffersMenu();
-	if (extender)
+	if (extender){
 		extender->OnSave(filePath.AsUTF8().c_str());
 		ReadProperties();//Arjunae: Apply extender changed properties.
+		}
 }
 
 bool SciTEBase::SaveIfNotOpen(const FilePath &destFile, bool fixCase) {

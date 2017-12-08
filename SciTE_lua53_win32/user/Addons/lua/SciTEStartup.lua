@@ -223,7 +223,7 @@ function AppendNewCTags()
 			if props["project.ctags.save_applies"]=="1" then
 				local pipe=scite_Popen(ctagsCMD)
 				local tmp= pipe:read('*a') -- synchronous -waits for the Command to complete
-				appendCTags({},ctagsTMP,true) 
+				appendCTags({},ctagsTMP,false) 
 			end 
 
 			 -- also do a full refresh to the project file in a background task
