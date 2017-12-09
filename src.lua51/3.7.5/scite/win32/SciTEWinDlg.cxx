@@ -957,8 +957,11 @@ BOOL SciTEWin::FindMessage(HWND hDlg, UINT message, WPARAM wParam) {
 			if (closeFind != Searcher::CloseFind::closePrevent) {
 				::EndDialog(hDlg, IDOK);
 				wFindReplace.Destroy();
+			} else {
+				FillCombos(dlg,false);
+				return TRUE;
 			}
-			if (ControlIDOfWParam(wParam) == IDMARKALL){
+			 if (ControlIDOfWParam(wParam) == IDMARKALL){
 				MarkAll(markWithBookMarks);
 			}
 			// Holding the Shift key inverts the current reverse flag
@@ -969,6 +972,7 @@ BOOL SciTEWin::FindMessage(HWND hDlg, UINT message, WPARAM wParam) {
 				findInStyle = dlg.Checked(IDFINDINSTYLE);
 				dlg.Enable(IDFINDSTYLE, findInStyle);
 			}
+			FillCombos(dlg,false);;
 			return TRUE;
 		}
 	}
@@ -994,12 +998,16 @@ BOOL SciTEWin::HandleReplaceCommand(int cmd, bool reverseDirection) {
 	int replacements = 0;
 	if (cmd == IDOK) {
 		FindNext(reverseDirection);
+		FillCombos(dlg,false);
 	} else if (cmd == IDREPLACE) {
 		ReplaceOnce();
+		FillCombos(dlg,false);
 	} else if ((cmd == IDREPLACEALL) || (cmd == IDREPLACEINSEL)) {
 		replacements = ReplaceAll(cmd == IDREPLACEINSEL);
+		FillCombos(dlg,false);;
 	} else if (cmd == IDREPLACEINBUF) {
 		replacements = ReplaceInBuffers();
+		FillCombos(dlg,false);;
 	}
 	GUI::gui_string replDone = GUI::StringFromInteger(replacements);
 	dlg.SetItemText(IDREPLDONE, replDone.c_str());
@@ -1168,10 +1176,15 @@ void SciTEWin::PerformGrep() {
 	}
 }
 
-void SciTEWin::FillCombos(Dialog &dlg) {
-	dlg.FillComboFromMemory(IDFINDWHAT, memFinds, true);
-	dlg.FillComboFromMemory(IDFILES, memFiles, true);
-	dlg.FillComboFromMemory(IDDIRECTORY, memDirectory, true);
+void SciTEWin::FillCombos(Dialog &dlg, bool inFiles) {
+        dlg.FillComboFromMemory(IDFINDWHAT, memFinds, true);
+        if (inFiles) {
+		dlg.FillComboFromMemory(IDFILES, memFiles, true);
+		dlg.FillComboFromMemory(IDDIRECTORY, memDirectory, true);
+        }
+	else 
+		if (replacing)
+		        dlg.FillComboFromMemory(IDREPLACEWITH, memReplaces,true);
 }
 
 BOOL SciTEWin::GrepMessage(HWND hDlg, UINT message, WPARAM wParam) {
@@ -1183,7 +1196,7 @@ BOOL SciTEWin::GrepMessage(HWND hDlg, UINT message, WPARAM wParam) {
 
 	case WM_INITDIALOG:
 		LocaliseDialog(hDlg);
-		FillCombos(dlg);
+		FillCombos(dlg, true);
 		dlg.SetItemTextU(IDFINDWHAT, props.GetString("find.what"));
 		dlg.SetItemTextU(IDDIRECTORY, props.GetString("find.directory"));
 		if (props.GetNewExpandString("find.command") == "") {
@@ -1227,7 +1240,7 @@ BOOL SciTEWin::GrepMessage(HWND hDlg, UINT message, WPARAM wParam) {
 			wholeWord = dlg.Checked(IDWHOLEWORD);
 			matchCase = dlg.Checked(IDMATCHCASE);
 
-			FillCombos(dlg);
+			FillCombos(dlg,true);
 
 			PerformGrep();
 			if (props.GetInt("find.in.files.close.on.find", 1)) {

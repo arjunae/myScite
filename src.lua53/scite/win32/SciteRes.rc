@@ -186,7 +186,7 @@ BEGIN
 	MENUITEM "&Close All",				IDM_CLOSEALL
 	MENUITEM "&Save All",				IDM_SAVEALL
 END
-/*
+
 POPUP "Debug"
 BEGIN
  MENUITEM "Run\tCtrl+Alt+F5",			IDM_DBG_RUN
@@ -200,7 +200,7 @@ BEGIN
   MENUITEM "Loca&ls\tCtrl+Alt+L",			IDM_DBG_LOC
   MENUITEM "&Backtrace\tCtrl+Alt+B",			IDM_DBG_BT
 END
-*/
+
 POPUP "&Help"
 BEGIN
 	MENUITEM "&Help\tF1", 				IDM_HELP

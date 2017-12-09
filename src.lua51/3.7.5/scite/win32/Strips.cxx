@@ -1095,8 +1095,11 @@ void FindStrip::Next(bool markAll, bool invertDirection) {
 		pSearcher->MarkAll(Searcher::markWithBookMarks);
 	}
 	const bool found = pSearcher->FindNext(pSearcher->reverseFind ^ invertDirection) >= 0;
-	if (pSearcher->ShouldClose(found)) {
+	if (pSearcher->ShouldClose(found)) 
 		Close();
+	else {
+ 		SetComboFromMemory(wText, pSearcher->memFinds); 
+ 		SetWindowText(HwndOf(wText), GUI::StringFromUTF8(pSearcher->findWhat).c_str());
 	}
 }
 
@@ -1417,10 +1420,19 @@ bool ReplaceStrip::Command(WPARAM wParam) {
 		}
 
 	case IDOK:
+ 		HandleReplaceCommand(control);
+ 		SetComboFromMemory(wText, pSearcher->memFinds);
+ 		SetWindowText(HwndOf(wText), GUI::StringFromUTF8(pSearcher->findWhat).c_str());
+  		return true;
+
 	case IDREPLACEALL:
 	case IDREPLACE:
 	case IDREPLACEINSEL:
 		HandleReplaceCommand(control);
+ 		SetComboFromMemory(wText, pSearcher->memFinds);
+ 		SetComboFromMemory(wReplace, pSearcher->memReplaces);
+ 		SetWindowText(HwndOf(wText), GUI::StringFromUTF8(pSearcher->findWhat).c_str());
+ 		SetWindowText(HwndOf(wReplace), GUI::StringFromUTF8(pSearcher->replaceWhat).c_str());
 		return true;
 
 	case IDWHOLEWORD:

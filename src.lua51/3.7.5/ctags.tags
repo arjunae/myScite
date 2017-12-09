@@ -230,8 +230,8 @@ BackgroundStrip	scite\gtk\SciTEGTK.cxx	/^	BackgroundStrip() {$/;"	f	class:Backgr
 BackgroundStrip	scite\gtk\SciTEGTK.cxx	/^class BackgroundStrip : public Strip {$/;"	c	file:	inherits:Strip
 BackgroundStrip	scite\win32\Strips.h	/^	BackgroundStrip() {$/;"	f	class:BackgroundStrip	access:public	signature:()
 BackgroundStrip	scite\win32\Strips.h	/^class BackgroundStrip : public Strip {$/;"	c	inherits:Strip
-Band	scite\win32\SciteWin.h	/^	Band(bool visible_, int height_, bool expands_, GUI::Window win_) :$/;"	f	struct:Band	access:public	signature:(bool visible_, int height_, bool expands_, GUI::Window win_)
-Band	scite\win32\SciteWin.h	/^struct Band {$/;"	s
+Band	scite\win32\SciTEWin.h	/^	Band(bool visible_, int height_, bool expands_, GUI::Window win_) :$/;"	f	struct:Band	access:public	signature:(bool visible_, int height_, bool expands_, GUI::Window win_)
+Band	scite\win32\SciTEWin.h	/^struct Band {$/;"	s
 BarButtonIn	scite\win32\SciTEWinBar.cxx	/^	BarButtonIn() :id(0), cmd(0) {};$/;"	f	struct:BarButtonIn	access:public	signature:()
 BarButtonIn	scite\win32\SciTEWinBar.cxx	/^	BarButtonIn(int _id, int _cmd) : id(_id), cmd(_cmd) {};$/;"	f	struct:BarButtonIn	access:public	signature:(int _id, int _cmd)
 BarButtonIn	scite\win32\SciTEWinBar.cxx	/^struct BarButtonIn {$/;"	s	file:
@@ -312,9 +312,9 @@ CARET_STRICT	scintilla\include\Scintilla.h	736;"	d
 CASECONVERT_H	scintilla\src\CaseConvert.h	11;"	d
 CASEFOLDER_H	scintilla\src\CaseFolder.h	9;"	d
 CATALOGUE_H	scintilla\src\Catalogue.h	9;"	d
-CBS_HOT	scite\win32\SciteWin.h	62;"	d
-CBS_NORMAL	scite\win32\SciteWin.h	61;"	d
-CBS_PUSHED	scite\win32\SciteWin.h	63;"	d
+CBS_HOT	scite\win32\SciTEWin.h	62;"	d
+CBS_NORMAL	scite\win32\SciTEWin.h	61;"	d
+CBS_PUSHED	scite\win32\SciTEWin.h	63;"	d
 CCL	scintilla\src\RESearch.cxx	222;"	d	file:
 CCLSKIP	scintilla\src\RESearch.cxx	845;"	d	file:
 CClosure	scite\lua\src\lobject.h	/^typedef struct CClosure {$/;"	s
@@ -657,7 +657,7 @@ Command	scite\win32\Strips.cxx	/^bool Strip::Command(WPARAM) {$/;"	f	class:Strip
 Command	scite\win32\Strips.cxx	/^bool UserStrip::Command(WPARAM wParam) {$/;"	f	class:UserStrip	signature:(WPARAM wParam)
 CommandExecute	scite\src\FilePath.cxx	/^std::string CommandExecute(const GUI::gui_char *command, const GUI::gui_char *directoryForRun) {$/;"	f	signature:(const GUI::gui_char *command, const GUI::gui_char *directoryForRun)
 CommandWorker	scite\win32\SciTEWin.cxx	/^CommandWorker::CommandWorker() : pSciTE(NULL) {$/;"	f	class:CommandWorker	signature:()
-CommandWorker	scite\win32\SciteWin.h	/^class CommandWorker : public Worker {$/;"	c	inherits:Worker
+CommandWorker	scite\win32\SciTEWin.h	/^class CommandWorker : public Worker {$/;"	c	inherits:Worker
 Commit	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::Commit(GtkIMContext *, char  *str, ScintillaGTK *sciThis) {$/;"	f	class:ScintillaGTK	signature:(GtkIMContext *, char *str, ScintillaGTK *sciThis)
 CommitStackSelection	scite\src\SciTEBuffers.cxx	/^void BufferList::CommitStackSelection() {$/;"	f	class:BufferList	signature:()
 CommitTentative	scintilla\src\Selection.cxx	/^void Selection::CommitTentative() {$/;"	f	class:Selection	signature:()
@@ -705,8 +705,8 @@ ContainsLineEnd	scintilla\src\CellBuffer.cxx	/^bool CellBuffer::ContainsLineEnd(
 ContainsLineEnd	scintilla\src\Document.h	/^	bool ContainsLineEnd(const char *s, Sci::Position length) const { return cb.ContainsLineEnd(s, length); }$/;"	f	class:Scintilla::Document	access:public	signature:(const char *s, Sci::Position length) const
 ContainsWholePixel	scintilla\include\Platform.h	/^	bool ContainsWholePixel(Point pt) const {$/;"	f	class:Scintilla::PRectangle	access:public	signature:(Point pt) const
 ContentArea	scite\gtk\Widget.cxx	/^GtkWidget *Dialog::ContentArea() {$/;"	f	class:Dialog	signature:()
-ContentWin	scite\win32\SciteWin.h	/^	ContentWin() : pSciTEWin(0), capturedMouse(false) {$/;"	f	class:ContentWin	access:public	signature:()
-ContentWin	scite\win32\SciteWin.h	/^class ContentWin : public BaseWin {$/;"	c	inherits:BaseWin
+ContentWin	scite\win32\SciTEWin.h	/^	ContentWin() : pSciTEWin(0), capturedMouse(false) {$/;"	f	class:ContentWin	access:public	signature:()
+ContentWin	scite\win32\SciTEWin.h	/^class ContentWin : public BaseWin {$/;"	c	inherits:BaseWin
 Context	scite\src\LuaExtension.cxx	/^	static StylingContext *Context(lua_State *L) {$/;"	f	struct:StylingContext	access:public	signature:(lua_State *L)
 ContextMenu	scintilla\src\ScintillaBase.cxx	/^void ScintillaBase::ContextMenu(Point pt) {$/;"	f	class:ScintillaBase	signature:(Point pt)
 ContextMenu	scite\src\SciTEBase.cxx	/^void SciTEBase::ContextMenu(GUI::ScintillaWindow &wSource, GUI::Point pt, GUI::Window wCmd) {$/;"	f	class:SciTEBase	signature:(GUI::ScintillaWindow &wSource, GUI::Point pt, GUI::Window wCmd)
@@ -722,7 +722,7 @@ ContractionState	scintilla\src\ContractionState.h	/^class ContractionState {$/;"
 ControlCharacterString	scintilla\src\EditView.cxx	/^static const char *ControlCharacterString(unsigned char ch) {$/;"	f	file:	signature:(unsigned char ch)
 ControlGText	scite\win32\Strips.cxx	/^static GUI::gui_string ControlGText(GUI::Window w) {$/;"	f	file:	signature:(GUI::Window w)
 ControlIDOfCommand	scite\src\SciTEBase.cxx	/^int ControlIDOfCommand(unsigned long wParam) {$/;"	f	signature:(unsigned long wParam)
-ControlIDOfWParam	scite\win32\SciteWin.h	/^inline int ControlIDOfWParam(WPARAM wParam) {$/;"	f	signature:(WPARAM wParam)
+ControlIDOfWParam	scite\win32\SciTEWin.h	/^inline int ControlIDOfWParam(WPARAM wParam) {$/;"	f	signature:(WPARAM wParam)
 ControlText	scite\win32\Strips.cxx	/^static std::string ControlText(GUI::Window w) {$/;"	f	file:	signature:(GUI::Window w)
 ControlWndProc	scintilla\win32\PlatWin.cxx	/^LRESULT PASCAL ListBoxX::ControlWndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam) {$/;"	f	class:Scintilla::ListBoxX	signature:(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 ConversionString	scintilla\src\CaseConvert.cxx	/^		ConversionString() {$/;"	f	struct:__anon87::CaseConverter::ConversionString	access:public	signature:()
@@ -774,7 +774,7 @@ CountCharacters	scintilla\src\Document.cxx	/^Sci::Position Document::CountCharac
 CountLineEnds	scite\src\SciTEIO.cxx	/^void SciTEBase::CountLineEnds(int &linesCR, int &linesLF, int &linesCRLF) {$/;"	f	class:SciTEBase	signature:(int &linesCR, int &linesLF, int &linesCRLF)
 CountUTF16	scintilla\src\Document.cxx	/^Sci::Position Document::CountUTF16(Sci::Position startPos, Sci::Position endPos) const {$/;"	f	class:Document	signature:(Sci::Position startPos, Sci::Position endPos) const
 Create	scintilla\gtk\PlatGTK.cxx	/^void Font::Create(const FontParameters &fp) {$/;"	f	class:Font	signature:(const FontParameters &fp)
-Create	scintilla\gtk\PlatGTK.cxx	/^void ListBoxX::Create(Window &parent, int, Point, int, bool, int) {$/;"	f	class:ListBoxX	signature:(Window &parent, int, Point, int, bool, int)
+Create	scintilla\gtk\PlatGTK.cxx	/^void ListBoxX::Create(Window &parent, int, Point, int, bool, int,bool) {$/;"	f	class:ListBoxX	signature:(Window &parent, int, Point, int, bool, int,bool)
 Create	scintilla\lexlib\LexerModule.cxx	/^ILexer *LexerModule::Create() const {$/;"	f	class:LexerModule	signature:() const
 Create	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^void Font::Create(const FontParameters &fp)$/;"	f	class:Scintilla::Font	signature:(const FontParameters &fp)
 Create	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^void ListBoxImpl::Create(Window &parent,$/;"	f	class:Scintilla::ListBoxImpl	signature:(Window &parent, int , Point location, int , bool unicodeMode_, int)
@@ -860,7 +860,7 @@ DBCSCharMaxLength	scintilla\gtk\PlatGTK.cxx	/^int Platform::DBCSCharMaxLength() 
 DBCSCharMaxLength	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^int Platform::DBCSCharMaxLength()$/;"	f	class:Scintilla::Platform	signature:()
 DBCSCharMaxLength	scintilla\win32\PlatWin.cxx	/^int Platform::DBCSCharMaxLength() {$/;"	f	class:Scintilla::Platform	signature:()
 DECORATION_H	scintilla\src\Decoration.h	8;"	d
-DFCS_HOT	scite\win32\SciteWin.h	72;"	d
+DFCS_HOT	scite\win32\SciTEWin.h	72;"	d
 DOCUMENT_H	scintilla\src\Document.h	9;"	d
 DWriteMapFontQuality	scintilla\win32\PlatWin.cxx	/^static D2D1_TEXT_ANTIALIAS_MODE DWriteMapFontQuality(int extraFontFlag) {$/;"	f	namespace:Scintilla	signature:(int extraFontFlag)
 Data	scintilla\src\Editor.h	/^	const char *Data() const {$/;"	f	class:Scintilla::SelectionText	access:public	signature:() const
@@ -1364,7 +1364,7 @@ FillComboFromMemory	scite\gtk\SciTEGTK.cxx	/^static void FillComboFromMemory(WCo
 FillComboFromMemory	scite\win32\SciTEWinDlg.cxx	/^	void FillComboFromMemory(int id, const ComboMemory &mem, bool useTop = false) {$/;"	f	class:Dialog	access:public	signature:(int id, const ComboMemory &mem, bool useTop = false)
 FillComboFromProps	scite\gtk\SciTEGTK.cxx	/^static void FillComboFromProps(WComboBoxEntry *combo, PropSetFile &props) {$/;"	f	file:	signature:(WComboBoxEntry *combo, PropSetFile &props)
 FillComboFromProps	scite\win32\SciTEWinDlg.cxx	/^static void FillComboFromProps(HWND combo, PropSetFile &props) {$/;"	f	file:	signature:(HWND combo, PropSetFile &props)
-FillCombos	scite\win32\SciTEWinDlg.cxx	/^void SciTEWin::FillCombos(Dialog &dlg) {$/;"	f	class:SciTEWin	signature:(Dialog &dlg)
+FillCombos	scite\win32\SciTEWinDlg.cxx	/^void SciTEWin::FillCombos(Dialog &dlg, bool inFiles) {$/;"	f	class:SciTEWin	signature:(Dialog &dlg, bool inFiles)
 FillFields	scite\gtk\SciTEGTK.cxx	/^void DialogFindInFiles::FillFields() {$/;"	f	class:DialogFindInFiles	signature:()
 FillFields	scite\gtk\SciTEGTK.cxx	/^void DialogFindReplace::FillFields() {$/;"	f	class:DialogFindReplace	signature:()
 FillFields	scite\win32\SciTEWinDlg.cxx	/^void DialogFindReplace::FillFields() {$/;"	f	class:DialogFindReplace	signature:()
@@ -1667,7 +1667,7 @@ Get	scintilla\lexlib\PropSetSimple.cxx	/^const char *PropSetSimple::Get(const ch
 Get	scintilla\src\XPM.cxx	/^RGBAImage *RGBAImageSet::Get(int ident) {$/;"	f	class:RGBAImageSet	signature:(int ident)
 Get	scintilla\win32\PlatWin.cxx	/^	ListItemData Get(int index) const {$/;"	f	class:Scintilla::LineToItem	access:public	signature:(int index) const
 GetAbbrevPropertiesFileName	scite\src\SciTEProps.cxx	/^FilePath SciTEBase::GetAbbrevPropertiesFileName() {$/;"	f	class:SciTEBase	signature:()
-GetAcceleratorTable	scite\win32\SciteWin.h	/^	HACCEL GetAcceleratorTable() {$/;"	f	class:SciTEWin	access:public	signature:()
+GetAcceleratorTable	scite\win32\SciTEWin.h	/^	HACCEL GetAcceleratorTable() {$/;"	f	class:SciTEWin	access:public	signature:()
 GetAccessible	scintilla\gtk\ScintillaGTK.cxx	/^AtkObject* ScintillaGTK::GetAccessible(GtkWidget *widget) {$/;"	f	class:ScintillaGTK	signature:(GtkWidget *widget)
 GetAccessibleThis	scintilla\gtk\ScintillaGTK.cxx	/^AtkObject* ScintillaGTK::GetAccessibleThis(GtkWidget *widget) {$/;"	f	class:ScintillaGTK	signature:(GtkWidget *widget)
 GetAssocAt	scite\src\Containers.h	/^	Association* GetAssocAt(ARG_KEY key, unsigned int& nHash) {$/;"	f	class:TMap	access:protected	signature:(ARG_KEY key, unsigned int& nHash)
@@ -1984,7 +1984,7 @@ HAVE_WIDGET_SET_UNSET	scintilla\gtk\ScintillaGTKAccessible.cxx	70;"	d	file:
 HFont	scintilla\win32\PlatWin.cxx	/^HFONT FormatAndMetrics::HFont() {$/;"	f	class:Scintilla::FormatAndMetrics	signature:()
 HJdictAvailable	scintilla\win32\HanjaDic.cxx	/^	bool HJdictAvailable() {$/;"	f	class:Scintilla::HanjaDict::HanjaDic	access:public	signature:()
 HJinterface	scintilla\win32\HanjaDic.cxx	/^	IHanjaDic *HJinterface;$/;"	m	class:Scintilla::HanjaDict::HanjaDic	file:	access:public
-HTHEME	scite\win32\SciteWin.h	/^typedef void *HTHEME;$/;"	t
+HTHEME	scite\win32\SciTEWin.h	/^typedef void *HTHEME;$/;"	t
 HackColour	scite\src\Credits.cxx	/^	void HackColour(int &n) {$/;"	f	class:__anon19::RandomColour	file:	access:private	signature:(int &n)
 HandleCompositionInline	scintilla\win32\ScintillaWin.cxx	/^sptr_t ScintillaWin::HandleCompositionInline(uptr_t, sptr_t lParam) {$/;"	f	class:ScintillaWin	signature:(uptr_t, sptr_t lParam)
 HandleCompositionWindowed	scintilla\win32\ScintillaWin.cxx	/^sptr_t ScintillaWin::HandleCompositionWindowed(uptr_t wParam, sptr_t lParam) {$/;"	f	class:ScintillaWin	signature:(uptr_t wParam, sptr_t lParam)
@@ -2036,13 +2036,13 @@ HighShortFromLong	scintilla\include\Platform.h	/^	static short HighShortFromLong
 HighlightCurrentWord	scite\src\SciTEBase.cxx	/^void SciTEBase::HighlightCurrentWord(bool highlight) {$/;"	f	class:SciTEBase	signature:(bool highlight)
 HighlightDelimiter	scintilla\src\Document.h	/^	HighlightDelimiter() : isEnabled(false) {$/;"	f	class:Scintilla::HighlightDelimiter	access:public	signature:()
 HighlightDelimiter	scintilla\src\Document.h	/^class HighlightDelimiter {$/;"	c	namespace:Scintilla
-HmenuID	scite\win32\SciteWin.h	/^inline HMENU HmenuID(size_t id) {$/;"	f	signature:(size_t id)
+HmenuID	scite\win32\SciTEWin.h	/^inline HMENU HmenuID(size_t id) {$/;"	f	signature:(size_t id)
 HorizontalMove	scintilla\src\Editor.cxx	/^int Editor::HorizontalMove(unsigned int iMessage) {$/;"	f	class:Editor	signature:(unsigned int iMessage)
 HorizontalScrollMessage	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::HorizontalScrollMessage(WPARAM wParam) {$/;"	f	class:ScintillaWin	signature:(WPARAM wParam)
 HorizontalScrollTo	scintilla\src\Editor.cxx	/^void Editor::HorizontalScrollTo(int xPos) {$/;"	f	class:Editor	signature:(int xPos)
 Hwnd	scite\win32\Strips.h	/^	HWND Hwnd() const {$/;"	f	class:BaseWin	access:public	signature:() const
 HwndFromString	scite\win32\DirectorExtension.cxx	/^static HWND HwndFromString(const char *s) {$/;"	f	file:	signature:(const char *s)
-HwndOf	scite\win32\SciteWin.h	/^inline HWND HwndOf(GUI::Window w) {$/;"	f	signature:(GUI::Window w)
+HwndOf	scite\win32\SciTEWin.h	/^inline HWND HwndOf(GUI::Window w) {$/;"	f	signature:(GUI::Window w)
 ICaseConverter	scintilla\src\CaseConvert.h	/^class ICaseConverter {$/;"	c	namespace:Scintilla
 IDABBREV	scite\src\SciTE.h	260;"	d
 IDABOUTSCINTILLA	scite\src\SciTE.h	232;"	d
@@ -2571,7 +2571,7 @@ IsIdStart	scintilla\lexlib\CharacterCategory.cxx	/^bool IsIdStart(int character)
 IsKeyDown	scintilla\gtk\PlatGTK.cxx	/^bool Platform::IsKeyDown(int) {$/;"	f	class:Platform	signature:(int)
 IsKeyDown	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^bool Platform::IsKeyDown(int \/*key*\/)$/;"	f	class:Scintilla::Platform	signature:(int )
 IsKeyDown	scintilla\win32\PlatWin.cxx	/^bool Platform::IsKeyDown(int key) {$/;"	f	class:Scintilla::Platform	signature:(int key)
-IsKeyDown	scite\win32\SciteWin.h	/^inline bool IsKeyDown(int key) {$/;"	f	signature:(int key)
+IsKeyDown	scite\win32\SciTEWin.h	/^inline bool IsKeyDown(int key) {$/;"	f	signature:(int key)
 IsLastStep	scintilla\src\Editor.cxx	/^static bool IsLastStep(const DocModification &mh) {$/;"	f	file:	signature:(const DocModification &mh)
 IsLeadByte	scintilla\lexlib\LexAccessor.h	/^	bool IsLeadByte(char ch) const {$/;"	f	class:Scintilla::LexAccessor	access:public	signature:(char ch) const
 IsLeadByte	scite\src\StyleWriter.h	/^	bool IsLeadByte(char ch) const {$/;"	f	class:TextReader	access:public	signature:(char ch) const
@@ -3014,7 +3014,7 @@ ListBoxImpl	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^ListBoxImpl::ListBoxImpl
 ListBoxImpl	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^class ListBoxImpl : public ListBox {$/;"	c	namespace:Scintilla	file:	inherits:ListBox
 ListBoxX	scintilla\gtk\PlatGTK.cxx	/^	ListBoxX() : widCached(0), frame(0), list(0), scroller(0), pixhash(NULL), pixbuf_renderer(0),$/;"	f	class:ListBoxX	access:public	signature:()
 ListBoxX	scintilla\gtk\PlatGTK.cxx	/^class ListBoxX : public ListBox {$/;"	c	file:	inherits:ListBox
-ListBoxX	scintilla\win32\PlatWin.cxx	/^	ListBoxX() : lineHeight(10), fontCopy(0), technology(0), lb(0), unicodeMode(false),$/;"	f	class:Scintilla::ListBoxX	access:public	signature:()
+ListBoxX	scintilla\win32\PlatWin.cxx	/^	ListBoxX() : lineHeight(9), fontCopy(0), technology(0), lb(0), unicodeMode(false),$/;"	f	class:Scintilla::ListBoxX	access:public	signature:()
 ListBoxX	scintilla\win32\PlatWin.cxx	/^class ListBoxX : public ListBox {$/;"	c	namespace:Scintilla	file:	inherits:ListBox
 ListBoxX_ClassName	scintilla\win32\PlatWin.cxx	/^const TCHAR ListBoxX_ClassName[] = TEXT("ListBoxX");$/;"	m	namespace:Scintilla	file:
 ListBoxX_Register	scintilla\win32\PlatWin.cxx	/^static bool ListBoxX_Register() {$/;"	f	namespace:Scintilla	signature:()
@@ -3763,7 +3763,7 @@ PointDocument	scintilla\src\PositionCache.h	/^	explicit PointDocument(Point pt) 
 PointDocument	scintilla\src\PositionCache.h	/^	explicit PointDocument(double x_ = 0, double y_ = 0) : x(x_), y(y_) {$/;"	f	class:Scintilla::PointDocument	access:public	signature:(double x_ = 0, double y_ = 0)
 PointDocument	scintilla\src\PositionCache.h	/^class PointDocument {$/;"	c	namespace:Scintilla
 PointEnd	scintilla\src\PositionCache.h	/^enum PointEnd {$/;"	g	namespace:Scintilla
-PointFromLong	scite\win32\SciteWin.h	/^inline GUI::Point PointFromLong(LPARAM lPoint) {$/;"	f	signature:(LPARAM lPoint)
+PointFromLong	scite\win32\SciTEWin.h	/^inline GUI::Point PointFromLong(LPARAM lPoint) {$/;"	f	signature:(LPARAM lPoint)
 PointFromPOINT	scintilla\win32\ScintillaWin.cxx	/^static Point PointFromPOINT(POINT pt) {$/;"	f	file:	signature:(POINT pt)
 PointFromPosition	scintilla\src\PositionCache.cxx	/^Point LineLayout::PointFromPosition(int posInLine, int lineHeight, PointEnd pe) const {$/;"	f	class:LineLayout	signature:(int posInLine, int lineHeight, PointEnd pe) const
 PointFromQPoint	scintilla\qt\ScintillaEditBase\PlatQt.h	/^inline Point PointFromQPoint(QPoint qp)$/;"	f	namespace:Scintilla	signature:(QPoint qp)
@@ -3772,7 +3772,7 @@ PointInSelection	scintilla\src\Editor.cxx	/^bool Editor::PointInSelection(Point 
 PointIsHotspot	scintilla\src\Editor.cxx	/^bool Editor::PointIsHotspot(Point pt) {$/;"	f	class:Editor	signature:(Point pt)
 PointMainCaret	scintilla\src\Editor.cxx	/^Point Editor::PointMainCaret() {$/;"	f	class:Editor	signature:()
 PointOfCursor	scite\win32\SciTEWinBar.cxx	/^GUI::Point PointOfCursor() {$/;"	f	signature:()
-PointPointer	scite\win32\SciteWin.h	/^inline POINT *PointPointer(GUI::Point *pt) {$/;"	f	signature:(GUI::Point *pt)
+PointPointer	scite\win32\SciTEWin.h	/^inline POINT *PointPointer(GUI::Point *pt) {$/;"	f	signature:(GUI::Point *pt)
 Pointer	scite\gtk\Widget.cxx	/^GtkWidget* WBase::Pointer() {$/;"	f	class:WBase	signature:()
 PointerFromWindow	scintilla\win32\PlatWin.cxx	/^static void *PointerFromWindow(HWND hWnd) {$/;"	f	file:	signature:(HWND hWnd)
 PointerFromWindow	scintilla\win32\ScintillaWin.cxx	/^static void *PointerFromWindow(HWND hWnd) {$/;"	f	file:	signature:(HWND hWnd)
@@ -3886,7 +3886,7 @@ QueueIdleWork	scintilla\src\Editor.cxx	/^void Editor::QueueIdleWork(WorkNeeded::
 QuitProgram	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::QuitProgram() {$/;"	f	class:SciTEGTK	signature:()
 QuitProgram	scite\win32\SciTEWin.cxx	/^void SciTEWin::QuitProgram() {$/;"	f	class:SciTEWin	signature:()
 QuitSignal	scite\gtk\SciTEGTK.cxx	/^gint SciTEGTK::QuitSignal(GtkWidget *, GdkEventAny *, SciTEGTK *scitew) {$/;"	f	class:SciTEGTK	signature:(GtkWidget *, GdkEventAny *, SciTEGTK *scitew)
-RECTFromRectangle	scite\win32\Strips.cxx	/^RECT RECTFromRectangle(GUI::Rectangle r) {$/;"	f	namespace:__anon64	signature:(GUI::Rectangle r)
+RECTFromRectangle	scite\win32\Strips.cxx	/^RECT RECTFromRectangle(GUI::Rectangle r) {$/;"	f	namespace:__anon62	signature:(GUI::Rectangle r)
 REF	scintilla\src\RESearch.cxx	229;"	d	file:
 RESEARCH_H	scintilla\src\RESearch.h	10;"	d
 RESERVED	scite\lua\src\llex.h	/^enum RESERVED {$/;"	g
@@ -5869,9 +5869,9 @@ SCINTILLA_TYPE_NOTIFICATION	scintilla\include\ScintillaWidget.h	51;"	d
 SCINTILLA_TYPE_OBJECT	scintilla\include\ScintillaWidget.h	23;"	d
 SCINTILLA_TYPE_OBJECT_ACCESSIBLE	scintilla\gtk\ScintillaGTKAccessible.cxx	142;"	d	file:
 SCITEKEYS_H	scite\src\SciTEKeys.h	9;"	d
-SCITE_DROP	scite\win32\SciteWin.h	/^const int SCITE_DROP = WM_APP + 1;$/;"	v
+SCITE_DROP	scite\win32\SciTEWin.h	/^const int SCITE_DROP = WM_APP + 1;$/;"	v
 SCITE_H	scite\src\SciTE.h	9;"	d
-SCITE_SHOWOUTPUT	scite\win32\SciteWin.h	/^const int SCITE_SHOWOUTPUT = WM_APP + 3;$/;"	v
+SCITE_SHOWOUTPUT	scite\win32\SciTEWin.h	/^const int SCITE_SHOWOUTPUT = WM_APP + 3;$/;"	v
 SCITE_STOCK_CANCEL	scite\gtk\SciTEGTK.cxx	1517;"	d	file:
 SCITE_STOCK_CANCEL	scite\gtk\SciTEGTK.cxx	1522;"	d	file:
 SCITE_STOCK_OK	scite\gtk\SciTEGTK.cxx	1520;"	d	file:
@@ -5880,8 +5880,8 @@ SCITE_STOCK_OPEN	scite\gtk\SciTEGTK.cxx	1518;"	d	file:
 SCITE_STOCK_OPEN	scite\gtk\SciTEGTK.cxx	1523;"	d	file:
 SCITE_STOCK_SAVE	scite\gtk\SciTEGTK.cxx	1519;"	d	file:
 SCITE_STOCK_SAVE	scite\gtk\SciTEGTK.cxx	1524;"	d	file:
-SCITE_TRAY	scite\win32\SciteWin.h	/^const int SCITE_TRAY = WM_APP + 0;$/;"	v
-SCITE_WORKER	scite\win32\SciteWin.h	/^const int SCITE_WORKER = WM_APP + 2;$/;"	v
+SCITE_TRAY	scite\win32\SciTEWin.h	/^const int SCITE_TRAY = WM_APP + 0;$/;"	v
+SCITE_WORKER	scite\win32\SciTEWin.h	/^const int SCITE_WORKER = WM_APP + 2;$/;"	v
 SCI_ADDREFDOCUMENT	scintilla\include\Scintilla.h	698;"	d
 SCI_ADDSELECTION	scintilla\include\Scintilla.h	903;"	d
 SCI_ADDSTYLEDTEXT	scintilla\include\Scintilla.h	52;"	d
@@ -7051,7 +7051,7 @@ SIZE_B	scite\lua\src\lopcodes.h	38;"	d
 SIZE_Bx	scite\lua\src\lopcodes.h	39;"	d
 SIZE_C	scite\lua\src\lopcodes.h	37;"	d
 SIZE_OP	scite\lua\src\lopcodes.h	42;"	d
-SPACING	scintilla\gtk\PlatGTK.cxx	1689;"	d	file:
+SPACING	scintilla\gtk\PlatGTK.cxx	1697;"	d	file:
 SPARSESTATE_H	scintilla\lexlib\SparseState.h	11;"	d
 SPARSEVECTOR_H	scintilla\src\SparseVector.h	9;"	d
 SPI_GETFONTSMOOTHINGCONTRAST	scintilla\win32\PlatWin.cxx	47;"	d	file:
@@ -7150,7 +7150,7 @@ SciTEGTK	scite\gtk\SciTEGTK.cxx	/^class SciTEGTK : public SciTEBase {$/;"	c	file
 SciTEItemFactoryEntry	scite\gtk\SciTEGTK.cxx	/^struct SciTEItemFactoryEntry {$/;"	s	file:
 SciTEKeys	scite\src\SciTEKeys.h	/^class SciTEKeys {$/;"	c
 SciTEWin	scite\win32\SciTEWin.cxx	/^SciTEWin::SciTEWin(Extension *ext) : SciTEBase(ext) {$/;"	f	class:SciTEWin	signature:(Extension *ext)
-SciTEWin	scite\win32\SciteWin.h	/^class SciTEWin : public SciTEBase {$/;"	c	inherits:SciTEBase
+SciTEWin	scite\win32\SciTEWin.h	/^class SciTEWin : public SciTEBase {$/;"	c	inherits:SciTEBase
 Sci_CharacterRange	scintilla\include\Scintilla.h	/^struct Sci_CharacterRange {$/;"	s
 Sci_NotifyHeader	scintilla\include\Scintilla.h	/^struct Sci_NotifyHeader {$/;"	s
 Sci_NotifyHeader	scintilla\include\Scintilla.h	/^typedef struct Sci_NotifyHeader Sci_NotifyHeader;$/;"	t	typeref:struct:Sci_NotifyHeader
@@ -7475,6 +7475,7 @@ SetFont	scintilla\win32\PlatWin.cxx	/^void SurfaceD2D::SetFont(Font &font_) {$/;
 SetFont	scintilla\win32\PlatWin.cxx	/^void SurfaceGDI::SetFont(Font &font_) {$/;"	f	class:Scintilla::SurfaceGDI	signature:(Font &font_)
 SetFont	scintilla\win32\PlatWin.cxx	/^void Window::SetFont(Font &font) {$/;"	f	class:Scintilla::Window	signature:(Font &font)
 SetFontHandle	scite\win32\Strips.cxx	/^static void SetFontHandle(const GUI::Window &w, HFONT hfont) {$/;"	f	file:	signature:(const GUI::Window &w, HFONT hfont)
+SetForeBack	scintilla\gtk\PlatGTK.cxx	/^void ListBoxX::SetForeBack( ColourDesired fore, ColourDesired back) {$/;"	f	class:ListBoxX	signature:( ColourDesired fore, ColourDesired back)
 SetForeBack	scintilla\src\AutoComplete.cxx	/^void AutoComplete::SetForeBack( ColourDesired fore, ColourDesired back) {$/;"	f	class:AutoComplete	signature:( ColourDesired fore, ColourDesired back)
 SetForeBack	scintilla\src\CallTip.cxx	/^void CallTip::SetForeBack(const ColourDesired &fore, const ColourDesired &back) {$/;"	f	class:CallTip	signature:(const ColourDesired &fore, const ColourDesired &back)
 SetForeBack	scintilla\win32\PlatWin.cxx	/^void ListBoxX::SetForeBack( ColourDesired fore, ColourDesired back) {$/;"	f	class:Scintilla::ListBoxX	signature:( ColourDesired fore, ColourDesired back)
@@ -7593,7 +7594,7 @@ SetSavePoint	scintilla\src\Document.cxx	/^void Document::SetSavePoint() {$/;"	f	
 SetScale	scintilla\win32\PlatWin.cxx	/^void SurfaceD2D::SetScale() {$/;"	f	class:Scintilla::SurfaceD2D	signature:()
 SetScaleFactor	scite\win32\SciTEWin.cxx	/^void SciTEWin::SetScaleFactor(int scale) {$/;"	f	class:SciTEWin	signature:(int scale)
 SetSciTE	scite\gtk\SciTEGTK.cxx	/^void UserStrip::SetSciTE(SciTEGTK *pSciTEGTK_) {$/;"	f	class:UserStrip	signature:(SciTEGTK *pSciTEGTK_)
-SetSciTE	scite\win32\SciteWin.h	/^	void SetSciTE(SciTEWin *pSciTEWin_) {$/;"	f	class:ContentWin	access:public	signature:(SciTEWin *pSciTEWin_)
+SetSciTE	scite\win32\SciTEWin.h	/^	void SetSciTE(SciTEWin *pSciTEWin_) {$/;"	f	class:ContentWin	access:public	signature:(SciTEWin *pSciTEWin_)
 SetSciTE	scite\win32\Strips.cxx	/^void UserStrip::SetSciTE(SciTEWin *pSciTEWin_) {$/;"	f	class:UserStrip	signature:(SciTEWin *pSciTEWin_)
 SetScrollBars	scintilla\src\Editor.cxx	/^void Editor::SetScrollBars() {$/;"	f	class:Editor	signature:()
 SetScrollInfo	scintilla\win32\ScintillaWin.cxx	/^int ScintillaWin::SetScrollInfo(int nBar, LPCSCROLLINFO lpsi, BOOL bRedraw) {$/;"	f	class:ScintillaWin	signature:(int nBar, LPCSCROLLINFO lpsi, BOOL bRedraw)
@@ -7790,7 +7791,7 @@ StackPrev	scite\src\SciTEBuffers.cxx	/^int BufferList::StackPrev() {$/;"	f	class
 StandardASCII	scintilla\src\CaseFolder.cxx	/^void CaseFolderTable::StandardASCII() {$/;"	f	class:CaseFolderTable	signature:()
 Start	scintilla\lexlib\SubStyles.h	/^	int Start() const {$/;"	f	class:Scintilla::WordClassifier	access:public	signature:() const
 Start	scintilla\lexlib\SubStyles.h	/^	int Start(int styleBase) {$/;"	f	class:Scintilla::SubStyles	access:public	signature:(int styleBase)
-Start	scintilla\src\AutoComplete.cxx	/^void AutoComplete::Start(Window &parent, int ctrlID,$/;"	f	class:AutoComplete	signature:(Window &parent, int ctrlID, Sci::Position position, Point location, int startLen_, int lineHeight, bool unicodeMode, int technology,bool useThickFrame)
+Start	scintilla\src\AutoComplete.cxx	/^void AutoComplete::Start(Window &parent, int ctrlID,$/;"	f	class:AutoComplete	signature:(Window &parent, int ctrlID, Sci::Position position, Point location, int startLen_, const char *faceName, int characterSet, int size, bool unicodeMode, int technology,bool useThickFrame,Window &wParent)
 Start	scintilla\src\Decoration.cxx	/^int DecorationList::Start(int indicator, int position) {$/;"	f	class:DecorationList	signature:(int indicator, int position)
 Start	scintilla\src\Selection.cxx	/^SelectionPosition Selection::Start() const {$/;"	f	class:Selection	signature:() const
 Start	scintilla\src\Selection.h	/^	SelectionPosition Start() const {$/;"	f	struct:Scintilla::SelectionRange	access:public	signature:() const
@@ -7952,7 +7953,7 @@ TArray	scite\src\Containers.h	/^class TArray$/;"	c
 TBSTYLE_FLAT	scite\win32\SciTEWinBar.cxx	839;"	d	file:
 TB_LOADIMAGES	scite\win32\SciTEWinBar.cxx	842;"	d	file:
 TEXT_COLUMN	scintilla\gtk\PlatGTK.cxx	/^	TEXT_COLUMN,$/;"	e	enum:__anon70	file:
-THEME_AVAILABLE	scite\win32\SciteWin.h	57;"	d
+THEME_AVAILABLE	scite\win32\SciTEWin.h	57;"	d
 TK_AND	scite\lua\src\llex.h	/^  TK_AND = FIRST_RESERVED, TK_BREAK,$/;"	e	enum:RESERVED
 TK_BREAK	scite\lua\src\llex.h	/^  TK_AND = FIRST_RESERVED, TK_BREAK,$/;"	e	enum:RESERVED
 TK_CONCAT	scite\lua\src\llex.h	/^  TK_CONCAT, TK_DOTS, TK_EQ, TK_GE, TK_LE, TK_NE, TK_NUMBER,$/;"	e	enum:RESERVED
@@ -8011,12 +8012,12 @@ TMap	scite\src\Containers.h	/^	TMap() {$/;"	f	class:TMap	access:public	signature
 TMap	scite\src\Containers.h	/^class TMap$/;"	c
 TOKEN_LEN	scite\lua\src\llex.h	17;"	d
 TOOLS_START	scite\src\SciTE.h	58;"	d
-TP_BUTTON	scite\win32\SciteWin.h	70;"	d
-TS_CHECKED	scite\win32\SciteWin.h	68;"	d
-TS_HOT	scite\win32\SciteWin.h	66;"	d
-TS_HOTCHECKED	scite\win32\SciteWin.h	69;"	d
-TS_NORMAL	scite\win32\SciteWin.h	65;"	d
-TS_PRESSED	scite\win32\SciteWin.h	67;"	d
+TP_BUTTON	scite\win32\SciTEWin.h	70;"	d
+TS_CHECKED	scite\win32\SciTEWin.h	68;"	d
+TS_HOT	scite\win32\SciTEWin.h	66;"	d
+TS_HOTCHECKED	scite\win32\SciTEWin.h	69;"	d
+TS_NORMAL	scite\win32\SciTEWin.h	65;"	d
+TS_PRESSED	scite\win32\SciTEWin.h	67;"	d
 TString	scite\lua\src\lobject.h	/^typedef union TString {$/;"	u
 TString	scite\lua\src\lobject.h	/^} TString;$/;"	t	typeref:union:TString
 TValue	scite\lua\src\lobject.h	/^} TValue;$/;"	t	typeref:struct:lua_TValue
@@ -8119,7 +8120,7 @@ Toggled	scite\gtk\Widget.cxx	/^void WCheckDraw::Toggled(GtkWidget *, WCheckDraw 
 Token	scite\lua\src\llex.h	/^typedef struct Token {$/;"	s
 Token	scite\lua\src\llex.h	/^} Token;$/;"	t	typeref:struct:Token
 Token	scite\src\LuaExtension.cxx	/^	static int Token(lua_State *L) {$/;"	f	struct:StylingContext	access:public	signature:(lua_State *L)
-ToolBarTips	scite\win32\SciteWin.h	/^	TMap<int,int, std::string, const char *> ToolBarTips;$/;"	m	class:SciTEWin	access:protected
+ToolBarTips	scite\win32\SciTEWin.h	/^	TMap<int,int, std::string, const char *> ToolBarTips;$/;"	m	class:SciTEWin	access:protected
 ToolIsImmediate	scite\src\SciTEBuffers.cxx	/^bool SciTEBase::ToolIsImmediate(int item) {$/;"	f	class:SciTEBase	signature:(int item)
 ToolsMenu	scite\src\SciTEBuffers.cxx	/^void SciTEBase::ToolsMenu(int item) {$/;"	f	class:SciTEBase	signature:(int item)
 TopLineOfMain	scintilla\src\Editor.cxx	/^Sci::Line Editor::TopLineOfMain() const {$/;"	f	class:Editor	signature:() const
@@ -8347,21 +8348,21 @@ WINVER	scintilla\win32\PlatWin.cxx	24;"	d	file:
 WINVER	scintilla\win32\PlatWin.cxx	25;"	d	file:
 WINVER	scintilla\win32\ScintillaWin.cxx	27;"	d	file:
 WINVER	scintilla\win32\ScintillaWin.cxx	28;"	d	file:
-WINVER	scite\win32\SciteWin.h	31;"	d
-WINVER	scite\win32\SciteWin.h	34;"	d
-WINVER	scite\win32\SciteWin.h	37;"	d
+WINVER	scite\win32\SciTEWin.h	31;"	d
+WINVER	scite\win32\SciTEWin.h	34;"	d
+WINVER	scite\win32\SciTEWin.h	37;"	d
 WM_COMMAND	scintilla\cocoa\ScintillaView.h	23;"	d
-WM_DPICHANGED	scite\win32\SciteWin.h	80;"	d
+WM_DPICHANGED	scite\win32\SciTEWin.h	80;"	d
 WM_NOTIFY	scintilla\cocoa\ScintillaView.h	24;"	d
 WM_UNICHAR	scintilla\win32\ScintillaWin.cxx	99;"	d	file:
-WM_UPDATEUISTATE	scite\win32\SciteWin.h	76;"	d
+WM_UPDATEUISTATE	scite\win32\SciTEWin.h	76;"	d
 WORDLIST_H	scintilla\lexlib\WordList.h	9;"	d
-WORK_EXECUTE	scite\win32\SciteWin.h	/^	WORK_EXECUTE = WORK_PLATFORM + 1$/;"	e	enum:__anon62
+WORK_EXECUTE	scite\win32\SciTEWin.h	/^	WORK_EXECUTE = WORK_PLATFORM + 1$/;"	e	enum:__anon63
 WORK_FILEPROGRESS	scite\src\FileWorker.h	/^	WORK_FILEPROGRESS = 3,$/;"	e	enum:__anon20
 WORK_FILEREAD	scite\src\FileWorker.h	/^	WORK_FILEREAD = 1,$/;"	e	enum:__anon20
 WORK_FILEWRITTEN	scite\src\FileWorker.h	/^	WORK_FILEWRITTEN = 2,$/;"	e	enum:__anon20
 WORK_PLATFORM	scite\src\FileWorker.h	/^	WORK_PLATFORM = 100$/;"	e	enum:__anon20
-WP_SMALLCLOSEBUTTON	scite\win32\SciteWin.h	64;"	d
+WP_SMALLCLOSEBUTTON	scite\win32\SciTEWin.h	64;"	d
 WProgress	scite\gtk\Widget.h	/^class WProgress : public WBase {$/;"	c	inherits:WBase
 WRAPPER_METHOD_BODY	scintilla\gtk\ScintillaGTKAccessible.cxx	917;"	d	file:
 WStatic	scite\gtk\Widget.h	/^class WStatic : public WBase {$/;"	c	inherits:WBase
@@ -8483,7 +8484,7 @@ _QUARTZ_TEXT_STYLE_H	scintilla\cocoa\QuartzTextStyle.h	9;"	d
 _ScintillaClass	scintilla\include\ScintillaWidget.h	/^struct _ScintillaClass {$/;"	s
 _ScintillaObject	scintilla\include\ScintillaWidget.h	/^struct _ScintillaObject {$/;"	s
 _WIN32_IE	scite\win32\GUIWin.cxx	18;"	d	file:
-_WIN32_IE	scite\win32\SciteWin.h	27;"	d
+_WIN32_IE	scite\win32\SciTEWin.h	27;"	d
 _WIN32_WINNT	scintilla\win32\PlatWin.cxx	22;"	d	file:
 _WIN32_WINNT	scintilla\win32\PlatWin.cxx	23;"	d	file:
 _WIN32_WINNT	scintilla\win32\ScintillaWin.cxx	25;"	d	file:
@@ -8496,9 +8497,9 @@ _WIN32_WINNT	scite\win32\DirectorExtension.cxx	18;"	d	file:
 _WIN32_WINNT	scite\win32\DirectorExtension.cxx	19;"	d	file:
 _WIN32_WINNT	scite\win32\GUIWin.cxx	21;"	d	file:
 _WIN32_WINNT	scite\win32\GUIWin.cxx	22;"	d	file:
-_WIN32_WINNT	scite\win32\SciteWin.h	30;"	d
-_WIN32_WINNT	scite\win32\SciteWin.h	33;"	d
-_WIN32_WINNT	scite\win32\SciteWin.h	36;"	d
+_WIN32_WINNT	scite\win32\SciTEWin.h	30;"	d
+_WIN32_WINNT	scite\win32\SciTEWin.h	33;"	d
+_WIN32_WINNT	scite\win32\SciTEWin.h	36;"	d
 __STDC_LIMIT_MACROS	scite\src\SciTEIO.cxx	10;"	d	file:
 __scintilla_marshal_MARSHAL_H__	scintilla\gtk\scintilla-marshal.h	3;"	d
 _popen	scite\src\scite_lua_win.h	19;"	d
@@ -8551,7 +8552,7 @@ api_check	scite\lua\src\llimits.h	64;"	d
 apis	scite\src\SciTEBase.h	/^	StringList apis;$/;"	m	class:SciTEBase	access:protected
 apisFileNames	scite\src\SciTEBase.h	/^	std::string apisFileNames;$/;"	m	class:SciTEBase	access:protected
 app	scite\win32\SciTEWin.cxx	/^SciTEWin *SciTEWin::app = NULL;$/;"	m	class:SciTEWin	file:
-app	scite\win32\SciteWin.h	/^	static SciTEWin *app;$/;"	m	class:SciTEWin	access:protected
+app	scite\win32\SciTEWin.h	/^	static SciTEWin *app;$/;"	m	class:SciTEWin	access:protected
 appName	scite\gtk\SciTEGTK.cxx	/^const char appName[] = "SciTE";$/;"	v
 appName	scite\win32\SciTEWin.cxx	/^const GUI::gui_char appName[] = GUI_TEXT("Sc1");$/;"	v
 appName	scite\win32\SciTEWin.cxx	/^const GUI::gui_char appName[] = GUI_TEXT("SciTE");$/;"	v
@@ -8602,20 +8603,20 @@ back	scintilla\src\ViewStyle.h	/^	ColourOptional back;$/;"	m	struct:Scintilla::F
 back	scite\src\StyleDefinition.h	/^	std::string back;$/;"	m	class:StyleDefinition	access:public
 backSelected	scintilla\src\LineMarker.h	/^	ColourDesired backSelected;$/;"	m	class:Scintilla::LineMarker	access:public
 backgroundStrip	scite\gtk\SciTEGTK.cxx	/^	BackgroundStrip backgroundStrip;$/;"	m	class:SciTEGTK	file:	access:protected
-backgroundStrip	scite\win32\SciteWin.h	/^	BackgroundStrip backgroundStrip;$/;"	m	class:SciTEWin	access:protected
+backgroundStrip	scite\win32\SciTEWin.h	/^	BackgroundStrip backgroundStrip;$/;"	m	class:SciTEWin	access:protected
 backslash_x_xpm	scite\gtk\SciTEGTK.cxx	/^static const char * backslash_x_xpm[] = {$/;"	v	file:
 backspaceUnindents	scintilla\src\Document.h	/^	bool backspaceUnindents;$/;"	m	class:Scintilla::Document	access:public
 badpat	scintilla\src\RESearch.cxx	245;"	d	file:
-bandBackground	scite\win32\SciteWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon63
-bandContents	scite\win32\SciteWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon63
-bandFind	scite\win32\SciteWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon63
-bandReplace	scite\win32\SciteWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon63
-bandSearch	scite\win32\SciteWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon63
-bandStatus	scite\win32\SciteWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon63
-bandTab	scite\win32\SciteWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon63
-bandTool	scite\win32\SciteWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon63
-bandUser	scite\win32\SciteWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon63
-bands	scite\win32\SciteWin.h	/^	std::vector<Band> bands;$/;"	m	class:SciTEWin	access:protected
+bandBackground	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon64
+bandContents	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon64
+bandFind	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon64
+bandReplace	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon64
+bandSearch	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon64
+bandStatus	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon64
+bandTab	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon64
+bandTool	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon64
+bandUser	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon64
+bands	scite\win32\SciTEWin.h	/^	std::vector<Band> bands;$/;"	m	class:SciTEWin	access:protected
 base	scite\lua\src\lstate.h	/^  StkId base;  \/* base for this function *\/$/;"	m	struct:CallInfo	access:public
 base	scite\lua\src\lstate.h	/^  StkId base;  \/* base of current function *\/$/;"	m	struct:lua_State	access:public
 baseCcalls	scite\lua\src\lstate.h	/^  unsigned short baseCcalls;  \/* nested C calls when resuming coroutine *\/$/;"	m	struct:lua_State	access:public
@@ -8723,7 +8724,7 @@ capturedMouse	scintilla\cocoa\ScintillaCocoa.h	/^  bool capturedMouse;$/;"	m	cla
 capturedMouse	scintilla\gtk\ScintillaGTK.h	/^	bool capturedMouse;$/;"	m	class:Scintilla::ScintillaGTK	access:private
 capturedMouse	scintilla\win32\ScintillaWin.cxx	/^	bool capturedMouse;$/;"	m	class:ScintillaWin	file:	access:private
 capturedMouse	scite\src\SciTEBase.h	/^	bool capturedMouse;$/;"	m	class:SciTEBase	access:protected
-capturedMouse	scite\win32\SciteWin.h	/^	bool capturedMouse;$/;"	m	class:ContentWin	access:private
+capturedMouse	scite\win32\SciTEWin.h	/^	bool capturedMouse;$/;"	m	class:ContentWin	access:private
 capturedMouse	scite\win32\Strips.h	/^	bool capturedMouse;$/;"	m	class:Strip	access:protected
 caret	scintilla\src\EditModel.h	/^	Caret caret;$/;"	m	class:Scintilla::EditModel	access:public
 caret	scintilla\src\Selection.h	/^	SelectionPosition caret;$/;"	m	struct:Scintilla::SelectionRange	access:public
@@ -8881,9 +8882,9 @@ ci	scite\lua\src\lstate.h	/^  CallInfo *ci;  \/* call info for current function 
 ci_func	scite\lua\src\lstate.h	60;"	d
 cl	scite\lua\src\lstate.h	/^  union Closure cl;$/;"	m	union:GCObject	typeref:union:GCObject::Closure	access:public
 className	scite\win32\SciTEWin.cxx	/^const TCHAR *SciTEWin::className = NULL;$/;"	m	class:SciTEWin	file:
-className	scite\win32\SciteWin.h	/^	static const TCHAR *className;$/;"	m	class:SciTEWin	access:protected
+className	scite\win32\SciTEWin.h	/^	static const TCHAR *className;$/;"	m	class:SciTEWin	access:protected
 classNameInternal	scite\win32\SciTEWin.cxx	/^const TCHAR *SciTEWin::classNameInternal = NULL;$/;"	m	class:SciTEWin	file:
-classNameInternal	scite\win32\SciteWin.h	/^	static const TCHAR *classNameInternal;$/;"	m	class:SciTEWin	access:protected
+classNameInternal	scite\win32\SciTEWin.h	/^	static const TCHAR *classNameInternal;$/;"	m	class:SciTEWin	access:protected
 classifications	scintilla\lexlib\SubStyles.h	/^	int classifications;$/;"	m	class:Scintilla::SubStyles	access:private
 classifiers	scintilla\lexlib\SubStyles.h	/^	std::vector<WordClassifier> classifiers;$/;"	m	class:Scintilla::SubStyles	access:private
 clearBeforeExecute	scite\src\JobQueue.h	/^	bool clearBeforeExecute;$/;"	m	class:JobQueue	access:public
@@ -8908,8 +8909,8 @@ cmUpper	scintilla\src\Editor.h	/^	enum { cmSame, cmUpper, cmLower };$/;"	e	enum:
 cmd	scite\gtk\SciTEGTK.cxx	/^	int cmd;$/;"	m	struct:CallbackData	file:	access:public
 cmd	scite\src\SciTEBase.h	/^	int cmd;	\/\/ Menu item$/;"	m	struct:SearchOption	access:public
 cmd	scite\win32\SciTEWinBar.cxx	/^	int cmd;$/;"	m	struct:BarButtonIn	file:	access:public
-cmdShow	scite\win32\SciteWin.h	/^	int cmdShow;$/;"	m	class:SciTEWin	access:protected
-cmdWorker	scite\win32\SciteWin.h	/^	CommandWorker cmdWorker;$/;"	m	class:SciTEWin	access:protected
+cmdShow	scite\win32\SciTEWin.h	/^	int cmdShow;$/;"	m	class:SciTEWin	access:protected
+cmdWorker	scite\win32\SciTEWin.h	/^	CommandWorker cmdWorker;$/;"	m	class:SciTEWin	access:protected
 cmpWords	scintilla\lexlib\WordList.cxx	/^static bool cmpWords(const char *a, const char *b) {$/;"	f	file:	signature:(const char *a, const char *b)
 cmpWords	scintilla\lexlib\WordList.cxx	/^static int cmpWords(const void *a, const void *b) {$/;"	f	file:	signature:(const void *a, const void *b)
 co	scintilla\include\Platform.h	/^	long co;$/;"	m	class:Scintilla::ColourDesired	access:private
@@ -8934,9 +8935,11 @@ codingCookie	scite\src\Cookie.cxx	/^static const char codingCookie[] = "coding";
 collectingUndo	scintilla\src\CellBuffer.h	/^	bool collectingUndo;$/;"	m	class:Scintilla::CellBuffer	access:private
 colour	scintilla\src\ViewStyle.h	/^	ColourDesired colour;$/;"	m	struct:Scintilla::EdgeProperties	access:public
 colour	scite\src\StyleDefinition.h	/^	long colour;$/;"	m	struct:IndicatorDefinition	access:public
+colourBG	scintilla\gtk\PlatGTK.cxx	/^	long colourBG;$/;"	m	class:ListBoxX	file:	access:private
 colourBG	scintilla\src\CallTip.h	/^	ColourDesired colourBG;$/;"	m	class:Scintilla::CallTip	access:public
 colourBG	scintilla\win32\PlatWin.cxx	/^	COLORREF colourBG;$/;"	m	class:Scintilla::ListBoxX	file:	access:private
 colourCodeTable	scintilla\src\XPM.h	/^	ColourDesired colourCodeTable[256];$/;"	m	class:Scintilla::XPM	access:private
+colourFG	scintilla\gtk\PlatGTK.cxx	/^	long colourFG;$/;"	m	class:ListBoxX	file:	access:private
 colourFG	scintilla\win32\PlatWin.cxx	/^	COLORREF colourFG;$/;"	m	class:Scintilla::ListBoxX	file:	access:private
 colourLight	scintilla\src\CallTip.h	/^	ColourDesired colourLight;$/;"	m	class:Scintilla::CallTip	access:public
 colourMode	scintilla\src\EditView.h	/^	int colourMode;$/;"	m	struct:Scintilla::PrintParameters	access:public
@@ -8954,7 +8957,7 @@ command	scite\src\JobQueue.h	/^	std::string command;$/;"	m	class:Job	access:publ
 commandCurrent	scite\src\JobQueue.h	/^	int commandCurrent;$/;"	m	class:JobQueue	access:public
 commandMax	scite\src\JobQueue.h	/^	enum { commandMax = 2 };$/;"	e	enum:JobQueue::__anon22
 commandTime	scite\gtk\SciTEGTK.cxx	/^	GUI::ElapsedTime commandTime;$/;"	m	class:SciTEGTK	file:	access:protected
-commandTime	scite\win32\SciteWin.h	/^	GUI::ElapsedTime commandTime;$/;"	m	class:CommandWorker	access:public
+commandTime	scite\win32\SciTEWin.h	/^	GUI::ElapsedTime commandTime;$/;"	m	class:CommandWorker	access:public
 compile_xpm	scite\gtk\pixmapsGNOME.h	/^static const char * compile_xpm[] = {$/;"	v
 completed	scite\src\Worker.h	/^	volatile bool completed;$/;"	m	struct:Worker	access:private
 complexCaseConversions	scintilla\src\CaseConvert.cxx	/^const char *complexCaseConversions =$/;"	m	namespace:__anon87	file:
@@ -8972,7 +8975,7 @@ contains	scintilla\lexlib\PropSetSimple.cxx	/^	bool contains(const char *testVar
 contains	scite\src\PropSetFile.cxx	/^	bool contains(const char *testVar) const {$/;"	f	struct:VarChain	access:public	signature:(const char *testVar) const
 containsCaret	scintilla\src\PositionCache.h	/^	bool containsCaret;$/;"	m	class:Scintilla::LineLayout	access:public
 contentViewClass	scintilla\cocoa\ScintillaView.h	/^+ (Class) contentViewClass;$/;"	v
-contents	scite\win32\SciteWin.h	/^	ContentWin contents;$/;"	m	class:SciTEWin	access:protected
+contents	scite\win32\SciTEWin.h	/^	ContentWin contents;$/;"	m	class:SciTEWin	access:protected
 context	scintilla\gtk\PlatGTK.cxx	/^	cairo_t *context;$/;"	m	class:Scintilla::SurfaceImpl	file:	access:private
 contextMenuEvent	scintilla\qt\ScintillaEditBase\ScintillaEditBase.cpp	/^void ScintillaEditBase::contextMenuEvent(QContextMenuEvent *event)$/;"	f	class:ScintillaEditBase	signature:(QContextMenuEvent *event)
 contributors	scite\src\Credits.cxx	/^static const char *contributors[] = {$/;"	v	file:
@@ -9142,7 +9145,7 @@ drawOverstrikeCaret	scintilla\src\EditView.h	/^	bool drawOverstrikeCaret;$/;"	m	
 drawSelectionTranslucent	scintilla\src\EditView.h	/^	drawSelectionTranslucent = 0x20,$/;"	e	enum:Scintilla::DrawPhase
 drawText	scintilla\src\EditView.h	/^	drawText = 0x4,$/;"	e	enum:Scintilla::DrawPhase
 dropEvent	scintilla\qt\ScintillaEditBase\ScintillaEditBase.cpp	/^void ScintillaEditBase::dropEvent(QDropEvent *event)$/;"	f	class:ScintillaEditBase	signature:(QDropEvent *event)
-dropFilesQueue	scite\win32\SciteWin.h	/^	std::deque<GUI::gui_string> dropFilesQueue;$/;"	m	class:SciTEWin	access:protected
+dropFilesQueue	scite\win32\SciTEWin.h	/^	std::deque<GUI::gui_string> dropFilesQueue;$/;"	m	class:SciTEWin	access:protected
 dropRestOfWord	scintilla\src\AutoComplete.h	/^	bool dropRestOfWord;$/;"	m	class:Scintilla::AutoComplete	access:public
 dropWentOutside	scintilla\src\Editor.h	/^	bool dropWentOutside;$/;"	m	class:Scintilla::Editor	access:protected
 ds	scintilla\win32\ScintillaWin.cxx	/^	DropSource ds;$/;"	m	class:ScintillaWin	file:	access:private
@@ -9256,9 +9259,9 @@ execCommand	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::e
 executing	scite\src\JobQueue.h	/^	bool executing;$/;"	m	class:JobQueue	access:public
 exhausted	scite\src\SciTEIO.cxx	/^	bool exhausted;$/;"	m	class:BufferedFile	file:	access:private
 exitStatus	scite\gtk\SciTEGTK.cxx	/^	int exitStatus;$/;"	m	class:SciTEGTK	file:	access:protected
-exitStatus	scite\win32\SciteWin.h	/^	int exitStatus;$/;"	m	class:CommandWorker	access:public
+exitStatus	scite\win32\SciTEWin.h	/^	int exitStatus;$/;"	m	class:CommandWorker	access:public
 expanded	scintilla\src\ContractionState.h	/^	std::unique_ptr<RunStyles> expanded;$/;"	m	class:Scintilla::ContractionState	access:private
-expands	scite\win32\SciteWin.h	/^	bool expands;$/;"	m	struct:Band	access:public
+expands	scite\win32\SciTEWin.h	/^	bool expands;$/;"	m	struct:Band	access:public
 expdesc	scite\lua\src\lparser.h	/^typedef struct expdesc {$/;"	s
 expdesc	scite\lua\src\lparser.h	/^} expdesc;$/;"	t	typeref:struct:expdesc
 expkind	scite\lua\src\lparser.h	/^} expkind;$/;"	t	typeref:enum:__anon15
@@ -9317,12 +9320,12 @@ fillAlpha	scintilla\src\Indicator.h	/^	int fillAlpha;$/;"	m	class:Scintilla::Ind
 fillAlpha	scite\src\StyleDefinition.h	/^	int fillAlpha;$/;"	m	struct:IndicatorDefinition	access:public
 fillUpChars	scintilla\src\AutoComplete.h	/^	std::string fillUpChars;$/;"	m	class:Scintilla::AutoComplete	access:private
 filter	scite\src\SciTEBase.h	/^	ImportFilter filter;$/;"	m	class:SciTEBase	access:protected
-filterDefault	scite\win32\SciteWin.h	/^	int filterDefault;$/;"	m	class:SciTEWin	access:protected
+filterDefault	scite\win32\SciTEWin.h	/^	int filterDefault;$/;"	m	class:SciTEWin	access:protected
 findInStyle	scite\src\SciTEBase.h	/^	bool findInStyle;$/;"	m	class:Searcher	access:public
 findMarker	scite\src\SciTEBase.h	/^	MatchMarker findMarker;$/;"	m	class:SciTEBase	access:protected
 findMarks	scite\src\SciTEBase.h	/^	enum { fmNone, fmTemporary, fmMarked, fmModified} findMarks;$/;"	m	class:Buffer	typeref:enum:Buffer::__anon25	access:public
 findStrip	scite\gtk\SciTEGTK.cxx	/^	FindStrip findStrip;$/;"	m	class:SciTEGTK	file:	access:protected
-findStrip	scite\win32\SciteWin.h	/^	FindStrip findStrip;$/;"	m	class:SciTEWin	access:protected
+findStrip	scite\win32\SciTEWin.h	/^	FindStrip findStrip;$/;"	m	class:SciTEWin	access:protected
 findStyle	scite\src\SciTEBase.h	/^	int findStyle;$/;"	m	class:Searcher	access:public
 findWhat	scite\src\SciTEBase.h	/^	std::string findWhat;$/;"	m	class:Searcher	access:public
 findinfiles_xpm	scite\gtk\pixmapsGNOME.h	/^static const char * findinfiles_xpm[] = {$/;"	v
@@ -9342,9 +9345,9 @@ flags	scite\src\JobQueue.h	/^	int flags;$/;"	m	class:Job	access:public
 flags	scite\src\JobQueue.h	/^	int flags;$/;"	m	struct:JobMode	access:public
 flags	scite\src\LuaExtension.cxx	/^	int flags; \/\/ this is really part of the state, but is kept here for convenience$/;"	m	struct:PaneMatchObject	file:	access:public
 flags	scite\src\StyleDefinition.h	/^	enum flags { sdNone = 0, sdFont = 0x1, sdSize = 0x2, sdFore = 0x4, sdBack = 0x8,$/;"	g	class:StyleDefinition	access:public
-flags	scite\win32\SciteWin.h	/^	int flags;$/;"	m	class:CommandWorker	access:public
+flags	scite\win32\SciTEWin.h	/^	int flags;$/;"	m	class:CommandWorker	access:public
 flagsMatch	scite\src\MatchMarker.h	/^	int flagsMatch;$/;"	m	class:MatchMarker	access:private
-flatterUI	scite\win32\SciteWin.h	/^	bool flatterUI;$/;"	m	class:SciTEWin	access:protected
+flatterUI	scite\win32\SciTEWin.h	/^	bool flatterUI;$/;"	m	class:SciTEWin	access:protected
 flavorFor	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^	QString flavorFor(const QString &mime) {$/;"	f	class:ScintillaRectangularMime	access:public	signature:(const QString &mime)
 fmMarked	scite\src\SciTEBase.h	/^	enum { fmNone, fmTemporary, fmMarked, fmModified} findMarks;$/;"	e	enum:Buffer::__anon25
 fmModified	scite\src\SciTEBase.h	/^	enum { fmNone, fmTemporary, fmMarked, fmModified} findMarks;$/;"	e	enum:Buffer::__anon25
@@ -9375,6 +9378,7 @@ foldState	scite\src\SciTEBase.h	/^	std::vector<int> foldState;$/;"	m	class:Buffe
 foldState	scite\src\SciTEBase.h	/^	std::vector<int> foldState;$/;"	m	struct:BufferState	access:public
 foldmarginColour	scintilla\src\ViewStyle.h	/^	ColourOptional foldmarginColour;$/;"	m	class:Scintilla::ViewStyle	access:public
 foldmarginHighlightColour	scintilla\src\ViewStyle.h	/^	ColourOptional foldmarginHighlightColour;$/;"	m	class:Scintilla::ViewStyle	access:public
+font	scintilla\src\AutoComplete.h	/^	Font font;$/;"	m	class:Scintilla::AutoComplete	access:private
 font	scintilla\src\CallTip.h	/^	Font font;$/;"	m	class:Scintilla::CallTip	access:private
 font	scintilla\src\Style.h	/^	FontAlias font;$/;"	m	class:Scintilla::Style	access:public
 font	scintilla\src\ViewStyle.h	/^	Font font;$/;"	m	class:Scintilla::FontRealised	access:public
@@ -9386,7 +9390,7 @@ fontName	scintilla\src\Style.h	/^	const char *fontName;$/;"	m	struct:Scintilla::
 fontNames	scintilla\src\ViewStyle.h	/^	FontNames fontNames;$/;"	m	class:Scintilla::ViewStyle	access:private
 fontOld	scintilla\win32\PlatWin.cxx	/^	HFONT fontOld;$/;"	m	class:Scintilla::SurfaceGDI	file:	access:private
 fontRef	scintilla\cocoa\QuartzTextStyle.h	/^	CTFontRef fontRef;$/;"	m	class:QuartzTextStyle	access:private
-fontTabs	scite\win32\SciteWin.h	/^	HFONT fontTabs;$/;"	m	class:SciTEWin	access:protected
+fontTabs	scite\win32\SciTEWin.h	/^	HFONT fontTabs;$/;"	m	class:SciTEWin	access:protected
 fontText	scite\win32\Strips.h	/^	HFONT fontText;$/;"	m	class:Strip	access:protected
 fontid	scintilla\cocoa\QuartzTextStyleAttribute.h	/^	CTFontRef fontid;$/;"	m	class:QuartzFont	access:private
 fonts	scintilla\src\ViewStyle.h	/^	FontMap fonts;$/;"	m	class:Scintilla::ViewStyle	access:private
@@ -9496,27 +9500,27 @@ gval	scite\lua\src\ltable.h	15;"	d
 h	scintilla\win32\PlatWin.cxx	/^	HMODULE h;$/;"	m	class:Scintilla::DynamicLibraryImpl	file:	access:protected
 h	scite\lua\src\lparser.h	/^  Table *h;  \/* table to find (and reuse) elements in `k' *\/$/;"	m	struct:FuncState	access:public
 h	scite\lua\src\lstate.h	/^  struct Table h;$/;"	m	union:GCObject	typeref:struct:GCObject::Table	access:public
-hAccTable	scite\win32\SciteWin.h	/^	HACCEL hAccTable;$/;"	m	class:SciTEWin	access:protected
+hAccTable	scite\win32\SciTEWin.h	/^	HACCEL hAccTable;$/;"	m	class:SciTEWin	access:protected
 hBrushBack	scintilla\win32\PlatWin.cxx	/^	HBRUSH hBrushBack;$/;"	m	class:Scintilla::ListBoxX	file:	access:private
 hDLLD2D	scintilla\win32\PlatWin.cxx	/^static HMODULE hDLLD2D = NULL;$/;"	m	namespace:Scintilla	file:
 hDLLDWrite	scintilla\win32\PlatWin.cxx	/^static HMODULE hDLLDWrite = NULL;$/;"	m	namespace:Scintilla	file:
-hDevMode	scite\win32\SciteWin.h	/^	HGLOBAL hDevMode;$/;"	m	class:SciTEWin	access:protected
-hDevNames	scite\win32\SciteWin.h	/^	HGLOBAL hDevNames;$/;"	m	class:SciTEWin	access:protected
+hDevMode	scite\win32\SciTEWin.h	/^	HGLOBAL hDevMode;$/;"	m	class:SciTEWin	access:protected
+hDevNames	scite\win32\SciTEWin.h	/^	HGLOBAL hDevNames;$/;"	m	class:SciTEWin	access:protected
 hDlg	scite\win32\SciTEWinDlg.cxx	/^	HWND hDlg;$/;"	m	class:Dialog	file:	access:private
-hHH	scite\win32\SciteWin.h	/^	HMODULE hHH;$/;"	m	class:SciTEWin	access:protected
+hHH	scite\win32\SciTEWin.h	/^	HMODULE hHH;$/;"	m	class:SciTEWin	access:protected
 hIMC	scintilla\win32\ScintillaWin.cxx	/^	HIMC hIMC;$/;"	m	class:__anon66::IMContext	file:	access:public
 hInstance	scintilla\win32\ScintillaWin.cxx	/^	static HINSTANCE hInstance;$/;"	m	class:ScintillaWin	file:	access:private
 hInstance	scintilla\win32\ScintillaWin.cxx	/^HINSTANCE ScintillaWin::hInstance = 0;$/;"	m	class:ScintillaWin	file:
 hInstance	scite\win32\SciTEWin.cxx	/^HINSTANCE SciTEWin::hInstance = 0;$/;"	m	class:SciTEWin	file:
-hInstance	scite\win32\SciteWin.h	/^	static HINSTANCE hInstance;$/;"	m	class:SciTEWin	access:protected
-hMM	scite\win32\SciteWin.h	/^	HMODULE hMM;$/;"	m	class:SciTEWin	access:protected
+hInstance	scite\win32\SciTEWin.h	/^	static HINSTANCE hInstance;$/;"	m	class:SciTEWin	access:protected
+hMM	scite\win32\SciTEWin.h	/^	HMODULE hMM;$/;"	m	class:SciTEWin	access:protected
 hMax	scintilla\qt\ScintillaEditBase\ScintillaQt.h	/^	int vMax, hMax;   \/\/ Scroll bar maximums.$/;"	m	class:Scintilla::ScintillaQt	access:private
 hOtherWindow	scite\win32\UniqueInstance.h	/^	HWND hOtherWindow;	\/\/\/< Handle of the window of the found other instance$/;"	m	class:UniqueInstance	access:private
 hPage	scintilla\qt\ScintillaEditBase\ScintillaQt.h	/^	int vPage, hPage; \/\/ Scroll bar page sizes.$/;"	m	class:Scintilla::ScintillaQt	access:private
 hRgnUpdate	scintilla\win32\ScintillaWin.cxx	/^	HRGN hRgnUpdate;$/;"	m	class:ScintillaWin	file:	access:private
 hTheme	scite\win32\Strips.h	/^	HTHEME hTheme;$/;"	m	class:Strip	access:protected
-hToolbarBitmap	scite\win32\SciteWin.h	/^	HBITMAP hToolbarBitmap;$/;"	m	class:SciTEWin	access:protected
-hWriteSubProcess	scite\win32\SciteWin.h	/^	HANDLE hWriteSubProcess;$/;"	m	class:SciTEWin	access:protected
+hToolbarBitmap	scite\win32\SciTEWin.h	/^	HBITMAP hToolbarBitmap;$/;"	m	class:SciTEWin	access:protected
+hWriteSubProcess	scite\win32\SciTEWin.h	/^	HANDLE hWriteSubProcess;$/;"	m	class:SciTEWin	access:protected
 hand	scintilla\win32\ScintillaWin.cxx	/^	HGLOBAL hand;$/;"	m	class:GlobalMemory	file:	access:private
 handle	scintilla\src\PerLine.h	/^	int handle;$/;"	m	struct:Scintilla::MarkerHandleNumber	access:public
 handleCurrent	scintilla\src\PerLine.h	/^	int handleCurrent;$/;"	m	class:Scintilla::LineMarkers	access:private
@@ -9538,7 +9542,7 @@ headWithTail	scintilla\src\LineMarker.h	/^	enum typeOfFold { undefined, head, bo
 height	scintilla\src\XPM.h	/^	int height;$/;"	m	class:Scintilla::RGBAImage	access:private
 height	scintilla\src\XPM.h	/^	int height;$/;"	m	class:Scintilla::XPM	access:private
 height	scintilla\src\XPM.h	/^	mutable int height;	\/\/\/< Memorize largest height of the set.$/;"	m	class:Scintilla::RGBAImageSet	access:private
-height	scite\win32\SciteWin.h	/^	int height;$/;"	m	struct:Band	access:public
+height	scite\win32\SciTEWin.h	/^	int height;$/;"	m	struct:Band	access:public
 heightBar	scite\src\SciTEBase.h	/^	int heightBar;$/;"	m	class:SciTEBase	access:protected
 heightButton	scite\gtk\Widget.h	/^	enum { heightButton=23, heightStatic=12, widthCombo=20};$/;"	e	enum:Strip::__anon6
 heightLBDefault	scintilla\src\AutoComplete.h	/^	int heightLBDefault;$/;"	m	class:Scintilla::AutoComplete	access:public
@@ -9585,7 +9589,7 @@ i_ci	scite\lua\include\lua.h	/^  int i_ci;  \/* active function *\/$/;"	m	struct
 i_key	scite\lua\src\lobject.h	/^  TKey i_key;$/;"	m	struct:Node	access:public
 i_val	scite\lua\src\lobject.h	/^  TValue i_val;$/;"	m	struct:Node	access:public
 icmd	scite\gtk\SciTEGTK.cxx	/^	int icmd;$/;"	m	class:SciTEGTK	file:	access:protected
-icmd	scite\win32\SciteWin.h	/^	int icmd;$/;"	m	class:CommandWorker	access:public
+icmd	scite\win32\SciTEWin.h	/^	int icmd;$/;"	m	class:CommandWorker	access:public
 iconvh	scintilla\gtk\Converter.h	/^	GIConv iconvh;$/;"	m	class:Scintilla::Converter	access:private
 iconvhBad	scintilla\gtk\Converter.h	/^const GIConv iconvhBad = (GIConv)(-1);$/;"	m	namespace:Scintilla
 id	scite\src\SciTEBase.h	/^	int id;	\/\/ Control in dialog$/;"	m	struct:SearchOption	access:public
@@ -10289,7 +10293,7 @@ menuLanguage	scite\src\SciTEBase.h	/^    menuTools = 4, menuOptions = 5, menuLan
 menuOptions	scite\src\SciTEBase.h	/^    menuTools = 4, menuOptions = 5, menuLanguage = 6, menuBuffers = 7,$/;"	e	enum:__anon23
 menuSearch	scite\src\SciTEBase.h	/^    menuFile = 0, menuEdit = 1, menuSearch = 2, menuView = 3,$/;"	e	enum:__anon23
 menuSource	scite\gtk\SciTEGTK.cxx	/^	int menuSource;$/;"	m	class:SciTEGTK	file:	access:protected
-menuSource	scite\win32\SciteWin.h	/^	int menuSource;$/;"	m	class:SciTEWin	access:protected
+menuSource	scite\win32\SciTEWin.h	/^	int menuSource;$/;"	m	class:SciTEWin	access:protected
 menuTools	scite\src\SciTEBase.h	/^    menuTools = 4, menuOptions = 5, menuLanguage = 6, menuBuffers = 7,$/;"	e	enum:__anon23
 menuView	scite\src\SciTEBase.h	/^    menuFile = 0, menuEdit = 1, menuSearch = 2, menuView = 3,$/;"	e	enum:__anon23
 merge_table	scite\src\LuaExtension.cxx	/^static int merge_table(lua_State *L, int destTableIdx, int srcTableIdx, bool copyMetatable = false) {$/;"	f	file:	signature:(lua_State *L, int destTableIdx, int srcTableIdx, bool copyMetatable = false)
@@ -10308,7 +10312,7 @@ mimeFor	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^	QString mimeFor(QStrin
 minder	scintilla\src\ExternalLexer.cxx	/^LMMinder minder;$/;"	v
 missing	scite\src\SciTEBase.h	/^	std::string missing;$/;"	m	class:Localization	access:private
 modEventMask	scintilla\src\Editor.h	/^	int modEventMask;$/;"	m	class:Scintilla::Editor	access:protected
-modalParameters	scite\win32\SciteWin.h	/^	bool modalParameters;$/;"	m	class:SciTEWin	access:protected
+modalParameters	scite\win32\SciTEWin.h	/^	bool modalParameters;$/;"	m	class:SciTEWin	access:protected
 modificationType	scintilla\include\Scintilla.h	/^	int modificationType;	\/* SCN_MODIFIED *\/$/;"	m	struct:SCNotification	access:public
 modificationType	scintilla\src\Document.h	/^	int modificationType;$/;"	m	class:Scintilla::DocModification	access:public
 modifierTranslated	scintilla\gtk\ScintillaGTK.cxx	/^static int modifierTranslated(int sciModifier) {$/;"	f	file:	signature:(int sciModifier)
@@ -10423,7 +10427,7 @@ offsetMain	scintilla\src\CallTip.h	/^	int offsetMain;         \/\/ The alignment
 offsetRelative	scintilla\lexlib\StyleContext.h	/^	Sci_Position offsetRelative;$/;"	m	class:Scintilla::StyleContext	access:private
 oidNone	scintilla\lexlib\CharacterCategory.cxx	/^enum class OtherID { oidNone, oidStart, oidContinue };$/;"	m	class:Scintilla::__anon80::OtherID	file:	access:private
 oidStart	scintilla\lexlib\CharacterCategory.cxx	/^enum class OtherID { oidNone, oidStart, oidContinue };$/;"	m	class:Scintilla::__anon80::OtherID	file:	access:private
-oldToolbarBitmapID	scite\win32\SciteWin.h	/^	UINT oldToolbarBitmapID;$/;"	m	class:SciTEWin	access:protected
+oldToolbarBitmapID	scite\win32\SciTEWin.h	/^	UINT oldToolbarBitmapID;$/;"	m	class:SciTEWin	access:protected
 old_pos	scintilla\gtk\ScintillaGTKAccessible.h	/^	Sci::Position old_pos;$/;"	m	class:Scintilla::ScintillaGTKAccessible	access:private
 old_sels	scintilla\gtk\ScintillaGTKAccessible.h	/^	std::vector<SelectionRange> old_sels;$/;"	m	class:Scintilla::ScintillaGTKAccessible	access:private
 on	scintilla\src\EditModel.h	/^	bool on;$/;"	m	class:Scintilla::Caret	access:public
@@ -10433,7 +10437,7 @@ onlyLineEnds	scite\src\StringList.h	/^	bool onlyLineEnds;	\/\/\/< Delimited by a
 opType	scintilla\lexlib\OptionSet.h	/^		int opType;$/;"	m	struct:Scintilla::OptionSet::Option	access:public
 open	scite\src\SciTEBase.h	/^	enum { empty, reading, readAll, open } lifeState;$/;"	e	enum:Buffer::__anon24
 openFilesHere	scite\src\SciTEBase.h	/^	bool openFilesHere;$/;"	m	class:SciTEBase	access:protected
-openWhat	scite\win32\SciteWin.h	/^	GUI::gui_char openWhat[200];$/;"	m	class:SciTEWin	access:protected
+openWhat	scite\win32\SciTEWin.h	/^	GUI::gui_char openWhat[200];$/;"	m	class:SciTEWin	access:protected
 openupval	scite\lua\src\lstate.h	/^  GCObject *openupval;  \/* list of open upvalues in this stack *\/$/;"	m	struct:lua_State	access:public
 operator !=	scintilla\lexlib\WordList.cxx	/^bool WordList::operator!=(const WordList &other) const {$/;"	f	class:WordList	signature:(const WordList &other) const
 operator !=	scintilla\src\Document.cxx	/^	bool operator!=(const ByteIterator &other) const {$/;"	f	class:__anon90::ByteIterator	access:public	signature:(const ByteIterator &other) const
@@ -10508,15 +10512,15 @@ operator bool	scite\src\Utf8_16.h	/^	operator bool() const { return m_pRead <= m
 operator bool	scite\src\Utf8_16.h	/^	operator bool() const { return m_pRead <= m_pEnd; }$/;"	f	class:Utf8_Iter	access:public	signature:() const
 originalAnchorPos	scintilla\src\Editor.h	/^	Sci::Position originalAnchorPos;$/;"	m	class:Scintilla::Editor	access:protected
 originalEnd	scite\gtk\SciTEGTK.cxx	/^	int originalEnd;$/;"	m	class:SciTEGTK	file:	access:protected
-originalEnd	scite\win32\SciteWin.h	/^	int originalEnd;$/;"	m	class:CommandWorker	access:public
+originalEnd	scite\win32\SciTEWin.h	/^	int originalEnd;$/;"	m	class:CommandWorker	access:public
 other	scintilla\src\CellBuffer.h	/^	Action &operator=(const Action &&other) = delete;$/;"	m	class:Scintilla::Action	access:public
 other	scintilla\src\CellBuffer.h	/^	Action &operator=(const Action &other) = delete;$/;"	m	class:Scintilla::Action	access:public
 other	scintilla\src\CellBuffer.h	/^	Action(const Action &other) = delete;$/;"	m	class:Scintilla::Action	access:public
 otherwhite	scite\lua\src\lgc.h	69;"	d
 outlineAlpha	scintilla\src\Indicator.h	/^	int outlineAlpha;$/;"	m	class:Scintilla::Indicator	access:public
 outlineAlpha	scite\src\StyleDefinition.h	/^	int outlineAlpha;$/;"	m	struct:IndicatorDefinition	access:public
-output	scite\win32\SciteWin.h	/^	std::string output;$/;"	m	class:CommandWorker	access:public
-outputScroll	scite\win32\SciteWin.h	/^	int outputScroll;$/;"	m	class:CommandWorker	access:public
+output	scite\win32\SciTEWin.h	/^	std::string output;$/;"	m	class:CommandWorker	access:public
+outputScroll	scite\win32\SciTEWin.h	/^	int outputScroll;$/;"	m	class:CommandWorker	access:public
 override	scintilla\cocoa\PlatCocoa.h	/^                      ColourDesired back) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
 override	scintilla\cocoa\PlatCocoa.h	/^                     ColourDesired back) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
 override	scintilla\cocoa\PlatCocoa.h	/^                     ColourDesired outline, int alphaOutline, int flags) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
@@ -10618,7 +10622,7 @@ override	scintilla\gtk\PlatGTK.cxx	/^	void Append(char *s, int type = -1) overri
 override	scintilla\gtk\PlatGTK.cxx	/^	void Clear() override;$/;"	m	class:ListBoxX	file:	access:public
 override	scintilla\gtk\PlatGTK.cxx	/^	void ClearRegisteredImages() override;$/;"	m	class:ListBoxX	file:	access:public
 override	scintilla\gtk\PlatGTK.cxx	/^	void Copy(PRectangle rc, Point from, Surface &surfaceSource) override;$/;"	m	class:Scintilla::SurfaceImpl	file:	access:public
-override	scintilla\gtk\PlatGTK.cxx	/^	void Create(Window &parent, int ctrlID, Point location_, int lineHeight_, bool unicodeMode_, int technology_) override;$/;"	m	class:ListBoxX	file:	access:public
+override	scintilla\gtk\PlatGTK.cxx	/^	void Create(Window &parent, int ctrlID, Point location_, int lineHeight_, bool unicodeMode_, int technology_, bool useThickFrame) override;$/;"	m	class:ListBoxX	file:	access:public
 override	scintilla\gtk\PlatGTK.cxx	/^	void DrawRGBAImage(PRectangle rc, int width, int height, const unsigned char *pixelsImage) override;$/;"	m	class:Scintilla::SurfaceImpl	file:	access:public
 override	scintilla\gtk\PlatGTK.cxx	/^	void DrawTextClipped(PRectangle rc, Font &font_, XYPOSITION ybase, const char *s, int len, ColourDesired fore, ColourDesired back) override;$/;"	m	class:Scintilla::SurfaceImpl	file:	access:public
 override	scintilla\gtk\PlatGTK.cxx	/^	void DrawTextNoClip(PRectangle rc, Font &font_, XYPOSITION ybase, const char *s, int len, ColourDesired fore, ColourDesired back) override;$/;"	m	class:Scintilla::SurfaceImpl	file:	access:public
@@ -11083,84 +11087,84 @@ override	scite\src\SciTEBase.h	/^	void UIClosed() override;$/;"	m	class:SciTEBas
 override	scite\src\SciTEBase.h	/^	void UIHasFocus() override;$/;"	m	class:SciTEBase	access:protected
 override	scite\src\SciTEBase.h	/^	void UnsetProperty(const char *key) override;$/;"	m	class:SciTEBase	access:protected
 override	scite\src\SciTEBase.h	/^	void UpdateStatusBar(bool bUpdateSlowData) override;$/;"	m	class:SciTEBase	access:protected
-override	scite\win32\SciteWin.h	/^	                         const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	FilePath GetDefaultDirectory() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	FilePath GetSciteDefaultHome() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	FilePath GetSciteUserHome() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	MessageBoxChoice WindowMessageBox(GUI::Window &w, const GUI::gui_string &msg, MessageBoxStyle style = mbsIconWarning) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	bool AbbrevDialog() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	bool IsStdinBlocked() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	bool OpenDialog(const FilePath &directory, const GUI::gui_char *filesFilter) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	bool ParametersDialog(bool modal) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	bool ParametersOpen() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	bool PerformOnNewThread(Worker *pWorker) override;$/;"	m	class:SciTEWin	access:public
-override	scite\win32\SciteWin.h	/^	bool PreOpenCheck(const GUI::gui_char *arg) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	bool SaveAsDialog() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	const char *UserStripValue(int control) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	std::string EncodeString(const std::string &s) override;$/;"	m	class:SciTEWin	access:public
-override	scite\win32\SciteWin.h	/^	std::string GetRangeInUIEncoding(GUI::ScintillaWindow &win, int selStart, int selEnd) override;$/;"	m	class:SciTEWin	access:public
-override	scite\win32\SciteWin.h	/^	uptr_t GetInstance() override;$/;"	m	class:SciTEWin	access:public
-override	scite\win32\SciteWin.h	/^	void AboutDialog() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void ActivateWindow(const char *timestamp) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void AddCommand(const std::string &cmd, const std::string &dir, JobSubsystem jobType, const std::string &input = "", int flags = 0) override;$/;"	m	class:SciTEWin	access:public
-override	scite\win32\SciteWin.h	/^	void AddToPopUp(const char *label, int cmd=0, bool enabled=true) override;$/;"	m	class:SciTEWin	access:public
-override	scite\win32\SciteWin.h	/^	void CheckAMenuItem(int wIDCheckItem, bool val) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void CheckMenus() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void CopyAsRTF() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void CopyPath() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void DestroyFindReplace() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void DestroyMenuItem(int menuNumber, int itemID) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void EnableAMenuItem(int wIDCheckItem, bool val) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void Execute() override;$/;"	m	class:SciTEWin	access:public
-override	scite\win32\SciteWin.h	/^	void Find() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void FindInFiles() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void FindIncrement() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void FindMessageBox(const std::string &msg, const std::string *findItem = 0) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void FindReplace(bool replace) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void GetWindowPosition(int *left, int *top, int *width, int *height, int *maximize) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void GoLineDialog() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void LoadSessionDialog() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void Notify(SCNotification *notification) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void ParamGrab() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void PostOnMainThread(int cmd, Worker *pWorker) override;$/;"	m	class:SciTEWin	access:public
-override	scite\win32\SciteWin.h	/^	void Print(bool showDialog) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void PrintSetup() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void QuitProgram() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void ReadEmbeddedProperties() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void ReadLocalization() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void ReadProperties() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void ReadPropertiesInitial() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void RedrawMenu() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void RemoveAllTabs() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void Replace() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void SaveACopy() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void SaveAsHTML() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void SaveAsPDF() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void SaveAsRTF() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void SaveAsTEX() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void SaveAsXML() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void SaveSessionDialog() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void SetFileProperties(PropSetFile &ps) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void SetStatusBarText(const char *s) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void ShowBackgroundProgress(const GUI::gui_string &explanation, size_t size, size_t progress) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void ShowOutputOnMainThread() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void ShowStatusBar() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void ShowTabBar() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void ShowToolBar() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void SizeContentWindows() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void SizeSubWindows() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void StopExecute() override;$/;"	m	class:SciTEWin	access:public
-override	scite\win32\SciteWin.h	/^	void TabInsert(int index, const GUI::gui_char *title) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void TabSelect(int index) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void TabSizeDialog() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void TimerEnd(int mask) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void TimerStart(int mask) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void UIClosed() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void UserStripSet(int control, const char *value) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void UserStripSetList(int control, const char *value) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void UserStripShow(const char *description) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void WarnUser(int warnID) override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void WorkerCommand(int cmd, Worker *pWorker) override;$/;"	m	class:SciTEWin	access:public
+override	scite\win32\SciTEWin.h	/^	                         const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	FilePath GetDefaultDirectory() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	FilePath GetSciteDefaultHome() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	FilePath GetSciteUserHome() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	MessageBoxChoice WindowMessageBox(GUI::Window &w, const GUI::gui_string &msg, MessageBoxStyle style = mbsIconWarning) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	bool AbbrevDialog() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	bool IsStdinBlocked() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	bool OpenDialog(const FilePath &directory, const GUI::gui_char *filesFilter) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	bool ParametersDialog(bool modal) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	bool ParametersOpen() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	bool PerformOnNewThread(Worker *pWorker) override;$/;"	m	class:SciTEWin	access:public
+override	scite\win32\SciTEWin.h	/^	bool PreOpenCheck(const GUI::gui_char *arg) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	bool SaveAsDialog() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	const char *UserStripValue(int control) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	std::string EncodeString(const std::string &s) override;$/;"	m	class:SciTEWin	access:public
+override	scite\win32\SciTEWin.h	/^	std::string GetRangeInUIEncoding(GUI::ScintillaWindow &win, int selStart, int selEnd) override;$/;"	m	class:SciTEWin	access:public
+override	scite\win32\SciTEWin.h	/^	uptr_t GetInstance() override;$/;"	m	class:SciTEWin	access:public
+override	scite\win32\SciTEWin.h	/^	void AboutDialog() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void ActivateWindow(const char *timestamp) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void AddCommand(const std::string &cmd, const std::string &dir, JobSubsystem jobType, const std::string &input = "", int flags = 0) override;$/;"	m	class:SciTEWin	access:public
+override	scite\win32\SciTEWin.h	/^	void AddToPopUp(const char *label, int cmd=0, bool enabled=true) override;$/;"	m	class:SciTEWin	access:public
+override	scite\win32\SciTEWin.h	/^	void CheckAMenuItem(int wIDCheckItem, bool val) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void CheckMenus() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void CopyAsRTF() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void CopyPath() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void DestroyFindReplace() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void DestroyMenuItem(int menuNumber, int itemID) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void EnableAMenuItem(int wIDCheckItem, bool val) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void Execute() override;$/;"	m	class:SciTEWin	access:public
+override	scite\win32\SciTEWin.h	/^	void Find() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void FindInFiles() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void FindIncrement() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void FindMessageBox(const std::string &msg, const std::string *findItem = 0) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void FindReplace(bool replace) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void GetWindowPosition(int *left, int *top, int *width, int *height, int *maximize) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void GoLineDialog() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void LoadSessionDialog() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void Notify(SCNotification *notification) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void ParamGrab() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void PostOnMainThread(int cmd, Worker *pWorker) override;$/;"	m	class:SciTEWin	access:public
+override	scite\win32\SciTEWin.h	/^	void Print(bool showDialog) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void PrintSetup() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void QuitProgram() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void ReadEmbeddedProperties() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void ReadLocalization() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void ReadProperties() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void ReadPropertiesInitial() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void RedrawMenu() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void RemoveAllTabs() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void Replace() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void SaveACopy() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void SaveAsHTML() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void SaveAsPDF() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void SaveAsRTF() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void SaveAsTEX() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void SaveAsXML() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void SaveSessionDialog() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void SetFileProperties(PropSetFile &ps) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void SetStatusBarText(const char *s) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void ShowBackgroundProgress(const GUI::gui_string &explanation, size_t size, size_t progress) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void ShowOutputOnMainThread() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void ShowStatusBar() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void ShowTabBar() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void ShowToolBar() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void SizeContentWindows() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void SizeSubWindows() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void StopExecute() override;$/;"	m	class:SciTEWin	access:public
+override	scite\win32\SciTEWin.h	/^	void TabInsert(int index, const GUI::gui_char *title) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void TabSelect(int index) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void TabSizeDialog() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void TimerEnd(int mask) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void TimerStart(int mask) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void UIClosed() override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void UserStripSet(int control, const char *value) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void UserStripSetList(int control, const char *value) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void UserStripShow(const char *description) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void WarnUser(int warnID) override;$/;"	m	class:SciTEWin	access:protected
+override	scite\win32\SciTEWin.h	/^	void WorkerCommand(int cmd, Worker *pWorker) override;$/;"	m	class:SciTEWin	access:public
 overrideExtension	scite\src\SciTEBase.h	/^	std::string overrideExtension;	\/\/\/< User has chosen to use a particular language$/;"	m	class:Buffer	access:public
 ownRenderTarget	scintilla\win32\PlatWin.cxx	/^	bool ownRenderTarget;$/;"	m	class:Scintilla::SurfaceD2D	file:	access:private
 owner	scintilla\qt\ScintillaEdit\ScintillaDocument.cpp	/^	ScintillaDocument *owner;$/;"	m	class:WatcherHelper	file:	access:private
@@ -11184,9 +11188,9 @@ pRenderTarget	scintilla\win32\PlatWin.cxx	/^	ID2D1RenderTarget *pRenderTarget;$/
 pRenderTarget	scintilla\win32\ScintillaWin.cxx	/^	ID2D1RenderTarget *pRenderTarget;$/;"	m	class:ScintillaWin	file:	access:private
 pSci	scite\src\MatchMarker.h	/^	GUI::ScintillaWindow *pSci;$/;"	m	class:MatchMarker	access:private
 pSciTE	scite\gtk\SciTEGTK.cxx	/^	SciTEGTK *pSciTE;$/;"	m	struct:CallbackData	file:	access:public
-pSciTE	scite\win32\SciteWin.h	/^	SciTEWin *pSciTE;$/;"	m	class:CommandWorker	access:public
+pSciTE	scite\win32\SciTEWin.h	/^	SciTEWin *pSciTE;$/;"	m	class:CommandWorker	access:public
 pSciTEGTK	scite\gtk\SciTEGTK.cxx	/^	SciTEGTK *pSciTEGTK;$/;"	m	class:UserStrip	file:	access:public
-pSciTEWin	scite\win32\SciteWin.h	/^	SciTEWin *pSciTEWin;$/;"	m	class:ContentWin	access:private
+pSciTEWin	scite\win32\SciTEWin.h	/^	SciTEWin *pSciTEWin;$/;"	m	class:ContentWin	access:private
 pSciTEWin	scite\win32\Strips.h	/^	SciTEWin *pSciTEWin;$/;"	m	class:UserStrip	access:private
 pSearcher	scite\src\SciTEBase.h	/^	Searcher *pSearcher;$/;"	m	class:SearchUI	access:protected
 pSearcher	scite\win32\Strips.h	/^	Searcher *pSearcher;$/;"	m	class:SearchStripBase	access:protected
@@ -11196,7 +11200,7 @@ pWorker	scite\gtk\SciTEGTK.cxx	/^	Worker *pWorker;$/;"	m	struct:CallbackData	fil
 padding	scintilla\gtk\PlatGTK.cxx	/^	int padding;$/;"	m	struct:__anon71	file:	access:public
 pageSetup	scite\gtk\SciTEGTK.cxx	/^	GtkPageSetup *pageSetup;$/;"	m	class:SciTEGTK	file:	access:protected
 pageStarts	scite\gtk\SciTEGTK.cxx	/^	std::vector<int> pageStarts;$/;"	m	class:SciTEGTK	file:	access:protected
-pagesetupMargin	scite\win32\SciteWin.h	/^	GUI::Rectangle pagesetupMargin;$/;"	m	class:SciTEWin	access:protected
+pagesetupMargin	scite\win32\SciTEWin.h	/^	GUI::Rectangle pagesetupMargin;$/;"	m	class:SciTEWin	access:protected
 paintAbandoned	scintilla\src\Editor.h	/^	enum { notPainting, painting, paintAbandoned } paintState;$/;"	e	enum:Scintilla::Editor::__anon97
 paintAbandonedByStyling	scintilla\src\Editor.h	/^	bool paintAbandonedByStyling;$/;"	m	class:Scintilla::Editor	access:protected
 paintEvent	scintilla\qt\ScintillaEditBase\ScintillaEditBase.cpp	/^void ScintillaEditBase::paintEvent(QPaintEvent *event)$/;"	f	class:ScintillaEditBase	signature:(QPaintEvent *event)
@@ -11395,7 +11399,7 @@ rc	scintilla\include\Scintilla.h	/^	struct Sci_Rectangle rc;$/;"	m	struct:Sci_Ra
 rcPage	scintilla\include\Scintilla.h	/^	struct Sci_Rectangle rcPage;$/;"	m	struct:Sci_RangeToFormat	typeref:struct:Sci_RangeToFormat::Sci_Rectangle	access:public
 rcPaint	scintilla\src\Editor.h	/^	PRectangle rcPaint;$/;"	m	class:Scintilla::Editor	access:protected
 rcPreSize	scintilla\win32\PlatWin.cxx	/^	PRectangle rcPreSize;$/;"	m	class:Scintilla::ListBoxX	file:	access:private
-rcWorkArea	scite\win32\SciteWin.h	/^	RECT rcWorkArea;$/;"	m	class:SciTEWin	access:protected
+rcWorkArea	scite\win32\SciTEWin.h	/^	RECT rcWorkArea;$/;"	m	class:SciTEWin	access:protected
 read	scite\src\SciTEBase.h	/^	bool read;$/;"	m	class:Localization	access:public
 read	scite\src\Utf8_16.cxx	/^Utf8_16::utf16 Utf16_Iter::read(const ubyte* pRead) const {$/;"	f	class:Utf16_Iter	signature:(const ubyte* pRead) const
 readAll	scite\src\SciTEBase.h	/^	enum { empty, reading, readAll, open } lifeState;$/;"	e	enum:Buffer::__anon24
@@ -11427,7 +11431,7 @@ renderTargetValid	scintilla\win32\ScintillaWin.cxx	/^	bool renderTargetValid;$/;
 renderer	scintilla\gtk\PlatGTK.cxx	/^	GtkCellRenderer* renderer;$/;"	m	class:ListBoxX	file:	access:private
 repaintFullWindow	scintilla\gtk\ScintillaGTK.h	/^	bool repaintFullWindow;$/;"	m	class:Scintilla::ScintillaGTK	access:private
 replaceStrip	scite\gtk\SciTEGTK.cxx	/^	ReplaceStrip replaceStrip;$/;"	m	class:SciTEGTK	file:	access:protected
-replaceStrip	scite\win32\SciteWin.h	/^	ReplaceStrip replaceStrip;$/;"	m	class:SciTEWin	access:protected
+replaceStrip	scite\win32\SciTEWin.h	/^	ReplaceStrip replaceStrip;$/;"	m	class:SciTEWin	access:protected
 replaceWhat	scite\src\SciTEBase.h	/^	std::string replaceWhat;$/;"	m	class:Searcher	access:public
 replace_xpm	scite\gtk\pixmapsGNOME.h	/^static const char * replace_xpm[] = {$/;"	v
 replacing	scite\src\SciTEBase.h	/^	bool replacing;$/;"	m	class:Searcher	access:public
@@ -11563,10 +11567,10 @@ searchFlags	scintilla\src\Editor.h	/^	int searchFlags;$/;"	m	class:Scintilla::Ed
 searchLen	scite\src\StringList.cxx	/^	size_t searchLen;$/;"	m	struct:__anon47::CompareString	file:	access:public
 searchLen	scite\src\StringList.cxx	/^	size_t searchLen;$/;"	m	struct:__anon47::CompareStringInsensitive	file:	access:public
 searchStartPosition	scite\src\SciTEBase.h	/^	int searchStartPosition;$/;"	m	class:Searcher	access:public
-searchStrip	scite\win32\SciteWin.h	/^	SearchStrip searchStrip;$/;"	m	class:SciTEWin	access:protected
+searchStrip	scite\win32\SciTEWin.h	/^	SearchStrip searchStrip;$/;"	m	class:SciTEWin	access:protected
 search_xpm	scite\gtk\pixmapsGNOME.h	/^static const char * search_xpm[] = {$/;"	v
 secondaryDistance	scintilla\lexlib\SubStyles.h	/^	int secondaryDistance;$/;"	m	class:Scintilla::SubStyles	access:private
-seenOutput	scite\win32\SciteWin.h	/^	bool seenOutput;$/;"	m	class:CommandWorker	access:public
+seenOutput	scite\win32\SciTEWin.h	/^	bool seenOutput;$/;"	m	class:CommandWorker	access:public
 sel	scintilla\src\EditModel.h	/^	Selection sel;$/;"	m	class:Scintilla::EditModel	access:public
 selAdditionalAlpha	scintilla\src\ViewStyle.h	/^	int selAdditionalAlpha;$/;"	m	class:Scintilla::ViewStyle	access:public
 selAdditionalBackground	scintilla\src\ViewStyle.h	/^	ColourDesired selAdditionalBackground;$/;"	m	class:Scintilla::ViewStyle	access:public
@@ -11764,7 +11768,7 @@ statementIndent	scite\src\SciTEBase.h	/^	StyleAndWords statementIndent;$/;"	m	cl
 statementLookback	scite\src\SciTEBase.h	/^	int statementLookback;$/;"	m	class:SciTEBase	access:protected
 states	scintilla\lexlib\SparseState.h	/^	stateVector states;$/;"	m	class:Scintilla::SparseState	access:private
 statesOfDelay	scite\src\SciTEBase.h	/^	} statesOfDelay;$/;"	m	struct:CurrentWordHighlight	typeref:enum:CurrentWordHighlight::__anon28	access:public
-staticBuild	scite\win32\SciteWin.h	/^	bool staticBuild;$/;"	m	class:SciTEWin	access:protected
+staticBuild	scite\win32\SciTEWin.h	/^	bool staticBuild;$/;"	m	class:SciTEWin	access:protected
 status	scite\lua\src\lstate.h	/^  lu_byte status;$/;"	m	struct:lua_State	access:public
 status	scite\src\GUI.h	/^	sptr_t status;$/;"	m	class:GUI::ScintillaWindow	access:public
 status	scite\src\GUI.h	/^	sptr_t status;$/;"	m	struct:GUI::ScintillaFailure	access:public
@@ -11813,7 +11817,7 @@ styles	scintilla\src\ViewStyle.h	/^	std::vector<Style> styles;$/;"	m	class:Scint
 stylesAvailable	scintilla\lexlib\SubStyles.h	/^	int stylesAvailable;$/;"	m	class:Scintilla::SubStyles	access:private
 stylesValid	scintilla\src\Editor.h	/^	bool stylesValid;$/;"	m	class:Scintilla::Editor	access:protected
 subBreak	scintilla\src\PositionCache.h	/^	int subBreak;$/;"	m	class:Scintilla::BreakFinder	access:private
-subProcessGroupId	scite\win32\SciteWin.h	/^	DWORD subProcessGroupId;$/;"	m	class:SciTEWin	access:protected
+subProcessGroupId	scite\win32\SciTEWin.h	/^	DWORD subProcessGroupId;$/;"	m	class:SciTEWin	access:protected
 subStyleBases	scite\src\SciTEBase.h	/^	std::vector<char> subStyleBases;$/;"	m	class:SciTEBase	access:protected
 substance	scintilla\src\CellBuffer.h	/^	SplitVector<char> substance;$/;"	m	class:Scintilla::CellBuffer	access:private
 substituted	scintilla\src\Document.cxx	/^	std::string substituted;$/;"	m	class:BuiltinRegex	file:	access:private
@@ -11854,7 +11858,7 @@ tail	scintilla\src\LineMarker.h	/^	enum typeOfFold { undefined, head, body, tail
 tailcalls	scite\lua\src\lstate.h	/^  int tailcalls;  \/* number of tail calls lost under this entry *\/$/;"	m	struct:CallInfo	access:public
 targetEnd	scintilla\src\Editor.h	/^	Sci::Position targetEnd;$/;"	m	class:Scintilla::Editor	access:protected
 targetStart	scintilla\src\Editor.h	/^	Sci::Position targetStart;$/;"	m	class:Scintilla::Editor	access:protected
-tbLarge	scite\win32\SciteWin.h	/^	bool tbLarge;$/;"	m	class:SciTEWin	access:protected
+tbLarge	scite\win32\SciTEWin.h	/^	bool tbLarge;$/;"	m	class:SciTEWin	access:protected
 tbVisible	scite\src\SciTEBase.h	/^	bool tbVisible;$/;"	m	class:SciTEBase	access:protected
 tdLongArrow	scintilla\src\ViewStyle.h	/^enum TabDrawMode {tdLongArrow=0, tdStrikeOut=1};$/;"	e	enum:Scintilla::TabDrawMode
 tdStrikeOut	scintilla\src\ViewStyle.h	/^enum TabDrawMode {tdLongArrow=0, tdStrikeOut=1};$/;"	e	enum:Scintilla::TabDrawMode
@@ -11950,8 +11954,8 @@ token	scite\lua\src\llex.h	/^  int token;$/;"	m	struct:Token	access:public
 tonumber	scite\lua\src\lvm.h	18;"	d
 toolMax	scite\src\SciTEBase.h	/^	enum { toolMax = 50 };$/;"	e	enum:SciTEBase::__anon38
 toolbarDetachable	scite\gtk\SciTEGTK.cxx	/^	int toolbarDetachable;$/;"	m	class:SciTEGTK	file:	access:protected
-toolbarUsersPressableButtons	scite\win32\SciteWin.h	/^	TArray<int,int> toolbarUsersPressableButtons;$/;"	m	class:SciTEWin	access:protected
-tooltipText	scite\win32\SciteWin.h	/^	GUI::gui_char tooltipText[MAX_PATH*2 + 1];$/;"	m	class:SciTEWin	access:protected
+toolbarUsersPressableButtons	scite\win32\SciTEWin.h	/^	TArray<int,int> toolbarUsersPressableButtons;$/;"	m	class:SciTEWin	access:protected
+tooltipText	scite\win32\SciTEWin.h	/^	GUI::gui_char tooltipText[MAX_PATH*2 + 1];$/;"	m	class:SciTEWin	access:protected
 top	scintilla\include\Platform.h	/^	XYPOSITION top;$/;"	m	class:Scintilla::PRectangle	access:public
 top	scintilla\include\Scintilla.h	/^	int top;$/;"	m	struct:Sci_Rectangle	access:public
 top	scite\lua\src\lstate.h	/^  StkId	top;  \/* top for this function *\/$/;"	m	struct:CallInfo	access:public
@@ -12026,7 +12030,7 @@ unicodeMode	scite\src\FileWorker.h	/^	UniMode unicodeMode;$/;"	m	class:FileStore
 unicodeMode	scite\src\SciTEBase.h	/^	UniMode unicodeMode;$/;"	m	class:Buffer	access:public
 unicodeReplacementChar	scintilla\src\UniConversion.h	/^const int unicodeReplacementChar = 0xFFFD;$/;"	m	namespace:Scintilla
 uniqueInstance	scite\gtk\SciTEGTK.cxx	/^	char uniqueInstance[MAX_PATH];$/;"	m	class:SciTEGTK	file:	access:protected
-uniqueInstance	scite\win32\SciteWin.h	/^	UniqueInstance uniqueInstance;$/;"	m	class:SciTEWin	access:protected
+uniqueInstance	scite\win32\SciTEWin.h	/^	UniqueInstance uniqueInstance;$/;"	m	class:SciTEWin	access:protected
 unlink	scite\src\FilePath.cxx	/^static int unlink(const wchar_t *filename) {$/;"	f	file:	signature:(const wchar_t *filename)
 unquote	scite\gtk\SciTEGTK.cxx	/^static void unquote(char *s) {$/;"	f	file:	signature:(char *s)
 upTo	scintilla\src\Editor.h	/^	Sci::Position upTo;$/;"	m	class:Scintilla::WorkNeeded	access:public
@@ -12046,11 +12050,12 @@ usePerformanceCounter	scintilla\win32\PlatWin.cxx	/^static bool usePerformanceCo
 usePerformanceCounter	scite\win32\GUIWin.cxx	/^static bool usePerformanceCounter = false;$/;"	m	namespace:GUI	file:
 useStyleCallTip	scintilla\src\CallTip.h	/^	bool useStyleCallTip;   \/\/ if true, STYLE_CALLTIP should be used$/;"	m	class:Scintilla::CallTip	access:private
 useTabs	scintilla\src\Document.h	/^	bool useTabs;$/;"	m	class:Scintilla::Document	access:public
+useThickFrame	scintilla\gtk\PlatGTK.cxx	/^	bool useThickFrame;$/;"	m	class:ListBoxX	file:	access:private
 useThickFrame	scintilla\win32\PlatWin.cxx	/^	bool useThickFrame;$/;"	m	class:Scintilla::ListBoxX	file:	access:private
 user	scite\gtk\Widget.h	/^	void *user;$/;"	m	class:WCheckDraw	access:private
 userData	scintilla\src\Document.h	/^		void *userData;$/;"	m	struct:Scintilla::Document::WatcherWithUserData	access:public
 userStrip	scite\gtk\SciTEGTK.cxx	/^	UserStrip userStrip;$/;"	m	class:SciTEGTK	file:	access:protected
-userStrip	scite\win32\SciteWin.h	/^	UserStrip userStrip;$/;"	m	class:SciTEWin	access:protected
+userStrip	scite\win32\SciTEWin.h	/^	UserStrip userStrip;$/;"	m	class:SciTEWin	access:protected
 utf16	scite\src\Utf8_16.h	/^	typedef unsigned short utf16; \/\/ 16 bits$/;"	t	class:Utf8_16	access:public
 utf16Folded	scintilla\win32\ScintillaWin.cxx	/^	std::vector<wchar_t> utf16Folded;$/;"	m	class:CaseFolderDBCS	file:	access:private
 utf16Mixed	scintilla\win32\ScintillaWin.cxx	/^	std::vector<wchar_t> utf16Mixed;$/;"	m	class:CaseFolderDBCS	file:	access:private
@@ -12102,7 +12107,7 @@ visible	scintilla\src\ContractionState.h	/^	std::unique_ptr<RunStyles> visible;$
 visible	scintilla\src\Style.h	/^	bool visible;$/;"	m	class:Scintilla::Style	access:public
 visible	scite\gtk\Widget.h	/^	bool visible;$/;"	m	class:Strip	access:public
 visible	scite\src\StyleDefinition.h	/^	bool visible;$/;"	m	class:StyleDefinition	access:public
-visible	scite\win32\SciteWin.h	/^	bool visible;$/;"	m	struct:Band	access:public
+visible	scite\win32\SciTEWin.h	/^	bool visible;$/;"	m	struct:Band	access:public
 visible	scite\win32\Strips.h	/^	bool visible;$/;"	m	class:Strip	access:public
 visiblePolicy	scintilla\src\Editor.h	/^	int visiblePolicy;$/;"	m	class:Scintilla::Editor	access:protected
 visibleProgress	scite\src\FileWorker.h	/^	bool visibleProgress;$/;"	m	class:FileStorer	access:public
@@ -12153,16 +12158,16 @@ wDraw	scintilla\src\CallTip.h	/^	Window wDraw;$/;"	m	class:Scintilla::CallTip	ac
 wEditor	scite\src\SciTEBase.h	/^	GUI::ScintillaWindow wEditor;$/;"	m	class:SciTEBase	access:protected
 wExplanation	scite\gtk\SciTEGTK.cxx	/^	WStatic wExplanation;$/;"	m	class:BackgroundStrip	file:	access:public
 wExplanation	scite\win32\Strips.h	/^	GUI::Window wExplanation;$/;"	m	class:BackgroundStrip	access:private
-wFindInFiles	scite\win32\SciteWin.h	/^	GUI::Window wFindInFiles;$/;"	m	class:SciTEWin	access:protected
-wFindReplace	scite\win32\SciteWin.h	/^	GUI::Window wFindReplace;$/;"	m	class:SciTEWin	access:protected
-wFocus	scite\win32\SciteWin.h	/^	HWND wFocus;$/;"	m	class:SciTEWin	access:protected
+wFindInFiles	scite\win32\SciTEWin.h	/^	GUI::Window wFindInFiles;$/;"	m	class:SciTEWin	access:protected
+wFindReplace	scite\win32\SciTEWin.h	/^	GUI::Window wFindReplace;$/;"	m	class:SciTEWin	access:protected
+wFocus	scite\win32\SciTEWin.h	/^	HWND wFocus;$/;"	m	class:SciTEWin	access:protected
 wIncrement	scite\src\SciTEBase.h	/^	GUI::Window wIncrement;$/;"	m	class:SciTEBase	access:protected
 wIncrementPanel	scite\gtk\SciTEGTK.cxx	/^	GtkWidget *wIncrementPanel;$/;"	m	class:SciTEGTK	file:	access:protected
 wMain	scintilla\src\Editor.h	/^	Window wMain;	\/\/\/< The Scintilla parent window$/;"	m	class:Scintilla::Editor	access:protected
 wMargin	scintilla\src\Editor.h	/^	Window wMargin;	\/\/\/< May be separate when using a scroll view for wMain$/;"	m	class:Scintilla::Editor	access:protected
 wOutput	scite\src\SciTEBase.h	/^	GUI::ScintillaWindow wOutput;$/;"	m	class:SciTEBase	access:protected
 wParam	scintilla\include\Scintilla.h	/^	uptr_t wParam;	\/* SCN_MACRORECORD *\/$/;"	m	struct:SCNotification	access:public
-wParameters	scite\win32\SciteWin.h	/^	GUI::Window wParameters;$/;"	m	class:SciTEWin	access:protected
+wParameters	scite\win32\SciTEWin.h	/^	GUI::Window wParameters;$/;"	m	class:SciTEWin	access:protected
 wPreedit	scintilla\gtk\ScintillaGTK.h	/^	Window wPreedit;$/;"	m	class:Scintilla::ScintillaGTK	access:private
 wPreeditDraw	scintilla\gtk\ScintillaGTK.h	/^	Window wPreeditDraw;$/;"	m	class:Scintilla::ScintillaGTK	access:private
 wProgress	scite\gtk\SciTEGTK.cxx	/^	WProgress wProgress;$/;"	m	class:BackgroundStrip	file:	access:public
@@ -12228,8 +12233,8 @@ widthLine	scintilla\src\PositionCache.h	/^	int widthLine;$/;"	m	class:Scintilla:
 widthNext	scintilla\lexlib\StyleContext.h	/^	Sci_Position widthNext;$/;"	m	class:Scintilla::StyleContext	access:public
 widths	scite\src\StripDefinition.h	/^	std::vector<ColumnWidth> widths;$/;"	m	class:StripDefinition	access:public
 willRedrawAll	scintilla\src\Editor.h	/^	bool willRedrawAll;$/;"	m	class:Scintilla::Editor	access:protected
-win	scite\win32\SciteWin.h	/^	GUI::Window win;$/;"	m	struct:Band	access:public
-winPlace	scite\win32\SciteWin.h	/^	WINDOWPLACEMENT winPlace;$/;"	m	class:SciTEWin	access:protected
+win	scite\win32\SciTEWin.h	/^	GUI::Window win;$/;"	m	struct:Band	access:public
+winPlace	scite\win32\SciTEWin.h	/^	WINDOWPLACEMENT winPlace;$/;"	m	class:SciTEWin	access:protected
 window	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^QWidget *window(WindowID wid)$/;"	f	namespace:Scintilla::__anon85	signature:(WindowID wid)
 windowName	scite\src\SciTEBase.h	/^	GUI::gui_string windowName;$/;"	m	class:SciTEBase	access:protected
 windowOpts	scintilla\win32\PlatWin.cxx	/^long windowOpts=WS_POPUP;$/;"	m	namespace:Scintilla	file:

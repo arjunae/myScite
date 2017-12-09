@@ -973,6 +973,8 @@ void SciTEBase::Close(bool updateUI, bool loadingSession, bool makingRoomForNew)
 			CompleteOpen(ocCompleteSwitch);
 			if (extender){
 				extender->OnOpen(filePath.AsUTF8().c_str());
+				propsDiscovered = bufferNext.props;
+				propsDiscovered.superPS = &propsLocal;
 				}
 		}
 		if (closingLast) {

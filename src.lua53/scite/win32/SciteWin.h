@@ -339,7 +339,7 @@ protected:
 	static INT_PTR CALLBACK ReplaceDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 	void UIClosed() override;
 	void PerformGrep();
-	void FillCombos(Dialog &dlg);
+	void FillCombos(Dialog &dlg, bool inFiles) ;
 	BOOL GrepMessage(HWND hDlg, UINT message, WPARAM wParam);
 	static INT_PTR CALLBACK GrepDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
 	void FindIncrement() override;
