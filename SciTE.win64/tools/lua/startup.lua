@@ -6,9 +6,8 @@ io.stdout:setvbuf("no")
 --print("startupScript loaded")
 
 myHome="../../"
-package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
-package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
+package.path = package.path ..";"..myHome.."\\User\\Addons\\lua\\lua\\?.lua;"
+package.path = package.path .. ";"..myHome.."\\User\\Addons\\lua\\mod-extman\\?.lua;"
 
 --lua >=5.2.x renamed functions: 
 local unpack = table.unpack or unpack

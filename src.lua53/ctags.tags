@@ -356,7 +356,7 @@ CREATE_ABx	scite\lua\src\lopcodes.h	121;"	d
 CREATE_Ax	scite\lua\src\lopcodes.h	125;"	d
 CRectContains	scintilla\gtk\ScintillaGTK.cxx	/^static bool CRectContains(const cairo_rectangle_t &crcContainer, const cairo_rectangle_t &crcTest) {$/;"	f	file:	signature:(const cairo_rectangle_t &crcContainer, const cairo_rectangle_t &crcTest)
 CRectListContains	scintilla\gtk\ScintillaGTK.cxx	/^static bool CRectListContains(const cairo_rectangle_list_t *crcListContainer, const cairo_rectangle_t &crcTest) {$/;"	f	file:	signature:(const cairo_rectangle_list_t *crcListContainer, const cairo_rectangle_t &crcTest)
-CSI	scite\src\SciTEBuffers.cxx	1852;"	d	file:
+CSI	scite\src\SciTEBuffers.cxx	1854;"	d	file:
 CTWndProc	scintilla\win32\ScintillaWin.cxx	/^LRESULT PASCAL ScintillaWin::CTWndProc($/;"	f	class:ScintillaWin	signature:( HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 CalcLargestMarkerHeight	scintilla\src\ViewStyle.cxx	/^void ViewStyle::CalcLargestMarkerHeight() {$/;"	f	class:ViewStyle	signature:()
 CalculateColumnWidths	scite\src\StripDefinition.h	/^	void CalculateColumnWidths(int widthToAllocate) {$/;"	f	class:StripDefinition	access:public	signature:(int widthToAllocate)
@@ -1376,7 +1376,7 @@ FillComboFromMemory	scite\gtk\SciTEGTK.cxx	/^static void FillComboFromMemory(WCo
 FillComboFromMemory	scite\win32\SciTEWinDlg.cxx	/^	void FillComboFromMemory(int id, const ComboMemory &mem, bool useTop = false) {$/;"	f	class:Dialog	access:public	signature:(int id, const ComboMemory &mem, bool useTop = false)
 FillComboFromProps	scite\gtk\SciTEGTK.cxx	/^static void FillComboFromProps(WComboBoxEntry *combo, PropSetFile &props) {$/;"	f	file:	signature:(WComboBoxEntry *combo, PropSetFile &props)
 FillComboFromProps	scite\win32\SciTEWinDlg.cxx	/^static void FillComboFromProps(HWND combo, PropSetFile &props) {$/;"	f	file:	signature:(HWND combo, PropSetFile &props)
-FillCombos	scite\win32\SciTEWinDlg.cxx	/^void SciTEWin::FillCombos(Dialog &dlg) {$/;"	f	class:SciTEWin	signature:(Dialog &dlg)
+FillCombos	scite\win32\SciTEWinDlg.cxx	/^void SciTEWin::FillCombos(Dialog &dlg, bool inFiles) {$/;"	f	class:SciTEWin	signature:(Dialog &dlg, bool inFiles)
 FillFields	scite\gtk\SciTEGTK.cxx	/^void DialogFindInFiles::FillFields() {$/;"	f	class:DialogFindInFiles	signature:()
 FillFields	scite\gtk\SciTEGTK.cxx	/^void DialogFindReplace::FillFields() {$/;"	f	class:DialogFindReplace	signature:()
 FillFields	scite\win32\SciTEWinDlg.cxx	/^void DialogFindReplace::FillFields() {$/;"	f	class:DialogFindReplace	signature:()

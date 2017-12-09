@@ -13,13 +13,22 @@ local cTagModules =""
 local cTagENUMs=""
 local cTagOthers=""
 local cTagDupes="" -- Used
-
 --
 -- Deal with different Path Separators o linux/win
 --
 local function dirSep()
         return("\\")
 end
+
+-- create lock file
+lockFileNamePath=os.getenv("tmp")..dirSep().."projectName"..".lock"
+os.remove(lockFileNamePath)
+lockFile=io.open(lockFileNamePath,"w")
+lockFile= io.output(lockFileNamePath)
+io.output(lockFile) 
+io.write(tostring(os.date))
+io.close(lockFile)
+
 
 --
 -- returns if a given fileNamePath exists
