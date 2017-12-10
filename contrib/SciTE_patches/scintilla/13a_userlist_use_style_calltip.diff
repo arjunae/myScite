@@ -1,5 +1,5 @@
-///@brief smaller and styleable Autcocomplete lists . WorkInProgress. Test with
-// style.*.40=back:#DFD0D0,fore:#0A0A40,$(font.base),size:8,italics
+///@brief smaller and styleable Autcocomplete lists . WorkInProgress. Test with:
+// style.*.38=back:#DFD0D0,fore:#0A0A40,$(font.base),size:8,italics
 // 258  bool useThickFrame=false; // change here to test. 
 // @brief todo: Use a Message to toggle thickFrame
 // @brief currently viewStyle simply just picks the biggest style Defined Fontsize, which is not desireable for userlists and Calltips.
