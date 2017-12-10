@@ -3242,6 +3242,7 @@ MatchOnLines	scintilla\src\Document.cxx	/^bool MatchOnLines(const Document *doc,
 MatchWild	scite\src\PropSetFile.cxx	/^static bool MatchWild(const char *pattern, size_t lenPattern, const char *fileName, bool caseSensitive) {$/;"	f	file:	signature:(const char *pattern, size_t lenPattern, const char *fileName, bool caseSensitive)
 Matches	scite\src\FilePath.cxx	/^bool FilePath::Matches(const GUI::gui_char *pattern) const {$/;"	f	class:FilePath	signature:(const GUI::gui_char *pattern) const
 MatchesWordOptions	scintilla\src\Document.cxx	/^bool Document::MatchesWordOptions(bool word, bool wordStart, Sci::Position pos, Sci::Position length) const {$/;"	f	class:Document	signature:(bool word, bool wordStart, Sci::Position pos, Sci::Position length) const
+MaxHeightFromFont	scintilla\src\ViewStyle.cxx	/^int ViewStyle::MaxHeightFromFont(const FontSpecification &fs) {$/;"	f	class:ViewStyle	signature:(const FontSpecification &fs)
 MaxScrollPos	scintilla\src\Editor.cxx	/^Sci::Line Editor::MaxScrollPos() const {$/;"	f	class:Editor	signature:() const
 MaxTrackSize	scintilla\win32\PlatWin.cxx	/^POINT ListBoxX::MaxTrackSize() const {$/;"	f	class:Scintilla::ListBoxX	signature:() const
 Maximum	scintilla\gtk\PlatGTK.cxx	/^int Platform::Maximum(int a, int b) {$/;"	f	class:Platform	signature:(int a, int b)

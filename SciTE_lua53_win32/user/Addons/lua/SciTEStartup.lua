@@ -1,3 +1,4 @@
+
 --
 -- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
 --
