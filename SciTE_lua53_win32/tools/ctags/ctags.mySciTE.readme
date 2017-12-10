@@ -9,7 +9,7 @@ Maybe that will change if universal ctags have a first stable with reasonable si
 0.ctags-fix-unused-attribute.patch 
 // fix mingw32 compile
 
-1.ctags-wildcards-opt.patch ( allow using wildcards on Windows)
+1.ctags-wildcards-opt.patch
 // @author Thorsten Kani, Allow for using wildcards on windows
 
 2.ctags-cpp-fixes.patch
