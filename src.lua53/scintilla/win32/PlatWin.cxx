@@ -2116,8 +2116,8 @@ public:
 };
 
 const Point ListBoxX::ItemInset(0, 0);
-const Point ListBoxX::TextInset(2, 0);
-const Point ListBoxX::ImageInset(1, 0);
+const Point ListBoxX::TextInset(2, 2); // .y gets multiplied in ItemHeight
+const Point ListBoxX::ImageInset(1, 1);
 
 long windowOpts=WS_POPUP;
 	
@@ -2447,6 +2447,7 @@ void ListBoxX::AdjustWindowRect(PRectangle *rc) {
 int ListBoxX::ItemHeight() const {
 	int itemHeight = lineHeight + (static_cast<int>(TextInset.y) * 2);
 	const int pixHeight = images.GetHeight() + (static_cast<int>(ImageInset.y) * 2);
+	//itemHeight=14;
 	if (itemHeight < pixHeight) {
 		itemHeight = pixHeight;
 	}

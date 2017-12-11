@@ -259,7 +259,7 @@ void ScintillaBase::AutoCompleteStart(int lenEntered, const char *list) {
 	int acStyle = ( vs.styles[STYLE_USERLIST].size > 0) ? STYLE_USERLIST : STYLE_DEFAULT;
 
 	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
-				lenEntered, vs.styles[acStyle].fontName,  vs.styles[acStyle].characterSet, vs.styles[acStyle].sizeZoomed, IsUnicodeMode(), technology, useThickFrame, wMain);
+				lenEntered, vs.HeightFromStyle(vs.styles[acStyle]), IsUnicodeMode(), technology, useThickFrame);
 
 	PRectangle rcClient = GetClientRectangle();
 	Point pt = LocationFromPosition(sel.MainCaret() - lenEntered);
@@ -453,7 +453,7 @@ void ScintillaBase::CallTipShow(Point pt, const char *defn) {
 		vs.lineHeight,
 		defn,
 		vs.styles[ctStyle].fontName,
-		vs.styles[ctStyle].sizeZoomed,
+		vs.HeightFromStyle(vs.styles[ctStyle]),
 		CodePage(),
 		vs.styles[ctStyle].characterSet,
 		vs.technology,

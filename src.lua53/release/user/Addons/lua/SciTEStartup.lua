@@ -11,7 +11,6 @@ math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 
-
 if props["PLAT_WIN"] then
 	myHome = props["SciteUserHome"].."\\user"
 	defaultHome = props["SciteDefaultHome"]

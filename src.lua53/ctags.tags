@@ -372,7 +372,7 @@ CallTip	scintilla\src\CallTip.h	/^class CallTip {$/;"	c	namespace:Scintilla
 CallTipCancel	scintilla\src\CallTip.cxx	/^void CallTip::CallTipCancel() {$/;"	f	class:CallTip	signature:()
 CallTipClick	scintilla\src\ScintillaBase.cxx	/^void ScintillaBase::CallTipClick() {$/;"	f	class:ScintillaBase	signature:()
 CallTipShow	scintilla\src\ScintillaBase.cxx	/^void ScintillaBase::CallTipShow(Point pt, const char *defn) {$/;"	f	class:ScintillaBase	signature:(Point pt, const char *defn)
-CallTipStart	scintilla\src\CallTip.cxx	/^PRectangle CallTip::CallTipStart(Sci::Position pos, Point pt, int textHeight, const char *defn,$/;"	f	class:CallTip	signature:(Sci::Position pos, Point pt, int textHeight, const char *defn, const char *faceName, int size, int codePage_, int characterSet, int technology, Window &wParent)
+CallTipStart	scintilla\src\CallTip.cxx	/^PRectangle CallTip::CallTipStart(Sci::Position pos, Point pt, int textHeight, const char *defn,$/;"	f	class:CallTip	signature:(Sci::Position pos, Point pt, int textHeight, const char *defn, const char *faceName, int fontSize_, int codePage_, int characterSet, int technology, Window &wParent)
 CallbackData	scite\gtk\SciTEGTK.cxx	/^	CallbackData(SciTEGTK *pSciTE_, int cmd_, Worker *pWorker_) : pSciTE(pSciTE_), cmd(cmd_), pWorker(pWorker_) {$/;"	f	struct:CallbackData	access:public	signature:(SciTEGTK *pSciTE_, int cmd_, Worker *pWorker_)
 CallbackData	scite\gtk\SciTEGTK.cxx	/^struct CallbackData {$/;"	s	file:
 Caller	scite\win32\SciTEWinDlg.cxx	/^static SciTEWin *Caller(HWND hDlg, UINT message, LPARAM lParam) {$/;"	f	file:	signature:(HWND hDlg, UINT message, LPARAM lParam)
@@ -2009,6 +2009,7 @@ Height	scintilla\win32\PlatWin.cxx	/^XYPOSITION SurfaceD2D::Height(Font &font_) 
 Height	scintilla\win32\PlatWin.cxx	/^XYPOSITION SurfaceGDI::Height(Font &font_) {$/;"	f	class:Scintilla::SurfaceGDI	signature:(Font &font_)
 Height	scite\src\GUI.h	/^	int Height() const { return bottom - top; }$/;"	f	class:GUI::Rectangle	access:public	signature:() const
 Height	scite\win32\Strips.h	/^	virtual int Height() {$/;"	f	class:Strip	access:public	signature:()
+HeightFromStyle	scintilla\src\ViewStyle.cxx	/^int ViewStyle::HeightFromStyle(const FontSpecification &fs) {$/;"	f	class:ViewStyle	signature:(const FontSpecification &fs)
 HexStringFromInteger	scite\win32\GUIWin.cxx	/^gui_string HexStringFromInteger(long i) {$/;"	f	namespace:GUI	signature:(long i)
 HiWord	scintilla\win32\ScintillaWin.cxx	/^static WORD HiWord(uptr_t l) {$/;"	f	file:	signature:(uptr_t l)
 HiddenLines	scintilla\src\ContractionState.cxx	/^bool ContractionState::HiddenLines() const {$/;"	f	class:ContractionState	signature:() const
@@ -2348,7 +2349,7 @@ IdlerID	scintilla\include\Platform.h	/^typedef void *IdlerID;$/;"	t	namespace:Sc
 IdlerTick	scite\gtk\SciTEGTK.cxx	/^gboolean SciTEGTK::IdlerTick(gpointer pSciTE) {$/;"	f	class:SciTEGTK	signature:(gpointer pSciTE)
 ImageByteSwapped	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^static std::vector<unsigned char> ImageByteSwapped(int width, int height, const unsigned char *pixelsImage)$/;"	f	namespace:Scintilla	signature:(int width, int height, const unsigned char *pixelsImage)
 ImageInset	scintilla\win32\PlatWin.cxx	/^	static const Point ImageInset;	\/\/ Padding around image$/;"	m	class:Scintilla::ListBoxX	file:	access:private
-ImageInset	scintilla\win32\PlatWin.cxx	/^const Point ListBoxX::ImageInset(1, 0);$/;"	m	class:Scintilla::ListBoxX	file:
+ImageInset	scintilla\win32\PlatWin.cxx	/^const Point ListBoxX::ImageInset(1, 1);$/;"	m	class:Scintilla::ListBoxX	file:
 ImageMap	scintilla\gtk\PlatGTK.cxx	/^typedef std::map<int, RGBAImage*> ImageMap;$/;"	t	file:
 ImageMap	scintilla\src\XPM.h	/^	typedef std::map<int, std::unique_ptr<RGBAImage>> ImageMap;$/;"	t	class:Scintilla::RGBAImageSet	access:private
 ImeEndComposition	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::ImeEndComposition() {$/;"	f	class:ScintillaWin	signature:()
@@ -3199,7 +3200,6 @@ MatchOnLines	scintilla\src\Document.cxx	/^bool MatchOnLines(const Document *doc,
 MatchWild	scite\src\PropSetFile.cxx	/^static bool MatchWild(const char *pattern, size_t lenPattern, const char *fileName, bool caseSensitive) {$/;"	f	file:	signature:(const char *pattern, size_t lenPattern, const char *fileName, bool caseSensitive)
 Matches	scite\src\FilePath.cxx	/^bool FilePath::Matches(const GUI::gui_char *pattern) const {$/;"	f	class:FilePath	signature:(const GUI::gui_char *pattern) const
 MatchesWordOptions	scintilla\src\Document.cxx	/^bool Document::MatchesWordOptions(bool word, bool wordStart, Sci::Position pos, Sci::Position length) const {$/;"	f	class:Document	signature:(bool word, bool wordStart, Sci::Position pos, Sci::Position length) const
-MaxHeightFromFont	scintilla\src\ViewStyle.cxx	/^int ViewStyle::MaxHeightFromFont(const FontSpecification &fs) {$/;"	f	class:ViewStyle	signature:(const FontSpecification &fs)
 MaxScrollPos	scintilla\src\Editor.cxx	/^Sci::Line Editor::MaxScrollPos() const {$/;"	f	class:Editor	signature:() const
 MaxTrackSize	scintilla\win32\PlatWin.cxx	/^POINT ListBoxX::MaxTrackSize() const {$/;"	f	class:Scintilla::ListBoxX	signature:() const
 Maximum	scintilla\gtk\PlatGTK.cxx	/^int Platform::Maximum(int a, int b) {$/;"	f	class:Platform	signature:(int a, int b)
@@ -8121,7 +8121,7 @@ Text	scite\gtk\Widget.cxx	/^const GUI::gui_char *WEntry::Text() {$/;"	f	class:WE
 Text	scite\src\SciTEProps.cxx	/^GUI::gui_string Localization::Text(const char *s, bool retainIfNotFound) {$/;"	f	class:Localization	signature:(const char *s, bool retainIfNotFound)
 TextBackground	scintilla\src\EditView.cxx	/^static ColourDesired TextBackground(const EditModel &model, const ViewStyle &vsDraw, const LineLayout *ll,$/;"	f	file:	signature:(const EditModel &model, const ViewStyle &vsDraw, const LineLayout *ll, ColourOptional background, int inSelection, bool inHotspot, int styleMain, Sci::Position i)
 TextInset	scintilla\win32\PlatWin.cxx	/^	static const Point TextInset;	\/\/ Padding around text$/;"	m	class:Scintilla::ListBoxX	file:	access:private
-TextInset	scintilla\win32\PlatWin.cxx	/^const Point ListBoxX::TextInset(2, 0);$/;"	m	class:Scintilla::ListBoxX	file:
+TextInset	scintilla\win32\PlatWin.cxx	/^const Point ListBoxX::TextInset(2, 2); \/\/ .y gets multiplied in ItemHeight$/;"	m	class:Scintilla::ListBoxX	file:
 TextOfWindow	scite\win32\Strips.cxx	/^GUI::gui_string TextOfWindow(HWND hWnd) {$/;"	f	signature:(HWND hWnd)
 TextOffset	scintilla\win32\PlatWin.cxx	/^int ListBoxX::TextOffset() const {$/;"	f	class:Scintilla::ListBoxX	signature:() const
 TextPositions	scintilla\win32\PlatWin.cxx	/^typedef VarBuffer<XYPOSITION, stackBufferLength> TextPositions;$/;"	t	namespace:Scintilla	file:

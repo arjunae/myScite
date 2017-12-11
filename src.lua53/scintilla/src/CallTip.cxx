@@ -253,7 +253,7 @@ void CallTip::MouseClick(Point pt) {
 }
 
 PRectangle CallTip::CallTipStart(Sci::Position pos, Point pt, int textHeight, const char *defn,
-                                 const char *faceName, int size,
+                                 const char *faceName, int fontSize_,
                                  int codePage_, int characterSet,
 								 int technology, Window &wParent) {
 	clickPlace = 0;
@@ -267,8 +267,8 @@ PRectangle CallTip::CallTipStart(Sci::Position pos, Point pt, int textHeight, co
 	endHighlight = 0;
 	inCallTipMode = true;
 	posStartCallTip = pos;
-	XYPOSITION deviceHeight = static_cast<XYPOSITION>(surfaceMeasure->DeviceHeightFont(size));
-	FontParameters fp(faceName, deviceHeight / SC_FONT_SIZE_MULTIPLIER, SC_WEIGHT_NORMAL, false, 0, technology, characterSet);
+
+	FontParameters fp(faceName, fontSize_, SC_WEIGHT_NORMAL, false, 0, technology, characterSet);
 	font.Create(fp);
 	// Look for multiple lines in the text
 	// Only support \n here - simply means container must avoid \r!
@@ -283,12 +283,12 @@ PRectangle CallTip::CallTipStart(Sci::Position pos, Point pt, int textHeight, co
 		look = newline + 1;
 		numLines++;
 	}
-	lineHeight = RoundXYPosition(surfaceMeasure->Height(font));
+	lineHeight = fontSize_;
 
 	// The returned
 	// rectangle is aligned to the right edge of the last arrow encountered in
 	// the tip text, else to the tip text left edge.
-	int height = lineHeight * numLines - static_cast<int>(surfaceMeasure->InternalLeading(font)) + borderHeight * 2;
+	int height = lineHeight * numLines - static_cast<int>(surfaceMeasure->InternalLeading(font)) + borderHeight * 3;
 	if (above) {
 		return PRectangle(pt.x - offsetMain, pt.y - verticalOffset - height, pt.x + width - offsetMain, pt.y - verticalOffset);
 	} else {

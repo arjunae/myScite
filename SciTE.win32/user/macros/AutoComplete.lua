@@ -29,7 +29,7 @@ local DEBUG=0 --1: Trace Mode 2: Verbose Mode
 
 -- Maximal filesize that this script should handle
 local AC_MAX_SIZE =262144 --260k
-
+e
 -- List of styles per lexer that autocomplete should not occur within.
 local SCLEX_AHK1 = 200
 local SCLEX_AHK2 = 201 --?

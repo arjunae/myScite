@@ -207,7 +207,7 @@ public:
 	bool SetWrapIndentMode(int wrapIndentMode_);
 
 	bool WhiteSpaceVisible(bool inIndent) const;
-	int MaxHeightFromFont(const FontSpecification  &fs);
+	int HeightFromStyle(const FontSpecification  &fs);
 	
 private:
 	void AllocStyles(size_t sizeNew);
