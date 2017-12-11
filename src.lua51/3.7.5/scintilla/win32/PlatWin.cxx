@@ -2304,19 +2304,12 @@ void ListBoxX::Draw(DRAWITEMSTRUCT *pDrawItem) {
 		if (pDrawItem->itemState & ODS_SELECTED) {
 			RECT rcImage = pDrawItem->rcItem;
 			rcImage.right = rcBox.left;
-			// The image is not highlighted
-			//::FillRect(pDrawItem->hDC, &rcImage, reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
-			::FillRect(pDrawItem->hDC, &rcImage, hBrushBack);
+			::FillRect(pDrawItem->hDC, &rcImage, hBrushBack); 			// The image is not highlighted
 			::FillRect(pDrawItem->hDC, &rcBox, reinterpret_cast<HBRUSH>(COLOR_HIGHLIGHT+1));
-			//::SetBkColor(pDrawItem->hDC, ::GetSysColor(COLOR_HIGHLIGHT));
-			//::SetTextColor(pDrawItem->hDC, ::GetSysColor(COLOR_HIGHLIGHTTEXT));
 			::SetBkColor(pDrawItem->hDC,  colourBG);
 			::SetTextColor(pDrawItem->hDC, colourFG);
 		} else {
-			//::FillRect(pDrawItem->hDC, &pDrawItem->rcItem, reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
 			::FillRect(pDrawItem->hDC, &pDrawItem->rcItem, hBrushBack);
-		//::SetBkColor(pDrawItem->hDC, ::GetSysColor(COLOR_WINDOW));
-		//::SetTextColor(pDrawItem->hDC, ::GetSysColor(COLOR_WINDOWTEXT));
 			::SetBkColor(pDrawItem->hDC, colourBG); 
 			::SetTextColor(pDrawItem->hDC, colourFG); 
 		}
@@ -2447,7 +2440,6 @@ void ListBoxX::AdjustWindowRect(PRectangle *rc) {
 int ListBoxX::ItemHeight() const {
 	int itemHeight = lineHeight + (static_cast<int>(TextInset.y) * 2);
 	const int pixHeight = images.GetHeight() + (static_cast<int>(ImageInset.y) * 2);
-	//itemHeight=14;
 	if (itemHeight < pixHeight) {
 		itemHeight = pixHeight;
 	}

@@ -22,7 +22,6 @@ class AutoComplete {
 	char typesep; // Type seperator
 	enum { maxItemLen=1000 };
 	std::vector<int> sortMatrix;
-	Font font;
 	
 public:
 

@@ -1,12 +1,6 @@
-///@brief smaller and styleable Autcocomplete lists . WorkInProgress. Test with:
-// style.*.38=back:#DFD0D0,fore:#0A0A40,$(font.base),size:8,italics
-// 258  bool useThickFrame=false; // change here to test. 
-// @brief todo: Use a Message to toggle thickFrame
-// @brief currently viewStyle simply just picks the biggest style Defined Fontsize, which is not desireable for userlists and Calltips.
-//  todo: Enhance Viewstyle to store the lineheight per Style.
 diff -Nurw scintilla/gtk/PlatGTK.cxx scintilla_m/gtk/PlatGTK.cxx
 --- scintilla/gtk/PlatGTK.cxx	2017-05-26 00:25:00.000000000 +0200
-+++ scintilla_m/gtk/PlatGTK.cxx	2017-12-08 01:59:08.000000000 +0100
++++ scintilla_m/gtk/PlatGTK.cxx	2017-12-07 20:09:06.000000000 +0100
 @@ -1225,6 +1225,9 @@
  	int desiredVisibleRows;
  	unsigned int maxItemCharacters;
@@ -56,7 +50,7 @@ diff -Nurw scintilla/gtk/PlatGTK.cxx scintilla_m/gtk/PlatGTK.cxx
  		return;
 diff -Nurw scintilla/include/Platform.h scintilla_m/include/Platform.h
 --- scintilla/include/Platform.h	2017-05-26 00:25:00.000000000 +0200
-+++ scintilla_m/include/Platform.h	2017-12-08 01:59:08.000000000 +0100
++++ scintilla_m/include/Platform.h	2017-12-07 14:32:56.000000000 +0100
 @@ -404,7 +404,7 @@
  	static ListBox *Allocate();
  
@@ -74,109 +68,24 @@ diff -Nurw scintilla/include/Platform.h scintilla_m/include/Platform.h
  };
  
  /**
-diff -Nurw scintilla/src/AutoComplete.cxx scintilla_m/src/AutoComplete.cxx
---- scintilla/src/AutoComplete.cxx	2017-05-26 00:25:00.000000000 +0200
-+++ scintilla_m/src/AutoComplete.cxx	2017-12-08 19:12:40.000000000 +0100
-@@ -46,6 +46,7 @@
- }
- 
- AutoComplete::~AutoComplete() {
-+	font.Release();
- 	if (lb) {
- 		lb->Destroy();
- 	}
-@@ -57,11 +58,18 @@
- 
- void AutoComplete::Start(Window &parent, int ctrlID,
- 	Sci::Position position, Point location, int startLen_,
--	int lineHeight, bool unicodeMode, int technology) {
-+ const char *faceName, int characterSet, int size, bool unicodeMode, int technology,bool useThickFrame,Window &wParent) {
- 	if (active) {
- 		Cancel();
- 	}
--	lb->Create(parent, ctrlID, location, lineHeight, unicodeMode, technology);
-+	std::unique_ptr<Surface> surfaceMeasure(Surface::Allocate(technology));
-+	surfaceMeasure->Init(wParent.GetID());
-+	surfaceMeasure->SetUnicodeMode(unicodeMode);
-+	XYPOSITION deviceHeight = static_cast<XYPOSITION>(surfaceMeasure->DeviceHeightFont(size));
-+	FontParameters fp(faceName, deviceHeight / SC_FONT_SIZE_MULTIPLIER, SC_WEIGHT_NORMAL, false, 0, technology, characterSet);
-+	font.Create(fp);
-+	int lineHeight = RoundXYPosition(surfaceMeasure->Height(font));
-+	lb->Create(parent, ctrlID, location, lineHeight, unicodeMode, technology, useThickFrame);
- 	lb->Clear();
- 	active = true;
- 	startLen = startLen_;
-@@ -292,3 +300,6 @@
- 	}
- }
- 
-+void AutoComplete::SetForeBack( ColourDesired fore, ColourDesired back) {
-+	lb->SetForeBack(fore, back);
-+}
-\ No newline at end of file
-diff -Nurw scintilla/src/AutoComplete.h scintilla_m/src/AutoComplete.h
---- scintilla/src/AutoComplete.h	2017-05-26 00:25:00.000000000 +0200
-+++ scintilla_m/src/AutoComplete.h	2017-12-08 19:09:24.000000000 +0100
-@@ -22,6 +22,7 @@
- 	char typesep; // Type seperator
- 	enum { maxItemLen=1000 };
- 	std::vector<int> sortMatrix;
-+	Font font;
- 
- public:
- 
-@@ -51,7 +52,7 @@
- 
- 	/// Display the auto completion list positioned to be near a character position
- 	void Start(Window &parent, int ctrlID, Sci::Position position, Point location,
--		int startLen_, int lineHeight, bool unicodeMode, int technology);
-+		int startLen_, const char *faceName, int characterSet, int size,  bool unicodeMode, int technology, bool useThickFrame, Window &wParent);
- 
- 	/// The stop chars are characters which, when typed, cause the auto completion list to disappear
- 	void SetStopChars(const char *stopChars_);
-@@ -86,6 +87,8 @@
- 
- 	/// Select a list element that starts with word as the current element
- 	void Select(const char *word);
-+	
-+	void SetForeBack(ColourDesired fore, ColourDesired back);
- };
- 
- #ifdef SCI_NAMESPACE
-diff -Nurw scintilla/src/RESearch.cxx scintilla_m/src/RESearch.cxx
---- scintilla/src/RESearch.cxx	2017-05-26 00:25:02.000000000 +0200
-+++ scintilla_m/src/RESearch.cxx	2017-12-08 01:59:08.000000000 +0100
-@@ -128,7 +128,7 @@
-  *                      by user setting. The word must also be preceded and/or
-  *                      followed by any character outside those mentioned.
-  *
-- *      [11]    \l      a backslash followed by d, D, s, S, w or W,
-+ *      [11]    \\l   a double backslash followed by d, D, s, S, w or W,
-  *                      becomes a character class (both inside and
-  *                      outside sets []).
-  *                        d: decimal digits
 diff -Nurw scintilla/src/ScintillaBase.cxx scintilla_m/src/ScintillaBase.cxx
 --- scintilla/src/ScintillaBase.cxx	2017-05-26 00:25:02.000000000 +0200
-+++ scintilla_m/src/ScintillaBase.cxx	2017-12-08 21:57:00.000000000 +0100
-@@ -254,8 +254,16 @@
++++ scintilla_m/src/ScintillaBase.cxx	2017-12-11 02:10:42.000000000 +0100
+@@ -254,8 +254,12 @@
  			return;
  		}
  	}
 +	
-+		// Backward Compatibility. 
-+	bool useThickFrame=true; // change to test  .todo: Make user settable 
-+	int acStyle =STYLE_DEFAULT
-+	
-+	// Decision -> Shouldnt we just allocate style.40 and bump up val STYLE_LASTPREDEFINED=40 ?
-+	if (!useThickFrame) acStyle ( vs.styles[STYLE_CALLTIP].size > 0) ? STYLE_CALLTIP : STYLE_DEFAULT;
++	bool useThickFrame=false; // change to test  .todo: Make user settable 
++	int acStyle = ( vs.styles[STYLE_USERLIST].size > 0) ? STYLE_USERLIST : STYLE_DEFAULT;
 +
  	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
 -				lenEntered, vs.lineHeight, IsUnicodeMode(), technology);
-+				lenEntered, vs.styles[acStyle].fontName,  vs.styles[acStyle].characterSet, vs.styles[acStyle].sizeZoomed, IsUnicodeMode(), technology, useThickFrame, wMain);
++				lenEntered, vs.HeightFromStyle(vs.styles[acStyle]), IsUnicodeMode(), technology, useThickFrame);
  
  	PRectangle rcClient = GetClientRectangle();
  	Point pt = LocationFromPosition(sel.MainCaret() - lenEntered);
-@@ -290,8 +298,10 @@
+@@ -290,8 +294,10 @@
  	rcac.right = rcac.left + widthLB;
  	rcac.bottom = static_cast<XYPOSITION>(std::min(static_cast<int>(rcac.top) + heightLB, static_cast<int>(rcPopupBounds.bottom)));
  	ac.lb->SetPositionRelative(rcac, wMain);
@@ -189,9 +98,63 @@ diff -Nurw scintilla/src/ScintillaBase.cxx scintilla_m/src/ScintillaBase.cxx
  	ac.lb->SetAverageCharWidth(aveCharWidth);
  	ac.lb->SetDoubleClickAction(AutoCompleteDoubleClick, this);
  
+@@ -447,7 +453,7 @@
+ 		vs.lineHeight,
+ 		defn,
+ 		vs.styles[ctStyle].fontName,
+-		vs.styles[ctStyle].sizeZoomed,
++		vs.HeightFromStyle(vs.styles[ctStyle]),
+ 		CodePage(),
+ 		vs.styles[ctStyle].characterSet,
+ 		vs.technology,
+diff -Nurw scintilla/src/SciTE.properties scintilla_m/src/SciTE.properties
+--- scintilla/src/SciTE.properties	2017-05-26 00:25:02.000000000 +0200
++++ scintilla_m/src/SciTE.properties	2017-12-10 18:42:34.000000000 +0100
+@@ -1,6 +1,6 @@
+ # SciTE.properties is the per directory local options file and can be used to override
+ # settings made in SciTEGlobal.properties
+-command.build.directory.*.cxx=..\win32
+-command.build.directory.*.h=..\win32
+-command.build.*.cxx=nmake -f scintilla.mak QUIET=1
+-command.build.*.h=nmake -f scintilla.mak QUIET=1
++#command.build.directory.*.cxx=..\win32
++#command.build.directory.*.h=..\win32
++#command.build.*.cxx=nmake -f scintilla.mak QUIET=1
++#command.build.*.h=nmake -f scintilla.mak QUIET=1
+diff -Nurw scintilla/src/ViewStyle.cxx scintilla_m/src/ViewStyle.cxx
+--- scintilla/src/ViewStyle.cxx	2017-05-26 00:25:02.000000000 +0200
++++ scintilla_m/src/ViewStyle.cxx	2017-12-11 10:27:34.000000000 +0100
+@@ -612,3 +612,16 @@
+ 			maxDescent = it->second->descent;
+ 	}
+ }
++
++/// Used for defining lineHeight in Calltips and Userlists 
++int ViewStyle::HeightFromStyle(const FontSpecification &fs) {e
++	FontMap::iterator it = fonts.find(fs);
++	if ( !fs.fontName) return 0;
++	unsigned int fontHeight= it->second->ascent;
++	if (fontHeight <  it->second->descent)
++		fontHeight= it->second->descent;
++	
++	return(fontHeight);
++}
++
++
+diff -Nurw scintilla/src/ViewStyle.h scintilla_m/src/ViewStyle.h
+--- scintilla/src/ViewStyle.h	2017-05-26 00:25:02.000000000 +0200
++++ scintilla_m/src/ViewStyle.h	2017-12-11 02:00:26.000000000 +0100
+@@ -207,6 +207,7 @@
+ 	bool SetWrapIndentMode(int wrapIndentMode_);
+ 
+ 	bool WhiteSpaceVisible(bool inIndent) const;
++	int HeightFromStyle(const FontSpecification  &fs);
+ 
+ private:
+ 	void AllocStyles(size_t sizeNew);
 diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
 --- scintilla/win32/PlatWin.cxx	2017-05-26 00:25:02.000000000 +0200
-+++ scintilla_m/win32/PlatWin.cxx	2017-12-08 18:50:06.000000000 +0100
++++ scintilla_m/win32/PlatWin.cxx	2017-12-11 13:29:02.000000000 +0100
 @@ -2046,6 +2046,10 @@
  	Point dragOffset;
  	Point location;	// Caret location at which the list is opened
@@ -203,8 +166,12 @@ diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
  
  	HWND GetHWND() const;
  	void AppendListItem(const char *text, const char *numword);
-@@ -2073,16 +2077,19 @@
- 	ListBoxX() : lineHeight(10), fontCopy(0), technology(0), lb(0), unicodeMode(false),
+@@ -2070,19 +2074,22 @@
+ 	static const Point ImageInset;	// Padding around image
+ 
+ public:
+-	ListBoxX() : lineHeight(10), fontCopy(0), technology(0), lb(0), unicodeMode(false),
++	ListBoxX() : lineHeight(9), fontCopy(0), technology(0), lb(0), unicodeMode(false),
  		desiredVisibleRows(9), maxItemCharacters(0), aveCharWidth(8),
  		parent(NULL), ctrlID(0), doubleClickAction(NULL), doubleClickActionData(NULL),
 -		widestItem(NULL), maxCharWidth(1), resizeHit(0), wheelDelta(0) {
@@ -225,12 +192,17 @@ diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
  	void SetAverageCharWidth(int width) override;
  	void SetVisibleRows(int rows) override;
  	int GetVisibleRows() const override;
-@@ -2112,12 +2119,14 @@
- const Point ListBoxX::TextInset(2, 0);
- const Point ListBoxX::ImageInset(1, 0);
+@@ -2109,15 +2116,17 @@
+ };
  
+ const Point ListBoxX::ItemInset(0, 0);
+-const Point ListBoxX::TextInset(2, 0);
+-const Point ListBoxX::ImageInset(1, 0);
++const Point ListBoxX::TextInset(2, 2); // .y gets multiplied in ItemHeight
++const Point ListBoxX::ImageInset(1, 1);
++
 +long windowOpts=WS_POPUP;
-+	
+ 
  ListBox *ListBox::Allocate() {
  	ListBoxX *lb = new ListBoxX();
  	return lb;
@@ -273,7 +245,7 @@ diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
  void ListBoxX::SetFont(Font &font) {
  	if (font.GetID()) {
  		if (fontCopy) {
-@@ -2273,7 +2295,9 @@
+@@ -2273,22 +2295,23 @@
  	images.Clear();
  }
  
@@ -283,35 +255,28 @@ diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
  	if ((pDrawItem->itemAction == ODA_SELECT) || (pDrawItem->itemAction == ODA_DRAWENTIRE)) {
  		RECT rcBox = pDrawItem->rcItem;
  		rcBox.left += TextOffset();
-@@ -2281,14 +2305,20 @@
+ 		if (pDrawItem->itemState & ODS_SELECTED) {
  			RECT rcImage = pDrawItem->rcItem;
  			rcImage.right = rcBox.left;
- 			// The image is not highlighted
+-			// The image is not highlighted
 -			::FillRect(pDrawItem->hDC, &rcImage, reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
-+			//::FillRect(pDrawItem->hDC, &rcImage, reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
-+			::FillRect(pDrawItem->hDC, &rcImage, hBrushBack);
++			::FillRect(pDrawItem->hDC, &rcImage, hBrushBack); 			// The image is not highlighted
  			::FillRect(pDrawItem->hDC, &rcBox, reinterpret_cast<HBRUSH>(COLOR_HIGHLIGHT+1));
 -			::SetBkColor(pDrawItem->hDC, ::GetSysColor(COLOR_HIGHLIGHT));
 -			::SetTextColor(pDrawItem->hDC, ::GetSysColor(COLOR_HIGHLIGHTTEXT));
--		} else {
++			::SetBkColor(pDrawItem->hDC,  colourBG);
++			::SetTextColor(pDrawItem->hDC, colourFG);
+ 		} else {
 -			::FillRect(pDrawItem->hDC, &pDrawItem->rcItem, reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
 -			::SetBkColor(pDrawItem->hDC, ::GetSysColor(COLOR_WINDOW));
 -			::SetTextColor(pDrawItem->hDC, ::GetSysColor(COLOR_WINDOWTEXT));
-+			//::SetBkColor(pDrawItem->hDC, ::GetSysColor(COLOR_HIGHLIGHT));
-+			//::SetTextColor(pDrawItem->hDC, ::GetSysColor(COLOR_HIGHLIGHTTEXT));
-+			::SetBkColor(pDrawItem->hDC,  colourBG);
-+			::SetTextColor(pDrawItem->hDC, colourFG);
-+		} else {
-+			//::FillRect(pDrawItem->hDC, &pDrawItem->rcItem, reinterpret_cast<HBRUSH>(COLOR_WINDOW+1));
 +			::FillRect(pDrawItem->hDC, &pDrawItem->rcItem, hBrushBack);
-+		//::SetBkColor(pDrawItem->hDC, ::GetSysColor(COLOR_WINDOW));
-+		//::SetTextColor(pDrawItem->hDC, ::GetSysColor(COLOR_WINDOWTEXT));
 +			::SetBkColor(pDrawItem->hDC, colourBG); 
 +			::SetTextColor(pDrawItem->hDC, colourFG); 
  		}
  
  		const ListItemData item = lti.Get(pDrawItem->itemID);
-@@ -2410,7 +2440,7 @@
+@@ -2410,7 +2433,7 @@
  
  void ListBoxX::AdjustWindowRect(PRectangle *rc) {
  	RECT rcw = RectFromPRectangle(*rc);
@@ -320,7 +285,7 @@ diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
  	*rc = PRectangle::FromInts(rcw.left, rcw.top, rcw.right, rcw.bottom);
  }
  
-@@ -2640,7 +2670,9 @@
+@@ -2640,7 +2663,9 @@
  	// unpainted area when at the end of a non-integrally sized list with a
  	// vertical scroll bar
  	RECT rc = { 0, 0, extent.x, extent.y };
@@ -331,3 +296,15 @@ diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
  	// Paint the entire client area and vertical scrollbar
  	::SendMessage(lb, WM_PRINT, reinterpret_cast<WPARAM>(bitmapDC), PRF_CLIENT|PRF_NONCLIENT);
  	::BitBlt(hDC, 0, 0, extent.x, extent.y, bitmapDC, 0, 0, SRCCOPY);
+diff -Nurw scintilla/src/RESearch.cxx scintilla_m/src/RESearch.cxx
+--- scintilla/src/RESearch.cxx	2017-05-26 00:25:02.000000000 +0200
++++ scintilla_m/src/RESearch.cxx	2017-11-24 22:05:46.000000000 +0100
+@@ -128,7 +128,7 @@
+  *                      by user setting. The word must also be preceded and/or
+  *                      followed by any character outside those mentioned.
+  *
+- *      [11]    \l      a backslash followed by d, D, s, S, w or W,
++ *      [11]    \\l   a double backslash followed by d, D, s, S, w or W,
+  *                      becomes a character class (both inside and
+  *                      outside sets []).
+  *                        d: decimal digits

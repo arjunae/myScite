@@ -46,7 +46,6 @@ AutoComplete::AutoComplete() :
 }
 
 AutoComplete::~AutoComplete() {
-	font.Release();
 	if (lb) {
 		lb->Destroy();
 	}
