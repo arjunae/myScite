@@ -1,4 +1,4 @@
-///Enable shell wildcard use for Exuberant CTAGS windows.
+/// @author Thorsten Kani, Allow for using wildcards on windows
 diff -Nurw ctags-5.8/fnmatch.c ctags-5.8_m/fnmatch.c
 --- ctags-5.8/fnmatch.c	1970-01-01 01:00:00.000000000 +0100
 +++ ctags-5.8_m/fnmatch.c	2017-12-09 12:11:26.000000000 +0100

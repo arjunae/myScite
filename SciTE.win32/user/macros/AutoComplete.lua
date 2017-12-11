@@ -29,7 +29,7 @@ local DEBUG=0 --1: Trace Mode 2: Verbose Mode
 
 -- Maximal filesize that this script should handle
 local AC_MAX_SIZE =262144 --260k
-e
+
 -- List of styles per lexer that autocomplete should not occur within.
 local SCLEX_AHK1 = 200
 local SCLEX_AHK2 = 201 --?
@@ -195,18 +195,18 @@ end
     local currentLexer=props["Language"]
     props["substyles."..currentLexer..".11"]=20
     props["substylewords.11.15."..projectEXT] = cTagOthers
-    props["substylewords.11.16."..projectEXT] = cTagClass
+    props["substylewords.11.16."..projectEXT] = cTagNames
     props["substylewords.11.17."..projectEXT] = cTagFunctions
-    props["substylewords.11.18."..projectEXT] = cTagNames
-    props["substylewords.11.19."..projectEXT] = cTagModules
-    props["substylewords.11.20."..projectEXT] = cTagENUMs
-
+    props["substylewords.11.18."..projectEXT] = cTagModules
+    props["substylewords.11.19."..projectEXT] = cTagENUMs
+    props["substylewords.11.20."..projectEXT] = cTagClass
+    
     props["style."..currentLexer..".11.15"]=props["colour.project.enums"]    
-    props["style."..currentLexer..".11.16"]=props["colour.project.class"]
+    props["style."..currentLexer..".11.16"]=props["colour.project.constants"]
     props["style."..currentLexer..".11.17"]=props["colour.project.functions"]
-    props["style."..currentLexer..".11.18"]=props["colour.project.constants"]
-    props["style."..currentLexer..".11.19"]=props["colour.project.modules"]
-    props["style."..currentLexer..".11.20"]=props["colour.project.enums"]
+    props["style."..currentLexer..".11.18"]=props["colour.project.modules"]
+    props["style."..currentLexer..".11.19"]=props["colour.project.enums"]
+    props["style."..currentLexer..".11.20"]=props["colour.project.class"]
         
 end
 
@@ -303,32 +303,30 @@ function appendCTags(apiNames,cTagsFilePath,createAPIFile)
                     isOther=true;
                 end
             end
-            -- publish collected Data (dupe Checked)  
-             if name and name..params~=lastEntry then 
-                if name~=lastname then 
-                    ---- AutoComplete List entries
-                    if not  appendMode then cTagAPI[ACListEntry]=true end
-                    ----  Highlitening use String concatination, because its faster for onSave ( theres no dupe checking.)
-                    if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
-                    if props["project.ctags.functions"]=="1" and isFunction then cTagFunctions=cTagFunctions.." "..name  end
-                    if props["project.ctags.constants"]=="1" and isConst then cTagNames=cTagNames.." "..name end
-                    if props["project.ctags.modules"]=="1" and isModule then cTagModules=cTagModules.." "..name end
-                    if props["project.ctags.class"]=="1" and isClass then cTagClass=cTagClass.." "..name  end
-                    if props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name  end
-                    if props["project.ctags.others"]=="1" and isOther then cTagOthers=cTagOthers.." "..cTagOther end
-                    lastname=name
-                else
-                    if DEBUG then cTagDupes= cTagDupes..cTagOther  end -- include Dupes for stats in Trace mode
-                    if DEBUG==2 then print("Dupe: "..entry) end 
-                end
+            -- publish collected Data (dupe Checked). Prefer the className over the functionName  
+             if name and name..params~=lastEntry and not isfunction then  
+                ---- AutoComplete List entries
+                if not  appendMode then cTagAPI[ACListEntry]=true end
+                ----  Highlitening use String concatination, because its faster for onSave ( theres no dupe checking.)
+                if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
+                if props["project.ctags.functions"]=="1" and isFunction then cTagFunctions=cTagFunctions.." "..name  end
+                if props["project.ctags.constants"]=="1" and isConst then cTagNames=cTagNames.." "..name end
+                if props["project.ctags.modules"]=="1" and isModule then cTagModules=cTagModules.." "..name end
+                if props["project.ctags.class"]=="1" and isClass then cTagClass=cTagClass.." "..name  end
+                if props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name  end
+                if props["project.ctags.others"]=="1" and isOther then cTagOthers=cTagOthers.." "..cTagOther end
+                lastname=name
                 -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=name..params
                 if isFunction and string.len(params)>2 then 
                    if createAPIFile then io.write(lastEntry.."\n") end
                 end -- faster then using a full bulkWrite
+            else
+                if DEBUG then cTagDupes= cTagDupes..cTagOther  end -- include Dupes for stats in Trace mode
+                if DEBUG==2 then print("Dupe: "..entry) end 
             end
         end
-
+     
         io.close(cTagsFile)
         buffer.projectName= props["project.name"]
         props["project.ctags.update"]="0"

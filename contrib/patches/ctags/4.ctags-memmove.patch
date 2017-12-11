@@ -1,0 +1,21 @@
+/// @author Ben Spencer 
+// strcpy is not guaranteed to work on overlapping strings, and this can lead to broken paths appearing in tag files. The attached patch changes it to use memmove instead.
+===================================================================
+--- routines.c	(revision 761)
++++ ctags-5.8/routines.c	(working copy)
+@@ -757,13 +757,13 @@
+ 				else if (cp [0] != PATH_SEPARATOR)
+ 					cp = slashp;
+ #endif
+-				strcpy (cp, slashp + 3);
++				memmove (cp, slashp + 3, strlen(slashp + 3) + 1);
+ 				slashp = cp;
+ 				continue;
+ 			}
+ 			else if (slashp [2] == PATH_SEPARATOR  ||  slashp [2] == '\0')
+ 			{
+-				strcpy (slashp, slashp + 2);
++				memmove (slashp, slashp + 2, strlen(slashp + 2) + 1);
+ 				continue;
+ 			}
+ 		}

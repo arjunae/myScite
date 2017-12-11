@@ -247,7 +247,7 @@ function OnInit()
 
 	scite_OnOpenSwitch(HandleProject)
 	scite_OnSave(AppendNewCTags)
-	TestSciLexer("95822cff") -- SciLexers CRC32 Hash for the current Version
+	TestSciLexer("9cab51b3") -- SciLexers CRC32 Hash for the current Version
 	scite_OnOpenSwitch(StyleStuff)
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	

@@ -1,0 +1,32 @@
+-- Exuberant CTAGS for Windows --
+...with additional c related patches and enabled wildcard support. 
+
+Im including the original Exuberant CTAGS here, because of its small size, speed and the incredible high SteamPunk Factor.
+Maybe that will change if universal ctags have a first stable with reasonable sized binaries.
+
+-- Applied Patches from https://sourceforge.net/p/ctags/patches/58/
+
+0.ctags-fix-unused-attribute.patch 
+// fix mingw32 compile
+
+1.ctags-wildcards-opt.patch ( allow using wildcards on Windows)
+// @author Thorsten Kani, Allow for using wildcards on windows
+
+2.ctags-cpp-fixes.patch
+// @author: lyokha Fixes:
+// 1. Wrong handling of '<'.
+// 2. Skipping function pointers
+// 3. Wrong signatures for function that contain function pointers
+// 4. A bug that i called 'DECL_IGNORE bug' that sometimes leads to skipping some tags just after return statement.
+
+3.ctags-cpp-add-using-type.patch
+/// @author Kevin Brodsky; support for: using <Type> = <type definition>;
+
+4.ctags-memmove.patch
+/// @author Ben Spencer 
+// strcpy is not guaranteed to work on overlapping strings, and this can lead to broken paths appearing in tag files. The attached patch changes it to use memmove instead.
+
+-- ApplyingPatches
+
+-> extract ctags-5.8.tar to ctags-5.8
+-> utilize patch -p0 < patchFile eg (patch -p0 < 0.ctags-fix-unused-attribute)

@@ -76,8 +76,8 @@ diff -Nurw scintilla/src/ScintillaBase.cxx scintilla_m/src/ScintillaBase.cxx
  		}
  	}
 +	
-+	bool useThickFrame=false; // change to test  .todo: Make user settable 
-+	int acStyle = ( vs.styles[STYLE_USERLIST].size > 0) ? STYLE_USERLIST : STYLE_DEFAULT;
++	bool useThickFrame=false; // change to test  .todo: Make client settable 
++	int acStyle = ( vs.styles[STYLE_CALLTIP].size > 0) ? STYLE_CALLTIP : STYLE_DEFAULT;
 +
  	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
 -				lenEntered, vs.lineHeight, IsUnicodeMode(), technology);
