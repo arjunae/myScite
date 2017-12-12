@@ -7,6 +7,7 @@ set toolFolder=ctags
 set toolName=%toolFolder%
 set toolExt=.exe
 set toolParam=%*
+set postProc=mylua.cmd %~dp0%ctags\parseCTags.lua
 
 :: A value of 1 will force the wrapper to restrict PATH for toolName (useful for eg tdm/mingw buidChains) 
 set sandbox=0
@@ -25,6 +26,7 @@ if [%sandbox%]==[1] ( set mode=[Sandboxed]) else ( set mode= )
 if exist %toolPath%\%toolName%%toolExt% (
 echo ~ wrapper ~ %mode% %toolFolder%\%toolName%%toolExt% %toolParam% >&2
 %toolPath%\%toolName%%toolExt% %toolParam%
+%postProc% %2
 goto :freude
 ) 
 
@@ -36,6 +38,7 @@ IF %ERRORLEVEL% == 0 (
 REM echo ~ WRapper: %toolPath%\%toolName%%toolExt% %toolParam% >&2
 where %toolName%%toolExt%
 %toolName%%toolExt% %toolParam%
+%postProc% %2
 goto :freude ) else (  goto :err )
 
 :err

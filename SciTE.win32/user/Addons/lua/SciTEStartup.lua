@@ -1,3 +1,4 @@
+
 --
 -- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
 --
@@ -218,25 +219,33 @@ function AppendNewCTags()
 		ctagsBin=props["project.ctags.bin"]
 		ctagsOpt=props["project.ctags.opt"]
 		ctagsFP= props["project.ctags.filepath"]
-		ctagsTMP=os.getenv("tmp")..dirSep..props["project.name"]..".session.ctags" 
+		ctagsTMP="\""..os.getenv("tmp")..dirSep..props["project.name"]..".session.ctags\""
 
 		os.remove(os.getenv("tmp")..dirSep.."*.session.ctags")
 		if ctagsBin and ctagsOpt and ctagsFP then 
-			ctagsCMD=ctagsBin.." -u -f "..ctagsTMP.." "..ctagsOpt.." "..props["FilePath"] 
+			ctagsCMD=ctagsBin.." -f "..ctagsTMP.." "..ctagsOpt.." "..props["FilePath"] 
 
-			-- add new ctags of the saved file to the session ctags file.
 			if props["project.ctags.save_applies"]=="1" then
+				 -- also do a full refresh to the project file in a background task
+				ctagsCMD=ctagsBin.." -f "..ctagsFP.." "..ctagsOpt
 				local pipe=scite_Popen(ctagsCMD)
-				local tmp= pipe:read('*a') -- synchronous -waits for the Command to complete
-				appendCTags({},ctagsTMP,false) 
-			end 
-
-			 -- also do a full refresh to the project file in a background task
-			ctagsCMD=ctagsBin.." -f "..ctagsFP.." "..ctagsOpt
-			scite_Popen(ctagsCMD)
+				--local tmp= pipe:read('*a') -- synchronous -waits for the Command to complete
+				
+				-- periodically check if ctags refresh has been finished.
+				scite_OnDwellStart(function()
+					finFileNamePath=os.getenv("tmp")..dirSep.."scite"..".fin"
+					local finFile=io.open(finFileNamePath,"r")
+					if finFile~=nil then 
+						io.close(finFile)
+							print("...generating CTags finished") 
+						os.remove(finFileNamePath)
+					end
+					finFile=nil
+				end)
+			end
 		end
-
-	end
+	end	
+		
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
