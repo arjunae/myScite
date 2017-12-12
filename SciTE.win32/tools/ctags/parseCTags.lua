@@ -26,6 +26,8 @@ local projectName =arg[2]
 local createAPIFile =arg[3]
 
 if not cTagsFilePath then cTagsFilePath ="D:\\projects\\_myScite\\_myScite.github\\src.lua53\\ctags.tags" end
+local projectFilePath=string.gsub(cTagsFilePath,"ctags.tags","")
+
 if not projectName then projectName="scite" end
 
 --
@@ -47,16 +49,17 @@ end
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function appendCTags(apiNames,cTagsFilePath,projectName,createAPIFile)
+function appendCTags(apiNames,projectFilePath,projectName)
     local sysTmp=os.getenv("tmp")
-    local cTagsAPIPath=sysTmp..dirSep()..projectName.."_cTags.api" -- performance:  should we reuse an existing File ?
+    local cTagsFilePath=projectFilePath.."ctags.tags"
+    local cTagsAPIPath=projectFilePath.."cTags.api" -- performance:  should we reuse an existing File ?
   
      -- catches not otherwise matched Stuff for Highlitghtning
      -- turn on for testing.
     local doFullSync="0"
     
     if file_exists(cTagsFilePath) then
-    if DEBUG>=1 then print("ac>appendCtags" ,cTagsFilePath,createAPIFile) end     
+    if DEBUG>=1 then print("ac>appendCtags" ,cTagsFilePath,apiFilePath) end     
     
         local lastEntry=""
         local cTagsFile= io.open(cTagsAPIPath,"w")
@@ -142,7 +145,7 @@ function appendCTags(apiNames,cTagsFilePath,projectName,createAPIFile)
                 -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=name..params
                 if isFunction and string.len(params)>2 then 
-                   if createAPIFile then io.write(lastEntry.."\n") end
+                   io.write(lastEntry.."\n")
                 end -- faster then using a full bulkWrite
             else
                 if DEBUG then cTagDupes= cTagDupes..cTagOther  end -- include Dupes for stats in Trace mode
@@ -153,7 +156,7 @@ function appendCTags(apiNames,cTagsFilePath,projectName,createAPIFile)
         io.close(cTagsFile)
         cTagsUpdate="0"
         
-        writeProps(projectName) -- Helper which applies the generated Data to their lexer styles
+        writeProps(projectFilePath) -- Helper which applies the generated Data to their lexer styles
 
 end
 
@@ -170,7 +173,7 @@ end
 -- probably should return something useful
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function writeProps(projectName)
+function writeProps(projectFilePath)
 
 if DEBUG>=1 then
     print("ac>writeProps:")
@@ -183,7 +186,7 @@ if DEBUG>=1 then
     print("ac> cTagDupes ("..string.len(cTagDupes).." bytes)" )
 end
 
-    propFile=io.open(os.getenv("tmp")..dirSep()..projectName..".properties","w")
+    propFile=io.open(projectFilePath.."ctags.properties","w")
     propFile= io.output(propFile)
     io.output(propFile) 
     io.write("projectName.cTagClasses="..cTagClass.."\n")
@@ -197,8 +200,8 @@ end
 end
 
 -- create a lock file
-finFileNamePath=os.getenv("tmp")..dirSep()..projectName..".fin"
-lockFileNamePath=os.getenv("tmp")..dirSep()..projectName..".lock"
+finFileNamePath=os.getenv("tmp")..dirSep().."project.ctags.fin"
+lockFileNamePath=os.getenv("tmp")..dirSep().."project.ctags.lock"
 
 os.remove(finFileNamePath)
 lockFile=io.open(lockFileNamePath,"w")
@@ -208,7 +211,7 @@ io.write(tostring(os.date))
 io.close(lockFile)
 
 -- do!
-appendCTags({},cTagsFilePath,projectName,true)
+appendCTags({},projectFilePath,projectName)
 
 -- create the fin file
 os.remove(lockFileNamePath)
