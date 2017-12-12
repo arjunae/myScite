@@ -2009,7 +2009,7 @@ Height	scintilla\win32\PlatWin.cxx	/^XYPOSITION SurfaceD2D::Height(Font &font_) 
 Height	scintilla\win32\PlatWin.cxx	/^XYPOSITION SurfaceGDI::Height(Font &font_) {$/;"	f	class:Scintilla::SurfaceGDI	signature:(Font &font_)
 Height	scite\src\GUI.h	/^	int Height() const { return bottom - top; }$/;"	f	class:GUI::Rectangle	access:public	signature:() const
 Height	scite\win32\Strips.h	/^	virtual int Height() {$/;"	f	class:Strip	access:public	signature:()
-HeightFromStyle	scintilla\src\ViewStyle.cxx	/^int ViewStyle::HeightFromStyle(const FontSpecification &fs) {e$/;"	f	class:ViewStyle	signature:(const FontSpecification &fs)
+HeightFromStyle	scintilla\src\ViewStyle.cxx	/^int ViewStyle::HeightFromStyle(const FontSpecification &fs) {$/;"	f	class:ViewStyle	signature:(const FontSpecification &fs)
 HexStringFromInteger	scite\win32\GUIWin.cxx	/^gui_string HexStringFromInteger(long i) {$/;"	f	namespace:GUI	signature:(long i)
 HiWord	scintilla\win32\ScintillaWin.cxx	/^static WORD HiWord(uptr_t l) {$/;"	f	file:	signature:(uptr_t l)
 HiddenLines	scintilla\src\ContractionState.cxx	/^bool ContractionState::HiddenLines() const {$/;"	f	class:ContractionState	signature:() const

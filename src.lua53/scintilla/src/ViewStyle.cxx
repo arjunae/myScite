@@ -614,9 +614,10 @@ void ViewStyle::FindMaxAscentDescent() {
 }
 
 /// Used for defining lineHeight in Calltips and Userlists 
-int ViewStyle::HeightFromStyle(const FontSpecification &fs) {e
+int ViewStyle::HeightFromStyle(const FontSpecification &fs) {
+	if ( !fs.fontName) return lineHeight;
 	FontMap::iterator it = fonts.find(fs);
-	if ( !fs.fontName) return 0;
+
 	unsigned int fontHeight= it->second->ascent;
 	if (fontHeight <  it->second->descent)
 		fontHeight= it->second->descent;

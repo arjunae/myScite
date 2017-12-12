@@ -51,17 +51,13 @@ end
 function appendCTags(apiNames,cTagsFilePath,projectName,createAPIFile)
     local sysTmp=os.getenv("tmp")
     local cTagsAPIPath=sysTmp..dirSep()..projectName.."_cTags.api" -- performance:  should we reuse an existing File ?
-    local cTagsUpdate
-
-   if not cTagsUpdate then cTagsUpdate="1" end
- --   if projectName=="" then return apiNames end
-
-     -- catches every single bit of stuff for Highlitghtning
+  
+     -- catches not otherwise matched Stuff for Highlitghtning
      -- turn on for testing.
     local doFullSync="0"
-
-    if file_exists(cTagsFilePath)  and (cTagsUpdate=="1" or createAPIFile==0) then
-    if DEBUG>=1 then print("ac>appendCtags" ,cTagsFilePath, short) end         
+    
+    if file_exists(cTagsFilePath) then
+    if DEBUG>=1 then print("ac>appendCtags" ,cTagsFilePath, short) end     
     
         local lastEntry=""
         local cTagsFile= io.open(cTagsAPIPath,"w")
@@ -131,35 +127,33 @@ function appendCTags(apiNames,cTagsFilePath,projectName,createAPIFile)
                     isOther=true;
                 end
             end
-            -- publish collected Data (dupe Checked)  
-             if name and name..params~=lastEntry then 
-                if name~=lastname then 
-                    ---- AutoComplete List entries
-                    if not  appendMode then cTagAPI[ACListEntry]=true end
-                    ----  Highlitening use String concatination, because its faster for onSave ( theres no dupe checking.)
-                    if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
-                    if  isFunction then cTagFunctions=cTagFunctions.." "..name  end
-                    if isConst then cTagNames=cTagNames.." "..name end
-                    if  isModule then cTagModules=cTagModules.." "..name end
-                    if  isClass then cTagClass=cTagClass.." "..name  end
-                    if  isENUM then cTagENUMs=cTagENUMs.." "..name  end
-                    if  isOther then cTagOthers=cTagOthers.." "..cTagOther end
-                    lastname=name
-                else
-                    if DEBUG then cTagDupes= cTagDupes..cTagOther  end -- include Dupes for stats in Trace mode
-                    if DEBUG==2 then print("Dupe: "..entry) end 
-                end
+            -- publish collected Data (dupe Checked). Prefer the className over the functionName  
+             if name and name..params~=lastEntry and not isfunction then  
+                ---- AutoComplete List entries
+                if not  appendMode then cTagAPI[ACListEntry]=true end
+                ----  Highlitening use String concatination, because its faster for onSave ( theres no dupe checking.)
+                if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
+                if isFunction then cTagFunctions=cTagFunctions.." "..name  end
+                if isConst then cTagNames=cTagNames.." "..name end
+                if isModule then cTagModules=cTagModules.." "..name end
+                if isClass then cTagClass=cTagClass.." "..name  end
+                if  isENUM then cTagENUMs=cTagENUMs.." "..name  end
+                if isOther then cTagOthers=cTagOthers.." "..cTagOther end
+                lastname=name
                 -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=name..params
                 if isFunction and string.len(params)>2 then 
                    if createAPIFile then io.write(lastEntry.."\n") end
                 end -- faster then using a full bulkWrite
+            else
+                if DEBUG then cTagDupes= cTagDupes..cTagOther  end -- include Dupes for stats in Trace mode
+                if DEBUG==2 then print("Dupe: "..entry) end 
             end
         end
-
+     
         io.close(cTagsFile)
-
-        cTagsUpdate=0
+        cTagsUpdate="0"
+        
         writeProps(projectName) -- Helper which applies the generated Data to their lexer styles
 
 end
@@ -167,7 +161,6 @@ end
     -- cTagsUpdate=0 so already done.  Using the cached Version
     return cTagAPI  
 end
-
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
