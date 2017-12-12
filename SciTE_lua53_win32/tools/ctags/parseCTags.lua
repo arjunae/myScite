@@ -26,8 +26,7 @@ local projectName =arg[2]
 local createAPIFile =arg[3]
 
 if not cTagsFilePath then cTagsFilePath ="D:\\projects\\_myScite\\_myScite.github\\src.lua53\\ctags.tags" end
-if not projectName then projectName="scintilla_scite" end
-
+if not projectName then projectName="scite" end
 
 --
 -- returns if a given fileNamePath exists
@@ -198,8 +197,8 @@ end
 end
 
 -- create a lock file
-finFileNamePath=os.getenv("tmp")..dirSep().."projectName"..".fin"
-lockFileNamePath=os.getenv("tmp")..dirSep().."projectName"..".lock"
+finFileNamePath=os.getenv("tmp")..dirSep()..projectName..".fin"
+lockFileNamePath=os.getenv("tmp")..dirSep()..projectName..".lock"
 
 os.remove(finFileNamePath)
 lockFile=io.open(lockFileNamePath,"w")
@@ -213,8 +212,8 @@ appendCTags({},cTagsFilePath,projectName,true)
 
 -- create the fin file
 os.remove(lockFileNamePath)
-lockFile=io.open(lockFileNamePath,"w")
-lockFile= io.output(lockFileNamePath)
-io.output(lockFile) 
+finFile=io.open(finFileNamePath,"w")
+finFile= io.output(finFileNamePath)
+io.output(finFile) 
 io.write(tostring(os.date))
-io.close(lockFile)
+io.close(finFile)
