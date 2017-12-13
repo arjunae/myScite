@@ -4,11 +4,19 @@
 
 local ctagsLock
 
-function HandleProject(init)
+--~~~~~~~~~~~~~~~~~~~
+--
+-- returns if a given fileNamePath exists
+--
+local function file_exists(name)
+   local f=io.open(name,"r")
+   if f~=nil then io.close(f) return true else return false end
+end
+--~~~~~~~~~~~~~~~~~~~
 --
 -- handle Project Folders (ctags, Autocomplete & highlitening)
 --
-
+function HandleProject(init)
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		props["project.path"] = props["SciteDirectoryHome"]
 		props["project.ctags.apipath"]=props["project.path"]..dirSep.."cTags.api"
@@ -21,9 +29,37 @@ function HandleProject(init)
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function UpdateProps()
+		projectEXT="*.cxx"
+		--props["file.patterns.project"]
 
+    if file_exists(props["project.path"].."\\ctags.properties") then
+        for entry in io.lines(props["project.path"].."\\ctags.properties") do
+        prop,value=entry:match("([%w_]+)%s?=(.*)") 
+        if prop=="cTagClasses" then props["substylewords.11.20."..projectEXT] = value end
+        if prop=="cTagModules" then props["substylewords.11.18."..projectEXT] = value end
+        if prop=="cTagFunctions" then props["substylewords.11.17."..projectEXT] = value end
+        if prop=="cTagNames" then props["substylewords.11.16."..projectEXT]= value end      
+        if prop=="cTagENUMs" then props["substylewords.11.19."..projectEXT]= value end             
+        if prop=="cTagOthers" then props["substylewords.11.15."..projectEXT] = value end   
+        end
+    end
+		
+		local currentLexer=props["Language"]
+		props["substyles."..currentLexer..".11"]=20
+
+		props["style."..currentLexer..".11.15"]=props["colour.project.enums"]    
+		props["style."..currentLexer..".11.16"]=props["colour.project.constants"]
+		props["style."..currentLexer..".11.17"]=props["colour.project.functions"]
+		props["style."..currentLexer..".11.18"]=props["colour.project.modules"]
+		props["style."..currentLexer..".11.19"]=props["colour.project.enums"]
+		props["style."..currentLexer..".11.20"]=props["colour.project.class"]
+		
+	scite.MenuCommand(IDM_SAVE)  -- reload props, todo: implement IDM_RELOAD_PROPERTIES
+
+end
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function ProjectOnDwell()
-
 	if ctagsLock==false or not props["project.path"] then return end	
 
 	--print("ProjectOnDwell: cTagsLock",ctagsLock,"inProject",inProject)	
@@ -43,27 +79,11 @@ function ProjectOnDwell()
 	--print(props["colour.project.enums"] ,props["file.patterns.project"],props["APIPath"])
 	--print(props["project.cTagFunctions"])
 
+		--Now Expose the functions collected by cTags for syntax highlitening a Projects API      
+		--todo use a nice Helper! 
 		if origApiPath==nil then origApiPath=props["APIPath"] end
 		props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]
-
-		--Now Expose the functions collected by cTags for syntax highlitening a Projects API      
-		local currentLexer=props["Language"]
-		props["substyles."..currentLexer..".11"]=20
-		props["substylewords.11.15."..projectEXT] = "$(project.cTagOthers)"
-		props["substylewords.11.16."..projectEXT] = "$(project.cTagNames)"
-		props["substylewords.11.17."..projectEXT] = "$(project.cTagFunctions)"
-		props["substylewords.11.18."..projectEXT] = "$(project.cTagModules)"
-		props["substylewords.11.19."..projectEXT] = "$(project.cTagENUMs)"
-		props["substylewords.11.20."..projectEXT] = "$(project.cTagClass)"
-
-		props["style."..currentLexer..".11.15"]=props["colour.project.enums"]    
-		props["style."..currentLexer..".11.16"]=props["colour.project.constants"]
-		props["style."..currentLexer..".11.17"]=props["colour.project.functions"]
-		props["style."..currentLexer..".11.18"]=props["colour.project.modules"]
-		props["style."..currentLexer..".11.19"]=props["colour.project.enums"]
-		props["style."..currentLexer..".11.20"]=props["colour.project.class"]
-		
-	scite.MenuCommand(IDM_SAVE)  -- reload props, todo: implement IDM_RELOAD_PROPERTIES
+		UpdateProps()
 	end
 	finFile=nil
 

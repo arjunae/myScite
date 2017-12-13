@@ -189,25 +189,39 @@ end
     -- Append Once to filetypes api path
     projectEXT=props["file.patterns.project"]
     if origApiPath==nil then origApiPath=props["APIPath"] end
-    props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]  -- todo: platform independent dirSep replacement
+    props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]
 
     --Now Expose the functions collected by cTags for syntax highlitening a Projects API      
     local currentLexer=props["Language"]
-    props["substyles."..currentLexer..".11"]=20
-    props["substylewords.11.15."..projectEXT] = cTagOthers
-    props["substylewords.11.16."..projectEXT] = cTagNames
-    props["substylewords.11.17."..projectEXT] = cTagFunctions
-    props["substylewords.11.18."..projectEXT] = cTagModules
-    props["substylewords.11.19."..projectEXT] = cTagENUMs
-    props["substylewords.11.20."..projectEXT] = cTagClass
+    if file_exists(props["project.path"].."\\ctags.properties") then
+        for entry in io.lines(props["project.path"].."\\ctags.properties") do
+            prop,value=entry:match("([%w_]+)%s?=(.*)") 
+            if prop=="cTagClasses" then props["substylewords.11.20."..projectEXT] = value end
+            if prop=="cTagModules" then props["substylewords.11.18."..projectEXT] = value end
+            if prop=="cTagFunctions" then props["substylewords.11.17."..projectEXT] = value end
+            if prop=="cTagNames" then props["substylewords.11.16."..projectEXT]= value end      
+            if prop=="cTagENUMs" then props["substylewords.11.19."..projectEXT]= value end             
+            if prop=="cTagOthers" then props["substylewords.11.15."..projectEXT] = value end   
+        end
+    else
+        props["substyles."..currentLexer..".11"]=20
+        props["substylewords.11.15."..projectEXT] = cTagOthers
+        props["substylewords.11.16."..projectEXT] = cTagNames
+        props["substylewords.11.17."..projectEXT] = cTagFunctions
+        props["substylewords.11.18."..projectEXT] = cTagModules
+        props["substylewords.11.19."..projectEXT] = cTagENUMs
+        props["substylewords.11.20."..projectEXT] = cTagClass        
+    end
     
-    props["style."..currentLexer..".11.15"]=props["colour.project.enums"]    
-    props["style."..currentLexer..".11.16"]=props["colour.project.constants"]
-    props["style."..currentLexer..".11.17"]=props["colour.project.functions"]
-    props["style."..currentLexer..".11.18"]=props["colour.project.modules"]
-    props["style."..currentLexer..".11.19"]=props["colour.project.enums"]
-    props["style."..currentLexer..".11.20"]=props["colour.project.class"]
-
+		local currentLexer=props["Language"]
+		props["substyles."..currentLexer..".11"]=20
+		props["style."..currentLexer..".11.15"]=props["colour.project.enums"]    
+		props["style."..currentLexer..".11.16"]=props["colour.project.constants"]
+		props["style."..currentLexer..".11.17"]=props["colour.project.functions"]
+		props["style."..currentLexer..".11.18"]=props["colour.project.modules"]
+		props["style."..currentLexer..".11.19"]=props["colour.project.enums"]
+		props["style."..currentLexer..".11.20"]=props["colour.project.class"]
+		
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -221,9 +235,11 @@ end
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+-- todo: performance:  should check for / reuse an existing File
+
 function appendCTags(apiNames,cTagsFilePath,createAPIFile)
     local sysTmp=os.getenv("tmp")
-    local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" -- performance:  should we reuse an existing File ?
+    local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" 
     local cTagsUpdate=props["project.ctags.update"]
     if props["project.ctags.filename"]=="" then return apiNames end
     
@@ -248,32 +264,9 @@ function appendCTags(apiNames,cTagsFilePath,createAPIFile)
             local name =""
             local params="" -- match function parameters for Calltips
              -- "catchAll" Names for ACList Entries
-           local ACListEntry= entry:match("(~?[%w_]+)") or ""
-            -- Mark Constants and Vars (matches "[tab]d/v)  
-            local tmp = entry:match("%\"\t[dv]")   
-            if tmp=="\"\td" or tmp=="\"\tv" then 
-                name= entry:match("([%w_]+)") or ""                    
-                isConst=true
-                skipper=true
-            end   
-            -- Mark Classes & Namespaces (matches "[tab]c/n)
-            if not skipper then
-                local tmp = entry:match("%\"\t[cn]")   
-                if tmp=="\"\tc" or tmp=="\"\tn"  then 
-                    name= entry:match("([%w_]+)") or ""                    
-                    isClass=true
-                    skipper=true
-                end   
-           end     
-           -- Mark Modules (matches "[tab]m)  ...can have params too..
-            if not skipper and entry:match("%\"\tm")=="\"\tm" then 
-                strCls, name= entry:match("^([%w_]+)[%.]?([%w_]+).*")
-                if name and string.len(name)==1 then name=strCls..name end                
-                isModule=true
-                skipper=true
-            end 
+            local ACListEntry= entry:match("(~?[%w_]+)") or ""
+           
             -- Mark Functions 
-            if not skipper then
                 name= entry:match("(~?[%w_]+)") or "" 
                 patType="%/^([%s%w_:~]+ ?)" -- INTPTR
                 patClass="([%w_]+).*"   -- SciteWin (::)
@@ -282,39 +275,15 @@ function appendCTags(apiNames,cTagsFilePath,createAPIFile)
                 if  strFunc then params=params..strFunc end
                 if  strTyp then params=params..strTyp end
                 if  strClass then params=params..strClass.." =:-) " end
-                if string.len(params)>0 then skipper=true isFunction=true end
-            end
-            -- Mark ENUMS, STRUCTs, typedefs and unions (matches "[tab]g/s/t/u/e) 
-            if not skipper then
-             --   if entry:match("%\"\t[geust]")   then
-                if entry:match("%\"\t[geust]")   then
-                    name= entry:match("([%w_]+)") or ""                    
-                    isENUM=true
-                    skipper=true
-                end   
-            end
-            -- Handle Tag entries that were not tokenized before.
-            -- This should normally stay empty but can be handy for new languages.
-            local cTagOther=""
-            if not skipper and name and name..params~=lastEntry and doFullSync=="1" then
-                if string.len(name)>1 then 
-                    cTagOther= entry:match("(.*%s)") 
-                    if DEBUG==1 then print("other: "..entry) end
-                    isOther=true;
-                end
-            end
-            -- publish collected Data (dupe Checked). Prefer the className over the functionName  
+                if string.len(params)>0 then isFunction=true end
+                
+              -- publish collected Data (dupe Checked). Prefer the className over the functionName  
              if name and name..params~=lastEntry and not isfunction then  
                 ---- AutoComplete List entries
                 if not  appendMode then cTagAPI[ACListEntry]=true end
                 ----  Highlitening use String concatination, because its faster for onSave ( theres no dupe checking.)
                 if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
                 if props["project.ctags.functions"]=="1" and isFunction then cTagFunctions=cTagFunctions.." "..name  end
-                if props["project.ctags.constants"]=="1" and isConst then cTagNames=cTagNames.." "..name end
-                if props["project.ctags.modules"]=="1" and isModule then cTagModules=cTagModules.." "..name end
-                if props["project.ctags.class"]=="1" and isClass then cTagClass=cTagClass.." "..name  end
-                if props["project.ctags.enums"]=="1" and isENUM then cTagENUMs=cTagENUMs.." "..name  end
-                if props["project.ctags.others"]=="1" and isOther then cTagOthers=cTagOthers.." "..cTagOther end
                 lastname=name
                 -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=name..params
@@ -322,7 +291,6 @@ function appendCTags(apiNames,cTagsFilePath,createAPIFile)
                    if createAPIFile then io.write(lastEntry.."\n") end
                 end -- faster then using a full bulkWrite
             else
-                if DEBUG then cTagDupes= cTagDupes..cTagOther  end -- include Dupes for stats in Trace mode
                 if DEBUG==2 then print("Dupe: "..entry) end 
             end
         end
@@ -331,7 +299,7 @@ function appendCTags(apiNames,cTagsFilePath,createAPIFile)
         buffer.projectName= props["project.name"]
         props["project.ctags.update"]="0"
         
-        writeProps() -- Helper which applies the generated Data to their lexer styles
+      --  writeProps() -- Helper which applies the generated Data to their lexer styles
 
 end
 

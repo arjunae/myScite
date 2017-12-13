@@ -202,8 +202,9 @@ function OnInit()
 
 -- Event Handlers
 	scite_OnOpenSwitch(HandleProject,true)
-	--scite_OnSave(RecreateCTags)
-	--scite_OnDwellStart(ProjectOnDwell)
+	scite_OnOpenSwitch(UpdateProps)
+	scite_OnSave(RecreateCTags)
+	scite_OnDwellStart(ProjectOnDwell)
 	scite_OnOpenSwitch(StyleStuff)
 
 	

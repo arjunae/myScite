@@ -34,17 +34,17 @@ local cTagsFilePath =arg[1]
 local projectName =arg[2]
 local createAPIFile =arg[3]
 
-if not cTagsFilePath then cTagsFilePath =os.getenv(tmp)..dirSep().."ctags.tags" end
+if not cTagsFilePath then cTagsFilePath =os.getenv("tmp")..dirSep().."ctags.tags" end
 local projectFilePath=string.gsub(cTagsFilePath,"ctags.tags","")
 
 if not projectName then projectName="scite" end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
---  appendCTags(apiNames,cTagsFilePath,dryRun)
---  Parse a ctag File, write filteret tagNames to predefined Vars.
---  Takes: apiNames: table, FullyQualified cTagsFilePath, createAPIFile: optionally write Api file to tmp.
---  Returns: uniqued tagNames to given table
+--  appendCTags(apiNames,projectFilePath,projectName)
+--  Parse a ctag File, write filtered tagNames to predefined Vars.
+--  Takes: apiNames: table, FullyQualified projectFilePath, optional projectName
+--  Returns: uniqued tagNames written to apiNames
 --
 -- Optimized lua version. Gives reasonable Speed on a 100k source and 1M cTags File. 
 --
@@ -60,7 +60,7 @@ function appendCTags(apiNames,projectFilePath,projectName)
     local doFullSync="0"
     
     if file_exists(cTagsFilePath) then
-    if DEBUG>=1 then print("ac>appendCtags" ,cTagsFilePath,apiFilePath) end     
+    if DEBUG>=1 then print("ac>appendCtags" ,cTagsFilePath,projectName) end     
     
         local lastEntry=""
         local cTagsFile= io.open(cTagsAPIPath,"w")
@@ -155,10 +155,8 @@ function appendCTags(apiNames,projectFilePath,projectName)
         end
      
         io.close(cTagsFile)
+        writeProps(projectName, projectFilePath) --> Let a Helper apply the generated Data.
         cTagsUpdate="0"
-        
-        writeProps(projectName, projectFilePath) -- Helper which applies the generated Data to their lexer styles
-
 end
 
     -- cTagsUpdate=0 so already done.  Using the cached Version
@@ -168,37 +166,39 @@ end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
--- writeProps()
+-- writeProps(projectName, projectFilePath)
 -- publish cTag extrapolated Api Data -
 -- reads above cTag.* vars
 -- write them to SciTEs properties
--- probably should return something useful
+-- probably should return something useful.
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function writeProps(projectName, projectFilePath)
-
-if DEBUG>=1 then
-    print("ac>writeProps:")
-    print("ac> cTagNames: ("..string.len(cTagNames).." bytes)" )
-    print("ac> cTagClass: ("..string.len(cTagClass).." bytes)" )
-    print("ac> cTagModules: ("..string.len(cTagModules).." bytes)" )  
-    print("ac> cTagFunctions: ("..string.len(cTagFunctions).." bytes)" )
-    print("ac> cTagENUMs ("..string.len(cTagENUMs).." bytes)" )
-    print("ac> cTagOthers ("..string.len(cTagOthers).." bytes)" )
-    print("ac> cTagDupes ("..string.len(cTagDupes).." bytes)" )
-end
-
+    
+-- write whats we got until here.
     propFile=io.open(projectFilePath.."ctags.properties","w")
     propFile= io.output(propFile)
     io.output(propFile) 
-    io.write("project.cTagClasses="..cTagClass.."\n")
-    io.write("project.cTagModules="..cTagModules.."\n") 
-    io.write("project.cTagFunctions="..cTagFunctions.."\n") 
-    io.write("project.cTagNames="..cTagNames.."\n")
-    io.write("project.cTagENUMs="..cTagENUMs.."\n")
     io.write("project.cTagOthers="..cTagOthers.."\n") 
+    io.write("project.cTagENUMs="..cTagENUMs.."\n")     
+    io.write("project.cTagNames="..cTagNames.."\n")
+    io.write("project.cTagFunctions="..cTagFunctions.."\n") 
+    io.write("project.cTagModules="..cTagModules.."\n")   
+    io.write("project.cTagClasses="..cTagClass.."\n")
+    
     io.close(propFile)
-
+    
+-- Show some stats
+    if DEBUG>=1 then
+        print("ac>writeProps:")
+        print("ac> cTagENUMs ("..string.len(cTagENUMs).." bytes)" )
+        print("ac> cTagNames: ("..string.len(cTagNames).." bytes)" )
+        print("ac> cTagFunctions: ("..string.len(cTagFunctions).." bytes)" )
+        print("ac> cTagModules: ("..string.len(cTagModules).." bytes)" )  
+        print("ac> cTagClass: ("..string.len(cTagClass).." bytes)" )
+        print("ac> cTagOthers ("..string.len(cTagOthers).." bytes)" )
+        print("ac> cTagDupes ("..string.len(cTagDupes).." bytes)" )
+    end
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
