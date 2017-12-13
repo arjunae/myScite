@@ -1,7 +1,7 @@
 
 --
 -- base Module, initialize Project Suport for SciTE
--- todo: implement IDM_RELOAD_PROPERTIES
+-- todo: implement IDM_RELOAD_PROPERTIES || Scite.UpdateProps
 --
 
 local ctagsLock --true during writing to the projects ctags and properties files 
@@ -44,9 +44,9 @@ end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function UpdateProps()
 	if ctagsLock==true or not props["project.path"] then return end	
-	projectEXT="*.cxx"
-	--props["file.patterns.project"]
-
+	projectEXT=props["file.patterns.project"]
+	
+	-- Propagate the Data
 	if file_exists(props["project.path"].."\\ctags.properties") then
 		for entry in io.lines(props["project.path"].."\\ctags.properties") do
 			prop,value=entry:match("([%w_]+)%s?=(.*)") 
@@ -59,6 +59,7 @@ function UpdateProps()
 		end
 	end
 	
+	-- Define the Styles for aboves Types
 	local currentLexer=props["Language"]
 	props["substyles."..currentLexer..".11"]=20
 
@@ -88,21 +89,13 @@ function ProjectOnDwell()
 	if finFile~=nil then 
 		io.close(finFile)
 		ctagsLock=false
-	--	print("...generating CTags finished",ctagsLock) 
 		os.remove(finFileNamePath)
-
-		-- Append ctag APIdata Once to filetypes api path
-		projectEXT="*.cxx"
-		--props["file.patterns.project"]
-	
-	--print(props["colour.project.enums"] ,props["file.patterns.project"],props["APIPath"])
-	--print(props["project.cTagFunctions"])
-
-		--Now Expose the functions collected by cTags for syntax highlitening a Projects API      
-		--todo use a nice Helper! 
+		-- Append ctag APIdata Once to filetypes api path and properties -->todo use a nice Helper! 
+		projectEXT=props["file.patterns.project"]
 		if origApiPath==nil then origApiPath=props["APIPath"] end
 		props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]
 		UpdateProps()
+		-- print("...generating CTags finished",ctagsLock) 
 	end
 	finFile=nil
 
