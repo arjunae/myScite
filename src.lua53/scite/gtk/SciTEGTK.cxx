@@ -102,6 +102,7 @@ static GdkWindow *WindowFromWidget(GtkWidget *w) {
 	return gtk_widget_get_window(w);
 }
 
+
 const char appName[] = "SciTE";
 
 static GtkWidget *PWidget(GUI::Window &w) {

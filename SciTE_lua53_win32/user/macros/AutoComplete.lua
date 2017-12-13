@@ -207,7 +207,7 @@ end
     props["style."..currentLexer..".11.18"]=props["colour.project.modules"]
     props["style."..currentLexer..".11.19"]=props["colour.project.enums"]
     props["style."..currentLexer..".11.20"]=props["colour.project.class"]
-        
+
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~

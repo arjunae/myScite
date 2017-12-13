@@ -3942,12 +3942,12 @@ RECTFromRectangle	scite\win32\Strips.cxx	/^RECT RECTFromRectangle(GUI::Rectangle
 REF	scintilla\src\RESearch.cxx	229;"	d	file:
 RESEARCH_H	scintilla\src\RESearch.h	10;"	d
 RESERVED	scite\lua\src\llex.h	/^enum RESERVED {$/;"	g
-RESPONSE_CONVERT	scite\gtk\SciTEGTK.cxx	2881;"	d	file:
-RESPONSE_MARK_ALL	scite\gtk\SciTEGTK.cxx	3030;"	d	file:
-RESPONSE_REPLACE	scite\gtk\SciTEGTK.cxx	3031;"	d	file:
-RESPONSE_REPLACE_ALL	scite\gtk\SciTEGTK.cxx	3032;"	d	file:
-RESPONSE_REPLACE_IN_BUFFERS	scite\gtk\SciTEGTK.cxx	3034;"	d	file:
-RESPONSE_REPLACE_IN_SELECTION	scite\gtk\SciTEGTK.cxx	3033;"	d	file:
+RESPONSE_CONVERT	scite\gtk\SciTEGTK.cxx	2884;"	d	file:
+RESPONSE_MARK_ALL	scite\gtk\SciTEGTK.cxx	3033;"	d	file:
+RESPONSE_REPLACE	scite\gtk\SciTEGTK.cxx	3034;"	d	file:
+RESPONSE_REPLACE_ALL	scite\gtk\SciTEGTK.cxx	3035;"	d	file:
+RESPONSE_REPLACE_IN_BUFFERS	scite\gtk\SciTEGTK.cxx	3037;"	d	file:
+RESPONSE_REPLACE_IN_SELECTION	scite\gtk\SciTEGTK.cxx	3036;"	d	file:
 RESearch	scintilla\src\RESearch.cxx	/^RESearch::RESearch(CharClassify *charClassTable) {$/;"	f	class:RESearch	signature:(CharClassify *charClassTable)
 RESearch	scintilla\src\RESearch.h	/^class RESearch {$/;"	c	namespace:Scintilla
 RESearchRange	scintilla\src\Document.cxx	/^	RESearchRange(const Document *doc_, Sci::Position minPos, Sci::Position maxPos) : doc(doc_) {$/;"	f	class:__anon89::RESearchRange	access:public	signature:(const Document *doc_, Sci::Position minPos, Sci::Position maxPos)
@@ -5921,14 +5921,14 @@ SCITEKEYS_H	scite\src\SciTEKeys.h	9;"	d
 SCITE_DROP	scite\win32\SciteWin.h	/^const int SCITE_DROP = WM_APP + 1;$/;"	v
 SCITE_H	scite\src\SciTE.h	9;"	d
 SCITE_SHOWOUTPUT	scite\win32\SciteWin.h	/^const int SCITE_SHOWOUTPUT = WM_APP + 3;$/;"	v
-SCITE_STOCK_CANCEL	scite\gtk\SciTEGTK.cxx	1517;"	d	file:
-SCITE_STOCK_CANCEL	scite\gtk\SciTEGTK.cxx	1522;"	d	file:
-SCITE_STOCK_OK	scite\gtk\SciTEGTK.cxx	1520;"	d	file:
-SCITE_STOCK_OK	scite\gtk\SciTEGTK.cxx	1525;"	d	file:
-SCITE_STOCK_OPEN	scite\gtk\SciTEGTK.cxx	1518;"	d	file:
-SCITE_STOCK_OPEN	scite\gtk\SciTEGTK.cxx	1523;"	d	file:
-SCITE_STOCK_SAVE	scite\gtk\SciTEGTK.cxx	1519;"	d	file:
-SCITE_STOCK_SAVE	scite\gtk\SciTEGTK.cxx	1524;"	d	file:
+SCITE_STOCK_CANCEL	scite\gtk\SciTEGTK.cxx	1520;"	d	file:
+SCITE_STOCK_CANCEL	scite\gtk\SciTEGTK.cxx	1525;"	d	file:
+SCITE_STOCK_OK	scite\gtk\SciTEGTK.cxx	1523;"	d	file:
+SCITE_STOCK_OK	scite\gtk\SciTEGTK.cxx	1528;"	d	file:
+SCITE_STOCK_OPEN	scite\gtk\SciTEGTK.cxx	1521;"	d	file:
+SCITE_STOCK_OPEN	scite\gtk\SciTEGTK.cxx	1526;"	d	file:
+SCITE_STOCK_SAVE	scite\gtk\SciTEGTK.cxx	1522;"	d	file:
+SCITE_STOCK_SAVE	scite\gtk\SciTEGTK.cxx	1527;"	d	file:
 SCITE_TRAY	scite\win32\SciteWin.h	/^const int SCITE_TRAY = WM_APP + 0;$/;"	v
 SCITE_WORKER	scite\win32\SciteWin.h	/^const int SCITE_WORKER = WM_APP + 2;$/;"	v
 SCI_ADDREFDOCUMENT	scintilla\include\Scintilla.h	698;"	d
@@ -8464,6 +8464,7 @@ WindowCopyData	scite\win32\UniqueInstance.cxx	/^void UniqueInstance::WindowCopyD
 WindowFromWidget	scintilla\gtk\PlatGTK.cxx	/^static GdkWindow *WindowFromWidget(GtkWidget *w) {$/;"	f	file:	signature:(GtkWidget *w)
 WindowFromWidget	scintilla\gtk\ScintillaGTK.cxx	/^static GdkWindow *WindowFromWidget(GtkWidget *w) {$/;"	f	file:	signature:(GtkWidget *w)
 WindowFromWidget	scite\gtk\SciTEGTK.cxx	/^static GdkWindow *WindowFromWidget(GtkWidget *w) {$/;"	f	file:	signature:(GtkWidget *w)
+WindowFwromWidget	scite\gtk\SciTEGTK.cxx	/^static GdkWindow *WindowFwromWidget(GtkWidget *w) {$/;"	f	file:	signature:(GtkWidget *w)
 WindowID	scintilla\include\Platform.h	/^typedef void *WindowID;$/;"	t	namespace:Scintilla
 WindowID	scite\src\GUI.h	/^typedef void *WindowID;$/;"	t	namespace:GUI
 WindowMessageBox	scite\gtk\SciTEGTK.cxx	/^SciTEBase::MessageBoxChoice SciTEGTK::WindowMessageBox(GUI::Window &w, const GUI::gui_string &msg, MessageBoxStyle style) {$/;"	f	class:SciTEGTK	signature:(GUI::Window &w, const GUI::gui_string &msg, MessageBoxStyle style)

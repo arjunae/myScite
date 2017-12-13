@@ -2,6 +2,7 @@
 --
 -- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
 --
+--~~~~~~~~~~~~~
 
 -- Windows requires this for us to immediately see all lua output.
 io.stdout:setvbuf("no")
@@ -39,6 +40,8 @@ dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 
 -- Load cTags Browser
 dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
+
+dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -190,74 +193,19 @@ function TestSciLexer(origHash)
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function HandleProject()
---
--- handle Project Folders (ctags, Autocomplete & highlitening)
---
-
-	if props["SciteDirectoryHome"] ~= props["FileDir"] then
-		props["project.path"] = props["SciteDirectoryHome"]
-		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
-		buffer.projectName= props["project.name"]
-	else
-		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
-	end
-	dofile(myHome..'\\macros\\AutoComplete.lua')
-end
-
--- Register the Autocomplete event Handlers early.
-HandleProject()
-
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-function AppendNewCTags()
---
--- Search the File for new CTags and append them.
---
-
-	if props["project.name"]~="" and props["file.patterns.project"]:match(props["FileExt"])~=nil then
-		ctagsBin=props["project.ctags.bin"]
-		ctagsOpt=props["project.ctags.opt"]
-		ctagsFP= props["project.ctags.filepath"]
-		ctagsTMP="\""..os.getenv("tmp")..dirSep..props["project.name"]..".session.ctags\""
-
-		os.remove(os.getenv("tmp")..dirSep.."*.session.ctags")
-		if ctagsBin and ctagsOpt and ctagsFP then 
-			ctagsCMD=ctagsBin.." -f "..ctagsTMP.." "..ctagsOpt.." "..props["FilePath"] 
-
-			if props["project.ctags.save_applies"]=="1" then
-				 -- also do a full refresh to the project file in a background task
-				ctagsCMD=ctagsBin.." -f "..ctagsFP.." "..ctagsOpt
-				local pipe=scite_Popen(ctagsCMD)
-				--local tmp= pipe:read('*a') -- synchronous -waits for the Command to complete
-				
-				-- periodically check if ctags refresh has been finished.
-				scite_OnDwellStart(function()
-					finFileNamePath=os.getenv("tmp")..dirSep.."scite"..".fin"
-					local finFile=io.open(finFileNamePath,"r")
-					if finFile~=nil then 
-						io.close(finFile)
-							print("...generating CTags finished") 
-						os.remove(finFileNamePath)
-					end
-					finFile=nil
-				end)
-			end
-		end
-	end	
-		
-end
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 function OnInit() 
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
-
-	scite_OnOpenSwitch(HandleProject)
-	scite_OnSave(AppendNewCTags)
+	
 	TestSciLexer("4601a2ac") -- SciLexers CRC32 Hash for the current Version
+
+-- Event Handlers
+	scite_OnOpenSwitch(HandleProject,true)
+	--scite_OnSave(RecreateCTags)
+	--scite_OnDwellStart(ProjectOnDwell)
 	scite_OnOpenSwitch(StyleStuff)
+
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	

@@ -1,15 +1,9 @@
 --
--- todo: should write a scite prop and api file
---todo: compile
+-- creates a SciTE .properties and .api file
+-- containing translated ctags
+-- todo: compile?
 --
 local DEBUG=1 --1: Trace Mode 2: Verbose Mode
-
---
--- Deal with different Path Separators o linux/win
---
-local function dirSep()
-        return("\\")
-end
 
 cTagAPI={} -- projectAPI functions(param)
 local cTagNames=""
@@ -20,15 +14,12 @@ local cTagENUMs=""
 local cTagOthers=""
 local cTagDupes=""
 
--- read args
-local cTagsFilePath =arg[1]
-local projectName =arg[2]
-local createAPIFile =arg[3]
-
-if not cTagsFilePath then cTagsFilePath ="D:\\projects\\_myScite\\_myScite.github\\src.lua53\\ctags.tags" end
-local projectFilePath=string.gsub(cTagsFilePath,"ctags.tags","")
-
-if not projectName then projectName="scite" end
+--
+-- Deal with different Path Separators o linux/win
+--
+local function dirSep()
+        return("\\")
+end
 
 --
 -- returns if a given fileNamePath exists
@@ -37,6 +28,16 @@ local function file_exists(name)
    local f=io.open(name,"r")
    if f~=nil then io.close(f) return true else return false end
 end
+
+-- read args
+local cTagsFilePath =arg[1]
+local projectName =arg[2]
+local createAPIFile =arg[3]
+
+if not cTagsFilePath then cTagsFilePath =os.getenv("tmp")..dirSep().."ctags.tags" end
+local projectFilePath=string.gsub(cTagsFilePath,"ctags.tags","")
+
+if not projectName then projectName="scite" end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
@@ -156,13 +157,14 @@ function appendCTags(apiNames,projectFilePath,projectName)
         io.close(cTagsFile)
         cTagsUpdate="0"
         
-        writeProps(projectFilePath) -- Helper which applies the generated Data to their lexer styles
+        writeProps(projectName, projectFilePath) -- Helper which applies the generated Data to their lexer styles
 
 end
 
     -- cTagsUpdate=0 so already done.  Using the cached Version
     return cTagAPI  
 end
+
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
@@ -173,7 +175,7 @@ end
 -- probably should return something useful
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function writeProps(projectFilePath)
+function writeProps(projectName, projectFilePath)
 
 if DEBUG>=1 then
     print("ac>writeProps:")
@@ -189,15 +191,17 @@ end
     propFile=io.open(projectFilePath.."ctags.properties","w")
     propFile= io.output(propFile)
     io.output(propFile) 
-    io.write("projectName.cTagClasses="..cTagClass.."\n")
-    io.write("projectName.cTagModules="..cTagModules.."\n") 
-    io.write("projectName.cTagFunctions="..cTagFunctions.."\n") 
-    io.write("projectName.cTagNames="..cTagNames.."\n")
-    io.write("projectName.cTagENUMs="..cTagENUMs.."\n")
-    io.write("projectName.cTagOthers="..cTagOthers.."\n") 
+    io.write("project.cTagClasses="..cTagClass.."\n")
+    io.write("project.cTagModules="..cTagModules.."\n") 
+    io.write("project.cTagFunctions="..cTagFunctions.."\n") 
+    io.write("project.cTagNames="..cTagNames.."\n")
+    io.write("project.cTagENUMs="..cTagENUMs.."\n")
+    io.write("project.cTagOthers="..cTagOthers.."\n") 
     io.close(propFile)
 
 end
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- create a lock file
 finFileNamePath=os.getenv("tmp")..dirSep().."project.ctags.fin"
