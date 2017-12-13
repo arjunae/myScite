@@ -91,9 +91,9 @@ function ProjectOnDwell()
 		ctagsLock=false
 		os.remove(finFileNamePath)
 		-- Append ctag APIdata Once to filetypes api path and properties -->todo use a nice Helper! 
-		projectEXT=props["file.patterns.project"]
-		if origApiPath==nil then origApiPath=props["APIPath"] end
-		props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]
+		--projectEXT=props["file.patterns.project"]
+		--if origApiPath==nil then origApiPath=props["APIPath"] end
+		--props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]
 		UpdateProps()
 		-- print("...generating CTags finished",ctagsLock) 
 	end

@@ -174,14 +174,15 @@ local cTagFunctions=""
 function appendCTags(apiNames,cTagsFilePath)
     local sysTmp=os.getenv("tmp")
     --local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" 
-    local cTagsAPIPath=props["project.path"].."ctags.api" 
+    local cTagsAPIPath=props["project.path"]..dirSep().."ctags.api"
+    props["project.ctags.apipath"]=cTagsAPIPath    
     local cTagsUpdate=props["project.ctags.update"]
     if props["project.ctags.filename"]=="" then return apiNames end
     
-    if (file_exists(cTagsFilePath))  and (cTagsUpdate=="1") then
-    --and not (file_exists(cTagsAPIPath))
-    if DEBUG>=1 then print("ac>appendCtags" ,cTagsFilePath, short) end     
-        props["project.ctags.apipath"]=cTagsAPIPath
+    if (file_exists(cTagsFilePath))  and (cTagsUpdate=="1")  and not (file_exists(cTagsAPIPath)) then
+
+        if DEBUG>=1 then print("ac>appendCtags" ,cTagsFilePath, short) end     
+        
         local lastEntry=""
         local cTagsFile= io.open(cTagsAPIPath,"w")
         io.output(cTagsFile)   -- projects cTags APICalltips file
@@ -231,14 +232,17 @@ function appendCTags(apiNames,cTagsFilePath)
         props["project.ctags.update"]="0"
 
     end
+    
     -- Append Once to filetypes api path
-
+    -- todo:  also need to update the completition list 
+    local origApiPath
     if props["project.path"] then
         projectEXT=props["file.patterns.project"]
-        if origApiPath==nil then origApiPath=props["APIPath"] end
-        props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]  -- todo: platform independent dirSep replacement
+        if origApiPath==nil then 
+            origApiPath=props["APIPath"]
+            props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]  -- todo: platform independent dirSep replacement
+        end
     end
-
     return cTagAPI     -- cTagsUpdate=0 so already done.  Using the cached Version 
 end
 
