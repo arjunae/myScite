@@ -173,13 +173,14 @@ local cTagFunctions=""
 
 function appendCTags(apiNames,cTagsFilePath)
     local sysTmp=os.getenv("tmp")
-    local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" 
+    --local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" 
+    local cTagsAPIPath=props["project.path"].."ctags.api" 
     local cTagsUpdate=props["project.ctags.update"]
     if props["project.ctags.filename"]=="" then return apiNames end
     
-    if file_exists(cTagsFilePath)  and (cTagsUpdate=="1" ) then
+    if (file_exists(cTagsFilePath))  and (cTagsUpdate=="1") then
+    --and not (file_exists(cTagsAPIPath))
     if DEBUG>=1 then print("ac>appendCtags" ,cTagsFilePath, short) end     
-    
         props["project.ctags.apipath"]=cTagsAPIPath
         local lastEntry=""
         local cTagsFile= io.open(cTagsAPIPath,"w")
@@ -228,10 +229,17 @@ function appendCTags(apiNames,cTagsFilePath)
         io.close(cTagsFile)
         buffer.projectName= props["project.name"]
         props["project.ctags.update"]="0"
+
+    end
+    -- Append Once to filetypes api path
+
+    if props["project.path"] then
+        projectEXT=props["file.patterns.project"]
+        if origApiPath==nil then origApiPath=props["APIPath"] end
+        props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]  -- todo: platform independent dirSep replacement
     end
 
-    -- cTagsUpdate=0 so already done.  Using the cached Version
-    return cTagAPI  
+    return cTagAPI     -- cTagsUpdate=0 so already done.  Using the cached Version 
 end
 
 --
@@ -527,7 +535,7 @@ local events = {
         editor:Colourise(0, editor.Length)
         -- Then do the real work.
         buffer.dirty=true
-        if props["project.ctags.update"]=="" then props["project.ctags.update"]="1" end
+        if props["project.ctags.update"]==""  then props["project.ctags.update"]="1" end
         buildNames()
 
     end
