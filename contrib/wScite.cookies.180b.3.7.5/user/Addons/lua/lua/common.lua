@@ -7,6 +7,32 @@
 -- Custom Common Functions --
 ------------------------------------------
 
+--
+-- Deal with different Path Separators o linux/win
+--
+local function dirSep()
+if props["PLAT_WIN"] then
+    return("\\")
+else
+    return("/")
+end
+end
+
+--------------------------
+-- returns the size of a given file.
+--------------------------
+function file_size (filePath)
+    if  filePath ~=""  then 
+        local myFile,err=io.open(filePath,"r")
+        local size = myFile:seek("end")    -- get file size
+        myFile:close()
+        return size
+    else
+        return 0
+    end
+	if err then print (err) end
+end
+
 --------------------------
 -- ????
 --------------------------

@@ -166,7 +166,7 @@ function appendCTags(apiNames,cTagsFilePath)
 
     -- Append Once to filetypes api path
     if type(CTagsUpdateProps)=="function" then
-        if props["project.path"] then 
+        if file_exists(props["project.ctags.propspath"])  then 
             apiNames=CTagsUpdateProps(false) 
              if DEBUG==2 then
                     for name in pairs(apiNames) do

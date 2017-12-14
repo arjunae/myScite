@@ -29,23 +29,28 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 -- Load mod-mitchell 
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 --dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
-
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--~~~~~~~~~~~~~~~~~~~
 --
--- handle Project Folders (ctags, Autocomplete & highlitening)
+-- handle Project Folders
+-- (ctags, Autocomplete & highlitening)
 --
+--~~~~~~~~~~~~~~~~~~~
+local function SetProjectEnv(init)
 
-if props["SciteDirectoryHome"] ~= props["FileDir"] then
-	props["project.path"] = props["SciteDirectoryHome"]
-	props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
-	props["project.ctags.apipath"]=os.getenv("tmp")..dirSep..props["project.name"].."_cTags.api"
-	buffer.projectName= props["project.name"]
-else
-	props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1 
+	if props["SciteDirectoryHome"] ~= props["FileDir"] then
+		props["project.path"] = props["SciteDirectoryHome"]
+		props["project.ctags.filename"]="ctags.tags"
+		props["project.ctags.apipath"]=props["project.path"].."\\"..props["project.ctags.filename"]..".api"
+		props["project.ctags.propspath"]=props["project.path"].."\\"..props["project.ctags.filename"]..".properties"
+		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
+		buffer.projectName= props["project.name"]
+	else
+		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1
+	end
+	
+	if init then dofile(myHome..'\\macros\\AutoComplete.lua') end
 end
-
--- Load enhanced Autocomplete
-dofile(myHome..'\\macros\\AutoComplete.lua')
+SetProjectEnv(true)
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
@@ -160,6 +165,8 @@ end
 	scite_OnOpenSwitch(markLinks)
 	scite_OnOpenSwitch(markeMail)
 	scite_OnOpenSwitch(markGUID)
+	scite_OnOpenSwitch(SetProjectEnv,true)
+	
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 --print("startupScript_reload")

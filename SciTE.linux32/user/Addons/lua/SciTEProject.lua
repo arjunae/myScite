@@ -71,7 +71,7 @@ local appendMode=true
 	projectEXT=props["file.patterns.project"]
 	
 	-- Propagate the Data, appends if required
-	if file_exists(props["project.ctags.propspath"]) and (not cTagList or appendMode) or (theForceMightBeWithYou) then
+	if file_exists(props["project.ctags.propspath"]) and (not cTagList or appendMode) or (theForceMightBeWithYou==true) then
 	cTagList={}
 		for entry in io.lines(props["project.ctags.propspath"]) do
 			prop,names=entry:match("([%w_.]+)%s?=(.*)") 
