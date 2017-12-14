@@ -160,7 +160,9 @@ AppendText	scite\gtk\Widget.cxx	/^void WComboBoxEntry::AppendText(const char *te
 ApplyStep	scintilla\src\Partitioning.h	/^	void ApplyStep(int partitionUpTo) {$/;"	f	class:Scintilla::Partitioning	access:private	signature:(int partitionUpTo)
 ArrayFromStringList	scite\src\StringList.cxx	/^static std::vector<char *> ArrayFromStringList(char *stringList, bool onlyLineEnds = false) {$/;"	f	file:	signature:(char *stringList, bool onlyLineEnds = false)
 ArrayFromWordList	scintilla\lexlib\WordList.cxx	/^static char **ArrayFromWordList(char *wordlist, int *len, bool onlyLineEnds = false) {$/;"	f	file:	signature:(char *wordlist, int *len, bool onlyLineEnds = false)
+AsInternal	scite\src\FilePath.cxx	/^const GUI::gui_char *FilePath::AsInternal() const {$/;"	f	class:FilePath	signature:() const
 AsLong	scintilla\include\Platform.h	/^	long AsLong() const {$/;"	f	class:Scintilla::ColourDesired	access:public	signature:() const
+AsUTF8	scite\src\FilePath.cxx	/^std::string FilePath::AsUTF8() const {$/;"	f	class:FilePath	signature:() const
 AsVector	scite\src\StringHelpers.h	/^	std::vector<std::string>AsVector() {$/;"	f	class:EntryMemory	access:public	signature:()
 Ascent	scintilla\gtk\PlatGTK.cxx	/^XYPOSITION SurfaceImpl::Ascent(Font &font_) {$/;"	f	class:SurfaceImpl	signature:(Font &font_)
 Ascent	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^XYPOSITION SurfaceImpl::Ascent(Font &font)$/;"	f	class:Scintilla::SurfaceImpl	signature:(Font &font)
@@ -230,6 +232,7 @@ BarButtonIn	scite\win32\SciTEWinBar.cxx	/^	BarButtonIn() :id(0), cmd(0) {};$/;"	
 BarButtonIn	scite\win32\SciTEWinBar.cxx	/^	BarButtonIn(int _id, int _cmd) : id(_id), cmd(_cmd) {};$/;"	f	struct:BarButtonIn	access:public	signature:(int _id, int _cmd)
 BarButtonIn	scite\win32\SciTEWinBar.cxx	/^struct BarButtonIn {$/;"	s	file:
 Base	scintilla\lexlib\SubStyles.h	/^	int Base() const {$/;"	f	class:Scintilla::WordClassifier	access:public	signature:() const
+BaseName	scite\src\FilePath.cxx	/^FilePath FilePath::BaseName() const {$/;"	f	class:FilePath	signature:() const
 BaseStyle	scintilla\lexlib\SubStyles.h	/^	int BaseStyle(int subStyle) const {$/;"	f	class:Scintilla::SubStyles	access:public	signature:(int subStyle) const
 BaseWin	scite\gtk\Widget.h	/^	BaseWin() : localiser(0) {$/;"	f	class:BaseWin	access:public	signature:()
 BaseWin	scite\gtk\Widget.h	/^class BaseWin : public GUI::Window {$/;"	c	inherits:GUI::Window
@@ -994,6 +997,7 @@ DirectorExtension	scite\win32\DirectorExtension.h	/^class DirectorExtension : pu
 DirectorExtension_ClassName	scite\win32\DirectorExtension.cxx	/^static TCHAR DirectorExtension_ClassName[] = TEXT("DirectorExtension");$/;"	v	file:
 DirectorExtension_Register	scite\win32\DirectorExtension.cxx	/^static void DirectorExtension_Register(HINSTANCE hInstance) {$/;"	f	file:	signature:(HINSTANCE hInstance)
 DirectorExtension_WndProc	scite\win32\DirectorExtension.cxx	/^LRESULT PASCAL DirectorExtension_WndProc($/;"	f	signature:( HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
+Directory	scite\src\FilePath.cxx	/^FilePath FilePath::Directory() const {$/;"	f	class:FilePath	signature:() const
 DiscardOverdraw	scintilla\src\Editor.cxx	/^void Editor::DiscardOverdraw() {$/;"	f	class:Editor	signature:()
 DiscoverEOLSetting	scite\src\SciTEIO.cxx	/^void SciTEBase::DiscoverEOLSetting() {$/;"	f	class:SciTEBase	signature:()
 DiscoverIndentSetting	scite\src\SciTEIO.cxx	/^void SciTEBase::DiscoverIndentSetting() {$/;"	f	class:SciTEBase	signature:()
@@ -1299,6 +1303,7 @@ Extend	scintilla\src\Selection.h	/^	void Extend(SelectionPosition p) {$/;"	f	str
 ExtendStyleRange	scintilla\src\Document.cxx	/^Sci::Position Document::ExtendStyleRange(Sci::Position pos, int delta, bool singleLine) {$/;"	f	class:Document	signature:(Sci::Position pos, int delta, bool singleLine)
 ExtendWordSelect	scintilla\src\Document.cxx	/^Sci::Position Document::ExtendWordSelect(Sci::Position pos, int delta, bool onlyWordCharacters) const {$/;"	f	class:Document	signature:(Sci::Position pos, int delta, bool onlyWordCharacters) const
 Extension	scite\src\Extender.h	/^class Extension {$/;"	c
+Extension	scite\src\FilePath.cxx	/^FilePath FilePath::Extension() const {$/;"	f	class:FilePath	signature:() const
 ExtensionAPI	scite\src\Extender.h	/^class ExtensionAPI {$/;"	c
 ExtensionFileName	scite\src\SciTEProps.cxx	/^std::string SciTEBase::ExtensionFileName() const {$/;"	f	class:SciTEBase	signature:() const
 ExternalLeading	scintilla\gtk\PlatGTK.cxx	/^XYPOSITION SurfaceImpl::ExternalLeading(Font &) {$/;"	f	class:SurfaceImpl	signature:(Font &)
@@ -1325,7 +1330,9 @@ FileFormat	scite\gtk\SciTEGTK.cxx	/^	enum FileFormat { sfSource, sfCopy, sfHTML,
 FileLoader	scite\src\FileWorker.cxx	/^FileLoader::FileLoader(WorkerListener *pListener_, ILoader *pLoader_, const FilePath &path_, size_t size_, FILE *fp_) :$/;"	f	class:FileLoader	signature:(WorkerListener *pListener_, ILoader *pLoader_, const FilePath &path_, size_t size_, FILE *fp_)
 FileLoader	scite\src\FileWorker.h	/^class FileLoader : public FileWorker {$/;"	c	inherits:FileWorker
 FileNameExt	scite\src\SciTEBase.h	/^	FilePath FileNameExt() const {$/;"	f	class:SciTEBase	access:protected	signature:() const
-FilePath	scite\src\FilePath.cxx	/^FilePath::FilePath(const GUI::gui_char *fileName_) : fileName(fileName_ ? fileName_ : GUI_TEXT("")) {$/;"	f	class:FilePath	signature:(const GUI::gui_char *fileName_)
+FilePath	scite\src\FilePath.cxx	/^FilePath::FilePath(FilePath const &directory, FilePath const &name) {$/;"	f	class:FilePath	signature:(FilePath const &directory, FilePath const &name)
+FilePath	scite\src\FilePath.cxx	/^FilePath::FilePath(const GUI::gui_char *fileName_) : fileName(fileName_ ? fileName_ : GUI_TEXT("")) {}$/;"	f	class:FilePath	signature:(const GUI::gui_char *fileName_)
+FilePath	scite\src\FilePath.cxx	/^FilePath::FilePath(const GUI::gui_string &fileName_) : fileName(fileName_) {}$/;"	f	class:FilePath	signature:(const GUI::gui_string &fileName_)
 FilePath	scite\src\FilePath.h	/^class FilePath {$/;"	c
 FilePathSet	scite\src\FilePath.h	/^typedef std::vector<FilePath> FilePathSet;$/;"	t
 FileReader	scite\src\SciTEIO.cxx	/^	FileReader(const FilePath &fPath, bool caseSensitive_) {$/;"	f	class:FileReader	access:public	signature:(const FilePath &fPath, bool caseSensitive_)
@@ -2403,6 +2410,7 @@ Init	scintilla\win32\PlatWin.cxx	/^void SurfaceD2D::Init(WindowID \/* wid *\/) {
 Init	scintilla\win32\PlatWin.cxx	/^void SurfaceGDI::Init(SurfaceID sid, WindowID) {$/;"	f	class:Scintilla::SurfaceGDI	signature:(SurfaceID sid, WindowID)
 Init	scintilla\win32\PlatWin.cxx	/^void SurfaceGDI::Init(WindowID) {$/;"	f	class:Scintilla::SurfaceGDI	signature:(WindowID )
 Init	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::Init() {$/;"	f	class:ScintillaWin	signature:()
+Init	scite\src\FilePath.cxx	/^void FilePath::Init() {$/;"	f	class:FilePath	signature:()
 Init	scite\src\SciTEBase.h	/^	void Init() {$/;"	f	class:Buffer	access:public	signature:()
 Init	scite\src\SciTEBase.h	/^	void Init() {$/;"	f	class:RecentFile	access:public	signature:()
 Init	scite\win32\UniqueInstance.cxx	/^void UniqueInstance::Init(SciTEWin *stw_) {$/;"	f	class:UniqueInstance	signature:(SciTEWin *stw_)
@@ -2505,6 +2513,7 @@ IsASpace	scite\src\StringList.cxx	/^static inline bool IsASpace(unsigned int ch)
 IsASpace	scite\win32\SciTEWin.cxx	/^static bool IsASpace(int ch) {$/;"	f	file:	signature:(int ch)
 IsASpaceCharacter	scintilla\lexlib\PropSetSimple.cxx	/^static bool IsASpaceCharacter(unsigned int ch) {$/;"	f	file:	signature:(unsigned int ch)
 IsASpaceOrTab	scintilla\lexlib\CharacterSet.h	/^inline bool IsASpaceOrTab(int ch) {$/;"	f	class:Scintilla::CharacterSet	access:public	signature:(int ch)
+IsAbsolute	scite\src\FilePath.cxx	/^bool FilePath::IsAbsolute() const {$/;"	f	class:FilePath	signature:() const
 IsAllSpacesOrTabs	scintilla\src\Editor.cxx	/^static inline bool IsAllSpacesOrTabs(const char *s, unsigned int len) {$/;"	f	file:	signature:(const char *s, unsigned int len)
 IsAlphaNumeric	scintilla\lexlib\CharacterSet.h	/^inline bool IsAlphaNumeric(int ch) {$/;"	f	class:Scintilla::CharacterSet	access:public	signature:(int ch)
 IsAlphabetic	scite\src\SciTEBase.cxx	/^inline bool IsAlphabetic(unsigned int ch) {$/;"	f	signature:(unsigned int ch)
@@ -2563,8 +2572,10 @@ IsReadOnly	scintilla\src\Document.h	/^	bool IsReadOnly() const { return cb.IsRea
 IsRectExtend	scintilla\src\Editor.cxx	/^bool IsRectExtend(unsigned int iMessage) {$/;"	f	namespace:__anon90	signature:(unsigned int iMessage)
 IsRectangular	scintilla\src\Selection.cxx	/^bool Selection::IsRectangular() const {$/;"	f	class:Selection	signature:() const
 IsRectangularInMime	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^static bool IsRectangularInMime(const QMimeData *mimeData)$/;"	f	file:	signature:(const QMimeData *mimeData)
+IsRoot	scite\src\FilePath.cxx	/^bool FilePath::IsRoot() const {$/;"	f	class:FilePath	signature:() const
 IsSameOrChild	scite\win32\Strips.cxx	/^static bool IsSameOrChild(const GUI::Window &wParent, HWND wChild) {$/;"	f	file:	signature:(const GUI::Window &wParent, HWND wChild)
 IsSavePoint	scintilla\src\Document.h	/^	bool IsSavePoint() const { return cb.IsSavePoint(); }$/;"	f	class:Scintilla::Document	access:public	signature:() const
+IsSet	scite\src\FilePath.cxx	/^bool FilePath::IsSet() const {$/;"	f	class:FilePath	signature:() const
 IsSingleChar	scite\src\SciTEBase.h	/^	bool IsSingleChar() const { return words.length() == 1; }$/;"	f	struct:StyleAndWords	access:public	signature:() const
 IsSpaceOrTab	scintilla\src\Document.cxx	/^static inline bool IsSpaceOrTab(int ch) {$/;"	f	file:	signature:(int ch)
 IsSpaceOrTab	scintilla\src\PositionCache.h	/^inline bool IsSpaceOrTab(int ch) {$/;"	f	namespace:Scintilla	signature:(int ch)
@@ -2578,6 +2589,7 @@ IsTabCharacter	scintilla\src\CallTip.cxx	/^bool CallTip::IsTabCharacter(char ch)
 IsTailOfFoldBlock	scintilla\src\Document.h	/^	bool IsTailOfFoldBlock(Sci::Line line) const {$/;"	f	class:Scintilla::HighlightDelimiter	access:public	signature:(Sci::Line line) const
 IsUTF8TrailByte	scite\src\FileWorker.cxx	/^static bool IsUTF8TrailByte(int ch) {$/;"	f	file:	signature:(int ch)
 IsUnicodeMode	scintilla\src\Editor.cxx	/^bool Editor::IsUnicodeMode() const {$/;"	f	class:Editor	signature:() const
+IsUntitled	scite\src\FilePath.cxx	/^bool FilePath::IsUntitled() const {$/;"	f	class:FilePath	signature:() const
 IsUpperCase	scintilla\lexlib\CharacterSet.h	/^inline bool IsUpperCase(int ch) {$/;"	f	class:Scintilla::CharacterSet	access:public	signature:(int ch)
 IsValid	scintilla\src\Selection.h	/^	bool IsValid() const {$/;"	f	class:Scintilla::SelectionPosition	access:public	signature:() const
 IsValid	scite\src\PropSetFile.cxx	/^bool ImportFilter::IsValid(const std::string &name) const {$/;"	f	class:ImportFilter	signature:(const std::string &name) const
@@ -3310,6 +3322,7 @@ NS_OPTIONS	scintilla\cocoa\InfoBarCommunicator.h	/^typedef NS_OPTIONS(NSUInteger
 NUM_OPCODES	scite\lua\src\lopcodes.h	237;"	d
 NUM_RESERVED	scite\lua\src\llex.h	40;"	d
 N_COLUMNS	scintilla\gtk\PlatGTK.cxx	/^	N_COLUMNS$/;"	e	enum:__anon69	file:
+Name	scite\src\FilePath.cxx	/^FilePath FilePath::Name() const {$/;"	f	class:FilePath	signature:() const
 NaturalDirection	scintilla\src\Editor.cxx	/^int NaturalDirection(unsigned int iMessage) {$/;"	f	namespace:__anon90	signature:(unsigned int iMessage)
 NcHitTest	scintilla\win32\PlatWin.cxx	/^LRESULT ListBoxX::NcHitTest(WPARAM wParam, LPARAM lParam) const {$/;"	f	class:Scintilla::ListBoxX	signature:(WPARAM wParam, LPARAM lParam) const
 Need	scintilla\src\Editor.h	/^	void Need(workItems items_, Sci::Position pos) {$/;"	f	class:Scintilla::WorkNeeded	access:public	signature:(workItems items_, Sci::Position pos)
@@ -4014,7 +4027,7 @@ ReadLocalization	scite\src\SciTEProps.cxx	/^void SciTEBase::ReadLocalization() {
 ReadLocalization	scite\win32\SciTEWin.cxx	/^void SciTEWin::ReadLocalization() {$/;"	f	class:SciTEWin	signature:()
 ReadNum	scite\src\SciTEBase.cxx	/^static unsigned int ReadNum(const char *&t) {$/;"	f	file:	signature:(const char *&t)
 ReadProperties	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::ReadProperties() {$/;"	f	class:SciTEGTK	signature:()
-ReadProperties	scite\src\SciTEProps.cxx	/^void SciTEBase::ReadProperties() {$/;"	f	class:SciTEBase	signature:()
+ReadProperties	scite\src\SciTEProps.cxx	/^void SciTEBase::ReadProperties(bool reloadScripts) {$/;"	f	class:SciTEBase	signature:(bool reloadScripts)
 ReadProperties	scite\win32\SciTEWin.cxx	/^void SciTEWin::ReadProperties() {$/;"	f	class:SciTEWin	signature:()
 ReadPropertiesInitial	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::ReadPropertiesInitial() {$/;"	f	class:SciTEGTK	signature:()
 ReadPropertiesInitial	scite\src\SciTEProps.cxx	/^void SciTEBase::ReadPropertiesInitial() {$/;"	f	class:SciTEBase	signature:()
@@ -4176,6 +4189,7 @@ Revert	scite\src\SciTEIO.cxx	/^void SciTEBase::Revert() {$/;"	f	class:SciTEBase	
 RightButtonDownWithModifiers	scintilla\src\Editor.cxx	/^void Editor::RightButtonDownWithModifiers(Point pt, unsigned int, int modifiers) {$/;"	f	class:Editor	signature:(Point pt, unsigned int, int modifiers)
 RightButtonDownWithModifiers	scintilla\src\ScintillaBase.cxx	/^void ScintillaBase::RightButtonDownWithModifiers(Point pt, unsigned int curTime, int modifiers) {$/;"	f	class:ScintillaBase	signature:(Point pt, unsigned int curTime, int modifiers)
 RoomFor	scintilla\src\SplitVector.h	/^	void RoomFor(int insertionLength) {$/;"	f	class:Scintilla::SplitVector	access:protected	signature:(int insertionLength)
+RootLength	scite\src\FilePath.cxx	/^int FilePath::RootLength() {$/;"	f	class:FilePath	signature:()
 RotateMain	scintilla\src\Selection.cxx	/^void Selection::RotateMain() {$/;"	f	class:Selection	signature:()
 RoundFloat	scintilla\win32\PlatWin.cxx	/^static float RoundFloat(float f) {$/;"	f	namespace:Scintilla	signature:(float f)
 RoundXYPosition	scintilla\include\Platform.h	/^inline int RoundXYPosition(XYPOSITION xyPos) {$/;"	f	namespace:Scintilla	signature:(XYPOSITION xyPos)
@@ -7135,6 +7149,8 @@ SafeGetCharAt	scintilla\lexlib\LexAccessor.h	/^	char SafeGetCharAt(Sci_Position 
 SafeGetCharAt	scite\src\StyleWriter.h	/^	char SafeGetCharAt(int position, char chDefault=' ') {$/;"	f	class:TextReader	access:public	signature:(int position, char chDefault=Ã)
 SafeSegment	scintilla\src\Document.cxx	/^int Document::SafeSegment(const char *text, int length, int lengthSegment) const {$/;"	f	class:Document	signature:(const char *text, int length, int lengthSegment) const
 SameAs	scintilla\win32\PlatWin.cxx	/^bool FontCached::SameAs(const FontParameters &fp) {$/;"	f	class:Scintilla::FontCached	signature:(const FontParameters &fp)
+SameNameAs	scite\src\FilePath.cxx	/^bool FilePath::SameNameAs(const FilePath &other) const {$/;"	f	class:FilePath	signature:(const FilePath &other) const
+SameNameAs	scite\src\FilePath.cxx	/^bool FilePath::SameNameAs(const GUI::gui_char *other) const {$/;"	f	class:FilePath	signature:(const GUI::gui_char *other) const
 Save	scintilla\src\ViewStyle.cxx	/^const char *FontNames::Save(const char *name) {$/;"	f	class:FontNames	signature:(const char *name)
 Save	scite\src\SciTEIO.cxx	/^bool SciTEBase::Save(SaveFlags sf) {$/;"	f	class:SciTEBase	signature:(SaveFlags sf)
 SaveACopy	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::SaveACopy() {$/;"	f	class:SciTEGTK	signature:()
@@ -7408,6 +7424,9 @@ Set	scintilla\lexlib\WordList.cxx	/^void WordList::Set(const char *s) {$/;"	f	cl
 Set	scintilla\src\EditView.h	/^	void Set(LineLayout *ll_) {$/;"	f	class:Scintilla::AutoLineLayout	access:public	signature:(LineLayout *ll_)
 Set	scintilla\src\PositionCache.cxx	/^void PositionCacheEntry::Set(unsigned int styleNumber_, const char *s_,$/;"	f	class:PositionCacheEntry	signature:(unsigned int styleNumber_, const char *s_, unsigned int len_, XYPOSITION *positions_, unsigned int clock_)
 Set	scite\gtk\SciTEGTK.cxx	/^void UserStrip::Set(int control, const char *value) {$/;"	f	class:UserStrip	signature:(int control, const char *value)
+Set	scite\src\FilePath.cxx	/^void FilePath::Set(FilePath const &directory, FilePath const &name) {$/;"	f	class:FilePath	signature:(FilePath const &directory, FilePath const &name)
+Set	scite\src\FilePath.cxx	/^void FilePath::Set(FilePath const &other) {$/;"	f	class:FilePath	signature:(FilePath const &other)
+Set	scite\src\FilePath.cxx	/^void FilePath::Set(const GUI::gui_char *fileName_) {$/;"	f	class:FilePath	signature:(const GUI::gui_char *fileName_)
 Set	scite\src\PropSetFile.cxx	/^void PropSetFile::Set(const char *key, const char *val, ptrdiff_t lenKey, ptrdiff_t lenVal) {$/;"	f	class:PropSetFile	signature:(const char *key, const char *val, ptrdiff_t lenKey, ptrdiff_t lenVal)
 Set	scite\src\PropSetFile.cxx	/^void PropSetFile::Set(const char *keyVal) {$/;"	f	class:PropSetFile	signature:(const char *keyVal)
 Set	scite\src\StringList.cxx	/^void StringList::Set(const char *s) {$/;"	f	class:StringList	signature:(const char *s)
@@ -7473,6 +7492,7 @@ SetDefaultCharClasses	scintilla\src\CharClassify.cxx	/^void CharClassify::SetDef
 SetDefaultCharClasses	scintilla\src\Document.cxx	/^void Document::SetDefaultCharClasses(bool includeWordClass) {$/;"	f	class:Document	signature:(bool includeWordClass)
 SetDescription	scite\gtk\SciTEGTK.cxx	/^void UserStrip::SetDescription(const char *description) {$/;"	f	class:UserStrip	signature:(const char *description)
 SetDescription	scite\win32\Strips.cxx	/^void UserStrip::SetDescription(const char *description) {$/;"	f	class:UserStrip	signature:(const char *description)
+SetDirectory	scite\src\FilePath.cxx	/^void FilePath::SetDirectory(FilePath const &directory) {$/;"	f	class:FilePath	signature:(FilePath const &directory)
 SetDocPointer	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::SetDocPointer(Document *document) {$/;"	f	class:ScintillaGTK	signature:(Document *document)
 SetDocPointer	scintilla\src\Editor.cxx	/^void Editor::SetDocPointer(Document *document) {$/;"	f	class:Editor	signature:(Document *document)
 SetDocumentAt	scite\src\SciTEBuffers.cxx	/^void SciTEBase::SetDocumentAt(int index, bool updateStack) {$/;"	f	class:SciTEBase	signature:(int index, bool updateStack)
@@ -8873,6 +8893,7 @@ cf_props_metatable_newindex	scite\src\LuaExtension.cxx	/^static int cf_props_met
 cf_scite_constname	scite\src\LuaExtension.cxx	/^static int cf_scite_constname(lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 cf_scite_menu_command	scite\src\LuaExtension.cxx	/^static int cf_scite_menu_command(lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 cf_scite_open	scite\src\LuaExtension.cxx	/^static int cf_scite_open(lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
+cf_scite_read_properties	scite\src\LuaExtension.cxx	/^static int cf_scite_read_properties(lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 cf_scite_send	scite\src\LuaExtension.cxx	/^static int cf_scite_send(lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 cf_scite_strip_set	scite\src\LuaExtension.cxx	/^static int cf_scite_strip_set(lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 cf_scite_strip_set_list	scite\src\LuaExtension.cxx	/^static int cf_scite_strip_set_list(lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
@@ -10618,6 +10639,7 @@ operator <	scintilla\src\KeyMap.h	/^	bool operator<(const KeyModifiers &other) c
 operator <	scintilla\src\Selection.cxx	/^bool SelectionPosition::operator <(const SelectionPosition &other) const {$/;"	f	class:SelectionPosition	signature:(const SelectionPosition &other) const
 operator <	scintilla\src\Selection.h	/^	bool operator <(const SelectionRange &other) const {$/;"	f	struct:Scintilla::SelectionRange	access:public	signature:(const SelectionRange &other) const
 operator <	scintilla\src\Style.cxx	/^bool FontSpecification::operator<(const FontSpecification &other) const {$/;"	f	class:FontSpecification	signature:(const FontSpecification &other) const
+operator <	scite\src\FilePath.cxx	/^bool FilePath::operator<(const FilePath &other) const {$/;"	f	class:FilePath	signature:(const FilePath &other) const
 operator <=	scintilla\src\Selection.cxx	/^bool SelectionPosition::operator <=(const SelectionPosition &other) const {$/;"	f	class:SelectionPosition	signature:(const SelectionPosition &other) const
 operator =	scintilla\include\Platform.h	/^	Platform &operator=(const Platform &) { return *this; }$/;"	f	class:Scintilla::Platform	access:private	signature:(const Platform &)
 operator =	scintilla\include\Platform.h	/^	Surface &operator=(const Surface &) { return *this; }$/;"	f	class:Scintilla::Surface	access:private	signature:(const Surface &)
@@ -10642,6 +10664,7 @@ operator ==	scintilla\src\Indicator.h	/^	bool operator==(const StyleAndColour &o
 operator ==	scintilla\src\Selection.h	/^	bool operator ==(const SelectionPosition &other) const {$/;"	f	class:Scintilla::SelectionPosition	access:public	signature:(const SelectionPosition &other) const
 operator ==	scintilla\src\Selection.h	/^	bool operator ==(const SelectionRange &other) const {$/;"	f	struct:Scintilla::SelectionRange	access:public	signature:(const SelectionRange &other) const
 operator ==	scintilla\src\Style.cxx	/^bool FontSpecification::operator==(const FontSpecification &other) const {$/;"	f	class:FontSpecification	signature:(const FontSpecification &other) const
+operator ==	scite\src\FilePath.cxx	/^bool FilePath::operator==(const FilePath &other) const {$/;"	f	class:FilePath	signature:(const FilePath &other) const
 operator ==	scite\src\GUI.h	/^	bool operator==(const Rectangle &other) const {$/;"	f	class:GUI::Rectangle	access:public	signature:(const Rectangle &other) const
 operator >	scintilla\src\Selection.cxx	/^bool SelectionPosition::operator >(const SelectionPosition &other) const {$/;"	f	class:SelectionPosition	signature:(const SelectionPosition &other) const
 operator >=	scintilla\src\Selection.cxx	/^bool SelectionPosition::operator >=(const SelectionPosition &other) const {$/;"	f	class:SelectionPosition	signature:(const SelectionPosition &other) const
@@ -11281,7 +11304,6 @@ override	scite\win32\SciteWin.h	/^	void PrintSetup() override;$/;"	m	class:SciTE
 override	scite\win32\SciteWin.h	/^	void QuitProgram() override;$/;"	m	class:SciTEWin	access:protected
 override	scite\win32\SciteWin.h	/^	void ReadEmbeddedProperties() override;$/;"	m	class:SciTEWin	access:protected
 override	scite\win32\SciteWin.h	/^	void ReadLocalization() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	void ReadProperties() override;$/;"	m	class:SciTEWin	access:protected
 override	scite\win32\SciteWin.h	/^	void ReadPropertiesInitial() override;$/;"	m	class:SciTEWin	access:protected
 override	scite\win32\SciteWin.h	/^	void RedrawMenu() override;$/;"	m	class:SciTEWin	access:protected
 override	scite\win32\SciteWin.h	/^	void RemoveAllTabs() override;$/;"	m	class:SciTEWin	access:protected
@@ -11944,6 +11966,7 @@ stringRep	scintilla\src\PositionCache.h	/^	std::string stringRep;$/;"	m	class:Sc
 stringtable	scite\lua\src\lstate.h	/^typedef struct stringtable {$/;"	s
 stringtable	scite\lua\src\lstate.h	/^} stringtable;$/;"	t	typeref:struct:stringtable
 stripCloseState	scite\win32\Strips.h	/^	enum stripCloseState { csNone, csOver, csClicked, csClickedOver } closeState;$/;"	g	class:Strip	access:protected
+strlen	scite\src\FilePath.cxx	/^static size_t strlen(const wchar_t *str) {$/;"	f	file:	signature:(const wchar_t *str)
 strrchr	scite\src\FilePath.cxx	/^static wchar_t *strrchr(wchar_t *str, wchar_t c) {$/;"	f	file:	signature:(wchar_t *str, wchar_t c)
 strt	scite\lua\src\lstate.h	/^  stringtable strt;  \/* hash table for strings *\/$/;"	m	struct:global_State	access:public
 stw	scite\win32\UniqueInstance.h	/^	SciTEWin *stw;	\/\/\/< Access to SciTEWin interface$/;"	m	class:UniqueInstance	access:private

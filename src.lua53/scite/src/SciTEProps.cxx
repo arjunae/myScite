@@ -649,8 +649,8 @@ std::string SciTEBase::GetFileNameProperty(const char *name) {
 	}
 }
 
-void SciTEBase::ReadProperties() {
-	if (extender)
+void SciTEBase::ReadProperties(bool reloadScripts) {
+	if (extender && reloadScripts) 
 		extender->Clear();
 
 	const std::string fileNameForExtension = ExtensionFileName();
@@ -1355,7 +1355,7 @@ void SciTEBase::ReadProperties() {
 		// Check for an extension script
 		GUI::gui_string extensionFile = GUI::StringFromUTF8(
 			props.GetNewExpandString("extension.", fileNameForExtension.c_str()));
-		if (extensionFile.length()) {
+		if (extensionFile.length() && reloadScripts) {
 			// find file in local directory
 			FilePath docDir = filePath.Directory();
 			if (Exists(docDir.AsInternal(), extensionFile.c_str(), &scriptPath)) {

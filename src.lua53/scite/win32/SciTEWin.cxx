@@ -448,7 +448,7 @@ void SciTEWin::ReadPropertiesInitial() {
 }
 
 void SciTEWin::ReadProperties() {
-	SciTEBase::ReadProperties();
+	SciTEBase::ReadProperties(true);
 	if (flatterUI) {
 		if (foldColour.empty() && foldHiliteColour.empty()) {
 			Colour lightMargin = ColourRGB(0xF7, 0xF7, 0xF7);

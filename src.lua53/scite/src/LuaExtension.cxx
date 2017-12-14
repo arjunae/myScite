@@ -296,6 +296,12 @@ static int cf_scite_update_status_bar(lua_State *L) {
 	return 0;
 }
 
+static int cf_scite_read_properties(lua_State *L) {
+	if(!L) return(0);
+	host->ReadProperties(false);
+	return 0;
+}
+
 static int cf_scite_strip_show(lua_State *L) {
 	const char *s = luaL_checkstring(L, 1);
 	if (s) {
@@ -1413,6 +1419,9 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 
 	lua_pushcfunction(luaState, cf_scite_update_status_bar);
 	lua_setfield(luaState, -2, "UpdateStatusBar");
+
+	lua_pushcfunction(luaState, cf_scite_read_properties);
+	lua_setfield(luaState, -2, "ReadProperties");
 
 	lua_pushcfunction(luaState, cf_scite_strip_show);
 	lua_setfield(luaState, -2, "StripShow");
