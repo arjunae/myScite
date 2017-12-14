@@ -156,44 +156,26 @@ end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 --  appendCTags(apiNames,cTagsFilePath)
---  Parse a ctag File, write filteret tagNames to predefined Vars.
---  Takes: apiNames: table, FullyQualified cTagsFilePath
---  Returns: uniqued tagNames to given table
---
--- Optimized lua version. Gives reasonable Speed on a 100k source and 1M cTags File. 
+--  Optionally use Ctags to Fill up the completition list        
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--- todo: performance:  should check for / reuse an existing File
-
 function appendCTags(apiNames,cTagsFilePath)
-    local writeAPIFile=true
-    SetProjectEnv(false)
-    props["project.ctags.apipath"]=props["project.path"]..dirSep().."ctags.api"
-   -- if props["project.path"]=="" then return end
+
     if props["project.ctags.filename"]=="" then return apiNames end
-    --print(props["project.path"])
     
     -- Append Once to filetypes api path
-    local origApiPath
-    if props["project.path"] then
-        if origApiPath==nil then 
-            origApiPath=props["APIPath"]
-            props["api."..props["file.patterns.project"]] =origApiPath..";"..props["project.ctags.apipath"] 
+    if type(CTagsUpdateProps)=="function" then
+        if props["project.path"] then 
+            apiNames=CTagsUpdateProps(false) 
+             if DEBUG==2 then
+                    for name in pairs(apiNames) do
+                        names=names..name 
+                    end
+                    print("CTAGNames:",names)
+            end
         end
     end
-
-    -- Update the completition list     
-    if props["project.path"] then 
-        apiNames=UpdateProps(false) 
-         if DEBUG==2 then
-                for name in pairs(apiNames) do
-                    names=names..name 
-                end
-                print("CTAGNames:",names)
-        end
-    end
-        	
     return apiNames -- cTagsUpdate=0 so already done.  Using the cached Version 
 
 end

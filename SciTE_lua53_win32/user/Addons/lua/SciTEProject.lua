@@ -1,6 +1,7 @@
-
 --
--- base Module, initialize Project Suport for SciTE
+-- SciTEProject.lua, base Module: initialize Project and CTags Support for mySciTE.
+-- License: BSD3Clause. Author Thorsten Kani
+-- Version: 0.8
 -- todo: implement IDM_RELOAD_PROPERTIES || Scite.UpdateProps
 --
 
@@ -22,7 +23,7 @@ end
 -- (ctags, Autocomplete & highlitening)
 --
 --~~~~~~~~~~~~~~~~~~~
-function SetProjectEnv(init)
+local function SetProjectEnv(init)
 
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		props["project.path"] = props["SciteDirectoryHome"]
@@ -47,7 +48,7 @@ end
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local	cTagNames
-function UpdateProps(reloadProps)
+function CTagsUpdateProps(reloadProps)
 
 	SetProjectEnv(false)
 	if ctagsLock==true or not props["project.path"] then return end	
@@ -65,12 +66,20 @@ function UpdateProps(reloadProps)
 			if prop=="cTagENUMs" then props["substylewords.11.19."..projectEXT]= names end             
 			if prop=="cTagOthers" then props["substylewords.11.15."..projectEXT] = names end   		
 		
-		--- concatenate all entries in the current list.
+			--- concatenate all entries in the current list.
 			for i in string.gmatch(names, "%S+") do
 				cTagNames[i]=true
 			end
-	
 		end
+	
+		--Update filetypes api path.  Append only Once
+		local origApiPath
+		if props["project.path"] then
+        if origApiPath==nil then 
+            origApiPath=props["APIPath"]
+            props["api."..props["file.patterns.project"]] =origApiPath..";"..props["project.ctags.apipath"] 
+        end
+    end
 	end
 	
 	-- Define the Styles for aboves Types
@@ -107,17 +116,7 @@ function ProjectOnDwell()
 		io.close(finFile)
 		ctagsLock=false
 		os.remove(finFileNamePath)
-		-- Append ctag APIdata Once to filetypes api path and properties -->todo use a nice Helper! 
-			
-	--	local origApiPath
-	--	if props["project.path"] then
-	--		if origApiPath==nil then 
-	--			origApiPath=props["APIPath"]
-	--			props["api."..props["file.patterns.project"]] =origApiPath..";"..props["project.ctags.apipath"] 
-   --     end
-	--	end
-	
-		--UpdateProps(true)
+		CTagsUpdateProps(true)
 		--print("...generating CTags finished",ctagsLock) 
 	end
 	finFile=nil
@@ -130,7 +129,7 @@ end
 -- Search the File for new CTags and append them.
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function RecreateCTags()
+function CTagsRecreate()
 	if  ctagsLock==true then return end	
 	if props["project.name"]~="" and props["file.patterns.project"]:match(props["FileExt"])~=nil then
 		ctagsBin=props["project.ctags.bin"]

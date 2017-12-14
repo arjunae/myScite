@@ -201,8 +201,8 @@ function OnInit()
 	TestSciLexer("4601a2ac") -- SciLexers CRC32 Hash for the current Version
 
 -- Event Handlers
-	scite_OnOpenSwitch(UpdateProps,false)
-	scite_OnSave(RecreateCTags)
+	scite_OnOpenSwitch(CTagsUpdateProps,false)
+	scite_OnSave(CTagsRecreate)
 	scite_OnOpenSwitch(StyleStuff)
 
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
