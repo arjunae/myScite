@@ -130,6 +130,8 @@ function markGUID()
 	end
 end
 
+scite_OnSave(CTagsRecreate)
+scite_OnOpenSwitch(CTagsUpdateProps,false)
 scite_OnOpenSwitch(markLinks)
 scite_OnOpenSwitch(markeMail)
 scite_OnOpenSwitch(markGUID)

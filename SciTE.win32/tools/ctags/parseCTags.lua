@@ -1,7 +1,7 @@
 --
 -- parseCTags.lua 
 -- takes a ctags file and parse its contents to a respective SciTE .properties and .api file
--- License: BSD3Clause / Author: Thorsten Kani / eMail:Macedo@habMalNeFrage.de
+-- License: BSD3Clause / Author: Thorsten Kani / eMail:Marcedo@habMalNeFrage.de
 -- version: 0.8 
 -- todo: compile?
 --
@@ -15,6 +15,7 @@ local cTagModules =""
 local cTagENUMs=""
 local cTagOthers=""
 local cTagDupes=""
+local fs=io
 
 --
 -- Deal with different Path Separators o linux/win
@@ -27,8 +28,8 @@ end
 -- returns if a given fileNamePath exists
 --
 local function file_exists(name)
-   local f=io.open(name,"r")
-   if f~=nil then io.close(f) return true else return false end
+   local f=fs.open(name,"r")
+   if f~=nil then fs.close(f) return true else return false end
 end
 
 -- read args
@@ -37,9 +38,9 @@ local projectName =arg[2]
 local createAPIFile =arg[3]
 
 if not cTagsFilePath then cTagsFilePath =os.getenv("tmp")..dirSep().."ctags.tags" end
-local projectFilePath, cTagsFileName=cTagsFilePath:match("(.*%"..dirSep()..")(.*)$")
-
-if not projectName then projectName="scite" end
+local projectFilePath, cTagsFileName=cTagsFilePath:match("(.*[%"..dirSep().."]+)%/?(.*)$")
+print (projectFilePath,cTagsFileName)
+if not projectName then projectName=cTagsFileName end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
@@ -180,12 +181,12 @@ function writeProps(projectName, projectFilePath)
     propFile=io.open(projectFilePath..cTagsFileName..".properties","w")
     propFile= io.output(propFile)
     io.output(propFile) 
-    io.write("project.cTagOthers="..cTagOthers.."\n") 
-    io.write("project.cTagENUMs="..cTagENUMs.."\n")     
-    io.write("project.cTagNames="..cTagNames.."\n")
-    io.write("project.cTagFunctions="..cTagFunctions.."\n") 
-    io.write("project.cTagModules="..cTagModules.."\n")   
-    io.write("project.cTagClasses="..cTagClass.."\n")
+    io.write(projectName..".cTagOthers="..cTagOthers.."\n") 
+    io.write(projectName..".cTagENUMs="..cTagENUMs.."\n")     
+    io.write(projectName..".cTagNames="..cTagNames.."\n")
+    io.write(projectName..".cTagFunctions="..cTagFunctions.."\n") 
+    io.write(projectName..".cTagModules="..cTagModules.."\n")   
+    io.write(projectName..".cTagClasses="..cTagClass.."\n")
     
     io.close(propFile)
     

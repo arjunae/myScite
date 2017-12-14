@@ -51,7 +51,8 @@ end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local	cTagNames
 function CTagsUpdateProps(reloadProps)
-
+	
+	local prefix=props["project.ctags.filename"]
 	SetProjectEnv(false)
 	if ctagsLock==true or not props["project.path"] then return end	
 	projectEXT=props["file.patterns.project"]
@@ -60,20 +61,19 @@ function CTagsUpdateProps(reloadProps)
 	if file_exists(props["project.ctags.propspath"]) and not cTagNames then
 	cTagNames={}
 		for entry in io.lines(props["project.ctags.propspath"]) do
-			prop,names=entry:match("([%w_]+)%s?=(.*)") 
-			if prop=="cTagClasses" then props["substylewords.11.20."..projectEXT] = names  end
-			if prop=="cTagModules" then props["substylewords.11.18."..projectEXT] = names end
-			if prop=="cTagFunctions" then props["substylewords.11.17."..projectEXT] = names end
-			if prop=="cTagNames" then props["substylewords.11.16."..projectEXT]= names end      
-			if prop=="cTagENUMs" then props["substylewords.11.19."..projectEXT]= names end             
-			if prop=="cTagOthers" then props["substylewords.11.15."..projectEXT] = names end   		
-		
+			prop,names=entry:match("([%w_.]+)%s?=(.*)") 
+			if prop==prefix..".cTagClasses" then props["substylewords.11.20."..projectEXT] = names  end
+			if prop==prefix..".cTagModules" then props["substylewords.11.18."..projectEXT] = names end
+			if prop==prefix..".cTagFunctions" then props["substylewords.11.17."..projectEXT] = names end
+			if prop==prefix..".cTagNames" then props["substylewords.11.16."..projectEXT]= names end
+			if prop==prefix..".cTagENUMs" then props["substylewords.11.19."..projectEXT]= names end
+			if prop==prefix..".cTagOthers" then props["substylewords.11.15."..projectEXT] = names end
 			--- concatenate all entries in the current list.
 			for i in string.gmatch(names, "%S+") do
 				cTagNames[i]=true
 			end
 		end
-	
+		
 		--Update filetypes api path.  Append only Once
 		local origApiPath
 		if props["project.path"] then
