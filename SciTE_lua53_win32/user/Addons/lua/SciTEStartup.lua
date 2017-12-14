@@ -201,10 +201,9 @@ function OnInit()
 	TestSciLexer("4601a2ac") -- SciLexers CRC32 Hash for the current Version
 
 -- Event Handlers
-	scite_OnOpenSwitch(HandleProject,true)
-	scite_OnOpenSwitch(UpdateProps)
+	scite_OnOpenSwitch(UpdateProps,false)
 	scite_OnSave(RecreateCTags)
-	scite_OnDwellStart(ProjectOnDwell)
+--	scite_OnDwellStart(ProjectOnDwell)
 	scite_OnOpenSwitch(StyleStuff)
 
 	
@@ -212,6 +211,7 @@ function OnInit()
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 --print("startupScript_reload")
 --print(editor.StyleAt[1])

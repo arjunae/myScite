@@ -21,7 +21,8 @@ end
 -- handle Project Folders (ctags, Autocomplete & highlitening)
 --
 --~~~~~~~~~~~~~~~~~~~
-function HandleProject(init)
+function SetProjectEnv(init)
+
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		props["project.path"] = props["SciteDirectoryHome"]
 		props["project.ctags.apipath"]=props["project.path"]..dirSep.."cTags.api"
@@ -30,7 +31,9 @@ function HandleProject(init)
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1
 	end
- if init then dofile(myHome..'\\macros\\AutoComplete.lua') end
+	
+	if init then dofile(myHome..'\\macros\\AutoComplete.lua') end
+
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -42,20 +45,30 @@ end
 -- probably should return something useful
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function UpdateProps()
+local	cTagNames
+function UpdateProps(reloadProps)
+
+	SetProjectEnv(false)
 	if ctagsLock==true or not props["project.path"] then return end	
 	projectEXT=props["file.patterns.project"]
 	
 	-- Propagate the Data
-	if file_exists(props["project.path"].."\\ctags.properties") then
+	if file_exists(props["project.path"].."\\ctags.properties") and not cTagNames then
+	cTagNames={}
 		for entry in io.lines(props["project.path"].."\\ctags.properties") do
-			prop,value=entry:match("([%w_]+)%s?=(.*)") 
-			if prop=="cTagClasses" then props["substylewords.11.20."..projectEXT] = value end
-			if prop=="cTagModules" then props["substylewords.11.18."..projectEXT] = value end
-			if prop=="cTagFunctions" then props["substylewords.11.17."..projectEXT] = value end
-			if prop=="cTagNames" then props["substylewords.11.16."..projectEXT]= value end      
-			if prop=="cTagENUMs" then props["substylewords.11.19."..projectEXT]= value end             
-			if prop=="cTagOthers" then props["substylewords.11.15."..projectEXT] = value end   
+			prop,names=entry:match("([%w_]+)%s?=(.*)") 
+			if prop=="cTagClasses" then props["substylewords.11.20."..projectEXT] = names  end
+			if prop=="cTagModules" then props["substylewords.11.18."..projectEXT] = names end
+			if prop=="cTagFunctions" then props["substylewords.11.17."..projectEXT] = names end
+			if prop=="cTagNames" then props["substylewords.11.16."..projectEXT]= names end      
+			if prop=="cTagENUMs" then props["substylewords.11.19."..projectEXT]= names end             
+			if prop=="cTagOthers" then props["substylewords.11.15."..projectEXT] = names end   		
+		
+		--- todo: concatenate all entries in the current list.
+			for i in string.gmatch(names, "%S+") do
+						cTagNames[i]=true
+			end
+	
 		end
 	end
 	
@@ -70,8 +83,11 @@ function UpdateProps()
 	props["style."..currentLexer..".11.19"]=props["colour.project.enums"]
 	props["style."..currentLexer..".11.20"]=props["colour.project.class"]
 	
-	scite.MenuCommand(IDM_SAVE)  -- reload props, todo: implement IDM_RELOAD_PROPERTIES
-
+	if reloadProps==1 then  -- reload props, todo: implement IDM_RELOAD_PROPERTIES
+	---	scite.MenuCommand(IDM_SAVE)
+	end
+	
+	return cTagNames
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -91,10 +107,16 @@ function ProjectOnDwell()
 		ctagsLock=false
 		os.remove(finFileNamePath)
 		-- Append ctag APIdata Once to filetypes api path and properties -->todo use a nice Helper! 
-		--projectEXT=props["file.patterns.project"]
-		--if origApiPath==nil then origApiPath=props["APIPath"] end
-		--props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]
-		UpdateProps()
+			
+		--	local origApiPath
+		--	if props["project.path"] then
+		--	if origApiPath==nil then 
+      --      origApiPath=props["APIPath"]
+		--     props["api."..props["file.patterns.project"]] =origApiPath..";"..props["project.ctags.apipath"] 
+      --  end
+		-- end
+	
+		--UpdateProps(true)
 		-- print("...generating CTags finished",ctagsLock) 
 	end
 	finFile=nil
@@ -125,7 +147,7 @@ function RecreateCTags()
 				local pipe=scite_Popen(ctagsCMD)
 				--local tmp= pipe:read('*a') -- synchronous -waits for the Command to complete
 				-- periodically check if ctags refresh has been finished.
-				--scite_OnDwellStart(ProjectOnDwell)
+				scite_OnDwellStart(ProjectOnDwell)
 				ctagsLock=true
 			end
 		end
@@ -135,4 +157,4 @@ end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- Registers the Autocomplete event Handlers early.
-HandleProject(true)
+SetProjectEnv(true)

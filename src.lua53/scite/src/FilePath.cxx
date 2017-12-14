@@ -62,7 +62,7 @@ const GUI::gui_char fileRead[] = GUI_TEXT("rb");
 const GUI::gui_char fileWrite[] = GUI_TEXT("wb");
 #endif
 
-FilePath::FilePath(const GUI::gui_char *fileName_) : fileName(fileName_ ? fileName_ : GUI_TEXT("")) {}
+FilePath::FilePath(const GUI::gui_char *fileName_) : fileName(fileName_ ? fileName_ : GUI_TEXT("")) {
 
 FilePath::FilePath(const GUI::gui_string &fileName_) : fileName(fileName_) {}
 

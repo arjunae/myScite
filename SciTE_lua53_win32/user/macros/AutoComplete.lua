@@ -71,7 +71,7 @@ local CHOOSE_SINGLE = props["autocomplete.choose.single"]
 -- Names from api files, stored by lexer name.
 local apiCache = {} 
 -- Number of chars to type before the autocomplete list appears:
-local MIN_PREFIX_LEN = 2
+local MIN_PREFIX_LEN = 1
 -- Length of shortest word to add to the autocomplete list:
 local MIN_IDENTIFIER_LEN = 3
 -- List of regex patterns for finding suggestions for the autocomplete menu:
@@ -153,11 +153,6 @@ local function isInTable(table, elem)
 	return false
 end
 
------ globally cached Names ---
-
-cTagAPI={} -- projectAPI functions(param)
-local cTagFunctions=""
-
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 --  appendCTags(apiNames,cTagsFilePath)
@@ -172,78 +167,35 @@ local cTagFunctions=""
 -- todo: performance:  should check for / reuse an existing File
 
 function appendCTags(apiNames,cTagsFilePath)
-    local sysTmp=os.getenv("tmp")
-    --local cTagsAPIPath=sysTmp..dirSep()..props["project.name"].."_cTags.api" 
-    local cTagsAPIPath=props["project.path"]..dirSep().."ctags.api"
-    props["project.ctags.apipath"]=cTagsAPIPath    
-    local cTagsUpdate=props["project.ctags.update"]
+    local writeAPIFile=true
+    SetProjectEnv(false)
+    props["project.ctags.apipath"]=props["project.path"]..dirSep().."ctags.api"
+   -- if props["project.path"]=="" then return end
     if props["project.ctags.filename"]=="" then return apiNames end
-    
-    if (file_exists(cTagsFilePath))  and (cTagsUpdate=="1")  and not (file_exists(cTagsAPIPath)) then
-
-        if DEBUG>=1 then print("ac>appendCtags" ,cTagsFilePath, short) end     
-        
-        local lastEntry=""
-        local cTagsFile= io.open(cTagsAPIPath,"w")
-        io.output(cTagsFile)   -- projects cTags APICalltips file
-
-        -- a poorMans exuberAnt cTag (...mini...) Tokenizer :)) --
-        -- Gibt den LemmingAmeisen was sinnvolles zu tun(tm) --
-        
-        for entry in io.lines(cTagsFilePath) do
-            local isFunction=false isClass=false isConst=false isModule=false isENUM=false isOther=false
-            local skipper=false          
-            local name =""
-            local params="" -- match function parameters for Calltips
-            
-            -- "catchAll" Names for ACList Entries
-            local ACListEntry= entry:match("(~?[%w_]+)") or ""
-           
-            -- Mark Functions 
-            name= entry:match("(~?[%w_]+)") or "" 
-            patType="%/^([%s%w_:~]+ ?)" -- INTPTR
-            patClass="([%w_]+).*"   -- SciteWin (::)
-            patFunc="(%(.*%))"  -- AbbrevDlg(...)
-            strTyp, strClass, strFunc= entry:match(patType..patClass..patFunc..".*")
-            if strFunc then params=params..strFunc end
-            if strTyp then params=params..strTyp end
-            if strClass then params=params..strClass.." =:-) " end
-            if string.len(params)>0 then isFunction=true end
-            
-            -- publish collected Data (dupe Checked).
-            if name and name..params~=lastEntry and not isfunction then  
-                ---- AutoComplete List entries
-                cTagAPI[ACListEntry]=true 
-                if DEBUG==2 then print (name,"isFunction",isFunction) end
-
-                -- publish Function Descriptors to Project APIFile.(calltips)
-                lastEntry=name..params
-                if isFunction and string.len(params)>2 then 
-                    --  if props["project.ctags.functions"]=="1"  then cTagFunctions=cTagFunctions.." "..name  end
-                    io.write(lastEntry.."\n")
-                end -- faster then using a full bulkWrite
-            else
-                if DEBUG==2 then print("Dupe: "..entry) end 
-            end
-
-        end
-        io.close(cTagsFile)
-        buffer.projectName= props["project.name"]
-        props["project.ctags.update"]="0"
-
-    end
+    --print(props["project.path"])
     
     -- Append Once to filetypes api path
-    -- todo:  also need to update the completition list 
     local origApiPath
     if props["project.path"] then
-        projectEXT=props["file.patterns.project"]
         if origApiPath==nil then 
             origApiPath=props["APIPath"]
-            props["api."..projectEXT] =origApiPath..";"..props["project.ctags.apipath"]  -- todo: platform independent dirSep replacement
+            props["api."..props["file.patterns.project"]] =origApiPath..";"..props["project.ctags.apipath"] 
         end
     end
-    return cTagAPI     -- cTagsUpdate=0 so already done.  Using the cached Version 
+
+    -- Update the completition list     
+    if props["project.path"] then 
+        apiNames=UpdateProps(false) 
+         if DEBUG==2 then
+                for name in pairs(apiNames) do
+                    names=names..name 
+                end
+                print("CTAGNames:",names)
+        end
+    end
+        	
+    return apiNames -- cTagsUpdate=0 so already done.  Using the cached Version 
+
 end
 
 --
@@ -294,7 +246,6 @@ if DEBUG>=1 then print("ac>getApiNames") end
         return ""
     end)
     
-    local cTagsFilePath=props["project.path"]..dirSep()..props["project.ctags.filename"]
     apiNames= appendCTags(apiNames,cTagsFilePath,true)
         
     if lexer~=nil then
