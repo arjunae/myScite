@@ -27,7 +27,9 @@ local function SetProjectEnv(init)
 
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		props["project.path"] = props["SciteDirectoryHome"]
-		props["project.ctags.apipath"]=props["project.path"]..dirSep.."cTags.api"
+		props["project.ctags.filename"]="ctags.tags"
+		props["project.ctags.apipath"]=props["project.path"]..dirSep..props["project.ctags.filename"]..".api"
+		props["project.ctags.propspath"]=props["project.path"]..dirSep..props["project.ctags.filename"]..".properties"
 		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
 		buffer.projectName= props["project.name"]
 	else
@@ -55,9 +57,9 @@ function CTagsUpdateProps(reloadProps)
 	projectEXT=props["file.patterns.project"]
 	
 	-- Propagate the Data
-	if file_exists(props["project.path"].."\\ctags.properties") and not cTagNames then
+	if file_exists(props["project.ctags.propspath"]) and not cTagNames then
 	cTagNames={}
-		for entry in io.lines(props["project.path"].."\\ctags.properties") do
+		for entry in io.lines(props["project.ctags.propspath"]) do
 			prop,names=entry:match("([%w_]+)%s?=(.*)") 
 			if prop=="cTagClasses" then props["substylewords.11.20."..projectEXT] = names  end
 			if prop=="cTagModules" then props["substylewords.11.18."..projectEXT] = names end

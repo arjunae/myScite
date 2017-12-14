@@ -1,6 +1,8 @@
 --
--- creates a SciTE .properties and .api file
--- containing translated ctags
+-- parseCTags.lua 
+-- takes a ctags file and parse its contents to a respective SciTE .properties and .api file
+-- License: BSD3Clause / Author: Thorsten Kani / eMail:Macedo@habMalNeFrage.de
+-- version: 0.8 
 -- todo: compile?
 --
 local DEBUG=1 --1: Trace Mode 2: Verbose Mode
@@ -35,7 +37,7 @@ local projectName =arg[2]
 local createAPIFile =arg[3]
 
 if not cTagsFilePath then cTagsFilePath =os.getenv("tmp")..dirSep().."ctags.tags" end
-local projectFilePath=string.gsub(cTagsFilePath,"ctags.tags","")
+local projectFilePath, cTagsFileName=cTagsFilePath:match("(.*%"..dirSep()..")(.*)$")
 
 if not projectName then projectName="scite" end
 
@@ -53,7 +55,7 @@ if not projectName then projectName="scite" end
 function appendCTags(apiNames,projectFilePath,projectName)
     local sysTmp=os.getenv("tmp")
     local cTagsFilePath=projectFilePath.."ctags.tags"
-    local cTagsAPIPath=projectFilePath.."cTags.api" -- performance:  should we reuse an existing File ?
+    local cTagsAPIPath=projectFilePath..cTagsFileName..".api"
   
      -- catches not otherwise matched Stuff for Highlitghtning
      -- turn on for testing.
@@ -163,7 +165,6 @@ end
     return cTagAPI  
 end
 
-
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 -- writeProps(projectName, projectFilePath)
@@ -176,7 +177,7 @@ end
 function writeProps(projectName, projectFilePath)
     
 -- write whats we got until here.
-    propFile=io.open(projectFilePath.."ctags.properties","w")
+    propFile=io.open(projectFilePath..cTagsFileName..".properties","w")
     propFile= io.output(propFile)
     io.output(propFile) 
     io.write("project.cTagOthers="..cTagOthers.."\n") 

@@ -163,7 +163,7 @@ end
 function appendCTags(apiNames,cTagsFilePath)
 
     if props["project.ctags.filename"]=="" then return apiNames end
-    
+
     -- Append Once to filetypes api path
     if type(CTagsUpdateProps)=="function" then
         if props["project.path"] then 
@@ -176,6 +176,7 @@ function appendCTags(apiNames,cTagsFilePath)
             end
         end
     end
+   
     return apiNames -- cTagsUpdate=0 so already done.  Using the cached Version 
 
 end
@@ -229,7 +230,8 @@ if DEBUG>=1 then print("ac>getApiNames") end
     end)
     
     apiNames= appendCTags(apiNames,cTagsFilePath,true)
-        
+    if not apiNames then apiNames={} end
+    
     if lexer~=nil then
         apiCache[lexer] = apiNames -- Even if it's empty
     end
