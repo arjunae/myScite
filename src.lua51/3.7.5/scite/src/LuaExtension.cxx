@@ -1425,7 +1425,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	lua_setfield(luaState, -2, "UpdateStatusBar");
 
 	lua_pushcfunction(luaState, cf_scite_read_properties);
-	lua_setfield(luaState, -2, "UpdateStatusBar");
+	lua_setfield(luaState, -2, "ReadProperties");
 
 	lua_pushcfunction(luaState, cf_scite_strip_show);
 	lua_setfield(luaState, -2, "StripShow");

@@ -3932,7 +3932,7 @@ ReadLocalization	scite\src\SciTEProps.cxx	/^void SciTEBase::ReadLocalization() {
 ReadLocalization	scite\win32\SciTEWin.cxx	/^void SciTEWin::ReadLocalization() {$/;"	f	class:SciTEWin	signature:()
 ReadNum	scite\src\SciTEBase.cxx	/^static unsigned int ReadNum(const char *&t) {$/;"	f	file:	signature:(const char *&t)
 ReadProperties	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::ReadProperties() {$/;"	f	class:SciTEGTK	signature:()
-ReadProperties	scite\src\SciTEProps.cxx	/^void SciTEBase::ReadProperties() {$/;"	f	class:SciTEBase	signature:()
+ReadProperties	scite\src\SciTEProps.cxx	/^void SciTEBase::ReadProperties(bool reloadScripts) {$/;"	f	class:SciTEBase	signature:(bool reloadScripts)
 ReadProperties	scite\win32\SciTEWin.cxx	/^void SciTEWin::ReadProperties() {$/;"	f	class:SciTEWin	signature:()
 ReadPropertiesInitial	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::ReadPropertiesInitial() {$/;"	f	class:SciTEGTK	signature:()
 ReadPropertiesInitial	scite\src\SciTEProps.cxx	/^void SciTEBase::ReadPropertiesInitial() {$/;"	f	class:SciTEBase	signature:()
@@ -11062,7 +11062,6 @@ override	scite\win32\SciTEWin.h	/^	void PrintSetup() override;$/;"	m	class:SciTE
 override	scite\win32\SciTEWin.h	/^	void QuitProgram() override;$/;"	m	class:SciTEWin	access:protected
 override	scite\win32\SciTEWin.h	/^	void ReadEmbeddedProperties() override;$/;"	m	class:SciTEWin	access:protected
 override	scite\win32\SciTEWin.h	/^	void ReadLocalization() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciTEWin.h	/^	void ReadProperties() override;$/;"	m	class:SciTEWin	access:protected
 override	scite\win32\SciTEWin.h	/^	void ReadPropertiesInitial() override;$/;"	m	class:SciTEWin	access:protected
 override	scite\win32\SciTEWin.h	/^	void RedrawMenu() override;$/;"	m	class:SciTEWin	access:protected
 override	scite\win32\SciTEWin.h	/^	void RemoveAllTabs() override;$/;"	m	class:SciTEWin	access:protected

@@ -67,7 +67,7 @@ local appendMode=true
 		appendMode=false
 	end
 	
-	if ctagsLock==true or not props["project.path"] then return end	
+	if ctagsLock==true or  props["project.path"]=="" then return end	
 	projectEXT=props["file.patterns.project"]
 	
 	-- Propagate the Data, appends if required
@@ -97,7 +97,7 @@ local appendMode=true
 
 		--Update filetypes api path.  Append only Once
 		local origApiPath
-		if props["project.path"] then
+		if props["project.path"]~="" then
         if origApiPath==nil then 
             origApiPath=props["APIPath"]
             props["api."..props["file.patterns.project"]] =origApiPath..";"..props["project.ctags.apipath"] 
@@ -129,7 +129,7 @@ end
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~
 function ProjectOnDwell()
-	if ctagsLock==false or not props["project.path"] then return end	
+	if ctagsLock==false or props["project.path"]=="" then return end	
 	--print("ProjectOnDwell: cTagsLock",ctagsLock,"inProject",inProject)	
 	finFileNamePath=os.getenv("tmp")..dirSep.."project.ctags"..".fin"
 	
@@ -139,7 +139,7 @@ function ProjectOnDwell()
 		io.close(finFile)
 		ctagsLock=false
 		os.remove(finFileNamePath)
-		CTagsUpdateProps(true)
+		if file_exists(props["project.ctags.propspath"]) then TagsUpdateProps(true) end
 		--print("...generating CTags finished",ctagsLock) 
 	end
 	finFile=nil
