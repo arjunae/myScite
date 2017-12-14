@@ -612,7 +612,7 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 	UpdateStatusBar(true);
 	if (extender && !asynchronous) {
 		extender->OnOpen(filePath.AsUTF8().c_str());
-	ReadProperties(true); //Arjunae: Allow SciTE start-up with extender changed properties.
+	ReadProperties(false); //Arjunae: Allow SciTE start-up with extender changed properties.
 	}
 		
 	return true;
@@ -1027,7 +1027,7 @@ bool SciTEBase::SaveBuffer(const FilePath &saveName, SaveFlags sf) {
 
 	if (retVal && extender && (sf & sfSynchronous)) {
 		extender->OnSave(saveName.AsUTF8().c_str());
-		ReadProperties(true); //Arjunae: Apply extender changed properties.
+		ReadProperties(false); //Arjunae: Apply extender changed properties.
 	}
 	UpdateStatusBar(true);
 	return retVal;
@@ -1138,7 +1138,7 @@ void SciTEBase::SaveAs(const GUI::gui_char *file, bool fixCase) {
 	BuffersMenu();
 	if (extender){
 		extender->OnSave(filePath.AsUTF8().c_str());
-		ReadProperties(true);//Arjunae: Apply extender changed properties.
+		ReadProperties(false);//Arjunae: Apply extender changed properties.
 		}
 }
 

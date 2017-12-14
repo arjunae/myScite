@@ -886,7 +886,7 @@ protected:
 	void DefineMarker(int marker, int markerType, Colour fore, Colour back, Colour backSelected);
 	void ReadAPI(const std::string &fileNameForExtension);
 	std::string FindLanguageProperty(const char *pattern, const char *defaultValue = "");
-	virtual void ReadProperties();
+	virtual void ReadProperties(bool reloadScripts);
 	std::string StyleString(const char *lang, int style) const;
 	StyleDefinition StyleDefinitionFor(int style);
 	void SetOneStyle(GUI::ScintillaWindow &win, int style, const StyleDefinition &sd);

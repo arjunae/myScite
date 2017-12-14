@@ -242,7 +242,7 @@ protected:
 
 	void ReadEmbeddedProperties() override;
 	void ReadPropertiesInitial() override;
-	void ReadProperties() override;
+	void ReadProperties();
 
 	void TimerStart(int mask) override;
 	void TimerEnd(int mask) override;

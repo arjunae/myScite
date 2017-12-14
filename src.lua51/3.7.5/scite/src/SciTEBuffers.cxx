@@ -891,7 +891,7 @@ void SciTEBase::New() {
 
 void SciTEBase::RestoreState(const Buffer &buffer, bool restoreBookmarks) {
 	SetWindowName();
-	ReadProperties();
+	ReadProperties(true);
 	if (CurrentBuffer()->unicodeMode != uni8Bit) {
 		// Override the code page if Unicode
 		codePage = SC_CP_UTF8;
@@ -1384,7 +1384,7 @@ void SciTEBase::StackMenu(int pos) {
 			if ((pos == 0) && (!recentFileStack[pos].IsSet())) {	// Empty
 				New();
 				SetWindowName();
-				ReadProperties();
+				ReadProperties(true);
 				SetIndentSettings();
 				SetEol();
 			} else if (recentFileStack[pos].IsSet()) {

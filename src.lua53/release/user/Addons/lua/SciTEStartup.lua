@@ -45,11 +45,4 @@ OnLoad()
 	-- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
 end
 
-function bla()
-
-scite.ReadProperties(false)
-
-end
-
-scite_OnSave(bla)
-scite.ReadProperties(false)
+--scite.ReadProperties(false)

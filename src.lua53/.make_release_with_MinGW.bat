@@ -17,6 +17,9 @@ echo ::..::..:::..::..::.:.::
 echo ::    SciTE Prod      ::
 echo ::..::..:::..::..::.:.::
 
+del Release\SciTE.exe
+del Release\SciLexer.dll
+
 cd scintilla\win32
 mingw32-make -j %NUMBER_OF_PROCESSORS%
 if errorlevel 1 goto :error
