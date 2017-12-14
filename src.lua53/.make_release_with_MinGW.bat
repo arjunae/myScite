@@ -17,8 +17,8 @@ echo ::..::..:::..::..::.:.::
 echo ::    SciTE Prod      ::
 echo ::..::..:::..::..::.:.::
 
-del Release\SciTE.exe
-del Release\SciLexer.dll
+del Release\SciTE.exe 2>NUL
+del Release\SciLexer.dll 2>NUL
 
 cd scintilla\win32
 mingw32-make -j %NUMBER_OF_PROCESSORS%

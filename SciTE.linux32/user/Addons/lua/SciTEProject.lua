@@ -116,7 +116,7 @@ local appendMode=true
 	props["style."..currentLexer..".11.19"]=props["colour.project.enums"]
 	props["style."..currentLexer..".11.20"]=props["colour.project.class"]
 	
-	if theForceMightBeWithYou==true then scite.ReadProperties() end
+	if theForceMightBeWithYou==true then scite.ApplyProperties() end
 	
 	return cTagList
 end
@@ -139,7 +139,7 @@ function ProjectOnDwell()
 		io.close(finFile)
 		ctagsLock=false
 		os.remove(finFileNamePath)
-		if file_exists(props["project.ctags.propspath"]) then TagsUpdateProps(true) end
+		if file_exists(props["project.ctags.propspath"]) then CTagsUpdateProps(true) end
 		--print("...generating CTags finished",ctagsLock) 
 	end
 	finFile=nil

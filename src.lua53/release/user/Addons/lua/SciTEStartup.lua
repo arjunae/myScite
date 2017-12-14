@@ -39,10 +39,9 @@ end
 -- ##################  Lua Samples #####################
 --   ##############################################
 
-function 
-OnLoad() 
+function OnLoad() 
 	--print(editor.StyleAt[1])
 	-- scite.MenuCommand(IDM_MONOFONT) -- Test MenuCommand
 end
 
---scite.ReadProperties(false)
+--scite.ApplyProperties()
