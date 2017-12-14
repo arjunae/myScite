@@ -40,6 +40,8 @@ dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 -- Load cTags Browser
 dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
 
+dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
+
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- ##################  Lua Samples #####################
@@ -254,11 +256,13 @@ function OnInit()
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 
-	scite_OnOpenSwitch(HandleProject)
-	scite_OnSave(AppendNewCTags)
 	TestSciLexer("95822cff") -- SciLexers CRC32 Hash for the current Version
-	scite_OnOpenSwitch(StyleStuff)
 	
+	-- Event Handlers
+	scite_OnOpenSwitch(UpdateProps,false)
+	scite_OnSave(RecreateCTags)
+	scite_OnOpenSwitch(StyleStuff)
+
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
 end

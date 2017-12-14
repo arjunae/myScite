@@ -203,10 +203,8 @@ function OnInit()
 -- Event Handlers
 	scite_OnOpenSwitch(UpdateProps,false)
 	scite_OnSave(RecreateCTags)
---	scite_OnDwellStart(ProjectOnDwell)
 	scite_OnOpenSwitch(StyleStuff)
 
-	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
 end
