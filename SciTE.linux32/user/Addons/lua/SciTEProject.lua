@@ -9,6 +9,31 @@ local ctagsLock --true during writing to the projects ctags and properties files
 
 --~~~~~~~~~~~~~~~~~~~
 --
+-- NameCache
+--
+--~~~~~~~~~~~~~~~~~~~
+local cTagNames
+local cTagClasses
+local cTagModules
+local cTagFunctions
+local cTagNames
+local cTagENUMs
+local cTagOthers
+local cTagList --table
+
+--~~~~~~~~~~~~~~~~~~~
+--
+-- Default Values for syntax Highlitening for substyles enabled Lexers
+--
+--~~~~~~~~~~~~~~~~~~~
+if props["colour.project.class"]=="" then props["colour.project.class"]="fore:#906690" end 
+if props["colour.project.functions"]=="" then props["colour.project.functions"]="fore:#907090" end 
+if props["colour.project.constants"]=="" then props["colour.project.constants"]="fore:#B07595" end 
+if props["colour.project.modules"]=="" then props["colour.project.modules"]="fore:#9675B0" end 
+if props["colour.project.enums"]=="" then props["colour.project.enums"]="fore:#3645B0" end 
+
+--~~~~~~~~~~~~~~~~~~~
+--
 -- returns if a given fileNamePath exists
 --
 --~~~~~~~~~~~~~~~~~~~
@@ -23,7 +48,7 @@ end
 -- (ctags, Autocomplete & highlitening)
 --
 --~~~~~~~~~~~~~~~~~~~
-local function SetProjectEnv(init)
+local function ProjectSetEnv(init)
 
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		props["project.path"] = props["SciteDirectoryHome"]
@@ -40,15 +65,6 @@ local function SetProjectEnv(init)
 
 end
 
-
-local cTagNames
-local cTagClasses
-local cTagModules
-local cTagFunctions
-local cTagNames
-local cTagENUMs
-local cTagOthers
-local cTagList
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 -- UpdateProps() / publish cTag extrapolated Api Data -
@@ -56,11 +72,10 @@ local cTagList
 -- returns cTagList, which contains a List of all Names found in the tagFile
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 function CTagsUpdateProps(theForceMightBeWithYou)
 local appendMode=true
 
-	SetProjectEnv(false)
+	ProjectSetEnv(false)
 	local prefix=props["project.ctags.filename"]
 	if not string.find(prefix,"append") then
 		cTagNames="" cTagClasses="" cTagModules="" cTagFunctions="" cTagNames="" cTagENUMs="" cTagOthers=""
@@ -165,7 +180,7 @@ function CTagsRecreate()
 			ctagsCMD=ctagsBin.." -f "..ctagsTMP.." "..ctagsOpt.." "..props["FilePath"] 
 
 			if props["project.ctags.save_applies"]=="1" then
-				-- also do a full refresh to the project file in a background task
+				-- just do a full refresh to the project file in a background task
 				ctagsCMD=ctagsBin.." -f "..ctagsFP.." "..ctagsOpt
 				local pipe=scite_Popen(ctagsCMD)
 				--local tmp= pipe:read('*a') -- synchronous -waits for the Command to complete
@@ -180,4 +195,4 @@ end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- Registers the Autocomplete event Handlers early.
-SetProjectEnv(true)
+ProjectSetEnv(true)

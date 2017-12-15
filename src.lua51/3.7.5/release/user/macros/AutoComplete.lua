@@ -19,10 +19,10 @@ To use this script with SciTE4AutoHotkey:
     Use a FileSize maximum; 
     Only regenerate Data on changed File
     Renew Keyword List OnDwell
-- appendCTags() function (Autocomplete / Highlite Project)   
-->Config:
-    project.ctags.class= .functions= .constants= .modules= .enums=1 
-    colour.project.class= .functions= .constants= .modules= .enums=fore:######
+- appendCTags() function (Autocomplete / Project)   
+    "project.ctags.propspath" has to be set to an existing file.
+    when available, it will call CTagsUpdateProps()
+    which hands a flat table containing ctagnames
 ]]
 
 local DEBUG=0 --1: Trace Mode 2: Verbose Mode
@@ -83,14 +83,6 @@ props["autocomplete.start.characters"] = ""
 -- This feature is very awkward when combined with automatic popups:
 props["autocomplete.choose.single"] = "0"
 
--- Default Values for syntax Highlitening for substyles enabled Lexers
-
-if props["colour.project.class"]=="" then props["colour.project.class"]="fore:#906690" end 
-if props["colour.project.functions"]=="" then props["colour.project.functions"]="fore:#907090" end 
-if props["colour.project.constants"]=="" then props["colour.project.constants"]="fore:#B07595" end 
-if props["colour.project.modules"]=="" then props["colour.project.modules"]="fore:#9675B0" end 
-if props["colour.project.enums"]=="" then props["colour.project.enums"]="fore:#3645B0" end 
-
 --~~~~~~~~~~~~~~~~~~~~~~~
 
 local names = {}
@@ -104,10 +96,12 @@ if IGNORE_CASE then
 else
     normalize = function(word) return word end
 end
-		
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 -- Deal with different Path Separators o linux/win
 --
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local function dirSep()
 if props["PLAT_WIN"] then
     return("\\")
@@ -124,9 +118,11 @@ local function file_exists(name)
    if f~=nil then io.close(f) return true else return false end
 end
 
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 -- returns the size of a given fileNamePath.
 --
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function file_size (filePath)
     if  filePath ~=""  and filePath ~= nil then 
         local myFile,err=io.open(filePath,"r")
@@ -139,10 +135,12 @@ function file_size (filePath)
     end
 end
 
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 -- checks for a Value in a Table
 -- copes with array like - table[value]=true constructs
 --
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local function isInTable(table, elem)
 	if table == null then return false end
 	for k,i in ipairs(table) do
@@ -162,7 +160,7 @@ end
 
 function appendCTags(apiNames,cTagsFilePath)
 
-    if props["project.ctags.filename"]=="" then return apiNames end
+    if props["project.ctags.propspath"]=="" then return apiNames end
 
     -- Append Once to filetypes api path
     if type(CTagsUpdateProps)=="function" then

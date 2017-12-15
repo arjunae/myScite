@@ -1,4 +1,4 @@
-/// Implements lua->scite.ApplyProperties() / Fixes SciTE Start with lua changed Properties.
+// Implements luaExtension: scite.ApplyProperties, Applies Extender changed props OnLoad and OnSave
 diff -Nurw scite/src/Extender.h scite_m/src/Extender.h
 --- scite/src/Extender.h	2017-05-26 00:25:02.000000000 +0200
 +++ scite_m/src/Extender.h	2017-12-15 09:11:26.000000000 +0100
@@ -100,7 +100,7 @@ diff -Nurw scite/src/SciTEBuffers.cxx scite_m/src/SciTEBuffers.cxx
  			} else if (recentFileStack[pos].IsSet()) {
 diff -Nurw scite/src/SciTEIO.cxx scite_m/src/SciTEIO.cxx
 --- scite/src/SciTEIO.cxx	2017-05-26 00:25:04.000000000 +0200
-+++ scite_m/src/SciTEIO.cxx	2017-12-15 09:14:10.000000000 +0100
++++ scite_m/src/SciTEIO.cxx	2017-12-15 15:53:12.000000000 +0100
 @@ -359,7 +359,7 @@
  	wEditor.Call(SCI_SETREADONLY, CurrentBuffer()->isReadOnly);
  
@@ -119,7 +119,19 @@ diff -Nurw scite/src/SciTEIO.cxx scite_m/src/SciTEIO.cxx
  			SetIndentSettings();
  		}
  	}
-@@ -572,7 +572,7 @@
+@@ -436,8 +436,10 @@
+ 				if (pathSaved.SameNameAs(CurrentBuffer()->AsInternal())) {
+ 					wEditor.Call(SCI_SETSAVEPOINT);
+ 				}
+-				if (extender)
++				if (extender){
+ 					extender->OnSave(buffers.buffers[iBuffer].AsUTF8().c_str());
++					ReadProperties(true);
++					}
+ 			} else {
+ 				buffers.buffers[iBuffer].isDirty = false;
+ 				buffers.buffers[iBuffer].failedSave = false;
+@@ -572,7 +574,7 @@
  	}
  	CurrentBuffer()->props = propsDiscovered;
  	CurrentBuffer()->overrideExtension = "";
@@ -128,7 +140,7 @@ diff -Nurw scite/src/SciTEIO.cxx scite_m/src/SciTEIO.cxx
  	SetIndentSettings();
  	SetEol();
  	UpdateBuffersCurrent();
-@@ -608,8 +608,10 @@
+@@ -608,8 +610,10 @@
  	if (lineNumbers && lineNumbersExpand)
  		SetLineNumberWidth();
  	UpdateStatusBar(true);
@@ -140,7 +152,15 @@ diff -Nurw scite/src/SciTEIO.cxx scite_m/src/SciTEIO.cxx
  	return true;
  }
  
-@@ -1032,7 +1034,7 @@
+@@ -1022,6 +1026,7 @@
+ 
+ 	if (retVal && extender && (sf & sfSynchronous)) {
+ 		extender->OnSave(saveName.AsUTF8().c_str());
++		ReadProperties(true);
+ 	}
+ 	UpdateStatusBar(true);
+ 	return retVal;
+@@ -1032,7 +1037,7 @@
  	SetImportMenu();
  	ReadLocalPropFile();
  	ReadAbbrevPropFile();
@@ -149,7 +169,7 @@ diff -Nurw scite/src/SciTEIO.cxx scite_m/src/SciTEIO.cxx
  	SetWindowName();
  	BuffersMenu();
  	Redraw();
-@@ -1124,7 +1126,7 @@
+@@ -1124,14 +1129,16 @@
  void SciTEBase::SaveAs(const GUI::gui_char *file, bool fixCase) {
  	SetFileName(file, fixCase);
  	Save();
@@ -158,7 +178,17 @@ diff -Nurw scite/src/SciTEIO.cxx scite_m/src/SciTEIO.cxx
  	wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
  	wEditor.Call(SCI_COLOURISE, 0, wEditor.Call(SCI_POSITIONFROMLINE, 1));
  	Redraw();
-@@ -1213,7 +1215,7 @@
+ 	SetWindowName();
+ 	BuffersMenu();
+-	if (extender)
++	if (extender){
+ 		extender->OnSave(filePath.AsUTF8().c_str());
++		ReadProperties(true);
++		}
+ }
+ 
+ bool SciTEBase::SaveIfNotOpen(const FilePath &destFile, bool fixCase) {
+@@ -1213,7 +1220,7 @@
  		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
  
  		CurrentBuffer()->overrideExtension = "x.txt";
