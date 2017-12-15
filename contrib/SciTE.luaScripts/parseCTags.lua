@@ -1,15 +1,11 @@
 --
--- todo: should write a scite prop and api file
---todo: compile
+-- parseCTags.lua 
+-- takes a ctags file and parse its contents to a respective SciTE .properties and .api file
+-- License: BSD3Clause / Author: Thorsten Kani / eMail:Marcedo@habMalNeFrage.de
+-- version: 0.8 
+-- todo: compile?
 --
-local DEBUG=1 --1: Trace Mode 2: Verbose Mode
-
---
--- Deal with different Path Separators o linux/win
---
-local function dirSep()
-        return("\\")
-end
+local DEBUG=0 --1: Trace Mode 2: Verbose Mode
 
 cTagAPI={} -- projectAPI functions(param)
 local cTagNames=""
@@ -19,54 +15,64 @@ local cTagModules =""
 local cTagENUMs=""
 local cTagOthers=""
 local cTagDupes=""
+local fs=io
 
--- read args
-local cTagsFilePath =arg[1]
-local projectName =arg[2]
-local createAPIFile =arg[3]
-
-if not cTagsFilePath then cTagsFilePath ="D:\\projects\\_myScite\\_myScite.github\\src.lua53\\ctags.tags" end
-if not projectName then projectName="scintilla_scite" end
-
+--
+-- Deal with different Path Separators o linux/win
+--
+local function dirSep()
+        return("\\")
+end
 
 --
 -- returns if a given fileNamePath exists
 --
 local function file_exists(name)
-   local f=io.open(name,"r")
-   if f~=nil then io.close(f) return true else return false end
+   local f=fs.open(name,"r")
+   if f~=nil then fs.close(f) return true else return false end
 end
+
+-- read args
+local cTagsAPIFilePath =arg[1]
+local projectName =arg[2]
+local createAPIFile =arg[3]
+
+if not cTagsAPIFilePath then cTagsAPIFilePath =os.getenv("tmp")..dirSep().."ctags.tags" end
+local projectFilePath, cTagsAPIFileName=cTagsAPIFilePath:match("(.*[%"..dirSep().."]+)%/?(.*)$")
+print (projectFilePath,cTagsAPIFileName)
+if not projectName then projectName=cTagsAPIFileName end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
---  appendCTags(apiNames,cTagsFilePath,dryRun)
---  Parse a ctag File, write filteret tagNames to predefined Vars.
---  Takes: apiNames: table, FullyQualified cTagsFilePath, createAPIFile: optionally write Api file to tmp.
---  Returns: uniqued tagNames to given table
+--  appendCTags(apiNames,projectFilePath,projectName)
+--  Parse a ctag File, write filtered tagNames to predefined Vars.
+--  Takes: apiNames: table, FullyQualified projectFilePath, optional projectName
+--  Returns: uniqued tagNames written to apiNames
 --
 -- Optimized lua version. Gives reasonable Speed on a 100k source and 1M cTags File. 
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function appendCTags(apiNames,cTagsFilePath,projectName,createAPIFile)
+function appendCTags(apiNames,projectFilePath,projectName)
     local sysTmp=os.getenv("tmp")
-    local cTagsAPIPath=sysTmp..dirSep()..projectName.."_cTags.api" -- performance:  should we reuse an existing File ?
+    local cTagsAPIFilePath=projectFilePath.."ctags.tags"
+    local cTagsAPIPath=projectFilePath..cTagsAPIFileName..".api"
   
      -- catches not otherwise matched Stuff for Highlitghtning
      -- turn on for testing.
     local doFullSync="0"
     
-    if file_exists(cTagsFilePath) then
-    if DEBUG>=1 then print("ac>appendCtags" ,cTagsFilePath,createAPIFile) end     
+    if file_exists(cTagsAPIFilePath) then
+    if DEBUG>=1 then print("ac>appendCtags" ,cTagsAPIFilePath,projectName) end     
     
-        local lastEntry=""
-        local cTagsFile= io.open(cTagsAPIPath,"w")
-        io.output(cTagsFile)   -- projects cTags APICalltips file
+        local lastEntry="" -- simple DupeCheck
+        local cTagsAPIFile= io.open(cTagsAPIPath,"w")
+        io.output(cTagsAPIFile)   -- projects cTags APICalltips file
 
         -- a poorMans exuberAnt cTag Tokenizer :)) --
         -- Gibt den LemmingAmeisen was sinnvolles zu tun(tm) --
         
-        for entry in io.lines(cTagsFilePath) do
+        for entry in io.lines(cTagsAPIFilePath) do
             local isFunction=false isClass=false isConst=false isModule=false isENUM=false isOther=false
             local skipper=false          
             local name =""
@@ -130,20 +136,20 @@ function appendCTags(apiNames,cTagsFilePath,projectName,createAPIFile)
             -- publish collected Data (dupe Checked). Prefer the className over the functionName  
              if name and name..params~=lastEntry and not isfunction then  
                 ---- AutoComplete List entries
-                if not  appendMode then cTagAPI[ACListEntry]=true end
+                cTagAPI[ACListEntry]=true
                 ----  Highlitening use String concatination, because its faster for onSave ( theres no dupe checking.)
                 if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
                 if isFunction then cTagFunctions=cTagFunctions.." "..name  end
                 if isConst then cTagNames=cTagNames.." "..name end
                 if isModule then cTagModules=cTagModules.." "..name end
                 if isClass then cTagClass=cTagClass.." "..name  end
-                if  isENUM then cTagENUMs=cTagENUMs.." "..name  end
+                if isENUM then cTagENUMs=cTagENUMs.." "..name  end
                 if isOther then cTagOthers=cTagOthers.." "..cTagOther end
                 lastname=name
                 -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=name..params
                 if isFunction and string.len(params)>2 then 
-                   if createAPIFile then io.write(lastEntry.."\n") end
+                   io.write(lastEntry.."\n")
                 end -- faster then using a full bulkWrite
             else
                 if DEBUG then cTagDupes= cTagDupes..cTagOther  end -- include Dupes for stats in Trace mode
@@ -151,12 +157,10 @@ function appendCTags(apiNames,cTagsFilePath,projectName,createAPIFile)
             end
         end
      
-        io.close(cTagsFile)
+        io.close(cTagsAPIFile)
+        writeProps(projectName, projectFilePath) --> Let a Helper apply the generated Data.
         cTagsUpdate="0"
-        
-        writeProps(projectName) -- Helper which applies the generated Data to their lexer styles
-
-end
+    end
 
     -- cTagsUpdate=0 so already done.  Using the cached Version
     return cTagAPI  
@@ -164,42 +168,44 @@ end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
--- writeProps()
+-- writeProps(projectName, projectFilePath)
 -- publish cTag extrapolated Api Data -
 -- reads above cTag.* vars
 -- write them to SciTEs properties
--- probably should return something useful
+-- probably should return something useful.
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function writeProps(projectName)
-
-if DEBUG>=1 then
-    print("ac>writeProps:")
-    print("ac> cTagNames: ("..string.len(cTagNames).." bytes)" )
-    print("ac> cTagClass: ("..string.len(cTagClass).." bytes)" )
-    print("ac> cTagModules: ("..string.len(cTagModules).." bytes)" )  
-    print("ac> cTagFunctions: ("..string.len(cTagFunctions).." bytes)" )
-    print("ac> cTagENUMs ("..string.len(cTagENUMs).." bytes)" )
-    print("ac> cTagOthers ("..string.len(cTagOthers).." bytes)" )
-    print("ac> cTagDupes ("..string.len(cTagDupes).." bytes)" )
-end
-
-    propFile=io.open(os.getenv("tmp")..dirSep()..projectName..".properties","w")
+function writeProps(projectName, projectFilePath)
+    
+-- write what we got until here.
+    propFile=io.open(projectFilePath..cTagsAPIFileName..".properties","w")
     propFile= io.output(propFile)
     io.output(propFile) 
-    io.write("projectName.cTagClasses="..cTagClass.."\n")
-    io.write("projectName.cTagModules="..cTagModules.."\n") 
-    io.write("projectName.cTagFunctions="..cTagFunctions.."\n") 
-    io.write("projectName.cTagNames="..cTagNames.."\n")
-    io.write("projectName.cTagENUMs="..cTagENUMs.."\n")
-    io.write("projectName.cTagOthers="..cTagOthers.."\n") 
+    io.write(projectName..".cTagOthers="..cTagOthers.."\n") 
+    io.write(projectName..".cTagENUMs="..cTagENUMs.."\n")     
+    io.write(projectName..".cTagNames="..cTagNames.."\n")
+    io.write(projectName..".cTagFunctions="..cTagFunctions.."\n") 
+    io.write(projectName..".cTagModules="..cTagModules.."\n")   
+    io.write(projectName..".cTagClasses="..cTagClass.."\n")
+    
     io.close(propFile)
-
+    
+-- Show some stats
+        print("ac>writeProps:")
+        print("ac> cTagENUMs ("..string.len(cTagENUMs).." bytes)" )
+        print("ac> cTagNames: ("..string.len(cTagNames).." bytes)" )
+        print("ac> cTagFunctions: ("..string.len(cTagFunctions).." bytes)" )
+        print("ac> cTagModules: ("..string.len(cTagModules).." bytes)" )  
+        print("ac> cTagClass: ("..string.len(cTagClass).." bytes)" )
+        print("ac> cTagOthers ("..string.len(cTagOthers).." bytes)" )
+        print("ac> cTagDupes ("..string.len(cTagDupes).." bytes)" )
 end
 
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 -- create a lock file
-finFileNamePath=os.getenv("tmp")..dirSep().."projectName"..".fin"
-lockFileNamePath=os.getenv("tmp")..dirSep().."projectName"..".lock"
+finFileNamePath=os.getenv("tmp")..dirSep().."project.ctags.fin"
+lockFileNamePath=os.getenv("tmp")..dirSep().."project.ctags.lock"
 
 os.remove(finFileNamePath)
 lockFile=io.open(lockFileNamePath,"w")
@@ -209,12 +215,12 @@ io.write(tostring(os.date))
 io.close(lockFile)
 
 -- do!
-appendCTags({},cTagsFilePath,projectName,true)
+appendCTags({},projectFilePath,projectName)
 
 -- create the fin file
 os.remove(lockFileNamePath)
-lockFile=io.open(lockFileNamePath,"w")
-lockFile= io.output(lockFileNamePath)
-io.output(lockFile) 
+finFile=io.open(finFileNamePath,"w")
+finFile= io.output(finFileNamePath)
+io.output(finFile) 
 io.write(tostring(os.date))
-io.close(lockFile)
+io.close(finFile)
