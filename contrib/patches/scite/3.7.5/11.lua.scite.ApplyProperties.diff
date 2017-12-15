@@ -1,0 +1,216 @@
+/// Implements lua->scite.ApplyProperties() / Fixes SciTE Start with lua changed Properties.
+diff -Nurw scite/src/Extender.h scite_m/src/Extender.h
+--- scite/src/Extender.h	2017-05-26 00:25:02.000000000 +0200
++++ scite_m/src/Extender.h	2017-12-15 09:11:26.000000000 +0100
+@@ -42,6 +42,7 @@
+ 	virtual void Perform(const char *actions)=0;
+ 	virtual void DoMenuCommand(int cmdID)=0;
+ 	virtual void UpdateStatusBar(bool bUpdateSlowData)=0;
++	virtual void ReadProperties(bool reloadScripts)=0;
+ 	virtual void UserStripShow(const char *description)=0;
+ 	virtual void UserStripSet(int control, const char *value)=0;
+ 	virtual void UserStripSetList(int control, const char *value)=0;
+diff -Nurw scite/src/LuaExtension.cxx scite_m/src/LuaExtension.cxx
+--- scite/src/LuaExtension.cxx	2017-05-26 00:25:04.000000000 +0200
++++ scite_m/src/LuaExtension.cxx	2017-12-15 09:11:26.000000000 +0100
+@@ -59,7 +59,6 @@
+ // the normal SciTE convention.  There is some grey area of course,
+ // and for these I just make a judgement call
+ 
+-
+ static ExtensionAPI *host = 0;
+ static lua_State *luaState = 0;
+ static bool luaDisabled = false;
+@@ -296,6 +295,12 @@
+ 	return 0;
+ }
+ 
++static int cf_scite_apply_properties(lua_State *L) {
++	if(!L) return(0);
++	host->ReadProperties(false);
++	return 0;
++}
++
+ static int cf_scite_strip_show(lua_State *L) {
+ 	const char *s = luaL_checkstring(L, 1);
+ 	if (s) {
+@@ -1419,6 +1424,9 @@
+ 	lua_pushcfunction(luaState, cf_scite_update_status_bar);
+ 	lua_setfield(luaState, -2, "UpdateStatusBar");
+ 
++	lua_pushcfunction(luaState, cf_scite_apply_properties);
++	lua_setfield(luaState, -2, "ApplyProperties");
++
+ 	lua_pushcfunction(luaState, cf_scite_strip_show);
+ 	lua_setfield(luaState, -2, "StripShow");
+ 
+diff -Nurw scite/src/SciTEBase.cxx scite_m/src/SciTEBase.cxx
+--- scite/src/SciTEBase.cxx	2017-05-26 00:25:04.000000000 +0200
++++ scite_m/src/SciTEBase.cxx	2017-12-15 09:11:26.000000000 +0100
+@@ -303,7 +303,7 @@
+ 
+ 	CurrentBuffer()->overrideExtension = "x.";
+ 	CurrentBuffer()->overrideExtension += languageMenu[cmdID].extension;
+-	ReadProperties();
++	ReadProperties(true);
+ 	SetIndentSettings();
+ 	wEditor.Call(SCI_COLOURISE, 0, -1);
+ 	Redraw();
+@@ -2984,7 +2984,7 @@
+ 		// an opportunity to abandon the edits made to a file when are.you.sure is turned off.
+ 		if (CanMakeRoom()) {
+ 			New();
+-			ReadProperties();
++			ReadProperties(true);
+ 			SetIndentSettings();
+ 			SetEol();
+ 			UpdateStatusBar(true);
+diff -Nurw scite/src/SciTEBase.h scite_m/src/SciTEBase.h
+--- scite/src/SciTEBase.h	2017-05-26 00:25:04.000000000 +0200
++++ scite_m/src/SciTEBase.h	2017-12-15 09:11:26.000000000 +0100
+@@ -883,7 +883,7 @@
+ 	void DefineMarker(int marker, int markerType, Colour fore, Colour back, Colour backSelected);
+ 	void ReadAPI(const std::string &fileNameForExtension);
+ 	std::string FindLanguageProperty(const char *pattern, const char *defaultValue = "");
+-	virtual void ReadProperties();
++	virtual void ReadProperties(bool reloadScripts);
+ 	std::string StyleString(const char *lang, int style) const;
+ 	StyleDefinition StyleDefinitionFor(int style);
+ 	void SetOneStyle(GUI::ScintillaWindow &win, int style, const StyleDefinition &sd);
+diff -Nurw scite/src/SciTEBuffers.cxx scite_m/src/SciTEBuffers.cxx
+--- scite/src/SciTEBuffers.cxx	2017-05-26 00:25:04.000000000 +0200
++++ scite_m/src/SciTEBuffers.cxx	2017-12-15 09:11:26.000000000 +0100
+@@ -891,7 +891,7 @@
+ 
+ void SciTEBase::RestoreState(const Buffer &buffer, bool restoreBookmarks) {
+ 	SetWindowName();
+-	ReadProperties();
++	ReadProperties(true);
+ 	if (CurrentBuffer()->unicodeMode != uni8Bit) {
+ 		// Override the code page if Unicode
+ 		codePage = SC_CP_UTF8;
+@@ -1381,7 +1381,7 @@
+ 			if ((pos == 0) && (!recentFileStack[pos].IsSet())) {	// Empty
+ 				New();
+ 				SetWindowName();
+-				ReadProperties();
++				ReadProperties(true);
+ 				SetIndentSettings();
+ 				SetEol();
+ 			} else if (recentFileStack[pos].IsSet()) {
+diff -Nurw scite/src/SciTEIO.cxx scite_m/src/SciTEIO.cxx
+--- scite/src/SciTEIO.cxx	2017-05-26 00:25:04.000000000 +0200
++++ scite_m/src/SciTEIO.cxx	2017-12-15 09:14:10.000000000 +0100
+@@ -359,7 +359,7 @@
+ 	wEditor.Call(SCI_SETREADONLY, CurrentBuffer()->isReadOnly);
+ 
+ 	if (oc != ocSynchronous) {
+-		ReadProperties();
++		ReadProperties(true);
+ 	}
+ 
+ 	if (language == "") {
+@@ -367,7 +367,7 @@
+ 		if (languageOverride.length()) {
+ 			CurrentBuffer()->overrideExtension = languageOverride;
+ 			CurrentBuffer()->lifeState = Buffer::open;
+-			ReadProperties();
++			ReadProperties(true);
+ 			SetIndentSettings();
+ 		}
+ 	}
+@@ -572,7 +572,7 @@
+ 	}
+ 	CurrentBuffer()->props = propsDiscovered;
+ 	CurrentBuffer()->overrideExtension = "";
+-	ReadProperties();
++	ReadProperties(true);
+ 	SetIndentSettings();
+ 	SetEol();
+ 	UpdateBuffersCurrent();
+@@ -608,8 +608,10 @@
+ 	if (lineNumbers && lineNumbersExpand)
+ 		SetLineNumberWidth();
+ 	UpdateStatusBar(true);
+-	if (extender && !asynchronous)
++	if (extender && !asynchronous){
+ 		extender->OnOpen(filePath.AsUTF8().c_str());
++		ReadProperties(false); //Arjunae: Allow SciTE start-up with extender changed properties.
++		}
+ 	return true;
+ }
+ 
+@@ -1032,7 +1034,7 @@
+ 	SetImportMenu();
+ 	ReadLocalPropFile();
+ 	ReadAbbrevPropFile();
+-	ReadProperties();
++	ReadProperties(true);
+ 	SetWindowName();
+ 	BuffersMenu();
+ 	Redraw();
+@@ -1124,7 +1126,7 @@
+ void SciTEBase::SaveAs(const GUI::gui_char *file, bool fixCase) {
+ 	SetFileName(file, fixCase);
+ 	Save();
+-	ReadProperties();
++	ReadProperties(true);
+ 	wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
+ 	wEditor.Call(SCI_COLOURISE, 0, wEditor.Call(SCI_POSITIONFROMLINE, 1));
+ 	Redraw();
+@@ -1213,7 +1215,7 @@
+ 		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
+ 
+ 		CurrentBuffer()->overrideExtension = "x.txt";
+-		ReadProperties();
++		ReadProperties(true);
+ 		SetIndentSettings();
+ 		wEditor.Call(SCI_COLOURISE, 0, -1);
+ 		Redraw();
+diff -Nurw scite/src/SciTEProps.cxx scite_m/src/SciTEProps.cxx
+--- scite/src/SciTEProps.cxx	2017-05-26 00:25:04.000000000 +0200
++++ scite_m/src/SciTEProps.cxx	2017-12-15 09:11:26.000000000 +0100
+@@ -637,8 +637,8 @@
+ 	}
+ }
+ 
+-void SciTEBase::ReadProperties() {
+-	if (extender)
++void SciTEBase::ReadProperties(bool reloadScripts) {
++	if (extender && reloadScripts) 
+ 		extender->Clear();
+ 
+ 	const std::string fileNameForExtension = ExtensionFileName();
+@@ -1343,7 +1343,7 @@
+ 		// Check for an extension script
+ 		GUI::gui_string extensionFile = GUI::StringFromUTF8(
+ 			props.GetNewExpandString("extension.", fileNameForExtension.c_str()));
+-		if (extensionFile.length()) {
++		if (extensionFile.length() && reloadScripts) {
+ 			// find file in local directory
+ 			FilePath docDir = filePath.Directory();
+ 			if (Exists(docDir.AsInternal(), extensionFile.c_str(), &scriptPath)) {
+diff -Nurw scite/win32/SciTEWin.cxx scite_m/win32/SciTEWin.cxx
+--- scite/win32/SciTEWin.cxx	2017-05-26 00:25:04.000000000 +0200
++++ scite_m/win32/SciTEWin.cxx	2017-12-15 09:11:26.000000000 +0100
+@@ -441,7 +441,7 @@
+ }
+ 
+ void SciTEWin::ReadProperties() {
+-	SciTEBase::ReadProperties();
++	SciTEBase::ReadProperties(true);
+ 	if (flatterUI) {
+ 		if (foldColour.empty() && foldHiliteColour.empty()) {
+ 			Colour lightMargin = ColourRGB(0xF7, 0xF7, 0xF7);
+diff -Nurw scite/win32/SciTEWin.h scite_m/win32/SciTEWin.h
+--- scite/win32/SciTEWin.h	2017-05-26 00:25:04.000000000 +0200
++++ scite_m/win32/SciTEWin.h	2017-12-15 09:11:26.000000000 +0100
+@@ -234,7 +234,7 @@
+ 
+ 	void ReadEmbeddedProperties() override;
+ 	void ReadPropertiesInitial() override;
+-	void ReadProperties() override;
++	void ReadProperties();
+ 
+ 	void TimerStart(int mask) override;
+ 	void TimerEnd(int mask) override;

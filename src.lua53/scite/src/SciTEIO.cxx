@@ -336,8 +336,8 @@ void SciTEBase::TextRead(FileWorker *pFileWorker) {
 		sptr_t pdocLoading = reinterpret_cast<sptr_t>(pFileLoader->pLoader->ConvertToDocument());
 		pFileLoader->pLoader = 0;
 		SwitchDocumentAt(iBuffer, pdocLoading);
-		if (iBuffer == buffers.Current()) {			
-		CompleteOpen(ocCompleteCurrent);
+		if (iBuffer == buffers.Current()) {
+			CompleteOpen(ocCompleteCurrent);
 			if (extender)
 				extender->OnOpen(buffers.buffers[iBuffer].AsUTF8().c_str());
 			RestoreState(buffers.buffers[iBuffer], true);
@@ -436,10 +436,8 @@ void SciTEBase::TextWritten(FileWorker *pFileWorker) {
 				if (pathSaved.SameNameAs(CurrentBuffer()->AsInternal())) {
 					wEditor.Call(SCI_SETSAVEPOINT);
 				}
-				if (extender) {
+				if (extender)
 					extender->OnSave(buffers.buffers[iBuffer].AsUTF8().c_str());
-					ReadProperties(true);
-					}
 			} else {
 				buffers.buffers[iBuffer].isDirty = false;
 				buffers.buffers[iBuffer].failedSave = false;
@@ -610,11 +608,10 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 	if (lineNumbers && lineNumbersExpand)
 		SetLineNumberWidth();
 	UpdateStatusBar(true);
-	if (extender && !asynchronous) {
+	if (extender && !asynchronous){
 		extender->OnOpen(filePath.AsUTF8().c_str());
-	ReadProperties(false); //Arjunae: Allow SciTE start-up with extender changed properties.
-	}
-		
+		ReadProperties(false); //Arjunae: Allow SciTE start-up with extender changed properties.
+		}
 	return true;
 }
 
@@ -1027,7 +1024,6 @@ bool SciTEBase::SaveBuffer(const FilePath &saveName, SaveFlags sf) {
 
 	if (retVal && extender && (sf & sfSynchronous)) {
 		extender->OnSave(saveName.AsUTF8().c_str());
-		ReadProperties(false); //Arjunae: Apply extender changed properties.
 	}
 	UpdateStatusBar(true);
 	return retVal;
@@ -1136,10 +1132,8 @@ void SciTEBase::SaveAs(const GUI::gui_char *file, bool fixCase) {
 	Redraw();
 	SetWindowName();
 	BuffersMenu();
-	if (extender){
+	if (extender)
 		extender->OnSave(filePath.AsUTF8().c_str());
-		ReadProperties(false);//Arjunae: Apply extender changed properties.
-		}
 }
 
 bool SciTEBase::SaveIfNotOpen(const FilePath &destFile, bool fixCase) {
