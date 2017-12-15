@@ -1,5 +1,5 @@
 --
--- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
+-- WSciTE Cookies Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
 --
 
 -- track the amount of allocated memory 
