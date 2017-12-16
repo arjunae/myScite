@@ -310,8 +310,7 @@ char16_t
 char32_t
 
 # ...Limits.h
-is_specialized(bool)	"true for all arithmetic types (i.e., those for which numeric_limits is specialized).
-false@@...for all other types."
+is_specialized(bool)	"true for all arithmetic types (i.e., those for which numeric_limits is specialized). false...for all other types."
 min@@Minimum finite value. For floating types with denormalization (variable number of exponent bits): minimum positive normalized value. 
 CHAR_MIN@@Minimum finite value.
 SCHAR_MIN@@Minimum finite value.
