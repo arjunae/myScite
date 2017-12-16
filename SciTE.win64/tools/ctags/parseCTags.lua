@@ -49,7 +49,7 @@ if not projectName then projectName=cTagsAPIFileName end
 --  Takes: apiNames: table, FullyQualified projectFilePath, optional projectName
 --  Returns: uniqued tagNames written to apiNames
 --
--- Optimized lua version. Gives reasonable Speed on a 100k source and 1M cTags File. 
+-- Optimized lua version. Gives reasonable Speed even with bigger cTags Files. 
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

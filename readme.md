@@ -1,11 +1,11 @@
 ~ mySciTE.webdev ~
 
-[02.12.2017] Development.190
-- Add: Scite Project Support. Settings for scite sources included.
-- Add: cTag search support for Projectfiles.
-- Add: Project Syntax Higlightening (styles Class, Modules, Functions, Constants, enums).
-- Add: ALT-Click on a Symbol for cTag Navigation
-- Switch to lua5.3 (Compiled with -DLUA_COMPAT_5_1).
+[14.12.2017] Development.190 (Lua5.1 & Lua5.3)
+- Add: SciTE Project Support. Settings for scite sources included.
+- Add: cTag Navigation support within project source files. ( ALT-Click )
+- Add: Cached source API Syntax Higlightening (styles Class, Modules, Functions, Constants, ENUMs).
+- Upd: Offline standard clib docs from en.wikibooks.org for Syntax Highlightening *kudos*
+- Info: Dual Release. Lua5.1.5 and Lua5.3.4 available.  
 
 [25.11.2017] mySciTE.stable.180.Artie
 - Add: Lisp / Scheme / Clojure / GO Language Keywords

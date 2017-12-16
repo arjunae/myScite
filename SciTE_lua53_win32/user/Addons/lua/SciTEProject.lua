@@ -155,7 +155,7 @@ function ProjectOnDwell()
 		ctagsLock=false
 		os.remove(finFileNamePath)
 		if file_exists(props["project.ctags.propspath"]) then CTagsUpdateProps(true) end
-		print("...generating CTags finished",ctagsLock)		
+		--print("...generating CTags finished",ctagsLock)		
 	end
 	finFile=nil
 
