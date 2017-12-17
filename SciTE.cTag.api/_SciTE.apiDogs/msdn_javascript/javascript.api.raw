@@ -1,0 +1,533 @@
+Version() Different versions of JavaScript support different sets of JavaScript elements.\t\n  Windows 8.x Store apps support a slightly different set of features from Internet Explorer.  **\t\n 
+JavaScript() The following table lists JavaScript Objects.\t\n 
+JavaScript.ActiveXObject(newObj,servername,typename,location) Enables and returns a reference to an Automation object.  **\t\n\t\nnewObj = new ActiveXObject(servername.typename[, location])
+JavaScript.Array(arrayObj,size,element0,...,elementN) Provides support for creation of arrays of any data type.\t\n\t\n      arrayObj = new Array()\t\narrayObj = new Array([size])\t\narrayObj = new Array([element0[, element1[, ...[, elementN]]]])
+JavaScript.constructor() Specifies the function that creates an array.\t\n\t\narray.constructor
+JavaScript.length(numVar,arrayObj) Gets or sets the length of the array. This is a number one \t\n higher than the highest element defined in an array. **\t\n\t\nnumVar = arrayObj.length 
+JavaScript.prototype() Returns a reference to the prototype for a class of array.\t\n\t\narray.prototype
+JavaScript.Array.from(arrayLike,mapfn,thisArg) Returns an array from an array-like or iterable object.\t\nArray.from (arrayLike [ , mapfn [ , thisArg ] ] );
+JavaScript.Array.isArray(object) Determines whether an object is an array.\t\nArray.isArray(object) 
+JavaScript.Array.of(element0,...,elementN) Returns an array from the passed in arguments.\t\nArray.of(element0[, element1][, ...][,elementN]);
+JavaScript.concat(array1,item1,.,.,.,,itemN,) Combines two or more arrays.\t\n\t\narray1.concat([item1[, item2[, . . . [, itemN]]]]) 
+JavaScript.entries(arrayObj) Returns an iterator that returns the key/value pairs of the array.\t\narrayObj.entries();
+JavaScript.every() Determines whether all the members of an array satisfy the \t\n specified test. **\t\n\t\narray1.every(callbackfn[, thisArg])
+JavaScript.fill(arrayObj,value,start,end) Populates an array with a specified value.\t\narrayObj.fill(value [ , start [ , end ] ]);
+JavaScript.filter() Returns the elements of an array that meet the condition specified \t\n in a callback function.\t\n\t\narray1.filter(callbackfn[, thisArg])
+JavaScript.findIndex(arrayObj,callbackfn,thisArg) Returns an index value for the first array element that meets \t\n test criteria specified in a callback function.\t\narrayObj.findIndex(callbackfn [, thisArg]);
+JavaScript.forEach() Performs the specified action for each element in an array.\t\n\t\narray1.forEach(callbackfn[, thisArg])
+JavaScript.indexOf() Returns the index of the first occurrence of a value in an array.\t\n\t\narray1.indexOf(searchElement[, fromIndex])
+JavaScript.join(arrayObj,separator) Adds all the elements of an array separated by the specified \t\n separator string.\t\n\t\narrayObj.join([separator]) 
+JavaScript.keys(arrayObj) Returns an iterator that returns the index values of the array.\t\narrayObj.keys();
+JavaScript.lastIndexOf() Returns the index of the last occurrence of a specified value in an array.\t\n\t\narray1.lastIndexOf(searchElement[, fromIndex])
+JavaScript.map() Calls a defined callback function on each element of an array, \t\n and returns an array that contains the results.\t\n\t\narray1.map(callbackfn[, thisArg])
+JavaScript.pop() Removes the last element from an array and returns it.\t\n\t\narrayObj.pop()
+JavaScript.push(arrayObj,item,,item2,.,.,.,,itemN) Appends new elements to an array, and returns the new length of the array.\t\n\t\narrayObj.push([item1 [item2 [. . . [itemN ]]]])
+JavaScript.reduce() Calls the specified callback function for all the elements in an array.\t\n  The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function. **\t\n\t\narray1.reduce(callbackfn[, initialValue])
+JavaScript.reduceRight() Calls the specified callback function for all the elements in an array, in descending order.\t\n  The return value of the callback function is the accumulated result, and is provided as an argument in the next call to the callback function.\t\n\t\narray1.reduceRight(callbackfn[, initialValue])
+JavaScript.reverse(arrayObj) Reverses the elements in an Array.\t\n\t\narrayObj.reverse() 
+JavaScript.shift() Removes the first element from an array and returns it.\t\n\t\narrayObj.shift()
+JavaScript.slice(arrayObj,start,,end,) Returns a section of an array.\t\n\t\narrayObj.slice(start, [end]) 
+JavaScript.some() Determines whether the specified callback function returns \t\n true for any element of an array. **\t\n\t\narray1.some(callbackfn[, thisArg])
+JavaScript.sort(arrayObj,sortFunction) Sorts an Array.\t\n\t\narrayobj.sort(sortFunction) 
+JavaScript.splice(arrayObj,start,deleteCount,item1,,item2,.,.,.,,itemN) Removes elements from an array and, if necessary, inserts \t\n new elements in their place, returning the deleted elements.\t\n\t\narrayObj.splice(start, deleteCount, [item1[, item2[, . . . [,itemN]]]])
+JavaScript.toString(array) Returns a string representation of an array.\t\n\t\narray.toString()
+JavaScript.unshift(arrayObj,item1,,item2,.,.,.,,itemN) Inserts new elements at the start of an array.\t\n\t\narrayObj.unshift([item1[, item2 [, . . . [, itemN]]]])
+JavaScript.valueOf() Returns the primitive value of the specified object.\t\n\t\narray.valueOf()
+JavaScript.values(arrayObj) Returns an iterator that returns the values of the array.\t\narrayObj.values();
+JavaScript.ArrayBuffer(arrayBuffer,length) Represents a raw buffer of binary data, which is used to store data for the different typed arrays.\t\n  ArrayBuffers cannot be read from or written to directly, but can be passed to a typed array or DataView Object to interpret the raw buffer as needed.\t\n\t\narrayBuffer = new ArrayBuffer(length);
+JavaScript.byteLength() Read-only. The length of the ArrayBuffer (in bytes).\t\nvar arrayLength = arrayBuffer.byteLength,
+JavaScript.ArrayBuffer.isView(object) Determines whether an object provides a view of the buffer.\t\nArrayBuffer.isView(object)
+JavaScript.slice(arrayBufferObj,start,,end,) Returns a section of an ArrayBuffer.\t\narrayBufferObj.slice(start, [end]) 
+JavaScript.arguments(function,n) An object representing the arguments to the currently executing \t\n function, and the functions that called it.\t\n[function.]arguments[n]
+JavaScript.0...n(function,0,,1,,2,,,,n) Returns the actual value of individual arguments from an arguments \t\n object returned by the arguments property of an executing function.\t\n 
+JavaScript.callee() Returns the Function object being executed, that is, the body \t\n text of the specified Function object.\t\n[function.]arguments.callee
+JavaScript.length() Returns the actual number of arguments passed to a function by the caller.\t\n[function.]arguments.length
+JavaScript.Boolean(boolObj,boolValue) Creates a new Boolean value.\t\n\t\nboolObj = new Boolean([boolValue])
+JavaScript.constructor(boolean,value) Specifies the function that creates a Boolean.\t\n\t\nboolean.constructor([[value])
+JavaScript.prototype() Returns a reference to the prototype for a Boolean.\t\n\t\nboolean.prototype
+JavaScript.toString(boolean) Returns a string representation of an object.\t\n\t\nboolean.toString()
+JavaScript.valueOf() Returns the primitive value of the specified boolean.\t\n\t\nboolean.valueOf()
+JavaScript.DataView(dataView,buffer,byteOffset,byteLength) You can use a DataView object to read and write the different \t\n kinds of binary data to any location in the ArrayBuffer.\t\n\t\ndataView = new DataView(buffer, byteOffset, byteLength);
+JavaScript.buffer() Read-only. Gets the ArrayBuffer that is referenced by this view.\t\nvar arrayBuffer = dataView.buffer,
+JavaScript.byteLength() Read-only. The length of this view from the start of its ArrayBuffer, \t\n in bytes, as fixed at construction time.\t\nvar byteLength = dataView.byteLength,
+JavaScript.byteOffset() Read-only. The offset of this view from the start of its ArrayBuffer, \t\n in bytes, as fixed at construction time.\t\nvar arrayOffset = dataView.byteOffset,
+JavaScript.getInt8(testInt,byteOffset) Gets the Int8 value at the specified byte offset from the start of the view.\t\n  There is no alignment constraint, multi-byte values may be fetched from any offset.\t\nvar testInt = dataView.getInt8(byteOffset); 
+JavaScript.getUint8(testInt,byteOffset) Gets the Uint8 value at the specified byte offset from the start of the view.\t\n  There is no alignment constraint, multi-byte values may be fetched from any offset.\t\nvar testInt = dataView.getUint8(byteOffset); 
+JavaScript.getInt16(testInt,byteOffset,littleEndian) Gets the Int16 value at the specified byte offset from the start of the view.\t\n  There is no alignment constraint, multi-byte values may be fetched from any offset.\t\nvar testInt = dataView.getInt16(byteOffset, littleEndian); 
+JavaScript.getUint16(testInt,byteOffset,littleEndian) Gets the Uint16 value at the specified byte offset from the start of the view.\t\n  There is no alignment constraint, multi-byte values may be fetched from any offset.\t\nvar testInt = dataView.getUint16(byteOffset, littleEndian); 
+JavaScript.getInt32(testInt,byteOffset,littleEndian) Gets the Int32 value at the specified byte offset from the start of the view.\t\n  There is no alignment constraint, multi-byte values may be fetched from any offset.\t\nvar testInt = dataView.getInt32(byteOffset, littleEndian); 
+JavaScript.getUint32(testInt,byteOffset,littleEndian) Gets the Uint32 value at the specified byte offset from the start of the view.\t\n  There is no alignment constraint, multi-byte values may be fetched from any offset.\t\nvar req = new XMLHttpRequest();\t\n    req.open('GET', "http://www.example.com");\t\n    req.responseType = "arraybuffer",\t\n    req.send();\t\n\t\n    req.onreadystatechange = function () {\t\n        if (req.readyState === 4) {\t\n            var buffer = req.response,\t\n            var dataView = new DataView(buffer);\t\n            alert(dataView.getUint32(0));\t\n        }\t\n}
+JavaScript.getFloat32(testFloat,byteOffset,littleEndian) Gets the Float32 value at the specified byte offset from the start of the view.\t\n  There is no alignment constraint, multi-byte values may be fetched from any offset.\t\nvar testFloat = dataView.getFloat32(byteOffset, littleEndian); 
+JavaScript.getFloat64(testFloat,byteOffset,littleEndian) Gets the Float64 value at the specified byte offset from the start of the view.\t\n  There is no alignment constraint, multi-byte values may be fetched from any offset.\t\nvar testFloat = dataView.getFloat64(byteOffset, littleEndian); 
+JavaScript.setInt8(byteOffset,value) Stores an Int8 value at the specified byte offset from the \t\n start of the view.\t\ndataView.setInt8(byteOffset, value); 
+JavaScript.setUint8(byteOffset,value) Stores a Uint8 value at the specified byte offset from the \t\n start of the view.\t\ndataView.setUint8(byteOffset, value); 
+JavaScript.setInt16(byteOffset,value,littleEndian) Sets the Int16 value at the specified byte offset from the start of the view.\t\n  There is no alignment constraint, multi-byte values may be set at any offset.\t\ndataView.setInt16(byteOffset, value, littleEndian); 
+JavaScript.setUint16(testInt,value,byteOffset,littleEndian) Sets the Uint16 value at the specified byte offset from the start of the view.\t\n  There is no alignment constraint, multi-byte values may be set at any offset.\t\ndataView.setUint16(byteOffset, value, littleEndian); 
+JavaScript.setInt32(byteOffset,value,littleEndian) Sets the Int32 value at the specified byte offset from the start of the view.\t\n  There is no alignment constraint, multi-byte values may be set at any offset.\t\ndataView.setInt32 (byteOffset, value, littleEndian); 
+JavaScript.setUint32(byteOffset,value,littleEndian) Sets the Uint32 value at the specified byte offset from the start of the view.\t\n  There is no alignment constraint, multi-byte values may be set at any offset.\t\ndataView.setUint32 (byteOffset, value, littleEndian); 
+JavaScript.setFloat32(byteOffset,value,littleEndian) Sets the Float32 value at the specified byte offset from the start of the view.\t\n  There is no alignment constraint, multi-byte values may be set at any offset.\t\ndataView.setFloat32 (byteOffset, value, littleEndian); 
+JavaScript.setFloat64(byteOffset,value,littleEndian) Sets the Float64 value at the specified byte offset from the start of the view.\t\n  There is no alignment constraint, multi-byte values may be set at any offset.\t\ndataView.setFloat64 (byteOffset, value, littleEndian); 
+JavaScript.Date(dateObj,dateVal,year,month,date,hours,minutes,seconds,ms) Enables basic storage and retrieval of dates and times.\t\n\t\n      dateObj = new Date()\t\ndateObj = new Date(dateVal)\t\ndateObj = new Date(year, month, date[, hours[, minutes[, seconds[,ms]]]]) 
+JavaScript.constructor() Specifies the function that creates a date.\t\n\t\ndate.constructor
+JavaScript.prototype() Returns a reference to the prototype for a date.\t\n\t\ndate.prototype
+JavaScript.Date.now() Gets the current date and time.\t\n\t\nDate.now()
+JavaScript.Date.parse() Parses a string containing a date, and returns the number \t\n of milliseconds between that date and midnight, January 1, 1970.\t\nDate.parse(dateVal) 
+JavaScript.Date.UTC(year,month,day,hours,minutes,seconds,ms) Returns the number of milliseconds between midnight, January \t\n 1, 1970 Universal Coordinated Time (UTC) (or GMT) and the specified date.\t\nDate.UTC(year, month, day[, hours[, minutes[, seconds[,ms]]]]) 
+JavaScript.getDate() Gets the day-of-the-month, using local time.\t\n\t\ndateObj.getDate() 
+JavaScript.getDay() Gets the day of the week, using local time.\t\n\t\ndateObj. getDay() 
+JavaScript.getFullYear() Gets the year, using local time.\t\n\t\ndateObj.getFullYear() 
+JavaScript.getHours() Gets the hours in a date, using local time.\t\n\t\ndateObj.getHours() 
+JavaScript.getMilliseconds() Gets the milliseconds of a Date, using local time.\t\n\t\ndateObj.getMilliseconds() 
+JavaScript.getMinutes() Gets the minutes of a Date object, using local time.\t\n\t\ndateObj.getMinutes() 
+JavaScript.getMonth() Gets the month, using local time.\t\n\t\ndateObj.getMonth() 
+JavaScript.getSeconds() Gets the seconds of a Date object, using local time.\t\n\t\ndateObj.getSeconds() 
+JavaScript.getTime() Gets the time value in milliseconds.\t\n\t\ndateObj.getTime() 
+JavaScript.getTimezoneOffset() Gets the difference in minutes between the time on the local \t\n computer and Universal Coordinated Time (UTC).\t\n\t\ndateObj.getTimezoneOffset() 
+JavaScript.getUTCDate() Gets the day-of-the-month, using Universal Coordinated Time (UTC).\t\n\t\ndateObj.getUTCDate() 
+JavaScript.getUTCDay() Gets the day of the week using Universal Coordinated Time (UTC).\t\n\t\ndateObj.getUTCDay() 
+JavaScript.getUTCFullYear() Gets the year using Universal Coordinated Time (UTC).\t\n\t\ndateObj.getUTCFullYear() 
+JavaScript.getUTCHours() Gets the hours value in a Date object using Universal Coordinated \t\n Time (UTC).\t\n\t\ndateObj.getUTCHours() 
+JavaScript.getUTCMilliseconds() Gets the milliseconds of a Date object using Universal Coordinated \t\n Time (UTC).\t\n\t\ndateObj.getUTCMilliseconds() 
+JavaScript.getUTCMinutes() Gets the minutes of a Date object using Universal Coordinated Time (UTC).\t\n\t\ndateObj.getUTCMinutes() 
+JavaScript.getUTCMonth() Gets the month of a Date object using Universal Coordinated Time (UTC).\t\n\t\ndateObj.getUTCMonth() 
+JavaScript.getUTCSeconds() Gets the seconds of a Date object using Universal Coordinated Time (UTC).\t\n\t\ndateObj.getUTCSeconds() 
+JavaScript.getVarDate() Returns a VT_DATE value from a Date object. **\t\n\t\ndateObj.getVarDate() 
+JavaScript.getYear() Gets the year of a Date object. **\t\n\t\ndateObj.getYear() 
+JavaScript.setDate(dateObj,numDate) Sets the numeric day-of-the-month value of the Date object \t\n using local time.\t\n\t\ndateObj.setDate(numDate) 
+JavaScript.setFullYear(dateObj,,numYear,numMonth,numDate) Sets the year of the Date object using local time.\t\n\t\ndateObj.setFullYear(numYear[, numMonth[, numDate]]) 
+JavaScript.setHours(dateObj,numHours,numMin,numSec,numMilli) Sets the hour value in the Date object using local time.\t\n\t\ndateObj.setHours(numHours[, numMin[, numSec[, numMilli]]]) 
+JavaScript.setMilliseconds(dateObj,numMilli) Sets the milliseconds value in the Date object using local time.\t\n\t\ndateObj.\t\nsetMilliseconds(\t\nnumMilli\t\n) 
+JavaScript.setMinutes(dateObj,numMinutes,numSeconds,numMilli) Sets the minutes value in the Date object using local time.\t\n\t\ndateObj.setMinutes(numMinutes[, numSeconds[, numMilli]]) 
+JavaScript.setMonth(dateObj,numMonth,dateVal) Sets the month value in the Date object using local time.\t\n\t\ndateObj. setMonth(numMonth[, dateVal]) 
+JavaScript.setSeconds(dateObj,numSeconds,numMilli) Sets the seconds value in the Date object using local time.\t\n\t\ndateObj\t\n.setSeconds(\t\nnumSeconds[, numMilli]) 
+JavaScript.setTime(dateObj,milliseconds) Sets the date and time value in the Date object.\t\n\t\ndateObj.setTime(milliseconds) 
+JavaScript.setUTCDate(dateObj,numDate) Sets the numeric day of the month in the Date object using \t\n Universal Coordinated Time (UTC).\t\n\t\ndateObj.setUTCDate(numDate) 
+JavaScript.setUTCFullYear(dateObj,numYear,numMonth,numDate) Sets the year value in the Date object using Universal Coordinated \t\n Time (UTC).\t\n\t\ndateObj.setUTCFullYear(numYear[, numMonth[, numDate]]) 
+JavaScript.setUTCHours(dateObj,numHours,numMin,numSec,numMilli) Sets the hours value in the Date object using Universal Coordinated \t\n Time (UTC).\t\n\t\ndateObj.setUTCHours(numHours[, numMin[, numSec[, numMilli]]]) 
+JavaScript.setUTCMilliseconds(dateObj,numMilli) Sets the milliseconds value in the Date object using Universal \t\n Coordinated Time (UTC).\t\n\t\ndateObj.setUTCMilliseconds(numMilli) 
+JavaScript.setUTCMinutes(dateObj,numMinutes,numSeconds,numMilli) Sets the minutes value in the Date object using Universal \t\n Coordinated Time (UTC).\t\n\t\ndateObj.setUTCMinutes(numMinutes[, numSeconds[, numMilli]]) 
+JavaScript.setUTCMonth(dateObj,numMonth,dateVal) Sets the month value in the Date object using Universal Coordinated \t\n Time (UTC).\t\n\t\ndateObj.setUTCMonth(numMonth[, dateVal]) 
+JavaScript.setUTCSeconds(dateObj,numSeconds,numMilli) Sets the seconds value in the Date object using Universal \t\n Coordinated Time (UTC).\t\n\t\ndateObj.setUTCSeconds(numSeconds[, numMilli]) 
+JavaScript.setYear(dateObj,numYear) Sets the year value in the Date object.  **\t\n\t\ndateObj.setYear(numYear) 
+JavaScript.toDateString() Returns a date as a string value.\t\n\t\nobjDate.toDateString()
+JavaScript.toGMTString() Returns a date converted to a string using Greenwich Mean Time(GMT).\t\n\t\ndateObj.toGMTString() 
+JavaScript.toISOString() Returns a date as a string value in ISO format.\t\n\t\nobjDate.toISOString()
+JavaScript.toJSON(objectname) Used by the JSON.stringify method to enable the transformation \t\n of an object's data for JavaScript Object Notation (JSON) serialization.\t\n\t\nobjectname.toJSON()
+JavaScript.toLocaleDateString(dateObj,locales,options) Returns a date as a string value that is appropriate to the \t\n host environment's current locale or the specified locale. **\t\n\t\ndateObj.toLocaleDateString( [locales][, options]) 
+JavaScript.toLocaleString(dateObj,locales,options) Converts a date to a string by using the current or specified locale.  **\t\n\t\ndateObj.toLocaleString([locales][, options]) 
+JavaScript.toLocaleTimeString(dateObj,locales,options) Returns a time as a string value that is appropriate to the \t\n host environment's current locale or a specified locale. **\t\n\t\ndateObj.toLocaleTimeString([locales][, options])
+JavaScript.toTimeString() Returns a time as a string value.\t\n\t\nobjDate. toTimeString()
+JavaScript.toUTCString() Returns a date converted to a string using Universal Coordinated \t\n Time (UTC).\t\n\t\ndateObj.toUTCString() 
+JavaScript.toString(date) Returns a string representation of a date.\t\n  The format of the string depends on the locale. For U.S. English (en-us), it is as follows:\t\n\t\ndate.toString()
+JavaScript.valueOf() Returns the stored time value in milliseconds since midnight, \t\n January 1, 1970 UTC.\t\n\t\ndate.valueOf()
+JavaScript.Debug() An intrinsic global object that sends output to a debugger.\t\nDebug.function
+JavaScript.Debug() Debug constants return constant values that are properties \t\n of the Debug object.\t\n 
+JavaScript.Debug.debuggerEnabled() Determines whether debugging is enabled for the script context.\t\n  Debugging may be enabled or disabled whether or not a debugger is attached.\t\n\t\nvar dbgEnabled = Debug.debuggerEnabled,
+JavaScript.Debug.setNonUserCodeExceptions() Determines whether any try-catch blocks in this scope are to be treated by the debugger as user-unhandled.\t\n  Exceptions can be classified as thrown, user-unhandled or unhandled.\t\nDebug.setNonUserCodeExceptions [= bool],
+JavaScript.Debug.msTraceAsyncCallbackCompleted() Indicates that the callback stack associated with a previously \t\n specified asynchronous operation has completed. **\t\nDebug.msTraceAsyncCallbackCompleted()
+JavaScript.Debug.msTraceAsyncCallbackStarting(asyncOperationId) Associates the callback stack with a previously specified \t\n asynchronous operation.  **\t\nDebug.msTraceAsyncCallbackStarting(asyncOperationId)
+JavaScript.Debug.msTraceAsyncOperationCompleted(asyncOperationId,status) Indicates that an asynchronous operation has completed. **\t\nDebug.msTraceAsyncOperationCompleted(asyncOperationId, status)
+JavaScript.Debug.msTraceAsyncOperationStarting(operationName) Initiates a trace for an asynchronous operation. **\t\nDebug.msTraceAsyncOperationStarting(operationName)
+JavaScript.Debug.msUpdateAsyncCallbackRelation(relatedAsyncOperationId,relationType) Updates the relationship status between a synchronous work \t\n item and the associated asynchronous operation. **\t\nDebug.msUpdateAsyncCallbackRelation(relatedAsyncOperationId, relationType)
+JavaScript.Debug.write(str1, str2, ... , strN) Sends strings to the script debugger. **\t\n\t\nDebug.write([str1 [, str2 [, ... [, strN]]]])
+JavaScript.Debug.writeln(str1, str2, ... , strN) Sends strings to the script debugger, followed by a newline character. **\t\n\t\nDebug.writeln([str1 [, str2 [, ... [, strN]]]])
+JavaScript.Enumerator(enumObj,collection) Enables enumeration of items in a collection. **\t\n\t\nenumObj = new Enumerator([collection]) 
+JavaScript.atEnd() Returns a Boolean value indicating if the enumerator is at \t\n the end of the collection. **\t\n\t\nmyEnum.atEnd()
+JavaScript.item() Returns the current item in the collection. **\t\n\t\nenumObj.item() 
+JavaScript.moveFirst() Resets the current item in the collection to the first item. **\t\n\t\nenumObj.moveFirst( ) 
+JavaScript.moveNext() Moves the current item to the next item in the collection. **\t\n\t\nenumObj.moveNext( ) 
+JavaScript.Error(errorObj,number,description) Contains information about errors.\t\n\t\n      errorObj = new Error()\t\nerrorObj = new Error([number])\t\nerrorObj = new Error([number[, description]])
+JavaScript.constructor() Specifies the function that creates an Error.\t\n\t\nerror.constructor
+JavaScript.prototype() Returns a reference to the prototype for an error.\t\n\t\nerror.prototype
+JavaScript.description(object,stringExpression) Returns or sets the descriptive string associated with a specific error.\t\n\t\nobject\t\n.description [= stringExpression]
+JavaScript.message(errorObj) Returns an error message string.\t\n\t\nerrorObj.message
+JavaScript.name(errorObj) Returns the name of an error.\t\n\t\nerrorObj.\t\nname
+JavaScript.number(Object,errorNumber) Returns or sets the numeric value associated with a specific error.\t\n  The Error object's default property is number.\t\n\t\nobject\t\n.number [= errorNumber]
+JavaScript.stack() Gets or sets the error stack as a string that contains the \t\n stack trace frames.\t\n\t\nobject\t\n.stack 
+JavaScript.stackTraceLimit() Gets or sets the stack trace limit, which is equivalent to the number of error frames to display.\t\n  The default limit is 10.\t\n\t\nError\t\n.stackTraceLimit 
+JavaScript.toString(date) Returns a string representation of an error.\t\n\t\nerror.toString()
+JavaScript.valueOf() Returns the string value of an error.\t\n\t\nerror.valueOf()
+JavaScript.Float32Array(float32Array,length,array,buffer,byteOffset,length) A typed array of 32-bit float values. The contents are initialized to 0.\t\n  If the requested number of bytes could not be allocated an exception is raised.\t\n\t\n      float32Array = new Float32Array( length );\t\nfloat32Array = new Float32Array( array );\t\nfloat32Array = new Float32Array( buffer, byteOffset, length);
+JavaScript.BYTES_PER_ELEMENT() The size in bytes of each element in the array.\t\nvar arraySize = int8Array.BYTES_PER_ELEMENT,
+JavaScript.buffer() Read-only. Gets the ArrayBuffer that is referenced by this array.\t\nvar arrayBuffer = float32Array.buffer,
+JavaScript.byteLength() Read-only. The length of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayByteLength = float32Array.byteLength,
+JavaScript.byteOffset() Read-only. The offset of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayOffset = float32Array.byteOffset,
+JavaScript.length() The length of the array.\t\nvar arrayLength = float32Array.length,
+JavaScript.get(value,index) Omittable. Gets the element at the specified index.\t\nvar value = float32Array.get(index);
+JavaScript.set(index,value,array,offset) Sets a value or an array of values.\t\nfloat32Array.set(index, value);\t\nfloat32Array.set(array, offset);
+JavaScript.subarray(newFloat32Array,begin,end) Gets a new Float32Array view of the ArrayBuffer Object store \t\n for this array, specifying the first and last members of the subarray.\t\nvar newFloat32Array = float32Array.subarray(begin, end);
+JavaScript.Float64Array(float64Array,length,array,buffer,byteOffset,length) A typed array of 64-bit float values. The contents are initialized to 0.\t\n  If the requested number of bytes could not be allocated an exception is raised.\t\n\t\n      float64Array = new Float64Array( length );\t\nfloat64Array = new Float64Array( array );\t\nfloat64Array = new Float64Array( buffer, byteOffset, length);
+JavaScript.BYTES_PER_ELEMENT() The size in bytes of each element in the array.\t\nvar arraySize = int8Array.BYTES_PER_ELEMENT,
+JavaScript.buffer() Read-only. Gets the ArrayBuffer that is referenced by this array.\t\nvar arrayBuffer = float64Array.buffer,
+JavaScript.byteLength() Read-only. The length of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayByteLength = float64Array.byteLength,
+JavaScript.bufferOffset() Read-only. The offset of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\n 
+JavaScript.length() The length of the array.\t\nvar arrayLength = float64Array.length,
+JavaScript.get(value,index) Omittable. Gets the element at the specified index.\t\nvar value = float64Array.get(index);
+JavaScript.set(index,value,array,offset) Sets a value or an array of values.\t\nfloat64Array.set(index, value);\t\nfloat64Array.set(array, offset);
+JavaScript.subarray(newFloat64Array,begin,end) Gets a new Float64Array view of the ArrayBuffer Object store \t\n for this array, specifying the first and last members of the subarray.\t\nvar newFloat64Array = float64Array.subarray(begin, end);
+JavaScript.Function(functionName,argname1...argnameN,body) Creates a new function. **\t\n\t\nfunctionName = new Function( [argname1,  [... argnameN,]] body );
+JavaScript.arguments() Gets the arguments for the currently executing Function object.\t\n\t\nfunction.arguments
+JavaScript.caller() Gets the function that invoked the current function.\t\n\t\nfunctionName.caller
+JavaScript.length() Gets the number of arguments defined for a function.\t\n\t\nfunctionName.length
+JavaScript.apply(thisObj,argArray) Calls the function, substituting the specified object for \t\n the this value of the function, and the specified array for the arguments of the function.\t\napply([thisObj[,argArray]])
+JavaScript.bind(function,thisArg,arg1[,arg2[,argN]]]) For a given function, creates a bound function that has the same body as the original function.\t\n  In the bound function, the this object resolves to the passed in object. The bound function has the specified initial parameters.\t\n\t\nfunction.bind(thisArg[,arg1[,arg2[,argN]]])
+JavaScript.call(thisObj,arg1,,arg2,,,,argN) Calls a method of an object, substituting another object for \t\n the current object.\t\ncall([thisObj[, arg1[, arg2[,  [, argN]]]]])
+JavaScript.Global() An intrinsic object whose purpose is to collect global functions \t\n and constants into one object.\t\n 
+JavaScript.Infinity() A number that is larger than the largest floating point number.\t\n  Returns an initial value of Number.POSITIVE_INFINITY. Negative Infinity (-Infinity) is smaller than the smallest floating point number.\t\nInfinity 
+JavaScript.NaN() A special constant that specifies thatNot an expression is not a number.\t\nNaN 
+JavaScript.null() \t\n 
+JavaScript.undefined() A value that has never been defined, such as a variable that \t\n has not been initialized.\t\nundefined
+JavaScript.decodeURI() Gets the unencoded version of an encoded Uniform Resource Identifier (URI).\t\ndecodeURI(URIstring)
+JavaScript.decodeURIComponent() Gets the unencoded version of an encoded component of a Uniform \t\n Resource Identifier (URI).\t\ndecodeURIComponent(encodedURIString)
+JavaScript.encodeURI() Encodes a text string as a valid Uniform Resource Identifier (URI)\t\n\t\nencodeURI(\t\nURIString\t\n)
+JavaScript.encodeURIComponent() Encodes a text string as a valid component of a Uniform Resource \t\n Identifier (URI).\t\nencodeURIComponent(encodedURIString)
+JavaScript.escape() Encodes strings so they can be read on all computers. Deprecated. **\t\nescape(charString) 
+JavaScript.eval(codeString ) Evaluates JavaScript code and executes it.\t\neval(codeString) 
+JavaScript.GetObject(pathname,class,appname,objectype) Returns a reference to an Automation object from a file.  **\t\nGetObject([pathname] [, class])
+JavaScript.isFinite() Determines whether a supplied number is finite.\t\nisFinite(number) 
+JavaScript.isNaN() Returns a Boolean value that indicates whether a value is \t\n the reserved value NaN (not a number).\t\nisNaN(numValue) 
+JavaScript.parseFloat() Converts a string to a floating-point number.\t\nparseFloat(numString) 
+JavaScript.parseInt(numString,radix) Converts a string to an integer. **\t\nparseInt(numString, [radix]) 
+JavaScript.ScriptEngine() Gets the name of the scripting language in use.\t\nScriptEngine()
+JavaScript.ScriptEngineBuildVersion() Gets the build version number of the scripting engine in use.\t\nScriptEngineBuildVersion()
+JavaScript.ScriptEngineMajorVersion() Gets the major version number of the scripting engine in use.\t\nScriptEngineMajorVersion()
+JavaScript.ScriptEngineMinorVersion() Gets the minor version number of the scripting engine in use.\t\nScriptEngineMinorVersion()
+JavaScript.unescape() Decodes String objects encoded with the escape function. Deprecated. **\t\nunescape(charString) 
+JavaScript.Int8Array(int8Array,length,array,buffer,byteOffset,length) A typed array of 8-bit integer values. The contents are initialized to 0.\t\n  If the requested number of bytes could not be allocated an exception is raised.\t\n\t\n      int8Array = new Int8Array( length );\t\nintArray = new Int8Array( array );\t\nintArray = new Int8Array( buffer, byteOffset, length);
+JavaScript.BYTES_PER_ELEMENT() The size in bytes of each element in the array.\t\nvar arraySize = int8Array.BYTES_PER_ELEMENT,
+JavaScript.buffer() Read-only. Gets the ArrayBuffer that is referenced by this array.\t\nvar arrayBuffer = int8Array.buffer,
+JavaScript.byteLength() Read-only. The length of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayByteLength = int8Array.byteLength,
+JavaScript.byteOffset() Read-only. The offset of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayOffset = int8Array.byteOffset,
+JavaScript.length() The length of the array.\t\nvar arrayLength = int8Array.length,
+JavaScript.set(index,value,array,offset) Sets a value or an array of values.\t\nint8Array.set(index, value);\t\nint8Array.set(array, offset);
+JavaScript.subarray(newInt8Array,begin,end) Gets a new Int8Array view of the ArrayBuffer store for this \t\n array, referencing the elements at begin, inclusive, up to end, exclusive.\t\nvar req = new XMLHttpRequest();\t\n    req.open('GET', "http://www.example.com");\t\n    req.responseType = "arraybuffer",\t\n    req.send();\t\n\t\n    req.onreadystatechange = function () {\t\n        if (req.readyState === 4) {\t\n            var buffer = req.response,\t\n            var dataView = new DataView(buffer);\t\n            var intArr = new Int8Array(buffer.byteLength);\t\n            var subArr = intArr.subarray(0, 2);\t\n        }\t\n}
+JavaScript.Int16Array(int16Array,length,array,buffer,byteOffset,length) A typed array of 16-bit integer values. The contents are initialized to 0.\t\n  If the requested number of bytes could not be allocated an exception is raised.\t\n\t\n      int16Array = new Int16Array( length );\t\nint16Array = new Int16Array( array );\t\nint16Array = new Int16Array( buffer, byteOffset, length);
+JavaScript.BYTES_PER_ELEMENT() The size in bytes of each element in the array.\t\nvar arraySize = int8Array.BYTES_PER_ELEMENT,
+JavaScript.buffer() Read-only. Gets the ArrayBuffer that is referenced by this array.\t\nvar arrayBuffer = int16Array.buffer,
+JavaScript.byteLength() Read-only. The length of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayByteLength = int16Array.byteLength,
+JavaScript.byteOffset() Read-only. The offset of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayOffset = int16Array.byteOffset,
+JavaScript.length() The length of the array.\t\nvar arrayLength = int16Array.length,
+JavaScript.set(index,value,array,offset) Sets a value or an array of values.\t\nint16Array.set(index, value);\t\nint16Array.set(array, offset);
+JavaScript.subarray(newInt16Array,begin,end) Gets a new Int16Array view of the ArrayBuffer Object store \t\n for this array, specifying the first and last members of the subarray.\t\nvar newInt16Array = int16Array.subarray(begin, end);
+JavaScript.Int32Array(int32Array,length,array,buffer,byteOffset,length) A typed array of 32-bit integer values. The contents are initialized to 0.\t\n  If the requested number of bytes could not be allocated an exception is raised.\t\n\t\n      int32Array = new Int32Array( length );\t\nint32Array = new Int32Array( array );\t\nint32Array = new Int32Array( buffer, byteOffset, length);
+JavaScript.BYTES_PER_ELEMENT() The size in bytes of each element in the array.\t\nvar arraySize = int32Array.BYTES_PER_ELEMENT,
+JavaScript.buffer() Read-only. Gets the ArrayBuffer that is referenced by this array.\t\nvar arrayBuffer = int32Array.buffer,
+JavaScript.byteLength() Read-only. The length of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayByteLength = int32Array.byteLength,
+JavaScript.byteOffset() Read-only. The offset of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayOffset = int32Array.byteOffset,
+JavaScript.length() The length of the array.\t\nvar arrayLength = int32Array.length,
+JavaScript.set(index,value,array,offset) Sets a value or an array of values.\t\nInt32Array.set(index, value);\t\nint32Array.set(array, offset);
+JavaScript.subarray(newInt32Array,begin,end) Gets a new Int32Array view of the ArrayBuffer Object store \t\n for this array, specifying the first and last members of the subarray.\t\nvar newInt32Array = int32Array.subarray(begin, end);
+JavaScript.Intl.Collator(collatorObj,locales,options) Provides locale-specific string comparisons.\t\ncollatorObj = new Intl.Collator([locales][, options])
+JavaScript.compare(collatorObj) Returns a function that compares two strings by using the \t\n collator’s sort order.\t\ncollatorObj.compare
+JavaScript.constructor() Specifies the function that creates a collator.\t\ncollator.constructor
+JavaScript.prototype() Returns a reference to the prototype for a collator.\t\ncollator.prototype
+JavaScript.resolvedOptions(collatorObj) Returns an object containing the properties and values of \t\n the collator object.\t\ncollatorObj.resolvedOptions()
+JavaScript.Intl.DateTimeFormat(dateTimeFormatObj,locales,options) Provides locale-specific date and time formatting.\t\ndateTimeFormatObj = new Intl.DateTimeFormat([locales][, options])
+JavaScript.constructor() Specifies the function that creates a formatter.\t\ndateTimeFormatter.constructor
+JavaScript.format(dateTimeFormatObj) Returns a function that formats a locale-specific date by \t\n using the specified date/time formatter settings.\t\ndateTimeFormatObj.format
+JavaScript.prototype() Returns a reference to the prototype for a formatter.\t\ndateTimeFormat.prototype
+JavaScript.resolvedOptions(dateTimeFormatObj) Returns an object that contains the properties and values \t\n of the date/time formatter object.\t\ndateTimeFormatObj.resolvedOptions()
+JavaScript.Intl.NumberFormat(numberFormatObj,locales,options) Provides locale-specific number formatting.\t\nnumberFormatObj = new Intl.NumberFormat([locales][, options])
+JavaScript.constructor() Specifies the function that creates a formatter.\t\nnumberFormatter.constructor
+JavaScript.format(numberFormatObj) Returns a function that formats a locale-specific number by \t\n using the specified number formatter settings.\t\nnumberFormatObj.format
+JavaScript.prototype() Returns a reference to the prototype for a formatter.\t\nnumberFormat.prototype
+JavaScript.resolvedOptions(numberFormatObj) Returns an object that contains the properties and values \t\n of the NumberFormat formatter object.\t\nnumberFormatObj.resolvedOptions()
+JavaScript.JSON(Method) An intrinsic object that provides functions to convert JavaScript values to and from the JavaScript Object Notation (JSON) format.\t\n  The JSON.stringify function serializes a JavaScript value to JSON text. The JSON.parse function deserializes JSON text to produce a JavaScript value.\t\n\t\nJSON.[method]
+JavaScript.JSON.parse(text,reviver) Converts a JavaScript Object Notation (JSON) string into an object.\t\nJSON.parse(text [, reviver])
+JavaScript.JSON.stringify(value,replacer,space) Converts a JavaScript value to a JavaScript Object Notation (JSON) string.\t\n\t\nJSON.stringify(\t\nvalue [, replacer] [, space])
+JavaScript.Map() A collection of key/value pairs.\t\nmapObj = new Map()
+JavaScript.constructor() Specifies the function that creates a map.\t\nmap.constructor
+JavaScript.prototype() Returns a reference to the prototype for a map.\t\nmap.prototype
+JavaScript.size(sizeVar,mapObj) Returns the number of elements in a map.\t\nsizeVar = mapObj.size
+JavaScript.clear(mapObj) Removes all elements from a map.\t\nmapObj.clear()
+JavaScript.delete(mapObj,key) Removes the specified element from a map.\t\nmapObj.delete(key)
+JavaScript.forEach(mapObj,callbackfn,thisArg) Performs the specified action for each element in a map.\t\nmapObj.forEach(callbackfn[, thisArg])
+JavaScript.get(mapObj,key) Returns a specified element from a map.\t\nmapObj.get(key)
+JavaScript.has(mapObj,key) Returns true if the map contains the specified element.\t\nmapObj.has(key)
+JavaScript.set(mapObj,key,value) Adds a new element to a map.\t\nmapObj.set(key, value)
+JavaScript.toString(mapObj) Returns a string representation of a map.\t\nmapObj.toString()
+JavaScript.valueOf(mapObj) Returns the primitive value of the specified object.\t\nmapObj.valueOf()
+JavaScript.Math(property,method) An intrinsic object that provides basic mathematics functionality \t\n and constants.\t\n\t\nMath.[{property | method}]
+JavaScript.Math() Math constants return constant values that are properties \t\n of the Math object.\t\nvar radius = 3,\t\nvar area = Math.PI * radius * radius,\t\ndocument.write(area);\t\n\t\n// Output: 28.274333882308138
+JavaScript.Math.abs() Returns the absolute value of a number (the value without regard to whether it is positive or negative).\t\n  For example, the absolute value of -5 is the same as the absolute value of 5.\t\nMath.abs(number)
+JavaScript.Math.acos() Returns the arc cosine (or inverse cosine) of a number.\t\nMath.acos(number)
+JavaScript.Math.acosh() Returns the hyperbolic arccosine (or inverse hyperbolic cosine) \t\n of a number.\t\nMath.acosh(number)
+JavaScript.Math.asin() Returns the arcsine of a number.\t\n\t\nMath.asin(number) 
+JavaScript.Math.asinh() Returns the inverse hyperbolic sine of a number.\t\n\t\nMath.asinh(x) 
+JavaScript.Math.atan() Returns the arctangent of a number.\t\n\t\nMath.atan(number) 
+JavaScript.Math.atan2(x,y) Returns the angle (in radians) from the X axis to a point (y,x).\t\n\t\nMath.atan2(y, x)
+JavaScript.Math.atanh() Returns the inverse hyperbolic tangent of a number.\t\n\t\nMath.atanh(x) 
+JavaScript.Math.cbrt() Returns the cube root of a number.\t\n\t\nMath.cbrt(\t\nnumber\t\n) 
+JavaScript.Math.ceil() Returns the smallest integer greater than or equal to its numeric argument.\t\n\t\nMath.ceil(number) 
+JavaScript.Math.clz32() Returns the number of leading zero bits in the 32-bit binary \t\n representation of a number.\t\n\t\nMath.clz32(\t\nnumber\t\n) 
+JavaScript.Math.cos() Returns the cosine of a number.\t\n\t\nMath.cos(radians) 
+JavaScript.Math.cosh() Returns the hyperbolic cosine of a number.\t\n\t\nMath.cosh(x) 
+JavaScript.Math.exp() Returns e (the base of natural logarithms) raised to a power.\t\n\t\nMath.exp(number) 
+JavaScript.Math.expm1() Returns the result of subtracting 1 from e (the base of the \t\n natural logarithms) raised to a power).\t\n\t\nMath.expm1(number) 
+JavaScript.Math.floor() Returns the greatest integer less than or equal to its numeric argument.\t\n\t\nMath.floor(number) 
+JavaScript.Math.fround() Returns the nearest single-precision floating-point format of a number.\t\n\t\nMath.fround(\t\nnumber\t\n) 
+JavaScript.Math.hypot(value1,value2,values) Returns the square root of the sum of the squares of the arguments.\t\nMath.hypot ( value1[, value2[, ...values] );
+JavaScript.Math.imul(x,y) Returns the product of two numbers that are treated as 32-bit \t\n signed integers.\t\nMath.imul(x, y);
+JavaScript.Math.log(number) Returns the natural logarithm (base e) of a number.\t\nMath.log(number) 
+JavaScript.Math.log1p() Returns the natural logarithm of 1 + a number.\t\nMath.log1p(x) 
+JavaScript.Math.log10() Returns the base 10 logarithm of a number.\t\nMath.log10(x) 
+JavaScript.Math.log2() Returns the base 2 logarithm of a number.\t\nMath.log2(x) 
+JavaScript.Math.max() Returns the larger of a set of supplied numeric expressions.\t\nMath.max([number1[, number2[... [, numberN]]]]) 
+JavaScript.Math.min() Returns the smaller of a set of numeric expressions.\t\nMath.min([number1[, number2[... [,numberN]]]])
+JavaScript.Math.pow(base,exponent) Returns the value of a base expression taken to a specified power.\t\n\t\nMath.pow(\t\nbase, exponent) 
+JavaScript.Math.random() Returns a pseudorandom number between 0 and 1.\t\n\t\nMath.random( ) 
+JavaScript.Math.round() Returns a supplied numeric expression rounded to the nearest integer.\t\n\t\nMath.round(\t\nnumber\t\n) 
+JavaScript.Math.sign() Returns the sign of a number, indicating whether the number \t\n is positive, negative, or 0.\t\nMath.sign(number)
+JavaScript.Math.sin() Returns the sine of a number.\t\n\t\nMath.sin(radians) 
+JavaScript.Math.sinh() Returns the inverse hyperbolic sine of a number.\t\n\t\nMath.sinh(x) 
+JavaScript.Math.sqrt() Returns the square root of a number.\t\n\t\nMath.sqrt(\t\nnumber\t\n) 
+JavaScript.Math.tan() Returns the tangent of a number.\t\n\t\nMath.tan(\t\nradians\t\n) 
+JavaScript.Math.tanh() Returns the hyperbolic tangent of a number.\t\n\t\nMath.tanh(\t\nx\t\n)
+JavaScript.Math.trunc() Returns the integer portion of a number, removing any fractional digits.\t\nMath.trunc(number)
+JavaScript.Number(numObj,value) An object that represents a number of any kind.\t\n  All JavaScript numbers are 64-bit floating-point numbers.\t\n\t\nnumObj = new Number(value)
+JavaScript.Number() The following number constants are properties of the Number object.\t\n 
+JavaScript.Number.isFinite() Returns a Boolean value that indicates whether a value is a finite number.\t\nNumber.isFinite(numValue) 
+JavaScript.Number.isInteger() Returns a Boolean value that indicates whether a value is an integer.\t\nNumber.isInteger(numValue) 
+JavaScript.Number.isNaN(numValue) Returns a Boolean value that indicates whether a value is \t\n the reserved value NaN (not a number).\t\nNumber.isNaN(numValue) 
+JavaScript.Number.isSafeInteger() Returns a Boolean value that indicates whether a number can \t\n be safely represented in JavaScript.\t\nNumber.isSafeInteger(numValue) 
+JavaScript.constructor() Specifies the function that creates a Number.\t\n\t\nnumber.constructor
+JavaScript.prototype() Returns a reference to the prototype for a class of number.\t\n\t\nnumber.prototype
+JavaScript.toExponential(numObj,fractionDigits) Represents a number in exponential notation.\t\n\t\nnumObj. toExponential([fractionDigits])
+JavaScript.toFixed(numObj,fractionDigits) Represents a number in fixed-point notation.\t\n\t\nnumObj.toFixed([fractionDigits])
+JavaScript.toLocaleString(numberObj,locales,options) Converts a number to a string by using the current or specified locale.  **\t\n\t\nnumberObj.toLocaleString([locales][, options]) 
+JavaScript.toPrecision(numObj,precision) Represents a number either in exponential or fixed-point notation \t\n with a specified number of digits.\t\n\t\nnumObj.toPrecision([precision])
+JavaScript.toString(number) Returns a string representation of a number.\t\n\t\nnumber.toString()
+JavaScript.valueOf() Returns the primitive value of the specified number.\t\n\t\nnumber.valueOf()
+JavaScript.Object(obj,value) Provides functionality common to all JavaScript objects.\t\n\t\nobj\t\n = new Object([value]) 
+JavaScript.__proto__(object) Contains a reference to the internal prototype of the specified object. **\t\nobject.__proto__
+JavaScript.constructor() Specifies the function that creates an object.\t\n\t\nobject.constructor
+JavaScript.prototype() Returns a reference to the prototype for a class of objects.\t\n\t\nobjectName.prototype
+JavaScript.Object.assign(target,...sources) Copies the values from one or more source objects to a target object.\t\nObject.assign(target, ...sources );
+JavaScript.Object.create(prototype,descriptors) Creates an object that has the specified prototype, and that \t\n optionally contains specified properties.\t\nObject.create(prototype, descriptors)
+JavaScript.Object.defineProperties(object,descriptors) Adds one or more properties to an object, and/or modifies \t\n attributes of existing properties.\t\nvar newLine = "<br />",\t\n\t\nvar obj = {},\t\nObject.defineProperties(obj, {\t\n    newDataProperty: {\t\n        value: 101,\t\n        writable: true,\t\n        enumerable: true,\t\n        configurable: true\t\n    },\t\n    newAccessorProperty: {\t\n        set: function (x) {\t\n            document.write("in property set accessor" + newLine);\t\n            this.newaccpropvalue = x,\t\n        },\t\n        get: function () {\t\n            document.write("in property get accessor" + newLine);\t\n            return this.newaccpropvalue,\t\n        },\t\n        enumerable: true,\t\n        configurable: true\t\n    }});\t\n\t\n// Set the accessor property value.\t\nobj.newAccessorProperty = 10,\t\ndocument.write ("newAccessorProperty value: " + obj.newAccessorProperty + newLine);\t\n\t\n// Output:\t\n// in property set accessor\t\n// in property get accessor\t\n// newAccessorProperty value: 10
+JavaScript.Object.defineProperty(object,propertyname,descriptor) Adds a property to an object, or modifies attributes of an \t\n existing property.\t\nObject.defineProperty(object, propertyname, descriptor)
+JavaScript.Object.freeze(object) Prevents the modification of existing property attributes \t\n and values, and prevents the addition of new properties.\t\nObject.freeze(object)
+JavaScript.Object.getOwnPropertyDescriptor(object,propertyname) Gets the own property descriptor of the specified object.\t\n  An own property descriptor is one that is defined directly on the object and is not inherited from the object's prototype.\t\nObject.getOwnPropertyDescriptor(object, propertyname)
+JavaScript.Object.getOwnPropertyNames() Returns the names of the own properties of an object.\t\n  The own properties of an object are those that are defined directly on that object, and are not inherited from the object's prototype. The properties of an object include both fields (objects) and functions.\t\nObject.getOwnPropertyNames(object)
+JavaScript.Object.getOwnPropertySymbols(object) Returns the own symbol properties of an object.\t\n  The own symbol properties of an object are those that are defined directly on that object, and are not inherited from the object's prototype.\t\nObject.getOwnPropertySymbols(object);
+JavaScript.Object.getPrototypeOf(object) Returns the prototype of an object.\t\nObject.getPrototypeOf(object)
+JavaScript.Object.is(value1,value2) Returns a value that indicates whether two values are the same value.\t\nObject.is(value1, value2)
+JavaScript.Object.isExtensible(object) Returns a value that indicates whether new properties can \t\n be added to an object.\t\nObject.isExtensible(object)
+JavaScript.Object.isFrozen(object) Returns true if existing property attributes and values cannot \t\n be modified in an object, and new properties cannot be added to the object.\t\nObject.isFrozen(object)
+JavaScript.Object.isSealed(object) Returns true if existing property attributes cannot be modified \t\n in an object and new properties cannot be added to the object.\t\nObject.isSealed(object)
+JavaScript.Object.keys() Returns the names of the enumerable properties and methods of an object.\t\nObject.keys(object)
+JavaScript.Object.preventExtensions(object) Prevents the addition of new properties to an object.\t\nObject.preventExtensions(object)
+JavaScript.Object.seal(object) Prevents the modification of attributes of existing properties, \t\n and prevents the addition of new properties.\t\nObject.seal(object)
+JavaScript.Object.setPrototypeOf(obj,proto) Sets the prototype of an object. **\t\nObject.setPrototypeOf(obj, proto);
+JavaScript.hasOwnProperty(object,proName) Determines whether an object has a property with the specified name.\t\n\t\nobject.hasOwnProperty(proName)
+JavaScript.isPrototypeOf(prototype,object) Determines whether an object exists in another object's prototype chain.\t\n\t\nprototype.isPrototypeOf(object)
+JavaScript.propertyIsEnumerable(object,proName) Determines whether a specified property is enumerable.\t\n\t\nobject. propertyIsEnumerable(proName)
+JavaScript.toLocaleString() Returns a date converted to a string using the current locale.  **\t\n\t\ndateObj.toLocaleString() 
+JavaScript.toString(objectname,radix) Returns a string representation of an object.\t\n\t\nobjectname.toString([radix])
+JavaScript.valueOf() Returns the primitive value of the specified object.\t\n\t\nobject.valueOf()
+JavaScript.Promise(promise,resolve,reject) Provides a mechanism to schedule work to be done on a value that has not yet been computed.\t\n  It is an abstraction for managing interactions with asynchronous APIs.\t\nvar promise = new Promise(function(resolve, reject) { ... });
+JavaScript.Promise.all(func1,func2,funcN) Joins two or more promises and returns only when all the specified \t\n promises have completed or been rejected.\t\nPromise.all(func1, func2 [,funcN])
+JavaScript.Promise.race(iterable) Creates a new promise that will resolve or reject with the \t\n same result value as the first promise to resolve or reject among the passed in arguments.\t\nPromise.race(iterable)
+JavaScript.Promise.reject(r) Creates a new rejected promise with a result equal to the \t\n passed in argument.\t\nPromise.reject(r);
+JavaScript.Promise.resolve(x) Creates a new resolved promise with a result equal to its argument.\t\nPromise.resolve(x)
+JavaScript.catch(promise,onRejected) Allows you to specify work to be done on the rejection of a promise.\t\n\t\npromise.catch(onRejected)
+JavaScript.then(promise,onCompleted,onRejected) Allows you to specify work to be done on the fulfillment of a promise.\t\n\t\npromise.then(onCompleted, onRejected);
+JavaScript.Proxy(target,handler) Enables custom behavior for an object.\t\nproxyObj = new Proxy(target, handler)
+JavaScript.Reflect(method) Provides methods for use in operations that are intercepted.\t\nReflect.[method]
+JavaScript.RegExp() An intrinsic global object that stores information about the \t\n results of regular expression pattern matches.\t\n\t\nRegExp.property 
+JavaScript.$1...$9(RegExp,n) Return the nine most-recently memorized portions found during pattern matching.\t\n  Read-only.\t\n 
+JavaScript.index() Returns the character position where the first successful match begins in a searched string.\t\n  Read-only.\t\n\t\nRegExp.index 
+JavaScript.input() Returns the string against which a regular expression search was performed.\t\n  Read-only.\t\n\t\nRegExp.input
+JavaScript.lastIndex() Returns the character position where the next match begins \t\n in a searched string.\t\n\t\nRegExp.lastIndex
+JavaScript.lastMatch() Returns the last matched characters from any regular expression search.\t\n  Read-only.\t\n\t\nRegExp.lastMatch
+JavaScript.lastParen() Returns the last parenthesized submatch from any regular expression search, if any.\t\n  Read-only.\t\n\t\nRegExp.lastParen
+JavaScript.leftContext() Returns the characters from the beginning of a searched string up to the position before the beginning of the last match.\t\n  Read-only.\t\n\t\nRegExp.leftContext
+JavaScript.{text() Returns the characters from the position following the last match to the end of the searched string.\t\n  Read-only.\t\n 
+JavaScript.Regular(re,pattern,flags) An object that contains a regular expression pattern along \t\n with flags that identify how to apply the pattern.\t\n 
+JavaScript.global() Returns a Boolean value indicating the state of the global flag (g) used with a regular expression.\t\n  Default is false. Read-only.\t\n\t\nrgExp.global
+JavaScript.ignoreCase() Returns a Boolean value indicating the state of the ignoreCase flag (i) used with a regular expression.\t\n  Default is false. Read-only.\t\n\t\nrgExp.ignoreCase
+JavaScript.multiline() Returns a Boolean value indicating the state of the multiline flag (m) used with a regular expression.\t\n  Default is false. Read-only.\t\n\t\nrgExp.multiline
+JavaScript.source() Returns a copy of the text of the regular expression pattern.\t\n  Read-only. The rgExp argument is a Regular expression object. It can be a variable name or a literal.\t\n\t\nrgExp.source
+JavaScript.compile(rgExp,pattern,flags) Compiles a regular expression into an internal format for faster execution.\t\n\t\nrgExp.compile(pattern, [flags]) 
+JavaScript.exec(rgExp,str) Executes a search on a string using a regular expression pattern, \t\n and returns an array containing the results of that search.\t\n\t\nrgExp.exec(str) 
+JavaScript.test(rgExp,str) Returns a Boolean value that indicates whether or not a pattern \t\n exists in a searched string.\t\n\t\nrgExp.test(str) 
+JavaScript.Set() A collection of unique values that may be of any type.\t\nsetObj = new Set() 
+JavaScript.constructor() Specifies the function that creates a set.\t\nset.constructor
+JavaScript.prototype() Returns a reference to the prototype for a set.\t\nset.prototype
+JavaScript.size(sizeVar,setObj) Returns the number of elements in a set.\t\nsizeVar = setObj.size
+JavaScript.add(setObj,value) Adds a new element to a set.\t\nsetObj.add(value)
+JavaScript.clear(setObj) Removes all elements from the set.\t\nsetObj.clear()
+JavaScript.delete(setObj,value) Removes the specified element from a set.\t\nsetObj.delete(value)
+JavaScript.forEach(setObj,callbackfn,thisArg) Performs the specified action for each element in a set.\t\nsetObj.forEach(callbackfn[, thisArg])
+JavaScript.has(setObj,value) Returns true if the set contains the specified element.\t\nsetObj.has(value)
+JavaScript.toString(setObj) Returns a string representation of a set.\t\nsetObj.toString()
+JavaScript.valueOf(setObj) Returns the primitive value of the specified object.\t\nsetObj.valueOf()
+JavaScript.String(newString,stringLiteral) Allows manipulation and formatting of text strings and determination \t\n and location of substrings within strings.\t\n\t\nnewString = new String(["stringLiteral"])
+JavaScript.constructor() Specifies the function that creates a string.\t\n\t\nstring.constructor
+JavaScript.length() Returns the length of a String object.  **\t\n\t\n      strVariable.length\t\n"String Literal".length 
+JavaScript.prototype() Returns a reference to the prototype for a class of string.\t\n\t\nstring.prototype
+JavaScript.String.fromCharCode(String,code1,,.,.,.,,,codeN) Returns a string from a number of Unicode character values.\t\nString.fromCharCode([code1[, code2[, ...[, codeN]]]]) 
+JavaScript.String.fromCodePoint(…codePoints) Returns the string associated with a Unicode UTF-16 code point.\t\nString.fromCodePoint(...codePoints);
+JavaScript.String.raw(templateStr,obj,...substitutions) Returns the raw string form of a template string.\t\nString.raw`templateStr`,\t\nString.raw(obj, ...substitutions);
+JavaScript.HTML() You can use HTML tag methods to place HTML elements around \t\n text in a String object.\t\n 
+JavaScript.charAt(strObj,index) Returns the character at the specified index.\t\n\t\nstrObj. charAt(index)
+JavaScript.charCodeAt(strObj,index) Returns the Unicode value of the character at the specified location.\t\n\t\nstrObj. charCodeAt(index)
+JavaScript.codePointAt(stringObj,pos) Returns the code point for a Unicode UTF-16 character.\t\nstringObj.codePointAt(pos);
+JavaScript.concat(string1,,string2,.,.,.,,stringN) Returns a string that contains the concatenation of two or more strings.\t\n\t\nstring1. concat([string2[, string3[, . . . [, stringN]]]])
+JavaScript.endsWith(stringObj,str,position) Returns a value that indicates whether a string or substring \t\n ends with another specified string.\t\n\t\nstringObj.endsWith(str, [, position]);
+JavaScript.includes(stringObj,substring,position) Returns a Boolean value that indicates whether the passed \t\n in string is contained in the string object.\t\nstringObj.includes(substring [, position]);
+JavaScript.indexOf(strObj,subString,startIndex) Returns the position of the first occurrence of a substring.\t\n\t\nstrObj. indexOf(subString[, startIndex])
+JavaScript.lastIndexOf(strObj,substring,startindex) Returns the last occurrence of a substring in the string.\t\n\t\nstrObj.lastIndexOf(substring[, startindex])
+JavaScript.localeCompare(stringVar,stringExp,locales,options) Determines whether two strings are equivalent in the current locale. **\t\n\t\nstringVar.localeCompare(stringExp[, locales][, options]) 
+JavaScript.match(stringObj,rgExp) Matches a string with a regular expression, and returns an \t\n array containing the results of that search.\t\n\t\nstringObj.match(rgExp) 
+JavaScript.normalize(stringObj,form) Returns the Unicode Normalization Form of a specified string.\t\nstringObj.normalize([form]);
+JavaScript.repeat(stringObj,count) Returns a new string object with a value equal to the original \t\n string repeated the specified number of times.\t\nstringObj.repeat(count);
+JavaScript.replace(stringObj,,rgExp,,replaceText,) Replaces text in a string, using a regular expression or search string.\t\n\t\nstringObj. replace(rgExp, replaceText)
+JavaScript.search(stringObj,rgExp) Finds the first substring match in a regular expression search.\t\n\t\nstringObj.search(rgExp) 
+JavaScript.slice(stringObj,start,,end,) Returns a section of a string.\t\n\t\nstringObj.slice(start, [end]) 
+JavaScript.split(stringObj,,separator,,limit) Split a string into substrings using the specified separator \t\n and return them as an array.\t\n\t\nstringObj.split([separator[, limit]])
+JavaScript.startsWith(stringObj,str,position) Returns a value that indicates whether a string or substring \t\n starts with another specified string.\t\n\t\nstringObj.startsWith(str, [, position]);
+JavaScript.substr(stringvar,start,length) Gets a substring beginning at the specified location and having \t\n the specified length.\t\n\t\nstringvar.substr(start [, length ]) 
+JavaScript.substring(start,end) Returns the substring at the specified location within a String object.\t\n\t\n      strVariable. substring(start [, end])\t\n"String Literal".substring(start [, end]) 
+JavaScript.toLocaleLowerCase() Converts all alphabetic characters to lowercase, taking into \t\n account the host environment's current locale.\t\n\t\nstringVar.toLocaleLowerCase()
+JavaScript.toLocaleUpperCase() Returns a string where all alphabetic characters have been \t\n converted to uppercase, taking into account the host environment's current locale.\t\n\t\nstringVar.toLocaleUpperCase()
+JavaScript.toLowerCase() Converts all the alphabetic characters in a string to lowercase.\t\n\t\n      strVariable.toLowerCase()\t\n"String Literal".toLowerCase() 
+JavaScript.toUpperCase() Converts all the alphabetic characters in a string to uppercase.\t\n\t\n      strVariable.toUpperCase()\t\n"String Literal".toUpperCase() 
+JavaScript.trim(stringObj ) Removes the leading and trailing white space and line terminator \t\n characters from a string.\t\n\t\nstringObj.trim()
+JavaScript.toString(string) Returns a string representation of a string.\t\n\t\nstring.toString()
+JavaScript.valueOf() Returns the string.\t\n\t\nstring.valueOf()
+JavaScript.Symbol(desc) Allows you to create a unique identifier.\t\nobj = Symbol(desc)
+JavaScript.Symbol.for(key) Returns the symbol for a specified key or, if the key is not \t\n present, creates a new symbol object with the new key.\t\nSymbol.for(key);
+JavaScript.Symbol.keyFor(sym) Returns the key for a specified symbol.\t\nSymbol.keyFor(sym);
+JavaScript.Uint8Array(uint8Array,length,array,buffer,byteOffset,length) A typed array of 8-bit unsigned integer values.\t\n  The contents are initialized to 0. If the requested number of bytes could not be allocated an exception is raised.\t\n\t\n      uint8Array = new Uint8Array( length );\t\nuint8Array = new Uint8Array( array );\t\nuint8Array = new Uint8Array( buffer, byteOffset, length);
+JavaScript.BYTES_PER_ELEMENT() The size in bytes of each element in the array.\t\nvar arraySize = int8Array.BYTES_PER_ELEMENT,
+JavaScript.buffer() Read-only. Gets the ArrayBuffer that is referenced by this array.\t\nvar arrayBuffer = uint8Array.buffer,
+JavaScript.byteLength() Read-only. The length of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayByteLength = uint8Array.byteLength,
+JavaScript.byteOffset() Read-only. The offset of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayOffset = uint8Array.byteOffset,
+JavaScript.length() The length of the array.\t\nvar arrayLength = uint8Array.length,
+JavaScript.set(index,value,array,offset) Sets a value or an array of values.\t\nuint8Array.set(index, value);\t\nuint8Array.set(array, offset);
+JavaScript.subarray(newUint8Array,begin,end) Gets a new Uint8Array view of the ArrayBuffer Object store \t\n for this array, specifying the first and last members of the subarray.\t\nvar newUint8Array = uint8Array.subarray(begin, end);
+JavaScript.Uint8ClampedArray(uint8ClampedArray,length,array,buffer,byteOffset,length) A typed array of 8-bit unsigned integers with values clamped to the range 0-255.\t\n  The contents are initialized to 0. If the requested number of bytes cannot be allocated, an exception is thrown.\t\n\t\n      uint8ClampedArray = new Uint8ClampedArray( length );\t\nuint8ClampedArray = new Uint8ClampedArray( array );\t\nuint8ClampedArray = new Uint8ClampedArray( buffer, byteOffset, length);
+JavaScript.BYTES_PER_ELEMENT() The size, in bytes, of each element in the array.\t\nvar arraySize = uint8ClampedArray.BYTES_PER_ELEMENT,
+JavaScript.buffer() Read-only. Gets the ArrayBuffer that is referenced by this array.\t\nvar arrayBuffer = uint8ClampedArray.buffer,
+JavaScript.byteLength() Read-only. The length of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayByteLength = uint8ClampedArray.byteLength,
+JavaScript.byteOffset() Read-only. The offset of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayOffset = uint8ClampedArray.byteOffset,
+JavaScript.length() The length of the array.\t\nvar arrayLength = uint8ClampedArray.length,
+JavaScript.set(index,value,array,offset) Sets a value or an array of values.\t\nuint8ClampedArray.set(index, value);\t\nuint8ClampedArray.set(array, offset);
+JavaScript.subarray(newUint8ClampedArray,begin,end) Gets a new Uint8ClampedArray view of the ArrayBuffer store \t\n for this array, specifying the first and last members of the subarray.\t\nvar newUint8ClampedArray = uint8ClampedArray.subarray(begin, end);
+JavaScript.Uint16Array(uint16Array,length,array,buffer,byteOffset,length) A typed array of 16-bit unsigned integer values.\t\n  The contents are initialized to 0. If the requested number of bytes could not be allocated an exception is raised.\t\n\t\n      uint16Array = new Uint16Array( length );\t\nuint16Array = new Uint16Array( array );\t\nuint16Array = new Uint16Array( buffer, byteOffset, length );
+JavaScript.BYTES_PER_ELEMENT() The size in bytes of each element in the array.\t\nvar arraySize = uint16Array.BYTES_PER_ELEMENT,
+JavaScript.buffer() Read-only. Gets the ArrayBuffer that is referenced by this array.\t\nvar arrayBuffer = uint16Array.buffer,
+JavaScript.byteLength() Read-only. The length of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayByteLength = uint16Array.byteLength,
+JavaScript.byteOffset() Read-only. The offset of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayOffset = uint16Array.byteOffset,
+JavaScript.length() The length of the array.\t\nvar arrayLength = uint16Array.length,
+JavaScript.set(index,value,array,offset) Sets a value or an array of values.\t\nuint16Array.set(index, value);\t\nuint16Array.set(array, offset);
+JavaScript.subarray(newUint16Array,begin,end) Gets a new Uint16Array view of the ArrayBuffer Object store \t\n for this array, specifying the first and last members of the subarray.\t\nvar newUint16Array = uint16Array.subarray(begin, end);
+JavaScript.Uint32Array(uint32Array,length,array,buffer,byteOffset,length) A typed array of 32-bit unsigned integer values.\t\n  The contents are initialized to 0. If the requested number of bytes could not be allocated an exception is raised.\t\n\t\n      uint32Array = new Uint32Array( length );\t\nuint32Array = new Uint32Array( array );\t\nuint32Array = new Uint32Array( buffer, byteOffset, length);
+JavaScript.BYTES_PER_ELEMENT() The size in bytes of each element in the array.\t\nvar arraySize = uint32Array.BYTES_PER_ELEMENT,
+JavaScript.buffer() Read-only. Gets the ArrayBuffer that is referenced by this array.\t\nvar arrayBuffer = uint32Array.buffer,
+JavaScript.byteLength() Read-only. The length of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayByteLength = uint32Array.byteLength,
+JavaScript.byteOffset() Read-only. The offset of this array from the start of its \t\n ArrayBuffer, in bytes, as fixed at construction time.\t\nvar arrayOffset = uint32Array.byteOffset,
+JavaScript.length() The length of the array.\t\nvar arrayLength = uint32Array.length,
+JavaScript.set(index,value,array,offset) Sets a value or an array of values.\t\nuint32Array.set(index, value);\t\nuint32Array.set(array, offset);
+JavaScript.subarray(newUint32Array,begin,end) Gets a new Uint32Array view of the ArrayBuffer Object store \t\n for this array, specifying the first and last members of the subarray.\t\nvar newUint32Array = uint32Array.subarray(begin, end);
+JavaScript.VBArray(varName,safeArray) Provides access to Visual Basic safe arrays. **\t\n\t\nvarName = new VBArray(safeArray) 
+JavaScript.dimensions() Returns the number of dimensions in a VBArray.\t\n\t\narray.dimensions( ) 
+JavaScript.getItem(safeArray,dimension1,,...,,dimensionN) Returns the item at the specified location.\t\n\t\nsafeArray.getItem(dimension1[, dimension2, ...], dimensionN) 
+JavaScript.lbound(safeArray,dimension) Returns the lowest index value used in the specified dimension \t\n of a VBArray.\t\n\t\nsafeArray.lbound(dimension) 
+JavaScript.toArray() Returns a standard JavaScript array converted from a VBArray.\t\n\t\nsafeArray.toArray( ) 
+JavaScript.ubound(safeArray,dimension) Returns the highest index value used in the specified dimension \t\n of the VBArray.\t\n\t\nsafeArray.ubound(dimension) 
+JavaScript.WeakMap() A collection of key/value pairs in which each key is an object reference.\t\nweakmapObj = new WeakMap()
+JavaScript.constructor() Specifies the function that creates a WeakMap object.\t\nweakmap.constructor
+JavaScript.prototype() Returns a reference to the prototype for a WeakMap object.\t\nweakmap.prototype
+JavaScript.clear(weakmapObj) Removes all elements from a WeakMap object.\t\nweakmapObj.clear()
+JavaScript.delete(weakmapObj,key) Removes the specified element from a WeakMap object.\t\nweakmapObj.delete(key)
+JavaScript.get(weakmapObj,key) Returns a specified element from a WeakMap object.\t\nweakmapObj.get(key)
+JavaScript.has(weakmapObj,key) Returns true if the WeakMap object contains the specified element.\t\nweakmapObj.has(key)
+JavaScript.set(weakmapObj,key,value) Adds a new element to a WeakMap object.\t\nweakmapObj.set(key, value)
+JavaScript.toString(weakmapObj) Returns a string representation of a WeakMap object.\t\nweakmapObj.toString()
+JavaScript.valueOf(weakmapObj) Returns the primitive value of the specified object.\t\nweakmapObj.valueOf()
+JavaScript.WeakSet() A collection of unique objects that may be of any type.\t\nsetObj = new WeakSet()
+JavaScript.constructor() Specifies the function that creates a WeakSet.\t\nweakset.constructor
+JavaScript.prototype() Returns a reference to the prototype for a WeakSet.\t\nweakset.prototype
+JavaScript.add(weaksetObj,obj) Adds a new element to a WeakSet.\t\nweaksetObj.add(obj)
+JavaScript.delete(weaksetObj,obj) Removes the specified element from a WeakSet.\t\nweaksetObj.delete(obj)
+JavaScript.has(setObj,obj) Returns true if the WeakSet contains the specified element.\t\nsetObj.has(obj)
+JavaScript.WinRTError() When a Windows Runtime call returns an HRESULT that indicates a failure, JavaScript converts it to a special Windows Runtime error.\t\n  It is available only in Windows 8.x Store apps, when the Windows Runtime is available, as part of the global JavaScript namespace.\t\n\t\nerrorObj = new WinRTError();
+JavaScript() The following table lists predefined JavaScript constants \t\n that you can use in expressions.\t\n 
+JavaScript() The following table listsJavaScript properties.\t\n 
+JavaScript() The following table lists JavaScript functions.\t\n 
+JavaScript() The following table lists JavaScript methods.\t\n 
+JavaScript() The following table lists JavaScript operators.\t\n 
+JavaScript.Addition(result,expression) Adds the value of an expression to the value of a variable \t\n and assigns the result to the variable.\t\n 
+JavaScript.Addition(result,expression1,expression2) Adds the value of one numeric expression to another, or concatenates \t\n two strings.\t\n 
+JavaScript.Assignment(result,expression) Assigns a value to a variable.\t\n 
+JavaScript.Bitwise(result,expression) Sets the result of a bitwise AND operation on the value of a variable and the value of an expression.\t\n  The variable and the expression are treated as 32-bit integers.\t\n 
+JavaScript.Bitwise(result,expression1,expression2) Performs a bitwise AND operation on two 32-bit expressions.\t\n 
+JavaScript.Bitwise(result,expression1,expression2) Left shifts the bits of an expression.\t\n 
+JavaScript.Bitwise(result,expression) Performs a bitwise NOT (negation) on an expression.\t\n 
+JavaScript.Bitwise(result,expression) Performs a bitwise OR on the value of a variable and the value \t\n of an expression and assigns the result to the variable.\t\n 
+JavaScript.Bitwise(result,expression1,expression2) Performs a bitwise OR on two expressions.\t\n 
+JavaScript.Bitwise(result,expression1,expression2) Right shifts the bits of an expression, maintaining sign.\t\n 
+JavaScript.Bitwise(result,expression) Performs a bitwise exclusive OR on a variable and an expression \t\n and assigns the result to the variable.\t\n 
+JavaScript.Bitwise(result,expression1,expression2) Performs a bitwise exclusive OR on two expressions.\t\n 
+JavaScript.Comma(expression1,expression2) Causes two expressions to be executed sequentially.\t\n 
+JavaScript.Comparison(expression1,comparisonoperator,expression2) Returns a Boolean value indicating the result of the comparison.\t\n 
+JavaScript.Compound() The following table lists JavaScript assignment operators.\t\n 
+JavaScript.Conditional(test,expression1,expression2) Returns one of two expressions depending on a condition.\t\n 
+JavaScript.delete() Deletes a property from an object, or removes an element from an array.\t\ndelete expression
+JavaScript.Division(result,expression) Divides the value of a variable by the value of an expression \t\n and assigns the result to the variable.\t\n 
+JavaScript.Division(result,number1,number2) Divides the value of two expressions.\t\n 
+JavaScript.in(result,property,object) Tests for the existence of a property in an object.\t\n\t\nresult = property in object
+JavaScript.Increment(result,variable) The increment operator increments, and the decrement operator \t\n decrements the value of a variable by one.\t\n 
+JavaScript.instanceof(result,object,class) Returns a Boolean value that indicates whether or not an object \t\n is an instance of a particular class.\t\n\t\nresult = object instanceof class
+JavaScript.Left(result,expression) Moves the specified number of bits to the left and assigns the result to result.\t\n  The bits vacated by the operation are filled with 0.\t\n 
+JavaScript.Logical(result,expression1,expression2) Performs a logical conjunction on two expressions.\t\n 
+JavaScript.Logical(result,expression) Performs logical negation on an expression.\t\n 
+JavaScript.Logical(result,expression1,expression2) Performs a logical disjunction on two expressions.\t\n 
+JavaScript.Modulus(result,expression) Divides the value of a variable by the value of an expression, \t\n and assigns the remainder to the variable.\t\n 
+JavaScript.Modulus(result,number1,number2) Divides the value of one expression by the value of another, \t\n and returns the remainder.\t\n 
+JavaScript.Multiplication(result,expression) Multiplies the value of a variable by the value of an expression \t\n and assigns the result to the variable.\t\n 
+JavaScript.Multiplication(result,number1,number2) Multiplies the value of two expressions.\t\n 
+JavaScript.new(constructor,arguments) Creates a new object.\t\nnew constructor ([arguments]) 
+JavaScript.Right(result,expression) Right shifts the value of a variable by the number of bits \t\n specified in the value of an expression, maintaining the sign, and assigns the result to the variable.\t\n 
+JavaScript.Spread(iterable,arg0ToN,args) Allows parts of an array literal to be initialized from an \t\n iterable expression (such as another array literal), or allows an expression to be expanded to multiple arguments (in function calls).\t\n 
+JavaScript.Subtraction(result,expression) Subtracts the value of an expression from the value of a variable \t\n and assigns the result to the variable.\t\n 
+JavaScript.Subtraction(result,number,number1,number2) Subtracts the value of one expression from another or provides \t\n unary negation of a single expression.\t\n 
+JavaScript.typeof() Returns a string that identifies the data type of an expression.\t\n\t\ntypeof[(]expression[)],
+JavaScript.Unsigned(result,expression) Right shifts the value of a variable by the number of bits \t\n specified in the value of an expression, without maintaining sign, and assigns the result to the variable.\t\n 
+JavaScript.Unsigned(result,expression1,expression2) Right shifts the bits of an expression, without maintaining sign.\t\n 
+JavaScript.void() Prevents an expression from returning a value.\t\nvoid expression 
+JavaScript() The following table lists JavaScript statements.\t\n 
+JavaScript.break() Terminates the current loop, or if in conjunction with a label, \t\n terminates the associated statement.\t\nbreak [label],
+JavaScript.@cc_on() Activates conditional compilation support within comments in a script. **\t\n@cc_on 
+JavaScript.class(classname,object,constructor,arg1...argN,statements,static,method) Declares a new class.\t\nclass classname () [extends object] {    [constructor([arg1 [,... [,argN]]]) {        statements    }]    [[static] method([arg1 [,... [,argN]]]) {        statements    }]}
+JavaScript.Comment() Causes comments to be ignored by the JavaScript parser.\t\nSingle-line Comment:\t\n// comment 
+JavaScript.const(constant1,value1) Declares a block-scoped variable with a constant value.\t\nconst constant1 = value1
+JavaScript.continue() Stops the current iteration of a loop, and starts a new iteration.\t\ncontinue [label],
+JavaScript.debugger() Suspends execution. **\t\ndebugger
+JavaScript.do...while(statement,expression) Executes a statement block once, and then repeats execution \t\n of the loop until a condition expression evaluates to false.\t\n 
+JavaScript.for(initialization,test,increment,statement) Executes a block of statements for as long as a specified \t\n condition is true.\t\nfor ([initialization], [test], [increment])\t\n   statement 
+JavaScript.for...in(variable,object,,array,statements) Executes one or more statements for each property of an object, \t\n or each element of an array.  **\t\n 
+JavaScript.for...of(variable,object,statements) Executes one or more statements for each value of an iterator \t\n obtained from an iterable object.\t\n 
+JavaScript.function(functionname,arg1...argN,statements) Declares a new function.  **\t\nfunction functionname ([arg1 [, arg2 [,...[, argN]]]]) {\t\n    statements\t\n} 
+JavaScript.@if(condition1,,condition2,text1,text2,text3) Conditionally executes a group of statements, depending on \t\n the value of an expression. **\t\n\t\n      @if (\t\n   condition1\t\n)\t\n   text1\t\n[@elif (\t\n   condition2\t\n)\t\n   text2]\t\n[@else\t\n   text3]\t\n@end 
+JavaScript.if...else(condition1,statement1,condition2,statement2,statement3) Conditionally executes a group of statements, depending on \t\n the value of an expression.\t\n 
+JavaScript.Labeled(label,statements) Provides an identifier for a statement.\t\n 
+JavaScript.let(variable1,value1) Declares a block-scoped variable.\t\nlet variable1 = value1
+JavaScript.return() Exits from the current function and returns a value from that function.\t\n\t\nreturn[(][expression][)], 
+JavaScript.@set(varname,term) Creates variables used with conditional compilation statements.  **\t\n\t\n@set @varname = term 
+JavaScript.switch(expression,label,statementlist) Enables the execution of one or more statements when a specified \t\n expression's value matches a label.\t\nswitch (expression) {\t\n    case label :\t\n        statementlist\t\n    case label :\t\n    default :\t\n        statementlist\t\n} 
+JavaScript.this() Refers to the current object.\t\nthis.property
+JavaScript.throw() Generates an error condition that can be handled by a try.\t\n ..catch...finally statement.\t\nthrow exception 
+JavaScript.try...catch...finally(tryStatements,exception,catchStatements,finallyStatements) Sets up blocks of code in which errors that are thrown in one block are handled in another.\t\n  Errors that are thrown inside the try block are caught in the catch block. JavaScript.  **\t\n 
+JavaScript.var(variable1,value1) Declares a variable.\t\nvar variable1 = value1
+JavaScript.while(expression,statements) Executes a statement or series of statements until a specified \t\n condition is false.\t\nwhile (expression) {\t\n    statements\t\n} 
+JavaScript.with(object,statements) Establishes the default object for a statement.  **\t\nwith (object) {\t\n    statements\t\n} 
+JavaScript() The following table lists JavaScript directives.\t\n 
+JavaScript.use() Restricts the use of some features in JavaScript.\t\n  Supported in Internet Explorer 10 and Windows 8.x Store apps only.\t\nuse strict
+JavaScript() The following table lists the types of JavaScript errors.\t\n 
+JavaScript() JavaScript run-time errors are errors that occur when your script attempts to perform an action that the system cannot execute.\t\n  You may see run-time errors when variable expressions are being evaluated or memory is being allocated.\t\n 
+JavaScript() JavaScript syntax errors occur when the structure of one of \t\n your JavaScript statements violates one or more of the syntactic rules.\t\n 
+JavaScript() JavaScript has a number of reserved words that you cannot use as identifiers.\t\n  Reserved words have a specific meaning to the JavaScript language, as they are part of the language syntax. Using a reserved word causes a compilation error when loading your script.\t\n 
+JavaScript() In JavaScript, future reserved keywords must not be used as \t\n identifiers, even though they have no special meaning in the current version.\t\n 

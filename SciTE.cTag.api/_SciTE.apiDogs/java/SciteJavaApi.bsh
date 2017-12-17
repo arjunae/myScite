@@ -1,0 +1,411 @@
+/*
+ *******************************************************************************
+ Copyright (C) 2000-2011, Andre Burgaud
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with  or  without  modifica-
+ tion, are permitted provided that the following conditions are met:
+
+   - Redistributions of source code must retain the above copyright notice, this
+   list of conditions and the following disclaimer.
+   - Redistributions in binary form must reproduce the above  copyright  notice,
+   this  list  of  conditions  and the following disclaimer in the documentation
+   and/or other materials provided with the distribution.
+   - Neither the name of Burgaud.com nor the names of its  contributors  may  be
+   used  to  endorse or promote products derived from this software without spe-
+   cific prior written permission.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ ANY  EXPRESS  OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A  PARTICULAR  PURPOSE  ARE  DIS-
+ CLAIMED.  IN  NO  EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DI-
+ RECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL  DAMAGES  (IN-
+ CLUDING,  BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS
+ OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND  ON  ANY
+ THEORY  OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE  OF  THIS  SOFTWARE,
+ EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ *******************************************************************************
+ $Id: SciteJavaApi.bsh 627 2011-07-11 00:16:11Z andre $
+ *******************************************************************************
+ DOCUMENTATION:
+ http://www.burgaud.com/scite_java_api.html
+ *******************************************************************************
+ */
+
+// BeanShell
+import bsh.*;
+import bsh.classpath.*;
+
+// Java
+import java.io.*;
+import java.lang.*;
+import java.lang.reflect.*;
+
+/**
+ * This Beanshell object builds:
+ * - Java api files for SciTE
+ * - Java Keywords string for Java
+ */
+SciteJavaApi() {
+  // Constants
+  SCRIPT_TITLE   = "Beanshell SciteJavaApi";
+  SCRIPT_VERSION = "Version 1.6 July 10, 2011";
+  COPYRIGHT      = "2000-2011 (c) Andre Burgaud";
+  LINE_SEPARATOR = "======================================";
+
+  // Global variables
+  beanshell_version = this.interpreter.VERSION;
+  java_version = java.lang.System.getProperty("java.version");
+  java_vendor = java.lang.System.getProperty("java.vendor");
+
+  // Differentiate Beanshell Version to handle the BshClassManager
+  //file_version = java_version.replace(".", ""); // Works only with Java 1.5
+  //file_version = java_version.replace('.', ''); // Beanshell does not accept the ''
+
+  // Workaround to get the version compatible with different versions of Java and Bsh
+  buf = new StringBuffer();
+  for (char c : java_version) // Since Beanshell 1.3
+    if (c == '.')
+      continue;
+    else
+      buf.append(c);
+  file_version = buf.toString();
+
+  api_file = "java" + file_version + ".api";
+  keywords_file = "java" + file_version + "_kwd.properties";
+
+  //BshClassManager.createClassManager() ; // With Bsh 1.2
+  bcm = this.interpreter.getClassManager();
+  classpath = ((ClassManagerImpl)bcm).getClassPath();
+  setPackages = classpath.getPackagesSet();
+  numberOfDot = 0;
+
+  // Methods
+  printInfo() {
+    print(LINE_SEPARATOR);
+    print(SCRIPT_TITLE);
+    print(SCRIPT_VERSION);
+    print(COPYRIGHT);
+    print(LINE_SEPARATOR);
+    printBanner(); // Print Beanshell version and author information
+    print("Java " + java_version + " - by " + java_vendor);
+    print(LINE_SEPARATOR);
+  }
+
+  menu() {
+    loop = true;
+    while(loop) {
+      print("Beanshell SciTETools Menu");
+      print("- Type \"q|Q\" and [ENTER] to quit.");
+      print("- Type \"1\" and [ENTER] to build a Java Keywords file for SciTE.");
+      print("- Type \"2\" and [ENTER] to build a Java Api file for SciTE.");
+      System.out.print("Your choice: ");
+      InputStreamReader inputStreamReader = new InputStreamReader(System.in);
+      answer = (char)inputStreamReader.read();
+      if ((answer == 'q') || (answer == 'Q')) {
+        loop = false;
+      }
+      else if (answer == '1') {
+        buildJavaKeywords();
+        loop = false;
+      }
+      else if (answer == '2') {
+        buildJavaApi();
+        loop = false;
+      }
+      else {
+        print("\n");
+        print(answer + " is not valid!");
+      }
+    }
+    print(LINE_SEPARATOR);
+    print("Thank you for using Beanshell SciteJavaApi");
+    print(LINE_SEPARATOR);
+  }
+
+  printDot() {
+    super.numberOfDot = super.numberOfDot + 1;
+    if ((super.numberOfDot % 100) == 0)
+      System.out.print(".");
+  }
+
+  getKeywordsCollection() {
+    Collection collection = new Vector(512);
+    iteratorPackage = setPackages.iterator();
+    while (iteratorPackage.hasNext()) {
+      packageName=iteratorPackage.next();
+      printDot();
+      // Keeps only the package names starting with java to limit the size of
+      // the property to be included in the cpp.properties file
+      if (packageName.startsWith("java")) {
+        setClasses = classpath.getClassesForPackage(packageName);
+        iteratorClass = setClasses.iterator();
+        while (iteratorClass.hasNext()) {
+          java.lang.String className = (java.lang.String)iteratorClass.next();
+          printDot();
+          if (className.indexOf("$") == -1) {
+            className = BshClassPath.splitClassname(className)[1];
+            collection.add(className);
+          }
+        }
+      }
+    }
+    return collection;
+  }
+
+  buildJavaKeywords() {
+    buildJavaKeywords(keywords_file);
+  }
+
+  buildJavaKeywords(keywordFile) {
+    System.out.print("Building Java keywords file in progress...");
+    collection = getKeywordsCollection();
+    print(".");
+    Collections.sort(collection);
+    len = collection.size();
+    print("Number keywords: " + len);
+    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(keywordFile));
+    bufferedWriter.write("jdkclass.java=");
+    iterator = collection.iterator();
+    lineLength = 0;
+    cptKeyword = 0;
+    do {
+      try {
+        keyword = iterator.next();
+        cptKeyword++;
+        bufferedWriter.write(keyword + " ");
+        lineLength = lineLength + keyword.length() + 1;
+        // No backlash if last keyword
+        if (lineLength > 80 && cptKeyword < len) {
+          bufferedWriter.write("\\\n");
+          lineLength = 0;
+        }
+      }
+      catch(NoSuchElementException e) {
+        break;
+      }
+    } while(true);
+    bufferedWriter.write("\nkeywords2.*.java=$(jdkclass.java)\n");
+    bufferedWriter.write("keywords2.*.bsh=$(jdkclass.java)\n");
+    bufferedWriter.close();
+    print ("Instruction to configure Java Keywords in SciTE:");
+    print ("- insert the line \"import " + keywordFile.split("\\.")[0] + "\", in the file \"cpp.properties\", after the \"keywordclass.java\" bloc.");
+    print ("- Restart SciTE.");
+  }
+
+  getPublicConstructors(java.lang.reflect.Constructor[] constructors) {
+    //print ("getPublicConstructors");
+    Vector vector = new Vector();
+    for (int i = 0; i < constructors.length; i++) {
+      if (Modifier.isPublic(constructors[i].getModifiers())) {
+        vector.addElement(constructors[i]);
+      }
+    }
+
+    java.lang.reflect.Constructor [] publicConstructors = new java.lang.reflect.Constructor[vector.size()];
+    vector.copyInto(publicConstructors);
+    return publicConstructors;
+  }
+
+  getPublicMethods(java.lang.reflect.Method[] methods) {
+    //print ("getPublicMethods");
+    Vector vector = new Vector();
+    for(int i = 0; i < methods.length; i++) {
+      if (Modifier.isPublic(methods[i].getModifiers())) {
+        vector.addElement( methods[i] );
+      }
+    }
+
+    java.lang.reflect.Method[] publicMethods = new java.lang.reflect.Method[vector.size()];
+    vector.copyInto(publicMethods);
+    return publicMethods;
+  }
+
+  removePackageName(fullName) {
+    name = "";
+    i = fullName.lastIndexOf(".");
+    if ( i != -1 )  {
+      name = fullName.substring(i + 1);
+    }
+    else {
+      name = fullName;
+    }
+    // Arrays in reflection:
+    // [B              bytes[]
+    // [C              char[]
+    // [D              double[]
+    // [F              float[]
+    // [I              int[]
+    // [J              long[]
+    // [L<classname>;
+    // [S              short[]
+    // [Z              boolean[]
+    if (name.startsWith("[")) {
+      if (name.equals("[B"))
+        name = "byte";
+      if (name.equals("[C"))
+        name = "char";
+      if (name.equals("[D"))
+        name = "double";
+      if (name.equals("[F"))
+        name = "float";
+      if (name.equals("[I"))
+        name = "int";
+      if (name.equals("[J"))
+        name = "long";
+      if (name.equals("[S"))
+        name = "short";
+      if (name.equals("[Z"))
+        name = "boolean";
+      if (name.equals("[L")) {
+        i = name.indexOf(";");
+        name = name.subString(2, i - 1);
+      }
+      name = name + "[]";
+    }
+    // <classname>;
+    if (name.endsWith(";")) {
+      name = name.substring(0, name.length() - 1);
+      name = name + "[]";
+    }
+    return name;
+  }
+
+  methodString(java.lang.String name, java.lang.Class[] types) {
+    StringBuffer sb = new StringBuffer(removePackageName(name) + "(");
+    for(int i = 0; i < (types.length - 1); i++) {
+      java.lang.Class c = types[i];
+      sb.append(((c == null) ? "null" : removePackageName(c.getName())) + ", ");
+    }
+    if(types.length > 0) {
+      java.lang.Class c = types[types.length - 1];
+      sb.append(((c == null) ? "null" : removePackageName(c.getName())));
+    }
+    sb.append(")");
+    return sb.toString();
+  }
+
+  getCollectionApi() {
+    Collection collection = new Vector(512);
+    iteratorPackage = setPackages.iterator();
+    while (iteratorPackage.hasNext()) {
+      packageName=iteratorPackage.next();
+      if (packageName.startsWith("bsh")) {
+        continue;
+      }
+      // ClassName: org.apache.xalan.extensions.ExtensionHandlerGeneral
+      // java.lang.ClassNotFoundException: com/ibm/bsf/BSFManager
+      if (packageName.startsWith("org.apache")) {
+        continue;
+      }
+      setClasses = classpath.getClassesForPackage(packageName);
+      iteratorClass = setClasses.iterator();
+      //java.lang.Class javaClass = null; // Results in javaClass always null in Bsh 1.3
+      while (iteratorClass.hasNext()) {
+        java.lang.String className = (java.lang.String)iteratorClass.next();
+        if (className.indexOf("$") == -1)  {
+          try {
+            javaClass = bcm.classForName(className);
+            publicConstructors = getPublicConstructors(javaClass.getDeclaredConstructors());
+            for (int i = 0; i < publicConstructors.length; i++) {
+              constructor = methodString(publicConstructors[i].getName(),
+                            publicConstructors[i].getParameterTypes());
+              // No private method or constructor
+              if (constructor.indexOf("$") == -1) {
+                collection.add(constructor);
+              }
+            }
+
+            publicMethod = getPublicMethods(javaClass.getDeclaredMethods() );
+            for (int i = 0; i < publicMethod.length; i++) {
+              printDot();
+              method = methodString(publicMethod[i].getName(),
+                       publicMethod[i].getParameterTypes());
+              // No private method or constructor
+              if (method.indexOf("$") == -1) {
+                collection.add(method);
+              }
+            }
+            // Bug: 14
+            // Adding full package name for each class/interface is overwhelming
+            // and not handled by SciTE due to the '.'
+            // Add only the class or interface name
+            className = BshClassPath.splitClassname(className)[1];
+            collection.add(className);
+          }
+          catch(java.lang.UnsatisfiedLinkError e) {
+            continue;
+          }
+          catch(java.lang.ExceptionInInitializerError e) {
+            // Reported by Jaleks on July 9th, 2011
+            // Caused by: java.util.MissingResourceException:
+            // Can't find bundle for base name com.sun.xml.internal.bind.api.Messages, locale en_US
+            // Caused by: java.lang.ClassCastException:
+            // com.sun.xml.internal.bind.api.Messages cannot be cast to ResourceBundle
+            continue;
+          }
+          catch(java.lang.NoClassDefFoundError e) {
+            // "The searched-for class definition existed when the currently
+            // executing class was compiled, but the definition can no longer be
+            // found"
+            // NoClassDefFoundError exception with JDK 1.5 for
+            // sun.font.FontManager
+            continue;
+          }
+          catch(java.lang.Exception e) {
+            print(e);
+          }
+        }
+      }
+    }
+    return collection;
+  }
+
+  buildJavaApi() {
+    buildJavaApi(api_file);
+  }
+
+  buildJavaApi(apiFile) {
+    vectorApi = getCollectionApi();
+    print(".");
+    size = vectorApi.size();
+    java.lang.String[] arrayApi = new java.lang.String[size];
+    vectorApi.copyInto(arrayApi);
+    Arrays.sort(arrayApi);
+    //print("Number Java API words: " + size);
+    BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(apiFile));
+    print("Building api file and removing redundant api...");
+    strPreviousApi = "";
+    cptWords = 0;
+    for (int i = 0; i < size ; i++) {
+      strApi = arrayApi[i];
+      if (!strApi.equals(strPreviousApi)) {
+        cptWords++;
+        bufferedWriter.write(strApi);
+        bufferedWriter.newLine();
+      }
+      strPreviousApi = strApi;
+    }
+    print("Number of Java API words: " + cptWords);
+    bufferedWriter.close();
+    print("Instructions to configure Java API file in SciTE:");
+    print("1 - Copy the generated file in SciTE default directory (where the");
+    print("    SciTE properties files are)");
+    print("2 - In cpp.properties file, add the following lines:");
+    print("api.*.java=$(SciteDefaultHome)\\" + apiFile);
+    print("calltip.java.word.characters=._$(word.chars.cxx)");
+    print("calltip.java.parameters.start=(");
+    print("calltip.java.parameters.start=)");
+    print("calltip.java.parameters.separators=,");
+    print("3 - Word completion from the API file can be invoked by typing \"CTRL+I\"");
+    print("4 - A calltip will be displayed while typing the open perenthesis");
+    print("    of a method or constructor");
+  }
+  return this;
+}
+
+javaApi = SciteJavaApi();
+javaApi.printInfo();
+javaApi.menu();
+exit();
