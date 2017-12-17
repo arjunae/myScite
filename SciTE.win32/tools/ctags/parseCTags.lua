@@ -216,6 +216,7 @@ io.close(lockFile)
 
 -- do!
 appendCTags({},projectFilePath,projectName)
+-- shouldnt we automagically search for the file "platform.ctags" and append them ?
 
 -- create the fin file
 os.remove(lockFileNamePath)

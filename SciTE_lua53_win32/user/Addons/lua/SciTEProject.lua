@@ -1,6 +1,6 @@
 --
 -- SciTEProject.lua, base Module: initialize Project and CTags Support for mySciTE.
--- License: BSD3Clause. Author Thorsten Kani
+-- @License: BSD3Clause. @Author Thorsten Kani
 -- Version: 0.8
 -- todo: test implementation scite.ReadProperties
 --
@@ -69,6 +69,7 @@ end
 --
 -- UpdateProps() / publish cTag extrapolated Api Data -
 -- reads cTag.properties and writes them to SciTEs .api and .properties files.
+-- prepared for just appending a set of filebased Ctags for speed.
 -- returns cTagList, which contains a List of all Names found in the tagFile
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -131,6 +132,7 @@ local appendMode=true
 	props["style."..currentLexer..".11.19"]=props["colour.project.enums"]
 	props["style."..currentLexer..".11.20"]=props["colour.project.class"]
 	
+	--apply themeing changes and changed keywords.
 	if theForceMightBeWithYou==true then scite.ApplyProperties() end
 	
 	return cTagList
