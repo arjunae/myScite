@@ -37,34 +37,38 @@ local cTagsAPIFilePath =arg[1]
 local projectName =arg[2]
 local createAPIFile =arg[3]
 
-if not cTagsAPIFilePath then cTagsAPIFilePath =os.getenv("tmp")..dirSep().."ctags.tags" end
+-- Think that the file is local when theres no filepath given.
+if cTagsAPIFilePath:match(dirSep())==nil then 
+    cTagsAPIFileName=cTagsAPIFilePath
+    cTagsAPIFilePath="."..dirSep()..cTagsAPIFileName
+end
+
 local projectFilePath, cTagsAPIFileName=cTagsAPIFilePath:match("(.*[%"..dirSep().."]+)%/?(.*)$")
-print (projectFilePath,cTagsAPIFileName)
 if not projectName then projectName=cTagsAPIFileName end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 --  appendCTags(apiNames,projectFilePath,projectName)
 --  Parse a ctag File, write filtered tagNames to predefined Vars.
---  Takes: apiNames: table, FullyQualified projectFilePath, optional projectName
+--  Takes: apiNames: table, FullyQualified projectFilePath,cTagsAPIFileName, optional projectName
 --  Returns: uniqued tagNames written to apiNames
 --
 -- Optimized lua version. Gives reasonable Speed even with bigger cTags Files. 
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function appendCTags(apiNames,projectFilePath,projectName)
+function appendCTags(apiNames,projectFilePath,cTagsAPIFileName,projectName)
     local sysTmp=os.getenv("tmp")
-    local cTagsAPIFilePath=projectFilePath.."ctags.tags"
+    local cTagsAPIFilePath=projectFilePath..cTagsAPIFileName
     local cTagsAPIPath=projectFilePath..cTagsAPIFileName..".api"
   
      -- catches not otherwise matched Stuff for Highlitghtning
      -- turn on for testing.
     local doFullSync="0"
-    
+
     if file_exists(cTagsAPIFilePath) then
     if DEBUG>=1 then print("ac>appendCtags" ,cTagsAPIFilePath,projectName) end     
-    
+        print("parse: "..cTagsAPIFilePath)
         local lastEntry="" -- simple DupeCheck
         local cTagsAPIFile= io.open(cTagsAPIPath,"w")
         io.output(cTagsAPIFile)   -- projects cTags APICalltips file
@@ -192,13 +196,13 @@ function writeProps(projectName, projectFilePath)
     
 -- Show some stats
         print("ac>writeProps:")
-        print("ac> cTagENUMs ("..string.len(cTagENUMs).." bytes)" )
-        print("ac> cTagNames: ("..string.len(cTagNames).." bytes)" )
-        print("ac> cTagFunctions: ("..string.len(cTagFunctions).." bytes)" )
-        print("ac> cTagModules: ("..string.len(cTagModules).." bytes)" )  
-        print("ac> cTagClass: ("..string.len(cTagClass).." bytes)" )
-        print("ac> cTagOthers ("..string.len(cTagOthers).." bytes)" )
-        print("ac> cTagDupes ("..string.len(cTagDupes).." bytes)" )
+        print("cTagENUMs ("..string.len(cTagENUMs).." bytes)" )
+        print("cTagNames: ("..string.len(cTagNames).." bytes)" )
+        print("cTagFunctions: ("..string.len(cTagFunctions).." bytes)" )
+        print("cTagModules: ("..string.len(cTagModules).." bytes)" )  
+        print("cTagClass: ("..string.len(cTagClass).." bytes)" )
+        print("cTagOthers: ("..string.len(cTagOthers).." bytes)" )
+        print("cTagDupes: ("..string.len(cTagDupes).." bytes)" )
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -215,7 +219,7 @@ io.write(tostring(os.date))
 io.close(lockFile)
 
 -- do!
-appendCTags({},projectFilePath,projectName)
+appendCTags({},projectFilePath,cTagsAPIFileName,projectName)
 -- shouldnt we automagically search for the file "platform.ctags" and append them ?
 
 -- create the fin file
