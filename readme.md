@@ -4,7 +4,7 @@
 - Add: SciTE Project Support. Settings for scite sources included.
 - Add: cTag Navigation support within project source files. ( ALT-Click )
 - Add: Cached source API Syntax Higlightening (styles Class, Modules, Functions, Constants, ENUMs).
-- Upd: Offline standard clib docs from en.wikibooks.org for Syntax Highlightening *kudos*
+- Upd: c89,90,95,03,11 docs from en.wikibooks.org for Syntax Highlightening *kudos*
 - Info: Dual Release. Lua5.1.5 and Lua5.3.4 available.  
 
 [25.11.2017] mySciTE.stable.180.Artie

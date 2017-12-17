@@ -77,7 +77,8 @@ function markLinks()
 	-- Keys 
 	local marker_b=11 -- The URL Param
 	editor.IndicStyle[marker_b] = INDIC_TEXTFORE
-	editor.IndicFore[marker_b]  = props["colour.url_param"]
+	if props["colour.url_param"]=="" then props["colour.url_param"] = "0x05A750" end
+	editor.IndicFore[marker_b]  = props["colour.url_param"] 
 	
 	if editor.Lexer~=1 then -- Performance: Exclude Null Lexer	
 		mask_b="[?&].*[=]" --Begin with ?& Any Char/Digit Ends with =
@@ -92,7 +93,8 @@ function markLinks()
 		-- Values
 		local marker_c=12 -- The URL Params Value
 		editor.IndicStyle[marker_c] = INDIC_TEXTFORE
-		editor.IndicFore[marker_c]  = props["colour.url_param_value"]
+		if props["colour.url_param_value"]=="" then props["colour.url_param:value"] = "0x3388B0" end
+		editor.IndicFore[marker_c]  = props["colour.url_param_value"] 
 		mask_c="=[^& <]+[a-zA-Z0-9]?" -- Begin with = ends with Any alphaNum
 
 		local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)
