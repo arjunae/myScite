@@ -38,6 +38,8 @@ local cTagsAPIFilePath =arg[1]
 local smallerFile =arg[2]
 local projectName =arg[3]
 
+if smallerFile=="1" then smallerFile=true end
+
 -- Think that the file is local when theres no filepath given.
 if cTagsAPIFilePath:match(dirSep())==nil then 
     cTagsFileName=cTagsAPIFilePath
@@ -119,7 +121,7 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
                 if string.len(params)>0 then skipper=true isFunction=true end
             end
             -- Mark ENUMS, STRUCTs, typedefs and unions (matches "[tab]g/s/t/u/e) 
-            if not smallerFile and not skipper then
+            if not skipper then
              --   if entry:match("%\"\t[geust]")   then
                 if entry:match("%\"\t[geust]") then
                     name= entry:match("([%w_]+)") or ""
@@ -188,7 +190,7 @@ end
 function writeProps(projectName, projectFilePath)
     
 -- write what we got until here.
-    propFile=io.open(projectFilePath..cTagsFileName.."api.properties","w")
+    propFile=io.open(projectFilePath..cTagsFileName..".api.properties","w")
     propFile= io.output(propFile)
     io.output(propFile) 
     io.write(projectName..".cTagOthers="..cTagOthers.."\n")
