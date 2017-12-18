@@ -119,10 +119,7 @@ function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 			if prop:match(".cTagNames") then cTagNames= cTagNames.." "..names end
 			if prop:match(".cTagENUMs") then cTagENUMs= cTagENUMs.." "..names end
 			if prop:match(".cTagOthers") then cTagOthers =cTagOthers.." "..names end
-			--- concatenate all entries in the current list.
-			for name in string.gmatch(names, "%S+") do
-				cTagList[name]=true
-			end
+			if prop:match(".cTagAllTogether") then cTagList =names end --: table formatted
 		end
 	
 		-- Write properties to Scites Config.

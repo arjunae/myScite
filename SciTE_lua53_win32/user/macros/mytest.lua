@@ -28,6 +28,7 @@ function HashFileCrc32(filename)
 	end	
 
 	file:close()
+	file=nil
 	--print("SciLexer CRC32 Hash:",crccalc:tohex())
 	return(crccalc:tohex())
 end

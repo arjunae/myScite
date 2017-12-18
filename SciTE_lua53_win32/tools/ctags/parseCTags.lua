@@ -15,6 +15,7 @@ local cTagModules =""
 local cTagENUMs=""
 local cTagOthers=""
 local cTagDupes=""
+local cTagAllTogether=""
 local fs=io
 
 --
@@ -72,7 +73,8 @@ function appendCTags(apiNames,projectFilePath,cTagsAPIFileName,projectName)
         local lastEntry="" -- simple DupeCheck
         local cTagsAPIFile= io.open(cTagsAPIPath,"w")
         io.output(cTagsAPIFile)   -- projects cTags APICalltips file
-
+        cTagAllTogether="{"
+        cTagItems=""
         -- a poorMans exuberAnt cTag Tokenizer :)) --
         -- Gibt den LemmingAmeisen was sinnvolles zu tun(tm) --
         
@@ -139,8 +141,6 @@ function appendCTags(apiNames,projectFilePath,cTagsAPIFileName,projectName)
             end
             -- publish collected Data (dupe Checked). Prefer the className over the functionName  
              if name and name..params~=lastEntry and not isfunction then  
-                ---- AutoComplete List entries
-                cTagAPI[ACListEntry]=true
                 ----  Highlitening use String concatination, because its faster for onSave ( theres no dupe checking.)
                 if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
                 if isFunction then cTagFunctions=cTagFunctions.." "..name  end
@@ -149,6 +149,8 @@ function appendCTags(apiNames,projectFilePath,cTagsAPIFileName,projectName)
                 if isClass then cTagClass=cTagClass.." "..name  end
                 if isENUM then cTagENUMs=cTagENUMs.." "..name  end
                 if isOther then cTagOthers=cTagOthers.." "..cTagOther end
+                
+                cTagItems=cTagItems..","..name.."=true"
                 lastname=name
                 -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=name..params
@@ -160,7 +162,9 @@ function appendCTags(apiNames,projectFilePath,cTagsAPIFileName,projectName)
                 if DEBUG==2 then print("Dupe: "..entry) end 
             end
         end
-     
+        ---- AutoComplete List entries
+        cTagAllTogether=cTagAllTogether..cTagItems.."}"
+        cTagAPI=cTagAllTogether
         io.close(cTagsAPIFile)
         writeProps(projectName, projectFilePath) --> Let a Helper apply the generated Data.
         cTagsUpdate="0"
@@ -191,7 +195,7 @@ function writeProps(projectName, projectFilePath)
     io.write(projectName..".cTagFunctions="..cTagFunctions.."\n") 
     io.write(projectName..".cTagModules="..cTagModules.."\n")   
     io.write(projectName..".cTagClasses="..cTagClass.."\n")
-    
+    io.write(projectName..".cTagAllTogether="..cTagAllTogether.."\n")
     io.close(propFile)
     
 -- Show some stats
