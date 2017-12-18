@@ -40,30 +40,30 @@ local projectName =arg[3]
 
 -- Think that the file is local when theres no filepath given.
 if cTagsAPIFilePath:match(dirSep())==nil then 
-    cTagsAPIFileName=cTagsAPIFilePath
-    cTagsAPIFilePath="."..dirSep()..cTagsAPIFileName
+    cTagsFileName=cTagsAPIFilePath
+    cTagsAPIFilePath="."..dirSep()..cTagsFileName
 end
 
 print("> [parseCTags.lua]".." [Thorsten Kani / Dezember 2017 / eMail:Marcedo@HabMalNeFrage.de]")
 print ("> TagsAPIFilePath: "..tostring(cTagsAPIFilePath).." | smallerFile: "..tostring(smallerFile).." | projectName: "..tostring(projectName))
 
-local projectFilePath, cTagsAPIFileName=cTagsAPIFilePath:match("(.*[%"..dirSep().."]+)%/?(.*)$")
-if not projectName then projectName=cTagsAPIFileName end
+local projectFilePath, cTagsFileName=cTagsAPIFilePath:match("(.*[%"..dirSep().."]+)%/?(.*)$")
+if not projectName then projectName=cTagsFileName end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 --  appendCTags(apiNames,projectFilePath,projectName)
 --  Parse a ctag File, write filtered tagNames to predefined Vars.
---  Takes: apiNames: table, FullyQualified projectFilePath,cTagsAPIFileName, optional projectName
+--  Takes: apiNames: table, FullyQualified projectFilePath,cTagsFileName, optional projectName
 --  Returns: uniqued tagNames written to apiNames
 --
 -- Optimized lua version. Gives reasonable Speed even with bigger cTags Files. 
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function appendCTags(apiNames,projectFilePath,cTagsAPIFileName,projectName)
-    local cTagsAPIFilePath=projectFilePath..cTagsAPIFileName
-    local cTagsAPIPath=projectFilePath..cTagsAPIFileName..".api"
+function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
+    local cTagsAPIFilePath=projectFilePath..cTagsFileName
+    local cTagsAPIPath=projectFilePath..cTagsFileName..".api"
     local cTagItems=""
     -- catches not otherwise matched Stuff for Highlitghtning. Turn on for testing.
     local doFullSync="0"
@@ -188,7 +188,7 @@ end
 function writeProps(projectName, projectFilePath)
     
 -- write what we got until here.
-    propFile=io.open(projectFilePath..cTagsAPIFileName..".properties","w")
+    propFile=io.open(projectFilePath..cTagsFileName.."api.properties","w")
     propFile= io.output(propFile)
     io.output(propFile) 
     io.write(projectName..".cTagOthers="..cTagOthers.."\n")
@@ -224,8 +224,7 @@ io.write(tostring(os.date))
 io.close(lockFile)
 
 -- do!
-appendCTags({},projectFilePath,cTagsAPIFileName,projectName)
--- shouldnt we automagically search for the file "platform.ctags" and append them ?
+appendCTags({},projectFilePath,cTagsFileName,projectName)
 
 -- create the fin file
 os.remove(lockFileNamePath)

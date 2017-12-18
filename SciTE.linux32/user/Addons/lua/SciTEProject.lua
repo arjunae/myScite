@@ -137,7 +137,7 @@ function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 	-- write user supplied library Api
 	projectLibPath =props["project.libprops"]
 	projectLibPath:gsub("[^;]+", function(lib) -- For each in ;-delimited list.	
-		if lib~="" then CTagsWriteProps(true,props["project.libprops"]) end
+		if lib~="" then CTagsWriteProps(true,lib) end
 	end)
 	
 	-- Define the Styles for cTag types
