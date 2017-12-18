@@ -102,7 +102,7 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
                 end   
            end     
            -- Mark Modules (matches "[tab]m)  ...can have params too..
-            if not skipper and entry:match("%\"\tm")=="\"\tm" then 
+            if not smallerFile and not skipper and entry:match("%\"\tm")=="\"\tm" then 
                 strCls, name= entry:match("^([%w_]+)[%.]?([%w_]+).*")
                 if name and string.len(name)==1 then name=strCls..name end
                 isModule=true

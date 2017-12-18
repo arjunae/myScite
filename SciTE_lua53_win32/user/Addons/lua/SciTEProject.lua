@@ -91,9 +91,10 @@ function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 			if prop:match(".cTagNames") then cTagNames= cTagNames.." "..names end
 			if prop:match(".cTagENUMs") then cTagENUMs= cTagENUMs.." "..names end
 			if prop:match(".cTagOthers") then cTagOthers =cTagOthers.." "..names end
-			if prop:match(".cTagAllTogether") then cTagAllTogether =cTagAllTogether..names end --: table formatted
+--			if prop:match(".cTagAllTogether") then cTagAllTogether =cTagAllTogether..names end --: table formatted
 		end
-		cTagList=cTagAllTogether
+--		cTagList=cTagAllTogether
+		cTagList={}
 	
 		-- Write properties to Scites Config.
 		projectEXT=props["file.patterns.project"]
@@ -143,6 +144,10 @@ function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 	-- Define the Styles for cTag types
 	local currentLexer=props["Language"]
 	props["substyles."..currentLexer..".11"]=20
+	
+	-- User Provided Api (eg MinGW)
+	props["style."..currentLexer..".11.11"]=props["colour.project.functions"]
+	props["style."..currentLexer..".11.12"]=props["colour.project.class"]
 
 	props["style."..currentLexer..".11.15"]=props["colour.project.enums"]    
 	props["style."..currentLexer..".11.16"]=props["colour.project.constants"]
