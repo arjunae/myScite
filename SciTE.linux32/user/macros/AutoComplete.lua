@@ -71,7 +71,7 @@ local CHOOSE_SINGLE = props["autocomplete.choose.single"]
 -- Names from api files, stored by lexer name.
 local apiCache = {} 
 -- Number of chars to type before the autocomplete list appears:
-local MIN_PREFIX_LEN = 1
+local MIN_PREFIX_LEN = 2
 -- Length of shortest word to add to the autocomplete list:
 local MIN_IDENTIFIER_LEN = 3
 -- List of regex patterns for finding suggestions for the autocomplete menu:
@@ -436,7 +436,7 @@ local function handleKey(key, shift, ctrl, alt)
                 return true
             end
             -- Cancel the list and let the caret move down.
-            editor:AutoCCancel()
+            --editor:AutoCCancel()
         end
     elseif key == 0x5A and ctrl then -- ^z
         editor:AutoCCancel()

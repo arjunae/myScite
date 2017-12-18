@@ -1,6 +1,6 @@
 --
 -- SciTEProject.lua, base Module: initialize Project and CTags Support for mySciTE.
--- License: BSD3Clause. Author Thorsten Kani
+-- @License: BSD3Clause. @Author Thorsten Kani
 -- Version: 0.8
 -- todo: test implementation scite.ReadProperties
 --
@@ -12,13 +12,14 @@ local ctagsLock --true during writing to the projects ctags and properties files
 -- NameCache
 --
 --~~~~~~~~~~~~~~~~~~~
-local cTagNames
-local cTagClasses
-local cTagModules
-local cTagFunctions
-local cTagNames
-local cTagENUMs
-local cTagOthers
+local cTagNames=""
+local cTagClasses=""
+local cTagModules=""
+local cTagFunctions=""
+local cTagNames=""
+local cTagENUMs=""
+local cTagOthers=""
+local cTagAllTogether=""
 local cTagList --table
 
 --~~~~~~~~~~~~~~~~~~~
@@ -48,13 +49,13 @@ end
 -- (ctags, Autocomplete & highlitening)
 --
 --~~~~~~~~~~~~~~~~~~~
-local function ProjectSetEnv(init)
+function ProjectSetEnv(init)
 
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		props["project.path"] = props["SciteDirectoryHome"]
 		props["project.ctags.filename"]="ctags.tags"
 		props["project.ctags.apipath"]=props["project.path"]..dirSep..props["project.ctags.filename"]..".api"
-		props["project.ctags.propspath"]=props["project.path"]..dirSep..props["project.ctags.filename"]..".properties"
+		props["project.ctags.propspath"]=props["project.ctags.apipath"]..".properties"
 		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
 		buffer.projectName= props["project.name"]
 	else
@@ -67,60 +68,79 @@ end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
--- UpdateProps() / publish cTag extrapolated Api Data -
+-- CTagsWriteProps() / publish cTag extrapolated Api Data -
 -- reads cTag.properties and writes them to SciTEs .api and .properties files.
+-- prepared for just appending a set of filebased Ctags for speed.
 -- returns cTagList, which contains a List of all Names found in the tagFile
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function CTagsUpdateProps(theForceMightBeWithYou)
-local appendMode=true
+function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 
-	ProjectSetEnv(false)
-	local prefix=props["project.ctags.filename"]
-	if not string.find(prefix,"append") then
-		cTagNames="" cTagClasses="" cTagModules="" cTagFunctions="" cTagNames="" cTagENUMs="" cTagOthers=""
-		appendMode=false
-	end
-	
-	if ctagsLock==true or  props["project.path"]=="" then return end	
-	projectEXT=props["file.patterns.project"]
-	
+	if not file_exists(YodaNamePath) or ctagsLock==true or props["project.path"]=="" then return end		
+	-- just return the cached Version if not forced to do otherwise
+	if (not cTagList) or string.find(YodaNamePath,"append.") then theForceMightBeWithYou=true end
+
 	-- Propagate the Data, appends if required
-	if file_exists(props["project.ctags.propspath"]) and (not cTagList or appendMode) or (theForceMightBeWithYou==true) then
+	if  (theForceMightBeWithYou==true) then
 	cTagList={}
-		for entry in io.lines(props["project.ctags.propspath"]) do
+		for entry in io.lines(YodaNamePath) do
 			prop,names=entry:match("([%w_.]+)%s?=(.*)") 
-			if prop==prefix..".cTagClasses" then cTagClasses= cTagClasses.." "..names  end
-			if prop==prefix..".cTagModules" then cTagModules = cTagModules.." "..names end
-			if prop==prefix..".cTagFunctions" then cTagFunctions = cTagFunctions.." "..names end
-			if prop==prefix..".cTagNames" then cTagNames= cTagNames.." "..names end
-			if prop==prefix..".cTagENUMs" then cTagENUMs= cTagENUMs.." "..names end
-			if prop==prefix..".cTagOthers" then cTagOthers =cTagOthers.." "..names end
-			--- concatenate all entries in the current list.
-			for i in string.gmatch(names, "%S+") do
-				cTagList[i]=true
-			end
+			if prop:match(".cTagClasses") then cTagClasses= cTagClasses.." "..names  end
+			if prop:match(".cTagModules") then cTagModules = cTagModules.." "..names end
+			if prop:match(".cTagFunctions") then cTagFunctions = cTagFunctions.." "..names end
+			if prop:match(".cTagNames") then cTagNames= cTagNames.." "..names end
+			if prop:match(".cTagENUMs") then cTagENUMs= cTagENUMs.." "..names end
+			if prop:match(".cTagOthers") then cTagOthers =cTagOthers.." "..names end
+			if prop:match(".cTagAllTogether") then cTagAllTogether =cTagAllTogether..names end --: table formatted
 		end
-
-		--write properties to Scites Config.
+		cTagList=cTagAllTogether
+	
+		-- Write properties to Scites Config.
+		projectEXT=props["file.patterns.project"]
 		props["substylewords.11.20."..projectEXT] = cTagClasses
 		props["substylewords.11.18."..projectEXT] = cTagModules
 		props["substylewords.11.17."..projectEXT] = cTagFunctions
 		props["substylewords.11.16."..projectEXT]= cTagNames
 		props["substylewords.11.19."..projectEXT]= cTagENUMs
 		props["substylewords.11.15."..projectEXT] = cTagOthers
+	end
 
-		--Update filetypes api path.  Append only Once
-		local origApiPath
-		if props["project.path"]~="" then
-        if origApiPath==nil then 
-            origApiPath=props["APIPath"]
-            props["api."..props["file.patterns.project"]] =origApiPath..";"..props["project.ctags.apipath"] 
-        end
-    end
+	return cTagList
+end
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+--cTagsUpdateProps() 	/ Update filetypes api path.
+--
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
+	local origApiPath, projectPlatApiPath, projectApiPath
+
+	ProjectSetEnv(false)
+	if props["project.path"]=="" then return end
+	if not fileNamePath or fileNamePath=="" then fileNamePath=props["project.ctags.propspath"] end
+	
+	-- Attach a project platform API if it had been specified
+	if (props["project.libapi"]~="") then projectPlatApiPath=props["project.libapi"] end
+	if not projectPlatApiPath then projectPlatApiPath="" end
+	
+	-- Update SciTEs Filetypes APIlist
+	if origApiPath==nil then 
+		origApiPath=props["APIPath"]
+		projectApiPath=props["project.ctags.apipath"]
+		if not origApiPath:match(projectPlatApiPath) then projectApiPath=projectApiPath..";"..projectPlatApiPath end
+		props["api."..props["file.patterns.project"]] =origApiPath..";"..projectApiPath
 	end
 	
-	-- Define the Styles for aboves types
+	-- parse projects properties files
+	CTagsWriteProps(theForceMightBeWithYou,fileNamePath)
+	-- write user supplied library Api
+	projectLibPath =props["project.libprops"]
+	projectLibPath:gsub("[^;]+", function(lib) -- For each in ;-delimited list.	
+		if lib~="" then CTagsWriteProps(true,props["project.libprops"]) end
+	end)
+	
+	-- Define the Styles for cTag types
 	local currentLexer=props["Language"]
 	props["substyles."..currentLexer..".11"]=20
 
@@ -130,10 +150,10 @@ local appendMode=true
 	props["style."..currentLexer..".11.18"]=props["colour.project.modules"]
 	props["style."..currentLexer..".11.19"]=props["colour.project.enums"]
 	props["style."..currentLexer..".11.20"]=props["colour.project.class"]
-	
-	if theForceMightBeWithYou==true then scite.ApplyProperties() end
-	
-	return cTagList
+
+	--apply themeing changes and changed keywords.
+	scite.ApplyProperties()
+	 
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -149,13 +169,14 @@ function ProjectOnDwell()
 	finFileNamePath=os.getenv("tmp")..dirSep.."project.ctags"..".fin"
 	
 	local finFile=io.open(finFileNamePath,"r")
-
+	
 	if finFile~=nil then 
 		io.close(finFile)
 		ctagsLock=false
 		os.remove(finFileNamePath)
-		if file_exists(props["project.ctags.propspath"]) then CTagsUpdateProps(true) end
-		--print("...generating CTags finished",ctagsLock) 
+		local fileNamePath= (props["project.ctags.propspath"])
+		CTagsUpdateProps(true,fileNamePath)
+		--print("...generating CTags finished",ctagsLock)		
 	end
 	finFile=nil
 
@@ -196,5 +217,3 @@ end
 
 -- Registers the Autocomplete event Handlers early.
 ProjectSetEnv(true)
-scite_OnOpenSwitch(CTagsUpdateProps,false)
-scite_OnSave(CTagsRecreate)

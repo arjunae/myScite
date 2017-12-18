@@ -134,8 +134,11 @@ function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 	
 	-- parse projects properties files
 	CTagsWriteProps(theForceMightBeWithYou,fileNamePath)
-	if props["project.ctags.style.libapi"] then CTagsWriteProps(true,projectPlatApiPath..".properties") end
-	--print(cTagClasses)
+	-- write user supplied library Api
+	projectLibPath =props["project.libprops"]
+	projectLibPath:gsub("[^;]+", function(lib) -- For each in ;-delimited list.	
+		if lib~="" then CTagsWriteProps(true,props["project.libprops"]) end
+	end)
 	
 	-- Define the Styles for cTag types
 	local currentLexer=props["Language"]
