@@ -41,8 +41,6 @@ dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 -- Load cTags Browser
 dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
 
-dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
-
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- ##################  Lua Samples #####################
@@ -201,10 +199,8 @@ function OnInit()
 --
 	
 	TestSciLexer("27abe444") -- SciLexers CRC32 Hash for the current Version
-
--- Event Handlers
-	scite_OnOpenSwitch(CTagsUpdateProps,false)
-	scite_OnSave(CTagsRecreate)
+	
+	-- Event Handlers
 	scite_OnOpenSwitch(StyleStuff)
 
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	

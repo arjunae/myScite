@@ -60,7 +60,7 @@ local IGNORE_STYLES = { -- Should include comments, strings and errors.
     [SCLEX_VHDL]  = {1,2,4,7,14,15},
     [SCLEX_GENERIC]  = {1,2,3,6,7,8}
 }
- 
+
 local INCREMENTAL = true
 local IGNORE_CASE = false
 local CASE_CORRECT = true
@@ -164,15 +164,14 @@ function appendCTags(apiNames,cTagsFilePath)
 
     -- Append Once to filetypes api path
     if type(CTagsUpdateProps)=="function" then
-        if file_exists(props["project.ctags.propspath"])  then 
-            apiNames=CTagsUpdateProps(false) 
-             if DEBUG==2 then
+        local fileNamePath= (props["project.ctags.propspath"])
+           apiNames = CTagsUpdateProps(true,fileNamePath)
+            if DEBUG==2 then
                     for name in pairs(apiNames) do
                         names=names..name 
                     end
-                    print("CTAGNames:",names)
+                    --print("CTAGNames:",names)
             end
-        end
     end
    
     return apiNames -- cTagsUpdate=0 so already done.  Using the cached Version 
@@ -208,14 +207,15 @@ local function getApiNames()
 
     local lexer = editor.LexerLanguage
     local apiNames = {}
-      
-    if apiCache[lexer] and props["project.ctags.update"]=="0" then
+    
+    if apiCache[lexer] then
         return apiCache[lexer]
     end
     
-if DEBUG>=1 then print("ac>getApiNames") end
-
     local apiFiles = props["APIPath"] or ""
+    
+if DEBUG>=1 then print("ac>getApiNames", apiFiles) end
+ 
     apiFiles:gsub("[^;]+", function(apiFile) -- For each in ;-delimited list.
     if not file_exists(apiFile) then print ("ac>ignoring nonExistant apiFile: "..apiFile) return end
     for name in io.lines(apiFile) do
@@ -248,7 +248,7 @@ local function buildNames()
 
 --print("build names buffer state:",buffer.dirty)
 
-   local fSize=0
+    local fSize=0
     local LexerName= props["Language"]
         
     if LexerName~="" and buffer.dirty==true then 
@@ -357,7 +357,7 @@ local function handleChar(char, calledByHotkey)
         editor.AutoCIgnoreCase = IGNORE_CASE
         editor.AutoCCaseInsensitiveBehaviour = 1 -- Do NOT pre-select a case-sensitive match
         editor.AutoCSeparator = 1
-        editor.AutoCMaxHeight = 10
+        editor.AutoCMaxHeight = 11
         editor:AutoCShow(len, list)
         -- Check if we should auto-auto-complete.
         if normalize(menuItems[1]) == prefix and not calledByHotkey then

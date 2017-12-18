@@ -2412,9 +2412,7 @@ IS_HIGH_SURROGATE	scintilla\win32\ScintillaWin.cxx	107;"	d	file:
 IS_LOW_SURROGATE	scintilla\win32\ScintillaWin.cxx	111;"	d	file:
 IS_SCINTILLA	scintilla\include\ScintillaWidget.h	21;"	d
 IS_WIDGET_MAPPED	scintilla\gtk\ScintillaGTK.cxx	90;"	d	file:
-IS_WIDGET_MAPPED	scintilla\gtk\ScintillaGTK.cxx	93;"	d	file:
 IS_WIDGET_REALIZED	scintilla\gtk\ScintillaGTK.cxx	89;"	d	file:
-IS_WIDGET_REALIZED	scintilla\gtk\ScintillaGTK.cxx	92;"	d	file:
 IStrokes	scintilla\win32\HanjaDic.cxx	/^interface IStrokes;$/;"	m	namespace:Scintilla::HanjaDict	file:
 Idle	scintilla\src\Editor.cxx	/^bool Editor::Idle() {$/;"	f	class:Editor	signature:()
 IdleCallback	scintilla\gtk\ScintillaGTK.cxx	/^gboolean ScintillaGTK::IdleCallback(gpointer pSci) {$/;"	f	class:ScintillaGTK	signature:(gpointer pSci)

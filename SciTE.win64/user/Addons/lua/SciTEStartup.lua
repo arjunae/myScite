@@ -198,7 +198,7 @@ function OnInit()
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 	
-	TestSciLexer("95822cff") -- SciLexers CRC32 Hash for the current Version
+	TestSciLexer("481baa35") -- SciLexers CRC32 Hash for the current Version
 
 -- Event Handlers
 	scite_OnOpenSwitch(CTagsUpdateProps,false)

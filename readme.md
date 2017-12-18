@@ -1,9 +1,9 @@
 ~ mySciTE.webdev ~
 
-[14.12.2017] Development.190 (Lua5.1 & Lua5.3)
+[17.12.2017] Development.190 (Lua5.1 & Lua5.3)
 - Add: SciTE Project Support. Settings for scite sources included.
-- Add: cTag Navigation support within project source files. ( ALT-Click )
-- Add: Cached source API Syntax Higlightening (styles Class, Modules, Functions, Constants, ENUMs).
+- Add: cTags Navigation support within project source files. ( ALT-Click )
+- Add: cTags based, cached Projects and Platforms sourceCode Syntax Higlightening. 
 - Upd: c89,90,95,03,11 docs from en.wikibooks.org for Syntax Highlightening *kudos*
 - Info: Dual Release. Lua5.1.5 and Lua5.3.4 available.  
 
