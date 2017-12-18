@@ -15,7 +15,7 @@ local cTagModules =""
 local cTagENUMs=""
 local cTagOthers=""
 local cTagDupes=""
-local cTagAllTogether=""
+local cTagAllTogether="{"
 local fs=io
 
 --
@@ -35,14 +35,17 @@ end
 
 -- read args
 local cTagsAPIFilePath =arg[1]
-local projectName =arg[2]
-local createAPIFile =arg[3]
+local smallerFile =arg[2]
+local projectName =arg[3]
 
 -- Think that the file is local when theres no filepath given.
 if cTagsAPIFilePath:match(dirSep())==nil then 
     cTagsAPIFileName=cTagsAPIFilePath
     cTagsAPIFilePath="."..dirSep()..cTagsAPIFileName
 end
+
+print("> [parseCTags.lua]".." [Thorsten Kani / Dezember 2017 / eMail:Marcedo@HabMalNeFrage.de]")
+print ("> TagsAPIFilePath: "..tostring(cTagsAPIFilePath).." | smallerFile: "..tostring(smallerFile).." | projectName: "..tostring(projectName))
 
 local projectFilePath, cTagsAPIFileName=cTagsAPIFilePath:match("(.*[%"..dirSep().."]+)%/?(.*)$")
 if not projectName then projectName=cTagsAPIFileName end
@@ -59,22 +62,19 @@ if not projectName then projectName=cTagsAPIFileName end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function appendCTags(apiNames,projectFilePath,cTagsAPIFileName,projectName)
-    local sysTmp=os.getenv("tmp")
     local cTagsAPIFilePath=projectFilePath..cTagsAPIFileName
     local cTagsAPIPath=projectFilePath..cTagsAPIFileName..".api"
-  
-     -- catches not otherwise matched Stuff for Highlitghtning
-     -- turn on for testing.
+    local cTagItems=""
+    -- catches not otherwise matched Stuff for Highlitghtning. Turn on for testing.
     local doFullSync="0"
 
     if file_exists(cTagsAPIFilePath) then
     if DEBUG>=1 then print("ac>appendCtags" ,cTagsAPIFilePath,projectName) end     
-        print("parse: "..cTagsAPIFilePath)
+        print("> parse: "..cTagsAPIFilePath)
         local lastEntry="" -- simple DupeCheck
         local cTagsAPIFile= io.open(cTagsAPIPath,"w")
         io.output(cTagsAPIFile)   -- projects cTags APICalltips file
-        cTagAllTogether="{"
-        cTagItems=""
+
         -- a poorMans exuberAnt cTag Tokenizer :)) --
         -- Gibt den LemmingAmeisen was sinnvolles zu tun(tm) --
         
@@ -82,13 +82,11 @@ function appendCTags(apiNames,projectFilePath,cTagsAPIFileName,projectName)
             local isFunction=false isClass=false isConst=false isModule=false isENUM=false isOther=false
             local skipper=false          
             local name =""
-            local params="" -- match function parameters for Calltips
-             -- "catchAll" Names for ACList Entries
-           local ACListEntry= entry:match("(~?[%w_]+)") or ""
+            local params="" -- match function parameters for Calltips           
             -- Mark Constants and Vars (matches "[tab]d/v)  
             local tmp = entry:match("%\"\t[dv]")   
-            if tmp=="\"\td" or tmp=="\"\tv" then 
-                name= entry:match("([%w_]+)") or ""                    
+            if not smallerFile and (tmp=="\"\td" or tmp=="\"\tv") then 
+                name= entry:match("([%w_]+)") or "" 
                 isConst=true
                 skipper=true
             end   
@@ -96,7 +94,7 @@ function appendCTags(apiNames,projectFilePath,cTagsAPIFileName,projectName)
             if not skipper then
                 local tmp = entry:match("%\"\t[cn]")   
                 if tmp=="\"\tc" or tmp=="\"\tn"  then 
-                    name= entry:match("([%w_]+)") or ""                    
+                    name= entry:match("([%w_]+)") or "" 
                     isClass=true
                     skipper=true
                 end   
@@ -104,13 +102,13 @@ function appendCTags(apiNames,projectFilePath,cTagsAPIFileName,projectName)
            -- Mark Modules (matches "[tab]m)  ...can have params too..
             if not skipper and entry:match("%\"\tm")=="\"\tm" then 
                 strCls, name= entry:match("^([%w_]+)[%.]?([%w_]+).*")
-                if name and string.len(name)==1 then name=strCls..name end                
+                if name and string.len(name)==1 then name=strCls..name end
                 isModule=true
                 skipper=true
             end 
             -- Mark Functions 
             if not skipper then
-                name= entry:match("(~?[%w_]+)") or "" 
+                name= entry:match("(~?[%w_]+)") or ""
                 patType="%/^([%s%w_:~]+ ?)" -- INTPTR
                 patClass="([%w_]+).*"   -- SciteWin (::)
                 patFunc="(%(.*%))"  -- AbbrevDlg(...)
@@ -121,10 +119,11 @@ function appendCTags(apiNames,projectFilePath,cTagsAPIFileName,projectName)
                 if string.len(params)>0 then skipper=true isFunction=true end
             end
             -- Mark ENUMS, STRUCTs, typedefs and unions (matches "[tab]g/s/t/u/e) 
-            if not skipper then
+            if not smallerFile and not skipper then
              --   if entry:match("%\"\t[geust]")   then
-                if entry:match("%\"\t[geust]")   then
-                    name= entry:match("([%w_]+)") or ""                    
+                if entry:match("%\"\t[geust]") then
+                    name= entry:match("([%w_]+)") or ""
+                    cTagItems=cTagItems..","..name.."=true"
                     isENUM=true
                     skipper=true
                 end   
@@ -132,7 +131,7 @@ function appendCTags(apiNames,projectFilePath,cTagsAPIFileName,projectName)
             -- Handle Tag entries that were not tokenized before.
             -- This should normally stay empty but can be handy for new languages.
             local cTagOther=""
-            if not skipper and name and name..params~=lastEntry and doFullSync=="1" then
+            if not smallerFile and not skipper and name and name..params~=lastEntry and doFullSync=="1" then
                 if string.len(name)>1 then 
                     cTagOther= entry:match("(.*%s)") 
                     if DEBUG==1 then print("other: "..entry) end
@@ -146,11 +145,14 @@ function appendCTags(apiNames,projectFilePath,cTagsAPIFileName,projectName)
                 if isFunction then cTagFunctions=cTagFunctions.." "..name  end
                 if isConst then cTagNames=cTagNames.." "..name end
                 if isModule then cTagModules=cTagModules.." "..name end
-                if isClass then cTagClass=cTagClass.." "..name  end
+                if isClass then cTagClass=cTagClass.." "..name end
                 if isENUM then cTagENUMs=cTagENUMs.." "..name  end
                 if isOther then cTagOthers=cTagOthers.." "..cTagOther end
-                
-                cTagItems=cTagItems..","..name.."=true"
+                if smallerFile==true then
+                    if isFunction then cTagItems=cTagItems..","..name.."=true" end --table formatted
+                else
+                    if skipper then cTagItems=cTagItems..name.."=true," end
+                end   
                 lastname=name
                 -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=name..params
@@ -189,24 +191,23 @@ function writeProps(projectName, projectFilePath)
     propFile=io.open(projectFilePath..cTagsAPIFileName..".properties","w")
     propFile= io.output(propFile)
     io.output(propFile) 
-    io.write(projectName..".cTagOthers="..cTagOthers.."\n") 
-    io.write(projectName..".cTagENUMs="..cTagENUMs.."\n")     
+    io.write(projectName..".cTagOthers="..cTagOthers.."\n")
+    io.write(projectName..".cTagENUMs="..cTagENUMs.."\n")
     io.write(projectName..".cTagNames="..cTagNames.."\n")
-    io.write(projectName..".cTagFunctions="..cTagFunctions.."\n") 
-    io.write(projectName..".cTagModules="..cTagModules.."\n")   
+    io.write(projectName..".cTagFunctions="..cTagFunctions.."\n")
+    io.write(projectName..".cTagModules="..cTagModules.."\n")
     io.write(projectName..".cTagClasses="..cTagClass.."\n")
-    io.write(projectName..".cTagAllTogether="..cTagAllTogether.."\n")
+    io.write(projectName..".cTagAllTogether="..cTagAllTogether.."\n") --: Table formatted
     io.close(propFile)
     
 -- Show some stats
-        print("ac>writeProps:")
-        print("cTagENUMs ("..string.len(cTagENUMs).." bytes)" )
-        print("cTagNames: ("..string.len(cTagNames).." bytes)" )
-        print("cTagFunctions: ("..string.len(cTagFunctions).." bytes)" )
-        print("cTagModules: ("..string.len(cTagModules).." bytes)" )  
-        print("cTagClass: ("..string.len(cTagClass).." bytes)" )
-        print("cTagOthers: ("..string.len(cTagOthers).." bytes)" )
-        print("cTagDupes: ("..string.len(cTagDupes).." bytes)" )
+        print("> cTagENUMs ("..string.len(cTagENUMs).." bytes)" )
+        print("> cTagNames: ("..string.len(cTagNames).." bytes)" )
+        print("> cTagFunctions: ("..string.len(cTagFunctions).." bytes)" )
+        print("> cTagModules: ("..string.len(cTagModules).." bytes)" )
+        print("> cTagClass: ("..string.len(cTagClass).." bytes)" )
+        print("> cTagOthers: ("..string.len(cTagOthers).." bytes)" )
+        print("> cTagDupes: ("..string.len(cTagDupes).." bytes)" )
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -41,6 +41,8 @@ dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
 -- Load cTags Browser
 dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
 
+dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
+
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- ##################  Lua Samples #####################
@@ -75,8 +77,7 @@ function markLinks()
 	-- Keys 
 	local marker_b=11 -- The URL Param
 	editor.IndicStyle[marker_b] = INDIC_TEXTFORE
-	if props["colour.url_param"]=="" then props["colour.url_param"] = "0x05A750" end
-	editor.IndicFore[marker_b]  = props["colour.url_param"] 
+	editor.IndicFore[marker_b]  = props["colour.url_param"]
 	
 	if editor.Lexer~=1 then -- Performance: Exclude Null Lexer	
 		mask_b="[?&].*[=]" --Begin with ?& Any Char/Digit Ends with =
@@ -91,8 +92,7 @@ function markLinks()
 		-- Values
 		local marker_c=12 -- The URL Params Value
 		editor.IndicStyle[marker_c] = INDIC_TEXTFORE
-		if props["colour.url_param_value"]=="" then props["colour.url_param:value"] = "0x3388B0" end
-		editor.IndicFore[marker_c]  = props["colour.url_param_value"] 
+		editor.IndicFore[marker_c]  = props["colour.url_param_value"]
 		mask_c="=[^& <]+[a-zA-Z0-9]?" -- Begin with = ends with Any alphaNum
 
 		local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)
@@ -199,8 +199,10 @@ function OnInit()
 --
 	
 	TestSciLexer("27abe444") -- SciLexers CRC32 Hash for the current Version
-	
-	-- Event Handlers
+
+-- Event Handlers
+	scite_OnOpenSwitch(CTagsUpdateProps,false)
+	scite_OnSave(CTagsRecreate)
 	scite_OnOpenSwitch(StyleStuff)
 
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	

@@ -1,0 +1,1130 @@
+8|assert|http://www.cplusplus.com/reference/cassert/assert/|c90 c99 arm cpp98 cpp11|Evaluate assertion (macro)|<cassert> (assert.h)|header|C Diagnostics Library|
+8|isalnum|http://www.cplusplus.com/reference/cctype/isalnum/|c90 c99 arm cpp98 cpp11|Check if character is alphanumeric (function)|<cctype> (ctype.h)|header|Character handling functions|
+8|isalpha|http://www.cplusplus.com/reference/cctype/isalpha/|c90 c99 arm cpp98 cpp11|Check if character is alphabetic (function)|<cctype> (ctype.h)|header|Character handling functions|
+8|isblank|http://www.cplusplus.com/reference/cctype/isblank/|c99 cpp11|Check if character is blank (function)|<cctype> (ctype.h)|header|Character handling functions|
+8|iscntrl|http://www.cplusplus.com/reference/cctype/iscntrl/|c90 c99 arm cpp98 cpp11|Check if character is a control character (function)|<cctype> (ctype.h)|header|Character handling functions|
+8|isdigit|http://www.cplusplus.com/reference/cctype/isdigit/|c90 c99 arm cpp98 cpp11|Check if character is decimal digit (function)|<cctype> (ctype.h)|header|Character handling functions|
+8|isgraph|http://www.cplusplus.com/reference/cctype/isgraph/|c90 c99 arm cpp98 cpp11|Check if character has graphical representation (function)|<cctype> (ctype.h)|header|Character handling functions|
+8|islower|http://www.cplusplus.com/reference/cctype/islower/|c90 c99 arm cpp98 cpp11|Check if character is lowercase letter (function)|<cctype> (ctype.h)|header|Character handling functions|
+8|isprint|http://www.cplusplus.com/reference/cctype/isprint/|c90 c99 arm cpp98 cpp11|Check if character is printable (function)|<cctype> (ctype.h)|header|Character handling functions|
+8|ispunct|http://www.cplusplus.com/reference/cctype/ispunct/|c90 c99 arm cpp98 cpp11|Check if character is a punctuation character (function)|<cctype> (ctype.h)|header|Character handling functions|
+8|isspace|http://www.cplusplus.com/reference/cctype/isspace/|c90 c99 arm cpp98 cpp11|Check if character is a white-space (function)|<cctype> (ctype.h)|header|Character handling functions|
+8|isupper|http://www.cplusplus.com/reference/cctype/isupper/|c90 c99 arm cpp98 cpp11|Check if character is uppercase letter (function)|<cctype> (ctype.h)|header|Character handling functions|
+8|isxdigit|http://www.cplusplus.com/reference/cctype/isxdigit/|c90 c99 arm cpp98 cpp11|Check if character is hexadecimal digit (function)|<cctype> (ctype.h)|header|Character handling functions|
+8|tolower|http://www.cplusplus.com/reference/cctype/tolower/|c90 c99 arm cpp98 cpp11|Convert uppercase letter to lowercase (function)|<cctype> (ctype.h)|header|Character handling functions|
+8|toupper|http://www.cplusplus.com/reference/cctype/toupper/|c90 c99 arm cpp98 cpp11|Convert lowercase letter to uppercase (function)|<cctype> (ctype.h)|header|Character handling functions|
+8|errno|http://www.cplusplus.com/reference/cerrno/errno/|c90 c99 arm cpp98 cpp11|Last error number (macro)|<cerrno> (errno.h)|header|C Errors|
+8|feclearexcept|http://www.cplusplus.com/reference/cfenv/feclearexcept/|c99 cpp11|Clear floating-point exceptions (function)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|fegetenv|http://www.cplusplus.com/reference/cfenv/fegetenv/|c99 cpp11|Get floating-point environment (function)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|fegetexceptflag|http://www.cplusplus.com/reference/cfenv/fegetexceptflag/|c99 cpp11|Get floating-point exception flags (function)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|fegetround|http://www.cplusplus.com/reference/cfenv/fegetround/|c99 cpp11|Get rounding direction mode (function)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|feholdexcept|http://www.cplusplus.com/reference/cfenv/feholdexcept/|c99 cpp11|Hold floating-point exceptions (function)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|feraiseexcept|http://www.cplusplus.com/reference/cfenv/feraiseexcept/|c99 cpp11|Raise floating-point exception (function)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|fesetenv|http://www.cplusplus.com/reference/cfenv/fesetenv/|c99 cpp11|Set floating-point environment (function)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|fesetexceptflag|http://www.cplusplus.com/reference/cfenv/fesetexceptflag/|c99 cpp11|Set floating-point exception flags (function)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|fesetround|http://www.cplusplus.com/reference/cfenv/fesetround/|c99 cpp11|Set rounding direction mode (function)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|fetestexcept|http://www.cplusplus.com/reference/cfenv/fetestexcept/|c99 cpp11|Test for floating-point exceptions (function)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|feupdateenv|http://www.cplusplus.com/reference/cfenv/feupdateenv/|c99 cpp11|Update floating-point environment (function)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|fenv_t|http://www.cplusplus.com/reference/cfenv/fenv_t/|c99 cpp11|Floating-point environment type (type)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|fexcept_t|http://www.cplusplus.com/reference/cfenv/fexcept_t/|c99 cpp11|Floating-point exceptions type (type)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|FENV_ACCESS|http://www.cplusplus.com/reference/cfenv/FENV_ACCESS/|c99 cpp11|Access to Floating-point environment (pragma)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|FE_ALL_EXCEPT|http://www.cplusplus.com/reference/cfenv/FE_ALL_EXCEPT/|c99 cpp11|All exceptions (macro)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|FE_DFL_ENV|http://www.cplusplus.com/reference/cfenv/FE_DFL_ENV/|c99 cpp11|Default environment (macro)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|FE_DIVBYZERO|http://www.cplusplus.com/reference/cfenv/FE_DIVBYZERO/|c99 cpp11|Pole error exception (macro)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|FE_DOWNWARD|http://www.cplusplus.com/reference/cfenv/FE_DOWNWARD/|c99 cpp11|Downward rounding direction mode (macro)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|FE_INEXACT|http://www.cplusplus.com/reference/cfenv/FE_INEXACT/|c99 cpp11|Inexact result exception (macro)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|FE_INVALID|http://www.cplusplus.com/reference/cfenv/FE_INVALID/|c99 cpp11|Invalid argument exception (macro)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|FE_OVERFLOW|http://www.cplusplus.com/reference/cfenv/FE_OVERFLOW/|c99 cpp11|Overflow range error exception (macro)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|FE_TONEAREST|http://www.cplusplus.com/reference/cfenv/FE_TONEAREST/|c99 cpp11|To-nearest rounding direction mode (macro)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|FE_TOWARDZERO|http://www.cplusplus.com/reference/cfenv/FE_TOWARDZERO/|c99 cpp11|Toward-zero rounding direction mode (macro)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|FE_UNDERFLOW|http://www.cplusplus.com/reference/cfenv/FE_UNDERFLOW/|c99 cpp11|Underflow range error exception (macro)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|FE_UPWARD|http://www.cplusplus.com/reference/cfenv/FE_UPWARD/|c99 cpp11|Upward rounding direction mode (macro)|<cfenv> (fenv.h)|header|Floating-point environment|
+8|localeconv|http://www.cplusplus.com/reference/clocale/localeconv/|c90 c99 arm cpp98 cpp11|Get locale formatting parameters for quantities (function)|<clocale> (locale.h)|header|C localization library|
+8|setlocale|http://www.cplusplus.com/reference/clocale/setlocale/|c90 c99 arm cpp98 cpp11|Set or retrieve locale (function)|<clocale> (locale.h)|header|C localization library|
+8|NULL|http://www.cplusplus.com/reference/clocale/NULL/|c90 c99 arm cpp98 cpp11|no-Description (other)|<clocale> (locale.h)|header|C localization library|
+8|struct lconv|http://www.cplusplus.com/reference/clocale/lconv/|c90 c99 arm cpp98 cpp11|Formatting info for numeric values (type)|<clocale> (locale.h)|header|C localization library|
+8|abs|http://www.cplusplus.com/reference/cmath/abs/|c90 c99 arm cpp98 cpp11|Compute absolute value (function)|<cmath> (math.h)|header|C numerics library|
+8|acos|http://www.cplusplus.com/reference/cmath/acos/|c90 c99 arm cpp98 cpp11|Compute arc cosine (function)|<cmath> (math.h)|header|C numerics library|
+8|acosh|http://www.cplusplus.com/reference/cmath/acosh/|c99 cpp11|Compute area hyperbolic cosine (function)|<cmath> (math.h)|header|C numerics library|
+8|asin|http://www.cplusplus.com/reference/cmath/asin/|c90 c99 arm cpp98 cpp11|Compute arc sine (function)|<cmath> (math.h)|header|C numerics library|
+8|asinh|http://www.cplusplus.com/reference/cmath/asinh/|c99 cpp11|Compute area hyperbolic sine (function)|<cmath> (math.h)|header|C numerics library|
+8|atan|http://www.cplusplus.com/reference/cmath/atan/|c90 c99 arm cpp98 cpp11|Compute arc tangent (function)|<cmath> (math.h)|header|C numerics library|
+8|atan2|http://www.cplusplus.com/reference/cmath/atan2/|c90 c99 arm cpp98 cpp11|Compute arc tangent with two parameters (function)|<cmath> (math.h)|header|C numerics library|
+8|atanh|http://www.cplusplus.com/reference/cmath/atanh/|c99 cpp11|Compute area hyperbolic tangent (function)|<cmath> (math.h)|header|C numerics library|
+8|cbrt|http://www.cplusplus.com/reference/cmath/cbrt/|c99 cpp11|Compute cubic root (function)|<cmath> (math.h)|header|C numerics library|
+8|ceil|http://www.cplusplus.com/reference/cmath/ceil/|c90 c99 arm cpp98 cpp11|Round up value (function)|<cmath> (math.h)|header|C numerics library|
+8|copysign|http://www.cplusplus.com/reference/cmath/copysign/|c99 cpp11|Copy sign (function)|<cmath> (math.h)|header|C numerics library|
+8|cos|http://www.cplusplus.com/reference/cmath/cos/|c90 c99 arm cpp98 cpp11|Compute cosine (function)|<cmath> (math.h)|header|C numerics library|
+8|cosh|http://www.cplusplus.com/reference/cmath/cosh/|c90 c99 arm cpp98 cpp11|Compute hyperbolic cosine (function)|<cmath> (math.h)|header|C numerics library|
+8|erf|http://www.cplusplus.com/reference/cmath/erf/|c99 cpp11|Compute error function (function)|<cmath> (math.h)|header|C numerics library|
+8|erfc|http://www.cplusplus.com/reference/cmath/erfc/|c99 cpp11|Compute complementary error function (function)|<cmath> (math.h)|header|C numerics library|
+8|exp|http://www.cplusplus.com/reference/cmath/exp/|c90 c99 arm cpp98 cpp11|Compute exponential function (function)|<cmath> (math.h)|header|C numerics library|
+8|exp2|http://www.cplusplus.com/reference/cmath/exp2/|c99 cpp11|Compute binary exponential function (function)|<cmath> (math.h)|header|C numerics library|
+8|expm1|http://www.cplusplus.com/reference/cmath/expm1/|c99 cpp11|Compute exponential minus one (function)|<cmath> (math.h)|header|C numerics library|
+8|fabs|http://www.cplusplus.com/reference/cmath/fabs/|c90 c99 arm cpp98 cpp11|Compute absolute value (function)|<cmath> (math.h)|header|C numerics library|
+8|fdim|http://www.cplusplus.com/reference/cmath/fdim/|c99 cpp11|Positive difference (function)|<cmath> (math.h)|header|C numerics library|
+8|floor|http://www.cplusplus.com/reference/cmath/floor/|c90 c99 arm cpp98 cpp11|Round down value (function)|<cmath> (math.h)|header|C numerics library|
+8|fma|http://www.cplusplus.com/reference/cmath/fma/|c99 cpp11|Multiply-add (function)|<cmath> (math.h)|header|C numerics library|
+8|fmax|http://www.cplusplus.com/reference/cmath/fmax/|c99 cpp11|Maximum value (function)|<cmath> (math.h)|header|C numerics library|
+8|fmin|http://www.cplusplus.com/reference/cmath/fmin/|c99 cpp11|Minimum value (function)|<cmath> (math.h)|header|C numerics library|
+8|fmod|http://www.cplusplus.com/reference/cmath/fmod/|c90 c99 arm cpp98 cpp11|Compute remainder of division (function)|<cmath> (math.h)|header|C numerics library|
+8|fpclassify|http://www.cplusplus.com/reference/cmath/fpclassify/|c99 cpp11|Classify floating-point value (macro/function)|<cmath> (math.h)|header|C numerics library|
+8|frexp|http://www.cplusplus.com/reference/cmath/frexp/|c90 c99 arm cpp98 cpp11|Get significand and exponent (function)|<cmath> (math.h)|header|C numerics library|
+8|hypot|http://www.cplusplus.com/reference/cmath/hypot/|c99 cpp11|Compute hypotenuse (function)|<cmath> (math.h)|header|C numerics library|
+8|ilogb|http://www.cplusplus.com/reference/cmath/ilogb/|c99 cpp11|Integer binary logarithm (function)|<cmath> (math.h)|header|C numerics library|
+8|isfinite|http://www.cplusplus.com/reference/cmath/isfinite/|c99 cpp11|Is finite value (macro)|<cmath> (math.h)|header|C numerics library|
+8|isgreater|http://www.cplusplus.com/reference/cmath/isgreater/|c99 cpp11|Is greater (macro)|<cmath> (math.h)|header|C numerics library|
+8|isgreaterequal|http://www.cplusplus.com/reference/cmath/isgreaterequal/|c99 cpp11|Is greater or equal (macro)|<cmath> (math.h)|header|C numerics library|
+8|isinf|http://www.cplusplus.com/reference/cmath/isinf/|c99 cpp11|Is infinity (macro/function)|<cmath> (math.h)|header|C numerics library|
+8|isless|http://www.cplusplus.com/reference/cmath/isless/|c99 cpp11|Is less (macro)|<cmath> (math.h)|header|C numerics library|
+8|islessequal|http://www.cplusplus.com/reference/cmath/islessequal/|c99 cpp11|Is less or equal (macro)|<cmath> (math.h)|header|C numerics library|
+8|islessgreater|http://www.cplusplus.com/reference/cmath/islessgreater/|c99 cpp11|Is less or greater (macro)|<cmath> (math.h)|header|C numerics library|
+8|isnan|http://www.cplusplus.com/reference/cmath/isnan/|c99 cpp11|Is Not-A-Number (macro/function)|<cmath> (math.h)|header|C numerics library|
+8|isnormal|http://www.cplusplus.com/reference/cmath/isnormal/|c99 cpp11|Is normal (macro/function)|<cmath> (math.h)|header|C numerics library|
+8|isunordered|http://www.cplusplus.com/reference/cmath/isunordered/|c99 cpp11|Is unordered (macro)|<cmath> (math.h)|header|C numerics library|
+8|ldexp|http://www.cplusplus.com/reference/cmath/ldexp/|c90 c99 arm cpp98 cpp11|Generate value from significand and exponent (function)|<cmath> (math.h)|header|C numerics library|
+8|lgamma|http://www.cplusplus.com/reference/cmath/lgamma/|c99 cpp11|Compute log-gamma function (function)|<cmath> (math.h)|header|C numerics library|
+8|llrint|http://www.cplusplus.com/reference/cmath/llrint/|c99 cpp11|Round and cast to long long integer (function)|<cmath> (math.h)|header|C numerics library|
+8|llround|http://www.cplusplus.com/reference/cmath/llround/|c99 cpp11|Round to nearest and cast to long long integer (function)|<cmath> (math.h)|header|C numerics library|
+8|log|http://www.cplusplus.com/reference/cmath/log/|c90 c99 arm cpp98 cpp11|Compute natural logarithm (function)|<cmath> (math.h)|header|C numerics library|
+8|log10|http://www.cplusplus.com/reference/cmath/log10/|c90 c99 arm cpp98 cpp11|Compute common logarithm (function)|<cmath> (math.h)|header|C numerics library|
+8|log1p|http://www.cplusplus.com/reference/cmath/log1p/|c99 cpp11|Compute logarithm plus one (function)|<cmath> (math.h)|header|C numerics library|
+8|log2|http://www.cplusplus.com/reference/cmath/log2/|c99 cpp11|Compute binary logarithm (function)|<cmath> (math.h)|header|C numerics library|
+8|logb|http://www.cplusplus.com/reference/cmath/logb/|c99 cpp11|Compute floating-point base logarithm (function)|<cmath> (math.h)|header|C numerics library|
+8|lrint|http://www.cplusplus.com/reference/cmath/lrint/|c99 cpp11|Round and cast to long integer (function)|<cmath> (math.h)|header|C numerics library|
+8|lround|http://www.cplusplus.com/reference/cmath/lround/|c99 cpp11|Round to nearest and cast to long integer (function)|<cmath> (math.h)|header|C numerics library|
+8|modf|http://www.cplusplus.com/reference/cmath/modf/|c90 c99 arm cpp98 cpp11|Break into fractional and integral parts (function)|<cmath> (math.h)|header|C numerics library|
+8|nan|http://www.cplusplus.com/reference/cmath/nan-function/|c99 cpp11|Generate quiet NaN (function)|<cmath> (math.h)|header|C numerics library|
+8|nanf|http://www.cplusplus.com/reference/cmath/nanf/|c99 cpp11|no-Description (other)|<cmath> (math.h)|header|C numerics library|
+8|nanl|http://www.cplusplus.com/reference/cmath/nanl/|c99 cpp11|no-Description (other)|<cmath> (math.h)|header|C numerics library|
+8|nearbyint|http://www.cplusplus.com/reference/cmath/nearbyint/|c99 cpp11|Round to nearby integral value (function)|<cmath> (math.h)|header|C numerics library|
+8|nextafter|http://www.cplusplus.com/reference/cmath/nextafter/|c99 cpp11|Next representable value (function)|<cmath> (math.h)|header|C numerics library|
+8|nexttoward|http://www.cplusplus.com/reference/cmath/nexttoward/|c99 cpp11|Next representable value toward precise value (function)|<cmath> (math.h)|header|C numerics library|
+8|pow|http://www.cplusplus.com/reference/cmath/pow/|c90 c99 arm cpp98 cpp11|Raise to power (function)|<cmath> (math.h)|header|C numerics library|
+8|remainder|http://www.cplusplus.com/reference/cmath/remainder/|c99 cpp11|Compute remainder (IEC 60559) (function)|<cmath> (math.h)|header|C numerics library|
+8|remquo|http://www.cplusplus.com/reference/cmath/remquo/|c99 cpp11|Compute remainder and quotient (function)|<cmath> (math.h)|header|C numerics library|
+8|rint|http://www.cplusplus.com/reference/cmath/rint/|c99 cpp11|Round to integral value (function)|<cmath> (math.h)|header|C numerics library|
+8|round|http://www.cplusplus.com/reference/cmath/round/|c99 cpp11|Round to nearest (function)|<cmath> (math.h)|header|C numerics library|
+8|scalbln|http://www.cplusplus.com/reference/cmath/scalbln/|c99 cpp11|Scale significand using floating-point base exponent (long) (function)|<cmath> (math.h)|header|C numerics library|
+8|scalbn|http://www.cplusplus.com/reference/cmath/scalbn/|c99 cpp11|Scale significand using floating-point base exponent (function)|<cmath> (math.h)|header|C numerics library|
+8|signbit|http://www.cplusplus.com/reference/cmath/signbit/|c99 cpp11|Sign bit (macro/function)|<cmath> (math.h)|header|C numerics library|
+8|sin|http://www.cplusplus.com/reference/cmath/sin/|c90 c99 arm cpp98 cpp11|Compute sine (function)|<cmath> (math.h)|header|C numerics library|
+8|sinh|http://www.cplusplus.com/reference/cmath/sinh/|c90 c99 arm cpp98 cpp11|Compute hyperbolic sine (function)|<cmath> (math.h)|header|C numerics library|
+8|sqrt|http://www.cplusplus.com/reference/cmath/sqrt/|c90 c99 arm cpp98 cpp11|Compute square root (function)|<cmath> (math.h)|header|C numerics library|
+8|tan|http://www.cplusplus.com/reference/cmath/tan/|c90 c99 arm cpp98 cpp11|Compute tangent (function)|<cmath> (math.h)|header|C numerics library|
+8|tanh|http://www.cplusplus.com/reference/cmath/tanh/|c90 c99 arm cpp98 cpp11|Compute hyperbolic tangent (function)|<cmath> (math.h)|header|C numerics library|
+8|tgamma|http://www.cplusplus.com/reference/cmath/tgamma/|c99 cpp11|Compute gamma function (function)|<cmath> (math.h)|header|C numerics library|
+8|trunc|http://www.cplusplus.com/reference/cmath/trunc/|c99 cpp11|Truncate value (function)|<cmath> (math.h)|header|C numerics library|
+8|HUGE_VAL|http://www.cplusplus.com/reference/cmath/HUGE_VAL/|c90 c99 arm cpp98 cpp11|Huge value (constant)|<cmath> (math.h)|header|C numerics library|
+8|HUGE_VALF|http://www.cplusplus.com/reference/cmath/HUGE_VALF/|c99 cpp11|Huge float value|<cmath> (math.h)|header|C numerics library|
+8|HUGE_VALL|http://www.cplusplus.com/reference/cmath/HUGE_VALL/|c99 cpp11|Huge long double value (constant)|<cmath> (math.h)|header|C numerics library|
+8|INFINITY|http://www.cplusplus.com/reference/cmath/INFINITY/|c99 cpp11|Infinity (constant)|<cmath> (math.h)|header|C numerics library|
+8|math_errhandling|http://www.cplusplus.com/reference/cmath/math_errhandling/|c99 cpp11|Error handling (macro)|<cmath> (math.h)|header|C numerics library|
+8|NAN|http://www.cplusplus.com/reference/cmath/NAN/|cpp99 cpp11|Not-A-Number (constant)|<cmath> (math.h)|header|C numerics library|
+8|double_t|http://www.cplusplus.com/reference/cmath/double_t/|c99 cpp11|Floating-point type (type)|<cmath> (math.h)|header|C numerics library|
+8|float_t|http://www.cplusplus.com/reference/cmath/float_t/|cpp99 cpp11|Floating-point type (type)|<cmath> (math.h)|header|C numerics library|
+8|jmp_buf|http://www.cplusplus.com/reference/csetjmp/jmp_buf/|c90 c99 arm cpp98 cpp11|Type to hold information to restore calling environment (type)|<csetjmp> (setjmp.h)|header|Non local jumps|
+8|longjmp|http://www.cplusplus.com/reference/csetjmp/longjmp/|c90 c99 arm cpp98 cpp11|Long jump (function)|<csetjmp> (setjmp.h)|header|Non local jumps|
+8|setjmp|http://www.cplusplus.com/reference/csetjmp/setjmp/|c90 c99 arm cpp98 cpp11|Save calling environment for long jump (macro)|<csetjmp> (setjmp.h)|header|Non local jumps|
+8|raise|http://www.cplusplus.com/reference/csignal/raise/|c90 c99 arm cpp98 cpp11|Generates a signal (function)|<csignal> (signal.h)|header|C library to handle signals|
+8|signal|http://www.cplusplus.com/reference/csignal/signal/|c90 c99 arm cpp98 cpp11|Set function to handle signal (function)|<csignal> (signal.h)|header|C library to handle signals|
+8|sig_atomic_t|http://www.cplusplus.com/reference/csignal/sig_atomic_t/|c90 c99 arm cpp98 cpp11|Integral type (type)|<csignal> (signal.h)|header|C library to handle signals|
+8|va_arg|http://www.cplusplus.com/reference/cstdarg/va_arg/|c90 c99 arm cpp98 cpp11|Retrieve next argument (macro)|<cstdarg> (stdarg.h)|header|Variable arguments handling|
+8|va_copy|http://www.cplusplus.com/reference/cstdarg/va_copy/|c99 cpp11|Copy variable argument list (macro)|<cstdarg> (stdarg.h)|header|Variable arguments handling|
+8|va_end|http://www.cplusplus.com/reference/cstdarg/va_end/|c90 c99 arm cpp98 cpp11|End using variable argument list (macro)|<cstdarg> (stdarg.h)|header|Variable arguments handling|
+8|va_start|http://www.cplusplus.com/reference/cstdarg/va_start/|c90 c99 arm cpp98 cpp11|Initialize a variable argument list (macro)|<cstdarg> (stdarg.h)|header|Variable arguments handling|
+8|va_list|http://www.cplusplus.com/reference/cstdarg/va_list/|c90 c99 arm cpp98 cpp11|Type to hold information about variable arguments (type)|<cstdarg> (stdarg.h)|header|Variable arguments handling|
+8|NULL|http://www.cplusplus.com/reference/cstddef/NULL/|c90 c99 arm cpp98 cpp11|Null pointer (macro)|<cstddef> (stddef.h)|header|C Standard definitions|
+8|offsetof|http://www.cplusplus.com/reference/cstddef/offsetof/|c90 c99 arm cpp98 cpp11|Return member offset (macro)|<cstddef> (stddef.h)|header|C Standard definitions|
+8|max_align_t|http://www.cplusplus.com/reference/cstddef/max_align_t/|cpp11|Type with widest scalar alignment (type)|<cstddef> (stddef.h)|header|C Standard definitions|
+8|nullptr_t|http://www.cplusplus.com/reference/cstddef/nullptr_t/|cpp11|Null pointer type (C++) (type)|<cstddef> (stddef.h)|header|C Standard definitions|
+8|ptrdiff_t|http://www.cplusplus.com/reference/cstddef/ptrdiff_t/|c90 c99 arm cpp98 cpp11|Result of pointer subtraction (type)|<cstddef> (stddef.h)|header|C Standard definitions|
+8|size_t|http://www.cplusplus.com/reference/cstddef/size_t/|c90 c99 arm cpp98 cpp11|Unsigned integral type (type)|<cstddef> (stddef.h)|header|C Standard definitions|
+8|clearerr|http://www.cplusplus.com/reference/cstdio/clearerr/|c90 c99 arm cpp98 cpp11|Clear error indicators (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|fclose|http://www.cplusplus.com/reference/cstdio/fclose/|c90 c99 arm cpp98 cpp11|Close file (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|feof|http://www.cplusplus.com/reference/cstdio/feof/|c90 c99 arm cpp98 cpp11|Check end-of-file indicator (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|ferror|http://www.cplusplus.com/reference/cstdio/ferror/|c90 c99 arm cpp98 cpp11|Check error indicator (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|fflush|http://www.cplusplus.com/reference/cstdio/fflush/|c90 c99 arm cpp98 cpp11|Flush stream (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|fgetc|http://www.cplusplus.com/reference/cstdio/fgetc/|c90 c99 arm cpp98 cpp11|Get character from stream (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|fgetpos|http://www.cplusplus.com/reference/cstdio/fgetpos/|c90 c99 arm cpp98 cpp11|Get current position in stream (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|fgets|http://www.cplusplus.com/reference/cstdio/fgets/|c90 c99 arm cpp98 cpp11|Get string from stream (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|fopen|http://www.cplusplus.com/reference/cstdio/fopen/|c90 c99 arm cpp98 cpp11|Open file (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|fprintf|http://www.cplusplus.com/reference/cstdio/fprintf/|c90 c99 arm cpp98 cpp11|Write formatted data to stream (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|fputc|http://www.cplusplus.com/reference/cstdio/fputc/|c90 c99 arm cpp98 cpp11|Write character to stream (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|fputs|http://www.cplusplus.com/reference/cstdio/fputs/|c90 c99 arm cpp98 cpp11|Write string to stream (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|fread|http://www.cplusplus.com/reference/cstdio/fread/|c90 c99 arm cpp98 cpp11|Read block of data from stream (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|freopen|http://www.cplusplus.com/reference/cstdio/freopen/|c90 c99 arm cpp98 cpp11|Reopen stream with different file or mode (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|fscanf|http://www.cplusplus.com/reference/cstdio/fscanf/|c90 c99 arm cpp98 cpp11|Read formatted data from stream (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|fseek|http://www.cplusplus.com/reference/cstdio/fseek/|c90 c99 arm cpp98 cpp11|Reposition stream position indicator (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|fsetpos|http://www.cplusplus.com/reference/cstdio/fsetpos/|c90 c99 arm cpp98 cpp11|Set position indicator of stream (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|ftell|http://www.cplusplus.com/reference/cstdio/ftell/|c90 c99 arm cpp98 cpp11|Get current position in stream (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|fwrite|http://www.cplusplus.com/reference/cstdio/fwrite/|c90 c99 arm cpp98 cpp11|Write block of data to stream (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|getc|http://www.cplusplus.com/reference/cstdio/getc/|c90 c99 arm cpp98 cpp11|Get character from stream (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|getchar|http://www.cplusplus.com/reference/cstdio/getchar/|c90 c99 arm cpp98 cpp11|Get character from stdin (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|gets|http://www.cplusplus.com/reference/cstdio/gets/|c90 c99 arm cpp98 cpp11|Get string from stdin (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|perror|http://www.cplusplus.com/reference/cstdio/perror/|c90 c99 arm cpp98 cpp11|Print error message (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|printf|http://www.cplusplus.com/reference/cstdio/printf/|c90 c99 arm cpp98 cpp11|Print formatted data to stdout (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|putc|http://www.cplusplus.com/reference/cstdio/putc/|c90 c99 arm cpp98 cpp11|Write character to stream (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|putchar|http://www.cplusplus.com/reference/cstdio/putchar/|c90 c99 arm cpp98 cpp11|Write character to stdout (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|puts|http://www.cplusplus.com/reference/cstdio/puts/|c90 c99 arm cpp98 cpp11|Write string to stdout (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|remove|http://www.cplusplus.com/reference/cstdio/remove/|c90 c99 arm cpp98 cpp11|Remove file (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|rename|http://www.cplusplus.com/reference/cstdio/rename/|c90 c99 arm cpp98 cpp11|Rename file (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|rewind|http://www.cplusplus.com/reference/cstdio/rewind/|c90 c99 arm cpp98 cpp11|Set position of stream to the beginning (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|scanf|http://www.cplusplus.com/reference/cstdio/scanf/|c90 c99 arm cpp98 cpp11|Read formatted data from stdin (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|setbuf|http://www.cplusplus.com/reference/cstdio/setbuf/|c90 c99 arm cpp98 cpp11|Set stream buffer (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|setvbuf|http://www.cplusplus.com/reference/cstdio/setvbuf/|c90 c99 arm cpp98 cpp11|Change stream buffering (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|snprintf|http://www.cplusplus.com/reference/cstdio/snprintf/|c99 cpp11|Write formatted output to sized buffer (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|sprintf|http://www.cplusplus.com/reference/cstdio/sprintf/|c90 c99 arm cpp98 cpp11|Write formatted data to string (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|sscanf|http://www.cplusplus.com/reference/cstdio/sscanf/|c90 c99 arm cpp98 cpp11|Read formatted data from string (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|tmpfile|http://www.cplusplus.com/reference/cstdio/tmpfile/|c90 c99 arm cpp98 cpp11|Open a temporary file (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|tmpnam|http://www.cplusplus.com/reference/cstdio/tmpnam/|c90 c99 arm cpp98 cpp11|Generate temporary filename (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|ungetc|http://www.cplusplus.com/reference/cstdio/ungetc/|c90 c99 arm cpp98 cpp11|Unget character from stream (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|vfprintf|http://www.cplusplus.com/reference/cstdio/vfprintf/|c90 c99 arm cpp98 cpp11|Write formatted data from variable argument list to stream (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|vfscanf|http://www.cplusplus.com/reference/cstdio/vfscanf/|c99 cpp11|Read formatted data from stream into variable argument list (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|vprintf|http://www.cplusplus.com/reference/cstdio/vprintf/|c90 c99 arm cpp98 cpp11|Print formatted data from variable argument list to stdout (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|vscanf|http://www.cplusplus.com/reference/cstdio/vscanf/|c99 cpp11|Read formatted data into variable argument list (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|vsnprintf|http://www.cplusplus.com/reference/cstdio/vsnprintf/|c99 cpp11|Write formatted data from variable argument list to sized buffer (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|vsprintf|http://www.cplusplus.com/reference/cstdio/vsprintf/|c90 c99 arm cpp98 cpp11|Write formatted data from variable argument list to string (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|vsscanf|http://www.cplusplus.com/reference/cstdio/vsscanf/|c99 cpp11|Read formatted data from string into variable argument list (function)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|stderr|http://www.cplusplus.com/reference/cstdio/stderr/|c90 c99 arm cpp98 cpp11|no-Description (other)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|stdin|http://www.cplusplus.com/reference/cstdio/stdin/|c90 c99 arm cpp98 cpp11|no-Description (other)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|stdout|http://www.cplusplus.com/reference/cstdio/stdout/|c90 c99 arm cpp98 cpp11|no-Description (other)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|FILE|http://www.cplusplus.com/reference/cstdio/FILE/|c90 c99 arm cpp98 cpp11|Object containing information to control a stream (type)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|fpos_t|http://www.cplusplus.com/reference/cstdio/fpos_t/|c90 c99 arm cpp98 cpp11|Object containing information to specify a position within a file (type)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|size_t|http://www.cplusplus.com/reference/cstdio/size_t/|c90 c99 arm cpp98 cpp11|Unsigned integral type (type)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|BUFSIZ|http://www.cplusplus.com/reference/cstdio/BUFSIZ/|c90 c99 arm cpp98 cpp11|Buffer size (constant)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|EOF|http://www.cplusplus.com/reference/cstdio/EOF/|c90 c99 arm cpp98 cpp11|End-of-File (constant)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|FILENAME_MAX|http://www.cplusplus.com/reference/cstdio/FILENAME_MAX/|c90 c99 arm cpp98 cpp11|Maximum length of file names (constant)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|FOPEN_MAX|http://www.cplusplus.com/reference/cstdio/FOPEN_MAX/|c90 c99 arm cpp98 cpp11|Potential limit of simultaneous open streams (constant)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|L_tmpnam|http://www.cplusplus.com/reference/cstdio/L_tmpnam/|c90 c99 arm cpp98 cpp11|Minimum length for temporary file name (constant)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|NULL|http://www.cplusplus.com/reference/cstdio/NULL/|c90 c99 arm cpp98 cpp11|Null pointer (macro)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|TMP_MAX|http://www.cplusplus.com/reference/cstdio/TMP_MAX/|c90 c99 arm cpp98 cpp11|Number of temporary files (constant)|<cstdio> (stdio.h)|header|C library to perform Input/Output operations|
+8|abort|http://www.cplusplus.com/reference/cstdlib/abort/|c90 c99 arm cpp98 cpp11|Abort current process (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|abs|http://www.cplusplus.com/reference/cstdlib/abs/|c90 c99 arm cpp98 cpp11|Absolute value (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|atexit|http://www.cplusplus.com/reference/cstdlib/atexit/|c90 c99 arm cpp98 cpp11|Set function to be executed on exit (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|atof|http://www.cplusplus.com/reference/cstdlib/atof/|c90 c99 arm cpp98 cpp11|Convert string to double (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|atoi|http://www.cplusplus.com/reference/cstdlib/atoi/|c90 c99 arm cpp98 cpp11|Convert string to integer (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|atol|http://www.cplusplus.com/reference/cstdlib/atol/|c90 c99 arm cpp98 cpp11|Convert string to long integer (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|atoll|http://www.cplusplus.com/reference/cstdlib/atoll/|c99 cpp11|Convert string to long long integer (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|at_quick_exit|http://www.cplusplus.com/reference/cstdlib/at_quick_exit/|c11 cpp11|Set function to be executed on quick exit (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|bsearch|http://www.cplusplus.com/reference/cstdlib/bsearch/|c90 c99 arm cpp98 cpp11|Binary search in array (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|calloc|http://www.cplusplus.com/reference/cstdlib/calloc/|c90 c99 arm cpp98 cpp11|Allocate and zero-initialize array (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|div|http://www.cplusplus.com/reference/cstdlib/div/|c90 c99 arm cpp98 cpp11|Integral division (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|exit|http://www.cplusplus.com/reference/cstdlib/exit/|c90 c99 arm cpp98 cpp11|Terminate calling process (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|free|http://www.cplusplus.com/reference/cstdlib/free/|c90 c99 arm cpp98 cpp11|Deallocate memory block (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|getenv|http://www.cplusplus.com/reference/cstdlib/getenv/|c90 c99 arm cpp98 cpp11|Get environment string (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|labs|http://www.cplusplus.com/reference/cstdlib/labs/|c90 c99 arm cpp98 cpp11|Absolute value (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|ldiv|http://www.cplusplus.com/reference/cstdlib/ldiv/|c90 c99 arm cpp98 cpp11|Integral division (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|llabs|http://www.cplusplus.com/reference/cstdlib/llabs/|c99 cpp11|Absolute value (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|lldiv|http://www.cplusplus.com/reference/cstdlib/lldiv/|c99 cpp11|Integral division (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|malloc|http://www.cplusplus.com/reference/cstdlib/malloc/|c90 c99 arm cpp98 cpp11|Allocate memory block (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|mblen|http://www.cplusplus.com/reference/cstdlib/mblen/|c90 c99 arm cpp98 cpp11|Get length of multibyte character (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|mbstowcs|http://www.cplusplus.com/reference/cstdlib/mbstowcs/|c90 c99 arm cpp98 cpp11|Convert multibyte string to wide-character string (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|mbtowc|http://www.cplusplus.com/reference/cstdlib/mbtowc/|c90 c99 arm cpp98 cpp11|Convert multibyte sequence to wide character (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|qsort|http://www.cplusplus.com/reference/cstdlib/qsort/|c90 c99 arm cpp98 cpp11|Sort elements of array (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|quick_exit|http://www.cplusplus.com/reference/cstdlib/quick_exit/|c11 cpp11|Terminate calling process quick (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|rand|http://www.cplusplus.com/reference/cstdlib/rand/|c90 c99 arm cpp98 cpp11|Generate random number (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|realloc|http://www.cplusplus.com/reference/cstdlib/realloc/|c90 c99 arm cpp98 cpp11|Reallocate memory block (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|srand|http://www.cplusplus.com/reference/cstdlib/srand/|c90 c99 arm cpp98 cpp11|Initialize random number generator (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|strtod|http://www.cplusplus.com/reference/cstdlib/strtod/|c90 c99 arm cpp98 cpp11|Convert string to double (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|strtof|http://www.cplusplus.com/reference/cstdlib/strtof/|c99 cpp11|Convert string to float (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|strtol|http://www.cplusplus.com/reference/cstdlib/strtol/|c90 c99 arm cpp98 cpp11|Convert string to long integer (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|strtold|http://www.cplusplus.com/reference/cstdlib/strtold/|c99 cpp11|Convert string to long double (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|strtoll|http://www.cplusplus.com/reference/cstdlib/strtoll/|c99 cpp11|Convert string to long long integer (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|strtoul|http://www.cplusplus.com/reference/cstdlib/strtoul/|c90 c99 arm cpp98 cpp11|Convert string to unsigned long integer (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|strtoull|http://www.cplusplus.com/reference/cstdlib/strtoull/|c99 cpp11|Convert string to unsigned long long integer (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|system|http://www.cplusplus.com/reference/cstdlib/system/|c90 c99 arm cpp98 cpp11|Execute system command (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|wcstombs|http://www.cplusplus.com/reference/cstdlib/wcstombs/|c90 c99 arm cpp98 cpp11|Convert wide-character string to multibyte string (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|wctomb|http://www.cplusplus.com/reference/cstdlib/wctomb/|c90 c99 arm cpp98 cpp11|Convert wide character to multibyte sequence (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|_Exit|http://www.cplusplus.com/reference/cstdlib/_Exit/|c99 cpp11|Terminate calling process (function)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|itoa|http://www.cplusplus.com/reference/cstdlib/itoa/|arm|no-Description (other)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|div_t|http://www.cplusplus.com/reference/cstdlib/div_t/|c90 c99 arm cpp98 cpp11|Structure returned by div (type)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|ldiv_t|http://www.cplusplus.com/reference/cstdlib/ldiv_t/|c90 c99 arm cpp98 cpp11|Structure returned by ldiv (type)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|lldiv_t|http://www.cplusplus.com/reference/cstdlib/lldiv_t/|c99 cpp11|Structure returned by lldiv (type)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|size_t|http://www.cplusplus.com/reference/cstdlib/size_t/|c90 c99 arm cpp98 cpp11|no-Description (other)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|EXIT_FAILURE|http://www.cplusplus.com/reference/cstdlib/EXIT_FAILURE/|c90 c99 arm cpp98 cpp11|Failure termination code (macro)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|EXIT_SUCCESS|http://www.cplusplus.com/reference/cstdlib/EXIT_SUCCESS/|c90 c99 arm cpp98 cpp11|Success termination code (macro)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|MB_CUR_MAX|http://www.cplusplus.com/reference/cstdlib/MB_CUR_MAX/|c90 c99 arm cpp98 cpp11|Maximum size of multibyte characters (macro)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|NULL|http://www.cplusplus.com/reference/cstdlib/NULL/|c90 c99 arm cpp98 cpp11|Null pointer (macro)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|RAND_MAX|http://www.cplusplus.com/reference/cstdlib/RAND_MAX/|c90 c99 arm cpp98 cpp11|Maximum value returned by rand (macro)|<cstdlib> (stdlib.h)|header|C Standard General Utilities Library|
+8|memchr|http://www.cplusplus.com/reference/cstring/memchr/|c90 c99 arm cpp98 cpp11|Locate character in block of memory (function)|<cstring> (string.h)|header|C Strings|
+8|memcmp|http://www.cplusplus.com/reference/cstring/memcmp/|c90 c99 arm cpp98 cpp11|Compare two blocks of memory (function)|<cstring> (string.h)|header|C Strings|
+8|memcpy|http://www.cplusplus.com/reference/cstring/memcpy/|c90 c99 arm cpp98 cpp11|Copy block of memory (function)|<cstring> (string.h)|header|C Strings|
+8|memmove|http://www.cplusplus.com/reference/cstring/memmove/|c90 c99 arm cpp98 cpp11|Move block of memory (function)|<cstring> (string.h)|header|C Strings|
+8|memset|http://www.cplusplus.com/reference/cstring/memset/|c90 c99 arm cpp98 cpp11|Fill block of memory (function)|<cstring> (string.h)|header|C Strings|
+8|strcat|http://www.cplusplus.com/reference/cstring/strcat/|c90 c99 arm cpp98 cpp11|Concatenate strings (function)|<cstring> (string.h)|header|C Strings|
+8|strchr|http://www.cplusplus.com/reference/cstring/strchr/|c90 c99 arm cpp98 cpp11|Locate first occurrence of character in string (function)|<cstring> (string.h)|header|C Strings|
+8|strcmp|http://www.cplusplus.com/reference/cstring/strcmp/|c90 c99 arm cpp98 cpp11|Compare two strings (function)|<cstring> (string.h)|header|C Strings|
+8|strcoll|http://www.cplusplus.com/reference/cstring/strcoll/|c90 c99 arm cpp98 cpp11|Compare two strings using locale (function)|<cstring> (string.h)|header|C Strings|
+8|strcpy|http://www.cplusplus.com/reference/cstring/strcpy/|c90 c99 arm cpp98 cpp11|Copy string (function)|<cstring> (string.h)|header|C Strings|
+8|strcspn|http://www.cplusplus.com/reference/cstring/strcspn/|c90 c99 arm cpp98 cpp11|Get span until character in string (function)|<cstring> (string.h)|header|C Strings|
+8|strerror|http://www.cplusplus.com/reference/cstring/strerror/|c90 c99 arm cpp98 cpp11|Get pointer to error message string (function)|<cstring> (string.h)|header|C Strings|
+8|strlen|http://www.cplusplus.com/reference/cstring/strlen/|c90 c99 arm cpp98 cpp11|Get string length (function)|<cstring> (string.h)|header|C Strings|
+8|strncat|http://www.cplusplus.com/reference/cstring/strncat/|c90 c99 arm cpp98 cpp11|Append characters from string (function)|<cstring> (string.h)|header|C Strings|
+8|strncmp|http://www.cplusplus.com/reference/cstring/strncmp/|c90 c99 arm cpp98 cpp11|Compare characters of two strings (function)|<cstring> (string.h)|header|C Strings|
+8|strncpy|http://www.cplusplus.com/reference/cstring/strncpy/|c90 c99 arm cpp98 cpp11|Copy characters from string (function)|<cstring> (string.h)|header|C Strings|
+8|strpbrk|http://www.cplusplus.com/reference/cstring/strpbrk/|c90 c99 arm cpp98 cpp11|Locate characters in string (function)|<cstring> (string.h)|header|C Strings|
+8|strrchr|http://www.cplusplus.com/reference/cstring/strrchr/|c90 c99 arm cpp98 cpp11|Locate last occurrence of character in string (function)|<cstring> (string.h)|header|C Strings|
+8|strspn|http://www.cplusplus.com/reference/cstring/strspn/|c90 c99 arm cpp98 cpp11|Get span of character set in string (function)|<cstring> (string.h)|header|C Strings|
+8|strstr|http://www.cplusplus.com/reference/cstring/strstr/|c90 c99 arm cpp98 cpp11|Locate substring (function)|<cstring> (string.h)|header|C Strings|
+8|strtok|http://www.cplusplus.com/reference/cstring/strtok/|c90 c99 arm cpp98 cpp11|Split string into tokens (function)|<cstring> (string.h)|header|C Strings|
+8|strxfrm|http://www.cplusplus.com/reference/cstring/strxfrm/|c90 c99 arm cpp98 cpp11|Transform string using locale (function)|<cstring> (string.h)|header|C Strings|
+8|size_t|http://www.cplusplus.com/reference/cstring/size_t/|c90 c99 arm cpp98 cpp11|Unsigned integral type (type)|<cstring> (string.h)|header|C Strings|
+8|NULL|http://www.cplusplus.com/reference/cstring/NULL/|c90 c99 arm cpp98 cpp11|Null pointer (macro)|<cstring> (string.h)|header|C Strings|
+8|asctime|http://www.cplusplus.com/reference/ctime/asctime/|c90 c99 arm cpp98 cpp11|Convert tm structure to string (function)|<ctime> (time.h)|header|C Time Library|
+8|clock|http://www.cplusplus.com/reference/ctime/clock/|c90 c99 arm cpp98 cpp11|Clock program (function)|<ctime> (time.h)|header|C Time Library|
+8|ctime|http://www.cplusplus.com/reference/ctime/ctime/|c90 c99 arm cpp98 cpp11|Convert time_t value to string (function)|<ctime> (time.h)|header|C Time Library|
+8|difftime|http://www.cplusplus.com/reference/ctime/difftime/|c90 c99 arm cpp98 cpp11|Return difference between two times (function)|<ctime> (time.h)|header|C Time Library|
+8|gmtime|http://www.cplusplus.com/reference/ctime/gmtime/|c90 c99 arm cpp98 cpp11|Convert time_t to tm as UTC time (function)|<ctime> (time.h)|header|C Time Library|
+8|localtime|http://www.cplusplus.com/reference/ctime/localtime/|c90 c99 arm cpp98 cpp11|Convert time_t to tm as local time (function)|<ctime> (time.h)|header|C Time Library|
+8|mktime|http://www.cplusplus.com/reference/ctime/mktime/|c90 c99 arm cpp98 cpp11|Convert tm structure to time_t (function)|<ctime> (time.h)|header|C Time Library|
+8|strftime|http://www.cplusplus.com/reference/ctime/strftime/|c90 c99 arm cpp98 cpp11|Format time as string (function)|<ctime> (time.h)|header|C Time Library|
+8|time|http://www.cplusplus.com/reference/ctime/time/|c90 c99 arm cpp98 cpp11|Get current time (function)|<ctime> (time.h)|header|C Time Library|
+8|CLOCKS_PER_SEC|http://www.cplusplus.com/reference/ctime/CLOCKS_PER_SEC/|c90 c99 arm cpp98 cpp11|Clock ticks per second (macro)|<ctime> (time.h)|header|C Time Library|
+8|NULL|http://www.cplusplus.com/reference/ctime/NULL/|c90 c99 arm cpp98 cpp11|Null pointer (macro)|<ctime> (time.h)|header|C Time Library|
+8|clock_t|http://www.cplusplus.com/reference/ctime/clock_t/|c90 c99 arm cpp98 cpp11|Clock type (type)|<ctime> (time.h)|header|C Time Library|
+8|size_t|http://www.cplusplus.com/reference/ctime/size_t/|c90 c99 arm cpp98 cpp11|Unsigned integral type (type)|<ctime> (time.h)|header|C Time Library|
+8|time_t|http://www.cplusplus.com/reference/ctime/time_t/|c90 c99 arm cpp98 cpp11|Time type (type)|<ctime> (time.h)|header|C Time Library|
+8|struct tm|http://www.cplusplus.com/reference/ctime/tm/|c90 c99 arm cpp98 cpp11|Time structure (type)|<ctime> (time.h)|header|C Time Library|
+8|c16rtomb|http://www.cplusplus.com/reference/cuchar/c16rtomb/|c11 cpp11|Convert 16-bit character to multibyte sequence (function)|<cuchar> (uchar.h)|header|Unicode characters|
+8|c32rtomb|http://www.cplusplus.com/reference/cuchar/c32rtomb/|c11 cpp11|Convert 32-bit character to multibyte sequence (function)|<cuchar> (uchar.h)|header|Unicode characters|
+8|mbrtoc16|http://www.cplusplus.com/reference/cuchar/mbrtoc16/|c11 cpp11|Convert multibyte sequence to 16-bit character (function)|<cuchar> (uchar.h)|header|Unicode characters|
+8|mbrtoc32|http://www.cplusplus.com/reference/cuchar/mbrtoc32/|c11 cpp11|Convert multibyte sequence to 32-bit character (function)|<cuchar> (uchar.h)|header|Unicode characters|
+8|btowc|http://www.cplusplus.com/reference/cwchar/btowc/|c90 c99 arm cpp98 cpp11|Convert single byte character to wide character (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|fgetwc|http://www.cplusplus.com/reference/cwchar/fgetwc/|c90 c99 arm cpp98 cpp11|Get wide character from stream (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|fgetws|http://www.cplusplus.com/reference/cwchar/fgetws/|c90 c99 arm cpp98 cpp11|Get wide string from stream (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|fputwc|http://www.cplusplus.com/reference/cwchar/fputwc/|c90 c99 arm cpp98 cpp11|Write wide character to stream (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|fputws|http://www.cplusplus.com/reference/cwchar/fputws/|c90 c99 arm cpp98 cpp11|Write wide string to stream (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|fwide|http://www.cplusplus.com/reference/cwchar/fwide/|c90 c99 arm cpp98 cpp11|Stream orientation (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|fwprintf|http://www.cplusplus.com/reference/cwchar/fwprintf/|c90 c99 arm cpp98 cpp11|Write formatted data to stream (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|fwscanf|http://www.cplusplus.com/reference/cwchar/fwscanf/|c90 c99 arm cpp98 cpp11|Read formatted data from stream (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|getwc|http://www.cplusplus.com/reference/cwchar/getwc/|c90 c99 arm cpp98 cpp11|Get wide character from stream (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|getwchar|http://www.cplusplus.com/reference/cwchar/getwchar/|c90 c99 arm cpp98 cpp11|Get wide character from stdin (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|mbrlen|http://www.cplusplus.com/reference/cwchar/mbrlen/|c90 c99 arm cpp98 cpp11|Get length of multibyte character (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|mbrtowc|http://www.cplusplus.com/reference/cwchar/mbrtowc/|c90 c99 arm cpp98 cpp11|Convert multibyte sequence to wide character (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|mbsinit|http://www.cplusplus.com/reference/cwchar/mbsinit/|c90 c99 arm cpp98 cpp11|Check if initial conversion state (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|mbsrtowcs|http://www.cplusplus.com/reference/cwchar/mbsrtowcs/|c90 c99 arm cpp98 cpp11|Convert multibyte string to wide-character string (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|putwc|http://www.cplusplus.com/reference/cwchar/putwc/|c90 c99 arm cpp98 cpp11|Write wide character to stream (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|putwchar|http://www.cplusplus.com/reference/cwchar/putwchar/|c90 c99 arm cpp98 cpp11|Write wide character to stdout (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|swprintf|http://www.cplusplus.com/reference/cwchar/swprintf/|c90 c99 arm cpp98 cpp11|Write formatted data to wide string (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|swscanf|http://www.cplusplus.com/reference/cwchar/swscanf/|c90 c99 arm cpp98 cpp11|Read formatted data from string (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|ungetwc|http://www.cplusplus.com/reference/cwchar/ungetwc/|c90 c99 arm cpp98 cpp11|Unget wide character from stream (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|vfwprintf|http://www.cplusplus.com/reference/cwchar/vfwprintf/|c90 c99 arm cpp98 cpp11|Write formatted data from variable argument list to stream (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|vfwscanf|http://www.cplusplus.com/reference/cwchar/vfwscanf/|c99 cpp11|Read formatted data from stream into variable argument list (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|vswprintf|http://www.cplusplus.com/reference/cwchar/vswprintf/|c99 cpp11|Write formatted data from variable argument list to sized buffer (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|vswscanf|http://www.cplusplus.com/reference/cwchar/vswscanf/|c99 cpp11|Read formatted data from wide string into variable argument list (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|vwprintf|http://www.cplusplus.com/reference/cwchar/vwprintf/|c90 c99 arm cpp98 cpp11|Print formatted data from variable argument list to stdout (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|vwscanf|http://www.cplusplus.com/reference/cwchar/vwscanf/|c99 cpp11|Read formatted data into variable argument list (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcrtomb|http://www.cplusplus.com/reference/cwchar/wcrtomb/|c90 c99 arm cpp98 cpp11|Convert wide character to multibyte sequence (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcscat|http://www.cplusplus.com/reference/cwchar/wcscat/|c90 c99 arm cpp98 cpp11|Concatenate wide strings (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcschr|http://www.cplusplus.com/reference/cwchar/wcschr/|c90 c99 arm cpp98 cpp11|Locate first occurrence of character in wide string (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcscmp|http://www.cplusplus.com/reference/cwchar/wcscmp/|c90 c99 arm cpp98 cpp11|Compare two strings (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcscoll|http://www.cplusplus.com/reference/cwchar/wcscoll/|c90 c99 arm cpp98 cpp11|Compare two wide strings using locale (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcscpy|http://www.cplusplus.com/reference/cwchar/wcscpy/|c90 c99 arm cpp98 cpp11|Copy wide string (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcscspn|http://www.cplusplus.com/reference/cwchar/wcscspn/|c90 c99 arm cpp98 cpp11|Get span until character in wide string (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcsftime|http://www.cplusplus.com/reference/cwchar/wcsftime/|c90 c99 arm cpp98 cpp11|Format time as wide string (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcslen|http://www.cplusplus.com/reference/cwchar/wcslen/|c90 c99 arm cpp98 cpp11|Get wide string length (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcsncat|http://www.cplusplus.com/reference/cwchar/wcsncat/|c90 c99 arm cpp98 cpp11|Append characters from wide string (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcsncmp|http://www.cplusplus.com/reference/cwchar/wcsncmp/|c90 c99 arm cpp98 cpp11|Compare characters of two wide strings (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcsncpy|http://www.cplusplus.com/reference/cwchar/wcsncpy/|c90 c99 arm cpp98 cpp11|Copy characters from wide string (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcspbrk|http://www.cplusplus.com/reference/cwchar/wcspbrk/|c90 c99 arm cpp98 cpp11|Locate characters in wide string (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcsrchr|http://www.cplusplus.com/reference/cwchar/wcsrchr/|c90 c99 arm cpp98 cpp11|Locate last occurrence of character in wide string (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcsrtombs|http://www.cplusplus.com/reference/cwchar/wcsrtombs/|c90 c99 arm cpp98 cpp11|Convert wide-character string to multibyte string (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcsspn|http://www.cplusplus.com/reference/cwchar/wcsspn/|c90 c99 arm cpp98 cpp11|Get span of character set in wide string (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcsstr|http://www.cplusplus.com/reference/cwchar/wcsstr/|c90 c99 arm cpp98 cpp11|Locate substring of wide string (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcstod|http://www.cplusplus.com/reference/cwchar/wcstod/|c90 c99 arm cpp98 cpp11|Convert wide string to double (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcstof|http://www.cplusplus.com/reference/cwchar/wcstof/|c99 cpp11|Convert wide string to float (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcstok|http://www.cplusplus.com/reference/cwchar/wcstok/|c90 c99 arm cpp98 cpp11|Split wide string into tokens (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcstol|http://www.cplusplus.com/reference/cwchar/wcstol/|c90 c99 arm cpp98 cpp11|Convert wide string to long integer (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcstold|http://www.cplusplus.com/reference/cwchar/wcstold/|c99 cpp11|Convert wide string to long double (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcstoll|http://www.cplusplus.com/reference/cwchar/wcstoll/|c99 cpp11|Convert wide string to long long integer (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcstoul|http://www.cplusplus.com/reference/cwchar/wcstoul/|c90 c99 arm cpp98 cpp11|Convert wide string to unsigned long integer (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcstoull|http://www.cplusplus.com/reference/cwchar/wcstoull/|c99 cpp11|Convert wide string to unsigned long long integer (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wcsxfrm|http://www.cplusplus.com/reference/cwchar/wcsxfrm/|c90 c99 arm cpp98 cpp11|Transform wide string using locale (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wctob|http://www.cplusplus.com/reference/cwchar/wctob/|c90 c99 arm cpp98 cpp11|Convert wide character to single byte (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wmemchr|http://www.cplusplus.com/reference/cwchar/wmemchr/|c90 c99 arm cpp98 cpp11|Locate character in block of wide characters (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wmemcmp|http://www.cplusplus.com/reference/cwchar/wmemcmp/|c90 c99 arm cpp98 cpp11|Compare two blocks of wide characters (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wmemcpy|http://www.cplusplus.com/reference/cwchar/wmemcpy/|c90 c99 arm cpp98 cpp11|Copy block of wide characters (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wmemmove|http://www.cplusplus.com/reference/cwchar/wmemmove/|c90 c99 arm cpp98 cpp11|Move block of wide characters (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wmemset|http://www.cplusplus.com/reference/cwchar/wmemset/|c90 c99 arm cpp98 cpp11|Fill array of wide characters (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wprintf|http://www.cplusplus.com/reference/cwchar/wprintf/|c90 c99 arm cpp98 cpp11|Print formatted data to stdout (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|wscanf|http://www.cplusplus.com/reference/cwchar/wscanf/|c90 c99 arm cpp98 cpp11|Read formatted data from stdin (function)|<cwchar> (wchar.h)|header|Wide characters|
+8|mbstate_t|http://www.cplusplus.com/reference/cwchar/mbstate_t/|c90 c99 arm cpp98 cpp11|Multibyte conversion state (type)|<cwchar> (wchar.h)|header|Wide characters|
+8|size_t|http://www.cplusplus.com/reference/cwchar/size_t/|c90 c99 arm cpp98 cpp11|Unsigned integral type (type)|<cwchar> (wchar.h)|header|Wide characters|
+8|struct tm|http://www.cplusplus.com/reference/cwchar/tm/|c90 c99 arm cpp98 cpp11|Time structure (type)|<cwchar> (wchar.h)|header|Wide characters|
+8|wchar_t|http://www.cplusplus.com/reference/cwchar/wchar_t/|c99|Wide character (type)|<cwchar> (wchar.h)|header|Wide characters|
+8|wint_t|http://www.cplusplus.com/reference/cwchar/wint_t/|c90 c99 arm cpp98 cpp11|Wide int type (type)|<cwchar> (wchar.h)|header|Wide characters|
+8|NULL|http://www.cplusplus.com/reference/cwchar/NULL/|c90 c99 arm cpp98 cpp11|Null pointer (macro)|<cwchar> (wchar.h)|header|Wide characters|
+8|WCHAR_MAX|http://www.cplusplus.com/reference/cwchar/WCHAR_MAX/|c90 c99 arm cpp98 cpp11|Maximum value of wchar_t (constant)|<cwchar> (wchar.h)|header|Wide characters|
+8|WCHAR_MIN|http://www.cplusplus.com/reference/cwchar/WCHAR_MIN/|c90 c99 arm cpp98 cpp11|Minimum value of wchar_t (constant)|<cwchar> (wchar.h)|header|Wide characters|
+8|WEOF|http://www.cplusplus.com/reference/cwchar/WEOF/|c90 c99 arm cpp98 cpp11|Wide end-of-file (constant)|<cwchar> (wchar.h)|header|Wide characters|
+8|iswalnum|http://www.cplusplus.com/reference/cwctype/iswalnum/|c90 c99 arm cpp98 cpp11|Check if wide character is alphanumeric (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|iswalpha|http://www.cplusplus.com/reference/cwctype/iswalpha/|c90 c99 arm cpp98 cpp11|Check if wide character is alphabetic (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|iswblank|http://www.cplusplus.com/reference/cwctype/iswblank/|c99 cpp11|Check if wide character is blank (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|iswcntrl|http://www.cplusplus.com/reference/cwctype/iswcntrl/|c90 c99 arm cpp98 cpp11|Check if wide character is a control character (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|iswctype|http://www.cplusplus.com/reference/cwctype/iswctype/|c90 c99 arm cpp98 cpp11|Check if wide character has property (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|iswdigit|http://www.cplusplus.com/reference/cwctype/iswdigit/|c90 c99 arm cpp98 cpp11|Check if wide character is decimal digit (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|iswgraph|http://www.cplusplus.com/reference/cwctype/iswgraph/|c90 c99 arm cpp98 cpp11|Check if wide character has graphical representation (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|iswlower|http://www.cplusplus.com/reference/cwctype/iswlower/|c90 c99 arm cpp98 cpp11|Check if wide character is lowercase letter (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|iswprint|http://www.cplusplus.com/reference/cwctype/iswprint/|c90 c99 arm cpp98 cpp11|Check if wide character is printable (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|iswpunct|http://www.cplusplus.com/reference/cwctype/iswpunct/|c90 c99 arm cpp98 cpp11|Check if wide character is punctuation character (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|iswspace|http://www.cplusplus.com/reference/cwctype/iswspace/|c90 c99 arm cpp98 cpp11|Check if wide character is a white-space (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|iswupper|http://www.cplusplus.com/reference/cwctype/iswupper/|c90 c99 arm cpp98 cpp11|Check if wide character is uppercase letter (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|iswxdigit|http://www.cplusplus.com/reference/cwctype/iswxdigit/|c90 c99 arm cpp98 cpp11|Check if wide character is hexadecimal digit (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|towctrans|http://www.cplusplus.com/reference/cwctype/towctrans/|c90 c99 arm cpp98 cpp11|Convert using transformation (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|towlower|http://www.cplusplus.com/reference/cwctype/towlower/|c90 c99 arm cpp98 cpp11|Convert uppercase wide character to lowercase (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|towupper|http://www.cplusplus.com/reference/cwctype/towupper/|c90 c99 arm cpp98 cpp11|Convert lowercase wide character to uppercase (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|wctrans|http://www.cplusplus.com/reference/cwctype/wctrans/|c90 c99 arm cpp98 cpp11|Return character transformation (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|wctype|http://www.cplusplus.com/reference/cwctype/wctype/|c90 c99 arm cpp98 cpp11|Return character property (function)|<cwctype> (wctype.h)|header|Wide character type|
+8|wctrans_t|http://www.cplusplus.com/reference/cwctype/wctrans_t/|c90 c99 arm cpp98 cpp11|Wide character transformation (type)|<cwctype> (wctype.h)|header|Wide character type|
+8|wctype_t|http://www.cplusplus.com/reference/cwctype/wctype_t/|c90 c99 arm cpp98 cpp11|Wide character type (type)|<cwctype> (wctype.h)|header|Wide character type|
+8|wint_t|http://www.cplusplus.com/reference/cwctype/wint_t/|c90 c99 arm cpp98 cpp11|Wide character integral type (type)|<cwctype> (wctype.h)|header|Wide character type|
+8|WEOF|http://www.cplusplus.com/reference/cwctype/WEOF/|c90 c99 arm cpp98 cpp11|Wide End-of-File (constant)|<cwctype> (wctype.h)|header|Wide character type|
+8|array|http://www.cplusplus.com/reference/array/array/|cpp11 folder|Array class (class template)|<array>|header|Array header|
+8|deque|http://www.cplusplus.com/reference/deque/deque/|cpp98 cpp11 folder|Double ended queue (class template)|<deque>|header|Deque header|
+8|forward_list|http://www.cplusplus.com/reference/forward_list/forward_list/|cpp11 folder|Forward list (class template)|<forward_list>|header|Forward list|
+8|list|http://www.cplusplus.com/reference/list/list/|cpp98 cpp11 folder|List (class template)|<list>|header|List header|
+8|map|http://www.cplusplus.com/reference/map/map/|cpp98 cpp11 folder|Map (class template)|<map>|header|Map header|
+8|multimap|http://www.cplusplus.com/reference/map/multimap/|cpp98 cpp11 folder|Multiple-key map (class template)|<map>|header|Map header|
+8|priority_queue|http://www.cplusplus.com/reference/queue/priority_queue/|cpp98 cpp11 folder|Priority queue (class template)|<queue>|header|Queue header|
+8|queue|http://www.cplusplus.com/reference/queue/queue/|cpp98 cpp11 folder|FIFO queue (class template)|<queue>|header|Queue header|
+8|multiset|http://www.cplusplus.com/reference/set/multiset/|cpp98 cpp11 folder|Multiple-key set (class template)|<set>|header|Set header|
+8|set|http://www.cplusplus.com/reference/set/set/|cpp98 cpp11 folder|Set (class template)|<set>|header|Set header|
+8|stack|http://www.cplusplus.com/reference/stack/stack/|cpp98 cpp11 folder|LIFO stack (class template)|<stack>|header|Stack header|
+8|unordered_map|http://www.cplusplus.com/reference/unordered_map/unordered_map/|cpp11 folder|Unordered Map (class template)|<unordered_map>|header|Unordered map header|
+8|unordered_multimap|http://www.cplusplus.com/reference/unordered_map/unordered_multimap/|cpp11 folder|Unordered Multimap (class template)|<unordered_map>|header|Unordered map header|
+8|unordered_multiset|http://www.cplusplus.com/reference/unordered_set/unordered_multiset/|cpp11 folder|Unordered Multiset (class template)|<unordered_set>|header|Unordered set header|
+8|unordered_set|http://www.cplusplus.com/reference/unordered_set/unordered_set/|cpp11 folder|Unordered Set (class template)|<unordered_set>|header|Unordered set header|
+8|vector|http://www.cplusplus.com/reference/vector/vector/|cpp98 cpp11 folder|Vector (class template)|<vector>|header|Vector header|
+8|basic_filebuf|http://www.cplusplus.com/reference/fstream/basic_filebuf/|cpp98 cpp11 folder|File stream buffer (class template)|<fstream>|header|File streams|
+8|basic_fstream|http://www.cplusplus.com/reference/fstream/basic_fstream/|cpp98 cpp11 folder|File stream (class template)|<fstream>|header|File streams|
+8|basic_ifstream|http://www.cplusplus.com/reference/fstream/basic_ifstream/|cpp98 cpp11 folder|Input file stream (class template)|<fstream>|header|File streams|
+8|basic_ofstream|http://www.cplusplus.com/reference/fstream/basic_ofstream/|cpp98 cpp11 folder|Output file stream (class template)|<fstream>|header|File streams|
+8|filebuf|http://www.cplusplus.com/reference/fstream/filebuf/|arm cpp98 cpp11 folder|File stream buffer (class)|<fstream>|header|File streams|
+8|fstream|http://www.cplusplus.com/reference/fstream/fstream/|arm cpp98 cpp11 folder|Input/output file stream class (class)|<fstream>|header|File streams|
+8|ifstream|http://www.cplusplus.com/reference/fstream/ifstream/|arm cpp98 cpp11 folder|Input file stream class (class)|<fstream>|header|File streams|
+8|ofstream|http://www.cplusplus.com/reference/fstream/ofstream/|arm cpp98 cpp11 folder|Output file stream (class)|<fstream>|header|File streams|
+8|wfilebuf|http://www.cplusplus.com/reference/fstream/wfilebuf/|cpp98 cpp11|File stream buffer (wide) (class)|<fstream>|header|File streams|
+8|wfstream|http://www.cplusplus.com/reference/fstream/wfstream/|cpp98 cpp11|File stream (wide) (class)|<fstream>|header|File streams|
+8|wifstream|http://www.cplusplus.com/reference/fstream/wifstream/|cpp98 cpp11|Input file stream (wide) (class)|<fstream>|header|File streams|
+8|wofstream|http://www.cplusplus.com/reference/fstream/wofstream/|cpp98 cpp11|Output file stream (wide) (class)|<fstream>|header|File streams|
+8|get_money|http://www.cplusplus.com/reference/iomanip/get_money/|cpp11|Get monetary value (function)|<iomanip>|header|IO Manipulators|
+8|get_time|http://www.cplusplus.com/reference/iomanip/get_time/|cpp11|Get date and time (function)|<iomanip>|header|IO Manipulators|
+8|put_money|http://www.cplusplus.com/reference/iomanip/put_money/|cpp11|Put monetary value (function)|<iomanip>|header|IO Manipulators|
+8|put_time|http://www.cplusplus.com/reference/iomanip/put_time/|cpp11|Put date and time (function)|<iomanip>|header|IO Manipulators|
+8|resetiosflags|http://www.cplusplus.com/reference/iomanip/resetiosflags/|arm cpp98 cpp11|Reset format flags (function)|<iomanip>|header|IO Manipulators|
+8|setbase|http://www.cplusplus.com/reference/iomanip/setbase/|arm cpp98 cpp11|Set basefield flag (function)|<iomanip>|header|IO Manipulators|
+8|setfill|http://www.cplusplus.com/reference/iomanip/setfill/|arm cpp98 cpp11|Set fill character (function)|<iomanip>|header|IO Manipulators|
+8|setiosflags|http://www.cplusplus.com/reference/iomanip/setiosflags/|arm cpp98 cpp11|Set format flags (function)|<iomanip>|header|IO Manipulators|
+8|setprecision|http://www.cplusplus.com/reference/iomanip/setprecision/|arm cpp98 cpp11|Set decimal precision (function)|<iomanip>|header|IO Manipulators|
+8|setw|http://www.cplusplus.com/reference/iomanip/setw/|arm cpp98 cpp11|Set field width (function)|<iomanip>|header|IO Manipulators|
+8|basic_ios|http://www.cplusplus.com/reference/ios/basic_ios/|cpp98 cpp11 folder|Base class for streams (type-dependent components) (class template)|<ios>|header|Input-Output base classes|
+8|fpos|http://www.cplusplus.com/reference/ios/fpos/|arm cpp98 cpp11|Stream position class template (class template)|<ios>|header|Input-Output base classes|
+8|ios|http://www.cplusplus.com/reference/ios/ios/|arm cpp98 cpp11 folder|Base class for streams (type-dependent components) (class)|<ios>|header|Input-Output base classes|
+8|ios_base|http://www.cplusplus.com/reference/ios/ios_base/|arm cpp98 cpp11 folder|Base class for streams (class)|<ios>|header|Input-Output base classes|
+8|io_errc|http://www.cplusplus.com/reference/ios/io_errc/|cpp11 folder|Input/output error conditions (enum class)|<ios>|header|Input-Output base classes|
+8|streamoff|http://www.cplusplus.com/reference/ios/streamoff/|arm cpp98 cpp11|Stream offset type (type)|<ios>|header|Input-Output base classes|
+8|streampos|http://www.cplusplus.com/reference/ios/streampos/|arm cpp98 cpp11|Stream position type (type)|<ios>|header|Input-Output base classes|
+8|streamsize|http://www.cplusplus.com/reference/ios/streamsize/|arm cpp98 cpp11|Stream size type (type)|<ios>|header|Input-Output base classes|
+8|wios|http://www.cplusplus.com/reference/ios/wios/|cpp98 cpp11|Base class for wide character streams (class)|<ios>|header|Input-Output base classes|
+8|wstreampos|http://www.cplusplus.com/reference/ios/wstreampos/|cpp98 cpp11|Wide stream position type (type)|<ios>|header|Input-Output base classes|
+8|boolalpha|http://www.cplusplus.com/reference/ios/boolalpha/|arm cpp98 cpp11|Alphanumerical bool values (function)|<ios>|header|Input-Output base classes|
+8|dec|http://www.cplusplus.com/reference/ios/dec/|arm cpp98 cpp11|Use decimal base (function)|<ios>|header|Input-Output base classes|
+8|defaultfloat|http://www.cplusplus.com/reference/ios/defaultfloat/|cpp11|no-Description (other)|<ios>|header|Input-Output base classes|
+8|fixed|http://www.cplusplus.com/reference/ios/fixed/|arm cpp98 cpp11|Use fixed floating-point notation (function)|<ios>|header|Input-Output base classes|
+8|hex|http://www.cplusplus.com/reference/ios/hex/|arm cpp98 cpp11|Use hexadecimal base (function)|<ios>|header|Input-Output base classes|
+8|hexfloat|http://www.cplusplus.com/reference/ios/hexfloat/|cpp11|no-Description (other)|<ios>|header|Input-Output base classes|
+8|internal|http://www.cplusplus.com/reference/ios/internal/|arm cpp98 cpp11|Adjust field by inserting characters at an internal position (function)|<ios>|header|Input-Output base classes|
+8|left|http://www.cplusplus.com/reference/ios/left/|arm cpp98 cpp11|Adjust output to the left (function)|<ios>|header|Input-Output base classes|
+8|noboolalpha|http://www.cplusplus.com/reference/ios/noboolalpha/|arm cpp98 cpp11|No alphanumerical bool values (function)|<ios>|header|Input-Output base classes|
+8|noshowbase|http://www.cplusplus.com/reference/ios/noshowbase/|arm cpp98 cpp11|Do not show numerical base prefixes (function)|<ios>|header|Input-Output base classes|
+8|noshowpoint|http://www.cplusplus.com/reference/ios/noshowpoint/|arm cpp98 cpp11|Do not show decimal point (function)|<ios>|header|Input-Output base classes|
+8|noshowpos|http://www.cplusplus.com/reference/ios/noshowpos/|arm cpp98 cpp11|Do not show positive signs (function)|<ios>|header|Input-Output base classes|
+8|noskipws|http://www.cplusplus.com/reference/ios/noskipws/|arm cpp98 cpp11|Do not skip whitespaces (function)|<ios>|header|Input-Output base classes|
+8|nounitbuf|http://www.cplusplus.com/reference/ios/nounitbuf/|arm cpp98 cpp11|Do not force flushes after insertions (function)|<ios>|header|Input-Output base classes|
+8|nouppercase|http://www.cplusplus.com/reference/ios/nouppercase/|arm cpp98 cpp11|Do not generate upper case letters (function)|<ios>|header|Input-Output base classes|
+8|oct|http://www.cplusplus.com/reference/ios/oct/|arm cpp98 cpp11|Use octal base (function)|<ios>|header|Input-Output base classes|
+8|right|http://www.cplusplus.com/reference/ios/right/|arm cpp98 cpp11|Adjust output to the right (function)|<ios>|header|Input-Output base classes|
+8|scientific|http://www.cplusplus.com/reference/ios/scientific/|arm cpp98 cpp11|Use scientific floating-point notation (function)|<ios>|header|Input-Output base classes|
+8|showbase|http://www.cplusplus.com/reference/ios/showbase/|arm cpp98 cpp11|Show numerical base prefixes (function)|<ios>|header|Input-Output base classes|
+8|showpoint|http://www.cplusplus.com/reference/ios/showpoint/|arm cpp98 cpp11|Show decimal point (function)|<ios>|header|Input-Output base classes|
+8|showpos|http://www.cplusplus.com/reference/ios/showpos/|arm cpp98 cpp11|Show positive signs (function)|<ios>|header|Input-Output base classes|
+8|skipws|http://www.cplusplus.com/reference/ios/skipws/|arm cpp98 cpp11|Skip whitespaces (function)|<ios>|header|Input-Output base classes|
+8|unitbuf|http://www.cplusplus.com/reference/ios/unitbuf/|arm cpp98 cpp11|Flush buffer after insertions (function)|<ios>|header|Input-Output base classes|
+8|uppercase|http://www.cplusplus.com/reference/ios/uppercase/|arm cpp98 cpp11|Generate upper-case letters (function)|<ios>|header|Input-Output base classes|
+8|iostream_category|http://www.cplusplus.com/reference/ios/iostream_category/|cpp11|Return iostream category (function)|<ios>|header|Input-Output base classes|
+8|cerr|http://www.cplusplus.com/reference/iostream/cerr/|arm cpp98 cpp11|Standard output stream for errors (object)|<iostream>|header |Standard Input / Output Streams Library|
+8|cin|http://www.cplusplus.com/reference/iostream/cin/|arm cpp98 cpp11|Standard input stream (object)|<iostream>|header |Standard Input / Output Streams Library|
+8|clog|http://www.cplusplus.com/reference/iostream/clog/|arm cpp98 cpp11|Standard output stream for logging (object)|<iostream>|header |Standard Input / Output Streams Library|
+8|cout|http://www.cplusplus.com/reference/iostream/cout/|arm cpp98 cpp11|Standard output stream (object)|<iostream>|header |Standard Input / Output Streams Library|
+8|wcerr|http://www.cplusplus.com/reference/iostream/wcerr/|cpp98 cpp11|Standard output stream for errors (wide-oriented) (object)|<iostream>|header |Standard Input / Output Streams Library|
+8|wcin|http://www.cplusplus.com/reference/iostream/wcin/|cpp98 cpp11|Standard input stream (wide) (object)|<iostream>|header |Standard Input / Output Streams Library|
+8|wclog|http://www.cplusplus.com/reference/iostream/wclog/|cpp98 cpp11|Standard output stream for logging (wide) (object)|<iostream>|header |Standard Input / Output Streams Library|
+8|wcout|http://www.cplusplus.com/reference/iostream/wcout/|cpp98 cpp11|Standard output stream (wide) (object)|<iostream>|header |Standard Input / Output Streams Library|
+8|basic_iostream|http://www.cplusplus.com/reference/istream/basic_iostream/|cpp98 cpp11 folder|Input/output stream (class template)|<istream>|header|Input stream|
+8|basic_istream|http://www.cplusplus.com/reference/istream/basic_istream/|cpp98 cpp11 folder|Input stream (class template)|<istream>|header|Input stream|
+8|iostream|http://www.cplusplus.com/reference/istream/iostream/|arm cpp98 cpp11 folder|Input/output stream (class)|<istream>|header|Input stream|
+8|istream|http://www.cplusplus.com/reference/istream/istream/|arm cpp98 cpp11 folder|Input stream (class)|<istream>|header|Input stream|
+8|wiostream|http://www.cplusplus.com/reference/istream/wiostream/|arm cpp98 cpp11|Input/output stream (wide) (class)|<istream>|header|Input stream|
+8|wistream|http://www.cplusplus.com/reference/istream/wistream/|cpp98 cpp11|Input stream (wide) (class)|<istream>|header|Input stream|
+8|ws|http://www.cplusplus.com/reference/istream/ws/|arm cpp98 cpp11|Extract whitespaces (function)|<istream>|header|Input stream|
+8|basic_ostream|http://www.cplusplus.com/reference/ostream/basic_ostream/|cpp98 cpp11 folder|Output stream (class)|<ostream>|header|Output stream|
+8|ostream|http://www.cplusplus.com/reference/ostream/ostream/|arm cpp98 cpp11 folder|Output Stream (class)|<ostream>|header|Output stream|
+8|wostream|http://www.cplusplus.com/reference/ostream/wostream/|arm cpp98 cpp11|Output stream (wide) (class)|<ostream>|header|Output stream|
+8|endl|http://www.cplusplus.com/reference/ostream/endl/|arm cpp98 cpp11|Insert newline and flush (function)|<ostream>|header|Output stream|
+8|ends|http://www.cplusplus.com/reference/ostream/ends/|arm cpp98 cpp11|Insert null character (function)|<ostream>|header|Output stream|
+8|flush|http://www.cplusplus.com/reference/ostream/flush-free/|arm cpp98 cpp11|Flush stream buffer (function)|<ostream>|header|Output stream|
+8|basic_istringstream|http://www.cplusplus.com/reference/sstream/basic_istringstream/|cpp98 cpp11 folder|Input string stream (class template)|<sstream>|header|String streams|
+8|basic_ostringstream|http://www.cplusplus.com/reference/sstream/basic_ostringstream/|cpp98 cpp11 folder|Output string stream (class template)|<sstream>|header|String streams|
+8|basic_stringbuf|http://www.cplusplus.com/reference/sstream/basic_stringbuf/|cpp98 cpp11 folder|String stream buffer (class template)|<sstream>|header|String streams|
+8|basic_stringstream|http://www.cplusplus.com/reference/sstream/basic_stringstream/|cpp98 cpp11 folder|String stream (class template)|<sstream>|header|String streams|
+8|istringstream|http://www.cplusplus.com/reference/sstream/istringstream/|arm cpp98 cpp11 folder|Input string stream (class)|<sstream>|header|String streams|
+8|ostringstream|http://www.cplusplus.com/reference/sstream/ostringstream/|arm cpp98 cpp11 folder|Output string stream (class)|<sstream>|header|String streams|
+8|stringbuf|http://www.cplusplus.com/reference/sstream/stringbuf/|arm cpp98 cpp11 folder|String stream buffer (class)|<sstream>|header|String streams|
+8|stringstream|http://www.cplusplus.com/reference/sstream/stringstream/|arm cpp98 cpp11 folder|Input/output string stream (class)|<sstream>|header|String streams|
+8|wistringstream|http://www.cplusplus.com/reference/sstream/wistringstream/|cpp98 cpp11|Input string stream (wide) (class)|<sstream>|header|String streams|
+8|wostringstream|http://www.cplusplus.com/reference/sstream/wostringstream/|cpp98 cpp11|Output string stream (wide) (class)|<sstream>|header|String streams|
+8|wstringbuf|http://www.cplusplus.com/reference/sstream/wstringbuf/|cpp98 cpp11|String stream buffer (wide) (class)|<sstream>|header|String streams|
+8|wstringstream|http://www.cplusplus.com/reference/sstream/wstringstream/|cpp98 cpp11|Input/output string stream (wide) (class)|<sstream>|header|String streams|
+8|basic_streambuf|http://www.cplusplus.com/reference/streambuf/basic_streambuf/|cpp98 cpp11 folder|Base buffer class for streams (class template)|<streambuf>|header|Stream buffer|
+8|streambuf|http://www.cplusplus.com/reference/streambuf/streambuf/|arm cpp98 cpp11 folder|Base buffer class for streams (class)|<streambuf>|header|Stream buffer|
+8|wstreambuf|http://www.cplusplus.com/reference/streambuf/wstreambuf/|cpp98 cpp11|Base buffer class for streams (wide) (class)|<streambuf>|header|Stream buffer|
+8|atomic|http://www.cplusplus.com/reference/atomic/atomic/|cpp11 folder|Atomic (class template)|<atomic>|header|Atomic|
+8|atomic_flag|http://www.cplusplus.com/reference/atomic/atomic_flag/|cpp11 folder|Atomic flag (class)|<atomic>|header|Atomic|
+8|memory_order|http://www.cplusplus.com/reference/atomic/memory_order/|cpp11|Memory order (enum)|<atomic>|header|Atomic|
+8|atomic_signal_fence|http://www.cplusplus.com/reference/atomic/atomic_signal_fence/|cpp11|Signal fence (function)|<atomic>|header|Atomic|
+8|atomic_thread_fence|http://www.cplusplus.com/reference/atomic/atomic_thread_fence/|cpp11|Thread fence (function)|<atomic>|header|Atomic|
+8|kill_dependency|http://www.cplusplus.com/reference/atomic/kill_dependency/|cpp11|Kill dependency (function)|<atomic>|header|Atomic|
+8|ATOMIC_FLAG_INIT|http://www.cplusplus.com/reference/atomic/ATOMIC_FLAG_INIT/|cpp11|Initialization of atomic flag (macro)|<atomic>|header|Atomic|
+8|ATOMIC_VAR_INIT|http://www.cplusplus.com/reference/atomic/ATOMIC_VAR_INIT/|cpp11|Initialization of atomic variable (macro)|<atomic>|header|Atomic|
+8|atomic_compare_exchange_strong|http://www.cplusplus.com/reference/atomic/atomic_compare_exchange_strong/|cpp11|Compare and exchange contained value (strong) (function)|<atomic>|header|Atomic|
+8|atomic_compare_exchange_strong_explicit|http://www.cplusplus.com/reference/atomic/atomic_compare_exchange_strong_explicit/|cpp11|Compare and exchange contained value (strong, explicit) (function)|<atomic>|header|Atomic|
+8|atomic_compare_exchange_weak|http://www.cplusplus.com/reference/atomic/atomic_compare_exchange_weak/|cpp11|Compare and exchange contained value (weak) (function)|<atomic>|header|Atomic|
+8|atomic_compare_exchange_weak_explicit|http://www.cplusplus.com/reference/atomic/atomic_compare_exchange_weak_explicit/|cpp11|Compare and exchange contained value (weak, explicit) (function)|<atomic>|header|Atomic|
+8|atomic_exchange|http://www.cplusplus.com/reference/atomic/atomic_exchange/|cpp11|Read and modify contained value (function)|<atomic>|header|Atomic|
+8|atomic_exchange_explicit|http://www.cplusplus.com/reference/atomic/atomic_exchange_explicit/|cpp11|Read  and modify contained value (explicit memory order) (function)|<atomic>|header|Atomic|
+8|atomic_fetch_add|http://www.cplusplus.com/reference/atomic/atomic_fetch_add/|cpp11|Add to contained value (function)|<atomic>|header|Atomic|
+8|atomic_fetch_add_explicit|http://www.cplusplus.com/reference/atomic/atomic_fetch_add_explicit/|cpp11|Add to contained value (explicit memory order) (function)|<atomic>|header|Atomic|
+8|atomic_fetch_and|http://www.cplusplus.com/reference/atomic/atomic_fetch_and/|cpp11|Apply bitwise AND to contained value (function)|<atomic>|header|Atomic|
+8|atomic_fetch_and_explicit|http://www.cplusplus.com/reference/atomic/atomic_fetch_and_explicit/|cpp11|Apply bitwise AND to contained value (explicit memory order) (function)|<atomic>|header|Atomic|
+8|atomic_fetch_or|http://www.cplusplus.com/reference/atomic/atomic_fetch_or/|cpp11|Apply bitwise OR to contained value (function)|<atomic>|header|Atomic|
+8|atomic_fetch_or_explicit|http://www.cplusplus.com/reference/atomic/atomic_fetch_or_explicit/|cpp11|Apply bitwise OR to contained value (explicit memory order) (function)|<atomic>|header|Atomic|
+8|atomic_fetch_sub|http://www.cplusplus.com/reference/atomic/atomic_fetch_sub/|cpp11|Subtract from contained value (function)|<atomic>|header|Atomic|
+8|atomic_fetch_sub_explicit|http://www.cplusplus.com/reference/atomic/atomic_fetch_sub_explicit/|cpp11|Subtract from contained value (explicit memory order) (function)|<atomic>|header|Atomic|
+8|atomic_fetch_xor|http://www.cplusplus.com/reference/atomic/atomic_fetch_xor/|cpp11|Apply bitwise XOR to contained value (function)|<atomic>|header|Atomic|
+8|atomic_fetch_xor_explicit|http://www.cplusplus.com/reference/atomic/atomic_fetch_xor_explicit/|cpp11|Apply bitwise XOR to contained value (explicit memory order) (function)|<atomic>|header|Atomic|
+8|atomic_flag_clear|http://www.cplusplus.com/reference/atomic/atomic_flag_clear/|cpp11|Clear atomic flag (function)|<atomic>|header|Atomic|
+8|atomic_flag_clear_explicit|http://www.cplusplus.com/reference/atomic/atomic_flag_clear_explicit/|cpp11|Clear atomic flag (explicit memory order) (function)|<atomic>|header|Atomic|
+8|atomic_flag_test_and_set|http://www.cplusplus.com/reference/atomic/atomic_flag_test_and_set/|cpp11|Test and set atomic flag (function)|<atomic>|header|Atomic|
+8|atomic_flag_test_and_set_explicit|http://www.cplusplus.com/reference/atomic/atomic_flag_test_and_set_explicit/|cpp11|Test and set atomic flag (explicit memory order) (function)|<atomic>|header|Atomic|
+8|atomic_init|http://www.cplusplus.com/reference/atomic/atomic_init/|cpp11|Initialize atomic object (function)|<atomic>|header|Atomic|
+8|atomic_is_lock_free|http://www.cplusplus.com/reference/atomic/atomic_is_lock_free/|cpp11|Is lock-free (function)|<atomic>|header|Atomic|
+8|atomic_load|http://www.cplusplus.com/reference/atomic/atomic_load/|cpp11|Read contained value (function)|<atomic>|header|Atomic|
+8|atomic_load_explicit|http://www.cplusplus.com/reference/atomic/atomic_load_explicit/|cpp11|Read contained value (explicit memory order) (function)|<atomic>|header|Atomic|
+8|atomic_store|http://www.cplusplus.com/reference/atomic/atomic_store/|cpp11|Modify contained value (function)|<atomic>|header|Atomic|
+8|atomic_store_explicit|http://www.cplusplus.com/reference/atomic/atomic_store_explicit/|cpp11|Modify contained value (explicit memory order) (function)|<atomic>|header|Atomic|
+8|condition_variable|http://www.cplusplus.com/reference/condition_variable/condition_variable/|cpp11 folder|Condition variable (class)|<condition_variable>|header|Condition variable|
+8|condition_variable_any|http://www.cplusplus.com/reference/condition_variable/condition_variable_any/|cpp11 folder|Condition variable (any lock) (class)|<condition_variable>|header|Condition variable|
+8|cv_status|http://www.cplusplus.com/reference/condition_variable/cv_status/|cpp11|Condition variable status (enum class)|<condition_variable>|header|Condition variable|
+8|notify_all_at_thread_exit|http://www.cplusplus.com/reference/condition_variable/notify_all_at_thread_exit/|cpp11|Notify all at thread exit (function)|<condition_variable>|header|Condition variable|
+8|future|http://www.cplusplus.com/reference/future/future/|cpp11 folder|Future (class template)|<future>|header|Future|
+8|future_error|http://www.cplusplus.com/reference/future/future_error/|cpp11 folder|Future error exception (class)|<future>|header|Future|
+8|packaged_task|http://www.cplusplus.com/reference/future/packaged_task/|cpp11 folder|Packaged task (class template)|<future>|header|Future|
+8|promise|http://www.cplusplus.com/reference/future/promise/|cpp11 folder|Promise (class template)|<future>|header|Future|
+8|shared_future|http://www.cplusplus.com/reference/future/shared_future/|cpp11 folder|Shared future (class template)|<future>|header|Future|
+8|future_errc|http://www.cplusplus.com/reference/future/future_errc/|cpp11 folder|Error conditions for future objects (enum class)|<future>|header|Future|
+8|future_status|http://www.cplusplus.com/reference/future/future_status/|cpp11|Return value for timed future operations (enum class)|<future>|header|Future|
+8|launch|http://www.cplusplus.com/reference/future/launch/|cpp11|Launching policy for async (enum class)|<future>|header|Future|
+8|async|http://www.cplusplus.com/reference/future/async/|cpp11|Call function asynchronously (function template)|<future>|header|Future|
+8|future_category|http://www.cplusplus.com/reference/future/future_category/|cpp11|Return future category (function)|<future>|header|Future|
+8|adopt_lock_t|http://www.cplusplus.com/reference/mutex/adopt_lock_t/|cpp11|Type of adopt_lock (class)|<mutex>|header|Mutex|
+8|defer_lock_t|http://www.cplusplus.com/reference/mutex/defer_lock_t/|cpp11|Type of defer_lock (class)|<mutex>|header|Mutex|
+8|lock_guard|http://www.cplusplus.com/reference/mutex/lock_guard/|cpp11 folder|Lock guard (class template)|<mutex>|header|Mutex|
+8|mutex|http://www.cplusplus.com/reference/mutex/mutex/|cpp11 folder|Mutex class (class)|<mutex>|header|Mutex|
+8|once_flag|http://www.cplusplus.com/reference/mutex/once_flag/|cpp11|Flag argument type for call_once (class)|<mutex>|header|Mutex|
+8|recursive_mutex|http://www.cplusplus.com/reference/mutex/recursive_mutex/|cpp11 folder|Recursive mutex class (class)|<mutex>|header|Mutex|
+8|recursive_timed_mutex|http://www.cplusplus.com/reference/mutex/recursive_timed_mutex/|cpp11 folder|Recursive timed mutex (class)|<mutex>|header|Mutex|
+8|timed_mutex|http://www.cplusplus.com/reference/mutex/timed_mutex/|cpp11 folder|Timed mutex class (class)|<mutex>|header|Mutex|
+8|try_to_lock_t|http://www.cplusplus.com/reference/mutex/try_to_lock_t/|cpp11|Type of try_to_lock (class)|<mutex>|header|Mutex|
+8|unique_lock|http://www.cplusplus.com/reference/mutex/unique_lock/|cpp11 folder|Unique lock (class template)|<mutex>|header|Mutex|
+8|call_once|http://www.cplusplus.com/reference/mutex/call_once/|cpp11|Call function once (public member function)|<mutex>|header|Mutex|
+8|lock|http://www.cplusplus.com/reference/mutex/lock/|cpp11|Lock multiple mutexes (function template)|<mutex>|header|Mutex|
+8|try_lock|http://www.cplusplus.com/reference/mutex/try_lock/|cpp11|Try to lock multiple mutexes (function template)|<mutex>|header|Mutex|
+8|adopt_lock|http://www.cplusplus.com/reference/mutex/adopt_lock/|cpp11|no-Description (other)|<mutex>|header|Mutex|
+8|defer_lock|http://www.cplusplus.com/reference/mutex/defer_lock/|cpp11|no-Description (other)|<mutex>|header|Mutex|
+8|try_to_lock|http://www.cplusplus.com/reference/mutex/try_to_lock/|cpp11|no-Description (other)|<mutex>|header|Mutex|
+8|thread|http://www.cplusplus.com/reference/thread/thread/|cpp11 folder|Thread (class)|<thread>|header|Thread|
+8|this_thread|http://www.cplusplus.com/reference/thread/this_thread/|cpp11 folder|This thread (namespace)|<thread>|header|Thread|
+8|adjacent_find|http://www.cplusplus.com/reference/algorithm/adjacent_find/|cpp98 cpp11|Find equal adjacent elements in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|all_of|http://www.cplusplus.com/reference/algorithm/all_of/|cpp11|Test condition on all elements in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|any_of|http://www.cplusplus.com/reference/algorithm/any_of/|cpp11|Test if any element in range fulfills condition (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|binary_search|http://www.cplusplus.com/reference/algorithm/binary_search/|cpp98 cpp11|Test if value exists in sorted sequence (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|copy|http://www.cplusplus.com/reference/algorithm/copy/|cpp98 cpp11|Copy range of elements (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|copy_backward|http://www.cplusplus.com/reference/algorithm/copy_backward/|cpp98 cpp11|Copy range of elements backward (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|copy_if|http://www.cplusplus.com/reference/algorithm/copy_if/|cpp11|Copy certain elements of range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|copy_n|http://www.cplusplus.com/reference/algorithm/copy_n/|cpp11|Copy elements (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|count|http://www.cplusplus.com/reference/algorithm/count/|cpp98 cpp11|Count appearances of value in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|count_if|http://www.cplusplus.com/reference/algorithm/count_if/|cpp98 cpp11|Return number of elements in range satisfying condition (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|equal|http://www.cplusplus.com/reference/algorithm/equal/|cpp98 cpp11|Test whether the elements in two ranges are equal (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|equal_range|http://www.cplusplus.com/reference/algorithm/equal_range/|cpp98 cpp11|Get subrange of equal elements (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|fill|http://www.cplusplus.com/reference/algorithm/fill/|cpp98 cpp11|Fill range with value (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|fill_n|http://www.cplusplus.com/reference/algorithm/fill_n/|cpp98 cpp11|Fill sequence with value (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|find|http://www.cplusplus.com/reference/algorithm/find/|cpp98 cpp11|Find value in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|find_end|http://www.cplusplus.com/reference/algorithm/find_end/|cpp98 cpp11|Find last subsequence in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|find_first_of|http://www.cplusplus.com/reference/algorithm/find_first_of/|cpp98 cpp11|Find element from set in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|find_if|http://www.cplusplus.com/reference/algorithm/find_if/|cpp98 cpp11|Find element in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|find_if_not|http://www.cplusplus.com/reference/algorithm/find_if_not/|cpp11|Find element in range (negative condition) (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|for_each|http://www.cplusplus.com/reference/algorithm/for_each/|cpp98 cpp11|Apply function to range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|generate|http://www.cplusplus.com/reference/algorithm/generate/|cpp98 cpp11|Generate values for range with function (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|generate_n|http://www.cplusplus.com/reference/algorithm/generate_n/|cpp98 cpp11|Generate values for sequence with function (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|includes|http://www.cplusplus.com/reference/algorithm/includes/|cpp98 cpp11|Test whether sorted range includes another sorted range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|inplace_merge|http://www.cplusplus.com/reference/algorithm/inplace_merge/|cpp98 cpp11|Merge consecutive sorted ranges (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|is_heap|http://www.cplusplus.com/reference/algorithm/is_heap/|cpp11|Test if range is heap (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|is_heap_until|http://www.cplusplus.com/reference/algorithm/is_heap_until/|cpp11|Find first element not in heap order (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|is_partitioned|http://www.cplusplus.com/reference/algorithm/is_partitioned/|cpp11|Test whether range is partitioned (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|is_permutation|http://www.cplusplus.com/reference/algorithm/is_permutation/|cpp11|Test whether range is permutation of another (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|is_sorted|http://www.cplusplus.com/reference/algorithm/is_sorted/|cpp11|Check whether range is sorted (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|is_sorted_until|http://www.cplusplus.com/reference/algorithm/is_sorted_until/|cpp11|Find first unsorted element in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|iter_swap|http://www.cplusplus.com/reference/algorithm/iter_swap/|cpp98 cpp11|Exchange values of objects pointed to by two iterators (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|lexicographical_compare|http://www.cplusplus.com/reference/algorithm/lexicographical_compare/|cpp98 cpp11|Lexicographical less-than comparison (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|lower_bound|http://www.cplusplus.com/reference/algorithm/lower_bound/|cpp98 cpp11|Return iterator to lower bound (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|make_heap|http://www.cplusplus.com/reference/algorithm/make_heap/|cpp98 cpp11|Make heap from range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|max|http://www.cplusplus.com/reference/algorithm/max/|cpp98 cpp11|Return the largest (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|max_element|http://www.cplusplus.com/reference/algorithm/max_element/|cpp98 cpp11|Return largest element in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|merge|http://www.cplusplus.com/reference/algorithm/merge/|cpp98 cpp11|Merge sorted ranges (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|min|http://www.cplusplus.com/reference/algorithm/min/|cpp98 cpp11|Return the smallest (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|minmax|http://www.cplusplus.com/reference/algorithm/minmax/|cpp11|Return smallest and largest elements (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|minmax_element|http://www.cplusplus.com/reference/algorithm/minmax_element/|cpp11|Return smallest and largest elements in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|min_element|http://www.cplusplus.com/reference/algorithm/min_element/|cpp98 cpp11|Return smallest element in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|mismatch|http://www.cplusplus.com/reference/algorithm/mismatch/|cpp98 cpp11|Return first position where two ranges differ (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|move|http://www.cplusplus.com/reference/algorithm/move/|cpp11|Move range of elements (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|move_backward|http://www.cplusplus.com/reference/algorithm/move_backward/|cpp11|Move range of elements backward (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|next_permutation|http://www.cplusplus.com/reference/algorithm/next_permutation/|cpp98 cpp11|Transform range to next permutation (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|none_of|http://www.cplusplus.com/reference/algorithm/none_of/|cpp11|Test if no elements fulfill condition (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|nth_element|http://www.cplusplus.com/reference/algorithm/nth_element/|cpp98 cpp11|Sort element in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|partial_sort|http://www.cplusplus.com/reference/algorithm/partial_sort/|cpp98 cpp11|Partially sort elements in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|partial_sort_copy|http://www.cplusplus.com/reference/algorithm/partial_sort_copy/|cpp98 cpp11|Copy and partially sort range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|partition|http://www.cplusplus.com/reference/algorithm/partition/|cpp98 cpp11|Partition range in two (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|partition_copy|http://www.cplusplus.com/reference/algorithm/partition_copy/|cpp11|Partition range into two (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|partition_point|http://www.cplusplus.com/reference/algorithm/partition_point/|cpp11|Get partition point (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|pop_heap|http://www.cplusplus.com/reference/algorithm/pop_heap/|cpp98 cpp11|Pop element from heap range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|prev_permutation|http://www.cplusplus.com/reference/algorithm/prev_permutation/|cpp98 cpp11|Transform range to previous permutation (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|push_heap|http://www.cplusplus.com/reference/algorithm/push_heap/|cpp98 cpp11|Push element into heap range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|random_shuffle|http://www.cplusplus.com/reference/algorithm/random_shuffle/|cpp98 cpp11|Randomly rearrange elements in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|remove|http://www.cplusplus.com/reference/algorithm/remove/|cpp98 cpp11|Remove value from range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|remove_copy|http://www.cplusplus.com/reference/algorithm/remove_copy/|cpp98 cpp11|Copy range removing value (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|remove_copy_if|http://www.cplusplus.com/reference/algorithm/remove_copy_if/|cpp98 cpp11|Copy range removing values (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|remove_if|http://www.cplusplus.com/reference/algorithm/remove_if/|cpp98 cpp11|Remove elements from range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|replace|http://www.cplusplus.com/reference/algorithm/replace/|cpp98 cpp11|Replace value in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|replace_copy|http://www.cplusplus.com/reference/algorithm/replace_copy/|cpp98 cpp11|Copy range replacing value (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|replace_copy_if|http://www.cplusplus.com/reference/algorithm/replace_copy_if/|cpp98 cpp11|Copy range replacing value (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|replace_if|http://www.cplusplus.com/reference/algorithm/replace_if/|cpp98 cpp11|Replace values in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|reverse|http://www.cplusplus.com/reference/algorithm/reverse/|cpp98 cpp11|Reverse range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|reverse_copy|http://www.cplusplus.com/reference/algorithm/reverse_copy/|cpp98 cpp11|Copy range reversed (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|rotate|http://www.cplusplus.com/reference/algorithm/rotate/|cpp98 cpp11|Rotate left the elements in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|rotate_copy|http://www.cplusplus.com/reference/algorithm/rotate_copy/|cpp98 cpp11|Copy range rotated left (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|search|http://www.cplusplus.com/reference/algorithm/search/|cpp98 cpp11|Search range for subsequence (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|search_n|http://www.cplusplus.com/reference/algorithm/search_n/|cpp98 cpp11|Search range for elements (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|set_difference|http://www.cplusplus.com/reference/algorithm/set_difference/|cpp98 cpp11|Difference of two sorted ranges (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|set_intersection|http://www.cplusplus.com/reference/algorithm/set_intersection/|cpp98 cpp11|Intersection of two sorted ranges (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|set_symmetric_difference|http://www.cplusplus.com/reference/algorithm/set_symmetric_difference/|cpp98 cpp11|Symmetric difference of two sorted ranges (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|set_union|http://www.cplusplus.com/reference/algorithm/set_union/|cpp98 cpp11|Union of two sorted ranges (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|shuffle|http://www.cplusplus.com/reference/algorithm/shuffle/|cpp11|Randomly rearrange elements in range using generator (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|sort|http://www.cplusplus.com/reference/algorithm/sort/|cpp98 cpp11|Sort elements in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|sort_heap|http://www.cplusplus.com/reference/algorithm/sort_heap/|cpp98 cpp11|Sort elements of heap (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|stable_partition|http://www.cplusplus.com/reference/algorithm/stable_partition/|cpp98 cpp11|Partition range in two - stable ordering (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|stable_sort|http://www.cplusplus.com/reference/algorithm/stable_sort/|cpp98 cpp11|Sort elements preserving order of equivalents (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|swap|http://www.cplusplus.com/reference/algorithm/swap/|cpp98 cpp11|Exchange values of two objects (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|swap_ranges|http://www.cplusplus.com/reference/algorithm/swap_ranges/|cpp98 cpp11|Exchange values of two ranges (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|transform|http://www.cplusplus.com/reference/algorithm/transform/|cpp98 cpp11|Transform range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|unique|http://www.cplusplus.com/reference/algorithm/unique/|cpp98 cpp11|Remove consecutive duplicates in range (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|unique_copy|http://www.cplusplus.com/reference/algorithm/unique_copy/|cpp98 cpp11|Copy range removing duplicates (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|upper_bound|http://www.cplusplus.com/reference/algorithm/upper_bound/|cpp98 cpp11|Return iterator to upper bound (function template)|<algorithm>|library |Standard Template Library: Algorithms|
+8|bitset|http://www.cplusplus.com/reference/bitset/bitset/|cpp98 cpp11 folder|Bitset (class template)|<bitset>|header|Bitset header|
+8|common_type (duration)|http://www.cplusplus.com/reference/chrono/common_type/|cpp11|Specialization of common_type for duration (class template)|<chrono>|header|Time library|
+8|common_type (time_point)|http://www.cplusplus.com/reference/chrono/common_type_time_point/|cpp11|no-Description (other)|<chrono>|header|Time library|
+8|duration|http://www.cplusplus.com/reference/chrono/duration/|cpp11 folder|Duration (class template)|<chrono>|header|Time library|
+8|duration_values|http://www.cplusplus.com/reference/chrono/duration_values/|cpp11 folder|Duration values (class template)|<chrono>|header|Time library|
+8|high_resolution_clock|http://www.cplusplus.com/reference/chrono/high_resolution_clock/|cpp11 folder|High resolution clock (class)|<chrono>|header|Time library|
+8|steady_clock|http://www.cplusplus.com/reference/chrono/steady_clock/|cpp11 folder|Steady clock (class)|<chrono>|header|Time library|
+8|system_clock|http://www.cplusplus.com/reference/chrono/system_clock/|cpp11 folder|System clock (class)|<chrono>|header|Time library|
+8|time_point|http://www.cplusplus.com/reference/chrono/time_point/|cpp11 folder|Time point (class template)|<chrono>|header|Time library|
+8|treat_as_floating_point|http://www.cplusplus.com/reference/chrono/treat_as_floating_point/|cpp11|Treat as floating point (class template)|<chrono>|header|Time library|
+8|duration_cast|http://www.cplusplus.com/reference/chrono/duration_cast/|cpp11|Duration cast (function template)|<chrono>|header|Time library|
+8|time_point_cast|http://www.cplusplus.com/reference/chrono/time_point_cast/|cpp11|Time_point cast (function template)|<chrono>|header|Time library|
+8|hours|http://www.cplusplus.com/reference/chrono/hours/|cpp11|Duration in hours (class)|<chrono>|header|Time library|
+8|microseconds|http://www.cplusplus.com/reference/chrono/microseconds/|cpp11|Duration in microseconds (class)|<chrono>|header|Time library|
+8|milliseconds|http://www.cplusplus.com/reference/chrono/milliseconds/|cpp11|Duration in milliseconds (class)|<chrono>|header|Time library|
+8|minutes|http://www.cplusplus.com/reference/chrono/minutes/|cpp11|Duration in minutes (class)|<chrono>|header|Time library|
+8|nanoseconds|http://www.cplusplus.com/reference/chrono/nanoseconds/|cpp11|Duration in nanoseconds (class)|<chrono>|header|Time library|
+8|seconds|http://www.cplusplus.com/reference/chrono/seconds/|cpp11|Duration in seconds (class)|<chrono>|header|Time library|
+8|codecvt_utf16|http://www.cplusplus.com/reference/codecvt/codecvt_utf16/|cpp11|Convert UTF-16 (class template)|<codecvt>|header|Unicode conversion facets|
+8|codecvt_utf8|http://www.cplusplus.com/reference/codecvt/codecvt_utf8/|cpp11|Convert UTF-8 (class template)|<codecvt>|header|Unicode conversion facets|
+8|codecvt_utf8_utf16|http://www.cplusplus.com/reference/codecvt/codecvt_utf8_utf16/|cpp11|Convert between UTF-8 and UTF-16 (class template)|<codecvt>|header|Unicode conversion facets|
+8|codecvt_mode|http://www.cplusplus.com/reference/codecvt/codecvt_mode/|cpp11|Codecvt mode (enum)|<codecvt>|header|Unicode conversion facets|
+8|complex|http://www.cplusplus.com/reference/complex/complex/|cpp98 cpp11 folder|Complex number class (class template)|<complex>|header|Complex numbers library|
+8|abs|http://www.cplusplus.com/reference/complex/abs/|cpp98 cpp11|Absolute value of complex (function template)|<complex>|header|Complex numbers library|
+8|acos|http://www.cplusplus.com/reference/complex/acos/|cpp11|Arc cosine of complex (function template)|<complex>|header|Complex numbers library|
+8|acosh|http://www.cplusplus.com/reference/complex/acosh/|cpp11|Arc hyperbolic cosine of complex (function template)|<complex>|header|Complex numbers library|
+8|arg|http://www.cplusplus.com/reference/complex/arg/|cpp98 cpp11|Phase angle of complex (function template)|<complex>|header|Complex numbers library|
+8|asin|http://www.cplusplus.com/reference/complex/asin/|cpp11|Arc sine of complex (function template)|<complex>|header|Complex numbers library|
+8|asinh|http://www.cplusplus.com/reference/complex/asinh/|cpp11|Arc hyperbolic sine of complex (function template)|<complex>|header|Complex numbers library|
+8|atan|http://www.cplusplus.com/reference/complex/atan/|cpp11|Arc tangent of complex (function template)|<complex>|header|Complex numbers library|
+8|atanh|http://www.cplusplus.com/reference/complex/atanh/|cpp11|Arc hyperbolic tangent of complex (function template)|<complex>|header|Complex numbers library|
+8|conj|http://www.cplusplus.com/reference/complex/conj/|cpp98 cpp11|Complex conjugate (function template)|<complex>|header|Complex numbers library|
+8|cos|http://www.cplusplus.com/reference/complex/cos/|cpp98 cpp11|Cosine of complex (function template)|<complex>|header|Complex numbers library|
+8|cosh|http://www.cplusplus.com/reference/complex/cosh/|cpp98 cpp11|Hyperbolic cosine of complex (function template)|<complex>|header|Complex numbers library|
+8|exp|http://www.cplusplus.com/reference/complex/exp/|cpp98 cpp11|Exponential of complex (function template)|<complex>|header|Complex numbers library|
+8|imag|http://www.cplusplus.com/reference/complex/imag/|cpp98 cpp11|Imaginary part of complex (function template)|<complex>|header|Complex numbers library|
+8|log|http://www.cplusplus.com/reference/complex/log/|cpp98 cpp11|Natural logarithm of complex (function template)|<complex>|header|Complex numbers library|
+8|log10|http://www.cplusplus.com/reference/complex/log10/|cpp98 cpp11|Common logarithm of complex (function template)|<complex>|header|Complex numbers library|
+8|norm|http://www.cplusplus.com/reference/complex/norm/|cpp98 cpp11|Norm of complex (function template)|<complex>|header|Complex numbers library|
+8|polar|http://www.cplusplus.com/reference/complex/polar/|cpp98 cpp11|Complex from polar components (function template)|<complex>|header|Complex numbers library|
+8|pow|http://www.cplusplus.com/reference/complex/pow/|cpp98 cpp11|Power of complex (function template)|<complex>|header|Complex numbers library|
+8|proj|http://www.cplusplus.com/reference/complex/proj/|cpp11|Complex projection. (function template)|<complex>|header|Complex numbers library|
+8|real|http://www.cplusplus.com/reference/complex/real/|cpp98 cpp11|Real part of complex (function template)|<complex>|header|Complex numbers library|
+8|sin|http://www.cplusplus.com/reference/complex/sin/|cpp98 cpp11|Sine of complex (function template)|<complex>|header|Complex numbers library|
+8|sinh|http://www.cplusplus.com/reference/complex/sinh/|cpp98 cpp11|Hyperbolic sine of complex (function template)|<complex>|header|Complex numbers library|
+8|sqrt|http://www.cplusplus.com/reference/complex/sqrt/|cpp98 cpp11|Square root of complex (function template)|<complex>|header|Complex numbers library|
+8|tan|http://www.cplusplus.com/reference/complex/tan/|cpp98 cpp11|Tangent of complex (function template)|<complex>|header|Complex numbers library|
+8|tanh|http://www.cplusplus.com/reference/complex/tanh/|cpp98 cpp11|Hyperbolic tangent of complex (function template)|<complex>|header|Complex numbers library|
+8|current_exception|http://www.cplusplus.com/reference/exception/current_exception/|cpp11|Get smart pointer to current exception (function)|<exception>|header|Standard exceptions|
+8|get_terminate|http://www.cplusplus.com/reference/exception/get_terminate/|cpp11|Get terminate handler function (function)|<exception>|header|Standard exceptions|
+8|get_unexpected|http://www.cplusplus.com/reference/exception/get_unexpected/|cpp11|Get unexpected handler function (function)|<exception>|header|Standard exceptions|
+8|make_exception_ptr|http://www.cplusplus.com/reference/exception/make_exception_ptr/|cpp11|Make exception_ptr (function template)|<exception>|header|Standard exceptions|
+8|rethrow_exception|http://www.cplusplus.com/reference/exception/rethrow_exception/|cpp11|Rethrow exception (function)|<exception>|header|Standard exceptions|
+8|rethrow_if_nested|http://www.cplusplus.com/reference/exception/rethrow_if_nested/|cpp11|Rethrow if nested (function)|<exception>|header|Standard exceptions|
+8|set_terminate|http://www.cplusplus.com/reference/exception/set_terminate/|cpp98 cpp11|Set terminate handler function (function)|<exception>|header|Standard exceptions|
+8|set_unexpected|http://www.cplusplus.com/reference/exception/set_unexpected/|cpp98 cpp11|Set unexpected handler function (function)|<exception>|header|Standard exceptions|
+8|terminate|http://www.cplusplus.com/reference/exception/terminate/|cpp98 cpp11|Function handling termination on exception (function)|<exception>|header|Standard exceptions|
+8|throw_with_nested|http://www.cplusplus.com/reference/exception/throw_with_nested/|cpp11|Throw with nested (function)|<exception>|header|Standard exceptions|
+8|uncaught_exception|http://www.cplusplus.com/reference/exception/uncaught_exception/|cpp98 cpp11|Return exception status (function)|<exception>|header|Standard exceptions|
+8|unexpected|http://www.cplusplus.com/reference/exception/unexpected/|cpp98 cpp11|Function handling unexpected exceptions (function)|<exception>|header|Standard exceptions|
+8|bad_exception|http://www.cplusplus.com/reference/exception/bad_exception/|cpp98 cpp11|Exception thrown by unexpected handler (class)|<exception>|header|Standard exceptions|
+8|exception|http://www.cplusplus.com/reference/exception/exception/|cpp98 cpp11 folder|Standard exception class (class)|<exception>|header|Standard exceptions|
+8|exception_ptr|http://www.cplusplus.com/reference/exception/exception_ptr/|cpp11|Exception pointer (type)|<exception>|header|Standard exceptions|
+8|nested_exception|http://www.cplusplus.com/reference/exception/nested_exception/|cpp11 folder|Nested exception class (class)|<exception>|header|Standard exceptions|
+8|terminate_handler|http://www.cplusplus.com/reference/exception/terminate_handler/|cpp98 cpp11|Type of terminate handler function (type)|<exception>|header|Standard exceptions|
+8|unexpected_handler|http://www.cplusplus.com/reference/exception/unexpected_handler/|cpp98 cpp11|Type of unexpected handler function (type)|<exception>|header|Standard exceptions|
+8|bind|http://www.cplusplus.com/reference/functional/bind/|cpp11|Bind function arguments (function template)|<functional>|header|Function objects|
+8|cref|http://www.cplusplus.com/reference/functional/cref/|cpp11|Construct reference_wrapper to const (function template)|<functional>|header|Function objects|
+8|mem_fn|http://www.cplusplus.com/reference/functional/mem_fn/|cpp11|Convert member function to function object (function template)|<functional>|header|Function objects|
+8|not1|http://www.cplusplus.com/reference/functional/not1/|cpp98 cpp11|Return negation of unary function object (function template)|<functional>|header|Function objects|
+8|not2|http://www.cplusplus.com/reference/functional/not2/|cpp98 cpp11|Return negation of binary function object (function template)|<functional>|header|Function objects|
+8|ref|http://www.cplusplus.com/reference/functional/ref/|cpp11|Construct reference_wrapper (function template)|<functional>|header|Function objects|
+8|binary_negate|http://www.cplusplus.com/reference/functional/binary_negate/|cpp98 cpp11|Negate binary function object class (class template)|<functional>|header|Function objects|
+8|function|http://www.cplusplus.com/reference/functional/function/|cpp11 folder|Function wrapper (class template)|<functional>|header|Function objects|
+8|reference_wrapper|http://www.cplusplus.com/reference/functional/reference_wrapper/|cpp11 folder|Reference wrapper (class template)|<functional>|header|Function objects|
+8|unary_negate|http://www.cplusplus.com/reference/functional/unary_negate/|cpp98 cpp11|Negate unary function object class (class template)|<functional>|header|Function objects|
+8|bit_and|http://www.cplusplus.com/reference/functional/bit_and/|cpp11|Bitwise AND function object class (class template)|<functional>|header|Function objects|
+8|bit_or|http://www.cplusplus.com/reference/functional/bit_or/|cpp11|Bitwise OR function object class (class template)|<functional>|header|Function objects|
+8|bit_xor|http://www.cplusplus.com/reference/functional/bit_xor/|cpp11|Bitwise XOR function object class (class template)|<functional>|header|Function objects|
+8|divides|http://www.cplusplus.com/reference/functional/divides/|cpp98 cpp11|Division function object class (class template)|<functional>|header|Function objects|
+8|equal_to|http://www.cplusplus.com/reference/functional/equal_to/|cpp98 cpp11|Function object class for equality comparison (class template)|<functional>|header|Function objects|
+8|greater|http://www.cplusplus.com/reference/functional/greater/|cpp98 cpp11|Function object class for greater-than inequality comparison (class template)|<functional>|header|Function objects|
+8|greater_equal|http://www.cplusplus.com/reference/functional/greater_equal/|cpp98 cpp11|Function object class for greater-than-or-equal-to comparison (class template)|<functional>|header|Function objects|
+8|less|http://www.cplusplus.com/reference/functional/less/|cpp98 cpp11|Function object class for less-than inequality comparison (class template)|<functional>|header|Function objects|
+8|less_equal|http://www.cplusplus.com/reference/functional/less_equal/|cpp98 cpp11|Function object class for less-than-or-equal-to comparison (class template)|<functional>|header|Function objects|
+8|logical_and|http://www.cplusplus.com/reference/functional/logical_and/|cpp98 cpp11|Logical AND function object class (class template)|<functional>|header|Function objects|
+8|logical_not|http://www.cplusplus.com/reference/functional/logical_not/|cpp98 cpp11|Logical NOT function object class (class template)|<functional>|header|Function objects|
+8|logical_or|http://www.cplusplus.com/reference/functional/logical_or/|cpp98 cpp11|Logical OR function object class (class template)|<functional>|header|Function objects|
+8|minus|http://www.cplusplus.com/reference/functional/minus/|cpp98 cpp11|Subtraction function object class (class template)|<functional>|header|Function objects|
+8|modulus|http://www.cplusplus.com/reference/functional/modulus/|cpp98 cpp11|Modulus function object class (class template)|<functional>|header|Function objects|
+8|multiplies|http://www.cplusplus.com/reference/functional/multiplies/|cpp98 cpp11|Multiplication function object class (class template)|<functional>|header|Function objects|
+8|negate|http://www.cplusplus.com/reference/functional/negate/|cpp98 cpp11|Negative function object class (class template)|<functional>|header|Function objects|
+8|not_equal_to|http://www.cplusplus.com/reference/functional/not_equal_to/|cpp98 cpp11|Function object class for non-equality comparison (class template)|<functional>|header|Function objects|
+8|plus|http://www.cplusplus.com/reference/functional/plus/|cpp98 cpp11|Addition function object class (class template)|<functional>|header|Function objects|
+8|bad_function_call|http://www.cplusplus.com/reference/functional/bad_function_call/|cpp11|Exception thrown on bad call (class)|<functional>|header|Function objects|
+8|hash|http://www.cplusplus.com/reference/functional/hash/|cpp11|Default hash function object class (class template)|<functional>|header|Function objects|
+8|is_bind_expression|http://www.cplusplus.com/reference/functional/is_bind_expression/|cpp11|Is bind expression (class template)|<functional>|header|Function objects|
+8|is_placeholder|http://www.cplusplus.com/reference/functional/is_placeholder/|cpp11|Is placeholder (class template)|<functional>|header|Function objects|
+8|placeholders|http://www.cplusplus.com/reference/functional/placeholders/|cpp11|Bind argument placeholders (namespace)|<functional>|header|Function objects|
+8|binary_function|http://www.cplusplus.com/reference/functional/binary_function/|cpp98 cpp11|Binary function object base class (class template)|<functional>|header|Function objects|
+8|bind1st|http://www.cplusplus.com/reference/functional/bind1st/|cpp98 cpp11|Return function object with first parameter bound (function template)|<functional>|header|Function objects|
+8|bind2nd|http://www.cplusplus.com/reference/functional/bind2nd/|cpp98 cpp11|Return function object with second parameter bound (function template)|<functional>|header|Function objects|
+8|binder1st|http://www.cplusplus.com/reference/functional/binder1st/|cpp98 cpp11|Generate function object class with 1st parameter bound (class template)|<functional>|header|Function objects|
+8|binder2nd|http://www.cplusplus.com/reference/functional/binder2nd/|cpp98 cpp11|Generate function object class with 2nd parameter bound (class template)|<functional>|header|Function objects|
+8|const_mem_fun1_ref_t|http://www.cplusplus.com/reference/functional/const_mem_fun1_ref_t/|cpp98 cpp11|Generate function object class from single-parameter const member (reference version) (class template)|<functional>|header|Function objects|
+8|const_mem_fun1_t|http://www.cplusplus.com/reference/functional/const_mem_fun1_t/|cpp98 cpp11|Generate function object class from single-parameter const member (pointer version) (class template)|<functional>|header|Function objects|
+8|const_mem_fun_ref_t|http://www.cplusplus.com/reference/functional/const_mem_fun_ref_t/|cpp98 cpp11|Generate function object class from const parameterless member (reference version) (class template)|<functional>|header|Function objects|
+8|const_mem_fun_t|http://www.cplusplus.com/reference/functional/const_mem_fun_t/|cpp98 cpp11|Generate function object class from const parameterless member (pointer version) (class template)|<functional>|header|Function objects|
+8|mem_fun|http://www.cplusplus.com/reference/functional/mem_fun/|cpp98 cpp11|Convert member function to function object (pointer version) (function template)|<functional>|header|Function objects|
+8|mem_fun1_ref_t|http://www.cplusplus.com/reference/functional/mem_fun1_ref_t/|cpp98 cpp11|Generate function object class from single-parameter member (reference version) (class template)|<functional>|header|Function objects|
+8|mem_fun1_t|http://www.cplusplus.com/reference/functional/mem_fun1_t/|cpp98 cpp11|Generate function object class from single-parameter member (pointer version) (class template)|<functional>|header|Function objects|
+8|mem_fun_ref|http://www.cplusplus.com/reference/functional/mem_fun_ref/|cpp98 cpp11|Convert member function to function object (reference version) (function template)|<functional>|header|Function objects|
+8|mem_fun_ref_t|http://www.cplusplus.com/reference/functional/mem_fun_ref_t/|cpp98 cpp11|Generate function object class from parameterless member (reference version) (class template)|<functional>|header|Function objects|
+8|mem_fun_t|http://www.cplusplus.com/reference/functional/mem_fun_t/|cpp98 cpp11|Generate function object class from parameterless member (pointer version) (class template)|<functional>|header|Function objects|
+8|pointer_to_binary_function|http://www.cplusplus.com/reference/functional/pointer_to_binary_function/|cpp98 cpp11|Generate binary function object class from pointer (class template)|<functional>|header|Function objects|
+8|pointer_to_unary_function|http://www.cplusplus.com/reference/functional/pointer_to_unary_function/|cpp98 cpp11|Generate unary function object class from pointer (class template)|<functional>|header|Function objects|
+8|ptr_fun|http://www.cplusplus.com/reference/functional/ptr_fun/|cpp98 cpp11|Convert function pointer to function object (function template)|<functional>|header|Function objects|
+8|unary_function|http://www.cplusplus.com/reference/functional/unary_function/|cpp98 cpp11|Unary function object base class (class template)|<functional>|header|Function objects|
+8|initializer_list|http://www.cplusplus.com/reference/initializer_list/initializer_list/|cpp11 folder|Initializer list (class template)|<initializer_list>|header|Initializer list|
+8|iterator|http://www.cplusplus.com/reference/iterator/iterator/|cpp98 cpp11|Iterator base class (class template)|<iterator>|header|Iterator definitions|
+8|iterator_traits|http://www.cplusplus.com/reference/iterator/iterator_traits/|cpp98 cpp11|Iterator traits (class template)|<iterator>|header|Iterator definitions|
+8|advance|http://www.cplusplus.com/reference/iterator/advance/|cpp98 cpp11|Advance iterator (function template)|<iterator>|header|Iterator definitions|
+8|back_inserter|http://www.cplusplus.com/reference/iterator/back_inserter/|cpp98 cpp11|Construct back insert iterator (function template)|<iterator>|header|Iterator definitions|
+8|begin|http://www.cplusplus.com/reference/iterator/begin/|cpp11|Iterator to beginning (function template)|<iterator>|header|Iterator definitions|
+8|distance|http://www.cplusplus.com/reference/iterator/distance/|cpp98 cpp11|Return distance between iterators (function template)|<iterator>|header|Iterator definitions|
+8|end|http://www.cplusplus.com/reference/iterator/end/|cpp11|Iterator to end (function template)|<iterator>|header|Iterator definitions|
+8|front_inserter|http://www.cplusplus.com/reference/iterator/front_inserter/|cpp98 cpp11|Constructs front insert iterator (function template)|<iterator>|header|Iterator definitions|
+8|inserter|http://www.cplusplus.com/reference/iterator/inserter/|cpp98 cpp11|Construct insert iterator (function template)|<iterator>|header|Iterator definitions|
+8|make_move_iterator|http://www.cplusplus.com/reference/iterator/make_move_iterator/|cpp11|Construct move iterator (function template)|<iterator>|header|Iterator definitions|
+8|next|http://www.cplusplus.com/reference/iterator/next/|cpp11|Get iterator to next element (function template)|<iterator>|header|Iterator definitions|
+8|prev|http://www.cplusplus.com/reference/iterator/prev/|cpp11|Get iterator to previous element (function template)|<iterator>|header|Iterator definitions|
+8|bidirectional_iterator_tag|http://www.cplusplus.com/reference/iterator/BidirectionalIterator/|cpp98 cpp11|Bidirectional iterator category (class)|<iterator>|header|Iterator definitions|
+8|forward_iterator_tag|http://www.cplusplus.com/reference/iterator/ForwardIterator/|cpp98 cpp11|Forward iterator category (class)|<iterator>|header|Iterator definitions|
+8|input_iterator_tag|http://www.cplusplus.com/reference/iterator/InputIterator/|cpp98 cpp11|Input iterator category (class)|<iterator>|header|Iterator definitions|
+8|output_iterator_tag|http://www.cplusplus.com/reference/iterator/OutputIterator/|cpp98 cpp11|Output iterator category (class)|<iterator>|header|Iterator definitions|
+8|random_access_iterator_tag|http://www.cplusplus.com/reference/iterator/RandomAccessIterator/|cpp98 cpp11|Random-access iterator category (class)|<iterator>|header|Iterator definitions|
+8|back_insert_iterator|http://www.cplusplus.com/reference/iterator/back_insert_iterator/|cpp98 cpp11|Back insert iterator (class template)|<iterator>|header|Iterator definitions|
+8|front_insert_iterator|http://www.cplusplus.com/reference/iterator/front_insert_iterator/|cpp98 cpp11|Front insert iterator (class template)|<iterator>|header|Iterator definitions|
+8|insert_iterator|http://www.cplusplus.com/reference/iterator/insert_iterator/|cpp98 cpp11|Insert iterator (class template)|<iterator>|header|Iterator definitions|
+8|istreambuf_iterator|http://www.cplusplus.com/reference/iterator/istreambuf_iterator/|cpp98 cpp11|Input stream buffer iterator (class template)|<iterator>|header|Iterator definitions|
+8|istream_iterator|http://www.cplusplus.com/reference/iterator/istream_iterator/|cpp98 cpp11 folder|Istream iterator (class template)|<iterator>|header|Iterator definitions|
+8|move_iterator|http://www.cplusplus.com/reference/iterator/move_iterator/|cpp11 folder|Move iterator (class template)|<iterator>|header|Iterator definitions|
+8|ostreambuf_iterator|http://www.cplusplus.com/reference/iterator/ostreambuf_iterator/|cpp98 cpp11|Output stream buffer iterator (class template)|<iterator>|header|Iterator definitions|
+8|ostream_iterator|http://www.cplusplus.com/reference/iterator/ostream_iterator/|cpp98 cpp11 folder|Ostream iterator (class template)|<iterator>|header|Iterator definitions|
+8|reverse_iterator|http://www.cplusplus.com/reference/iterator/reverse_iterator/|cpp98 cpp11 folder|Reverse iterator (class template)|<iterator>|header|Iterator definitions|
+8|float_denorm_style|http://www.cplusplus.com/reference/limits/float_denorm_style/|cpp98 cpp11|Enum type for float denormalization style (type)|<limits>|header|Numeric limits|
+8|float_round_style|http://www.cplusplus.com/reference/limits/float_round_style/|cpp98 cpp11|Enum type for float rounding style (type)|<limits>|header|Numeric limits|
+8|numeric_limits|http://www.cplusplus.com/reference/limits/numeric_limits/|cpp98 cpp11|Numeric limits type (class template)|<limits>|header|Numeric limits|
+8|has_facet|http://www.cplusplus.com/reference/locale/has_facet/|cpp98 cpp11|Check if locale has facet (function template)|<locale>|header|Localization library|
+8|locale|http://www.cplusplus.com/reference/locale/locale/|cpp98 cpp11 folder|Locale class (class)|<locale>|header|Localization library|
+8|use_facet|http://www.cplusplus.com/reference/locale/use_facet/|cpp98 cpp11|Access facet of locale (function template)|<locale>|header|Localization library|
+8|wbuffer_convert|http://www.cplusplus.com/reference/locale/wbuffer_convert/|cpp11 folder|no-Description (other)|<locale>|header|Localization library|
+8|wstring_convert|http://www.cplusplus.com/reference/locale/wstring_convert/|cpp11 folder|no-Description (other)|<locale>|header|Localization library|
+8|isalnum|http://www.cplusplus.com/reference/locale/isalnum/|cpp98 cpp11|no-Description (other)|<locale>|header|Localization library|
+8|isalpha|http://www.cplusplus.com/reference/locale/isalpha/|cpp98 cpp11|no-Description (other)|<locale>|header|Localization library|
+8|isblank|http://www.cplusplus.com/reference/locale/isblank/|cpp11|no-Description (other)|<locale>|header|Localization library|
+8|iscntrl|http://www.cplusplus.com/reference/locale/iscntrl/|cpp98 cpp11|no-Description (other)|<locale>|header|Localization library|
+8|isdigit|http://www.cplusplus.com/reference/locale/isdigit/|cpp98 cpp11|no-Description (other)|<locale>|header|Localization library|
+8|isgraph|http://www.cplusplus.com/reference/locale/isgraph/|cpp98 cpp11|no-Description (other)|<locale>|header|Localization library|
+8|islower|http://www.cplusplus.com/reference/locale/islower/|cpp98 cpp11|no-Description (other)|<locale>|header|Localization library|
+8|isprint|http://www.cplusplus.com/reference/locale/isprint/|cpp98 cpp11|no-Description (other)|<locale>|header|Localization library|
+8|ispunct|http://www.cplusplus.com/reference/locale/ispunct/|cpp98 cpp11|no-Description (other)|<locale>|header|Localization library|
+8|isspace|http://www.cplusplus.com/reference/locale/isspace/|cpp98 cpp11|no-Description (other)|<locale>|header|Localization library|
+8|isupper|http://www.cplusplus.com/reference/locale/isupper/|cpp98 cpp11|no-Description (other)|<locale>|header|Localization library|
+8|isxdigit|http://www.cplusplus.com/reference/locale/isxdigit/|cpp98 cpp11|no-Description (other)|<locale>|header|Localization library|
+8|tolower|http://www.cplusplus.com/reference/locale/tolower/|cpp98 cpp11|no-Description (other)|<locale>|header|Localization library|
+8|toupper|http://www.cplusplus.com/reference/locale/toupper/|cpp98 cpp11|no-Description (other)|<locale>|header|Localization library|
+8|codecvt|http://www.cplusplus.com/reference/locale/codecvt/|cpp98 cpp11 folder|Convert codeset facet (class template)|<locale>|header|Localization library|
+8|codecvt_base|http://www.cplusplus.com/reference/locale/codecvt_base/|cpp98 cpp11|Base class for codecvt (class)|<locale>|header|Localization library|
+8|codecvt_byname|http://www.cplusplus.com/reference/locale/codecvt_byname/|cpp98 cpp11|Convert codeset facet (class template)|<locale>|header|Localization library|
+8|collate|http://www.cplusplus.com/reference/locale/collate/|cpp98 cpp11 folder|Facet to compare and hash strings (class template)|<locale>|header|Localization library|
+8|collate_byname|http://www.cplusplus.com/reference/locale/collate_byname/|cpp98 cpp11|Facet to compare and hash strings (class template)|<locale>|header|Localization library|
+8|ctype|http://www.cplusplus.com/reference/locale/ctype/|cpp98 cpp11 folder|Character type facet (class template)|<locale>|header|Localization library|
+8|ctype_base|http://www.cplusplus.com/reference/locale/ctype_base/|cpp98 cpp11|Base class for ctype (class)|<locale>|header|Localization library|
+8|ctype_byname|http://www.cplusplus.com/reference/locale/ctype_byname/|cpp98 cpp11|Character type facet (class template)|<locale>|header|Localization library|
+8|messages|http://www.cplusplus.com/reference/locale/messages/|cpp98 cpp11 folder|Facet to access message catalogs (class template)|<locale>|header|Localization library|
+8|messages_base|http://www.cplusplus.com/reference/locale/messages_base/|cpp98 cpp11|no-Description (other)|<locale>|header|Localization library|
+8|messages_byname|http://www.cplusplus.com/reference/locale/messages_byname/|cpp98 cpp11|Facet to access message catalogs  (class template)|<locale>|header|Localization library|
+8|moneypunct|http://www.cplusplus.com/reference/locale/moneypunct/|cpp98 cpp11 folder|Monetary punctuation facet (class template)|<locale>|header|Localization library|
+8|moneypunct_byname|http://www.cplusplus.com/reference/locale/moneypunct_byname/|cpp98 cpp11|Monetary punctuation facet (class template)|<locale>|header|Localization library|
+8|money_base|http://www.cplusplus.com/reference/locale/money_base/|cpp98 cpp11|Base class for moneypunct (class)|<locale>|header|Localization library|
+8|money_get|http://www.cplusplus.com/reference/locale/money_get/|cpp98 cpp11 folder|Facet to parse monetary expressions (class template)|<locale>|header|Localization library|
+8|money_put|http://www.cplusplus.com/reference/locale/money_put/|cpp98 cpp11 folder|Facet to format monetary expressions (class template)|<locale>|header|Localization library|
+8|numpunct|http://www.cplusplus.com/reference/locale/numpunct/|cpp98 cpp11 folder|Numeric punctuation facet (class template)|<locale>|header|Localization library|
+8|numpunct_byname|http://www.cplusplus.com/reference/locale/numpunct_byname/|cpp98 cpp11|Numeric puntuation facet (class template)|<locale>|header|Localization library|
+8|num_get|http://www.cplusplus.com/reference/locale/num_get/|cpp98 cpp11 folder|Facet to parse numeric values (class template)|<locale>|header|Localization library|
+8|num_put|http://www.cplusplus.com/reference/locale/num_put/|cpp98 cpp11 folder|Facet to format numeric values (class template)|<locale>|header|Localization library|
+8|time_base|http://www.cplusplus.com/reference/locale/time_base/|cpp98 cpp11|Base class for time_get (class)|<locale>|header|Localization library|
+8|time_get|http://www.cplusplus.com/reference/locale/time_get/|cpp98 cpp11 folder|Facet to parse dates and times (class template)|<locale>|header|Localization library|
+8|time_get_byname|http://www.cplusplus.com/reference/locale/time_get_byname/|cpp98 cpp11|Facet to parse dates and times (class template)|<locale>|header|Localization library|
+8|time_put|http://www.cplusplus.com/reference/locale/time_put/|cpp98 cpp11 folder|Facet to format dates and times (class template)|<locale>|header|Localization library|
+8|time_put_byname|http://www.cplusplus.com/reference/locale/time_put_byname/|cpp98 cpp11|Facet to format dates and times (class template)|<locale>|header|Localization library|
+8|allocator|http://www.cplusplus.com/reference/memory/allocator/|cpp98 cpp11 folder|Default allocator (class template)|<memory>|header|Memory elements|
+8|allocator_arg_t|http://www.cplusplus.com/reference/memory/allocator_arg_t/|cpp11|Allocator arg type (class)|<memory>|header|Memory elements|
+8|allocator_traits|http://www.cplusplus.com/reference/memory/allocator_traits/|cpp11 folder|Allocator traits (class template)|<memory>|header|Memory elements|
+8|auto_ptr|http://www.cplusplus.com/reference/memory/auto_ptr/|cpp98 cpp11 folder|Automatic Pointer [deprecated] (class template)|<memory>|header|Memory elements|
+8|auto_ptr_ref|http://www.cplusplus.com/reference/memory/auto_ptr_ref/|cpp98 cpp11|Reference to automatic pointer (class template)|<memory>|header|Memory elements|
+8|bad_weak_ptr|http://www.cplusplus.com/reference/memory/bad_weak_ptr/|cpp11 folder|no-Description (other)|<memory>|header|Memory elements|
+8|default_delete|http://www.cplusplus.com/reference/memory/default_delete/|cpp11 folder|Default deleter (class template)|<memory>|header|Memory elements|
+8|enable_shared_from_this|http://www.cplusplus.com/reference/memory/enable_shared_from_this/|cpp11 folder|Enable shared_from_this (class template)|<memory>|header|Memory elements|
+8|owner_less|http://www.cplusplus.com/reference/memory/owner_less/|cpp11|Owner-based less-than operation (class template)|<memory>|header|Memory elements|
+8|pointer_traits|http://www.cplusplus.com/reference/memory/pointer_traits/|cpp11 folder|Pointer traits (class template)|<memory>|header|Memory elements|
+8|raw_storage_iterator|http://www.cplusplus.com/reference/memory/raw_storage_iterator/|cpp98 cpp11|Raw storage iterator (class template)|<memory>|header|Memory elements|
+8|shared_ptr|http://www.cplusplus.com/reference/memory/shared_ptr/|cpp11 folder|Shared pointer (class template)|<memory>|header|Memory elements|
+8|unique_ptr|http://www.cplusplus.com/reference/memory/unique_ptr/|cpp11 folder|Unique pointer (class template)|<memory>|header|Memory elements|
+8|uses_allocator|http://www.cplusplus.com/reference/memory/uses_allocator/|cpp11|no-Description (other)|<memory>|header|Memory elements|
+8|weak_ptr|http://www.cplusplus.com/reference/memory/weak_ptr/|cpp11 folder|Weak shared pointer (class template)|<memory>|header|Memory elements|
+8|pointer_safety|http://www.cplusplus.com/reference/memory/pointer_safety/|cpp11|Pointer safety enum (enum class)|<memory>|header|Memory elements|
+8|addressof|http://www.cplusplus.com/reference/memory/addressof/|cpp11|Address of object or function (function template)|<memory>|header|Memory elements|
+8|align|http://www.cplusplus.com/reference/memory/align/|cpp11|Align in range (function)|<memory>|header|Memory elements|
+8|allocate_shared|http://www.cplusplus.com/reference/memory/allocate_shared/|cpp11|Allocate shared_ptr (function template)|<memory>|header|Memory elements|
+8|const_pointer_cast|http://www.cplusplus.com/reference/memory/const_pointer_cast/|cpp11|Const cast of shared_ptr (function template)|<memory>|header|Memory elements|
+8|declare_no_pointers|http://www.cplusplus.com/reference/memory/declare_no_pointers/|cpp11|Declare memory block as containing no pointers (function)|<memory>|header|Memory elements|
+8|declare_reachable|http://www.cplusplus.com/reference/memory/declare_reachable/|cpp11|Declare pointer as reachable (function)|<memory>|header|Memory elements|
+8|dynamic_pointer_cast|http://www.cplusplus.com/reference/memory/dynamic_pointer_cast/|cpp11|Dynamic cast of shared_ptr (function template)|<memory>|header|Memory elements|
+8|get_deleter|http://www.cplusplus.com/reference/memory/get_deleter/|cpp11|Get deleter from shared_ptr (function template)|<memory>|header|Memory elements|
+8|get_pointer_safety|http://www.cplusplus.com/reference/memory/get_pointer_safety/|cpp11|Get pointer safety (function)|<memory>|header|Memory elements|
+8|get_temporary_buffer|http://www.cplusplus.com/reference/memory/get_temporary_buffer/|cpp98 cpp11|Get block of temporary memory (function template)|<memory>|header|Memory elements|
+8|make_shared|http://www.cplusplus.com/reference/memory/make_shared/|cpp11|Make shared_ptr (function template)|<memory>|header|Memory elements|
+8|return_temporary_buffer|http://www.cplusplus.com/reference/memory/return_temporary_buffer/|cpp98 cpp11|Return block of temporary memory (function template)|<memory>|header|Memory elements|
+8|static_pointer_cast|http://www.cplusplus.com/reference/memory/static_pointer_cast/|cpp11|Static cast of shared_ptr (function template)|<memory>|header|Memory elements|
+8|undeclare_no_pointers|http://www.cplusplus.com/reference/memory/undeclare_no_pointers/|cpp11|Undeclare memory block as containing no pointers (function)|<memory>|header|Memory elements|
+8|undeclare_reachable|http://www.cplusplus.com/reference/memory/undeclare_reachable/|cpp11|Undeclare pointer as reachable (function template)|<memory>|header|Memory elements|
+8|uninitialized_copy|http://www.cplusplus.com/reference/memory/uninitialized_copy/|cpp98 cpp11|Copy block of memory (function template)|<memory>|header|Memory elements|
+8|uninitialized_copy_n|http://www.cplusplus.com/reference/memory/uninitialized_copy_n/|cpp11|Copy block of memory (function template)|<memory>|header|Memory elements|
+8|uninitialized_fill|http://www.cplusplus.com/reference/memory/uninitialized_fill/|cpp98 cpp11|Fill block of memory (function template)|<memory>|header|Memory elements|
+8|uninitialized_fill_n|http://www.cplusplus.com/reference/memory/uninitialized_fill_n/|cpp98 cpp11|Fill block of memory (function template)|<memory>|header|Memory elements|
+8|allocator_arg|http://www.cplusplus.com/reference/memory/allocator_arg/|cpp11|Allocator arg (object)|<memory>|header|Memory elements|
+8|operator delete|http://www.cplusplus.com/reference/new/operator%20delete/|cpp98 cpp11|Deallocate storage space (function)|<new>|header|Dynamic memory|
+8|operator delete[]|http://www.cplusplus.com/reference/new/operator%20delete[]/|cpp98 cpp11|Deallocate storage space of array (function)|<new>|header|Dynamic memory|
+8|operator new|http://www.cplusplus.com/reference/new/operator%20new/|cpp98 cpp11|Allocate storage space (function)|<new>|header|Dynamic memory|
+8|operator new[]|http://www.cplusplus.com/reference/new/operator%20new[]/|cpp98 cpp11|Allocate storage space for array (function)|<new>|header|Dynamic memory|
+8|get_new_handler|http://www.cplusplus.com/reference/new/get_new_handler/|cpp11|Get new handler function (function)|<new>|header|Dynamic memory|
+8|set_new_handler|http://www.cplusplus.com/reference/new/set_new_handler/|cpp98 cpp11|Set new handler function (function)|<new>|header|Dynamic memory|
+8|bad_alloc|http://www.cplusplus.com/reference/new/bad_alloc/|cpp98 cpp11|Exception thrown on failure allocating memory (class)|<new>|header|Dynamic memory|
+8|bad_array_new_length|http://www.cplusplus.com/reference/new/bad_array_new_length/|cpp11|Exception on bad array length (class)|<new>|header|Dynamic memory|
+8|new_handler|http://www.cplusplus.com/reference/new/new_handler/|cpp98 cpp11|Type of new handler function (type)|<new>|header|Dynamic memory|
+8|nothrow_t|http://www.cplusplus.com/reference/new/nothrow_t/|cpp98 cpp11|Nothrow type (type)|<new>|header|Dynamic memory|
+8|nothrow|http://www.cplusplus.com/reference/new/nothrow/|cpp98 cpp11|Nothrow constant (constant)|<new>|header|Dynamic memory|
+8|accumulate|http://www.cplusplus.com/reference/numeric/accumulate/|cpp98 cpp11|Accumulate values in range (function template)|<numeric>|header|Generalized numeric operations|
+8|adjacent_difference|http://www.cplusplus.com/reference/numeric/adjacent_difference/|cpp98 cpp11|Compute adjacent difference of range (function template)|<numeric>|header|Generalized numeric operations|
+8|inner_product|http://www.cplusplus.com/reference/numeric/inner_product/|cpp98 cpp11|Compute cumulative inner product of range (function template)|<numeric>|header|Generalized numeric operations|
+8|iota|http://www.cplusplus.com/reference/numeric/iota/|cpp11|Store increasing sequence (function template)|<numeric>|header|Generalized numeric operations|
+8|partial_sum|http://www.cplusplus.com/reference/numeric/partial_sum/|cpp98 cpp11|Compute partial sums of range (function template)|<numeric>|header|Generalized numeric operations|
+8|bernoulli_distribution|http://www.cplusplus.com/reference/random/bernoulli_distribution/|cpp11 folder|Bernoulli distribution (class)|<random>|header|Random|
+8|binomial_distribution|http://www.cplusplus.com/reference/random/binomial_distribution/|cpp11 folder|Binomial distribution (class template)|<random>|header|Random|
+8|cauchy_distribution|http://www.cplusplus.com/reference/random/cauchy_distribution/|cpp11 folder|Cauchy distribution (class template)|<random>|header|Random|
+8|chi_squared_distribution|http://www.cplusplus.com/reference/random/chi_squared_distribution/|cpp11 folder|Chi-squared distribution (class template)|<random>|header|Random|
+8|discrete_distribution|http://www.cplusplus.com/reference/random/discrete_distribution/|cpp11 folder|Discrete distribution (class template)|<random>|header|Random|
+8|exponential_distribution|http://www.cplusplus.com/reference/random/exponential_distribution/|cpp11 folder|Exponential distribution (class template)|<random>|header|Random|
+8|extreme_value_distribution|http://www.cplusplus.com/reference/random/extreme_value_distribution/|cpp11 folder|Extreme Value distribution (class template)|<random>|header|Random|
+8|fisher_f_distribution|http://www.cplusplus.com/reference/random/fisher_f_distribution/|cpp11 folder|Fisher F-distribution (class template)|<random>|header|Random|
+8|gamma_distribution|http://www.cplusplus.com/reference/random/gamma_distribution/|cpp11 folder|Gamma distribution (class template)|<random>|header|Random|
+8|geometric_distribution|http://www.cplusplus.com/reference/random/geometric_distribution/|cpp11 folder|Geometric distribution (class template)|<random>|header|Random|
+8|lognormal_distribution|http://www.cplusplus.com/reference/random/lognormal_distribution/|cpp11 folder|Lognormal distribution (class template)|<random>|header|Random|
+8|negative_binomial_distribution|http://www.cplusplus.com/reference/random/negative_binomial_distribution/|cpp11 folder|Negative binomial distribution (class template)|<random>|header|Random|
+8|normal_distribution|http://www.cplusplus.com/reference/random/normal_distribution/|cpp11 folder|Normal distribution (class template)|<random>|header|Random|
+8|piecewise_constant_distribution|http://www.cplusplus.com/reference/random/piecewise_constant_distribution/|cpp11 folder|Piecewise constant distribution (class template)|<random>|header|Random|
+8|piecewise_linear_distribution|http://www.cplusplus.com/reference/random/piecewise_linear_distribution/|cpp11 folder|Piecewise linear distribution (class template)|<random>|header|Random|
+8|poisson_distribution|http://www.cplusplus.com/reference/random/poisson_distribution/|cpp11 folder|Poisson distribution (class template)|<random>|header|Random|
+8|student_t_distribution|http://www.cplusplus.com/reference/random/student_t_distribution/|cpp11 folder|Student T-Distribution (class template)|<random>|header|Random|
+8|uniform_int_distribution|http://www.cplusplus.com/reference/random/uniform_int_distribution/|cpp11 folder|Uniform discrete distribution (class template)|<random>|header|Random|
+8|uniform_real_distribution|http://www.cplusplus.com/reference/random/uniform_real_distribution/|cpp11 folder|Uniform real distribution (class template)|<random>|header|Random|
+8|weibull_distribution|http://www.cplusplus.com/reference/random/weibull_distribution/|cpp11 folder|Weibull distribution (class template)|<random>|header|Random|
+8|default_random_engine|http://www.cplusplus.com/reference/random/default_random_engine/|cpp11|Default random engine (class)|<random>|header|Random|
+8|discard_block_engine|http://www.cplusplus.com/reference/random/discard_block_engine/|cpp11 folder|Discard-block random number engine adaptor (class template)|<random>|header|Random|
+8|independent_bits_engine|http://www.cplusplus.com/reference/random/independent_bits_engine/|cpp11 folder|Independent-bits random number engine adaptor (class template)|<random>|header|Random|
+8|knuth_b|http://www.cplusplus.com/reference/random/knuth_b/|cpp11|Knuth-B generator (class)|<random>|header|Random|
+8|linear_congruential_engine|http://www.cplusplus.com/reference/random/linear_congruential_engine/|cpp11 folder|Linear congruential random number engine (class template)|<random>|header|Random|
+8|mersenne_twister_engine|http://www.cplusplus.com/reference/random/mersenne_twister_engine/|cpp11 folder|Mersenne twister random number engine (class template)|<random>|header|Random|
+8|minstd_rand|http://www.cplusplus.com/reference/random/minstd_rand/|cpp11|Minimal Standard minstd_rand generator (class)|<random>|header|Random|
+8|minstd_rand0|http://www.cplusplus.com/reference/random/minstd_rand0/|cpp11|Minimal Standard minstd_rand0 generator (class)|<random>|header|Random|
+8|mt19937|http://www.cplusplus.com/reference/random/mt19937/|cpp11|Mersenne Twister 19937 generator (class)|<random>|header|Random|
+8|mt19937_64|http://www.cplusplus.com/reference/random/mt19937_64/|cpp11|Mersene Twister 19937 generator (64 bit) (class)|<random>|header|Random|
+8|random_device|http://www.cplusplus.com/reference/random/random_device/|cpp11 folder|True random number generator (class)|<random>|header|Random|
+8|ranlux24|http://www.cplusplus.com/reference/random/ranlux24/|cpp11|Ranlux 24 generator (class)|<random>|header|Random|
+8|ranlux24_base|http://www.cplusplus.com/reference/random/ranlux24_base/|cpp11|Ranlux 24 base generator (class)|<random>|header|Random|
+8|ranlux48|http://www.cplusplus.com/reference/random/ranlux48/|cpp11|Ranlux 48 generator (class)|<random>|header|Random|
+8|ranlux48_base|http://www.cplusplus.com/reference/random/ranlux48_base/|cpp11|Ranlux 48 base generator (class)|<random>|header|Random|
+8|shuffle_order_engine|http://www.cplusplus.com/reference/random/shuffle_order_engine/|cpp11 folder|Shuffle-order random number engine adaptor (class template)|<random>|header|Random|
+8|subtract_with_carry_engine|http://www.cplusplus.com/reference/random/subtract_with_carry_engine/|cpp11 folder|Subtract-with-carry random number engine (class template)|<random>|header|Random|
+8|generate_canonical|http://www.cplusplus.com/reference/random/generate_canonical/|cpp11|Generate canonical numbers (function template)|<random>|header|Random|
+8|seed_seq|http://www.cplusplus.com/reference/random/seed_seq/|cpp11 folder|Seed sequence (class)|<random>|header|Random|
+8|ratio|http://www.cplusplus.com/reference/ratio/ratio/|cpp11 folder|Ratio (class template)|<ratio>|header|Ratio header|
+8|ratio_add|http://www.cplusplus.com/reference/ratio/ratio_add/|cpp11|Add two ratios (class template)|<ratio>|header|Ratio header|
+8|ratio_divide|http://www.cplusplus.com/reference/ratio/ratio_divide/|cpp11|Divide ratios (class template)|<ratio>|header|Ratio header|
+8|ratio_equal|http://www.cplusplus.com/reference/ratio/ratio_equal/|cpp11|Compare ratios (class template)|<ratio>|header|Ratio header|
+8|ratio_greater|http://www.cplusplus.com/reference/ratio/ratio_greater/|cpp11|Compare ratios for greater than inequality (class template)|<ratio>|header|Ratio header|
+8|ratio_greater_equal|http://www.cplusplus.com/reference/ratio/ratio_greater_equal/|cpp11|Compare ratios for equality or greater-than inequality (class template)|<ratio>|header|Ratio header|
+8|ratio_less|http://www.cplusplus.com/reference/ratio/ratio_less/|cpp11|Compare ratios for less-than inequality (class template)|<ratio>|header|Ratio header|
+8|ratio_less_equal|http://www.cplusplus.com/reference/ratio/ratio_less_equal/|cpp11|Compare ratios for equality or less-than inequality (class template)|<ratio>|header|Ratio header|
+8|ratio_multiply|http://www.cplusplus.com/reference/ratio/ratio_multiply/|cpp11|Multiply two ratios (class template)|<ratio>|header|Ratio header|
+8|ratio_not_equal|http://www.cplusplus.com/reference/ratio/ratio_not_equal/|cpp11|Compare ratios for inequality (class template)|<ratio>|header|Ratio header|
+8|ratio_subtract|http://www.cplusplus.com/reference/ratio/ratio_subtract/|cpp11|Subtract ratios (class template)|<ratio>|header|Ratio header|
+8|ECMAScript syntax|http://www.cplusplus.com/reference/regex/ECMAScript/|cpp11|ECMAScript regular expressions pattern syntax (syntax specifications)|<regex>|header|Regular Expressions|
+8|regex_constants|http://www.cplusplus.com/reference/regex/regex_constants/|cpp11|regex constants (namespace)|<regex>|header|Regular Expressions|
+8|basic_regex|http://www.cplusplus.com/reference/regex/basic_regex/|cpp11 folder|Regular expression (class template)|<regex>|header|Regular Expressions|
+8|match_results|http://www.cplusplus.com/reference/regex/match_results/|cpp11 folder|Match results (class template)|<regex>|header|Regular Expressions|
+8|regex_error|http://www.cplusplus.com/reference/regex/regex_error/|cpp11 folder|Regex exception (class)|<regex>|header|Regular Expressions|
+8|regex_iterator|http://www.cplusplus.com/reference/regex/regex_iterator/|cpp11 folder|Regex iterator (class template)|<regex>|header|Regular Expressions|
+8|regex_token_iterator|http://www.cplusplus.com/reference/regex/regex_token_iterator/|cpp11 folder|Regex token iterator (class template)|<regex>|header|Regular Expressions|
+8|regex_traits|http://www.cplusplus.com/reference/regex/regex_traits/|cpp11 folder|Regex traits (class template)|<regex>|header|Regular Expressions|
+8|sub_match|http://www.cplusplus.com/reference/regex/sub_match/|cpp11 folder|Sub-expression match (class template)|<regex>|header|Regular Expressions|
+8|cmatch|http://www.cplusplus.com/reference/regex/cmatch/|cpp11|match_results for string literals (class)|<regex>|header|Regular Expressions|
+8|csub_match|http://www.cplusplus.com/reference/regex/csub_match/|cpp11|sub_match for string literals (class)|<regex>|header|Regular Expressions|
+8|regex|http://www.cplusplus.com/reference/regex/regex/|cpp11|Regex (class)|<regex>|header|Regular Expressions|
+8|smatch|http://www.cplusplus.com/reference/regex/smatch/|cpp11|match_results for string objects (class)|<regex>|header|Regular Expressions|
+8|ssub_match|http://www.cplusplus.com/reference/regex/ssub_match/|cpp11|sub_match for strings (class)|<regex>|header|Regular Expressions|
+8|wcmatch|http://www.cplusplus.com/reference/regex/wcmatch/|cpp11|match_results for wide string literals (class)|<regex>|header|Regular Expressions|
+8|wcsub_match|http://www.cplusplus.com/reference/regex/wcsub_match/|cpp11|sub_match for wide string literals (class)|<regex>|header|Regular Expressions|
+8|wregex|http://www.cplusplus.com/reference/regex/wregex/|cpp11|Regex for wchar_t (class)|<regex>|header|Regular Expressions|
+8|wsmatch|http://www.cplusplus.com/reference/regex/wsmatch/|cpp11|match_results for wide string objects (class)|<regex>|header|Regular Expressions|
+8|wssub_match|http://www.cplusplus.com/reference/regex/wssub_match/|cpp11|sub_match for wide strings (class)|<regex>|header|Regular Expressions|
+8|regex_match|http://www.cplusplus.com/reference/regex/regex_match/|cpp11|Match sequence (function template)|<regex>|header|Regular Expressions|
+8|regex_replace|http://www.cplusplus.com/reference/regex/regex_replace/|cpp11|Replace matched sequence (function template)|<regex>|header|Regular Expressions|
+8|regex_search|http://www.cplusplus.com/reference/regex/regex_search/|cpp11|Search sequence (function template)|<regex>|header|Regular Expressions|
+8|domain_error|http://www.cplusplus.com/reference/stdexcept/domain_error/|cpp98 cpp11|Domain error exception (class)|<stdexcept>|header|Exception classes|
+8|invalid_argument|http://www.cplusplus.com/reference/stdexcept/invalid_argument/|cpp98 cpp11|Invalid argument exception (class)|<stdexcept>|header|Exception classes|
+8|length_error|http://www.cplusplus.com/reference/stdexcept/length_error/|cpp98 cpp11|Length error exception (class)|<stdexcept>|header|Exception classes|
+8|logic_error|http://www.cplusplus.com/reference/stdexcept/logic_error/|cpp98 cpp11|Logic error exception (class)|<stdexcept>|header|Exception classes|
+8|out_of_range|http://www.cplusplus.com/reference/stdexcept/out_of_range/|cpp98 cpp11|Out-of-range exception (class)|<stdexcept>|header|Exception classes|
+8|overflow_error|http://www.cplusplus.com/reference/stdexcept/overflow_error/|cpp98 cpp11|Overflow error exception (class)|<stdexcept>|header|Exception classes|
+8|range_error|http://www.cplusplus.com/reference/stdexcept/range_error/|cpp98 cpp11|Range error exception (class)|<stdexcept>|header|Exception classes|
+8|runtime_error|http://www.cplusplus.com/reference/stdexcept/runtime_error/|cpp98 cpp11|Runtime error exception (class)|<stdexcept>|header|Exception classes|
+8|underflow_error|http://www.cplusplus.com/reference/stdexcept/underflow_error/|cpp98 cpp11|Underflow error exception (class)|<stdexcept>|header|Exception classes|
+8|basic_string|http://www.cplusplus.com/reference/string/basic_string/|cpp98 cpp11 folder|Generic string class (class template)|<string>|header|Strings|
+8|char_traits|http://www.cplusplus.com/reference/string/char_traits/|cpp98 cpp11 folder|Character traits (class template)|<string>|header|Strings|
+8|string|http://www.cplusplus.com/reference/string/string/|cpp98 cpp11 folder|String class (class)|<string>|header|Strings|
+8|u16string|http://www.cplusplus.com/reference/string/u16string/|cpp11|String of 16-bit characters (class)|<string>|header|Strings|
+8|u32string|http://www.cplusplus.com/reference/string/u32string/|cpp11|String of 32-bit characters (class)|<string>|header|Strings|
+8|wstring|http://www.cplusplus.com/reference/string/wstring/|cpp98 cpp11|Wide string (class)|<string>|header|Strings|
+8|stod|http://www.cplusplus.com/reference/string/stod/|cpp11|Convert string to double (function template)|<string>|header|Strings|
+8|stof|http://www.cplusplus.com/reference/string/stof/|cpp11|Convert string to float (function template)|<string>|header|Strings|
+8|stoi|http://www.cplusplus.com/reference/string/stoi/|cpp11|Convert string to integer (function template)|<string>|header|Strings|
+8|stol|http://www.cplusplus.com/reference/string/stol/|cpp11|Convert string to long int (function template)|<string>|header|Strings|
+8|stold|http://www.cplusplus.com/reference/string/stold/|cpp11|Convert string to long double (function template)|<string>|header|Strings|
+8|stoll|http://www.cplusplus.com/reference/string/stoll/|cpp11|Convert string to long long (function template)|<string>|header|Strings|
+8|stoul|http://www.cplusplus.com/reference/string/stoul/|cpp11|Convert string to unsigned integer (function template)|<string>|header|Strings|
+8|stoull|http://www.cplusplus.com/reference/string/stoull/|cpp11|Convert string to unsigned long long (function template)|<string>|header|Strings|
+8|to_string|http://www.cplusplus.com/reference/string/to_string/|cpp11|Convert numerical value to string (function)|<string>|header|Strings|
+8|to_wstring|http://www.cplusplus.com/reference/string/to_wstring/|cpp11|Convert numerical value to wide string (function)|<string>|header|Strings|
+8|error_category|http://www.cplusplus.com/reference/system_error/error_category/|cpp11 folder|Error category (abstract class)|<system_error>|header|System errors|
+8|error_code|http://www.cplusplus.com/reference/system_error/error_code/|cpp11 folder|Error code (class)|<system_error>|header|System errors|
+8|error_condition|http://www.cplusplus.com/reference/system_error/error_condition/|cpp11 folder|Error condition (class)|<system_error>|header|System errors|
+8|is_error_code_enum|http://www.cplusplus.com/reference/system_error/is_error_code_enum/|cpp11|error_code enum flag (class)|<system_error>|header|System errors|
+8|is_error_condition_enum|http://www.cplusplus.com/reference/system_error/is_error_condition_enum/|cpp11|error_condition enum flag (class)|<system_error>|header|System errors|
+8|system_error|http://www.cplusplus.com/reference/system_error/system_error/|cpp11 folder|System error exception (class)|<system_error>|header|System errors|
+8|errc|http://www.cplusplus.com/reference/system_error/errc/|cpp11|Generic error conditions (enum class)|<system_error>|header|System errors|
+8|generic_category|http://www.cplusplus.com/reference/system_error/generic_category/|cpp11|Return generic category (function)|<system_error>|header|System errors|
+8|make_error_code|http://www.cplusplus.com/reference/system_error/make_error_code/|cpp11|Make error code (function)|<system_error>|header|System errors|
+8|make_error_condition|http://www.cplusplus.com/reference/system_error/make_error_condition/|cpp11|Make error condition (function)|<system_error>|header|System errors|
+8|system_category|http://www.cplusplus.com/reference/system_error/system_category/|cpp11|Return system category (function)|<system_error>|header|System errors|
+8|tuple|http://www.cplusplus.com/reference/tuple/tuple/|cpp11 folder|Tuple (class template)|<tuple>|header|Tuple library|
+8|tuple_element|http://www.cplusplus.com/reference/tuple/tuple_element/|cpp11|Tuple element type (class template)|<tuple>|header|Tuple library|
+8|tuple_size|http://www.cplusplus.com/reference/tuple/tuple_size/|cpp11|Tuple size traits (class template)|<tuple>|header|Tuple library|
+8|forward_as_tuple|http://www.cplusplus.com/reference/tuple/forward_as_tuple/|cpp11|Forward as tuple (function template)|<tuple>|header|Tuple library|
+8|get|http://www.cplusplus.com/reference/tuple/get/|cpp11|Get element (function template)|<tuple>|header|Tuple library|
+8|make_tuple|http://www.cplusplus.com/reference/tuple/make_tuple/|cpp11|Construct tuple (function template)|<tuple>|header|Tuple library|
+8|tie|http://www.cplusplus.com/reference/tuple/tie/|cpp11|Tie arguments to tuple elements (function template)|<tuple>|header|Tuple library|
+8|tuple_cat|http://www.cplusplus.com/reference/tuple/tuple_cat/|cpp11|Concatenate tuples (function template)|<tuple>|header|Tuple library|
+8|ignore|http://www.cplusplus.com/reference/tuple/ignore/|cpp11|Ignore assignment (object)|<tuple>|header|Tuple library|
+8|type_index|http://www.cplusplus.com/reference/typeindex/type_index/|cpp11 folder|Type index (class)|<typeindex>|header|Type index|
+8|bad_cast|http://www.cplusplus.com/reference/typeinfo/bad_cast/|cpp98 cpp11|Exception thrown on failure to dynamic cast (class)|<typeinfo>|header|Type information|
+8|bad_typeid|http://www.cplusplus.com/reference/typeinfo/bad_typeid/|cpp98 cpp11|Exception thrown on typeid of null pointer (class)|<typeinfo>|header|Type information|
+8|type_info|http://www.cplusplus.com/reference/typeinfo/type_info/|cpp98 cpp11 folder|Type information type (class)|<typeinfo>|header|Type information|
+8|false_type|http://www.cplusplus.com/reference/type_traits/false_type/|cpp11|False type (class)|<type_traits>|header|type_traits|
+8|integral_constant|http://www.cplusplus.com/reference/type_traits/integral_constant/|cpp11 folder|Integral constant (class template)|<type_traits>|header|type_traits|
+8|true_type|http://www.cplusplus.com/reference/type_traits/true_type/|cpp11|True type (class)|<type_traits>|header|type_traits|
+8|alignment_of|http://www.cplusplus.com/reference/type_traits/alignment_of/|cpp11|Alignment of (class template)|<type_traits>|header|type_traits|
+8|extent|http://www.cplusplus.com/reference/type_traits/extent/|cpp11|Array dimension extent (class template)|<type_traits>|header|type_traits|
+8|has_virtual_destructor|http://www.cplusplus.com/reference/type_traits/has_virtual_destructor/|cpp11|Has virtual destructor (class template)|<type_traits>|header|type_traits|
+8|is_abstract|http://www.cplusplus.com/reference/type_traits/is_abstract/|cpp11|Is abstract class (class template)|<type_traits>|header|type_traits|
+8|is_arithmetic|http://www.cplusplus.com/reference/type_traits/is_arithmetic/|cpp11|Is arithmetic type (class template)|<type_traits>|header|type_traits|
+8|is_array|http://www.cplusplus.com/reference/type_traits/is_array/|cpp11|Is array (class template)|<type_traits>|header|type_traits|
+8|is_assignable|http://www.cplusplus.com/reference/type_traits/is_assignable/|cpp11|Is assignable (class template)|<type_traits>|header|type_traits|
+8|is_base_of|http://www.cplusplus.com/reference/type_traits/is_base_of/|cpp11|Is base class of (class template)|<type_traits>|header|type_traits|
+8|is_class|http://www.cplusplus.com/reference/type_traits/is_class/|cpp11|Is non-union class (class template)|<type_traits>|header|type_traits|
+8|is_compound|http://www.cplusplus.com/reference/type_traits/is_compound/|cpp11|Is compound type (class template)|<type_traits>|header|type_traits|
+8|is_const|http://www.cplusplus.com/reference/type_traits/is_const/|cpp11|Is const-qualified (class template)|<type_traits>|header|type_traits|
+8|is_constructible|http://www.cplusplus.com/reference/type_traits/is_constructible/|cpp11|Is constructible (class template)|<type_traits>|header|type_traits|
+8|is_convertible|http://www.cplusplus.com/reference/type_traits/is_convertible/|cpp11|Is convertible (class template)|<type_traits>|header|type_traits|
+8|is_copy_assignable|http://www.cplusplus.com/reference/type_traits/is_copy_assignable/|cpp11|Is copy assignable (class template)|<type_traits>|header|type_traits|
+8|is_copy_constructible|http://www.cplusplus.com/reference/type_traits/is_copy_constructible/|cpp11|Is copy constructible (class template)|<type_traits>|header|type_traits|
+8|is_default_constructible|http://www.cplusplus.com/reference/type_traits/is_default_constructible/|cpp11|Is default constructible (class template)|<type_traits>|header|type_traits|
+8|is_destructible|http://www.cplusplus.com/reference/type_traits/is_destructible/|cpp11|Is destructible (class template)|<type_traits>|header|type_traits|
+8|is_empty|http://www.cplusplus.com/reference/type_traits/is_empty/|cpp11|Is empty class (class template)|<type_traits>|header|type_traits|
+8|is_enum|http://www.cplusplus.com/reference/type_traits/is_enum/|cpp11|Is enum (class template)|<type_traits>|header|type_traits|
+8|is_floating_point|http://www.cplusplus.com/reference/type_traits/is_floating_point/|cpp11|Is floating point (class template)|<type_traits>|header|type_traits|
+8|is_function|http://www.cplusplus.com/reference/type_traits/is_function/|cpp11|Is function (class template)|<type_traits>|header|type_traits|
+8|is_fundamental|http://www.cplusplus.com/reference/type_traits/is_fundamental/|cpp11|Is fundamental type (class template)|<type_traits>|header|type_traits|
+8|is_integral|http://www.cplusplus.com/reference/type_traits/is_integral/|cpp11|Is integral (class template)|<type_traits>|header|type_traits|
+8|is_literal_type|http://www.cplusplus.com/reference/type_traits/is_literal_type/|cpp11|Is literal type (class template)|<type_traits>|header|type_traits|
+8|is_lvalue_reference|http://www.cplusplus.com/reference/type_traits/is_lvalue_reference/|cpp11|Is lvalue reference (class template)|<type_traits>|header|type_traits|
+8|is_member_function_pointer|http://www.cplusplus.com/reference/type_traits/is_member_function_pointer/|cpp11|Is member function pointer (class template)|<type_traits>|header|type_traits|
+8|is_member_object_pointer|http://www.cplusplus.com/reference/type_traits/is_member_object_pointer/|cpp11|Is member object pointer (class template)|<type_traits>|header|type_traits|
+8|is_member_pointer|http://www.cplusplus.com/reference/type_traits/is_member_pointer/|cpp11|Is member pointer type (class template)|<type_traits>|header|type_traits|
+8|is_move_assignable|http://www.cplusplus.com/reference/type_traits/is_move_assignable/|cpp11|Is move assignable (class template)|<type_traits>|header|type_traits|
+8|is_move_constructible|http://www.cplusplus.com/reference/type_traits/is_move_constructible/|cpp11|Is move constructible (class template)|<type_traits>|header|type_traits|
+8|is_nothrow_assignable|http://www.cplusplus.com/reference/type_traits/is_nothrow_assignable/|cpp11|Is assignable throwing no exceptions (class template)|<type_traits>|header|type_traits|
+8|is_nothrow_constructible|http://www.cplusplus.com/reference/type_traits/is_nothrow_constructible/|cpp11|Is constructible  throwing no exceptions (class template)|<type_traits>|header|type_traits|
+8|is_nothrow_copy_assignable|http://www.cplusplus.com/reference/type_traits/is_nothrow_copy_assignable/|cpp11|Is copy assignable throwing no exceptions (class template)|<type_traits>|header|type_traits|
+8|is_nothrow_copy_constructible|http://www.cplusplus.com/reference/type_traits/is_nothrow_copy_constructible/|cpp11|Is copy constructible throwing no exceptions (class template)|<type_traits>|header|type_traits|
+8|is_nothrow_default_constructible|http://www.cplusplus.com/reference/type_traits/is_nothrow_default_constructible/|cpp11|Is default constructible throwing no exceptions (class template)|<type_traits>|header|type_traits|
+8|is_nothrow_destructible|http://www.cplusplus.com/reference/type_traits/is_nothrow_destructible/|cpp11|Is nothrow destructible (class template)|<type_traits>|header|type_traits|
+8|is_nothrow_move_assignable|http://www.cplusplus.com/reference/type_traits/is_nothrow_move_assignable/|cpp11|Is move assignable throwing no exception (class template)|<type_traits>|header|type_traits|
+8|is_nothrow_move_constructible|http://www.cplusplus.com/reference/type_traits/is_nothrow_move_constructible/|cpp11|Is move constructible throwing no exceptions (class template)|<type_traits>|header|type_traits|
+8|is_null_pointer|http://www.cplusplus.com/reference/type_traits/is_null_pointer/|cpp14|no-Description (other)|<type_traits>|header|type_traits|
+8|is_object|http://www.cplusplus.com/reference/type_traits/is_object/|cpp11|Is object type (class template)|<type_traits>|header|type_traits|
+8|is_pod|http://www.cplusplus.com/reference/type_traits/is_pod/|cpp11|Is POD type (class template)|<type_traits>|header|type_traits|
+8|is_pointer|http://www.cplusplus.com/reference/type_traits/is_pointer/|cpp11|Is pointer (class template)|<type_traits>|header|type_traits|
+8|is_polymorphic|http://www.cplusplus.com/reference/type_traits/is_polymorphic/|cpp11|Is polymorphic (class template)|<type_traits>|header|type_traits|
+8|is_reference|http://www.cplusplus.com/reference/type_traits/is_reference/|cpp11|Is reference type (class template)|<type_traits>|header|type_traits|
+8|is_rvalue_reference|http://www.cplusplus.com/reference/type_traits/is_rvalue_reference/|cpp11|Is rvalue reference (class template)|<type_traits>|header|type_traits|
+8|is_same|http://www.cplusplus.com/reference/type_traits/is_same/|cpp11|Is same type (class template)|<type_traits>|header|type_traits|
+8|is_scalar|http://www.cplusplus.com/reference/type_traits/is_scalar/|cpp11|Is scalar type (class template)|<type_traits>|header|type_traits|
+8|is_signed|http://www.cplusplus.com/reference/type_traits/is_signed/|cpp11|Is signed type (class template)|<type_traits>|header|type_traits|
+8|is_standard_layout|http://www.cplusplus.com/reference/type_traits/is_standard_layout/|cpp11|Is standard-layout type (class template)|<type_traits>|header|type_traits|
+8|is_trivial|http://www.cplusplus.com/reference/type_traits/is_trivial/|cpp11|Is trivial type (class template)|<type_traits>|header|type_traits|
+8|is_trivially_assignable|http://www.cplusplus.com/reference/type_traits/is_trivially_assignable/|cpp11|Is trivially assignable (class template)|<type_traits>|header|type_traits|
+8|is_trivially_constructible|http://www.cplusplus.com/reference/type_traits/is_trivially_constructible/|cpp11|Is trivially constructible (class template)|<type_traits>|header|type_traits|
+8|is_trivially_copyable|http://www.cplusplus.com/reference/type_traits/is_trivially_copyable/|cpp11|Is trivially copyable (class template)|<type_traits>|header|type_traits|
+8|is_trivially_copy_assignable|http://www.cplusplus.com/reference/type_traits/is_trivially_copy_assignable/|cpp11|Is trivially copy assignable (class template)|<type_traits>|header|type_traits|
+8|is_trivially_copy_constructible|http://www.cplusplus.com/reference/type_traits/is_trivially_copy_constructible/|cpp11|Is trivially copy constructible (class template)|<type_traits>|header|type_traits|
+8|is_trivially_default_constructible|http://www.cplusplus.com/reference/type_traits/is_trivially_default_constructible/|cpp11|Is trivially default constructible (class template)|<type_traits>|header|type_traits|
+8|is_trivially_destructible|http://www.cplusplus.com/reference/type_traits/is_trivially_destructible/|cpp11|Is trivially destructible (class template)|<type_traits>|header|type_traits|
+8|is_trivially_move_assignable|http://www.cplusplus.com/reference/type_traits/is_trivially_move_assignable/|cpp11|Is trivially move assignable (class template)|<type_traits>|header|type_traits|
+8|is_trivially_move_constructible|http://www.cplusplus.com/reference/type_traits/is_trivially_move_constructible/|cpp11|Is trivially move constructible (class template)|<type_traits>|header|type_traits|
+8|is_union|http://www.cplusplus.com/reference/type_traits/is_union/|cpp11|Is union (class template)|<type_traits>|header|type_traits|
+8|is_unsigned|http://www.cplusplus.com/reference/type_traits/is_unsigned/|cpp11|Is unsigned type (class template)|<type_traits>|header|type_traits|
+8|is_void|http://www.cplusplus.com/reference/type_traits/is_void/|cpp11|Is void (class template)|<type_traits>|header|type_traits|
+8|is_volatile|http://www.cplusplus.com/reference/type_traits/is_volatile/|cpp11|Is volatile-qualified (class template)|<type_traits>|header|type_traits|
+8|rank|http://www.cplusplus.com/reference/type_traits/rank/|cpp11|Array rank (class template)|<type_traits>|header|type_traits|
+8|add_const|http://www.cplusplus.com/reference/type_traits/add_const/|cpp11|Add const qualification (class template)|<type_traits>|header|type_traits|
+8|add_cv|http://www.cplusplus.com/reference/type_traits/add_cv/|cpp11|Add const volatile qualification (class template)|<type_traits>|header|type_traits|
+8|add_lvalue_reference|http://www.cplusplus.com/reference/type_traits/add_lvalue_reference/|cpp11|Add lvalue reference (class template)|<type_traits>|header|type_traits|
+8|add_pointer|http://www.cplusplus.com/reference/type_traits/add_pointer/|cpp11|Add pointer (class template)|<type_traits>|header|type_traits|
+8|add_rvalue_reference|http://www.cplusplus.com/reference/type_traits/add_rvalue_reference/|cpp11|Add rvalue reference (class template)|<type_traits>|header|type_traits|
+8|add_volatile|http://www.cplusplus.com/reference/type_traits/add_volatile/|cpp11|Add volatile qualification (class template)|<type_traits>|header|type_traits|
+8|aligned_storage|http://www.cplusplus.com/reference/type_traits/aligned_storage/|cpp11|Aligned storage (class template)|<type_traits>|header|type_traits|
+8|aligned_union|http://www.cplusplus.com/reference/type_traits/aligned_union/|cpp11|Aligned union (class template)|<type_traits>|header|type_traits|
+8|common_type|http://www.cplusplus.com/reference/type_traits/common_type/|cpp11|Common type (class template)|<type_traits>|header|type_traits|
+8|conditional|http://www.cplusplus.com/reference/type_traits/conditional/|cpp11|Conditional type (class template)|<type_traits>|header|type_traits|
+8|decay|http://www.cplusplus.com/reference/type_traits/decay/|cpp11|Decay type (class template)|<type_traits>|header|type_traits|
+8|enable_if|http://www.cplusplus.com/reference/type_traits/enable_if/|cpp11|Enable type if condition is met (class template)|<type_traits>|header|type_traits|
+8|make_signed|http://www.cplusplus.com/reference/type_traits/make_signed/|cpp11|Make signed (class template)|<type_traits>|header|type_traits|
+8|make_unsigned|http://www.cplusplus.com/reference/type_traits/make_unsigned/|cpp11|Make unsigned (class template)|<type_traits>|header|type_traits|
+8|remove_all_extents|http://www.cplusplus.com/reference/type_traits/remove_all_extents/|cpp11|Remove all array extents (class template)|<type_traits>|header|type_traits|
+8|remove_const|http://www.cplusplus.com/reference/type_traits/remove_const/|cpp11|Remove const qualification (class template)|<type_traits>|header|type_traits|
+8|remove_cv|http://www.cplusplus.com/reference/type_traits/remove_cv/|cpp11|Remove cv qualification (class template)|<type_traits>|header|type_traits|
+8|remove_extent|http://www.cplusplus.com/reference/type_traits/remove_extent/|cpp11|Remove array extent (class template)|<type_traits>|header|type_traits|
+8|remove_pointer|http://www.cplusplus.com/reference/type_traits/remove_pointer/|cpp11|Remove pointer (class template)|<type_traits>|header|type_traits|
+8|remove_reference|http://www.cplusplus.com/reference/type_traits/remove_reference/|cpp11|Remove reference (class template)|<type_traits>|header|type_traits|
+8|remove_volatile|http://www.cplusplus.com/reference/type_traits/remove_volatile/|cpp11|Remove volatile qualification (class template)|<type_traits>|header|type_traits|
+8|result_of|http://www.cplusplus.com/reference/type_traits/result_of/|cpp11|Result of call (class template)|<type_traits>|header|type_traits|
+8|underlying_type|http://www.cplusplus.com/reference/type_traits/underlying_type/|cpp11|Underlying type of enum (class template)|<type_traits>|header|type_traits|
+8|pair|http://www.cplusplus.com/reference/utility/pair/|cpp98 cpp11 folder|Pair of values (class template)|<utility>|header|Utility components|
+8|declval|http://www.cplusplus.com/reference/utility/declval/|cpp11|Declaration value (function template)|<utility>|header|Utility components|
+8|forward|http://www.cplusplus.com/reference/utility/forward/|cpp11|Forward argument (function template)|<utility>|header|Utility components|
+8|make_pair|http://www.cplusplus.com/reference/utility/make_pair/|cpp98 cpp11|Construct pair object (function template)|<utility>|header|Utility components|
+8|move|http://www.cplusplus.com/reference/utility/move/|cpp11|Move as rvalue (function template)|<utility>|header|Utility components|
+8|move_if_noexcept|http://www.cplusplus.com/reference/utility/move_if_noexcept/|cpp11|Move if noexcept (function template)|<utility>|header|Utility components|
+8|swap|http://www.cplusplus.com/reference/utility/swap/|cpp11|Exchange values of two objects (function template)|<utility>|header|Utility components|
+8|piecewise_construct_t|http://www.cplusplus.com/reference/utility/piecewise_construct_t/|cpp11|Piecewise construct type (type)|<utility>|header|Utility components|
+8|piecewise_construct|http://www.cplusplus.com/reference/utility/piecewise_construct/|cpp11|Piecewise construct constant (constant)|<utility>|header|Utility components|
+8|rel_ops|http://www.cplusplus.com/reference/utility/rel_ops/|cpp98 cpp11|Relational Operators (namespace)|<utility>|header|Utility components|
+8|gslice|http://www.cplusplus.com/reference/valarray/gslice/|cpp98 cpp11 folder|Valarray generalized slice selector (class)|<valarray>|header|Library for arrays of numeric values|
+8|gslice_array|http://www.cplusplus.com/reference/valarray/gslice_array/|cpp98 cpp11|Valarray gslice selection (class template)|<valarray>|header|Library for arrays of numeric values|
+8|indirect_array|http://www.cplusplus.com/reference/valarray/indirect_array/|cpp98 cpp11|Valarray indirect selection (class template)|<valarray>|header|Library for arrays of numeric values|
+8|mask_array|http://www.cplusplus.com/reference/valarray/mask_array/|cpp98 cpp11|Valarray mask selection (class template)|<valarray>|header|Library for arrays of numeric values|
+8|slice|http://www.cplusplus.com/reference/valarray/slice/|cpp98 cpp11 folder|Valarray slice selector (class)|<valarray>|header|Library for arrays of numeric values|
+8|slice_array|http://www.cplusplus.com/reference/valarray/slice_array/|cpp98 cpp11|Valarray slice selection (class template)|<valarray>|header|Library for arrays of numeric values|
+8|valarray|http://www.cplusplus.com/reference/valarray/valarray/|cpp98 cpp11 folder|Valarray class (class template)|<valarray>|header|Library for arrays of numeric values|
+8|abs|http://www.cplusplus.com/reference/valarray/abs/|cpp98 cpp11|Compute absolute value of valarray elements (function template)|<valarray>|header|Library for arrays of numeric values|
+8|acos|http://www.cplusplus.com/reference/valarray/acos/|cpp98 cpp11|Compute arc cosine of valarray elements (function template)|<valarray>|header|Library for arrays of numeric values|
+8|asin|http://www.cplusplus.com/reference/valarray/asin/|cpp98 cpp11|Compute arc sine of valarray elements (function template)|<valarray>|header|Library for arrays of numeric values|
+8|atan|http://www.cplusplus.com/reference/valarray/atan/|cpp98 cpp11|Compute arc tangent of valarray elements (function template)|<valarray>|header|Library for arrays of numeric values|
+8|atan2|http://www.cplusplus.com/reference/valarray/atan2/|cpp98 cpp11|Compute atan2 of valarray elements (function template)|<valarray>|header|Library for arrays of numeric values|
+8|cos|http://www.cplusplus.com/reference/valarray/cos/|cpp98 cpp11|Compute cosine of valarray elements (function template)|<valarray>|header|Library for arrays of numeric values|
+8|cosh|http://www.cplusplus.com/reference/valarray/cosh/|cpp98 cpp11|Compute hyperbolic cosine of valarray elements (function template)|<valarray>|header|Library for arrays of numeric values|
+8|exp|http://www.cplusplus.com/reference/valarray/exp/|cpp98 cpp11|Compute exponential of valarray elements (function template)|<valarray>|header|Library for arrays of numeric values|
+8|log|http://www.cplusplus.com/reference/valarray/log/|cpp98 cpp11|Compute natural logarithm of valarray elements (function template)|<valarray>|header|Library for arrays of numeric values|
+8|log10|http://www.cplusplus.com/reference/valarray/log10/|cpp98 cpp11|Compute common logarithm of valarray elements (function template)|<valarray>|header|Library for arrays of numeric values|
+8|pow|http://www.cplusplus.com/reference/valarray/pow/|cpp98 cpp11|Compute power of valarray elements (function template)|<valarray>|header|Library for arrays of numeric values|
+8|sin|http://www.cplusplus.com/reference/valarray/sin/|cpp98 cpp11|Compute sine of valarray elements (function template)|<valarray>|header|Library for arrays of numeric values|
+8|sinh|http://www.cplusplus.com/reference/valarray/sinh/|cpp98 cpp11|Compute hyperbolic sine of valarray elements (function template)|<valarray>|header|Library for arrays of numeric values|
+8|sqrt|http://www.cplusplus.com/reference/valarray/sqrt/|cpp98 cpp11|Compute square root of valarray elements (function template)|<valarray>|header|Library for arrays of numeric values|
+8|tan|http://www.cplusplus.com/reference/valarray/tan/|cpp98 cpp11|Compute tangent of valarray elements (function template)|<valarray>|header|Library for arrays of numeric values|
+8|tanh|http://www.cplusplus.com/reference/valarray/tanh/|cpp98 cpp11|Compute hyperbolic tangent of valarray elements (function template)|<valarray>|header|Library for arrays of numeric values|

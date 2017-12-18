@@ -1,0 +1,485 @@
+.ajaxSuccess(handler(event, XMLHttpRequest, ajaxOptions)) Attach a function to be executed whenever an Ajax request completes \t\n successfully. This is an Ajax Event. ->Ajax
+.ajaxSend(handler(event, jqXHR, ajaxOptions)) Attach a function to be executed before an Ajax request is sent.\t\n  This is an Ajax Event. ->Ajax
+.ajaxStart(handler()) Register a handler to be called when the first Ajax request begins.\t\n  This is an Ajax Event. ->Ajax
+.ajaxStop(handler()) Register a handler to be called when all Ajax requests have completed. \t\n This is an Ajax Event. ->Ajax
+.ajaxComplete(handler(event, XMLHttpRequest, ajaxOptions)) Register a handler to be called when Ajax requests complete.\t\n  This is an AjaxEvent. ->Ajax
+.ajaxError(handler(event, jqXHR, ajaxSettings, thrownError)) Register a handler to be called when Ajax requests complete with \t\n an error. This is an Ajax Event. ->Ajax
+.serializeArray() Encode a set of form elements as an array of names and values. ->Ajax
+.serialize() Encode a set of form elements as a string for submission. ->Ajax
+jQuery.param(obj) Create a serialized representation of an array or object,\t\n  suitable for use in a URL query string or Ajax request.  ->Ajax
+jQuery.param(obj , traditional) Create a serialized representation of an array or object,\t\n  suitable for use in a URL query string or Ajax request.  ->Ajax
+jQuery.ajax(url [, settings]) Handle custom Ajax options or modify existing options before each \t\n request is sent and before they are processed by $.ajax(). ->Ajax
+jQuery.ajax([settings]) Handle custom Ajax options or modify existing options before each \t\n request is sent and before they are processed by $.ajax(). ->Ajax
+jQuery.ajaxSetup(options) Set default values for future Ajax requests. Its use is not recommended. ->Ajax
+jQuery.ajaxTransport(dataType , handler(options, originalOptions, jqXHR)) Creates an object that handles the actual transmission of Ajax data. ->Ajax
+.load(url [, data] [, complete(responseText, textStatus, XMLHttpRequest)]) Load data from the server and place the returned HTML into the matched element. ->Ajax
+jQuery.get(url [, data] [, success(data, textStatus, jqXHR)] [, dataType]) Load data from the server using a HTTP GET request. ->Ajax
+jQuery.post(url [, data] [, success(data, textStatus, jqXHR)] [, dataType]) Load data from the server using a HTTP POST request. ->Ajax
+jQuery.getJSON(url [, data] [, success( data, textStatus, jqXHR )]) Load JSON-encoded data from the server using a GET HTTP request. ->Ajax
+jQuery.getScript(url [, success(script, textStatus, jqXHR)]) Load a JavaScript file from the server using a GET HTTP request,\t\n  then execute it. ->Ajax
+.attr(attributeName) Get the value of an attribute for the first element in the set of \t\n matched elements or set one or more attributes for every matched element. ->Attributes
+.attr(attributeName , value) Get the value of an attribute for the first element in the set of \t\n matched elements or set one or more attributes for every matched element. ->Attributes
+.attr(attributes) Get the value of an attribute for the first element in the set of \t\n matched elements or set one or more attributes for every matched element. ->Attributes
+.attr(attributeName , function(index, attr)) Get the value of an attribute for the first element in the set of \t\n matched elements or set one or more attributes for every matched element. ->Attributes
+.removeClass([className]) Remove a single class, multiple classes,\t\n  or all classes from each element in the set of matched elements. ->Attributes
+.removeClass(function(index, class)) Remove a single class, multiple classes,\t\n  or all classes from each element in the set of matched elements. ->Attributes
+.toggleClass(className) Add or remove one or more classes from each element in the set of \t\n matched elements, depending on either the class's presence or the value of the switch argument. ->Attributes
+.toggleClass(className , switch) Add or remove one or more classes from each element in the set of \t\n matched elements, depending on either the class's presence or the value of the switch argument. ->Attributes
+.toggleClass([switch]) Add or remove one or more classes from each element in the set of \t\n matched elements, depending on either the class's presence or the value of the switch argument. ->Attributes
+.toggleClass(function(index, class, switch) [, switch]) Add or remove one or more classes from each element in the set of \t\n matched elements, depending on either the class's presence or the value of the switch argument. ->Attributes
+.prop(propertyName) Get the value of a property for the first element in the set of matched \t\n elements or set one or more properties for every matched element. ->Attributes
+.prop(propertyName , value) Get the value of a property for the first element in the set of matched \t\n elements or set one or more properties for every matched element. ->Attributes
+.prop(properties) Get the value of a property for the first element in the set of matched \t\n elements or set one or more properties for every matched element. ->Attributes
+.prop(propertyName , function(index, oldPropertyValue)) Get the value of a property for the first element in the set of matched \t\n elements or set one or more properties for every matched element. ->Attributes
+.html() Get the HTML contents of the first element in the set of matched \t\n elements or set the HTML contents of every matched element. ->Attributes
+.html(htmlString) Get the HTML contents of the first element in the set of matched \t\n elements or set the HTML contents of every matched element. ->Attributes
+.html(function(index, oldhtml)) Get the HTML contents of the first element in the set of matched \t\n elements or set the HTML contents of every matched element. ->Attributes
+.addClass(className) Adds the specified class(es) to each of the set of matched elements. ->Attributes
+.addClass(function(index, currentClass)) Adds the specified class(es) to each of the set of matched elements. ->Attributes
+.hasClass(className) Determine whether any of the matched elements are assigned the given class. ->Attributes
+.removeProp(propertyName) Remove a property for the set of matched elements. ->Attributes
+.removeAttr(attributeName) Remove an attribute from each element in the set of matched elements. ->Attributes
+.val() Get the current value of the first element in the set of matched \t\n elements or set the value of every matched element. ->Attributes
+.val(value) Get the current value of the first element in the set of matched \t\n elements or set the value of every matched element. ->Attributes
+.val(function(index, value)) Get the current value of the first element in the set of matched \t\n elements or set the value of every matched element. ->Attributes
+callbacks.locked() Determine if the callbacks list has been locked. ->Callbacks Object
+jQuery.Callbacks(flags) A multi-purpose callbacks list object that provides a powerful way \t\n to manage callback lists. ->Callbacks Object
+callbacks.disabled() Determine if the callbacks list has been disabled. ->Callbacks Object
+callbacks.fired() Determine if the callbacks have already been called at least once. ->Callbacks Object
+callbacks.fireWith([context] [, args]) Call all callbacks in a list with the given context and arguments. ->Callbacks Object
+callbacks.remove(callbacks) Remove a callback or a collection of callbacks from a callback list. ->Callbacks Object
+callbacks.empty() Remove all of the callbacks from a list. ->Callbacks Object
+callbacks.fire(arguments) Call all of the callbacks with the given arguments ->Callbacks Object
+callbacks.add(callbacks) Add a callback or a collection of callbacks to a callback list. ->Callbacks Object
+callbacks.lock() Lock a callback list in its current state. ->Callbacks Object
+callbacks.has(callback) Determine whether a supplied callback is in a list ->Callbacks Object
+callbacks.disable() Disable a callback list from doing anything more. ->Callbacks Object
+jQuery.when(deferreds) Provides a way to execute callback functions based on one or more \t\n objects, usually Deferred objects that represent asynchronous events. ->Core
+jQuery(selector [, context]) Return a collection of matched elements either found in the DOM based \t\n on passed argument(s) or created by passing an HTML string. ->Core
+jQuery(element) Return a collection of matched elements either found in the DOM based \t\n on passed argument(s) or created by passing an HTML string. ->Core
+jQuery(elementArray) Return a collection of matched elements either found in the DOM based \t\n on passed argument(s) or created by passing an HTML string. ->Core
+jQuery(object) Return a collection of matched elements either found in the DOM based \t\n on passed argument(s) or created by passing an HTML string. ->Core
+jQuery(jQuery object) Return a collection of matched elements either found in the DOM based \t\n on passed argument(s) or created by passing an HTML string. ->Core
+jQuery() Return a collection of matched elements either found in the DOM based \t\n on passed argument(s) or created by passing an HTML string. ->Core
+jQuery(html [, ownerDocument]) Return a collection of matched elements either found in the DOM based \t\n on passed argument(s) or created by passing an HTML string. ->Core
+jQuery(html , attributes) Return a collection of matched elements either found in the DOM based \t\n on passed argument(s) or created by passing an HTML string. ->Core
+jQuery(callback) Return a collection of matched elements either found in the DOM based \t\n on passed argument(s) or created by passing an HTML string. ->Core
+jQuery.sub() Creates a new copy of jQuery whose properties and methods can be \t\n modified without affecting the original jQuery object. ->Core
+jQuery.holdReady(hold) Holds or releases the execution of jQuery's ready event. ->Core
+jQuery.noConflict([removeAll]) Relinquish jQuery's control of the $ variable. ->Core
+.innerWidth() Get the current computed width for the first element in the set of \t\n matched elements, including padding but not border. ->CSS
+.css(propertyName) Get the value of a style property for the first element in the set \t\n of matched elements or set one or more CSS properties for every matched element. ->CSS
+.css(propertyNames) Get the value of a style property for the first element in the set \t\n of matched elements or set one or more CSS properties for every matched element. ->CSS
+.css(propertyName , value) Get the value of a style property for the first element in the set \t\n of matched elements or set one or more CSS properties for every matched element. ->CSS
+.css(propertyName , function(index, value)) Get the value of a style property for the first element in the set \t\n of matched elements or set one or more CSS properties for every matched element. ->CSS
+.css(properties) Get the value of a style property for the first element in the set \t\n of matched elements or set one or more CSS properties for every matched element. ->CSS
+.height() Get the current computed height for the first element in the set \t\n of matched elements or set the height of every matched element. ->CSS
+.height(value) Get the current computed height for the first element in the set \t\n of matched elements or set the height of every matched element. ->CSS
+.height(function(index, height)) Get the current computed height for the first element in the set \t\n of matched elements or set the height of every matched element. ->CSS
+.scrollLeft() Get the current horizontal position of the scroll bar for the first \t\n element in the set of matched elements or set the horizontal position of the scroll bar for every matched element. ->CSS
+.scrollLeft(value) Get the current horizontal position of the scroll bar for the first \t\n element in the set of matched elements or set the horizontal position of the scroll bar for every matched element. ->CSS
+.width() Get the current computed width for the first element in the set of \t\n matched elements or set the width of every matched element. ->CSS
+.width(value) Get the current computed width for the first element in the set of \t\n matched elements or set the width of every matched element. ->CSS
+.width(function(index, width)) Get the current computed width for the first element in the set of \t\n matched elements or set the width of every matched element. ->CSS
+.position() Get the current coordinates of the first element in the set of matched \t\n elements, relative to the offset parent. ->CSS
+.offset() Get the current coordinates of the first element,\t\n  or set the coordinates of every element, in the set of matched elements, relative to the document. ->CSS
+.offset(coordinates) Get the current coordinates of the first element,\t\n  or set the coordinates of every element, in the set of matched elements, relative to the document. ->CSS
+.offset(function(index, coords)) Get the current coordinates of the first element,\t\n  or set the coordinates of every element, in the set of matched elements, relative to the document. ->CSS
+.scrollTop() Get the current vertical position of the scroll bar for the first \t\n element in the set of matched elements or set the vertical position of the scroll bar for every matched element. ->CSS
+.scrollTop(value) Get the current vertical position of the scroll bar for the first \t\n element in the set of matched elements or set the vertical position of the scroll bar for every matched element. ->CSS
+jQuery.cssHooks Hook directly into jQuery to override how particular CSS properties \t\n are retrieved or set, normalize CSS property naming, or create custom properties. ->CSS
+.outerWidth([includeMargin]) Get the current computed width for the first element in the set of \t\n matched elements, including padding and border. ->CSS
+.innerHeight() Get the current computed height for the first element in the set \t\n of matched elements, including padding but not border. ->CSS
+.outerHeight([includeMargin]) Get the current computed height for the first element in the set \t\n of matched elements, including padding, border, and optionally margin. Returns a number (without "px") representation of the value or null if called on an empty set of elements. ->CSS
+jQuery.queue(element [, queueName]) Show or manipulate the queue of functions to be executed on the matched \t\n element. ->Data
+jQuery.queue(element , queueName , newQueue) Show or manipulate the queue of functions to be executed on the matched \t\n element. ->Data
+jQuery.queue(element , queueName , callback()) Show or manipulate the queue of functions to be executed on the matched \t\n element. ->Data
+.data(key , value) Store arbitrary data associated with the matched elements or return \t\n the value at the named data store for the first element in the set of matched elements. ->Data
+.data(obj) Store arbitrary data associated with the matched elements or return \t\n the value at the named data store for the first element in the set of matched elements. ->Data
+.data(key) Store arbitrary data associated with the matched elements or return \t\n the value at the named data store for the first element in the set of matched elements. ->Data
+.data() Store arbitrary data associated with the matched elements or return \t\n the value at the named data store for the first element in the set of matched elements. ->Data
+jQuery.hasData(element) Determine whether an element has any jQuery data associated with it. ->Data
+jQuery.removeData(element [, name]) Remove a previously-stored piece of data. ->Data
+.clearQueue([queueName]) Remove from the queue all items that have not yet been run. ->Data
+.dequeue([queueName]) Execute the next function on the queue for the matched elements. ->Data
+jQuery.data(element , key , value) Store arbitrary data associated with the specified element and/or \t\n return the value that was set. ->Data
+jQuery.data(element , key) Store arbitrary data associated with the specified element and/or \t\n return the value that was set. ->Data
+jQuery.data(element) Store arbitrary data associated with the specified element and/or \t\n return the value that was set. ->Data
+jQuery.dequeue(element [, queueName]) Execute the next function on the queue for the matched element. ->Data
+.queue([queueName]) Show or manipulate the queue of functions to be executed on the matched \t\n elements. ->Data
+.queue([queueName] , newQueue) Show or manipulate the queue of functions to be executed on the matched \t\n elements. ->Data
+.queue([queueName] , callback( next )) Show or manipulate the queue of functions to be executed on the matched \t\n elements. ->Data
+.removeData([name]) Remove a previously-stored piece of data. ->Data
+.removeData([list]) Remove a previously-stored piece of data. ->Data
+deferred.rejectWith(context [, args]) Reject a Deferred object and call any failCallbacks with the given \t\n context and args.  ->Deferred Object
+deferred.then(doneFilter [, failFilter] [, progressFilter]) Add handlers to be called when the Deferred object is resolved,\t\n  rejected, or still in progress.  ->Deferred Object
+deferred.then(doneCallbacks , failCallbacks) Add handlers to be called when the Deferred object is resolved,\t\n  rejected, or still in progress.  ->Deferred Object
+deferred.then(doneCallbacks , failCallbacks [, progressCallbacks]) Add handlers to be called when the Deferred object is resolved,\t\n  rejected, or still in progress.  ->Deferred Object
+deferred.resolve([args]) Resolve a Deferred object and call any doneCallbacks with the given args.  ->Deferred Object
+deferred.state() Determine the current state of a Deferred object.  ->Deferred Object
+jQuery.Deferred([beforeStart]) A constructor function that returns a chainable utility object with \t\n methods to register multiple callbacks into callback queues, invoke callback queues, and relay the success or failure state of any synchronous or asynchronous function. ->Deferred Object
+deferred.promise([target]) Return a Deferred's Promise object.  ->Deferred Object
+deferred.always(alwaysCallbacks [, alwaysCallbacks]) Add handlers to be called when the Deferred object is either resolved \t\n or rejected.  ->Deferred Object
+deferred.done(doneCallbacks [, doneCallbacks]) Add handlers to be called when the Deferred object is resolved.  ->Deferred Object
+deferred.reject([args]) Reject a Deferred object and call any failCallbacks with the given args.  ->Deferred Object
+deferred.notifyWith(context [, args]) Call the progressCallbacks on a Deferred object with the given context \t\n and args.  ->Deferred Object
+deferred.resolveWith(context [, args]) Resolve a Deferred object and call any doneCallbacks with the given \t\n context and args.  ->Deferred Object
+deferred.pipe([doneFilter] [, failFilter]) Utility method to filter and/or chain Deferreds.  ->Deferred Object
+deferred.pipe([doneFilter] [, failFilter] [, progressFilter]) Utility method to filter and/or chain Deferreds.  ->Deferred Object
+deferred.notify(args) Call the progressCallbacks on a Deferred object with the given args.  ->Deferred Object
+deferred.fail(failCallbacks [, failCallbacks]) Add handlers to be called when the Deferred object is rejected.  ->Deferred Object
+deferred.isResolved() Determine whether a Deferred object has been resolved.  ->Deferred Object
+deferred.progress(progressCallbacks) Add handlers to be called when the Deferred object generates progress \t\n notifications. ->Deferred Object
+.promise([type] [, target]) Return a Promise object to observe when all actions of a certain \t\n type bound to the collection, queued or not, have finished.  ->Deferred Object
+deferred.isRejected() Determine whether a Deferred object has been rejected.  ->Deferred Object
+jQuery.boxModel Deprecated in jQuery 1.3 (see jQuery.support).\t\n  States if the current page, in the user's browser, is being rendered using the W3C CSS Box Model. ->Deprecated
+jQuery.browser Contains flags for the useragent, read from navigator.\t\n userAgent. This property was removed in jQuery 1.9 and is available only through the jQuery.migrate plugin. Please try to use feature detection instead. ->Deprecated
+.die() Remove event handlers previously attached using .live() from the elements. ->Deprecated
+.die(eventType [, handler]) Remove event handlers previously attached using .live() from the elements. ->Deprecated
+.die(events) Remove event handlers previously attached using .live() from the elements. ->Deprecated
+.selector A selector representing selector passed to jQuery(),\t\n  if any, when creating the original set. ->Deprecated
+.live(events , handler(eventObject)) Attach an event handler for all elements which match the current \t\n selector, now and in the future. ->Deprecated
+.live(events , data , handler(eventObject)) Attach an event handler for all elements which match the current \t\n selector, now and in the future. ->Deprecated
+.live(events) Attach an event handler for all elements which match the current \t\n selector, now and in the future. ->Deprecated
+.size() Return the number of elements in the jQuery object. ->Deprecated
+.andSelf() Add the previous set of elements on the stack to the current set. ->Deprecated
+.error(handler(eventObject)) Bind an event handler to the "error" JavaScript event. ->Deprecated
+.error([eventData] , handler(eventObject)) Bind an event handler to the "error" JavaScript event. ->Deprecated
+.unload(handler(eventObject)) Bind an event handler to the "unload" JavaScript event. ->Deprecated
+.unload([eventData] , handler(eventObject)) Bind an event handler to the "unload" JavaScript event. ->Deprecated
+.load(handler(eventObject)) Bind an event handler to the "load" JavaScript event. ->Deprecated
+.load([eventData] , handler(eventObject)) Bind an event handler to the "load" JavaScript event. ->Deprecated
+.toggle(handler(eventObject) , handler(eventObject) [, handler(eventObject)]) Bind two or more handlers to the matched elements,\t\n  to be executed on alternate clicks. ->Deprecated
+.context The DOM node context originally passed to jQuery(); if none was passed \t\n then context will likely be the document. ->Deprecated
+.show() Display the matched elements. ->Effects
+.show([duration] [, complete]) Display the matched elements. ->Effects
+.show(options) Display the matched elements. ->Effects
+.show(duration [, easing] [, complete]) Display the matched elements. ->Effects
+.hide() Hide the matched elements. ->Effects
+.hide([duration] [, complete]) Hide the matched elements. ->Effects
+.hide(options) Hide the matched elements. ->Effects
+.hide(duration [, easing] [, complete]) Hide the matched elements. ->Effects
+.toggle([duration] [, complete]) Display or hide the matched elements. ->Effects
+.toggle(options) Display or hide the matched elements. ->Effects
+.toggle(duration [, easing] [, complete]) Display or hide the matched elements. ->Effects
+.toggle(showOrHide) Display or hide the matched elements. ->Effects
+.stop([clearQueue] [, jumpToEnd]) Stop the currently-running animation on the matched elements. ->Effects
+.stop([queue] [, clearQueue] [, jumpToEnd]) Stop the currently-running animation on the matched elements. ->Effects
+.finish([queue]) Stop the currently-running animation, remove all queued animations,\t\n  and complete all animations for the matched elements. ->Effects
+jQuery.fx.off Globally disable all animations. ->Effects
+jQuery.fx.interval The rate (in milliseconds) at which animations fire. ->Effects
+.animate(properties [, duration] [, easing] [, complete]) Perform a custom animation of a set of CSS properties. ->Effects
+.animate(properties , options) Perform a custom animation of a set of CSS properties. ->Effects
+.delay(duration [, queueName]) Set a timer to delay execution of subsequent items in the queue. ->Effects
+.fadeToggle([duration] [, easing] [, complete]) Display or hide the matched elements by animating their opacity. ->Effects
+.fadeToggle(options) Display or hide the matched elements by animating their opacity. ->Effects
+.fadeOut([duration] [, complete]) Hide the matched elements by fading them to transparent. ->Effects
+.fadeOut(options) Hide the matched elements by fading them to transparent. ->Effects
+.fadeOut([duration] [, easing] [, complete]) Hide the matched elements by fading them to transparent. ->Effects
+.fadeTo(duration , opacity [, complete]) Adjust the opacity of the matched elements. ->Effects
+.fadeTo(duration , opacity [, easing] [, complete]) Adjust the opacity of the matched elements. ->Effects
+.fadeIn([duration] [, complete]) Display the matched elements by fading them to opaque. ->Effects
+.fadeIn(options) Display the matched elements by fading them to opaque. ->Effects
+.fadeIn([duration] [, easing] [, complete]) Display the matched elements by fading them to opaque. ->Effects
+.slideToggle([duration] [, complete]) Display or hide the matched elements with a sliding motion. ->Effects
+.slideToggle(options) Display or hide the matched elements with a sliding motion. ->Effects
+.slideToggle([duration] [, easing] [, complete]) Display or hide the matched elements with a sliding motion. ->Effects
+.slideDown([duration] [, complete]) Display the matched elements with a sliding motion. ->Effects
+.slideDown(options) Display the matched elements with a sliding motion. ->Effects
+.slideDown([duration] [, easing] [, complete]) Display the matched elements with a sliding motion. ->Effects
+.slideUp([duration] [, complete]) Hide the matched elements with a sliding motion. ->Effects
+.slideUp(options) Hide the matched elements with a sliding motion. ->Effects
+.slideUp([duration] [, easing] [, complete]) Hide the matched elements with a sliding motion. ->Effects
+.scroll(handler(eventObject)) Bind an event handler to the "scroll" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.scroll([eventData] , handler(eventObject)) Bind an event handler to the "scroll" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.scroll() Bind an event handler to the "scroll" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.resize(handler(eventObject)) Bind an event handler to the "resize" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.resize([eventData] , handler(eventObject)) Bind an event handler to the "resize" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.resize() Bind an event handler to the "resize" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.ready(handler) Specify a function to execute when the DOM is fully loaded. ->Events
+.trigger(eventType [, extraParameters]) Execute all handlers and behaviors attached to the matched elements \t\n for the given event type. ->Events
+.trigger(event [, extraParameters]) Execute all handlers and behaviors attached to the matched elements \t\n for the given event type. ->Events
+.unbind(eventType [, handler(eventObject)]) Remove a previously-attached event handler from the elements. ->Events
+.unbind(eventType , false) Remove a previously-attached event handler from the elements. ->Events
+.unbind(event) Remove a previously-attached event handler from the elements. ->Events
+.unbind() Remove a previously-attached event handler from the elements. ->Events
+.one(events [, data] , handler(eventObject)) Attach a handler to an event for the elements.\t\n  The handler is executed at most once per element per event type. ->Events
+.one(events [, selector] [, data] , handler(eventObject)) Attach a handler to an event for the elements.\t\n  The handler is executed at most once per element per event type. ->Events
+.one(events [, selector] [, data]) Attach a handler to an event for the elements.\t\n  The handler is executed at most once per element per event type. ->Events
+jQuery.proxy(function , context) Takes a function and returns a new one that will always have a particular \t\n context. ->Events
+jQuery.proxy(context , name) Takes a function and returns a new one that will always have a particular \t\n context. ->Events
+jQuery.proxy(function , context [, additionalArguments]) Takes a function and returns a new one that will always have a particular \t\n context. ->Events
+jQuery.proxy(context , name [, additionalArguments]) Takes a function and returns a new one that will always have a particular \t\n context. ->Events
+.triggerHandler(eventType [, extraParameters]) Execute all handlers attached to an element for an event. ->Events
+.on(events [, selector] [, data] , handler(eventObject)) Attach an event handler function for one or more events to the selected \t\n elements. ->Events
+.on(events [, selector] [, data]) Attach an event handler function for one or more events to the selected \t\n elements. ->Events
+.off(events [, selector] [, handler(eventObject)]) Remove an event handler. ->Events
+.off(events [, selector]) Remove an event handler. ->Events
+.off() Remove an event handler. ->Events
+.delegate(selector , eventType , handler(eventObject)) Attach a handler to one or more events for all elements that match \t\n the selector, now or in the future, based on a specific set of root elements. ->Events
+.delegate(selector , eventType , eventData , handler(eventObject)) Attach a handler to one or more events for all elements that match \t\n the selector, now or in the future, based on a specific set of root elements. ->Events
+.delegate(selector , events) Attach a handler to one or more events for all elements that match \t\n the selector, now or in the future, based on a specific set of root elements. ->Events
+.bind(eventType [, eventData] , handler(eventObject)) Attach a handler to an event for the elements. ->Events
+.bind(eventType [, eventData] [, preventBubble]) Attach a handler to an event for the elements. ->Events
+.bind(events) Attach a handler to an event for the elements. ->Events
+.undelegate() Remove a handler from the event for all elements which match the \t\n current selector, based upon a specific set of root elements. ->Events
+.undelegate(selector , eventType) Remove a handler from the event for all elements which match the \t\n current selector, based upon a specific set of root elements. ->Events
+.undelegate(selector , eventType , handler(eventObject)) Remove a handler from the event for all elements which match the \t\n current selector, based upon a specific set of root elements. ->Events
+.undelegate(selector , events) Remove a handler from the event for all elements which match the \t\n current selector, based upon a specific set of root elements. ->Events
+.undelegate(namespace) Remove a handler from the event for all elements which match the \t\n current selector, based upon a specific set of root elements. ->Events
+event.type Describes the nature of the event. ->Events
+event.stopImmediatePropagation() Keeps the rest of the handlers from being executed and prevents the \t\n event from bubbling up the DOM tree. ->Events
+event.pageY The mouse position relative to the top edge of the document. ->Events
+event.metaKey Indicates whether the META key was pressed when the event fired. ->Events
+event.pageX The mouse position relative to the left edge of the document. ->Events
+event.preventDefault() If this method is called, the default action of the event will not \t\n be triggered. ->Events
+event.relatedTarget The other DOM element involved in the event, if any. ->Events
+event.delegateTarget The element where the currently-called jQuery event handler was attached. ->Events
+event.target The DOM element that initiated the event.  ->Events
+event.timeStamp The difference in milliseconds between the time the browser created \t\n the event and January 1, 1970. ->Events
+event.result The last value returned by an event handler that was triggered by \t\n this event, unless the value was undefined. ->Events
+event.currentTarget The current DOM element within the event bubbling phase.  ->Events
+event.stopPropagation() Prevents the event from bubbling up the DOM tree,\t\n  preventing any parent handlers from being notified of the event. ->Events
+event.isPropagationStopped() Returns whether event.stopPropagation() was ever called on this event object.  ->Events
+event.isDefaultPrevented() Returns whether event.preventDefault() was ever called on this event object.  ->Events
+event.data An optional object of data passed to an event method when the current \t\n executing handler is bound.  ->Events
+event.isImmediatePropagationStopped() Returns whether event.stopImmediatePropagation() was ever called \t\n on this event object.  ->Events
+event.namespace The namespace specified when the event was triggered. ->Events
+event.which For key or mouse events, this property indicates the specific key \t\n or button that was pressed. ->Events
+.submit(handler(eventObject)) Bind an event handler to the "submit" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.submit([eventData] , handler(eventObject)) Bind an event handler to the "submit" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.submit() Bind an event handler to the "submit" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.select(handler(eventObject)) Bind an event handler to the "select" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.select([eventData] , handler(eventObject)) Bind an event handler to the "select" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.select() Bind an event handler to the "select" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.blur(handler(eventObject)) Bind an event handler to the "blur" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.blur([eventData] , handler(eventObject)) Bind an event handler to the "blur" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.blur() Bind an event handler to the "blur" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.focus(handler(eventObject)) Bind an event handler to the "focus" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.focus([eventData] , handler(eventObject)) Bind an event handler to the "focus" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.focus() Bind an event handler to the "focus" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.change(handler(eventObject)) Bind an event handler to the "change" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.change([eventData] , handler(eventObject)) Bind an event handler to the "change" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.change() Bind an event handler to the "change" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.focusin(handler(eventObject)) Bind an event handler to the "focusin" event. ->Events
+.focusin([eventData] , handler(eventObject)) Bind an event handler to the "focusin" event. ->Events
+.keypress(handler(eventObject)) Bind an event handler to the "keypress" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.keypress([eventData] , handler(eventObject)) Bind an event handler to the "keypress" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.keypress() Bind an event handler to the "keypress" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.keyup(handler(eventObject)) Bind an event handler to the "keyup" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.keyup([eventData] , handler(eventObject)) Bind an event handler to the "keyup" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.keyup() Bind an event handler to the "keyup" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.keydown(handler(eventObject)) Bind an event handler to the "keydown" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.keydown([eventData] , handler(eventObject)) Bind an event handler to the "keydown" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.keydown() Bind an event handler to the "keydown" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.focusout(handler(eventObject)) Bind an event handler to the "focusout" JavaScript event. ->Events
+.focusout([eventData] , handler(eventObject)) Bind an event handler to the "focusout" JavaScript event. ->Events
+.mousedown(handler(eventObject)) Bind an event handler to the "mousedown" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.mousedown([eventData] , handler(eventObject)) Bind an event handler to the "mousedown" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.mousedown() Bind an event handler to the "mousedown" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.dblclick(handler(eventObject)) Bind an event handler to the "dblclick" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.dblclick([eventData] , handler(eventObject)) Bind an event handler to the "dblclick" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.dblclick() Bind an event handler to the "dblclick" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.hover(handlerIn(eventObject) , handlerOut(eventObject)) Bind one or two handlers to the matched elements,\t\n  to be executed when the mouse pointer enters and leaves the elements. ->Events
+.hover(handlerInOut(eventObject)) Bind one or two handlers to the matched elements,\t\n  to be executed when the mouse pointer enters and leaves the elements. ->Events
+.click(handler(eventObject)) Bind an event handler to the "click" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.click([eventData] , handler(eventObject)) Bind an event handler to the "click" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.click() Bind an event handler to the "click" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.mousemove(handler(eventObject)) Bind an event handler to the "mousemove" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.mousemove([eventData] , handler(eventObject)) Bind an event handler to the "mousemove" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.mousemove() Bind an event handler to the "mousemove" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.mouseover(handler(eventObject)) Bind an event handler to the "mouseover" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.mouseover([eventData] , handler(eventObject)) Bind an event handler to the "mouseover" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.mouseover() Bind an event handler to the "mouseover" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.mouseenter(handler(eventObject)) Bind an event handler to be fired when the mouse enters an element,\t\n  or trigger that handler on an element. ->Events
+.mouseenter([eventData] , handler(eventObject)) Bind an event handler to be fired when the mouse enters an element,\t\n  or trigger that handler on an element. ->Events
+.mouseenter() Bind an event handler to be fired when the mouse enters an element,\t\n  or trigger that handler on an element. ->Events
+.mouseup(handler(eventObject)) Bind an event handler to the "mouseup" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.mouseup([eventData] , handler(eventObject)) Bind an event handler to the "mouseup" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.mouseup() Bind an event handler to the "mouseup" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.mouseleave(handler(eventObject)) Bind an event handler to be fired when the mouse leaves an element,\t\n  or trigger that handler on an element. ->Events
+.mouseleave([eventData] , handler(eventObject)) Bind an event handler to be fired when the mouse leaves an element,\t\n  or trigger that handler on an element. ->Events
+.mouseleave() Bind an event handler to be fired when the mouse leaves an element,\t\n  or trigger that handler on an element. ->Events
+.mouseout(handler(eventObject)) Bind an event handler to the "mouseout" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.mouseout([eventData] , handler(eventObject)) Bind an event handler to the "mouseout" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.mouseout() Bind an event handler to the "mouseout" JavaScript event,\t\n  or trigger that event on an element. ->Events
+.jquery A string containing the jQuery version number. ->Internals
+.pushStack(elements) Add a collection of DOM elements onto the jQuery stack. ->Internals
+.pushStack(elements , name , arguments) Add a collection of DOM elements onto the jQuery stack. ->Internals
+jQuery.error(message) Takes a string and throws an exception containing it. ->Internals
+.clone([withDataAndEvents]) Create a deep copy of the set of matched elements. ->Manipulation
+.clone([withDataAndEvents] [, deepWithDataAndEvents]) Create a deep copy of the set of matched elements. ->Manipulation
+.wrap(wrappingElement) Wrap an HTML structure around each element in the set of matched elements. ->Manipulation
+.wrap(function(index)) Wrap an HTML structure around each element in the set of matched elements. ->Manipulation
+.wrapInner(wrappingElement) Wrap an HTML structure around the content of each element in the \t\n set of matched elements. ->Manipulation
+.wrapInner(function(index)) Wrap an HTML structure around the content of each element in the \t\n set of matched elements. ->Manipulation
+.unwrap() Remove the parents of the set of matched elements from the DOM,\t\n  leaving the matched elements in their place. ->Manipulation
+.wrapAll(wrappingElement) Wrap an HTML structure around all elements in the set of matched elements. ->Manipulation
+.prepend(content [, content]) Insert content, specified by the parameter,\t\n  to the beginning of each element in the set of matched elements. ->Manipulation
+.prepend(function(index, html)) Insert content, specified by the parameter,\t\n  to the beginning of each element in the set of matched elements. ->Manipulation
+.append(content [, content]) Insert content, specified by the parameter,\t\n  to the end of each element in the set of matched elements. ->Manipulation
+.append(function(index, html)) Insert content, specified by the parameter,\t\n  to the end of each element in the set of matched elements. ->Manipulation
+.prependTo(target) Insert every element in the set of matched elements to the beginning \t\n of the target. ->Manipulation
+.text() Get the combined text contents of each element in the set of matched \t\n elements, including their descendants, or set the text contents of the matched elements. ->Manipulation
+.text(textString) Get the combined text contents of each element in the set of matched \t\n elements, including their descendants, or set the text contents of the matched elements. ->Manipulation
+.text(function(index, text)) Get the combined text contents of each element in the set of matched \t\n elements, including their descendants, or set the text contents of the matched elements. ->Manipulation
+.appendTo(target) Insert every element in the set of matched elements to the end of the target. ->Manipulation
+.insertAfter(target) Insert every element in the set of matched elements after the target. ->Manipulation
+.before(content [, content]) Insert content, specified by the parameter,\t\n  before each element in the set of matched elements. ->Manipulation
+.before(function) Insert content, specified by the parameter,\t\n  before each element in the set of matched elements. ->Manipulation
+.after(content [, content]) Insert content, specified by the parameter,\t\n  after each element in the set of matched elements. ->Manipulation
+.after(function(index)) Insert content, specified by the parameter,\t\n  after each element in the set of matched elements. ->Manipulation
+.insertBefore(target) Insert every element in the set of matched elements before the target. ->Manipulation
+.detach([selector]) Remove the set of matched elements from the DOM. ->Manipulation
+.remove([selector]) Remove the set of matched elements from the DOM. ->Manipulation
+.replaceWith(newContent) Replace each element in the set of matched elements with the provided \t\n new content and return the set of elements that was removed. ->Manipulation
+.replaceWith(function) Replace each element in the set of matched elements with the provided \t\n new content and return the set of elements that was removed. ->Manipulation
+.replaceAll(target) Replace each target element with the set of matched elements. ->Manipulation
+.each(function(index, Element)) Iterate over a jQuery object, executing a function for each matched element.  ->Miscellaneous
+.get(index) Retrieve the DOM elements matched by the jQuery object. ->Miscellaneous
+.get() Retrieve the DOM elements matched by the jQuery object. ->Miscellaneous
+.toArray() Retrieve all the elements contained in the jQuery set, as an array. ->Miscellaneous
+.index() Search for a given element from among the matched elements. ->Miscellaneous
+.index(selector) Search for a given element from among the matched elements. ->Miscellaneous
+.index(element) Search for a given element from among the matched elements. ->Miscellaneous
+.offsetParent() Get the closest ancestor element that is positioned. ->Offset
+.length The number of elements in the jQuery object. ->Properties
+jQuery.support A collection of properties that represent the presence of different \t\n browser features or bugs. Intended for jQuery's internal use; specific properties may be removed when they are no longer needed internally to improve page startup performance. For your own project's feature-detection needs, we strongly recommend the use of an external library such as Modernizr instead of dependency on properties in jQuery.support. ->Properties
+Attribute Starts With Selector [name^="value"] Selects elements that have the specified attribute with a value beginning \t\n exactly with a given string. ->Selectors
+Attribute Contains Prefix Selector [name|="value"] Selects elements that have the specified attribute with a value either \t\n equal to a given string or starting with that string followed by a hyphen (-). ->Selectors
+Multiple Attribute Selector [name="value"][name2="value2"] Matches elements that match all of the specified attribute filters. ->Selectors
+Has Attribute Selector [name] Selects elements that have the specified attribute, with any value.  ->Selectors
+Attribute Contains Word Selector [name~="value"] Selects elements that have the specified attribute with a value containing \t\n a given word, delimited by spaces. ->Selectors
+Attribute Equals Selector [name="value"] Selects elements that have the specified attribute with a value exactly \t\n equal to a certain value. ->Selectors
+Attribute Ends With Selector [name$="value"] Selects elements that have the specified attribute with a value ending \t\n exactly with a given string. The comparison is case sensitive. ->Selectors
+Attribute Contains Selector [name*="value"] Selects elements that have the specified attribute with a value containing \t\n the a given substring. ->Selectors
+Attribute Not Equal Selector [name!="value"] Select elements that either don't have the specified attribute,\t\n  or do have the specified attribute but not with a certain value. ->Selectors
+Element Selector ("element") Selects all elements with the given tag name. ->Selectors
+Multiple Selector ("selector1, selector2, selectorN") Selects the combined results of all the specified selectors. ->Selectors
+ID Selector ("#id") Selects a single element with the given id attribute.  ->Selectors
+Class Selector (".class") Selects all elements with the given class.  ->Selectors
+:not() Selector Selects all elements that do not match the given selector. ->Selectors
+:odd Selector Selects odd elements, zero-indexed. See also even. ->Selectors
+:header Selector Selects all elements that are headers, like h1, h2, h3 and so on. ->Selectors
+:eq() Selector Select the element at index n within the matched set. ->Selectors
+:target Selector Selects the target element indicated by the fragment identifier of \t\n the document's URI. ->Selectors
+:first Selector Selects the first matched element. ->Selectors
+:root Selector Selects the element that is the root of the document. ->Selectors
+:lt() Selector Select all elements at an index less than index within the matched set. ->Selectors
+:last Selector Selects the last matched element. ->Selectors
+:even Selector Selects even elements, zero-indexed. See also odd. ->Selectors
+:lang() Selector Selects all elements of the specified language. ->Selectors
+:focus Selector Selects element if it is currently focused. ->Selectors
+:animated Selector Select all elements that are in the progress of an animation at the \t\n time the selector is run. ->Selectors
+:gt() Selector Select all elements at an index greater than index within the matched set. ->Selectors
+:last-of-type Selector Selects all elements that are the last among siblings of the same element name. ->Selectors
+:nth-of-type() Selector Selects all elements that are the nth child of their parent in relation \t\n to siblings with the same element name. ->Selectors
+:first-of-type Selector Selects all elements that are the first among siblings of the same \t\n element name. ->Selectors
+:only-of-type Selector Selects all elements that have no siblings with the same element name. ->Selectors
+:only-child Selector Selects all elements that are the only child of their parent. ->Selectors
+:nth-last-of-type() Selector Selects all elements that are the nth-child of their parent,\t\n  counting from the last element to the first. ->Selectors
+:nth-last-child() Selector Selects all elements that are the nth-child of their parent,\t\n  counting from the last element to the first. ->Selectors
+:last-child Selector Selects all elements that are the last child of their parent. ->Selectors
+:nth-child() Selector Selects all elements that are the nth-child of their parent. ->Selectors
+:first-child Selector Selects all elements that are the first child of their parent. ->Selectors
+:parent Selector Select all elements that have at least one child node (either an \t\n element or text). ->Selectors
+:contains() Selector Select all elements that contain the specified text. ->Selectors
+:empty Selector Select all elements that have no children (including text nodes). ->Selectors
+:has() Selector Selects elements which contain at least one element that matches \t\n the specified selector. ->Selectors
+:file Selector Selects all elements of type file. ->Selectors
+:selected Selector Selects all elements that are selected. ->Selectors
+:image Selector Selects all elements of type image. ->Selectors
+:input Selector Selects all input, textarea, select and button elements. ->Selectors
+:password Selector Selects all elements of type password. ->Selectors
+:submit Selector Selects all elements of type submit. ->Selectors
+:text Selector Selects all elements of type text. ->Selectors
+:disabled Selector Selects all elements that are disabled. ->Selectors
+:reset Selector Selects all elements of type reset. ->Selectors
+:checked Selector Matches all elements that are checked or selected. ->Selectors
+:checkbox Selector Selects all elements of type checkbox. ->Selectors
+:enabled Selector Selects all elements that are enabled. ->Selectors
+:button Selector Selects all button elements and elements of type button. ->Selectors
+:radio Selector Selects all elements of type radio. ->Selectors
+Child Selector ("parent > child") Selects all direct child elements specified by "child" of elements \t\n specified by "parent". ->Selectors
+Next Siblings Selector ("prev ~ siblings") Selects all sibling elements that follow after the "prev" element,\t\n  have the same parent, and match the filtering "siblings" selector. ->Selectors
+Descendant Selector ("ancestor descendant") Selects all elements that are descendants of a given ancestor. ->Selectors
+Next Adjacent Selector ("prev + next") Selects all next elements matching "next" that are immediately preceded \t\n by a sibling "prev". ->Selectors
+:visible Selector Selects all elements that are visible. ->Selectors
+:hidden Selector Selects all elements that are hidden. ->Selectors
+.filter(selector) Reduce the set of matched elements to those that match the selector \t\n or pass the function's test.  ->Traversing
+.filter(function(index)) Reduce the set of matched elements to those that match the selector \t\n or pass the function's test.  ->Traversing
+.filter(element) Reduce the set of matched elements to those that match the selector \t\n or pass the function's test.  ->Traversing
+.filter(jQuery object) Reduce the set of matched elements to those that match the selector \t\n or pass the function's test.  ->Traversing
+.last() Reduce the set of matched elements to the final one in the set. ->Traversing
+.eq(index) Reduce the set of matched elements to the one at the specified index. ->Traversing
+.eq(-index) Reduce the set of matched elements to the one at the specified index. ->Traversing
+.first() Reduce the set of matched elements to the first in the set. ->Traversing
+.map(callback(index, domElement)) Pass each element in the current matched set through a function,\t\n  producing a new jQuery object containing the return values. ->Traversing
+.has(selector) Reduce the set of matched elements to those that have a descendant \t\n that matches the selector or DOM element. ->Traversing
+.has(contained) Reduce the set of matched elements to those that have a descendant \t\n that matches the selector or DOM element. ->Traversing
+.slice(start [, end]) Reduce the set of matched elements to a subset specified by a range of indices. ->Traversing
+.is(selector) Check the current matched set of elements against a selector,\t\n  element, or jQuery object and return true if at least one of these elements matches the given arguments. ->Traversing
+.is(function(index)) Check the current matched set of elements against a selector,\t\n  element, or jQuery object and return true if at least one of these elements matches the given arguments. ->Traversing
+.is(jQuery object) Check the current matched set of elements against a selector,\t\n  element, or jQuery object and return true if at least one of these elements matches the given arguments. ->Traversing
+.is(elements) Check the current matched set of elements against a selector,\t\n  element, or jQuery object and return true if at least one of these elements matches the given arguments. ->Traversing
+.not(selector) Remove elements from the set of matched elements. ->Traversing
+.not(elements) Remove elements from the set of matched elements. ->Traversing
+.not(function(index)) Remove elements from the set of matched elements. ->Traversing
+.not(jQuery object) Remove elements from the set of matched elements. ->Traversing
+.addBack([selector]) Add the previous set of elements on the stack to the current set,\t\n  optionally filtered by a selector. ->Traversing
+.end() End the most recent filtering operation in the current chain and \t\n return the set of matched elements to its previous state. ->Traversing
+.contents() Get the children of each element in the set of matched elements,\t\n  including text and comment nodes. ->Traversing
+.add(selector) Add elements to the set of matched elements. ->Traversing
+.add(elements) Add elements to the set of matched elements. ->Traversing
+.add(html) Add elements to the set of matched elements. ->Traversing
+.add(jQuery object) Add elements to the set of matched elements. ->Traversing
+.add(selector , context) Add elements to the set of matched elements. ->Traversing
+.children([selector]) Get the children of each element in the set of matched elements,\t\n  optionally filtered by a selector. ->Traversing
+.nextUntil([selector] [, filter]) Get all following siblings of each element up to but not including \t\n the element matched by the selector, DOM node, or jQuery object passed. ->Traversing
+.nextUntil([element] [, filter]) Get all following siblings of each element up to but not including \t\n the element matched by the selector, DOM node, or jQuery object passed. ->Traversing
+.parent([selector]) Get the parent of each element in the current set of matched elements, \t\n optionally filtered by a selector. ->Traversing
+.parents([selector]) Get the ancestors of each element in the current set of matched elements, \t\n optionally filtered by a selector. ->Traversing
+.nextAll([selector]) Get all following siblings of each element in the set of matched \t\n elements, optionally filtered by a selector. ->Traversing
+.closest(selector) For each element in the set, get the first element that matches the \t\n selector by testing the element itself and traversing up through its ancestors in the DOM tree. ->Traversing
+.closest(selector [, context]) For each element in the set, get the first element that matches the \t\n selector by testing the element itself and traversing up through its ancestors in the DOM tree. ->Traversing
+.closest(jQuery object) For each element in the set, get the first element that matches the \t\n selector by testing the element itself and traversing up through its ancestors in the DOM tree. ->Traversing
+.closest(element) For each element in the set, get the first element that matches the \t\n selector by testing the element itself and traversing up through its ancestors in the DOM tree. ->Traversing
+.closest(selectors [, context]) For each element in the set, get the first element that matches the \t\n selector by testing the element itself and traversing up through its ancestors in the DOM tree. ->Traversing
+.parentsUntil([selector] [, filter]) Get the ancestors of each element in the current set of matched elements, \t\n up to but not including the element matched by the selector, DOM node, or jQuery object. ->Traversing
+.parentsUntil([element] [, filter]) Get the ancestors of each element in the current set of matched elements, \t\n up to but not including the element matched by the selector, DOM node, or jQuery object. ->Traversing
+.siblings([selector]) Get the siblings of each element in the set of matched elements,\t\n  optionally filtered by a selector. ->Traversing
+.prevUntil([selector] [, filter]) Get all preceding siblings of each element up to but not including \t\n the element matched by the selector, DOM node, or jQuery object. ->Traversing
+.prevUntil([element] [, filter]) Get all preceding siblings of each element up to but not including \t\n the element matched by the selector, DOM node, or jQuery object. ->Traversing
+.prevAll([selector]) Get all preceding siblings of each element in the set of matched \t\n elements, optionally filtered by a selector. ->Traversing
+.next([selector]) Get the immediately following sibling of each element in the set \t\n of matched elements. If a selector is provided, it retrieves the next sibling only if it matches that selector. ->Traversing
+.find(selector) Get the descendants of each element in the current set of matched \t\n elements, filtered by a selector, jQuery object, or element. ->Traversing
+.find(jQuery object) Get the descendants of each element in the current set of matched \t\n elements, filtered by a selector, jQuery object, or element. ->Traversing
+.find(element) Get the descendants of each element in the current set of matched \t\n elements, filtered by a selector, jQuery object, or element. ->Traversing
+.prev([selector]) Get the immediately preceding sibling of each element in the set \t\n of matched elements, optionally filtered by a selector. ->Traversing
+jQuery.parseHTML(data [, context] [, keepScripts]) Parses a string into an array of DOM nodes. ->Utilities
+jQuery.isPlainObject(object) Check to see if an object is a plain object (created using "{}" or \t\n "new Object"). ->Utilities
+jQuery.makeArray(obj) Convert an array-like object into a true JavaScript array. ->Utilities
+jQuery.isXMLDoc(node) Check to see if a DOM node is within an XML document (or is an XML document). ->Utilities
+jQuery.trim(str) Remove the whitespace from the beginning and end of a string. ->Utilities
+jQuery.now() Return a number representing the current time. ->Utilities
+jQuery.isEmptyObject(object) Check to see if an object is empty (contains no enumerable properties). ->Utilities
+jQuery.type(obj) Determine the internal JavaScript [[Class]] of an object. ->Utilities
+jQuery.grep(array , function(elementOfArray, indexInArray) [, invert]) Finds the elements of an array which satisfy a filter function.\t\n  The original array is not affected. ->Utilities
+jQuery.isNumeric(value) Determines whether its argument is a number. ->Utilities
+jQuery.unique(array) Sorts an array of DOM elements, in place,\t\n  with the duplicates removed. Note that this only works on arrays of DOM elements, not strings or numbers. ->Utilities
+jQuery.parseXML(data) Parses a string into an XML document. ->Utilities
+jQuery.globalEval(code) Execute some JavaScript code globally. ->Utilities
+jQuery.parseJSON(json) Takes a well-formed JSON string and returns the resulting JavaScript object. ->Utilities
+jQuery.isArray(obj) Determine whether the argument is an array. ->Utilities
+jQuery.noop() An empty function. ->Utilities
+jQuery.isWindow(obj) Determine whether the argument is a window. ->Utilities
+jQuery.fn.extend(object) Merge the contents of an object onto the jQuery prototype to provide \t\n new jQuery instance methods. ->Utilities
+jQuery.inArray(value , array [, fromIndex]) Search for a specified value within an array and return its index \t\n (or -1 if not found). ->Utilities
+jQuery.isFunction(obj) Determine if the argument passed is a Javascript function object.  ->Utilities
+jQuery.contains(container , contained) Check to see if a DOM element is a descendant of another DOM element. ->Utilities
+jQuery.map(array , callback( elementOfArray, indexInArray )) Translate all items in an array or object to new array of items. ->Utilities
+jQuery.map(arrayOrObject , callback( value, indexOrKey )) Translate all items in an array or object to new array of items. ->Utilities
+jQuery.each(collection , callback(indexInArray, valueOfElement)) A generic iterator function, which can be used to seamlessly iterate \t\n over both objects and arrays. Arrays and array-like objects with a length property (such as a function's arguments object) are iterated by numeric index, from 0 to length-1. Other objects are iterated via their named properties. ->Utilities
+jQuery.merge(first , second) Merge the contents of two arrays together into the first array.  ->Utilities
+jQuery.extend(target [, object1] [, objectN]) Merge the contents of two or more objects together into the first object. ->Utilities
+jQuery.extend([deep] , target , object1 [, objectN]) Merge the contents of two or more objects together into the first object. ->Utilities
