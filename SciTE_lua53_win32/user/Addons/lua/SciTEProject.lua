@@ -96,14 +96,20 @@ function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 --		cTagList=cTagAllTogether
 		cTagList={}
 	
-		-- Write properties to Scites Config.
+		-- Write dynamically created Project SDK to Scites Config.
 		projectEXT=props["file.patterns.project"]
-		props["substylewords.11.20."..projectEXT] = cTagClasses
-		props["substylewords.11.18."..projectEXT] = cTagModules
-		props["substylewords.11.17."..projectEXT] = cTagFunctions
-		props["substylewords.11.16."..projectEXT]= cTagNames
-		props["substylewords.11.19."..projectEXT]= cTagENUMs
 		props["substylewords.11.15."..projectEXT] = cTagOthers
+		props["substylewords.11.16."..projectEXT]= cTagNames
+		props["substylewords.11.17."..projectEXT] = cTagFunctions
+		props["substylewords.11.18."..projectEXT] = cTagModules
+		props["substylewords.11.19."..projectEXT] = cTagENUMs
+		props["substylewords.11.20."..projectEXT] = cTagClasses
+		-- Same for User Provided Platform SDK
+		props["substylewords.11.10"..projectEXT] = props["sdk.tags.cTagNames"]
+		props["substylewords.11.11."..projectEXT] = props["sdk.tags.cTagFunctions"]
+		props["substylewords.11.12."..projectEXT] = props["sdk.tags.cTagModules"]
+		props["substylewords.11.13."..projectEXT] = props["sdk.tags.cTagENUMS"]	
+		props["substylewords.11.14."..projectEXT] = props["sdk.tags.cTagClasses"]		
 	end
 
 	return cTagList
@@ -145,11 +151,14 @@ function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 	local currentLexer=props["Language"]
 	props["substyles."..currentLexer..".11"]=20
 	
-	-- User Provided Api (eg MinGW)
+	-- User Provided platformSDK (eg MinGW)
+	props["style."..currentLexer..".11.10"]=props["colour.project.constants"]
 	props["style."..currentLexer..".11.11"]=props["colour.project.functions"]
-	props["style."..currentLexer..".11.12"]=props["colour.project.class"]
-
-	props["style."..currentLexer..".11.15"]=props["colour.project.enums"]    
+	props["style."..currentLexer..".11.12"]=props["colour.project.modules"]
+	props["style."..currentLexer..".11.13"]=props["colour.project.enums"]
+	props["style."..currentLexer..".11.14"]=props["colour.project.class"]
+	--Dynamically created Project SDK
+	props["style."..currentLexer..".11.15"]=props["colour.project.enums"] --others    
 	props["style."..currentLexer..".11.16"]=props["colour.project.constants"]
 	props["style."..currentLexer..".11.17"]=props["colour.project.functions"]
 	props["style."..currentLexer..".11.18"]=props["colour.project.modules"]
