@@ -1086,7 +1086,7 @@ void SciTEWin::Creation() {
 	wOutput.Call(SCI_SETMARGINWIDTHN, 1, 0);
 	//wOutput.Call(SCI_SETCARETPERIOD, 0);
 	wOutput.Call(SCI_USEPOPUP, 0);
-	::DragAcceptFiles(MainHWND(), true);
+	::DragAcceptFiles ( MainHWND(), true);
 
 	HWND hwndToolBar = ::CreateWindowEx(
 	               0,
