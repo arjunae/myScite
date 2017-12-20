@@ -95,7 +95,7 @@ function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 		end
 --		cTagList=cTagAllTogether
 		cTagList={}
-	
+		--print(props["sdk.tags.cTagFunctions"]		)
 		-- Write dynamically created Project SDK to Scites Config.
 		projectEXT=props["file.patterns.project"]
 		props["substylewords.11.15."..projectEXT] = cTagOthers
