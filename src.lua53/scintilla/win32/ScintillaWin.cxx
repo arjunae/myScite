@@ -151,7 +151,6 @@ static void SetWindowPointer(HWND hWnd, void *ptr) {
 static void SetWindowID(HWND hWnd, int identifier) {
 	::SetWindowLongPtr(hWnd, GWLP_ID, identifier);
 }
-}
 
 static Point PointFromPOINT(POINT pt) {
 	return Point::FromInts(pt.x, pt.y);

@@ -61,6 +61,7 @@ Add	scite\src\SciTEBuffers.cxx	/^int BufferList::Add() {$/;"	f	class:BufferList	
 AddChar	scintilla\src\Editor.cxx	/^void Editor::AddChar(char ch) {$/;"	f	class:Editor	signature:(char ch)
 AddCharUTF	scintilla\src\Editor.cxx	/^void Editor::AddCharUTF(const char *s, unsigned int len, bool treatAsDBCS) {$/;"	f	class:Editor	signature:(const char *s, unsigned int len, bool treatAsDBCS)
 AddCharUTF	scintilla\src\ScintillaBase.cxx	/^void ScintillaBase::AddCharUTF(const char *s, unsigned int len, bool treatAsDBCS) {$/;"	f	class:ScintillaBase	signature:(const char *s, unsigned int len, bool treatAsDBCS)
+AddCharUTF16	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::AddCharUTF16(wchar_t const *wcs, unsigned int wclen) {$/;"	f	class:ScintillaWin	signature:(wchar_t const *wcs, unsigned int wclen)
 AddCommand	scite\src\JobQueue.cxx	/^void JobQueue::AddCommand(const std::string &command, const FilePath &directory, JobSubsystem jobType, const std::string &input, int flags) {$/;"	f	class:JobQueue	signature:(const std::string &command, const FilePath &directory, JobSubsystem jobType, const std::string &input, int flags)
 AddCommand	scite\src\SciTEBase.cxx	/^void SciTEBase::AddCommand(const std::string &cmd, const std::string &dir, JobSubsystem jobType, const std::string &input, int flags) {$/;"	f	class:SciTEBase	signature:(const std::string &cmd, const std::string &dir, JobSubsystem jobType, const std::string &input, int flags)
 AddCommand	scite\win32\SciTEWin.cxx	/^void SciTEWin::AddCommand(const std::string &cmd, const std::string &dir, JobSubsystem jobType, const std::string &input, int flags) {$/;"	f	class:SciTEWin	signature:(const std::string &cmd, const std::string &dir, JobSubsystem jobType, const std::string &input, int flags)
@@ -78,6 +79,7 @@ AddNumber	scintilla\src\Editor.h	/^	enum AddNumber { addOne, addEach };$/;"	g	cl
 AddRange	scintilla\src\Editor.h	/^	bool AddRange(Sci::Line lineStart, Sci::Line lineEnd) {$/;"	f	struct:Scintilla::WrapPending	access:public	signature:(Sci::Line lineStart, Sci::Line lineEnd)
 AddRectangularToMime	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^static void AddRectangularToMime(QMimeData *mimeData, QString su)$/;"	f	file:	signature:(QMimeData *mimeData, QString su)
 AddRef	scintilla\src\Document.cxx	/^int Document::AddRef() {$/;"	f	class:Document	signature:()
+AddRef	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP_(ULONG) ScintillaWin::AddRef() {$/;"	f	class:ScintillaWin	signature:()
 AddSelection	scintilla\gtk\ScintillaGTKAccessible.cxx	/^gboolean ScintillaGTKAccessible::AddSelection(int startChar, int endChar) {$/;"	f	class:ScintillaGTKAccessible	signature:(int startChar, int endChar)
 AddSelection	scintilla\gtk\ScintillaGTKAccessible.cxx	/^gboolean ScintillaGTKAccessible::AtkTextIface::AddSelection(AtkText *text, gint start, gint end) {$/;"	f	class:ScintillaGTKAccessible::AtkTextIface	signature:(AtkText *text, gint start, gint end)
 AddSelection	scintilla\src\Selection.cxx	/^void Selection::AddSelection(SelectionRange range) {$/;"	f	class:Selection	signature:(SelectionRange range)
@@ -95,6 +97,7 @@ AddTextColorAttribute	scintilla\gtk\ScintillaGTKAccessible.cxx	/^static AtkAttri
 AddTextIntAttribute	scintilla\gtk\ScintillaGTKAccessible.cxx	/^static AtkAttributeSet *AddTextIntAttribute(AtkAttributeSet *attributes, AtkTextAttribute attr, gint i) {$/;"	f	file:	signature:(AtkAttributeSet *attributes, AtkTextAttribute attr, gint i)
 AddToPopUp	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::AddToPopUp(const char *label, int cmd, bool enabled) {$/;"	f	class:ScintillaGTK	signature:(const char *label, int cmd, bool enabled)
 AddToPopUp	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::AddToPopUp(const char *label,$/;"	f	class:ScintillaQt	signature:(const char *label, int cmd, bool enabled)
+AddToPopUp	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::AddToPopUp(const char *label, int cmd, bool enabled) {$/;"	f	class:ScintillaWin	signature:(const char *label, int cmd, bool enabled)
 AddToPopUp	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::AddToPopUp(const char *label, int cmd, bool enabled) {$/;"	f	class:SciTEGTK	signature:(const char *label, int cmd, bool enabled)
 AddToPopUp	scite\gtk\Widget.cxx	/^void Strip::AddToPopUp(GUI::Menu &popup, const char *label, int cmd, bool checked) {$/;"	f	class:Strip	signature:(GUI::Menu &popup, const char *label, int cmd, bool checked)
 AddToPopUp	scite\win32\SciTEWin.cxx	/^void SciTEWin::AddToPopUp(const char *label, int cmd, bool enabled) {$/;"	f	class:SciTEWin	signature:(const char *label, int cmd, bool enabled)
@@ -104,6 +107,7 @@ AddToolBar	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::AddToolBar() {$/;"	f	class:Sc
 AddToolButton	scite\gtk\SciTEGTK.cxx	/^GtkWidget *SciTEGTK::AddToolButton(const char *text, int cmd, GtkWidget *toolbar_icon) {$/;"	f	class:SciTEGTK	signature:(const char *text, int cmd, GtkWidget *toolbar_icon)
 AddToolSpace	scite\gtk\SciTEGTK.cxx	/^static void AddToolSpace(GtkToolbar *toolbar) {$/;"	f	file:	signature:(GtkToolbar *toolbar)
 AddUndoAction	scintilla\src\Document.h	/^	void AddUndoAction(Sci::Position token, bool mayCoalesce) { cb.AddUndoAction(token, mayCoalesce); }$/;"	f	class:Scintilla::Document	access:public	signature:(Sci::Position token, bool mayCoalesce)
+AddWString	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::AddWString(std::wstring wcs) {$/;"	f	class:ScintillaWin	signature:(std::wstring wcs)
 AddWatcher	scintilla\src\Document.cxx	/^bool Document::AddWatcher(DocWatcher *watcher, void *userData) {$/;"	f	class:Document	signature:(DocWatcher *watcher, void *userData)
 AdjustWindowRect	scintilla\win32\PlatWin.cxx	/^void ListBoxX::AdjustWindowRect(PRectangle *rc) {$/;"	f	class:Scintilla::ListBoxX	signature:(PRectangle *rc)
 AfterName	scite\src\SciTEBase.cxx	/^static GUI::gui_char AfterName(const GUI::gui_char *s) {$/;"	f	file:	signature:(const GUI::gui_char *s)
@@ -124,6 +128,7 @@ Allocate	scintilla\src\Partitioning.h	/^	void Allocate(int growSize) {$/;"	f	cla
 Allocate	scintilla\src\PositionCache.cxx	/^void LineLayoutCache::Allocate(size_t length_) {$/;"	f	class:LineLayoutCache	signature:(size_t length_)
 Allocate	scintilla\win32\PlatWin.cxx	/^ListBox *ListBox::Allocate() {$/;"	f	class:Scintilla::ListBox	signature:()
 Allocate	scintilla\win32\PlatWin.cxx	/^Surface *Surface::Allocate(int technology) {$/;"	f	class:Scintilla::Surface	signature:(int technology)
+Allocate	scintilla\win32\ScintillaWin.cxx	/^	void Allocate(size_t bytes) {$/;"	f	class:GlobalMemory	access:public	signature:(size_t bytes)
 Allocate	scite\src\SciTEBuffers.cxx	/^void BufferList::Allocate(int maxSize) {$/;"	f	class:BufferList	signature:(int maxSize)
 AllocateAnnotation	scintilla\src\PerLine.cxx	/^static char *AllocateAnnotation(int length, int style) {$/;"	f	file:	signature:(int length, int style)
 AllocateExtendedStyles	scintilla\src\ViewStyle.cxx	/^int ViewStyle::AllocateExtendedStyles(int numberStyles) {$/;"	f	class:ViewStyle	signature:(int numberStyles)
@@ -250,6 +255,7 @@ BookmarkNext	scite\src\SciTEBase.cxx	/^void SciTEBase::BookmarkNext(bool forward
 BookmarkPresent	scite\src\SciTEBase.cxx	/^bool SciTEBase::BookmarkPresent(int lineno) {$/;"	f	class:SciTEBase	signature:(int lineno)
 BookmarkSelectAll	scite\src\SciTEBase.cxx	/^void SciTEBase::BookmarkSelectAll() {$/;"	f	class:SciTEBase	signature:()
 BookmarkToggle	scite\src\SciTEBase.cxx	/^void SciTEBase::BookmarkToggle(int lineno) {$/;"	f	class:SciTEBase	signature:(int lineno)
+BoundsContains	scintilla\win32\ScintillaWin.cxx	/^static bool BoundsContains(PRectangle rcBounds, HRGN hRgnBounds, PRectangle rcCheck) {$/;"	f	file:	signature:(PRectangle rcBounds, HRGN hRgnBounds, PRectangle rcCheck)
 BraceMatch	scintilla\src\Document.cxx	/^Sci::Position Document::BraceMatch(Sci::Position position, Sci::Position \/*maxReStyle*\/) {$/;"	f	class:Document	signature:(Sci::Position position, Sci::Position )
 BraceMatch	scite\src\SciTEBase.cxx	/^void SciTEBase::BraceMatch(bool editor) {$/;"	f	class:SciTEBase	signature:(bool editor)
 BraceOpposite	scintilla\src\Document.cxx	/^static char BraceOpposite(char ch) {$/;"	f	file:	signature:(char ch)
@@ -348,6 +354,7 @@ CREATE_Ax	scite\lua\src\lopcodes.h	125;"	d
 CRectContains	scintilla\gtk\ScintillaGTK.cxx	/^static bool CRectContains(const cairo_rectangle_t &crcContainer, const cairo_rectangle_t &crcTest) {$/;"	f	file:	signature:(const cairo_rectangle_t &crcContainer, const cairo_rectangle_t &crcTest)
 CRectListContains	scintilla\gtk\ScintillaGTK.cxx	/^static bool CRectListContains(const cairo_rectangle_list_t *crcListContainer, const cairo_rectangle_t &crcTest) {$/;"	f	file:	signature:(const cairo_rectangle_list_t *crcListContainer, const cairo_rectangle_t &crcTest)
 CSI	scite\src\SciTEBuffers.cxx	1854;"	d	file:
+CTWndProc	scintilla\win32\ScintillaWin.cxx	/^LRESULT PASCAL ScintillaWin::CTWndProc($/;"	f	class:ScintillaWin	signature:( HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 CalcLargestMarkerHeight	scintilla\src\ViewStyle.cxx	/^void ViewStyle::CalcLargestMarkerHeight() {$/;"	f	class:ViewStyle	signature:()
 CalculateColumnWidths	scite\src\StripDefinition.h	/^	void CalculateColumnWidths(int widthToAllocate) {$/;"	f	class:StripDefinition	access:public	signature:(int widthToAllocate)
 CalculateMarginWidthAndMask	scintilla\src\ViewStyle.cxx	/^void ViewStyle::CalculateMarginWidthAndMask() {$/;"	f	class:ViewStyle	signature:()
@@ -383,6 +390,7 @@ CanDeferToLastStep	scintilla\src\Editor.cxx	/^static bool CanDeferToLastStep(con
 CanEliminate	scintilla\src\Editor.cxx	/^static bool CanEliminate(const DocModification &mh) {$/;"	f	file:	signature:(const DocModification &mh)
 CanMakeRoom	scite\src\SciTEBuffers.cxx	/^bool SciTEBase::CanMakeRoom(bool maySaveIfDirty) {$/;"	f	class:SciTEBase	signature:(bool maySaveIfDirty)
 CanPaste	scintilla\src\Editor.cxx	/^bool Editor::CanPaste() {$/;"	f	class:Editor	signature:()
+CanPaste	scintilla\win32\ScintillaWin.cxx	/^bool ScintillaWin::CanPaste() {$/;"	f	class:ScintillaWin	signature:()
 CanRedo	scintilla\src\Document.h	/^	bool CanRedo() const { return cb.CanRedo(); }$/;"	f	class:Scintilla::Document	access:public	signature:() const
 CanUndo	scintilla\src\Document.h	/^	bool CanUndo() const { return cb.CanUndo(); }$/;"	f	class:Scintilla::Document	access:public	signature:() const
 Cancel	scintilla\src\AutoComplete.cxx	/^void AutoComplete::Cancel() {$/;"	f	class:AutoComplete	signature:()
@@ -417,9 +425,12 @@ CaseFolderDBCS	scintilla\gtk\ScintillaGTK.cxx	/^	explicit CaseFolderDBCS(const c
 CaseFolderDBCS	scintilla\gtk\ScintillaGTK.cxx	/^class CaseFolderDBCS : public CaseFolderTable {$/;"	c	file:	inherits:CaseFolderTable
 CaseFolderDBCS	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^	explicit CaseFolderDBCS(QTextCodec *codec_) : codec(codec_) {$/;"	f	class:CaseFolderDBCS	access:public	signature:(QTextCodec *codec_)
 CaseFolderDBCS	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^class CaseFolderDBCS : public CaseFolderTable {$/;"	c	file:	inherits:CaseFolderTable
+CaseFolderDBCS	scintilla\win32\ScintillaWin.cxx	/^	explicit CaseFolderDBCS(UINT cp_) : cp(cp_) {$/;"	f	class:CaseFolderDBCS	access:public	signature:(UINT cp_)
+CaseFolderDBCS	scintilla\win32\ScintillaWin.cxx	/^class CaseFolderDBCS : public CaseFolderTable {$/;"	c	file:	inherits:CaseFolderTable
 CaseFolderForEncoding	scintilla\gtk\ScintillaGTK.cxx	/^CaseFolder *ScintillaGTK::CaseFolderForEncoding() {$/;"	f	class:ScintillaGTK	signature:()
 CaseFolderForEncoding	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^CaseFolder *ScintillaQt::CaseFolderForEncoding()$/;"	f	class:ScintillaQt	signature:()
 CaseFolderForEncoding	scintilla\src\Editor.cxx	/^CaseFolder *Editor::CaseFolderForEncoding() {$/;"	f	class:Editor	signature:()
+CaseFolderForEncoding	scintilla\win32\ScintillaWin.cxx	/^CaseFolder *ScintillaWin::CaseFolderForEncoding() {$/;"	f	class:ScintillaWin	signature:()
 CaseFolderTable	scintilla\src\CaseFolder.cxx	/^CaseFolderTable::CaseFolderTable() {$/;"	f	class:CaseFolderTable	signature:()
 CaseFolderTable	scintilla\src\CaseFolder.h	/^class CaseFolderTable : public CaseFolder {$/;"	c	namespace:Scintilla	inherits:CaseFolder
 CaseFolderUnicode	scintilla\src\CaseFolder.cxx	/^CaseFolderUnicode::CaseFolderUnicode() {$/;"	f	class:CaseFolderUnicode	signature:()
@@ -427,6 +438,7 @@ CaseFolderUnicode	scintilla\src\CaseFolder.h	/^class CaseFolderUnicode : public 
 CaseMapString	scintilla\gtk\ScintillaGTK.cxx	/^std::string ScintillaGTK::CaseMapString(const std::string &s, int caseMapping) {$/;"	f	class:ScintillaGTK	signature:(const std::string &s, int caseMapping)
 CaseMapString	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^std::string ScintillaQt::CaseMapString(const std::string &s, int caseMapping)$/;"	f	class:ScintillaQt	signature:(const std::string &s, int caseMapping)
 CaseMapString	scintilla\src\Editor.cxx	/^std::string Editor::CaseMapString(const std::string &s, int caseMapping) {$/;"	f	class:Editor	signature:(const std::string &s, int caseMapping)
+CaseMapString	scintilla\win32\ScintillaWin.cxx	/^std::string ScintillaWin::CaseMapString(const std::string &s, int caseMapping) {$/;"	f	class:ScintillaWin	signature:(const std::string &s, int caseMapping)
 CaseMapper	scintilla\gtk\ScintillaGTK.cxx	/^	CaseMapper(const std::string &sUTF8, bool toUpperCase) {$/;"	f	struct:__anon81::CaseMapper	access:public	signature:(const std::string &sUTF8, bool toUpperCase)
 CaseMapper	scintilla\gtk\ScintillaGTK.cxx	/^struct CaseMapper {$/;"	s	namespace:__anon81	file:
 Catalogue	scintilla\src\Catalogue.h	/^class Catalogue {$/;"	c	namespace:Scintilla
@@ -441,6 +453,7 @@ ChangeFunction	scite\gtk\Widget.h	/^	typedef void (*ChangeFunction)(WCheckDraw *
 ChangeInsertion	scintilla\src\Document.cxx	/^void Document::ChangeInsertion(const char *s, Sci::Position length) {$/;"	f	class:Document	signature:(const char *s, Sci::Position length)
 ChangeLexerState	scintilla\lexlib\LexAccessor.h	/^	void ChangeLexerState(Sci_Position start, Sci_Position end) {$/;"	f	class:Scintilla::LexAccessor	access:public	signature:(Sci_Position start, Sci_Position end)
 ChangeLexerState	scintilla\src\Document.cxx	/^void SCI_METHOD Document::ChangeLexerState(Sci_Position start, Sci_Position end) {$/;"	f	class:Document	signature:(Sci_Position start, Sci_Position end)
+ChangeScrollPos	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::ChangeScrollPos(int barType, Sci::Position pos) {$/;"	f	class:ScintillaWin	signature:(int barType, Sci::Position pos)
 ChangeSize	scintilla\src\Editor.cxx	/^void Editor::ChangeSize() {$/;"	f	class:Editor	signature:()
 ChangeState	scintilla\lexlib\StyleContext.h	/^	void ChangeState(int state_) {$/;"	f	class:Scintilla::StyleContext	access:public	signature:(int state_)
 ChangeState	scite\src\LuaExtension.cxx	/^	static int ChangeState(lua_State *L) {$/;"	f	struct:StylingContext	access:public	signature:(lua_State *L)
@@ -517,6 +530,7 @@ ChromeHighlight	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^ColourDesired Platfo
 ChromeHighlight	scintilla\win32\PlatWin.cxx	/^ColourDesired Platform::ChromeHighlight() {$/;"	f	class:Scintilla::Platform	signature:()
 ClaimSelection	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::ClaimSelection() {$/;"	f	class:ScintillaGTK	signature:()
 ClaimSelection	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::ClaimSelection()$/;"	f	class:ScintillaQt	signature:()
+ClaimSelection	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::ClaimSelection() {$/;"	f	class:ScintillaWin	signature:()
 Clamp	scintilla\gtk\PlatGTK.cxx	/^int Platform::Clamp(int val, int minVal, int maxVal) {$/;"	f	class:Platform	signature:(int val, int minVal, int maxVal)
 Clamp	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^int Platform::Clamp(int val, int minVal, int maxVal)$/;"	f	class:Scintilla::Platform	signature:(int val, int minVal, int maxVal)
 Clamp	scintilla\win32\PlatWin.cxx	/^int Platform::Clamp(int val, int minVal, int maxVal) {$/;"	f	class:Scintilla::Platform	signature:(int val, int minVal, int maxVal)
@@ -611,8 +625,10 @@ CmpStringNoCase	scite\src\StringList.cxx	/^static bool CmpStringNoCase(const cha
 CodePage	scintilla\src\Document.cxx	/^int SCI_METHOD Document::CodePage() const {$/;"	f	class:Document	signature:() const
 CodePage	scintilla\src\Editor.cxx	/^int Editor::CodePage() const {$/;"	f	class:Editor	signature:() const
 CodePageFamily	scintilla\src\Document.cxx	/^EncodingFamily Document::CodePageFamily() const {$/;"	f	class:Document	signature:() const
+CodePageFromCharSet	scintilla\win32\ScintillaWin.cxx	/^UINT CodePageFromCharSet(DWORD characterSet, UINT documentCodePage) {$/;"	f	signature:(DWORD characterSet, UINT documentCodePage)
 CodePageFromCharSet	scite\win32\SciTEWin.cxx	/^static UINT CodePageFromCharSet(DWORD characterSet, UINT documentCodePage) {$/;"	f	file:	signature:(DWORD characterSet, UINT documentCodePage)
 CodePageFromName	scite\win32\SciTEWin.cxx	/^static int CodePageFromName(const std::string &encodingName) {$/;"	f	file:	signature:(const std::string &encodingName)
+CodePageOfDocument	scintilla\win32\ScintillaWin.cxx	/^UINT ScintillaWin::CodePageOfDocument() const {$/;"	f	class:ScintillaWin	signature:() const
 CodingCookieValue	scite\src\Cookie.cxx	/^UniMode CodingCookieValue(const char *buf, size_t length) {$/;"	f	signature:(const char *buf, size_t length)
 Colour	scite\src\StyleDefinition.h	/^typedef long Colour;$/;"	t
 ColourDesired	scintilla\include\Platform.h	/^	ColourDesired(long lcol=0) {$/;"	f	class:Scintilla::ColourDesired	access:public	signature:(long lcol=0)
@@ -659,6 +675,7 @@ CommonHeader	scite\lua\src\lobject.h	/^  CommonHeader;$/;"	m	struct:Udata	access
 CommonHeader	scite\lua\src\lobject.h	79;"	d
 CommonHeader	scite\lua\src\lstate.h	/^  CommonHeader;$/;"	m	struct:lua_State	access:public
 CompareCaseInsensitive	scintilla\lexlib\CharacterSet.cxx	/^int CompareCaseInsensitive(const char *a, const char *b) {$/;"	f	namespace:Scintilla	signature:(const char *a, const char *b)
+CompareDevCap	scintilla\win32\ScintillaWin.cxx	/^static bool CompareDevCap(HDC hdc, HDC hOtherDC, int nIndex) {$/;"	f	file:	signature:(HDC hdc, HDC hOtherDC, int nIndex)
 CompareNCaseInsensitive	scintilla\lexlib\CharacterSet.cxx	/^int CompareNCaseInsensitive(const char *a, const char *b, size_t len) {$/;"	f	namespace:Scintilla	signature:(const char *a, const char *b, size_t len)
 CompareNCaseInsensitive	scite\src\StringList.cxx	/^static int CompareNCaseInsensitive(const char *a, const char *b, size_t len) {$/;"	f	file:	signature:(const char *a, const char *b, size_t len)
 CompareNoCase	scite\src\StringHelpers.cxx	/^int CompareNoCase(const char *a, const char *b) {$/;"	f	signature:(const char *a, const char *b)
@@ -733,7 +750,9 @@ Copy	scintilla\src\Editor.h	/^	void Copy(const std::string &s_, int codePage_, i
 Copy	scintilla\src\Style.cxx	/^void Style::Copy(Font &font_, const FontMeasurements &fm_) {$/;"	f	class:Style	signature:(Font &font_, const FontMeasurements &fm_)
 Copy	scintilla\win32\PlatWin.cxx	/^void SurfaceD2D::Copy(PRectangle rc, Point from, Surface &surfaceSource) {$/;"	f	class:Scintilla::SurfaceD2D	signature:(PRectangle rc, Point from, Surface &surfaceSource)
 Copy	scintilla\win32\PlatWin.cxx	/^void SurfaceGDI::Copy(PRectangle rc, Point from, Surface &surfaceSource) {$/;"	f	class:Scintilla::SurfaceGDI	signature:(PRectangle rc, Point from, Surface &surfaceSource)
+Copy	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::Copy() {$/;"	f	class:ScintillaWin	signature:()
 CopyAllowLine	scintilla\src\Editor.cxx	/^void Editor::CopyAllowLine() {$/;"	f	class:Editor	signature:()
+CopyAllowLine	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::CopyAllowLine() {$/;"	f	class:ScintillaWin	signature:()
 CopyAsRTF	scite\src\SciTEBase.h	/^	virtual void CopyAsRTF() {}$/;"	f	class:SciTEBase	access:protected	signature:()
 CopyAsRTF	scite\win32\SciTEWin.cxx	/^void SciTEWin::CopyAsRTF() {$/;"	f	class:SciTEWin	signature:()
 CopyData	scite\win32\UniqueInstance.cxx	/^LRESULT UniqueInstance::CopyData(COPYDATASTRUCT *pcds) {$/;"	f	class:UniqueInstance	signature:(COPYDATASTRUCT *pcds)
@@ -747,6 +766,7 @@ CopyText	scintilla\gtk\ScintillaGTKAccessible.cxx	/^void ScintillaGTKAccessible:
 CopyText	scintilla\src\Editor.cxx	/^void Editor::CopyText(int length, const char *text) {$/;"	f	class:Editor	signature:(int length, const char *text)
 CopyToClipboard	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::CopyToClipboard(const SelectionText &selectedText) {$/;"	f	class:ScintillaGTK	signature:(const SelectionText &selectedText)
 CopyToClipboard	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::CopyToClipboard(const SelectionText &selectedText)$/;"	f	class:ScintillaQt	signature:(const SelectionText &selectedText)
+CopyToClipboard	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::CopyToClipboard(const SelectionText &selectedText) {$/;"	f	class:ScintillaWin	signature:(const SelectionText &selectedText)
 CopyToModeClipboard	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::CopyToModeClipboard(const SelectionText &selectedText, QClipboard::Mode clipboardMode_)$/;"	f	class:ScintillaQt	signature:(const SelectionText &selectedText, QClipboard::Mode clipboardMode_)
 CopyWithInsertion	scintilla\scripts\FileGenerator.py	/^def CopyWithInsertion(input, commentPrefix, retainDefs, lists):$/;"	f	access:public
 Count	scintilla\src\Selection.cxx	/^size_t Selection::Count() const {$/;"	f	class:Selection	signature:() const
@@ -780,6 +800,7 @@ CreateBuffers	scite\src\SciTEBuffers.cxx	/^void SciTEBase::CreateBuffers() {$/;"
 CreateButton	scite\win32\Strips.cxx	/^GUI::Window Strip::CreateButton(const char *text, size_t ident, bool check) {$/;"	f	class:Strip	signature:(const char *text, size_t ident, bool check)
 CreateCallTipWindow	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::CreateCallTipWindow(PRectangle rc) {$/;"	f	class:ScintillaGTK	signature:(PRectangle rc)
 CreateCallTipWindow	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::CreateCallTipWindow(PRectangle rc)$/;"	f	class:ScintillaQt	signature:(PRectangle rc)
+CreateCallTipWindow	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::CreateCallTipWindow(PRectangle) {$/;"	f	class:ScintillaWin	signature:(PRectangle )
 CreateIndentation	scintilla\src\Document.cxx	/^static std::string CreateIndentation(Sci::Position indent, int tabSize, bool insertSpaces) {$/;"	f	file:	signature:(Sci::Position indent, int tabSize, bool insertSpaces)
 CreateIndentation	scite\src\SciTEBase.cxx	/^static std::string CreateIndentation(int indent, int tabSize, bool insertSpaces) {$/;"	f	file:	signature:(int indent, int tabSize, bool insertSpaces)
 CreateMenu	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::CreateMenu() {$/;"	f	class:SciTEGTK	signature:()
@@ -795,6 +816,7 @@ CreateRegexSearch	scintilla\src\Document.cxx	/^RegexSearchBase *CreateRegexSearc
 CreateRegexSearch	scintilla\src\Document.cxx	/^RegexSearchBase *Scintilla::CreateRegexSearch(CharClassify *charClassTable) {$/;"	f	class:Scintilla	signature:(CharClassify *charClassTable)
 CreateSimilarSurface	scintilla\gtk\PlatGTK.cxx	/^static cairo_surface_t *CreateSimilarSurface(GdkWindow *window, cairo_content_t content, int width, int height) {$/;"	f	file:	signature:(GdkWindow *window, cairo_content_t content, int width, int height)
 CreateStrips	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::CreateStrips(GtkWidget *boxMain) {$/;"	f	class:SciTEGTK	signature:(GtkWidget *boxMain)
+CreateSystemCaret	scintilla\win32\ScintillaWin.cxx	/^BOOL ScintillaWin::CreateSystemCaret() {$/;"	f	class:ScintillaWin	signature:()
 CreateText	scite\win32\Strips.cxx	/^GUI::Window Strip::CreateText(const char *text) {$/;"	f	class:Strip	signature:(const char *text)
 CreateTranslatedMenu	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::CreateTranslatedMenu(int n, SciTEItemFactoryEntry items[],$/;"	f	class:SciTEGTK	signature:(int n, SciTEItemFactoryEntry items[], int nRepeats, const char *prefix, int startNum, int startID, const char *radioStart)
 CreateUI	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::CreateUI() {$/;"	f	class:SciTEGTK	signature:()
@@ -846,6 +868,20 @@ DLMSG	scite\lua\src\loadlib.c	228;"	d	file:
 DOCUMENT_H	scintilla\src\Document.h	9;"	d
 DWriteMapFontQuality	scintilla\win32\PlatWin.cxx	/^static D2D1_TEXT_ANTIALIAS_MODE DWriteMapFontQuality(int extraFontFlag) {$/;"	f	namespace:Scintilla	signature:(int extraFontFlag)
 Data	scintilla\src\Editor.h	/^	const char *Data() const {$/;"	f	class:Scintilla::SelectionText	access:public	signature:() const
+DataObject	scintilla\win32\ScintillaWin.cxx	/^DataObject::DataObject() {$/;"	f	class:DataObject	signature:()
+DataObject	scintilla\win32\ScintillaWin.cxx	/^class DataObject {$/;"	c	file:
+DataObject_AddRef	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP_(ULONG)DataObject_AddRef(DataObject *pd) {$/;"	f	signature:(DataObject *pd)
+DataObject_DAdvise	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DataObject_DAdvise(DataObject *, FORMATETC *, DWORD, IAdviseSink *, PDWORD) {$/;"	f	signature:(DataObject *, FORMATETC *, DWORD, IAdviseSink *, PDWORD)
+DataObject_DUnadvise	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DataObject_DUnadvise(DataObject *, DWORD) {$/;"	f	signature:(DataObject *, DWORD)
+DataObject_EnumDAdvise	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DataObject_EnumDAdvise(DataObject *, IEnumSTATDATA **) {$/;"	f	signature:(DataObject *, IEnumSTATDATA **)
+DataObject_EnumFormatEtc	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DataObject_EnumFormatEtc(DataObject *pd, DWORD dwDirection, IEnumFORMATETC **ppEnum) {$/;"	f	signature:(DataObject *pd, DWORD dwDirection, IEnumFORMATETC **ppEnum)
+DataObject_GetCanonicalFormatEtc	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DataObject_GetCanonicalFormatEtc(DataObject *pd, FORMATETC *, FORMATETC *pFEOut) {$/;"	f	signature:(DataObject *pd, FORMATETC *, FORMATETC *pFEOut)
+DataObject_GetData	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DataObject_GetData(DataObject *pd, FORMATETC *pFEIn, STGMEDIUM *pSTM) {$/;"	f	signature:(DataObject *pd, FORMATETC *pFEIn, STGMEDIUM *pSTM)
+DataObject_GetDataHere	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DataObject_GetDataHere(DataObject *, FORMATETC *, STGMEDIUM *) {$/;"	f	signature:(DataObject *, FORMATETC *, STGMEDIUM *)
+DataObject_QueryGetData	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DataObject_QueryGetData(DataObject *pd, FORMATETC *pFE) {$/;"	f	signature:(DataObject *pd, FORMATETC *pFE)
+DataObject_QueryInterface	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DataObject_QueryInterface(DataObject *pd, REFIID riid, PVOID *ppv) {$/;"	f	signature:(DataObject *pd, REFIID riid, PVOID *ppv)
+DataObject_Release	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP_(ULONG)DataObject_Release(DataObject *pd) {$/;"	f	signature:(DataObject *pd)
+DataObject_SetData	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DataObject_SetData(DataObject *, FORMATETC *, STGMEDIUM *, BOOL) {$/;"	f	signature:(DataObject *, FORMATETC *, STGMEDIUM *, BOOL)
 DataOfGSD	scintilla\gtk\ScintillaGTK.cxx	/^static const guchar *DataOfGSD(GtkSelectionData *sd) { return gtk_selection_data_get_data(sd); }$/;"	f	file:	signature:(GtkSelectionData *sd)
 Deallocate	scintilla\src\PositionCache.cxx	/^void LineLayoutCache::Deallocate() {$/;"	f	class:LineLayoutCache	signature:()
 DebugDisplay	scintilla\gtk\PlatGTK.cxx	/^void Platform::DebugDisplay(const char *s) {$/;"	f	class:Platform	signature:(const char *s)
@@ -866,6 +902,7 @@ DecorationList	scintilla\src\Decoration.h	/^class DecorationList {$/;"	c	namespa
 DecorationSetCurrentIndicator	scintilla\src\Document.cxx	/^void SCI_METHOD Document::DecorationSetCurrentIndicator(int indicator) {$/;"	f	class:Document	signature:(int indicator)
 DefWndProc	scintilla\gtk\ScintillaGTK.cxx	/^sptr_t ScintillaGTK::DefWndProc(unsigned int, uptr_t, sptr_t) {$/;"	f	class:ScintillaGTK	signature:(unsigned int, uptr_t, sptr_t)
 DefWndProc	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^sptr_t ScintillaQt::DefWndProc(unsigned int, uptr_t, sptr_t)$/;"	f	class:ScintillaQt	signature:(unsigned int, uptr_t, sptr_t)
+DefWndProc	scintilla\win32\ScintillaWin.cxx	/^sptr_t ScintillaWin::DefWndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam) {$/;"	f	class:ScintillaWin	signature:(unsigned int iMessage, uptr_t wParam, sptr_t lParam)
 DefaultFont	scintilla\gtk\PlatGTK.cxx	/^const char *Platform::DefaultFont() {$/;"	f	class:Platform	signature:()
 DefaultFont	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^const char *Platform::DefaultFont()$/;"	f	class:Scintilla::Platform	signature:()
 DefaultFont	scintilla\win32\PlatWin.cxx	/^const char *Platform::DefaultFont() {$/;"	f	class:Scintilla::Platform	signature:()
@@ -935,6 +972,7 @@ DestroyFindReplace	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::DestroyFindReplace() 
 DestroyFindReplace	scite\win32\SciTEWinDlg.cxx	/^void SciTEWin::DestroyFindReplace() {$/;"	f	class:SciTEWin	signature:()
 DestroyMenuItem	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::DestroyMenuItem(int, int itemID) {$/;"	f	class:SciTEGTK	signature:(int, int itemID)
 DestroyMenuItem	scite\win32\SciTEWinBar.cxx	/^void SciTEWin::DestroyMenuItem(int menuNumber, int itemID) {$/;"	f	class:SciTEWin	signature:(int menuNumber, int itemID)
+DestroySystemCaret	scintilla\win32\ScintillaWin.cxx	/^BOOL ScintillaWin::DestroySystemCaret() {$/;"	f	class:ScintillaWin	signature:()
 Destroyed	scintilla\gtk\ScintillaGTK.h	/^	virtual void Destroyed() {}$/;"	f	class:Scintilla::GObjectWatcher	access:public	signature:()
 Destruction	scite\gtk\SciTEGTK.cxx	/^void FindStrip::Destruction() {$/;"	f	class:FindStrip	signature:()
 Destruction	scite\gtk\SciTEGTK.cxx	/^void ReplaceStrip::Destruction() {$/;"	f	class:ReplaceStrip	signature:()
@@ -966,6 +1004,7 @@ DialogParameters	scite\gtk\SciTEGTK.cxx	/^class DialogParameters : public Dialog
 DialogTabSize	scite\gtk\SciTEGTK.cxx	/^class DialogTabSize : public Dialog {$/;"	c	file:	inherits:Dialog
 DirectFunction	scintilla\gtk\ScintillaGTK.cxx	/^sptr_t ScintillaGTK::DirectFunction($/;"	f	class:ScintillaGTK	signature:( sptr_t ptr, unsigned int iMessage, uptr_t wParam, sptr_t lParam)
 DirectFunction	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^sptr_t ScintillaQt::DirectFunction($/;"	f	class:ScintillaQt	signature:( sptr_t ptr, unsigned int iMessage, uptr_t wParam, sptr_t lParam)
+DirectFunction	scintilla\win32\ScintillaWin.cxx	/^sptr_t ScintillaWin::DirectFunction($/;"	f	class:ScintillaWin	signature:( sptr_t ptr, UINT iMessage, uptr_t wParam, sptr_t lParam)
 DirectorExtension	scite\gtk\DirectorExtension.h	/^	DirectorExtension() : inputWatcher(-1), inputChannel(0), host(0) {} \/\/ Singleton$/;"	f	class:DirectorExtension	access:private	signature:()
 DirectorExtension	scite\gtk\DirectorExtension.h	/^class DirectorExtension : public Extension {$/;"	c	inherits:Extension
 DirectorExtension	scite\win32\DirectorExtension.h	/^	DirectorExtension() : host(0) {} \/\/ Singleton$/;"	f	class:DirectorExtension	access:private	signature:()
@@ -990,6 +1029,7 @@ Dispose	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::Dispose(GObject *obj
 Dispose	scintilla\src\PositionCache.cxx	/^void LineLayoutCache::Dispose(LineLayout *ll) {$/;"	f	class:LineLayoutCache	signature:(LineLayout *ll)
 DistanceToSecondaryStyles	scintilla\lexlib\SubStyles.h	/^	int DistanceToSecondaryStyles() const {$/;"	f	class:Scintilla::SubStyles	access:public	signature:() const
 DistanceToSecondaryStyles	scintilla\src\ScintillaBase.cxx	/^int LexState::DistanceToSecondaryStyles() {$/;"	f	class:LexState	signature:()
+DllMain	scintilla\win32\ScintillaWin.cxx	/^extern "C" int APIENTRY DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpvReserved) {$/;"	f	signature:(HINSTANCE hInstance, DWORD dwReason, LPVOID lpvReserved)
 DoDialog	scite\win32\SciTEWinDlg.cxx	/^int SciTEWin::DoDialog(const TCHAR *resName, DLGPROC lpProc) {$/;"	f	class:SciTEWin	signature:(const TCHAR *resName, DLGPROC lpProc)
 DoMenuCommand	scite\src\SciTEBase.cxx	/^void SciTEBase::DoMenuCommand(int cmdID) {$/;"	f	class:SciTEBase	signature:(int cmdID)
 DoReplaceAll	scite\src\SciTEBase.cxx	/^int SciTEBase::DoReplaceAll(bool inSelection) {$/;"	f	class:SciTEBase	signature:(bool inSelection)
@@ -1013,14 +1053,19 @@ DragDataReceived	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::DragDataRec
 DragDataReceived	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::DragDataReceived(GtkWidget *, GdkDragContext *context,$/;"	f	class:SciTEGTK	signature:(GtkWidget *, GdkDragContext *context, gint , gint , GtkSelectionData *selectionData, guint , guint time, SciTEGTK *scitew)
 DragEnd	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::DragEnd(GtkWidget *widget, GdkDragContext * \/*context*\/) {$/;"	f	class:ScintillaGTK	signature:(GtkWidget *widget, GdkDragContext * )
 DragEnter	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::DragEnter(const Point &point)$/;"	f	class:ScintillaQt	signature:(const Point &point)
+DragEnter	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP ScintillaWin::DragEnter(LPDATAOBJECT pIDataSource, DWORD grfKeyState,$/;"	f	class:ScintillaWin	signature:(LPDATAOBJECT pIDataSource, DWORD grfKeyState, POINTL, PDWORD pdwEffect)
+DragIsRectangularOK	scintilla\win32\ScintillaWin.cxx	/^	bool DragIsRectangularOK(CLIPFORMAT fmt) const {$/;"	f	class:ScintillaWin	access:public	signature:(CLIPFORMAT fmt) const
 DragLeave	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::DragLeave(GtkWidget *widget, GdkDragContext * \/*context*\/, guint) {$/;"	f	class:ScintillaGTK	signature:(GtkWidget *widget, GdkDragContext * , guint)
 DragLeave	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::DragLeave()$/;"	f	class:ScintillaQt	signature:()
+DragLeave	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP ScintillaWin::DragLeave() {$/;"	f	class:ScintillaWin	signature:()
 DragMotion	scintilla\gtk\ScintillaGTK.cxx	/^gboolean ScintillaGTK::DragMotion(GtkWidget *widget, GdkDragContext *context,$/;"	f	class:ScintillaGTK	signature:(GtkWidget *widget, GdkDragContext *context, gint x, gint y, guint dragtime)
 DragMotionThis	scintilla\gtk\ScintillaGTK.cxx	/^gboolean ScintillaGTK::DragMotionThis(GdkDragContext *context,$/;"	f	class:ScintillaGTK	signature:(GdkDragContext *context, gint x, gint y, guint dragtime)
 DragMove	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::DragMove(const Point &point)$/;"	f	class:ScintillaQt	signature:(const Point &point)
+DragOver	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP ScintillaWin::DragOver(DWORD grfKeyState, POINTL pt, PDWORD pdwEffect) {$/;"	f	class:ScintillaWin	signature:(DWORD grfKeyState, POINTL pt, PDWORD pdwEffect)
 DragThreshold	scintilla\gtk\ScintillaGTK.cxx	/^bool ScintillaGTK::DragThreshold(Point ptStart, Point ptNow) {$/;"	f	class:ScintillaGTK	signature:(Point ptStart, Point ptNow)
 DragThreshold	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^bool ScintillaQt::DragThreshold(Point ptStart, Point ptNow)$/;"	f	class:ScintillaQt	signature:(Point ptStart, Point ptNow)
 DragThreshold	scintilla\src\Editor.cxx	/^bool Editor::DragThreshold(Point ptStart, Point ptNow) {$/;"	f	class:Editor	signature:(Point ptStart, Point ptNow)
+DragThreshold	scintilla\win32\ScintillaWin.cxx	/^bool ScintillaWin::DragThreshold(Point ptStart, Point ptNow) {$/;"	f	class:ScintillaWin	signature:(Point ptStart, Point ptNow)
 Draw	scintilla\src\Indicator.cxx	/^void Indicator::Draw(Surface *surface, const PRectangle &rc, const PRectangle &rcLine, const PRectangle &rcCharacter, DrawState drawState, int value) const {$/;"	f	class:Indicator	signature:(Surface *surface, const PRectangle &rc, const PRectangle &rcLine, const PRectangle &rcCharacter, DrawState drawState, int value) const
 Draw	scintilla\src\LineMarker.cxx	/^void LineMarker::Draw(Surface *surface, PRectangle &rcWhole, Font &fontForCharacter, typeOfFold tFold, int marginStyle) const {$/;"	f	class:LineMarker	signature:(Surface *surface, PRectangle &rcWhole, Font &fontForCharacter, typeOfFold tFold, int marginStyle) const
 Draw	scintilla\src\XPM.cxx	/^void XPM::Draw(Surface *surface, const PRectangle &rc) {$/;"	f	class:XPM	signature:(Surface *surface, const PRectangle &rc)
@@ -1042,6 +1087,7 @@ DrawForeground	scintilla\src\EditView.cxx	/^void EditView::DrawForeground(Surfac
 DrawFrame	scintilla\src\EditView.cxx	/^static void DrawFrame(Surface *surface, ColourDesired colour, int alpha, PRectangle rcFrame) {$/;"	f	file:	signature:(Surface *surface, ColourDesired colour, int alpha, PRectangle rcFrame)
 DrawImeIndicator	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::DrawImeIndicator(int indicator, int len) {$/;"	f	class:ScintillaGTK	signature:(int indicator, int len)
 DrawImeIndicator	scintilla\qt\ScintillaEditBase\ScintillaEditBase.cpp	/^void ScintillaEditBase::DrawImeIndicator(int indicator, int len)$/;"	f	class:ScintillaEditBase	signature:(int indicator, int len)
+DrawImeIndicator	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::DrawImeIndicator(int indicator, int len) {$/;"	f	class:ScintillaWin	signature:(int indicator, int len)
 DrawIndentGuide	scintilla\src\EditView.cxx	/^void EditView::DrawIndentGuide(Surface *surface, Sci::Line lineVisible, int lineHeight, Sci::Position start, PRectangle rcSegment, bool highlight) {$/;"	f	class:EditView	signature:(Surface *surface, Sci::Line lineVisible, int lineHeight, Sci::Position start, PRectangle rcSegment, bool highlight)
 DrawIndentGuidesOverEmpty	scintilla\src\EditView.cxx	/^void EditView::DrawIndentGuidesOverEmpty(Surface *surface, const EditModel &model, const ViewStyle &vsDraw, const LineLayout *ll,$/;"	f	class:EditView	signature:(Surface *surface, const EditModel &model, const ViewStyle &vsDraw, const LineLayout *ll, Sci::Line line, Sci::Line lineVisible, PRectangle rcLine, int xStart, int subLine)
 DrawIndicator	scintilla\src\EditView.cxx	/^static void DrawIndicator(int indicNum, Sci::Position startPos, Sci::Position endPos, Surface *surface, const ViewStyle &vsDraw,$/;"	f	file:	signature:(int indicNum, Sci::Position startPos, Sci::Position endPos, Surface *surface, const ViewStyle &vsDraw, const LineLayout *ll, int xStart, PRectangle rcLine, Sci::Position secondCharacter, int subLine, Indicator::DrawState drawState, int value)
@@ -1092,6 +1138,7 @@ DrawWrapMarker	scintilla\src\MarginView.cxx	/^void DrawWrapMarker(Surface *surfa
 DrawWrapMarkerFn	scintilla\src\MarginView.h	/^typedef void (*DrawWrapMarkerFn)(Surface *surface, PRectangle rcPlace, bool isEndMarker, ColourDesired wrapColour);$/;"	t	namespace:Scintilla
 Drop	scintilla\gtk\ScintillaGTK.cxx	/^gboolean ScintillaGTK::Drop(GtkWidget *widget, GdkDragContext * \/*context*\/,$/;"	f	class:ScintillaGTK	signature:(GtkWidget *widget, GdkDragContext * , gint, gint, guint)
 Drop	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::Drop(const Point &point, const QMimeData *data, bool move)$/;"	f	class:ScintillaQt	signature:(const Point &point, const QMimeData *data, bool move)
+Drop	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP ScintillaWin::Drop(LPDATAOBJECT pIDataSource, DWORD grfKeyState,$/;"	f	class:ScintillaWin	signature:(LPDATAOBJECT pIDataSource, DWORD grfKeyState, POINTL pt, PDWORD pdwEffect)
 DropAdditionalRanges	scintilla\src\Selection.cxx	/^void Selection::DropAdditionalRanges() {$/;"	f	class:Selection	signature:()
 DropAt	scintilla\src\Editor.cxx	/^void Editor::DropAt(SelectionPosition position, const char *value, bool moving, bool rectangular) {$/;"	f	class:Editor	signature:(SelectionPosition position, const char *value, bool moving, bool rectangular)
 DropAt	scintilla\src\Editor.cxx	/^void Editor::DropAt(SelectionPosition position, const char *value, size_t lengthValue, bool moving, bool rectangular) {$/;"	f	class:Editor	signature:(SelectionPosition position, const char *value, size_t lengthValue, bool moving, bool rectangular)
@@ -1100,7 +1147,24 @@ DropFiles	scite\win32\SciTEWin.cxx	/^void SciTEWin::DropFiles(HDROP hdrop) {$/;"
 DropGraphics	scintilla\src\EditView.cxx	/^void EditView::DropGraphics(bool freeObjects) {$/;"	f	class:EditView	signature:(bool freeObjects)
 DropGraphics	scintilla\src\Editor.cxx	/^void Editor::DropGraphics(bool freeObjects) {$/;"	f	class:Editor	signature:(bool freeObjects)
 DropGraphics	scintilla\src\MarginView.cxx	/^void MarginView::DropGraphics(bool freeObjects) {$/;"	f	class:Scintilla::MarginView	signature:(bool freeObjects)
+DropRenderTarget	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::DropRenderTarget() {$/;"	f	class:ScintillaWin	signature:()
 DropSelection	scintilla\src\Selection.cxx	/^void Selection::DropSelection(size_t r) {$/;"	f	class:Selection	signature:(size_t r)
+DropSource	scintilla\win32\ScintillaWin.cxx	/^DropSource::DropSource() {$/;"	f	class:DropSource	signature:()
+DropSource	scintilla\win32\ScintillaWin.cxx	/^class DropSource {$/;"	c	file:
+DropSource_AddRef	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP_(ULONG)DropSource_AddRef(DropSource *ds) {$/;"	f	signature:(DropSource *ds)
+DropSource_GiveFeedback	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DropSource_GiveFeedback(DropSource *, DWORD) {$/;"	f	signature:(DropSource *, DWORD)
+DropSource_QueryContinueDrag	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DropSource_QueryContinueDrag(DropSource *, BOOL fEsc, DWORD grfKeyState) {$/;"	f	signature:(DropSource *, BOOL fEsc, DWORD grfKeyState)
+DropSource_QueryInterface	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DropSource_QueryInterface(DropSource *ds, REFIID riid, PVOID *ppv) {$/;"	f	signature:(DropSource *ds, REFIID riid, PVOID *ppv)
+DropSource_Release	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP_(ULONG)DropSource_Release(DropSource *ds) {$/;"	f	signature:(DropSource *ds)
+DropTarget	scintilla\win32\ScintillaWin.cxx	/^DropTarget::DropTarget() {$/;"	f	class:DropTarget	signature:()
+DropTarget	scintilla\win32\ScintillaWin.cxx	/^class DropTarget {$/;"	c	file:
+DropTarget_AddRef	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP_(ULONG)DropTarget_AddRef(DropTarget *dt) {$/;"	f	signature:(DropTarget *dt)
+DropTarget_DragEnter	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DropTarget_DragEnter(DropTarget *dt, LPDATAOBJECT pIDataSource, DWORD grfKeyState,$/;"	f	signature:(DropTarget *dt, LPDATAOBJECT pIDataSource, DWORD grfKeyState, POINTL pt, PDWORD pdwEffect)
+DropTarget_DragLeave	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DropTarget_DragLeave(DropTarget *dt) {$/;"	f	signature:(DropTarget *dt)
+DropTarget_DragOver	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DropTarget_DragOver(DropTarget *dt, DWORD grfKeyState, POINTL pt, PDWORD pdwEffect) {$/;"	f	signature:(DropTarget *dt, DWORD grfKeyState, POINTL pt, PDWORD pdwEffect)
+DropTarget_Drop	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DropTarget_Drop(DropTarget *dt, LPDATAOBJECT pIDataSource, DWORD grfKeyState,$/;"	f	signature:(DropTarget *dt, LPDATAOBJECT pIDataSource, DWORD grfKeyState, POINTL pt, PDWORD pdwEffect)
+DropTarget_QueryInterface	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP DropTarget_QueryInterface(DropTarget *dt, REFIID riid, PVOID *ppv) {$/;"	f	signature:(DropTarget *dt, REFIID riid, PVOID *ppv)
+DropTarget_Release	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP_(ULONG)DropTarget_Release(DropTarget *dt) {$/;"	f	signature:(DropTarget *dt)
 DumpBlock	scite\lua\src\ldump.c	/^static void DumpBlock (const void *b, size_t size, DumpState *D) {$/;"	f	file:	signature:(const void *b, size_t size, DumpState *D)
 DumpByte	scite\lua\src\ldump.c	/^static void DumpByte (int y, DumpState *D) {$/;"	f	file:	signature:(int y, DumpState *D)
 DumpCode	scite\lua\src\ldump.c	/^static void DumpCode (const Proto *f, DumpState *D) {$/;"	f	file:	signature:(const Proto *f, DumpState *D)
@@ -1173,6 +1237,7 @@ EditView	scintilla\src\EditView.cxx	/^EditView::EditView() {$/;"	f	class:EditVie
 EditView	scintilla\src\EditView.h	/^class EditView {$/;"	c	namespace:Scintilla
 Editor	scintilla\src\Editor.cxx	/^Editor::Editor() {$/;"	f	class:Editor	signature:()
 Editor	scintilla\src\Editor.h	/^class Editor : public EditModel, public DocWatcher {$/;"	c	namespace:Scintilla	inherits:EditModel,DocWatcher
+EffectFromState	scintilla\win32\ScintillaWin.cxx	/^DWORD ScintillaWin::EffectFromState(DWORD grfKeyState) const {$/;"	f	class:ScintillaWin	signature:(DWORD grfKeyState) const
 ElapsedTime	scintilla\gtk\PlatGTK.cxx	/^ElapsedTime::ElapsedTime() {$/;"	f	class:ElapsedTime	signature:()
 ElapsedTime	scintilla\include\Platform.h	/^class ElapsedTime {$/;"	c	namespace:Scintilla
 ElapsedTime	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^ElapsedTime::ElapsedTime() : bigBit(0), littleBit(0)$/;"	f	class:Scintilla::ElapsedTime	signature:()
@@ -1203,6 +1268,7 @@ EncodeString	scite\gtk\SciTEGTK.cxx	/^std::string SciTEGTK::EncodeString(const s
 EncodeString	scite\src\SciTEBase.cxx	/^std::string SciTEBase::EncodeString(const std::string &s) {$/;"	f	class:SciTEBase	signature:(const std::string &s)
 EncodeString	scite\win32\SciTEWin.cxx	/^std::string SciTEWin::EncodeString(const std::string &s) {$/;"	f	class:SciTEWin	signature:(const std::string &s)
 EncodedFromUTF8	scintilla\gtk\ScintillaGTK.cxx	/^int ScintillaGTK::EncodedFromUTF8(char *utf8, char *encoded) const {$/;"	f	class:ScintillaGTK	signature:(char *utf8, char *encoded) const
+EncodedFromUTF8	scintilla\win32\ScintillaWin.cxx	/^Sci::Position ScintillaWin::EncodedFromUTF8(char *utf8, char *encoded) const {$/;"	f	class:ScintillaWin	signature:(char *utf8, char *encoded) const
 Encoding	scintilla\lexlib\LexAccessor.h	/^	EncodingType Encoding() const {$/;"	f	class:Scintilla::LexAccessor	access:public	signature:() const
 EncodingFamily	scintilla\src\Document.h	/^enum EncodingFamily { efEightBit, efUnicode, efDBCS };$/;"	g	namespace:Scintilla
 EncodingType	scintilla\lexlib\LexAccessor.h	/^enum EncodingType { enc8bit, encUnicode, encDBCS };$/;"	g	namespace:Scintilla
@@ -1223,6 +1289,7 @@ EnsureFinalNewLine	scite\src\SciTEIO.cxx	/^void SciTEBase::EnsureFinalNewLine() 
 EnsureLength	scintilla\src\SplitVector.h	/^	void EnsureLength(int wantedLength) {$/;"	f	class:Scintilla::SplitVector	access:public	signature:(int wantedLength)
 EnsureLineVisible	scintilla\src\Editor.cxx	/^void Editor::EnsureLineVisible(Sci::Line lineDoc, bool enforcePolicy) {$/;"	f	class:Editor	signature:(Sci::Line lineDoc, bool enforcePolicy)
 EnsureRangeVisible	scite\src\SciTEBase.cxx	/^void SciTEBase::EnsureRangeVisible(GUI::ScintillaWindow &win, int posStart, int posEnd, bool enforcePolicy) {$/;"	f	class:SciTEBase	signature:(GUI::ScintillaWindow &win, int posStart, int posEnd, bool enforcePolicy)
+EnsureRenderTarget	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::EnsureRenderTarget(HDC hdc) {$/;"	f	class:ScintillaWin	signature:(HDC hdc)
 EnsureStyle	scintilla\src\ViewStyle.cxx	/^void ViewStyle::EnsureStyle(size_t index) {$/;"	f	class:ViewStyle	signature:(size_t index)
 EnsureStyledTo	scintilla\src\Document.cxx	/^void Document::EnsureStyledTo(Sci::Position pos) {$/;"	f	class:Document	signature:(Sci::Position pos)
 Entry	scite\gtk\Widget.cxx	/^GtkEntry *WComboBoxEntry::Entry() {$/;"	f	class:WComboBoxEntry	signature:()
@@ -1230,6 +1297,7 @@ EntryMemory	scite\src\StringHelpers.h	/^class EntryMemory {$/;"	c
 EnumProperties	scite\src\SciTEBase.cxx	/^void SciTEBase::EnumProperties(const char *propkind) {$/;"	f	class:SciTEBase	signature:(const char *propkind)
 EqualCaseInsensitive	scite\src\StringHelpers.cxx	/^bool EqualCaseInsensitive(const char *a, const char *b) {$/;"	f	signature:(const char *a, const char *b)
 EscapeFilePathsForMenu	scite\src\SciTEBuffers.cxx	/^static void EscapeFilePathsForMenu(GUI::gui_string &path) {$/;"	f	file:	signature:(GUI::gui_string &path)
+EscapeHanja	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::EscapeHanja() {$/;"	f	class:ScintillaWin	signature:()
 EscapeSignal	scite\gtk\SciTEGTK.cxx	/^gboolean FindStrip::EscapeSignal(GtkWidget *w, GdkEventKey *event, FindStrip *pStrip) {$/;"	f	class:FindStrip	signature:(GtkWidget *w, GdkEventKey *event, FindStrip *pStrip)
 EscapeSignal	scite\gtk\SciTEGTK.cxx	/^gboolean ReplaceStrip::EscapeSignal(GtkWidget *w, GdkEventKey *event, ReplaceStrip *pStrip) {$/;"	f	class:ReplaceStrip	signature:(GtkWidget *w, GdkEventKey *event, ReplaceStrip *pStrip)
 EscapeSignal	scite\gtk\SciTEGTK.cxx	/^gboolean UserStrip::EscapeSignal(GtkWidget *w, GdkEventKey *event, UserStrip *pStrip) {$/;"	f	class:UserStrip	signature:(GtkWidget *w, GdkEventKey *event, UserStrip *pStrip)
@@ -1348,6 +1416,7 @@ Finalise	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::Finalise() {$/;"	f	
 Finalise	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::Finalise()$/;"	f	class:ScintillaQt	signature:()
 Finalise	scintilla\src\Editor.cxx	/^void Editor::Finalise() {$/;"	f	class:Editor	signature:()
 Finalise	scintilla\src\ScintillaBase.cxx	/^void ScintillaBase::Finalise() {$/;"	f	class:ScintillaBase	signature:()
+Finalise	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::Finalise() {$/;"	f	class:ScintillaWin	signature:()
 Finalise	scite\gtk\DirectorExtension.cxx	/^bool DirectorExtension::Finalise() {$/;"	f	class:DirectorExtension	signature:()
 Finalise	scite\src\LuaExtension.cxx	/^bool LuaExtension::Finalise() {$/;"	f	class:LuaExtension	signature:()
 Finalise	scite\src\MultiplexExtension.cxx	/^bool MultiplexExtension::Finalise() {$/;"	f	class:MultiplexExtension	signature:()
@@ -1437,15 +1506,19 @@ FindText	scintilla\src\Editor.cxx	/^long Editor::FindText($/;"	f	class:Editor	si
 FineTickerAvailable	scintilla\gtk\ScintillaGTK.cxx	/^bool ScintillaGTK::FineTickerAvailable() {$/;"	f	class:ScintillaGTK	signature:()
 FineTickerAvailable	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^bool ScintillaQt::FineTickerAvailable()$/;"	f	class:ScintillaQt	signature:()
 FineTickerAvailable	scintilla\src\Editor.cxx	/^bool Editor::FineTickerAvailable() {$/;"	f	class:Editor	signature:()
+FineTickerAvailable	scintilla\win32\ScintillaWin.cxx	/^bool ScintillaWin::FineTickerAvailable() {$/;"	f	class:ScintillaWin	signature:()
 FineTickerCancel	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::FineTickerCancel(TickReason reason) {$/;"	f	class:ScintillaGTK	signature:(TickReason reason)
 FineTickerCancel	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::FineTickerCancel(TickReason reason)$/;"	f	class:ScintillaQt	signature:(TickReason reason)
 FineTickerCancel	scintilla\src\Editor.cxx	/^void Editor::FineTickerCancel(TickReason) {$/;"	f	class:Editor	signature:(TickReason )
+FineTickerCancel	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::FineTickerCancel(TickReason reason) {$/;"	f	class:ScintillaWin	signature:(TickReason reason)
 FineTickerRunning	scintilla\gtk\ScintillaGTK.cxx	/^bool ScintillaGTK::FineTickerRunning(TickReason reason) {$/;"	f	class:ScintillaGTK	signature:(TickReason reason)
 FineTickerRunning	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^bool ScintillaQt::FineTickerRunning(TickReason reason)$/;"	f	class:ScintillaQt	signature:(TickReason reason)
 FineTickerRunning	scintilla\src\Editor.cxx	/^bool Editor::FineTickerRunning(TickReason) {$/;"	f	class:Editor	signature:(TickReason )
+FineTickerRunning	scintilla\win32\ScintillaWin.cxx	/^bool ScintillaWin::FineTickerRunning(TickReason reason) {$/;"	f	class:ScintillaWin	signature:(TickReason reason)
 FineTickerStart	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::FineTickerStart(TickReason reason, int millis, int \/* tolerance *\/) {$/;"	f	class:ScintillaGTK	signature:(TickReason reason, int millis, int )
 FineTickerStart	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::FineTickerStart(TickReason reason, int millis, int \/* tolerance *\/)$/;"	f	class:ScintillaQt	signature:(TickReason reason, int millis, int )
 FineTickerStart	scintilla\src\Editor.cxx	/^void Editor::FineTickerStart(TickReason, int, int) {$/;"	f	class:Editor	signature:(TickReason, int, int)
+FineTickerStart	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::FineTickerStart(TickReason reason, int millis, int tolerance) {$/;"	f	class:ScintillaWin	signature:(TickReason reason, int millis, int tolerance)
 FinishedAdding	scintilla\src\CaseConvert.cxx	/^	void FinishedAdding() {$/;"	f	class:__anon93::CaseConverter	access:public	signature:()
 FinishedFuture	scite\src\SciTEBuffers.cxx	/^void BufferList::FinishedFuture(int index, Buffer::FutureDo fd) {$/;"	f	class:BufferList	signature:(int index, Buffer::FutureDo fd)
 FinishedJob	scite\src\Worker.h	/^	bool FinishedJob() const {$/;"	f	struct:Worker	access:public	signature:() const
@@ -1525,6 +1598,15 @@ Form	scintilla\qt\ScintillaEditPy\testsepq.py	/^class Form(QDialog):$/;"	c	inher
 FormatAndMetrics	scintilla\win32\PlatWin.cxx	/^	FormatAndMetrics(HFONT hfont_, int extraFontFlag_, int characterSet_) :$/;"	f	struct:Scintilla::FormatAndMetrics	access:public	signature:(HFONT hfont_, int extraFontFlag_, int characterSet_)
 FormatAndMetrics	scintilla\win32\PlatWin.cxx	/^	FormatAndMetrics(IDWriteTextFormat *pTextFormat_,$/;"	f	struct:Scintilla::FormatAndMetrics	access:public	signature:(IDWriteTextFormat *pTextFormat_, int extraFontFlag_, int characterSet_, FLOAT yAscent_, FLOAT yDescent_, FLOAT yInternalLeading_)
 FormatAndMetrics	scintilla\win32\PlatWin.cxx	/^struct FormatAndMetrics {$/;"	s	namespace:Scintilla	file:
+FormatEnumerator	scintilla\win32\ScintillaWin.cxx	/^FormatEnumerator::FormatEnumerator(int pos_, CLIPFORMAT formats_[], size_t formatsLen_) {$/;"	f	class:FormatEnumerator	signature:(int pos_, CLIPFORMAT formats_[], size_t formatsLen_)
+FormatEnumerator	scintilla\win32\ScintillaWin.cxx	/^class FormatEnumerator {$/;"	c	file:
+FormatEnumerator_AddRef	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP_(ULONG)FormatEnumerator_AddRef(FormatEnumerator *fe) {$/;"	f	signature:(FormatEnumerator *fe)
+FormatEnumerator_Clone	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP FormatEnumerator_Clone(FormatEnumerator *fe, IEnumFORMATETC **ppenum) {$/;"	f	signature:(FormatEnumerator *fe, IEnumFORMATETC **ppenum)
+FormatEnumerator_Next	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP FormatEnumerator_Next(FormatEnumerator *fe, ULONG celt, FORMATETC *rgelt, ULONG *pceltFetched) {$/;"	f	signature:(FormatEnumerator *fe, ULONG celt, FORMATETC *rgelt, ULONG *pceltFetched)
+FormatEnumerator_QueryInterface	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP FormatEnumerator_QueryInterface(FormatEnumerator *fe, REFIID riid, PVOID *ppv) {$/;"	f	signature:(FormatEnumerator *fe, REFIID riid, PVOID *ppv)
+FormatEnumerator_Release	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP_(ULONG)FormatEnumerator_Release(FormatEnumerator *fe) {$/;"	f	signature:(FormatEnumerator *fe)
+FormatEnumerator_Reset	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP FormatEnumerator_Reset(FormatEnumerator *fe) {$/;"	f	signature:(FormatEnumerator *fe)
+FormatEnumerator_Skip	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP FormatEnumerator_Skip(FormatEnumerator *fe, ULONG celt) {$/;"	f	signature:(FormatEnumerator *fe, ULONG celt)
 FormatRange	scintilla\src\EditView.cxx	/^long EditView::FormatRange(bool draw, Sci_RangeToFormat *pfr, Surface *surface, Surface *surfaceMeasure,$/;"	f	class:EditView	signature:(bool draw, Sci_RangeToFormat *pfr, Surface *surface, Surface *surfaceMeasure, const EditModel &model, const ViewStyle &vs)
 FormatRange	scintilla\src\Editor.cxx	/^long Editor::FormatRange(bool draw, Sci_RangeToFormat *pfr) {$/;"	f	class:Editor	signature:(bool draw, Sci_RangeToFormat *pfr)
 Forward	scintilla\lexlib\StyleContext.h	/^	void Forward() {$/;"	f	class:Scintilla::StyleContext	access:public	signature:()
@@ -1551,6 +1633,8 @@ FromWidget	scintilla\gtk\ScintillaGTK.cxx	/^ScintillaGTK *ScintillaGTK::FromWidg
 Ftypes	scite\lua\src\lstrlib.c	/^typedef union Ftypes {$/;"	u	file:
 Ftypes	scite\lua\src\lstrlib.c	/^} Ftypes;$/;"	t	typeref:union:Ftypes	file:
 FullPaint	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::FullPaint() {$/;"	f	class:ScintillaGTK	signature:()
+FullPaint	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::FullPaint() {$/;"	f	class:ScintillaWin	signature:()
+FullPaintDC	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::FullPaintDC(HDC hdc) {$/;"	f	class:ScintillaWin	signature:(HDC hdc)
 FullScreenToggle	scite\win32\SciTEWin.cxx	/^void SciTEWin::FullScreenToggle() {$/;"	f	class:SciTEWin	signature:()
 FuncState	scite\lua\src\lparser.h	/^typedef struct FuncState {$/;"	s
 FuncState	scite\lua\src\lparser.h	/^} FuncState;$/;"	t	typeref:struct:FuncState
@@ -1675,11 +1759,13 @@ GetClientRectangle	scintilla\gtk\ScintillaGTK.cxx	/^PRectangle ScintillaGTK::Get
 GetClientRectangle	scintilla\src\Editor.cxx	/^PRectangle Editor::GetClientRectangle() const {$/;"	f	class:Editor	signature:() const
 GetClientRectangle	scite\src\SciTEBase.cxx	/^GUI::Rectangle SciTEBase::GetClientRectangle() {$/;"	f	class:SciTEBase	signature:()
 GetColumn	scintilla\src\Document.cxx	/^Sci::Position Document::GetColumn(Sci::Position pos) {$/;"	f	class:Document	signature:(Sci::Position pos)
+GetCompositionString	scintilla\win32\ScintillaWin.cxx	/^	std::wstring GetCompositionString(DWORD dwIndex) {$/;"	f	class:__anon121::IMContext	access:public	signature:(DWORD dwIndex)
 GetConstantName	scite\src\IFaceTable.cxx	/^int IFaceTable::GetConstantName(int value, char *nameOut, unsigned nameBufferLen, const char *prefix) {$/;"	f	class:IFaceTable	signature:(int value, char *nameOut, unsigned nameBufferLen, const char *prefix)
 GetContext	scintilla\cocoa\PlatCocoa.h	/^  CGContextRef GetContext() { return gc; }$/;"	f	class:Scintilla::SurfaceImpl	access:public	signature:()
 GetCount	scite\src\Containers.h	/^	int GetCount() const {$/;"	f	class:TList	access:public	signature:() const
 GetCount	scite\src\Containers.h	/^	int GetCount() const {$/;"	f	class:TMap	access:public	signature:() const
 GetCtrlID	scintilla\src\Editor.h	/^	virtual int GetCtrlID() { return ctrlID; }$/;"	f	class:Scintilla::Editor	access:protected	signature:()
+GetCtrlID	scintilla\win32\ScintillaWin.cxx	/^int ScintillaWin::GetCtrlID() {$/;"	f	class:ScintillaWin	signature:()
 GetCurrent	scintilla\lexlib\StyleContext.cxx	/^void StyleContext::GetCurrent(char *s, Sci_PositionU len) {$/;"	f	class:StyleContext	signature:(char *s, Sci_PositionU len)
 GetCurrentIndicator	scintilla\src\Decoration.h	/^	int GetCurrentIndicator() const { return currentIndicator; }$/;"	f	class:Scintilla::DecorationList	access:public	signature:() const
 GetCurrentLine	scite\src\SciTEBase.cxx	/^std::string SciTEBase::GetCurrentLine() {$/;"	f	class:SciTEBase	signature:()
@@ -1687,6 +1773,7 @@ GetCurrentLineNumber	scite\src\SciTEBase.cxx	/^int SciTEBase::GetCurrentLineNumb
 GetCurrentLowered	scintilla\lexlib\StyleContext.cxx	/^void StyleContext::GetCurrentLowered(char *s, Sci_PositionU len) {$/;"	f	class:StyleContext	signature:(char *s, Sci_PositionU len)
 GetCurrentScrollPosition	scite\src\SciTEBase.cxx	/^int SciTEBase::GetCurrentScrollPosition() {$/;"	f	class:SciTEBase	signature:()
 GetCurrentValue	scintilla\src\Decoration.h	/^	int GetCurrentValue() const { return currentValue; }$/;"	f	class:Scintilla::DecorationList	access:public	signature:() const
+GetData	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP ScintillaWin::GetData(FORMATETC *pFEIn, STGMEDIUM *pSTM) {$/;"	f	class:ScintillaWin	signature:(FORMATETC *pFEIn, STGMEDIUM *pSTM)
 GetDefaultAttributes	scintilla\gtk\ScintillaGTKAccessible.cxx	/^AtkAttributeSet *ScintillaGTKAccessible::AtkTextIface::GetDefaultAttributes(AtkText *text) {$/;"	f	class:ScintillaGTKAccessible::AtkTextIface	signature:(AtkText *text)
 GetDefaultAttributes	scintilla\gtk\ScintillaGTKAccessible.cxx	/^AtkAttributeSet *ScintillaGTKAccessible::GetDefaultAttributes() {$/;"	f	class:ScintillaGTKAccessible	signature:()
 GetDefaultDirectory	scite\gtk\SciTEGTK.cxx	/^FilePath SciTEGTK::GetDefaultDirectory() {$/;"	f	class:SciTEGTK	signature:()
@@ -1736,13 +1823,16 @@ GetID	scintilla\include\Platform.h	/^	WindowID GetID() const { return wid; }$/;"
 GetID	scite\src\GUI.h	/^	MenuID GetID() const {$/;"	f	class:GUI::Menu	access:public	signature:() const
 GetID	scite\src\GUI.h	/^	WindowID GetID() const {$/;"	f	class:GUI::Window	access:public	signature:() const
 GetID	scite\src\SciTEBase.h	/^	GUI::WindowID GetID() const { return wSciTE.GetID(); }$/;"	f	class:SciTEBase	access:public	signature:() const
+GetImeAttributes	scintilla\win32\ScintillaWin.cxx	/^	std::vector<BYTE> GetImeAttributes() {$/;"	f	class:__anon121::IMContext	access:public	signature:()
 GetImeCaretPos	scintilla\qt\ScintillaEditBase\ScintillaEditBase.cpp	/^static int GetImeCaretPos(QInputMethodEvent *event)$/;"	f	file:	signature:(QInputMethodEvent *event)
+GetImeCaretPos	scintilla\win32\ScintillaWin.cxx	/^	unsigned int GetImeCaretPos() {$/;"	f	class:__anon121::IMContext	access:public	signature:()
 GetIndentState	scite\src\SciTEBase.cxx	/^IndentationStatus SciTEBase::GetIndentState(int line) {$/;"	f	class:SciTEBase	signature:(int line)
 GetInstance	scintilla\src\ExternalLexer.cxx	/^LexerManager *LexerManager::GetInstance() {$/;"	f	class:LexerManager	signature:()
 GetInstance	scite\src\SciTEBase.cxx	/^uptr_t SciTEBase::GetInstance() {$/;"	f	class:SciTEBase	signature:()
 GetInstance	scite\win32\SciTEWin.cxx	/^uptr_t SciTEWin::GetInstance() {$/;"	f	class:SciTEWin	signature:()
 GetInt	scintilla\lexlib\PropSetSimple.cxx	/^int PropSetSimple::GetInt(const char *key, int defaultValue) const {$/;"	f	class:PropSetSimple	signature:(const char *key, int defaultValue) const
 GetInt	scite\src\PropSetFile.cxx	/^int PropSetFile::GetInt(const char *key, int defaultValue) const {$/;"	f	class:PropSetFile	signature:(const char *key, int defaultValue) const
+GetIntelliMouseParameters	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::GetIntelliMouseParameters() {$/;"	f	class:ScintillaWin	signature:()
 GetLanguage	scintilla\lexlib\LexerModule.h	/^	int GetLanguage() const { return language; }$/;"	f	class:Scintilla::LexerModule	access:public	signature:() const
 GetLastChild	scintilla\src\Document.cxx	/^Sci::Line Document::GetLastChild(Sci::Line lineParent, int level, Sci::Line lastLine) {$/;"	f	class:Document	signature:(Sci::Line lineParent, int level, Sci::Line lastLine)
 GetLevel	scintilla\src\Document.cxx	/^int SCI_METHOD Document::GetLevel(Sci_Position line) const {$/;"	f	class:Document	signature:(Sci_Position line) const
@@ -1839,6 +1929,7 @@ GetSciteDefaultHome	scite\win32\SciTEWin.cxx	/^FilePath SciTEWin::GetSciteDefaul
 GetSciteUserHome	scite\gtk\SciTEGTK.cxx	/^FilePath SciTEGTK::GetSciteUserHome() {$/;"	f	class:SciTEGTK	signature:()
 GetSciteUserHome	scite\win32\SciTEWin.cxx	/^FilePath SciTEWin::GetSciteUserHome() {$/;"	f	class:SciTEWin	signature:()
 GetScriptableInterface	scite\scripts\IFaceTableGen.py	/^def GetScriptableInterface(f):$/;"	f	access:public
+GetScrollInfo	scintilla\win32\ScintillaWin.cxx	/^bool ScintillaWin::GetScrollInfo(int nBar, LPSCROLLINFO lpsi) {$/;"	f	class:ScintillaWin	signature:(int nBar, LPSCROLLINFO lpsi)
 GetSelectedRange	scite\src\SciTEBase.cxx	/^SelectedRange SciTEBase::GetSelectedRange() {$/;"	f	class:SciTEBase	signature:()
 GetSelection	scintilla\gtk\PlatGTK.cxx	/^int ListBoxX::GetSelection() {$/;"	f	class:ListBoxX	signature:()
 GetSelection	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::GetSelection(GtkSelectionData *selection_data, guint info, SelectionText *text) {$/;"	f	class:ScintillaGTK	signature:(GtkSelectionData *selection_data, guint info, SelectionText *text)
@@ -1867,12 +1958,14 @@ GetTail	scite\src\Containers.h	/^	TYPE& GetTail() {$/;"	f	class:TList	access:pub
 GetTailPosition	scite\src\Containers.h	/^	T_POSITION GetTailPosition() const {$/;"	f	class:TList	access:public	signature:() const
 GetText	scintilla\gtk\ScintillaGTKAccessible.cxx	/^gchar *ScintillaGTKAccessible::AtkTextIface::GetText(AtkText *text, int start_offset, int end_offset) {$/;"	f	class:ScintillaGTKAccessible::AtkTextIface	signature:(AtkText *text, int start_offset, int end_offset)
 GetText	scintilla\gtk\ScintillaGTKAccessible.cxx	/^gchar *ScintillaGTKAccessible::GetText(int startChar, int endChar) {$/;"	f	class:ScintillaGTKAccessible	signature:(int startChar, int endChar)
+GetText	scintilla\win32\ScintillaWin.cxx	/^sptr_t ScintillaWin::GetText(uptr_t wParam, sptr_t lParam) {$/;"	f	class:ScintillaWin	signature:(uptr_t wParam, sptr_t lParam)
 GetTextAfterOffset	scintilla\gtk\ScintillaGTKAccessible.cxx	/^gchar *ScintillaGTKAccessible::AtkTextIface::GetTextAfterOffset(AtkText *text, int offset, AtkTextBoundary boundary_type, int *start_offset, int *end_offset) {$/;"	f	class:ScintillaGTKAccessible::AtkTextIface	signature:(AtkText *text, int offset, AtkTextBoundary boundary_type, int *start_offset, int *end_offset)
 GetTextAfterOffset	scintilla\gtk\ScintillaGTKAccessible.cxx	/^gchar *ScintillaGTKAccessible::GetTextAfterOffset(int charOffset,$/;"	f	class:ScintillaGTKAccessible	signature:(int charOffset, AtkTextBoundary boundaryType, int *startChar, int *endChar)
 GetTextAtOffset	scintilla\gtk\ScintillaGTKAccessible.cxx	/^gchar *ScintillaGTKAccessible::AtkTextIface::GetTextAtOffset(AtkText *text, gint offset, AtkTextBoundary boundary_type, gint *start_offset, gint *end_offset) {$/;"	f	class:ScintillaGTKAccessible::AtkTextIface	signature:(AtkText *text, gint offset, AtkTextBoundary boundary_type, gint *start_offset, gint *end_offset)
 GetTextAtOffset	scintilla\gtk\ScintillaGTKAccessible.cxx	/^gchar *ScintillaGTKAccessible::GetTextAtOffset(int charOffset,$/;"	f	class:ScintillaGTKAccessible	signature:(int charOffset, AtkTextBoundary boundaryType, int *startChar, int *endChar)
 GetTextBeforeOffset	scintilla\gtk\ScintillaGTKAccessible.cxx	/^gchar *ScintillaGTKAccessible::AtkTextIface::GetTextBeforeOffset(AtkText *text, int offset, AtkTextBoundary boundary_type, int *start_offset, int *end_offset) {$/;"	f	class:ScintillaGTKAccessible::AtkTextIface	signature:(AtkText *text, int offset, AtkTextBoundary boundary_type, int *start_offset, int *end_offset)
 GetTextBeforeOffset	scintilla\gtk\ScintillaGTKAccessible.cxx	/^gchar *ScintillaGTKAccessible::GetTextBeforeOffset(int charOffset,$/;"	f	class:ScintillaGTKAccessible	signature:(int charOffset, AtkTextBoundary boundaryType, int *startChar, int *endChar)
+GetTextLength	scintilla\win32\ScintillaWin.cxx	/^sptr_t ScintillaWin::GetTextLength() {$/;"	f	class:ScintillaWin	signature:()
 GetTextRangeUTF8	scintilla\gtk\ScintillaGTKAccessible.cxx	/^gchar *ScintillaGTKAccessible::GetTextRangeUTF8(Sci::Position startByte, Sci::Position endByte) {$/;"	f	class:ScintillaGTKAccessible	signature:(Sci::Position startByte, Sci::Position endByte)
 GetTextRectangle	scintilla\src\Editor.cxx	/^PRectangle Editor::GetTextRectangle() const {$/;"	f	class:Editor	signature:() const
 GetTranslationToAbout	scite\src\SciTEBase.cxx	/^std::string SciTEBase::GetTranslationToAbout(const char * const propname, bool retainIfNotFound) {$/;"	f	class:SciTEBase	signature:(const char * const propname, bool retainIfNotFound)
@@ -1901,6 +1994,9 @@ GetWindowPosition	scite\win32\SciTEWin.cxx	/^void SciTEWin::GetWindowPosition(in
 GetWordListDescription	scintilla\lexlib\LexerModule.cxx	/^const char *LexerModule::GetWordListDescription(int index) const {$/;"	f	class:LexerModule	signature:(int index) const
 GetWorkingDirectory	scite\src\FilePath.cxx	/^FilePath FilePath::GetWorkingDirectory() {$/;"	f	class:FilePath	signature:()
 GetterFunction	scite\src\IFaceTable.h	/^	IFaceFunction GetterFunction() const {$/;"	f	struct:IFaceProperty	access:public	signature:() const
+GlobalMemory	scintilla\win32\ScintillaWin.cxx	/^	GlobalMemory() : hand(0), ptr(0) {$/;"	f	class:GlobalMemory	access:public	signature:()
+GlobalMemory	scintilla\win32\ScintillaWin.cxx	/^	explicit GlobalMemory(HGLOBAL hand_) : hand(hand_), ptr(0) {$/;"	f	class:GlobalMemory	access:public	signature:(HGLOBAL hand_)
+GlobalMemory	scintilla\win32\ScintillaWin.cxx	/^class GlobalMemory {$/;"	c	file:
 GoLineDialog	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::GoLineDialog() {$/;"	f	class:SciTEGTK	signature:()
 GoLineDialog	scite\win32\SciTEWinDlg.cxx	/^void SciTEWin::GoLineDialog() {$/;"	f	class:SciTEWin	signature:()
 GoLineDlg	scite\win32\SciTEWinDlg.cxx	/^INT_PTR CALLBACK SciTEWin::GoLineDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {$/;"	f	class:SciTEWin	signature:(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
@@ -1943,6 +2039,8 @@ HJinterface	scintilla\win32\HanjaDic.cxx	/^	IHanjaDic *HJinterface;$/;"	m	class:
 HOOKKEY	scite\lua\src\ldblib.c	/^static const int HOOKKEY = 0;$/;"	v	file:
 HTHEME	scite\win32\SciteWin.h	/^typedef void *HTHEME;$/;"	t
 HackColour	scite\src\Credits.cxx	/^	void HackColour(int &n) {$/;"	f	class:__anon29::RandomColour	file:	access:private	signature:(int &n)
+HandleCompositionInline	scintilla\win32\ScintillaWin.cxx	/^sptr_t ScintillaWin::HandleCompositionInline(uptr_t, sptr_t lParam) {$/;"	f	class:ScintillaWin	signature:(uptr_t, sptr_t lParam)
+HandleCompositionWindowed	scintilla\win32\ScintillaWin.cxx	/^sptr_t ScintillaWin::HandleCompositionWindowed(uptr_t wParam, sptr_t lParam) {$/;"	f	class:ScintillaWin	signature:(uptr_t wParam, sptr_t lParam)
 HandleCopyData	scite\win32\DirectorExtension.cxx	/^static LRESULT HandleCopyData(LPARAM lParam) {$/;"	f	file:	signature:(LPARAM lParam)
 HandleReplaceCommand	scite\win32\SciTEWinDlg.cxx	/^BOOL SciTEWin::HandleReplaceCommand(int cmd, bool reverseDirection) {$/;"	f	class:SciTEWin	signature:(int cmd, bool reverseDirection)
 HandleReplaceCommand	scite\win32\Strips.cxx	/^void ReplaceStrip::HandleReplaceCommand(int cmd, bool reverseFind) {$/;"	f	class:ReplaceStrip	signature:(int cmd, bool reverseFind)
@@ -1954,6 +2052,7 @@ HanjaDic	scintilla\win32\HanjaDic.cxx	/^	HanjaDic() : HJinterface(NULL) {$/;"	f	
 HanjaDic	scintilla\win32\HanjaDic.cxx	/^class HanjaDic {$/;"	c	namespace:Scintilla::HanjaDict	file:
 HanjaDict	scintilla\win32\HanjaDic.cxx	/^namespace HanjaDict {$/;"	n	namespace:Scintilla	file:
 HanjaDict	scintilla\win32\HanjaDic.h	/^namespace HanjaDict {$/;"	n	namespace:Scintilla
+HasCaretSizeChanged	scintilla\win32\ScintillaWin.cxx	/^bool ScintillaWin::HasCaretSizeChanged() const {$/;"	f	class:ScintillaWin	signature:() const
 HasCaseFolder	scintilla\src\Document.cxx	/^bool Document::HasCaseFolder() const {$/;"	f	class:Document	signature:() const
 HasClose	scite\win32\Strips.cxx	/^bool BackgroundStrip::HasClose() const {$/;"	f	class:BackgroundStrip	signature:() const
 HasClose	scite\win32\Strips.cxx	/^bool Strip::HasClose() const {$/;"	f	class:Strip	signature:() const
@@ -1973,6 +2072,7 @@ HashFont	scintilla\win32\PlatWin.cxx	/^static int HashFont(const FontParameters 
 HashKey	scite\src\Containers.h	/^	unsigned int HashKey(ARG_KEY key) {$/;"	f	class:TMap	access:protected	signature:(ARG_KEY key)
 HaveMouseCapture	scintilla\gtk\ScintillaGTK.cxx	/^bool ScintillaGTK::HaveMouseCapture() {$/;"	f	class:ScintillaGTK	signature:()
 HaveMouseCapture	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^bool ScintillaQt::HaveMouseCapture()$/;"	f	class:ScintillaQt	signature:()
+HaveMouseCapture	scintilla\win32\ScintillaWin.cxx	/^bool ScintillaWin::HaveMouseCapture() {$/;"	f	class:ScintillaWin	signature:()
 Header	scite\lua\src\lstrlib.c	/^typedef struct Header {$/;"	s	file:
 Header	scite\lua\src\lstrlib.c	/^} Header;$/;"	t	typeref:struct:Header	file:
 Height	scintilla\gtk\PlatGTK.cxx	/^XYPOSITION SurfaceImpl::Height(Font &font_) {$/;"	f	class:SurfaceImpl	signature:(Font &font_)
@@ -1984,6 +2084,7 @@ Height	scite\src\GUI.h	/^	int Height() const { return bottom - top; }$/;"	f	clas
 Height	scite\win32\Strips.h	/^	virtual int Height() {$/;"	f	class:Strip	access:public	signature:()
 HeightFromStyle	scintilla\src\ViewStyle.cxx	/^int ViewStyle::HeightFromStyle(const FontSpecification &fs) {$/;"	f	class:ViewStyle	signature:(const FontSpecification &fs)
 HexStringFromInteger	scite\win32\GUIWin.cxx	/^gui_string HexStringFromInteger(long i) {$/;"	f	namespace:GUI	signature:(long i)
+HiWord	scintilla\win32\ScintillaWin.cxx	/^static WORD HiWord(uptr_t l) {$/;"	f	file:	signature:(uptr_t l)
 HiddenLines	scintilla\src\ContractionState.cxx	/^bool ContractionState::HiddenLines() const {$/;"	f	class:ContractionState	signature:() const
 HideKeyboardCues	scite\win32\Strips.cxx	/^static bool HideKeyboardCues() {$/;"	f	file:	signature:()
 HideMatch	scite\src\SciTEBase.cxx	/^void SciTEBase::HideMatch() {$/;"	f	class:SciTEBase	signature:()
@@ -1993,6 +2094,7 @@ HighlightDelimiter	scintilla\src\Document.h	/^	HighlightDelimiter() : isEnabled(
 HighlightDelimiter	scintilla\src\Document.h	/^class HighlightDelimiter {$/;"	c	namespace:Scintilla
 HmenuID	scite\win32\SciteWin.h	/^inline HMENU HmenuID(size_t id) {$/;"	f	signature:(size_t id)
 HorizontalMove	scintilla\src\Editor.cxx	/^int Editor::HorizontalMove(unsigned int iMessage) {$/;"	f	class:Editor	signature:(unsigned int iMessage)
+HorizontalScrollMessage	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::HorizontalScrollMessage(WPARAM wParam) {$/;"	f	class:ScintillaWin	signature:(WPARAM wParam)
 HorizontalScrollTo	scintilla\src\Editor.cxx	/^void Editor::HorizontalScrollTo(int xPos) {$/;"	f	class:Editor	signature:(int xPos)
 Hwnd	scite\win32\Strips.h	/^	HWND Hwnd() const {$/;"	f	class:BaseWin	access:public	signature:() const
 HwndFromString	scite\win32\DirectorExtension.cxx	/^static HWND HwndFromString(const char *s) {$/;"	f	file:	signature:(const char *s)
@@ -2263,6 +2365,8 @@ ILexer	scintilla\include\ILexer.h	/^class ILexer {$/;"	c	namespace:Scintilla
 ILexerWithSubStyles	scintilla\include\ILexer.h	/^class ILexerWithSubStyles : public ILexer {$/;"	c	namespace:Scintilla	inherits:ILexer
 ILoader	scintilla\include\ILexer.h	/^class ILoader {$/;"	c	namespace:Scintilla
 ILocalize	scite\src\StringHelpers.h	/^class ILocalize {$/;"	c
+IMContext	scintilla\win32\ScintillaWin.cxx	/^	IMContext(HWND hwnd_) :$/;"	f	class:__anon121::IMContext	access:public	signature:(HWND hwnd_)
+IMContext	scintilla\win32\ScintillaWin.cxx	/^class IMContext {$/;"	c	namespace:__anon121	file:
 IMEInteraction	scintilla\src\EditModel.h	/^	enum IMEInteraction { imeWindowed, imeInline } imeInteraction;$/;"	g	class:Scintilla::EditModel	access:public
 IMPORT_START	scite\src\SciTE.h	57;"	d
 INDEXK	scite\lua\src\lopcodes.h	140;"	d
@@ -2327,6 +2431,9 @@ ImageInset	scintilla\win32\PlatWin.cxx	/^	static const Point ImageInset;	\/\/ Pa
 ImageInset	scintilla\win32\PlatWin.cxx	/^const Point ListBoxX::ImageInset(1, 1);$/;"	m	class:Scintilla::ListBoxX	file:
 ImageMap	scintilla\gtk\PlatGTK.cxx	/^typedef std::map<int, RGBAImage*> ImageMap;$/;"	t	file:
 ImageMap	scintilla\src\XPM.h	/^	typedef std::map<int, std::unique_ptr<RGBAImage>> ImageMap;$/;"	t	class:Scintilla::RGBAImageSet	access:private
+ImeEndComposition	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::ImeEndComposition() {$/;"	f	class:ScintillaWin	signature:()
+ImeOnReconvert	scintilla\win32\ScintillaWin.cxx	/^LRESULT ScintillaWin::ImeOnReconvert(LPARAM lParam) {$/;"	f	class:ScintillaWin	signature:(LPARAM lParam)
+ImeStartComposition	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::ImeStartComposition() {$/;"	f	class:ScintillaWin	signature:()
 Import	scite\src\PropSetFile.cxx	/^void PropSetFile::Import(const FilePath &filename, const FilePath &directoryForImports, const ImportFilter &filter,$/;"	f	class:PropSetFile	signature:(const FilePath &filename, const FilePath &directoryForImports, const ImportFilter &filter, FilePathSet *imports, size_t depth)
 ImportFilter	scite\src\PropSetFile.h	/^class ImportFilter {$/;"	c
 ImportMenu	scite\src\SciTEProps.cxx	/^void SciTEBase::ImportMenu(int pos) {$/;"	f	class:SciTEBase	signature:(int pos)
@@ -2381,6 +2488,7 @@ Init	scintilla\win32\PlatWin.cxx	/^void SurfaceD2D::Init(SurfaceID sid, WindowID
 Init	scintilla\win32\PlatWin.cxx	/^void SurfaceD2D::Init(WindowID \/* wid *\/) {$/;"	f	class:Scintilla::SurfaceD2D	signature:(WindowID )
 Init	scintilla\win32\PlatWin.cxx	/^void SurfaceGDI::Init(SurfaceID sid, WindowID) {$/;"	f	class:Scintilla::SurfaceGDI	signature:(SurfaceID sid, WindowID)
 Init	scintilla\win32\PlatWin.cxx	/^void SurfaceGDI::Init(WindowID) {$/;"	f	class:Scintilla::SurfaceGDI	signature:(WindowID )
+Init	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::Init() {$/;"	f	class:ScintillaWin	signature:()
 Init	scite\src\FilePath.cxx	/^void FilePath::Init() {$/;"	f	class:FilePath	signature:()
 Init	scite\src\SciTEBase.h	/^	void Init() {$/;"	f	class:Buffer	access:public	signature:()
 Init	scite\src\SciTEBase.h	/^	void Init() {$/;"	f	class:RecentFile	access:public	signature:()
@@ -2405,6 +2513,7 @@ Initialised	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^bool SurfaceImpl::Initia
 Initialised	scintilla\src\CaseConvert.cxx	/^	bool Initialised() const {$/;"	f	class:__anon93::CaseConverter	access:public	signature:() const
 Initialised	scintilla\win32\PlatWin.cxx	/^bool SurfaceD2D::Initialised() {$/;"	f	class:Scintilla::SurfaceD2D	signature:()
 Initialised	scintilla\win32\PlatWin.cxx	/^bool SurfaceGDI::Initialised() {$/;"	f	class:Scintilla::SurfaceGDI	signature:()
+InputCodePage	scintilla\win32\ScintillaWin.cxx	/^static int InputCodePage() {$/;"	f	file:	signature:()
 Insert	scintilla\src\PositionCache.cxx	/^void BreakFinder::Insert(int val) {$/;"	f	class:BreakFinder	signature:(int val)
 Insert	scintilla\src\SplitVector.h	/^	void Insert(int position, T v) {$/;"	f	class:Scintilla::SplitVector	access:public	signature:(int position, T v)
 Insert	scite\src\SciTEBase.cxx	/^void SciTEBase::Insert(Pane p, int pos, const char *s) {$/;"	f	class:SciTEBase	signature:(Pane p, int pos, const char *s)
@@ -2494,6 +2603,7 @@ IsBrace	scite\src\SciTEBase.cxx	/^static bool IsBrace(char ch) {$/;"	f	file:	sig
 IsBufferAvailable	scite\src\SciTEBuffers.cxx	/^bool SciTEBase::IsBufferAvailable() const {$/;"	f	class:SciTEBase	signature:() const
 IsCollectingUndo	scintilla\src\Document.h	/^	bool IsCollectingUndo() const { return cb.IsCollectingUndo(); }$/;"	f	class:Scintilla::Document	access:public	signature:() const
 IsCommentLine	scite\src\PropSetFile.cxx	/^static bool IsCommentLine(const char *line) {$/;"	f	file:	signature:(const char *line)
+IsCompatibleDC	scintilla\win32\ScintillaWin.cxx	/^bool ScintillaWin::IsCompatibleDC(HDC hOtherDC) {$/;"	f	class:ScintillaWin	signature:(HDC hOtherDC)
 IsControlCharacter	scintilla\src\EditView.cxx	/^static inline bool IsControlCharacter(int ch) {$/;"	f	file:	signature:(int ch)
 IsCrLf	scintilla\src\Document.cxx	/^bool Document::IsCrLf(Sci::Position pos) const {$/;"	f	class:Document	signature:(Sci::Position pos) const
 IsDBCSLeadByte	scintilla\gtk\PlatGTK.cxx	/^bool Platform::IsDBCSLeadByte(int codePage, char ch) {$/;"	f	class:Platform	signature:(int codePage, char ch)
@@ -2630,11 +2740,13 @@ KeyThis	scintilla\gtk\ScintillaGTK.cxx	/^gboolean ScintillaGTK::KeyThis(GdkEvent
 KeyToCommand	scintilla\src\KeyMap.h	/^class KeyToCommand {$/;"	c	namespace:Scintilla
 KeyToCommand	scite\gtk\SciTEGTK.cxx	/^class KeyToCommand {$/;"	c	file:
 KeyTranslate	scintilla\gtk\ScintillaGTK.cxx	/^static int KeyTranslate(int keyIn) {$/;"	f	file:	signature:(int keyIn)
+KeyTranslate	scintilla\win32\ScintillaWin.cxx	/^static int KeyTranslate(int keyIn) {$/;"	f	file:	signature:(int keyIn)
 KeyUp	scite\win32\SciTEWin.cxx	/^LRESULT SciTEWin::KeyUp(WPARAM wParam) {$/;"	f	class:SciTEWin	signature:(WPARAM wParam)
 Kfloat	scite\lua\src\lstrlib.c	/^  Kfloat,	\/* floating-point numbers *\/$/;"	e	enum:KOption	file:
 Kint	scite\lua\src\lstrlib.c	/^  Kint,		\/* signed integers *\/$/;"	e	enum:KOption	file:
 Knop	scite\lua\src\lstrlib.c	/^  Knop		\/* no-op (configuration or spaces) *\/$/;"	e	enum:KOption	file:
 KoreanIME	scintilla\gtk\ScintillaGTK.cxx	/^bool ScintillaGTK::KoreanIME() {$/;"	f	class:ScintillaGTK	signature:()
+KoreanIME	scintilla\win32\ScintillaWin.cxx	/^bool ScintillaWin::KoreanIME() {$/;"	f	class:ScintillaWin	signature:()
 Kpaddalign	scite\lua\src\lstrlib.c	/^  Kpaddalign,	\/* padding for alignment *\/$/;"	e	enum:KOption	file:
 Kpadding	scite\lua\src\lstrlib.c	/^  Kpadding,	\/* padding *\/$/;"	e	enum:KOption	file:
 Kstring	scite\lua\src\lstrlib.c	/^  Kstring,	\/* strings with prefixed length *\/$/;"	e	enum:KOption	file:
@@ -3128,6 +3240,7 @@ ListImage	scintilla\gtk\PlatGTK.cxx	/^struct ListImage {$/;"	s	file:
 ListItemData	scintilla\win32\PlatWin.cxx	/^struct ListItemData {$/;"	s	namespace:Scintilla	file:
 ListWidget	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^ListWidget::ListWidget(QWidget *parent)$/;"	f	class:Scintilla::ListWidget	signature:(QWidget *parent)
 ListWidget	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^class ListWidget : public QListWidget {$/;"	c	namespace:Scintilla	file:	inherits:QListWidget
+LoWord	scintilla\win32\ScintillaWin.cxx	/^static WORD LoWord(uptr_t l) {$/;"	f	file:	signature:(uptr_t l)
 Load	scintilla\gtk\PlatGTK.cxx	/^DynamicLibrary *DynamicLibrary::Load(const char *modulePath) {$/;"	f	class:DynamicLibrary	signature:(const char *modulePath)
 Load	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^DynamicLibrary *DynamicLibrary::Load(const char *modulePath)$/;"	f	class:Scintilla::DynamicLibrary	signature:(const char *modulePath)
 Load	scintilla\src\ExternalLexer.cxx	/^void LexerManager::Load(const char *path) {$/;"	f	class:LexerManager	signature:(const char *path)
@@ -3250,6 +3363,7 @@ Main	scintilla\src\Selection.cxx	/^size_t Selection::Main() const {$/;"	f	class:
 MainAnchor	scintilla\src\Selection.cxx	/^Sci::Position Selection::MainAnchor() const {$/;"	f	class:Selection	signature:() const
 MainCaret	scintilla\src\Selection.cxx	/^Sci::Position Selection::MainCaret() const {$/;"	f	class:Selection	signature:() const
 MainForAll	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::MainForAll(GtkContainer *container, gboolean include_internals, GtkCallback callback, gpointer callback_data) {$/;"	f	class:ScintillaGTK	signature:(GtkContainer *container, gboolean include_internals, GtkCallback callback, gpointer callback_data)
+MainHWND	scintilla\win32\ScintillaWin.cxx	/^HWND ScintillaWin::MainHWND() {$/;"	f	class:ScintillaWin	signature:()
 MainHWND	scite\win32\SciTEWin.cxx	/^HWND SciTEWin::MainHWND() {$/;"	f	class:SciTEWin	signature:()
 MaintainIndentation	scite\src\SciTEBase.cxx	/^void SciTEBase::MaintainIndentation(char ch) {$/;"	f	class:SciTEBase	signature:(char ch)
 MakeAlias	scintilla\src\Style.cxx	/^void FontAlias::MakeAlias(Font &fontOrigin) {$/;"	f	class:FontAlias	signature:(Font &fontOrigin)
@@ -3263,6 +3377,7 @@ MapDefault	scintilla\src\KeyMap.cxx	/^const KeyToCommand KeyMap::MapDefault[] = 
 MapDefault	scintilla\src\KeyMap.h	/^	static const KeyToCommand MapDefault[];$/;"	m	class:Scintilla::KeyMap	access:private
 MapImeIndicators	scintilla\gtk\ScintillaGTK.cxx	/^static std::vector<int> MapImeIndicators(PangoAttrList *attrs, const char *u8Str) {$/;"	f	file:	signature:(PangoAttrList *attrs, const char *u8Str)
 MapImeIndicators	scintilla\qt\ScintillaEditBase\ScintillaEditBase.cpp	/^static std::vector<int> MapImeIndicators(QInputMethodEvent *event)$/;"	f	file:	signature:(QInputMethodEvent *event)
+MapImeIndicators	scintilla\win32\ScintillaWin.cxx	/^std::vector<int> MapImeIndicators(std::vector<BYTE> inputStyle) {$/;"	f	namespace:__anon123	signature:(std::vector<BYTE> inputStyle)
 MapRepresentation	scintilla\src\PositionCache.h	/^typedef std::map<int, Representation> MapRepresentation;$/;"	t	namespace:Scintilla
 MapThis	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::MapThis() {$/;"	f	class:ScintillaGTK	signature:()
 MapWidget	scintilla\gtk\ScintillaGTK.cxx	/^static void MapWidget(GtkWidget *widget) {$/;"	f	file:	signature:(GtkWidget *widget)
@@ -3362,6 +3477,7 @@ ModifiedTime	scite\src\FilePath.cxx	/^time_t FilePath::ModifiedTime() const {$/;
 ModifierFlags	scintilla\src\Editor.cxx	/^int Editor::ModifierFlags(bool shift, bool ctrl, bool alt, bool meta, bool super) {$/;"	f	class:Editor	signature:(bool shift, bool ctrl, bool alt, bool meta, bool super)
 ModifyScrollBars	scintilla\gtk\ScintillaGTK.cxx	/^bool ScintillaGTK::ModifyScrollBars(Sci::Line nMax, Sci::Line nPage) {$/;"	f	class:ScintillaGTK	signature:(Sci::Line nMax, Sci::Line nPage)
 ModifyScrollBars	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^bool ScintillaQt::ModifyScrollBars(Sci::Line nMax, Sci::Line nPage)$/;"	f	class:ScintillaQt	signature:(Sci::Line nMax, Sci::Line nPage)
+ModifyScrollBars	scintilla\win32\ScintillaWin.cxx	/^bool ScintillaWin::ModifyScrollBars(Sci::Line nMax, Sci::Line nPage) {$/;"	f	class:ScintillaWin	signature:(Sci::Line nMax, Sci::Line nPage)
 MonitorRectangleForWidget	scintilla\gtk\PlatGTK.cxx	/^GdkRectangle MonitorRectangleForWidget(GtkWidget *wid) {$/;"	f	namespace:__anon75	signature:(GtkWidget *wid)
 More	scintilla\lexlib\StyleContext.h	/^	bool More() const {$/;"	f	class:Scintilla::StyleContext	access:public	signature:() const
 More	scintilla\src\PositionCache.cxx	/^bool BreakFinder::More() const {$/;"	f	class:BreakFinder	signature:() const
@@ -3385,6 +3501,7 @@ MoveForInsertDelete	scintilla\src\Selection.cxx	/^void SelectionPosition::MoveFo
 MoveForInsertDelete	scintilla\src\Selection.cxx	/^void SelectionRange::MoveForInsertDelete(bool insertion, Sci::Position startChange, Sci::Position length) {$/;"	f	class:SelectionRange	signature:(bool insertion, Sci::Position startChange, Sci::Position length)
 MoveImeCarets	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::MoveImeCarets(int pos) {$/;"	f	class:ScintillaGTK	signature:(int pos)
 MoveImeCarets	scintilla\qt\ScintillaEditBase\ScintillaEditBase.cpp	/^void ScintillaEditBase::MoveImeCarets(int offset)$/;"	f	class:ScintillaEditBase	signature:(int offset)
+MoveImeCarets	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::MoveImeCarets(Sci::Position offset) {$/;"	f	class:ScintillaWin	signature:(Sci::Position offset)
 MovePositionForDeletion	scintilla\src\Editor.cxx	/^static inline Sci::Position MovePositionForDeletion(Sci::Position position, Sci::Position startDeletion, Sci::Position length) {$/;"	f	file:	signature:(Sci::Position position, Sci::Position startDeletion, Sci::Position length)
 MovePositionForInsertion	scintilla\src\Editor.cxx	/^static inline Sci::Position MovePositionForInsertion(Sci::Position position, Sci::Position startInsertion, Sci::Position length) {$/;"	f	file:	signature:(Sci::Position position, Sci::Position startInsertion, Sci::Position length)
 MovePositionOutsideChar	scintilla\src\Document.cxx	/^Sci::Position Document::MovePositionOutsideChar(Sci::Position pos, Sci::Position moveDir, bool checkLineEnd) const {$/;"	f	class:Document	signature:(Sci::Position pos, Sci::Position moveDir, bool checkLineEnd) const
@@ -3490,8 +3607,10 @@ Notify	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::Notify(SCNotification *notificati
 Notify	scite\src\SciTEBase.cxx	/^void SciTEBase::Notify(SCNotification *notification) {$/;"	f	class:SciTEBase	signature:(SCNotification *notification)
 Notify	scite\win32\SciTEWinBar.cxx	/^void SciTEWin::Notify(SCNotification *notification) {$/;"	f	class:SciTEWin	signature:(SCNotification *notification)
 NotifyCaretMove	scintilla\src\Editor.cxx	/^void Editor::NotifyCaretMove() {$/;"	f	class:Editor	signature:()
+NotifyCaretMove	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::NotifyCaretMove() {$/;"	f	class:ScintillaWin	signature:()
 NotifyChange	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::NotifyChange() {$/;"	f	class:ScintillaGTK	signature:()
 NotifyChange	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::NotifyChange()$/;"	f	class:ScintillaQt	signature:()
+NotifyChange	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::NotifyChange() {$/;"	f	class:ScintillaWin	signature:()
 NotifyChar	scintilla\src\Editor.cxx	/^void Editor::NotifyChar(int ch) {$/;"	f	class:Editor	signature:(int ch)
 NotifyClick	scintilla\src\Editor.cxx	/^void Editor::NotifyClick(Point pt, bool shift, bool ctrl, bool alt) {$/;"	f	class:Editor	signature:(Point pt, bool shift, bool ctrl, bool alt)
 NotifyClick	scintilla\src\Editor.cxx	/^void Editor::NotifyClick(Point pt, int modifiers) {$/;"	f	class:Editor	signature:(Point pt, int modifiers)
@@ -3499,12 +3618,14 @@ NotifyDeleted	scintilla\qt\ScintillaEdit\ScintillaDocument.cpp	/^void WatcherHel
 NotifyDeleted	scintilla\src\Editor.cxx	/^void Editor::NotifyDeleted(Document *, void *) {$/;"	f	class:Editor	signature:(Document *, void *)
 NotifyDoubleClick	scintilla\src\Editor.cxx	/^void Editor::NotifyDoubleClick(Point pt, bool shift, bool ctrl, bool alt) {$/;"	f	class:Editor	signature:(Point pt, bool shift, bool ctrl, bool alt)
 NotifyDoubleClick	scintilla\src\Editor.cxx	/^void Editor::NotifyDoubleClick(Point pt, int modifiers) {$/;"	f	class:Editor	signature:(Point pt, int modifiers)
+NotifyDoubleClick	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::NotifyDoubleClick(Point pt, int modifiers) {$/;"	f	class:ScintillaWin	signature:(Point pt, int modifiers)
 NotifyDwelling	scintilla\src\Editor.cxx	/^void Editor::NotifyDwelling(Point pt, bool state) {$/;"	f	class:Editor	signature:(Point pt, bool state)
 NotifyErrorOccurred	scintilla\qt\ScintillaEdit\ScintillaDocument.cpp	/^void WatcherHelper::NotifyErrorOccurred(Document *, void *, int status) {$/;"	f	class:WatcherHelper	signature:(Document *, void *, int status)
 NotifyErrorOccurred	scintilla\src\Editor.cxx	/^void Editor::NotifyErrorOccurred(Document *, void *, int status) {$/;"	f	class:Editor	signature:(Document *, void *, int status)
 NotifyFocus	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::NotifyFocus(bool focus) {$/;"	f	class:ScintillaGTK	signature:(bool focus)
 NotifyFocus	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::NotifyFocus(bool focus)$/;"	f	class:ScintillaQt	signature:(bool focus)
 NotifyFocus	scintilla\src\Editor.cxx	/^void Editor::NotifyFocus(bool focus) {$/;"	f	class:Editor	signature:(bool focus)
+NotifyFocus	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::NotifyFocus(bool focus) {$/;"	f	class:ScintillaWin	signature:(bool focus)
 NotifyHeader	scintilla\include\Scintilla.h	1215;"	d
 NotifyHotSpotClicked	scintilla\src\Editor.cxx	/^void Editor::NotifyHotSpotClicked(Sci::Position position, bool shift, bool ctrl, bool alt) {$/;"	f	class:Editor	signature:(Sci::Position position, bool shift, bool ctrl, bool alt)
 NotifyHotSpotClicked	scintilla\src\Editor.cxx	/^void Editor::NotifyHotSpotClicked(Sci::Position position, int modifiers) {$/;"	f	class:Editor	signature:(Sci::Position position, int modifiers)
@@ -3533,6 +3654,7 @@ NotifyNeedShown	scintilla\src\Editor.cxx	/^void Editor::NotifyNeedShown(Sci::Pos
 NotifyPainted	scintilla\src\Editor.cxx	/^void Editor::NotifyPainted() {$/;"	f	class:Editor	signature:()
 NotifyParent	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::NotifyParent(SCNotification scn) {$/;"	f	class:ScintillaGTK	signature:(SCNotification scn)
 NotifyParent	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::NotifyParent(SCNotification scn)$/;"	f	class:ScintillaQt	signature:(SCNotification scn)
+NotifyParent	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::NotifyParent(SCNotification scn) {$/;"	f	class:ScintillaWin	signature:(SCNotification scn)
 NotifyReadOnly	scintilla\gtk\ScintillaGTKAccessible.cxx	/^void ScintillaGTKAccessible::NotifyReadOnly() {$/;"	f	class:ScintillaGTKAccessible	signature:()
 NotifySavePoint	scintilla\qt\ScintillaEdit\ScintillaDocument.cpp	/^void WatcherHelper::NotifySavePoint(Document *, void *, bool atSavePoint) {$/;"	f	class:WatcherHelper	signature:(Document *, void *, bool atSavePoint)
 NotifySavePoint	scintilla\src\Document.cxx	/^void Document::NotifySavePoint(bool atSavePoint) {$/;"	f	class:Document	signature:(bool atSavePoint)
@@ -3727,6 +3849,7 @@ OpMode	scite\lua\src\lopcodes.h	/^enum OpMode {iABC, iABx, iAsBx, iAx};  \/* bas
 Open	scintilla\gtk\Converter.h	/^	void Open(const char *charSetDestination, const char *charSetSource, bool transliterations) {$/;"	f	class:Scintilla::Converter	access:public	signature:(const char *charSetDestination, const char *charSetSource, bool transliterations)
 Open	scite\src\FilePath.cxx	/^FILE *FilePath::Open(const GUI::gui_char *mode) const {$/;"	f	class:FilePath	signature:(const GUI::gui_char *mode) const
 Open	scite\src\SciTEIO.cxx	/^bool SciTEBase::Open(const FilePath &file, OpenFlags of) {$/;"	f	class:SciTEBase	signature:(const FilePath &file, OpenFlags of)
+OpenClipboardRetry	scintilla\win32\ScintillaWin.cxx	/^static bool OpenClipboardRetry(HWND hwnd) {$/;"	f	file:	signature:(HWND hwnd)
 OpenCompletion	scite\src\SciTEBase.h	/^	enum OpenCompletion { ocSynchronous, ocCompleteCurrent, ocCompleteSwitch };$/;"	g	class:SciTEBase	access:protected
 OpenCurrentFile	scite\src\SciTEIO.cxx	/^void SciTEBase::OpenCurrentFile(long long fileSize, bool suppressMessage, bool asynchronous) {$/;"	f	class:SciTEBase	signature:(long long fileSize, bool suppressMessage, bool asynchronous)
 OpenDialog	scite\gtk\SciTEGTK.cxx	/^bool SciTEGTK::OpenDialog(const FilePath &directory, const char *filter) {$/;"	f	class:SciTEGTK	signature:(const FilePath &directory, const char *filter)
@@ -3854,6 +3977,7 @@ Paint	scite\win32\Strips.cxx	/^void Strip::Paint(HDC hDC) {$/;"	f	class:Strip	si
 PaintCT	scintilla\src\CallTip.cxx	/^void CallTip::PaintCT(Surface *surfaceWindow) {$/;"	f	class:CallTip	signature:(Surface *surfaceWindow)
 PaintContains	scintilla\gtk\ScintillaGTK.cxx	/^bool ScintillaGTK::PaintContains(PRectangle rc) {$/;"	f	class:ScintillaGTK	signature:(PRectangle rc)
 PaintContains	scintilla\src\Editor.cxx	/^bool Editor::PaintContains(PRectangle rc) {$/;"	f	class:Editor	signature:(PRectangle rc)
+PaintContains	scintilla\win32\ScintillaWin.cxx	/^bool ScintillaWin::PaintContains(PRectangle rc) {$/;"	f	class:ScintillaWin	signature:(PRectangle rc)
 PaintContainsMargin	scintilla\src\Editor.cxx	/^bool Editor::PaintContainsMargin() {$/;"	f	class:Editor	signature:()
 PaintContents	scintilla\src\CallTip.cxx	/^int CallTip::PaintContents(Surface *surfaceWindow, bool draw) {$/;"	f	class:CallTip	signature:(Surface *surfaceWindow, bool draw)
 PaintMargin	scintilla\src\MarginView.cxx	/^void MarginView::PaintMargin(Surface *surface, Sci::Line topLine, PRectangle rc, PRectangle rcMargin,$/;"	f	class:Scintilla::MarginView	signature:(Surface *surface, Sci::Line topLine, PRectangle rc, PRectangle rcMargin, const EditModel &model, const ViewStyle &vs)
@@ -3889,6 +4013,7 @@ Partitioning	scintilla\src\Partitioning.h	/^class Partitioning {$/;"	c	namespace
 Partitions	scintilla\src\Partitioning.h	/^	int Partitions() const {$/;"	f	class:Scintilla::Partitioning	access:public	signature:() const
 Paste	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::Paste() {$/;"	f	class:ScintillaGTK	signature:()
 Paste	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::Paste()$/;"	f	class:ScintillaQt	signature:()
+Paste	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::Paste() {$/;"	f	class:ScintillaWin	signature:()
 PasteFromMode	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::PasteFromMode(QClipboard::Mode clipboardMode_)$/;"	f	class:ScintillaQt	signature:(QClipboard::Mode clipboardMode_)
 PasteRectangular	scintilla\src\Editor.cxx	/^void Editor::PasteRectangular(SelectionPosition pos, const char *ptr, Sci::Position len) {$/;"	f	class:Editor	signature:(SelectionPosition pos, const char *ptr, Sci::Position len)
 PasteShape	scintilla\src\Editor.h	/^	enum PasteShape { pasteStream=0, pasteRectangular = 1, pasteLine = 2 };$/;"	g	class:Scintilla::Editor	access:protected
@@ -3930,6 +4055,7 @@ PointDocument	scintilla\src\PositionCache.h	/^	explicit PointDocument(double x_ 
 PointDocument	scintilla\src\PositionCache.h	/^class PointDocument {$/;"	c	namespace:Scintilla
 PointEnd	scintilla\src\PositionCache.h	/^enum PointEnd {$/;"	g	namespace:Scintilla
 PointFromLong	scite\win32\SciteWin.h	/^inline GUI::Point PointFromLong(LPARAM lPoint) {$/;"	f	signature:(LPARAM lPoint)
+PointFromPOINT	scintilla\win32\ScintillaWin.cxx	/^static Point PointFromPOINT(POINT pt) {$/;"	f	file:	signature:(POINT pt)
 PointFromPosition	scintilla\src\PositionCache.cxx	/^Point LineLayout::PointFromPosition(int posInLine, int lineHeight, PointEnd pe) const {$/;"	f	class:LineLayout	signature:(int posInLine, int lineHeight, PointEnd pe) const
 PointFromQPoint	scintilla\qt\ScintillaEditBase\PlatQt.h	/^inline Point PointFromQPoint(QPoint qp)$/;"	f	namespace:Scintilla	signature:(QPoint qp)
 PointInSelMargin	scintilla\src\Editor.cxx	/^bool Editor::PointInSelMargin(Point pt) const {$/;"	f	class:Editor	signature:(Point pt) const
@@ -4046,6 +4172,7 @@ QuartzTextLayout	scintilla\cocoa\QuartzTextLayout.h	/^class QuartzTextLayout$/;"
 QuartzTextStyle	scintilla\cocoa\QuartzTextStyle.h	/^	QuartzTextStyle()$/;"	f	class:QuartzTextStyle	access:public	signature:()
 QuartzTextStyle	scintilla\cocoa\QuartzTextStyle.h	/^	QuartzTextStyle(const QuartzTextStyle &other)$/;"	f	class:QuartzTextStyle	access:public	signature:(const QuartzTextStyle &other)
 QuartzTextStyle	scintilla\cocoa\QuartzTextStyle.h	/^class QuartzTextStyle$/;"	c
+QueryInterface	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP ScintillaWin::QueryInterface(REFIID riid, PVOID *ppv) {$/;"	f	class:ScintillaWin	signature:(REFIID riid, PVOID *ppv)
 QueueIdleWork	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::QueueIdleWork(WorkNeeded::workItems items, Sci::Position upTo) {$/;"	f	class:ScintillaGTK	signature:(WorkNeeded::workItems items, Sci::Position upTo)
 QueueIdleWork	scintilla\src\Editor.cxx	/^void Editor::QueueIdleWork(WorkNeeded::workItems items, Sci::Position upTo) {$/;"	f	class:Editor	signature:(WorkNeeded::workItems items, Sci::Position upTo)
 QuitProgram	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::QuitProgram() {$/;"	f	class:SciTEGTK	signature:()
@@ -4213,6 +4340,7 @@ RegenerateXcodeProject	scintilla\scripts\LexGen.py	/^def RegenerateXcodeProject(
 RegexError	scintilla\src\Document.h	/^	RegexError() : std::runtime_error("regex failure") {}$/;"	f	struct:Scintilla::RegexError	access:public	signature:()
 RegexError	scintilla\src\Document.h	/^struct RegexError : public std::runtime_error {$/;"	s	namespace:Scintilla	inherits:std::runtime_error
 RegexSearchBase	scintilla\src\Document.h	/^class RegexSearchBase {$/;"	c	namespace:Scintilla
+Register	scintilla\win32\ScintillaWin.cxx	/^bool ScintillaWin::Register(HINSTANCE hInstance_) {$/;"	f	class:ScintillaWin	signature:(HINSTANCE hInstance_)
 Register	scite\win32\SciTEWin.cxx	/^void SciTEWin::Register(HINSTANCE hInstance_) {$/;"	f	class:SciTEWin	signature:(HINSTANCE hInstance_)
 RegisterExtension	scite\src\MultiplexExtension.cxx	/^bool MultiplexExtension::RegisterExtension(Extension &ext_) {$/;"	f	class:MultiplexExtension	signature:(Extension &ext_)
 RegisterImage	scintilla\gtk\PlatGTK.cxx	/^void ListBoxX::RegisterImage(int type, const char *xpm_data) {$/;"	f	class:ListBoxX	signature:(int type, const char *xpm_data)
@@ -4233,6 +4361,7 @@ Release	scintilla\win32\PlatWin.cxx	/^void Font::Release() {$/;"	f	class:Scintil
 Release	scintilla\win32\PlatWin.cxx	/^void FontCached::Release() {$/;"	f	class:Scintilla::FontCached	signature:()
 Release	scintilla\win32\PlatWin.cxx	/^void SurfaceD2D::Release() {$/;"	f	class:Scintilla::SurfaceD2D	signature:()
 Release	scintilla\win32\PlatWin.cxx	/^void SurfaceGDI::Release() {$/;"	f	class:Scintilla::SurfaceGDI	signature:()
+Release	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP_(ULONG) ScintillaWin::Release() {$/;"	f	class:ScintillaWin	signature:()
 ReleaseAllExtendedStyles	scintilla\src\ViewStyle.cxx	/^void ViewStyle::ReleaseAllExtendedStyles() {$/;"	f	class:ViewStyle	signature:()
 ReleaseId	scintilla\win32\PlatWin.cxx	/^void FontCached::ReleaseId(FontID fid_) {$/;"	f	class:Scintilla::FontCached	signature:(FontID fid_)
 ReloadProperties	scite\src\SciTEIO.cxx	/^void SciTEBase::ReloadProperties() {$/;"	f	class:SciTEBase	signature:()
@@ -4311,6 +4440,7 @@ Resize	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::Resize(int width, int
 Resize	scintilla\src\PositionCache.cxx	/^void LineLayout::Resize(int maxLineLength_) {$/;"	f	class:LineLayout	signature:(int maxLineLength_)
 Resize	scite\gtk\Widget.cxx	/^void WTable::Resize(int rows_, int columns_) {$/;"	f	class:WTable	signature:(int rows_, int columns_)
 ResizeToCursor	scintilla\win32\PlatWin.cxx	/^void ListBoxX::ResizeToCursor() {$/;"	f	class:Scintilla::ListBoxX	signature:()
+ResourcesRelease	scintilla\win32\ScintillaWin.cxx	/^static int ResourcesRelease(bool fromDllMain) {$/;"	f	file:	signature:(bool fromDllMain)
 ResponseButton	scite\gtk\Widget.cxx	/^GtkWidget *Dialog::ResponseButton(const GUI::gui_string &text, int responseID) {$/;"	f	class:Dialog	signature:(const GUI::gui_string &text, int responseID)
 ResponseSignal	scite\gtk\SciTEGTK.cxx	/^class ResponseSignal {$/;"	c	file:
 RestoreBracesHighlight	scintilla\src\PositionCache.cxx	/^void LineLayout::RestoreBracesHighlight(Range rangeLine, const Sci::Position braces[], bool ignoreStyle) {$/;"	f	class:LineLayout	signature:(Range rangeLine, const Sci::Position braces[], bool ignoreStyle)
@@ -7289,6 +7419,7 @@ SURROGATE_TRAIL_FIRST	scite\win32\GUIWin.cxx	/^enum { SURROGATE_TRAIL_FIRST = 0x
 SURROGATE_TRAIL_LAST	scintilla\src\UniConversion.h	/^enum { SURROGATE_TRAIL_LAST = 0xDFFF };$/;"	e	enum:Scintilla::__anon118
 SURROGATE_TRAIL_LAST	scite\src\Utf8_16.cxx	/^enum { SURROGATE_TRAIL_LAST = 0xDFFF };$/;"	e	enum:__anon64	file:
 SURROGATE_TRAIL_LAST	scite\win32\GUIWin.cxx	/^enum { SURROGATE_TRAIL_LAST = 0xDFFF };$/;"	e	enum:GUI::__anon68	file:
+SWndProc	scintilla\win32\ScintillaWin.cxx	/^LRESULT PASCAL ScintillaWin::SWndProc($/;"	f	class:ScintillaWin	signature:( HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 SZINT	scite\lua\src\lstrlib.c	1120;"	d	file:
 SafeGetCharAt	scintilla\lexlib\LexAccessor.h	/^	char SafeGetCharAt(Sci_Position position, char chDefault=' ') {$/;"	f	class:Scintilla::LexAccessor	access:public	signature:(Sci_Position position, char chDefault=Ã)
 SafeGetCharAt	scite\src\StyleWriter.h	/^	char SafeGetCharAt(int position, char chDefault=' ') {$/;"	f	class:TextReader	access:public	signature:(int position, char chDefault=Ã)
@@ -7338,6 +7469,7 @@ SavingInBackground	scite\src\SciTEBuffers.cxx	/^bool BufferList::SavingInBackgro
 Sci	scintilla\src\Position.h	/^namespace Sci {$/;"	n
 SciFnDirect	scintilla\include\Scintilla.h	/^typedef sptr_t (*SciFnDirect)(sptr_t ptr, unsigned int iMessage, uptr_t wParam, sptr_t lParam);$/;"	t
 SciIcon_xpm	scite\gtk\SciIcon.h	/^static const char * SciIcon_xpm[] = {$/;"	v
+SciMessageFromEM	scintilla\win32\ScintillaWin.cxx	/^static unsigned int SciMessageFromEM(unsigned int iMessage) {$/;"	f	file:	signature:(unsigned int iMessage)
 SciNotify	scintilla\gtk\ScintillaGTKAccessible.h	/^	static void SciNotify(GtkWidget *widget, gint code, SCNotification *nt, gpointer data) {$/;"	f	class:Scintilla::ScintillaGTKAccessible	access:private	signature:(GtkWidget *widget, gint code, SCNotification *nt, gpointer data)
 SciNotifyFunc	scintilla\cocoa\ScintillaView.h	/^typedef void(*SciNotifyFunc) (intptr_t windowid, unsigned int iMessage, uintptr_t wParam, uintptr_t lParam);$/;"	t
 SciTEBase	scite\src\SciTEBase.cxx	/^SciTEBase::SciTEBase(Extension *ext) : apis(true), pwFocussed(&wEditor), extender(ext) {$/;"	f	class:SciTEBase	signature:(Extension *ext)
@@ -7463,17 +7595,24 @@ ScintillaQt	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^ScintillaQt::Scinti
 ScintillaQt	scintilla\qt\ScintillaEditBase\ScintillaQt.h	/^class ScintillaQt : public QObject, public ScintillaBase {$/;"	c	namespace:Scintilla	inherits:QObject,ScintillaBase
 ScintillaRectangularMime	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^	ScintillaRectangularMime() : QMacPasteboardMime(MIME_ALL) {$/;"	f	class:ScintillaRectangularMime	access:public	signature:()
 ScintillaRectangularMime	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^class ScintillaRectangularMime : public QMacPasteboardMime {$/;"	c	file:	inherits:QMacPasteboardMime
+ScintillaWin	scintilla\win32\ScintillaWin.cxx	/^ScintillaWin::ScintillaWin(HWND hwnd) {$/;"	f	class:ScintillaWin	signature:(HWND hwnd)
+ScintillaWin	scintilla\win32\ScintillaWin.cxx	/^class ScintillaWin :$/;"	c	file:	inherits:ScintillaBase
 ScintillaWindow	scite\src\GUI.h	/^	ScintillaWindow() : fn(0), ptr(0), status() {$/;"	f	class:GUI::ScintillaWindow	access:public	signature:()
 ScintillaWindow	scite\src\GUI.h	/^class ScintillaWindow : public Window {$/;"	c	namespace:GUI	inherits:Window
+Scintilla_DirectFunction	scintilla\win32\ScintillaWin.cxx	/^sptr_t __stdcall Scintilla_DirectFunction($/;"	f	signature:( ScintillaWin *sci, UINT iMessage, uptr_t wParam, sptr_t lParam)
 Scintilla_LinkLexers	scintilla\src\Catalogue.cxx	/^int Scintilla_LinkLexers() {$/;"	f	signature:()
+Scintilla_RegisterClasses	scintilla\win32\ScintillaWin.cxx	/^int Scintilla_RegisterClasses(void *hInstance) {$/;"	f	signature:(void *hInstance)
+Scintilla_ReleaseResources	scintilla\win32\ScintillaWin.cxx	/^int Scintilla_ReleaseResources() {$/;"	f	signature:()
 ScrollEditorIfNeeded	scite\src\SciTEBase.cxx	/^void SciTEBase::ScrollEditorIfNeeded() {$/;"	f	class:SciTEBase	signature:()
 ScrollEvent	scintilla\gtk\ScintillaGTK.cxx	/^gint ScintillaGTK::ScrollEvent(GtkWidget *widget, GdkEventScroll *event) {$/;"	f	class:ScintillaGTK	signature:(GtkWidget *widget, GdkEventScroll *event)
 ScrollHSignal	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::ScrollHSignal(GtkAdjustment *adj, ScintillaGTK *sciThis) {$/;"	f	class:ScintillaGTK	signature:(GtkAdjustment *adj, ScintillaGTK *sciThis)
+ScrollMessage	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::ScrollMessage(WPARAM wParam) {$/;"	f	class:ScintillaWin	signature:(WPARAM wParam)
 ScrollRange	scintilla\src\Editor.cxx	/^void Editor::ScrollRange(SelectionRange range) {$/;"	f	class:Editor	signature:(SelectionRange range)
 ScrollSignal	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::ScrollSignal(GtkAdjustment *adj, ScintillaGTK *sciThis) {$/;"	f	class:ScintillaGTK	signature:(GtkAdjustment *adj, ScintillaGTK *sciThis)
 ScrollText	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::ScrollText(Sci::Line linesToMove) {$/;"	f	class:ScintillaGTK	signature:(Sci::Line linesToMove)
 ScrollText	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::ScrollText(Sci::Line linesToMove)$/;"	f	class:ScintillaQt	signature:(Sci::Line linesToMove)
 ScrollText	scintilla\src\Editor.cxx	/^void Editor::ScrollText(Sci::Line \/* linesToMove *\/) {$/;"	f	class:Editor	signature:(Sci::Line )
+ScrollText	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::ScrollText(Sci::Line \/* linesToMove *\/) {$/;"	f	class:ScintillaWin	signature:(Sci::Line )
 ScrollTo	scintilla\src\Editor.cxx	/^void Editor::ScrollTo(Sci::Line line, bool moveThumb) {$/;"	f	class:Editor	signature:(Sci::Line line, bool moveThumb)
 SearchAnchor	scintilla\src\Editor.cxx	/^void Editor::SearchAnchor() {$/;"	f	class:Editor	signature:()
 SearchFlags	scite\src\SciTEBase.cxx	/^int SciTEBase::SearchFlags(bool regularExpressions) const {$/;"	f	class:SciTEBase	signature:(bool regularExpressions) const
@@ -7528,6 +7667,7 @@ SelectionSegment	scintilla\src\Selection.h	/^struct SelectionSegment {$/;"	s	nam
 SelectionStart	scintilla\src\Editor.cxx	/^SelectionPosition Editor::SelectionStart() {$/;"	f	class:Editor	signature:()
 SelectionText	scintilla\src\Editor.h	/^	SelectionText() : rectangular(false), lineCopy(false), codePage(0), characterSet(0) {}$/;"	f	class:Scintilla::SelectionText	access:public	signature:()
 SelectionText	scintilla\src\Editor.h	/^class SelectionText {$/;"	c	namespace:Scintilla
+SelectionToHangul	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::SelectionToHangul() {$/;"	f	class:ScintillaWin	signature:()
 SelectionWord	scite\src\SciTEBase.cxx	/^std::string SciTEBase::SelectionWord(bool stripEol \/*=true*\/) {$/;"	f	class:SciTEBase	signature:(bool stripEol )
 SemInfo	scite\lua\src\llex.h	/^} SemInfo;  \/* semantics information *\/$/;"	t	typeref:union:__anon11
 Send	scite\gtk\GUIGTK.cxx	/^sptr_t ScintillaWindow::Send(unsigned int msg, uptr_t wParam, sptr_t lParam) {$/;"	f	class:GUI::ScintillaWindow	signature:(unsigned int msg, uptr_t wParam, sptr_t lParam)
@@ -7594,6 +7734,7 @@ SetBuffersMenu	scite\src\SciTEBuffers.cxx	/^void SciTEBase::SetBuffersMenu() {$/
 SetCairoColour	scite\gtk\SciTEGTK.cxx	/^static void SetCairoColour(cairo_t *cr, long co) {$/;"	f	file:	signature:(cairo_t *cr, long co)
 SetCancelFlag	scite\src\JobQueue.h	/^	long SetCancelFlag(long value) {$/;"	f	class:JobQueue	access:public	signature:(long value)
 SetCandidateWindowPos	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::SetCandidateWindowPos() {$/;"	f	class:ScintillaGTK	signature:()
+SetCandidateWindowPos	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::SetCandidateWindowPos() {$/;"	f	class:ScintillaWin	signature:()
 SetCaretAsStart	scite\src\SciTEBase.cxx	/^void SciTEBase::SetCaretAsStart() {$/;"	f	class:SciTEBase	signature:()
 SetCaretOffset	scintilla\gtk\ScintillaGTKAccessible.cxx	/^gboolean ScintillaGTKAccessible::AtkTextIface::SetCaretOffset(AtkText *text, gint offset) {$/;"	f	class:ScintillaGTKAccessible::AtkTextIface	signature:(AtkText *text, gint offset)
 SetCaretOffset	scintilla\gtk\ScintillaGTKAccessible.cxx	/^gboolean ScintillaGTKAccessible::SetCaretOffset(int charOffset) {$/;"	f	class:ScintillaGTKAccessible	signature:(int charOffset)
@@ -7608,6 +7749,8 @@ SetClip	scintilla\gtk\PlatGTK.cxx	/^void SurfaceImpl::SetClip(PRectangle rc) {$/
 SetClip	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^void SurfaceImpl::SetClip(PRectangle rc)$/;"	f	class:Scintilla::SurfaceImpl	signature:(PRectangle rc)
 SetClip	scintilla\win32\PlatWin.cxx	/^void SurfaceD2D::SetClip(PRectangle rc) {$/;"	f	class:Scintilla::SurfaceD2D	signature:(PRectangle rc)
 SetClip	scintilla\win32\PlatWin.cxx	/^void SurfaceGDI::SetClip(PRectangle rc) {$/;"	f	class:Scintilla::SurfaceGDI	signature:(PRectangle rc)
+SetClip	scintilla\win32\ScintillaWin.cxx	/^	void SetClip(UINT uFormat) {$/;"	f	class:GlobalMemory	access:public	signature:(UINT uFormat)
+SetCoalescableTimerFn	scintilla\win32\ScintillaWin.cxx	/^	SetCoalescableTimerSig SetCoalescableTimerFn;$/;"	m	class:ScintillaWin	file:	access:private
 SetCoalescableTimerSig	scintilla\win32\ScintillaWin.cxx	/^typedef UINT_PTR (WINAPI *SetCoalescableTimerSig)(HWND hwnd, UINT_PTR nIDEvent,$/;"	t	file:
 SetCodePage	scite\src\StyleWriter.h	/^	void SetCodePage(int codePage_) {$/;"	f	class:TextReader	access:public	signature:(int codePage_)
 SetCodec	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^void SurfaceImpl::SetCodec(Font &font)$/;"	f	class:Scintilla::SurfaceImpl	signature:(Font &font)
@@ -7615,6 +7758,7 @@ SetComboFromMemory	scite\win32\Strips.cxx	/^static void SetComboFromMemory(GUI::
 SetCompleted	scite\src\Worker.h	/^	void SetCompleted() {$/;"	f	struct:Worker	access:public	signature:()
 SetConverter	scintilla\gtk\PlatGTK.cxx	/^void SurfaceImpl::SetConverter(int characterSet_) {$/;"	f	class:SurfaceImpl	signature:(int characterSet_)
 SetCtrlID	scintilla\src\Editor.cxx	/^void Editor::SetCtrlID(int identifier) {$/;"	f	class:Editor	signature:(int identifier)
+SetCtrlID	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::SetCtrlID(int identifier) {$/;"	f	class:ScintillaWin	signature:(int identifier)
 SetCurrent	scite\src\SciTEBuffers.cxx	/^void BufferList::SetCurrent(int index) {$/;"	f	class:BufferList	signature:(int index)
 SetCurrentIndicator	scintilla\src\Decoration.cxx	/^void DecorationList::SetCurrentIndicator(int indicator) {$/;"	f	class:DecorationList	signature:(int indicator)
 SetCurrentValue	scintilla\src\Decoration.cxx	/^void DecorationList::SetCurrentValue(int value) {$/;"	f	class:DecorationList	signature:(int value)
@@ -7679,6 +7823,7 @@ SetHighlight	scintilla\src\CallTip.cxx	/^void CallTip::SetHighlight(int start, i
 SetHomeProperties	scite\src\SciTEBase.cxx	/^void SciTEBase::SetHomeProperties() {$/;"	f	class:SciTEBase	signature:()
 SetHorizontalScrollPos	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::SetHorizontalScrollPos() {$/;"	f	class:ScintillaGTK	signature:()
 SetHorizontalScrollPos	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::SetHorizontalScrollPos()$/;"	f	class:ScintillaQt	signature:()
+SetHorizontalScrollPos	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::SetHorizontalScrollPos() {$/;"	f	class:ScintillaWin	signature:()
 SetHotSpotRange	scintilla\src\Editor.cxx	/^void Editor::SetHotSpotRange(Point *pt) {$/;"	f	class:Editor	signature:(Point *pt)
 SetHoverIndicatorPoint	scintilla\src\Editor.cxx	/^void Editor::SetHoverIndicatorPoint(Point pt) {$/;"	f	class:Editor	signature:(Point pt)
 SetHoverIndicatorPosition	scintilla\src\Editor.cxx	/^void Editor::SetHoverIndicatorPosition(Sci::Position position) {$/;"	f	class:Editor	signature:(Sci::Position position)
@@ -7692,6 +7837,7 @@ SetIdentifiers	scintilla\src\ScintillaBase.cxx	/^void LexState::SetIdentifiers(i
 SetIdle	scintilla\gtk\ScintillaGTK.cxx	/^bool ScintillaGTK::SetIdle(bool on) {$/;"	f	class:ScintillaGTK	signature:(bool on)
 SetIdle	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^bool ScintillaQt::SetIdle(bool on)$/;"	f	class:ScintillaQt	signature:(bool on)
 SetIdle	scintilla\src\Editor.h	/^	virtual bool SetIdle(bool) { return false; }$/;"	f	class:Scintilla::Editor	access:protected	signature:(bool )
+SetIdle	scintilla\win32\ScintillaWin.cxx	/^bool ScintillaWin::SetIdle(bool on) {$/;"	f	class:ScintillaWin	signature:(bool on)
 SetIdler	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::SetIdler(bool on) {$/;"	f	class:SciTEGTK	signature:(bool on)
 SetIdler	scite\src\SciTEBase.cxx	/^void SciTEBase::SetIdler(bool on) {$/;"	f	class:SciTEBase	signature:(bool on)
 SetImportMenu	scite\src\SciTEProps.cxx	/^void SciTEBase::SetImportMenu() {$/;"	f	class:SciTEBase	signature:()
@@ -7743,6 +7889,7 @@ SetMissing	scite\src\SciTEBase.h	/^	void SetMissing(const std::string &missing_)
 SetMnemonicFor	scite\gtk\Widget.cxx	/^void WStatic::SetMnemonicFor(WBase &w) {$/;"	f	class:WStatic	signature:(WBase &w)
 SetMouseCapture	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::SetMouseCapture(bool on) {$/;"	f	class:ScintillaGTK	signature:(bool on)
 SetMouseCapture	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::SetMouseCapture(bool on)$/;"	f	class:ScintillaQt	signature:(bool on)
+SetMouseCapture	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::SetMouseCapture(bool on) {$/;"	f	class:ScintillaWin	signature:(bool on)
 SetMoveExtends	scintilla\src\Selection.cxx	/^void Selection::SetMoveExtends(bool moveExtends_) {$/;"	f	class:Selection	signature:(bool moveExtends_)
 SetMultiple	scintilla\lexlib\PropSetSimple.cxx	/^void PropSetSimple::SetMultiple(const char *s) {$/;"	f	class:PropSetSimple	signature:(const char *s)
 SetOneIndicator	scite\src\SciTEProps.cxx	/^void SciTEBase::SetOneIndicator(GUI::ScintillaWindow &win, int indicator, const IndicatorDefinition &ind) {$/;"	f	class:SciTEBase	signature:(GUI::ScintillaWindow &win, int indicator, const IndicatorDefinition &ind)
@@ -7782,6 +7929,7 @@ SetSciTE	scite\gtk\SciTEGTK.cxx	/^void UserStrip::SetSciTE(SciTEGTK *pSciTEGTK_)
 SetSciTE	scite\win32\SciteWin.h	/^	void SetSciTE(SciTEWin *pSciTEWin_) {$/;"	f	class:ContentWin	access:public	signature:(SciTEWin *pSciTEWin_)
 SetSciTE	scite\win32\Strips.cxx	/^void UserStrip::SetSciTE(SciTEWin *pSciTEWin_) {$/;"	f	class:UserStrip	signature:(SciTEWin *pSciTEWin_)
 SetScrollBars	scintilla\src\Editor.cxx	/^void Editor::SetScrollBars() {$/;"	f	class:Editor	signature:()
+SetScrollInfo	scintilla\win32\ScintillaWin.cxx	/^int ScintillaWin::SetScrollInfo(int nBar, LPCSCROLLINFO lpsi, BOOL bRedraw) {$/;"	f	class:ScintillaWin	signature:(int nBar, LPCSCROLLINFO lpsi, BOOL bRedraw)
 SetSearcher	scite\src\SciTEBase.h	/^	void SetSearcher(Searcher *pSearcher_) {$/;"	f	class:SearchUI	access:public	signature:(Searcher *pSearcher_)
 SetSearcher	scite\win32\Strips.h	/^	void SetSearcher(Searcher *pSearcher_) {$/;"	f	class:SearchStripBase	access:public	signature:(Searcher *pSearcher_)
 SetSelection	scintilla\gtk\ScintillaGTKAccessible.cxx	/^gboolean ScintillaGTKAccessible::AtkTextIface::SetSelection(AtkText *text, gint selection_num, gint start, gint end) {$/;"	f	class:ScintillaGTKAccessible::AtkTextIface	signature:(AtkText *text, gint selection_num, gint start, gint end)
@@ -7830,6 +7978,7 @@ SetToolBar	scite\gtk\SciTEGTK.cxx	/^	void SetToolBar() {} $/;"	f	class:SciTEGTK	
 SetToolBar	scite\win32\SciTEWinBar.cxx	/^void SciTEWin::SetToolBar() {$/;"	f	class:SciTEWin	signature:()
 SetToolsMenu	scite\src\SciTEBuffers.cxx	/^void SciTEBase::SetToolsMenu() {$/;"	f	class:SciTEBase	signature:()
 SetTopLine	scintilla\src\Editor.cxx	/^void Editor::SetTopLine(Sci::Line topLineNew) {$/;"	f	class:Editor	signature:(Sci::Line topLineNew)
+SetTrackMouseLeaveEvent	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::SetTrackMouseLeaveEvent(bool on) {$/;"	f	class:ScintillaWin	signature:(bool on)
 SetTranslation	scintilla\src\CaseFolder.cxx	/^void CaseFolderTable::SetTranslation(char ch, char chTranslation) {$/;"	f	class:CaseFolderTable	signature:(char ch, char chTranslation)
 SetTwoPhaseDraw	scintilla\src\EditView.cxx	/^bool EditView::SetTwoPhaseDraw(bool twoPhaseDraw) {$/;"	f	class:EditView	signature:(bool twoPhaseDraw)
 SetTypesep	scintilla\src\AutoComplete.cxx	/^void AutoComplete::SetTypesep(char separator_) {$/;"	f	class:AutoComplete	signature:(char separator_)
@@ -7844,6 +7993,7 @@ SetValueAt	scintilla\src\SparseVector.h	/^	void SetValueAt(int position, ParamTy
 SetValueAt	scintilla\src\SplitVector.h	/^	void SetValueAt(int position, ParamType&& v) {$/;"	f	class:Scintilla::SplitVector	access:public	signature:(int position, ParamType&& v)
 SetVerticalScrollPos	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::SetVerticalScrollPos() {$/;"	f	class:ScintillaGTK	signature:()
 SetVerticalScrollPos	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::SetVerticalScrollPos()$/;"	f	class:ScintillaQt	signature:()
+SetVerticalScrollPos	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::SetVerticalScrollPos() {$/;"	f	class:ScintillaWin	signature:()
 SetView	scintilla\src\Decoration.cxx	/^void DecorationList::SetView() {$/;"	f	class:DecorationList	signature:()
 SetVirtualSpace	scintilla\src\Selection.h	/^	void SetVirtualSpace(Sci::Position virtualSpace_) {$/;"	f	class:Scintilla::SelectionPosition	access:public	signature:(Sci::Position virtualSpace_)
 SetVisible	scintilla\src\ContractionState.cxx	/^bool ContractionState::SetVisible(Sci::Line lineDocStart, Sci::Line lineDocEnd, bool isVisible) {$/;"	f	class:ContractionState	signature:(Sci::Line lineDocStart, Sci::Line lineDocEnd, bool isVisible)
@@ -7926,6 +8076,7 @@ Signal	scite\gtk\SciTEGTK.cxx	/^class Signal {$/;"	c	file:
 SignalDestroy	scite\gtk\Widget.cxx	/^void Dialog::SignalDestroy(GtkWidget *, Dialog *d) {$/;"	f	class:Dialog	signature:(GtkWidget *, Dialog *d)
 SimpleAlphaRectangle	scintilla\src\EditView.cxx	/^static void SimpleAlphaRectangle(Surface *surface, PRectangle rc, ColourDesired fill, int alpha) {$/;"	f	file:	signature:(Surface *surface, PRectangle rc, ColourDesired fill, int alpha)
 SingleBuffer	scite\src\SciTEBuffers.cxx	/^bool BufferList::SingleBuffer() const {$/;"	f	class:BufferList	signature:() const
+Size	scintilla\win32\ScintillaWin.cxx	/^	SIZE_T Size() {$/;"	f	class:GlobalMemory	access:public	signature:()
 Size	scite\win32\Strips.cxx	/^void BackgroundStrip::Size() {$/;"	f	class:BackgroundStrip	signature:()
 Size	scite\win32\Strips.cxx	/^void FindStrip::Size() {$/;"	f	class:FindStrip	signature:()
 Size	scite\win32\Strips.cxx	/^void ReplaceStrip::Size() {$/;"	f	class:ReplaceStrip	signature:()
@@ -7985,6 +8136,7 @@ StartCallTip	scite\src\SciTEBase.cxx	/^bool SciTEBase::StartCallTip() {$/;"	f	cl
 StartDrag	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::StartDrag() {$/;"	f	class:ScintillaGTK	signature:()
 StartDrag	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::StartDrag()$/;"	f	class:ScintillaQt	signature:()
 StartDrag	scintilla\src\Editor.cxx	/^void Editor::StartDrag() {$/;"	f	class:Editor	signature:()
+StartDrag	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::StartDrag() {$/;"	f	class:ScintillaWin	signature:()
 StartEndDisplayLine	scintilla\src\EditView.cxx	/^Sci::Position EditView::StartEndDisplayLine(Surface *surface, const EditModel &model, Sci::Position pos, bool start, const ViewStyle &vs) {$/;"	f	class:EditView	signature:(Surface *surface, const EditModel &model, Sci::Position pos, bool start, const ViewStyle &vs)
 StartEndDisplayLine	scintilla\src\Editor.cxx	/^Sci::Position Editor::StartEndDisplayLine(Sci::Position pos, bool start) {$/;"	f	class:Editor	signature:(Sci::Position pos, bool start)
 StartExpandAbbreviation	scite\src\SciTEBase.cxx	/^bool SciTEBase::StartExpandAbbreviation() {$/;"	f	class:SciTEBase	signature:()
@@ -8022,7 +8174,9 @@ StopRecordMacro	scite\src\SciTEBase.cxx	/^void SciTEBase::StopRecordMacro() {$/;
 StoreOnClipboard	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::StoreOnClipboard(SelectionText *clipText) {$/;"	f	class:ScintillaGTK	signature:(SelectionText *clipText)
 StringCopy	scintilla\lexlib\StringCopy.h	/^void StringCopy(T (&dest)[count], const T* source) {$/;"	f	namespace:Scintilla	signature:(T (&dest)[count], const T* source)
 StringCopy	scite\src\StringHelpers.h	/^void StringCopy(T (&dest)[count], const T* source) {$/;"	f	signature:(T (&dest)[count], const T* source)
+StringDecode	scintilla\win32\ScintillaWin.cxx	/^static std::wstring StringDecode(const std::string &s, int codePage) {$/;"	f	file:	signature:(const std::string &s, int codePage)
 StringDecode	scite\win32\SciTEWin.cxx	/^static std::wstring StringDecode(std::string s, int codePage) {$/;"	f	file:	signature:(std::string s, int codePage)
+StringEncode	scintilla\win32\ScintillaWin.cxx	/^static std::string StringEncode(const std::wstring &s, int codePage) {$/;"	f	file:	signature:(const std::wstring &s, int codePage)
 StringEncode	scite\win32\SciTEWin.cxx	/^static std::string StringEncode(std::wstring s, int codePage) {$/;"	f	file:	signature:(std::wstring s, int codePage)
 StringEqual	scite\src\PropSetFile.cxx	/^static bool StringEqual(const char *a, const char *b, size_t len, bool caseSensitive) {$/;"	f	file:	signature:(const char *a, const char *b, size_t len, bool caseSensitive)
 StringFromDocument	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^QString ScintillaQt::StringFromDocument(const char *s) const$/;"	f	class:ScintillaQt	signature:(const char *s) const
@@ -8039,6 +8193,7 @@ StringFromUTF8	scite\win32\GUIWin.cxx	/^gui_string StringFromUTF8(const char *s)
 StringFromUTF8	scite\win32\GUIWin.cxx	/^gui_string StringFromUTF8(const std::string &s) {$/;"	f	namespace:GUI	signature:(const std::string &s)
 StringList	scite\src\StringList.h	/^	explicit StringList(bool onlyLineEnds_ = false) :$/;"	f	class:StringList	access:public	signature:(bool onlyLineEnds_ = false)
 StringList	scite\src\StringList.h	/^class StringList {$/;"	c
+StringMapCase	scintilla\win32\ScintillaWin.cxx	/^static std::wstring StringMapCase(const std::wstring &ws, DWORD mapFlags) {$/;"	f	file:	signature:(const std::wstring &ws, DWORD mapFlags)
 StringResult	scintilla\src\Editor.cxx	/^sptr_t Editor::StringResult(sptr_t lParam, const char *val) {$/;"	f	class:Editor	signature:(sptr_t lParam, const char *val)
 StringSplit	scite\src\StringHelpers.h	/^std::vector<T> StringSplit(const T &text, int separator) {$/;"	f	signature:(const T &text, int separator)
 Strip	scite\gtk\Widget.h	/^	Strip() : allowMenuActions(false), childHasFocus(false), visible(false) {$/;"	f	class:Strip	access:public	signature:()
@@ -8241,6 +8396,7 @@ Table	scite\lua\src\lobject.h	/^} Table;$/;"	t	typeref:struct:Table
 TabstopList	scintilla\src\PerLine.h	/^typedef std::vector<int> TabstopList;$/;"	t	namespace:Scintilla
 Target	scintilla\lexlib\OptionSet.h	/^	typedef T Target;$/;"	t	class:Scintilla::OptionSet	access:private
 TargetAsUTF8	scintilla\gtk\ScintillaGTK.cxx	/^int ScintillaGTK::TargetAsUTF8(char *text) {$/;"	f	class:ScintillaGTK	signature:(char *text)
+TargetAsUTF8	scintilla\win32\ScintillaWin.cxx	/^Sci::Position ScintillaWin::TargetAsUTF8(char *text) {$/;"	f	class:ScintillaWin	signature:(char *text)
 Tentative	scintilla\src\Selection.h	/^	bool Tentative() const { return tentativeMain; }$/;"	f	class:Scintilla::Selection	access:public	signature:() const
 TentativeActive	scintilla\src\CellBuffer.h	/^	bool TentativeActive() const { return tentativePoint >= 0; }$/;"	f	class:Scintilla::UndoHistory	access:public	signature:() const
 TentativeActive	scintilla\src\Document.h	/^	bool TentativeActive() const { return cb.TentativeActive(); }$/;"	f	class:Scintilla::Document	access:public	signature:() const
@@ -8295,6 +8451,7 @@ ToggleButton	scite\gtk\Widget.cxx	/^GtkToggleButton *WCheckDraw::ToggleButton() 
 ToggleChanged	scite\gtk\SciTEGTK.cxx	/^void FindStrip::ToggleChanged(WCheckDraw *, void *user) {$/;"	f	class:FindStrip	signature:(WCheckDraw *, void *user)
 ToggleChanged	scite\gtk\SciTEGTK.cxx	/^void ReplaceStrip::ToggleChanged(WCheckDraw *, void *user) {$/;"	f	class:ReplaceStrip	signature:(WCheckDraw *, void *user)
 ToggleFoldRecursive	scite\src\SciTEBase.cxx	/^void SciTEBase::ToggleFoldRecursive(int line, int level) {$/;"	f	class:SciTEBase	signature:(int line, int level)
+ToggleHanja	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::ToggleHanja() {$/;"	f	class:ScintillaWin	signature:()
 ToggleOpenFilesHere	scite\win32\UniqueInstance.cxx	/^void UniqueInstance::ToggleOpenFilesHere() {$/;"	f	class:UniqueInstance	signature:()
 ToggleOutputVisible	scite\src\SciTEBase.cxx	/^void SciTEBase::ToggleOutputVisible() {$/;"	f	class:SciTEBase	signature:()
 Toggled	scite\gtk\Widget.cxx	/^void WCheckDraw::Toggled(GtkWidget *, WCheckDraw *pcd) {$/;"	f	class:WCheckDraw	signature:(GtkWidget *, WCheckDraw *pcd)
@@ -8409,7 +8566,9 @@ UniqueInstance	scite\win32\UniqueInstance.cxx	/^UniqueInstance::UniqueInstance()
 UniqueInstance	scite\win32\UniqueInstance.h	/^class UniqueInstance {$/;"	c
 UniqueString	scintilla\src\UniqueString.h	/^using UniqueString = std::unique_ptr<const char[]>;$/;"	t	namespace:Scintilla
 UniqueStringCopy	scintilla\src\UniqueString.h	/^inline UniqueString UniqueStringCopy(const char *text) {$/;"	f	namespace:Scintilla	signature:(const char *text)
+Unlock	scintilla\win32\ScintillaWin.cxx	/^	HGLOBAL Unlock() {$/;"	f	class:GlobalMemory	access:public	signature:()
 Unlock	scite\win32\WinMutex.cxx	/^	virtual void Unlock() { ::LeaveCriticalSection(&cs); }$/;"	f	class:WinMutex	file:	access:private	signature:()
+Unregister	scintilla\win32\ScintillaWin.cxx	/^bool ScintillaWin::Unregister() {$/;"	f	class:ScintillaWin	signature:()
 Unset	scite\src\PropSetFile.cxx	/^void PropSetFile::Unset(const char *key, int lenKey) {$/;"	f	class:PropSetFile	signature:(const char *key, int lenKey)
 UnsetProperty	scite\src\SciTEBase.cxx	/^void SciTEBase::UnsetProperty(const char *key) {$/;"	f	class:SciTEBase	signature:(const char *key)
 UpVal	scite\lua\src\lfunc.h	/^struct UpVal {$/;"	s
@@ -8432,6 +8591,7 @@ UpdateProgress	scite\src\SciTEIO.cxx	/^void SciTEBase::UpdateProgress(Worker *) 
 UpdateStatusBar	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::UpdateStatusBar(bool bUpdateSlowData) {$/;"	f	class:SciTEGTK	signature:(bool bUpdateSlowData)
 UpdateStatusBar	scite\src\SciTEBase.cxx	/^void SciTEBase::UpdateStatusBar(bool bUpdateSlowData) {$/;"	f	class:SciTEBase	signature:(bool bUpdateSlowData)
 UpdateSystemCaret	scintilla\src\Editor.cxx	/^void Editor::UpdateSystemCaret() {$/;"	f	class:Editor	signature:()
+UpdateSystemCaret	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::UpdateSystemCaret() {$/;"	f	class:ScintillaWin	signature:()
 UpdateVersionNumbers	scintilla\scripts\LexGen.py	/^def UpdateVersionNumbers(sci, root):$/;"	f	access:public
 UpdateVersionNumbers	scite\scripts\RegenerateSource.py	/^def UpdateVersionNumbers(sci, root):$/;"	f	access:public
 UptrFromString	scite\src\Extender.h	/^inline uptr_t UptrFromString(const char *cp) {$/;"	f	signature:(const char *cp)
@@ -8473,6 +8633,7 @@ VCHomeWrapPosition	scintilla\src\Editor.cxx	/^Sci::Position Editor::VCHomeWrapPo
 VERSION_SCITE	scite\src\SciTE.h	12;"	d
 VERSION_WORDS	scite\src\SciTE.h	13;"	d
 VFALSE	scite\lua\src\lparser.h	/^  VFALSE,  \/* constant false *\/$/;"	e	enum:__anon17
+VFunction	scintilla\win32\ScintillaWin.cxx	/^typedef void VFunction(void);$/;"	t	file:
 VIEWSTYLE_H	scintilla\src\ViewStyle.h	9;"	d
 VINDEXED	scite\lua\src\lparser.h	/^  VINDEXED,  \/* indexed variable;$/;"	e	enum:__anon17
 VISIBLE_SLOP	scintilla\include\Scintilla.h	726;"	d
@@ -8499,6 +8660,7 @@ Valid	scintilla\src\Document.h	/^	bool Valid() const {$/;"	f	class:Scintilla::Ra
 ValidCodePage	scintilla\gtk\ScintillaGTK.cxx	/^bool ScintillaGTK::ValidCodePage(int codePage) const {$/;"	f	class:ScintillaGTK	signature:(int codePage) const
 ValidCodePage	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^bool ScintillaQt::ValidCodePage(int codePage) const$/;"	f	class:ScintillaQt	signature:(int codePage) const
 ValidCodePage	scintilla\src\Editor.h	/^	virtual bool ValidCodePage(int \/* codePage *\/) const { return true; }$/;"	f	class:Scintilla::Editor	access:protected	signature:(int ) const
+ValidCodePage	scintilla\win32\ScintillaWin.cxx	/^bool ScintillaWin::ValidCodePage(int codePage) const {$/;"	f	class:ScintillaWin	signature:(int codePage) const
 ValidMargin	scintilla\src\Editor.cxx	/^bool Editor::ValidMargin(uptr_t wParam) const {$/;"	f	class:Editor	signature:(uptr_t wParam) const
 ValidStyle	scintilla\src\ViewStyle.cxx	/^bool ViewStyle::ValidStyle(size_t styleIndex) const {$/;"	f	class:ViewStyle	signature:(size_t styleIndex) const
 ValidStyledText	scintilla\src\EditView.cxx	/^bool ValidStyledText(const ViewStyle &vs, size_t styleOffset, const StyledText &st) {$/;"	f	namespace:Scintilla	signature:(const ViewStyle &vs, size_t styleOffset, const StyledText &st)
@@ -8617,11 +8779,13 @@ WindowSetFocus	scite\src\SciTEBase.cxx	/^void WindowSetFocus(GUI::ScintillaWindo
 Window_SendMessage	scintilla\win32\PlatWin.cxx	/^static LRESULT Window_SendMessage(Window *w, UINT msg, WPARAM wParam=0, LPARAM lParam=0) {$/;"	f	namespace:Scintilla	signature:(Window *w, UINT msg, WPARAM wParam=0, LPARAM lParam=0)
 WithExtends	scintilla\src\Editor.cxx	/^unsigned int WithExtends(unsigned int iMessage) {$/;"	f	namespace:__anon97	signature:(unsigned int iMessage)
 WithoutUnderscore	scite\gtk\SciTEGTK.cxx	/^static std::string WithoutUnderscore(const char *s) {$/;"	f	file:	signature:(const char *s)
+WndPaint	scintilla\win32\ScintillaWin.cxx	/^sptr_t ScintillaWin::WndPaint(uptr_t wParam) {$/;"	f	class:ScintillaWin	signature:(uptr_t wParam)
 WndProc	scintilla\gtk\ScintillaGTK.cxx	/^sptr_t ScintillaGTK::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam) {$/;"	f	class:ScintillaGTK	signature:(unsigned int iMessage, uptr_t wParam, sptr_t lParam)
 WndProc	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^sptr_t ScintillaQt::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam)$/;"	f	class:ScintillaQt	signature:(unsigned int iMessage, uptr_t wParam, sptr_t lParam)
 WndProc	scintilla\src\Editor.cxx	/^sptr_t Editor::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam) {$/;"	f	class:Editor	signature:(unsigned int iMessage, uptr_t wParam, sptr_t lParam)
 WndProc	scintilla\src\ScintillaBase.cxx	/^sptr_t ScintillaBase::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam) {$/;"	f	class:ScintillaBase	signature:(unsigned int iMessage, uptr_t wParam, sptr_t lParam)
 WndProc	scintilla\win32\PlatWin.cxx	/^LRESULT ListBoxX::WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam) {$/;"	f	class:Scintilla::ListBoxX	signature:(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
+WndProc	scintilla\win32\ScintillaWin.cxx	/^sptr_t ScintillaWin::WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam) {$/;"	f	class:ScintillaWin	signature:(unsigned int iMessage, uptr_t wParam, sptr_t lParam)
 WndProc	scite\win32\SciTEWin.cxx	/^LRESULT ContentWin::WndProc(UINT iMessage, WPARAM wParam, LPARAM lParam) {$/;"	f	class:ContentWin	signature:(UINT iMessage, WPARAM wParam, LPARAM lParam)
 WndProc	scite\win32\SciTEWin.cxx	/^LRESULT SciTEWin::WndProc(UINT iMessage, WPARAM wParam, LPARAM lParam) {$/;"	f	class:SciTEWin	signature:(UINT iMessage, WPARAM wParam, LPARAM lParam)
 WndProc	scite\win32\Strips.cxx	/^LRESULT BackgroundStrip::WndProc(UINT iMessage, WPARAM wParam, LPARAM lParam) {$/;"	f	class:BackgroundStrip	signature:(UINT iMessage, WPARAM wParam, LPARAM lParam)
@@ -8992,6 +9156,8 @@ c	scite\lua\src\lstrlib.c	/^  char c;$/;"	m	struct:cD	file:	access:public
 cD	scite\lua\src\lstrlib.c	/^struct cD {$/;"	s	file:
 cache	scintilla\src\PositionCache.h	/^	std::vector<std::unique_ptr<LineLayout>>cache;$/;"	m	class:Scintilla::LineLayoutCache	access:private
 cache	scite\lua\src\lobject.h	/^  struct LClosure *cache;  \/* last-created closure with this prototype *\/$/;"	m	struct:Proto	typeref:struct:Proto::LClosure	access:public
+callClassAtom	scintilla\win32\ScintillaWin.cxx	/^	static ATOM callClassAtom;$/;"	m	class:ScintillaWin	file:	access:private
+callClassAtom	scintilla\win32\ScintillaWin.cxx	/^ATOM ScintillaWin::callClassAtom = 0;$/;"	m	class:ScintillaWin	file:
 callClassName	scintilla\win32\ScintillaWin.cxx	/^const TCHAR callClassName[] = TEXT("CallTip");$/;"	v
 callTipIgnoreCase	scite\src\SciTEBase.h	/^	bool callTipIgnoreCase;$/;"	m	class:SciTEBase	access:protected
 callTipUseEscapes	scite\src\SciTEBase.h	/^	bool callTipUseEscapes;$/;"	m	class:SciTEBase	access:protected
@@ -9018,6 +9184,7 @@ capture	scite\lua\src\lstrlib.c	/^  } capture[LUA_MAXCAPTURES];$/;"	m	struct:Mat
 capture_to_close	scite\lua\src\lstrlib.c	/^static int capture_to_close (MatchState *ms) {$/;"	f	file:	signature:(MatchState *ms)
 capturedMouse	scintilla\cocoa\ScintillaCocoa.h	/^  bool capturedMouse;$/;"	m	class:Scintilla::ScintillaCocoa	access:private
 capturedMouse	scintilla\gtk\ScintillaGTK.h	/^	bool capturedMouse;$/;"	m	class:Scintilla::ScintillaGTK	access:private
+capturedMouse	scintilla\win32\ScintillaWin.cxx	/^	bool capturedMouse;$/;"	m	class:ScintillaWin	file:	access:private
 capturedMouse	scite\src\SciTEBase.h	/^	bool capturedMouse;$/;"	m	class:SciTEBase	access:protected
 capturedMouse	scite\win32\SciteWin.h	/^	bool capturedMouse;$/;"	m	class:ContentWin	access:private
 capturedMouse	scite\win32\Strips.h	/^	bool capturedMouse;$/;"	m	class:Strip	access:protected
@@ -9097,7 +9264,11 @@ ccZp	scintilla\lexlib\CharacterCategory.h	/^	ccZs, ccZl, ccZp,$/;"	e	enum:Scinti
 ccZs	scintilla\lexlib\CharacterCategory.h	/^	ccZs, ccZl, ccZp,$/;"	e	enum:Scintilla::CharacterCategory
 cdfn	scite\gtk\Widget.h	/^	ChangeFunction cdfn;$/;"	m	class:WCheckDraw	access:private
 cell	scite\scripts\commandsdoc.py	/^def cell(s):$/;"	f	access:public
+cfBorlandIDEBlockType	scintilla\win32\ScintillaWin.cxx	/^	CLIPFORMAT cfBorlandIDEBlockType;$/;"	m	class:ScintillaWin	file:	access:private
 cfColumnSelect	scintilla\gtk\ScintillaGTK.h	/^	CLIPFORMAT cfColumnSelect;$/;"	m	class:Scintilla::ScintillaGTK	access:private
+cfColumnSelect	scintilla\win32\ScintillaWin.cxx	/^	CLIPFORMAT cfColumnSelect;$/;"	m	class:ScintillaWin	file:	access:private
+cfLineSelect	scintilla\win32\ScintillaWin.cxx	/^	CLIPFORMAT cfLineSelect;$/;"	m	class:ScintillaWin	file:	access:private
+cfVSLineTag	scintilla\win32\ScintillaWin.cxx	/^	CLIPFORMAT cfVSLineTag;$/;"	m	class:ScintillaWin	file:	access:private
 cf_global_dostring	scite\src\LuaExtension.cxx	/^static int cf_global_dostring(lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 cf_global_metatable_index	scite\src\LuaExtension.cxx	/^static int cf_global_metatable_index(lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 cf_global_print	scite\src\LuaExtension.cxx	/^static int cf_global_print(lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
@@ -9378,6 +9549,7 @@ copy_	scintilla\gtk\ScintillaGTK.cxx	/^static void *copy_(void *src) { return sr
 copywithendian	scite\lua\src\lstrlib.c	/^static void copywithendian (volatile char *dest, volatile const char *src,$/;"	f	file:	signature:(volatile char *dest, volatile const char *src, int size, int islittle)
 correctstack	scite\lua\src\ldo.c	/^static void correctstack (lua_State *L, TValue *oldstack) {$/;"	f	file:	signature:(lua_State *L, TValue *oldstack)
 countint	scite\lua\src\ltable.c	/^static int countint (const TValue *key, unsigned int *nums) {$/;"	f	file:	signature:(const TValue *key, unsigned int *nums)
+cp	scintilla\win32\ScintillaWin.cxx	/^	UINT cp;$/;"	m	class:CaseFolderDBCS	file:	access:private
 cpMax	scintilla\include\Scintilla.h	/^	Sci_PositionCR cpMax;$/;"	m	struct:Sci_CharacterRange	access:public
 cpMin	scintilla\include\Scintilla.h	/^	Sci_PositionCR cpMin;$/;"	m	struct:Sci_CharacterRange	access:public
 cppAlias	scintilla\qt\ScintillaEdit\WidgetGen.py	/^def cppAlias(s):$/;"	f	access:public
@@ -9548,6 +9720,7 @@ dlgFindReplace	scite\gtk\SciTEGTK.cxx	/^	DialogFindReplace dlgFindReplace;$/;"	m
 dlgGoto	scite\gtk\SciTEGTK.cxx	/^	DialogGoto dlgGoto;$/;"	m	class:SciTEGTK	file:	access:protected
 dlgParameters	scite\gtk\SciTEGTK.cxx	/^	DialogParameters dlgParameters;$/;"	m	class:SciTEGTK	file:	access:protected
 dlgTabSize	scite\gtk\SciTEGTK.cxx	/^	DialogTabSize dlgTabSize;$/;"	m	class:SciTEGTK	file:	access:protected
+dob	scintilla\win32\ScintillaWin.cxx	/^	DataObject dob;$/;"	m	class:ScintillaWin	file:	access:private
 doc	scintilla\src\Document.cxx	/^	const Document *doc;$/;"	m	class:__anon96::ByteIterator	file:	access:public
 doc	scintilla\src\Document.cxx	/^	const Document *doc;$/;"	m	class:__anon96::RESearchRange	file:	access:public
 doc	scintilla\src\Document.cxx	/^	const Document *doc;$/;"	m	class:__anon96::UTF8Iterator	file:	access:private
@@ -9601,6 +9774,8 @@ dropEvent	scintilla\qt\ScintillaEditBase\ScintillaEditBase.cpp	/^void ScintillaE
 dropFilesQueue	scite\win32\SciteWin.h	/^	std::deque<GUI::gui_string> dropFilesQueue;$/;"	m	class:SciTEWin	access:protected
 dropRestOfWord	scintilla\src\AutoComplete.h	/^	bool dropRestOfWord;$/;"	m	class:Scintilla::AutoComplete	access:public
 dropWentOutside	scintilla\src\Editor.h	/^	bool dropWentOutside;$/;"	m	class:Scintilla::Editor	access:protected
+ds	scintilla\win32\ScintillaWin.cxx	/^	DropSource ds;$/;"	m	class:ScintillaWin	file:	access:private
+dt	scintilla\win32\ScintillaWin.cxx	/^	DropTarget dt;$/;"	m	class:ScintillaWin	file:	access:private
 dummy	scite\lua\src\lobject.h	/^  L_Umaxalign dummy;  \/* ensures maximum alignment for 'local' udata *\/$/;"	m	union:UUdata	access:public
 dummy	scite\lua\src\lobject.h	/^  L_Umaxalign dummy;  \/* ensures maximum alignment for strings *\/$/;"	m	union:UTString	access:public
 dummy	scite\lua\src\lstrlib.c	/^  int dummy;$/;"	m	union:__anon25	file:	access:public
@@ -9840,6 +10015,7 @@ findnext_xpm	scite\gtk\pixmapsGNOME.h	/^static const char * findnext_xpm[] = {$/
 findpcall	scite\lua\src\ldo.c	/^static CallInfo *findpcall (lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 findsetreg	scite\lua\src\ldebug.c	/^static int findsetreg (Proto *p, int lastpc, int reg) {$/;"	f	file:	signature:(Proto *p, int lastpc, int reg)
 findvararg	scite\lua\src\ldebug.c	/^static const char *findvararg (CallInfo *ci, int n, StkId *pos) {$/;"	f	file:	signature:(CallInfo *ci, int n, StkId *pos)
+fineTimerStart	scintilla\win32\ScintillaWin.cxx	/^	enum { invalidTimerID, standardTimerID, idleTimerID, fineTimerStart };$/;"	e	enum:ScintillaWin::__anon122	file:
 finishCcall	scite\lua\src\ldo.c	/^static void finishCcall (lua_State *L, int status) {$/;"	f	file:	signature:(lua_State *L, int status)
 finished	scintilla\gtk\PlatGTK.cxx	/^	bool finished;$/;"	m	class:ClusterIterator	file:	access:public
 finishpcall	scite\lua\src\lbaselib.c	/^static int finishpcall (lua_State *L, int status, lua_KContext extra) {$/;"	f	file:	signature:(lua_State *L, int status, lua_KContext extra)
@@ -9925,6 +10101,7 @@ fore	scite\src\ExportPDF.cxx	/^	std::string fore;$/;"	m	struct:PDFStyle	file:	ac
 fore	scite\src\StyleDefinition.h	/^	std::string fore;$/;"	m	class:StyleDefinition	access:public
 forlimit	scite\lua\src\lvm.c	/^static int forlimit (const TValue *obj, lua_Integer *p, lua_Integer step,$/;"	f	file:	signature:(const TValue *obj, lua_Integer *p, lua_Integer step, int *stopnow)
 forlist	scite\lua\src\lparser.c	/^static void forlist (LexState *ls, TString *indexname) {$/;"	f	file:	signature:(LexState *ls, TString *indexname)
+formats	scintilla\win32\ScintillaWin.cxx	/^	std::vector<CLIPFORMAT> formats;$/;"	m	class:FormatEnumerator	file:	access:public
 fornum	scite\lua\src\lparser.c	/^static void fornum (LexState *ls, TString *varname, int line) {$/;"	f	file:	signature:(LexState *ls, TString *varname, int line)
 forstat	scite\lua\src\lparser.c	/^static void forstat (LexState *ls, int line) {$/;"	f	file:	signature:(LexState *ls, int line)
 fp	scite\src\FileWorker.h	/^	FILE *fp;$/;"	m	struct:FileWorker	access:public
@@ -10143,19 +10320,25 @@ hDevMode	scite\win32\SciteWin.h	/^	HGLOBAL hDevMode;$/;"	m	class:SciTEWin	access
 hDevNames	scite\win32\SciteWin.h	/^	HGLOBAL hDevNames;$/;"	m	class:SciTEWin	access:protected
 hDlg	scite\win32\SciTEWinDlg.cxx	/^	HWND hDlg;$/;"	m	class:Dialog	file:	access:private
 hHH	scite\win32\SciteWin.h	/^	HMODULE hHH;$/;"	m	class:SciTEWin	access:protected
+hIMC	scintilla\win32\ScintillaWin.cxx	/^	HIMC hIMC;$/;"	m	class:__anon121::IMContext	file:	access:public
+hInstance	scintilla\win32\ScintillaWin.cxx	/^	static HINSTANCE hInstance;$/;"	m	class:ScintillaWin	file:	access:private
+hInstance	scintilla\win32\ScintillaWin.cxx	/^HINSTANCE ScintillaWin::hInstance = 0;$/;"	m	class:ScintillaWin	file:
 hInstance	scite\win32\SciTEWin.cxx	/^HINSTANCE SciTEWin::hInstance = 0;$/;"	m	class:SciTEWin	file:
 hInstance	scite\win32\SciteWin.h	/^	static HINSTANCE hInstance;$/;"	m	class:SciTEWin	access:protected
 hMM	scite\win32\SciteWin.h	/^	HMODULE hMM;$/;"	m	class:SciTEWin	access:protected
 hMax	scintilla\qt\ScintillaEditBase\ScintillaQt.h	/^	int vMax, hMax;   \/\/ Scroll bar maximums.$/;"	m	class:Scintilla::ScintillaQt	access:private
 hOtherWindow	scite\win32\UniqueInstance.h	/^	HWND hOtherWindow;	\/\/\/< Handle of the window of the found other instance$/;"	m	class:UniqueInstance	access:private
 hPage	scintilla\qt\ScintillaEditBase\ScintillaQt.h	/^	int vPage, hPage; \/\/ Scroll bar page sizes.$/;"	m	class:Scintilla::ScintillaQt	access:private
+hRgnUpdate	scintilla\win32\ScintillaWin.cxx	/^	HRGN hRgnUpdate;$/;"	m	class:ScintillaWin	file:	access:private
 hTheme	scite\win32\Strips.h	/^	HTHEME hTheme;$/;"	m	class:Strip	access:protected
 hToolbarBitmap	scite\win32\SciteWin.h	/^	HBITMAP hToolbarBitmap;$/;"	m	class:SciTEWin	access:protected
 hWriteSubProcess	scite\win32\SciteWin.h	/^	HANDLE hWriteSubProcess;$/;"	m	class:SciTEWin	access:protected
+hand	scintilla\win32\ScintillaWin.cxx	/^	HGLOBAL hand;$/;"	m	class:GlobalMemory	file:	access:private
 handle	scintilla\src\PerLine.h	/^	int handle;$/;"	m	struct:Scintilla::MarkerHandleNumber	access:public
 handleCurrent	scintilla\src\PerLine.h	/^	int handleCurrent;$/;"	m	class:Scintilla::LineMarkers	access:private
 hasClose	scite\src\StripDefinition.h	/^	bool hasClose;$/;"	m	class:StripDefinition	access:public
 hasFocus	scintilla\src\Editor.h	/^	bool hasFocus;$/;"	m	class:Scintilla::Editor	access:protected
+hasOKText	scintilla\win32\ScintillaWin.cxx	/^	bool hasOKText;$/;"	m	class:ScintillaWin	file:	access:private
 hash	scintilla\win32\PlatWin.cxx	/^	int hash;$/;"	m	class:Scintilla::FontCached	file:	access:private
 hash	scite\lua\src\lobject.h	/^  unsigned int hash;$/;"	m	struct:TString	access:public
 hash	scite\lua\src\lstate.h	/^  TString **hash;$/;"	m	struct:stringtable	access:public
@@ -10217,7 +10400,9 @@ hotspotSingleLine	scintilla\src\ViewStyle.h	/^	bool hotspotSingleLine;$/;"	m	cla
 hotspotUnderline	scintilla\src\ViewStyle.h	/^	bool hotspotUnderline;$/;"	m	class:Scintilla::ViewStyle	access:public
 hoverIndicatorPos	scintilla\src\EditModel.h	/^	Sci::Position hoverIndicatorPos;$/;"	m	class:Scintilla::EditModel	access:public
 hr	scintilla\win32\HanjaDic.cxx	/^	HRESULT hr;$/;"	m	class:Scintilla::HanjaDict::HanjaDic	file:	access:private
+hrOle	scintilla\win32\ScintillaWin.cxx	/^	HRESULT hrOle;$/;"	m	class:ScintillaWin	file:	access:private
 hvalue	scite\lua\src\lobject.h	175;"	d
+hwnd	scintilla\win32\ScintillaWin.cxx	/^	HWND hwnd;$/;"	m	class:__anon121::IMContext	file:	access:private
 hwndFrom	scintilla\include\Scintilla.h	/^	void *hwndFrom;$/;"	m	struct:Sci_NotifyHeader	access:public
 i	scite\lua\src\llex.h	/^  lua_Integer i;$/;"	m	union:__anon11	access:public
 i	scite\lua\src\llimits.h	/^  lua_Integer i;$/;"	m	union:__anon12	access:public
@@ -10254,6 +10439,7 @@ identifier	scite\scripts\CheckMentioned.py	/^			identifier = line.split()[1]$/;"
 identifiersSorted	scite\scripts\CheckPropsDoc.py	/^identifiersSorted = list(propertyNames.keys())$/;"	v
 identityMessage	scite\win32\UniqueInstance.h	/^	UINT identityMessage;	\/\/\/< Registered message to identify SciTE instances$/;"	m	class:UniqueInstance	access:private
 idleStyling	scintilla\src\Editor.h	/^	int idleStyling;$/;"	m	class:Scintilla::Editor	access:protected
+idleTimerID	scintilla\win32\ScintillaWin.cxx	/^	enum { invalidTimerID, standardTimerID, idleTimerID, fineTimerStart };$/;"	e	enum:ScintillaWin::__anon122	file:
 idler	scintilla\src\Editor.h	/^	Idler idler;$/;"	m	class:Scintilla::Editor	access:protected
 idlerID	scintilla\src\Editor.h	/^	IdlerID idlerID;$/;"	m	class:Scintilla::Idler	access:public
 idlerID	scite\gtk\SciTEGTK.cxx	/^	guint idlerID;$/;"	m	class:SciTEGTK	file:	access:protected
@@ -10372,6 +10558,7 @@ internshrstr	scite\lua\src\lstring.c	/^static TString *internshrstr (lua_State *
 interror	scite\lua\src\lauxlib.c	/^static void interror (lua_State *L, int arg) {$/;"	f	file:	signature:(lua_State *L, int arg)
 intop	scite\lua\src\lvm.h	46;"	d
 invalidPosition	scintilla\src\Position.h	/^const Position invalidPosition = -1;$/;"	m	namespace:Sci
+invalidTimerID	scintilla\win32\ScintillaWin.cxx	/^	enum { invalidTimerID, standardTimerID, idleTimerID, fineTimerStart };$/;"	e	enum:ScintillaWin::__anon122	file:
 invalidateTMcache	scite\lua\src\ltable.h	27;"	d
 io_close	scite\lua\src\liolib.c	/^static int io_close (lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 io_fclose	scite\lua\src\liolib.c	/^static int io_fclose (lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
@@ -10606,7 +10793,9 @@ largestMarkerHeight	scintilla\src\ViewStyle.h	/^	int largestMarkerHeight;$/;"	m	
 lastClick	scintilla\src\Editor.h	/^	Point lastClick;$/;"	m	class:Scintilla::Editor	access:protected
 lastClickTime	scintilla\src\Editor.h	/^	unsigned int lastClickTime;$/;"	m	class:Scintilla::Editor	access:protected
 lastFlags	scite\gtk\SciTEGTK.cxx	/^	int lastFlags;$/;"	m	class:SciTEGTK	file:	access:protected
+lastHighSurrogateChar	scintilla\win32\ScintillaWin.cxx	/^	wchar_t lastHighSurrogateChar;$/;"	m	class:ScintillaWin	file:	access:private
 lastKey	scintilla\gtk\ScintillaGTK.h	/^	int lastKey;$/;"	m	class:Scintilla::ScintillaGTK	access:private
+lastKeyDownConsumed	scintilla\win32\ScintillaWin.cxx	/^	bool lastKeyDownConsumed;$/;"	m	class:ScintillaWin	file:	access:private
 lastMouseEvent	scintilla\cocoa\ScintillaCocoa.h	/^  NSEvent* lastMouseEvent;$/;"	m	class:Scintilla::ScintillaCocoa	access:private
 lastNonCommonScript	scintilla\gtk\ScintillaGTK.h	/^	PangoScript lastNonCommonScript;$/;"	m	class:Scintilla::ScintillaGTK	access:private
 lastOutput	scite\gtk\SciTEGTK.cxx	/^	std::string lastOutput;$/;"	m	class:SciTEGTK	file:	access:protected
@@ -10759,6 +10948,7 @@ linesAdded	scintilla\include\Scintilla.h	/^	Sci_Position linesAdded;	\/* SCN_MOD
 linesAdded	scintilla\src\Document.h	/^	Sci::Line linesAdded;	\/**< Negative if lines deleted. *\/$/;"	m	class:Scintilla::DocModification	access:public
 linesInDocument	scintilla\src\ContractionState.h	/^	Sci::Line linesInDocument;$/;"	m	class:Scintilla::ContractionState	access:private
 linesPerScroll	scintilla\gtk\ScintillaGTK.h	/^	unsigned int linesPerScroll;$/;"	m	class:Scintilla::ScintillaGTK	access:private
+linesPerScroll	scintilla\win32\ScintillaWin.cxx	/^	unsigned int linesPerScroll;	\/\/\/< Intellimouse support$/;"	m	class:ScintillaWin	file:	access:private
 lines_total	scintilla\qt\ScintillaEdit\ScintillaDocument.cpp	/^int ScintillaDocument::lines_total() {$/;"	f	class:ScintillaDocument	signature:()
 linit_c	scite\lua\src\linit.c	8;"	d	file:
 link	scintilla\lexlib\PropSetSimple.cxx	/^	const VarChain *link;$/;"	m	struct:VarChain	file:	access:public
@@ -11858,6 +12048,7 @@ operator []	scite\src\StringList.h	/^	char *operator[](size_t ind) { return word
 operator []	scite\src\StyleWriter.h	/^	char operator[](int position) {$/;"	f	class:TextReader	access:public	signature:(int position)
 operator bool	scintilla\gtk\Converter.h	/^	operator bool() const {$/;"	f	class:Scintilla::Converter	access:public	signature:() const
 operator bool	scintilla\lexlib\WordList.cxx	/^WordList::operator bool() const {$/;"	f	class:WordList	signature:() const
+operator bool	scintilla\win32\ScintillaWin.cxx	/^	operator bool() const {$/;"	f	class:GlobalMemory	access:public	signature:() const
 operator bool	scite\src\StringList.h	/^	operator bool() const { return !words.empty(); }$/;"	f	class:StringList	access:public	signature:() const
 operator bool	scite\src\Utf8_16.h	/^	operator bool() const { return m_pRead <= m_pEnd; }$/;"	f	class:Utf16_Iter	access:public	signature:() const
 operator bool	scite\src\Utf8_16.h	/^	operator bool() const { return m_pRead <= m_pEnd; }$/;"	f	class:Utf8_Iter	access:public	signature:() const
@@ -12297,6 +12488,43 @@ override	scintilla\win32\PlatWin.cxx	/^	void SetUnicodeMode(bool unicodeMode_) o
 override	scintilla\win32\PlatWin.cxx	/^	void SetUnicodeMode(bool unicodeMode_) override;$/;"	m	class:Scintilla::SurfaceGDI	file:	access:public
 override	scintilla\win32\PlatWin.cxx	/^	void SetVisibleRows(int rows) override;$/;"	m	class:Scintilla::ListBoxX	file:	access:public
 override	scintilla\win32\PlatWin.cxx	/^	~SurfaceGDI() override;$/;"	m	class:Scintilla::SurfaceGDI	file:	access:public
+override	scintilla\win32\ScintillaWin.cxx	/^	CaseFolder *CaseFolderForEncoding() override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	bool CanPaste() override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	bool DragThreshold(Point ptStart, Point ptNow) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	bool FineTickerAvailable() override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	bool FineTickerRunning(TickReason reason) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	bool HaveMouseCapture() override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	bool ModifyScrollBars(Sci::Line nMax, Sci::Line nPage) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	bool PaintContains(PRectangle rc) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	bool SetIdle(bool on) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	bool ValidCodePage(int codePage) const override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	int GetCtrlID() override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	sptr_t DefWndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	sptr_t WndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam) override;$/;"	m	class:ScintillaWin	file:	access:public
+override	scintilla\win32\ScintillaWin.cxx	/^	std::string CaseMapString(const std::string &s, int caseMapping) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void AddToPopUp(const char *label, int cmd = 0, bool enabled = true) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void ClaimSelection() override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void Copy() override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void CopyAllowLine() override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void CopyToClipboard(const SelectionText &selectedText) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void CreateCallTipWindow(PRectangle rc) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void Finalise() override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void FineTickerCancel(TickReason reason) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void FineTickerStart(TickReason reason, int millis, int tolerance) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void NotifyCaretMove() override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void NotifyChange() override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void NotifyDoubleClick(Point pt, int modifiers) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void NotifyFocus(bool focus) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void NotifyParent(SCNotification scn) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void Paste() override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void ScrollText(Sci::Line linesToMove) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void SetCtrlID(int identifier) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void SetHorizontalScrollPos() override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void SetMouseCapture(bool on) override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void SetVerticalScrollPos() override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void StartDrag() override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	void UpdateSystemCaret() override;$/;"	m	class:ScintillaWin	file:	access:private
+override	scintilla\win32\ScintillaWin.cxx	/^	~ScintillaWin() override;$/;"	m	class:ScintillaWin	file:	access:private
 override	scite\gtk\SciTEGTK.cxx	/^	                         const char *text, const char *mnemonic = 0) override;$/;"	m	class:SciTEGTK	file:	access:protected
 override	scite\gtk\SciTEGTK.cxx	/^	FilePath GetDefaultDirectory() override;$/;"	m	class:SciTEGTK	file:	access:protected
 override	scite\gtk\SciTEGTK.cxx	/^	FilePath GetSciteDefaultHome() override;$/;"	m	class:SciTEGTK	file:	access:protected
@@ -12521,6 +12749,7 @@ pNext	scite\src\Containers.h	/^		Association* pNext;$/;"	m	struct:TMap::Associat
 pNext	scite\src\Containers.h	/^		Node* pNext;$/;"	m	struct:TList::Node	access:public
 pPrev	scite\src\Containers.h	/^		Node* pPrev;$/;"	m	struct:TList::Node	access:public
 pRenderTarget	scintilla\win32\PlatWin.cxx	/^	ID2D1RenderTarget *pRenderTarget;$/;"	m	class:Scintilla::SurfaceD2D	file:	access:private
+pRenderTarget	scintilla\win32\ScintillaWin.cxx	/^	ID2D1RenderTarget *pRenderTarget;$/;"	m	class:ScintillaWin	file:	access:private
 pSci	scite\src\MatchMarker.h	/^	GUI::ScintillaWindow *pSci;$/;"	m	class:MatchMarker	access:private
 pSciTE	scite\gtk\SciTEGTK.cxx	/^	SciTEGTK *pSciTE;$/;"	m	struct:CallbackData	file:	access:public
 pSciTE	scite\win32\SciteWin.h	/^	SciTEWin *pSciTE;$/;"	m	class:CommandWorker	access:public
@@ -12640,6 +12869,7 @@ pollID	scite\gtk\SciTEGTK.cxx	/^	guint pollID;$/;"	m	class:SciTEGTK	file:	access
 popup	scintilla\src\ScintillaBase.h	/^	Menu popup;$/;"	m	class:Scintilla::ScintillaBase	access:protected
 popup	scite\src\SciTEBase.h	/^	GUI::Menu popup;$/;"	m	class:SciTEBase	access:protected
 pos	scintilla\gtk\PlatGTK.cxx	/^	PangoRectangle pos;$/;"	m	class:ClusterIterator	file:	access:private
+pos	scintilla\win32\ScintillaWin.cxx	/^	unsigned int pos;$/;"	m	class:FormatEnumerator	file:	access:public
 pos	scite\src\SciTEIO.cxx	/^	size_t pos;$/;"	m	class:BufferedFile	file:	access:private
 posCache	scintilla\src\EditView.h	/^	PositionCache posCache;$/;"	m	class:Scintilla::EditView	access:public
 posDrag	scintilla\src\EditModel.h	/^	SelectionPosition posDrag;$/;"	m	class:Scintilla::EditModel	access:public
@@ -12753,6 +12983,7 @@ pszUrl	scite\win32\SciTEWin.cxx	/^	wchar_t *pszUrl;$/;"	m	struct:XHH_AKLINK	file
 pszWindow	scite\win32\SciTEWin.cxx	/^	wchar_t *pszWindow;$/;"	m	struct:XHH_AKLINK	file:	access:public
 ptMouseLast	scintilla\src\Editor.h	/^	Point ptMouseLast;$/;"	m	class:Scintilla::Editor	access:protected
 ptStartDrag	scite\src\SciTEBase.h	/^	GUI::Point ptStartDrag;$/;"	m	class:SciTEBase	access:protected
+ptr	scintilla\win32\ScintillaWin.cxx	/^	void *ptr;$/;"	m	class:GlobalMemory	file:	access:public
 ptr	scite\src\GUI.h	/^	sptr_t ptr;$/;"	m	class:GUI::ScintillaWindow	access:private
 pulldowns	scite\gtk\SciTEGTK.cxx	/^	std::map<std::string, GtkWidget *> pulldowns;$/;"	m	class:SciTEGTK	file:	access:protected
 push_captures	scite\lua\src\lstrlib.c	/^static int push_captures (MatchState *ms, const char *s, const char *e) {$/;"	f	file:	signature:(MatchState *ms, const char *s, const char *e)
@@ -12826,6 +13057,7 @@ rectangularSelectionModifier	scintilla\gtk\ScintillaGTK.h	/^	int rectangularSele
 rectangularSelectionModifier	scintilla\qt\ScintillaEditBase\ScintillaQt.h	/^	int rectangularSelectionModifier;$/;"	m	class:Scintilla::ScintillaQt	access:private
 redo	scintilla\qt\ScintillaEdit\ScintillaDocument.cpp	/^int ScintillaDocument::redo() {$/;"	f	class:ScintillaDocument	signature:()
 redo_xpm	scite\gtk\pixmapsGNOME.h	/^static const char * redo_xpm[] = {$/;"	v
+ref	scintilla\win32\ScintillaWin.cxx	/^	int ref;$/;"	m	class:FormatEnumerator	file:	access:public
 refCount	scintilla\src\Document.h	/^	int refCount;$/;"	m	class:Scintilla::Document	access:private
 refcount	scite\lua\src\lfunc.h	/^  lu_mem refcount;  \/* reference counter *\/$/;"	m	struct:UpVal	access:public
 regExp	scite\src\SciTEBase.h	/^	bool regExp;$/;"	m	class:Searcher	access:public
@@ -12839,6 +13071,7 @@ removePrivate	scite\scripts\tags2api.py	/^removePrivate=1$/;"	v
 removeentry	scite\lua\src\lgc.c	/^static void removeentry (Node *n) {$/;"	f	file:	signature:(Node *n)
 removevalues	scite\lua\src\lcode.c	/^static void removevalues (FuncState *fs, int list) {$/;"	f	file:	signature:(FuncState *fs, int list)
 removevars	scite\lua\src\lparser.c	/^static void removevars (FuncState *fs, int tolevel) {$/;"	f	file:	signature:(FuncState *fs, int tolevel)
+renderTargetValid	scintilla\win32\ScintillaWin.cxx	/^	bool renderTargetValid;$/;"	m	class:ScintillaWin	file:	access:private
 renderer	scintilla\gtk\PlatGTK.cxx	/^	GtkCellRenderer* renderer;$/;"	m	class:ListBoxX	file:	access:private
 repaintFullWindow	scintilla\gtk\ScintillaGTK.h	/^	bool repaintFullWindow;$/;"	m	class:Scintilla::ScintillaGTK	access:private
 repeatstat	scite\lua\src\lparser.c	/^static void repeatstat (LexState *ls, int line) {$/;"	f	file:	signature:(LexState *ls, int line)
@@ -12939,8 +13172,13 @@ scanformat	scite\lua\src\lstrlib.c	/^static const char *scanformat (lua_State *L
 sci	scintilla\gtk\ScintillaGTK.h	/^	_ScintillaObject *sci;$/;"	m	class:Scintilla::ScintillaGTK	access:private
 sci	scintilla\gtk\ScintillaGTKAccessible.h	/^	ScintillaGTK *sci;$/;"	m	class:Scintilla::ScintillaGTKAccessible	access:private
 sci	scintilla\qt\ScintillaEditPy\testsepq.py	/^import ScintillaConstants as sci$/;"	i
+sci	scintilla\win32\ScintillaWin.cxx	/^	ScintillaWin *sci;$/;"	m	class:DataObject	file:	access:public
+sci	scintilla\win32\ScintillaWin.cxx	/^	ScintillaWin *sci;$/;"	m	class:DropSource	file:	access:public
+sci	scintilla\win32\ScintillaWin.cxx	/^	ScintillaWin *sci;$/;"	m	class:DropTarget	file:	access:public
 sciView	scintilla\cocoa\ScintillaCocoa.h	/^  ScintillaView* sciView;$/;"	m	class:Scintilla::ScintillaCocoa	access:private
 scintilla	scintilla\gtk\ScintillaGTK.h	/^		ScintillaGTK *scintilla;$/;"	m	struct:Scintilla::ScintillaGTK::TimeThunk	access:public
+scintillaClassAtom	scintilla\win32\ScintillaWin.cxx	/^	static ATOM scintillaClassAtom;$/;"	m	class:ScintillaWin	file:	access:private
+scintillaClassAtom	scintilla\win32\ScintillaWin.cxx	/^ATOM ScintillaWin::scintillaClassAtom = 0;$/;"	m	class:ScintillaWin	file:
 scintillaDirectory	scintilla\qt\ScintillaEditPy\sepbuild.py	/^scintillaDirectory = "..\/.."$/;"	v
 scintillaDirectory	scintilla\qt\ScintillaEdit\WidgetGen.py	/^scintillaDirectory = "..\/.."$/;"	v
 scintillaDirectory	scite\scripts\commandsdoc.py	/^scintillaDirectory = os.path.join("..", "..", "scintilla")$/;"	v
@@ -13236,6 +13474,7 @@ stackcurrent	scite\src\SciTEBase.h	/^	int stackcurrent;$/;"	m	class:BufferList	a
 stackerror	scite\lua\src\ldo.c	/^static void stackerror (lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 stackinuse	scite\lua\src\ldo.c	/^static int stackinuse (lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 stacksize	scite\lua\src\lstate.h	/^  int stacksize;$/;"	m	struct:lua_State	access:public
+standardTimerID	scintilla\win32\ScintillaWin.cxx	/^	enum { invalidTimerID, standardTimerID, idleTimerID, fineTimerStart };$/;"	e	enum:ScintillaWin::__anon122	file:
 start	scintilla\src\Document.h	/^	Sci::Position start;$/;"	m	class:Scintilla::Range	access:public
 start	scintilla\src\Editor.h	/^	Sci::Line start;	\/\/ When there are wraps pending, will be in document range$/;"	m	struct:Scintilla::WrapPending	access:public
 start	scintilla\src\PositionCache.h	/^	int start;$/;"	m	struct:Scintilla::TextSegment	access:public
@@ -13391,6 +13630,9 @@ sys	scite\scripts\CheckMentioned.py	/^import re, string, sys$/;"	i
 sys	scite\scripts\IFaceTableGen.py	/^import sys$/;"	i
 sys	scite\scripts\RegenerateSource.py	/^import glob, os, sys$/;"	i
 sys	scite\scripts\commandsdoc.py	/^import os, sys$/;"	i
+sysCaretBitmap	scintilla\win32\ScintillaWin.cxx	/^	HBITMAP sysCaretBitmap;$/;"	m	class:ScintillaWin	file:	access:private
+sysCaretHeight	scintilla\win32\ScintillaWin.cxx	/^	int sysCaretHeight;$/;"	m	class:ScintillaWin	file:	access:private
+sysCaretWidth	scintilla\win32\ScintillaWin.cxx	/^	int sysCaretWidth;$/;"	m	class:ScintillaWin	file:	access:private
 sysconfig	scintilla\qt\ScintillaEditPy\sepbuild.py	/^import distutils.sysconfig$/;"	i
 syslib	scite\lua\src\loslib.c	/^static const luaL_Reg syslib[] = {$/;"	v	file:
 t	scite\lua\src\llex.h	/^  Token t;  \/* current token *\/$/;"	m	struct:LexState	access:public
@@ -13507,6 +13749,7 @@ timerTarget	scintilla\cocoa\ScintillaCocoa.h	/^  TimerTarget* timerTarget;$/;"	m
 timers	scintilla\cocoa\ScintillaCocoa.h	/^  NSTimer *timers[tickPlatform+1];$/;"	m	class:Scintilla::ScintillaCocoa	access:public
 timers	scintilla\gtk\ScintillaGTK.h	/^	TimeThunk timers[tickDwell+1];$/;"	m	class:Scintilla::ScintillaGTK	access:private
 timers	scintilla\qt\ScintillaEditBase\ScintillaQt.h	/^	int timers[tickDwell+1];$/;"	m	class:Scintilla::ScintillaQt	access:private
+timers	scintilla\win32\ScintillaWin.cxx	/^	UINT_PTR timers[tickDwell+1];$/;"	m	class:ScintillaWin	file:	access:private
 tinsert	scite\lua\src\ltablib.c	/^static int tinsert (lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 tlen	scintilla\win32\PlatWin.cxx	/^	int tlen;	\/\/ Using int instead of size_t as most Win32 APIs take int.$/;"	m	class:Scintilla::TextWide	file:	access:public
 tmname	scite\lua\src\lstate.h	/^  TString *tmname[TM_N];  \/* array with tag-method names *\/$/;"	m	struct:global_State	access:public
@@ -13553,6 +13796,7 @@ totalbytes	scite\lua\src\lstate.h	/^  l_mem totalbytes;  \/* number of bytes cur
 touched	scite\lua\src\lfunc.h	/^      int touched;  \/* mark to avoid cycles with dead threads *\/$/;"	m	struct:UpVal::__anon8::__anon9	access:public
 tracebackEnabled	scite\src\LuaExtension.cxx	/^static bool tracebackEnabled = true;$/;"	v	file:
 trackLineWidth	scintilla\src\EditModel.h	/^	bool trackLineWidth;$/;"	m	class:Scintilla::EditModel	access:public
+trackedMouseLeave	scintilla\win32\ScintillaWin.cxx	/^	bool trackedMouseLeave;$/;"	m	class:ScintillaWin	file:	access:private
 traverseCclosure	scite\lua\src\lgc.c	/^static lu_mem traverseCclosure (global_State *g, CClosure *cl) {$/;"	f	file:	signature:(global_State *g, CClosure *cl)
 traverseLclosure	scite\lua\src\lgc.c	/^static lu_mem traverseLclosure (global_State *g, LClosure *cl) {$/;"	f	file:	signature:(global_State *g, LClosure *cl)
 traverseephemeron	scite\lua\src\lgc.c	/^static int traverseephemeron (global_State *g, Table *h) {$/;"	f	file:	signature:(global_State *g, Table *h)
@@ -13697,6 +13941,8 @@ userStrip	scite\gtk\SciTEGTK.cxx	/^	UserStrip userStrip;$/;"	m	class:SciTEGTK	fi
 userStrip	scite\win32\SciteWin.h	/^	UserStrip userStrip;$/;"	m	class:SciTEWin	access:protected
 user_	scite\lua\src\lobject.h	/^  union Value user_;  \/* user value *\/$/;"	m	struct:Udata	typeref:union:Udata::Value	access:public
 utf16	scite\src\Utf8_16.h	/^	typedef unsigned short utf16; \/\/ 16 bits$/;"	t	class:Utf8_16	access:public
+utf16Folded	scintilla\win32\ScintillaWin.cxx	/^	std::vector<wchar_t> utf16Folded;$/;"	m	class:CaseFolderDBCS	file:	access:private
+utf16Mixed	scintilla\win32\ScintillaWin.cxx	/^	std::vector<wchar_t> utf16Mixed;$/;"	m	class:CaseFolderDBCS	file:	access:private
 utf8	scite\src\Utf8_16.h	/^	typedef unsigned char utf8; \/\/ 8 bits$/;"	t	class:Utf8_16	access:public
 utf8LengthFromLead	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^static size_t utf8LengthFromLead(unsigned char uch)$/;"	f	namespace:Scintilla	signature:(unsigned char uch)
 utf8LineEnds	scintilla\src\CellBuffer.h	/^	int utf8LineEnds;$/;"	m	class:Scintilla::CellBuffer	access:private
@@ -13774,6 +14020,14 @@ vmfetch	scite\lua\src\lvm.c	756;"	d	file:
 vs	scintilla\src\Editor.h	/^	ViewStyle vs;$/;"	m	class:Scintilla::Editor	access:protected
 vslen	scite\lua\src\lobject.h	339;"	d
 vt	scite\lua\src\lparser.h	/^      lu_byte vt;  \/* whether 't' is register (VLOCAL) or upvalue (VUPVAL) *\/$/;"	m	struct:expdesc::__anon18::__anon19	access:public
+vtDataObject	scintilla\win32\ScintillaWin.cxx	/^static VFunction *vtDataObject[] = {$/;"	v	file:
+vtDropSource	scintilla\win32\ScintillaWin.cxx	/^static VFunction *vtDropSource[] = {$/;"	v	file:
+vtDropTarget	scintilla\win32\ScintillaWin.cxx	/^static VFunction *vtDropTarget[] = {$/;"	v	file:
+vtFormatEnumerator	scintilla\win32\ScintillaWin.cxx	/^static VFunction *vtFormatEnumerator[] = {$/;"	v	file:
+vtbl	scintilla\win32\ScintillaWin.cxx	/^	VFunction **vtbl;$/;"	m	class:DataObject	file:	access:public
+vtbl	scintilla\win32\ScintillaWin.cxx	/^	VFunction **vtbl;$/;"	m	class:DropSource	file:	access:public
+vtbl	scintilla\win32\ScintillaWin.cxx	/^	VFunction **vtbl;$/;"	m	class:DropTarget	file:	access:public
+vtbl	scintilla\win32\ScintillaWin.cxx	/^	VFunction **vtbl;$/;"	m	class:FormatEnumerator	file:	access:public
 w	scite\src\StripDefinition.h	/^	GUI::Window w;$/;"	m	class:UserControl	access:public
 wButton	scite\gtk\SciTEGTK.cxx	/^	WButton wButton;$/;"	m	class:FindStrip	file:	access:public
 wButton	scite\win32\Strips.h	/^	GUI::Window wButton;$/;"	m	class:FindStrip	access:private
@@ -13858,6 +14112,7 @@ wgkey	scite\lua\src\ltable.h	25;"	d
 what	scite\lua\src\lua.h	/^  const char *what;	\/* (S) 'Lua', 'C', 'main', 'tail' *\/$/;"	m	struct:lua_Debug	access:public
 wheelDelta	scintilla\qt\ScintillaEditBase\ScintillaEditBase.h	/^	int wheelDelta;$/;"	m	class:Scintilla::ScintillaEditBase	access:private
 wheelDelta	scintilla\win32\PlatWin.cxx	/^	int wheelDelta; \/\/ mouse wheel residue$/;"	m	class:Scintilla::ListBoxX	file:	access:private
+wheelDelta	scintilla\win32\ScintillaWin.cxx	/^	int wheelDelta; \/\/\/< Wheel delta from roll$/;"	m	class:ScintillaWin	file:	access:private
 wheelEvent	scintilla\qt\ScintillaEditBase\ScintillaEditBase.cpp	/^void ScintillaEditBase::wheelEvent(QWheelEvent *event)$/;"	f	class:ScintillaEditBase	signature:(QWheelEvent *event)
 wheelMouseIntensity	scintilla\gtk\ScintillaGTK.h	/^	gint wheelMouseIntensity;$/;"	m	class:Scintilla::ScintillaGTK	access:private
 whilestat	scite\lua\src\lparser.c	/^static void whilestat (LexState *ls, int line) {$/;"	f	file:	signature:(LexState *ls, int line)
@@ -14019,7 +14274,9 @@ zoomLevel	scintilla\src\ViewStyle.h	/^	int zoomLevel;$/;"	m	class:Scintilla::Vie
 ~FontRealised	scintilla\src\ViewStyle.cxx	/^FontRealised::~FontRealised() {$/;"	f	class:FontRealised	signature:()
 ~FormatAndMetrics	scintilla\win32\PlatWin.cxx	/^	~FormatAndMetrics() {$/;"	f	struct:Scintilla::FormatAndMetrics	access:public	signature:()
 ~GObjectWatcher	scintilla\gtk\ScintillaGTK.h	/^	virtual ~GObjectWatcher() {$/;"	f	class:Scintilla::GObjectWatcher	access:public	signature:()
+~GlobalMemory	scintilla\win32\ScintillaWin.cxx	/^	~GlobalMemory() {$/;"	f	class:GlobalMemory	access:public	signature:()
 ~HanjaDic	scintilla\win32\HanjaDic.cxx	/^	~HanjaDic() {$/;"	f	class:Scintilla::HanjaDict::HanjaDic	access:public	signature:()
+~IMContext	scintilla\win32\ScintillaWin.cxx	/^	~IMContext() {$/;"	f	class:__anon121::IMContext	access:public	signature:()
 ~JobQueue	scite\src\JobQueue.h	/^	~JobQueue() {$/;"	f	class:JobQueue	access:public	signature:()
 ~KeyMap	scintilla\src\KeyMap.cxx	/^KeyMap::~KeyMap() {$/;"	f	class:KeyMap	signature:()
 ~LMMinder	scintilla\src\ExternalLexer.cxx	/^LMMinder::~LMMinder() {$/;"	f	class:LMMinder	signature:()
@@ -14076,6 +14333,7 @@ zoomLevel	scintilla\src\ViewStyle.h	/^	int zoomLevel;$/;"	m	class:Scintilla::Vie
 ~ScintillaGTK	scintilla\gtk\ScintillaGTK.cxx	/^ScintillaGTK::~ScintillaGTK() {$/;"	f	class:ScintillaGTK	signature:()
 ~ScintillaGTKAccessible	scintilla\gtk\ScintillaGTKAccessible.cxx	/^ScintillaGTKAccessible::~ScintillaGTKAccessible() {$/;"	f	class:ScintillaGTKAccessible	signature:()
 ~ScintillaQt	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^ScintillaQt::~ScintillaQt()$/;"	f	class:ScintillaQt	signature:()
+~ScintillaWin	scintilla\win32\ScintillaWin.cxx	/^ScintillaWin::~ScintillaWin() {}$/;"	f	class:ScintillaWin	signature:()
 ~Selection	scintilla\src\Selection.cxx	/^Selection::~Selection() {$/;"	f	class:Selection	signature:()
 ~SelectionText	scintilla\src\Editor.h	/^	~SelectionText() {$/;"	f	class:Scintilla::SelectionText	access:public	signature:()
 ~SparseVector	scintilla\src\SparseVector.h	/^	~SparseVector() {$/;"	f	class:Scintilla::SparseVector	access:public	signature:()
