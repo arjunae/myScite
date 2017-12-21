@@ -109,20 +109,18 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
                 skipper=true
             end 
             -- Mark Functions 
-            if not skipper then
-                name= entry:match("(~?[%w_]+)") or ""
-                patType="%/^([%s%w_:~]+ ?)" -- INTPTR
-                patClass="([%w_]+).*"   -- SciteWin (::)
-                patFunc="(%(.*%))"  -- AbbrevDlg(...)
-                strTyp, strClass, strFunc= entry:match(patType..patClass..patFunc..".*")
-                if  strFunc then params=params..strFunc end
-                if  strTyp then params=params..strTyp end
-                if  strClass then params=params..strClass.." =:-) " end
-                if string.len(params)>0 then skipper=true isFunction=true end
-            end
+            name= entry:match("(~?[%w_]+)") or ""
+            patType="%/^([%s%w_:~]+ ?)" -- INTPTR
+            patClass="([%w_]+).*"   -- SciteWin (::)
+            patFunc="(%(.*%))"  -- AbbrevDlg(...)
+            strTyp, strClass, strFunc= entry:match(patType..patClass..patFunc..".*")
+            if strFunc then params=params..strFunc end
+            if strClass and string.len(strClass)==1 then strTyp=strTyp..strClass strClass="" end
+            if strClass then params=params..strClass end
+            if strTyp then strTyp=string.gsub(strTyp,name,"") params=params..strTyp end
+            if string.len(params)>0 then skipper=true isFunction=true end
             -- Mark ENUMS, STRUCTs, typedefs and unions (matches "[tab]g/s/t/u/e) 
-            if not skipper then
-             --   if entry:match("%\"\t[geust]")   then
+            if not smallerFile and not skipper then
                 if entry:match("%\"\t[geust]") then
                     name= entry:match("([%w_]+)") or ""
                     cTagItems=cTagItems..","..name.."=true"
@@ -151,16 +149,20 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
                 if isENUM then cTagENUMs=cTagENUMs.." "..name  end
                 if isOther then cTagOthers=cTagOthers.." "..cTagOther end
                 if smallerFile==true then
-                    if isFunction then cTagItems=cTagItems..","..name.."=true" end --table formatted
+                  -- if isFunction then cTagItems=cTagItems..","..name.."=true" end -- gets concatenated to table cTagAllTogether
                 else
-                    if skipper then cTagItems=cTagItems..name.."=true," end
+                 --  if skipper then cTagItems=cTagItems..name.."=true," end
                 end   
                 lastname=name
                 -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=name..params
-                if isFunction and string.len(params)>2 then 
-                   io.write(lastEntry.."\n")
-                end -- faster then using a full bulkWrite
+                if isFunction and string.len(params)>2 then  -- Optionally Filter internals and COM Objects
+                    if  smallerFile  and (lastEntry:match("^(_)") and lastEntry:match("_Proxy") or lastEntry:match("_Stub") or lastEntry:match("Vtbl")   ) then
+                         entry=""
+                        else
+                        io.write(lastEntry.."\n")  
+                   end
+                end -- faster then using a full bulkWrite?!
             else
                 if DEBUG then cTagDupes= cTagDupes..cTagOther  end -- include Dupes for stats in Trace mode
                 if DEBUG==2 then print("Dupe: "..entry) end 
@@ -199,7 +201,7 @@ function writeProps(projectName, projectFilePath)
     io.write(projectName..".cTagFunctions="..cTagFunctions.."\n")
     io.write(projectName..".cTagModules="..cTagModules.."\n")
     io.write(projectName..".cTagClasses="..cTagClass.."\n")
-    io.write(projectName..".cTagAllTogether="..cTagAllTogether.."\n") --: Table formatted
+--    io.write(projectName..".cTagAllTogether="..cTagAllTogether.."\n") --: Table formatted
     io.close(propFile)
     
 -- Show some stats

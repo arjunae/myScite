@@ -165,7 +165,10 @@ function StyleStuff()
 	if fSize < AC_MAX_SIZE then 
 		scite_OnOpenSwitch(markLinks)
 		scite_OnOpenSwitch(markeMail)
-		scite_OnOpenSwitch(markGUID)	  
+		scite_OnOpenSwitch(markGUID)
+	else
+	props["find.strip.incremental"]=1
+	props["highlight.current.word"]=0
 	end
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
