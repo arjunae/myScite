@@ -36,6 +36,9 @@
 #include "CharacterSet.h"
 #include "LexerModule.h"
 
+// Some Files simply dont use LF/CRLF. So use a quarter Megabyte as a max.
+#define LEXMAKE_MAX_LINELEN  262140
+
 #ifdef SCI_NAMESPACE
 using namespace Scintilla;
 #endif
@@ -137,7 +140,7 @@ static unsigned int ColouriseMakeLine(
 	unsigned int theStart=startLine+i; // One Byte ought (not) to be enough for everyone....?
 	stylerPos=theStart; // Keep a Reference to the last styled Position.
 
-	while (i < lengthLine) {
+	while (i < lengthLine && i < LEXMAKE_MAX_LINELEN) {
 		Sci_PositionU currentPos=startLine+i;
 
 		char chPrev=styler.SafeGetCharAt(currentPos-1);

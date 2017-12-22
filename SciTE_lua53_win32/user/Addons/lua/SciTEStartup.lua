@@ -170,6 +170,7 @@ function StyleStuff()
 	props["find.strip.incremental"]=1
 	props["highlight.current.word"]=0
 	end
+
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
