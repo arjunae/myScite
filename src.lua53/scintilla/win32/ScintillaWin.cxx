@@ -200,7 +200,6 @@ public:
 };
 
 namespace {
-
 class IMContext {
 	HWND hwnd;
 public:
@@ -211,19 +210,19 @@ public:
 	~IMContext() {
 		if (hIMC)
 			::ImmReleaseContext(hwnd, hIMC);
-	}
+	} 
 
 	unsigned int GetImeCaretPos() {
 		return ImmGetCompositionStringW(hIMC, GCS_CURSORPOS, NULL, 0);
 	}
-
 	std::vector<BYTE> GetImeAttributes() {
 		int attrLen = ::ImmGetCompositionStringW(hIMC, GCS_COMPATTR, NULL, 0);
 		std::vector<BYTE> attr(attrLen, 0);
 		::ImmGetCompositionStringW(hIMC, GCS_COMPATTR, &attr[0], static_cast<DWORD>(attr.size()));
 		return attr;
-	}
+	} ImmGetCompositionStringW 
 
+	
 	std::wstring GetCompositionString(DWORD dwIndex) {
 		const LONG byteLen = ::ImmGetCompositionStringW(hIMC, dwIndex, NULL, 0);
 		std::wstring wcs(byteLen / 2, 0);
