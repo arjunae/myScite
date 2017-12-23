@@ -606,6 +606,7 @@ FontRealised *ViewStyle::Find(const FontSpecification &fs) {
 
 void ViewStyle::FindMaxAscentDescent() {
 	for (FontMap::const_iterator it = fonts.cbegin(); it != fonts.cend(); ++it) {
+	///todo; Special Case STYLE_CALLTIP so it doesnt affect MainWindows LineHeight.
 		if (maxAscent < it->second->ascent)
 			maxAscent = it->second->ascent;
 		if (maxDescent < it->second->descent)
