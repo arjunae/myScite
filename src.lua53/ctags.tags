@@ -2783,9 +2783,9 @@ LINEMARKER_H	scintilla\src\LineMarker.h	9;"	d
 LINK_LEXER	scintilla\src\Catalogue.cxx	71;"	d	file:
 LL	scite\lua\src\lobject.c	478;"	d	file:
 LMMinder	scintilla\src\ExternalLexer.h	/^class LMMinder {$/;"	c	namespace:Scintilla
-LOAD_LIBRARY_SEARCH_APPLICATION_DIR	scite\win32\SciTEWin.cxx	2235;"	d	file:
+LOAD_LIBRARY_SEARCH_APPLICATION_DIR	scite\win32\SciTEWin.cxx	2234;"	d	file:
 LOAD_LIBRARY_SEARCH_SYSTEM32	scintilla\win32\PlatWin.cxx	51;"	d	file:
-LOAD_LIBRARY_SEARCH_SYSTEM32	scite\win32\SciTEWin.cxx	2238;"	d	file:
+LOAD_LIBRARY_SEARCH_SYSTEM32	scite\win32\SciTEWin.cxx	2237;"	d	file:
 LStream	scite\lua\src\liolib.c	/^typedef luaL_Stream LStream;$/;"	t	file:
 LTintfloat	scite\lua\src\lvm.c	/^static int LTintfloat (lua_Integer i, lua_Number f) {$/;"	f	file:	signature:(lua_Integer i, lua_Number f)
 LTnum	scite\lua\src\lvm.c	/^static int LTnum (const TValue *l, const TValue *r) {$/;"	f	file:	signature:(const TValue *l, const TValue *r)

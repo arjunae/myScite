@@ -220,15 +220,23 @@ local function buildNames()
     local LexerName= props["Language"]
         
     if LexerName~="" and buffer.dirty==true then 
-      if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
-      if fSize > AC_MAX_SIZE then  return end
+    if buffer.size and buffer.size > AC_MAX_SIZE then  return end
       
- if DEBUG>=1 then  print("ac>buildnames") end
+    if DEBUG>=1 then  print("ac>buildnames") end
         setLexerSpecificStuff()
         -- Reset our array of names.
         names = {}
         -- Collect all words matching the given patterns.
         local unique = {}
+        
+        -- Build an ordered array from the table of names.
+        for name in pairs(getApiNames()) do
+            unique[normalize(name)] = name
+        end
+        
+        --Handling BigData can be time intensive, so only do that when the file has been finally loaded.
+        if not buffer.size then return end
+        
         for i, pattern in ipairs(IDENTIFIER_PATTERNS) do
             local startPos, endPos
             endPos = 0
@@ -237,29 +245,22 @@ local function buildNames()
                 if not startPos then
                     break
                 end
-                
                 if not shouldIgnorePos(startPos) then
                     if endPos-startPos+1 >= MIN_IDENTIFIER_LEN then
                         -- Create one key-value pair per unique word:
                         local name = editor:textrange(startPos, endPos)
-                        unique[normalize(name)] = name
+                            -- This also "case-corrects"; e.g. "gui" -> "Gui"
+                         unique[normalize(name)] = name
                     end
                 end
             end
         end
-        -- Build an ordered array from the table of names.
-        for name in pairs(getApiNames()) do
-            -- This also "case-corrects"; e.g. "gui" -> "Gui"
-            unique[normalize(name)] = name
-        end
-        
-        for _,name in pairs(unique) do
-            table.insert(names, name)
-        end
-        
-        table.sort(names, function(a,b) return normalize(a) < normalize(b) end)
-        buffer.namesForAutoComplete = names -- Cache it for OnSwitchFile.
+
+        for _,name in pairs(unique) do table.insert(names, name) end     
+        table.sort(names, function(a,b) return normalize(a) < normalize(b) end) 
+        buffer.namesForAutoComplete = names  -- Cache it for OnSwitchFile.
         buffer.dirty=false
+ 
         --print ("ac>buildNames:  ...Created a new keywordlist")   
     end
 end
