@@ -1,7 +1,7 @@
 -- class.lua
 function class(base,ctor)
   local c = {}     -- a new class instance
-  if not ctor and type(base) == 'function' then
+  if not ctor and type(base) == "function" then
 	  ctor = base
 	  base = nil
   elseif type(base) == 'table' then
@@ -21,11 +21,11 @@ function class(base,ctor)
 	local obj = {}
 	setmetatable(obj,c)
 	if ctor then
-	   ctor(obj,unpack(arg))
-	else 
+		ctor(obj,unpack{...}) --fix lua5.3.4
+	else
 	-- make sure that any stuff from the base class is initialized!
 	   if base and base.init then
-		 base.init(obj,unpack(arg))
+		 base.init(obj,unpack{...}) --fix lua5.3.4
 	   end
 	end
 	return obj
@@ -81,7 +81,7 @@ end
 
 function List:iter()
     local i = 0
-    local n = table.getn(self)
+    local n = #self --Fix Lua5.3.4
     return function ()
                i = i + 1
                if i <= n then return self[i] end
@@ -95,7 +95,7 @@ function List:apply(func)
 end
 
 function List:length()
-	return table.getn(self)
+	return #self--Fix Lua5.3.4
 end
 
 -- stack-like interface

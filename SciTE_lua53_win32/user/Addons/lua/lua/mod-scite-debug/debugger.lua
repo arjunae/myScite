@@ -217,7 +217,7 @@ function Dbg:default_target()
     if ext then
 		-- Ndless SDK: don't use a relative path. Use any ELF file.
       --  local res = props['FileDir']..'\\' --scite_webdev
-         local res = props['FileName'] -- c scite_webdev
+         local res = props['FileName'] -- Arjunae
 		  if ext ~= '' then res = res..'.'..ext end
         return res
     else
@@ -260,7 +260,7 @@ function Dbg:clear_breakpoint(file,line,num)
 end
 
 -- run until the indicated file:line is reached
-function Dbg:goto(file,lno)
+function Dbg:gotoL(file,lno)
 	dbg_command('tbreak',file..':'..lno)
 	dbg_command('continue')
 end
@@ -392,10 +392,10 @@ end
 
 function do_run()
 	if status == 'idle' then
-	-- Arjunea
+	-- Arjunea Fix lua5.3.4
 		if not (props['debug.asktarget']=='' or props['debug.asktarget'] == '0') and (#stripText == 0 ) then
 				scite.StripShow("") -- clear strip
-				scite.StripShow("!'Target name:'["..props['FilePath'].."]((OK))(&Cancel)")
+				scite.StripShow("!'/todo: rewrite extlib.lua/ Target name:'["..props['FilePath'].."]((OK))(&Cancel)")
 				return
 		end
 			lfs.chdir(props['FileDir']) 
@@ -461,7 +461,7 @@ end
 function do_temp_breakpoint()
 	local lno = current_line() + 1
 	local file = props['FileNameExt']
-	dbg:goto(file,lno)
+	dbg:gotoL(file,lno)
 end
 
 local function char_at(p)
@@ -742,7 +742,7 @@ end
 -- find the Unix/GTK equivalent! It is meant to bring the debugger
 -- SciTE instance to the front.
 function raise_scite()
-	--spawner.foreground()
+	spawner.foreground()
 end
 
 -- output of inspected variables goes here; this mechanism allows us
@@ -759,10 +759,10 @@ end
 function closing_process()
     print 'quitting debugger'
 	 stripText=""
---	spawner_obj:close()
+	--spawner_obj:close()
     set_status('idle')
     if catdbg ~= nil then print(catdbg); catdbg:close() end
--- scite_LeaveInteractivePrompt()   
+	scite_LeaveInteractivePrompt()   
 	RemoveLastMarker(true)
 	os.remove(dbg.cmd_file)
 end
