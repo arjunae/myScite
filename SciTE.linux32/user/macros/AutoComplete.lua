@@ -3,7 +3,7 @@
 -- AutoComplete by Lexikos. Updates 2017 by Marcedo
 -- Version: 0.9
 -- 12.07.17 - Sanity checks for SciTE.
--- 29.11.17 - Documentation, Performance Tweaks and appendCTags 
+-- 29.11.17 - Documentation, Performance Tweaks
 
 --[[
 Tested on SciTE4AutoHotkey 3.0.06.01; may also work on SciTE 3.1.0 or later.
@@ -19,10 +19,6 @@ To use this script with SciTE4AutoHotkey:
     Use a FileSize maximum; 
     Only regenerate Data on changed File
     Renew Keyword List OnDwell
-- appendCTags() function (Autocomplete / Project)   
-    "project.ctags.propspath" has to be set to an existing file.
-    when available, it will call CTagsUpdateProps()
-    which hands a flat table containing ctagnames
 ]]
 
 local DEBUG=0 --1: Trace Mode 2: Verbose Mode
@@ -151,33 +147,6 @@ local function isInTable(table, elem)
 	return false
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
---  appendCTags(apiNames,cTagsFilePath)
---  Optionally use Ctags to Fill up the completition list        
---
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-function appendCTags(apiNames,cTagsFilePath)
-
-    if props["project.ctags.propspath"]=="" then return apiNames end
-
-    -- Append Once to filetypes api path
-    if type(CTagsUpdateProps)=="function" then
-        local fileNamePath= (props["project.ctags.propspath"])
-           apiNames = CTagsUpdateProps(true,fileNamePath)
-            if DEBUG==2 then
-                    for name in pairs(apiNames) do
-                        names=names..name 
-                    end
-                    --print("CTAGNames:",names)
-            end
-    end
-   
-    return apiNames -- cTagsUpdate=0 so already done.  Using the cached Version 
-
-end
-
 --
 -- Disable collection of words in comments, strings, etc.
 -- Also disables autocomplete popups while typing there.
@@ -227,7 +196,6 @@ if DEBUG>=1 then print("ac>getApiNames", apiFiles) end
         return ""
     end)
     
-    apiNames= appendCTags(apiNames,cTagsFilePath,true)
     if not apiNames then apiNames={} end
     
     if lexer~=nil then

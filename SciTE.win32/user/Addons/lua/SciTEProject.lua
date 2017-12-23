@@ -82,7 +82,6 @@ function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 
 	-- Propagate the Data, appends if required
 	if  (theForceMightBeWithYou==true) then
-	cTagList={}
 		for entry in io.lines(YodaNamePath) do
 			prop,names=entry:match("([%w_.]+)%s?=(.*)") 
 			if prop:match(".cTagClasses") then cTagClasses= cTagClasses.." "..names  end
@@ -91,11 +90,11 @@ function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 			if prop:match(".cTagNames") then cTagNames= cTagNames.." "..names end
 			if prop:match(".cTagENUMs") then cTagENUMs= cTagENUMs.." "..names end
 			if prop:match(".cTagOthers") then cTagOthers =cTagOthers.." "..names end
---			if prop:match(".cTagAllTogether") then cTagAllTogether =cTagAllTogether..names end --: table formatted
+			-- if prop:match(".cTagAllTogether") then cTagAllTogether =cTagAllTogether..names end --: table formatted
 		end
---		cTagList=cTagAllTogether
+		--cTagList=cTagAllTogether
 		cTagList={}
-
+		
 		-- Write dynamically created Project SDK to Scites Config.
 		projectEXT=props["file.patterns.project"]
 		props["substylewords.11.15."..projectEXT] = cTagOthers
@@ -104,7 +103,7 @@ function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 		props["substylewords.11.18."..projectEXT] = cTagModules
 		props["substylewords.11.19."..projectEXT] = cTagENUMs
 		props["substylewords.11.20."..projectEXT] = cTagClasses
-		
+
 		-- Same for User Provided Platform SDK
 		props["substylewords.11.10."..projectEXT] = props["sdk.tags.cTagNames"]
 		if props["sdk.tags.cTagFunctionsEx"]~="" then
@@ -116,7 +115,8 @@ function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 		props["substylewords.11.13."..projectEXT] = props["sdk.tags.cTagENUMs"]
 		props["substylewords.11.14."..projectEXT] = props["sdk.tags.cTagClasses"]		
 	end
-
+	--print(props["substylewords.11.14."..projectEXT] )
+	
 	return cTagList
 end
 
@@ -126,8 +126,9 @@ end
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
-	local origApiPath, projectPlatApiPath, projectApiPath
-
+	local origApiPath, projectPlatApiPath, projectApiPath,updated
+	
+	if  cTagList then return end --Already done ?
 	ProjectSetEnv(false)
 	if props["project.path"]=="" then return end
 	if not fileNamePath or fileNamePath=="" then fileNamePath=props["project.ctags.propspath"] end
@@ -143,7 +144,7 @@ function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 		if not origApiPath:match(projectPlatApiPath) then projectApiPath=projectApiPath..";"..projectPlatApiPath end
 		props["api."..props["file.patterns.project"]] =origApiPath..";"..projectApiPath
 	end
-	
+
 	-- parse projects properties files
 	CTagsWriteProps(theForceMightBeWithYou,fileNamePath)
 	-- write user supplied library Api
@@ -151,11 +152,12 @@ function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 	projectLibPath:gsub("[^;]+", function(lib) -- For each in ;-delimited list.	
 		if lib~="" then CTagsWriteProps(true,lib) end
 	end)
-	
+
+	-- Do we want to detect changed Styles and apply them onSwitch ?
 	-- Define the Styles for cTag types
 	local currentLexer=props["Language"]
 	props["substyles."..currentLexer..".11"]=20
-	
+
 	-- User Provided platformSDK (eg MinGW)
 	props["style."..currentLexer..".11.10"]=props["colour.project.constants"]
 	props["style."..currentLexer..".11.11"]=props["colour.project.functions"]
@@ -172,7 +174,6 @@ function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 
 	--apply themeing changes and changed keywords.
 	scite.ApplyProperties()
-	 
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~
