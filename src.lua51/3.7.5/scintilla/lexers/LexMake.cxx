@@ -37,7 +37,13 @@
 #include "LexerModule.h"
 
 // Some Files simply dont use LF/CRLF. So use a quarter Megabyte as a max.
+#if not defined(LEXMAKE_MAX_LINELEN)
 #define LEXMAKE_MAX_LINELEN  262140
+#endif
+#if defined(LEX_MAX_LINELEN)
+#define LEXMAKE_MAX_LINELEN  LEX_MAX_LINELEN
+#endif
+
 
 #ifdef SCI_NAMESPACE
 using namespace Scintilla;

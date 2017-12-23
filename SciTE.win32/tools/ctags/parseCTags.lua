@@ -14,7 +14,6 @@ local cTagClass=""
 local cTagModules =""
 local cTagENUMs=""
 local cTagOthers=""
-local cTagDupes=""
 local cTagAllTogether="{"
 local fs=io
 
@@ -123,7 +122,6 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
             if not smallerFile and not skipper then
                 if entry:match("%\"\t[geust]") then
                     name= entry:match("([%w_]+)") or ""
-                    cTagItems=cTagItems..","..name.."=true"
                     isENUM=true
                     skipper=true
                 end   
@@ -138,7 +136,7 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
                     isOther=true;
                 end
             end
-            -- publish collected Data (dupe Checked). Prefer the className over the functionName  
+            -- publish collected Data. (Dupe checked) Prefer the className over the functionName  
              if name and name..params~=lastEntry and not isfunction then  
                 ----  Highlitening use String concatination, because its faster for onSave ( theres no dupe checking.)
                 if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
@@ -157,15 +155,12 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
                 -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=name..params
                 if isFunction and string.len(params)>2 then  -- Optionally Filter internals and COM Objects
-                    if  smallerFile  and (lastEntry:match("^(_)") and lastEntry:match("_Proxy") or lastEntry:match("_Stub") or lastEntry:match("Vtbl")   ) then
+                    if  smallerFile and (lastEntry:match("^(_)") and lastEntry:match("_Proxy") or lastEntry:match("_Stub") or lastEntry:match("Vtbl")   ) then
                          entry=""
                         else
                         io.write(lastEntry.."\n")  
                    end
                 end -- faster then using a full bulkWrite?!
-            else
-                if DEBUG then cTagDupes= cTagDupes..cTagOther  end -- include Dupes for stats in Trace mode
-                if DEBUG==2 then print("Dupe: "..entry) end 
             end
         end
         ---- AutoComplete List entries
@@ -211,15 +206,49 @@ function writeProps(projectName, projectFilePath)
         print("> cTagModules: ("..string.len(cTagModules).." bytes)" )
         print("> cTagClass: ("..string.len(cTagClass).." bytes)" )
         print("> cTagOthers: ("..string.len(cTagOthers).." bytes)" )
-        print("> cTagDupes: ("..string.len(cTagDupes).." bytes)" )
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--DeDupeAPI() 
+--Removes Dupes by storing entries as TableKeys
+--
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
--- create a lock file
+function DeDupeAPI(APIFilePath)
+nameTable={}
+outline=""
+print("> deDupeing.."..APIFilePath)
+
+    for entry in io.lines(APIFilePath) do
+        name =entry:match("^([%w_]+)")
+        params=entry:match("[%w_]+(%(.*%))")
+        retval=entry:match("%)(.*)")
+        if not params then params="()" end
+        if not retval then retval="()" end
+
+        if name then nameTable[name..params]=retval end
+    end
+
+    -- Store the Result
+    ResultFile=io.open(APIFilePath,"w")
+    ResultFile= io.output(APIFilePath)
+    io.output(APIFilePath) 
+    for key,val in pairs(nameTable) do
+    io.write(key..val.."\n")
+    end
+
+    io.close(ResultFile)
+ --   os.remove(APIFilePath)
+   -- os.rename("ResultFile",APIFilePath)
+
+end
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+APIFilePath=projectFilePath..cTagsFileName..".api"
 finFileNamePath=os.getenv("tmp")..dirSep().."project.ctags.fin"
 lockFileNamePath=os.getenv("tmp")..dirSep().."project.ctags.lock"
 
+-- create a lock file
 os.remove(finFileNamePath)
 lockFile=io.open(lockFileNamePath,"w")
 lockFile= io.output(lockFileNamePath)
@@ -229,6 +258,12 @@ io.close(lockFile)
 
 -- do!
 appendCTags({},projectFilePath,cTagsFileName,projectName)
+if file_exists(APIFilePath) then
+    DeDupeAPI(APIFilePath) 
+    print("> FIN!")
+else
+    print("> Error: "..APIFilePath.." was not found")
+end
 
 -- create the fin file
 os.remove(lockFileNamePath)
