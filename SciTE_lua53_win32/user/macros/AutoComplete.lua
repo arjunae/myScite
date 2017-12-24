@@ -60,7 +60,7 @@ local IGNORE_STYLES = { -- Should include comments, strings and errors.
 -- Names from api files, stored by lexer name.
 local apiCache = {} 
 -- Number of chars to type before the autocomplete list appears:
-local MIN_PREFIX_LEN = 3
+local MIN_PREFIX_LEN = 2
 -- Length of shortest word to add to the autocomplete list:
 local MIN_IDENTIFIER_LEN = 3
 -- List of regex patterns for finding suggestions for the autocomplete menu:

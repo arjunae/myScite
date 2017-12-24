@@ -1,0 +1,20 @@
+diff -Nurw scite/src/SciTEBase.cxx scite_m/src/SciTEBase.cxx
+--- scite/src/SciTEBase.cxx	2017-05-26 00:25:04.000000000 +0200
++++ scite_m/src/SciTEBase.cxx	2017-12-24 20:18:42.000000000 +0100
+@@ -2289,7 +2290,15 @@
+ 	const int eolMode = wEditor.Call(SCI_GETEOLMODE);
+ 	ps.Set("EOLMode", eolMode == SC_EOL_CRLF ? "CR+LF" : (eolMode == SC_EOL_LF ? "LF" : "CR"));
+ 
+-	ps.SetInteger("BufferLength", LengthDocument());
++	const unsigned int bufferLength= LengthDocument();
++	ps.SetInteger("BufferLength", bufferLength);
++	props.SetInteger("BufferLength",  bufferLength);
++	
++	const unsigned int forceLexNullSize=props.GetInt("force.lexnull.size",10000000);
++	if (bufferLength>forceLexNullSize){
++		wEditor.Call(SCI_SETLEXER, SCLEX_NULL);
++		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
++	}
+ 
+ 	ps.SetInteger("NbOfLines", wEditor.Call(SCI_GETLINECOUNT));
+ 

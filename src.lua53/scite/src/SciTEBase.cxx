@@ -2290,8 +2290,15 @@ void SciTEBase::SetTextProperties(
 	const int eolMode = wEditor.Call(SCI_GETEOLMODE);
 	ps.Set("EOLMode", eolMode == SC_EOL_CRLF ? "CR+LF" : (eolMode == SC_EOL_LF ? "LF" : "CR"));
 
-	ps.SetInteger("BufferLength", LengthDocument());
-	props.SetInteger("BufferLength",  LengthDocument());
+	const unsigned int bufferLength= LengthDocument();
+	ps.SetInteger("BufferLength", bufferLength);
+	props.SetInteger("BufferLength",  bufferLength);
+	
+	const unsigned int forceLexNullSize=props.GetInt("force.lexnull.size",10000000);
+	if (bufferLength>forceLexNullSize){
+		wEditor.Call(SCI_SETLEXER, SCLEX_NULL);
+		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
+	}
 	
 	ps.SetInteger("NbOfLines", wEditor.Call(SCI_GETLINECOUNT));
 
