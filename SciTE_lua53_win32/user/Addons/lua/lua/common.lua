@@ -10,7 +10,43 @@ local find = string.find
 -- Custom Common Functions --
 ------------------------------------------
 
---line information functions --
+function fileHash(fileName)
+--
+-- quickCheck SciLexer.dll's CRC32 Hash and inform the User if its a nonStock Version. 
+--
+	local CRChash=""
+	if fileName~="" then
+		local C32 = require 'crc32'
+		local crc32=C32.crc32
+		local crccalc = C32.newcrc32()
+		local crccalc_mt = getmetatable(crccalc)
+
+		assert(crccalc_mt.reset) -- reset to zero
+		-- crc32 was made for eating strings...:)
+		local file,err = assert(io.open (fileName, "r"))
+		if err then return end
+		while true do
+			local bytes = file:read(8192)
+			if not bytes then break end
+			crccalc:update(bytes)
+		end	
+		file:close()
+		CRChash=crccalc:tohex()
+		file=nil crccalc_mt=nil crccalc=nil crc32=nil C32=nil
+	end
+
+	return CRChash
+end
+
+--check once per session
+local SLHash
+if not SLHash then SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
+	if SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
+end
+
+ --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ --line information functions --
 
 function current_line()
 	return editor:LineFromPosition(editor.CurrentPos)

@@ -1056,7 +1056,7 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 	wEditor.Call(SCI_SETTABINDENTS, props.GetInt("tab.indents", 1));
 	wEditor.Call(SCI_SETBACKSPACEUNINDENTS, props.GetInt("backspace.unindents", 1));
 
-	wEditor.Call(SCI_CALLTIPUSESTYLE, 32);
+	wEditor.Call(SCI_CALLTIPUSESTYLE, 38);
 
 	indentOpening = props.GetInt("indent.opening");
 	indentClosing = props.GetInt("indent.closing");

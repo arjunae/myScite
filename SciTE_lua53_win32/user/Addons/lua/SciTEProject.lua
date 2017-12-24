@@ -128,7 +128,8 @@ end
 function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 	local origApiPath, projectLibApiPath, projectApiPath
 	
-	if  cTagList then return end --Already done ?
+	if cTagList then return end --Already done ?
+	ProjectSetEnv(false)
 	if props["project.path"]=="" then return end
 	if not fileNamePath or fileNamePath=="" then fileNamePath=props["project.ctags.propspath"] end
 	

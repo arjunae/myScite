@@ -1,4 +1,3 @@
-
 --
 -- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
 --
@@ -18,8 +17,8 @@ local unpack = table.unpack or unpack
 math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
-
 --~~~~~~~~~~~~~
+
 -- track the amount of lua allocated memory
 _G.session_used_memory=collectgarbage("count")*1024
 	
@@ -141,7 +140,7 @@ function markGUID()
 
 	local marker_guid=14 -- The whole Textlink
 	editor.IndicStyle[marker_guid] = INDIC_TEXTFORE
-	editor.IndicFore[marker_guid] = 0x577785
+	editor.IndicFore[marker_guid] = 0x676020
 -- Scintillas RESearch.cxx doesnt support match counting, so just define the basic guid format:
 	mask = "........-\\w\\w\\w\\w-\\w\\w\\w\\w-\\w\\w\\w\\w-............"
 	if editor.Lexer~=1 then -- Performance: Exclude Null Lexer	
@@ -160,42 +159,14 @@ function StyleStuff()
 --- highlite http and eMail links and GUIDs
 ---
 	local AC_MAX_SIZE =131072 --131kB
-	-- This Operation is cheap but not very fast. So cache the results.
-	if props["FileName"] ~="" and not buffer.size then buffer.size= file_size(props["FilePath"]) end
+
+	if buffer then buffer.size=tonumber(props["BufferLength"]) end
 	if buffer.size and buffer.size < AC_MAX_SIZE then 
-		scite_OnOpenSwitch(markLinks)
-		scite_OnOpenSwitch(markeMail)
-		scite_OnOpenSwitch(markGUID)
-	else
-	props["find.strip.incremental"]=1
-	props["highlight.current.word"]=0
+		markLinks()
+		markeMail()
+		markGUID()
 	end
-
-end
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-function TestSciLexer(origHash)
---
--- quickCheck SciLexer.dll's CRC32 Hash and inform the User if its a nonStock Version. 
---
-
-	local C32 = require 'crc32'
-	local crc32=C32.crc32
-	local crccalc = C32.newcrc32()
-	local crccalc_mt = getmetatable(crccalc)
-
-	assert(crccalc_mt.reset) -- reset to zero
-	-- crc32 was made for eating strings...:)
-	local file,err = assert(io.open (defaultHome.."\\".."SciLexer.dll", "r"))
-	while true do
-		local bytes = file:read(8192)
-		if not bytes then break end
-		crccalc:update(bytes)
-	end	
-	file:close()
-	SciLexerHash=crccalc:tohex()
-	file=nil crccalc_mt=nil crccalc=nil crc32=nil C32=nil
-	if SciLexerHash~=origHash then print("SciteStartup.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SciLexerHash) end
+	
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -203,21 +174,17 @@ function OnInit()
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
-	
-	TestSciLexer("3911317b") -- SciLexers CRC32 Hash for the current Version
-	
+
 	-- Event Handlers
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
 	scite_OnSave(CTagsRecreate)
 	scite_OnOpenSwitch(StyleStuff)
-
+	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
-end
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
 --print(props["Path"])
 
+end
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

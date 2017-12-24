@@ -256,8 +256,8 @@ void ScintillaBase::AutoCompleteStart(int lenEntered, const char *list) {
 	}
 	
 	bool useThickFrame=false; // change to test  .todo: Make user settable 
-	int acStyle = ( vs.styles[STYLE_USERLIST].size > 0) ? STYLE_USERLIST : STYLE_DEFAULT;
-
+	int acStyle = ( vs.styles[STYLE_CALLTIP].size > 0) ? STYLE_CALLTIP : STYLE_DEFAULT;
+	ac.SetForeBack(vs.styles[acStyle].fore, vs.styles[acStyle].back);
 	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
 				lenEntered, vs.HeightFromStyle(vs.styles[acStyle]), IsUnicodeMode(), technology, useThickFrame);
 
@@ -295,7 +295,7 @@ void ScintillaBase::AutoCompleteStart(int lenEntered, const char *list) {
 	rcac.bottom = static_cast<XYPOSITION>(std::min(static_cast<int>(rcac.top) + heightLB, static_cast<int>(rcPopupBounds.bottom)));
 	ac.lb->SetPositionRelative(rcac, wMain);
 	ac.lb->SetFont(vs.styles[acStyle].font);
-	ac.SetForeBack(vs.styles[acStyle].fore, vs.styles[acStyle].back);
+
 
 	unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[acStyle].aveCharWidth);
 	ac.lb->SetAverageCharWidth(aveCharWidth);

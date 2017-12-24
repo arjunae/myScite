@@ -2291,7 +2291,8 @@ void SciTEBase::SetTextProperties(
 	ps.Set("EOLMode", eolMode == SC_EOL_CRLF ? "CR+LF" : (eolMode == SC_EOL_LF ? "LF" : "CR"));
 
 	ps.SetInteger("BufferLength", LengthDocument());
-
+	props.SetInteger("BufferLength",  LengthDocument());
+	
 	ps.SetInteger("NbOfLines", wEditor.Call(SCI_GETLINECOUNT));
 
 	const Sci_CharacterRange crange = GetSelection();
