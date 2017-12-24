@@ -5,6 +5,7 @@
 -- (3) first generalized version
 
 require "lfs" --chdir
+scite_require 'marker_indic.lua'
 
 local GTK = scite_GetProp('PLAT_GTK')
 local stripText = ''
@@ -32,8 +33,6 @@ scite_Command {
 --	  'Up|do_up|Alt+U',
 --	  'Down|do_down|Alt+D',
 }
-	
-scite_require 'extlib.lua'
 
 local lua_prompt = '(lua)'
 local prompt
@@ -48,6 +47,48 @@ local last_breakpoint
 local traced
 local dbg
 local catdbg
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+local GTK = scite_GetProp('PLAT_GTK')
+local dirSep,dirsep
+
+if GTK then
+	dirSep = '/'
+	dirsep = '/'
+else
+	dirSep = '\\'
+	dirsep='\\'
+end
+
+local function at (s,i)
+    return s:sub(i,i)
+end
+
+--- note: for finding the last occurance of a character, it's actualy
+--- easier to do it in an explicit loop rather than use patterns.
+--- (These are not time-critcal functions)
+function split_last (s,ch)
+    local i = #s
+    while i > 0 do
+        if at(s,i) == ch then
+            return s:sub(i+1),i
+        end
+        i = i - 1
+    end
+end
+
+function choose(cond,x,y)
+	if cond then return x else return y end
+end
+
+
+function join(path,part1,part2)
+	local res = path..dirsep..part1
+    if part2 then return res..dirsep..part2 else return res end
+end
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 function dbg_last_command()
@@ -395,7 +436,7 @@ function do_run()
 	-- Arjunea Fix lua5.3.4
 		if not (props['debug.asktarget']=='' or props['debug.asktarget'] == '0') and (#stripText == 0 ) then
 				scite.StripShow("") -- clear strip
-				scite.StripShow("!'/todo: rewrite extlib.lua/ Target name:'["..props['FilePath'].."]((OK))(&Cancel)")
+				scite.StripShow("!'/todo: rewrite.../ Target name:'["..props['FilePath'].."]((OK))(&Cancel)")
 				return
 		end
 			lfs.chdir(props['FileDir']) 
@@ -665,7 +706,7 @@ function do_launch()
 			target = target:sub(4)
 			no_host_symbols = true
 		end
-        ext = extension_of(target)
+        ext = split_last(target,'.') --File Ext
     else
         ext = props['FileExt']
     end

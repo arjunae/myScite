@@ -160,9 +160,9 @@ function StyleStuff()
 --- highlite http and eMail links and GUIDs
 ---
 	local AC_MAX_SIZE =131072 --131kB
-	local fSize =0
-	if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
-	if fSize < AC_MAX_SIZE then 
+	-- This Operation is cheap but not very fast. So cache the results.
+	if props["FileName"] ~="" and not buffer.size then buffer.size= file_size(props["FilePath"]) end
+	if buffer.size and buffer.size < AC_MAX_SIZE then  
 		scite_OnOpenSwitch(markLinks)
 		scite_OnOpenSwitch(markeMail)
 		scite_OnOpenSwitch(markGUID)
@@ -170,6 +170,7 @@ function StyleStuff()
 	props["find.strip.incremental"]=1
 	props["highlight.current.word"]=0
 	end
+
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -203,7 +204,7 @@ function OnInit()
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 	
-	TestSciLexer("5d76aa3e") -- SciLexers CRC32 Hash for the current Version
+	TestSciLexer("714ab4ce") -- SciLexers CRC32 Hash for the current Version
 	
 	-- Event Handlers
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
@@ -219,3 +220,4 @@ end
 --print("startupScript_reload")
 --print(editor.StyleAt[1])
 --print(props["Path"])
+

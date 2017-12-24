@@ -2,21 +2,69 @@
 
 -- For charset_iconv:
 -- require 'iconv'
+local sub = string.sub
+local append = table.insert
+local find = string.find
 
 ------------------------------------------
 -- Custom Common Functions --
 ------------------------------------------
 
---
--- Deal with different Path Separators o linux/win
---
-local function dirSep()
-if props["PLAT_WIN"] then
-    return("\\")
-else
-    return("/")
+--line information functions --
+
+function current_line()
+	return editor:LineFromPosition(editor.CurrentPos)
 end
+
+function current_output_line()
+	return output:LineFromPosition(output.CurrentPos)
 end
+
+function current_pos()
+	return editor.CurrentPos
+end
+
+-- start position of the given line; defaults to start of current line
+function start_line_position(line)
+	if not line then line = current_line() end
+	return editor.LineEndPosition[line]
+end
+
+-- what is the word directly behind the cursor?
+-- returns the word and its position.
+function word_at_cursor()
+	local pos = editor.CurrentPos
+	local line_start = start_line_position()
+	-- look backwards to find the first non-word character!
+	local p1,p2 = editor:findtext(NOT_WORD_PATTERN,SCFIND_REGEXP,pos,line_start)
+	if p1 then
+		return editor:textrange(p2,pos),p2
+	end
+end
+
+-- this centers the cursor position
+-- easy enough to make it optional!
+function center_line(line)
+	if not line then line = current_line() end
+	local top = editor.FirstVisibleLine
+	local middle = top + editor.LinesOnScreen/2
+	editor:LineScroll(0,line - middle)
+end
+
+
+-- allows you to use standard HTML '#RRGGBB' colours;
+function colour_parse(str)
+	-- Wo for nil value
+	if str == nil then str ="#AAFFAA" end
+	return tonumber(sub(str,6,7)..sub(str,4,5)..sub(str,2,4),16)
+end
+
+
+function rtrim(s)
+    return string.gsub(s,'%s*$','')
+end
+
+
 
 --------------------------
 -- returns the size of a given file.

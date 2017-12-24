@@ -162,7 +162,7 @@ function StyleStuff()
 	local AC_MAX_SIZE =131072 --131kB
 	-- This Operation is cheap but not very fast. So cache the results.
 	if props["FileName"] ~="" and not buffer.size then buffer.size= file_size(props["FilePath"]) end
-	if buffer.size < AC_MAX_SIZE then 
+	if buffer.size and buffer.size < AC_MAX_SIZE then 
 		scite_OnOpenSwitch(markLinks)
 		scite_OnOpenSwitch(markeMail)
 		scite_OnOpenSwitch(markGUID)
@@ -204,7 +204,7 @@ function OnInit()
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 	
-	TestSciLexer("5fb35c44") -- SciLexers CRC32 Hash for the current Version
+	TestSciLexer("57c82617") -- SciLexers CRC32 Hash for the current Version
 	
 	-- Event Handlers
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")

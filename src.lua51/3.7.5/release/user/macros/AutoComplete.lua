@@ -3,7 +3,7 @@
 -- AutoComplete by Lexikos. Updates 2017 by Marcedo
 -- Version: 0.9
 -- 12.07.17 - Sanity checks for SciTE.
--- 29.11.17 - Documentation, Performance Tweaks and appendCTags 
+-- 29.11.17 - Documentation, Performance Tweaks
 
 --[[
 Tested on SciTE4AutoHotkey 3.0.06.01; may also work on SciTE 3.1.0 or later.
@@ -19,10 +19,6 @@ To use this script with SciTE4AutoHotkey:
     Use a FileSize maximum; 
     Only regenerate Data on changed File
     Renew Keyword List OnDwell
-- appendCTags() function (Autocomplete / Project)   
-    "project.ctags.propspath" has to be set to an existing file.
-    when available, it will call CTagsUpdateProps()
-    which hands a flat table containing ctagnames
 ]]
 
 local DEBUG=0 --1: Trace Mode 2: Verbose Mode
@@ -61,27 +57,26 @@ local IGNORE_STYLES = { -- Should include comments, strings and errors.
     [SCLEX_GENERIC]  = {1,2,3,6,7,8}
 }
 
-local INCREMENTAL = true
-local IGNORE_CASE = false
-local CASE_CORRECT = true
-local CASE_CORRECT_INSTANT = false
-local WRAP_ARROW_KEYS = false
-local CHOOSE_SINGLE = props["autocomplete.choose.single"]
-
 -- Names from api files, stored by lexer name.
 local apiCache = {} 
 -- Number of chars to type before the autocomplete list appears:
-local MIN_PREFIX_LEN = 1
+local MIN_PREFIX_LEN = 3
 -- Length of shortest word to add to the autocomplete list:
 local MIN_IDENTIFIER_LEN = 3
 -- List of regex patterns for finding suggestions for the autocomplete menu:
 local IDENTIFIER_PATTERNS = {"[a-z_][a-z_0-9]+"}
 -- Override settings that interfere with this script:
 props["autocomplete.start.characters"] = ""
-props["autocomplete.start.characters"] = ""
-
 -- This feature is very awkward when combined with automatic popups:
 props["autocomplete.choose.single"] = "0"
+
+local INCREMENTAL = true
+local IGNORE_CASE = false
+local CASE_CORRECT = true
+local CASE_CORRECT_INSTANT = false
+local WRAP_ARROW_KEYS = false
+local CHOOSE_SINGLE = props["autocomplete.choose.single"]
+local MENUITEMS_MAX=100 --Anyone really scrolls further ? 
 
 --~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -151,33 +146,6 @@ local function isInTable(table, elem)
 	return false
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
---  appendCTags(apiNames,cTagsFilePath)
---  Optionally use Ctags to Fill up the completition list        
---
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-function appendCTags(apiNames,cTagsFilePath)
-
-    if props["project.ctags.propspath"]=="" then return apiNames end
-
-    -- Append Once to filetypes api path
-    if type(CTagsUpdateProps)=="function" then
-        local fileNamePath= (props["project.ctags.propspath"])
-           apiNames = CTagsUpdateProps(true,fileNamePath)
-            if DEBUG==2 then
-                    for name in pairs(apiNames) do
-                        names=names..name 
-                    end
-                    --print("CTAGNames:",names)
-            end
-    end
-   
-    return apiNames -- cTagsUpdate=0 so already done.  Using the cached Version 
-
-end
-
 --
 -- Disable collection of words in comments, strings, etc.
 -- Also disables autocomplete popups while typing there.
@@ -227,7 +195,6 @@ if DEBUG>=1 then print("ac>getApiNames", apiFiles) end
         return ""
     end)
     
-    apiNames= appendCTags(apiNames,cTagsFilePath,true)
     if not apiNames then apiNames={} end
     
     if lexer~=nil then
@@ -252,15 +219,25 @@ local function buildNames()
     local LexerName= props["Language"]
         
     if LexerName~="" and buffer.dirty==true then 
-      if props["FileName"] ~="" then fSize= file_size(props["FilePath"]) end
-      if fSize > AC_MAX_SIZE then  return end
+    if buffer.size and buffer.size > AC_MAX_SIZE then  return end
       
- if DEBUG>=1 then  print("ac>buildnames") end
+    if DEBUG>=1 then  print("ac>buildnames") end
         setLexerSpecificStuff()
         -- Reset our array of names.
         names = {}
         -- Collect all words matching the given patterns.
         local unique = {}
+
+        -- Initialisation: Build an ordered array from the Api files entries 
+        if #unique==0 then
+            for name in pairs(getApiNames()) do
+                unique[normalize(name)] = name
+            end
+        end
+        
+        --Handling "BigData" can be time intensive, so only do that when its neccesary.
+        if not buffer.size then return end
+ 
         for i, pattern in ipairs(IDENTIFIER_PATTERNS) do
             local startPos, endPos
             endPos = 0
@@ -269,29 +246,22 @@ local function buildNames()
                 if not startPos then
                     break
                 end
-                
                 if not shouldIgnorePos(startPos) then
                     if endPos-startPos+1 >= MIN_IDENTIFIER_LEN then
                         -- Create one key-value pair per unique word:
                         local name = editor:textrange(startPos, endPos)
-                        unique[normalize(name)] = name
+                            -- This also "case-corrects"; e.g. "gui" -> "Gui"
+                         unique[normalize(name)] = name
                     end
                 end
             end
         end
-        -- Build an ordered array from the table of names.
-        for name in pairs(getApiNames()) do
-            -- This also "case-corrects"; e.g. "gui" -> "Gui"
-            unique[normalize(name)] = name
-        end
-        
-        for _,name in pairs(unique) do
-            table.insert(names, name)
-        end
-        
-        table.sort(names, function(a,b) return normalize(a) < normalize(b) end)
-        buffer.namesForAutoComplete = names -- Cache it for OnSwitchFile.
+
+        for _,name in pairs(unique) do table.insert(names, name) end     
+        table.sort(names, function(a,b) return normalize(a) < normalize(b) end) 
+        buffer.namesForAutoComplete = names  -- Cache it for OnSwitchFile.
         buffer.dirty=false
+ 
         --print ("ac>buildNames:  ...Created a new keywordlist")   
     end
 end
@@ -339,12 +309,11 @@ local function handleChar(char, calledByHotkey)
     end
 
     local prefix = normalize(editor:textrange(startPos, pos))       
-
     menuItems = {}
     for i, name in ipairs(names) do
         local s = normalize(string.sub(name, 1, len))
         if s >= prefix then
-            if s == prefix then 
+            if s == prefix and #menuItems<=MENUITEMS_MAX then            
                 table.insert(menuItems, name)
             else
                 break -- There will be no more matches.
@@ -357,7 +326,7 @@ local function handleChar(char, calledByHotkey)
         editor.AutoCIgnoreCase = IGNORE_CASE
         editor.AutoCCaseInsensitiveBehaviour = 1 -- Do NOT pre-select a case-sensitive match
         editor.AutoCSeparator = 1
-        editor.AutoCMaxHeight = 11
+        editor.AutoCMaxHeight = 6
         editor:AutoCShow(len, list)
         -- Check if we should auto-auto-complete.
         if normalize(menuItems[1]) == prefix and not calledByHotkey then
@@ -436,7 +405,7 @@ local function handleKey(key, shift, ctrl, alt)
                 return true
             end
             -- Cancel the list and let the caret move down.
-            editor:AutoCCancel()
+            --editor:AutoCCancel()
         end
     elseif key == 0x5A and ctrl then -- ^z
         editor:AutoCCancel()

@@ -1688,7 +1688,7 @@ bool SciTEBase::StartAutoComplete() {
 		std::string words = GetNearestWords(root.c_str(), root.length(),
 			calltipParametersStart.c_str(), autoCompleteIgnoreCase);
 		// Show list on x typed chars (root.length() >0) 
-			if (words.length() && root.length() ) { 
+			if (words.length() && root.length()>1 ) { 
 			EliminateDuplicateWords(words);
 			wEditor.Call(SCI_AUTOCSETSEPARATOR, ' ');
 			wEditor.CallString(SCI_AUTOCSHOW, root.length(), words.c_str());

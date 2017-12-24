@@ -57,27 +57,26 @@ local IGNORE_STYLES = { -- Should include comments, strings and errors.
     [SCLEX_GENERIC]  = {1,2,3,6,7,8}
 }
 
-local INCREMENTAL = true
-local IGNORE_CASE = false
-local CASE_CORRECT = true
-local CASE_CORRECT_INSTANT = false
-local WRAP_ARROW_KEYS = false
-local CHOOSE_SINGLE = props["autocomplete.choose.single"]
-
 -- Names from api files, stored by lexer name.
 local apiCache = {} 
 -- Number of chars to type before the autocomplete list appears:
-local MIN_PREFIX_LEN = 2
+local MIN_PREFIX_LEN = 3
 -- Length of shortest word to add to the autocomplete list:
 local MIN_IDENTIFIER_LEN = 3
 -- List of regex patterns for finding suggestions for the autocomplete menu:
 local IDENTIFIER_PATTERNS = {"[a-z_][a-z_0-9]+"}
 -- Override settings that interfere with this script:
 props["autocomplete.start.characters"] = ""
-props["autocomplete.start.characters"] = ""
-
 -- This feature is very awkward when combined with automatic popups:
 props["autocomplete.choose.single"] = "0"
+
+local INCREMENTAL = true
+local IGNORE_CASE = false
+local CASE_CORRECT = true
+local CASE_CORRECT_INSTANT = false
+local WRAP_ARROW_KEYS = false
+local CHOOSE_SINGLE = props["autocomplete.choose.single"]
+local MENUITEMS_MAX=100 --Anyone really scrolls further ? 
 
 --~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -228,15 +227,17 @@ local function buildNames()
         names = {}
         -- Collect all words matching the given patterns.
         local unique = {}
-        
-        -- Build an ordered array from the table of names.
-        for name in pairs(getApiNames()) do
-            unique[normalize(name)] = name
+
+        -- Initialisation: Build an ordered array from the Api files entries 
+        if #unique==0 then
+            for name in pairs(getApiNames()) do
+                unique[normalize(name)] = name
+            end
         end
         
-        --Handling BigData can be time intensive, so only do that when the file has been finally loaded.
+        --Handling "BigData" can be time intensive, so only do that when its neccesary.
         if not buffer.size then return end
-        
+ 
         for i, pattern in ipairs(IDENTIFIER_PATTERNS) do
             local startPos, endPos
             endPos = 0
@@ -308,12 +309,11 @@ local function handleChar(char, calledByHotkey)
     end
 
     local prefix = normalize(editor:textrange(startPos, pos))       
-
     menuItems = {}
     for i, name in ipairs(names) do
         local s = normalize(string.sub(name, 1, len))
         if s >= prefix then
-            if s == prefix then 
+            if s == prefix and #menuItems<=MENUITEMS_MAX then            
                 table.insert(menuItems, name)
             else
                 break -- There will be no more matches.
@@ -326,7 +326,7 @@ local function handleChar(char, calledByHotkey)
         editor.AutoCIgnoreCase = IGNORE_CASE
         editor.AutoCCaseInsensitiveBehaviour = 1 -- Do NOT pre-select a case-sensitive match
         editor.AutoCSeparator = 1
-        editor.AutoCMaxHeight = 11
+        editor.AutoCMaxHeight = 6
         editor:AutoCShow(len, list)
         -- Check if we should auto-auto-complete.
         if normalize(menuItems[1]) == prefix and not calledByHotkey then
