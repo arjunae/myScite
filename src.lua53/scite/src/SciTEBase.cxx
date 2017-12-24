@@ -2294,7 +2294,7 @@ void SciTEBase::SetTextProperties(
 	ps.SetInteger("BufferLength", bufferLength);
 	props.SetInteger("BufferLength",  bufferLength);
 	
-	const unsigned int forceLexNullSize=props.GetInt("force.lexnull.size",10000000);
+	const unsigned int forceLexNullSize=props.GetInt("max.style.size",10000000);
 	if (bufferLength>forceLexNullSize){
 		wEditor.Call(SCI_SETLEXER, SCLEX_NULL);
 		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
