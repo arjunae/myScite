@@ -4,7 +4,7 @@
 -- (1) debug.backtrace.depth will configure depth of stack frame dump (default is 20)
 -- (3) first generalized version
 
-require "lfs" --chdir
+if lfs==nil then err,lfs = pcall( require,"lfs")  end --chdir
 scite_require 'marker_indic.lua'
 
 local GTK = scite_GetProp('PLAT_GTK')
@@ -165,10 +165,14 @@ function edit(f)
 end
 
 
-function cd(path)
- --  os.chdir(path)
- lfs.chdir(path)
+function cd(path) 
+	if lfs then
+		lfs.chdir(path)
+	else
+		os.chdir(path)
+	end
 end
+
 
 function eval_lua(line)
     if sub(line,1,1) == '=' then
@@ -439,7 +443,7 @@ function do_run()
 				scite.StripShow("!'/todo: rewrite.../ Target name:'["..props['FilePath'].."]((OK))(&Cancel)")
 				return
 		end
-			lfs.chdir(props['FileDir']) 
+			if lfs then lfs.chdir(props['FileDir']) else os.chdir(props['FileDir'])	end
 		if	do_launch() then
 			set_status('running')
 		else

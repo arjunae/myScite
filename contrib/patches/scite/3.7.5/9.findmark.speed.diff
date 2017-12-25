@@ -1,4 +1,4 @@
-///@brief allow findmarks to respond more quickly (from 250ms to 150ms)
+///@brief Allow findmarks to respond more quickly (from 250ms to 150ms)
 diff -Nurw scintilla-scite/src/MatchMarker.cxx scite/src/MatchMarker.cxx
 --- scintilla-scite/src/MatchMarker.cxx	2017-05-26 00:25:04.000000000 +0200
 +++ scite/src/MatchMarker.cxx	2017-11-14 15:41:30.000000000 +0100

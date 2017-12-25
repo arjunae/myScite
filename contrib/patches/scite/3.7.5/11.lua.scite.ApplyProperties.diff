@@ -1,4 +1,4 @@
-// Implements luaExtension: scite.ApplyProperties, Applies Extender changed props OnLoad and OnSave
+// Implements luaExtension: scite.ApplyProperties. Applies Extender changed props OnLoad and OnSave
 diff -Nurw scite/src/Extender.h scite_m/src/Extender.h
 --- scite/src/Extender.h	2017-05-26 00:25:02.000000000 +0200
 +++ scite_m/src/Extender.h	2017-12-15 09:11:26.000000000 +0100

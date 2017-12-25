@@ -364,13 +364,13 @@ static unsigned int ColouriseMakeLine(
 		}
 		
 		/// Operators..
-		if (state==SCE_MAKE_DEFAULT && strchr("!?&|+[]<>;:=", (int)chCurr) != NULL && stylerPos < currentPos) {
+		if (state==SCE_MAKE_DEFAULT && strchr("!?&|+[]<>;:=", (int)chCurr) != NULL && stylerPos <= currentPos) {
 			ColourHere(styler, currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_OPERATOR, state);
 		}
-	
-		/// Numbers; _very_ simple for now.
-		if(state==SCE_MAKE_DEFAULT && startMark==0 && IsNum(chCurr) && stylerPos < currentPos)  {
+		
+		/// Digits; _very_ simple for now.
+		if(state==SCE_MAKE_DEFAULT && startMark==0 && IsNum(chCurr) && stylerPos <= currentPos)  {
 			ColourHere(styler, currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 		}

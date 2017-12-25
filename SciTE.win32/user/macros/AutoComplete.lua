@@ -113,22 +113,6 @@ local function file_exists(name)
    if f~=nil then io.close(f) return true else return false end
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
--- returns the size of a given fileNamePath.
---
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function file_size (filePath)
-    if  filePath ~=""  and filePath ~= nil then 
-        local myFile,err=io.open(filePath,"r")
-        if err then return 0 end -- todo handle filePath containing Unicode chars 
-        local size = myFile:seek("end")    -- get file size
-        myFile:close()
-        return size
-    else
-        return 0
-    end
-end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --

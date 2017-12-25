@@ -159,12 +159,15 @@ function StyleStuff()
 --- highlite http and eMail links and GUIDs
 ---
 	local AC_MAX_SIZE =131072 --131kB
+	local fSize =0
 
-	if buffer then buffer.size=tonumber(props["BufferLength"]) end
-	if buffer.size and buffer.size < AC_MAX_SIZE then 
-		markLinks()
-		markeMail()
-		markGUID()
+	if buffer and props["FilePath"]~="" then 
+		buffer.size= file_size(props["FilePath"]) 
+		if buffer.size < AC_MAX_SIZE then 
+			markLinks()
+			markeMail()
+			markGUID()
+		end
 	end
 	
 end

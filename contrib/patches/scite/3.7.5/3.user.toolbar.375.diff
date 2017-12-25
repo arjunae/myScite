@@ -1,3 +1,4 @@
+/// brief: user.toolbar from SciTE.ru patched for 64Bit.
 diff -Nurw scintilla-scite/gtk/SCITEGTK.CXX scite/gtk/SCITEGTK.CXX
 --- scintilla-scite/gtk/SciTEGTK.CXX	2017-11-08 03:35:54.000000000 +0100
 +++ scite/gtk/SciTEGTK.CXX	2017-11-08 03:33:20.000000000 +0100

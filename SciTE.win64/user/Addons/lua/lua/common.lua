@@ -1,19 +1,52 @@
 -- COMMON.lua -- 
 
--- For charset_iconv:
--- require 'iconv'
 local sub = string.sub
 local append = table.insert
 local find = string.find
+if lpeg==nil then err,lped = pcall( require,"lpeg")  end
 
 ------------------------------------------
 -- Custom Common Functions --
 ------------------------------------------
 
+--------------------------
+-- check if current Docs charset is Unicode using lpeg regexp 
+-- if found, switches Current docs mode to (UTF-8) 
+--------------------------
+function DetectUTF8()
+	local text = editor:GetText()
+	local cont = lpeg.R("\128\191")   -- continuation byte
+	local utf8 = lpeg.R("\0\127")^1
+			+ (lpeg.R("\194\223") * cont)^1
+			+ (lpeg.R("\224\239") * cont * cont)^1
+			+ (lpeg.R("\240\244") * cont * cont * cont)^1
+	local latin = lpeg.R("\0\127")^1
+	local searchpatt = latin^0 * utf8 ^1 * -1
+	if searchpatt:match(text) then
+		props["encoding"]="(UTF8)"
+		scite.MenuCommand(IDM_ENCODING_UCOOKIE)
+	else
+		props["encoding"]=""
+	end
+end
+
+----------------------------------
+-- Enables above UTF-8 checking via property 
+----------------------------------
+function CheckUTF()
+	if props["editor.detect.utf8"] == "1" then
+		if editor.CodePage ~= SC_CP_UTF8 then
+			DetectUTF8()
+		end
+	end
+end
+
+
+
+--------------------------
+-- quickCheck a files CRC32 Hash 
+--------------------------
 function fileHash(fileName)
---
--- quickCheck SciLexer.dll's CRC32 Hash and inform the User if its a nonStock Version. 
---
 	local CRChash=""
 	if fileName~="" then
 		local C32 = require 'crc32'
@@ -38,10 +71,30 @@ function fileHash(fileName)
 	return CRChash
 end
 
---check once per session
+-- check SciLexer once per session and inform the User if its a nonStock Version.
 local SLHash
 if not SLHash then SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
 	if SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
+end
+
+--------------------------
+-- returns the size of a given file.
+--------------------------
+function file_size (filePath)
+	if filePath ==""  then return end
+	local attr=nil size=nil
+
+	if lfs==nil then err,lfs = pcall( require,"lfs")  end
+	if type(lfs) == "table" then attr,err=lfs.attributes (filePath)  end
+	if type(attr) == "table" then size= attr.size return size end
+
+	local myFile,err=io.open(filePath,"r")
+	if not err then -- todo handle filePath containing Unicode chars 
+		size = myFile:seek("end")  
+		myFile:close() 
+	end
+
+	return size or 0
 end
 
  --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -100,46 +153,10 @@ function rtrim(s)
     return string.gsub(s,'%s*$','')
 end
 
-
-
 --------------------------
--- returns the size of a given file.
---------------------------
-function file_size (filePath)
-    if  filePath ~=""  then 
-        local myFile,err=io.open(filePath,"r")
-        local size = myFile:seek("end")    -- get file size
-        myFile:close()
-        return size
-    else
-        return 0
-    end
-	if err then print (err) end
-end
-
---------------------------
--- ????
---------------------------
-function charset_iconv(in_charset, out_charset, text)
-  local cd = iconv.new(out_charset .. "//TRANSLIT", in_charset)
-  local cd = iconv.open(in_charset, out_charset)
-  assert(cd, "Failed to create a converter object.")
-  local text_out, err = cd:iconv(text)
-
-  if err == iconv.ERROR_INCOMPLETE then
-	print("ICONV ERROR: Incomplete input.")
-  elseif err == iconv.ERROR_INVALID then
-	print("ICONV ERROR: Invalid input.")
-  elseif err == iconv.ERROR_NO_MEMORY then
-	print("ICONV ERROR: Failed to allocate memory.")
-  elseif err == iconv.ERROR_UNKNOWN then
-	print("ICONV ERROR: There was an unknown error.")
-  end
-  return text_out
-end
-
---------------------------
--- ????
+-- converts a colour to windows format, 
+-- brings up guis colour dialouge
+-- change the current doc to that colour
 --------------------------
 function edit_colour ()
 	local function get_prevch (i)
@@ -152,9 +169,8 @@ function edit_colour ()
 		return c:find('[0-9a-fA-F]')==1
 	end
 	local i = editor.CurrentPos
-	-- let's find the extents of this colour field...
+	-- let's find the start of this colour field...
 	local ch = get_prevch(i)
-	-- ?????????
 	while i > 0 and ch ~= '#' and hexdigit(get_prevch(i)) do
 		i = i - 1
 		--ch = get_prevch(i)
@@ -168,7 +184,7 @@ function edit_colour ()
 	if get_nextch(i) == '#' then
 		i = i+1
 	end
-	--????????
+	-- let's find the end of this colour field...
 	while hexdigit(get_nextch(i)) do
 		i = i + 1
 	end
@@ -182,35 +198,7 @@ function edit_colour ()
 end
 
 --------------------------
--- check if current Docs charset is Unicode using lpeg regexp 
--- Inserts a MenuCommand (UTF-8) 
---------------------------
-function DetectUTF8()
-	local text = editor:GetText()
-	local cont = lpeg.R("\128\191")   -- continuation byte
-	local utf8 = lpeg.R("\0\127")^1
-			+ (lpeg.R("\194\223") * cont)^1
-			+ (lpeg.R("\224\239") * cont * cont)^1
-			+ (lpeg.R("\240\244") * cont * cont * cont)^1
-	local latin = lpeg.R("\0\127")^1
-	local searchpatt = latin^0 * utf8 ^1 * -1
-	if searchpatt:match(text) then
-		scite.MenuCommand(IDM_ENCODING_UCOOKIE)
-	end
-end
-
-----------------------------------
--- ??????????,????
-----------------------------------
-function CheckUTF()
-	if props["utf8.check"] == "1" then
-		if editor.CodePage ~= SC_CP_UTF8 then
-			DetectUTF8()
-		end
-	end
-end
---------------------------
--- ??????
+-- Convert a Documents encoding from and to UTF8
 --------------------------
 function switch_encoding()
 	--editor:BeginUndoAction()
@@ -225,40 +213,7 @@ function switch_encoding()
 	scite.SendOutput(SCI_SETCODEPAGE, editor.CodePage)
 	--editor:EndUndoAction()
 end
----------------------------
--- ????????????
----------------------------
-function screen_up()
-	editor:LineScrollUp()
-	editor:LineUp()
-end
 
-function screen_down()
-	editor:LineScrollDown()
-	editor:LineDown()
-end
--------------------------
--- ??Shell??SVN??
--------------------------
-function svn_exec(cmd,path)
-	local svnexec = props['ext.subversion.path']
-	if cmd == nil then cmd = 'update' end
-	if path == nil or path == '' then path = props['FileDir'] end
-	local command = "\""..svnexec.."\" /command:"..cmd.." /path:\""..path.."\" /notempfile /closeonend:0"
-	shell.exec(command)
-end
-------------------------------------------
--- ?hypertext lexer?????html??
-------------------------------------------
-function add_html_comment()
-	local old_comment_start = props['comment.stream.start.hypertext']
-	local old_comment_end   = props['comment.stream.end.hypertext']
-	props['comment.stream.start.hypertext'] = '<!--'
-	props['comment.stream.end.hypertext']   = '-->'
-	scite.MenuCommand(IDM_STREAM_COMMENT)
-	props['comment.stream.start.hypertext'] = old_comment_start
-	props['comment.stream.end.hypertext']   = old_comment_end
-end
 ------------------------------------------
 -- EditorMarkText
 ------------------------------------------
@@ -268,6 +223,7 @@ function EditorMarkText(start, length, style_number)
 	scite.SendEditor(SCI_INDICATORFILLRANGE, start, length)
 	scite.SendEditor(SCI_SETINDICATORCURRENT, current_mark_number)
 end
+
 ------------------------------------------
 -- EditorClearMarks
 ------------------------------------------
@@ -296,41 +252,7 @@ function GetStartWord()
 	local current_pos = editor.CurrentPos
 	return editor:textrange(editor:WordStartPosition(current_pos, true),current_pos)
 end
-------------------------------------------
--- AutoCompleteWord
-------------------------------------------
-function AutoCompleteWord(len)
-	if len == nil then len = 3 end
-	if props['autocompleteword.automatic'] == '1' then return end
-	local currentPos = editor.CurrentPos
-	local startPos = editor:WordStartPosition(currentPos, true)
-	local wordLen = currentPos - startPos
-	if wordLen >= len then
-		scite.MenuCommand(IDM_COMPLETE)
-		if not editor:AutoCActive() then
-			scite.MenuCommand(IDM_COMPLETEWORD)
-		end
-	end
-end
 
-------------------------------------------
--- unwind_protect
-------------------------------------------
-local function unwind_protect(thunk,cleanup)
-	local ok,res = pcall(thunk)
-	if cleanup then cleanup() end
-	if not ok then error(res,0) else return res end
-end
-------------------------------------------
--- with_open_file
-------------------------------------------
-local function with_open_file(name,mode)
-	return function(body)
-	local f = assert(io.open(name,mode))
-	return unwind_protect(function()return body(f) end,
-		function()return f and f:close() end)
-	end
-end
 ------------------------------------------
 -- os_copy
 ------------------------------------------
@@ -342,6 +264,7 @@ function os_copy(source_path,dest_path)
 		end)
 	end)
 end
+
 ------------------------------------------
 -- ifnil
 ------------------------------------------
@@ -353,6 +276,7 @@ function ifnil(prop, def)
 		return val
 	end
 end
+
 ------------------------------------------
 -- Translate color from RGB to win
 ------------------------------------------
@@ -364,6 +288,7 @@ local function encodeRGB2WIN(color)
 		return color
 	end
 end
+
 ------------------------------------------
 -- Translate INDIC_*
 ------------------------------------------
@@ -376,6 +301,7 @@ local function GetStyle(mark_string)
 	}
 	return mark_style_table[mark_string]
 end
+
 ------------------------------------------
 -- Init Mark Style
 ------------------------------------------
@@ -385,6 +311,7 @@ local function InitMarkStyle(mark_number, mark_style, color, alpha)
 	editor.IndicAlpha[mark_number] = alpha
 	editor.IndicUnder[mark_number] = true
 end
+
 ------------------------------------------
 -- Parse Mark Style From Prop String
 ------------------------------------------

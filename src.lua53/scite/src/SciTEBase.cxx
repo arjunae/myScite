@@ -2298,6 +2298,7 @@ void SciTEBase::SetTextProperties(
 	if (bufferLength>forceLexNullSize){
 		wEditor.Call(SCI_SETLEXER, SCLEX_NULL);
 		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
+		props.Set("Language", "");
 	}
 	
 	ps.SetInteger("NbOfLines", wEditor.Call(SCI_GETLINECOUNT));
