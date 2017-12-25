@@ -3,7 +3,7 @@
 local sub = string.sub
 local append = table.insert
 local find = string.find
-if lpeg==nil then err,lped = pcall( require,"lpeg")  end
+if lpeg==nil then err,lpeg = pcall( require,"lpeg")  end
 
 ------------------------------------------
 -- Custom Common Functions --
@@ -14,6 +14,7 @@ if lpeg==nil then err,lped = pcall( require,"lpeg")  end
 -- if found, switches Current docs mode to (UTF-8) 
 --------------------------
 function DetectUTF8()
+	if lpeg==nil then return end
 	local text = editor:GetText()
 	local cont = lpeg.R("\128\191")   -- continuation byte
 	local utf8 = lpeg.R("\0\127")^1
