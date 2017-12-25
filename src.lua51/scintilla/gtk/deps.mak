@@ -402,11 +402,6 @@ LexHTML.o: ../lexers/LexHTML.cxx ../include/ILexer.h \
  ../lexlib/StringCopy.h ../lexlib/WordList.h ../lexlib/LexAccessor.h \
  ../lexlib/Accessor.h ../lexlib/StyleContext.h ../lexlib/CharacterSet.h \
  ../lexlib/LexerModule.h
-LexIndent.o: ../lexers/LexIndent.cxx ../include/ILexer.h \
- ../include/Sci_Position.h ../include/Scintilla.h ../include/SciLexer.h \
- ../lexlib/WordList.h ../lexlib/LexAccessor.h ../lexlib/Accessor.h \
- ../lexlib/StyleContext.h ../lexlib/CharacterSet.h \
- ../lexlib/LexerModule.h
 LexInno.o: ../lexers/LexInno.cxx ../include/ILexer.h \
  ../include/Sci_Position.h ../include/Scintilla.h ../include/SciLexer.h \
  ../lexlib/WordList.h ../lexlib/LexAccessor.h ../lexlib/Accessor.h \

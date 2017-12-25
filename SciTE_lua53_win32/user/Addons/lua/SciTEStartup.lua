@@ -92,7 +92,7 @@ function markLinks()
 		-- Values
 		local marker_c=12 -- The URL Params Value
 		editor.IndicStyle[marker_c] = INDIC_TEXTFORE
-		if props["colour.url_param_value"]=="" then props["colour.url_param:value"] = "0x3388B0" end
+		if props["colour.url_param_value"]=="" then props["colour.url_param_value"] = "0x3388B0" end
 		editor.IndicFore[marker_c]  = props["colour.url_param_value"] 
 		mask_c="=[^& <]+[a-zA-Z0-9]?" -- Begin with = ends with Any alphaNum
 
@@ -116,7 +116,8 @@ function markeMail()
 
 	local marker_mail=13 -- The whole Textlink
 	editor.IndicStyle[marker_mail] = INDIC_COMPOSITIONTHIN
-	editor.IndicFore[marker_mail] = 0xB72233
+	if props["colour.email"]=="" then props["colour.email"] = "0xB72233" end
+	editor.IndicFore[marker_mail] = props["colour.email"]
 	
 	if editor.Lexer~=1 then -- Performance: Exclude Null Lexer	
 		prefix="[a-zA-Z0-9._-]+@" -- first part till @
@@ -140,7 +141,9 @@ function markGUID()
 
 	local marker_guid=14 -- The whole Textlink
 	editor.IndicStyle[marker_guid] = INDIC_TEXTFORE
-	editor.IndicFore[marker_guid] = 0x676020
+	if props["colour.guid"]=="" then props["colour.guid"] = "0xB72244" end
+	editor.IndicFore[marker_guid] = props["colour.guid"]
+	
 -- Scintillas RESearch.cxx doesnt support match counting, so just define the basic guid format:
 	mask = "........-\\w\\w\\w\\w-\\w\\w\\w\\w-\\w\\w\\w\\w-............"
 	if editor.Lexer~=1 then -- Performance: Exclude Null Lexer	
@@ -154,10 +157,8 @@ function markGUID()
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function StyleStuff()
----
---- highlite http and eMail links and GUIDs
----
+function myScite_OpenSwitch()
+
 	local AC_MAX_SIZE =131072 --131kB
 	local fSize =0
 
@@ -167,6 +168,7 @@ function StyleStuff()
 			markLinks()
 			markeMail()
 			markGUID()
+			CheckUTF()
 		end
 	end
 	
@@ -181,7 +183,7 @@ function OnInit()
 	-- Event Handlers
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
 	scite_OnSave(CTagsRecreate)
-	scite_OnOpenSwitch(StyleStuff)
+	scite_OnOpenSwitch(myScite_OpenSwitch)
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
@@ -191,4 +193,5 @@ function OnInit()
 
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-scite_OnOpenSwitch(CheckUTF)
+
+

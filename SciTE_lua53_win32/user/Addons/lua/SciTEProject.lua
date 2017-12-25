@@ -128,6 +128,7 @@ end
 function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 	local origApiPath, projectLibApiPath, projectApiPath
 	
+	-- Do we want to check for a changed Api path ? (#perFolderTagSupport #win32 #gtk ) 
 	if cTagList then return end --Already done ?
 	ProjectSetEnv(false)
 	if props["project.path"]=="" then return end

@@ -149,7 +149,6 @@ LEXOBJS=\
 	$(DIR_O)\LexHaskell.obj \
 	$(DIR_O)\LexHex.obj \
 	$(DIR_O)\LexHTML.obj \
-	$(DIR_O)\LexIndent.obj \
 	$(DIR_O)\LexInno.obj \
 	$(DIR_O)\LexJSON.obj \
 	$(DIR_O)\LexKix.obj \

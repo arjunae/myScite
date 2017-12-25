@@ -126,32 +126,27 @@ end
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
-	local origApiPath, projectPlatApiPath, projectApiPath,updated
+	local origApiPath, projectLibApiPath, projectApiPath
 	
-	if  cTagList then return end --Already done ?
+	-- Do we want to check for a changed Api path ? (#perFolderTagSupport #win32 #gtk ) 
+	if cTagList then return end --Already done ?
 	ProjectSetEnv(false)
 	if props["project.path"]=="" then return end
 	if not fileNamePath or fileNamePath=="" then fileNamePath=props["project.ctags.propspath"] end
 	
 	-- Attach a project platform API if it had been specified
-	if (props["project.libapi"]~="") then projectPlatApiPath=props["project.libapi"] end
-	if not projectPlatApiPath then projectPlatApiPath="" end
-	
+	if (props["project.libapi"]~="") then projectLibApiPath=props["project.libapi"] end
+	if not projectLibApiPath then projectLibApiPath="" end
 	-- Update SciTEs Filetypes APIlist
 	if origApiPath==nil then 
 		origApiPath=props["APIPath"]
 		projectApiPath=props["project.ctags.apipath"]
-		if not origApiPath:match(projectPlatApiPath) then projectApiPath=projectApiPath..";"..projectPlatApiPath end
+		if not origApiPath:match(projectLibApiPath) then projectApiPath=projectApiPath..";"..projectLibApiPath end
 		props["api."..props["file.patterns.project"]] =origApiPath..";"..projectApiPath
 	end
 
 	-- parse projects properties files
 	CTagsWriteProps(theForceMightBeWithYou,fileNamePath)
-	-- write user supplied library Api
-	projectLibPath =props["project.libprops"]
-	projectLibPath:gsub("[^;]+", function(lib) -- For each in ;-delimited list.	
-		if lib~="" then CTagsWriteProps(true,lib) end
-	end)
 
 	-- Do we want to detect changed Styles and apply them onSwitch ?
 	-- Define the Styles for cTag types

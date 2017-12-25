@@ -1,12 +1,12 @@
 ~# mySciTE.webdev -~
 
-[22.12.2017] Development.190.MartyMcFly (Lua5.1 & Lua5.3)
-- Add: SciTE Project Support. Settings for scite sources included.
-- Add: cTags Navigation support within project source files. ( ALT-Click )
-- Add: cTags based, cached Projects and Platform SDK sourceCode Highlightening. 
-- Upd: cTags and Artistic Style.
-- Upd: c89,90,95,03,11 docs from en.wikibooks.org for Syntax Highlightening *kudos*
-- Info: Dual Release. Lua5.1.5 and Lua5.3.4 available.  
+[25.12.2017] Development.190.MartyMcFly (Lua5.1 & Lua5.3)
+# Add: SciTE Project Support. Settings for scite sources included.
+# Add: cTags Navigation support within project source files. ( ALT-Click )
+# Add: cTags based, cached Projects and Platform SDK sourceCode Highlightening. 
+# Upd: cTags and Artistic Style. / Upd: Introduce max.style.size
+# Upd: c89,90,95,03,11 docs from en.wikibooks.org for Syntax Highlightening *kudos*
+# Info: Dual Release. Lua5.1.5 and Lua5.3.4 available.  
 
 [25.11.2017] myScite.180.Artie.stable
 # Add: Lisp / Scheme / Clojure / GO Language Keywords
