@@ -147,6 +147,7 @@ public:
 	}
 	void Paint(HDC hDC, GUI::Rectangle rcPaint);
 	LRESULT WndProc(UINT iMessage, WPARAM wParam, LPARAM lParam);
+	bool flatUI;
 };
 
 struct Band {

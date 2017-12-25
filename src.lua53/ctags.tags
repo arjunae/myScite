@@ -2783,9 +2783,9 @@ LINEMARKER_H	scintilla\src\LineMarker.h	9;"	d
 LINK_LEXER	scintilla\src\Catalogue.cxx	71;"	d	file:
 LL	scite\lua\src\lobject.c	478;"	d	file:
 LMMinder	scintilla\src\ExternalLexer.h	/^class LMMinder {$/;"	c	namespace:Scintilla
-LOAD_LIBRARY_SEARCH_APPLICATION_DIR	scite\win32\SciTEWin.cxx	2235;"	d	file:
+LOAD_LIBRARY_SEARCH_APPLICATION_DIR	scite\win32\SciTEWin.cxx	2239;"	d	file:
 LOAD_LIBRARY_SEARCH_SYSTEM32	scintilla\win32\PlatWin.cxx	51;"	d	file:
-LOAD_LIBRARY_SEARCH_SYSTEM32	scite\win32\SciTEWin.cxx	2238;"	d	file:
+LOAD_LIBRARY_SEARCH_SYSTEM32	scite\win32\SciTEWin.cxx	2242;"	d	file:
 LStream	scite\lua\src\liolib.c	/^typedef luaL_Stream LStream;$/;"	t	file:
 LTintfloat	scite\lua\src\lvm.c	/^static int LTintfloat (lua_Integer i, lua_Number f) {$/;"	f	file:	signature:(lua_Integer i, lua_Number f)
 LTnum	scite\lua\src\lvm.c	/^static int LTnum (const TValue *l, const TValue *r) {$/;"	f	file:	signature:(const TValue *l, const TValue *r)
@@ -8479,13 +8479,13 @@ UIAvailable	scite\src\SciTEBase.cxx	/^void SciTEBase::UIAvailable() {$/;"	f	clas
 UIClosed	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::UIClosed() {$/;"	f	class:SciTEGTK	signature:()
 UIClosed	scite\src\SciTEBase.cxx	/^void SciTEBase::UIClosed() {$/;"	f	class:SciTEBase	signature:()
 UIClosed	scite\win32\SciTEWinDlg.cxx	/^void SciTEWin::UIClosed() {$/;"	f	class:SciTEWin	signature:()
+UICouldBeFlat	scite\win32\SciTEWin.cxx	/^bool UICouldBeFlat() {$/;"	f	namespace:__anon69	signature:()
 UIHasFocus	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::UIHasFocus() {$/;"	f	class:SciTEGTK	signature:()
 UIHasFocus	scite\src\SciTEBase.cxx	/^void SciTEBase::UIHasFocus() {$/;"	f	class:SciTEBase	signature:()
 UISF_HIDEACCEL	scite\win32\Strips.h	9;"	d
 UISF_HIDEFOCUS	scite\win32\Strips.h	10;"	d
 UIS_CLEAR	scite\win32\Strips.h	11;"	d
 UIS_SET	scite\win32\Strips.h	12;"	d
-UIShouldBeFlat	scite\win32\SciTEWin.cxx	/^bool UIShouldBeFlat() {$/;"	f	namespace:__anon69	signature:()
 UNARY_PRIORITY	scite\lua\src\lparser.c	1041;"	d	file:
 UNDO_MAY_COALESCE	scintilla\include\Scintilla.h	885;"	d
 UNICODEFROMUTF8_H	scintilla\src\UnicodeFromUTF8.h	9;"	d
@@ -10039,6 +10039,7 @@ flags	scite\src\LuaExtension.cxx	/^	int flags; \/\/ this is really part of the s
 flags	scite\src\StyleDefinition.h	/^	enum flags { sdNone = 0, sdFont = 0x1, sdSize = 0x2, sdFore = 0x4, sdBack = 0x8,$/;"	g	class:StyleDefinition	access:public
 flags	scite\win32\SciteWin.h	/^	int flags;$/;"	m	class:CommandWorker	access:public
 flagsMatch	scite\src\MatchMarker.h	/^	int flagsMatch;$/;"	m	class:MatchMarker	access:private
+flatUI	scite\win32\SciteWin.h	/^	bool flatUI;$/;"	m	class:ContentWin	access:public
 flatten	scintilla\scripts\GenerateCaseConvert.py	/^def flatten(listOfLists):$/;"	f	access:public
 flattenSpaces	scite\scripts\CheckMentioned.py	/^def flattenSpaces(s):$/;"	f	access:public
 flatterUI	scite\win32\SciteWin.h	/^	bool flatterUI;$/;"	m	class:SciTEWin	access:protected

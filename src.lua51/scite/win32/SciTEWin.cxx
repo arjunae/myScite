@@ -148,7 +148,7 @@ namespace {
 // but that is good enough for switching UI elements to flatter.
 // The VersionHelpers.h functions can't be used as they aren't supported by GCC.
 
-bool UIShouldBeFlat() {
+bool UICouldBeFlat() {
 	OSVERSIONINFOEX osvi = OSVERSIONINFOEX();
 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
 	osvi.dwMajorVersion = 6;
@@ -181,11 +181,9 @@ SciTEWin::SciTEWin(Extension *ext) : SciTEBase(ext) {
 	replaceStrip.SetLocalizer(&localiser);
 	replaceStrip.SetSearcher(this);
 
-	flatterUI = UIShouldBeFlat();
-
 	cmdShow = 0;
 	heightBar = 7;
-	fontTabs = 0;
+	fontTabs =  0;
 	wFocus = 0;
 
 	winPlace = WINDOWPLACEMENT();
@@ -224,7 +222,10 @@ SciTEWin::SciTEWin(Extension *ext) : SciTEBase(ext) {
 	/// Need to copy properties to variables before setting up window
 	SetPropertiesInitial();
 	ReadAbbrevPropFile();
-
+	
+	if (UICouldBeFlat() && props.GetInt("window.flatui",1) >0)
+	contents.flatUI=true;
+	
 	hDevMode = 0;
 	hDevNames = 0;
 	::ZeroMemory(&pagesetupMargin, sizeof(pagesetupMargin));
@@ -447,9 +448,12 @@ void SciTEWin::ReadPropertiesInitial() {
 	}
 }
 
+
+
 void SciTEWin::ReadProperties() {
 	SciTEBase::ReadProperties(true);
-	if (flatterUI) {
+	
+	if (contents.flatUI) {
 		if (foldColour.empty() && foldHiliteColour.empty()) {
 			Colour lightMargin = ColourRGB(0xF7, 0xF7, 0xF7);
 			CallChildren(SCI_SETFOLDMARGINCOLOUR, 1, lightMargin);
@@ -1559,7 +1563,7 @@ void ContentWin::Paint(HDC hDC, GUI::Rectangle) {
 	const int xBorder = widthClient - pSciTEWin->heightOutput - pSciTEWin->heightBar;
 	for (int i = 0; i < pSciTEWin->heightBar; i++) {
 		int colourIndex = COLOR_3DFACE;
-		if (pSciTEWin->flatterUI) {
+		if (flatUI==true) {
 			if (i == 0 || i == pSciTEWin->heightBar - 1)
 				colourIndex = COLOR_3DFACE;
 			else

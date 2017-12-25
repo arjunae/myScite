@@ -1,0 +1,66 @@
+// Introduces writeable property window.flatui givin Martin back his beloved nonFlatUI :)
+diff -Nurw scite/win32/SciTEWin.cxx scite_m/win32/SciTEWin.cxx
+--- scite/win32/SciTEWin.cxx	2017-12-24 10:16:44.000000000 +0100
++++ scite_m/win32/SciTEWin.cxx	2017-12-25 20:14:32.000000000 +0100
+@@ -148,7 +148,7 @@
+ // but that is good enough for switching UI elements to flatter.
+ // The VersionHelpers.h functions can't be used as they aren't supported by GCC.
+ 
+-bool UIShouldBeFlat() {
++bool UICouldBeFlat() {
+ 	OSVERSIONINFOEX osvi = OSVERSIONINFOEX();
+ 	osvi.dwOSVersionInfoSize = sizeof(OSVERSIONINFOEX);
+ 	osvi.dwMajorVersion = 6;
+@@ -181,8 +181,6 @@
+ 	replaceStrip.SetLocalizer(&localiser);
+ 	replaceStrip.SetSearcher(this);
+ 
+-	flatterUI = UIShouldBeFlat();
+-
+ 	cmdShow = 0;
+ 	heightBar = 7;
+ 	fontTabs = 0;
+@@ -225,6 +223,9 @@
+ 	SetPropertiesInitial();
+ 	ReadAbbrevPropFile();
+ 
++	if (UICouldBeFlat() && props.GetInt("window.flatui",1) >0)
++	contents.flatUI=true;
++	
+ 	hDevMode = 0;
+ 	hDevNames = 0;
+ 	::ZeroMemory(&pagesetupMargin, sizeof(pagesetupMargin));
+@@ -447,9 +448,12 @@
+ 	}
+ }
+ 
++
++
+ void SciTEWin::ReadProperties() {
+ 	SciTEBase::ReadProperties(true);
+-	if (flatterUI) {
++	
++	if (contents.flatUI) {
+ 		if (foldColour.empty() && foldHiliteColour.empty()) {
+ 			Colour lightMargin = ColourRGB(0xF7, 0xF7, 0xF7);
+ 			CallChildren(SCI_SETFOLDMARGINCOLOUR, 1, lightMargin);
+@@ -1559,7 +1563,7 @@
+ 	const int xBorder = widthClient - pSciTEWin->heightOutput - pSciTEWin->heightBar;
+ 	for (int i = 0; i < pSciTEWin->heightBar; i++) {
+ 		int colourIndex = COLOR_3DFACE;
+-		if (pSciTEWin->flatterUI) {
++		if (flatUI==true) {
+ 			if (i == 0 || i == pSciTEWin->heightBar - 1)
+ 				colourIndex = COLOR_3DFACE;
+ 			else
+diff -Nurw scite/win32/SciteWin.h scite_m/win32/SciteWin.h
+--- scite/win32/SciteWin.h	2017-12-14 17:17:38.000000000 +0100
++++ scite_m/win32/SciteWin.h	2017-12-25 19:54:54.000000000 +0100
+@@ -147,6 +147,7 @@
+ 	}
+ 	void Paint(HDC hDC, GUI::Rectangle rcPaint);
+ 	LRESULT WndProc(UINT iMessage, WPARAM wParam, LPARAM lParam);
++	bool flatUI;
+ };
+ 
+ struct Band {
