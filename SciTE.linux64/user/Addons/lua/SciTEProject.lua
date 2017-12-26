@@ -120,35 +120,37 @@ function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 	return cTagList
 end
 
+local origApiPath, projectApiPath, sdkApiPath
+
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 --cTagsUpdateProps() 	/ Update filetypes api path.
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
-	local origApiPath, projectLibApiPath, projectApiPath
-	
-	-- Do we want to check for a changed Api path ? (#perFolderTagSupport #win32 #gtk ) 
-	if cTagList then return end --Already done ?
+
 	ProjectSetEnv(false)
+
+	if cTagList and origApiPath and sdkApiPath and sdkApiPath==props["project.sdk.api"] then return end --Already done ?
 	if props["project.path"]=="" then return end
 	if not fileNamePath or fileNamePath=="" then fileNamePath=props["project.ctags.propspath"] end
-	
-	-- Attach a project platform API if it had been specified
-	if (props["project.libapi"]~="") then projectLibApiPath=props["project.libapi"] end
-	if not projectLibApiPath then projectLibApiPath="" end
-	-- Update SciTEs Filetypes APIlist
-	if origApiPath==nil then 
-		origApiPath=props["APIPath"]
-		projectApiPath=props["project.ctags.apipath"]
-		if not origApiPath:match(projectLibApiPath) then projectApiPath=projectApiPath..";"..projectLibApiPath end
-		props["api."..props["file.patterns.project"]] =origApiPath..";"..projectApiPath
-	end
 
+	-- Attach a project platform API if it had been specified
+	if (props["project.sdk.api"]~="") then sdkApiPath=props["project.sdk.api"] end
+	if not sdkApiPath then sdkApiPath="" end
+	-- Update SciTEs Filetypes APIlist. 
+	-- Change SDKApi if requested by a SciTE.properties file.
+	if not projectApiPath or not projectApiPath:match(props["project.sdk.api"]) then
+		if not origApiPath then origApiPath=props["APIPath"] end
+		projectApiPath=props["project.ctags.apipath"]
+		projectApiPath=projectApiPath..";"..sdkApiPath
+		props["api."..props["file.patterns.project"]] =origApiPath..";"..projectApiPath
+		--print(props["api."..props["file.patterns.project"]])
+	end
 	-- parse projects properties files
 	CTagsWriteProps(theForceMightBeWithYou,fileNamePath)
 
-	-- Do we want to detect changed Styles and apply them onSwitch ?
+	-- Do we also want to detect changed Styles and apply them here ?
 	-- Define the Styles for cTag types
 	local currentLexer=props["Language"]
 	props["substyles."..currentLexer..".11"]=20
