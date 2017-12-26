@@ -50,15 +50,13 @@ if %off64%==120 set PLAT=WIN64
 
 echo .... Targets platform [%PLAT%] ......
 If [%PLAT%]==[WIN32] (
-echo .... move to SciTE.win32 ......
-move ..\bin\SciTE.exe ..\..\..\..\SciTE.win32
-move ..\bin\SciLexer.dll ..\..\..\..\SciTE.win32
+move ..\bin\SciTE.exe ..\..\release
+move ..\bin\SciLexer.dll ..\..\release
 )
 
 If [%PLAT%]==[WIN64] (
-echo ... move to SciTE.win64
-move ..\bin\SciTE.exe ..\..\..\..\SciTE.win64
-move ..\bin\SciLexer.dll ..\..\..\..\SciTE.win64
+move ..\bin\SciTE.exe ..\..\release
+move ..\bin\SciLexer.dll ..\..\release
 )
 
 goto end
@@ -68,4 +66,9 @@ pause
 
 :end
 cd ..\..
-pause
+PAUSE
+EXIT
+
+cd ..\..
+PAUSE
+EXIT

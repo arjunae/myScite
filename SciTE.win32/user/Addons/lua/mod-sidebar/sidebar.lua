@@ -42,8 +42,11 @@ Version 1.29.0
 	 # overide Sidebar style
 	 sidebar.style.*.255=fore:#808080,back:#FEFEFE
 --]]--------------------------------------------------
+
+local lpeg
+if lpeg==nil then err,lpeg = pcall( require,"lpeg")  end
 require 'gui'
-require 'lpeg'
+
 -- arjunea: removed shell dependency. 
 -- Moved shell.inputbox to gui / Use gui.run and gui.msgbox 
 --require 'shell'

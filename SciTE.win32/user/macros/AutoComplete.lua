@@ -76,7 +76,7 @@ local CASE_CORRECT = true
 local CASE_CORRECT_INSTANT = false
 local WRAP_ARROW_KEYS = false
 local CHOOSE_SINGLE = props["autocomplete.choose.single"]
-local MENUITEMS_MAX=100 --Anyone really scrolls further ? 
+local MENUITEMS_MAX=150 -- Anyone really scrolls further ? 
 
 --~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -113,6 +113,22 @@ local function file_exists(name)
    if f~=nil then io.close(f) return true else return false end
 end
 
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
+-- returns the size of a given fileNamePath.
+--
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+function file_size (filePath)
+    if  filePath ~=""  and filePath ~= nil then 
+        local myFile,err=io.open(filePath,"r")
+        if err then return 0 end -- todo handle filePath containing Unicode chars 
+        local size = myFile:seek("end")    -- get file size
+        myFile:close()
+        return size
+    else
+        return 0
+    end
+end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
@@ -310,7 +326,7 @@ local function handleChar(char, calledByHotkey)
         editor.AutoCIgnoreCase = IGNORE_CASE
         editor.AutoCCaseInsensitiveBehaviour = 1 -- Do NOT pre-select a case-sensitive match
         editor.AutoCSeparator = 1
-        editor.AutoCMaxHeight = 6
+        editor.AutoCMaxHeight = 8
         editor:AutoCShow(len, list)
         -- Check if we should auto-auto-complete.
         if normalize(menuItems[1]) == prefix and not calledByHotkey then

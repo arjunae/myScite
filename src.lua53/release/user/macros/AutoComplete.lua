@@ -60,7 +60,7 @@ local IGNORE_STYLES = { -- Should include comments, strings and errors.
 -- Names from api files, stored by lexer name.
 local apiCache = {} 
 -- Number of chars to type before the autocomplete list appears:
-local MIN_PREFIX_LEN = 3
+local MIN_PREFIX_LEN = 2
 -- Length of shortest word to add to the autocomplete list:
 local MIN_IDENTIFIER_LEN = 3
 -- List of regex patterns for finding suggestions for the autocomplete menu:
@@ -76,7 +76,7 @@ local CASE_CORRECT = true
 local CASE_CORRECT_INSTANT = false
 local WRAP_ARROW_KEYS = false
 local CHOOSE_SINGLE = props["autocomplete.choose.single"]
-local MENUITEMS_MAX=100 --Anyone really scrolls further ? 
+local MENUITEMS_MAX=150 -- Anyone really scrolls further ? 
 
 --~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -326,7 +326,7 @@ local function handleChar(char, calledByHotkey)
         editor.AutoCIgnoreCase = IGNORE_CASE
         editor.AutoCCaseInsensitiveBehaviour = 1 -- Do NOT pre-select a case-sensitive match
         editor.AutoCSeparator = 1
-        editor.AutoCMaxHeight = 6
+        editor.AutoCMaxHeight = 8
         editor:AutoCShow(len, list)
         -- Check if we should auto-auto-complete.
         if normalize(menuItems[1]) == prefix and not calledByHotkey then

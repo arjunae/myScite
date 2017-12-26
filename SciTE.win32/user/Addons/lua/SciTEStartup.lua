@@ -35,11 +35,12 @@ package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;
 		
 -- Load Sidebar
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-sidebar\\URL_detect.lua')
+dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
 
 -- Load cTags Browser
 dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
 
+-- Load Project support functions
 dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -193,3 +194,5 @@ function OnInit()
 
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+

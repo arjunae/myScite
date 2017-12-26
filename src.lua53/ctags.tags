@@ -1671,30 +1671,30 @@ GETARG_Bx	scite\lua\src\lopcodes.h	106;"	d
 GETARG_C	scite\lua\src\lopcodes.h	103;"	d
 GETARG_sBx	scite\lua\src\lopcodes.h	112;"	d
 GET_OPCODE	scite\lua\src\lopcodes.h	89;"	d
-GKEY_Control_L	scite\gtk\SciTEGTK.cxx	81;"	d	file:
-GKEY_Control_L	scite\gtk\SciTEGTK.cxx	93;"	d	file:
-GKEY_Control_R	scite\gtk\SciTEGTK.cxx	82;"	d	file:
-GKEY_Control_R	scite\gtk\SciTEGTK.cxx	94;"	d	file:
-GKEY_Escape	scite\gtk\SciTEGTK.cxx	76;"	d	file:
-GKEY_Escape	scite\gtk\SciTEGTK.cxx	88;"	d	file:
+GKEY_Control_L	scite\gtk\SciTEGTK.cxx	83;"	d	file:
+GKEY_Control_L	scite\gtk\SciTEGTK.cxx	95;"	d	file:
+GKEY_Control_R	scite\gtk\SciTEGTK.cxx	84;"	d	file:
+GKEY_Control_R	scite\gtk\SciTEGTK.cxx	96;"	d	file:
+GKEY_Escape	scite\gtk\SciTEGTK.cxx	78;"	d	file:
+GKEY_Escape	scite\gtk\SciTEGTK.cxx	90;"	d	file:
 GKEY_Escape	scite\gtk\Widget.cxx	23;"	d	file:
 GKEY_Escape	scite\gtk\Widget.cxx	26;"	d	file:
-GKEY_F1	scite\gtk\SciTEGTK.cxx	83;"	d	file:
-GKEY_F1	scite\gtk\SciTEGTK.cxx	95;"	d	file:
-GKEY_F2	scite\gtk\SciTEGTK.cxx	84;"	d	file:
-GKEY_F2	scite\gtk\SciTEGTK.cxx	96;"	d	file:
-GKEY_F3	scite\gtk\SciTEGTK.cxx	85;"	d	file:
-GKEY_F3	scite\gtk\SciTEGTK.cxx	97;"	d	file:
-GKEY_F4	scite\gtk\SciTEGTK.cxx	86;"	d	file:
-GKEY_F4	scite\gtk\SciTEGTK.cxx	98;"	d	file:
-GKEY_ISO_Left_Tab	scite\gtk\SciTEGTK.cxx	78;"	d	file:
-GKEY_ISO_Left_Tab	scite\gtk\SciTEGTK.cxx	90;"	d	file:
-GKEY_KP_Enter	scite\gtk\SciTEGTK.cxx	79;"	d	file:
-GKEY_KP_Enter	scite\gtk\SciTEGTK.cxx	91;"	d	file:
-GKEY_KP_Multiply	scite\gtk\SciTEGTK.cxx	80;"	d	file:
-GKEY_KP_Multiply	scite\gtk\SciTEGTK.cxx	92;"	d	file:
-GKEY_Tab	scite\gtk\SciTEGTK.cxx	77;"	d	file:
-GKEY_Tab	scite\gtk\SciTEGTK.cxx	89;"	d	file:
+GKEY_F1	scite\gtk\SciTEGTK.cxx	85;"	d	file:
+GKEY_F1	scite\gtk\SciTEGTK.cxx	97;"	d	file:
+GKEY_F2	scite\gtk\SciTEGTK.cxx	86;"	d	file:
+GKEY_F2	scite\gtk\SciTEGTK.cxx	98;"	d	file:
+GKEY_F3	scite\gtk\SciTEGTK.cxx	87;"	d	file:
+GKEY_F3	scite\gtk\SciTEGTK.cxx	99;"	d	file:
+GKEY_F4	scite\gtk\SciTEGTK.cxx	100;"	d	file:
+GKEY_F4	scite\gtk\SciTEGTK.cxx	88;"	d	file:
+GKEY_ISO_Left_Tab	scite\gtk\SciTEGTK.cxx	80;"	d	file:
+GKEY_ISO_Left_Tab	scite\gtk\SciTEGTK.cxx	92;"	d	file:
+GKEY_KP_Enter	scite\gtk\SciTEGTK.cxx	81;"	d	file:
+GKEY_KP_Enter	scite\gtk\SciTEGTK.cxx	93;"	d	file:
+GKEY_KP_Multiply	scite\gtk\SciTEGTK.cxx	82;"	d	file:
+GKEY_KP_Multiply	scite\gtk\SciTEGTK.cxx	94;"	d	file:
+GKEY_Tab	scite\gtk\SciTEGTK.cxx	79;"	d	file:
+GKEY_Tab	scite\gtk\SciTEGTK.cxx	91;"	d	file:
 GKEY_Void	scite\gtk\Widget.cxx	24;"	d	file:
 GKEY_Void	scite\gtk\Widget.cxx	27;"	d	file:
 GMatchState	scite\lua\src\lstrlib.c	/^typedef struct GMatchState {$/;"	s	file:
@@ -2099,27 +2099,106 @@ HorizontalScrollTo	scintilla\src\Editor.cxx	/^void Editor::HorizontalScrollTo(in
 Hwnd	scite\win32\Strips.h	/^	HWND Hwnd() const {$/;"	f	class:BaseWin	access:public	signature:() const
 HwndFromString	scite\win32\DirectorExtension.cxx	/^static HWND HwndFromString(const char *s) {$/;"	f	file:	signature:(const char *s)
 HwndOf	scite\win32\SciteWin.h	/^inline HWND HwndOf(GUI::Window w) {$/;"	f	signature:(GUI::Window w)
+ICO_ACCEPT	scite\win32\toolbar.h	66;"	d
+ICO_ADD	scite\win32\toolbar.h	67;"	d
+ICO_ASTYLE	scite\win32\toolbar.h	64;"	d
+ICO_BOOKMARK_CLEARALL	scite\win32\toolbar.h	46;"	d
+ICO_BOOKMARK_NEXT	scite\win32\toolbar.h	43;"	d
+ICO_BOOKMARK_PREV	scite\win32\toolbar.h	44;"	d
+ICO_BOOKMARK_TOGGLE	scite\win32\toolbar.h	45;"	d
+ICO_BREAKPOINT	scite\win32\toolbar.h	69;"	d
+ICO_BUILD	scite\win32\toolbar.h	18;"	d
+ICO_CHANGE_CODEPAGE_RU	scite\win32\toolbar.h	54;"	d
+ICO_CHOICE_COLOR_FROM_A_PALETTE	scite\win32\toolbar.h	51;"	d
+ICO_CLEAR	scite\win32\toolbar.h	8;"	d
+ICO_CLOSE	scite\win32\toolbar.h	13;"	d
+ICO_CLOSEALL	scite\win32\toolbar.h	32;"	d
+ICO_COMPILE	scite\win32\toolbar.h	19;"	d
+ICO_COPY	scite\win32\toolbar.h	6;"	d
+ICO_CUT	scite\win32\toolbar.h	5;"	d
+ICO_DEBUG	scite\win32\toolbar.h	68;"	d
+ICO_FAVORITE_FOLDERS	scite\win32\toolbar.h	58;"	d
+ICO_FIND	scite\win32\toolbar.h	11;"	d
+ICO_FINDINFILES	scite\win32\toolbar.h	41;"	d
+ICO_FINDNEXT	scite\win32\toolbar.h	39;"	d
+ICO_FINDNEXTBACK	scite\win32\toolbar.h	40;"	d
+ICO_FIND_AND_HIGHLIGHT	scite\win32\toolbar.h	63;"	d
+ICO_FULLSCREEN	scite\win32\toolbar.h	25;"	d
+ICO_GO	scite\win32\toolbar.h	17;"	d
+ICO_GOTO	scite\win32\toolbar.h	42;"	d
+ICO_HELP	scite\win32\toolbar.h	26;"	d
+ICO_HIGHLIGHT	scite\win32\toolbar.h	62;"	d
+ICO_HIGHLIGHTIDENTICAL	scite\win32\toolbar.h	61;"	d
+ICO_INSPECT	scite\win32\toolbar.h	75;"	d
+ICO_LINENUMBERMARGIN	scite\win32\toolbar.h	47;"	d
+ICO_LIST_OF_FUNCTIONS_PROCEDURES	scite\win32\toolbar.h	49;"	d
+ICO_LOAD	scite\win32\toolbar.h	76;"	d
+ICO_LOADSESSION	scite\win32\toolbar.h	35;"	d
+ICO_MACROPLAY	scite\win32\toolbar.h	14;"	d
+ICO_MACRORECORD	scite\win32\toolbar.h	16;"	d
+ICO_MACROSTOPRECORD	scite\win32\toolbar.h	15;"	d
+ICO_MONOFONT	scite\win32\toolbar.h	22;"	d
+ICO_NEW	scite\win32\toolbar.h	1;"	d
+ICO_ONTOP	scite\win32\toolbar.h	48;"	d
+ICO_OPEN	scite\win32\toolbar.h	2;"	d
+ICO_OPENABBREVPROPERTIES	scite\win32\toolbar.h	29;"	d
+ICO_OPENAPIFILE	scite\win32\toolbar.h	55;"	d
+ICO_OPENGLOBALPROPERTIES	scite\win32\toolbar.h	27;"	d
+ICO_OPENUSERPROPERTIES	scite\win32\toolbar.h	28;"	d
+ICO_OPEN_FAVORITE_FILES	scite\win32\toolbar.h	56;"	d
+ICO_PASTE	scite\win32\toolbar.h	7;"	d
+ICO_PRINT	scite\win32\toolbar.h	4;"	d
+ICO_PRINTSETUP	scite\win32\toolbar.h	33;"	d
+ICO_READONLY	scite\win32\toolbar.h	23;"	d
+ICO_REDO	scite\win32\toolbar.h	10;"	d
+ICO_REPLACE	scite\win32\toolbar.h	12;"	d
+ICO_REPLACE_SPACES	scite\win32\toolbar.h	53;"	d
+ICO_SAVE	scite\win32\toolbar.h	3;"	d
+ICO_SAVEALL	scite\win32\toolbar.h	31;"	d
+ICO_SAVEAS	scite\win32\toolbar.h	21;"	d
+ICO_SAVESESSION	scite\win32\toolbar.h	36;"	d
+ICO_SELECTALL	scite\win32\toolbar.h	37;"	d
+ICO_SELECTTOBRACE	scite\win32\toolbar.h	38;"	d
+ICO_SESSION_MANAGER	scite\win32\toolbar.h	34;"	d
+ICO_SIDEBAR	scite\win32\toolbar.h	52;"	d
+ICO_SPELLING	scite\win32\toolbar.h	50;"	d
+ICO_STACK	scite\win32\toolbar.h	79;"	d
+ICO_STEP	scite\win32\toolbar.h	70;"	d
+ICO_STEP_INTO	scite\win32\toolbar.h	72;"	d
+ICO_STEP_OUT	scite\win32\toolbar.h	73;"	d
+ICO_STEP_OVER	scite\win32\toolbar.h	71;"	d
+ICO_STOP	scite\win32\toolbar.h	77;"	d
+ICO_STOPD	scite\win32\toolbar.h	78;"	d
+ICO_STOPEXECUTE	scite\win32\toolbar.h	60;"	d
+ICO_TIDY	scite\win32\toolbar.h	65;"	d
+ICO_TOGGLEOUTPUT	scite\win32\toolbar.h	24;"	d
+ICO_TRIM_TRAL_SPACES	scite\win32\toolbar.h	57;"	d
+ICO_UNDO	scite\win32\toolbar.h	9;"	d
+ICO_VIEWEOL	scite\win32\toolbar.h	20;"	d
+ICO_VIEWSPACE	scite\win32\toolbar.h	59;"	d
+ICO_WATCH	scite\win32\toolbar.h	74;"	d
+ICO_WRAP	scite\win32\toolbar.h	30;"	d
 ICaseConverter	scintilla\src\CaseConvert.h	/^class ICaseConverter {$/;"	c	namespace:Scintilla
 IDABBREV	scite\src\SciTE.h	260;"	d
 IDABOUTSCINTILLA	scite\src\SciTE.h	232;"	d
-IDBM_20_AROUND	scite\src\SciTE.h	298;"	d
-IDBM_20_BACKSLASH	scite\src\SciTE.h	297;"	d
-IDBM_20_CASE	scite\src\SciTE.h	295;"	d
-IDBM_20_REGEX	scite\src\SciTE.h	296;"	d
-IDBM_20_UP	scite\src\SciTE.h	299;"	d
-IDBM_20_WORD	scite\src\SciTE.h	294;"	d
-IDBM_24_AROUND	scite\src\SciTE.h	305;"	d
-IDBM_24_BACKSLASH	scite\src\SciTE.h	304;"	d
-IDBM_24_CASE	scite\src\SciTE.h	302;"	d
-IDBM_24_REGEX	scite\src\SciTE.h	303;"	d
-IDBM_24_UP	scite\src\SciTE.h	306;"	d
-IDBM_24_WORD	scite\src\SciTE.h	301;"	d
-IDBM_32_AROUND	scite\src\SciTE.h	312;"	d
-IDBM_32_BACKSLASH	scite\src\SciTE.h	311;"	d
-IDBM_32_CASE	scite\src\SciTE.h	309;"	d
-IDBM_32_REGEX	scite\src\SciTE.h	310;"	d
-IDBM_32_UP	scite\src\SciTE.h	313;"	d
-IDBM_32_WORD	scite\src\SciTE.h	308;"	d
+IDBM_20_AROUND	scite\src\SciTE.h	300;"	d
+IDBM_20_BACKSLASH	scite\src\SciTE.h	299;"	d
+IDBM_20_CASE	scite\src\SciTE.h	297;"	d
+IDBM_20_REGEX	scite\src\SciTE.h	298;"	d
+IDBM_20_UP	scite\src\SciTE.h	301;"	d
+IDBM_20_WORD	scite\src\SciTE.h	296;"	d
+IDBM_24_AROUND	scite\src\SciTE.h	307;"	d
+IDBM_24_BACKSLASH	scite\src\SciTE.h	306;"	d
+IDBM_24_CASE	scite\src\SciTE.h	304;"	d
+IDBM_24_REGEX	scite\src\SciTE.h	305;"	d
+IDBM_24_UP	scite\src\SciTE.h	308;"	d
+IDBM_24_WORD	scite\src\SciTE.h	303;"	d
+IDBM_32_AROUND	scite\src\SciTE.h	314;"	d
+IDBM_32_BACKSLASH	scite\src\SciTE.h	313;"	d
+IDBM_32_CASE	scite\src\SciTE.h	311;"	d
+IDBM_32_REGEX	scite\src\SciTE.h	312;"	d
+IDBM_32_UP	scite\src\SciTE.h	315;"	d
+IDBM_32_WORD	scite\src\SciTE.h	310;"	d
 IDBM_AROUND	scite\src\SciTE.h	290;"	d
 IDBM_BACKSLASH	scite\src\SciTE.h	289;"	d
 IDBM_CASE	scite\src\SciTE.h	287;"	d
@@ -2337,6 +2416,7 @@ IDREPLDONE	scite\src\SciTE.h	267;"	d
 IDR_BUTTONS	scite\src\SciTE.h	293;"	d
 IDR_CLOSEFILE	scite\src\SciTE.h	284;"	d
 IDR_CLOSEFILE24	scite\src\SciTE.h	292;"	d
+IDR_USER_TOOLBAR	scite\src\SciTE.h	294;"	d
 IDTABSIZE	scite\src\SciTE.h	239;"	d
 IDUNSLASH	scite\src\SciTE.h	254;"	d
 IDUSETABS	scite\src\SciTE.h	241;"	d
@@ -4187,12 +4267,12 @@ REF	scintilla\src\RESearch.cxx	229;"	d	file:
 RESEARCH_H	scintilla\src\RESearch.h	10;"	d
 RESERVED	scite\lua\src\llex.h	/^enum RESERVED {$/;"	g
 RESERVEDSLOT	scite\lua\src\lbaselib.c	308;"	d	file:
-RESPONSE_CONVERT	scite\gtk\SciTEGTK.cxx	2881;"	d	file:
-RESPONSE_MARK_ALL	scite\gtk\SciTEGTK.cxx	3030;"	d	file:
-RESPONSE_REPLACE	scite\gtk\SciTEGTK.cxx	3031;"	d	file:
-RESPONSE_REPLACE_ALL	scite\gtk\SciTEGTK.cxx	3032;"	d	file:
-RESPONSE_REPLACE_IN_BUFFERS	scite\gtk\SciTEGTK.cxx	3034;"	d	file:
-RESPONSE_REPLACE_IN_SELECTION	scite\gtk\SciTEGTK.cxx	3033;"	d	file:
+RESPONSE_CONVERT	scite\gtk\SciTEGTK.cxx	2883;"	d	file:
+RESPONSE_MARK_ALL	scite\gtk\SciTEGTK.cxx	3032;"	d	file:
+RESPONSE_REPLACE	scite\gtk\SciTEGTK.cxx	3033;"	d	file:
+RESPONSE_REPLACE_ALL	scite\gtk\SciTEGTK.cxx	3034;"	d	file:
+RESPONSE_REPLACE_IN_BUFFERS	scite\gtk\SciTEGTK.cxx	3036;"	d	file:
+RESPONSE_REPLACE_IN_SELECTION	scite\gtk\SciTEGTK.cxx	3035;"	d	file:
 RESearch	scintilla\src\RESearch.cxx	/^RESearch::RESearch(CharClassify *charClassTable) {$/;"	f	class:RESearch	signature:(CharClassify *charClassTable)
 RESearch	scintilla\src\RESearch.h	/^class RESearch {$/;"	c	namespace:Scintilla
 RESearchRange	scintilla\src\Document.cxx	/^	RESearchRange(const Document *doc_, Sci::Position minPos, Sci::Position maxPos) : doc(doc_) {$/;"	f	class:__anon96::RESearchRange	access:public	signature:(const Document *doc_, Sci::Position minPos, Sci::Position maxPos)
@@ -6190,14 +6270,14 @@ SCITEKEYS_H	scite\src\SciTEKeys.h	9;"	d
 SCITE_DROP	scite\win32\SciteWin.h	/^const int SCITE_DROP = WM_APP + 1;$/;"	v
 SCITE_H	scite\src\SciTE.h	9;"	d
 SCITE_SHOWOUTPUT	scite\win32\SciteWin.h	/^const int SCITE_SHOWOUTPUT = WM_APP + 3;$/;"	v
-SCITE_STOCK_CANCEL	scite\gtk\SciTEGTK.cxx	1517;"	d	file:
-SCITE_STOCK_CANCEL	scite\gtk\SciTEGTK.cxx	1522;"	d	file:
-SCITE_STOCK_OK	scite\gtk\SciTEGTK.cxx	1520;"	d	file:
-SCITE_STOCK_OK	scite\gtk\SciTEGTK.cxx	1525;"	d	file:
-SCITE_STOCK_OPEN	scite\gtk\SciTEGTK.cxx	1518;"	d	file:
-SCITE_STOCK_OPEN	scite\gtk\SciTEGTK.cxx	1523;"	d	file:
-SCITE_STOCK_SAVE	scite\gtk\SciTEGTK.cxx	1519;"	d	file:
-SCITE_STOCK_SAVE	scite\gtk\SciTEGTK.cxx	1524;"	d	file:
+SCITE_STOCK_CANCEL	scite\gtk\SciTEGTK.cxx	1519;"	d	file:
+SCITE_STOCK_CANCEL	scite\gtk\SciTEGTK.cxx	1524;"	d	file:
+SCITE_STOCK_OK	scite\gtk\SciTEGTK.cxx	1522;"	d	file:
+SCITE_STOCK_OK	scite\gtk\SciTEGTK.cxx	1527;"	d	file:
+SCITE_STOCK_OPEN	scite\gtk\SciTEGTK.cxx	1520;"	d	file:
+SCITE_STOCK_OPEN	scite\gtk\SciTEGTK.cxx	1525;"	d	file:
+SCITE_STOCK_SAVE	scite\gtk\SciTEGTK.cxx	1521;"	d	file:
+SCITE_STOCK_SAVE	scite\gtk\SciTEGTK.cxx	1526;"	d	file:
 SCITE_TRAY	scite\win32\SciteWin.h	/^const int SCITE_TRAY = WM_APP + 0;$/;"	v
 SCITE_WORKER	scite\win32\SciteWin.h	/^const int SCITE_WORKER = WM_APP + 2;$/;"	v
 SCI_ADDREFDOCUMENT	scintilla\include\Scintilla.h	698;"	d
@@ -14063,6 +14143,7 @@ wDirector	scite\win32\DirectorExtension.cxx	/^static HWND wDirector = 0;$/;"	v	f
 wDraw	scintilla\src\CallTip.h	/^	Window wDraw;$/;"	m	class:Scintilla::CallTip	access:public
 wEditor	scite\src\SciTEBase.h	/^	GUI::ScintillaWindow wEditor;$/;"	m	class:SciTEBase	access:protected
 wExplanation	scite\gtk\SciTEGTK.cxx	/^	WStatic wExplanation;$/;"	m	class:BackgroundStrip	file:	access:public
+wExplanation	scite\gtk\SciTEGTK.cxx	/^	WStatic wExplanation;$/;"	v
 wExplanation	scite\win32\Strips.h	/^	GUI::Window wExplanation;$/;"	m	class:BackgroundStrip	access:private
 wFindInFiles	scite\win32\SciteWin.h	/^	GUI::Window wFindInFiles;$/;"	m	class:SciTEWin	access:protected
 wFindReplace	scite\win32\SciteWin.h	/^	GUI::Window wFindReplace;$/;"	m	class:SciTEWin	access:protected
@@ -14077,6 +14158,7 @@ wParameters	scite\win32\SciteWin.h	/^	GUI::Window wParameters;$/;"	m	class:SciTE
 wPreedit	scintilla\gtk\ScintillaGTK.h	/^	Window wPreedit;$/;"	m	class:Scintilla::ScintillaGTK	access:private
 wPreeditDraw	scintilla\gtk\ScintillaGTK.h	/^	Window wPreeditDraw;$/;"	m	class:Scintilla::ScintillaGTK	access:private
 wProgress	scite\gtk\SciTEGTK.cxx	/^	WProgress wProgress;$/;"	m	class:BackgroundStrip	file:	access:public
+wProgress	scite\gtk\SciTEGTK.cxx	/^	WProgress wProgress;$/;"	v
 wProgress	scite\win32\Strips.h	/^	GUI::Window wProgress;$/;"	m	class:BackgroundStrip	access:private
 wReceiver	scite\win32\DirectorExtension.cxx	/^static HWND wReceiver = 0;$/;"	v	file:
 wReplace	scite\win32\Strips.h	/^	GUI::Window wReplace;$/;"	m	class:ReplaceStrip	access:private
