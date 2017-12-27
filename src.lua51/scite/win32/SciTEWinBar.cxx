@@ -521,11 +521,14 @@ void SciTEWin::SetToolBar() {
 	ToolBarTips.RemoveAll();
 	toolbarUsersPressableButtons.RemoveAll();
 
-	// erasing all buttons
+	// .. erases all buttons
 	while ( ::SendMessage(hwndToolBar,TB_DELETEBUTTON,0,0) );
 
 	std::string fileNameForExtension = ExtensionFileName();
 
+	 // .. loads all ICONS from a given Resource. (Not error checked)
+	// todo: drops error if not givin a valid filenamepath. also isnt very performant.
+  // so probably should be optional.
 	GUI::gui_string sIconlib = GUI::StringFromUTF8( props.GetNewExpandString("user.toolbar.iconlib.", fileNameForExtension.c_str()).c_str() );
 	HICON hIcon = NULL;
 	HICON hIconBig = NULL;
@@ -536,43 +539,57 @@ void SciTEWin::SetToolBar() {
 		if ( hIcon != NULL ) arrIcons.Add( hIcon );
 	}
 
+	// If above Resource had our ICONS...
 	HBITMAP hToolbarBitmapNew = 0;
-	iIconsCount = arrIcons.GetSize();
+	iIconsCount = arrIcons.GetSize(); 
+	// Iterate through...
 	if (iIconsCount>0) {
+		// Define Dimensions
 		SIZE szIcon = {16, 16};
 		SIZE szBitmap = {szIcon.cx*iIconsCount, szIcon.cy};
-		RECT rcBitmap = {0, 0, szBitmap.cx, szBitmap.cy};
+		RECT rcBitmap = {0, 0, szBitmap.cx, szBitmap.cy};		
+		// .. Draw Background 
 		HBRUSH hBrashBack = ::GetSysColorBrush(COLOR_BTNFACE);
 		HDC hDesktopDC = ::GetDC(NULL);
 		HDC hCompatibleDC = ::CreateCompatibleDC(hDesktopDC);
 		hToolbarBitmapNew = ::CreateCompatibleBitmap(hDesktopDC, szBitmap.cx, szBitmap.cy);
 		::SelectObject(hCompatibleDC,hToolbarBitmapNew);
 		::FillRect(hCompatibleDC,&rcBitmap,hBrashBack);
+		// convert ICONs to BITMAPs
 		for (int iIcon=0;iIcon<iIconsCount;iIcon++) {
 			hIcon = arrIcons.GetAt(iIcon);
 			::DrawIconEx(hCompatibleDC,szIcon.cx*iIcon,0,hIcon,szIcon.cx,szIcon.cy,0,NULL,DI_NORMAL);
 			::DestroyIcon(hIcon);
-		}
+		}		
+		// clean UP
 		::DeleteDC(hCompatibleDC);
 		::DeleteDC(hDesktopDC);
+		
+		// Send the created Resource to the toolbar.
 		TBADDBITMAP addbmp = {0,(UINT)(intptr_t)hToolbarBitmapNew};
 			if ( ::SendMessage(hwndToolBar,TB_ADDBITMAP,iIconsCount,(LPARAM)&addbmp) != (LRESULT)-1 ) {
 			oldToolbarBitmapID = (intptr_t)hToolbarBitmapNew;
 		}
 		if ( hToolbarBitmap != 0 ) ::DeleteObject( hToolbarBitmap );
 		hToolbarBitmap = hToolbarBitmapNew;
+		
+	// No Resources in the Array - > Use Buttons.bmp
+	// todo; probably should be converted to use LoadImage using internal Icons instead of Bitmaps.
 	} else {
+		// dont have old Bitmaps -> Add
 		if ( oldToolbarBitmapID == 0 ) {
 			TBADDBITMAP addbmp = { hInstance, IDR_BUTTONS };
-			if ( ::SendMessage( hwndToolBar, TB_ADDBITMAP, 78, (LPARAM)&addbmp ) != (LRESULT)-1 ) {
+			if ( ::SendMessage( hwndToolBar, TB_ADDBITMAP, 31, (LPARAM)&addbmp ) != (LRESULT)-1 ) {
 				oldToolbarBitmapID = (intptr_t)IDR_BUTTONS;
 			}
+			// have old Bitmaps -> Replace
 		} else if ( oldToolbarBitmapID != IDR_BUTTONS ) {
 			TBREPLACEBITMAP repBmp = { 0, oldToolbarBitmapID, hInstance, IDR_BUTTONS, 31 };
 			if ( ::SendMessage(hwndToolBar,TB_REPLACEBITMAP,0,(LPARAM)&repBmp) ) {
 				oldToolbarBitmapID = (intptr_t)IDR_BUTTONS;
 			}
 		}
+		//Clean Up
 		if ( hToolbarBitmap != 0 ) ::DeleteObject( hToolbarBitmap );
 		hToolbarBitmap = 0;
 	}
@@ -834,43 +851,6 @@ void SciTEWin::LocaliseDialog(HWND wDialog) {
 	}
 }
 
-// Mingw headers do not have this:
-#ifndef TBSTYLE_FLAT
-#define TBSTYLE_FLAT 0x0800
-#endif
-#ifndef TB_LOADIMAGES
-#define TB_LOADIMAGES (WM_USER + 50)
-#endif
-
-/*!-remove-[user.toolbar]
- struct BarButton {
-struct BarButton {
-	int id;
-	int cmd;
-};
-
-static BarButton bbs[] = {
-    { -1,           0 },
-    { STD_FILENEW,  IDM_NEW },
-    { STD_FILEOPEN, IDM_OPEN },
-    { STD_FILESAVE, IDM_SAVE },
-    { 0,            IDM_CLOSE },
-    { -1,           0 },
-    { STD_PRINT,    IDM_PRINT },
-    { -1,           0 },
-    { STD_CUT,      IDM_CUT },
-    { STD_COPY,     IDM_COPY },
-    { STD_PASTE,    IDM_PASTE },
-    { STD_DELETE,   IDM_CLEAR },
-    { -1,           0 },
-    { STD_UNDO,     IDM_UNDO },
-    { STD_REDOW,    IDM_REDO },
-    { -1,           0 },
-    { STD_FIND,     IDM_FIND },
-    { STD_REPLACE,  IDM_REPLACE },
-};
-*/
-
 static WNDPROC stDefaultTabProc = NULL;
 static LRESULT PASCAL TabWndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam) {
 
@@ -1102,39 +1082,6 @@ void SciTEWin::Creation() {
 	               0);
 	wToolBar = hwndToolBar;
 
-	/*!-remove-[user.toolbar] 
-	::SendMessage(hwndToolBar, TB_BUTTONSTRUCTSIZE, sizeof(TBBUTTON), 0);
-	::SendMessage(hwndToolBar, TB_SETBITMAPSIZE, 0, tbLarge ? MAKELPARAM(24, 24) : MAKELPARAM(16, 16));
-	::SendMessage(hwndToolBar, TB_LOADIMAGES, 
-	              tbLarge ? IDB_STD_LARGE_COLOR : IDB_STD_SMALL_COLOR,
-	              reinterpret_cast<LPARAM>(HINST_COMMCTRL));
-
-	TBADDBITMAP addbmp = { hInstance, IDR_CLOSEFILE };
-
-	if (tbLarge) {
-		addbmp.nID = IDR_CLOSEFILE24;
-	}
-	
-	::SendMessage(hwndToolBar, TB_ADDBITMAP, 1, reinterpret_cast<LPARAM>(&addbmp));
-
-	TBBUTTON tbb[ELEMENTS(bbs)];
-	for (unsigned int i = 0;i < ELEMENTS(bbs);i++) {
-		if (bbs[i].cmd == IDM_CLOSE)
-			tbb[i].iBitmap = STD_PRINT + 1;
-		else
-			tbb[i].iBitmap = bbs[i].id;
-		tbb[i].idCommand = bbs[i].cmd;
-		tbb[i].fsState = TBSTATE_ENABLED;
-		if ( -1 == bbs[i].id)
-			tbb[i].fsStyle = TBSTYLE_SEP;
-		else
-			tbb[i].fsStyle = TBSTYLE_BUTTON;
-		tbb[i].dwData = 0;
-		tbb[i].iString = 0;
-	}
-
-	::SendMessage(hwndToolBar, TB_ADDBUTTONS, ELEMENTS(bbs), reinterpret_cast<LPARAM>(tbb));
-*/
 	wToolBar.Show();
 
 	INITCOMMONCONTROLSEX icce;
