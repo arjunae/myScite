@@ -8,7 +8,7 @@ diff -Nurw scintilla-scite/src/SciTEBase.cxx scite/src/SciTEBase.cxx
  			calltipParametersStart.c_str(), autoCompleteIgnoreCase);
 -		if (words.length()) {
 +		// Show list on x typed chars (root.length() >0) 
-+			if (words.length() && root.length()>1 ) { 
++			if (words.length() && root.length()>3 ) { 
  			EliminateDuplicateWords(words);
  			wEditor.Call(SCI_AUTOCSETSEPARATOR, ' ');
  			wEditor.CallString(SCI_AUTOCSHOW, root.length(), words.c_str());

@@ -62,11 +62,12 @@ local apiCache = {}
 -- Number of chars to type before the autocomplete list appears:
 local MIN_PREFIX_LEN = 2
 -- Length of shortest word to add to the autocomplete list:
-local MIN_IDENTIFIER_LEN = 3
+local MIN_IDENTIFIER_LEN = 4
 -- List of regex patterns for finding suggestions for the autocomplete menu:
 local IDENTIFIER_PATTERNS = {"[a-z_][a-z_0-9]+"}
 -- Override settings that interfere with this script:
 props["autocomplete.start.characters"] = ""
+
 -- This feature is very awkward when combined with automatic popups:
 props["autocomplete.choose.single"] = "0"
 
@@ -159,7 +160,7 @@ local function setLexerSpecificStuff()
     end
     if IGNORE_STYLES[iLexer] then
     -- Define a function for calling later:
-        shouldIgnorePos = function(pos)       
+        shouldIgnorePos = function(pos)  
             return isInTable(IGNORE_STYLES[iLexer], editor.StyleAt[pos])
         end
     else
