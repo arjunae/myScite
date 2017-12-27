@@ -2075,6 +2075,85 @@ HorizontalScrollTo	scintilla\src\Editor.cxx	/^void Editor::HorizontalScrollTo(in
 Hwnd	scite\win32\Strips.h	/^	HWND Hwnd() const {$/;"	f	class:BaseWin	access:public	signature:() const
 HwndFromString	scite\win32\DirectorExtension.cxx	/^static HWND HwndFromString(const char *s) {$/;"	f	file:	signature:(const char *s)
 HwndOf	scite\win32\SciTEWin.h	/^inline HWND HwndOf(GUI::Window w) {$/;"	f	signature:(GUI::Window w)
+ICO_ACCEPT	scite\win32\toolbar.h	66;"	d
+ICO_ADD	scite\win32\toolbar.h	67;"	d
+ICO_ASTYLE	scite\win32\toolbar.h	64;"	d
+ICO_BOOKMARK_CLEARALL	scite\win32\toolbar.h	46;"	d
+ICO_BOOKMARK_NEXT	scite\win32\toolbar.h	43;"	d
+ICO_BOOKMARK_PREV	scite\win32\toolbar.h	44;"	d
+ICO_BOOKMARK_TOGGLE	scite\win32\toolbar.h	45;"	d
+ICO_BREAKPOINT	scite\win32\toolbar.h	69;"	d
+ICO_BUILD	scite\win32\toolbar.h	18;"	d
+ICO_CHANGE_CODEPAGE_RU	scite\win32\toolbar.h	54;"	d
+ICO_CHOICE_COLOR_FROM_A_PALETTE	scite\win32\toolbar.h	51;"	d
+ICO_CLEAR	scite\win32\toolbar.h	8;"	d
+ICO_CLOSE	scite\win32\toolbar.h	13;"	d
+ICO_CLOSEALL	scite\win32\toolbar.h	32;"	d
+ICO_COMPILE	scite\win32\toolbar.h	19;"	d
+ICO_COPY	scite\win32\toolbar.h	6;"	d
+ICO_CUT	scite\win32\toolbar.h	5;"	d
+ICO_DEBUG	scite\win32\toolbar.h	68;"	d
+ICO_FAVORITE_FOLDERS	scite\win32\toolbar.h	58;"	d
+ICO_FIND	scite\win32\toolbar.h	11;"	d
+ICO_FINDINFILES	scite\win32\toolbar.h	41;"	d
+ICO_FINDNEXT	scite\win32\toolbar.h	39;"	d
+ICO_FINDNEXTBACK	scite\win32\toolbar.h	40;"	d
+ICO_FIND_AND_HIGHLIGHT	scite\win32\toolbar.h	63;"	d
+ICO_FULLSCREEN	scite\win32\toolbar.h	25;"	d
+ICO_GO	scite\win32\toolbar.h	17;"	d
+ICO_GOTO	scite\win32\toolbar.h	42;"	d
+ICO_HELP	scite\win32\toolbar.h	26;"	d
+ICO_HIGHLIGHT	scite\win32\toolbar.h	62;"	d
+ICO_HIGHLIGHTIDENTICAL	scite\win32\toolbar.h	61;"	d
+ICO_INSPECT	scite\win32\toolbar.h	75;"	d
+ICO_LINENUMBERMARGIN	scite\win32\toolbar.h	47;"	d
+ICO_LIST_OF_FUNCTIONS_PROCEDURES	scite\win32\toolbar.h	49;"	d
+ICO_LOAD	scite\win32\toolbar.h	76;"	d
+ICO_LOADSESSION	scite\win32\toolbar.h	35;"	d
+ICO_MACROPLAY	scite\win32\toolbar.h	14;"	d
+ICO_MACRORECORD	scite\win32\toolbar.h	16;"	d
+ICO_MACROSTOPRECORD	scite\win32\toolbar.h	15;"	d
+ICO_MONOFONT	scite\win32\toolbar.h	22;"	d
+ICO_NEW	scite\win32\toolbar.h	1;"	d
+ICO_ONTOP	scite\win32\toolbar.h	48;"	d
+ICO_OPEN	scite\win32\toolbar.h	2;"	d
+ICO_OPENABBREVPROPERTIES	scite\win32\toolbar.h	29;"	d
+ICO_OPENAPIFILE	scite\win32\toolbar.h	55;"	d
+ICO_OPENGLOBALPROPERTIES	scite\win32\toolbar.h	27;"	d
+ICO_OPENUSERPROPERTIES	scite\win32\toolbar.h	28;"	d
+ICO_OPEN_FAVORITE_FILES	scite\win32\toolbar.h	56;"	d
+ICO_PASTE	scite\win32\toolbar.h	7;"	d
+ICO_PRINT	scite\win32\toolbar.h	4;"	d
+ICO_PRINTSETUP	scite\win32\toolbar.h	33;"	d
+ICO_READONLY	scite\win32\toolbar.h	23;"	d
+ICO_REDO	scite\win32\toolbar.h	10;"	d
+ICO_REPLACE	scite\win32\toolbar.h	12;"	d
+ICO_REPLACE_SPACES	scite\win32\toolbar.h	53;"	d
+ICO_SAVE	scite\win32\toolbar.h	3;"	d
+ICO_SAVEALL	scite\win32\toolbar.h	31;"	d
+ICO_SAVEAS	scite\win32\toolbar.h	21;"	d
+ICO_SAVESESSION	scite\win32\toolbar.h	36;"	d
+ICO_SELECTALL	scite\win32\toolbar.h	37;"	d
+ICO_SELECTTOBRACE	scite\win32\toolbar.h	38;"	d
+ICO_SESSION_MANAGER	scite\win32\toolbar.h	34;"	d
+ICO_SIDEBAR	scite\win32\toolbar.h	52;"	d
+ICO_SPELLING	scite\win32\toolbar.h	50;"	d
+ICO_STACK	scite\win32\toolbar.h	79;"	d
+ICO_STEP	scite\win32\toolbar.h	70;"	d
+ICO_STEP_INTO	scite\win32\toolbar.h	72;"	d
+ICO_STEP_OUT	scite\win32\toolbar.h	73;"	d
+ICO_STEP_OVER	scite\win32\toolbar.h	71;"	d
+ICO_STOP	scite\win32\toolbar.h	77;"	d
+ICO_STOPD	scite\win32\toolbar.h	78;"	d
+ICO_STOPEXECUTE	scite\win32\toolbar.h	60;"	d
+ICO_TIDY	scite\win32\toolbar.h	65;"	d
+ICO_TOGGLEOUTPUT	scite\win32\toolbar.h	24;"	d
+ICO_TRIM_TRAL_SPACES	scite\win32\toolbar.h	57;"	d
+ICO_UNDO	scite\win32\toolbar.h	9;"	d
+ICO_VIEWEOL	scite\win32\toolbar.h	20;"	d
+ICO_VIEWSPACE	scite\win32\toolbar.h	59;"	d
+ICO_WATCH	scite\win32\toolbar.h	74;"	d
+ICO_WRAP	scite\win32\toolbar.h	30;"	d
 ICaseConverter	scintilla\src\CaseConvert.h	/^class ICaseConverter {$/;"	c	namespace:Scintilla
 IDABBREV	scite\src\SciTE.h	260;"	d
 IDABOUTSCINTILLA	scite\src\SciTE.h	232;"	d
@@ -2749,9 +2828,9 @@ LIMIT	scite\lua\src\lib\lauxlib.c	395;"	d	file:
 LINEMARKER_H	scintilla\src\LineMarker.h	9;"	d
 LINK_LEXER	scintilla\src\Catalogue.cxx	71;"	d	file:
 LMMinder	scintilla\src\ExternalLexer.h	/^class LMMinder {$/;"	c	namespace:Scintilla
-LOAD_LIBRARY_SEARCH_APPLICATION_DIR	scite\win32\SciTEWin.cxx	2235;"	d	file:
+LOAD_LIBRARY_SEARCH_APPLICATION_DIR	scite\win32\SciTEWin.cxx	2239;"	d	file:
 LOAD_LIBRARY_SEARCH_SYSTEM32	scintilla\win32\PlatWin.cxx	51;"	d	file:
-LOAD_LIBRARY_SEARCH_SYSTEM32	scite\win32\SciTEWin.cxx	2238;"	d	file:
+LOAD_LIBRARY_SEARCH_SYSTEM32	scite\win32\SciTEWin.cxx	2242;"	d	file:
 LUAC_FORMAT	scite\lua\src\lundump.h	31;"	d
 LUAC_HEADERSIZE	scite\lua\src\lundump.h	34;"	d
 LUAC_VERSION	scite\lua\src\lundump.h	28;"	d
@@ -4010,7 +4089,7 @@ RA	scite\lua\src\lvm.c	343;"	d	file:
 RADIANS_PER_DEGREE	scite\lua\src\lib\lmathlib.c	22;"	d	file:
 RB	scite\lua\src\lvm.c	345;"	d	file:
 RC	scite\lua\src\lvm.c	346;"	d	file:
-RECTFromRectangle	scite\win32\Strips.cxx	/^RECT RECTFromRectangle(GUI::Rectangle r) {$/;"	f	namespace:__anon115	signature:(GUI::Rectangle r)
+RECTFromRectangle	scite\win32\Strips.cxx	/^RECT RECTFromRectangle(GUI::Rectangle r) {$/;"	f	namespace:__anon117	signature:(GUI::Rectangle r)
 REF	scintilla\src\RESearch.cxx	229;"	d	file:
 RESEARCH_H	scintilla\src\RESearch.h	10;"	d
 RESERVED	scite\lua\src\llex.h	/^enum RESERVED {$/;"	g
@@ -8171,7 +8250,7 @@ TWndProc	scite\win32\SciTEWin.cxx	/^LRESULT PASCAL SciTEWin::TWndProc($/;"	f	cla
 T_CONTAINERS_POSITION	scite\src\Containers.h	/^struct T_CONTAINERS_POSITION { };$/;"	s
 T_POSITION	scite\src\Containers.h	/^typedef T_CONTAINERS_POSITION* T_POSITION;$/;"	t
 Tab	scite\win32\Strips.cxx	/^void Strip::Tab(bool forwards) {$/;"	f	class:Strip	signature:(bool forwards)
-TabAtPoint	scite\win32\SciTEWinBar.cxx	/^int TabAtPoint(HWND hWnd, GUI::Point pt) {$/;"	f	namespace:__anon113	signature:(HWND hWnd, GUI::Point pt)
+TabAtPoint	scite\win32\SciTEWinBar.cxx	/^int TabAtPoint(HWND hWnd, GUI::Point pt) {$/;"	f	namespace:__anon115	signature:(HWND hWnd, GUI::Point pt)
 TabBarRelease	scite\gtk\SciTEGTK.cxx	/^gint SciTEGTK::TabBarRelease(GtkNotebook *notebook, GdkEventButton *event) {$/;"	f	class:SciTEGTK	signature:(GtkNotebook *notebook, GdkEventButton *event)
 TabBarReleaseSignal	scite\gtk\SciTEGTK.cxx	/^	static gint TabBarReleaseSignal(GtkNotebook *notebook, GdkEventButton *event, SciTEGTK *scitew) {$/;"	f	class:SciTEGTK	access:protected	signature:(GtkNotebook *notebook, GdkEventButton *event, SciTEGTK *scitew)
 TabBarScroll	scite\gtk\SciTEGTK.cxx	/^gint SciTEGTK::TabBarScroll(GdkEventScroll *event) {$/;"	f	class:SciTEGTK	signature:(GdkEventScroll *event)
@@ -8277,13 +8356,13 @@ UIAvailable	scite\src\SciTEBase.cxx	/^void SciTEBase::UIAvailable() {$/;"	f	clas
 UIClosed	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::UIClosed() {$/;"	f	class:SciTEGTK	signature:()
 UIClosed	scite\src\SciTEBase.cxx	/^void SciTEBase::UIClosed() {$/;"	f	class:SciTEBase	signature:()
 UIClosed	scite\win32\SciTEWinDlg.cxx	/^void SciTEWin::UIClosed() {$/;"	f	class:SciTEWin	signature:()
+UICouldBeFlat	scite\win32\SciTEWin.cxx	/^bool UICouldBeFlat() {$/;"	f	namespace:__anon112	signature:()
 UIHasFocus	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::UIHasFocus() {$/;"	f	class:SciTEGTK	signature:()
 UIHasFocus	scite\src\SciTEBase.cxx	/^void SciTEBase::UIHasFocus() {$/;"	f	class:SciTEBase	signature:()
 UISF_HIDEACCEL	scite\win32\Strips.h	9;"	d
 UISF_HIDEFOCUS	scite\win32\Strips.h	10;"	d
 UIS_CLEAR	scite\win32\Strips.h	11;"	d
 UIS_SET	scite\win32\Strips.h	12;"	d
-UIShouldBeFlat	scite\win32\SciTEWin.cxx	/^bool UIShouldBeFlat() {$/;"	f	namespace:__anon112	signature:()
 UNARY_PRIORITY	scite\lua\src\lparser.c	821;"	d	file:
 UNDO_MAY_COALESCE	scintilla\include\Scintilla.h	885;"	d
 UNICODEFROMUTF8_H	scintilla\src\UnicodeFromUTF8.h	9;"	d
@@ -8508,7 +8587,7 @@ WM_NOTIFY	scintilla\cocoa\ScintillaView.h	24;"	d
 WM_UNICHAR	scintilla\win32\ScintillaWin.cxx	99;"	d	file:
 WM_UPDATEUISTATE	scite\win32\SciTEWin.h	76;"	d
 WORDLIST_H	scintilla\lexlib\WordList.h	9;"	d
-WORK_EXECUTE	scite\win32\SciTEWin.h	/^	WORK_EXECUTE = WORK_PLATFORM + 1$/;"	e	enum:__anon116
+WORK_EXECUTE	scite\win32\SciTEWin.h	/^	WORK_EXECUTE = WORK_PLATFORM + 1$/;"	e	enum:__anon113
 WORK_FILEPROGRESS	scite\src\FileWorker.h	/^	WORK_FILEPROGRESS = 3,$/;"	e	enum:__anon73
 WORK_FILEREAD	scite\src\FileWorker.h	/^	WORK_FILEREAD = 1,$/;"	e	enum:__anon73
 WORK_FILEWRITTEN	scite\src\FileWorker.h	/^	WORK_FILEWRITTEN = 2,$/;"	e	enum:__anon73
@@ -8803,15 +8882,15 @@ backgroundStrip	scite\win32\SciTEWin.h	/^	BackgroundStrip backgroundStrip;$/;"	m
 backslash_x_xpm	scite\gtk\SciTEGTK.cxx	/^static const char * backslash_x_xpm[] = {$/;"	v	file:
 backspaceUnindents	scintilla\src\Document.h	/^	bool backspaceUnindents;$/;"	m	class:Scintilla::Document	access:public
 badpat	scintilla\src\RESearch.cxx	245;"	d	file:
-bandBackground	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon117
-bandContents	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon117
-bandFind	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon117
-bandReplace	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon117
-bandSearch	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon117
-bandStatus	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon117
-bandTab	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon117
-bandTool	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon117
-bandUser	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon117
+bandBackground	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon114
+bandContents	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon114
+bandFind	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon114
+bandReplace	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon114
+bandSearch	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon114
+bandStatus	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon114
+bandTab	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon114
+bandTool	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon114
+bandUser	scite\win32\SciTEWin.h	/^	enum { bandTool, bandTab, bandContents, bandUser, bandBackground, bandSearch, bandFind, bandReplace, bandStatus };$/;"	e	enum:SciTEWin::__anon114
 bands	scite\win32\SciTEWin.h	/^	std::vector<Band> bands;$/;"	m	class:SciTEWin	access:protected
 base	scite\lua\src\lstate.h	/^  StkId base;  \/* base for this function *\/$/;"	m	struct:CallInfo	access:public
 base	scite\lua\src\lstate.h	/^  StkId base;  \/* base of current function *\/$/;"	m	struct:lua_State	access:public
@@ -9731,6 +9810,7 @@ flags	scite\src\LuaExtension.cxx	/^	int flags; \/\/ this is really part of the s
 flags	scite\src\StyleDefinition.h	/^	enum flags { sdNone = 0, sdFont = 0x1, sdSize = 0x2, sdFore = 0x4, sdBack = 0x8,$/;"	g	class:StyleDefinition	access:public
 flags	scite\win32\SciTEWin.h	/^	int flags;$/;"	m	class:CommandWorker	access:public
 flagsMatch	scite\src\MatchMarker.h	/^	int flagsMatch;$/;"	m	class:MatchMarker	access:private
+flatUI	scite\win32\SciTEWin.h	/^	bool flatUI;$/;"	m	class:ContentWin	access:public
 flatten	scintilla\scripts\GenerateCaseConvert.py	/^def flatten(listOfLists):$/;"	f	access:public
 flattenSpaces	scite\scripts\CheckMentioned.py	/^def flattenSpaces(s):$/;"	f	access:public
 flatterUI	scite\win32\SciTEWin.h	/^	bool flatterUI;$/;"	m	class:SciTEWin	access:protected
@@ -13140,7 +13220,7 @@ tickScroll	scintilla\src\Editor.h	/^	enum TickReason { tickCaret, tickScroll, ti
 tickSize	scintilla\src\Editor.h	/^	enum {tickSize = 100};$/;"	e	enum:Scintilla::Timer::__anon28
 tickWiden	scintilla\src\Editor.h	/^	enum TickReason { tickCaret, tickScroll, tickWiden, tickDwell, tickPlatform };$/;"	e	enum:Scintilla::Editor::TickReason
 tickerID	scintilla\src\Editor.h	/^	TickerID tickerID;$/;"	m	class:Scintilla::Timer	access:public
-tickerID	scite\win32\SciTEWinBar.cxx	/^enum { tickerID = 100 };$/;"	e	enum:__anon114	file:
+tickerID	scite\win32\SciTEWinBar.cxx	/^enum { tickerID = 100 };$/;"	e	enum:__anon116	file:
 ticking	scintilla\src\Editor.h	/^	bool ticking;$/;"	m	class:Scintilla::Timer	access:public
 ticksToDwell	scintilla\src\Editor.h	/^	int ticksToDwell;$/;"	m	class:Scintilla::Editor	access:protected
 ticksToWait	scintilla\src\Editor.h	/^	int ticksToWait;$/;"	m	class:Scintilla::Timer	access:public

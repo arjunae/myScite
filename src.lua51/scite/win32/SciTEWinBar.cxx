@@ -564,7 +564,7 @@ void SciTEWin::SetToolBar() {
 	} else {
 		if ( oldToolbarBitmapID == 0 ) {
 			TBADDBITMAP addbmp = { hInstance, IDR_BUTTONS };
-			if ( ::SendMessage( hwndToolBar, TB_ADDBITMAP, 31, (LPARAM)&addbmp ) != (LRESULT)-1 ) {
+			if ( ::SendMessage( hwndToolBar, TB_ADDBITMAP, 78, (LPARAM)&addbmp ) != (LRESULT)-1 ) {
 				oldToolbarBitmapID = (intptr_t)IDR_BUTTONS;
 			}
 		} else if ( oldToolbarBitmapID != IDR_BUTTONS ) {

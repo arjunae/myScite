@@ -290,9 +290,7 @@
 #define IDBM_AROUND 105
 #define IDBM_UP 106
 #define IDR_CLOSEFILE24 107
-#define IDR_BUTTONS			119
-#define IDR_USER_TOOLBAR			120
-
+#define IDR_BUTTONS			108
 #define IDBM_20_WORD 201
 #define IDBM_20_CASE 202
 #define IDBM_20_REGEX 203
@@ -313,7 +311,5 @@
 #define IDBM_32_BACKSLASH 404
 #define IDBM_32_AROUND 405
 #define IDBM_32_UP 406
-
-
 
 #endif
