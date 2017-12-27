@@ -5,7 +5,7 @@
 #include <windows.h>
 
 #include "SciTE.h"
-
+ 
 SciTE ICON SciBall.ico
 
 1 RT_MANIFEST SciTE.exe.manifest
