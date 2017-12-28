@@ -523,22 +523,23 @@ void SciTEWin::SetToolBar() {
 
 	// .. erases all buttons
 	while ( ::SendMessage(hwndToolBar,TB_DELETEBUTTON,0,0) );
-
 	std::string fileNameForExtension = ExtensionFileName();
 
-	 // .. loads all ICONS from a given Resource. (Not error checked)
-	// todo: drops error if not givin a valid filenamepath. also isnt very performant.
-  // so probably should be optional.
+	 // .. loads all ICONS from a given Resource. Isnt very performant. So now optional with iconlib compiled in.
 	GUI::gui_string sIconlib = GUI::StringFromUTF8( props.GetNewExpandString("user.toolbar.iconlib.", fileNameForExtension.c_str()).c_str() );
 	HICON hIcon = NULL;
 	HICON hIconBig = NULL;
 	int iIconsCount = 0;
 	TArray<HICON,HICON> arrIcons;
-	while ( (int)::ExtractIconExW( sIconlib.c_str(), iIconsCount++, &hIconBig, &hIcon, 1 ) > 0 ) {
-		if ( hIconBig != NULL ) ::DestroyIcon( hIconBig );
-		if ( hIcon != NULL ) arrIcons.Add( hIcon );
+	
+	// Have User Data?
+	if (sIconlib.size()>0) {
+		while ( (int)::ExtractIconExW( sIconlib.c_str(), iIconsCount++, &hIconBig, &hIcon, 1 ) > 0 ) {
+			if ( hIconBig != NULL ) ::DestroyIcon( hIconBig );
+			if ( hIcon != NULL ) arrIcons.Add( hIcon );
+		}
 	}
-
+	
 	// If above Resource had our ICONS...
 	HBITMAP hToolbarBitmapNew = 0;
 	iIconsCount = arrIcons.GetSize(); 
@@ -573,8 +574,7 @@ void SciTEWin::SetToolBar() {
 		if ( hToolbarBitmap != 0 ) ::DeleteObject( hToolbarBitmap );
 		hToolbarBitmap = hToolbarBitmapNew;
 		
-	// No Resources in the Array - > Use Buttons.bmp
-	// todo; probably should be converted to use LoadImage using internal Icons instead of Bitmaps.
+	// No Resources in the Array - > Use IDR_BUTTONS "buttons.bmp"
 	} else {
 		// dont have old Bitmaps -> Add
 		if ( oldToolbarBitmapID == 0 ) {
