@@ -160,7 +160,7 @@ end
 
 function myScite_OpenSwitch()
 
-	local AC_MAX_SIZE =131072 --131kB
+	local AC_MAX_SIZE =209715 --200kB
 	local fSize =0
 
 	if buffer and props["FilePath"]~="" then 
@@ -170,6 +170,9 @@ function myScite_OpenSwitch()
 			markeMail()
 			markGUID()
 			CheckUTF()
+		else
+			props["highlight.current.word"]=0
+			props["find.strip.incremental"]=1
 		end
 	end
 	
@@ -194,5 +197,3 @@ function OnInit()
 
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-

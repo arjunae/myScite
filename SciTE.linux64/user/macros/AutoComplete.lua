@@ -60,14 +60,13 @@ local IGNORE_STYLES = { -- Should include comments, strings and errors.
 -- Names from api files, stored by lexer name.
 local apiCache = {} 
 -- Number of chars to type before the autocomplete list appears:
-local MIN_PREFIX_LEN = 2
+local MIN_PREFIX_LEN = 3
 -- Length of shortest word to add to the autocomplete list:
 local MIN_IDENTIFIER_LEN = 4
 -- List of regex patterns for finding suggestions for the autocomplete menu:
 local IDENTIFIER_PATTERNS = {"[a-z_][a-z_0-9]+"}
 -- Override settings that interfere with this script:
 props["autocomplete.start.characters"] = ""
-
 -- This feature is very awkward when combined with automatic popups:
 props["autocomplete.choose.single"] = "0"
 
@@ -215,13 +214,9 @@ local function buildNames()
 -- use a user settable maximum size for AutoComplete to be active
 
 --print("build names buffer state:",buffer.dirty)
-
-    local fSize=0
-    local LexerName= props["Language"]
         
-    if LexerName~="" and buffer.dirty==true then 
+    if props["Language"]~="" and buffer.dirty==true then 
     if buffer.size and buffer.size > AC_MAX_SIZE then  return end
-      
     if DEBUG>=1 then  print("ac>buildnames") end
         setLexerSpecificStuff()
         -- Reset our array of names.
@@ -272,11 +267,14 @@ local lastAutoCItem = 0 -- Used by handleKey().
 local menuItems
 
 local function handleChar(char, calledByHotkey)
+    if props["Language"]==""  then  return end
+    if buffer.size and buffer.size > AC_MAX_SIZE then  return end
+    
     local pos = editor.CurrentPos
     local startPos = editor:WordStartPosition(pos, true)
     local len = pos - startPos
     buffer.dirty=true
-    
+
     if ipairs==nil then ipairs={} end
     if editor.Lexer==1  then return end
     
@@ -284,7 +282,7 @@ local function handleChar(char, calledByHotkey)
         -- Nothing to do.
         return
     end
-    
+    editor:AutoCCancel()
     if len < MIN_PREFIX_LEN then
         if editor:AutoCActive() then
             if len == 0 then
@@ -308,6 +306,7 @@ local function handleChar(char, calledByHotkey)
         -- pop up the auto-complete window.
         return
     end
+
 
     local prefix = normalize(editor:textrange(startPos, pos))       
     menuItems = {}
@@ -361,8 +360,9 @@ end
 
 
 local function handleKey(key, shift, ctrl, alt)
-   if editor.Lexer==1  then return end
-    
+    if props["Language"]==""  then  return end
+    if buffer.size and buffer.size > AC_MAX_SIZE then  return end
+
     if key == 0x20 and ctrl and not (shift or alt) then -- ^Space
         handleChar(nil, true)
         return true
