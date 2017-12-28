@@ -282,7 +282,7 @@ local function handleChar(char, calledByHotkey)
         -- Nothing to do.
         return
     end
-    editor:AutoCCancel()
+
     if len < MIN_PREFIX_LEN then
         if editor:AutoCActive() then
             if len == 0 then

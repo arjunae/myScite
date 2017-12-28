@@ -33,8 +33,12 @@ dofile(myHome..'/Addons/lua/mod-extman/extman.lua')
 package.path = package.path .. ";"..myHome.."/Addons/lua/mod-mitchell/?.lua;"
 --dofile(myHome..'/Addons/lua/mod-mitchell/scite.lua')
 		
+
 -- Load cTags Browser
 --dofile(myHome..'/Addons/lua/mod-ctags/ctagsd.lua')
+
+-- Load Project support functions
+dofile(myHome..'/Addons/lua/SciTEProject.lua')
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -153,7 +157,7 @@ end
 
 function myScite_OpenSwitch()
 
-	local AC_MAX_SIZE =131072 --131kB
+	local AC_MAX_SIZE =262144 --260kB
 	local fSize =0
 
 	if buffer and props["FilePath"]~="" then 
@@ -163,6 +167,9 @@ function myScite_OpenSwitch()
 			markeMail()
 			markGUID()
 			CheckUTF()
+		else
+			props["highlight.current.word"]=0
+			props["find.strip.incremental"]=1
 		end
 	end
 	
@@ -187,5 +194,3 @@ function OnInit()
 
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
