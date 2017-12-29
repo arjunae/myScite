@@ -2,7 +2,7 @@
 -- parseCTags.lua 
 -- takes a ctags file and parse its contents to a respective SciTE .properties and .api file
 -- License: BSD3Clause / Author: Thorsten Kani / eMail:Marcedo@habMalNeFrage.de
--- version: 0.8 
+-- version: 0.9
 -- todo: compile?
 --
 local DEBUG=0 --1: Trace Mode 2: Verbose Mode
@@ -15,6 +15,7 @@ local cTagModules =""
 local cTagENUMs=""
 local cTagOthers=""
 local cTagAllTogether="{"
+local projectFilePath, cTagsFileName, odo
 local fs=io
 
 --
@@ -37,19 +38,25 @@ local cTagsAPIFilePath =arg[1]
 local smallerFile =arg[2]
 local projectName =arg[3]
 
-if smallerFile=="1" then smallerFile=true end
+print("> ["..arg[0].."] [Thorsten Kani / Dezember 2017 / eMail:Marcedo@HabMalNeFrage.de]")
 
--- Think that the file is local when theres no filepath given.
-if cTagsAPIFilePath:match(dirSep())==nil then 
-    cTagsFileName=cTagsAPIFilePath
-    cTagsAPIFilePath="."..dirSep()..cTagsFileName
+if not arg[1] then 
+    print ("> ["..arg[0].."] [File] (cTags Filename) [True] (strip Datastructures)")
+    odo=false
+else
+    odo=true
+    if smallerFile=="1" then smallerFile=true end
+
+    -- Think that the file is local when theres no filepath given.
+    if cTagsAPIFilePath:match(dirSep())==nil then 
+        cTagsFileName=cTagsAPIFilePath
+        cTagsAPIFilePath="."..dirSep()..cTagsFileName
+    end
+
+    print ("> TagsAPIFilePath: "..tostring(cTagsAPIFilePath).." | smallerFile: "..tostring(smallerFile).." | projectName: "..tostring(projectName))
+    projectFilePath, cTagsFileName =cTagsAPIFilePath:match("(.*[%"..dirSep().."]+)%/?(.*)$")
+    if not projectName then projectName=cTagsFileName end
 end
-
-print("> [parseCTags.lua]".." [Thorsten Kani / Dezember 2017 / eMail:Marcedo@HabMalNeFrage.de]")
-print ("> TagsAPIFilePath: "..tostring(cTagsAPIFilePath).." | smallerFile: "..tostring(smallerFile).." | projectName: "..tostring(projectName))
-
-local projectFilePath, cTagsFileName=cTagsAPIFilePath:match("(.*[%"..dirSep().."]+)%/?(.*)$")
-if not projectName then projectName=cTagsFileName end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
@@ -155,7 +162,7 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
                 -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=name..params
                 if isFunction and string.len(params)>2 then  -- Optionally Filter internals and COM Objects
-                    if  smallerFile and (lastEntry:match("^(_)") and lastEntry:match("_Proxy") or lastEntry:match("_Stub") or lastEntry:match("Vtbl")   ) then
+                    if  smallerFile and (lastEntry:match("^(_)") or lastEntry:match("_Proxy") or lastEntry:match("_Stub") or lastEntry:match("Vtbl")   ) then
                          entry=""
                         else
                         io.write(lastEntry.."\n")  
@@ -244,31 +251,33 @@ print("> deDupeing.."..APIFilePath)
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-APIFilePath=projectFilePath..cTagsFileName..".api"
-finFileNamePath=os.getenv("tmp")..dirSep().."project.ctags.fin"
-lockFileNamePath=os.getenv("tmp")..dirSep().."project.ctags.lock"
+if odo then
+    APIFilePath=projectFilePath..cTagsFileName..".api"
+    finFileNamePath=os.getenv("tmp")..dirSep().."project.ctags.fin"
+    lockFileNamePath=os.getenv("tmp")..dirSep().."project.ctags.lock"
 
--- create a lock file
-os.remove(finFileNamePath)
-lockFile=io.open(lockFileNamePath,"w")
-lockFile= io.output(lockFileNamePath)
-io.output(lockFile) 
-io.write(tostring(os.date))
-io.close(lockFile)
+    -- create a lock file
+    os.remove(finFileNamePath)
+    lockFile=io.open(lockFileNamePath,"w")
+    lockFile= io.output(lockFileNamePath)
+    io.output(lockFile) 
+    io.write(tostring(os.date))
+    io.close(lockFile)
 
--- do!
-appendCTags({},projectFilePath,cTagsFileName,projectName)
-if file_exists(APIFilePath) then
-    DeDupeAPI(APIFilePath) 
-    print("> FIN!")
-else
-    print("> Error: "..APIFilePath.." was not found")
+    -- do!
+    appendCTags({},projectFilePath,cTagsFileName,projectName)
+    if file_exists(APIFilePath) then
+        DeDupeAPI(APIFilePath) 
+        print("> FIN!")
+    else
+        print("> Error: "..APIFilePath.." was not found")
+    end
+
+    -- create the fin file
+    os.remove(lockFileNamePath)
+    finFile=io.open(finFileNamePath,"w")
+    finFile= io.output(finFileNamePath)
+    io.output(finFile) 
+    io.write(tostring(os.date))
+    io.close(finFile)
 end
-
--- create the fin file
-os.remove(lockFileNamePath)
-finFile=io.open(finFileNamePath,"w")
-finFile= io.output(finFileNamePath)
-io.output(finFile) 
-io.write(tostring(os.date))
-io.close(finFile)

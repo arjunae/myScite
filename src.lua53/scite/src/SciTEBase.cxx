@@ -1689,7 +1689,7 @@ bool SciTEBase::StartAutoComplete() {
 			calltipParametersStart.c_str(), autoCompleteIgnoreCase);
 		// Show list on x typed chars (root.length() >0) 
 	 // todo: an AutoCompleteList/Calltip sequence should bring up a former shown Calltip again.
-			if (words.length() && root.length()>=3 && !wEditor.Call(SCI_CALLTIPACTIVE)) { 
+			if (words.length() && root.length()>=3 ) { 
 			EliminateDuplicateWords(words);
 			wEditor.Call(SCI_AUTOCSETSEPARATOR, ' ');
 			wEditor.CallString(SCI_AUTOCSHOW, root.length(), words.c_str());
@@ -1760,7 +1760,7 @@ bool SciTEBase::StartAutoCompleteWord(bool onlyOneWord) {
 	}
 	const size_t length = wordsNear.length();
 	if ((length > 2) && (!onlyOneWord || (minWordLength > root.length()))) {
-		// Protect spaces by temporrily transforming to \001
+		// Protect spaces by temporarily transforming to \001
 		std::replace(wordsNear.begin(), wordsNear.end(), ' ', '\001');
 		StringList wl(true);
 		wl.Set(wordsNear.c_str());
