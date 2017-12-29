@@ -12,6 +12,9 @@ package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..m
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
 
+local dirSep, GTK = props['PLAT_GTK']
+if GTK then dirSep = '/' else dirSep = '\\' end
+
 --lua >=5.2.x renamed functions:
 local unpack = table.unpack or unpack
 math.mod = math.fmod or math.mod

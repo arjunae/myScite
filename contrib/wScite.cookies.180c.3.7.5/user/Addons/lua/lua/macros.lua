@@ -1,20 +1,20 @@
 -- (c) Valentin Schmidt 2016
 -- PayPal: v.schmidt [a.t] dasdeck [d.o.t] de
---do
+-- Dec2017, Marcedo [a.t] habMalNeFrage [d.o.t] de: handle already loaded lfs lib.
 
-require 'lfs'
+if lfs==nil then err,lfs = pcall( require,"lfs")  end
 
 -- load scripts dynamically from scripts folder
 local AppList = {}
-for f in lfs.dir(props['SciteDefaultHome'].."\\user\\macros") do 
-	if f ~= "." and f ~= ".." then
-		AppList[#AppList+1] = {f, f, f:sub(1,-5)}
-	end
+for f in lfs.dir(props['SciteUserHome'].."/user/macros") do 
+   if f ~= "." and f ~= ".." then
+      AppList[#AppList+1] = {f, f, f:sub(1,-5)}
+   end
 end
 
 -- for global scripts; switch to "SciteUserHome" for per-user scripts
 local function loadscript(scriptfile)  
-  dofile(props["SciteDefaultHome"].."\\user\\macros\\"..scriptfile)
+  dofile(props["SciteUserHome"].."/user/macros/"..scriptfile)
 end
 
 -- run selected scripts, silently fails if no extman
@@ -37,5 +37,3 @@ function ChooseScript()
 end
 
 scite_Command('Macro Scripts|ChooseScript|Ctrl+9')
-
---end

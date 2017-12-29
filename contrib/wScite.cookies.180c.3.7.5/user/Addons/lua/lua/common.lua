@@ -42,15 +42,15 @@ function CheckUTF()
 	end
 end
 
-
-
 --------------------------
 -- quickCheck a files CRC32 Hash 
 --------------------------
+if C32==nil then err,C32 = pcall( require,"crc32")  end
 function fileHash(fileName)
+	if type(C32)~="table" then return end
 	local CRChash=""
 	if fileName~="" then
-		local C32 = require 'crc32'
+	
 		local crc32=C32.crc32
 		local crccalc = C32.newcrc32()
 		local crccalc_mt = getmetatable(crccalc)
@@ -75,7 +75,7 @@ end
 -- check SciLexer once per session and inform the User if its a nonStock Version.
 local SLHash
 if not SLHash then SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
-	if SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
+	if SLHash and SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
 end
 
 --------------------------

@@ -84,9 +84,9 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
             local skipper=false          
             local name =""
             local params="" -- match function parameters for Calltips           
-            -- Mark Constants and Vars (matches "[tab]d/v)  
-            local tmp = entry:match("%\"\t[dv]")   
-            if not smallerFile and (tmp=="\"\td" or tmp=="\"\tv") then 
+            -- Mark Constants and Vars (matches "[tab]v)  
+            local tmp = entry:match("%\"\t[v]")   
+            if not smallerFile and (tmp=="\"\tv") then 
                 name= entry:match("([%w_]+)") or "" 
                 isConst=true
                 skipper=true
@@ -100,8 +100,8 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
                     skipper=true
                 end   
            end     
-           -- Mark Modules (matches "[tab]m)  ...can have params too..
-            if not skipper and entry:match("%\"\tm")=="\"\tm" then 
+           -- Mark Modules (matches "[tab]m)  todo: handle defines
+            if not skipper and entry:match("%\"\tm")=="\"\tm" or entry:match("%\"\td")=="\"\td" then 
                 strCls, name= entry:match("^([%w_]+)[%.]?([%w_]+).*")
                 if name and string.len(name)==1 then name=strCls..name end
                 isModule=true
