@@ -301,7 +301,7 @@ local function handleChar(char, calledByHotkey)
         end
     end
 
-    if not editor:AutoCActive() and shouldIgnorePos(startPos) and not calledByHotkey then
+    if not editor:AutoCActive() and shouldIgnorePos(startPos) and not calledByHotkey or editor:CallTipActive() then
         -- User is typing in a comment or string, so don't automatically
         -- pop up the auto-complete window.
         return
