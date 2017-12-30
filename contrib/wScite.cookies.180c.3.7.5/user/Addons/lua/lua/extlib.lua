@@ -279,7 +279,7 @@ function Marker:delete()
 	end
 end
 
-function Marker:goto(centre)
+function Marker:gotoLn(centre)
 	editor:GotoLine(self.line-1)
 	if centre then center_line() end
 end

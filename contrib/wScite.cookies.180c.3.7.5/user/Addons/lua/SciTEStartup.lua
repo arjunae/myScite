@@ -1,5 +1,5 @@
 --
--- WSciTE Cookies Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
+-- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
 --
 
 -- track the amount of allocated memory 
@@ -20,15 +20,21 @@ math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 
+dirSep, GTK = props['PLAT_GTK']
+if GTK then dirSep = '/' else dirSep = '\\' end
+
 -- Load extman.lua 
 dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 
 -- chainload eventmanager / extman remake used by some lua mods
 dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
+dofile(myHome..'\\Addons\\lua\\SciteProject.lua')
+
 -- Load mod-mitchell 
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 --dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+
 --~~~~~~~~~~~~~~~~~~~
 --
 -- handle Project Folders
@@ -162,11 +168,12 @@ function markGUID()
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	-- Event Handlers
 	scite_OnOpenSwitch(markLinks)
 	scite_OnOpenSwitch(markeMail)
 	scite_OnOpenSwitch(markGUID)
-	scite_OnOpenSwitch(SetProjectEnv,true)
-	
+	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
+	--	scite_OnSave(CTagsRecreate)
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 --print("startupScript_reload")

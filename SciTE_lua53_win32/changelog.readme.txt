@@ -7,7 +7,7 @@
 # Upd: cTags and Artistic Style. /Upd: Autocomplete and theme.solarized.
 # Upd: c89,90,95,03,11 docs from en.wikibooks.org for Syntax Highlightening *kudos*.
 # New: Properties max.style.size and window.flatui.
-# Fix: StartUp Performance heavily improved 
+# Fix: StartUp Performance heavily improved.
 # Info: Dual Release. Lua5.1.5 and Lua5.3.4 available.  
 
 [25.11.2017] myScite.180.Artie.stable

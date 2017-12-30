@@ -172,7 +172,7 @@ function myScite_OpenSwitch()
 			markLinks()
 			markeMail()
 			markGUID()
-			CheckUTF()
+			DetectUTF8()
 		else
 			props["highlight.current.word"]=0
 			props["find.strip.incremental"]=1
