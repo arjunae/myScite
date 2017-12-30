@@ -34,7 +34,7 @@ local function file_exists(name)
 end
 
 -- read args
-local cTagsAPIFilePath =arg[1]
+local cTagsFilePath =arg[1]
 local smallerFile =arg[2]
 local projectName =arg[3]
 
@@ -48,13 +48,13 @@ else
     if smallerFile=="1" then smallerFile=true end
 
     -- Think that the file is local when theres no filepath given.
-    if cTagsAPIFilePath:match(dirSep())==nil then 
-        cTagsFileName=cTagsAPIFilePath
-        cTagsAPIFilePath="."..dirSep()..cTagsFileName
+    if cTagsFilePath:match(dirSep())==nil then 
+        cTagsFileName=cTagsFilePath
+        cTagsFilePath="."..dirSep()..cTagsFileName
     end
 
-    print ("> TagsAPIFilePath: "..tostring(cTagsAPIFilePath).." | smallerFile: "..tostring(smallerFile).." | projectName: "..tostring(projectName))
-    projectFilePath, cTagsFileName =cTagsAPIFilePath:match("(.*[%"..dirSep().."]+)%/?(.*)$")
+    print ("> TagsAPIFilePath: "..tostring(cTagsFilePath).." | smallerFile: "..tostring(smallerFile).." | projectName: "..tostring(projectName))
+    projectFilePath, cTagsFileName =cTagsFilePath:match("(.*[%"..dirSep().."]+)%/?(.*)$")
     if not projectName then projectName=cTagsFileName end
 end
 
@@ -70,23 +70,36 @@ end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
-    local cTagsAPIFilePath=projectFilePath..cTagsFileName
+    local cTagsFilePath=projectFilePath..cTagsFileName
     local cTagsAPIPath=projectFilePath..cTagsFileName..".api"
     local cTagItems=""
     -- catches not otherwise matched Stuff for Highlitghtning. Turn on for testing.
     local doFullSync="0"
 
-    if file_exists(cTagsAPIFilePath) then
-    if DEBUG>=1 then print("ac>appendCtags" ,cTagsAPIFilePath,projectName) end     
-        print("> parse: "..cTagsAPIFilePath)
-        local lastEntry="" -- simple DupeCheck
-        local cTagsAPIFile= io.open(cTagsAPIPath,"w")
-        io.output(cTagsAPIFile)   -- projects cTags APICalltips file
 
+    if file_exists(cTagsFilePath) then
+    if DEBUG>=1 then print("ac>appendCtags" ,cTagsFilePath,projectName) end     
+        io.stdout:write("> parse: "..cTagsFilePath .." ")
+        local lastEntry="" -- simple DupeCheck
+        local apiFile= io.open(cTagsAPIPath,"w") -- projects APICalltips file
+
+        cTagsFile=io.input(cTagsFilePath)
+        fileSize=cTagsFile:seek("end")
+        cTagsFile:seek("set")
+        
         -- a poorMans exuberAnt cTag Tokenizer :)) --
         -- Gibt den LemmingAmeisen was sinnvolles zu tun(tm) --
-        
-        for entry in io.lines(cTagsAPIFilePath) do
+
+        for entry in cTagsFile:lines() do
+            
+            filePos=cTagsFile:seek()
+            percent_before= percent
+            percent=math.floor(filePos*100/fileSize)
+            if percent~=percent_before then  
+                io.stdout:write(string.format("%02d",percent).."% ")
+                io.stdout:write('\b'..'\b'..'\b'..'\b')
+            end
+            
             local isFunction=false isClass=false isConst=false isModule=false isENUM=false isOther=false
             local skipper=false          
             local name =""
@@ -165,7 +178,7 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
                     if  smallerFile and (lastEntry:match("^(_)") or lastEntry:match("_Proxy") or lastEntry:match("_Stub") or lastEntry:match("Vtbl")   ) then
                          entry=""
                         else
-                        io.write(lastEntry.."\n")  
+                        apiFile:write(lastEntry.."\n")  
                    end
                 end -- faster then using a full bulkWrite?!
             end
@@ -173,7 +186,7 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
         ---- AutoComplete List entries
         cTagAllTogether=cTagAllTogether..cTagItems.."}"
         cTagAPI=cTagAllTogether
-        io.close(cTagsAPIFile)
+        io.close(apiFile)
         writeProps(projectName, projectFilePath) --> Let a Helper apply the generated Data.
         cTagsUpdate="0"
     end
@@ -207,6 +220,7 @@ function writeProps(projectName, projectFilePath)
     io.close(propFile)
     
 -- Show some stats
+        print("")
         print("> cTagENUMs ("..string.len(cTagENUMs).." bytes)" )
         print("> cTagNames: ("..string.len(cTagNames).." bytes)" )
         print("> cTagFunctions: ("..string.len(cTagFunctions).." bytes)" )
