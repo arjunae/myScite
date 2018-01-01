@@ -660,6 +660,7 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 	if (modulePath.length())
 	    wEditor.CallString(SCI_LOADLEXERLIBRARY, 0, modulePath.c_str());
 	language = props.GetNewExpandString("lexer.", fileNameForExtension.c_str());
+	
 	if (language.length()) {
 		if (StartsWith(language, "script_")) {
 			wEditor.Call(SCI_SETLEXER, SCLEX_CONTAINER);
@@ -679,7 +680,7 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 	} else {
 		wEditor.Call(SCI_SETLEXER, SCLEX_NULL);
 	}
-
+	
 	props.Set("Language", language.c_str());
 
 	lexLanguage = wEditor.Call(SCI_GETLEXER);
@@ -1377,7 +1378,14 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 	} else {
 		TimerEnd(timerAutoSave);
 	}
-
+	
+	const unsigned int forceLexNullSize=props.GetInt("max.style.size",10000000);
+	if (LengthDocument()>forceLexNullSize){
+		wEditor.Call(SCI_SETLEXER, 1);
+		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
+		props.Set("Language", "");
+	}
+		
 	firstPropertiesRead = false;
 	needReadProperties = false;
 }
@@ -1621,6 +1629,7 @@ void SciTEBase::ReadPropertiesInitial() {
 	props.Set("SciteDefaultHome", homepath.AsUTF8().c_str());
 	homepath = GetSciteUserHome();
 	props.Set("SciteUserHome", homepath.AsUTF8().c_str());
+	
 }
 
 FilePath SciTEBase::GetDefaultPropertiesFileName() {

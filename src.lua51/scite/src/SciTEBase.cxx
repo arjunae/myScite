@@ -2294,13 +2294,6 @@ void SciTEBase::SetTextProperties(
 	ps.SetInteger("BufferLength", bufferLength);
 	props.SetInteger("BufferLength",  bufferLength);
 	
-	const unsigned int forceLexNullSize=props.GetInt("max.style.size",10000000);
-	if (bufferLength>forceLexNullSize){
-		wEditor.Call(SCI_SETLEXER, SCLEX_NULL);
-		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
-		props.Set("Language", "");
-	}
-	
 	ps.SetInteger("NbOfLines", wEditor.Call(SCI_GETLINECOUNT));
 
 	const Sci_CharacterRange crange = GetSelection();

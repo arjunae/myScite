@@ -1688,7 +1688,6 @@ bool SciTEBase::StartAutoComplete() {
 		std::string words = GetNearestWords(root.c_str(), root.length(),
 			calltipParametersStart.c_str(), autoCompleteIgnoreCase);
 		// Show list on x typed chars (root.length() >0) 
-	 // todo: an AutoCompleteList/Calltip sequence should bring up a former shown Calltip again.
 			if (words.length() && root.length()>=3 ) { 
 			EliminateDuplicateWords(words);
 			wEditor.Call(SCI_AUTOCSETSEPARATOR, ' ');
@@ -1760,7 +1759,7 @@ bool SciTEBase::StartAutoCompleteWord(bool onlyOneWord) {
 	}
 	const size_t length = wordsNear.length();
 	if ((length > 2) && (!onlyOneWord || (minWordLength > root.length()))) {
-		// Protect spaces by temporarily transforming to \001
+		// Protect spaces by temporrily transforming to \001
 		std::replace(wordsNear.begin(), wordsNear.end(), ' ', '\001');
 		StringList wl(true);
 		wl.Set(wordsNear.c_str());
@@ -2294,13 +2293,6 @@ void SciTEBase::SetTextProperties(
 	const unsigned int bufferLength= LengthDocument();
 	ps.SetInteger("BufferLength", bufferLength);
 	props.SetInteger("BufferLength",  bufferLength);
-	
-	const unsigned int forceLexNullSize=props.GetInt("max.style.size",10000000);
-	if (bufferLength>forceLexNullSize){
-		wEditor.Call(SCI_SETLEXER, SCLEX_NULL);
-		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
-		props.Set("Language", "");
-	}
 	
 	ps.SetInteger("NbOfLines", wEditor.Call(SCI_GETLINECOUNT));
 

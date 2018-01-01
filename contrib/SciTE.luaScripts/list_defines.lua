@@ -22,28 +22,28 @@ outline=" "
 		if rest then	
 			rest=string.gsub(rest," ","") -- Normalises function deco containing spaces.
 			param,func2=rest:match("^([%(|%w|%d|%,|%.|%_|]+%))(.*)" ) --  funcNameParam to nothing [#define bly(qwe)]
-			if rest:match("%\\") then multiline=true param="" end
+			if rest:match("%\\") then multiline=true param="multi_line" end
 			func1=name..param
 		end 
 		if not func1 then func1,func2=entry:match("#define ([%w_]+)%s+([a-zA-Z_]+)$") end -- names without parameter [#define bla blubb]
 		if not func1 then func1,func2=entry:match("#define ([%w_]+)%s+([a-zA-Z_]+%(.*)") end -- name to function [#define bla __mingwname(...)]
 		if not func2 then func2 ="" else 
-			if func2:match("%\\") then multiline=true func2="" func1 = name end -- tag and include names of multiline defines
+			if func2:match("%\\") then multiline=true func2="multi_line" func1 = name end -- tag and include names of multiline defines
 		end
 				
 	-- Filter section --
 		if func1 then
-			if func2 then together= "{"..func1.."}{"..func2.."}" end
-			--if multiline then write=false end -- strip multiline defines (param has Backslash)
+			if func2 then together= func1..func2 end
+			if multiline then write=false end -- strip multiline defines (param has Backslash)
 			if func2:match("^[%s_]+")  then write=false end -- strip compiler internals (param is numeric only)
 			if together:match("^[%s_]+")  then write=false end --strip compiler internals (func Name begins with underscore)
 			if together:match("TEXT") then write=false end  -- strip Text constants (param contains the TEXT Macro)
 			if together:match("IID") then write=false end -- strip GUID Constants
 			if together:match("GUID_BUILDER") then write=false end
-			if together:match("^[^%l]+$") then write=false end -- strip all Uppercases constants
-		--	if together:match("^[^%l]+%(") then write=false end -- strip all Uppercases functions
+			if func1:match("^[^%l]+$") then write=false end -- strip all Uppercases constants
+			--if func1:match("^[^%l]+%(") then write=false end -- strip all Uppercases functions
 			if together:match("MINGW") then write=true end 
-			if  write then outline=outline..together.."\n" end
+			if  write then outline=outline.."{"..func1.."}{"..func2.."}".."\n" end
 		end
 	end
 	

@@ -361,17 +361,18 @@ void SciTEBase::CompleteOpen(OpenCompletion oc) {
 	if (oc != ocSynchronous) {
 		ReadProperties(true);
 	}
-
+	
 	if (language == "") {
 		std::string languageOverride = DiscoverLanguage();
+
 		if (languageOverride.length()) {
 			CurrentBuffer()->overrideExtension = languageOverride;
 			CurrentBuffer()->lifeState = Buffer::open;
 			ReadProperties(true);
-			SetIndentSettings();
+			SetIndentSettings();			
 		}
 	}
-
+	
 	if (oc != ocSynchronous) {
 		SetIndentSettings();
 		SetEol();
@@ -392,7 +393,7 @@ void SciTEBase::CompleteOpen(OpenCompletion oc) {
 	if (props.GetInt("indent.auto")) {
 		DiscoverIndentSetting();
 	}
-
+	
 	if (!wEditor.Call(SCI_GETUNDOCOLLECTION)) {
 		wEditor.Call(SCI_SETUNDOCOLLECTION, 1);
 	}
@@ -588,7 +589,7 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 		} else {
 			wEditor.Call(SCI_SETUNDOCOLLECTION, 0);
 		}
-
+		
 		asynchronous = (fileSize > props.GetInt("background.open.size", -1)) &&
 			!(of & (ofPreserveUndo|ofSynchronous));
 		OpenCurrentFile(fileSize, of & ofQuiet, asynchronous);
@@ -608,6 +609,7 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 	if (lineNumbers && lineNumbersExpand)
 		SetLineNumberWidth();
 	UpdateStatusBar(true);
+	
 	if (extender && !asynchronous){
 		extender->OnOpen(filePath.AsUTF8().c_str());
 		ReadProperties(false); //Arjunae: Allow SciTE start-up with extender changed properties.
