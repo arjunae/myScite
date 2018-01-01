@@ -2,8 +2,9 @@
 -- parseCTags.lua 
 -- takes a ctags file and parse its contents to a respective SciTE .properties and .api file
 -- License: BSD3Clause / Author: Thorsten Kani / eMail:Marcedo@habMalNeFrage.de
--- version: 0.9
--- todo: compile?
+-- version: 0.9: Commandline help / progress Indicator
+--
+-- Usage: lua parseCTags.lua ctagsfile.tags [true]
 --
 local DEBUG=0 --1: Trace Mode 2: Verbose Mode
 
@@ -53,7 +54,7 @@ else
         cTagsFilePath="."..dirSep()..cTagsFileName
     end
 
-    print ("> TagsAPIFilePath: "..tostring(cTagsFilePath).." | smallerFile: "..tostring(smallerFile).." | projectName: "..tostring(projectName))
+    print ("> cTagsFilePath: "..tostring(cTagsFilePath).." | smallerFile: "..tostring(smallerFile).." | projectName: "..tostring(projectName))
     projectFilePath, cTagsFileName =cTagsFilePath:match("(.*[%"..dirSep().."]+)%/?(.*)$")
     if not projectName then projectName=cTagsFileName end
 end
@@ -120,13 +121,6 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
                     skipper=true
                 end   
            end     
-           -- Mark Modules (matches "[tab]m)  todo: handle defines
-            if not skipper and entry:match("%\"\tm")=="\"\tm" or entry:match("%\"\td")=="\"\td" then 
-                strCls, name= entry:match("^([%w_]+)[%.]?([%w_]+).*")
-                if name and string.len(name)==1 then name=strCls..name end
-                isModule=true
-                skipper=true
-            end 
             -- Mark Functions 
             name= entry:match("(~?[%w_]+)") or ""
             patType="%/^([%s%w_:~]+ ?)" -- INTPTR
@@ -145,6 +139,13 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
                     isENUM=true
                     skipper=true
                 end   
+            end
+            -- Mark Modules / defines wo params (matches "[tab]m "[tab]d )
+            if not skipper and entry:match("%\"\tm")=="\"\tm" or entry:match("%\"\td")=="\"\td" then 
+                strCls, name= entry:match("^([%w_]+)[%.]?([%w_]+).*")
+                if name and string.len(name)==1 then name=strCls..name end
+                isModule=true
+                skipper=true
             end
             -- Handle Tag entries that were not tokenized before.
             -- This should normally stay empty but can be handy for new languages.
@@ -221,7 +222,7 @@ function writeProps(projectName, projectFilePath)
     
 -- Show some stats
         print("")
-        print("> cTagENUMs ("..string.len(cTagENUMs).." bytes)" )
+        print("> cTagENUMs: ("..string.len(cTagENUMs).." bytes)" )
         print("> cTagNames: ("..string.len(cTagNames).." bytes)" )
         print("> cTagFunctions: ("..string.len(cTagFunctions).." bytes)" )
         print("> cTagModules: ("..string.len(cTagModules).." bytes)" )
