@@ -1,7 +1,7 @@
 ﻿// Scintilla source code edit control
 /**
  * @file LexMake.cxx
- * @author Neil Hodgson 
+ * @author Neil Hodgson, 
  * @author Thorsten Kani(marcedo@HabMalneFrage.de)
  * @brief Lexer for make files
  * - Styles GNUMake Directives, internal function Keywords  $(sort subst..) ,
@@ -113,8 +113,7 @@ static unsigned int ColouriseMakeLine(
 	Sci_PositionU endPos,
 	WordList *keywordlists[],
 	Accessor &styler,
-	unsigned int startStyle,
-	unsigned int lexerMode) {
+	int startStyle) {
 
 	Sci_PositionU i = 0; // primary line position counter
 	Sci_PositionU styleBreak = 0;
@@ -268,7 +267,7 @@ static unsigned int ColouriseMakeLine(
 			if (kwExtCmd.InList(strSearch.c_str())
 				 && strchr("\t\r\n ;)", (int)chNext) !=NULL
 				 &&  AtStartChar(styler, startMark-1)) {
-				if (startMark > startLine && startMark > stylerPos)
+				if (startMark > startLine && startMark >= stylerPos)
 					styler.ColourTo(startMark-1, state);
 				state_prev=state;
 				state=SCE_MAKE_EXTCMD;
@@ -283,7 +282,7 @@ static unsigned int ColouriseMakeLine(
 			if (kwGeneric.InList(strSearch.c_str())
 					&& (strchr("\t\r\n ;)", (int)chNext) !=NULL)
 					&& (startMark==theStart || styler.SafeGetCharAt( startMark-1) == '=')) {
-				if (startMark > startLine && startMark > stylerPos)
+				if (startMark > startLine && startMark >= stylerPos)
 					styler.ColourTo(startMark-1, state);		
 				state_prev=state;
 				state=SCE_MAKE_DIRECTIVE;
@@ -486,57 +485,7 @@ static int GetLineLen(Accessor &styler, Sci_Position offset) {
 
 	return (offset-ywo);
 }
-static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
-	
-	// modes can be used to reuse the lexer for other flatFile/freeform filetypes.
-	// Eg. for properties / regedit etc...Need to refactor some code to use nameless unions.
-	const unsigned int lexerMode=styler.GetPropertyInt("lexer.makefile.mode", SCLEX_MAKEFILE);
-	
-	unsigned int startStyle=SCE_MAKE_DEFAULT;
-	std::string slineBuffer;
 
-	styler.Flush();
-	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
-	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:
-	// finds a (Multi)lines start.
-	Sci_PositionU o_startPos=GetLineStart(styler, startPos);
-	styler.StartSegment(o_startPos);
-	styler.StartAt(o_startPos);
-	length=length+(startPos-o_startPos);
-	startPos=o_startPos;
-	Sci_PositionU linePos = 0;
-	Sci_PositionU lineStart = startPos;
-
-	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
-		
-		slineBuffer.resize(slineBuffer.size()+1);
-		slineBuffer[linePos++] = styler[at];
-
-		// End of line (or of max line buffer) met.
-		if (styler[at] =='\n') {
-			Sci_PositionU lineLength=GetLineLen(styler, at);
-			if (lineLength==0) lineLength++;
-
-			// Copy the remaining chars to the lineBuffer.
-			if (lineLength != linePos)
-				for (Sci_PositionU posi=linePos-1; posi<=lineLength; posi++){
-					slineBuffer.resize(slineBuffer.size()+1);
-					slineBuffer[posi]=styler[at++];
-				}
-
-			at=lineStart+lineLength-1;
-
-			startStyle = ColouriseMakeLine(slineBuffer, lineLength, lineStart, at, keywords, styler, startStyle, lexerMode);
-			slineBuffer.clear();
-			lineStart = at+1;
-			linePos=0;
-		}
-	}
-	if (linePos>0){ // handle normal lines without an EOL mark.
-		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length-1, keywords, styler, startStyle, lexerMode);
-		styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
-	}
-}
 
 //
 // Folding code from cMake, with small changes for bash scripts. 
@@ -669,6 +618,56 @@ static void FoldMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordLi
         lev |= SC_FOLDLEVELHEADERFLAG;
     if (lev != styler.LevelAt(lineCurrent))
         styler.SetLevel(lineCurrent, lev);
+}
+
+static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
+	
+	int startStyle=SCE_MAKE_DEFAULT;
+	std::string slineBuffer;
+
+	styler.Flush();
+	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
+	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:
+	// finds a (Multi)lines start.
+	Sci_PositionU o_startPos=GetLineStart(styler, startPos);
+	styler.StartSegment(o_startPos);
+	styler.StartAt(o_startPos);
+	length=length+(startPos-o_startPos);
+	startPos=o_startPos;
+	Sci_PositionU linePos = 0;
+	Sci_PositionU lineStart = startPos;
+	
+	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
+		
+		slineBuffer.resize(slineBuffer.size()+1);
+		slineBuffer[linePos++] = styler[at];
+
+		// End of line (or of max line buffer) met.
+		if (styler[at] =='\n') {
+			Sci_PositionU lineLength=GetLineLen(styler, at);
+			if (lineLength==0) lineLength++;
+
+			// Copy the remaining chars to the lineBuffer.
+			// Todo: I dont like copying the whole line here.
+			// It just isnt neccesary for the functionality and would help with memory usage on (very) long lines.
+			if (lineLength != linePos)
+				for (Sci_PositionU posi=linePos-1; posi<=lineLength; posi++){
+					slineBuffer.resize(slineBuffer.size()+1);
+					slineBuffer[posi]=styler[at++];
+				}
+
+			at=lineStart+lineLength-1;
+
+			startStyle = ColouriseMakeLine(slineBuffer, lineLength, lineStart, at, keywords, styler, startStyle);
+			slineBuffer.clear();
+			lineStart = at+1;
+			linePos=0;
+		}
+	}
+	if (linePos>0){ // handle normal lines without an EOL mark.
+		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length-1, keywords, styler, startStyle);
+		styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
+	}
 }
 
 static const char *const makefileWordListDesc[] = {
