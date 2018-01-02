@@ -55,7 +55,6 @@ function fileHash(fileName)
 		local crccalc = C32.newcrc32()
 		local crccalc_mt = getmetatable(crccalc)
 
-		assert(crccalc_mt.reset) -- reset to zero
 		-- crc32 was made for eating strings...:)
 		local file,err = assert(io.open (fileName, "r"))
 		if err then return end
@@ -66,18 +65,20 @@ function fileHash(fileName)
 		end	
 		file:close()
 		CRChash=crccalc:tohex()
+		crccalc.reset(crccalc)-- reset to zero
 		file=nil crccalc_mt=nil crccalc=nil crc32=nil C32=nil
 	end
 
 	return CRChash
 end
 
+--[[
 -- check SciLexer once per session and inform the User if its a nonStock Version.
-
 local SLHash
 if not SLHash then SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
 	if SLHash and SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
 end
+]]
 
 --------------------------
 -- returns the size of a given file.

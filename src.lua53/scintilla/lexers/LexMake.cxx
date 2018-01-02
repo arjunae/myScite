@@ -1,7 +1,7 @@
 ﻿// Scintilla source code edit control
 /**
  * @file LexMake.cxx
- * @author Neil Hodgson, 
+ * @author Neil Hodgson
  * @author Thorsten Kani(marcedo@HabMalneFrage.de)
  * @brief Lexer for make files
  * - Styles GNUMake Directives, internal function Keywords  $(sort subst..) ,

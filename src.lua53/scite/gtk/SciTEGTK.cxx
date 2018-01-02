@@ -929,7 +929,7 @@ FilePath SciTEGTK::GetSciteUserHome() {
 	// use fallback, guranteed to exist by OS.
     home=SciTEGTK::GetSciteDefaultHome().AsUTF8().c_str(); 	
     putenv( (char *) ("SciTE_USERHOME="+home).c_str() );
-    
+
 	return FilePath(home);
 		}
 
