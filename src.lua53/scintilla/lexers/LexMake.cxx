@@ -1,7 +1,7 @@
 ﻿// Scintilla source code edit control
 /**
  * @file LexMake.cxx
- * @author Neil Hodgson, 
+ * @author Neil Hodgson 
  * @author Thorsten Kani(marcedo@HabMalneFrage.de)
  * @brief Lexer for make files
  * - Styles GNUMake Directives, internal function Keywords  $(sort subst..) ,
@@ -113,7 +113,8 @@ static unsigned int ColouriseMakeLine(
 	Sci_PositionU endPos,
 	WordList *keywordlists[],
 	Accessor &styler,
-	int startStyle) {
+	unsigned int startStyle,
+	unsigned int lexerMode) {
 
 	Sci_PositionU i = 0; // primary line position counter
 	Sci_PositionU styleBreak = 0;
@@ -485,10 +486,13 @@ static int GetLineLen(Accessor &styler, Sci_Position offset) {
 
 	return (offset-ywo);
 }
-
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
 	
-	int startStyle=SCE_MAKE_DEFAULT;
+	// modes can be used to reuse the lexer for other flatFile/freeform filetypes.
+	// Eg. for properties / regedit etc...Need to refactor some code to use nameless unions.
+	const unsigned int lexerMode=styler.GetPropertyInt("lexer.makefile.mode", SCLEX_MAKEFILE);
+	
+	unsigned int startStyle=SCE_MAKE_DEFAULT;
 	std::string slineBuffer;
 
 	styler.Flush();
@@ -502,7 +506,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	startPos=o_startPos;
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
-	
+
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
 		
 		slineBuffer.resize(slineBuffer.size()+1);
@@ -518,18 +522,18 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 				for (Sci_PositionU posi=linePos-1; posi<=lineLength; posi++){
 					slineBuffer.resize(slineBuffer.size()+1);
 					slineBuffer[posi]=styler[at++];
-					}
+				}
 
 			at=lineStart+lineLength-1;
 
-			startStyle = ColouriseMakeLine(slineBuffer, lineLength, lineStart, at, keywords, styler, startStyle);
+			startStyle = ColouriseMakeLine(slineBuffer, lineLength, lineStart, at, keywords, styler, startStyle, lexerMode);
 			slineBuffer.clear();
 			lineStart = at+1;
 			linePos=0;
 		}
 	}
 	if (linePos>0){ // handle normal lines without an EOL mark.
-		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length-1, keywords, styler, startStyle);
+		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length-1, keywords, styler, startStyle, lexerMode);
 		styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
 	}
 }

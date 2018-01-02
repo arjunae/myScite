@@ -6,15 +6,38 @@
 -- exclude Constants, exclude _underscoredStuff, exclude multiline stuff. (see code Docs)
 --
 
-function list_defines(param)
+
+dirSep="\\" --change to match your systems Platform
+
+--
+-- splits a string at a given separator 
+-- returns string when no sep was found.
+--
+local function split_last (s,ch)
+    local i = #s
+    while i > 0 do
+        if string.sub(s,i,i) == ch then
+				return string.sub(s,i+1)			
+        end
+        i = i - 1
+    end
+	 return s 
+end
+
+--
+-- Iterates through a given headerfile
+-- Lists defines according to the --Filter Section 
+--
+function list_defines(filePath)
 outline=" "
 
 	-- input section --
-	if not param then param="ndis.h" end --testing
-	if not param:match(".h") then return end
-	if param:match("^_") then return end --c std / mingw internal functions	
-	print("["..param.."]")
-	for entry in io.lines(param) do
+	if not filePath then filePath="ndis.h" end --testing
+	if not filePath:match(".h") then return end
+	if filePath:match("^_") then return end --c std / mingw internal functions	
+	
+	print("["..split_last(filePath,dirSep).."]")
+	for entry in io.lines(filePath) do
 	--  parse section --
 		local name=nil rest=nil func1=nil func2=nil multiline=false write=true
 		
