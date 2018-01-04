@@ -125,19 +125,25 @@ static unsigned int ColouriseMakeLine(
 	unsigned int SCE_MAKE_FUNCTION = SCE_MAKE_OPERATOR;
 	unsigned int state = SCE_MAKE_DEFAULT;
 	unsigned int state_prev = startStyle;
-	
-	bool inString = false;		// set when a double quoted String begins.
-	bool inSqString = false;	// set when a single quoted String begins.
 
+	union  {
+		bool inString;			// set when a double quoted String begins.
+		bool inSqString;	// set when a single quoted String begins	
+		bool bCommand; 	// set when a line begins with a tab (command)
+	} line;
+	
+	line.inString=false;
+	line.inSqString=false;
+	line.bCommand = false;
+	
 	/// keywords
 	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
 	WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
 	WordList &kwExtCmd = *keywordlists[2]; // Makefile->external Commands (mkdir,rm,attrib...)
 	
 	// check for a tab character in column 0 indicating a command
-	bool bCommand = false;
 	if ((lengthLine > 0) && (styler.SafeGetCharAt(startLine) == '\t'))
-		bCommand = true;
+		line.bCommand = true;
 
 	// Skip initial spaces and tabs for current Line. Spot that Position to check for later.
 	while ((i < lengthLine) && isspacechar(styler.SafeGetCharAt(startLine+i)))
@@ -177,7 +183,7 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		// skip identifier and target styling if this is a command line
-		if (!bCommand && state==SCE_MAKE_DEFAULT) {
+		if (!line.bCommand && state==SCE_MAKE_DEFAULT) {
 			if (chCurr == ':' && chNext != '=') {
 				if(styleBreak>0 && styleBreak<currentPos && styleBreak>stylerPos) 
 					ColourHere(styler, styleBreak, SCE_MAKE_DEFAULT, state);
@@ -202,33 +208,33 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Style double quoted Strings
-		if (inString && chCurr=='\"') {
+		if (line.inString && chCurr=='\"') {
 			ColourHere(styler, currentPos-1, state);
 			state=SCE_MAKE_DEFAULT;
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			iWarnEOL--;
-			inString = false;
-		} else if	(!inString && chCurr=='\"') {
+			line.inString = false;
+		} else if	(!line.inString && chCurr=='\"') {
 			state_prev = state;
 			state = SCE_MAKE_STRING;
 			ColourHere(styler, currentPos-1, state_prev);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
-			inString=true;
+			line.inString=true;
 			iWarnEOL++;
 		}
 
 		/// Style single quoted Strings. Don't EOL check for now.
-		if (!inString && inSqString && chCurr=='\'') {
+		if (!line.inString && line.inSqString && chCurr=='\'') {
 			ColourHere(styler, currentPos-1, state);
 			state = SCE_MAKE_DEFAULT;
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
-			inSqString = false;
-		} else if	(!inString && !inSqString && chCurr=='\'') {
+			line.inSqString = false;
+		} else if	(!line.inString && !line.inSqString && chCurr=='\'') {
 			state_prev = state;
 			state = SCE_MAKE_STRING;
 			ColourHere(styler, currentPos-1, state_prev);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
-			inSqString = true;
+			line.inSqString = true;
 		}
 
 		/// Style Keywords
@@ -308,8 +314,8 @@ static unsigned int ColouriseMakeLine(
 			}
 			
 			// Colour Strings which end with a Number
-			if (IsNum(chCurr) && stylerPos < startMark && styler.SafeGetCharAt(startMark-1) != '-') {
-				if (startMark>stylerPos) styler.ColourTo(startMark-1, SCE_MAKE_DEFAULT);
+			if (IsNum(chCurr) && startMark > stylerPos && styler.SafeGetCharAt(startMark-1) != '-') {
+				if (startMark>stylerPos) styler.ColourTo(startMark-1,SCE_MAKE_IDENTIFIER);
 				ColourHere(styler, currentPos,  SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 			}
 			
