@@ -1,23 +1,17 @@
-#-- Magically switch to the Null Lexer for files greater then max.style.size (Defaults to 10Mb)
-#-- Introduces writeable property max.style.size
-diff -Nurw scite/src/SciTEBase.cxx scite_m/src/SciTEBase.cxx
---- scite/src/SciTEBase.cxx	2017-05-26 00:25:04.000000000 +0200
-+++ scite_m/src/SciTEBase.cxx	2017-12-24 22:22:24.000000000 +0100
-@@ -2289,7 +2290,16 @@
- 	const int eolMode = wEditor.Call(SCI_GETEOLMODE);
- 	ps.Set("EOLMode", eolMode == SC_EOL_CRLF ? "CR+LF" : (eolMode == SC_EOL_LF ? "LF" : "CR"));
+diff -Nurw scite/src/SciTEProps.cxx scite_m/src/SciTEProps.cxx
+--- scite/src/SciTEProps.cxx	2017-05-26 00:25:04.000000000 +0200
++++ scite_m/src/SciTEProps.cxx	2018-01-01 17:56:02.000000000 +0100
+@@ -1366,6 +1379,13 @@
+ 		TimerEnd(timerAutoSave);
+ 	}
  
--	ps.SetInteger("BufferLength", LengthDocument());
-+	const unsigned int bufferLength= LengthDocument();
-+	ps.SetInteger("BufferLength", bufferLength);
-+	props.SetInteger("BufferLength",  bufferLength);
-+	
-+	const unsigned int forceLexNullSize=props.GetInt("max.style.size",10000000);
-+	if (bufferLength>forceLexNullSize){
-+		wEditor.Call(SCI_SETLEXER, SCLEX_NULL);
++	const int forceLexNullSize=props.GetInt("max.style.size",10000000);
++	if (LengthDocument()>forceLexNullSize){
++		wEditor.Call(SCI_SETLEXER, 1);
 +		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
 +		props.Set("Language", "");
 +	}
- 
- 	ps.SetInteger("NbOfLines", wEditor.Call(SCI_GETLINECOUNT));
- 
++		
+ 	firstPropertiesRead = false;
+ 	needReadProperties = false;
+ }

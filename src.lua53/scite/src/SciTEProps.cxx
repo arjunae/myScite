@@ -1379,7 +1379,7 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 		TimerEnd(timerAutoSave);
 	}
 	
-	const unsigned int forceLexNullSize=props.GetInt("max.style.size",10000000);
+	const int forceLexNullSize=props.GetInt("max.style.size",10000000);
 	if (LengthDocument()>forceLexNullSize){
 		wEditor.Call(SCI_SETLEXER, 1);
 		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);

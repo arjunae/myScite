@@ -70,15 +70,15 @@ diff -Nurw scintilla/include/Platform.h scintilla_m/include/Platform.h
  /**
 diff -Nurw scintilla/src/ScintillaBase.cxx scintilla_m/src/ScintillaBase.cxx
 --- scintilla/src/ScintillaBase.cxx	2017-05-26 00:25:02.000000000 +0200
-+++ scintilla_m/src/ScintillaBase.cxx	2017-12-11 02:10:42.000000000 +0100
++++ scintilla_m/src/ScintillaBase.cxx	2017-12-24 11:33:04.000000000 +0100
 @@ -254,8 +254,12 @@
  			return;
  		}
  	}
 +	
-+	bool useThickFrame=false; // change to test  .todo: Make client settable 
++	bool useThickFrame=false; // change to test  .todo: Make user settable 
 +	int acStyle = ( vs.styles[STYLE_CALLTIP].size > 0) ? STYLE_CALLTIP : STYLE_DEFAULT;
-+
++	ac.SetForeBack(vs.styles[acStyle].fore, vs.styles[acStyle].back);
  	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
 -				lenEntered, vs.lineHeight, IsUnicodeMode(), technology);
 +				lenEntered, vs.HeightFromStyle(vs.styles[acStyle]), IsUnicodeMode(), technology, useThickFrame);
@@ -92,7 +92,7 @@ diff -Nurw scintilla/src/ScintillaBase.cxx scintilla_m/src/ScintillaBase.cxx
 -	ac.lb->SetFont(vs.styles[STYLE_DEFAULT].font);
 -	unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[STYLE_DEFAULT].aveCharWidth);
 +	ac.lb->SetFont(vs.styles[acStyle].font);
-+	ac.SetForeBack(vs.styles[acStyle].fore, vs.styles[acStyle].back);
++
 +
 +	unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[acStyle].aveCharWidth);
  	ac.lb->SetAverageCharWidth(aveCharWidth);

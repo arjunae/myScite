@@ -27,6 +27,7 @@ public:
 	void StartMatch(GUI::ScintillaWindow *pSci_,
 		const std::string &textMatch_, int flagsMatch_, int styleMatch_,
 		int indicator_, int bookMark_);
+	int matchCnt; //todo use a getter
 	bool Complete() const;
 	void Continue();
 	void Stop();

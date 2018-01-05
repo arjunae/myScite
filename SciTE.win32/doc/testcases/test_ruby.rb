@@ -7,20 +7,9 @@ module MmMail
   # Handles the transportation of a {Message} to its destination.
   # Basic support for SMTP (through +Net::SMTP+) or +sendmail+.
   # 
-  # You can either pass a new {Transport::Config} object during transport or use 
-  # the system wide {Transport::DefaultConfig} object. 
-  # 
-  # @example [To set transport to use sendmail]
-  #   MmMail::Transport::DefaultConfig.method = :sendmail
-  #   # Note you might need to point to sendmail if it's not in your PATH:
-  #   MmMail::Transport::DefaultConfig.sendmail_binary = '/path/to/sendmail'
-  # 
-  # @example [To connect to your ISP SMTP server on 587]
-  #   MmMail::Transport::DefaultConfig.host = 'smtp.myisp.com'
-  #   MmMail::Transport::DefaultConfig.port = 587
-  # 
   # @see Transport::Config
   # @see Transport::mail
+  
   class Transport
     # Configuration class for a {Transport}
     class Config
@@ -30,15 +19,6 @@ module MmMail
       # Set/get the authentication type (nil for none, :plain, :login or :cram_md5)
       attr_accessor :auth_type
       
-      # Set/get the AUTH user/password when using SMTP transport.
-      attr_accessor :auth_user, :auth_pass
-      
-      # Set/get the email method. Allowed values are +:smtp+ or +:sendmail+.
-      attr_accessor :method
-      
-      # Set/get the location of the sendmail binary on the system
-      attr_accessor :sendmail_binary
-
       # Creates a new Config object set to send via SMTP on
       # localhost:25 with no authentication.
       def initialize
