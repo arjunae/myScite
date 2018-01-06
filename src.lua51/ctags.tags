@@ -2075,85 +2075,6 @@ HorizontalScrollTo	scintilla\src\Editor.cxx	/^void Editor::HorizontalScrollTo(in
 Hwnd	scite\win32\Strips.h	/^	HWND Hwnd() const {$/;"	f	class:BaseWin	access:public	signature:() const
 HwndFromString	scite\win32\DirectorExtension.cxx	/^static HWND HwndFromString(const char *s) {$/;"	f	file:	signature:(const char *s)
 HwndOf	scite\win32\SciTEWin.h	/^inline HWND HwndOf(GUI::Window w) {$/;"	f	signature:(GUI::Window w)
-ICO_ACCEPT	scite\win32\toolbar.h	66;"	d
-ICO_ADD	scite\win32\toolbar.h	67;"	d
-ICO_ASTYLE	scite\win32\toolbar.h	64;"	d
-ICO_BOOKMARK_CLEARALL	scite\win32\toolbar.h	46;"	d
-ICO_BOOKMARK_NEXT	scite\win32\toolbar.h	43;"	d
-ICO_BOOKMARK_PREV	scite\win32\toolbar.h	44;"	d
-ICO_BOOKMARK_TOGGLE	scite\win32\toolbar.h	45;"	d
-ICO_BREAKPOINT	scite\win32\toolbar.h	69;"	d
-ICO_BUILD	scite\win32\toolbar.h	18;"	d
-ICO_CHANGE_CODEPAGE_RU	scite\win32\toolbar.h	54;"	d
-ICO_CHOICE_COLOR_FROM_A_PALETTE	scite\win32\toolbar.h	51;"	d
-ICO_CLEAR	scite\win32\toolbar.h	8;"	d
-ICO_CLOSE	scite\win32\toolbar.h	13;"	d
-ICO_CLOSEALL	scite\win32\toolbar.h	32;"	d
-ICO_COMPILE	scite\win32\toolbar.h	19;"	d
-ICO_COPY	scite\win32\toolbar.h	6;"	d
-ICO_CUT	scite\win32\toolbar.h	5;"	d
-ICO_DEBUG	scite\win32\toolbar.h	68;"	d
-ICO_FAVORITE_FOLDERS	scite\win32\toolbar.h	58;"	d
-ICO_FIND	scite\win32\toolbar.h	11;"	d
-ICO_FINDINFILES	scite\win32\toolbar.h	41;"	d
-ICO_FINDNEXT	scite\win32\toolbar.h	39;"	d
-ICO_FINDNEXTBACK	scite\win32\toolbar.h	40;"	d
-ICO_FIND_AND_HIGHLIGHT	scite\win32\toolbar.h	63;"	d
-ICO_FULLSCREEN	scite\win32\toolbar.h	25;"	d
-ICO_GO	scite\win32\toolbar.h	17;"	d
-ICO_GOTO	scite\win32\toolbar.h	42;"	d
-ICO_HELP	scite\win32\toolbar.h	26;"	d
-ICO_HIGHLIGHT	scite\win32\toolbar.h	62;"	d
-ICO_HIGHLIGHTIDENTICAL	scite\win32\toolbar.h	61;"	d
-ICO_INSPECT	scite\win32\toolbar.h	75;"	d
-ICO_LINENUMBERMARGIN	scite\win32\toolbar.h	47;"	d
-ICO_LIST_OF_FUNCTIONS_PROCEDURES	scite\win32\toolbar.h	49;"	d
-ICO_LOAD	scite\win32\toolbar.h	76;"	d
-ICO_LOADSESSION	scite\win32\toolbar.h	35;"	d
-ICO_MACROPLAY	scite\win32\toolbar.h	14;"	d
-ICO_MACRORECORD	scite\win32\toolbar.h	16;"	d
-ICO_MACROSTOPRECORD	scite\win32\toolbar.h	15;"	d
-ICO_MONOFONT	scite\win32\toolbar.h	22;"	d
-ICO_NEW	scite\win32\toolbar.h	1;"	d
-ICO_ONTOP	scite\win32\toolbar.h	48;"	d
-ICO_OPEN	scite\win32\toolbar.h	2;"	d
-ICO_OPENABBREVPROPERTIES	scite\win32\toolbar.h	29;"	d
-ICO_OPENAPIFILE	scite\win32\toolbar.h	55;"	d
-ICO_OPENGLOBALPROPERTIES	scite\win32\toolbar.h	27;"	d
-ICO_OPENUSERPROPERTIES	scite\win32\toolbar.h	28;"	d
-ICO_OPEN_FAVORITE_FILES	scite\win32\toolbar.h	56;"	d
-ICO_PASTE	scite\win32\toolbar.h	7;"	d
-ICO_PRINT	scite\win32\toolbar.h	4;"	d
-ICO_PRINTSETUP	scite\win32\toolbar.h	33;"	d
-ICO_READONLY	scite\win32\toolbar.h	23;"	d
-ICO_REDO	scite\win32\toolbar.h	10;"	d
-ICO_REPLACE	scite\win32\toolbar.h	12;"	d
-ICO_REPLACE_SPACES	scite\win32\toolbar.h	53;"	d
-ICO_SAVE	scite\win32\toolbar.h	3;"	d
-ICO_SAVEALL	scite\win32\toolbar.h	31;"	d
-ICO_SAVEAS	scite\win32\toolbar.h	21;"	d
-ICO_SAVESESSION	scite\win32\toolbar.h	36;"	d
-ICO_SELECTALL	scite\win32\toolbar.h	37;"	d
-ICO_SELECTTOBRACE	scite\win32\toolbar.h	38;"	d
-ICO_SESSION_MANAGER	scite\win32\toolbar.h	34;"	d
-ICO_SIDEBAR	scite\win32\toolbar.h	52;"	d
-ICO_SPELLING	scite\win32\toolbar.h	50;"	d
-ICO_STACK	scite\win32\toolbar.h	79;"	d
-ICO_STEP	scite\win32\toolbar.h	70;"	d
-ICO_STEP_INTO	scite\win32\toolbar.h	72;"	d
-ICO_STEP_OUT	scite\win32\toolbar.h	73;"	d
-ICO_STEP_OVER	scite\win32\toolbar.h	71;"	d
-ICO_STOP	scite\win32\toolbar.h	77;"	d
-ICO_STOPD	scite\win32\toolbar.h	78;"	d
-ICO_STOPEXECUTE	scite\win32\toolbar.h	60;"	d
-ICO_TIDY	scite\win32\toolbar.h	65;"	d
-ICO_TOGGLEOUTPUT	scite\win32\toolbar.h	24;"	d
-ICO_TRIM_TRAL_SPACES	scite\win32\toolbar.h	57;"	d
-ICO_UNDO	scite\win32\toolbar.h	9;"	d
-ICO_VIEWEOL	scite\win32\toolbar.h	20;"	d
-ICO_VIEWSPACE	scite\win32\toolbar.h	59;"	d
-ICO_WATCH	scite\win32\toolbar.h	74;"	d
-ICO_WRAP	scite\win32\toolbar.h	30;"	d
 ICaseConverter	scintilla\src\CaseConvert.h	/^class ICaseConverter {$/;"	c	namespace:Scintilla
 IDABBREV	scite\src\SciTE.h	260;"	d
 IDABOUTSCINTILLA	scite\src\SciTE.h	232;"	d
@@ -8172,8 +8093,6 @@ TARGET_URI	scintilla\gtk\ScintillaGTK.cxx	/^    TARGET_URI$/;"	e	enum:__anon9	fi
 TARGET_UTF8_STRING	scintilla\gtk\ScintillaGTK.cxx	/^    TARGET_UTF8_STRING,$/;"	e	enum:__anon9	file:
 TArray	scite\src\Containers.h	/^	TArray() {};$/;"	f	class:TArray	access:public	signature:()
 TArray	scite\src\Containers.h	/^class TArray$/;"	c
-TBSTYLE_FLAT	scite\win32\SciTEWinBar.cxx	839;"	d	file:
-TB_LOADIMAGES	scite\win32\SciTEWinBar.cxx	842;"	d	file:
 TEXT_COLUMN	scintilla\gtk\PlatGTK.cxx	/^	TEXT_COLUMN,$/;"	e	enum:__anon6	file:
 THEME_AVAILABLE	scite\win32\SciTEWin.h	57;"	d
 TK_AND	scite\lua\src\llex.h	/^  TK_AND = FIRST_RESERVED, TK_BREAK,$/;"	e	enum:RESERVED

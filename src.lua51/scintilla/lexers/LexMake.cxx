@@ -210,13 +210,13 @@ static unsigned int ColouriseMakeLine(
 		/// Style double quoted Strings
 		if (line.inString && chCurr=='\"') {
 			ColourHere(styler, currentPos-1, state);
-			state=SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			state=SCE_MAKE_STRING;
+			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state_prev);
 			iWarnEOL--;
 			line.inString = false;
 		} else if	(!line.inString && chCurr=='\"') {
 			state_prev = state;
-			state = SCE_MAKE_STRING;
+			state = SCE_MAKE_DEFAULT;
 			ColourHere(styler, currentPos-1, state_prev);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			line.inString=true;
@@ -226,12 +226,12 @@ static unsigned int ColouriseMakeLine(
 		/// Style single quoted Strings. Don't EOL check for now.
 		if (!line.inString && line.inSqString && chCurr=='\'') {
 			ColourHere(styler, currentPos-1, state);
-			state = SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			state = SCE_MAKE_STRING;
+			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state_prev);
 			line.inSqString = false;
 		} else if	(!line.inString && !line.inSqString && chCurr=='\'') {
 			state_prev = state;
-			state = SCE_MAKE_STRING;
+			state = SCE_MAKE_DEFAULT;
 			ColourHere(styler, currentPos-1, state_prev);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			line.inSqString = true;
@@ -315,7 +315,7 @@ static unsigned int ColouriseMakeLine(
 			
 			// Colour Strings which end with a Number
 			if (IsNum(chCurr) && startMark > stylerPos && styler.SafeGetCharAt(startMark-1) != '-') {
-				if (startMark>stylerPos) styler.ColourTo(startMark-1,SCE_MAKE_IDENTIFIER);
+				if (startMark>stylerPos) styler.ColourTo(startMark-1,state);
 				ColourHere(styler, currentPos,  SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 			}
 			
