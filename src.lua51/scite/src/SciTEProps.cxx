@@ -653,13 +653,13 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 	if (extender && reloadScripts) 
 		extender->Clear();
 
-	const std::string fileNameForExtension = ExtensionFileName();
-
+	std::string fileNameForExtension = ExtensionFileName();
 	std::string modulePath = props.GetNewExpandString("lexerpath.",
 	    fileNameForExtension.c_str());
 	if (modulePath.length())
 	    wEditor.CallString(SCI_LOADLEXERLIBRARY, 0, modulePath.c_str());
 	language = props.GetNewExpandString("lexer.", fileNameForExtension.c_str());
+	
 	if (language.length()) {
 		if (StartsWith(language, "script_")) {
 			wEditor.Call(SCI_SETLEXER, SCLEX_CONTAINER);
@@ -679,18 +679,18 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 	} else {
 		wEditor.Call(SCI_SETLEXER, SCLEX_NULL);
 	}
-
+	
 	props.Set("Language", language.c_str());
 
 	lexLanguage = wEditor.Call(SCI_GETLEXER);
-
+	
 	if (StartsWith(language, "script_") || StartsWith(language, "lpeg_"))
 		wEditor.Call(SCI_SETSTYLEBITS, 8);
 	else
 		wEditor.Call(SCI_SETSTYLEBITS, wEditor.Call(SCI_GETSTYLEBITSNEEDED));
 
-	wOutput.Call(SCI_SETLEXER, SCLEX_ERRORLIST);
-
+	wOutput.Call(SCI_SETLEXER, SCLEX_ERRORLIST);	
+	
 	const std::string kw0 = props.GetNewExpandString("keywords.", fileNameForExtension.c_str());
 	wEditor.CallString(SCI_SETKEYWORDS, 0, kw0.c_str());
 
@@ -1056,7 +1056,7 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 	wEditor.Call(SCI_SETTABINDENTS, props.GetInt("tab.indents", 1));
 	wEditor.Call(SCI_SETBACKSPACEUNINDENTS, props.GetInt("backspace.unindents", 1));
 
-	wEditor.Call(SCI_CALLTIPUSESTYLE, 32);
+	wEditor.Call(SCI_CALLTIPUSESTYLE, 38);
 
 	indentOpening = props.GetInt("indent.opening");
 	indentClosing = props.GetInt("indent.closing");
@@ -1377,7 +1377,8 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 	} else {
 		TimerEnd(timerAutoSave);
 	}
-
+	
+		
 	firstPropertiesRead = false;
 	needReadProperties = false;
 }
@@ -1621,6 +1622,7 @@ void SciTEBase::ReadPropertiesInitial() {
 	props.Set("SciteDefaultHome", homepath.AsUTF8().c_str());
 	homepath = GetSciteUserHome();
 	props.Set("SciteUserHome", homepath.AsUTF8().c_str());
+	
 }
 
 FilePath SciTEBase::GetDefaultPropertiesFileName() {

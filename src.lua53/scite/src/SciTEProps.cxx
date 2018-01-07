@@ -653,8 +653,7 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 	if (extender && reloadScripts) 
 		extender->Clear();
 
-	const std::string fileNameForExtension = ExtensionFileName();
-
+	std::string fileNameForExtension = ExtensionFileName();
 	std::string modulePath = props.GetNewExpandString("lexerpath.",
 	    fileNameForExtension.c_str());
 	if (modulePath.length())
@@ -684,14 +683,14 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 	props.Set("Language", language.c_str());
 
 	lexLanguage = wEditor.Call(SCI_GETLEXER);
-
+	
 	if (StartsWith(language, "script_") || StartsWith(language, "lpeg_"))
 		wEditor.Call(SCI_SETSTYLEBITS, 8);
 	else
 		wEditor.Call(SCI_SETSTYLEBITS, wEditor.Call(SCI_GETSTYLEBITSNEEDED));
 
-	wOutput.Call(SCI_SETLEXER, SCLEX_ERRORLIST);
-
+	wOutput.Call(SCI_SETLEXER, SCLEX_ERRORLIST);	
+	
 	const std::string kw0 = props.GetNewExpandString("keywords.", fileNameForExtension.c_str());
 	wEditor.CallString(SCI_SETKEYWORDS, 0, kw0.c_str());
 
@@ -1379,12 +1378,6 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 		TimerEnd(timerAutoSave);
 	}
 	
-	const int forceLexNullSize=props.GetInt("max.style.size",10000000);
-	if (LengthDocument()>forceLexNullSize){
-		wEditor.Call(SCI_SETLEXER, 1);
-		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
-		props.Set("Language", "");
-	}
 		
 	firstPropertiesRead = false;
 	needReadProperties = false;

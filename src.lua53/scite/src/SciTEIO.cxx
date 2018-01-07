@@ -358,22 +358,38 @@ void SciTEBase::PerformDeferredTasks() {
 void SciTEBase::CompleteOpen(OpenCompletion oc) {
 	wEditor.Call(SCI_SETREADONLY, CurrentBuffer()->isReadOnly);
 
-	if (oc != ocSynchronous) {
+	// Not quite sure - But at least the place seems to be an adequate one.
+	// Magically switch to the Null Lexer if files Size exeeeds a given maximum. 
+	std::string languageOverride;
+	const GUI::gui_string gsFilePath=GUI::StringFromUTF8(props.GetString("FilePath").c_str());
+	FilePath absPath=FilePath(gsFilePath);
+	const long long fileSize = absPath.IsUntitled() ? 0 : absPath.GetFileLength();	
+	const int forceLexNullSize=props.GetInt("max.style.size",10000000);
+	if (fileSize>forceLexNullSize){
+		wEditor.Call(SCI_SETLEXER, 1);
+		languageOverride ="x.";
+		CurrentBuffer()->overrideExtension ="x.";
+		props.Set("default.file.ext","x.");
+		props.Set("FileExt","x.");
+		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
+		CurrentBuffer()->lifeState = Buffer::open;
 		ReadProperties(true);
-	}
-	
-	if (language == "") {
+	} else {
 		std::string languageOverride = DiscoverLanguage();
+	}
 
+	if (language == "") {
 		if (languageOverride.length()) {
 			CurrentBuffer()->overrideExtension = languageOverride;
 			CurrentBuffer()->lifeState = Buffer::open;
 			ReadProperties(true);
-			SetIndentSettings();			
+			SetIndentSettings();
 		}
 	}
 	
+	
 	if (oc != ocSynchronous) {
+		ReadProperties(true);
 		SetIndentSettings();
 		SetEol();
 		UpdateBuffersCurrent();
@@ -393,7 +409,7 @@ void SciTEBase::CompleteOpen(OpenCompletion oc) {
 	if (props.GetInt("indent.auto")) {
 		DiscoverIndentSetting();
 	}
-	
+
 	if (!wEditor.Call(SCI_GETUNDOCOLLECTION)) {
 		wEditor.Call(SCI_SETUNDOCOLLECTION, 1);
 	}
@@ -573,7 +589,7 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 	}
 	CurrentBuffer()->props = propsDiscovered;
 	CurrentBuffer()->overrideExtension = "";
-	ReadProperties(true);
+	ReadProperties(true);	
 	SetIndentSettings();
 	SetEol();
 	UpdateBuffersCurrent();
@@ -589,7 +605,7 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 		} else {
 			wEditor.Call(SCI_SETUNDOCOLLECTION, 0);
 		}
-		
+
 		asynchronous = (fileSize > props.GetInt("background.open.size", -1)) &&
 			!(of & (ofPreserveUndo|ofSynchronous));
 		OpenCurrentFile(fileSize, of & ofQuiet, asynchronous);
@@ -609,10 +625,9 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 	if (lineNumbers && lineNumbersExpand)
 		SetLineNumberWidth();
 	UpdateStatusBar(true);
-	
 	if (extender && !asynchronous){
 		extender->OnOpen(filePath.AsUTF8().c_str());
-		ReadProperties(false); //Arjunae: Allow SciTE start-up with extender changed properties.
+		//ReadProperties(false); //Arjunae: Allow SciTE start-up with extender changed properties.
 		}
 	return true;
 }

@@ -2325,7 +2325,7 @@ void SciTEBase::SetTextProperties(
 }
 
 void SciTEBase::UpdateStatusBar(bool bUpdateSlowData) {
-	if (sbVisible) {
+			if (sbVisible) {
 		if (bUpdateSlowData) {
 			SetFileProperties(propsStatus);
 		}
@@ -2336,7 +2336,7 @@ void SciTEBase::UpdateStatusBar(bool bUpdateSlowData) {
 		propsStatus.SetInteger("ColumnNumber",
 		        wEditor.Call(SCI_GETCOLUMN, caretPos) + 1);
 		propsStatus.Set("OverType", wEditor.Call(SCI_GETOVERTYPE) ? "OVR" : "INS");
-
+	
 		char sbKey[32];
 		sprintf(sbKey, "statusbar.text.%d", sbNum);
 		std::string msg = propsStatus.GetExpandedString(sbKey);

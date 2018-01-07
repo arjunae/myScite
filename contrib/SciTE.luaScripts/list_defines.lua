@@ -3,7 +3,8 @@
 -- 01.01.2018 / Thorsten Kani / Marcedo { at } habMalNeFrage. { de}
 -- License: BSD three Clause
 -- grab all function defines, list their names (with parameters)
--- exclude Constants, exclude _underscoredStuff, exclude multiline stuff. (see code Docs)
+-- exclude Constants, exclude _underscoredStuff, exclude multiline stuff. 
+-- (see code Docs and modify the --filter section)
 --
 
 
@@ -17,7 +18,7 @@ local function split_last (s,ch)
     local i = #s
     while i > 0 do
         if string.sub(s,i,i) == ch then
-				return string.sub(s,i+1)			
+					return string.sub(s,i+1)			
         end
         i = i - 1
     end
@@ -58,14 +59,15 @@ outline=" "
 		if func1 then
 			if func2 then together= func1..func2 end
 			if multiline then write=false end -- strip multiline defines (param has Backslash)
-			if func2:match("^[%s_]+")  then write=false end -- strip compiler internals (param is numeric only)
+			if func2:match("^[%s_]+")  then write=false end -- strip compiler internals (param begins with underscore)
+			if func2:match("sizeof")  then write=false end -- strip sizeof Macro based constants 
 			if together:match("^[%s_]+")  then write=false end --strip compiler internals (func Name begins with underscore)
-			if together:match("TEXT") then write=false end  -- strip Text constants (param contains the TEXT Macro)
+			if together:match("TEXT") then write=false end  -- strip TEXT Macro based constants 
 			if together:match("IID") then write=false end -- strip GUID Constants
 			if together:match("GUID_BUILDER") then write=false end
 			if func1:match("^[^%l]+$") then write=false end -- strip all Uppercases constants
 			--if func1:match("^[^%l]+%(") then write=false end -- strip all Uppercases functions
-			if together:match("MINGW") then write=true end 
+			if together:match("__MINGW_NAME_AW") then write=true end 
 			if  write then outline=outline.."{"..func1.."}{"..func2.."}".."\n" end
 		end
 	end

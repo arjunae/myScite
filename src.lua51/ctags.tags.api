@@ -352,7 +352,6 @@ db_errorfb(lua_State *L)static int
 GetNextTabstop(Sci::Line line, int x)int LineTabstops::
 BackStep(int partitionDownTo)	void 
 messageBoxKey(GtkWidget *w, GdkEventKey *event, gpointer p)static gint 
-UIShouldBeFlat()bool 
 DropTarget_Drop(DropTarget *dt, LPDATAOBJECT pIDataSource, DWORD grfKeyState, POINTL pt, PDWORD pdwEffect)STDMETHODIMP 
 GetLine(char *text, int sizeText, int line)void SciTEBase::
 override(bool reverseDirection, bool showWarnings=true, bool allowRegExp=true)	int FindNext
@@ -2675,63 +2674,64 @@ AllFour(DWORD *pixels, int width, int height, int x, int y, DWORD val)static voi
 yindex(LexState *ls, expdesc *v)static void 
 window(WindowID wid)QWidget
 wheelEvent(QWheelEvent *event)void ScintillaEditBase::
+what(S)  const char
 HaveMouseCapture()bool ScintillaWin::
 constfolding(OpCode op, expdesc *e1, expdesc *e2)static int 
-what(S)  const char
-DragLeave(GtkWidget *widget, GdkDragContext * , guint)void ScintillaGTK::
 weak(to be cleared)  GCObject
+DragLeave(GtkWidget *widget, GdkDragContext * , guint)void ScintillaGTK::
+grabQuoted(s)def 
 SetCaretAsStart()void SciTEBase::
 messageBoxDestroy(GtkWidget *, gpointer *)static void 
-PositionAfterArea(PRectangle rcArea)Sci::Position Editor::
+value(when closed)    TValue 
 PollTool(SciTEGTK *scitew)int SciTEGTK::
 FontMeasurements()::
 Idler()::
-value(when closed)    TValue 
 uriDropped()def 
-ChooseStrategy(int eff)static QFont::StyleStrategy 
 unquote(char *s)static void 
+ChooseStrategy(int eff)static QFont::StyleStrategy 
 unmakemask(int mask, char *smask)static char
 unlink(const wchar_t *filename)static int 
 undo()int ScintillaDocument::
+uid24()def 
 Create(const FontParameters &fp)void Font::
 clone_table(lua_State *L, int srcTableIdx, bool copyMetatable = false)static bool 
-uid24()def 
 trydecpoint(LexState *ls, SemInfo *seminfo)static void 
-luaB_error(lua_State *L)static int 
-PositionOfElement(int element)	int 
-SciTEWin(Extension *ext)::
+OnStyle(unsigned int p, int q, int r, StyleWriter *s)bool MultiplexExtension::
+computesizes(int nums[], int *narray)static int 
 traversestack(global_State *g, lua_State *l)static void 
-lua_pushthread(lua_State *L)LUA_API int 
+SciTEWin(Extension *ext)::
 textFromRun(args)def 
-luaB_loadstring(lua_State *L)static int 
+lua_pushthread(lua_State *L)LUA_API int 
+Job(const std::string &command_, const FilePath &directory_, JobSubsystem jobType_, const std::string &input_, int flags_)	
 tconcat(lua_State *L)static int 
 tag_error(lua_State *L, int narg, int tag)static void 
 swapped(int v)static int 
-RECTFromRectangle(GUI::Rectangle r)RECT 
 strrchr(wchar_t *str, wchar_t c)static wchar_t
-SendPipeCommand(const char *pipeCommand)static bool 
+RECTFromRectangle(GUI::Rectangle r)RECT 
 strlen(const wchar_t *str)static size_t 
-createstdfile(lua_State *L, FILE *f, int k, const char *fname)static void 
+SendPipeCommand(const char *pipeCommand)static bool 
+resizeEvent(self, e)	def 
 str_len(lua_State *L)static int 
 str_gsub(lua_State *L)static int 
-matchbalance(MatchState *ms, const char *s, const char *p)static const char
+match_class(int c, int cl)static int 
 str_find_aux(lua_State *L, int find)static int 
+runGenerator(self)	def 
 MoveSelectedLinesDown()void Editor::
 TrackMouseEventSig(LPTRACKMOUSEEVENT)typedef BOOL
-sMimeRectangularMarker("text\/x-rectangular-marker")static const QString 
 str_checkname(LexState *ls)static TString
 str_char(lua_State *L)static int 
+str_byte(lua_State *L)static int 
 Revert()void SciTEBase::
 luaB_auxwrap(lua_State *L)static int 
-str_byte(lua_State *L)static int 
-OnMacro(const char *p, const char *q)bool MultiplexExtension::
+SWndProc( HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)LRESULT PASCAL ScintillaWin::
 start_capture(MatchState *ms, const char *s, const char *p, int what)static const char
 source(S)  const char
-BeginPrintThis(GtkPrintOperation *operation, GtkPrintContext *context)void SciTEGTK::
 sort_comp(lua_State *L, int a, int b)static int 
+BeginPrintThis(GtkPrintOperation *operation, GtkPrintContext *context)void SciTEGTK::
+math_exp(lua_State *L)static int 
 ParseStyleDefinition(const char *definition)bool StyleDefinition::
 GetFilePosition()RecentFile SciTEBase::
-math_fmod(lua_State *L)static int 
+small_scroller_get_preferred_height(GtkWidget *widget, gint *min, gint *nat)static void 
 SaveAsRTF()void SciTEWin::
 IsRectExtend(unsigned int iMessage)bool 
 RoundedRectangle(PRectangle rc, ColourDesired fore, ColourDesired back)void SurfaceGDI::
@@ -2739,351 +2739,350 @@ FinishedFuture(int index, Buffer::FutureDo fd)void BufferList::
 ByteIterator(const Document *doc_ = 0, Sci::Position position_ = 0)	
 LengthDocument()int SciTEBase::
 Set(T *base, const char *val)		bool 
-small_scroller_get_preferred_height(GtkWidget *widget, gint *min, gint *nat)static void 
 OnMacro(const char *, const char *)	virtual bool 
-HFont()HFONT FormatAndMetrics::
 size()	int 
-SetAt(T_POSITION pos, ARG_TYPE newElement)	void 
+HFont()HFONT FormatAndMetrics::
 singlevar(LexState *ls, expdesc *var)static void 
+SetAt(T_POSITION pos, ARG_TYPE newElement)	void 
+singlestep(lua_State *L)static l_mem 
 Initialised()bool SurfaceGDI::
 IsWord(unsigned char ch)	bool 
-singlestep(lua_State *L)static l_mem 
 settabss(lua_State *L, const char *i, const char *v)static void 
 settabsi(lua_State *L, const char *i, int v)static void 
-Match(int pos, const char *s)bool TextReader::
+lua_typename(lua_State *L, int t)LUA_API const char
+setnodevector(lua_State *L, Table *t, int size)static void 
 Label(GtkWidget *child)void WTable::
 More()bool BreakFinder::
 luaU_header(char* h)void 
-setnodevector(lua_State *L, Table *t, int size)static void 
 setn(lua_State *L)static int 
-luaB_ipairs(lua_State *L)static int 
+luaB_getmetatable(lua_State *L)static int 
+operator(CharacterSet &&other)	CharacterSet
 LexerSimple(const LexerModule *module_)::
 SetPerLine(PerLine *pl)void LineVector::
 SetStyle(Sci::Line line, int style)void LineAnnotation::
 scintilla_init(ScintillaObject *sci)static void 
 cf_scite_strip_set_list(lua_State *L)static int 
-lua_getfield(lua_State *L, int idx, const char *k)LUA_API void 
-IsAbsolute()bool FilePath::
 set_read_only(bool read_only)void ScintillaDocument::
+IsAbsolute()bool FilePath::
+set_current_indicator(int indic)void ScintillaDocument::
 markroot(lua_State *L)static void 
 ShowCaretAtCurrentPosition()void Editor::
-set_current_indicator(int indic)void ScintillaDocument::
+set_code_page(int code_page)void ScintillaDocument::
 PositionFromLocation(Point pt, bool canReturnInvalid, bool charPosition)Sci::Position Editor::
 RemoveAll()	void 
 GetSelection(AtkText *text, gint selection_num, gint *start_pos, gint *end_pos)gchar
 getluaproto(CallInfo *ci)static Proto
-set_code_page(int code_page)void ScintillaDocument::
 setText( const UInt8* buffer, size_t byteLength, CFStringEncoding encoding, const QuartzTextStyle& r )    inline void 
 setFontRef(CTFontRef inRef, int characterSet_)	void 
 setEncoding(Utf8_16::encodingType eType)void Utf8_16_Write::
 setDoubleClickAction(CallBackAction action, void *data)void ListWidget::
-Text(Sci::Line line)const char
 setContext(CGContextRef context)    inline void 
-call_orderTM(lua_State *L, const TValue *p1, const TValue *p2, TMS event)static int 
+Text(Sci::Line line)const char
+NcHitTest(WPARAM wParam, LPARAM lParam)LRESULT ListBoxX::
 set(const ubyte* pBuf, size_t nLen, encodingType eEncoding, ubyte *endSurrogate)void Utf16_Iter::
 searchvar(FuncState *fs, TString *n)static int 
 scrollVertical(int value)void ScintillaEditBase::
-LimitsForRectangularElseMain()SelectionSegment Selection::
 scrollHorizontal(int value)void ScintillaEditBase::
+LimitsForRectangularElseMain()SelectionSegment Selection::
 scite_lua_popen(const char *filename, const char *mode)FILE
 scintilla_object_new()GtkWidget
-SetSelection(int currentPos_)void Editor::
 scintilla_object_get_type()GType 
+SetSelection(int currentPos_)void Editor::
 scintilla_object_accessible_new(GType parent_type, GObject *obj)static AtkObject
-ReadEmbeddedProperties()void SciTEWin::
 scintilla_object_accessible_initialize(AtkObject *obj, gpointer data)static void 
-DeleteMark(Sci::Line line, int markerNum, bool all)bool LineMarkers::
+ReadEmbeddedProperties()void SciTEWin::
 scintilla_object_accessible_finalize(GObject *object)static void 
-GetWorkingDirectory()FilePath FilePath::
+DeleteMark(Sci::Line line, int markerNum, bool all)bool LineMarkers::
 scintilla_object_accessible_factory_class_init(AtkObjectFactoryClass * klass)static void 
-DirectFunction( sptr_t ptr, unsigned int iMessage, uptr_t wParam, sptr_t lParam)sptr_t ScintillaQt::
+GetWorkingDirectory()FilePath FilePath::
+IsWhiteLine(Sci::Line line)bool Document::
+scintilla_get_type()GType 
 Lines()int UserStrip::
 CheckForRunningInstance(int argc, char *argv[])bool SciTEGTK::
-scintilla_get_type()GType 
 scintilla_class_init(ScintillaClass *klass)static void 
 scintillaScriptsDirectory(scintillaDirectory, "scripts")
-luaC_step(lua_State *L)void 
+luaC_separateudata(lua_State *L, int all)size_t 
 RemoveFindMarks()void SciTEBase::
 save(LexState *ls, int c)static void 
+SearchOtherInstance(HWND hWnd, LPARAM lParam)BOOL CALLBACK UniqueInstance::
 GetNext(const char *&key, const char *&val)bool PropSetFile::
 Menu()	
-buffreplace(LexState *ls, char from, char to)static void 
 sWrappedMSDEVColumnSelect("application\/x-qt-windows-mime;value=\\"MSDEVColumnSelect\\"")static const QString 
 sScintillaRecMimeType("text\/x-scintilla.utf16-plain-text.rectangular")static const QString 
+sMimeRectangularMarker("text\/x-rectangular-marker")static const QString 
 str_find(lua_State *L)static int 
 GlobalMemory()	
-runGenerator(self)	def 
+getAscent()	float 
 str_match(lua_State *L)static int 
-resizeEvent(self, e)	def 
 PasteFromMode(QClipboard::Mode clipboardMode_)void ScintillaQt::
-luaopen_package(lua_State *L)LUALIB_API int 
 resetstack(lua_State *L, int status)static void 
+luaopen_package(lua_State *L)LUALIB_API int 
 repeatstat(LexState *ls, int line)static void 
 removevalues(FuncState *fs, int list)static void 
 removeentry(Node *n)static void 
+remarkupvals(global_State *g)static void 
 ChSetWithCase(unsigned char c, bool caseSensitive)void RESearch::
 DoDialog(const TCHAR *resName, DLGPROC lpProc)int SciTEWin::
 Dialog(HWND hDlg_)	explicit 
-remarkupvals(global_State *g)static void 
 rehash(lua_State *L, Table *t, const TValue *ek)static void 
 registerlocalvar(LexState *ls, TString *varname)static int 
+error_expected(LexState *ls, int token)static void 
 Matches(const GUI::gui_char *pattern)bool FilePath::
-escapeValue(unsigned char ch)static unsigned char 
+ProcessExecute()void SciTEWin::
 RectangleFromRange(Range r, int overlap)PRectangle Editor::
 CaseConvertString(const std::string &s, enum CaseConversion conversion)std::string 
-ProcessExecute()void SciTEWin::
-BytesFromLead(int leadByte)static int 
-Next()	const char
+EnumProperties(const char *propkind)void SciTEBase::
+Platform(const Platform &)	
+Match(int pos, const char *s)bool TextReader::
 SetDefaultCharClasses(bool includeWordClass)void Document::
 luaopen_math(lua_State *L)LUALIB_API int 
-lua_xmove(lua_State *from, lua_State *to, int n)LUA_API void 
 read_long_string(LexState *ls, SemInfo *seminfo, int sep)static void 
 read_chars(lua_State *L, FILE *f, size_t n)static int 
-FRReplaceInSelectionCmd()void SciTEGTK::
 readInterface(cleanGenerated)def 
+FRReplaceInSelectionCmd()void SciTEGTK::
 raise_error(lua_State *L, const char *errMsg=NULL)inline void 
-FontRealised()::
 pushstr(lua_State *L, const char *str)static void 
+FontRealised()::
+BytesFromLead(int leadByte)static int 
 readable(const char *filename)static int 
 override(Window &parent_, int ctrlID_, Point location_, int lineHeight_, bool unicodeMode_, int technology_, bool useThickFrame_)	void Create
 IsDBCSLeadByte(char ch)bool SCI_METHOD Document::
-EnumProperties(const char *propkind)void SciTEBase::
-FindReplaceGrabFields()void SciTEGTK::
 push_onecapture(MatchState *ms, int i, const char *s, const char *e)static void 
+FindReplaceGrabFields()void SciTEGTK::
+push_iface_function(lua_State *L, const char *name)static int 
 Encoding()	Type 
 DrawFrame(Surface *surface, ColourDesired colour, int alpha, PRectangle rcFrame)static void 
-push_iface_function(lua_State *L, const char *name)static int 
-GetAcceleratorTable()	HACCEL 
-StyleFromSubStyle(int subStyle)int LexState::
+BaseWin()	
+luaopen_os(lua_State *L)LUALIB_API int 
 propsFile(propsFileName, "rt")
 propsFile(propPath)	
 propUserFileName(".SciTEUser.properties")const GUI::gui_char 
+propLocalFileName("SciTE.properties")const GUI::gui_char 
 makeRet(params)def 
 RemoveHandle(int handle)void MarkerHandleSet::
 SetHoverIndicatorPosition(Sci::Position position)void Editor::
-propLocalFileName("SciTE.properties")const GUI::gui_char 
+propAbbrevFileName("abbrev.properties")const GUI::gui_char 
 ExpandAllInPlace()))static int 
 luaL_openlibs(lua_State *L)LUALIB_API void 
-propAbbrevFileName("abbrev.properties")const GUI::gui_char 
 printWrapped(text)def 
+override(Sci::Position endStyleNeeded)	void NotifyStyleToNeeded
 ButtonPress(GtkWidget *, GdkEventButton* ev, gpointer p)static gboolean 
-override(Point pt, int modifiers)	void NotifyDoubleClick
-PositionFromPartition(int partition)	int 
 printIFaceTableHTMLFile(faceAndIDs)def 
+PositionFromPartition(int partition)	int 
 LoadString(LoadState* S)static TString
+StyleSetMessage(unsigned int iMessage, uptr_t wParam, sptr_t lParam)void Editor::
 ShowToolBar()void SciTEWin::
 lua_newuserdata(lua_State *L, size_t size)LUA_API void
-StyleSetMessage(unsigned int iMessage, uptr_t wParam, sptr_t lParam)void Editor::
-NeedShown(Sci::Position pos, Sci::Position len)void Editor::
 primaryexp(LexState *ls, expdesc *v)static void 
+NeedShown(Sci::Position pos, Sci::Position len)void Editor::
+DragMotion(GtkWidget *widget, GdkDragContext *context, gint x, gint y, guint dragtime)gboolean ScintillaGTK::
 EnsureStyle(size_t index)void ViewStyle::
 QueryInterface(REFIID riid, PVOID *ppv)STDMETHODIMP ScintillaWin::
-EndRun(int position)int RunStyles::
 preinit_state(lua_State *L, global_State *g)static void 
 prefixexp(LexState *ls, expdesc *v)static void 
 precheck(const Proto *pt)static int 
+pointer()void
 Scintilla_DirectFunction( ScintillaWin *sci, UINT iMessage, uptr_t wParam, sptr_t lParam)sptr_t __stdcall 
 generateAPI(self, args)	def 
 ReleaseId(FontID fid_)void FontCached::
-pointer()void
-TargetAsUTF8(char *text)Sci::Position ScintillaWin::
 pixmap_new(gchar **xpm)static GtkWidget
-AnnotationBoxedOrIndented(int annotationVisible)static bool 
+TargetAsUTF8(char *text)Sci::Position ScintillaWin::
 patchtestreg(FuncState *fs, int node, int reg)static int 
+AnnotationBoxedOrIndented(int annotationVisible)static bool 
 patchlistaux(FuncState *fs, int list, int vtarget, int reg, int dtarget)static void 
 parlist(LexState *ls)static void 
 pangoUnitsFromDouble(double d)static int 
 override(bool showDialog)	void Print
-funcname(LexState *ls, expdesc *v)static int 
+funcinfo(lua_Debug *ar, Closure *cl)static void 
 override(const GUI::gui_char *arg)	bool PreOpenCheck
-FormatRange(bool draw, Sci_RangeToFormat *pfr)long Editor::
 override(const FilePath &directory, const GUI::gui_char *filesFilter)	bool OpenDialog
+FormatRange(bool draw, Sci_RangeToFormat *pfr)long Editor::
 override(const char *sReplace)	void SetReplace
 override(const char *key, const char *val)	void SetProperty
-Sensitive()bool WBase::
+SingleBuffer()bool BufferList::
 override(bool showWarnings=true)	void ReplaceOnce
 override(const char *actionList)	void Perform
 override(MarkPurpose purpose=markWithBookMarks)	void MarkAll
+override(int cmdID)	void DoMenuCommand
 RedrawRect(PRectangle rc)void Editor::
 SetLocalizer(ILocalize *localiser_)	void 
-override(int cmdID)	void DoMenuCommand
 override(Pane p, int start, int end)	void Remove
-marktmu(global_State *g)static void 
 override(int warnID)	void WarnUser
-operator(const Window &other)	Window
+marktmu(global_State *g)static void 
 override(const char *description)	void UserStripShow
-GetLineLength(int line)int SciTEBase::
+operator(const Window &other)	Window
+getFontID()	CTFontRef 
 override(int mask)	void TimerStart
+SciNotify(GtkWidget *widget, gint code, SCNotification *nt, gpointer data)	static void 
 HandleCompositionWindowed(uptr_t wParam, sptr_t lParam)sptr_t ScintillaWin::
 ProgressMade()	size_t 
-PopUpCmd(GtkMenuItem *menuItem, SciTEGTK *scitew)void SciTEGTK::
-ValueAt(int indicator, int position)int DecorationList::
-os_tmpname(lua_State *L)static int 
+Swap()void SelectionRange::
 override(int buttonHeight)	void Show
+os_tmpname(lua_State *L)static int 
 override(PropSetFile &ps)	void SetFileProperties
 override(const char *list)	void OpenUriList
+override(int menuNumber, int itemID)	void DestroyMenuItem
 override(const std::string &msg, const std::string *findItem=0)	void FindMessageBox
 override(int *left, int *top, int *width, int *height, int *maximize)	void GetWindowPosition
 RoomFor(int insertionLength)	void 
 LinesToScroll()Sci::Line Editor::
-override(int menuNumber, int itemID)	void DestroyMenuItem
 override(GtkWidget *container)	void Creation
+override(GUI::ScintillaWindow &win, int selStart, int selEnd)	std::string GetRangeInUIEncoding
 GetLexInterface()LexInterface
 ClearRegisteredImages()void ListBoxX::
 AddMark(Sci::Line line, int markerNum, Sci::Line lines)int LineMarkers::
-override(GUI::ScintillaWindow &win, int selStart, int selEnd)	std::string GetRangeInUIEncoding
-WrapLines(WrapScope ws)bool Editor::
 override(const std::string &s)	std::string EncodeString
-WeakNotifyThis(GObject *obj G_GNUC_UNUSED)	void 
+WrapLines(WrapScope ws)bool Editor::
 override(Worker *pWorker)	bool PerformOnNewThread
+WeakNotifyThis(GObject *obj G_GNUC_UNUSED)	void 
 override(const FilePath &directory, const char *filter)	bool OpenDialog
 override(GdkEventKey *event)	bool KeyDown
 override(int identifier)	void SetCtrlID
+override(Point pt, int modifiers)	void NotifyDoubleClick
 GenerateFile(inpath, outpath, commentPrefix, retainDefs, *lists)def 
 GetCharacterExtents(int charOffset, gint *x, gint *y, gint *width, gint *height, AtkCoordType coords)void ScintillaGTKAccessible::
 GetScale()	float 
 printLexHFile(f)def 
 RealizeVirtualSpace(Sci::Position position, Sci::Position virtualSpace)Sci::Position Editor::
-override(Sci::Position endStyleNeeded)	void NotifyStyleToNeeded
+override(unsigned int iMessage)	int KeyCommand
 listfield(LexState *ls, struct ConsControl *cc)static void 
 ItemInset(0, 0)const Point ListBoxX::
-override(unsigned int iMessage)	int KeyCommand
 override(Document *doc, void *userData, int status)	void NotifyErrorOccurred
 override(Document *doc, const char *text, Sci::Position *length)	const char
-currentline(l)  int 
 override(QTimerEvent *event)	void timerEvent
-GetRangeInUIEncoding(GUI::ScintillaWindow &win, int selStart, int selEnd)std::string SciTEWin::
+currentline(l)  int 
 override(QWheelEvent *event)	void wheelEvent
+GetRangeInUIEncoding(GUI::ScintillaWindow &win, int selStart, int selEnd)std::string SciTEWin::
 override(QResizeEvent *event)	void resizeEvent
 IsXidStart(int character)bool 
-DragDataReceived(GtkWidget *widget, GdkDragContext * , gint, gint, GtkSelectionData *selection_data, guint , guint)void ScintillaGTK::
 DrawPageThis(GtkPrintOperation * , GtkPrintContext *context, gint page_nr)void SciTEGTK::
+DragDataReceived(GtkWidget *widget, GdkDragContext * , gint, gint, GtkSelectionData *selection_data, guint , guint)void ScintillaGTK::
 override(QInputMethodEvent *event)	void inputMethodEvent
 LineStart(Sci_Position line)Sci_Position SCI_METHOD Document::
 DocFromDisplay(Sci::Line lineDisplay)Sci::Line ContractionState::
 ParseKeyCode(const char *mnemonic)long SciTEKeys::
-KeyDefault(int, int)int Editor::
 UnSlashString(const char *s)std::string 
+KeyDefault(int, int)int Editor::
+override(QDragMoveEvent *event)	void dragMoveEvent
 GetLine(Sci_Position position)	Sci_Position 
 CanEliminate(const DocModification &mh)static bool 
 IsAllSpacesOrTabs(const char *s, unsigned int len)static inline bool 
-override(QDragMoveEvent *event)	void dragMoveEvent
 override(QDragLeaveEvent *event)	void dragLeaveEvent
 CheckStartupScript()static bool 
 override(QContextMenuEvent *event)	void contextMenuEvent
+SetToggles()void ReplaceStrip::
 FormatEnumerator_Clone(FormatEnumerator *fe, IEnumFORMATETC **ppenum)STDMETHODIMP 
 OP_CALL(A+B-1)))
 Create()Mutex
-SetToggles()void ReplaceStrip::
-Command(WPARAM wParam, LPARAM lParam)void SciTEWin::
 override(Qt::InputMethodQuery query)	QVariant inputMethodQuery
-DumpDebug(const Proto* f, DumpState* D)static void 
+Command(WPARAM wParam, LPARAM lParam)void SciTEWin::
 override(Font &font, char ch)	XYPOSITION WidthChar
-DrawIndicator(int indicNum, Sci::Position startPos, Sci::Position endPos, Surface *surface, const ViewStyle &vsDraw, const LineLayout *ll, int xStart, PRectangle rcLine, Sci::Position secondCharacter, int subLine, Indicator::DrawState drawState, int value)static void 
+DumpDebug(const Proto* f, DumpState* D)static void 
 GetRange(T *buffer, int position, int retrieveLength)	void 
+DrawIndicator(int indicNum, Sci::Position startPos, Sci::Position endPos, Surface *surface, const ViewStyle &vsDraw, const LineLayout *ll, int xStart, PRectangle rcLine, Sci::Position secondCharacter, int subLine, Indicator::DrawState drawState, int value)static void 
 override(const char *list, char separator, char typesep)	void SetList
+GetAcceleratorTable()	HACCEL 
 ll_require(lua_State *L)static int 
 push_captures(MatchState *ms, const char *s, const char *e)static int 
-BaseWin()	
-GetErrorMessage(DWORD nRet)static GUI::gui_string 
 PreOpenCheck(const GUI::gui_char *)bool SciTEBase::
-SaveAsPDF()void SciTEWin::
+GetErrorMessage(DWORD nRet)static GUI::gui_string 
 math_atan2(lua_State *L)static int 
+SaveAsPDF()void SciTEWin::
 LineTabstops()	
 SetFileProperties(PropSetFile &ps)void SciTEGTK::
 SetBuffersMenu()void SciTEBase::
 HwndOf(GUI::Window w)inline HWND 
 Regenerate(filename, commentPrefix, *lists)def 
+MarginSetText(Sci::Line line, const char *text)void Document::
 AddToolSpace(GtkToolbar *toolbar)static void 
 OnKey(int, int)	virtual bool 
 LevelAt(Sci_Position line)	int 
-MarginSetText(Sci::Line line, const char *text)void Document::
 override(const char *listText, char separator, char typesep)	void SetList
+BackgroundStrip()	
 SetMultiple(const char *s)void PropSetSimple::
-CountBytes()int RGBAImage::
+AddToolButton(const char *text, int cmd, GtkWidget *toolbar_icon)GtkWidget
 GetSeparator()char AutoComplete::
 luaB_loadfile(lua_State *L)static int 
 MouseClick(Point pt)void CallTip::
 OpenDialog(const FilePath &directory, const GUI::gui_char *filesFilter)bool SciTEWin::
-AddToolButton(const char *text, int cmd, GtkWidget *toolbar_icon)GtkWidget
-Main()size_t Selection::
 IsUnicodeMode()bool Editor::
+Main()size_t Selection::
 override(int width)	void SetAverageCharWidth
-SetVerticalScrollPos()void ScintillaWin::
 KeyDown(GdkEventKey *event)bool Strip::
-Insert(const std::string &s)	void 
+SetVerticalScrollPos()void ScintillaWin::
 override(int n)	void Select
+Insert(const std::string &s)	void 
+override(int type, int width, int height, const unsigned char *pixelsImage)	void RegisterRGBAImage
 GoMatchingPreprocCond(int direction, bool select)void SciTEBase::
 StyleGetMessage(unsigned int iMessage, uptr_t wParam, sptr_t lParam)sptr_t Editor::
 StyleAt(lua_State *L)	static int 
 AddCommand(const std::string &command, const FilePath &directory, JobSubsystem jobType, const std::string &input, int flags)void JobQueue::
 PosRoundUp()	Sci::Position 
-override(int type, int width, int height, const unsigned char *pixelsImage)	void RegisterRGBAImage
-cf_pane_match_generator(lua_State *L)static int 
 override(int type, const char *xpm_data)	void RegisterImage
-ClearAllTabstops()void EditView::
+cf_pane_match_generator(lua_State *L)static int 
 DrawTextNoClip(PRectangle rc, Font &font_, XYPOSITION ybase, const char *s, int len, ColourDesired fore, ColourDesired back)void SurfaceGDI::
-luaK_numberK(FuncState *fs, lua_Number r)int 
+ClearAllTabstops()void EditView::
 nameOKSrc(src)def 
+luaK_numberK(FuncState *fs, lua_Number r)int 
 override(int n, char *value, int len)	void GetValue
-StringDecode(const std::string &s, int codePage)static std::wstring 
 override(PRectangle rc, Font &font_, XYPOSITION ybase, const char *s, int len, ColourDesired fore, ColourDesired back)	void DrawTextNoClip
+StringDecode(const std::string &s, int codePage)static std::wstring 
 CallSearchOnAllWindows()void UniqueInstance::
+override(const char *prefix)	int Find
 LexerLibrary(const char *moduleName_)::
 SelectionClear(GtkWidget *widget, GdkEventSelection *selection_event)gint ScintillaGTK::
-override(const char *prefix)	int Find
 FocusIn(GtkWidget *widget, GdkEventFocus * )gint ScintillaGTK::
 override(Document *document)	void SetDocPointer
 override(SCNotification scn)	void NotifyParent
 override(bool focus)	void NotifyFocus
-Release()STDMETHODIMP_
 override(TickReason reason, int millis, int tolerance)	void FineTickerStart
+Release()STDMETHODIMP_
+DirectFunction( sptr_t ptr, unsigned int iMessage, uptr_t wParam, sptr_t lParam)sptr_t ScintillaQt::
 scintilla_object_accessible_class_init(ScintillaObjectAccessibleClass *klass)static void 
-IsWhiteLine(Sci::Line line)bool Document::
 HasCaretSizeChanged()bool ScintillaWin::
-CallFocused(unsigned int msg, uptr_t wParam, sptr_t lParam)int SciTEBase::
 PaneButtonRelease(GtkWidget *, GdkEvent *, SciTEGTK *scitew)gint SciTEGTK::
+CallFocused(unsigned int msg, uptr_t wParam, sptr_t lParam)int SciTEBase::
 override(Sci::Line nMax, Sci::Line nPage)	bool ModifyScrollBars
-RestoreBracesHighlight(Range rangeLine, const Sci::Position braces[], bool ignoreStyle)void LineLayout::
 override(TickReason reason)	void FineTickerCancel
+RestoreBracesHighlight(Range rangeLine, const Sci::Position braces[], bool ignoreStyle)void LineLayout::
+InvalidateStyleData()void Editor::
 OnClose(const char *filename)bool MultiplexExtension::
-XYMaximum(XYPOSITION a, XYPOSITION b)static XYPOSITION 
+PreEditString(GtkIMContext *im_context)	explicit 
 GetRTFStyleChange(const char *last, const char *current)static std::string 
 FineTickerStart(TickReason reason, int millis, int )void ScintillaQt::
 ControlIDOfCommand(unsigned long wParam)int 
-PreEditString(GtkIMContext *im_context)	explicit 
 override(int codePage_)	void SetDBCSMode
 GetFullLine(const char *&fpc, size_t &lenData, char *s, size_t len)static bool 
 override(int width, int height, Surface *surface_, WindowID wid)	void InitPixMap
+override(WindowID wid)	void Init
 LoadInt(LoadState* S)static int 
 Line(lua_State *L)	static int 
 luaK_exp2nextreg(FuncState *fs, expdesc *e)void 
 ReadNum(const char *&t)static unsigned int 
-override(WindowID wid)	void Init
 override(SurfaceID sid, WindowID wid)	void Init
+XYMaximum(XYPOSITION a, XYPOSITION b)static XYPOSITION 
 operator(const SelectionPosition &other)bool SelectionPosition::
 State(lua_State *L)	static int 
-InvalidateStyleData()void Editor::
 override(PRectangle rc, Surface &surfacePattern)	void FillRectangle
 UTF8IsAscii(int ch)inline bool 
 override(PRectangle rc, ColourDesired fore, ColourDesired back)	void RoundedRectangle
+exprstat(LexState *ls)static void 
 PlayThisSound( const char *sound, int duration, HMODULE &hMM)static void 
 islexerwordcharforsel(char ch)bool SciTEBase::
 EndMatches(GUI::gui_string const &s, GUI::gui_string const &end)static bool 
 GetAttributesForStyle(unsigned int styleNum)AtkAttributeSet
-exprstat(LexState *ls)static void 
 override(PRectangle rc, Scintilla::Point from, Surface &surfaceSource)  void Copy
-ListBoxImpl()::
 MoveExtends()bool Selection::
+ListBoxImpl()::
 override()	void UIClosed
-ExtendStyleRange(Sci::Position pos, int delta, bool singleLine)Sci::Position Document::
 GetHeight()	int 
+ExtendStyleRange(Sci::Position pos, int delta, bool singleLine)Sci::Position Document::
 Maximum(int a, int b)inline int 
 GetImeAttributes()	std::vector
+Sensitive()bool WBase::
 override(const char *sFind)	void SetFindText
 funcstat(LexState *ls, int line)static void 
 IsASpace(int ch)static bool 
-SingleBuffer()bool BufferList::
 os_pushresult(lua_State *L, int i, const char *filename)static int 
 AllocateSubStyles(int styleBase, int numberStyles)int LexState::
 os_exit(lua_State *L)static int 
@@ -3091,108 +3090,108 @@ HashFont(const FontParameters &fp)static int
 WordListSet(int n, const char *wl)Sci_Position SCI_METHOD LexerNoExceptions::
 os_execute(lua_State *L)static int 
 os_date(lua_State *L)static int 
-Run(int argc, char *argv[])void SciTEGTK::
 ShouldClose(bool found)	bool 
+Run(int argc, char *argv[])void SciTEGTK::
+operator(size_t ind)	char
 StartAt(Sci_PositionU start)	void 
 InsertSpace(int position, int insertLength)	void 
 GetDefaultPropertiesFileName()FilePath SciTEBase::
 GetLineState(Sci_Position line)int SCI_METHOD Document::
 maxn(lua_State *L)static int 
 FindCaseInsensitive(const std::vector<std::string> &values, const std::string &s)static size_t 
-operator(size_t ind)	char
 DragMotionThis(GdkDragContext *context, gint x, gint y, guint dragtime)gboolean ScintillaGTK::
-GetWindowPosition(int *left, int *top, int *width, int *height, int *maximize)void SciTEWin::
 operator(ARG_KEY key)	VALUE
+GetWindowPosition(int *left, int *top, int *width, int *height, int *maximize)void SciTEWin::
+luaU_dump(lua_State* L, const Proto* f, lua_Writer w, void* data, int strip)int 
 ReAllocate(int newSize)	void 
-Base()	int 
 ReplaceAllCmd()void ReplaceStrip::
+operator(int position)	char 
 IndicatorDefinition(const char *definition)::
 RightButtonDownWithModifiers(Point pt, unsigned int, int modifiers)void Editor::
-operator(int position)	char 
-GetText(uptr_t wParam, sptr_t lParam)sptr_t ScintillaWin::
 operator(Sci_Position position)	char 
+GetText(uptr_t wParam, sptr_t lParam)sptr_t ScintillaWin::
 GetLevel(Sci_Position line)int SCI_METHOD Document::
 LexerBase()::
-EncodedFromUTF8(char *utf8, char *encoded)Sci::Position ScintillaWin::
 operator(const Rectangle &other)	bool 
+EncodedFromUTF8(char *utf8, char *encoded)Sci::Position ScintillaWin::
 operator(const StyleAndColour &other)	bool 
 lua_getupvalue(lua_State *L, int funcindex, int n)LUA_API const char
 MouseRelease(GtkWidget *widget, GdkEventButton *event)gint ScintillaGTK::
 operator(const WatcherWithUserData &other)		bool 
 ModifiedTime()time_t FilePath::
-GetMark(Sci::Line line)int Document::
+UTF16FromUTF8(const char *s, size_t len, wchar_t *tbuf, size_t tlen)size_t 
 ResizeToCursor()void ListBoxX::
 operator(const Style &source)Style
+lua_getfield(lua_State *L, int idx, const char *k)LUA_API void 
 setfenv(lua_State *L)static void 
-operator(CharacterSet &&other)	CharacterSet
-GetCaretInLine()int SciTEBase::
 StartEndDisplayLine(Surface *surface, const EditModel &model, Sci::Position pos, bool start, const ViewStyle &vs)Sci::Position EditView::
+GetCaretInLine()int SciTEBase::
+ImageByteSwapped(int width, int height, const unsigned char *pixelsImage)static std::vector
 luaK_goiffalse(FuncState *fs, expdesc *e)static void 
 AppendList(const std::string &s, char sep = Ã)	void 
-ImageByteSwapped(int width, int height, const unsigned char *pixelsImage)static std::vector
 Load(const char *)bool DirectorExtension::
 SetLineNumberWidth()void SciTEBase::
 operator(const Surface &)	Surface
 SetXPM(const char *const *linesForm)void LineMarker::
 operator(const FilePath &other)bool FilePath::
-LineLayoutCache()::
 operator(const FontSpecification &other)bool FontSpecification::
+LineLayoutCache()::
 operator(const CharacterConversion &other)		bool 
+ListBoxX_Unregister()bool 
 override(const char *label, int cmd = 0, bool enabled = true)	void AddToPopUp
 GetLexerCountFn()typedef int
 SetStyleBlock(GUI::ScintillaWindow &win, const char *lang, int start, int last)void SciTEBase::
-ListBoxX_Unregister()bool 
 Ascent(Font &font_)XYPOSITION SurfaceGDI::
-gctm(lua_State *L)static int 
 SetWrapVisualFlagsLocation(int wrapVisualFlagsLocation_)bool ViewStyle::
+gctm(lua_State *L)static int 
 LongFromTwoShorts(short a,short b)inline long 
-luaopen_io(lua_State *L)LUALIB_API int 
-db_gethook(lua_State *L)static int 
+ScintillaGTK(_ScintillaObject *sci_)::
 InvertedLight(ColourDesired orig)static ColourDesired 
-BlockFromStyle(int style)	int 
+db_gethook(lua_State *L)static int 
 operator(const char *a, const char *b)	bool 
+BlockFromStyle(int style)	int 
 db_setlocal(lua_State *L)static int 
-FindOpenXmlTag(const char sel[], int nSize)std::string SciTEBase::
 MoveBack()void SciTEBase::
-ChangeInsertion(const char *s, Sci::Position length)void Document::
+FindOpenXmlTag(const char sel[], int nSize)std::string SciTEBase::
 iconvhBad(-1)const GIConv 
+ChangeInsertion(const char *s, Sci::Position length)void Document::
+InsertBefore(T_POSITION position, ARG_TYPE newElement)	T_POSITION 
 SetToolsMenu()void SciTEBase::
 PropSetFile(bool lowerKeys_)::
 GreyToAlpha(GdkPixbuf *ppb, GdkColor fore)static void 
 FillCombos(Dialog &dlg, bool inFiles)void SciTEWin::
 event_command(uptr_t wParam, sptr_t lParam)void ScintillaEditBase::
-InsertBefore(T_POSITION position, ARG_TYPE newElement)	T_POSITION 
 nups(u)  int 
 MarginClearAll()void Document::
+notifyParent(SCNotification scn)void ScintillaEditBase::
 CreateButton(const char *text, size_t ident, bool check)GUI::Window Strip::
 messageBoxOK(GtkWidget *, gpointer p)static void 
-notifyParent(SCNotification scn)void ScintillaEditBase::
 FindNextCmd()void FindStrip::
-LuaExtension()::
 notify(ScintillaObject *sci, int id, SCNotification *scn)	void
-ScintillaWindow()	
+LuaExtension()::
 not_empty(const char *s)static bool 
+ScintillaWindow()	
 InsertText(int partitionInsert, int delta)	void 
 newlstr(lua_State *L, const char *str, size_t l, unsigned int h)static TString
 GetText(int startChar, int endChar)gchar
-CmpString(const char *a, const char *b)static bool 
 newfile(lua_State *L)static FILE
+CmpString(const char *a, const char *b)static bool 
+PopUpCmd(GtkMenuItem *menuItem, SciTEGTK *scitew)void SciTEGTK::
 luaL_addlstring(luaL_Buffer *B, const char *s, size_t l)LUALIB_API void 
 override(int index)	void TabSelect
 Dispose(GObject *object)void ScintillaGTK::
-SciNotify(GtkWidget *widget, gint code, SCNotification *nt, gpointer data)	static void 
 GetString(const char *key)std::string PropSetFile::
 SubStylesLength(int styleBase)int LexState::
 depunctuate(s)def 
-LoadCode(LoadState* S, Proto* f)static void 
+db_setmetatable(lua_State *L)static int 
 lua_rawget(lua_State *L, int idx)LUA_API void 
 HiddenLines()bool ContractionState::
+luaO_int2fb(unsigned int x)int 
 Paint(Surface *surfaceWindow, PRectangle rcArea)void Editor::
 HandleSaveAs(const char *savePath)bool SciTEGTK::
 RemoveSelection(AtkText *text, gint selection_num)gboolean ScintillaGTKAccessible::AtkTextIface::
-luaO_int2fb(unsigned int x)int 
-math_tanh(lua_State *L)static int 
 DeleteUndoHistory()	void 
+math_tanh(lua_State *L)static int 
 mouseMoveEvent(QMouseEvent *event)void ScintillaEditBase::
 SetterFunction()	IFaceFunction 
 NextIncremental(ChangingSource source)void FindReplaceStrip::
@@ -3200,175 +3199,175 @@ DebugDisplay(const char *s)void Platform::
 FillComboFromProps(WComboBoxEntry *combo, PropSetFile &props)static void 
 mimeFor(QString flav)	QString 
 DefWndProc(unsigned int iMessage, uptr_t wParam, sptr_t lParam)sptr_t ScintillaWin::
-StyleWriter(GUI::ScintillaWindow &sw_)::
 MapImeIndicators(std::vector<BYTE> inputStyle)std::vector
-CaseMapper(const std::string &sUTF8, bool toUpperCase)	
+StyleWriter(GUI::ScintillaWindow &sw_)::
 LinesTotal()Sci::Line Document::
+CaseMapper(const std::string &sUTF8, bool toUpperCase)	
 methodNames(f, options)def 
 NotifyDeleted(Document *, void *)void Editor::
+ColourTo(unsigned int pos, int chAttr)void StyleWriter::
 OP_LOADK(Bx)
 decoration_fill_range(int position, int value, int fillLength)void ScintillaDocument::
 DropRenderTarget()void ScintillaWin::
 gmatch_aux(lua_State *L)static int 
 Creation(GtkWidget *)void Strip::
-ColourTo(unsigned int pos, int chAttr)void StyleWriter::
 ItemHeight()int ListBoxX::
 menuAccessIndicator("_")const GUI::gui_char 
-ContainsWholePixel(Point pt)	bool 
 FindText( uptr_t wParam, sptr_t lParam)long Editor::
+ContainsWholePixel(Point pt)	bool 
+SetScale()void SurfaceD2D::
 FindReplaceAdvanced()bool SciTEBase::
 delete_undo_history()void ScintillaDocument::
-SetScale()void SurfaceD2D::
+SetHeight(Sci::Line lineDoc, int height)bool ContractionState::
 MenuAction(guint action)void ReplaceStrip::
 LocaliseDialog(HWND wDialog)void SciTEWin::
-SetHeight(Sci::Line lineDoc, int height)bool ContractionState::
+FindReplace(bool replace)void SciTEWin::
 PropGetInt(const char *key, int defaultValue)int LexState::
 NextTabstopPos(Sci::Line line, XYPOSITION x, XYPOSITION tabWidth)XYPOSITION EditView::
-FindReplace(bool replace)void SciTEWin::
 CheckAMenuItem(int wIDCheckItem, bool val)void SciTEWin::
 Match(char ch0)	bool 
 Limits()SelectionSegment Selection::
-KeyMatch(const std::string &sKey, int keyval, int modifiers)inline bool 
 UIClosed()void SciTEWin::
+KeyMatch(const std::string &sKey, int keyval, int modifiers)inline bool 
 ComboSelectionText(GUI::Window w)static std::string 
 GetLineIndentation(int line)int SciTEBase::
+luaB_loadstring(lua_State *L)static int 
 texStyle(int style)static char
 OnDoubleClick()bool DirectorExtension::
 CharacterSetOfDocument()int ScintillaQt::
-Job(const std::string &command_, const FilePath &directory_, JobSubsystem jobType_, const std::string &input_, int flags_)	
 NotifyChar(int ch)void Editor::
 Checked(int id)	bool 
-adjuststack(luaL_Buffer *B)static void 
 math_ldexp(lua_State *L)static int 
+adjuststack(luaL_Buffer *B)static void 
+MoveSelectedLinesUp()void Editor::
 GetConstantName(int value, char *nameOut, unsigned nameBufferLen, const char *prefix)int IFaceTable::
 SendScintilla( WindowID w, unsigned int msg, unsigned long wParam, long lParam)long Platform::
 SetEmptySelection(SelectionPosition currentPos_)void Editor::
 SciFnDirect(sptr_t ptr, unsigned int iMessage, uptr_t wParam, sptr_t lParam)typedef sptr_t
-MoveSelectedLinesUp()void Editor::
-OutputAppendString(const char *s, int len)void SciTEBase::
 math_frexp(lua_State *L)static int 
+OutputAppendString(const char *s, int len)void SciTEBase::
+math_fmod(lua_State *L)static int 
 small_scroller_init(SmallScroller *)static void 
-math_exp(lua_State *L)static int 
-SubStylesStart(int styleBase)int LexState::
 math_deg(lua_State *L)static int 
+SubStylesStart(int styleBase)int LexState::
 math_cosh(lua_State *L)static int 
+funcname(LexState *ls, expdesc *v)static int 
 libsize(const luaL_Reg *l)static int 
-SetState(int state_)	void 
-ClassNameOfWindow(HWND hWnd)GUI::gui_string 
 math_atan(lua_State *L)static int 
+ClassNameOfWindow(HWND hWnd)GUI::gui_string 
 NeedsWrap()	bool 
 ProcessArgs(const GUI::gui_char *cmdLine)GUI::gui_string SciTEWin::
 math_acos(lua_State *L)static int 
 Surface(const Surface &)	
 ClearVirtualSpace()	void 
-IsASCII(int ch)inline bool 
 matchbracketclass(int c, const char *p, const char *ec)static int 
+IsASCII(int ch)inline bool 
+matchbalance(MatchState *ms, const char *s, const char *p)static const char
 DelCharBack(bool allowLineStartDeletion)void Editor::
 UpdateBuffersCurrent()void SciTEBase::
 str_format(lua_State *L)static int 
 Notify(GtkWidget *, gint, SCNotification *nt)void ScintillaGTKAccessible::
 LexAccessor(IDocument *pAccess_)	explicit 
 SplitVector()	
-match_class(int c, int cl)static int 
 SetWorkingDirectory()bool FilePath::
 match(MatchState *ms, const char *s, const char *p)static const char
+markupval(FuncState *fs, int level)static void 
 NotifyHotSpotDoubleClicked(Sci::Position position, int modifiers)void Editor::
 ReadCharacter()	void 
-markupval(FuncState *fs, int level)static void 
 StartExpandAbbreviation()bool SciTEBase::
+SetPosition(bool aboveText)void CallTip::
 ReadPropertiesInitial()void SciTEWin::
 f_setvbuf(lua_State *L)static int 
 init(::AtkEditableTextIface *iface)void ScintillaGTKAccessible::AtkEditableTextIface::
-SetPosition(bool aboveText)void CallTip::
-SaveIfUnsureAll()SciTEBase::SaveResult SciTEBase::
 SwitchDocumentAt(int index, sptr_t pdoc)void SciTEBase::
+SaveIfUnsureAll()SciTEBase::SaveResult SciTEBase::
 makemask(const char *smask, int count)static int 
 makeSig(params)def 
-luaK_self(FuncState *fs, expdesc *e, expdesc *key)void 
 AddStyledText(GUI::ScintillaWindow &wsci, const char *s, int attr)static void 
-CallReturnPointer(unsigned int msg, uptr_t wParam=0, sptr_t lParam=0)	sptr_t 
+luaK_self(FuncState *fs, expdesc *e, expdesc *key)void 
 GetCharsOfClass(cc characterClass, unsigned char *buffer)int CharClassify::
+CallReturnPointer(unsigned int msg, uptr_t wParam=0, sptr_t lParam=0)	sptr_t 
 lua_pushcclosure(lua_State *L, lua_CFunction fn, int n)LUA_API void 
 main(int argc, char *argv[])int 
 lvl(level)  int 
 NextTab(Sci::Position pos, Sci::Position tabSize)static Sci::Position 
+StyleFromSubStyle(int subStyle)int LexState::
 FillLineRemainder(Surface *surface, const EditModel &model, const ViewStyle &vsDraw, const LineLayout *ll, Sci::Line line, PRectangle rcArea, int subLine)void EditView::
 Prev()void SciTEBase::
 propsFileName(srcDir, "SciTEGlobal.properties")
-luaopen_os(lua_State *L)LUALIB_API int 
 IsIdContinue(int character)bool 
+OpenDialog(const FilePath &directory, const char *filter)bool SciTEGTK::
 override(Font &font_, char ch)	XYPOSITION WidthChar
 NoMatchColour(HDC hdc)LRESULT SearchStripBase::
-OpenDialog(const FilePath &directory, const char *filter)bool SciTEGTK::
-KeyCommand(unsigned int iMessage)int ScintillaBase::
 ClearBeforeExecute()	bool 
+KeyCommand(unsigned int iMessage)int ScintillaBase::
+luaopen_io(lua_State *L)LUALIB_API int 
 hookf(lua_State *L, lua_Debug *ar)static void 
 OP_UNM(B)
 operator()	 bool
-ScintillaGTK(_ScintillaObject *sci_)::
-ExtendWordSelect(Sci::Position pos, int delta, bool onlyWordCharacters)Sci::Position Document::
 ScintillaQt(QAbstractScrollArea *parent)::
+ExtendWordSelect(Sci::Position pos, int delta, bool onlyWordCharacters)Sci::Position Document::
 luaopen_base(lua_State *L)LUALIB_API int 
-lua_settable(lua_State *L, int idx)LUA_API void 
 lua_yield(lua_State *L, int nresults)LUA_API int 
+lua_settable(lua_State *L, int idx)LUA_API void 
+lua_xmove(lua_State *from, lua_State *to, int n)LUA_API void 
 read_number(lua_State *L, FILE *f)static int 
 TWndProc( HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)LRESULT PASCAL SciTEWin::
 setpath(lua_State *L, const char *fieldname, const char *envname, const char *def)static void 
-lua_typename(lua_State *L, int t)LUA_API const char
-DrawCarets(Surface *surface, const EditModel &model, const ViewStyle &vsDraw, const LineLayout *ll, Sci::Line lineDoc, int xStart, PRectangle rcLine, int subLine)void EditView::
 lua_type(lua_State *L, int idx)LUA_API int 
-NewLine()void Editor::
+DrawCarets(Surface *surface, const EditModel &model, const ViewStyle &vsDraw, const LineLayout *ll, Sci::Line lineDoc, int xStart, PRectangle rcLine, int subLine)void EditView::
 IsOctalDigit(char ch)static bool 
+NewLine()void Editor::
 CanPaste()bool ScintillaWin::
 ThinRectangularRange()void Editor::
-SetValueAt(int position, ParamType&& v)	void 
 AddFileToBuffer(const BufferState &bufferState)bool SciTEBase::
-WidthText(Font &font_, const char *s, int len)XYPOSITION SurfaceGDI::
+SetValueAt(int position, ParamType&& v)	void 
 IsUntitled()bool FilePath::
-OnSave(const char *path)bool DirectorExtension::
+WidthText(Font &font_, const char *s, int len)XYPOSITION SurfaceGDI::
 AverageCharWidth(Font &font_)XYPOSITION SurfaceGDI::
+OnSave(const char *path)bool DirectorExtension::
 lua_tolstring(lua_State *L, int idx, size_t *len)LUA_API const char
 lua_tointeger(lua_State *L, int idx)LUA_API lua_Integer 
-CopyAsRTF()void SciTEWin::
 lua_tocfunction(lua_State *L, int idx)LUA_API lua_CFunction 
+CopyAsRTF()void SciTEWin::
 PaintContents(Surface *surfaceWindow, bool draw)int CallTip::
 SetValid(GtkEntry *entry, bool valid)void WEntry::
 GetStyleClock()	int 
 lua_setmetatable(lua_State *L, int objindex)LUA_API int 
-Load(const char *path)void LexerManager::
 lua_setlocal(lua_State *L, const lua_Debug *ar, int n)LUA_API const char
+Load(const char *path)void LexerManager::
 WrapPending()	
-AsLong()	long 
 lua_setfenv(lua_State *L, int idx)LUA_API int 
+AsLong()	long 
 lua_setallocf(lua_State *L, lua_Alloc f, void *ud)LUA_API void 
 SigFunction(GtkWidget *w, SciTEGTK *app)typedef void
 lua_replace(lua_State *L, int idx)LUA_API void 
 AddTextAttribute(AtkAttributeSet *attributes, AtkTextAttribute attr, gchar *value)static AtkAttributeSet
+lua_rawseti(lua_State *L, int idx, int n)LUA_API void 
 StyledText(size_t length_, const char *text_, bool multipleStyles_, int style_, const unsigned char *styles_)	
 CanDeferToLastStep(const DocModification &mh)static bool 
-lua_rawseti(lua_State *L, int idx, int n)LUA_API void 
-ConvertEncoding(const char *original, int codePage)static std::string 
 lua_rawset(lua_State *L, int idx)LUA_API void 
+ConvertEncoding(const char *original, int codePage)static std::string 
+DrawCaretLineFramed(Surface *surface, const ViewStyle &vsDraw, const LineLayout *ll, PRectangle rcLine, int subLine)static void 
 GetMatches(std::vector<char *>::iterator start, std::vector<char *>::iterator end, const char *wordStart, char otherSeparator, bool exactLen, Compare comp)static std::string 
 SetFoldExpanded(Sci::Line lineDoc, bool expanded)void Editor::
 Remove()void FilePath::
-DrawCaretLineFramed(Surface *surface, const ViewStyle &vsDraw, const LineLayout *ll, PRectangle rcLine, int subLine)static void 
-Length(int styleBase)	int 
 PointFromPOINT(POINT pt)static Point 
+Length(int styleBase)	int 
 lua_pushvalue(lua_State *L, int idx)LUA_API void 
-CRectListContains(const cairo_rectangle_list_t *crcListContainer, const cairo_rectangle_t &crcTest)static bool 
 Drop(const Point &point, const QMimeData *data, bool move)void ScintillaQt::
+CRectListContains(const cairo_rectangle_list_t *crcListContainer, const cairo_rectangle_t &crcTest)static bool 
 AutoCompleteCompleted(char ch, unsigned int completionMethod)void ScintillaBase::
+RealizeText(GtkWidget *widget, void*)void ScintillaGTK::
 MarkAllCmd()void FindStrip::
 ScrollTo(Sci::Line line, bool moveThumb)void Editor::
 FindInTarget(std::string findWhatText, int startPosition, int endPosition)int SciTEBase::
-RealizeText(GtkWidget *widget, void*)void ScintillaGTK::
 lua_pushnumber(lua_State *L, lua_Number n)LUA_API void 
 lua_pushnil(lua_State *L)LUA_API void 
 AddMBButton(GtkWidget *dialog, const char *label, int val, GtkAccelGroup *accel_group, bool isDefault)GtkWidget
 lua_pushlstring(lua_State *L, const char *s, size_t len)LUA_API void 
+NotifyModified(DocModification mh)void Document::
 breakstat(LexState *ls)static void 
-ScrollText(Sci::Line linesToMove)void ScintillaQt::
 lua_pushfstring(lua_State *L, const char *fmt, ...)LUA_API const char
 LineMarker(const LineMarker &)	
 StopExecute()void SciTEWin::
@@ -3377,314 +3376,315 @@ appName("Sc1")const GUI::gui_char
 Drop(GtkWidget *widget, GdkDragContext * , gint, gint, guint)gboolean ScintillaGTK::
 AskMacroList()void SciTEBase::
 DropAdditionalRanges()void Selection::
+NotifyErrorOccurred(Document *, void *, int status)void Editor::
 MarginFromLocation(Point pt)int ViewStyle::
 Substitute(std::string &s, const std::string &sFind, const std::string &sReplace)int 
-NotifyErrorOccurred(Document *, void *, int status)void Editor::
 lua_isstring(lua_State *L, int idx)LUA_API int 
-Cut()void Editor::
-SelectionPosition(Sci::Position position_=INVALID_POSITION, Sci::Position virtualSpace_=0)	explicit 
+is_collecting_undo()bool ScintillaDocument::
 luaL_gsub(lua_State *L, const char *s, const char *p, const char *r)LUALIB_API const char
+SelectionPosition(Sci::Position position_=INVALID_POSITION, Sci::Position virtualSpace_=0)	explicit 
+IsValid()	bool 
 luaopen_debug(lua_State *L)LUALIB_API int 
 Height(Font &font)XYPOSITION SurfaceImpl::
 NotifyMarginClick(Point pt, bool shift, bool ctrl, bool alt)bool Editor::
-IsValid()	bool 
 lua_gettable(lua_State *L, int idx)LUA_API void 
 InsertStringUTF8(Sci::Position bytePos, const gchar *utf8, Sci::Position lengthBytes)bool ScintillaGTKAccessible::
 GetHighlightDelimiters(HighlightDelimiter &highlightDelimiter, Sci::Line line, Sci::Line lastLine)void Document::
 StackPrev()int BufferList::
 ActivateWindow(const char *timestamp)void SciTEGTK::
-SubsystemType(const char *cmd)JobSubsystem SciTEBase::
 SetVisibleRows(int rows)void ListBoxX::
-need_value(FuncState *fs, int list)static int 
+SubsystemType(const char *cmd)JobSubsystem SciTEBase::
 fileerror(lua_State *L, int arg, const char *filename)static void 
-Set(LineLayout *ll_)	void 
+need_value(FuncState *fs, int list)static int 
 ShowAll()void ContractionState::
-SearchStrip()	
+Set(LineLayout *ll_)	void 
 PostCallback(void *ptr)gboolean SciTEGTK::
+SearchStrip()	
+PaintContains(PRectangle rc)bool ScintillaWin::
 CreatePopUp()void Menu::
-LineAnnotation()	
 GoMatchingBrace(bool select)void SciTEBase::
 lua_equal(lua_State *L, int index1, int index2)LUA_API int 
 init(::AtkTextIface *iface)void ScintillaGTKAccessible::AtkTextIface::
 UTF8Iterator(const Document *doc_=0, Sci::Position position_=0)	
 lua_concat(lua_State *L, int n)LUA_API void 
-CaretFromEdge()int ListBoxX::
 DropSelection(size_t r)void Selection::
+CaretFromEdge()int ListBoxX::
 lua_Writer(lua_State *L, const void* p, size_t sz, void* ud)typedef int
+lua_Hook(lua_State *L, lua_Debug *ar)typedef void
 SetWrapVisualStartIndent(int wrapVisualStartIndent_)bool ViewStyle::
 IsCommentLine(const char *line)static bool 
-lua_Hook(lua_State *L, lua_Debug *ar)typedef void
+ScrollText(Sci::Line linesToMove)void ScintillaQt::
 flags(p)  lu_byte 
 luaF_newCclosure(lua_State *L, int nelems, Table *e)Closure
 Instance()DirectorExtension
 FractionalSize()int StyleDefinition::
-NotifyModified(DocModification mh)void Document::
 lua_Alloc(void *ud, void *ptr, size_t osize, size_t nsize)typedef void
+OnMacro(const char *p, const char *q)bool MultiplexExtension::
 stat(const wchar_t *path, struct _stat *buffer)ic int 
-SWndProc( HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)LRESULT PASCAL ScintillaWin::
-luaD_precall(lua_State *L, StkId func, int nresults)int 
 IndicatorFill(Sci_Position start, Sci_Position end, int indicator, int value)	void 
+luaD_precall(lua_State *L, StkId func, int nresults)int 
 luaZ_init(lua_State *L, ZIO *z, lua_Reader reader, void *data)void 
-luaH_getnum(Table *t, int key)const TValue
 Next(bool markAll, bool invertDirection)void FindStrip::
-VarChain(const char*var_=NULL, const VarChain *link_=NULL)	
+luaH_getnum(Table *t, int key)const TValue
 CompleteLoading()void Buffer::
+VarChain(const char*var_=NULL, const VarChain *link_=NULL)	
 luaZ_fill(ZIO *z)int 
 ParametersDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)INT_PTR CALLBACK SciTEWin::
+line_end_position(int pos)int ScintillaDocument::
 math_max(lua_State *L)static int 
-line_from_position(int pos)int ScintillaDocument::
-LocationFromPosition(Sci::Position pos, PointEnd pe)Point Editor::
 FindMatchingBracePosition(bool editor, int &braceAtCaret, int &braceOpposite, bool sloppy)bool SciTEBase::
+LocationFromPosition(Sci::Position pos, PointEnd pe)Point Editor::
 Styles(Sci::Line line)const unsigned char
+luaX_init(lua_State *L)void 
 DocModification(int modificationType_, const Action &act, Sci::Line linesAdded_=0)	
 FileLoader(WorkerListener *pListener_, ILoader *pLoader_, const FilePath &path_, size_t size_, FILE *fp_)::
-luaX_init(lua_State *L)void 
 luaV_settable(lua_State *L, const TValue *t, TValue *key, StkId val)void 
 isnumeral(expdesc *e)static int 
 luaV_gettable(lua_State *L, const TValue *t, TValue *key, StkId val)void 
+LineAnnotation()	
 lua_error(lua_State *L)LUA_API int 
 MoveImeCarets(int offset)void ScintillaEditBase::
 luaZ_read(ZIO *z, void *b, size_t n)size_t 
-PaintContains(PRectangle rc)bool ScintillaWin::
-FlashThisWindow( HWND hWnd, int duration)static void 
 costatus(lua_State *L, lua_State *co)static int 
+FlashThisWindow( HWND hWnd, int duration)static void 
 luaU_undump(lua_State* L, ZIO* Z, Mbuffer* buff, const char* name)Proto
+Base()	int 
 NotifyStyleToNeeded(Sci::Position endStyleNeeded)void ScintillaBase::
 luaD_rawrunprotected(lua_State *L, Pfunc f, void *ud)int 
 FindIncrementCompleteCmd()void SciTEGTK::
-luaU_dump(lua_State* L, const Proto* f, lua_Writer w, void* data, int strip)int 
 CallTipCancel()void CallTip::
-OnExecute(const char *)	virtual bool 
-DrawEdgeLine(Surface *surface, const ViewStyle &vsDraw, const LineLayout *ll, PRectangle rcLine, Range lineRange, int xStart)static void 
+luaT_gettm(Table *events, TMS event, TString *ename)const TValue
+FindStrip()	
 luaS_newlstr(lua_State *L, const char *str, size_t l)TString
 luaO_str2d(const char *s, lua_Number *result)int 
 luaO_rawequalObj(const TValue *t1, const TValue *t2)int 
 IsPropertiesFile(const FilePath &filename)bool 
+luaO_pushvfstring(lua_State *L, const char *fmt, va_list argp)const char
 States()LineState
 OP_LT(C)) ~= A)) ~= A)
 PaintSelMargin(Surface *surfaceWindow, PRectangle &rc)void Editor::
-luaO_pushvfstring(lua_State *L, const char *fmt, va_list argp)const char
 luaO_pushfstring(lua_State *L, const char *fmt, ...)const char
-PropertyFromDirector(const char *arg)void SciTEBase::
 luaO_log2(unsigned int x)int 
-DumpHeader(DumpState* D)static void 
+PropertyFromDirector(const char *arg)void SciTEBase::
 ForwardPropertyToEditor(const char *key)void SciTEBase::
-DeleteMarkFromHandle(int markerHandle)void LineMarkers::
+DumpHeader(DumpState* D)static void 
 GrepDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)INT_PTR CALLBACK SciTEWin::
+DeleteMarkFromHandle(int markerHandle)void LineMarkers::
+IsUpperCase(int ch)inline bool 
 addquoted(lua_State *L, luaL_Buffer *b, int arg)static void 
 CommitThis(char *commitStr)void ScintillaGTK::
 FillFunctionDefinition(int pos )void SciTEBase::
-IsUpperCase(int ch)inline bool 
 UTF8IsTrailByte(int ch)inline bool 
-GCTM(lua_State *L)static void 
 luaL_where(lua_State *L, int level)LUALIB_API void 
+GCTM(lua_State *L)static void 
 luaL_optlstring(lua_State *L, int narg, const char *def, size_t *len)LUALIB_API const char
 luaL_optinteger(lua_State *L, int narg, lua_Integer def)LUALIB_API lua_Integer 
 ContextMenuMessage(UINT iMessage, WPARAM wParam, LPARAM lParam)LRESULT SciTEWin::
-NextCharacter(Sci::Position &pos, int moveDir)bool Document::
 luaL_newstate(void)LUALIB_API lua_State
+NextCharacter(Sci::Position &pos, int moveDir)bool Document::
 SetXYScroll(XYScrollPosition newXY)void Editor::
 DelWordOrLine(unsigned int iMessage)int Editor::
-InsertAfter(T_POSITION position, ARG_TYPE newElement)	T_POSITION 
+info_tailcall(lua_Debug *ar)static void 
 DocModification(int modificationType_, Sci::Position position_=0, Sci::Position length_=0, Sci::Line linesAdded_=0, const char *text_=0, Sci::Line line_=0)	
+luaL_loadbuffer(lua_State *L, const char *buff, size_t size, const char *name)LUALIB_API int 
 ContextMenu(GUI::ScintillaWindow &wSource, GUI::Point pt, GUI::Window wCmd)void SciTEBase::
 FillFromMemory(const std::vector<std::string> &mem, bool useTop)void WComboBoxEntry::
-luaL_loadbuffer(lua_State *L, const char *buff, size_t size, const char *name)LUALIB_API int 
 Contains(Sci::Position pos)bool SelectionRange::
+convertIFaceTypeToC(t)def 
 Cancel()	virtual void 
 flavorFor(const QString &mime)	QString 
-convertIFaceTypeToC(t)def 
 PointInSelMargin(Point pt)bool Editor::
 luaL_checkstack(lua_State *L, int space, const char *mes)LUALIB_API void 
+PositionAfterArea(PRectangle rcArea)Sci::Position Editor::
 viewOptions()QStyleOptionViewItem ListWidget::
-grabQuoted(s)def 
 luaL_checkany(lua_State *L, int narg)LUALIB_API void 
 UpdateProgress(Worker *)void SciTEBase::
+ShouldNotSave()	bool 
 ButtonDown(Point pt, unsigned int curTime, bool shift, bool ctrl, bool alt)void ScintillaBase::
 ViewWhitespace(bool view)void SciTEBase::
 CanCall()	bool 
-ShouldNotSave()	bool 
 CharacterSetID(int characterSet)const char
 FindComboChanged(GtkEditable *, ReplaceStrip *pStrip)void ReplaceStrip::
 GTKMutex()	
 WndPaint(uptr_t wParam)sptr_t ScintillaWin::
-BarButtonIn()	
 luaL_addvalue(luaL_Buffer *B)LUALIB_API void 
+BarButtonIn()	
 luaK_stringK(FuncState *fs, TString *s)int 
 Next(bool select)void SearchStrip::
+Paint(HDC hDC)void Strip::
 GotoCmd()void SciTEGTK::
 MinimizeToTray()void SciTEWin::
-Paint(HDC hDC)void Strip::
 luaK_setlist(FuncState *fs, int base, int nelems, int tostore)void 
 AutoSurface(SurfaceID sid, Editor *ed, int technology = -1)	
 loader_preload(lua_State *L)static int 
 PMatch(CharacterIndexer &ci, Sci::Position lp, Sci::Position endp, char *ap)Sci::Position RESearch::
-SetIdentifiers(int style, const char *identifiers)void LexState::
+luaK_goiftrue(FuncState *fs, expdesc *e)void 
+FormatEnumerator(int pos_, CLIPFORMAT formats_[], size_t formatsLen_)::
 GetRangeString(GUI::ScintillaWindow &win, int selStart, int selEnd)std::string SciTEBase::
 AbbrevMessage(HWND hDlg, UINT message, WPARAM wParam)BOOL SciTEWin::
-FormatEnumerator(int pos_, CLIPFORMAT formats_[], size_t formatsLen_)::
-override(Point ptStart, Point ptNow)	bool DragThreshold
 AcceptToOpenFiles(bool bAccept)bool UniqueInstance::
+override(Point ptStart, Point ptNow)	bool DragThreshold
 DragEnd(GtkWidget *widget, GdkDragContext * )void ScintillaGTK::
+luaK_jump(FuncState *fs)int 
 luaB_tostring(lua_State *L)static int 
 SaveIfUnsure(bool forceQuestion, SaveFlags sf)SciTEBase::SaveResult SciTEBase::
-luaK_jump(FuncState *fs)int 
+SetIdentifiers(int style, const char *identifiers)void LexState::
 luaK_prefix(FuncState *fs, UnOpr op, expdesc *e)void 
-luaK_goiftrue(FuncState *fs, expdesc *e)void 
 luaK_getlabel(FuncState *fs)int 
 ClearTabstops(Sci::Line line)bool LineTabstops::
 ClearRepresentation(const char *charBytes)void SpecialRepresentations::
 GetTextAtOffset(int charOffset, AtkTextBoundary boundaryType, int *startChar, int *endChar)gchar
 SubstituteMarkerIfEmpty(int markerCheck, int markerDefault, const ViewStyle &vs)static int 
 luaK_codeABx(FuncState *fs, OpCode o, int a, unsigned int bc)int 
-RemoveAt(T_POSITION position)	void 
 luaK_codeABC(FuncState *fs, OpCode o, int a, int b, int c)int 
+RemoveAt(T_POSITION position)	void 
 StringDecode(std::string s, int codePage)static std::wstring 
 luaH_setstr(lua_State *L, Table *t, TString *key)TValue
+LineTo(int x_, int y_)void SurfaceGDI::
 DestroyMenuItem(int menuNumber, int itemID)void SciTEWin::
 ShutDown()void SciTEBase::
-LineTo(int x_, int y_)void SurfaceGDI::
 luaH_resizearray(lua_State *L, Table *t, int nasize)void 
 IsWordEndAt(Sci::Position pos)bool Document::
 RectFromPRectangle(PRectangle prc)static RECT 
-luaB_coresume(lua_State *L)static int 
 DropSource_QueryContinueDrag(DropSource *, BOOL fEsc, DWORD grfKeyState)STDMETHODIMP 
+luaB_coresume(lua_State *L)static int 
 CopyAllowLine()void ScintillaWin::
-ModifiedAt(Sci::Position pos)void Document::
 RemoveAt(int nIndex, int nCount = 1)	void 
+ModifiedAt(Sci::Position pos)void Document::
 luaG_typeerror(lua_State *L, const TValue *o, const char *op)void 
 luaG_errormsg(lua_State *L)void 
+Converter()	
 GetCharacterAtOffset(AtkText *text, gint offset)gunichar ScintillaGTKAccessible::AtkTextIface::
 ContractedFoldNext(Sci::Line lineStart)Sci::Line Editor::
 DrawPlus(Surface *surface, int centreX, int centreY, int armSize, ColourDesired fore)static void 
-Converter()	
 ReplaceTarget(bool replacePatterns, const char *text, Sci::Position length)Sci::Position Editor::
 luaG_checkopenop(Instruction i)int 
 luaG_aritherror(lua_State *L, const TValue *p1, const TValue *p2)void 
-luaE_freethread(lua_State *L, lua_State *L1)void 
 luaF_newLclosure(lua_State *L, int nelems, Table *e)Closure
+luaE_freethread(lua_State *L, lua_State *L1)void 
 GetNumWordLists()int LexerModule::
+luaF_freeclosure(lua_State *L, Closure *c)void 
 SetTicking(bool )void Editor::
 MoveTo(int x_, int y_)void SurfaceGDI::
 Tab(bool forwards)void Strip::
-luaF_freeclosure(lua_State *L, Closure *c)void 
 luaF_findupval(lua_State *L, StkId level)UpVal
 luaF_close(lua_State *L, StkId level)void 
-isdigitchar(int ch)inline bool 
 FindOtherInstance()bool UniqueInstance::
-SetTimeFromFile()	void 
+isdigitchar(int ch)inline bool 
 ModelessHandler(MSG *pmsg)bool SciTEWin::
+SetTimeFromFile()	void 
 luaD_throw(lua_State *L, int errcode)void 
 RemoveCurrent()void BufferList::
 PaintText(Surface *surfaceWindow, const EditModel &model, PRectangle rcArea, PRectangle rcClient, const ViewStyle &vsDraw)void EditView::
-is_save_point()bool ScintillaDocument::
 ExecuteNext()void SciTEWin::
+is_save_point()bool ScintillaDocument::
 IsSpaceOrTab(int ch)inline bool 
 QRectFFromPRect(PRectangle pr)inline QRectF 
 luaD_growstack(lua_State *L, int n)void 
+DrawEdgeLine(Surface *surface, const ViewStyle &vsDraw, const LineLayout *ll, PRectangle rcLine, Range lineRange, int xStart)static void 
 LineEnd(Sci_Position line)Sci_Position SCI_METHOD Document::
 ListBox()::
-FindStrip()	
 CopyRangeToClipboard(Sci::Position start, Sci::Position end)void Editor::
 luaD_call(lua_State *L, StkId func, int nResults)void 
+luaC_step(lua_State *L)void 
 scintillaDirectory("..", "..", "scintilla")
 CategoriseCharacter(int character)CharacterCategory 
-luaC_separateudata(lua_State *L, int all)size_t 
 SameNameAs(const GUI::gui_char *other)bool FilePath::
 ElementAt(int nIndex)	TYPE
 HandleReplaceCommand(int cmd, bool reverseFind)void ReplaceStrip::
 forbody(LexState *ls, int base, int line, int nvars, int isnum)static void 
 GetCount()	int 
+luaB_yield(lua_State *L)static int 
 cf_global_trace(lua_State *L)static int 
 FindProperties(lexFile)def 
-luaB_yield(lua_State *L)static int 
 luaB_unpack(lua_State *L)static int 
 Generate(inpath, outpath, commentPrefix, *lists)def 
-SetState(lua_State *L)	static int 
 luaB_type(lua_State *L)static int 
+SetState(lua_State *L)	static int 
 FormatAndMetrics(IDWriteTextFormat *pTextFormat_, int extraFontFlag_, int characterSet_, FLOAT yAscent_, FLOAT yDescent_, FLOAT yInternalLeading_)	
 luaB_rawset(lua_State *L)static int 
-DrawTextBase(PRectangle rc, Font &font_, XYPOSITION ybase, const char *s, int len, ColourDesired fore)void SurfaceImpl::
+DefWndProc(unsigned int, uptr_t, sptr_t)sptr_t ScintillaQt::
 Cxx11RegexFindText(Document *doc, Sci::Position minPos, Sci::Position maxPos, const char *s, bool caseSensitive, Sci::Position *length, RESearch &search)Sci::Position 
-ToggleHanja()void ScintillaWin::
 luaB_pcall(lua_State *L)static int 
+ToggleHanja()void ScintillaWin::
 HeightFromStyle(const FontSpecification &fs)int ViewStyle::
 luaB_next(lua_State *L)static int 
 CreateStrips(GtkWidget *boxMain)void SciTEGTK::
-categories("..\/lexlib\/CharacterCategory.h")
 CompleteStoring()void Buffer::
+categories("..\/lexlib\/CharacterCategory.h")
 ControlWndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)LRESULT PASCAL ListBoxX::
-key(propLine)		
 HackColour(int &n)	void 
+key(propLine)		
 NotifyReadOnly()void ScintillaGTKAccessible::
 AddCharUTF16(wchar_t const *wcs, unsigned int wclen)void ScintillaWin::
+luaB_ipairs(lua_State *L)static int 
 EndLineStyle()int LineLayout::
 CurrentWordHighlight()	
 setfield(lua_State *L, const char *key, int value)static void 
 IsValid(const std::string &name)bool ImportFilter::
 StringFromLongLong(long long i)gui_string 
-luaB_getmetatable(lua_State *L)static int 
 luaB_getfenv(lua_State *L)static int 
-DumpConstants(const Proto* f, DumpState* D)static void 
 DragLeave()STDMETHODIMP ScintillaWin::
+DumpConstants(const Proto* f, DumpState* D)static void 
+GetTextBeforeOffset(AtkText *text, int offset, AtkTextBoundary boundary_type, int *start_offset, int *end_offset)gchar
 Stop()void MatchMarker::
 lua_checkstack(lua_State *L, int size)LUA_API int 
-GetTextBeforeOffset(AtkText *text, int offset, AtkTextBoundary boundary_type, int *start_offset, int *end_offset)gchar
+luaB_error(lua_State *L)static int 
 tremove(lua_State *L)static int 
 AutoSurface(Editor *ed, int technology = -1)	
-OnStyle(unsigned int p, int q, int r, StyleWriter *s)bool MultiplexExtension::
 GetVisibleRows()int ListBoxX::
 GetWordListDescription(int index)const char
-IsControlCharacter(int ch)static inline bool 
 FileStorer(WorkerListener *pListener_, const char *documentBytes_, const FilePath &path_, size_t size_, FILE *fp_, UniMode unicodeMode_, bool visibleProgress_)::
+IsControlCharacter(int ch)static inline bool 
 luaB_collectgarbage(lua_State *L)static int 
+luaB_cocreate(lua_State *L)static int 
 new_localvar(LexState *ls, TString *name, int n)static void 
 DrawLineMarkerFn(Surface *surface, PRectangle &rcWhole, Font &fontForCharacter, int tFold, int marginStyle, const void *lineMarker)typedef void
-luaB_cocreate(lua_State *L)static int 
+Match(const char *s)	bool 
 LineMarker()	
 Set(unsigned int red, unsigned int green, unsigned int blue)	void 
-Match(const char *s)	bool 
 curDef()))					
-Exhausted()	bool 
 NotifyModifyAttempt(Document *, void *)void Editor::
+Exhausted()	bool 
 AddRange(Sci::Line lineStart, Sci::Line lineEnd)	bool 
 StartMacroList(const char *words)bool SciTEBase::
 loader_Croot(lua_State *L)static int 
 loader_C(lua_State *L)static int 
 load_aux(lua_State *L, int status)static int 
-line_start(int lineno)int ScintillaDocument::
 CompareCaseInsensitive(const char *a, const char *b)int 
-PerformOne(char *action)void SciTEBase::
+line_start(int lineno)int ScintillaDocument::
 ll_unloadlib(void *lib)static void 
+PerformOne(char *action)void SciTEBase::
+ll_loadlib(lua_State *L)static int 
 UTF32FromUTF8(const char *s, size_t len, unsigned int *tbuf, size_t tlen)size_t 
 cond(LexState *ls)static int 
-ll_loadlib(lua_State *L)static int 
 GoToLine(Sci::Line lineNo)void Editor::
 SortWordList(char **words, unsigned int len)static void 
 InitGlobalScope(bool checkProperties, bool forceReload = false)static bool 
 GetData(FORMATETC *pFEIn, STGMEDIUM *pSTM)STDMETHODIMP ScintillaWin::
+line_from_position(int pos)int ScintillaDocument::
 luaX_syntaxerror(LexState *ls, const char *msg)void 
-line_end_position(int pos)int ScintillaDocument::
 DefineProperty(const char *name, plcos ps, std::string description=Ó)	void 
 line('&','')			
 TimerStart(int mask)void SciTEWin::
 leaveblock(FuncState *fs)static void 
 lastlistfield(FuncState *fs, struct ConsControl *cc)static void 
 keyPressEvent(QKeyEvent *event)void ScintillaEditBase::
+keyOfLine(line)def 
 ReadFontProperties()void SciTEBase::
 InvalidateRectangle(PRectangle rc)void Window::
-keyOfLine(line)def 
 ExtractHeaders(filename)def 
 ExpandLine(Sci::Line line)Sci::Line Editor::
-PostOnMainThread(int cmd, Worker *pWorker)void SciTEWin::
 isspacechar(int ch)inline bool 
-ExposeMain(GtkWidget *widget, GdkEventExpose *ose)gboolean ScintillaGTK::
+PostOnMainThread(int cmd, Worker *pWorker)void SciTEWin::
 isoperator(int ch)inline bool 
+ExposeMain(GtkWidget *widget, GdkEventExpose *ose)gboolean ScintillaGTK::
 GetFoldParent(Sci::Line line)Sci::Line Document::
 Descent(Font &font)XYPOSITION SurfaceImpl::
 AddFileToStack(const FilePath &file, SelectedRange selection, int scrollPos)void SciTEBase::
-DebugPrintf(const char *, ...)void Platform::
 Read(const FilePath &filename, const FilePath &directoryForImports, const ImportFilter &filter, FilePathSet *imports, size_t depth)bool PropSetFile::
+DebugPrintf(const char *, ...)void Platform::
+Cut()void Editor::
 CheckReadOnly()void Document::
 KeyPress(GtkWidget * , GdkEventKey *event, SciTEGTK *scitew)gint SciTEGTK::
 DataOfGSD(GtkSelectionData *sd)static const guchar
@@ -3692,95 +3692,94 @@ Resize(int width, int height)void ScintillaGTK::
 GetFoldDisplayText(Sci::Line lineDoc)const char
 auxgetinfo(lua_State *L, const char *what, lua_Debug *ar, Closure *f, CallInfo *ci)static int 
 ControlGText(GUI::Window w)static GUI::gui_string 
-is_collecting_undo()bool ScintillaDocument::
 Send(unsigned int msg, uptr_t wParam, sptr_t lParam)sptr_t ScintillaWindow::
-SetDocPointer(Document *document)void Editor::
 ReceiverPipeSignal(GIOChannel *source, GIOCondition condition, void *data)static gboolean 
+SetDocPointer(Document *document)void Editor::
 io_write(lua_State *L)static int 
 getDescent()	float 
+io_tmpfile(lua_State *L)static int 
 cf_pane_match(lua_State *L)static int 
 arrayindex(const TValue *key)static int 
 FontParameters( const char *faceName_, float size_=10, int weight_=400, bool italic_=false, int extraFontFlag_=0, int technology_=0, int characterSet_=0)	
-io_tmpfile(lua_State *L)static int 
 io_pclose(lua_State *L)static int 
 BufferedFile(const FilePath &fPath)	explicit 
 io_output(lua_State *L)static int 
-Lock()	virtual void 
 io_noclose(lua_State *L)static int 
-emit_modify_attempt()void ScintillaDocument::
+Lock()	virtual void 
+dwordFromBGRA(byte b, byte g, byte r, byte a)static DWORD 
 io_input(lua_State *L)static int 
 Caller(HWND hDlg, UINT message, LPARAM lParam)static SciTEWin
+GetMark(Sci::Line line)int Document::
 operator(const PRectangle &rc)	bool 
-GetSciteUserHome()FilePath SciTEWin::
 UpdateVersionNumbers(sci, root)def 
-AddRef()STDMETHODIMP_
+cppAlias(s)def 
+insert_string(int position, QByteArray &str)void ScintillaDocument::
 Forward(Sci_Position nb)	void 
 luaH_mainposition(const Table *t, const TValue *key)Node
-insert_string(int position, QByteArray &str)void ScintillaDocument::
 inputMethodQuery(Qt::InputMethodQuery query)QVariant ScintillaEditBase::
 ExposePreeditThis(GtkWidget *widget, GdkEventExpose *)gboolean ScintillaGTK::
+InsertAfter(T_POSITION position, ARG_TYPE newElement)	T_POSITION 
 luaL_loadstring(lua_State *L, const char *s)LUALIB_API int
 IsCompatibleDC(HDC hOtherDC)bool ScintillaWin::
 Expand(const std::string &withVars, int maxExpands)std::string PropSetFile::
-info_tailcall(lua_Debug *ar)static void 
 FindIncrementEscapeSignal(GtkWidget *w, GdkEventKey *event, SciTEGTK *scitew)gboolean SciTEGTK::
-FindNext(bool reverseDirection, bool showWarnings, bool allowRegExp)int SciTEBase::
 ContinueMacroList(const char *stext)void SciTEBase::
+FindNext(bool reverseDirection, bool showWarnings, bool allowRegExp)int SciTEBase::
 SetStyleFor(GUI::ScintillaWindow &win, const char *lang)void SciTEBase::
 indexupvalue(FuncState *fs, TString *name, expdesc *v)static int 
-ExtractCharacter(Sci::Position position)Document::CharacterExtracted Document::
 index2adr(lua_State *L, int idx)static TValue
-ReadFromFile(self, name)	def 
+ExtractCharacter(Sci::Position position)Document::CharacterExtracted Document::
 TimerTick(gpointer pSciTE)gboolean SciTEGTK::
+ReadFromFile(self, name)	def 
 SetVirtualSpace(Sci::Position virtualSpace_)	void 
 inclinenumber(LexState *ls)static void 
-CanRedo()	bool 
 idsFromDocumentation(filename)def 
+CanRedo()	bool 
 identifiersSorted()))
-MenuPositionFunc(GtkMenu *, gint *x, gint *y, gboolean *, gpointer userData)static void  
 FinishedAdding()	void 
-luaT_gettm(Table *events, TMS event, TString *ename)const TValue
+MenuPositionFunc(GtkMenu *, gint *x, gint *y, gboolean *, gpointer userData)static void  
 IndentOfBlock(int line)int SciTEBase::
+UICouldBeFlat()bool 
 Window_SendMessage(Window *w, UINT msg, WPARAM wParam=0, LPARAM lParam=0)static LRESULT 
-FromWidget(GtkWidget *widget)ScintillaGTK
 GetStringAtOffset(AtkText *text, gint offset, AtkTextGranularity granularity, gint *start_offset, gint *end_offset)gchar
+FromWidget(GtkWidget *widget)ScintillaGTK
 growCI(lua_State *L)static CallInfo
 getunopr(int op)static UnOpr 
-override(char *s, int type = -1)	void Append
 GetAccessible(GtkWidget *widget)AtkObject
+override(char *s, int type = -1)	void Append
 End(int indicator, int position)int DecorationList::
-code_label(FuncState *fs, int A, int b, int jump)static int 
 gfind_nodef(lua_State *L)static int 
+code_label(FuncState *fs, int A, int b, int jump)static int 
+SelectionStart()SelectionPosition Editor::
 OpenSelected()bool SciTEBase::
 CallTipClick()void ScintillaBase::
-SelectionStart()SelectionPosition Editor::
+MoveImeCarets(int pos)void ScintillaGTK::
 gethooktable(lua_State *L)static void 
 GotoLineEnsureVisible(int line)void SciTEBase::
-MoveImeCarets(int pos)void ScintillaGTK::
+ValueAt(int indicator, int position)int DecorationList::
 InitialiseBuffers()void SciTEBase::
 override(int index, const GUI::gui_char *title)	void TabInsert
 GetRelativeCharacter(Sci_Position n)	int 
-Swap()void SelectionRange::
 decodeParam(p)def 
 First()	Sci::Position 
+CountBytes()int RGBAImage::
 override(Font &font)	void SetFont
-BackgroundStrip()	
-Exists(const char *key)bool PropSetFile::
 Merge(const SparseState<T> &other, int ignoreAfter)	bool 
+Exists(const char *key)bool PropSetFile::
 DirectorExtension_Register(HINSTANCE hInstance)static void 
+GetPreferredWidth(GtkWidget *widget, gint *minimalWidth, gint *naturalWidth)void ScintillaGTK::
 Lex(Sci_PositionU startPos, Sci_Position lengthDoc, int initStyle, IDocument *pAccess)void SCI_METHOD erSimple::
-Create(GUI::gui_string text, GCallback func, gpointer data)void WButton::
 Expose(GtkWidget *, GdkEventExpose *ose)gboolean ScintillaGTK::
+CheckMenus()void SciTEWin::
 OP_MUL(C)
 WithoutUnderscore(const char *s)static std::string 
-CheckMenus()void SciTEWin::
+ValueOfHex(const char ch)	static inline unsigned int 
 Remove(T &s, const T &sFind)int 
 DeleteAllMarks(int markerNum)void Document::
 Tick()void Editor::
-ValueOfHex(const char ch)	static inline unsigned int 
+getbinopr(int op)static BinOpr 
 OpenHandle(const char *fullDestination, const char *charSetSource)	void 
 isspacechar(unsigned char ch)inline bool 
-getbinopr(int op)static BinOpr 
 get_eol_mode()int ScintillaDocument::
 FoldAll()void SciTEBase::
 BrushColour(ColourDesired back)void SurfaceImpl::
@@ -3790,218 +3789,218 @@ IdleStyling()void Editor::
 getStringLength()    CFIndex 
 getPDFRGB(const char* stylecolour)inline std::string 
 getNewBuf()	char
+GetLineLength(int line)int SciTEBase::
 override(bool bUpdateSlowData)	void UpdateStatusBar
-getFontID()	CTFontRef 
+getF(lua_State *L, void *ud, size_t *size)static const char
 SetCharClasses(const unsigned char *chars, CharClassify::cc newCharClass)void Document::
 FindLexersInXcode(xCodeProject)def 
 DropAt(SelectionPosition position, const char *value, size_t lengthValue, bool moving, bool rectangular)void Editor::
 luaF_newproto(lua_State *L)Proto
-getF(lua_State *L, void *ud, size_t *size)static const char
 Action()::
 CaseFolderDBCS(UINT cp_)	explicit 
 cf_scite_strip_value(lua_State *L)static int 
+createstdfile(lua_State *L, FILE *f, int k, const char *fname)static void 
 GetHeadPosition()	T_POSITION 
 SetStyleFontName(int styleIndex, const char *name)void ViewStyle::
 retrieveFeatures()def 
-getAscent()	float 
 IsRoot()bool FilePath::
 close_state(lua_State *L)static void 
+fwrite(const void* p, size_t _size)size_t Utf8_16_Write::
 StartAutoComplete()bool SciTEBase::
 HasMnemonic()bool WStatic::
-fwrite(const void* p, size_t _size)size_t Utf8_16_Write::
+SetState(int state_)	void 
 DumpInt(int x, DumpState* D)static void 
 math_ceil(lua_State *L)static int 
 override(const std::string &msg, const std::string *findItem = 0)	void FindMessageBox
 EndStackedTabbing()void SciTEBase::
-funcinfo(lua_Debug *ar, Closure *cl)static void 
+Previous(lua_State *L)	static int 
 ContextMenu(Point pt)void ScintillaBase::
 HideMatch()void SciTEBase::
-Previous(lua_State *L)	static int 
 DragDataGet(GtkWidget *widget, GdkDragContext *context, GtkSelectionData *selection_data, guint info, guint)void ScintillaGTK::
-Indent(bool forwards)void Editor::
 EnsureStyledTo(Sci::Position pos)void Document::
+Indent(bool forwards)void Editor::
 freereg(FuncState *fs, int reg)static void 
-Find(int value, int start)int RunStyles::
 ParaDown(Sci::Position pos)Sci::Position Document::
+Find(int value, int start)int RunStyles::
 OpenClipboardRetry(HWND hwnd)static bool 
 focusInEvent(QFocusEvent *event)void ScintillaEditBase::
 RemoveBuffer(int)	virtual bool 
 IsEmpty()	bool 
 fileWrite("wb")const GUI::gui_char 
 CharAddedOutput(int ch)void SciTEBase::
-Command(WPARAM )bool Strip::
 LineStart(Sci::Line line)	Sci::Position 
-GetCtrlID()int ScintillaWin::
+Command(WPARAM )bool Strip::
 LinesInDoc()Sci::Line ContractionState::
+GetCtrlID()int ScintillaWin::
 SetFont(Font &font_)void SurfaceGDI::
-RightButtonDownWithModifiers(Point pt, unsigned int curTime, int modifiers)void ScintillaBase::
 f_seek(lua_State *L)static int 
+RightButtonDownWithModifiers(Point pt, unsigned int curTime, int modifiers)void ScintillaBase::
 f_read(lua_State *L)static int 
+ConvertText(const char *s, size_t len, const char *charSetDest, const char *charSetSource, bool transliterations, bool silent)std::string 
 SortListInsensitive(l)def 
 FindHasText()bool SciTEBase::
-ConvertText(const char *s, size_t len, const char *charSetDest, const char *charSetSource, bool transliterations, bool silent)std::string 
-ExpandFolds(int line, bool expand, int level)void SciTEBase::
 doubleBackSlashes(s)def 
-GoLineMessage(HWND hDlg, UINT message, WPARAM wParam)BOOL SciTEWin::
+ExpandFolds(int line, bool expand, int level)void SciTEBase::
 PathRoundRectangle(cairo_t *context, double left, double top, double width, double height, int radius)static void 
-RegisterExtension(Extension &ext_)bool MultiplexExtension::
+GoLineMessage(HWND hDlg, UINT message, WPARAM wParam)BOOL SciTEWin::
 f_lines(lua_State *L)static int 
+RegisterExtension(Extension &ext_)bool MultiplexExtension::
+DebugPrintf(const char *format, ...)void Platform::
 OnKey(int keyval, int modifiers)bool MultiplexExtension::
 Open(const GUI::gui_char *mode)FILE
 SelectionExtend(char ch), bool stripEol = true), bool stripEol = true)	std::string 
-DebugPrintf(const char *format, ...)void Platform::
+StartDrag()void ScintillaWin::
 JobQueue()	
 FillComboFromMemory(int id, const ComboMemory &mem, bool useTop = false)	void 
 cf_scite_apply_properties(lua_State *L)static int 
-StartDrag()void ScintillaWin::
+StartEndDisplayLine(Sci::Position pos, bool start)Sci::Position Editor::
 FoldChanged(int line, int levelNow, int levelPrev)void SciTEBase::
 DeleteMark(Sci::Line line, int markerNum)void Document::
 ControlCharacterString(unsigned char ch)static const char
-StartEndDisplayLine(Sci::Position pos, bool start)Sci::Position Editor::
-Localization()	
 PanePositionChanged(GObject *, GParamSpec *, SciTEGTK *scitew)void SciTEGTK::
+Localization()	
 DrawBlockCaret(Surface *surface, const EditModel &model, const ViewStyle &vsDraw, const LineLayout *ll, int subLine, int xStart, Sci::Position offset, Sci::Position posCaret, PRectangle rcCaret, ColourDesired caretColour)static void 
 exp1(LexState *ls)static int 
 Perform(const char *actionList)void SciTEBase::
-AppendListItem(const char *text, const char *numword)void ListBoxX::
 RESearch(CharClassify *charClassTable)::
+AppendListItem(const char *text, const char *numword)void ListBoxX::
+escapeValue(unsigned char ch)static unsigned char 
 SaveToXML(const FilePath &saveName)void SciTEBase::
 recfield(LexState *ls, struct ConsControl *cc)static void 
-error_expected(LexState *ls, int token)static void 
-GetNearestWords(const char *wordStart, size_t searchLen, const char *separators, bool ignoreCase , bool exactLen )std::string SciTEBase::
 endImpl("}")						
+GetNearestWords(const char *wordStart, size_t searchLen, const char *separators, bool ignoreCase , bool exactLen )std::string SciTEBase::
+emit_modify_attempt()void ScintillaDocument::
 luaH_getn(Table *t)int 
 io_lines(lua_State *L)static int 
-dwordFromBGRA(byte b, byte g, byte r, byte a)static DWORD 
 dragEnterEvent(QDragEnterEvent *event)void ScintillaEditBase::
 ToolIsImmediate(int item)bool SciTEBase::
 dooptions(lua_State *L, int n)static void 
-SearchFlags(bool regularExpressions)int SciTEBase::
 docFileName(srcRoot, "doc", "SciTEDoc.html")
+SearchFlags(bool regularExpressions)int SciTEBase::
 More(lua_State *L)	static int 
 dirname(srcRoot, filename)	
 AutoCompleteInsert(Sci::Position startPos, int removeLen, const char *text, int textLen)void ScintillaBase::
+SetFillUpChars(const char *fillUpChars_)void AutoComplete::
 Editor()::
 CheckToolbarButton(HWND wTools, int id, bool enable)static void 
-SetFillUpChars(const char *fillUpChars_)void AutoComplete::
+DrawTextBase(PRectangle rc, Font &font_, XYPOSITION ybase, const char *s, int len, ColourDesired fore)void SurfaceImpl::
 luaB_rawget(lua_State *L)static int 
-DefWndProc(unsigned int, uptr_t, sptr_t)sptr_t ScintillaQt::
 decorations_start(int indic, int position)int ScintillaDocument::
+decorations_end(int indic, int position)int ScintillaDocument::
 currentline(lua_State *L, CallInfo *ci)static int 
 Lex(Sci_PositionU startPos, Sci_Position lengthDoc, int initStyle, WordList *keywordlists[], Accessor &styler)void erModule::
 contains(const char *testVar)	bool 
-decorations_end(int indic, int position)int ScintillaDocument::
-can_redo()bool ScintillaDocument::
 SameNameAs(const FilePath &other)bool FilePath::
+can_redo()bool ScintillaDocument::
 decodeEvent(featureVal)def 
+LoadCode(LoadState* S, Proto* f)static void 
 getcwd(wchar_t *buffer, int maxlen)static wchar_t
 nClipboardCopyTargets(clipboardCopyTargets)static const gint 
 GetLexerFunction(unsigned int Index)typedef void
 Copy(PRectangle rc, Point from, Surface &surfaceSource)void SurfaceGDI::
-db_setmetatable(lua_State *L)static int 
-StyleString(const char *lang, int style)std::string SciTEBase::
 db_sethook(lua_State *L)static int 
+StyleString(const char *lang, int style)std::string SciTEBase::
+ConvertLineEnds(int eolModeSet)void Document::
 DrawWrapMarkerFn(Surface *surface, PRectangle rcPlace, bool isEndMarker, ColourDesired wrapColour)typedef void
 copy_(void *src)static void
-ConvertLineEnds(int eolModeSet)void Document::
+db_setfenv(lua_State *L)static int 
 NewLineInOutput()void SciTEBase::
 Add(GtkWidget *child, int width, bool expand, int xpadding, int ypadding)void WTable::
 DistanceToSecondaryStyles()int LexState::
-db_setfenv(lua_State *L)static int 
 db_getupvalue(lua_State *L)static int 
 InsertLine(Sci::Line lineDoc)void ContractionState::
 CallTipStart(Sci::Position pos, Point pt, int textHeight, const char *defn, const char *faceName, int fontSize_, int codePage_, int characterSet, int technology, Window &wParent)PRectangle CallTip::
-SetStatusBarText(const char *s)void SciTEWin::
 ActivateSignal(GtkWidget *, UserStrip *pStrip)void UserStrip::
+SetStatusBarText(const char *s)void SciTEWin::
 SizeRequest(GtkWidget *widget, GtkRequisition *requisition)void ScintillaGTK::
+Set(unsigned int styleNumber_, const char *s_, unsigned int len_, XYPOSITION *positions_, unsigned int clock_)void PositionCacheEntry::
 FullPaintDC(HDC hdc)void ScintillaWin::
 luaX_next(LexState *ls)void 
-Set(unsigned int styleNumber_, const char *s_, unsigned int len_, XYPOSITION *positions_, unsigned int clock_)void PositionCacheEntry::
 curDef(";", '')					
 EditModel()::
 GetAssocAt(ARG_KEY key, unsigned int& nHash)	Association
 FinishedJob()	bool 
-RemoveRunIfEmpty(int run)void RunStyles::
 Flags()	int 
+RemoveRunIfEmpty(int run)void RunStyles::
+AddRef()STDMETHODIMP_
 NotifyZoom()void Editor::
 Point(int x_=0, int y_=0)	explicit 
 RemoveSelection(gint selection_num)gboolean ScintillaGTKAccessible::
-cppAlias(s)def 
+PositionOfElement(int element)	int 
 ChangeScrollPos(int barType, Sci::Position pos)void ScintillaWin::
 ParametersMessage(HWND hDlg, UINT message, WPARAM wParam)BOOL SciTEWin::
 StandardASCII()void CaseFolderTable::
-CheckOtherInstance()void UniqueInstance::
+Pos()	Sci::ition 
 cf_pane_metatable_index(lua_State *L)static int 
 RemoveWatcher(DocWatcher *watcher, void *userData)bool Document::
-Pos()	Sci::ition 
 convertStringResult(s)def 
+Window(const Window &source)	
 getcurrenv(lua_State *L)static Table
-GetPreferredWidth(GtkWidget *widget, gint *minimalWidth, gint *naturalWidth)void ScintillaGTK::
 check(LexState *ls, int c)static void 
-Map(GtkWidget *widget)void ScintillaGTK::
 TimerStart(int )void SciTEBase::
+Map(GtkWidget *widget)void ScintillaGTK::
 Creation()void UserStrip::
-GetCharacterCount()gint ScintillaGTKAccessible::
 AddRectangularToMime(QMimeData *mimeData, QString su)static void 
-ClearList()void WComboBoxEntry::
+GetCharacterCount()gint ScintillaGTKAccessible::
 configFileVisibilityString("")const GUI::gui_char 
+ClearList()void WComboBoxEntry::
 MarkerHandleNumber(int handle_, int number_)	
 condjump(FuncState *fs, OpCode op, int A, int B, int C)static int 
+CheckOtherInstance()void UniqueInstance::
 countint(const TValue *key, int *nums)static int 
 treatstackoption(lua_State *L, lua_State *L1, const char *fname)static void 
-computesizes(int nums[], int *narray)static int 
 At(int n)	std::string 
-MultiByteLenFromIconv(const Converter &conv, const char *s, size_t len)static size_t 
 Directory()FilePath FilePath::
+MultiByteLenFromIconv(const Converter &conv, const char *s, size_t len)static size_t 
 codenot(FuncState *fs, expdesc *e)static void 
+EndRun(int position)int RunStyles::
 VisibleHasFocus()bool Strip::
 present(l, n)def 
-DragMotion(GtkWidget *widget, GdkDragContext *context, gint x, gint y, guint dragtime)gboolean ScintillaGTK::
 FineTickerRunning(TickReason )bool Editor::
+cmpWords(const void *a, const void *b)static int 
 luaC_linkupval(lua_State *L, UpVal *uv)void 
 FindPositionFromX(XYPOSITION x, Range range, bool charPosition)int LineLayout::
 ParaUpOrDown(int direction, Selection::selTypes selt)void Editor::
-cmpWords(const void *a, const void *b)static int 
 DrawLine(Surface *surface, const EditModel &model, const ViewStyle &vsDraw, const LineLayout *ll, Sci::Line line, Sci::Line lineVisible, int xStart, PRectangle rcLine, int subLine, DrawPhase phase)void EditView::
-Extend(SelectionPosition p)	void 
 close_func(LexState *ls)static void 
+Extend(SelectionPosition p)	void 
 clear_table(lua_State *L, int tableIdx, bool clearMetatable = true)static void 
 cleanEverything(self)	def 
 classend(MatchState *ms, const char *p)static const char
 CreateText(const char *text)GUI::Window Strip::
-SavingInBackground()bool BufferList::
 IsLineEndChar(char c)static bool 
+SavingInBackground()bool BufferList::
 GetMonitorRect(Point pt)PRectangle Window::
+AddMarkSet(Sci::Line line, int valueSet)void Document::
 WidgetGetAccessibleImpl(GtkWidget *widget, AtkObject **cache, gpointer widget_parent_class G_GNUC_UNUSED)AtkObject
 luaL_getmetafield(lua_State *L, int obj, const char *event)LUALIB_API int 
 Select(int n)void ListBoxX::
-AddMarkSet(Sci::Line line, int valueSet)void Document::
-CopyPath()void SciTEWin::
 checknext(LexState *ls, int c)static void 
+CopyPath()void SciTEWin::
 Cancelling()	bool 
 checkTypes(name, v)def 
 PreeditChanged(GtkIMContext *, ScintillaGTK *sciThis)void ScintillaGTK::
 cf_scite_menu_command(lua_State *L)static int 
 Action(Action &&other)	
-DeleteAnyEmpty()void DecorationList::
 CopyText(int length, const char *text)void Editor::
+DeleteAnyEmpty()void DecorationList::
 cf_pane_metatable_newindex(lua_State *L)static int 
 OP_CONCAT(C)
 Form(QDialog)class 
 ContinueExecute(int fromPoll)void SciTEGTK::
-MinimizeVirtualSpace()void SelectionRange::
 SizeSubWindows()void SciTEWin::
+MinimizeVirtualSpace()void SelectionRange::
 cf_match_metatable_index(lua_State *L)static int 
 cf_global_print(lua_State *L)static int 
 capture_to_close(MatchState *ms)static int 
 DeviceHeightFont(int points)int SurfaceGDI::
 canGet()	bool 
+call_orderTM(lua_State *L, const TValue *p1, const TValue *p2, TMS event)static int 
 setCTStyleColor(CGColor *inColor)	void 
 SetLineStart(int line, int start)void LineLayout::
-NcHitTest(WPARAM wParam, LPARAM lParam)LRESULT ListBoxX::
 AddSymmetric(enum CaseConversion conversion, int lower,int upper)void 
+buffreplace(LexState *ls, char from, char to)static void 
 sanitiseLine(line)def 
-SearchOtherInstance(HWND hWnd, LPARAM lParam)BOOL CALLBACK UniqueInstance::
 body(LexState *ls, expdesc *e, int needself, int line)static void 
 block_follow(int token)static int 
 CallNamedFunction(const char *name)static bool 
@@ -4011,16 +4010,16 @@ auxupvalue(lua_State *L, int get)static int
 auxopen(lua_State *L, const char *name, lua_CFunction f, lua_CFunction u)static void 
 AddWString(std::wstring wcs)void ScintillaWin::
 atomic(lua_State *L)static void 
+SetLogFont(LOGFONTW &lf, const char *faceName, int characterSet, float size, int weight, bool italic, int extraFontFlag)static void 
 FullPaint()void ScintillaWin::
 InvalidateCaret()void Editor::
 IMContext(HWND hwnd_)	
-SetLogFont(LOGFONTW &lf, const char *faceName, int characterSet, float size, int weight, bool italic, int extraFontFlag)static void 
 NotifyStyleNeeded(Document *, void *, Sci::Position endStyleNeeded)void Editor::
-GetCharRange(char *buffer, Sci_Position position, Sci_Position lengthRetrieve)	void SCI_METHOD 
 GetFirst(const char *&key, const char *&val)bool PropSetFile::
+GetCharRange(char *buffer, Sci_Position position, Sci_Position lengthRetrieve)	void SCI_METHOD 
 DeleteAll()	void 
-FocusOutThis(GtkWidget *)gint ScintillaGTK::
 SetDoubleClickAction(CallBackAction action, void *data)void ListBoxImpl::
+FocusOutThis(GtkWidget *)gint ScintillaGTK::
 adjustlocalvars(LexState *ls, int nvars)static void 
 adjust_varargs(lua_State *L, Proto *p, int actual)static StkId 
 DumpFunction(const Proto* f, const TString* p, DumpState* D)static void 
@@ -4028,8 +4027,8 @@ AddToolBar()void SciTEGTK::
 addfield(lua_State *L, luaL_Buffer *b, int i)static void 
 ShellEscape(const char *toEscape)static std::string 
 CharacterOffsetFromByteOffset(Sci::Position byteOffset)	Sci::Position 
-WidthChar(Font &font_, char ch)XYPOSITION SurfaceGDI::
 IsSet()bool FilePath::
+WidthChar(Font &font_, char ch)XYPOSITION SurfaceGDI::
 ButtonMove(Point pt)void Editor::
 __init__(self, parent=None)	def 
 _SetQtIncludeBase(self, base)	def 
@@ -4038,85 +4037,86 @@ XFromPosition(SelectionPosition sp)int Editor::
 OP_GETGLOBAL(Bx)
 GetSciteDefaultHome()FilePath SciTEWin::
 QuartzTextStyle(const QuartzTextStyle &other)	
-FindDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)INT_PTR CALLBACK SciTEWin::
 ExternalLeading(Font &)XYPOSITION SurfaceD2D::
+FindDlg(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)INT_PTR CALLBACK SciTEWin::
 WorkerCommand(int cmd, Worker *pWorker)void SciTEWin::
 IsTailOfFoldBlock(Sci::Line line)	bool 
 WindowSetFocus(GUI::ScintillaWindow &w)void 
+GetLastChild(Sci::Line lineParent, int level, Sci::Line lastLine)Sci::Line Document::
 AllocStyles(size_t sizeNew)void ViewStyle::
 ButtonDownWithModifiers(Point pt, unsigned int curTime, int modifiers)void ScintillaBase::
-GetLastChild(Sci::Line lineParent, int level, Sci::Line lastLine)Sci::Line Document::
 Duration()double FileWorker::
 Move(int delta)void AutoComplete::
-namewhat(n)  const char
 GetRunAttributes(AtkText *text, gint offset, gint *start_offset, gint *end_offset)AtkAttributeSet
+namewhat(n)  const char
+Create(GUI::gui_string text, GCallback func, gpointer data)void WButton::
 CommandWorker()::
 Pixels()const unsigned char
 Add(int ident, RGBAImage *image)void RGBAImageSet::
 contiguousRanges(l, diff)def 
 StartsWith(s, prefix)def 
-Window(const Window &source)	
 Window()	
+TopLineOfMain()Sci::Line Editor::
 Decoration(int indicator_)::
 RoundXYPosition(XYPOSITION xyPos)inline int 
-TopLineOfMain()Sci::Line Editor::
 WidgetHasFocus(UserControl *ctl)static bool 
 WidestLineWidth(Surface *surface, const ViewStyle &vs, int styleOffset, const StyledText &st)int 
 WhiteSpaceVisible(bool inIndent)bool ViewStyle::
+WeakNotify(gpointer data, GObject *obj)	static void 
 AbandonAutomaticSave()void SciTEBase::
 AdjustWindowRect(PRectangle *rc)void ListBoxX::
 GetOffsetAtPoint(gint x, gint y, AtkCoordType coords)gint ScintillaGTKAccessible::
-WeakNotify(gpointer data, GObject *obj)	static void 
 OnClick(int modifiers)bool MultiplexExtension::
+WatcherHelper(ScintillaDocument *owner_)::
 RangePointer(int position, int rangeLength)	T
 ParamCancelCmd()void SciTEGTK::
-WatcherHelper(ScintillaDocument *owner_)::
-getsizes(lua_State *L)static void 
 WarnUser(int)void SciTEGTK::
+getsizes(lua_State *L)static void 
+ViewStyle(const ViewStyle &source)::
 Width()	int 
 Create(const GUI::gui_string &title)void Dialog::
-ViewStyle(const ViewStyle &source)::
 VerticalCentreCaret()void Editor::
 SetAdjustmentValue(GtkAdjustment *object, int value)static void 
 Unlock()	virtual void 
-DropTarget_QueryInterface(DropTarget *dt, REFIID riid, PVOID *ppv)STDMETHODIMP 
 FindInFilesCmd()void SciTEGTK::
+DropTarget_QueryInterface(DropTarget *dt, REFIID riid, PVOID *ppv)STDMETHODIMP 
 FontNames()::
 DropSource_QueryInterface(DropSource *ds, REFIID riid, PVOID *ppv)STDMETHODIMP 
-SelectedRange(int position_= INVALID_POSITION, int anchor_= INVALID_POSITION)	
 VCHomeDisplayPosition(Sci::Position position)Sci::Position Editor::
+SelectedRange(int position_= INVALID_POSITION, int anchor_= INVALID_POSITION)	
 UserStripValue(int control)const char
-LineEndString(int eolMode)static const char
 SendProperty(const char *)	virtual bool 
+LineEndString(int eolMode)static const char
 UpdateFileFromLines(path, lines, lineEndToUse)def 
+Call(self, message, wParam=0, lParam=0)	def 
 StringEqual(const char *a, const char *b, size_t len, bool caseSensitive)static bool 
 SetWrapVisualFlags(int wrapVisualFlags_)bool ViewStyle::
-Call(self, message, wParam=0, lParam=0)	def 
-SetLineStart(Sci::Line line, Sci::Position position)void LineVector::
 SetItemTextU(int id, const std::string &s)	void 
+SetLineStart(Sci::Line line, Sci::Position position)void LineVector::
 ColourFromString(const std::string &s)Colour 
 UpdateEmbedded(root, propFiles)def 
-IsStopChar(char ch)bool AutoComplete::
 ControlText(GUI::Window w)static std::string 
+IsStopChar(char ch)bool AutoComplete::
 UTF8Length(const wchar_t *uptr, size_t tlen)static unsigned int 
 UTF8FromLatin1(const char *s, int len)std::string 
 NotifyStyleNeeded(Document *, void *, Sci::Position endPos)void WatcherHelper::
+DrawTextClipped(PRectangle rc, Font &font_, XYPOSITION ybase, const char *s, int len, ColourDesired fore, ColourDesired back)void SurfaceGDI::
 GetOffsetAtPoint(AtkText *text, gint x, gint y, AtkCoordType coords)gint ScintillaGTKAccessible::AtkTextIface::
 SetValueAt(int position, ParamType &&value)	void 
-DrawTextClipped(PRectangle rc, Font &font_, XYPOSITION ybase, const char *s, int len, ColourDesired fore, ColourDesired back)void SurfaceGDI::
+IdlerTick(gpointer pSciTE)gboolean SciTEGTK::
 OtherIDOfCharacter(int character)OtherID 
 LineReverse()void Editor::
-IdlerTick(gpointer pSciTE)gboolean SciTEGTK::
+Next()	const char
 Insert(Pane p, int pos, const char *s)void SciTEBase::
 read_string(LexState *ls, int del, SemInfo *seminfo)static void 
-Platform(const Platform &)	
+GetSciteUserHome()FilePath SciTEWin::
 io_flush(lua_State *L)static int 
 MeasureWidths(Font &font_, const char *s, int len, XYPOSITION *positions)void SurfaceGDI::
-UTF16FromUTF8(const char *s, size_t len, wchar_t *tbuf, size_t tlen)size_t 
 CallPane(int destination, unsigned int msg, uptr_t wParam, sptr_t lParam)sptr_t SciTEBase::
-Lowercase(GUI::gui_string &s)static void 
 CopyToModeClipboard(const SelectionText &selectedText, QClipboard::Mode clipboardMode_)void ScintillaQt::
+Lowercase(GUI::gui_string &s)static void 
 TypeOfGSD(GtkSelectionData *sd)static GdkAtom 
+OnExecute(const char *)	virtual bool 
 FindIncrementFocusOutSignal(GtkWidget *)gboolean SciTEGTK::
 UTF8IsSeparator(const unsigned char *us)inline bool 
 Toggled(GtkWidget *, WCheckDraw *pcd)void WCheckDraw::

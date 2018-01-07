@@ -756,10 +756,10 @@ void SciTEBase::HighlightCurrentWord(bool highlight) {
 	const std::string wordToFind = EncodeString(sWordToFind);
 
 	matchMarker.StartMatch(&wCurrent, wordToFind,
-		SCFIND_MATCHCASE | SCFIND_WHOLEWORD, selectedStyle, indicatorHighlightCurrentWord, -1);
+		SCFIND_MATCHCASE | SCFIND_WHOLEWORD, selectedStyle,
+		indicatorHighlightCurrentWord, -1);
 	SetIdler(true);
-		props.SetInteger("highlight.current.word.counter",  matchMarker.matchCnt);
-} 
+}
 
 std::string SciTEBase::GetRangeString(GUI::ScintillaWindow &win, int selStart, int selEnd) {
 	if (selStart == selEnd) {
@@ -2325,7 +2325,7 @@ void SciTEBase::SetTextProperties(
 }
 
 void SciTEBase::UpdateStatusBar(bool bUpdateSlowData) {
-	if (sbVisible) {
+			if (sbVisible) {
 		if (bUpdateSlowData) {
 			SetFileProperties(propsStatus);
 		}
@@ -2336,7 +2336,7 @@ void SciTEBase::UpdateStatusBar(bool bUpdateSlowData) {
 		propsStatus.SetInteger("ColumnNumber",
 		        wEditor.Call(SCI_GETCOLUMN, caretPos) + 1);
 		propsStatus.Set("OverType", wEditor.Call(SCI_GETOVERTYPE) ? "OVR" : "INS");
-
+	
 		char sbKey[32];
 		sprintf(sbKey, "statusbar.text.%d", sbNum);
 		std::string msg = propsStatus.GetExpandedString(sbKey);
