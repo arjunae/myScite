@@ -12,7 +12,7 @@ package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..m
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
 
-local dirSep, GTK = props['PLAT_GTK']
+dirSep, GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
 
 --lua >=5.2.x renamed functions:
@@ -172,10 +172,11 @@ function myScite_OpenSwitch()
 			markLinks()
 			markeMail()
 			markGUID()
-			CheckUTF()
+			DetectUTF8()
 		else
 			props["highlight.current.word"]=0
 			props["find.strip.incremental"]=1
+			props["status.msg.words_found"]=""
 		end
 	end
 	

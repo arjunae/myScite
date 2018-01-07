@@ -37,10 +37,11 @@ std::vector<LineRange> LinesBreak(GUI::ScintillaWindow *pSci) {
 }
 
 MatchMarker::MatchMarker() : 
-	pSci(0), styleMatch(-1), flagsMatch(0), indicator(0), bookMark(-1) {
+	pSci(0), styleMatch(-1), flagsMatch(0), indicator(0), bookMark(-1), matchCnt(0) {
 }
 
 MatchMarker::~MatchMarker() {
+	matchCnt=0;
 }
 
 void MatchMarker::StartMatch(GUI::ScintillaWindow *pSci_,
@@ -53,6 +54,7 @@ void MatchMarker::StartMatch(GUI::ScintillaWindow *pSci_,
 	styleMatch = styleMatch_;
 	indicator = indicator_;
 	bookMark = bookMark_;
+	matchCnt=0;
 	lineRanges = LinesBreak(pSci);
 	// Perform the initial marking immediately to avoid flashing
 	Continue();
@@ -64,7 +66,6 @@ bool MatchMarker::Complete() const {
 
 void MatchMarker::Continue() {
 	const int segment = 200;
-
 	// Remove old indicators if any exist.
 	pSci->Call(SCI_SETINDICATORCURRENT, indicator);
 
@@ -101,9 +102,9 @@ void MatchMarker::Continue() {
 		if ((styleMatch < 0) || (styleMatch == pSci->Call(SCI_GETSTYLEAT, posFound))) {
 			pSci->Call(SCI_INDICATORFILLRANGE, posFound, posEndFound - posFound);
 			if (bookMark >= 0) {
-				pSci->Call(SCI_MARKERADD,
-					pSci->Call(SCI_LINEFROMPOSITION, posFound), bookMark);
+				pSci->Call(SCI_MARKERADD, pSci->Call(SCI_LINEFROMPOSITION, posFound), bookMark);
 			}
+			if (posEndFound) matchCnt++;
 		}
 		if (posEndFound == posFound) {
 			// Empty matches are possible for regex
@@ -112,8 +113,8 @@ void MatchMarker::Continue() {
 		// Try to find next occurrence of word.
 		pSci->Call(SCI_SETTARGETSTART, posEndFound);
 		pSci->Call(SCI_SETTARGETEND, positionEnd);
-		posFound = pSci->CallString(
-			SCI_SEARCHINTARGET, textMatch.length(), textMatch.c_str());
+		posFound = pSci->CallString(SCI_SEARCHINTARGET, textMatch.length(), textMatch.c_str());
+
 	}
 
 	// Retire searched lines

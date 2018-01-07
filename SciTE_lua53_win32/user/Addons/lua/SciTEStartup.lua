@@ -176,6 +176,7 @@ function myScite_OpenSwitch()
 		else
 			props["highlight.current.word"]=0
 			props["find.strip.incremental"]=1
+			props["status.msg.words_found"]=""
 		end
 	end
 	

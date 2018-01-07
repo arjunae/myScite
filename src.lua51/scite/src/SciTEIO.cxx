@@ -375,7 +375,7 @@ void SciTEBase::CompleteOpen(OpenCompletion oc) {
 		CurrentBuffer()->lifeState = Buffer::open;
 		ReadProperties(true);
 	} else {
-		std::string languageOverride = DiscoverLanguage();
+		languageOverride = DiscoverLanguage();
 	}
 
 	if (language == "") {
@@ -627,7 +627,7 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 	UpdateStatusBar(true);
 	if (extender && !asynchronous){
 		extender->OnOpen(filePath.AsUTF8().c_str());
-		//ReadProperties(false); //Arjunae: Allow SciTE start-up with extender changed properties.
+		ReadProperties(false); //Arjunae: Allow SciTE start-up with extender changed properties.
 		}
 	return true;
 }

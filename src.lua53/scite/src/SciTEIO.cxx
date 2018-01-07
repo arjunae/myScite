@@ -375,7 +375,7 @@ void SciTEBase::CompleteOpen(OpenCompletion oc) {
 		CurrentBuffer()->lifeState = Buffer::open;
 		ReadProperties(true);
 	} else {
-		std::string languageOverride = DiscoverLanguage();
+		languageOverride = DiscoverLanguage();
 	}
 
 	if (language == "") {

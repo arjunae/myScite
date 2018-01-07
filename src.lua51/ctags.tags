@@ -11171,6 +11171,7 @@ maskInLine	scintilla\src\ViewStyle.h	/^	int maskInLine;	\/\/\/< Mask for markers
 maskmarks	scite\lua\src\lgc.c	32;"	d	file:
 match	scite\lua\src\lib\lstrlib.c	/^static const char *match (MatchState *ms, const char *s, const char *p) {$/;"	f	file:	signature:(MatchState *ms, const char *s, const char *p)
 matchCase	scite\src\SciTEBase.h	/^	bool matchCase;$/;"	m	class:Searcher	access:public
+matchCnt	scite\src\MatchMarker.h	/^	int matchCnt; \/\/todo use a getter$/;"	m	class:MatchMarker	access:public
 matchMarker	scite\src\SciTEBase.h	/^	MatchMarker matchMarker;$/;"	m	class:SciTEBase	access:protected
 match_capture	scite\lua\src\lib\lstrlib.c	/^static const char *match_capture (MatchState *ms, const char *s, int l) {$/;"	f	file:	signature:(MatchState *ms, const char *s, int l)
 match_class	scite\lua\src\lib\lstrlib.c	/^static int match_class (int c, int cl) {$/;"	f	file:	signature:(int c, int cl)

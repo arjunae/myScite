@@ -717,7 +717,6 @@ bool SciTEBase::islexerwordcharforsel(char ch) {
 	else
 		return iswordcharforsel(ch);
 }
-
 void SciTEBase::HighlightCurrentWord(bool highlight) {
 	if (!currentWordHighlight.isEnabled)
 		return;
@@ -756,10 +755,11 @@ void SciTEBase::HighlightCurrentWord(bool highlight) {
 	const std::string wordToFind = EncodeString(sWordToFind);
 
 	matchMarker.StartMatch(&wCurrent, wordToFind,
-		SCFIND_MATCHCASE | SCFIND_WHOLEWORD, selectedStyle,
-		indicatorHighlightCurrentWord, -1);
+		SCFIND_MATCHCASE | SCFIND_WHOLEWORD, selectedStyle, indicatorHighlightCurrentWord, -1);
+	
 	SetIdler(true);
-}
+	props.SetInteger("highlight.current.word.counter",  matchMarker.matchCnt);
+} 
 
 std::string SciTEBase::GetRangeString(GUI::ScintillaWindow &win, int selStart, int selEnd) {
 	if (selStart == selEnd) {
