@@ -1,17 +1,46 @@
-diff -Nurw scite/src/SciTEProps.cxx scite_m/src/SciTEProps.cxx
---- scite/src/SciTEProps.cxx	2017-05-26 00:25:04.000000000 +0200
-+++ scite_m/src/SciTEProps.cxx	2018-01-01 17:56:02.000000000 +0100
-@@ -1366,6 +1379,13 @@
- 		TimerEnd(timerAutoSave);
+diff -Nurw scite/src/SciTEIO.cxx scite_m/src/SciTEIO.cxx
+--- scite/src/SciTEIO.cxx	2017-05-26 00:25:04.000000000 +0200
++++ scite_m/src/SciTEIO.cxx	2018-01-07 20:07:38.000000000 +0100
+@@ -358,21 +358,38 @@
+ void SciTEBase::CompleteOpen(OpenCompletion oc) {
+ 	wEditor.Call(SCI_SETREADONLY, CurrentBuffer()->isReadOnly);
+ 
+-	if (oc != ocSynchronous) {
+-		ReadProperties();
++	// Not quite sure - But at least the place seems to be an adequate one.
++	// Magically switch to the Null Lexer if files Size exeeds a given maximum. 
++	std::string languageOverride;
++	const GUI::gui_string gsFilePath=GUI::StringFromUTF8(props.GetString("FilePath").c_str());
++	FilePath absPath=FilePath(gsFilePath);
++	const long long fileSize = absPath.IsUntitled() ? 0 : absPath.GetFileLength();	
++	const int forceLexNullSize=props.GetInt("max.style.size",10000000);
++	if (fileSize>forceLexNullSize){
++		wEditor.Call(SCI_SETLEXER, 1);
++		languageOverride ="x.";
++		CurrentBuffer()->overrideExtension ="x.";
++		props.Set("default.file.ext","x.");
++		props.Set("FileExt","x.");
++		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
++		CurrentBuffer()->lifeState = Buffer::open;
++		ReadProperties(true);
++	} else {
++		languageOverride = DiscoverLanguage();
  	}
  
-+	const int forceLexNullSize=props.GetInt("max.style.size",10000000);
-+	if (LengthDocument()>forceLexNullSize){
-+		wEditor.Call(SCI_SETLEXER, 1);
-+		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
-+		props.Set("Language", "");
-+	}
-+		
- 	firstPropertiesRead = false;
- 	needReadProperties = false;
- }
+ 	if (language == "") {
+-		std::string languageOverride = DiscoverLanguage();
+ 		if (languageOverride.length()) {
+ 			CurrentBuffer()->overrideExtension = languageOverride;
+ 			CurrentBuffer()->lifeState = Buffer::open;
+-			ReadProperties();
++			ReadProperties(true);
+ 			SetIndentSettings();
+ 		}
+ 	}
+ 
++	
+ 	if (oc != ocSynchronous) {
++		ReadProperties(true);
+ 		SetIndentSettings();
+ 		SetEol();
+ 		UpdateBuffersCurrent();

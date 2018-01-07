@@ -627,7 +627,7 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 	UpdateStatusBar(true);
 	if (extender && !asynchronous){
 		extender->OnOpen(filePath.AsUTF8().c_str());
-		//ReadProperties(false); //Arjunae: Allow SciTE start-up with extender changed properties.
+		ReadProperties(false); //Arjunae: Allow SciTE start-up with extender changed properties.
 		}
 	return true;
 }
