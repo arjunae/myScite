@@ -366,14 +366,11 @@ void SciTEBase::CompleteOpen(OpenCompletion oc) {
 	const long long fileSize = absPath.IsUntitled() ? 0 : absPath.GetFileLength();	
 	const int forceLexNullSize=props.GetInt("max.style.size",10000000);
 	if (fileSize>forceLexNullSize){
-		wEditor.Call(SCI_SETLEXER, 1);
+		language="";
 		languageOverride ="x.";
-		CurrentBuffer()->overrideExtension ="x.";
-		props.Set("default.file.ext","x.");
-		props.Set("FileExt","x.");
+		CurrentBuffer()->overrideExtension =languageOverride;
+		wEditor.Call(SCI_SETLEXER, 1);
 		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
-		CurrentBuffer()->lifeState = Buffer::open;
-		ReadProperties(true);
 	} else {
 		languageOverride = DiscoverLanguage();
 	}
@@ -589,7 +586,7 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 	}
 	CurrentBuffer()->props = propsDiscovered;
 	CurrentBuffer()->overrideExtension = "";
-	ReadProperties(true);	
+	ReadProperties(true);
 	SetIndentSettings();
 	SetEol();
 	UpdateBuffersCurrent();
