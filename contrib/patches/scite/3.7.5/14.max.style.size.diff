@@ -1,7 +1,10 @@
+/// Override properties set lexer (and so also default ext) for file sizes greater then the given one.
+/// Introduces writeable property max.style.size
+/// Needs 11.scite.ApplyProperties.diff
 diff -Nurw scite/src/SciTEIO.cxx scite_m/src/SciTEIO.cxx
 --- scite/src/SciTEIO.cxx	2017-05-26 00:25:04.000000000 +0200
-+++ scite_m/src/SciTEIO.cxx	2018-01-07 20:07:38.000000000 +0100
-@@ -358,21 +358,38 @@
++++ scite_m/src/SciTEIO.cxx	2018-01-08 14:08:30.000000000 +0100
+@@ -358,21 +358,34 @@
  void SciTEBase::CompleteOpen(OpenCompletion oc) {
  	wEditor.Call(SCI_SETREADONLY, CurrentBuffer()->isReadOnly);
  
@@ -15,14 +18,10 @@ diff -Nurw scite/src/SciTEIO.cxx scite_m/src/SciTEIO.cxx
 +	const long long fileSize = absPath.IsUntitled() ? 0 : absPath.GetFileLength();	
 +	const int forceLexNullSize=props.GetInt("max.style.size",10000000);
 +	if (fileSize>forceLexNullSize){
-+		wEditor.Call(SCI_SETLEXER, 1);
++		language="";
 +		languageOverride ="x.";
-+		CurrentBuffer()->overrideExtension ="x.";
-+		props.Set("default.file.ext","x.");
-+		props.Set("FileExt","x.");
++		wEditor.Call(SCI_SETLEXER, 1);
 +		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
-+		CurrentBuffer()->lifeState = Buffer::open;
-+		ReadProperties(true);
 +	} else {
 +		languageOverride = DiscoverLanguage();
  	}

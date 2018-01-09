@@ -7,7 +7,6 @@ local AppList = {}
 
 -- load scripts dynamically from scripts folder
 if type(lfs)=="table" then
-
   for f in lfs.dir(props['SciteUserHome'].."/user/macros") do 
      if f ~= "." and f ~= ".." then
         AppList[#AppList+1] = {f, f, f:sub(1,-5)}
@@ -15,6 +14,7 @@ if type(lfs)=="table" then
   end
   scite_Command('Macro Scripts|ChooseScript|Ctrl+9') 
 end
+
 -- for global scripts; switch to "SciteUserHome" for per-user scripts
 local function loadscript(scriptfile)  
   dofile(props["SciteUserHome"].."/user/macros/"..scriptfile)

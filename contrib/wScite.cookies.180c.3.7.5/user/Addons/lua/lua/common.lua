@@ -72,13 +72,12 @@ function fileHash(fileName)
 	return CRChash
 end
 
---[[
 -- check SciLexer once per session and inform the User if its a nonStock Version.
+
 local SLHash
 if not SLHash then SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
 	if SLHash and SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
 end
-]]
 
 --------------------------
 -- returns the size of a given file.
@@ -103,6 +102,25 @@ end
  --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
  --line information functions --
+--
+-- wordAtPosition()
+-- Returns the whole keyword under the cursor
+--
+local function CurrentWord()
+  local pos = editor.CurrentPos
+  local startPos=pos
+  local lineEnd = editor.LineEndPosition[editor:LineFromPosition(pos)]
+  local whatever,endPos = editor:findtext("[^a-zA-z0-9_-*]",SCFIND_REGEXP,pos,lineEnd) --words EndPos
+  if not endPos then endPos=lineEnd end
+  local tmp=""
+  
+  --search backwards for a Delimiter
+  while not string.find(editor:textrange(startPos,startPos+1),"[^%w_-]+")  do
+    startPos=startPos-1
+  end
+  tmp=editor:textrange(startPos+1,endPos-1)
+  return string.match(tmp,"[%w_-]+") -- just be sure. only return the keyword
+end
 
 function current_line()
 	return editor:LineFromPosition(editor.CurrentPos)
@@ -110,10 +128,6 @@ end
 
 function current_output_line()
 	return output:LineFromPosition(output.CurrentPos)
-end
-
-function current_pos()
-	return editor.CurrentPos
 end
 
 -- start position of the given line; defaults to start of current line

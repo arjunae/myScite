@@ -359,7 +359,7 @@ void SciTEBase::CompleteOpen(OpenCompletion oc) {
 	wEditor.Call(SCI_SETREADONLY, CurrentBuffer()->isReadOnly);
 
 	// Not quite sure - But at least the place seems to be an adequate one.
-	// Magically switch to the Null Lexer if files Size exeeeds a given maximum. 
+	// Magically switch to the Null Lexer if files Size exeeds a given maximum. 
 	std::string languageOverride;
 	const GUI::gui_string gsFilePath=GUI::StringFromUTF8(props.GetString("FilePath").c_str());
 	FilePath absPath=FilePath(gsFilePath);
@@ -368,7 +368,6 @@ void SciTEBase::CompleteOpen(OpenCompletion oc) {
 	if (fileSize>forceLexNullSize){
 		language="";
 		languageOverride ="x.";
-		CurrentBuffer()->overrideExtension =languageOverride;
 		wEditor.Call(SCI_SETLEXER, 1);
 		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
 	} else {

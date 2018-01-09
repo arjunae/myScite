@@ -37,7 +37,7 @@ local _UserListSelect
 
 
 -- Parse string
-function eval(str)
+local function eval(str)
     if type(str) == "string" then
         return loadstring("return " .. str)()
     elseif type(str) == "number" then
@@ -49,7 +49,7 @@ end
 
 -- this centers the cursor position
 -- easy enough to make it optional!
-function ctags_center_pos(line)
+local function ctags_center_pos(line)
   if not line then
      line = editor:LineFromPosition(editor.CurrentPos)
   end
@@ -158,7 +158,7 @@ local function OpenTag(tag)
   end
 end
 
-function locate_tags(dir)
+local function locate_tags(dir)
 
     local filefound = nil
     local slash, f
@@ -177,7 +177,7 @@ function locate_tags(dir)
     return filefound
 end
 
-function find_ctag(f,partial)
+local function find_ctag(f,partial)
   -- search for tags files first
   local result
   result = props['project.path'] ..dirSep.. props['project.ctags.filename']
@@ -236,7 +236,7 @@ function find_ctag(f,partial)
   end
 end
 
-function locate_tags(dir)
+local function locate_tags(dir)
 
     local filefound = nil
     local slash, f
@@ -264,7 +264,7 @@ end
 -- wordAtPosition()
 -- Returns the whole keyword under the cursor
 --
-function wordAtPosition()
+local function wordAtPosition()
   local pos = editor.CurrentPos
   local startPos=pos
   local lineEnd = editor.LineEndPosition[editor:LineFromPosition(pos)]
@@ -292,13 +292,8 @@ function modifiers(shift,strg,alt,x)
   end
 
   if alt==true then
-    local initialSize=scite.SendEditor(SCI_STYLEGETSIZE,40)
-    if props["style.userlist.font.size"]=="" then props["style.userlist.font.size"]=initialSize end
-    local newSize=tonumber(props["style.userlist.font.size"])
-    scite.SendEditor(SCI_STYLESETSIZE,40,newSize)
     find_ctag (wordAtPosition()) 
-    scite.SendEditor(SCI_STYLESETSIZE,40,initialSize)
- end
+  end
  
 end
 
