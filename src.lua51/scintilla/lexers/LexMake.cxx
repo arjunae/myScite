@@ -36,14 +36,17 @@
 #include "CharacterSet.h"
 #include "LexerModule.h"
 
-// Some Files simply dont use LF/CRLF. So use a quarter Megabyte as a max.
+// Some Files simply dont use LF/CRLF. 
+// So use ~100kb as a maximum before simply style the rest in Defaults style.
 #ifndef LEXMAKE_MAX_LINELEN
-#define LEXMAKE_MAX_LINELEN  262140
+#define LEXMAKE_MAX_LINELEN  100000
 #endif
 #ifdef LEX_MAX_LINELEN
 #define LEXMAKE_MAX_LINELEN  LEX_MAX_LINELEN
 #endif
 
+// Holds LEXMAKE_MAX_LINELEN or property "max.style.linelength" if it has been defined.
+Sci_PositionU maxStyleLineLength;
 
 #ifdef SCI_NAMESPACE
 using namespace Scintilla;
@@ -152,12 +155,19 @@ static unsigned int ColouriseMakeLine(
 	unsigned int theStart=startLine+i; // One Byte ought (not) to be enough for everyone....?
 	stylerPos=theStart; // Keep a Reference to the last styled Position.
 
-	while (i < lengthLine && i < LEXMAKE_MAX_LINELEN) {
+	while ( i < lengthLine ) {
 		Sci_PositionU currentPos=startLine+i;
 
 		char chPrev=styler.SafeGetCharAt(currentPos-1);
 		char chCurr=styler.SafeGetCharAt(currentPos);
 		char chNext=styler.SafeGetCharAt(currentPos+1);
+		
+		/// Handle (very) long Lines. 
+		if (i>=maxStyleLineLength) {
+			state=SCE_MAKE_DEFAULT;
+			styler.ColourTo(endPos, state);
+			return(state);
+		}
 		
 		/// style GNUMake Preproc
 		if (currentPos==theStart && chCurr == '!') {
@@ -643,6 +653,9 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
 	
+	maxStyleLineLength=styler.GetPropertyInt("max.style.linelength");
+	maxStyleLineLength = ( maxStyleLineLength > 0) ? maxStyleLineLength : LEXMAKE_MAX_LINELEN;
+			
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
 		
 		slineBuffer.resize(slineBuffer.size()+1);
