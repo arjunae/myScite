@@ -121,9 +121,8 @@ static unsigned int ColouriseMakeLine(
 	Sci_PositionU i = 0; // primary line position counter
 	Sci_PositionU styleBreak = 0;
 
-	int iWarnEOL=0; // unclosed string bracket refcount.
-	Sci_PositionU strLen = 0;	// Keyword candidate length.
-	Sci_PositionU startMark = 0; // Keyword candidates startPos. >0 while searching for a Keyword
+	Sci_PositionU strLen = 0;				// Keyword candidate length.
+	Sci_PositionU startMark = 0;	// Keyword candidates startPos. >0 while searching for a Keyword
 
 	unsigned int SCE_MAKE_FUNCTION = SCE_MAKE_OPERATOR;
 	unsigned int state = SCE_MAKE_DEFAULT;
@@ -132,12 +131,11 @@ static unsigned int ColouriseMakeLine(
 	union  {
 		bool inString;			// set when a double quoted String begins.
 		bool inSqString;	// set when a single quoted String begins	
-		bool bCommand; 	// set when a line begins with a tab (command)
+		bool bCommand;			// set when a line begins with a tab (command)
+		int iWarnEOL;				// unclosed string bracket refcount.
 	} line;
-	
-	line.inString=false;
-	line.inSqString=false;
-	line.bCommand = false;
+
+	line.iWarnEOL=0;
 	
 	/// keywords
 	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
@@ -210,11 +208,11 @@ static unsigned int ColouriseMakeLine(
 		if (strchr("({", (int)chCurr)!=NULL) {
 			ColourHere(styler, currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
-			iWarnEOL++;
+			line.iWarnEOL++;
 		} else if (strchr(")}", (int)chCurr)!=NULL) {
 			if (i>0) ColourHere(styler, currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
-			iWarnEOL--;
+			line.iWarnEOL--;
 		}
 
 		/// Style double quoted Strings
@@ -222,7 +220,7 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos-1, state);
 			state=SCE_MAKE_STRING;
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state_prev);
-			iWarnEOL--;
+			line.iWarnEOL--;
 			line.inString = false;
 		} else if	(!line.inString && chCurr=='\"') {
 			state_prev = state;
@@ -230,7 +228,7 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos-1, state_prev);
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
 			line.inString=true;
-			iWarnEOL++;
+			line.iWarnEOL++;
 		}
 
 		/// Style single quoted Strings. Don't EOL check for now.
@@ -305,7 +303,7 @@ static unsigned int ColouriseMakeLine(
 				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			} else if (state == SCE_MAKE_DIRECTIVE) {
 				state=SCE_MAKE_DEFAULT;
-				ColourHere(styler, currentPos, state);
+				ColourHere(styler,currentPos,state);
 			}
 
 			// ....and within functions $(sort,subst...) / used to style internal Variables too.
@@ -394,9 +392,9 @@ static unsigned int ColouriseMakeLine(
 		i++;
 	}
 	
-	if (iWarnEOL>0) {
+	if (line.iWarnEOL>0) {
 		state=SCE_MAKE_IDEOL;
-	} else if (iWarnEOL<1) {
+	} else if (line.iWarnEOL<1) {
 		state=SCE_MAKE_DEFAULT;
 	}
 

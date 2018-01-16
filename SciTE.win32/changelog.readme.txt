@@ -1,16 +1,17 @@
 ~# mySciTE.webdev -~
 
-[03.01.2018] mySciTE.RC1.190.MartyMcFly (Lua5.1 & Lua5.3)
+[12.01.2018] RC2.190.MartyMcFly (Lua5.1 & Lua5.3)
 # Add: SciTE Project Support. Settings for scite sources included.
 # Add: cTags Navigation support within project source files. ( ALT-Click )
 # Add: cTags based, cached Projects and Platform SDK sourceCode Highlightening. 
 # Upd: cTags and Artistic Style. /Upd: Autocomplete and theme.solarized.
 # Upd: c89,90,95,03,11 docs from en.wikibooks.org for Syntax Highlightening *kudos*.
-# New: Properties max.style.size and window.flatui.
+# New: Highlight Current Word Counter in Status Bar.
 # Fix: StartUp Performance heavily improved.
 # Info: Dual Release. Lua5.1.5 and Lua5.3.4 available.  
+# Contains Scintillua, Hunspell, Exuberant cTags and aStyle.
 
-[25.11.2017] mySciTE.180.Artie.stable
+[25.11.2017] myScite.180.Artie.stable
 # Add: Lisp / Scheme / Clojure / GO Language Keywords
 # Fix: lexMakeEOF & Add Folding / Fix: remove MSVC10 dependency
 # Fix: lua: more flexibility while loading hunspell.dll
@@ -22,7 +23,7 @@
 # New: CRC Verify SciLexer.dll during Start. 
 # Upd: Based on scintilla-scite 3.7.5 now. (was 3.7.0)
 
-[22.09.2017] mySciTE.160.Augustine.stable
+[22.09.2017] myScite.160.Augustine.stable
 # API: Actionscript3, FreeBasic, ArduinoC. Ordered cpp by header.
 # Theming: TonedDown Colors to be more EyeFriendly and readable.
 # Lexer: enhanced Makefile Lexer Features. (keywords and styles) 
