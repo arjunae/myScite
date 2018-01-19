@@ -8,7 +8,8 @@ io.stdout:setvbuf("no")
 
 myHome = props["SciteUserHome"].."/user"
 defaultHome = props["SciteDefaultHome"]
-package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;".. ";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
+package.path = package.path ..";"..myHome.."\\Addons\\lua\\?.lua" .. ";"..myHome.."\\Addons\\lua\\lua\\?.lua;"
+package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
 
@@ -34,7 +35,7 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
 -- Load mod-mitchell
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
---dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 		
 -- Load Sidebar
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
@@ -175,14 +176,14 @@ function myScite_OpenSwitch()
 			DetectUTF8()
 			props["find.strip.incremental"]=2
 			props["highlight.current.word"]=1	
-			props["status.msg.words_found"]="| Words Found: $(highlight.current.word.counter)"
+			props["status.msg.words_found"]="| Words Found: $(highlight.current.word.counter)"			
 		else
 			props["highlight.current.word"]=0
 			props["find.strip.incremental"]=1
 			props["status.msg.words_found"]=""
 		end
 	end
-	scite.ApplyProperties()
+scite.ApplyProperties()
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

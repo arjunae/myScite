@@ -23,26 +23,19 @@ function testOnClick()
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-print("-> Test serpent, an object serializer with prettyPrint capabilities on _G:")
-local serpent = require("serpent")
---print(serpent.dump(_G)) -- full serialization
---print(serpent.line(_G)) -- single line, no self-ref section
-print(serpent.block(_G,{nocode = true,maxlevel=1})) -- multi-line indented, no self-ref section
-
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-print("-> Test sha2")  -- native CVersion >= lua5.2
-sha2= require "sha2"
-local file = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
-local sha256 = sha2.new256()
+print("-> Test sha1") 
+local sha1 = require "sha1"
+local file,err = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
+local content =""
 while true do
 	local bytes = file:read(4096)
 	if not bytes then break end
-	sha256:add(bytes)
+	content=content..bytes
 end	
+local cryptSHA1= sha1(content)
 
 file:close()
-print("SciTEUser.properties SHA2-256 Hash:", sha256:close())
+print("SciTEUser.properties Crypto SHA1 Hash :",cryptSHA1)
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 print("-> Test MD5:") 
@@ -57,7 +50,14 @@ while true do
 end	
 	file:close()
 print("SciTEUser.properties MD5 Hash:	", md5.tohex(m:finish()))
-
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--[[
+print("-> Test serpent, an object serializer with prettyPrint capabilities on _G:")
+local serpent = require("serpent")
+--print(serpent.dump(_G)) -- full serialization
+--print(serpent.line(_G)) -- single line, no self-ref section
+print(serpent.block(_G,{nocode = true,maxlevel=1})) -- multi-line indented, no self-ref section
+]]
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 print("-> Test CRC32:") 
 --[[
@@ -73,7 +73,6 @@ local crc32=C32.crc32
 
 local crccalc = C32.newcrc32()
 local crccalc_mt = getmetatable(crccalc)
-assert(crccalc_mt.reset) -- reset to zero
 local file = assert(io.open (defaultHome.."\\".."SciLexer.dll", 'rb'))
 while true do
 	local bytes = file:read(4096)
