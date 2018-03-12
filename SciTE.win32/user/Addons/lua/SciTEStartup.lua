@@ -35,7 +35,7 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
 -- Load mod-mitchell
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+--dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 		
 -- Load Sidebar
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
@@ -174,10 +174,12 @@ function myScite_OpenSwitch()
 			markeMail()
 			markGUID()
 			DetectUTF8()
+			props["eol.auto"]=0
 			props["find.strip.incremental"]=2
 			props["highlight.current.word"]=1	
 			props["status.msg.words_found"]="| Words Found: $(highlight.current.word.counter)"			
 		else
+			props["eol.auto"]=0
 			props["highlight.current.word"]=0
 			props["find.strip.incremental"]=1
 			props["status.msg.words_found"]=""
@@ -196,7 +198,7 @@ function OnInit()
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
 	scite_OnSave(CTagsRecreate)
 	scite_OnOpenSwitch(myScite_OpenSwitch)
-	
+
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
 --print("startupScript_reload")

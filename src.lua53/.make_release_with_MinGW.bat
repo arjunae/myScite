@@ -3,7 +3,7 @@
 ::...::..:::...::..::.:.::
 
 @echo off
-set PATH=E:\MinGW\bin;%PATH%;
+::set PATH=D:\apps\i686-7.1.0-win32-dwarf-rt_v5-rev0\mingw32\bin;%PATH%;
 setlocal enabledelayedexpansion enableextensions
 
 :: ... use customized CMD Terminal

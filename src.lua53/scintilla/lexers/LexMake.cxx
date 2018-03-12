@@ -39,7 +39,7 @@
 // Some Files simply dont use LF/CRLF. 
 // So use ~100kb as a maximum before simply style the rest in Defaults style.
 #ifndef LEXMAKE_MAX_LINELEN
-#define LEXMAKE_MAX_LINELEN  100000
+#define LEXMAKE_MAX_LINELEN  200000
 #endif
 #ifdef LEX_MAX_LINELEN
 #define LEXMAKE_MAX_LINELEN  LEX_MAX_LINELEN
@@ -232,12 +232,12 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Style single quoted Strings. Don't EOL check for now.
-		if (!line.inString && line.inSqString && chCurr=='\'') {
+		if (line.inSqString && chCurr=='\'') {
 			ColourHere(styler, currentPos-1, state);
 			state = SCE_MAKE_STRING;
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state_prev);
+			ColourHere(styler, currentPos,SCE_MAKE_IDENTIFIER, state_prev);
 			line.inSqString = false;
-		} else if	(!line.inString && !line.inSqString && chCurr=='\'') {
+		} else if	(!line.inSqString && !line.inSqString && chCurr=='\'') {
 			state_prev = state;
 			state = SCE_MAKE_DEFAULT;
 			ColourHere(styler, currentPos-1, state_prev);
