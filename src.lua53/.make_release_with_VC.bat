@@ -1,24 +1,23 @@
 @echo off
-
-ECHO  ---- Compiling with Visual Studio will be fixed somwhen in the future ----
-goto :end
-
 REM for make debug version use:  make_with_VC.bat DEBUG
 
-:: Try to acquire a VisualStudio 12 Context
+:: Try to acquire a VisualStudio 14 Context
 :: If that fails, use systems highest available Version as defined via env var VS[xxx]COMNTOOLS
 
-SET buildContext=12
+SET buildContext=14.0
 SET arch=x86
 
 :: #############
 
 echo ~~ About to build using:
 call force_vc_version.cmd %buildContext%
-if %errorlevel%==10 call force_vc_version.cmd default
+if %errorlevel%==10 (
+ echo please build myScite withVisualStudio 2015
+	exit /b %errorlevel%
+)
 echo ~~
 echo Target Architecture will be: %arch%
-call "%VCINSTALLDIR%\vcvarsall.bat" x86
+call "%VCINSTALLDIR%\vcvarsall.bat"  %arch%
 
 if "%1"=="DEBUG" set parameter1=DEBUG=1
 REM set parameter1=DEBUG=1
@@ -47,16 +46,9 @@ if %off32%==120 set PLAT=WIN32
 for /f "delims=:" %%A in ('findstr /o "^.*PE..d.. " ..\bin\SciTE.exe') do ( set off64=%%A ) 
 if %off64%==120 set PLAT=WIN64
 
-echo .... Targets platform [%PLAT%] ......
-If [%PLAT%]==[WIN32] (
+echo .... Target platform [%PLAT%] ......
 move ..\bin\SciTE.exe ..\..\release
 move ..\bin\SciLexer.dll ..\..\release
-)
-
-If [%PLAT%]==[WIN64] (
-move ..\bin\SciTE.exe ..\..\release
-move ..\bin\SciLexer.dll ..\..\release
-)
 
 goto end
 
@@ -64,6 +56,6 @@ goto end
 pause
 
 :end
-cd ..\..
+::cd ..\..
 PAUSE
-EXIT
+::EXIT

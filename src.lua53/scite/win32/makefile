@@ -55,7 +55,7 @@ vpath %.c ../lua/src
 
 LUA_INCLUDES = -I ../lua/src
 #LUA_SCRIPTS = ..\bin\SciTEExtension.lua ..\bin\SciTEStartup.lua
-LUA_DEFINES = -DLUA_USER_H=\"scite_lua_win.h\" -DLUA_COMPAT_5_1 -DLUA_COMPAT_BITLIB
+LUA_DEFINES = -DLUA_USER_H=\"scite_lua_win.h\"  -DLUA_COMPAT_5_1 -DLUA_COMPAT_BITLIB
 else
 LUA_DEFINES = -DNO_LUA
 endif
@@ -162,7 +162,7 @@ analyze:
 	clang --analyze $(CXXFLAGS) *.cxx ../src/*.cxx
 
 deps:
-	$(CXX) -MM $(CXXFLAGS) *.cxx ../src/*.cxx ../lua/src/*.c ../lua/src/lib/*.c >deps.mak
+	$(CXX) -MM $(CXXFLAGS) *.cxx ../src/*.cxx ../lua/src/*.c  >deps.mak
 
 embedded: ../src/Embedded.properties
 

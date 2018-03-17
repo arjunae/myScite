@@ -24,10 +24,6 @@
 #include "IFaceTable.h"
 #include "SciTEKeys.h"
 
-#if not defined(_WIN32)
-#define LUA_COMPAT_5_1
-#endif
-
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
@@ -223,7 +219,7 @@ static int cf_scite_send(lua_State *L) {
 
 	int paneIndex = lua_upvalueindex(1);
 	check_pane_object(L, paneIndex);
-	int message = luaL_checkint(L, 1);
+	int message = luaL_checkinteger(L, 1);
 
 	lua_pushvalue(L, paneIndex);
 	lua_replace(L, 1);
@@ -263,7 +259,7 @@ static int cf_scite_send(lua_State *L) {
 
 static int cf_scite_constname(lua_State *L) {
 	char constName[100] = "";
-	int message = luaL_checkint(L, 1);
+	int message = luaL_checkinteger(L, 1);
 	const char *prefix = luaL_optstring(L, 2, NULL);
 	if (IFaceTable::GetConstantName(message, constName, 100, prefix) > 0) {
 		lua_pushstring(L, constName);
@@ -286,7 +282,7 @@ static int cf_scite_open(lua_State *L) {
 }
 
 static int cf_scite_menu_command(lua_State *L) {
-	int cmdID = luaL_checkint(L, 1);
+	int cmdID = luaL_checkinteger(L, 1);
 	if (cmdID) {
 		host->DoMenuCommand(cmdID);
 	}
@@ -314,7 +310,7 @@ static int cf_scite_strip_show(lua_State *L) {
 }
 
 static int cf_scite_strip_set(lua_State *L) {
-	int control = luaL_checkint(L, 1);
+	int control = luaL_checkinteger(L, 1);
 	const char *value = luaL_checkstring(L, 2);
 	if (value) {
 		host->UserStripSet(control, value);
@@ -323,7 +319,7 @@ static int cf_scite_strip_set(lua_State *L) {
 }
 
 static int cf_scite_strip_set_list(lua_State *L) {
-	int control = luaL_checkint(L, 1);
+	int control = luaL_checkinteger(L, 1);
 	const char *value = luaL_checkstring(L, 2);
 	if (value) {
 		host->UserStripSetList(control, value);
@@ -332,7 +328,7 @@ static int cf_scite_strip_set_list(lua_State *L) {
 }
 
 static int cf_scite_strip_value(lua_State *L) {
-	int control = luaL_checkint(L, 1);
+	int control = luaL_checkinteger(L, 1);
 	const char *value = host->UserStripValue(control);
 	if (value) {
 		lua_pushstring(L, value);
@@ -399,7 +395,7 @@ static int cf_pane_textrange(lua_State *L) {
 
 static int cf_pane_insert(lua_State *L) {
 	ExtensionAPI::Pane p = check_pane_object(L, 1);
-	int pos = luaL_checkint(L, 2);
+	int pos = luaL_checkinteger(L, 2);
 	const char *s = luaL_checkstring(L, 3);
 	host->Insert(p, pos, s);
 	return 0;
@@ -433,19 +429,19 @@ static int cf_pane_findtext(lua_State *L) {
 
 		ft.lpstrText = t;
 
-		int flags = (nArgs > 2) ? luaL_checkint(L, 3) : 0;
+		int flags = (nArgs > 2) ? luaL_checkinteger(L, 3) : 0;
 		hasError = (flags == 0 && lua_gettop(L) > nArgs);
 
 		if (!hasError) {
 			if (nArgs > 3) {
-				ft.chrg.cpMin = static_cast<int>(luaL_checkint(L, 4));
+				ft.chrg.cpMin = static_cast<int>(luaL_checkinteger(L, 4));
 				hasError = (lua_gettop(L) > nArgs);
 			}
 		}
 
 		if (!hasError) {
 			if (nArgs > 4) {
-				ft.chrg.cpMax = static_cast<int>(luaL_checkint(L, 5));
+				ft.chrg.cpMax = static_cast<int>(luaL_checkinteger(L, 5));
 				hasError = (lua_gettop(L) > nArgs);
 			} else {
 				ft.chrg.cpMax = static_cast<long>(host->Send(p, SCI_GETLENGTH, 0, 0));
@@ -504,7 +500,7 @@ static int cf_match_replace(lua_State *L) {
 
 	host->Send(pmo->pane, SCI_SETTARGETSTART, pmo->startPos, 0);
 	host->Send(pmo->pane, SCI_SETTARGETEND, pmo->endPos, 0);
-	host->Send(pmo->pane, SCI_REPLACETARGET, lua_strlen(L, 2), SptrFromString(replacement));
+	host->Send(pmo->pane, SCI_REPLACETARGET, lua_rawlen(L, 2), SptrFromString(replacement));
 	pmo->endPos = static_cast<int>(host->Send(pmo->pane, SCI_GETTARGETEND, 0, 0));
 	return 0;
 }
@@ -595,9 +591,9 @@ static int cf_pane_match(lua_State *L) {
 		pmo->endPos = pmo->endPosOrig = 0;
 		pmo->flags = 0;
 		if (nargs >= 3) {
-			pmo->flags = luaL_checkint(L, 3);
+			pmo->flags = luaL_checkinteger(L, 3);
 			if (nargs >= 4) {
-				pmo->endPos = pmo->endPosOrig = luaL_checkint(L, 4);
+				pmo->endPos = pmo->endPosOrig = luaL_checkinteger(L, 4);
 				if (pmo->endPos < 0) {
 					raise_error(L, "Invalid argument 3 for <pane>:match.  Positive number or zero expected.");
 					return 0;
@@ -759,7 +755,7 @@ static int cf_global_dostring(lua_State *L) {
 	int nargs = lua_gettop(L);
 	const char *code = luaL_checkstring(L, 1);
 	const char *name = luaL_optstring(L, 2, code);
-	if (0 == luaL_loadbuffer(L, code, lua_strlen(L, 1), name)) {
+	if (0 == luaL_loadbuffer(L, code, lua_rawlen(L, 1), name)) {
 		lua_call(L, 0, LUA_MULTRET);
 		return lua_gettop(L) - nargs;
 	} else {
@@ -890,7 +886,7 @@ static int iface_function_helper(lua_State *L, const IFaceFunction &func) {
 	int loopParamCount = 2;
 
 	if (func.paramType[0] == iface_length && func.paramType[1] == iface_string) {
-		params[0] = lua_strlen(L, arg);
+		params[0] = lua_rawlen(L, arg);
 		params[1] = SptrFromString(params[0] ? lua_tostring(L, arg) : "");
 		loopParamCount = 0;
 	} else if ((func.paramType[1] == iface_stringresult) || (func.returnType == iface_stringresult)) {
@@ -1774,51 +1770,51 @@ struct StylingContext {
 
 	static int Line(lua_State *L) {
 		StylingContext *context = Context(L);
-		int position = luaL_checkint(L, 2);
+		int position = luaL_checkinteger(L, 2);
 		lua_pushinteger(L, context->styler->GetLine(position));
 		return 1;
 	}
 
 	static int CharAt(lua_State *L) {
 		StylingContext *context = Context(L);
-		int position = luaL_checkint(L, 2);
+		int position = luaL_checkinteger(L, 2);
 		lua_pushinteger(L, context->styler->SafeGetCharAt(position));
 		return 1;
 	}
 
 	static int StyleAt(lua_State *L) {
 		StylingContext *context = Context(L);
-		int position = luaL_checkint(L, 2);
+		int position = luaL_checkinteger(L, 2);
 		lua_pushinteger(L, context->styler->StyleAt(position));
 		return 1;
 	}
 
 	static int LevelAt(lua_State *L) {
 		StylingContext *context = Context(L);
-		int line = luaL_checkint(L, 2);
+		int line = luaL_checkinteger(L, 2);
 		lua_pushinteger(L, context->styler->LevelAt(line));
 		return 1;
 	}
 
 	static int SetLevelAt(lua_State *L) {
 		StylingContext *context = Context(L);
-		int line = luaL_checkint(L, 2);
-		int level = luaL_checkint(L, 3);
+		int line = luaL_checkinteger(L, 2);
+		int level = luaL_checkinteger(L, 3);
 		context->styler->SetLevel(line, level);
 		return 0;
 	}
 
 	static int LineState(lua_State *L) {
 		StylingContext *context = Context(L);
-		int line = luaL_checkint(L, 2);
+		int line = luaL_checkinteger(L, 2);
 		lua_pushinteger(L, context->styler->GetLineState(line));
 		return 1;
 	}
 
 	static int SetLineState(lua_State *L) {
 		StylingContext *context = Context(L);
-		int line = luaL_checkint(L, 2);
-		int stateOfLine = luaL_checkint(L, 3);
+		int line = luaL_checkinteger(L, 2);
+		int stateOfLine = luaL_checkinteger(L, 3);
 		context->styler->SetLineState(line, stateOfLine);
 		return 0;
 	}
@@ -1894,9 +1890,9 @@ struct StylingContext {
 
 	static int StartStyling(lua_State *L) {
 		StylingContext *context = Context(L);
-		unsigned int startPosStyle = luaL_checkint(L, 2);
-		unsigned int lengthStyle = luaL_checkint(L, 3);
-		int initialStyle = luaL_checkint(L, 4);
+		unsigned int startPosStyle = luaL_checkinteger(L, 2);
+		unsigned int lengthStyle = luaL_checkinteger(L, 3);
+		int initialStyle = luaL_checkinteger(L, 4);
 		context->StartStyling(startPosStyle, lengthStyle, initialStyle);
 		return 0;
 	}
@@ -1955,7 +1951,7 @@ struct StylingContext {
 	static int SetState(lua_State *L) {
 		StylingContext *context = Context(L);
 		context->Colourize();
-		context->state = luaL_checkint(L, 2);
+		context->state = luaL_checkinteger(L, 2);
 		return 0;
 	}
 
@@ -1963,13 +1959,13 @@ struct StylingContext {
 		StylingContext *context = Context(L);
 		context->Forward();
 		context->Colourize();
-		context->state = luaL_checkint(L, 2);
+		context->state = luaL_checkinteger(L, 2);
 		return 0;
 	}
 
 	static int ChangeState(lua_State *L) {
 		StylingContext *context = Context(L);
-		context->state = luaL_checkint(L, 2);
+		context->state = luaL_checkinteger(L, 2);
 		return 0;
 	}
 
