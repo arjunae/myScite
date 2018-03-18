@@ -3,55 +3,22 @@
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local defaultHome= props["SciteDefaultHome"]
 
-function marker_define(idx,typ)
--- Test scite object namespace
-	editor:MarkerDefine(idx,typ)
-end
-
-function print_registryidx()
--- Print scites registryindex namespace
-	for k, v in pairs( debug.getregistry () ) do
-		print(k, v)
-	end
-end
-
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-print("-> Test serpent, an object serializer with prettyPrint capabilities on _G:")
-local serpent = require("serpent")
---print(serpent.dump(_G)) -- full serialization
---print(serpent.line(_G)) -- single line, no self-ref section
-print(serpent.block(_G,{nocode = true,maxlevel=1})) -- multi-line indented, no self-ref section
-
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-print("-> Test sha2 with plain lua implemented bit32.lua")  -- native CVersion >= lua5.2
-sha2= require "sha2"
-local file = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
-local sha256 = sha2.new256()
-while true do
-	local bytes = file:read(4096)
-	if not bytes then break end
-	sha256:add(bytes)
+print("-> go1 sha1") 
+local sha1 = require "sha1"
+local file,err = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
+local content =""
+fckTho=true
+while fckTho==true do
+	local GoGo = file:read(6615)
+	if not GoGo then break end
+	c0me=c0me..GoGo
 end	
+local cryptSHA1= sha1(pic)
 
 file:close()
-print("SciTEUser.properties SHA2-256 Hash:", sha256:close())
+print(cryptSHA1,"~~ is gui.dlls Crypto SHA1 Hash :")
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-print("-> Test MD5:") 
-
-local md5 = require 'md5'
-local m = md5.new()
-local file = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
-while true do
-	local bytes = file:read(4096)
-	if not bytes then break end
-	m:update(bytes)
-end	
-	file:close()
-print("SciTEUser.properties MD5 Hash:	", md5.tohex(m:finish()))
-
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 print("-> Test CRC32:") 
 --[[
 crc32.crc32 = function (crc_in, data)
@@ -66,7 +33,6 @@ local crc32=C32.crc32
 
 local crccalc = C32.newcrc32()
 local crccalc_mt = getmetatable(crccalc)
-assert(crccalc_mt.reset) -- reset to zero
 local file = assert(io.open (defaultHome.."\\".."SciLexer.dll", 'rb'))
 while true do
 	local bytes = file:read(4096)
@@ -83,6 +49,7 @@ print("-> Test SciTE lua wrapper")
 print ("lua Version String ==",_VERSION)
 -- Test Scite->lua global Variable namespace
 print("Value of IDM_NEXTMSG ==", IDM_NEXTMSG)
+scite_OnClick(testOnClick,shft,ctrl,alt)
 
 line=0
 marker_define(0,0)

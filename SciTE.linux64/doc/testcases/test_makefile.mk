@@ -6,6 +6,7 @@
 # Make sure you have GNU Make, and type `make` in this Makefile folder.
 #
 
+
 # General Configuration
 VERSION         = 0.1.13
 FOUNDATION_HOME = $(shell pwd)/.foundation
@@ -127,7 +128,6 @@ menu-project: .title
 	@echo ""
 
 
-
 menu-package: .title
 	@make -s .menu-heading title="Package Description"
 	@make -s .menu-item tgt="package-ini" desc="Creates the basic package.ini file"
@@ -200,7 +200,6 @@ menu-dev: .title
 	@make -s .menu-item tgt="install-travis-lint" desc="Install travis-lint configuration checker - Requires ruby gems"
 	@make -s .menu-item tgt="install-uri-template" desc="Install uri_template a php extension. Might require sudo."
 	@echo ""
-
 
 
 menu-deploy: .title

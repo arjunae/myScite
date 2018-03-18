@@ -2833,7 +2833,6 @@ LUA_C89_NUMBERS	scite\lua\src\luaconf.h	80;"	d
 LUA_CDIR	scite\lua\src\luaconf.h	188;"	d
 LUA_CDIR	scite\lua\src\luaconf.h	204;"	d
 LUA_COLIBNAME	scite\lua\src\lualib.h	20;"	d
-LUA_COMPAT_5_1	scite\src\LuaExtension.cxx	28;"	d	file:
 LUA_COMPAT_APIINTCASTS	scite\lua\src\luaconf.h	329;"	d
 LUA_COMPAT_APIINTCASTS	scite\lua\src\luaconf.h	338;"	d
 LUA_COMPAT_BITLIB	scite\lua\src\luaconf.h	317;"	d
@@ -2901,7 +2900,7 @@ LUA_GCSETPAUSE	scite\lua\src\lua.h	308;"	d
 LUA_GCSETSTEPMUL	scite\lua\src\lua.h	309;"	d
 LUA_GCSTEP	scite\lua\src\lua.h	307;"	d
 LUA_GCSTOP	scite\lua\src\lua.h	302;"	d
-LUA_GLOBALSINDEX	scite\src\LuaExtension.cxx	40;"	d	file:
+LUA_GLOBALSINDEX	scite\src\LuaExtension.cxx	36;"	d	file:
 LUA_HOOKCALL	scite\lua\src\lua.h	402;"	d
 LUA_HOOKCOUNT	scite\lua\src\lua.h	405;"	d
 LUA_HOOKLINE	scite\lua\src\lua.h	404;"	d
@@ -11464,7 +11463,7 @@ lua_pushcclosure	scite\lua\src\lapi.c	/^LUA_API void lua_pushcclosure (lua_State
 lua_pushcfunction	scite\lua\src\lua.h	350;"	d
 lua_pushfstring	scite\lua\src\lapi.c	/^LUA_API const char *lua_pushfstring (lua_State *L, const char *fmt, ...) {$/;"	f	signature:(lua_State *L, const char *fmt, ...)
 lua_pushglobaltable	scite\lua\src\lua.h	363;"	d
-lua_pushglobaltable	scite\src\LuaExtension.cxx	38;"	d	file:
+lua_pushglobaltable	scite\src\LuaExtension.cxx	34;"	d	file:
 lua_pushinteger	scite\lua\src\lapi.c	/^LUA_API void lua_pushinteger (lua_State *L, lua_Integer n) {$/;"	f	signature:(lua_State *L, lua_Integer n)
 lua_pushlightuserdata	scite\lua\src\lapi.c	/^LUA_API void lua_pushlightuserdata (lua_State *L, void *p) {$/;"	f	signature:(lua_State *L, void *p)
 lua_pushliteral	scite\lua\src\lua.h	361;"	d

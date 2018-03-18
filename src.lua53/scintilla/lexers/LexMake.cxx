@@ -265,7 +265,7 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		// got the other End, copy the word:
-		if (IsAlphaNum(chNext) == 0 && strLen > 0) {
+		if ((IsAlphaNum(chNext) == 0 && strchr("-_", (int)chNext) == NULL ) && strLen > 0) {
 			strSearch=slineBuffer.substr(startMark, strLen);
 			startMark=currentPos-strLen+1; // words absolute position (styler)
 			strLen=0;

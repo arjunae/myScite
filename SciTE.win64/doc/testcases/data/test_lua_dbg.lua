@@ -1,4 +1,4 @@
--- test lua dbg => first start the debugger, then set the breakpoints.--
+-- test lua dbg 
 print("test")
 
 one=function(str)

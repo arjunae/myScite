@@ -6,6 +6,7 @@ REM for make debug version use:  make_with_VC.bat DEBUG
 
 SET buildContext=14.0
 SET arch=x86
+::SET arch=x64
 
 :: #############
 
