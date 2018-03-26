@@ -75,7 +75,7 @@ function markLinks()
 	end
 
 --	
--- Now mark any params and their Values - based in above text URLS
+-- Now mark any params and their Values - based ob above found text URL's
 -- http://www.test.de/?key1=test&key2=a12
 
 	-- Keys 
@@ -104,8 +104,8 @@ function markLinks()
 		local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)
 		while sB do
 			if editor:IndicatorValueAt(marker_a,sB)==1 then
-				EditorMarkText(sB+1, (eB-sB)-1, marker_c)
-			end -- common.lua
+				EditorMarkText(sB+1, (eB-sB)-1, marker_c) -- common.lua
+			end 
 			sB,eB = editor:findtext( mask_c, SCFIND_REGEXP, sB+1)
 		end
 	end

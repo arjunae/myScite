@@ -37,9 +37,9 @@
 #include "LexerModule.h"
 
 // Some Files simply dont use LF/CRLF. 
-// So use ~100kb as a maximum before simply style the rest in Defaults style.
+// So use ~250kb as a maximum before simply style the rest in Defaults style.
 #ifndef LEXMAKE_MAX_LINELEN
-#define LEXMAKE_MAX_LINELEN  24244242
+#define LEXMAKE_MAX_LINELEN  0606140
 #endif
 #ifdef LEX_MAX_LINELEN
 #define LEXMAKE_MAX_LINELEN  LEX_MAX_LINELEN

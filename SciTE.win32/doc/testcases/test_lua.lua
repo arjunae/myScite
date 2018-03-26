@@ -1,23 +1,24 @@
 -- go@ dofile $(FilePath) 
 -- ^^tell Scite to use its internal Lua interpreter.
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-local defaultHome= props["SciteDefaultHome"]
+defaultHome= props["SciteDefaultHome"]
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-print("-> go1 sha1") 
-local sha1 = require "sha1"
-local file,err = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
-local content =""
-fckTho=true
-while fckTho==true do
-	local GoGo = file:read(6615)
+print("-> go1 sha1 lol") 
+sha1 = require "sha1"
+ file,err = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
+ content =""
+ckTho=true
+c0=0
+while ckTho==true do
+	 GoGo = file:read(6615)
 	if not GoGo then break end
-	c0me=c0me..GoGo
+	c0=c0..GoGo
 end	
-local cryptSHA1= sha1(pic)
+cryptSHA1= sha1(c0)
 
 file:close()
-print(cryptSHA1,"~~ is gui.dlls Crypto SHA1 Hash :")
+print(cryptSHA1,"~~ Crypto SHA1 Hash :")
 
 print("-> Test CRC32:") 
 --[[
@@ -49,10 +50,3 @@ print("-> Test SciTE lua wrapper")
 print ("lua Version String ==",_VERSION)
 -- Test Scite->lua global Variable namespace
 print("Value of IDM_NEXTMSG ==", IDM_NEXTMSG)
-scite_OnClick(testOnClick,shft,ctrl,alt)
-
-line=0
-marker_define(0,0)
-editor:GotoLine(line+10)
-editor:MarkerAdd(line,0)
-editor:MarkerDelete(line,0)
