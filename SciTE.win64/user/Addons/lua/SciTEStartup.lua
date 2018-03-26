@@ -200,10 +200,7 @@ function OnInit()
 	scite_OnOpenSwitch(myScite_OpenSwitch)
 
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
--- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
---print("startupScript_reload")
---print(editor.StyleAt[1])
---print(props["Path"])
+-- print("startupScript_reload")
 
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
