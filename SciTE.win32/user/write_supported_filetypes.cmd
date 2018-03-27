@@ -21,5 +21,8 @@ for /F "delims=: eol=# tokens=3" %%E in (filetypes2.raw) do (
 ) 
 
 del *.raw?
+echo.
+echo ....Registering Filetypes....
+cscript /NOLOGO add_scite_filetypes.vbs
 popd
 pause
