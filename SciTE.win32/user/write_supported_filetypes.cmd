@@ -7,7 +7,7 @@
 ::
 
 pushd %~dp0%
-if exist filetypes?.* del filetypes?.*
+if exist scite_filetypes?.* del scite_filetypes?.*
 
 :main
 
