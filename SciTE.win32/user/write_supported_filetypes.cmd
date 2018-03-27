@@ -16,7 +16,7 @@ FINDSTR /SI "^file.patterns." *.properties > filetypes1.raw
 FINDSTR /SIV "$(" filetypes1.raw > filetypes2.raw
 
 for /F "delims=: eol=# tokens=3" %%E in (filetypes2.raw) do (
- echo %%E>>filetypes.v190.txt
+ echo %%E>>scite_filetypes.txt
  echo %%E
 ) 
 
