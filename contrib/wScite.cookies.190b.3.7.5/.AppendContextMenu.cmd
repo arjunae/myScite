@@ -6,20 +6,20 @@ REM
 REM  Add Scite to Explorers Context Menu. (for win7+)
 REM  -> Provides "open with SciTE" and "open SciTE here" 
 REM  -> Register SciTE to Windows known Applications List
-REM  - Creates a regfile which can either imported manually or automagically -
+REM  - Creates a regfile which can either be manually or automagically imported -
 REM
 REM :: Created Jul 2016, Marcedo@HabmalneFrage.de
 REM :: URL: https://sourceforge.net/projects/scite-webdev/?source=directory
-REM - Reference: https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx
+REM :: Application Registering Reference: https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx
 REM - Aug16 - Search for %cmd% in actual and up to 2 parent Directories / Use full qualified path. 
 REM - Okto16 - create / reset Program Entry RegistryKey  
 REM - Nov16 - reactos fix
 REM - Mai17 - "open Scite Here"
-REM - Mar18 - "ability to register  myScites Filetypes"
+REM - Mar18 - "ability to register myScites Filetypes"
 REM 
 REM ::--::--::--::--Steampunk--::-::--::--::
 
-REM Normally REM means a comment line but we also use the defacto shortform ::
+REM Normally, the keyword REM identifies a comment - line but we also use the defacto shortform ::
 REM Exception: some Dos parsers dont fully support :: within loops, so definately use REM there.
  
  pushd %~dp0%
@@ -36,7 +36,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  IF EXIST %file_name% (  set scite_filepath="%file_name%"  ) 
  IF EXIST ..\%file_name% (  set scite_filepath=.".\%file_name%"  ) 
  IF EXIST ..\..\%file_name% ( set scite_filepath="..\..\%file_name%") 
- IF NOT EXIST %scite_filepath% (call :sub_fail_cmd) else (call :sub_continue ) 
+ IF NOT EXIST %scite_filepath% ( call :sub_fail_cmd ) else ( call :sub_create_file ) 
 
  REM  -- Code Continues here --
  echo. --
@@ -76,8 +76,9 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  :: -- Clean up --
  del /Q %tmp%\scite.tmp >NUL
  goto :freunde
+:end_sub_main
  
-:sub_continue
+:sub_create_file
 
  REM -- Search in %scite_cmd%, expand its path to scite_path
  FOR /D  %%I IN (%scite_filepath%) do echo %%~fI > %tmp%\scite.tmp
@@ -131,7 +132,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
   set file_namepath="\"%scite_path%\\%file_name%\""
  )
 
-:: The following simple mechanism registers Scite to Windows known Applications.
+ :: The following simple mechanism registers Scite to Windows known Applications.
  echo ; -- Update Program Entry >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
@@ -145,8 +146,8 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo @="%scite_path%\\%file_name%,0" >> %RegFile%
  echo. >> %RegFile%
  
-:: Include Scite within the Explorers Context menu "open With" list 
-:: When a System already has some Apps installed, the new SciTE Entry will appear within the ("more Apps") submenu.   
+ :: Include Scite within the Explorers Context menu "open With" list 
+ :: When a System already has some Apps installed, the new SciTE Entry will appear within the ("more Apps") submenu.   
  echo ; -- Update Explorers "open with" list >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] >> %RegFile%
@@ -156,8 +157,8 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo ".*"="">> %RegFile%
  echo. >> %RegFile%
  
-:: Register Scite to be known for windows "start" command
-:: https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx
+ :: Register Scite to be known for windows "start" command
+ :: https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx
  echo ; -- Register Scite to be known for windows "start" command >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
@@ -172,7 +173,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  
  :: echo ..... Finished writing to  %RegFile% ....
  exit /b
- :end_sub
+:end_sub_create_file
 
 :sub_fail_cmd
  echo.
@@ -181,7 +182,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo ...any key...
  pause >NUL
 exit
-:end_sub
+:end_sub_fail_cmd
 
 :sub_fail_reg
  echo.
@@ -190,10 +191,11 @@ exit
  echo ... any key ...
  pause >NUL
 exit
-:end_sub
+:end_sub_fail_reg
 
 :freunde
 :: wait some time...
 ::ping 1.0.3.0 /n 1 /w 3000 >NUL
 echo Now, please press your favorite key to be Done. HanD! 
 pause >NUL
+:end_sub_freunde
