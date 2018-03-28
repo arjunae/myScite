@@ -15,9 +15,13 @@ REM - Aug16 - Search for %cmd% in actual and up to 2 parent Directories / Use fu
 REM - Okto16 - create / reset Program Entry RegistryKey  
 REM - Nov16 - reactos fix
 REM - Mai17 - "open Scite Here"
+REM - Mar18 - "ability to register  myScites Filetypes"
 REM 
 REM ::--::--::--::--Steampunk--::-::--::--::
 
+REM Normally REM means a comment line but we also use the defacto shortform ::
+REM Exception: some Dos parsers dont fully support :: within loops, so definately use REM there.
+ 
  pushd %~dp0%
 
 :sub_main
@@ -40,6 +44,9 @@ REM ::--::--::--::--Steampunk--::-::--::--::
  echo. --
  echo. 
  
+ :: Give the User the option to manually edit the generated File.
+ :: When "manual Installation" has been chosen, just copy the generated reg import file to currentUsers Desktop.
+ 
  choice /C AM /M "Press [A] for automatic Install or [M] If you want to do that manually" 
  if %ERRORLEVEL% == 1 regedit %regfile%
  if %ERRORLEVEL% == 2 (
@@ -56,13 +63,16 @@ REM ::--::--::--::--Steampunk--::-::--::--::
   echo.
  )
  
+ :: Parses all .properties files and Registers their contained Filetypes 
+ call user\write_supported_filetypes /quite
+
  echo   ---------------------------------------------
  echo   Work Done - I hope you had a nice time !
  echo.  :) Greetings to you from Deutschland, Darmstadt :) 
- echo   ---------------------------------------------
+ echo   --------------------------------------------
  echo.
  
- :: -- Clean up...
+ :: -- Clean up --
  del /Q %tmp%\scite.tmp >NUL
  goto :freunde
  
