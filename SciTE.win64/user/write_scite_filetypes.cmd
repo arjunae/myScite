@@ -9,8 +9,12 @@
 pushd %~dp0%
 if exist scite_filetypes?.* del scite_filetypes?.*
 
-:main
+if ["%1"] equ ["/quite"] goto main
+echo About to soft-register Filetypes with mySciTE
+call choice /C YN /M " Continue?  Yes/No" 
+if %ERRORLEVEL% == 2 goto ende
 
+:main
 :: collect file.patterns from all properties, ( prefixed with properties filname)
 FINDSTR /SI "^file.patterns." *.properties > filetypes1.raw
 
@@ -30,4 +34,6 @@ cscript /NOLOGO add_scite_filetypes.vbs
 echo  .. parsed %ERRORLEVEL% Entries ..
 echo.
 popd
+
+:ende
 pause
