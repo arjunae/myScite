@@ -13,18 +13,18 @@
  Const HKEY_LOCAL_MACHINE	= &H80000002
  Const HKEY_USERS								= &H80000003
 
- ' Ther's much depreceated Information in the Net, even from MS  still refers to use machine wide HKCR for file Exts.
+ ' Ther's much depreceated Information in the Net, even from MS which still refers to use machine wide HKCR for file Exts.
  ' But modifying that mostly needs root privs to change and myScite has dropped to be XP Compatible for a while now. 
- ' So we rely to use HKCU to reach our goals  and dont require admi privs - since we only touch stuff within our own User profile.
+ ' So we rely to use HKCU to reach our goals  and dont require admin privs - since we only touch stuff within our own User profile.
 
  Const FILE_EXT_PATH	= "Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\"
  if instr(1,wscript.fullName,"cscript") then bConsole=true
 
- 
  function main()
   Dim cntExt ' contains the number of written fileExts.
   Dim cntTyp ' contains the number of parsed myScite fileTypes
-  ' Open myScites known filetype List.
+
+  ' Open myScites known filetypes List.
   Set oFso = CreateObject("scripting.FilesystemObject")
   Set oFileExt = oFso.OpenTextFile("scite_filetypes.txt", 1, True) ' forRead, CreateFlag
   if  isNull(oFileExt) then Wscript.echo("scite_filetypes.txt not found") 
@@ -49,11 +49,11 @@
      'if bConsole then wscript.echo(" ..Registering: " & strDesc)
      ' Create an Array from the gathered Stuff.
      ' Iterate through and register each filetype. 
-     arrExt =split(strExt,";")
+     arrExt=split(strExt,";")
      for each strEle in arrExt
        if left(strEle,1)="." then
         cntExt=cntExt+1         
-        result= assoc_ext_with_scite(strEle)
+        result=assoc_ext_with_scite(strEle)
        end if
      next
     
@@ -66,7 +66,7 @@
      strExt=strExt+sChar
    end if 
    
-   if sChar="=" Then startMark=1
+   if sChar= "=" Then startMark=1
   wend
 
   oFileExt.close()
@@ -80,7 +80,7 @@
  private function assoc_ext_with_scite(fileExt) 
 
  ' VbScript WTF.. If you init that object only once for reusal, its creating unpredictable entries within the registry...
- ' Took me the half the day to get to that perfectly "amusing" Fact 
+ ' Took me half the day to get to that "perfectly amusing" Fact. 
  Dim objReg ' Initialize WMI service and connect to the class StdRegProv
  strComputer = "." ' Computer name to be connected - '.' refers to the local machine
  Set objReg=GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strComputer & "\root\default:StdRegProv")
@@ -88,14 +88,31 @@
  Dim iKeyExist
  Dim strComputer
 
+ Dim autofileExt
+
+   autofileExt=replace(fileExt,".","") & "_auto_file"   
+  
+   ' ... yodaForce ...
+   ' handle eventually defect Etries by starting Clean with every not currently used handler resetted.
+ 
    ' enumKey Method: https://msdn.microsoft.com/de-de/library/windows/desktop/aa390387(v=vs.85).aspx
    ' Returns: 0==KeyExist, 2==KeyNotExist 
-   iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH & fileExt	, arrSubkeys) 
+   iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH & fileExt & "\UserChoice"	, arrSubkeys)   
+  
+   ' Dont reset the ext if a user already selected a program to handle that. 
+   if iKeyExist = 2 and Err.Number = 0 Then  
+    result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH  & fileExt & "\openWithList")
+    result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH  & fileExt & "\openWithProgIDs")
+    result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH  & fileExt)
+    result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & autofileExt& "\shell\open\command")
+   end if
    
-    'result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH  & fileExt)
-    
+   ' ...Key (re)creation starts here....
+   
+   iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH & fileExt & "\OpenWithProgIDs"	, arrSubkeys) 
+        
    ' Create it if it does not exist
-   ' CreateKey Method -
+   ' CreateKey Method - https://msdn.microsoft.com/en-us/library/aa389385(v=vs.85).aspx
    if iKeyExist = 2 and Err.Number = 0 Then	
     result = result + objReg.CreateKey(HKEY_CURRENT_USER, FILE_EXT_PATH  & fileExt)
     result = result + objReg.CreateKey(HKEY_CURRENT_USER, FILE_EXT_PATH  & fileExt & "\OpenWithList")
@@ -110,7 +127,7 @@
     result = result + objReg.setStringValue(HKEY_CURRENT_USER, FILE_EXT_PATH & fileExt & "\OpenWithList","MRUList","ya")
     result = result + objReg.setStringValue(HKEY_CURRENT_USER, FILE_EXT_PATH & fileExt & "\OpenWithProgIDs","Applications\Scite.exe","")
    End If
-   
+
    ' Above Stuff returns Zero on success.
    ' if anything gone wrong, we will see that here:
    'wscript.Echo("Status: Error? " & Err.Number & " resultCode? " & result)

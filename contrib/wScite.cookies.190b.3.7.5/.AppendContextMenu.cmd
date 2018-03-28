@@ -65,7 +65,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  
  :: Parses all .properties files and Registers their contained Filetypes 
  if %ERRORLEVEL% neq 0 goto sub_fail_reg
- call user\write_supported_filetypes /quite
+ call user\write_scite_filetypes /quite
  
  echo   ---------------------------------------------
  echo   Work Done - I hope you had a nice time !
