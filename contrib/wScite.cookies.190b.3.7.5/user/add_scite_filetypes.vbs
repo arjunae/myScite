@@ -18,6 +18,8 @@
  ' So we rely to use HKCU to reach our goals  and dont require admin privs - since we only touch stuff within our own User profile.
 
  Const FILE_EXT_PATH	= "Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\"
+ Const FILE_EXT_PATH_CLS	= "Software\Microsoft\Classes\"
+
  if instr(1,wscript.fullName,"cscript") then bConsole=true
 
  function main()
@@ -79,34 +81,48 @@
   
  private function assoc_ext_with_scite(fileExt) 
 
- ' VbScript WTF.. If you init that object only once for reusal, its creating unpredictable entries within the registry...
+ ' VbScript WTF.. If you init that object below only once for reusal, its creating unpredictable entries within the registry...
  ' Took me half the day to get to that "perfectly amusing" Fact. 
+ 
  Dim objReg ' Initialize WMI service and connect to the class StdRegProv
  strComputer = "." ' Computer name to be connected - '.' refers to the local machine
  Set objReg=GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strComputer & "\root\default:StdRegProv")
 
  Dim iKeyExist
  Dim strComputer
-
  Dim autofileExt
 
    autofileExt=replace(fileExt,".","") & "_auto_file"   
   
    ' ... yodaForce ...
-   ' handle eventually defect Etries by starting Clean with every not currently used handler resetted.
+   ' handle eventually defect Entries by starting Clean with every not currently used handler resetted.
  
    ' enumKey Method: https://msdn.microsoft.com/de-de/library/windows/desktop/aa390387(v=vs.85).aspx
    ' Returns: 0==KeyExist, 2==KeyNotExist 
    iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH & fileExt & "\UserChoice"	, arrSubkeys)   
   
    ' Dont reset the ext if a user already selected a program to handle that. 
-   if iKeyExist = 2 and Err.Number = 0 Then  
-    result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH  & fileExt & "\openWithList")
-    result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH  & fileExt & "\openWithProgIDs")
-    result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH  & fileExt)
-    result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & autofileExt& "\shell\open\command")
-   end if
-   
+   ' DeleteKey cant handle recursion itself, so put a little wrapper around:
+		if iKeyExist = 2 and Err.Number = 0 Then  
+     ' Reset the ext in currentUser\...\Explorer
+			result= objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH & fileExt	, arrSubkeys)   
+			if result=0 then 
+        for each subKey in arrSubKeys
+           'if bConsole then wscript.echo("Removed:" & "HKCU\" & FILE_EXT_PATH & fileext & "\" &subKey)
+          result= objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH &  subKey)   			
+        next
+      end if
+
+      ' Also reset that fileExt within currentUser\Applications
+      result = objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & fileExt	, arrSubkeys)   
+      if result=0 then 
+        for each subKey in arrSubKeys
+           'if bConsole then wscript.echo("Removed:" & "HKCU\" & FILE_EXT_PATH_CLS & fileext & "\" &subKey)
+          result= objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS &  subKey)   			
+        next
+      end if
+		end if
+  
    ' ...Key (re)creation starts here....
    
    iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH & fileExt & "\OpenWithProgIDs"	, arrSubkeys) 
@@ -121,7 +137,8 @@
 
    ' Modify the Key
    ' SetStringValue Method - http://msdn.microsoft.com/en-us/library/windows/desktop/aa393600(v=vs.85).aspx		
-   if Err.Number = 0 then	
+   if result=0 and Err.Number = 0 then	
+   '1AC14E77-02E7-4E5D-B744-2EB1AE5198B7 is the UUID equivalent for %systemroot%\system32
     result = result + objReg.setStringValue(HKEY_CURRENT_USER, FILE_EXT_PATH & fileExt & "\OpenWithList","a","{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\OpenWith.exe")  
     result = result +  objReg.setStringValue(HKEY_CURRENT_USER, FILE_EXT_PATH & fileExt & "\OpenWithList","y","SciTE.exe")
     result = result + objReg.setStringValue(HKEY_CURRENT_USER, FILE_EXT_PATH & fileExt & "\OpenWithList","MRUList","ya")
@@ -134,7 +151,7 @@
 
    if result=0 and Err.Number = 0 then 
     assoc_ext_with_scite=0
-    ' wscript.echo("Created / Modified fileExt " & fileExt )
+    if bConsole then wscript.echo("Created / Modified fileExt " & fileExt )
    else
     assoc_ext_with_scite=2
    end if
