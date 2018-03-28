@@ -3,10 +3,10 @@
 
 REM  ::--::--::--::--Steampunk--::-::--::--::
 REM
-REM  Add Scite to Explorers Context Menu. 
+REM  Add Scite to Explorers Context Menu. (for win7+)
 REM  -> Provides "open with SciTE" and "open SciTE here" 
 REM  -> Register SciTE to Windows known Applications List
-REM  - Creates a regfile which has to be imported manally. -
+REM  - Creates a regfile which can either imported manually or automagically -
 REM
 REM :: Created Jul 2016, Marcedo@HabmalneFrage.de
 REM :: URL: https://sourceforge.net/projects/scite-webdev/?source=directory
@@ -64,8 +64,9 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  )
  
  :: Parses all .properties files and Registers their contained Filetypes 
+ if %ERRORLEVEL% neq 0 goto sub_fail_reg
  call user\write_supported_filetypes /quite
-
+ 
  echo   ---------------------------------------------
  echo   Work Done - I hope you had a nice time !
  echo.  :) Greetings to you from Deutschland, Darmstadt :) 
@@ -178,6 +179,15 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo Please fix: %file_name% was'nt found or Filename did'nt match variable "file_name"
  echo ...Try to copy this file to scites root dir...
  echo ...any key...
+ pause >NUL
+exit
+:end_sub
+
+:sub_fail_reg
+ echo.
+ echo ... User Aborted registry Import
+ echo ... No changes were made ...
+ echo ... any key ...
  pause >NUL
 exit
 :end_sub
