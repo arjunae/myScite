@@ -94,11 +94,16 @@
    end if
  end function
  
+ ' VbScript WTF.. If you init that objRe only once for reusal in globalSope, its creating unpredictable entries within the registry...
+ ' Took me half the day to get to that "perfectly amusing" Fact. 
  
  private function Assoc_ext_with_scite(fileExt) 
-
- ' VbScript WTF.. If you init that object below only once for reusal, its creating unpredictable entries within the registry...
- ' Took me half the day to get to that "perfectly amusing" Fact. 
+ '
+ ' Registers all mySite known Filetypes
+ '
+ 
+ 'todo - handle special: .bas .hta .js .msi .ps1 .reg .vb .vbs .wsf in Key UseLocalMachineSoftwareClassesWhenImpersonating
+ 'Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileAssociation
  
  Dim objReg ' Initialize WMI service and connect to the class StdRegProv
  strComputer = "." ' Computer name to be connected - '.' refers to the local machine
