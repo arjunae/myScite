@@ -1,5 +1,5 @@
 @echo off
-
+chcp 65001 1>NUL
 ::
 :: 1) Export property "file.patterns" from all property files
 :: 2) Keep only base entries (which dont use references) 
@@ -12,12 +12,12 @@ pushd %~dp0%
 if exist scite_filetypes?.* del scite_filetypes?.*
 
 if ["%1"] equ ["/quite"] goto main
-echo  ..About to soft-register Filetypes with mySciTE
+echo   ..About to soft-register Filetypes with mySciTE
 call choice /C YN /M " Continue?  Yes/No" 
 if %ERRORLEVEL% == 2 goto ende
 
 :main
-echo  ..Creating %DataFile%
+echo  .. Creating %DataFile%
 :: collect file.patterns from all properties, ( prefixed with properties filname)
 FINDSTR /SI "^file.patterns." *.properties > filetypes1.raw
 

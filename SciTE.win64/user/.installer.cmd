@@ -1,6 +1,6 @@
 @echo off
 ::mode 112,20
-
+chcp 65001 1>NUL
 REM  ::--::--::--::--Steampunk--::-::--::--::
 REM
 REM  Add Scite to Explorers Context Menu. (for win7+)
@@ -65,7 +65,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  
  :: Parses all .properties files and Registers their contained Filetypes 
  if %ERRORLEVEL% neq 0 goto sub_fail_reg
- call user\write_scite_filetypes /quite
+ call write_scite_filetypes /quite
  
  echo   ---------------------------------------------
  echo   Work Done - I hope you had a nice time !
