@@ -7,6 +7,7 @@ REM  Add Scite to Explorers Context Menu. (for win7+)
 REM  -> Provides "open with SciTE" and "open SciTE here" 
 REM  -> Register SciTE to Windows known Applications List
 REM  - Creates a regfile which can either be manually or automagically imported -
+REM  - Parses SciTE understood Filetypes and Registers them with Explorer - 
 REM
 REM :: Created Jul 2016, Marcedo@HabmalneFrage.de
 REM :: URL: https://sourceforge.net/projects/scite-webdev/?source=directory
@@ -49,10 +50,10 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo. --
  echo. 
  
- :: Give the User the option to manually edit the generated File.
+ :: Give the User the option to manually edit/import the generated File.
  :: When "manual Installation" has been chosen, just copy the generated reg import file to currentUsers Desktop.
  
- choice /C AM /M "Press [A] for automatic Install or [M] If you want to do that manually" 
+ choice /C AM /M " -- Press [A] for automatic Install or [M] If you want to do that manually" 
  if %ERRORLEVEL% == 1 regedit %regfile%
  if %ERRORLEVEL% == 2 (
   echo. .... Ok- Now opening %regfile% for editing .... 
@@ -68,9 +69,17 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
   echo.
  )
  
- :: Parses all .properties files and Registers their contained Filetypes 
  if %ERRORLEVEL% neq 0 goto sub_fail_reg
- call user\write_scite_filetypes /quite
+ 
+ :: Ask if the User wants FileType Registration
+ echo  .. Register SciTE with understood Filetypes?
+ echo  .. (Doesnt overwrite already made associations)  
+ choice /C YN /M " -- [Yes/No]" 
+
+ :: Parses all .properties files and Registers their contained Filetypes 
+ if %ERRORLEVEL% == 1 (
+   call write_scite_filetypes /quite
+ )
  
  echo   ---------------------------------------------
  echo   Work Done - I hope you had a nice time !
