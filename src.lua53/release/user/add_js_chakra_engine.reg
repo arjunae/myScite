@@ -1,0 +1,13 @@
+Windows Registry Editor Version 5.00
+; Enable "chakra" engine (~ecmaScript 1.9) for use with cscript
+; http://stackoverflow.com/questions/7167690/what-is-the-progid-or-clsid-for-ie9s-javascript-engine-code-named-chakra
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\chakra]
+@="chakra"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\chakra\CLSID]
+@="{16d51579-a30b-4c8b-a276-0ff4dc41e755}"
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Classes\chakra\OLEScript]
+
+;use with cscript.exe  <file>  //E:chakra

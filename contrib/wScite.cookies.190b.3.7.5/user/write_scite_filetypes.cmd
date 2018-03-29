@@ -9,7 +9,7 @@ chcp 65001 1>NUL
 set DataFile=scite_filetypes.txt
 
 pushd %~dp0%
-if exist scite_filetypes?.* del scite_filetypes?.*
+if exist scite_filetypes?.txt del scite_filetypes?.txt
 
 if ["%1"] equ ["/quite"] goto main
 echo   ..About to soft-register Filetypes with mySciTE
@@ -33,7 +33,7 @@ for /F "delims=: eol=# tokens=3" %%E in (filetypes2.raw) do (
 del *.raw?
 echo.
 echo  .. Parsing Filetypes in %DataFile% ..
-cscript /NOLOGO add_scite_filetypes.vbs
+cscript /NOLOGO scite_filetypes.vbs install
 echo  .. done with %ERRORLEVEL% Entries ..
 echo.
 popd

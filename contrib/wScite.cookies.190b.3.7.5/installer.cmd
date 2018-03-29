@@ -2,4 +2,5 @@
 setlocal enabledelayedexpansion
 ::mode 112,20
 chcp 65001 1>NUL
-call user\.installer
+cd user
+.installer
