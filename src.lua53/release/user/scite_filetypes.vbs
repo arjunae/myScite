@@ -43,19 +43,22 @@
   
   ' Open myScites known filetypes List.
   Set oFso = CreateObject("scripting.FilesystemObject")
-  Set ostrFileExt = oFso.OpenTextFile("scite_filetypes.txt", 1, True) ' forRead, CreateFlag
-  if  isNull(ostrFileExt) then Wscript.echo("scite_filetypes.txt not found") 
-
+  Set oFileExt = oFso.OpenTextFile("scite_filetypes.txt", 1, True) ' forRead, CreateFlag
+  if  isNull(oFileExt) then
+   Wscript.echo("scite_filetypes.txt not found") 
+   exit function
+  end if
+   
   ' Iterate through. Treat lines beginning with # as a comment. 
-  while Not ostrFileExt.AtEndOfStream
+  while Not oFileExt.AtEndOfStream
    dim strExt, startMark,arrExt
 
-   sChar = ostrFileExt.Read(1)
-   if sChar="#" Then ostrFileExt.SkipLine ' Comment
+   sChar = oFileExt.Read(1)
+   if sChar="#" Then oFileExt.SkipLine ' Comment
    
    ' Just in case someone edited the file to be partly UNiX Formatted
    if  sChar=vbCR or sChar=vbLF  then 
-     ostrFileExt.SkipLine()
+     oFileExt.SkipLine()
      cntTyp=cntTyp+1
      
      ' Remove trash from the result
@@ -87,7 +90,7 @@
    if sChar= "=" Then startMark=1
   wend
 
-  ostrFileExt.close()
+  oFileExt.close()
   'MsgBox("Status:" & cntExt & "Einträge verarbeitet" )
   main=cntTyp
  end function
@@ -146,8 +149,8 @@
      result=ClearKey(objReg,HKEY_CURRENT_USER , FILE_EXT_PATH & strFileExt)
      ' Also Clear the strFileExt within currentUser\Applications
      result=ClearKey(objReg,HKEY_CURRENT_USER ,  FILE_EXT_PATH_CLS &  autofileExt)
-     ' Optional: Clear the autostrFileExt within Depreceated HKCR
-     result=ClearKey(objReg,HKEY_CLASSES_ROOT ,  autostrFileExt)
+     ' Optional: Clear the autoFileExt within Depreceated HKCR
+     result=ClearKey(objReg,HKEY_CLASSES_ROOT ,  autoFileExt)
     end if
   
    ' ...Key (re)creation starts here....
