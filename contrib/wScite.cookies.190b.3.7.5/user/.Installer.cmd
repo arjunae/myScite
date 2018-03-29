@@ -33,9 +33,14 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
 
  REM -- this batch can reside in a subdir to support a more clean directory structure
  :: -- Check for and write path of %file_name% in scite_filepath
- IF EXIST %file_name% (  set scite_filepath="%file_name%"  ) 
- IF EXIST ..\%file_name% (  set scite_filepath=.".\%file_name%"  ) 
- IF EXIST ..\..\%file_name% ( set scite_filepath="..\..\%file_name%") 
+ 
+ :loop
+   set /a dir_count += 1
+   if %dir_count% geq 10 (goto end_loop) else (cd ..)
+   if exist %file_name% (set scite_filepath=%cd%\%file_name% && goto end_loop)	
+   goto loop 
+ :end_loop
+ popd
  IF NOT EXIST %scite_filepath% ( call :sub_fail_cmd ) else ( call :sub_create_file ) 
 
  REM  -- Code Continues here --
@@ -65,7 +70,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  
  :: Parses all .properties files and Registers their contained Filetypes 
  if %ERRORLEVEL% neq 0 goto sub_fail_reg
- call write_scite_filetypes /quite
+ call user\write_scite_filetypes /quite
  
  echo   ---------------------------------------------
  echo   Work Done - I hope you had a nice time !
@@ -104,11 +109,16 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  set scite_path_cwd=%str%
 
  REM -- Define usable comand line options for SciTE here
- set RegFile=%tmp%\add.scite.to.context.menu.reg
+ set RegFile=%tmp%\scite_install.reg
  set scite_cmd_cwd=-CWD:%scite_path_cwd%
  set scite_cmd_open=-open new.txt
  set file_namepath=\"%scite_path%\\%file_name%\"  
 
+ REM WorkAround Reactos 0.4.2 Bug.
+ IF [%FIX_REACTOS%]==[1] ( 
+  set file_namepath="\"%scite_path%\\%file_name%\""
+ )
+ 
  REM Short Explanation
  REM -- Finally, write the .reg file, \" escapes double quotes
  REM -- using the safe way here. Windows will automatically update all needed Entries. 
@@ -132,7 +142,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
   set file_namepath="\"%scite_path%\\%file_name%\""
  )
 
- :: The following simple mechanism registers Scite to Windows known Applications.
+:: The following simple mechanism registers Scite to Windows known Applications.
  echo ; -- Update Program Entry >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
@@ -146,8 +156,8 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo @="%scite_path%\\%file_name%,0" >> %RegFile%
  echo. >> %RegFile%
  
- :: Include Scite within the Explorers Context menu "open With" list 
- :: When a System already has some Apps installed, the new SciTE Entry will appear within the ("more Apps") submenu.   
+:: Include Scite within the Explorers Context menu "open With" list 
+:: When a System already has some Apps installed, the new SciTE Entry will appear within the ("more Apps") submenu.   
  echo ; -- Update Explorers "open with" list >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] >> %RegFile%
@@ -157,8 +167,8 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo ".*"="">> %RegFile%
  echo. >> %RegFile%
  
- :: Register Scite to be known for windows "start" command
- :: https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx
+:: Register Scite to be known for windows "start" command
+:: https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx
  echo ; -- Register Scite to be known for windows "start" command >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
@@ -172,7 +182,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo ; [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
  
  :: echo ..... Finished writing to  %RegFile% ....
- exit /b
+ exit /b 0
 :end_sub_create_file
 
 :sub_fail_cmd
