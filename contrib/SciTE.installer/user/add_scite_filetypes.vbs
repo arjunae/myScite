@@ -114,12 +114,13 @@
       end if
 
       ' Also reset that fileExt within currentUser\Applications
-      result = objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & fileExt	, arrSubkeys)   
-      if result=0 then 
+      iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & fileExt	, arrSubkeys)   
+      if iKeyExist=0 then 
         for each subKey in arrSubKeys
            'if bConsole then wscript.echo("Removed:" & "HKCU\" & FILE_EXT_PATH_CLS & fileext & "\" &subKey)
           result= objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS &  subKey)   			
         next
+        result= objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS &  autofileExt & "\shell\open\command") 
       end if
 		end if
   

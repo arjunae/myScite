@@ -78,8 +78,24 @@
 
 
  ' ~~~~ Functions
-  
- private function assoc_ext_with_scite(fileExt) 
+
+ private function ClearKey(objReg, iRootKey, strRegKey)
+ '
+ ' DeleteKey cant handle recursion itself so put a little wrapper around:
+ ' (Only Delete the SubKeys, dont Delete the Key itself) 
+ '
+  dim iKeyExist, arrSubkeys
+    iKeyExist = objReg.EnumKey(iRootKey , strRegKey	, arrSubkeys)   
+    if iKeyExist=0 then 
+      for each strSubKey in arrSubKeys
+         'if bConsole then wscript.echo("Removed: " & strRegKey & "\" & strSubKey)
+        ClearKey= objReg.DeleteKey(iRootKey , strRegKey & "\" & strSubKey)   			
+      next
+   end if
+ end function
+ 
+ 
+ private function Assoc_ext_with_scite(fileExt) 
 
  ' VbScript WTF.. If you init that object below only once for reusal, its creating unpredictable entries within the registry...
  ' Took me half the day to get to that "perfectly amusing" Fact. 
@@ -102,25 +118,13 @@
    iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH & fileExt & "\UserChoice"	, arrSubkeys)   
   
    ' Dont reset the ext if a user already selected a program to handle that. 
-   ' DeleteKey cant handle recursion itself, so put a little wrapper around:
-		if iKeyExist = 2 and Err.Number = 0 Then  
-     ' Reset the ext in currentUser\...\Explorer
-			result= objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH & fileExt	, arrSubkeys)   
-			if result=0 then 
-        for each subKey in arrSubKeys
-           'if bConsole then wscript.echo("Removed:" & "HKCU\" & FILE_EXT_PATH & fileext & "\" &subKey)
-          result= objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH &  subKey)   			
-        next
-      end if
-
-      ' Also reset that fileExt within currentUser\Applications
-      result = objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & fileExt	, arrSubkeys)   
-      if result=0 then 
-        for each subKey in arrSubKeys
-           'if bConsole then wscript.echo("Removed:" & "HKCU\" & FILE_EXT_PATH_CLS & fileext & "\" &subKey)
-          result= objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS &  subKey)   			
-        next
-      end if
+ 		if iKeyExist = 2 and Err.Number = 0 Then 
+     ' Clear the FileExt in currentUser\....\FileExts
+     result=ClearKey(objReg,HKEY_CURRENT_USER , FILE_EXT_PATH & fileExt)
+     ' Also Clear the fileExt within currentUser\Applications
+     result=ClearKey(objReg,HKEY_CURRENT_USER ,  FILE_EXT_PATH_CLS &  autofileExt)
+     ' Optional: Clear the autofileExt within Depreceated HKCR
+     result=ClearKey(objReg,HKEY_CLASSES_ROOT ,  autofileExt)
 		end if
   
    ' ...Key (re)creation starts here....
@@ -157,4 +161,5 @@
    end if
  end function
 
+ 
  wscript.quit(main)
