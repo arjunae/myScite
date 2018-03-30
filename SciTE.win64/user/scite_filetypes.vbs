@@ -1,23 +1,28 @@
  ' Objective
  '======================================================
+ '
  ' This sample VBScript is for (re)setting file associations for SciTE
  ' Just writes itself at the end of suggested Apps in the "open File" Dialogue
  ' so former choosen Apps keep their precedence until the User chooses otherwise.
  '
- ' written in "WonderFull" vbs - as Powershell is really bloaty.
+ ' Written in heavenly "WonderFull" vbs - as i do think that Powershell is really bloaty.
  ' Refer the below link for StdRegProv WMI class
  ' https://msdn.microsoft.com/en-us/library/aa393664(VS.85).aspx 
+ '
+ ' Mar2018 / Marcedo@habMalNeFrage.de
+ ' License BSD-3-Clause
+ '
  '=======================================================
  Const HKEY_CLASSES_ROOT  = &H80000000
  Const HKEY_CURRENT_USER  = &H80000001
  Const HKEY_LOCAL_MACHINE = &H80000002
  Const HKEY_USERS               = &H80000003
- Const APP_NAME                   = "SciTE.exe"
- Const APP_DATA                   = "scite_filetypes.txt"
+ Const APP_NAME                  = "SciTE.exe"
+ Const APP_DATA                  = "scite_filetypes.txt"
  
  ' Ther's much depreceated Information in the Net, even from MS which still refers to use machine wide HKCR for file Exts.
- ' But modifying that mostly needs root privs to change and myScite has dropped to be XP Compatible for a while now. 
- ' So we rely to use HKCU to reach our goals  and dont require admin privs - since we only touch stuff within our own User profile.
+ ' But modifying that mostly needs root privs when changed and myScite has dropped to be XP Compatible for a while now. 
+ ' So we rely to use HKCU to reach our goals - and dont require admin privs - since we only touch stuff within our own User profile.
 
  Const FILE_EXT_PATH	= "Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\"
  Const FILE_EXT_PATH_CLS	= "Software\Classes\"

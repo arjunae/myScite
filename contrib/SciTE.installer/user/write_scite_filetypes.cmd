@@ -1,9 +1,16 @@
 @echo off
 chcp 65001 1>NUL
+::  ---- Wrapper for scite_filetypes.vbs ----
 ::
 :: 1) Export property "file.patterns" from all property files
 :: 2) Keep only base entries (which dont use references) 
 :: 3) Strip the filename prefixes which were added by FINDSTR
+:: 4) Call scite_filetypes.vbs install
+::
+:: Mar2018 - Marcedo@habMalNeFrage.de
+:: License: BSD-3-Clause
+::
+:: todo: Backup HKCU...\Explorer\FileExts
 ::
 
 set DataFile=scite_filetypes.txt
