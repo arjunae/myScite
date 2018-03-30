@@ -13,6 +13,7 @@
  Const HKEY_LOCAL_MACHINE = &H80000002
  Const HKEY_USERS               = &H80000003
  Const APP_NAME                   = "SciTE.exe"
+ Const APP_DATA                   = "scite_filetypes.txt"
  
  ' Ther's much depreceated Information in the Net, even from MS which still refers to use machine wide HKCR for file Exts.
  ' But modifying that mostly needs root privs to change and myScite has dropped to be XP Compatible for a while now. 
@@ -20,6 +21,7 @@
 
  Const FILE_EXT_PATH	= "Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\"
  Const FILE_EXT_PATH_CLS	= "Software\Classes\"
+ Const PROG_PATH= "Software\Classes\Applications\"
 
  if instr(1,wscript.fullName,"cscript") then bConsole=true
  
@@ -28,7 +30,7 @@
   Dim action ' currently - 10 for uninstall or 11 for install
   Dim cntExt ' contains the number of written strFileExts.
   Dim cntTyp ' contains the number of parsed myScite fileTypes
-  
+ 
   if WScript.Arguments.count > 0 then arg0 = WScript.Arguments.Item(0)
   
   if LCase(arg0)="uninstall" then
@@ -41,15 +43,17 @@
    if bConsole then wscript.echo(" Defaulting to action -Install- ")
    action = 11
   end if
+
+  ' Open myScites known filetypes List using vbscripts funny sortof a "catchme if you can" block.
+  on error resume next 
+   Set oFso = CreateObject("scripting.FilesystemObject")
+   Set oFileExt = oFso.OpenTextFile("scite_filetypes.txt", 1, False) ' forRead, CreateFlag
+   if typename(oFileExt)="Empty" then
+    Wscript.echo("... " & APP_DATA & " not found") 
+    exit function
+   end if
+  on error goto 0
   
-  ' Open myScites known filetypes List.
-  Set oFso = CreateObject("scripting.FilesystemObject")
-  Set oFileExt = oFso.OpenTextFile("scite_filetypes.txt", 1, True) ' forRead, CreateFlag
-  if  isNull(oFileExt) then
-   Wscript.echo("scite_filetypes.txt not found") 
-   exit function
-  end if
-   
   ' Iterate through. Treat lines beginning with # as a comment. 
   while Not oFileExt.AtEndOfStream
    dim strExt, startMark,arrExt
@@ -76,6 +80,7 @@
         cntExt=cntExt+1         
         if action=11 then result=assoc_ext_with_program(strEle)
         if action=10 then result=unassoc_ext_with_program(strEle)
+        if result=99 then exit function ' todo- implement an more sophisticated Error Handling...
        end if
      next
     
@@ -135,11 +140,20 @@
 
    autofileExt=replace(strFileExt,".","") & "_auto_file"   
 
+   ' enumKey Method: https://msdn.microsoft.com/de-de/library/windows/desktop/aa390387(v=vs.85).aspx
+   ' Returns: 0==KeyExist, 2==KeyNotExist 
+   
+   ' First - force Progs Application Key to be defined properly:
+   iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, PROG_PATH & APP_NAME, arrSubkeys)   
+   if iKeyExist=2 then
+    wscript.echo(" Please run through .installer.cmd")
+    assoc_ext_with_program=99
+    exit function
+   end if
+   
    ' ... yodaForce ...
    ' handle eventually defect Entries by starting Clean with every not currently used handler resetted.
  
-   ' enumKey Method: https://msdn.microsoft.com/de-de/library/windows/desktop/aa390387(v=vs.85).aspx
-   ' Returns: 0==KeyExist, 2==KeyNotExist 
    iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt & "\UserChoice", arrSubkeys)   
   
    ' Dont reset the ext if a user already selected a program to handle it. (Key UserChoice exists) 
@@ -183,6 +197,7 @@
    else
     assoc_ext_with_program=99
    end if
+   
    set objReg=Nothing
  end function
 
