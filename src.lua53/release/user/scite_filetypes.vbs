@@ -1,7 +1,7 @@
  ' Objective
  '======================================================
  ' This sample VBScript is for (re)setting file associations for SciTE
- ' Just writes itself at the end of suggested Apps in the "open File" Dialogue.
+ ' Just writes itself at the end of suggested Apps in the "open File" Dialogue
  ' so former choosen Apps keep their precedence until the User chooses otherwise.
  '
  ' written in "WonderFull" vbs - as Powershell is really bloaty.
@@ -12,7 +12,8 @@
  Const HKEY_CURRENT_USER	= &H80000001
  Const HKEY_LOCAL_MACHINE	= &H80000002
  Const HKEY_USERS								= &H80000003
-
+ Const APP_NAME                   = "SciTE.exe"
+ 
  ' Ther's much depreceated Information in the Net, even from MS which still refers to use machine wide HKCR for file Exts.
  ' But modifying that mostly needs root privs to change and myScite has dropped to be XP Compatible for a while now. 
  ' So we rely to use HKCU to reach our goals  and dont require admin privs - since we only touch stuff within our own User profile.
@@ -73,8 +74,8 @@
      for each strEle in arrExt
        if left(strEle,1)="." then
         cntExt=cntExt+1         
-        if action=11 then result=assoc_ext_with_scite(strEle)
-        if action=10 then result=unassoc_ext_with_scite(strEle)
+        if action=11 then result=assoc_ext_with_program(strEle)
+        if action=10 then result=unassoc_ext_with_program(strEle)
        end if
      next
     
@@ -119,7 +120,7 @@
  ' VbScript WTF.. If you init that objReg only once for reusal in globalSope, its creating unpredictable entries within the registry...
  ' Took me half the day to get to that "perfectly amusing" Fact. 
  
- private function Assoc_ext_with_scite(strFileExt) 
+ private function assoc_ext_with_program(strFileExt) 
  '
  ' Registers all mySciTE known Filetypes
  '
@@ -168,9 +169,9 @@
    if result=0 and Err.Number = 0 then	
    '1AC14E77-02E7-4E5D-B744-2EB1AE5198B7 is just the UUID equivalent for %systemroot%\system32
     result = result + objReg.setStringValue(HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt & "\OpenWithList","a","{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\OpenWith.exe")  
-    result = result +  objReg.setStringValue(HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt & "\OpenWithList","y","SciTE.exe")
+    result = result +  objReg.setStringValue(HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt & "\OpenWithList","y",APP_NAME)
     result = result + objReg.setStringValue(HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt & "\OpenWithList","MRUList","ya")
-    result = result + objReg.setStringValue(HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt & "\OpenWithProgIDs","Applications\Scite.exe","")
+    result = result + objReg.setStringValue(HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt & "\OpenWithProgIDs","Applications\" & APP_NAME,"")
    End If
    
    ' Above Stuff returns Zero on success.
@@ -178,19 +179,19 @@
    'wscript.Echo("Status: Error? " & Err.Number & " resultCode? " & result)
 
    if result=0 and Err.Number = 0 then 
-    assoc_ext_with_scite=0
+    assoc_ext_with_program=0
     'if bConsole then wscript.echo("Created / Modified strFileExt " & strFileExt )
    else
-    assoc_ext_with_scite=99
+    assoc_ext_with_program=99
    end if
    set objReg=Nothing
  end function
 
  '~~~~~~~~~~~~
  
- private function unassoc_ext_with_scite(strFileExt)
+ private function unassoc_ext_with_program(strFileExt)
  '
- ' curently simply removes subkey OpenWithProgIDs
+ ' removes scite related subkey in HKCU..Explorer\FileExts and HKCU\Software\Classes
  ' which will cause Explorer to show the openFileWith Handler again.
  '
  
@@ -203,9 +204,9 @@
    Set objReg=GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strComputer & "\root\default:StdRegProv")
    
    ' a) ...we remove the reference to SciTE in OpenWithProgIDs
-   result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS &  strFileExt & "\OpenWithProgIDs", "Applications\Scite.exe")
+   result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS &  strFileExt & "\OpenWithProgIDs", "Applications\" & APP_NAME)
     result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS&  autofileExt & "\shell\Open\command")   			
-   result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithProgIDs", "Applications\Scite.exe")
+   result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithProgIDs", "Applications\"& APP_NAME)
    
    ' b) ...we iterate through OpenWithLists ValueNames  
    result=objReg.EnumValues(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithList",arrKey,arrTypes)
@@ -213,7 +214,7 @@
      do while icnt<=ubound(arrKey)
        result=objReg.GetStringValue (HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithList" , arrkey(icnt), strValue)
        ' c) ..Remove any Name which value refers to SciTE
-       if instr(lcase(strValue),"scite") then
+       if instr(lcase(strValue), lcase(APP_NAME)) then
          result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithList", arrKey(icnt))
        end if
        icnt=icnt+1
@@ -224,10 +225,10 @@
    end if
        
    if (result=0 or result=2) and Err.Number = 0 then 
-    unassoc_ext_with_scite=0
+    unassoc_ext_with_program=0
     'if bConsole then wscript.echo("Modified strFileExt " & strFileExt )
    else
-    unassoc_ext_with_scite=99
+    unassoc_ext_with_program=99
    end if
 
    set objReg=Nothing
