@@ -11,7 +11,7 @@
 '
 ' Mar2018 / Marcedo@habMalNeFrage.de
 ' License BSD-3-Clause
-'
+' Version: 0.6 - so prepare your Backups :))
 '=======================================================
 Const HKEY_CLASSES_ROOT  = &H80000000
 Const HKEY_CURRENT_USER  = &H80000001
