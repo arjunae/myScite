@@ -96,7 +96,7 @@
  end function
 
 
- ' ~~~~ Functions
+ ' ~~~~ Functions ~~~~~
 
  private function ClearKey(objReg, iRootKey, strRegKey)
  '
@@ -114,6 +114,8 @@
     next  
  end function
  
+ ' ~~~~~~~~~~~~~~~~~~~~~~
+ 
  ' VbScript WTF.. If you init that objReg only once for reusal in globalSope, its creating unpredictable entries within the registry...
  ' Took me half the day to get to that "perfectly amusing" Fact. 
  
@@ -124,14 +126,11 @@
  
  'todo - handle special: .bas .hta .js .msi .ps1 .reg .vb .vbs .wsf in Key UseLocalMachineSoftwareClassesWhenImpersonating
  'Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileAssociation
- 
+
+ Dim iKeyExist, strComputer, autofileExt
  Dim objReg ' Initialize WMI service and connect to the class StdRegProv
  strComputer = "." ' Computer name to be connected - '.' refers to the local machine
  Set objReg=GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strComputer & "\root\default:StdRegProv")
-
- Dim iKeyExist
- Dim strComputer
- Dim autofileExt
 
    autofileExt=replace(strFileExt,".","") & "_auto_file"   
 
@@ -187,18 +186,43 @@
    set objReg=Nothing
  end function
 
+ '~~~~~~~~~~~~
+ 
  private function unassoc_ext_with_scite(strFileExt)
  '
  ' curently simply removes subkey OpenWithProgIDs
  ' which will cause Explorer to show the openFileWith Handler again.
  '
- '
+ 
   Dim objReg ' Initialize WMI service and connect to the class StdRegProv
-   
+  Dim arrKey,arrTypes, autofileExt
+  
+  autofileExt=replace(strFileExt,".","") & "_auto_file"   
+ 
    strComputer = "." ' Computer name to be connected - '.' refers to the local machine
    Set objReg=GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strComputer & "\root\default:StdRegProv")
-   result=objReg.deleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithProgIDs") 
-
+   
+   ' a) ...we remove the reference to SciTE in OpenWithProgIDs
+   result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS &  strFileExt & "\OpenWithProgIDs", "Applications\Scite.exe")
+    result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS&  autofileExt & "\shell\Open\command")   			
+   result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithProgIDs", "Applications\Scite.exe")
+   
+   ' b) ...we iterate through OpenWithLists ValueNames  
+   result=objReg.EnumValues(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithList",arrKey,arrTypes)
+    if typeName(arrKey) <> "Null" then
+     do while icnt<=ubound(arrKey)
+       result=objReg.GetStringValue (HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithList" , arrkey(icnt), strValue)
+       ' c) ..Remove any Name which value refers to SciTE
+       if instr(lcase(strValue),"scite") then
+         result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithList", arrKey(icnt))
+       end if
+       icnt=icnt+1
+     loop
+     
+     ' d) ..Clear the UserChoice
+     result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\UserChoice")
+   end if
+       
    if (result=0 or result=2) and Err.Number = 0 then 
     unassoc_ext_with_scite=0
     'if bConsole then wscript.echo("Modified strFileExt " & strFileExt )
