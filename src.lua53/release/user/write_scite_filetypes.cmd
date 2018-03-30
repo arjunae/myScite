@@ -25,7 +25,7 @@ if %ERRORLEVEL% == 2 goto ende
 
 :main
 echo  .. Creating %DataFile%
-:: collect file.patterns from all properties, ( prefixed with properties filname)
+:: collect file.patterns from all properties, ( prefixed with properties filename)
 FINDSTR /SI "^file.patterns." *.properties > filetypes1.raw
 
 :: Now filter unusable dupe entries (variable references) from above tmpfile. 
