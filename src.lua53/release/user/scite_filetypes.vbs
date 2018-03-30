@@ -8,10 +8,10 @@
  ' Refer the below link for StdRegProv WMI class
  ' https://msdn.microsoft.com/en-us/library/aa393664(VS.85).aspx 
  '=======================================================
- Const HKEY_CLASSES_ROOT	= &H80000000
- Const HKEY_CURRENT_USER	= &H80000001
- Const HKEY_LOCAL_MACHINE	= &H80000002
- Const HKEY_USERS								= &H80000003
+ Const HKEY_CLASSES_ROOT  = &H80000000
+ Const HKEY_CURRENT_USER  = &H80000001
+ Const HKEY_LOCAL_MACHINE = &H80000002
+ Const HKEY_USERS               = &H80000003
  Const APP_NAME                   = "SciTE.exe"
  
  ' Ther's much depreceated Information in the Net, even from MS which still refers to use machine wide HKCR for file Exts.
@@ -140,7 +140,6 @@
  
    ' enumKey Method: https://msdn.microsoft.com/de-de/library/windows/desktop/aa390387(v=vs.85).aspx
    ' Returns: 0==KeyExist, 2==KeyNotExist 
-  
    iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt & "\UserChoice", arrSubkeys)   
   
    ' Dont reset the ext if a user already selected a program to handle it. (Key UserChoice exists) 
@@ -191,7 +190,7 @@
  
  private function unassoc_ext_with_program(strFileExt)
  '
- ' removes scite related subkey in HKCU..Explorer\FileExts and HKCU\Software\Classes
+ ' removes scite related subkeys in HKCU..Explorer\FileExts and HKCU\Software\Classes
  ' which will cause Explorer to show the openFileWith Handler again.
  '
  
@@ -203,10 +202,14 @@
    strComputer = "." ' Computer name to be connected - '.' refers to the local machine
    Set objReg=GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strComputer & "\root\default:StdRegProv")
    
-   ' a) ...we remove the reference to SciTE in OpenWithProgIDs
+   ' a) ...we remove the reference to SciTE in OpenWithProgIDs 
    result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS &  strFileExt & "\OpenWithProgIDs", "Applications\" & APP_NAME)
-    result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS&  autofileExt & "\shell\Open\command")   			
    result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithProgIDs", "Applications\"& APP_NAME)
+   ' ... and clear an maybe existing auto_file entry
+   result=objReg.GetStringValue (HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autofileExt & "\shell\Open\" ,"command" , strValue)
+   if instr(lcase(strValue), lcase(APP_NAME)) then
+    result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autofileExt & "\shell\Open\command")   			
+   end if
    
    ' b) ...we iterate through OpenWithLists ValueNames  
    result=objReg.EnumValues(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithList",arrKey,arrTypes)
