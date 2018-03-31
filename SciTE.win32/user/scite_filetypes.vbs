@@ -38,12 +38,12 @@ if instr(1,wscript.fullName,"cscript") then bConsole=true
 function main()
 
 Const REG_HEADER = "Windows Registry Editor Version 5.00"
-
 Dim arg0 ' either not given or any of the verbs install / uninstall
 Dim action ' currently - 10 for uninstall or 11 for install
 Dim cntExt ' contains the number of written strFileExts.
 Dim cntTyp ' contains the number of parsed myScite fileTypes
-Dim clearCmds, strExtKey
+Dim clearCmds, strExtKey ' clearCmd means a prefixed "-" followed by the Registry Key to be removed.
+Dim arrAllExts() 'Array containing every installer touched Ext
 
 	if WScript.Arguments.count > 0 then arg0 = WScript.Arguments.Item(0)
 
@@ -67,8 +67,11 @@ Dim clearCmds, strExtKey
 			exit function
 		end if
 	on error goto 0
-	
-	if action = 11 then ' reate a backup during install
+
+	'	todo: think about a performant filter matching only Installer touched instead of All Entries. 	
+	' a custom RegistryDump Func instead of reg.exe would do, but that would be slightly overdressed here.		
+	' so for now: create a full backup of all Exts in Explorer\fileExts during install.
+	if action = 11 then 
 		strRootExt="HKEY_CURRENT_USER\" & FILE_EXT_PATH  
 		Set objShell = CreateObject("WScript.Shell")	
 		objShell.exec("REG.EXE EXPORT " & strRootExt & " " & "tmp_backup.reg")
@@ -76,7 +79,7 @@ Dim clearCmds, strExtKey
 		if bConsole then wscript.echo(" ..Initialized the Backup File")
 	end if
 	
-	' Iterate through. Treat lines beginning with # as a comment. 
+	' Iterate through the DataFile Treat lines beginning with # as a comment. 
 	while Not oFileExt.AtEndOfStream
 		dim strExt, startMark,arrExt
 
@@ -89,29 +92,40 @@ Dim clearCmds, strExtKey
 		cntTyp=cntTyp+1
 
 		' Remove trash from the result
-		strDesc=Replace(strDesc,"=","")
 		strExt=Replace(strExt,"*","")
 		strExt=Replace(strExt,vbCR,"")
-
-		' Create an Array from the gathered Stuff / Iterate through and register each filetype. 
+		strDesc=Replace(strDesc,"=","")
+		
+		' Create an Array from the gathered Stuff  
 		' if bConsole then wscript.echo(" ..Registering: " & strDesc & " " & cntTyp)
-		arrExt=split(strExt,";")
-		for each strEle in arrExt
+		arrEntryExts=split(strExt,";")
+		
+		' Iterate through and register each filetype.
+		for each strEle in arrEntryExts
 			if left(strEle,1)="." then
 				cntExt=cntExt+1 
+			
+				' Append to allExts for Restore File
+				redim preserve arrAllExts(cntExt)
+				arrAllExts(cntExt)=strEle
+				
 				' Write reset Cmds for the restore file
-				strExtKey="HKEY_CURRENT_USER\" & FILE_EXT_PATH & strEle 
+				strExtKey="HKEY_CURRENT_USER\" & FILE_EXT_PATH & strEle  
 				clearCmds=clearCmds & vbCrLf & "-[" & strExtKey & "]"
+				
 				' Continue with the desired action:
 				if action=11 then result=assoc_ext_with_program(strEle)
-				if action=10 then result=unassoc_ext_with_program(strEle)
-				if result=ERR_WARN then '  .. todo- implement an more sophisticated Error Handling...
+				if action=10 then result=unassoc_ext_with_program(strEle)				
+				
+				'  .. todo- implement an more sophisticated Error Handling...
+				if result=ERR_WARN then 
 					if bconsole then wscript.echo("-- Warn: Your fileExt [" &  strEle &"] doesnt like our Tardis ?!" ) 
 					elseif result=ERR_FATAL then ' Fatallity...Grab your Cat and run like Hell....
 						wscript.echo("-- Fatal: Universum Error. -Stop-")
 						return(result)
 					end if
 			end if
+			
 		next
 
 		startMark=0 : strDesc="" :strExt="":strEle=""
@@ -127,9 +141,9 @@ Dim clearCmds, strExtKey
 	wend
 
 	if action = 11 then ' Merge Data to extRestore.reg
-	' Open tmp_backup.reg file
-	set oFile1= oFso.GetFile("tmp_backup.reg")
-	Set oFileTmp1 = oFile1.OpenAsTextStream(1, -1) ' forRead, ForceUnicode	
+		' Open tmp_backup.reg file
+		set oFile1= oFso.GetFile("tmp_backup.reg")
+		Set oFileTmp1 = oFile1.OpenAsTextStream(1, -1) ' forRead, ForceUnicode	
 
 		' Write the restore.reg file
 		' If we wanted to, we were also able to write it in Unicode. But then the file would have its size doubled.
@@ -137,9 +151,8 @@ Dim clearCmds, strExtKey
 		oFileTmp2.write(clearCmds)
 		while not  oFileTmp1.AtEndOfStream
 			strEntry=oFileTmp1.ReadLine()
-			' todo filter to contain only self modufued stuff
-			' eg if not instr(lcase(strEntry),"userchoice") then oFileTmp2.write(vbCrLf & strEntry)
-			oFileTmp2.write(vbCrLf & strEntry)
+			oFileTmp2.write(vbcrlf & strEntry)
+		'	oFileTmp2.write(vbCrLf & filterOwn(arrAllExts,strEntry))
 			wend
 		oFileTmp1.close()
 		oFileTmp2.close()
