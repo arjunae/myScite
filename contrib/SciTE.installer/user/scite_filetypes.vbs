@@ -67,13 +67,15 @@ Dim clearCmds, strExtKey
 			exit function
 		end if
 	on error goto 0
-
-	strRootExt="HKEY_CURRENT_USER\" & FILE_EXT_PATH  
-	Set objShell = CreateObject("WScript.Shell")	
-	objShell.exec("REG.EXE EXPORT " & strRootExt & " " & "tmp_backup.reg")
-	clearCmds=clearCmds & REG_HEADER
 	
-	if bConsole then wscript.echo(" ..Initialized the Backup File")
+	if action = 11 then ' reate a backup during install
+		strRootExt="HKEY_CURRENT_USER\" & FILE_EXT_PATH  
+		Set objShell = CreateObject("WScript.Shell")	
+		objShell.exec("REG.EXE EXPORT " & strRootExt & " " & "tmp_backup.reg")
+		clearCmds=clearCmds & REG_HEADER
+		if bConsole then wscript.echo(" ..Initialized the Backup File")
+	end if
+	
 	' Iterate through. Treat lines beginning with # as a comment. 
 	while Not oFileExt.AtEndOfStream
 		dim strExt, startMark,arrExt
@@ -124,22 +126,21 @@ Dim clearCmds, strExtKey
 		if sChar= "=" Then startMark=1
 	wend
 
-	if bConsole then wscript.echo(" ..Ok! Written " & cntTyp & " Entries")
+	if action = 11 then ' Merge Data to extRestore.reg
 	' Open tmp_backup.reg file
 	set oFile1= oFso.GetFile("tmp_backup.reg")
 	Set oFileTmp1 = oFile1.OpenAsTextStream(1, -1) ' forRead, ForceUnicode	
 
-	' Write the restore.reg file
-	' If we wanted to, we were also able to write it in Unicode. But then the file would have its size doubled.
-	Set oFileTmp2 = oFso.OpenTextFile("extRestore.reg",2, 1) ' forWrite, createFlag	
-	oFileTmp2.write(clearCmds)
-	oFileTmp2.write(vbCrLf & oFileTmp1.readAll())
-
-	oFileTmp1.close()
-	oFileTmp2.close()
-
-	oFso.DeleteFile("tmp_backup.reg")
-	wscript.echo("sdfs: " & err.number)
+		' Write the restore.reg file
+		' If we wanted to, we were also able to write it in Unicode. But then the file would have its size doubled.
+		Set oFileTmp2 = oFso.OpenTextFile("extRestore.reg",2, 1) ' forWrite, createFlag	
+		oFileTmp2.write(clearCmds)
+		oFileTmp2.write(vbCrLf & oFileTmp1.readAll())
+		oFileTmp1.close()
+		oFileTmp2.close()
+		oFso.DeleteFile("tmp_backup.reg")
+	end if
+	
 	oFileExt.close()
 	'MsgBox("Status:" & cntExt & "Einträge verarbeitet" )
 	main=cntTyp
