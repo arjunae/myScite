@@ -1,7 +1,7 @@
 ' Objective
 '======================================================
 '
-' This sample VBScript is for (re)setting file associations for SciTE
+' This VBScript is for (re)setting file associations for SciTE
 ' Just writes itself at the end of suggested Apps in the "open File" Dialogue
 ' so former choosen Apps keep their precedence until the User chooses otherwise.
 '
@@ -9,9 +9,11 @@
 ' Refer the below link for StdRegProv WMI class
 ' https://msdn.microsoft.com/en-us/library/aa393664(VS.85).aspx 
 '
+' v0.8 -> Add backup capabilities  - Initial public release. 
+'
 ' Mar2018 / Marcedo@habMalNeFrage.de
 ' License BSD-3-Clause
-' Version: 0.6 - so prepare your Backups / start within a "test" UserProfile:))
+' Version: 0.8 - To test --> start within a "test" UserProfile <---
 '=======================================================
 Const HKEY_CLASSES_ROOT  = &H80000000
 Const HKEY_CURRENT_USER  = &H80000001
@@ -34,10 +36,14 @@ Const PROG_PATH= "Software\Classes\Applications\"
 if instr(1,wscript.fullName,"cscript") then bConsole=true
 
 function main()
+
+Const REG_HEADER = "Windows Registry Editor Version 5.00"
+
 Dim arg0 ' either not given or any of the verbs install / uninstall
 Dim action ' currently - 10 for uninstall or 11 for install
 Dim cntExt ' contains the number of written strFileExts.
 Dim cntTyp ' contains the number of parsed myScite fileTypes
+Dim clearCmds, strExtKey
 
 	if WScript.Arguments.count > 0 then arg0 = WScript.Arguments.Item(0)
 
@@ -62,6 +68,12 @@ Dim cntTyp ' contains the number of parsed myScite fileTypes
 		end if
 	on error goto 0
 
+	strRootExt="HKEY_CURRENT_USER\" & FILE_EXT_PATH  
+	Set objShell = CreateObject("WScript.Shell")	
+	objShell.exec("REG.EXE EXPORT " & strRootExt & " " & "tmp_backup.reg")
+	clearCmds=clearCmds & REG_HEADER
+	
+	if bConsole then wscript.echo(" ..Initialized the Backup File")
 	' Iterate through. Treat lines beginning with # as a comment. 
 	while Not oFileExt.AtEndOfStream
 		dim strExt, startMark,arrExt
@@ -84,7 +96,11 @@ Dim cntTyp ' contains the number of parsed myScite fileTypes
 		arrExt=split(strExt,";")
 		for each strEle in arrExt
 			if left(strEle,1)="." then
-				cntExt=cntExt+1         
+				cntExt=cntExt+1 
+				' Write reset Cmds for the restore file
+				strExtKey="HKEY_CURRENT_USER\" & FILE_EXT_PATH & strEle 
+				clearCmds=clearCmds & vbCrLf & "-[" & strExtKey & "]"
+				' Continue with the desired action:
 				if action=11 then result=assoc_ext_with_program(strEle)
 				if action=10 then result=unassoc_ext_with_program(strEle)
 				if result=ERR_WARN then '  .. todo- implement an more sophisticated Error Handling...
@@ -108,6 +124,22 @@ Dim cntTyp ' contains the number of parsed myScite fileTypes
 		if sChar= "=" Then startMark=1
 	wend
 
+	if bConsole then wscript.echo(" ..Ok! Written " & cntTyp & " Entries")
+	' Open tmp_backup.reg file
+	set oFile1= oFso.GetFile("tmp_backup.reg")
+	Set oFileTmp1 = oFile1.OpenAsTextStream(1, -1) ' forRead, ForceUnicode	
+
+	' Write the restore.reg file
+	' If we wanted to, we were also able to write it in Unicode. But then the file would have its size doubled.
+	Set oFileTmp2 = oFso.OpenTextFile("extRestore.reg",2, 1) ' forWrite, createFlag	
+	oFileTmp2.write(clearCmds)
+	oFileTmp2.write(vbCrLf & oFileTmp1.readAll())
+
+	oFileTmp1.close()
+	oFileTmp2.close()
+
+	oFso.DeleteFile("tmp_backup.reg")
+	wscript.echo("sdfs: " & err.number)
 	oFileExt.close()
 	'MsgBox("Status:" & cntExt & "Einträge verarbeitet" )
 	main=cntTyp
@@ -261,5 +293,7 @@ Dim arrKey,arrTypes, autofileExt
 
 	set objReg=Nothing
 end function
+
+' ~~~~~~~~	
 
 wscript.quit(main)
