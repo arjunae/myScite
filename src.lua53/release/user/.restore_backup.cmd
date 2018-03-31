@@ -22,7 +22,7 @@ echo ..Done..
 goto ende
 
 :FAIL_NF
-echo extRestore.reg not found. Have you already create a backup? 
+echo  ~~ extRestore.reg not found. Did you already create a backup? 
 
 :ENDE
 Pause

@@ -104,7 +104,7 @@ Dim arrAllExts() 'Array containing every installer touched Ext
 		for each strEle in arrEntryExts
 			if left(strEle,1)="." then
 				cntExt=cntExt+1 
-			
+				
 				' Append to allExts for Restore File
 				redim preserve arrAllExts(cntExt)
 				arrAllExts(cntExt)=strEle
@@ -120,12 +120,11 @@ Dim arrAllExts() 'Array containing every installer touched Ext
 				'  .. todo- implement an more sophisticated Error Handling...
 				if result=ERR_WARN then 
 					if bconsole then wscript.echo("-- Warn: Your fileExt [" &  strEle &"] doesnt like our Tardis ?!" ) 
-					elseif result=ERR_FATAL then ' Fatallity...Grab your Cat and run like Hell....
-						wscript.echo("-- Fatal: Universum Error. -Stop-")
-						return(result)
-					end if
+				elseif result=ERR_FATAL then ' Fatallity...Grab your Cat and run like Hell....
+					wscript.echo("-- Fatal: Universum Error. -Stop-")
+					return(result)
+				end if
 			end if
-			
 		next
 
 		startMark=0 : strDesc="" :strExt="":strEle=""
