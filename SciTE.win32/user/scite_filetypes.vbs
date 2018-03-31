@@ -23,7 +23,7 @@ Const APP_NAME                 = "SciTE.exe"
 Const APP_DATA                 = "scite_filetypes.txt"
 Const ERR_WARN		= 966
 Const ERR_FATAL	= 969
-Const ERR_OK				= 0
+Const ERR_OK	= 0
 
 ' Ther's much depreceated Information in the Net, even from MS which still refers to use machine wide HKCR for file Exts.
 ' But modifying that mostly needs root privs when changed and myScite has dropped to be XP Compatible for a while now. 

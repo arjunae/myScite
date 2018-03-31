@@ -11,7 +11,6 @@ REM  would be because of changes to "UserChoice" subkeys.
 REM Since we have no rason to do so, we can safely ignore admin priv related errors.
 REM -> todo Keep only those entries from the backup file, which we have initially modified.
 REM -> todo use reg.exe
-REM -> Remove WhiteSpace
 regedit /S %RestoreFile%
 echo ..Done..
 goto ende

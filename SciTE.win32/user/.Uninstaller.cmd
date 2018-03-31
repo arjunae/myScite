@@ -4,7 +4,7 @@ chcp 65001 1>NUL
 set DataFile=scite_filetypes.txt
 
 if not exist %dataFile% (
-	echo  ......Please, first create %DataFile% with write_scite_filetypes.cmd
+	echo  ......Please, first create %DataFile% with scite_filetypes.cmd install
 	goto ende
 )
 	

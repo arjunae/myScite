@@ -4,8 +4,7 @@ SET RestoreFile=extRestore.reg
 echo ..About to _restore_ the Filetypes backup  using %RestoreFile% ?
 call choice /C YN /M "-- Continue?  Yes/No" 
 if %ERRORLEVEL% == 2 goto ende
-
-if not exist %RestoreFile% goto ende
+if not exist %RestoreFile% goto FAIL_NF
 REM Since we write to HKCU  the only reason for requiring admin privs
 REM  would be because of changes to "UserChoice" subkeys.
 REM Since we have no rason to do so, we can safely ignore admin priv related errors.
@@ -17,7 +16,7 @@ echo ..Done..
 goto ende
 
 :FAIL_NF
-echo extRestore.reg not found. Have you already create a backup? 
+echo  .. %restoreFile% not found. Did you already create a backup? 
 
 :ende
 Pause

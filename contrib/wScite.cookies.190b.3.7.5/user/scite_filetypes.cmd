@@ -31,7 +31,7 @@ FINDSTR /SI "^file.patterns." *.properties > filetypes1.raw
 :: Now filter unusable dupe entries (variable references) from above tmpfile. 
 FINDSTR /SIV "$(" filetypes1.raw > filetypes2.raw
 
-:: Finally, strip the file nam4es, but keep the fileexts information. 
+:: Finally, strip the file names, but keep the fileexts information. 
 for /F "delims=: eol=# tokens=3" %%E in (filetypes2.raw) do (
  echo %%E>>scite_filetypes.txt
  if ["%1"] neq ["/quite"] echo %%E
