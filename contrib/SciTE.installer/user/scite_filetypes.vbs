@@ -135,7 +135,12 @@ Dim clearCmds, strExtKey
 		' If we wanted to, we were also able to write it in Unicode. But then the file would have its size doubled.
 		Set oFileTmp2 = oFso.OpenTextFile("extRestore.reg",2, 1) ' forWrite, createFlag	
 		oFileTmp2.write(clearCmds)
-		oFileTmp2.write(vbCrLf & oFileTmp1.readAll())
+		while not  oFileTmp1.AtEndOfStream
+			strEntry=oFileTmp1.ReadLine()
+			' todo filter to contain only self modufued stuff
+			' eg if not instr(lcase(strEntry),"userchoice") then oFileTmp2.write(vbCrLf & strEntry)
+			oFileTmp2.write(vbCrLf & strEntry)
+			wend
 		oFileTmp1.close()
 		oFileTmp2.close()
 		oFso.DeleteFile("tmp_backup.reg")
