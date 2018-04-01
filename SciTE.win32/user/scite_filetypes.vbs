@@ -140,19 +140,19 @@ Dim arrAllExts() 'Array containing every installer touched Ext
 			' Open tmp_backup.reg file
 				set oFile1= oFso.GetFile("tmp_backup.reg")
 				if err.Number<>0 then
-					wscript.echo("Couldnt create the Backup, please Restart using .installer")
+					wscript.echo("-- Couldnt create the Backup, please Restart using .installer")
 					exit function
 				end if
 				set oFileRegDump = oFile1.OpenAsTextStream(1, -1) ' forRead, ForceUnicode
 		on error goto 0
 	
 		' Write the restore.reg file
+		if bConsole then WScript.echo(" ..Creating FileExt Restore File")
 		' If we wanted to, we were also able to write it in Unicode. But then the file would have its size doubled.
 		set oFileRestore = oFso.OpenTextFile("extRestore.reg",2, 1) ' forWrite, createFlag	
 		oFileRestore.write(clearCmds)
 		while not oFileRegDump.AtEndOfStream
-			strEntry=oFileRegDump.ReadLine()
-			oFileRestore.write(vbcrlf & strEntry)
+				oFileRestore.write(vbcrlf & policyFilter(oFileRegDump.ReadLine()))
 		wend
 	
 		oFileRestore.close()
@@ -169,6 +169,19 @@ end function
 
 
 ' ~~~~ Functions ~~~~~
+
+private function policyFilter(strEntry)
+'
+' Remove SystemPolicy locked RegKeys which will be recreated anyway.
+'
+	if InStrRev(lcase(strEntry),"windows registry editor") then exit function
+	if InStrRev(lcase(strEntry), chr(34) + "progid" + chr(34)) then exit function
+	if InStrRev(lcase(strEntry),"hash") then exit function
+	policyFilter=strEntry
+
+end function
+
+' ~~~~~~~~~~
 
 private function createRegDump()
 '
@@ -191,6 +204,8 @@ private function createRegDump()
 		on error goto 0
 
 end function
+
+' ~~~~~~~~~~~
 		
 private function ClearKey(objReg, iRootKey, strRegKey, completely)
 '
@@ -244,14 +259,16 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 	' enumKey Method: https://msdn.microsoft.com/de-de/library/windows/desktop/aa390387(v=vs.85).aspx
 	' Returns: 0==KeyExist, 2==KeyNotExist 
 
-	' First - force Progs Application Key to be defined properly:
-	iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, PROG_PATH & APP_NAME, arrSubkeys)   
-	if iKeyExist >0 then
-		wscript.echo(" Please run through .installer.cmd")
-		assoc_ext_with_program=ERR_FATAL
-		exit function
+	' First - force Progs Application Key to be defined properly during Install
+	if action=11 then
+		iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, PROG_PATH & APP_NAME, arrSubkeys)   
+		if iKeyExist >0 then
+			wscript.echo(" Please run through .installer.cmd")
+			assoc_ext_with_program=ERR_FATAL
+			exit function
+		end if
 	end if
-
+	
 	' ... yodaForce ...
 	' handle eventually defect Entries by starting Clean with every not currently used handler resetted.
 	iKeyExist=objReg.GetStringValue (HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\UserChoice" ,"progID" , strValue)

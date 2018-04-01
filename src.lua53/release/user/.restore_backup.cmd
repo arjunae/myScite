@@ -1,13 +1,18 @@
 @echo off
 SET RestoreFile=extRestore.reg
 
-REM .......................
-REM Since we write to HKCU  the only reason for requiring admin privs
-REM  would be because of changes to "UserChoice" subkeys.
-REM Since we have no rason to do so, we can safely ignore admin priv related errors.
+REM  ::--::--::--::--Steampunk--::-::--::--::
+REM
+REM  Apply a pre-generated fileExt Restore file  (for win7+)
+REM
+REM :: Created April 1 , Marcedo@HabmalneFrage.de
+REM :: License: BSD-3-Clause
+REM :: URL: https://sourceforge.net/projects/scite-webdev/?source=directory
+REM :: Application Registering Reference: https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx
+REM
 REM -> todo vbs: Keep only those entries from the backup file, which we have initially modified.
-REM -> todo use reg.exe
-REM ........................
+REM 
+REM ::--::--::--::--Steampunk--::-::--::--::
 
 echo ..About to _restore_ the Filetypes backup  using %RestoreFile% ?
 call choice /C YN /M "-- Continue?  Yes/No" 

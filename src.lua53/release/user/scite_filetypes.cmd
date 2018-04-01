@@ -1,6 +1,6 @@
 @echo off
 chcp 65001 1>NUL
-::  ---- Wrapper for scite_filetypes.vbs ----
+::  ---- Wrapper for scite_filetypes.vbs install ----
 ::
 :: 1) Export property "file.patterns" from all property files
 :: 2) Keep only base entries (which dont use references) 
