@@ -16,7 +16,12 @@ chcp 65001 1>NUL
 set DataFile=scite_filetypes.txt
 
 pushd %~dp0%
-if exist scite_filetypes?.txt del scite_filetypes?.txt
+:: Stupid "del" does not change ErrorLevel when the deletion failed. Working around... 
+if exist scite_filetypes?.txt (del /F /Q scite_filetypes?.txt 1>NUL 2>NUL)
+if exist scite_filetypes?.txt (
+ echo ... Found an System locked %DataFile% please reboot or remove manually.
+ goto ende
+)
 
 if ["%1"] equ ["/quite"] goto main
 echo   ..About to soft-register Filetypes with mySciTE
@@ -33,7 +38,7 @@ FINDSTR /SIV "$(" filetypes1.raw > filetypes2.raw
 
 :: Finally, strip the file names, but keep the fileexts information. 
 for /F "delims=: eol=# tokens=3" %%E in (filetypes2.raw) do (
- echo %%E>>scite_filetypes.txt
+ echo %%E>>%DataFile%
  if ["%1"] neq ["/quite"] echo %%E
 ) 
 

@@ -179,7 +179,7 @@ private function createRegDump()
 		objShell.exec("REG.EXE EXPORT " & strRootExt & " " & "tmp_backup.reg")
 		
 		on error resume next
-			set oFile1= oFso.GetFile("tmsp_backup.reg")
+			set oFile1= oFso.GetFile("tmp_backup.reg")
 			if err.number=53 then 
 				wscript.echo(" ..Error invocating reg.exe, please restart")
 				createRegDump=969
