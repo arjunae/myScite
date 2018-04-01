@@ -136,12 +136,14 @@ Dim arrAllExts() 'Array containing every installer touched Ext
 	wend
 
 	if action = 11 then ' Merge Data to extRestore.reg
-
 		on error resume next
 			' Open tmp_backup.reg file
 				set oFile1= oFso.GetFile("tmp_backup.reg")
-				if err.Number<>0 then wscript.echo("Couldnt create the Backup, please Restart using .installer") : exit function
-				set oFileRegDump = oFile1.OpenAsTextStream(1, -1) ' forRead, ForceUnicode	
+				if err.Number<>0 then
+					wscript.echo("Couldnt create the Backup, please Restart using .installer")
+					exit function
+				end if
+				set oFileRegDump = oFile1.OpenAsTextStream(1, -1) ' forRead, ForceUnicode
 		on error goto 0
 	
 		' Write the restore.reg file
@@ -190,20 +192,32 @@ private function createRegDump()
 
 end function
 		
-private function ClearKey(objReg, iRootKey, strRegKey)
+private function ClearKey(objReg, iRootKey, strRegKey, completely)
 '
 ' DeleteKey cant handle recursion itself so put a little wrapper around:
-' (Only Delete the SubKeys, dont Delete the Key itself) 
+' (defaults to only Deleting the SubKeys and dont Delete the Key itself) 
 '
 Dim iKeyExist, arrSubkeys
 	if strRegKey="" then exit Function
 	iKeyExist = objReg.EnumKey(iRootKey , strRegKey	, arrSubkeys)   
 	if typeName(arrSubkeys) = "Null" then exit function
 	if iKeyExist>0  then exit function
+	
+	' Delete all SubKeys
 	for each strSubKey in arrSubKeys
-		'if bConsole then wscript.echo("Removed: " & strRegKey & "\" & strSubKey)
 		ClearKey= objReg.DeleteKey(iRootKey , strRegKey & "\" & strSubKey)   			
 	next  
+	
+	if completely then ClearKey=objReg.DeleteKey(iRootKey , strRegKey)   			
+
+	' Handle Key locked because of Privs (HKCU) or by another App (eg regedit || explorer ...)
+	if ClearKey=5 then
+		if bConsole then Wscript.echo("resetting " &  strRegKey & " refused ") 
+		ClearKey=0 
+	else
+		'if bConsole then wscript.echo("Cleared: " & strRegKey)
+	end if
+	
 end function
 
 ' ~~~~~~~~~~~~~~~~~~~~~~
@@ -239,20 +253,21 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 
 	' ... yodaForce ...
 	' handle eventually defect Entries by starting Clean with every not currently used handler resetted.
+	iKeyExist=objReg.GetStringValue (HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\UserChoice" ,"progID" , strValue)
 
-	iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt & "\UserChoice", arrSubkeys)   
-
-	' Dont reset the ext if a user already selected a program to handle it. (Key UserChoice exists) 
-	if iKeyExist = 2 and Err.Number = 0 Then 
+	' Dont reset the ext if a user already selected another program than scite to handle it. (Key UserChoice exists) 
+	if (iKeyExist = 2 and Err.Number = 0) or  instr(lcase(strValue),lcase(APP_NAME)) Then 
+		'wscript.echo(" ..FileExt "  & strFileExt & " says: UserChoice " & strValue)
 		' Clear the FileExt in HKCU\....Explorer\FileExts
-		result=ClearKey(objReg,HKEY_CURRENT_USER , FILE_EXT_PATH & strFileExt)
-		' Also Clear the FileExt within HKCU\Applications
-		result=ClearKey(objReg,HKEY_CURRENT_USER ,  FILE_EXT_PATH_CLS &  autoFileExt)
-		' Optional: Clear the autoFileExts within Depreceated HKCR - needs rootPrivs on most modern systems, so is likely to fail.
-		blabla=ClearKey(objReg,HKEY_CLASSES_ROOT ,  autoFileExt)
-	end if
+		result = ClearKey(objReg , HKEY_CURRENT_USER , FILE_EXT_PATH & strFileExt, false)
+		' Also Clear the autoFileExts within HKCU\Applications
+		bla = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & autoFileExt & "\shell\edit\command")
+		bla = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & autoFileExt & "\shell\open\command")
+		bla = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & strFileExt)
+		end if
 
 	' ...Key (re)creation starts here....
+	
 	iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt & "\OpenWithProgIDs", arrSubkeys) 
 
 	' Create it if it does not exist
@@ -337,5 +352,7 @@ Dim arrKey,arrTypes, autoFileExt
 end function
 
 ' ~~~~~~~~	
-
+'result = assoc_ext_with_program(".lua")
+'wscript.echo("result Code : " & result)
+'
 wscript.quit(main)

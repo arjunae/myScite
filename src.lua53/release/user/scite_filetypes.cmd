@@ -20,7 +20,7 @@ pushd %~dp0%
 if exist scite_filetypes?.txt (del /F /Q scite_filetypes?.txt 1>NUL 2>NUL)
 if exist scite_filetypes?.txt (
  echo ... Found an System locked %DataFile% please reboot or remove manually.
- goto ende
+ goto DataFileErr
 )
 
 if ["%1"] equ ["/quite"] goto main
@@ -49,5 +49,9 @@ cscript /NOLOGO scite_filetypes.vbs install
 echo  .. done with %ERRORLEVEL% Entries ..
 echo.
 popd
+goto ende
+
+:DataFileErr
+pause
 
 :ende
