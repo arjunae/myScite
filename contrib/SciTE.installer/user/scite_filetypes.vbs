@@ -20,7 +20,7 @@ Const HKEY_CURRENT_USER  = &H80000001
 Const HKEY_LOCAL_MACHINE = &H80000002
 Const HKEY_USERS               = &H80000003
 Const APP_NAME                 = "SciTE.exe"
-Const APP_DATA                 = "scite_filetypes.txt"
+Const DATA_FILE                = "scite_filetypes.txt"
 Const ERR_WARN		= 966
 Const ERR_FATAL	= 969
 Const ERR_OK	= 0
@@ -40,7 +40,7 @@ function main()
 Const REG_HEADER = "Windows Registry Editor Version 5.00"
 Dim arg0 ' either not given or any of the verbs install / uninstall
 Dim action ' currently - 10 for uninstall or 11 for install
-Dim cntExt ' contains the number of written strFileExts.
+Dim cntExt ' contains the number of written FileExts.
 Dim cntTyp ' contains the number of parsed myScite fileTypes
 Dim clearCmds, strExtKey ' clearCmd means a prefixed "-" followed by the Registry Key to be removed.
 Dim arrAllExts() 'Array containing every installer touched Ext
@@ -60,35 +60,31 @@ Dim arrAllExts() 'Array containing every installer touched Ext
 
 	' Open myScites known filetypes List using vbscripts funny sortof a "catchme if you can" block.
 	on error resume next 
-		Set oFso = CreateObject("scripting.FilesystemObject")
-		Set oFileExt = oFso.OpenTextFile("scite_filetypes.txt", 1, False) ' forRead, CreateFlag
-		if typename(oFileExt)="Empty" then
-			Wscript.echo("... " & APP_DATA & " not found") 
+		set oFso = CreateObject("scripting.filesystemObject")
+		set oFileExts = oFso.OpenTextFile(DATA_FILE, 1, False) ' forRead, CreateFlag
+		if typename(oFileExts)="Empty" then
+			Wscript.echo("... " & DATA_FILE & " not found") 
 			exit function
 		end if
 	on error goto 0
 
-	'	todo: think about a performant filter matching only Installer touched instead of All Entries. 	
-	' a custom RegistryDump Func instead of reg.exe would do, but that would be slightly overdressed here.		
-	' so for now: create a full backup of all Exts in Explorer\fileExts during install.
-	if action = 11 then 
-		strRootExt="HKEY_CURRENT_USER\" & FILE_EXT_PATH  
-		Set objShell = CreateObject("WScript.Shell")	
-		objShell.exec("REG.EXE EXPORT " & strRootExt & " " & "tmp_backup.reg")
+	' Init Backup of FileExt related keys.
+	if action = 11 then
+		result=createRegDump()
+		if result=969 then exit function
 		clearCmds=clearCmds & REG_HEADER
-		if bConsole then wscript.echo(" ..Initialized the Backup File")
 	end if
 	
-	' Iterate through the DataFile Treat lines beginning with # as a comment. 
-	while Not oFileExt.AtEndOfStream
-		dim strExt, startMark,arrExt
+	' Iterate through the DataFile. Treat lines beginning with # as a comment. 
+	while Not oFileExts.AtEndOfStream
+		Dim strExt, startMark,arrExt
 
-		sChar = oFileExt.Read(1)
-		if sChar="#" Then oFileExt.SkipLine ' Comment
+		sChar = oFileExts.Read(1)
+		if sChar="#" Then oFileExts.SkipLine ' Comment
 
 		' Just in case someone edited the file to be partly UNiX Formatted
 		if sChar=vbCR or sChar=vbLF  then 
-		oFileExt.SkipLine()
+		oFileExts.SkipLine()
 		cntTyp=cntTyp+1
 
 		' Remove trash from the result
@@ -106,7 +102,7 @@ Dim arrAllExts() 'Array containing every installer touched Ext
 				cntExt=cntExt+1 
 				
 				' Append to allExts for Restore File
-				redim preserve arrAllExts(cntExt)
+				reDim preserve arrAllExts(cntExt)
 				arrAllExts(cntExt)=strEle
 				
 				' Write reset Cmds for the restore file
@@ -140,38 +136,66 @@ Dim arrAllExts() 'Array containing every installer touched Ext
 	wend
 
 	if action = 11 then ' Merge Data to extRestore.reg
-		' Open tmp_backup.reg file
-		set oFile1= oFso.GetFile("tmp_backup.reg")
-		Set oFileTmp1 = oFile1.OpenAsTextStream(1, -1) ' forRead, ForceUnicode	
 
+		on error resume next
+			' Open tmp_backup.reg file
+				set oFile1= oFso.GetFile("tmp_backup.reg")
+				if err.Number<>0 then wscript.echo("Couldnt create the Backup, please Restart using .installer") : exit function
+				set oFileRegDump = oFile1.OpenAsTextStream(1, -1) ' forRead, ForceUnicode	
+		on error goto 0
+	
 		' Write the restore.reg file
 		' If we wanted to, we were also able to write it in Unicode. But then the file would have its size doubled.
-		Set oFileTmp2 = oFso.OpenTextFile("extRestore.reg",2, 1) ' forWrite, createFlag	
-		oFileTmp2.write(clearCmds)
-		while not  oFileTmp1.AtEndOfStream
-			strEntry=oFileTmp1.ReadLine()
-			oFileTmp2.write(vbcrlf & strEntry)
-		'	oFileTmp2.write(vbCrLf & filterOwn(arrAllExts,strEntry))
-			wend
-		oFileTmp1.close()
-		oFileTmp2.close()
+		set oFileRestore = oFso.OpenTextFile("extRestore.reg",2, 1) ' forWrite, createFlag	
+		oFileRestore.write(clearCmds)
+		while not oFileRegDump.AtEndOfStream
+			strEntry=oFileRegDump.ReadLine()
+			oFileRestore.write(vbcrlf & strEntry)
+		wend
+	
+		oFileRestore.close()
+		oFileRegDump.close()
 		oFso.DeleteFile("tmp_backup.reg")
+	
 	end if
 	
-	oFileExt.close()
-	'MsgBox("Status:" & cntExt & "Einträge verarbeitet" )
+	oFileExts.close()
 	main=cntTyp
+	'MsgBox("Status:" & cntExt & "Einträge verarbeitet" )
+
 end function
 
 
 ' ~~~~ Functions ~~~~~
 
+private function createRegDump()
+'
+'	todo: think about a performant filter matching only Installer touched instead of All Entries. 	
+' A custom RegistryDump Func instead of reg.exe would do, but that would be slightly overdressed here.		
+' So for now: Create a full backup of all Exts in Explorer\fileExts during install.
+'
+		set objShell = CreateObject("WScript.Shell")	
+		strRootExt="HKEY_CURRENT_USER\" & FILE_EXT_PATH
+		objShell.exec("REG.EXE EXPORT " & strRootExt & " " & "tmp_backup.reg")
+		
+		on error resume next
+			set oFile1= oFso.GetFile("tmsp_backup.reg")
+			if err.number=53 then 
+				wscript.echo(" ..Error invocating reg.exe, please restart")
+				createRegDump=969
+				exit function
+			end if			
+			if bConsole then wscript.echo(" ..Initialized the Backup File")
+		on error goto 0
+
+end function
+		
 private function ClearKey(objReg, iRootKey, strRegKey)
 '
 ' DeleteKey cant handle recursion itself so put a little wrapper around:
 ' (Only Delete the SubKeys, dont Delete the Key itself) 
 '
-dim iKeyExist, arrSubkeys
+Dim iKeyExist, arrSubkeys
 	if strRegKey="" then exit Function
 	iKeyExist = objReg.EnumKey(iRootKey , strRegKey	, arrSubkeys)   
 	if typeName(arrSubkeys) = "Null" then exit function
@@ -195,12 +219,12 @@ private function assoc_ext_with_program(strFileExt)
 'todo - handle special: .bas .hta .js .msi .ps1 .reg .vb .vbs .wsf in Key UseLocalMachineSoftwareClassesWhenImpersonating
 'Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileAssociation
 
-Dim iKeyExist, strComputer, autofileExt
+Dim iKeyExist, strComputer, autoFileExts
 Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 	strComputer = "." ' Computer name to be connected - '.' refers to the local machine
-	Set objReg=GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strComputer & "\root\default:StdRegProv")
+	set objReg=GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strComputer & "\root\default:StdRegProv")
 	
-	autofileExt=replace(strFileExt,".","") & "_auto_file"   
+	autoFileExts=replace(strFileExt,".","") & "_auto_file"   
 
 	' enumKey Method: https://msdn.microsoft.com/de-de/library/windows/desktop/aa390387(v=vs.85).aspx
 	' Returns: 0==KeyExist, 2==KeyNotExist 
@@ -220,12 +244,12 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 
 	' Dont reset the ext if a user already selected a program to handle it. (Key UserChoice exists) 
 	if iKeyExist = 2 and Err.Number = 0 Then 
-		' Clear the strFileExt in currentUser\....\strFileExts
+		' Clear the FileExt in HKCU\....Explorer\FileExts
 		result=ClearKey(objReg,HKEY_CURRENT_USER , FILE_EXT_PATH & strFileExt)
-		' Also Clear the strFileExt within currentUser\Applications
-		result=ClearKey(objReg,HKEY_CURRENT_USER ,  FILE_EXT_PATH_CLS &  autofileExt)
-		' Optional: Clear the autoFileExt within Depreceated HKCR - needs rootPrivs on most modern systems, so is likely to fail.
-		blabla=ClearKey(objReg,HKEY_CLASSES_ROOT ,  autoFileExt)
+		' Also Clear the FileExt within HKCU\Applications
+		result=ClearKey(objReg,HKEY_CURRENT_USER ,  FILE_EXT_PATH_CLS &  autoFileExts)
+		' Optional: Clear the autoFileExts within Depreceated HKCR - needs rootPrivs on most modern systems, so is likely to fail.
+		blabla=ClearKey(objReg,HKEY_CLASSES_ROOT ,  autoFileExts)
 	end if
 
 	' ...Key (re)creation starts here....
@@ -254,10 +278,10 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 	'wscript.Echo("Status: Error? " & Err.Number & " resultCode? " & result)
 
 	if result=0 and Err.Number = 0 then 
-		assoc_ext_with_program=ERR_OK
+		assoc_ext_with_program = ERR_OK
 		'if bConsole then wscript.echo("Created / Modified strFileExt " & strFileExt )
 	else
-		assoc_ext_with_program=ERR_WARN
+		assoc_ext_with_program = ERR_WARN
 	end if
 
 	set objReg=Nothing
@@ -272,19 +296,19 @@ private function unassoc_ext_with_program(strFileExt)
 '
 
 Dim objReg ' Initialize WMI service and connect to the class StdRegProv
-Dim arrKey,arrTypes, autofileExt
+Dim arrKey,arrTypes, autoFileExts
 
-	autofileExt=replace(strFileExt,".","") & "_auto_file"   
+	autoFileExts=replace(strFileExt,".","") & "_auto_file"   
 	strComputer = "." ' Computer name to be connected - '.' refers to the local machine
-	Set objReg=GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strComputer & "\root\default:StdRegProv")
+	set objReg=GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strComputer & "\root\default:StdRegProv")
 
 	' a) ...we remove the reference to SciTE in OpenWithProgIDs 
 	result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS &  strFileExt & "\OpenWithProgIDs", "Applications\" & APP_NAME)
 	result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithProgIDs", "Applications\"& APP_NAME)
 	' ... and clear an maybe existing auto_file entry
-	result=objReg.GetStringValue (HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autofileExt & "\shell\Open\" ,"command" , strValue)
+	result=objReg.GetStringValue (HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExts & "\shell\Open\" ,"command" , strValue)
 	if instr(lcase(strValue), lcase(APP_NAME)) then
-		result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autofileExt & "\shell\Open\command")   			
+		result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExts & "\shell\Open\command")   			
 	end if
 
 	' b) ...we iterate through OpenWithLists ValueNames  
