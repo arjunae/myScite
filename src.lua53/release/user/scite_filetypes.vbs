@@ -9,7 +9,16 @@
 ' Refer the below link for StdRegProv WMI class
 ' https://msdn.microsoft.com/en-us/library/aa393664(VS.85).aspx 
 '
+'- It doesnt need Administrative privileges. Neither for install - or uninstalling Stuff.
+'- it will happily preserve already decided App-Extension mappings
+'- just writes [APP_NAME] at the end of "recommended Apps" for the ext. (Seen when clicking "openWith")
+'- File Extensions that didnt exist before are properly inited and associated with [APP_NAME]
+'- File Extensions that do exist, but dont have a default app during InstallTime are associated with [APP_NAME] as well.
+'- A backupFile containing all FileExt Mappings made within HKCU....\Explorer\FileExts will be created in an Restore .reg file.
+'- The uninstaller and the Installer will only touch fileExts in scite_filetypes.txt. So any other stuff, which not "belongs" to it wont be touched.
+'
 ' v0.8 -> Add backup capabilities  - Initial public release. 
+' v0.9 -> A pile of SanityChecks , CodeCleanUp
 '
 ' Mar2018 / Marcedo@habMalNeFrage.de
 ' License BSD-3-Clause
@@ -33,8 +42,13 @@ Const FILE_EXT_PATH	= "Software\Microsoft\Windows\CurrentVersion\Explorer\FileEx
 Const FILE_EXT_PATH_CLS	= "Software\Classes\"
 Const PROG_PATH= "Software\Classes\Applications\"
 
-if instr(1,wscript.fullName,"cscript") then bConsole=true
-
+if instr(1,wscript.fullName,"cscript") then 
+	bConsole=true
+else
+	wscript.echo("Please dont run directly via GUI. Instead- use .installer.cmd")
+	exit function
+end if
+vbcrlf 
 function main()
 
 Const REG_HEADER = "Windows Registry Editor Version 5.00"
@@ -176,7 +190,7 @@ private function policyFilter(strEntry)
 '
 	if InStrRev(lcase(strEntry),"windows registry editor") then exit function
 	if InStrRev(lcase(strEntry), chr(34) + "progid" + chr(34)) then exit function
-	if InStrRev(lcase(strEntry),"hash") then exit function
+	if InStrRev(lcase(strEntry), chr(34) + "hash" + chr(34)) then exit function
 	policyFilter=strEntry
 
 end function
