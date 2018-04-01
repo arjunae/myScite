@@ -42,14 +42,15 @@ Const FILE_EXT_PATH	= "Software\Microsoft\Windows\CurrentVersion\Explorer\FileEx
 Const FILE_EXT_PATH_CLS	= "Software\Classes\"
 Const PROG_PATH= "Software\Classes\Applications\"
 
-if instr(1,wscript.fullName,"cscript") then 
-	bConsole=true
-else
+if instr(1,wscript.fullName,"cscript") then  bConsole=true
+
+function main()
+
+if not bConsole then
 	wscript.echo("Please dont run directly via GUI. Instead- use .installer.cmd")
 	exit function
 end if
-vbcrlf 
-function main()
+
 
 Const REG_HEADER = "Windows Registry Editor Version 5.00"
 Dim arg0 ' either not given or any of the verbs install / uninstall
@@ -121,7 +122,7 @@ Dim arrAllExts() 'Array containing every installer touched Ext
 				
 				' Write reset Cmds for the restore file
 				strExtKey="HKEY_CURRENT_USER\" & FILE_EXT_PATH & strEle  
-				clearCmds=clearCmds & vbCrLf & "[- " & strExtKey & "]"
+				clearCmds=clearCmds & vbCrLf & "[-" & strExtKey & "]"
 				
 				' Continue with the desired action:
 				if action=11 then result=assoc_ext_with_program(strEle)
