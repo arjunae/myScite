@@ -224,7 +224,7 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 	strComputer = "." ' Computer name to be connected - '.' refers to the local machine
 	set objReg=GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strComputer & "\root\default:StdRegProv")
 	
-	autoFileExts=replace(strFileExt,".","") & "_auto_file"   
+	autoFileExt=replace(strFileExt,".","") & "_auto_file"   
 
 	' enumKey Method: https://msdn.microsoft.com/de-de/library/windows/desktop/aa390387(v=vs.85).aspx
 	' Returns: 0==KeyExist, 2==KeyNotExist 
@@ -247,9 +247,9 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 		' Clear the FileExt in HKCU\....Explorer\FileExts
 		result=ClearKey(objReg,HKEY_CURRENT_USER , FILE_EXT_PATH & strFileExt)
 		' Also Clear the FileExt within HKCU\Applications
-		result=ClearKey(objReg,HKEY_CURRENT_USER ,  FILE_EXT_PATH_CLS &  autoFileExts)
+		result=ClearKey(objReg,HKEY_CURRENT_USER ,  FILE_EXT_PATH_CLS &  autoFileExt)
 		' Optional: Clear the autoFileExts within Depreceated HKCR - needs rootPrivs on most modern systems, so is likely to fail.
-		blabla=ClearKey(objReg,HKEY_CLASSES_ROOT ,  autoFileExts)
+		blabla=ClearKey(objReg,HKEY_CLASSES_ROOT ,  autoFileExt)
 	end if
 
 	' ...Key (re)creation starts here....
@@ -262,7 +262,7 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 		result = result + objReg.CreateKey(HKEY_CURRENT_USER, FILE_EXT_PATH  & strFileExt & "\OpenWithList")
 		result = result + objReg.CreateKey(HKEY_CURRENT_USER, FILE_EXT_PATH  & strFileExt & "\OpenWithProgIDs")
 	end if
-
+	
 	' Modify the Key
 	' SetStringValue Method - http://msdn.microsoft.com/en-us/library/windows/desktop/aa393600(v=vs.85).aspx		
 	if result=0 and Err.Number = 0 then	
@@ -296,9 +296,9 @@ private function unassoc_ext_with_program(strFileExt)
 '
 
 Dim objReg ' Initialize WMI service and connect to the class StdRegProv
-Dim arrKey,arrTypes, autoFileExts
+Dim arrKey,arrTypes, autoFileExt
 
-	autoFileExts=replace(strFileExt,".","") & "_auto_file"   
+	autoFileExt=replace(strFileExt,".","") & "_auto_file"   
 	strComputer = "." ' Computer name to be connected - '.' refers to the local machine
 	set objReg=GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strComputer & "\root\default:StdRegProv")
 
@@ -306,9 +306,9 @@ Dim arrKey,arrTypes, autoFileExts
 	result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS &  strFileExt & "\OpenWithProgIDs", "Applications\" & APP_NAME)
 	result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithProgIDs", "Applications\"& APP_NAME)
 	' ... and clear an maybe existing auto_file entry
-	result=objReg.GetStringValue (HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExts & "\shell\Open\" ,"command" , strValue)
+	result=objReg.GetStringValue (HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExt & "\shell\Open\" ,"command" , strValue)
 	if instr(lcase(strValue), lcase(APP_NAME)) then
-		result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExts & "\shell\Open\command")   			
+		result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExt & "\shell\Open\command")   			
 	end if
 
 	' b) ...we iterate through OpenWithLists ValueNames  
