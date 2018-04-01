@@ -10,7 +10,6 @@ chcp 65001 1>NUL
 :: Mar2018 - Marcedo@habMalNeFrage.de
 :: License: BSD-3-Clause
 ::
-:: todo: Backup HKCU...\Explorer\FileExts
 ::
 
 set DataFile=scite_filetypes.txt

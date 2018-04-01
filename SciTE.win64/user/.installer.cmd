@@ -54,7 +54,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  :: When "manual Installation" has been chosen, just copy the generated reg import file to currentUsers Desktop.
  
  choice /C AM /M " -- Press [A] for automatic Install or [M] If you want to do that manually" 
- if %ERRORLEVEL% == 1 regedit %regfile%
+ if %ERRORLEVEL% == 1 reg import %regfile%
  if %ERRORLEVEL% == 2 (
   echo. .... Ok- Now opening %regfile% for editing .... 
   echo. .... Please press your favorite key when done. 

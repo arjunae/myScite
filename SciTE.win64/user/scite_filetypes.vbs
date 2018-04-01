@@ -107,7 +107,7 @@ Dim arrAllExts() 'Array containing every installer touched Ext
 				
 				' Write reset Cmds for the restore file
 				strExtKey="HKEY_CURRENT_USER\" & FILE_EXT_PATH & strEle  
-				clearCmds=clearCmds & vbCrLf & "-[" & strExtKey & "]"
+				clearCmds=clearCmds & vbCrLf & "[- " & strExtKey & "]"
 				
 				' Continue with the desired action:
 				if action=11 then result=assoc_ext_with_program(strEle)
@@ -195,7 +195,8 @@ end function
 private function ClearKey(objReg, iRootKey, strRegKey, completely)
 '
 ' DeleteKey cant handle recursion itself so put a little wrapper around:
-' (defaults to only Deleting the SubKeys and dont Delete the Key itself) 
+' (defaults to only Deleting the SubKeys and dont Delete the Key itself)
+' Todo: Currently handles only 1 Level of recursion.   
 '
 Dim iKeyExist, arrSubkeys
 	if strRegKey="" then exit Function
@@ -263,6 +264,7 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 		' Also Clear the autoFileExts within HKCU\Applications
 		bla = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & autoFileExt & "\shell\edit\command")
 		bla = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & autoFileExt & "\shell\open\command")
+		bla = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExt & "\shell\open")   
 		bla = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & strFileExt)
 		end if
 
@@ -323,7 +325,8 @@ Dim arrKey,arrTypes, autoFileExt
 	' ... and clear an maybe existing auto_file entry
 	result=objReg.GetStringValue (HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExt & "\shell\Open\" ,"command" , strValue)
 	if instr(lcase(strValue), lcase(APP_NAME)) then
-		result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExt & "\shell\Open\command")   			
+		result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExt & "\shell\open\command")
+		result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExt & "\shell\open")   
 	end if
 
 	' b) ...we iterate through OpenWithLists ValueNames  
