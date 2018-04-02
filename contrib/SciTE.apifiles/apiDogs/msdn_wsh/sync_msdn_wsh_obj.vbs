@@ -8,13 +8,14 @@
 
 Dim sFolder, sFileName ' As String
 Dim iSyncCnt 'as Long
-
 Dim htmldoc 'As mshtml.htmldocument
 Dim ofile_log 'As Scripting.TextStream
 Dim ofile_links
 Dim oMyCatList 'As Collection
+dim bConsole
 
 'Sub vba_msdn()
+    if instr(1,wscript.fullName,"cscript") then  bConsole=true
 
     Dim result ' As String
     Dim obrowser ' As InternetExplorer
@@ -25,11 +26,10 @@ Dim oMyCatList 'As Collection
     obrowser.StatusBar = True
 
 ' URL-Laden
-
-'--- ' VbScript Functions https://msdn.microsoft.com/en-us/library/307330xe%28v=vs.84%29.aspx
-  obrowser.Navigate2 ("https://msdn.microsoft.com/en-us/library/307330xe%28v=vs.84%29.aspx")
-	 sFolder = "msdn_wsh_fnc"
-	sFileName = "msdn.wsh.fnc.raw"
+'--- vbs OBbjects https://msdn.microsoft.com/en-us/library/f51wc7hz(v=vs.84).aspx
+  obrowser.Navigate2 ("https://msdn.microsoft.com/en-us/library/f51wc7hz(v=vs.84).aspx")
+  sFolder = "wsh.obj"
+	sFileName = "wsh.obj.raw"
   
   result = fParseResults(obrowser)
     obrowser.Quit
@@ -55,14 +55,16 @@ Function fParseResults(obrowser)
     'MsgBox( obrowser.Document.body.innerhtml)
   Loop Until htmldoc.body.innerhtml = obrowser.Document.body.innerhtml
   
-'---- prepare textfiles
-'  Set fso = CreateObject("Scripting.FileSystemObject")
-'   Set ofile_log = fso.CreateTextFile("sync_msdn.log")
-  
-'--- undocumented: redir log messages to console (use wscript //X) 
-  Set myfso = CreateObject ("Scripting.FileSystemObject")
-  Set ofile_log = myfso.GetStandardStream (1)  
-  
+'---- prepare Log to textfiles
+if bconsole then
+  Set fso = CreateObject("Scripting.FileSystemObject")
+  Set ofile_log = fso.CreateTextFile("sync_msdn.log")
+else '--- prepare Log to stdStream
+  ' undocumented: redir log messages to console (start with wscript //X) 
+  '  Set myfso = CreateObject ("Scripting.FileSystemObject")
+  '  Set ofile_log = myfso.GetStandardStream (1)  
+end if
+
 '----  do some error checking
   If IsObject(htmldoc.getElementById("leftNav")) Then
       Set sidebar = htmldoc.getElementById("tocnav") 
@@ -121,9 +123,10 @@ Function fParseResults(obrowser)
       icharCnt = InStr(oApiName, " ")
     
     '---- Strip suffix after first space -
+ '   on error resume next
       oApiPos = InStr(1, oApiName, " ")
-      oApiName = Left(oApiName, oApiPos - 1)
-   
+      oApiName = Left(oApiName, oApiPos)
+'    on error goto 0
       oApiHref = oObj.all(1).href
   
     ' ---- Get ApiLink from Start till last /
