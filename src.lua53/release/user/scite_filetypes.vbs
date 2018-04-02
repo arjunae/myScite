@@ -159,6 +159,7 @@ Dim arrAllExts() 'Array containing every installer touched Ext
 					exit function
 				end if
 				set oFileRegDump = oFile1.OpenAsTextStream(1, -1) ' forRead, ForceUnicode
+				oFileRegDump.SkipLine() ' FirstLine -> The registry Header was already written, so dont dupliate that.
 		on error goto 0
 	
 		' Write the restore.reg file
@@ -187,12 +188,19 @@ end function
 
 private function policyFilter(strEntry)
 '
-' Remove SystemPolicy locked RegKeys which will be recreated anyway.
+' Recreate special SystemPolicy locked RegKeys 
 '
-	if InStrRev(lcase(strEntry),"windows registry editor") then exit function
-	if InStrRev(lcase(strEntry), chr(34) + "progid" + chr(34)) then exit function
-	if InStrRev(lcase(strEntry), chr(34) + "hash" + chr(34)) then exit function
 	policyFilter=strEntry
+	if InStrRev(lcase(strEntry),"\userchoice]") then
+		policyFilter=replace(strEntry,"[","[-") 
+		policyFilter=policyFilter & vbcrlf & strEntry
+		'wscript.echo(policyFilter)	
+		exit function
+	end if
+
+	' Or choose to just Remove SystemPolicy locked RegKeys as they will be recreated anyway by Explorer
+	'	if InStrRev(lcase(strEntry), chr(34) + "progid" + chr(34)) then exit function
+	'	if InStrRev(lcase(strEntry), chr(34) + "hash" + chr(34)) then exit function
 
 end function
 
