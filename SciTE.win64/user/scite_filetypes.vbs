@@ -76,7 +76,7 @@ Dim app_path ' Fully Qualified Path to Programs executable on the system.
 		action = 11 ' and default to action Install.
 	end if
 	if iCntArgs > 1 then app_path=lcase(wscript.Arguments.Item(1))
-	if  not instr(app_path,":")>0  then
+	if  app_path<>"" and not instr(app_path,":")>0  then
 		wscript.echo(" -Stop- Please use a Fully Qualified Path to Apps Executable")
 		exit function
 	end if
@@ -244,34 +244,33 @@ end function
 
 ' ~~~~~~~~~~~
 
-private function ClearKey(objReg, iRootKey, strRegKey, completely)
+private function DeleteSubkeys(objReg, iRootKey, strRegKey) 
 '
 ' DeleteKey cant handle recursion itself so put a little wrapper around:
-' (defaults to only Deleting the SubKeys and dont Delete the Key itself)
-' Todo: Currently handles only 1 Level of recursion.   
-'
-Dim iKeyExist, arrSubkeys
-	if strRegKey="" then exit Function
-	iKeyExist = objReg.EnumKey(iRootKey , strRegKey	, arrSubkeys)   
-	if typeName(arrSubkeys) = "Null" then exit function
+' (Defaults to only Delete the SubKeys and dont Delete the Key itself)
+
+	iKeyExist = objReg.EnumKey(iRootKey, strRegKey, arrSubkeys) 
 	if iKeyExist>0  then exit function
 	
-	' Delete all SubKeys
-	for each strSubKey in arrSubKeys
-		ClearKey= objReg.DeleteKey(iRootKey , strRegKey & "\" & strSubKey)   			
-	next  
+	' Recursion à la carte - to cool to "not" include...
+	' https://technet.microsoft.com/en-us/library/2006.08.scriptingguy.aspx
+	if typeName(arrSubkeys) <> "Null" then
+		For Each strSubkey In arrSubkeys	
+			DeleteSubkeys objReg, iRootKey, strRegKey & "\" & strSubkey 
+		Next 
+	end if
 	
-	if completely then ClearKey=objReg.DeleteKey(iRootKey , strRegKey)   			
-
+	result = objReg.DeleteKey(HKEY_CURRENT_USER, strRegKey)
+	
 	' Handle Key locked because of Privs (HKCU) or by another App (eg regedit || explorer ...)
-	if ClearKey=5 then
+	if DeleteSubKeys=5 then
 		if bConsole then Wscript.echo("resetting " &  strRegKey & " refused ") 
-		ClearKey=0 
+		DeleteSubKeys=0 
 	else
 		'if bConsole then wscript.echo("Cleared: " & strRegKey)
 	end if
-	
-end function
+
+End function
 
 ' ~~~~~~~~~~~~~~~~~~~~~~
 
@@ -314,12 +313,10 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 	if (iKeyExist = 2 and Err.Number = 0) or  instr(lcase(strValue),lcase(APP_NAME)) Then 
 		'wscript.echo(" ..FileExt "  & strFileExt & " says: UserChoice " & strValue)
 		' Clear the FileExt in HKCU\....Explorer\FileExts
-		result = ClearKey(objReg , HKEY_CURRENT_USER , FILE_EXT_PATH & strFileExt, false)
+		nul= DeleteSubKeys(objReg,HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt)
 		' Also Clear the autoFileExts within HKCU\Applications
-		bla = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & autoFileExt & "\shell\edit\command")
-		bla = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & autoFileExt & "\shell\open\command")
-		bla = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExt & "\shell\open")   
-		bla = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & strFileExt)
+		nul= DeleteSubKeys(objReg, HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & autoFileExt)  
+		nul= objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & strFileExt)
 		end if
 
 	' ...Key (re)creation starts here....
