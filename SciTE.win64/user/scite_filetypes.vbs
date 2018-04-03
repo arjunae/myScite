@@ -46,11 +46,6 @@ if instr(1,wscript.fullName,"cscript") then  bConsole=true
 
 function main()
 
-if not bConsole then
-	wscript.echo("Please dont run directly via GUI. Instead- use .installer.cmd")
-	exit function
-end if
-
 Const REG_HEADER = "Windows Registry Editor Version 5.00"
 Dim arg0 ' either not given or any of the verbs install / uninstall
 Dim action ' currently - 10 for uninstall or 11 for install
@@ -59,6 +54,11 @@ Dim cntTyp ' contains the number of parsed myScite fileTypes
 Dim clearCmds, strExtKey ' clearCmd means a prefixed "-" followed by the Registry Key to be removed.
 Dim arrAllExts() 'Array containing every installer touched Ext
 Dim app_path ' Fully Qualified Path to Programs executable on the system.
+
+	if not bConsole then
+		wscript.echo("Please dont run directly via GUI. Instead- use .installer.cmd")
+		exit function
+	end if
 	
 	' Parse Commandline Arguments	
 	iCntArgs= WScript.Arguments.count 
