@@ -18,7 +18,7 @@
 '- The uninstaller and the Installer will only touch fileExts in scite_filetypes.txt. So any other stuff, which not "belongs" to it wont be touched.
 '
 ' v0.8 -> Add backup capabilities  - Initial public release. 
-' v0.9 -> A pile of SanityChecks , CodeCleanUp
+' v0.9 -> A pile of SanityChecks & CodeCleanUp . Depends on .Installer.cmd to set ProgIds FilePath.
 '
 ' Mar2018 / Marcedo@habMalNeFrage.de
 ' License BSD-3-Clause
@@ -51,7 +51,6 @@ if not bConsole then
 	exit function
 end if
 
-
 Const REG_HEADER = "Windows Registry Editor Version 5.00"
 Dim arg0 ' either not given or any of the verbs install / uninstall
 Dim action ' currently - 10 for uninstall or 11 for install
@@ -59,20 +58,29 @@ Dim cntExt ' contains the number of written FileExts.
 Dim cntTyp ' contains the number of parsed myScite fileTypes
 Dim clearCmds, strExtKey ' clearCmd means a prefixed "-" followed by the Registry Key to be removed.
 Dim arrAllExts() 'Array containing every installer touched Ext
-
-	if WScript.Arguments.count > 0 then arg0 = WScript.Arguments.Item(0)
-
-	if LCase(arg0)="uninstall" then
+Dim app_path ' Fully Qualified Path to Programs executable on the system.
+	
+	' Parse Commandline Arguments	
+	iCntArgs= WScript.Arguments.count 
+	if iCntArgs > 0 then arg0 = WScript.Arguments.Item(0)
+	
+	if  LCase(arg0)="uninstall" then
 		if bConsole then wscript.echo(" We do an -UNInstall- ") 
 		action = 10 
-	elseif LCase(arg0)="install" then  
+	elseif  LCase(arg0)="install" then  
 		if bConsole then wscript.echo(" We do an -Install- ")
 		action = 11
 	else
 		if bConsole then wscript.echo(" Defaulting to action -Install- ")
-		action = 11
+		app_path=lcase(arg0) ' Treat a single Arg as Apps fully qualified Path
+		action = 11 ' and default to action Install.
 	end if
-
+	if iCntArgs > 1 then app_path=lcase(wscript.Arguments.Item(1))
+	if  not instr(app_path,":")>0  then
+		wscript.echo(" -Stop- Please use a Fully Qualified Path to Apps Executable")
+		exit function
+	end if
+		
 	' Open myScites known filetypes List using vbscripts funny sortof a "catchme if you can" block.
 	on error resume next 
 		set oFso = CreateObject("scripting.filesystemObject")
@@ -101,7 +109,13 @@ Dim arrAllExts() 'Array containing every installer touched Ext
 		if sChar=vbCR or sChar=vbLF  then 
 		oFileExts.SkipLine()
 		cntTyp=cntTyp+1
-
+		
+		if startMark=0 then
+			wscript.echo("Error parsing " & DATA_FILE & " in Line " & cntTyp & " Exit....") 
+			cntTyp=0
+			exit function
+		end if
+		
 		' Remove trash from the result
 		strExt=Replace(strExt,"*","")
 		strExt=Replace(strExt,vbCR,"")
@@ -229,7 +243,7 @@ private function createRegDump()
 end function
 
 ' ~~~~~~~~~~~
-		
+
 private function ClearKey(objReg, iRootKey, strRegKey, completely)
 '
 ' DeleteKey cant handle recursion itself so put a little wrapper around:
@@ -296,7 +310,7 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 	' handle eventually defect Entries by starting Clean with every not currently used handler resetted.
 	iKeyExist=objReg.GetStringValue (HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\UserChoice" ,"progID" , strValue)
 
-	' Dont reset the ext if a user already selected another program than scite to handle it. (Key UserChoice exists) 
+	' Dont reset the ext if a user already selected another program than scite to handle it. (Key UserChoice does not point to APP_NAME) 
 	if (iKeyExist = 2 and Err.Number = 0) or  instr(lcase(strValue),lcase(APP_NAME)) Then 
 		'wscript.echo(" ..FileExt "  & strFileExt & " says: UserChoice " & strValue)
 		' Clear the FileExt in HKCU\....Explorer\FileExts
@@ -353,38 +367,49 @@ private function unassoc_ext_with_program(strFileExt)
 '
 
 Dim objReg ' Initialize WMI service and connect to the class StdRegProv
-Dim arrKey,arrTypes, autoFileExt
+Dim arrKey,arrTypes, autoFileExt, bRemove
 
 	autoFileExt=replace(strFileExt,".","") & "_auto_file"   
 	strComputer = "." ' Computer name to be connected - '.' refers to the local machine
 	set objReg=GetObject("winmgmts:{impersonationLevel=impersonate}!\\" & strComputer & "\root\default:StdRegProv")
-
-	' a) ...we remove the reference to SciTE in OpenWithProgIDs 
+	
+	' a) Check if a User has used Explorers OpenWith.exe to associate the Ext with APP_NAME
+	iKeyExist=objReg.GetStringValue (HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\UserChoice" ,"progID" , strValue)
+	if (iKeyExist = 0 and Err.Number = 0) and instr(lcase(strValue),lcase(APP_NAME)) then 
+		bRemove = true
+		' b) .. ok - Clear the UserChoice
+		'if bConsole then WScript.echo(" ..Note: Removing 'OpenWith.exe' associated Entry: '" & strFileExt &"'" )
+		result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\UserChoice")
+	end if
+	
+	' c) ...we remove the reference to SciTE in ..\FileExt\OpenWithProgIDs 
 	result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS &  strFileExt & "\OpenWithProgIDs", "Applications\" & APP_NAME)
 	result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithProgIDs", "Applications\"& APP_NAME)
-	' ... and clear an maybe existing auto_file entry
+	
+	' d)... and clear an maybe existing ..\classes\auto_file entry
 	result=objReg.GetStringValue (HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExt & "\shell\Open\" ,"command" , strValue)
 	if instr(lcase(strValue), lcase(APP_NAME)) then
 		result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExt & "\shell\open\command")
 		result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExt & "\shell\open")   
 	end if
 
-	' b) ...we iterate through OpenWithLists ValueNames  
+	' e) ...we iterate through ..\Explorer\FileExt\OpenWithLists ValueNames  
 	result=objReg.EnumValues(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithList",arrKey,arrTypes)
 	if typeName(arrKey) <> "Null" then
 		do while icnt<=ubound(arrKey)
 			result=objReg.GetStringValue (HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithList" , arrkey(icnt), strValue)
-			' c) ..Remove any Name which value refers to SciTE
+			' f) ..Remove any Name which value refers to SciTE
 			if instr(lcase(strValue), lcase(APP_NAME)) then
 				result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithList", arrKey(icnt))
 			end if
 		icnt=icnt+1
 		loop
-		' d) ..Clear the UserChoice
-		result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\UserChoice")
 	end if
 
-	if (result=0 or result=2) and Err.Number = 0 then 
+	'f) Remove APP_NAMEs ProgID 
+	 result = objReg.DeleteKey(HKEY_CURRENT_USER , "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\" & APP_NAME)
+	 
+	if Err.Number = 0 then 
 		unassoc_ext_with_program=ERR_OK
 		'if bConsole then wscript.echo("Modified strFileExt " & strFileExt )
 	else
