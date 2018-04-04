@@ -140,7 +140,7 @@ Dim app_path ' Fully Qualified Path to Programs executable on the system.
 				
 				' Continue with the desired action:
 				if action=11 then result=assoc_ext_with_program(strEle)
-				if action=10 then result=unassoc_ext_with_program(strEle)				
+				if action=10 then result=uninstall_program(strEle)				
 				
 				'  .. todo- implement an more sophisticated Error Handling...
 				if result=ERR_WARN then 
@@ -222,7 +222,7 @@ end function
 
 private function createRegDump()
 '
-'	todo: think about a performant filter matching only Installer touched instead of All Entries. 	
+' todo: think about a performant filter matching only Installer touched instead of All Entries. 	
 ' A custom RegistryDump Func instead of reg.exe would do, but that would be slightly overdressed here.		
 ' So for now: Create a full backup of all Exts in Explorer\fileExts during install.
 '
@@ -260,9 +260,9 @@ private function DeleteSubkeys(objReg, iRootKey, strRegKey)
 		Next 
 	end if
 	
-	result = objReg.DeleteKey(HKEY_CURRENT_USER, strRegKey)
+	DeleteSubKeys = objReg.DeleteKey(HKEY_CURRENT_USER, strRegKey)
 	
-	' Handle Key locked because of Privs (HKCU) or by another App (eg regedit || explorer ...)
+	' Handle Key locked because of Privs (HKCR||UserChoice) or through another App (eg regedit || explorer ...)
 	if DeleteSubKeys=5 then
 		if bConsole then Wscript.echo("resetting " &  strRegKey & " refused ") 
 		DeleteSubKeys=0 
@@ -315,9 +315,10 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 		' Clear the FileExt in HKCU\....Explorer\FileExts
 		nul= DeleteSubKeys(objReg,HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt)
 		' Also Clear the autoFileExts within HKCU\Applications
-		nul= DeleteSubKeys(objReg, HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & autoFileExt)  
+		nul= DeleteSubKeys(objReg, HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & autoFileExt)
+		nul= objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & autoFileExt)
 		nul= objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS  & strFileExt)
-		end if
+	end if
 
 	' ...Key (re)creation starts here....
 	
@@ -336,13 +337,12 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 	if result=0 and Err.Number = 0 then	
 		'1AC14E77-02E7-4E5D-B744-2EB1AE5198B7 is just the UUID equivalent for %systemroot%\system32
 		result = result + objReg.setStringValue(HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt & "\OpenWithList","a","{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\OpenWith.exe")  
-		result = result +  objReg.setStringValue(HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt & "\OpenWithList","y",APP_NAME)
+		result = result + objReg.setStringValue(HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt & "\OpenWithList","y",APP_NAME)
 		result = result + objReg.setStringValue(HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt & "\OpenWithList","MRUList","ya")
 		result = result + objReg.setStringValue(HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt & "\OpenWithProgIDs","Applications\" & APP_NAME,"")
 	End If
 
-	' Above Stuff returns Zero on success.
-	' if anything gone wrong, we will see that here:
+	' Above Stuff returns Zero on success. if anything gone wrong, we will see that here:
 	'wscript.Echo("Status: Error? " & Err.Number & " resultCode? " & result)
 
 	if result=0 and Err.Number = 0 then 
@@ -357,7 +357,7 @@ end function
 
 '~~~~~~~~~~~~
 
-private function unassoc_ext_with_program(strFileExt)
+private function uninstall_program(strFileExt)
 '
 ' removes scite related subkeys in HKCU..Explorer\FileExts and HKCU\Software\Classes
 ' which will cause Explorer to show the openFileWith Handler again.
@@ -379,7 +379,7 @@ Dim arrKey,arrTypes, autoFileExt, bRemove
 		result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\UserChoice")
 	end if
 	
-	' c) ...we remove the reference to SciTE in ..\FileExt\OpenWithProgIDs 
+	' c) ...we remove the reference to APP_NAME in ..\FileExt\OpenWithProgIDs 
 	result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS &  strFileExt & "\OpenWithProgIDs", "Applications\" & APP_NAME)
 	result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithProgIDs", "Applications\"& APP_NAME)
 	
@@ -389,13 +389,13 @@ Dim arrKey,arrTypes, autoFileExt, bRemove
 		result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExt & "\shell\open\command")
 		result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & autoFileExt & "\shell\open")   
 	end if
-
-	' e) ...we iterate through ..\Explorer\FileExt\OpenWithLists ValueNames  
+	
+	' e) ...we iterate through ..\Explorer\FileExt\OpenWithLists ValueNames / Remove any Name which value refers to SciTE  
 	result=objReg.EnumValues(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithList",arrKey,arrTypes)
 	if typeName(arrKey) <> "Null" then
+		icnt=0
 		do while icnt<=ubound(arrKey)
 			result=objReg.GetStringValue (HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithList" , arrkey(icnt), strValue)
-			' f) ..Remove any Name which value refers to SciTE
 			if instr(lcase(strValue), lcase(APP_NAME)) then
 				result = objReg.DeleteValue(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\OpenWithList", arrKey(icnt))
 			end if
@@ -403,8 +403,22 @@ Dim arrKey,arrTypes, autoFileExt, bRemove
 		loop
 	end if
 
-	'f) Remove APP_NAMEs ProgID 
-	 result = objReg.DeleteKey(HKEY_CURRENT_USER , "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\" & APP_NAME)
+	'f) Remove APP_NAMEs Registry Base Entries
+	nul = objReg.DeleteKey(HKEY_CURRENT_USER , "SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\" & APP_NAME)
+	nul = DeleteSubKeys(objReg, HKEY_CURRENT_USER, "SOFTWARE\Classes\Directory\Background\shell\" & replace(APP_NAME,".exe",""))
+	nul = objReg.DeleteKey(HKEY_CURRENT_USER , "SOFTWARE\Classes\Directory\Background\shell\" & replace(APP_NAME,".exe",""))
+
+	icnt=0
+	result=objReg.EnumKey(HKEY_CURRENT_USER,FILE_EXT_PATH_CLS & "*\shell", arrKey)
+	if typeName(arrKey) <> "Null" then
+		do while icnt <= ubound(arrKey)
+			if instr(lcase(arrKey(icnt)), lcase(replace(APP_NAME,".exe",""))) then
+						nul= DeleteSubKeys(objReg,HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & "*\shell\" & arrKey(icnt))
+			end if
+		icnt=icnt+1
+		loop
+	end if
+
 	 
 	if Err.Number = 0 then 
 		unassoc_ext_with_program=ERR_OK
