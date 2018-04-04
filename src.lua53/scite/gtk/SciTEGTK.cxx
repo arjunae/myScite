@@ -552,7 +552,7 @@ protected:
 
 	void ReadLocalization() override;
 	void ReadPropertiesInitial() override;
-	void ReadProperties() override;
+	void ReadProperties(bool reloadScripts);
 
 	static gboolean TimerTick(gpointer pSciTE);
 	void TimerStart(int mask) override;
@@ -1180,8 +1180,8 @@ void SciTEGTK::ReadPropertiesInitial() {
 	ShowStatusBar();
 }
 
-void SciTEGTK::ReadProperties() {
-	SciTEBase::ReadProperties();
+void SciTEGTK::ReadProperties(bool reloadScripts) {
+	SciTEBase::ReadProperties(reloadScripts);
 
 	CallChildren(SCI_SETRECTANGULARSELECTIONMODIFIER,
 		props.GetInt("rectangular.selection.modifier", SCMOD_CTRL));
@@ -2558,7 +2558,7 @@ void SciTEGTK::ResetExecution() {
 	icmd = 0;
 	jobQueue.SetExecuting(false);
 	if (needReadProperties)
-		ReadProperties();
+		ReadProperties(true);
 	CheckReload();
 	CheckMenus();
 	jobQueue.ClearJobs();

@@ -413,18 +413,17 @@ Dim arrKey,arrTypes, autoFileExt, bRemove
 	if typeName(arrKey) <> "Null" then
 		do while icnt <= ubound(arrKey)
 			if instr(lcase(arrKey(icnt)), lcase(replace(APP_NAME,".exe",""))) then
-						nul= DeleteSubKeys(objReg,HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & "*\shell\" & arrKey(icnt))
+					nul= DeleteSubKeys(objReg,HKEY_CURRENT_USER, FILE_EXT_PATH_CLS & "*\shell\" & arrKey(icnt))
 			end if
 		icnt=icnt+1
 		loop
 	end if
-
 	 
 	if Err.Number = 0 then 
-		unassoc_ext_with_program=ERR_OK
+		uninstall_program=ERR_OK
 		'if bConsole then wscript.echo("Modified strFileExt " & strFileExt )
 	else
-		unassoc_ext_with_program=ERR_WARN
+		uninstall_program=ERR_WARN
 	end if
 
 	set objReg=Nothing
