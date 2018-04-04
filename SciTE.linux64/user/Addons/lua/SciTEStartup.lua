@@ -35,10 +35,10 @@ package.path = package.path .. ";"..myHome.."/Addons/lua/mod-mitchell/?.lua;"
 		
 
 -- Load cTags Browser
---dofile(myHome..'/Addons/lua/mod-ctags/ctagsd.lua')
+dofile(myHome..'/Addons/lua/mod-ctags/ctagsd.lua')
 
 -- Load Project support functions
-dofile(myHome..'/Addons/lua/SciTEProject.lua')
+--dofile(myHome..'/Addons/lua/SciTEProject.lua')
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -188,8 +188,8 @@ function OnInit()
 --
 
 	-- Event Handlers
-	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
-	scite_OnSave(CTagsRecreate)
+	--scite_OnOpenSwitch(CTagsUpdateProps,false,"")
+	--scite_OnSave(CTagsRecreate)
 	scite_OnOpenSwitch(myScite_OpenSwitch)
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	

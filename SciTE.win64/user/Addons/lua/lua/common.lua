@@ -42,6 +42,26 @@ function DetectUTF8()
 	end
 end
 
+-----------------------
+-- retrieve a HTTP URL
+-- write to var httpResponse
+-----------------------
+function testHTTP(sURL)
+	
+	if props["httpResponse"]~="" then return end
+	-- load the http module
+	local socket = require "socket"
+	local io = require("io")
+	local ltn12 = require("ltn12")
+	local http = require("socket.http")
+
+	if not sURL then sURL="http://www.google.de/search?q=myScite&oq=myScite" end
+	content, status, auth = http.request(sURL)
+	--print("response:", content) -- response
+	--print("response code:", status) -- status code
+	props["httpResponse"]=content
+end
+
 --------------------------
 -- quickCheck a files CRC32 Hash 
 --------------------------
@@ -77,6 +97,8 @@ end
 local SLHash
 if not SLHash then SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
 	if SLHash and SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
+	-- Check for Updates on Scite Close 
+	-- scite_OnClose(testHTTP)
 end
 
 --------------------------

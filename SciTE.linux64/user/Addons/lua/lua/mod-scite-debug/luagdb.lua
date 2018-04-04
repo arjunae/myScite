@@ -25,7 +25,7 @@ function slashify(s)
 end
 
 local function file_is_lua (file)
-    return extension_of(file) == 'lua'
+    return split_last(file,'.') == 'lua'
 end
 
 local info_line_success = '^Line %d+ of'

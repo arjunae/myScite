@@ -47,9 +47,6 @@ local lpeg
 if lpeg==nil then err,lpeg = pcall( require,"lpeg")  end
 require 'gui'
 
--- arjunea: removed shell dependency. 
--- Moved shell.inputbox to gui / Use gui.run and gui.msgbox 
---require 'shell'
 
 -- �se scite.gettranslation ?
 -- local _DEBUG = true --включает вывод отладочной информации
@@ -57,7 +54,7 @@ require 'gui'
 -- you can choose to make SideBar a stand-alone window
 local win = tonumber(props['sidebar.win']) == 1
 -- Переключатель способа предпросмотра аббревиатур: true = calltip, false = annotation
-local Abbreviations_USECALLTIPS = tonumber(props['sidebar.abbrev.calltip']) == 0
+local Abbreviations_USECALLTIPS = tonumber(props['sidebar.abbrev.calltip']) == 1
 -- отображение флагов/параметров по умолчанию:
 local _show_flags = tonumber(props['sidebar.functions.flags']) == 1
 local _show_params = tonumber(props['sidebar.functions.params']) == 1
@@ -307,7 +304,8 @@ if list_func_height <= 0 then list_func_height = 600 end
 local list_bookmarks = gui.list(true)
 list_bookmarks:add_column("@", 24)
 list_bookmarks:add_column("Bookmarks", 400)
-tab1:add(list_bookmarks, "bottom", list_func_height)
+--fix
+--tab1:add(list_bookmarks, "bottom", list_func_height)
 if colorback then list_bookmarks:set_list_colour(colorfore,colorback) end
 
 local list_func = gui.list(true)
@@ -355,7 +353,7 @@ local current_path = ''
 local file_mask = '*.*'
 
 local function FileMan_ShowPath()
-	local rtf = [[{\rtf{\fonttbl{\f0\fcharset204 Helv;}}{\colortbl;\red50\green130\blue210;\red80\green0\blue0;}\f0\fs16]]
+		local rtf = [[{\rtf{\fonttbl{\f0\fcharset204 Helv;}}{\colortbl;\red50\green130\blue210;\red80\green0\blue0;}\f0\fs16]]
 	local path = '\\cf1'..current_path:gsub('\\', '\\\\')
 	local mask = '\\cf2'..file_mask..''
 	memo_path:set_text(rtf..path..mask)
@@ -366,11 +364,7 @@ memo_path:on_key(function(key)
 		local new_path = memo_path:get_text()
 		if new_path ~= '' then
 			new_path = new_path:match('[^*]+')..'\\'
-			local is_folder 
-			for entry,attrib in gui.dir(new_path) do
-				if attrib==16 then is_folder=true end
-			end
-			
+			local is_folder = gui.files(new_path..'*', true)
 			if is_folder then
 				current_path = new_path
 			end
@@ -406,7 +400,8 @@ function FileMan_ListFILL()
 
 	--This utilizes lfs iterator version
 	local table_folders = {}
-	for entry, attrib in gui.dir(current_path) do --  folders=16, files=32
+	--  folders=16, files=32
+	for entry, attrib in gui.dir(current_path) do 
 		if attrib==16 and entry~=".." and entry~="." then 
 			table.insert(table_folders, {'['..entry..']', {entry,'d'}})
 		end	 
@@ -488,7 +483,7 @@ end
 function FileMan_FileRename()
 	local filename = FileMan_GetSelectedItem()
 	if filename == '' or filename == '..' then return end
-	local filename_new  gui.inputbox("Rename", "Enter new file name:", filename, function(name) return not name:match('[\\/:|*?"<>]') end)
+	local filename_new = shell.inputbox("Rename", "Enter new file name:", filename, function(name) return not name:match('[\\/:|*?"<>]') end)
 	if filename_new == nil then return end
 	if filename_new ~= '' and filename_new ~= filename then
 		os.rename(current_path..filename, current_path..filename_new)
@@ -500,8 +495,8 @@ function FileMan_FileDelete()
 	local filename, attr = FileMan_GetSelectedItem()
 	if filename == '' then return end
 	if attr == 'd' then return end
-	--if shell.msgbox("Are you sure you want to DELETE this file?\n"..filename, "DELETE", 4+256) == 6 then
-	if gui.message("Are you sure you want to DELETE this file?\n"..filename, "query") then
+	if shell.msgbox("Are you sure you want to DELETE this file?\n"..filename, "DELETE", 4+256) == 6 then
+	-- if gui.message("Are you sure you want to DELETE this file?\n"..filename, "query") then
 		os.remove(current_path..filename)
 		FileMan_ListFILL()
 	end
@@ -547,7 +542,7 @@ function FileMan_FileExec(params)
 		FileMan_FileExecWithSciTE(CommandBuild('wscript'))
 	-- Other
 	else
-		local ret, descr = gui.run(filename,params,current_path)
+		local ret, descr = shell.exec(current_path..filename..params)
 		if not ret then
 			print (">Exec: "..filename)
 			print ("Error: "..descr)
@@ -688,11 +683,11 @@ function Favorites_AddFile()
 	local fpath = current_path..fname
 	if attr == 'd' then
 		fname = ' ['..fname..']'
-		fpath = fpath:gsub('\\\.\.$', '')..'\\'
+--		fpath = fpath:gsub('\\\.\.$', '')..'\\'
 	end
-	list_fav_table[#list_fav_table+1] = {fname, fpath}
-	Favorites_ListFILL()
-	Favorites_SaveList()
+--	list_fav_table[#list_fav_table+1] = {fname, fpath}
+--	Favorites_ListFILL()
+--	Favorites_SaveList()
 end
 
 function Favorites_AddCurrentBuffer()
@@ -1215,9 +1210,10 @@ do -- Fill_Ext2Lang
 		['*.ahk']='autohotkey',
 	}
 	for i,v in pairs(patterns) do
-		for ext in (i..';'):gfind("%*%.([^;]+);") do
-			Ext2Lang[ext] = v
-		end
+--fix
+--		for ext in (i..';'):gfind("%*%.([^;]+);") do
+--					Ext2Lang[ext] = v
+--		end
 	end
 end -- Fill_Ext2Lang
 
@@ -1471,10 +1467,7 @@ else
 	end
 end
 
---arjunea local scite_InsertAbbreviation = scite_InsertAbbreviation or scite.InsertAbbreviation 
-function scite_InsertAbbreviation(expansion)
-end
-
+local scite_InsertAbbreviation = scite_InsertAbbreviation or scite.InsertAbbreviation
 local function Abbreviations_InsertExpansion()
 	local sel_item = list_abbrev:get_selected_item()
 	if sel_item == -1 then return end
@@ -1488,8 +1481,8 @@ local function Abbreviations_ShowExpansion()
 	if sel_item == -1 then return end
 	local expansion = list_abbrev:get_item_data(sel_item)
 	expansion = expansion:gsub('\\\\','\4'):gsub('\\r','\r'):gsub('(\\n','\n'):gsub('\\t','\t'):gsub('\4','\\'):gsub('%%%%','%%')
---arjunea local cp = editor:codepage()
---arjunea if cp ~= 65001 then expansion = expansion:from_utf8(cp) end
+	local cp = editor:codepage()
+	if cp ~= 65001 then expansion = expansion:from_utf8(cp) end
 
 	local cur_pos = editor.CurrentPos
 	if Abbreviations_USECALLTIPS then
@@ -1742,7 +1735,6 @@ props["dwell.period"] = 50
 local cur_word_old = ""
 AddEventHandler("OnKey", function()
 	if editor.Focus then
---	print(win_parent:bounds()) --Arjunae debug
 		local cur_word = GetCurrentWord() -- слово, на котором стояла каретка ДО ТОГО КАК ЕЁ ПЕРЕМЕСТИЛИ
 		if cur_word ~= cur_word_old then
 			SetHexColour(cur_word)

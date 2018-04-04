@@ -21,11 +21,11 @@ function class(base,ctor)
 	local obj = {}
 	setmetatable(obj,c)
 	if ctor then
-		ctor(obj,unpack{...}) --fix lua5.3.4
+		ctor(obj,table.unpack{...}) --fix lua5.3.4
 	else
 	-- make sure that any stuff from the base class is initialized!
 	   if base and base.init then
-		 base.init(obj,unpack{...}) --fix lua5.3.4
+		 base.init(obj,table.unpack{...}) --fix lua5.3.4
 	   end
 	end
 	return obj

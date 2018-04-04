@@ -713,7 +713,7 @@ function split(s,delim)
 end
 
 function splitv(s,delim)
-    return unpack(split(s,delim))
+    return table.unpack(split(s,delim))
 end
 
 local idx = 10

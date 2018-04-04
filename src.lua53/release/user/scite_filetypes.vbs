@@ -93,9 +93,9 @@ Dim app_path ' Fully Qualified Path to Programs executable on the system.
 
 	' Init Backup of FileExt related keys.
 	if action = 11 then
-		result=createRegDump()
-		if result=969 then exit function
-		clearCmds=clearCmds & REG_HEADER
+		result = createRegDump()
+		if result = ERR_FATAL then exit function
+		clearCmds = clearCmds & REG_HEADER
 	end if
 	
 	' Iterate through the DataFile. Treat lines beginning with # as a comment. 
@@ -130,17 +130,17 @@ Dim app_path ' Fully Qualified Path to Programs executable on the system.
 			if left(strEle,1)="." then
 				cntExt=cntExt+1 
 				
-				' Append to allExts for Restore File
+				' Append to allExts array for Restore File Keyfilter.
 				reDim preserve arrAllExts(cntExt)
 				arrAllExts(cntExt)=strEle
 				
-				' Write reset Cmds for the restore file
+				' Write Key-reset Cmds for the restore file
 				strExtKey="HKEY_CURRENT_USER\" & FILE_EXT_PATH & strEle  
 				clearCmds=clearCmds & vbCrLf & "[-" & strExtKey & "]"
 				
 				' Continue with the desired action:
-				if action=11 then result=assoc_ext_with_program(strEle)
-				if action=10 then result=uninstall_program(strEle)				
+				if action=11 then result=assoc_ext_with_program(app_path, strEle)
+				if action=10 then result=uninstall_program(app_path, strEle)				
 				
 				'  .. todo- implement an more sophisticated Error Handling...
 				if result=ERR_WARN then 
@@ -277,7 +277,7 @@ End function
 ' VbScript WTF.. If you init that objReg only once for reusal in globalSope, its creating unpredictable entries within the registry...
 ' Took me half the day to get to that "perfectly amusing" Fact. 
 
-private function assoc_ext_with_program(strFileExt) 
+private function assoc_ext_with_program( app_path, strFileExt) 
 '
 ' Registers all mySciTE known Filetypes
 '
@@ -357,7 +357,7 @@ end function
 
 '~~~~~~~~~~~~
 
-private function uninstall_program(strFileExt)
+private function uninstall_program(app_path, strFileExt)
 '
 ' removes scite related subkeys in HKCU..Explorer\FileExts and HKCU\Software\Classes
 ' which will cause Explorer to show the openFileWith Handler again.

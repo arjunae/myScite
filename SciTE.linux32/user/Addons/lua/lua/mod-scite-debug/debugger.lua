@@ -4,7 +4,8 @@
 -- (1) debug.backtrace.depth will configure depth of stack frame dump (default is 20)
 -- (3) first generalized version
 
-require "lfs" --chdir
+if lfs==nil then err,lfs = pcall( require,"lfs")  end --chdir
+scite_require 'marker_indic.lua'
 
 local GTK = scite_GetProp('PLAT_GTK')
 local stripText = ''
@@ -32,8 +33,6 @@ scite_Command {
 --	  'Up|do_up|Alt+U',
 --	  'Down|do_down|Alt+D',
 }
-	
-scite_require 'extlib.lua'
 
 local lua_prompt = '(lua)'
 local prompt
@@ -48,6 +47,48 @@ local last_breakpoint
 local traced
 local dbg
 local catdbg
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+local GTK = scite_GetProp('PLAT_GTK')
+local dirSep,dirsep
+
+if GTK then
+	dirSep = '/'
+	dirsep = '/'
+else
+	dirSep = '\\'
+	dirsep='\\'
+end
+
+local function at (s,i)
+    return s:sub(i,i)
+end
+
+--- note: for finding the last occurance of a character, it's actualy
+--- easier to do it in an explicit loop rather than use patterns.
+--- (These are not time-critcal functions)
+function split_last (s,ch)
+    local i = #s
+    while i > 0 do
+        if at(s,i) == ch then
+            return s:sub(i+1),i
+        end
+        i = i - 1
+    end
+end
+
+function choose(cond,x,y)
+	if cond then return x else return y end
+end
+
+
+function join(path,part1,part2)
+	local res = path..dirsep..part1
+    if part2 then return res..dirsep..part2 else return res end
+end
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 function dbg_last_command()
@@ -124,10 +165,14 @@ function edit(f)
 end
 
 
-function cd(path)
- --  os.chdir(path)
- lfs.chdir(path)
+function cd(path) 
+	if lfs then
+		lfs.chdir(path)
+	else
+		os.chdir(path)
+	end
 end
+
 
 function eval_lua(line)
     if sub(line,1,1) == '=' then
@@ -217,7 +262,7 @@ function Dbg:default_target()
     if ext then
 		-- Ndless SDK: don't use a relative path. Use any ELF file.
       --  local res = props['FileDir']..'\\' --scite_webdev
-         local res = props['FileName'] -- c scite_webdev
+         local res = props['FileName'] -- Arjunae
 		  if ext ~= '' then res = res..'.'..ext end
         return res
     else
@@ -260,7 +305,7 @@ function Dbg:clear_breakpoint(file,line,num)
 end
 
 -- run until the indicated file:line is reached
-function Dbg:goto(file,lno)
+function Dbg:gotoL(file,lno)
 	dbg_command('tbreak',file..':'..lno)
 	dbg_command('continue')
 end
@@ -392,13 +437,13 @@ end
 
 function do_run()
 	if status == 'idle' then
-	-- Arjunea
+	-- Arjunea Fix lua5.3.4
 		if not (props['debug.asktarget']=='' or props['debug.asktarget'] == '0') and (#stripText == 0 ) then
 				scite.StripShow("") -- clear strip
-				scite.StripShow("!'Target name:'["..props['FilePath'].."]((OK))(&Cancel)")
+				scite.StripShow("!'/todo: rewrite.../ Target name:'["..props['FilePath'].."]((OK))(&Cancel)")
 				return
 		end
-			lfs.chdir(props['FileDir']) 
+			if lfs then lfs.chdir(props['FileDir']) else os.chdir(props['FileDir'])	end
 		if	do_launch() then
 			set_status('running')
 		else
@@ -461,7 +506,7 @@ end
 function do_temp_breakpoint()
 	local lno = current_line() + 1
 	local file = props['FileNameExt']
-	dbg:goto(file,lno)
+	dbg:gotoL(file,lno)
 end
 
 local function char_at(p)
@@ -665,7 +710,7 @@ function do_launch()
 			target = target:sub(4)
 			no_host_symbols = true
 		end
-        ext = extension_of(target)
+        ext = split_last(target,'.') --File Ext
     else
         ext = props['FileExt']
     end
@@ -742,7 +787,7 @@ end
 -- find the Unix/GTK equivalent! It is meant to bring the debugger
 -- SciTE instance to the front.
 function raise_scite()
-	--spawner.foreground()
+	spawner.foreground()
 end
 
 -- output of inspected variables goes here; this mechanism allows us
@@ -759,10 +804,10 @@ end
 function closing_process()
     print 'quitting debugger'
 	 stripText=""
---	spawner_obj:close()
+	--spawner_obj:close()
     set_status('idle')
     if catdbg ~= nil then print(catdbg); catdbg:close() end
--- scite_LeaveInteractivePrompt()   
+	scite_LeaveInteractivePrompt()   
 	RemoveLastMarker(true)
 	os.remove(dbg.cmd_file)
 end
