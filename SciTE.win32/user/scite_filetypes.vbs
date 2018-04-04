@@ -63,7 +63,6 @@ Dim app_path ' Fully Qualified Path to Programs executable on the system.
 	' Parse Commandline Arguments	
 	iCntArgs= WScript.Arguments.count 
 	if iCntArgs > 0 then arg0 = WScript.Arguments.Item(0)
-	
 	if  LCase(arg0)="uninstall" then
 		if bConsole then wscript.echo(" We do an -UNInstall- ") 
 		action = 10 
@@ -76,7 +75,7 @@ Dim app_path ' Fully Qualified Path to Programs executable on the system.
 		action = 11 ' and default to action Install.
 	end if
 	if iCntArgs > 1 then app_path=lcase(wscript.Arguments.Item(1))
-	if  app_path<>"" and not instr(app_path,":")>0  then
+	if app_path<>"" and not instr(app_path,":")>0  then
 		wscript.echo(" -Stop- Please use a Fully Qualified Path to Apps Executable")
 		exit function
 	end if
@@ -107,51 +106,50 @@ Dim app_path ' Fully Qualified Path to Programs executable on the system.
 
 		' Just in case someone edited the file to be partly UNiX Formatted
 		if sChar=vbCR or sChar=vbLF  then 
-		oFileExts.SkipLine()
-		cntTyp=cntTyp+1
-		
-		if startMark=0 then
-			wscript.echo("Error parsing " & DATA_FILE & " in Line " & cntTyp & " Exit....") 
-			cntTyp=0
-			exit function
-		end if
-		
-		' Remove trash from the result
-		strExt=Replace(strExt,"*","")
-		strExt=Replace(strExt,vbCR,"")
-		strDesc=Replace(strDesc,"=","")
-		
-		' Create an Array from the gathered Stuff  
-		' if bConsole then wscript.echo(" ..Registering: " & strDesc & " " & cntTyp)
-		arrEntryExts=split(strExt,";")
-		
-		' Iterate through and register each filetype.
-		for each strEle in arrEntryExts
-			if left(strEle,1)="." then
-				cntExt=cntExt+1 
-				
-				' Append to allExts array for Restore File Keyfilter.
-				reDim preserve arrAllExts(cntExt)
-				arrAllExts(cntExt)=strEle
-				
-				' Write Key-reset Cmds for the restore file
-				strExtKey="HKEY_CURRENT_USER\" & FILE_EXT_PATH & strEle  
-				clearCmds=clearCmds & vbCrLf & "[-" & strExtKey & "]"
-				
-				' Continue with the desired action:
-				if action=11 then result=assoc_ext_with_program(app_path, strEle)
-				if action=10 then result=uninstall_program(app_path, strEle)				
-				
-				'  .. todo- implement an more sophisticated Error Handling...
-				if result=ERR_WARN then 
-					if bconsole then wscript.echo("-- Warn: Your fileExt [" &  strEle &"] doesnt like our Tardis ?!" ) 
-				elseif result=ERR_FATAL then ' Fatallity...Grab your Cat and run like Hell....
-					wscript.echo("-- Fatal: Universum Error. -Stop-")
-					return(result)
-				end if
+			oFileExts.SkipLine()
+			cntTyp=cntTyp+1
+			
+			if startMark=0 then
+				wscript.echo("Error parsing " & DATA_FILE & " in Line " & cntTyp & " Exit....") 
+				cntTyp=0
+				exit function
 			end if
-		next
-
+			
+			' Remove trash from the result
+			strExt=Replace(strExt,"*","")
+			strExt=Replace(strExt,vbCR,"")
+			strDesc=Replace(strDesc,"=","")
+			
+			' Create an Array from the gathered Stuff  
+			' if bConsole then wscript.echo(" ..(De)Registering: " & strDesc & " " & cntTyp)
+			arrEntryExts=split(strExt,";")
+			
+			' Iterate through and register each filetype.
+			for each strEle in arrEntryExts
+				if left(strEle,1)="." then
+					cntExt=cntExt+1 
+					
+					' Append to allExts array for Restore File Keyfilter.
+					reDim preserve arrAllExts(cntExt)
+					arrAllExts(cntExt)=strEle
+					
+					' Write Key-reset Cmds for the restore file
+					strExtKey="HKEY_CURRENT_USER\" & FILE_EXT_PATH & strEle  
+					clearCmds=clearCmds & vbCrLf & "[-" & strExtKey & "]"
+					
+					' Continue with the desired action:
+					if action=11 then result=assoc_ext_with_program(app_path, strEle)
+					if action=10 then result=uninstall_program(app_path, strEle)				
+					
+					'  .. todo- implement an more sophisticated Error Handling...
+					if result=ERR_WARN then 
+						if bconsole then wscript.echo("-- Warn: Your fileExt [" &  strEle &"] doesnt like our Tardis ?!" ) 
+					elseif result=ERR_FATAL then ' Fatallity...Grab your Cat and run like Hell....
+						wscript.echo("-- Fatal: Universum Error. -Stop-")
+						return(result)
+					end if
+				end if
+			next
 		startMark=0 : strDesc="" :strExt="":strEle=""
 		end if
 

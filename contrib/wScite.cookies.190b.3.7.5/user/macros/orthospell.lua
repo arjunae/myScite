@@ -177,7 +177,7 @@ else
 	if err~=NULL then 
 		--print("Orthospell: hunspell.dll not found or orthospell.home unset. Trying to require...")
 		status, hunspell = pcall(require,"hunspell")
-		if (type(hunspell) == "table")  then end --print("Hunspell found via require.") end
+		if (type(hunspell) ~= "table")  then end --print("Hunspell not found via require.") end
 	else		
 		assert(type(fnInit) == "function", err)
 		fnInit()
@@ -431,7 +431,7 @@ function create_regEx()
 	local wreg = "(["
 	local lngReg = string.gsub(langChars,"%-","%%-")
 	if cpMode > 1 then  -- document is UTF-8
-		wreg = wreg..utfChars..guil.to_utf8(lngReg)
+		wreg = wreg..utfChars..gui.to_utf8(lngReg)
 	else
 		wreg = wreg..isoChars..lngReg
 	end
