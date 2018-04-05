@@ -132,9 +132,10 @@ static unsigned int ColouriseMakeLine(
 		bool inString;			// set when a double quoted String begins.
 		bool inSqString;	// set when a single quoted String begins	
 		bool bCommand;			// set when a line begins with a tab (command)
-		int iWarnEOL;				// unclosed string bracket refcount.
+		int iWarnEOL;				// unclosed string / braket refcount.
 	} line;
 
+	line.inString=false;
 	line.iWarnEOL=0;
 	
 	/// Keywords
@@ -164,7 +165,7 @@ static unsigned int ColouriseMakeLine(
 		}
 		
 		// check for a tab character in column 0 indicating a command
-		if ((lengthLine > 0) && (chCurr  == '\t' ))
+		if ((currentPos==theStart) && (chCurr  == '\t' ))
 			line.bCommand = true;
 	
 		/// style GNUMake Preproc
@@ -202,47 +203,6 @@ static unsigned int ColouriseMakeLine(
 			} else if (chCurr=='=' && chPrev != ':') {
 					ColourHere(styler, currentPos-1, SCE_MAKE_IDENTIFIER, state);		
 			}
-		}
-
-		/// lets signal a warning on unclosed Strings or Brackets.
-		if (strchr("({", (int)chCurr)!=NULL) {
-			ColourHere(styler, currentPos-1, state);
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
-			line.iWarnEOL++;
-		} else if (strchr(")}", (int)chCurr)!=NULL) {
-			if (i>0) ColourHere(styler, currentPos-1, state);
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
-			line.iWarnEOL--;
-		}
-
-		/// Style double quoted Strings
-		if (line.inString && chCurr=='\"') {
-			ColourHere(styler, currentPos-1, state);
-			state=SCE_MAKE_STRING;
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state_prev);
-			line.iWarnEOL--;
-			line.inString = false;
-		} else if	(!line.inString && chCurr=='\"') {
-			state_prev = state;
-			state = SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos-1, state_prev);
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
-			line.inString=true;
-			line.iWarnEOL++;
-		}
-
-		/// Style single quoted Strings. Don't EOL check for now.
-		if (line.inSqString && chCurr=='\'') {
-			ColourHere(styler, currentPos-1, state);
-			state = SCE_MAKE_STRING;
-			ColourHere(styler, currentPos,SCE_MAKE_IDENTIFIER, state_prev);
-			line.inSqString = false;
-		} else if	(!line.inSqString && !line.inSqString && chCurr=='\'') {
-			state_prev = state;
-			state = SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos-1, state_prev);
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
-			line.inSqString = true;
 		}
 
 		/// Style Keywords
@@ -389,6 +349,52 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 		}
 
+		/// Style double quoted Strings
+		if (line.inString && chCurr=='\"') {
+			ColourHere(styler, currentPos-1, state);
+			state=SCE_MAKE_DEFAULT;
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
+			line.iWarnEOL--;
+			line.inString=false;
+		} else if	(!line.inString && chCurr=='\"') {
+			state_prev = state;
+			state = SCE_MAKE_STRING;
+			ColourHere(styler, currentPos-1, state_prev);
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
+			line.inString=true;
+			line.iWarnEOL++;
+		}
+
+/*
+
+// todo: For some strange reason -  inString always evaluates to true.
+		/// Style single quoted Strings
+		if (!line.inString && line.inSqString && chCurr=='\'') {
+			ColourHere(styler, currentPos-1, state);
+			state=SCE_MAKE_DEFAULT;
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
+		} else if	(!line.inString && !line.inSqString && chCurr=='\'') {
+			state_prev = state;
+			state = SCE_MAKE_STRING;
+			ColourHere(styler, currentPos-1, state_prev);
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
+			line.inSqString=true;
+		}
+
+		/// lets signal a warning on unclosed Brackets.
+		if (!line.inString && !line.inSqString && strchr("{", (int)chCurr)!=NULL) {
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);
+			line.iWarnEOL++;
+		}
+		if ( !line.inString && !line.inSqString && strchr("}", (int)chCurr)!=NULL) { 
+			ColourHere(styler, currentPos-1, state);
+			state=SCE_MAKE_DEFAULT;
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
+			line.iWarnEOL--;
+	}
+*/	
+
+
 		i++;
 	}
 	
@@ -398,6 +404,7 @@ static unsigned int ColouriseMakeLine(
 		state=SCE_MAKE_DEFAULT;
 	}
 
+	
 	ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
 
 	return(state);
@@ -432,7 +439,7 @@ static int GetLineStart(Accessor &styler, Sci_Position offset) {
 	while (pos != currMLSegment) {
 		currMLSegment=pos;
 		while (styler[++pos]!='\n');
-		if ((status==2 && styler[pos+1]=='\r') || styler[pos+1]=='\n')
+		if ((status==2) && (styler[pos+1]=='\r' || styler[pos+1]=='\n'))
 			break; // empty line reached
 		while (iscntrl(styler.SafeGetCharAt(--pos)));
 		pos--;
