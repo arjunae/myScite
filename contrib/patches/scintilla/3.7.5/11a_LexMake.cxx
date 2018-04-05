@@ -299,7 +299,7 @@ static unsigned int ColouriseMakeLine(
 			state = SCE_MAKE_USER_VARIABLE;
 		} else if (state == SCE_MAKE_USER_VARIABLE && (strchr("})", (int)chNext)!=NULL)) {
 			if (state_prev==SCE_MAKE_USER_VARIABLE) state_prev = SCE_MAKE_DEFAULT;		
-			ColourHere(styler, currentPos, state, state_prev);
+			ColourHere(styler, currentPos+1, state, state_prev);
 			state = state_prev;
 		}
 
