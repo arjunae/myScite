@@ -37,7 +37,7 @@
 #include "LexerModule.h"
 
 // Some Files simply dont use LF/CRLF. 
-// So use ~250kb as a maximum before simply style the rest in Defaults style.
+// So use ~600kb as a maximum before simply style the rest in Defaults style.
 #ifndef LEXMAKE_MAX_LINELEN
 #define LEXMAKE_MAX_LINELEN  0606140
 #endif
@@ -137,19 +137,15 @@ static unsigned int ColouriseMakeLine(
 
 	line.iWarnEOL=0;
 	
-	/// keywords
+	/// Keywords
 	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
 	WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
 	WordList &kwExtCmd = *keywordlists[2]; // Makefile->external Commands (mkdir,rm,attrib...)
 	
-	// check for a tab character in column 0 indicating a command
-	if ((lengthLine > 0) && (styler.SafeGetCharAt(startLine) == '\t'))
-		line.bCommand = true;
-
 	// Skip initial spaces and tabs for current Line. Spot that Position to check for later.
 	while ((i < lengthLine) && isspacechar(styler.SafeGetCharAt(startLine+i)))
 		i++;
-
+				
 	unsigned int theStart=startLine+i; // One Byte ought (not) to be enough for everyone....?
 	stylerPos=theStart; // Keep a Reference to the last styled Position.
 
@@ -167,6 +163,10 @@ static unsigned int ColouriseMakeLine(
 			return(state);
 		}
 		
+		// check for a tab character in column 0 indicating a command
+		if ((lengthLine > 0) && (chCurr  == '\t' ))
+			line.bCommand = true;
+	
 		/// style GNUMake Preproc
 		if (currentPos==theStart && chCurr == '!') {
 			state=SCE_MAKE_PREPROCESSOR;

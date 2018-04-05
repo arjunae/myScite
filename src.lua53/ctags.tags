@@ -4278,7 +4278,7 @@ ReadLocalization	scite\src\SciTEProps.cxx	/^void SciTEBase::ReadLocalization() {
 ReadLocalization	scite\win32\SciTEWin.cxx	/^void SciTEWin::ReadLocalization() {$/;"	f	class:SciTEWin	signature:()
 ReadMenuIDs	scite\scripts\IFaceTableGen.py	/^def ReadMenuIDs(filename):$/;"	f	access:public
 ReadNum	scite\src\SciTEBase.cxx	/^static unsigned int ReadNum(const char *&t) {$/;"	f	file:	signature:(const char *&t)
-ReadProperties	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::ReadProperties() {$/;"	f	class:SciTEGTK	signature:()
+ReadProperties	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::ReadProperties(bool reloadScripts) {$/;"	f	class:SciTEGTK	signature:(bool reloadScripts)
 ReadProperties	scite\src\SciTEProps.cxx	/^void SciTEBase::ReadProperties(bool reloadScripts) {$/;"	f	class:SciTEBase	signature:(bool reloadScripts)
 ReadProperties	scite\win32\SciTEWin.cxx	/^void SciTEWin::ReadProperties() {$/;"	f	class:SciTEWin	signature:()
 ReadPropertiesInitial	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::ReadPropertiesInitial() {$/;"	f	class:SciTEGTK	signature:()
@@ -12582,7 +12582,6 @@ override	scite\gtk\SciTEGTK.cxx	/^	void Print(bool) override;$/;"	m	class:SciTEG
 override	scite\gtk\SciTEGTK.cxx	/^	void PrintSetup() override;$/;"	m	class:SciTEGTK	file:	access:protected
 override	scite\gtk\SciTEGTK.cxx	/^	void QuitProgram() override;$/;"	m	class:SciTEGTK	file:	access:protected
 override	scite\gtk\SciTEGTK.cxx	/^	void ReadLocalization() override;$/;"	m	class:SciTEGTK	file:	access:protected
-override	scite\gtk\SciTEGTK.cxx	/^	void ReadProperties() override;$/;"	m	class:SciTEGTK	file:	access:protected
 override	scite\gtk\SciTEGTK.cxx	/^	void ReadPropertiesInitial() override;$/;"	m	class:SciTEGTK	file:	access:protected
 override	scite\gtk\SciTEGTK.cxx	/^	void RemoveAllTabs() override;$/;"	m	class:SciTEGTK	file:	access:protected
 override	scite\gtk\SciTEGTK.cxx	/^	void Replace() override;$/;"	m	class:SciTEGTK	file:	access:protected

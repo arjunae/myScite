@@ -335,7 +335,7 @@ project-info: .check-foundation
 	@echo "              user-email:" `$(CONFIG_TOOL) user-email `
 	@echo "               user-home:" `$(CONFIG_TOOL) user-home `
 	@echo ""
-
+	
 test-skelgen:	.check-foundation
 	@echo -e "    > $(.BOLD)Verifying test bootstrap$(.CLEAR)"
 	@test -f $(shell $(CONFIG_TOOL) test-folder)/bootstrap.php || make -f $(THIS) bootstrap-php > /dev/null
