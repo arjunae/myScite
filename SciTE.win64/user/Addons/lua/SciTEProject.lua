@@ -57,12 +57,12 @@ function ProjectSetEnv(init)
 		props["project.ctags.apipath"]=props["project.path"]..dirSep..props["project.ctags.filename"]..".api"
 		props["project.ctags.propspath"]=props["project.ctags.apipath"]..".properties"
 		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
-		buffer.projectName= props["project.name"]
+		--buffer.projectName= props["project.name"]
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1
 	end
 	
-	if init then dofile(myHome..dirSep..'macros'..dirSep..'AutoComplete.lua') end
+	if init then dofile(myHome..'/macros/AutoComplete.lua') end
 
 end
 
@@ -138,6 +138,7 @@ function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 	-- Attach a project platform API if it had been specified
 	if (props["project.sdk.api"]~="") then sdkApiPath=props["project.sdk.api"] end
 	if not sdkApiPath then sdkApiPath="" end
+	
 	-- Update SciTEs Filetypes APIlist. 
 	-- Change SDKApi if requested by a SciTE.properties file.
 	if not projectApiPath or not projectApiPath:match(props["project.sdk.api"]) then

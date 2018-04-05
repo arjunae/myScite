@@ -57,7 +57,7 @@ function ProjectSetEnv(init)
 		props["project.ctags.apipath"]=props["project.path"]..dirSep..props["project.ctags.filename"]..".api"
 		props["project.ctags.propspath"]=props["project.ctags.apipath"]..".properties"
 		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
-		buffer.projectName= props["project.name"]
+		--buffer.projectName= props["project.name"]
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1
 	end
