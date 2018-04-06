@@ -239,13 +239,13 @@ static unsigned int ColouriseMakeLine(
 			// check if we get a match with Keywordlist externalCommands
 			// Rule: preceeded by line start and AtStartChar() Ends on eol, whitespace or ;
 			if (kwExtCmd.InList(strSearch.c_str())
-				 && strchr("\t\r\n ;)", (int)chNext) !=NULL
+				 && strchr("\t\r\n ; \\)", (int)chNext) !=NULL
 				 &&  AtStartChar(styler, startMark-1)) {
 				if (startMark > startLine && startMark >= stylerPos)
 					styler.ColourTo(startMark-1, state);
 				state_prev=state;
 				state=SCE_MAKE_EXTCMD;
-				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
+				ColourHere(styler, currentPos, state);
 			} else if (state == SCE_MAKE_EXTCMD) {
 				state=SCE_MAKE_DEFAULT;
 				ColourHere(styler, currentPos, state);
@@ -349,6 +349,35 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 		}
 
+
+		/// lets signal a warning on unclosed Brackets.
+		if (!inString  && !inSqString && strchr("{(", (int)chCurr)!=NULL) {
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);
+			line.iWarnEOL++;
+		}
+		if ( !inString && !inSqString && strchr("})", (int)chCurr)!=NULL) { 
+			ColourHere(styler, currentPos-1, state);
+			state=SCE_MAKE_DEFAULT;
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
+			line.iWarnEOL--;
+		}
+		
+		/// Style single quoted Strings
+		if (!inString && inSqString && chCurr=='\'') {
+			ColourHere(styler, currentPos-1, state);
+			state=SCE_MAKE_DEFAULT;
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
+			inSqString=false;
+			line.iWarnEOL--;
+		} else if	(!inString && !inSqString && chCurr=='\'') {
+			state_prev = state;
+			state = SCE_MAKE_IDENTIFIER;
+			ColourHere(styler, currentPos-1, state_prev);
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
+			inSqString=true;
+			line.iWarnEOL++;
+		}
+		
 		/// Style double quoted Strings
 		if (inString && !inSqString && chCurr=='\"') {
 			ColourHere(styler, currentPos-1, state);
@@ -365,33 +394,6 @@ static unsigned int ColouriseMakeLine(
 			line.iWarnEOL++;
 		}
 
-		/// Style single quoted Strings
-		if (!inString && inSqString && chCurr=='\'') {
-			ColourHere(styler, currentPos-1, state);
-			state=SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
-			inSqString=false;
-			line.iWarnEOL--;
-		} else if	(!inString && !inSqString && chCurr=='\'') {
-			state_prev = state;
-			state = SCE_MAKE_EXTCMD;
-			ColourHere(styler, currentPos-1, state_prev);
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
-			inSqString=true;
-			line.iWarnEOL++;
-		}
-
-		/// lets signal a warning on unclosed Brackets.
-		if (!inString  && !inSqString && strchr("{(", (int)chCurr)!=NULL) {
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);
-			line.iWarnEOL++;
-		}
-		if ( !inString && !inSqString && strchr("})", (int)chCurr)!=NULL) { 
-			ColourHere(styler, currentPos-1, state);
-			state=SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
-			line.iWarnEOL--;
-	}
 
 		i++;
 	}

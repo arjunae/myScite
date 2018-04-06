@@ -6,7 +6,6 @@
 # Make sure you have GNU Make, and type `make` in this Makefile folder.
 #
 
-
 # General Configuration
 VERSION         = 0.1.13
 FOUNDATION_HOME = $(shell pwd)/.foundation
@@ -454,7 +453,7 @@ project-authors-reduce: .check-foundation
 	@export tmp="$${replace#*<}";
 	@export GIT_NEW_EMAIL="$${tmp%>*}";
 	@git filter-branch -f --env-filter ' \
-	    while read author; do\
+					while read author; do\
 	        if [ "$$GIT_COMMITTER_NAME <$$GIT_COMMITTER_EMAIL>" = "$${author}" ]; then \
 	            export GIT_COMMITTER_NAME \
 							"$${GIT_NEW_NAME}";\
