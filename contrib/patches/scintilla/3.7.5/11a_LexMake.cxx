@@ -242,13 +242,13 @@ static unsigned int ColouriseMakeLine(
 				 && strchr("\t\r\n ; \\)", (int)chNext) !=NULL
 				 &&  AtStartChar(styler, startMark-1)) {
 				if (startMark > startLine && startMark >= stylerPos)
-					styler.ColourTo(startMark-1, state);
+					styler.ColourTo(startMark-2, state);
 				state_prev=state;
 				state=SCE_MAKE_EXTCMD;
-				ColourHere(styler, currentPos, state);
-			} else if (state == SCE_MAKE_EXTCMD) {
-				state=SCE_MAKE_DEFAULT;
-				ColourHere(styler, currentPos, state);
+				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
+			} else if (state == SCE_MAKE_EXTCMD && !IsAlphaNum(chNext)) {
+				ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);
+				state = state_prev;
 			}
 
 			// we now search for the word within the Directives Space.
@@ -261,9 +261,9 @@ static unsigned int ColouriseMakeLine(
 				state_prev=state;
 				state=SCE_MAKE_DIRECTIVE;
 				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
-			} else if (state == SCE_MAKE_DIRECTIVE) {
-				state=SCE_MAKE_DEFAULT;
-				ColourHere(styler, currentPos, state);
+			} else if (state == SCE_MAKE_DIRECTIVE && !IsAlphaNum(chNext)) {
+				ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);
+				state=state_prev;
 			}
 
 			// ....and within functions $(sort,subst...) / used to style internal Variables too.
@@ -276,9 +276,9 @@ static unsigned int ColouriseMakeLine(
 				state_prev = state;
 				state = SCE_MAKE_FUNCTION;
 				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
-			} else if (state == SCE_MAKE_FUNCTION) {
-				state=SCE_MAKE_DEFAULT;
-				ColourHere(styler, currentPos, state);
+			} else if (state == SCE_MAKE_FUNCTION  && !IsAlphaNum(chNext)) {
+					ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);
+					state=state_prev;
 			}
 			
 			// Colour Strings which end with a Number
