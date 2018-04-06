@@ -127,7 +127,6 @@ menu-project: .title
 	@make -s .menu-item tgt="phpdoc" desc="Run PhpDocumentor2 to generate the project API documentation"
 	@echo ""
 
-
 menu-package: .title
 	@make -s .menu-heading title="Package Description"
 	@make -s .menu-item tgt="package-ini" desc="Creates the basic package.ini file"
@@ -455,18 +454,17 @@ project-authors-reduce: .check-foundation
 	@export tmp="$${replace#*<}";
 	@export GIT_NEW_EMAIL="$${tmp%>*}";
 	@git filter-branch -f --env-filter ' \
-	    while read author; do \
+	    while read author; do\
 	        if [ "$$GIT_COMMITTER_NAME <$$GIT_COMMITTER_EMAIL>" = "$${author}" ]; then \
-	            export GIT_COMMITTER_NAME
-							"$${GIT_NEW_NAME}"; \
+	            export GIT_COMMITTER_NAME \
+							"$${GIT_NEW_NAME}";\
 	            export GIT_COMMITTER_EMAIL="$${GIT_NEW_EMAIL}"; \
 	        fi; \
 	        if [ "$$GIT_AUTHOR_NAME <$$GIT_AUTHOR_EMAIL>" = "$${author}" ]; then \
 	            export GIT_AUTHOR_NAME="$${GIT_NEW_NAME}"; \
 	            export GIT_AUTHOR_EMAIL="$${GIT_NEW_EMAIL}"; \
 	        fi; \
-	    done < "${auths}"; \
-	';
+	    done < "${auths}"';
 
 info-git-extras:
 	@echo -en "    $(.BOLD)Git Extras "
