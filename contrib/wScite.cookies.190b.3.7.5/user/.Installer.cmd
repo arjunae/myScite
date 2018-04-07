@@ -81,6 +81,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  :: Parses all .properties files and Registers their contained Filetypes 
  if %ERRORLEVEL% == 1 (
    call scite_filetypes /quite
+   if %ERRORLEVEL% == 0 goto freunde
  )
  
  echo   ---------------------------------------------

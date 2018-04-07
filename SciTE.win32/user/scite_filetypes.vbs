@@ -19,20 +19,28 @@
 '
 ' v0.8 -> Add backup capabilities  - Initial public release. 
 ' v0.9 -> A pile of SanityChecks & CodeCleanUp . Depends on .Installer.cmd to set ProgIds FilePath.
-'
+' v1.0 rc1 -> Implemented Logging facilities
+
 ' Mar2018 / Marcedo@habMalNeFrage.de
 ' License BSD-3-Clause
-' Version: 0.8 - To test --> start within a "test" UserProfile <---
+' Version: 1.0 RC1  - To test --> start within a "test" UserProfile <---
 '=======================================================
+
 Const HKEY_CLASSES_ROOT  = &H80000000
 Const HKEY_CURRENT_USER  = &H80000001
 Const HKEY_LOCAL_MACHINE = &H80000002
 Const HKEY_USERS               = &H80000003
-Const APP_NAME                 = "SciTE.exe"
-Const DATA_FILE                = "scite_filetypes.txt"
+Const APP_NAME			= "SciTE.exe"
+Const DATA_FILE		= "scite_filetypes.txt"
+Const LOG_FILE_NAME = "installer.log"
+Const LOG_INIT = 1
+Const LOG_APP = 2
+Const LOG_ALERT = 3
+Const LOG_CLOSE = 4
+Const LOG_LEVEL = 1
 Const ERR_WARN		= 966
 Const ERR_FATAL	= 969
-Const ERR_OK	= 0
+Const ERR_OK			= 0
 
 ' Ther's much depreceated Information in the Net, even from MS which still refers to use machine wide HKCR for file Exts.
 ' But modifying that mostly needs root privs when changed and myScite has dropped to be XP Compatible for a while now. 
@@ -42,7 +50,16 @@ Const FILE_EXT_PATH	= "Software\Microsoft\Windows\CurrentVersion\Explorer\FileEx
 Const FILE_EXT_PATH_CLS	= "Software\Classes\"
 Const PROG_PATH= "Software\Classes\Applications\"
 
+Dim oFso ' Global, because we will reuse th Object
+Set oFso = CreateObject("scripting.filesystemObject")
+
+Public function ERROR_DETAILS()
+	ERROR_DETAILS = VbCRLF & "-- " & err.Number & ", " & err.Description & VbCRLF & "-- " &  err.source
+End Function
+
 if instr(1,wscript.fullName,"cscript") then  bConsole=true
+
+'~~~~~~~~~~~~~~
 
 function main()
 
@@ -55,9 +72,11 @@ Dim clearCmds, strExtKey ' clearCmd means a prefixed "-" followed by the Registr
 Dim arrAllExts() 'Array containing every installer touched Ext
 Dim app_path ' Fully Qualified Path to Programs executable on the system.
 
+logging LOG_INIT, "Logfile Initialized"
+
 	if not bConsole then
-		wscript.echo("Please dont run directly via GUI. Instead- use .installer.cmd")
-		exit function
+	'	logging LOG_ALERT,"Please dont run directly via GUI. Instead- use .installer.cmd"
+	'	exit function
 	end if
 	
 	' Parse Commandline Arguments	
@@ -82,10 +101,10 @@ Dim app_path ' Fully Qualified Path to Programs executable on the system.
 		
 	' Open myScites known filetypes List using vbscripts funny sortof a "catchme if you can" block.
 	on error resume next 
-		set oFso = CreateObject("scripting.filesystemObject")
+		'set oFso = CreateObject("scripting.filesystemObject")
 		set oFileExts = oFso.OpenTextFile(DATA_FILE, 1, False) ' forRead, CreateFlag
 		if typename(oFileExts)="Empty" then
-			Wscript.echo("... " & DATA_FILE & " not found") 
+			logging LOG_ALERT, "... " & DATA_FILE & " not found"
 			exit function
 		end if
 	on error goto 0
@@ -110,7 +129,7 @@ Dim app_path ' Fully Qualified Path to Programs executable on the system.
 			cntTyp=cntTyp+1
 			
 			if startMark=0 then
-				wscript.echo("Error parsing " & DATA_FILE & " in Line " & cntTyp & " Exit....") 
+				logging LOG_ALERT, "Error parsing " & DATA_FILE & " in Line " & cntTyp & " Exit...." 
 				cntTyp=0
 				exit function
 			end if
@@ -121,7 +140,7 @@ Dim app_path ' Fully Qualified Path to Programs executable on the system.
 			strDesc=Replace(strDesc,"=","")
 			
 			' Create an Array from the gathered Stuff  
-			' if bConsole then wscript.echo(" ..(De)Registering: " & strDesc & " " & cntTyp)
+			' if bConsole then logging LOG_ALERT, " ..(De)Registering: " & strDesc & " " & cntTyp)
 			arrEntryExts=split(strExt,";")
 			
 			' Iterate through and register each filetype.
@@ -143,9 +162,9 @@ Dim app_path ' Fully Qualified Path to Programs executable on the system.
 					
 					'  .. todo- implement an more sophisticated Error Handling...
 					if result=ERR_WARN then 
-						if bconsole then wscript.echo("-- Warn: Your fileExt [" &  strEle &"] doesnt like our Tardis ?!" ) 
+						if bconsole then logging LOG_ALERT , "-- Warn: Your fileExt [" &  strEle &"] doesnt like our Tardis ?!"
 					elseif result=ERR_FATAL then ' Fatallity...Grab your Cat and run like Hell....
-						wscript.echo("-- Fatal: Universum Error. -Stop-")
+						logging LOG_ALERT , "-- Fatal: Universum Error. -Stop-"
 						return(result)
 					end if
 				end if
@@ -167,7 +186,7 @@ Dim app_path ' Fully Qualified Path to Programs executable on the system.
 			' Open tmp_backup.reg file
 				set oFile1= oFso.GetFile("tmp_backup.reg")
 				if err.Number<>0 then
-					wscript.echo("-- Couldnt create the Backup, please Restart using .installer")
+					logging LOG_ALERT , "-- Couldnt create the Backup, please Restart using .installer"
 					exit function
 				end if
 				set oFileRegDump = oFile1.OpenAsTextStream(1, -1) ' forRead, ForceUnicode
@@ -175,7 +194,7 @@ Dim app_path ' Fully Qualified Path to Programs executable on the system.
 		on error goto 0
 	
 		' Write the restore.reg file
-		if bConsole then WScript.echo(" ..Creating FileExt Restore File")
+		if bConsole then logging LOG_ALERT , " ..Creating FileExt Restore File"
 		' If we wanted to, we were also able to write it in Unicode. But then the file would have its size doubled.
 		set oFileRestore = oFso.OpenTextFile("extRestore.reg",2, 1) ' forWrite, createFlag	
 		oFileRestore.write(clearCmds)
@@ -186,17 +205,48 @@ Dim app_path ' Fully Qualified Path to Programs executable on the system.
 		oFileRestore.close()
 		oFileRegDump.close()
 		oFso.DeleteFile("tmp_backup.reg")
-	
+
 	end if
 	
+	logging LOG_APP, "Status:" & cntExt & "Einträge verarbeitet"
+	logging LOG_CLOSE, "Close LogFile"
+
 	oFileExts.close()
 	main=cntTyp
-	'MsgBox("Status:" & cntExt & "Einträge verarbeitet" )
-
 end function
 
 
 ' ~~~~ Functions ~~~~~
+private function logging(action, strEntry)
+'
+'
+'	
+	if LOG_LEVEL < 1 or LOG_LEVEL >3  then exit function
+	
+	on error resume next
+		' ReInit the Log
+		If action=LOG_INIT  then 
+			if oFso.FileExists(LOG_FILE_NAME) then oFso.DeleteFile(LOG_FILE_NAME)	
+			oFso.CreateTextFile LOG_FILE_NAME,true,true ' Overwrite, Unicode
+		end if
+		
+		set oFile3= oFso.GetFile("installer.log")
+		set oFileLog = oFile3.OpenAsTextStream(8, -1) ' forAppend ( hö ? 8 because of a Mirrored 3 ?), ForceUnicode
+		if err.Number<>0 then
+			wscript.echo("-- Couldnt Create / Append to " & LOG_FILE  & ERROR_DETAILS())
+			exit function
+		end if
+	on error goto 0
+
+	oFileLog.writeLine now() & " ==> " & strEntry
+	if action=LOG_ALERT then wscript.echo strEntry
+
+	if action=LOG_CLOSE then
+		ofileLog.close()
+	end if
+	
+end function
+
 
 private function policyFilter(strEntry)
 '
@@ -205,8 +255,8 @@ private function policyFilter(strEntry)
 	policyFilter=strEntry
 	if InStrRev(lcase(strEntry),"\userchoice]") then
 		policyFilter=replace(strEntry,"[","[-") 
-		policyFilter=policyFilter & vbcrlf & strEntry
-		'wscript.echo(policyFilter)	
+		policyFilter= vbcrlf & policyFilter & vbcrlf & strEntry
+		'logging LOG_ALERT, policyFilter	
 		exit function
 	end if
 
@@ -226,17 +276,25 @@ private function createRegDump()
 '
 		set objShell = CreateObject("WScript.Shell")	
 		strRootExt="HKEY_CURRENT_USER\" & FILE_EXT_PATH
-		objShell.exec("REG.EXE EXPORT " & strRootExt & " " & "tmp_backup.reg")
+		set oExec=objShell.exec("cmd /c REG.EXE EXPORT " & strRootExt & " " & "tmp_backup.reg")
 		
+		' poll asynchronous exec object for its return status 
+		Do While oExec.Status = 0
+			 WScript.Sleep 250
+			 'wscript.echo(oExec.status)
+		Loop
+
 		on error resume next
+					logging LOG_ALERT , " ..Initing the FileExt Backup File.. Please Wait.."
 			set oFile1= oFso.GetFile("tmp_backup.reg")
-			if err.number=53 then 
-				wscript.echo(" ..Error invocating reg.exe, please restart")
-				createRegDump=969
+			if err.number<>0 then 
+				logging LOG_ALERT , " ..Error invocating reg.exe, please restart (No Modifications done.)"
+				createRegDump=ERR_FATAL
 				exit function
 			end if			
-			if bConsole then wscript.echo(" ..Initialized the Backup File")
 		on error goto 0
+
+		set objShell=Nothing
 
 end function
 
@@ -262,10 +320,10 @@ private function DeleteSubkeys(objReg, iRootKey, strRegKey)
 	
 	' Handle Key locked because of Privs (HKCR||UserChoice) or through another App (eg regedit || explorer ...)
 	if DeleteSubKeys=5 then
-		if bConsole then Wscript.echo("resetting " &  strRegKey & " refused ") 
+		if bConsole then logging LOG_ALERT , "resetting " &  strRegKey & " refused "
 		DeleteSubKeys=0 
 	else
-		'if bConsole then wscript.echo("Cleared: " & strRegKey)
+		'if bConsole then logging LOG_APP , "Cleared: " & strRegKey
 	end if
 
 End function
@@ -297,7 +355,7 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 	if action=11 then
 		iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, PROG_PATH & APP_NAME, arrSubkeys)   
 		if iKeyExist >0 then
-			wscript.echo(" Please run through .installer.cmd")
+			logger LOG_ALERT , " Please run through .installer.cmd"
 			assoc_ext_with_program=ERR_FATAL
 			exit function
 		end if
@@ -309,7 +367,7 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 
 	' Dont reset the ext if a user already selected another program than scite to handle it. (Key UserChoice does not point to APP_NAME) 
 	if (iKeyExist = 2 and Err.Number = 0) or  instr(lcase(strValue),lcase(APP_NAME)) Then 
-		'wscript.echo(" ..FileExt "  & strFileExt & " says: UserChoice " & strValue)
+		'logger LOG_APP , " ..FileExt "  & strFileExt & " says: UserChoice " & strValue
 		' Clear the FileExt in HKCU\....Explorer\FileExts
 		nul= DeleteSubKeys(objReg,HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt)
 		' Also Clear the autoFileExts within HKCU\Applications
@@ -341,11 +399,11 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 	End If
 
 	' Above Stuff returns Zero on success. if anything gone wrong, we will see that here:
-	'wscript.Echo("Status: Error? " & Err.Number & " resultCode? " & result)
+	'logger LOG_APP , "assoc_ext -> Status: Error? " & Err.Number & " resultCode? " & result
 
 	if result=0 and Err.Number = 0 then 
 		assoc_ext_with_program = ERR_OK
-		'if bConsole then wscript.echo("Created / Modified strFileExt " & strFileExt )
+		' logger LOG_APP , "Created / Modified strFileExt " & strFileExt
 	else
 		assoc_ext_with_program = ERR_WARN
 	end if
@@ -373,7 +431,7 @@ Dim arrKey,arrTypes, autoFileExt, bRemove
 	if (iKeyExist = 0 and Err.Number = 0) and instr(lcase(strValue),lcase(APP_NAME)) then 
 		bRemove = true
 		' b) .. ok - Clear the UserChoice
-		'if bConsole then WScript.echo(" ..Note: Removing 'OpenWith.exe' associated Entry: '" & strFileExt &"'" )
+		' logger LOG_APP , " ..Note: Removing 'OpenWith.exe' associated Entry: '" & strFileExt &"'"
 		result = objReg.DeleteKey(HKEY_CURRENT_USER, FILE_EXT_PATH &  strFileExt & "\UserChoice")
 	end if
 	
@@ -419,7 +477,7 @@ Dim arrKey,arrTypes, autoFileExt, bRemove
 	 
 	if Err.Number = 0 then 
 		uninstall_program=ERR_OK
-		'if bConsole then wscript.echo("Modified strFileExt " & strFileExt )
+		' logger LOG_APP , "Modified strFileExt " & strFileExt
 	else
 		uninstall_program=ERR_WARN
 	end if
