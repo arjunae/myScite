@@ -36,10 +36,6 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 -- Load mod-mitchell
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 --dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
-		
--- Load Sidebar
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
 
 -- Load cTags Browser
 dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
