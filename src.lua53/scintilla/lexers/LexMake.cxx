@@ -167,8 +167,8 @@ static unsigned int ColouriseMakeLine(
 		}
 		
 		// check for a tab character in column 0 indicating a command
-		if ((currentPos==theStart) && (chCurr  == '\t' ))
-			line.bCommand = true;
+//		if ((currentPos==theStart) && (chPrev  == '\t' ))
+//			line.bCommand = true;
 	
 		/// style GNUMake Preproc
 		if (currentPos==theStart && chCurr == '!') {
@@ -207,46 +207,6 @@ static unsigned int ColouriseMakeLine(
 			}
 		}
 
-		/// Lets signal a warning on unclosed Braces.
-		if ( state!=SCE_MAKE_STRING && strchr("})", (int)chCurr)!=NULL) { 
-			ColourHere(styler, currentPos-1, state);
-			state=SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
-			line.bWarnBrace=0;
-		} else if (state!=SCE_MAKE_STRING && strchr("{(", (int)chCurr)!=NULL) {
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);
-			line.bWarnBrace=1;
-		}
-
-		/// Style single quoted Strings	
-		if (state==SCE_MAKE_IDENTIFIER && chCurr=='\'') {
-			ColourHere(styler, currentPos-1, state);
-			state=SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
-			line.bWarnSqStr=false;
-		} else if	(state!=SCE_MAKE_STRING && chCurr=='\'') {
-			state_prev = state;
-			state = SCE_MAKE_IDENTIFIER;
-			ColourHere(styler, currentPos-1, state_prev);
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
-			line.bWarnSqStr=true;
-		} 
-		
-		/// Style double quoted Strings
-		if (state==SCE_MAKE_STRING && chCurr=='\"') {
-			ColourHere(styler, currentPos-1, state);
-			state=SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
-			line.bWarnDqStr =  0 ;
-		} else if	(state!=SCE_MAKE_STRING && chCurr=='\"') {
-			state_prev = state;
-			state = SCE_MAKE_STRING;
-			ColourHere(styler, currentPos-1, state_prev);
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
-			line.bWarnDqStr=1;
-		}
-
-		line.bWarnEOL= line.bWarnBrace || line.bWarnDqStr || line.bWarnSqStr;
 		/// Style Keywords
 		// ForwardSearch Searchstring.
 		// Travels to the Future and retrieves Lottery draw results.
@@ -284,7 +244,7 @@ static unsigned int ColouriseMakeLine(
 				 && strchr("\t\r\n ; \\)", (int)chNext) !=NULL
 				 &&  AtStartChar(styler, startMark-1)) {
 				if (startMark > startLine && startMark >= stylerPos)
-					styler.ColourTo(startMark-2, state);
+					styler.ColourTo(startMark-1, state);
 				state_prev=state;
 				state=SCE_MAKE_EXTCMD;
 				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
@@ -335,12 +295,13 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Style User Variables Rule: $(...) / bash Style UserVars Rule: $$....
-		if (chCurr == '$' && (strchr("${(", (int)chNext)!=NULL)) {
-		  stylerPos =ColourHere(styler, currentPos-1, state);
+		if (chCurr == '$' && (strchr("{(", (int)chNext)!=NULL)) {
+		  stylerPos =ColourHere(styler, currentPos-1, state);			
 			state_prev=state;
 			state = SCE_MAKE_USER_VARIABLE;
+			stylerPos =ColourHere(styler, currentPos, state);
 		} else if (state == SCE_MAKE_USER_VARIABLE && (strchr("})\"\'", (int)chNext)!=NULL)) {
-			if (state_prev==SCE_MAKE_USER_VARIABLE) state_prev = SCE_MAKE_DEFAULT;		
+			if (state_prev==SCE_MAKE_USER_VARIABLE) state_prev = SCE_MAKE_DEFAULT;	
 			ColourHere(styler, currentPos+1, state, state_prev);
 			state = state_prev;
 		}
@@ -391,6 +352,44 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 		}
 
+		/// Lets signal a warning on unclosed Braces.
+		if ( state!=SCE_MAKE_STRING && state != SCE_MAKE_USER_VARIABLE && strchr("})", (int)chCurr)!=NULL) { 
+			state=SCE_MAKE_DEFAULT;
+			line.bWarnBrace=0;
+		} else if (state!=SCE_MAKE_STRING && strchr("{(", (int)chCurr)!=NULL) {
+			line.bWarnBrace=1;
+		}
+
+		/// Style single quoted Strings	
+		if (state==SCE_MAKE_IDENTIFIER && state != SCE_MAKE_USER_VARIABLE && chCurr=='\'') {
+			ColourHere(styler, currentPos-1, state);
+			state=SCE_MAKE_DEFAULT;
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
+			line.bWarnSqStr=false;
+		} else if	(state!=SCE_MAKE_STRING && state != SCE_MAKE_USER_VARIABLE && chCurr=='\'') {
+			state_prev = state;
+			state = SCE_MAKE_IDENTIFIER;
+			ColourHere(styler, currentPos-1, state_prev);
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
+			line.bWarnSqStr=true;
+		} 
+		
+		/// Style double quoted Strings
+		if (state==SCE_MAKE_STRING && chCurr=='\"' && chPrev !='\\')  {
+			ColourHere(styler, currentPos-1, state);
+			state=SCE_MAKE_DEFAULT;
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
+			line.bWarnDqStr = 0 ;
+		} else if	(state!=SCE_MAKE_STRING && chCurr=='\"' && chPrev!='\\') {
+			state_prev = state;
+			state = SCE_MAKE_STRING;
+			ColourHere(styler, currentPos-1, state_prev);
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
+			line.bWarnDqStr=1;
+		}
+
+		line.bWarnEOL= line.bWarnBrace || line.bWarnDqStr || line.bWarnSqStr;
+		
 		i++;
 	}
 	

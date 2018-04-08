@@ -245,8 +245,8 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
 			line.bWarnDqStr=1;
 		}
-
-		line.bWarnEOL= line.bWarnBrace || line.bWarnDqStr || line.bWarnSqStr;
+		line.bWarnEOL= line.bWarnBrace + line.bWarnDqStr + line.bWarnSqStr;
+		
 		/// Style Keywords
 		// ForwardSearch Searchstring.
 		// Travels to the Future and retrieves Lottery draw results.
@@ -284,7 +284,7 @@ static unsigned int ColouriseMakeLine(
 				 && strchr("\t\r\n ; \\)", (int)chNext) !=NULL
 				 &&  AtStartChar(styler, startMark-1)) {
 				if (startMark > startLine && startMark >= stylerPos)
-					styler.ColourTo(startMark-2, state);
+					styler.ColourTo(startMark-1, state);
 				state_prev=state;
 				state=SCE_MAKE_EXTCMD;
 				ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);

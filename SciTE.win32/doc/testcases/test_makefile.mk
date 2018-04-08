@@ -269,8 +269,8 @@ foundation: .title
 .foundation-backup-makefile:
 	@echo -e "    > $(.BOLD)Backing up current Makefile$(.CLEAR)"
 	@if [ -f "Makefile.bak" ];  then \
-	    export list=( @$$(ls Makefile.bak*) ); \
-	    cp Makefile "Makefile.bak.$${#list[@]}"; \
+	    export list=( @$$(ls Makefile.bak*) );\
+	    cp Makefile Makefile.bak.$${#list[@]}; \
 	else \
 	    cp Makefile Makefile.bak; \
 	fi;
@@ -315,7 +315,7 @@ project-info: .check-foundation
 	@echo "     package-description:" `$(CONFIG_TOOL) package-description `
 	@echo "         package-version:" `$(CONFIG_TOOL) package-version `
 	@echo "       package-stability:" `$(CONFIG_TOOL) package-stability `
-	@echo -e "\r         project-authors: "`$(CONFIG_TOOL) package-authors`\
+	@echo -e "\r         project-authors: "`$(CONFIG_TOOL) package-authors` \
 	|tr ',' "\n"| awk -F' <' '{printf sds%-25s <%15s \n","",$$1,$$2}'
 	@echo -e "\r    project-contributors: "`$(CONFIG_TOOL) package-contributors ` \
 	|tr ',' "\n"| awk -F' <' '{printf "%25s%-25s <%15s \n","",$$1,$$2}'
@@ -902,7 +902,7 @@ clean-single-blank-lines:
 clean-all-whitespace: .check-foundation
 	@echo -e "    $(.BOLD)Whitespace Cleaning$(.CLEAR)"
 	@echo -e "    -----------"
-	@if test "$(file)"; then \
+	@if test "$(file)"; then  \
 		make -s -f $(THIS) clean-tabs2spaces file="$(file)"; \
 		make -s -f $(THIS) clean-unix-line-ends file="$(file)"; \
 		make -s -f $(THIS) clean-trailing-spaces file="$(file)"; \

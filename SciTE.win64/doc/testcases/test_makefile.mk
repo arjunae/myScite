@@ -271,7 +271,7 @@ foundation: .title
 .foundation-backup-makefile:
 	@echo -e "    > $(.BOLD)Backing up current Makefile$(.CLEAR)"
 	@if [ -f "Makefile.bak" ];  then \
-	    export list=( @$$(ls Makefile.bak*) ); \
+	    export list=( @$$(ls Makefile.bak*) );\
 	    cp Makefile "Makefile.bak.$${#list[@]}"; \
 	else \
 	    cp Makefile Makefile.bak; \
