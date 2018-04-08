@@ -1,0 +1,44 @@
+Windows Registry Editor Version 5.00 
+ 
+; -- Update ContextMenu "Open With Scite" and "Open Scite Here" 
+[-HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE] 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE] 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE\command]  
+@="\"D:\\projects\\_myScite\\_myScite.github\\SciTE.win32\\SciTE.exe\"   \"%1\"" 
+[-HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite] 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite] 
+@="Open SciTE here" 
+"Icon"="D:\\projects\\_myScite\\_myScite.github\\SciTE.win32\\SciTE.exe,0" 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite\command] 
+@="\"D:\\projects\\_myScite\\_myScite.github\\SciTE.win32\\SciTE.exe\"   -open new.txt" 
+ 
+; -- Update Program Entry 
+[-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] 
+"FriendlyAppName"="Scintilla based TExteditor" 
+"InfoTip"="SCIntilla based TExteditor" 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\Application] 
+"ApplicationCompany"="Scintilla.org Scite" 
+"ApplicationName"="SciTE" 
+"ApplicationDescription"="Scintilla based Texteditor" 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\DefaultIcon] 
+@="D:\\projects\\_myScite\\_myScite.github\\SciTE.win32\\SciTE.exe,0" 
+ 
+; -- Update Explorers "open with" list 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] 
+@="\"D:\\projects\\_myScite\\_myScite.github\\SciTE.win32\\SciTE.exe\"   \"%1\"" 
+[HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\SupportedTypes] 
+".*"=""
+ 
+; -- Register Scite to be known for windows "start" command 
+[-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] 
+[HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] 
+@="\"D:\\projects\\_myScite\\_myScite.github\\SciTE.win32\\SciTE.exe\"  " 
+"Path"="D:\\projects\\_myScite\\_myScite.github\\SciTE.win32" 
+ 
+; -- Uninstall 
+; [-HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE]  
+; [-HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite]
+; [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] 

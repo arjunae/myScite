@@ -93,13 +93,15 @@ function fileHash(fileName)
 end
 
 -- check SciLexer once per session and inform the User if its a nonStock Version.
-
 local SLHash
 if not SLHash then SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
 	if SLHash and SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
 	-- Check for Updates on Scite Close 
 	-- scite_OnClose(testHTTP)
 end
+
+-- keep Track of current Bytes Offset (for Statusbar)
+scite_OnKey( function()  props["CurrentPos"]=editor.CurrentPos end )
 
 --------------------------
 -- returns the size of a given file.

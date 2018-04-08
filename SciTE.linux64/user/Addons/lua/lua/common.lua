@@ -101,6 +101,9 @@ if not SLHash then SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" 
 	-- scite_OnClose(testHTTP)
 end
 
+-- keep Track of current Bytes Offset (for Statusbar)
+scite_OnKey( function()  props["CurrentPos"]=editor.CurrentPos end )
+
 --------------------------
 -- returns the size of a given file.
 --------------------------

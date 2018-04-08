@@ -45,7 +45,7 @@ del *.raw?
 echo.
 echo  .. Parsing Filetypes in %DataFile% ..
 cscript /NOLOGO scite_filetypes.vbs install
-if %ERRORLEVEL%==0 goto :DataFileErr
+if %ERRORLEVEL%==0 or %ERRORLEVEL%==969 goto :DataFileErr
 echo  .. done with %ERRORLEVEL% Entries ..
 echo.
 popd

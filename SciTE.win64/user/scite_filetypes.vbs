@@ -48,8 +48,9 @@ Const ERR_OK			= 0
 
 Const FILE_EXT_PATH	= "Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\"
 Const FILE_EXT_PATH_CLS	= "Software\Classes\"
-Const PROG_PATH= "Software\Classes\Applications\"
+Const PROG_PATH= "Software\Microsoft\Windows\CurrentVersion\App Paths\"
 
+Dim action '  Currently - 10 for uninstall or 11 for install
 Dim oFso ' Global, because we will reuse th Object
 Set oFso = CreateObject("scripting.filesystemObject")
 
@@ -65,7 +66,6 @@ function main()
 
 Const REG_HEADER = "Windows Registry Editor Version 5.00"
 Dim arg0 ' either not given or any of the verbs install / uninstall
-Dim action ' currently - 10 for uninstall or 11 for install
 Dim cntExt ' contains the number of written FileExts.
 Dim cntTyp ' contains the number of parsed myScite fileTypes
 Dim clearCmds, strExtKey ' clearCmd means a prefixed "-" followed by the Registry Key to be removed.
@@ -98,7 +98,7 @@ logging LOG_INIT, "Logfile Initialized"
 		wscript.echo(" -Stop- Please use a Fully Qualified Path to Apps Executable")
 		exit function
 	end if
-		
+	
 	' Open myScites known filetypes List using vbscripts funny sortof a "catchme if you can" block.
 	on error resume next 
 		'set oFso = CreateObject("scripting.filesystemObject")
@@ -165,7 +165,8 @@ logging LOG_INIT, "Logfile Initialized"
 						if bconsole then logging LOG_ALERT , "-- Warn: Your fileExt [" &  strEle &"] doesnt like our Tardis ?!"
 					elseif result=ERR_FATAL then ' Fatallity...Grab your Cat and run like Hell....
 						logging LOG_ALERT , "-- Fatal: Universum Error. -Stop-"
-						return(result)
+						main=result
+						exit function
 					end if
 				end if
 			next
@@ -199,7 +200,7 @@ logging LOG_INIT, "Logfile Initialized"
 		set oFileRestore = oFso.OpenTextFile("extRestore.reg",2, 1) ' forWrite, createFlag	
 		oFileRestore.write(clearCmds)
 		while not oFileRegDump.AtEndOfStream
-				oFileRestore.write(vbcrlf & policyFilter(oFileRegDump.ReadLine()))
+				oFileRestore.write(VbCRLF & policyFilter(oFileRegDump.ReadLine()))
 		wend
 	
 		oFileRestore.close()
@@ -208,7 +209,7 @@ logging LOG_INIT, "Logfile Initialized"
 
 	end if
 	
-	logging LOG_APP, "Status:" & cntExt & "Einträge verarbeitet"
+	logging LOG_APP, "Status: " & cntTyp & " Einträge verarbeitet"
 	logging LOG_CLOSE, "Close LogFile"
 
 	oFileExts.close()
@@ -219,8 +220,10 @@ end function
 ' ~~~~ Functions ~~~~~
 private function logging(action, strEntry)
 '
+' Simple Logger  - Currently supported actions:
+' LOG_INIT, LOG_APP, LOG_CLOSE	
+' LOG_LEVEL: 0/1 (De)Activate 
 '
-'	
 	if LOG_LEVEL < 1 or LOG_LEVEL >3  then exit function
 	
 	on error resume next
@@ -252,11 +255,12 @@ private function policyFilter(strEntry)
 '
 ' Recreate special SystemPolicy locked RegKeys 
 '
+	strEntry=replace(strEntry,vbCR,"")
 	policyFilter=strEntry
 	if InStrRev(lcase(strEntry),"\userchoice]") then
 		policyFilter=replace(strEntry,"[","[-") 
-		policyFilter= vbcrlf & policyFilter & vbcrlf & strEntry
-		'logging LOG_ALERT, policyFilter	
+		policyFilter= vbcrlf & policyFilter & vbcrlf & strEntry	
+		'if InStr(strEntry,".awk") then logging LOG_ALERT, policyFilter
 		exit function
 	end if
 
@@ -274,9 +278,13 @@ private function createRegDump()
 ' A custom RegistryDump Func instead of reg.exe would do, but that would be slightly overdressed here.		
 ' So for now: Create a full backup of all Exts in Explorer\fileExts during install.
 '
+Const TMP_REGFILE="tmp_backup.reg"
+
+		if oFso.FileExists(TMP_REGFILE) then oFso.DeleteFile(TMP_REGFILE)	
+	
 		set objShell = CreateObject("WScript.Shell")	
 		strRootExt="HKEY_CURRENT_USER\" & FILE_EXT_PATH
-		set oExec=objShell.exec("cmd /c REG.EXE EXPORT " & strRootExt & " " & "tmp_backup.reg")
+		set oExec=objShell.exec("cmd /c REG.EXE EXPORT " & strRootExt & " " & TMP_REGFILE)
 		
 		' poll asynchronous exec object for its return status 
 		Do While oExec.Status = 0
@@ -285,8 +293,8 @@ private function createRegDump()
 		Loop
 
 		on error resume next
-					logging LOG_ALERT , " ..Initing the FileExt Backup File.. Please Wait.."
-			set oFile1= oFso.GetFile("tmp_backup.reg")
+			logging LOG_ALERT , " ..Initing the FileExt Backup File.. Please Wait.."
+			set oFile1= oFso.GetFile(TMP_REGFILE)
 			if err.number<>0 then 
 				logging LOG_ALERT , " ..Error invocating reg.exe, please restart (No Modifications done.)"
 				createRegDump=ERR_FATAL
@@ -337,7 +345,6 @@ private function assoc_ext_with_program( app_path, strFileExt)
 '
 ' Registers all mySciTE known Filetypes
 '
-
 'todo - handle special: .bas .hta .js .msi .ps1 .reg .vb .vbs .wsf in Key UseLocalMachineSoftwareClassesWhenImpersonating
 'Computer\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\FileAssociation
 
@@ -353,9 +360,11 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 
 	' First - force Progs Application Key to be defined properly during Install
 	if action=11 then
-		iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, PROG_PATH & APP_NAME, arrSubkeys)   
-		if iKeyExist >0 then
-			logger LOG_ALERT , " Please run through .installer.cmd"
+		iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, PROG_PATH & APP_NAME, arrSubkeys)
+		if iKeyExist >0 and app_path <> "" then
+			result = result + objReg.setStringValue(HKEY_CURRENT_USER, PROG_PATH & "Path" , app_path)
+		elseif iKeyExist >0 then
+			logging LOG_ALERT , " Please run through .installer.cmd"
 			assoc_ext_with_program=ERR_FATAL
 			exit function
 		end if

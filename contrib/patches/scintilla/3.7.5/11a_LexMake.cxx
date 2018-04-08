@@ -21,10 +21,12 @@
 #include <stdlib.h>
 #include <string>
 #include <string.h>
+#include <vector> // debug (std::cout)
 #include <stdio.h>
 #include <stdarg.h>
 #include <assert.h>
 #include <ctype.h>
+#include <iostream>
 
 #include "ILexer.h"
 #include "Scintilla.h"
@@ -128,16 +130,16 @@ static unsigned int ColouriseMakeLine(
 	unsigned int SCE_MAKE_FUNCTION = SCE_MAKE_OPERATOR;
 	unsigned int state = SCE_MAKE_DEFAULT;
 	unsigned int state_prev = startStyle;
-		
-	union  {
-		int bCommand;			// set when a line begins with a tab (command)
-		int iWarnEOL;			// unclosed string / braket refcount.
-		} line;
-	
-	bool inString=false;			// set when a double quoted String begins.
-	bool inSqString=false;	// set when a single quoted String begins	
-	line.iWarnEOL=0;
-	
+
+	union {
+			int bCommand;			// set when a line begins with a tab (command)
+			bool bWarnEOL;		// unclosed string / braces flag.
+			bool bWarnSqStr;		// unclosed singleQuoted flag.
+			bool bWarnDqStr;		// unclosed doubleQuoted flag.
+			bool bWarnBrace;		// unclosed brace flag.
+	} line;	
+	line.bWarnEOL=0;
+
 	/// Keywords
 	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
 	WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
@@ -205,6 +207,46 @@ static unsigned int ColouriseMakeLine(
 			}
 		}
 
+		/// Lets signal a warning on unclosed Braces.
+		if ( state!=SCE_MAKE_STRING && strchr("})", (int)chCurr)!=NULL) { 
+			ColourHere(styler, currentPos-1, state);
+			state=SCE_MAKE_DEFAULT;
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
+			line.bWarnBrace=0;
+		} else if (state!=SCE_MAKE_STRING && strchr("{(", (int)chCurr)!=NULL) {
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);
+			line.bWarnBrace=1;
+		}
+
+		/// Style single quoted Strings	
+		if (state==SCE_MAKE_IDENTIFIER && chCurr=='\'') {
+			ColourHere(styler, currentPos-1, state);
+			state=SCE_MAKE_DEFAULT;
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
+			line.bWarnSqStr=false;
+		} else if	(state!=SCE_MAKE_STRING && chCurr=='\'') {
+			state_prev = state;
+			state = SCE_MAKE_IDENTIFIER;
+			ColourHere(styler, currentPos-1, state_prev);
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
+			line.bWarnSqStr=true;
+		} 
+		
+		/// Style double quoted Strings
+		if (state==SCE_MAKE_STRING && chCurr=='\"') {
+			ColourHere(styler, currentPos-1, state);
+			state=SCE_MAKE_DEFAULT;
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
+			line.bWarnDqStr =  0 ;
+		} else if	(state!=SCE_MAKE_STRING && chCurr=='\"') {
+			state_prev = state;
+			state = SCE_MAKE_STRING;
+			ColourHere(styler, currentPos-1, state_prev);
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
+			line.bWarnDqStr=1;
+		}
+
+		line.bWarnEOL= line.bWarnBrace || line.bWarnDqStr || line.bWarnSqStr;
 		/// Style Keywords
 		// ForwardSearch Searchstring.
 		// Travels to the Future and retrieves Lottery draw results.
@@ -349,58 +391,13 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 		}
 
-
-		/// lets signal a warning on unclosed Brackets.
-		if (!inString  && !inSqString && strchr("{(", (int)chCurr)!=NULL) {
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);
-			line.iWarnEOL++;
-		}
-		if ( !inString && !inSqString && strchr("})", (int)chCurr)!=NULL) { 
-			ColourHere(styler, currentPos-1, state);
-			state=SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
-			line.iWarnEOL--;
-		}
-		
-		/// Style single quoted Strings
-		if (!inString && inSqString && chCurr=='\'') {
-			ColourHere(styler, currentPos-1, state);
-			state=SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
-			inSqString=false;
-			line.iWarnEOL--;
-		} else if	(!inString && !inSqString && chCurr=='\'') {
-			state_prev = state;
-			state = SCE_MAKE_IDENTIFIER;
-			ColourHere(styler, currentPos-1, state_prev);
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
-			inSqString=true;
-			line.iWarnEOL++;
-		}
-		
-		/// Style double quoted Strings
-		if (inString && !inSqString && chCurr=='\"') {
-			ColourHere(styler, currentPos-1, state);
-			state=SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
-			line.iWarnEOL--;
-			inString=false;
-		} else if	(!inString && !inSqString && chCurr=='\"') {
-			state_prev = state;
-			state = SCE_MAKE_STRING;
-			ColourHere(styler, currentPos-1, state_prev);
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
-			inString=true;
-			line.iWarnEOL++;
-		}
-
-
 		i++;
 	}
 	
-	if (line.iWarnEOL>0) {
+	//std::cout <<line.bWarnEOL << slineBuffer ;	
+	if (line.bWarnEOL>0) {
 		state=SCE_MAKE_IDEOL;
-	} else if (line.iWarnEOL<1) {
+	} else if (line.bWarnEOL<1) {
 		state=SCE_MAKE_DEFAULT;
 	}
 	
