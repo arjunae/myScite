@@ -154,8 +154,7 @@ static unsigned int ColouriseMakeLine(
 
 	while ( i < lengthLine ) {
 		Sci_PositionU currentPos=startLine+i;
-		
-		// Replace NewLines with Spaces
+
 		char chPrev=styler.SafeGetCharAt(currentPos-1);	
 		char chCurr=styler.SafeGetCharAt(currentPos); 
 		char chNext=styler.SafeGetCharAt(currentPos+1);	
@@ -216,12 +215,12 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Style single quoted Strings	
-		if (state==SCE_MAKE_IDENTIFIER && state != SCE_MAKE_USER_VARIABLE && chCurr=='\'') {
+		if (state==SCE_MAKE_IDENTIFIER && chCurr=='\'') {
 			ColourHere(styler, currentPos-1, state);
 			state=SCE_MAKE_DEFAULT;
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
 			line.bWarnSqStr=false;
-		} else if	(state!=SCE_MAKE_STRING && state != SCE_MAKE_USER_VARIABLE && chCurr=='\'') {
+		} else if	(state!=SCE_MAKE_STRING  && chCurr=='\'') {
 			state_prev = state;
 			state = SCE_MAKE_IDENTIFIER;
 			ColourHere(styler, currentPos-1, state_prev);

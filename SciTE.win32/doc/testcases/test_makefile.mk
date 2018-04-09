@@ -241,7 +241,6 @@ menu-deploy: .title
 .suggests-folder:
 	@([[ -f $(folder) ]] && echo -e "     $(.BOLD)$(text)$(.CLEAR)")
 
-
 # Foundation puts its files into .foundation inside your project folder.
 # You can delete .foundation anytime and then run make foundation again if you need
 foundation: .title
