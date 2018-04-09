@@ -529,7 +529,6 @@ package-xml: .check-foundation
 		echo $$ make pear; echo; \
 	fi;
 
-
 composer-json: .check-foundation
 	@$(GENERATE_TOOL) composer-json > composer.json.tmp && mv -f composer.json.tmp composer.json
 
