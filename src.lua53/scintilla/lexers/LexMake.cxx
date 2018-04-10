@@ -4,7 +4,7 @@
  * @author Neil Hodgson
  * @author Thorsten Kani(marcedo@HabMalneFrage.de)
  * @brief Lexer for make files
- * - Styles GNUMake Directives, internal function Keywords  $(sort subst..) ,
+ * - Styles GNUMake Directives, internal function Keywords $(sort subst..) ,
  * - Automatic Variables $[@%<?^+*] , Flags "-" and Keywords for externalCommands
  * - Warns on more unclosed Brackets or doublequoted Strings.
  * - Handles multiLine Continuations, inlineComments styles Strings and Numbers.
@@ -57,7 +57,7 @@ using namespace Scintilla;
 
 static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 	return (styler[i] == '\n') ||
-	       ((styler[i] == '\r') && (styler.SafeGetCharAt(i + 1) != '\n'));
+	    ((styler[i] == '\r') && (styler.SafeGetCharAt(i + 1) != '\n'));
 }
 
 static inline bool AtStartChar(Accessor &styler, Sci_PositionU i) {
@@ -124,59 +124,63 @@ static unsigned int ColouriseMakeLine(
 	Sci_PositionU i = 0; // primary line position counter
 	Sci_PositionU styleBreak = 0;
 
-	Sci_PositionU strLen = 0;				// Keyword candidate length.
+	Sci_PositionU strLen = 0;			// Keyword candidate length.
 	Sci_PositionU startMark = 0;	// Keyword candidates startPos. >0 while searching for a Keyword
-
+	
 	unsigned int SCE_MAKE_FUNCTION = SCE_MAKE_OPERATOR;
 	unsigned int state = SCE_MAKE_DEFAULT;
 	unsigned int state_prev = startStyle;
 
-	union {
-			int bCommand;			// set when a line begins with a tab (command)
-			bool bWarnEOL;		// unclosed string / braces flag.
-			bool bWarnSqStr;		// unclosed singleQuoted flag.
-			bool bWarnDqStr;		// unclosed doubleQuoted flag.
-			bool bWarnBrace;		// unclosed brace flag.
-	} line;	
-	line.bWarnEOL=0;
-
+	union { 
+			struct { // remove that one- and have fun drinkin "Coffee".......
+				bool bCommand;			// set when a line begins with a tab (command)
+				int iWarnEOL;		// unclosed string / braces flag.
+				bool bWarnSqStr;	// unclosed singleQuoted flag.
+				bool bWarnDqStr;	// unclosed doubleQuoted flag.
+				bool bWarnBrace;	// unclosed brace flag.
+			} s;
+	} line; line.s.iWarnEOL=0; line.s.bWarnBrace=0;line.s.bWarnDqStr=0;line.s.bWarnSqStr=0;line.s.bWarnBrace=0;
+	
+	int iDebug=0;
+	if (iDebug>0) std::cout << "[Pos]	[Char]	[WarnEOLState]\n";	
+		
 	/// Keywords
 	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
 	WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
 	WordList &kwExtCmd = *keywordlists[2]; // Makefile->external Commands (mkdir,rm,attrib...)
-	
-	// Skip initial spaces and tabs for current Line. Spot that Position to check for later.
+
+	// Skip initial spaces and tabs for current line.s. Spot that Position to check for later.
 	while ((i < lengthLine) && isspacechar(styler.SafeGetCharAt(startLine+i)))
 		i++;
-				
+
 	unsigned int theStart=startLine+i; // One Byte ought (not) to be enough for everyone....?
 	stylerPos=theStart; // Keep a Reference to the last styled Position.
-
+		
+	// check for a tab character in column 0 indicating a command
+	if ( styler.SafeGetCharAt(theStart-1)  == '\t' )
+		line.s.bCommand = true;
+	
 	while ( i < lengthLine ) {
 		Sci_PositionU currentPos=startLine+i;
 
 		char chPrev=styler.SafeGetCharAt(currentPos-1);	
 		char chCurr=styler.SafeGetCharAt(currentPos); 
 		char chNext=styler.SafeGetCharAt(currentPos+1);	
-			
+
 		/// Handle (very) long Lines. 
 		if (i>=maxStyleLineLength) {
 			state=SCE_MAKE_DEFAULT;
 			styler.ColourTo(endPos, state);
 			return(state);
 		}
-		
-		// check for a tab character in column 0 indicating a command
-		//if ((currentPos==theStart) && (chPrev  == '\t' ))
-		//	line.bCommand = true;
-	
+
 		/// style GNUMake Preproc
 		if (currentPos==theStart && chCurr == '!') {
 			state=SCE_MAKE_PREPROCESSOR;
 			styler.ColourTo(endPos, state);
 			return(state);
 		}
-		
+
 		/// style GNUMake inline Comments
 		if (chCurr == '#' && state==SCE_MAKE_DEFAULT) {
 			state_prev=state;
@@ -194,7 +198,7 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		// skip identifier and target styling if this is a command line
-		if (!line.bCommand && state==SCE_MAKE_DEFAULT) {
+		if (!line.s.bCommand && state==SCE_MAKE_DEFAULT) {
 			if (chCurr == ':' && chNext != '=') {
 				if(styleBreak>0 && styleBreak<currentPos && styleBreak>stylerPos) 
 					ColourHere(styler, styleBreak, SCE_MAKE_DEFAULT, state);
@@ -209,9 +213,9 @@ static unsigned int ColouriseMakeLine(
 
 		/// Lets signal a warning on unclosed Braces.
 		if ( state==SCE_MAKE_DEFAULT &&  strchr("})", (int)chCurr)!=NULL) { 
-			line.bWarnBrace=0;
+			line.s.bWarnBrace=false;
 		} else if (state==SCE_MAKE_DEFAULT && strchr("{(", (int)chCurr)!=NULL) {
-			line.bWarnBrace=1;
+			line.s.bWarnBrace=true;
 		}
 
 		/// Style single quoted Strings	
@@ -219,31 +223,40 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos-1, state);
 			state=SCE_MAKE_DEFAULT;
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
-			line.bWarnSqStr=false;
+			line.s.bWarnSqStr=false;
 		} else if	(state!=SCE_MAKE_STRING  && chCurr=='\'') {
 			state_prev = state;
 			state = SCE_MAKE_IDENTIFIER;
 			ColourHere(styler, currentPos-1, state_prev);
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
-			line.bWarnSqStr=true;
+			line.s.bWarnSqStr=true;
 		} 
-		
+
 		/// Style double quoted Strings
 		if (state==SCE_MAKE_STRING && chCurr=='\"' && chPrev !='\\')  {
 			ColourHere(styler, currentPos-1, state);
 			state=SCE_MAKE_DEFAULT;
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
-			line.bWarnDqStr = 0 ;
+			line.s.bWarnDqStr = false ;
 		} else if	(state!=SCE_MAKE_STRING && chCurr=='\"' && chPrev!='\\') {
 			state_prev = state;
 			state = SCE_MAKE_STRING;
 			ColourHere(styler, currentPos-1, state_prev);
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
-			line.bWarnDqStr=1;
+			line.s.bWarnDqStr=true;
 		}
 
-		line.bWarnEOL= line.bWarnBrace || line.bWarnDqStr || line.bWarnSqStr;
+		line.s.iWarnEOL= line.s.bWarnBrace || line.s.bWarnDqStr || line.s.bWarnSqStr;
 
+		if (iDebug>0)	{
+			std::cout << i << "	" << chCurr<<"	"; 
+			printf("%i",line.s.iWarnEOL); 
+			printf(line.s.bWarnBrace ? "1" : "0");
+			printf(line.s.bWarnDqStr ? "1" : "0");
+			printf(line.s.bWarnSqStr ? "1" : "0");
+			std::cout << "\n";
+		}
+		
 		/// Style Keywords
 		// ForwardSearch Searchstring.
 		// Travels to the Future and retrieves Lottery draw results.
@@ -286,7 +299,7 @@ static unsigned int ColouriseMakeLine(
 				//std::cout<< "[extCMD]";
 				ColourHere(styler, currentPos, SCE_MAKE_EXTCMD);
 				ColourHere(styler, currentPos+1, state);
-			} 
+			}
 
 			// we now search for the word within the Directives Space.
 			// Rule: preceeded by line start or .'='. Ends on eol, whitespace or ;
@@ -352,7 +365,7 @@ static unsigned int ColouriseMakeLine(
 			state = SCE_MAKE_AUTOM_VARIABLE;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE
 				&& (strchr("@%<^+", (int)styler.SafeGetCharAt(currentPos-1))!=NULL
-				    && (strchr("DF", (int)chCurr) !=NULL))) {
+				 && (strchr("DF", (int)chCurr) !=NULL))) {
 			ColourHere(styler, currentPos, state, state_prev);
 			state = SCE_MAKE_DEFAULT;
 		}
@@ -380,16 +393,13 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 		}
-
-		//std::cout <<i << ": Char:" << chCurr <<": State;"<< state << "\n";
 						
 		i++;
 	}
 
-	//std::cout <<line.bWarnEOL << slineBuffer ;	
-	if (line.bWarnEOL>0) {
+	if (line.s.iWarnEOL>0) {
 		state=SCE_MAKE_IDEOL;
-	} else if (line.bWarnEOL<1) {
+	} else if (line.s.iWarnEOL<1) {
 		state=SCE_MAKE_DEFAULT;
 	}
 	
@@ -502,131 +512,131 @@ static int GetLineLen(Accessor &styler, Sci_Position offset) {
 
 static int calculateFoldMake(Sci_PositionU start, Sci_PositionU end, int foldlevel, Accessor &styler, bool bElse)
 {
-    // If the word is too long, it is not what we are looking for
-    if ( end - start > 20 )
-        return foldlevel;
+ // If the word is too long, it is not what we are looking for
+ if ( end - start > 20 )
+  return foldlevel;
 
-    int newFoldlevel = foldlevel;
+ int newFoldlevel = foldlevel;
 
-    char s[20]; // The key word we are looking for has atmost 13 characters
-    for (unsigned int i = 0; i < end - start + 1 && i < 19; i++) {
-        s[i] = static_cast<char>( styler[ start + i ] );
-        s[i + 1] = '\0';
-    }
+ char s[20]; // The key word we are looking for has atmost 13 characters
+ for (unsigned int i = 0; i < end - start + 1 && i < 19; i++) {
+  s[i] = static_cast<char>( styler[ start + i ] );
+  s[i + 1] = '\0';
+ }
 
-    if ( CompareCaseInsensitive(s, "IF") == 0 || CompareCaseInsensitive(s, "IFEQ") == 0  || CompareCaseInsensitive(s, "IFNEQ") == 0 
-				 ||CompareCaseInsensitive(s, "IFNDEF") == 0  || CompareCaseInsensitive(s, "WHILE") == 0
-         || CompareCaseInsensitive(s, "MACRO") == 0 || CompareCaseInsensitive(s, "FOREACH") == 0
-         || CompareCaseInsensitive(s, "ELSEIF") == 0   || CompareCaseInsensitive(s, "ELIF") == 0 )
-        newFoldlevel++;
-    else if ( CompareCaseInsensitive(s, "ENDIF") == 0 || CompareCaseInsensitive(s, "ENDWHILE") == 0
+ if ( CompareCaseInsensitive(s, "IF") == 0 || CompareCaseInsensitive(s, "IFEQ") == 0  || CompareCaseInsensitive(s, "IFNEQ") == 0 
+	||CompareCaseInsensitive(s, "IFNDEF") == 0  || CompareCaseInsensitive(s, "WHILE") == 0
+	|| CompareCaseInsensitive(s, "MACRO") == 0		|| CompareCaseInsensitive(s, "FOREACH") == 0
+	|| CompareCaseInsensitive(s, "ELSEIF") == 0	|| CompareCaseInsensitive(s, "ELIF") == 0 )
+  newFoldlevel++;
+ else if ( CompareCaseInsensitive(s, "ENDIF") == 0 || CompareCaseInsensitive(s, "ENDWHILE") == 0
 					|| CompareCaseInsensitive(s, "ENDMACRO") == 0 || CompareCaseInsensitive(s, "ENDFOREACH") == 0
 					||  CompareCaseInsensitive(s, "FI") == 0)
-        newFoldlevel--;
-    else if ( bElse && CompareCaseInsensitive(s, "ELSEIF") == 0 )
-        newFoldlevel++;
-    else if ( bElse && CompareCaseInsensitive(s, "ELSE") == 0 )
-        newFoldlevel++;
+  newFoldlevel--;
+ else if ( bElse && CompareCaseInsensitive(s, "ELSEIF") == 0 )
+  newFoldlevel++;
+ else if ( bElse && CompareCaseInsensitive(s, "ELSE") == 0 )
+  newFoldlevel++;
 
-    return newFoldlevel;
+ return newFoldlevel;
 }
 
 static bool MakeNextLineHasElse(Sci_PositionU start, Sci_PositionU end, Accessor &styler)
 {
-    Sci_Position nNextLine = -1;
-    for ( Sci_PositionU i = start; i < end; i++ ) {
-        char cNext = styler.SafeGetCharAt( i );
-        if ( cNext == '\n' ) {
-            nNextLine = i+1;
-            break;
-        }
-    }
+ Sci_Position nNextLine = -1;
+ for ( Sci_PositionU i = start; i < end; i++ ) {
+  char cNext = styler.SafeGetCharAt( i );
+  if ( cNext == '\n' ) {
+   nNextLine = i+1;
+   break;
+  }
+ }
 
-    if ( nNextLine == -1 ) // We never foudn the next line...
-        return false;
+ if ( nNextLine == -1 ) // We never foudn the next line.s...
+  return false;
 
-    for ( Sci_PositionU firstChar = nNextLine; firstChar < end; firstChar++ ) {
-        char cNext = styler.SafeGetCharAt( firstChar );
-        if ( cNext == ' ' )
-            continue;
-        if ( cNext == '\t' )
-            continue;
-        if ( styler.Match(firstChar, "ELSE")  || styler.Match(firstChar, "else"))
-            return true;
-        break;
-    }
+ for ( Sci_PositionU firstChar = nNextLine; firstChar < end; firstChar++ ) {
+  char cNext = styler.SafeGetCharAt( firstChar );
+  if ( cNext == ' ' )
+   continue;
+  if ( cNext == '\t' )
+   continue;
+  if ( styler.Match(firstChar, "ELSE")  || styler.Match(firstChar, "else"))
+   return true;
+  break;
+ }
 
-    return false;
+ return false;
 }
 
 static void FoldMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler)
 {
-    // No folding enabled, no reason to continue...
-    if ( styler.GetPropertyInt("fold") == 0 )
-        return;
+ // No folding enabled, no reason to continue...
+ if ( styler.GetPropertyInt("fold") == 0 )
+  return;
 
-    bool foldAtElse = styler.GetPropertyInt("fold.at.else", 0) == 1;
+ bool foldAtElse = styler.GetPropertyInt("fold.at.else", 0) == 1;
 
-    Sci_Position lineCurrent = styler.GetLine(startPos);
-    Sci_PositionU safeStartPos = styler.LineStart( lineCurrent );
+ Sci_Position lineCurrent = styler.GetLine(startPos);
+ Sci_PositionU safeStartPos = styler.LineStart( lineCurrent );
 
-    bool bArg1 = true;
-    Sci_Position nWordStart = -1;
+ bool bArg1 = true;
+ Sci_Position nWordStart = -1;
 
-    int levelCurrent = SC_FOLDLEVELBASE;
-    if (lineCurrent > 0)
-        levelCurrent = styler.LevelAt(lineCurrent-1) >> 16;
-    int levelNext = levelCurrent;
+ int levelCurrent = SC_FOLDLEVELBASE;
+ if (lineCurrent > 0)
+  levelCurrent = styler.LevelAt(lineCurrent-1) >> 16;
+ int levelNext = levelCurrent;
 
-    for (Sci_PositionU i = safeStartPos; i < startPos + length; i++) {
-        char chCurr = styler.SafeGetCharAt(i);
+ for (Sci_PositionU i = safeStartPos; i < startPos + length; i++) {
+  char chCurr = styler.SafeGetCharAt(i);
 
-        if ( bArg1 ) {
-            if ( nWordStart == -1 && (IsAlphaNum(chCurr)) ) {
-                nWordStart = i;
-            }
-            else if ( IsAlphaNum(chCurr) == false && nWordStart > -1 ) {
-                int newLevel = calculateFoldMake( nWordStart, i-1, levelNext, styler, foldAtElse);
+  if ( bArg1 ) {
+   if ( nWordStart == -1 && (IsAlphaNum(chCurr)) ) {
+    nWordStart = i;
+   }
+   else if ( IsAlphaNum(chCurr) == false && nWordStart > -1 ) {
+    int newLevel = calculateFoldMake( nWordStart, i-1, levelNext, styler, foldAtElse);
 
-                if ( newLevel == levelNext ) {
-                    if ( foldAtElse ) {
-                        if ( MakeNextLineHasElse(i, startPos + length, styler) )
-                            levelNext--;
-                    }
-                }
-                else
-                    levelNext = newLevel;
-                bArg1 = false;
-            }
-        }
-
-        if ( chCurr == '\n' ) {
-            if ( bArg1 && foldAtElse) {
-                if ( MakeNextLineHasElse(i, startPos + length, styler) )
-                    levelNext--;
-            }
-
-            // If we are on a new line...
-            int levelUse = levelCurrent;
-            int lev = levelUse | levelNext << 16;
-            if (levelUse < levelNext )
-                lev |= SC_FOLDLEVELHEADERFLAG;
-            if (lev != styler.LevelAt(lineCurrent))
-                styler.SetLevel(lineCurrent, lev);
-
-            lineCurrent++;
-            levelCurrent = levelNext;
-            bArg1 = true; // New line, lets look at first argument again
-            nWordStart = -1;
-        }
+    if ( newLevel == levelNext ) {
+     if ( foldAtElse ) {
+      if ( MakeNextLineHasElse(i, startPos + length, styler) )
+       levelNext--;
+     }
     }
+    else
+     levelNext = newLevel;
+    bArg1 = false;
+   }
+  }
 
-    int levelUse = levelCurrent;
-    int lev = levelUse | levelNext << 16;
-    if (levelUse < levelNext)
-        lev |= SC_FOLDLEVELHEADERFLAG;
-    if (lev != styler.LevelAt(lineCurrent))
-        styler.SetLevel(lineCurrent, lev);
+  if ( chCurr == '\n' ) {
+   if ( bArg1 && foldAtElse) {
+    if ( MakeNextLineHasElse(i, startPos + length, styler) )
+     levelNext--;
+   }
+
+   // If we are on a new line...
+   int levelUse = levelCurrent;
+   int lev = levelUse | levelNext << 16;
+   if (levelUse < levelNext )
+    lev |= SC_FOLDLEVELHEADERFLAG;
+   if (lev != styler.LevelAt(lineCurrent))
+    styler.SetLevel(lineCurrent, lev);
+
+   lineCurrent++;
+   levelCurrent = levelNext;
+   bArg1 = true; // New line, lets look at first argument again
+   nWordStart = -1;
+  }
+ }
+
+ int levelUse = levelCurrent;
+ int lev = levelUse | levelNext << 16;
+ if (levelUse < levelNext)
+  lev |= SC_FOLDLEVELHEADERFLAG;
+ if (lev != styler.LevelAt(lineCurrent))
+  styler.SetLevel(lineCurrent, lev);
 }
 
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
@@ -667,14 +677,12 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 					slineBuffer.resize(slineBuffer.size()+1);
 					slineBuffer[posi]=styler[at++];
 				}
-
 			at=lineStart+lineLength-1;
-
 			startStyle = ColouriseMakeLine(slineBuffer, lineLength, lineStart, at, keywords, styler, startStyle);
 			slineBuffer.clear();
 			lineStart = at+1;
 			linePos=0;
-		}
+			}
 	}
 	if (linePos>0){ // handle normal lines without an EOL mark.
 		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length-1, keywords, styler, startStyle);
