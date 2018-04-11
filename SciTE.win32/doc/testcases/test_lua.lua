@@ -1,21 +1,21 @@
 -- go@ dofile $(FilePath) 
 -- ^^tell Scite to use its internal Lua interpreter.
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-defaultHome= props["SciteDefaultHome"]
+local defaultHome= props["SciteDefaultHome"]
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 print("-> go1 sha1 lol") 
-sha1 = require "sha1"
- file,err = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
- content =""
+local sha1 = require "sha1"
+local file,err = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
+local content =""
 ckTho=true
 c0=0
 while ckTho==true do
-	 GoGo = file:read(6615)
+	local GoGo = file:read(6615)
 	if not GoGo then break end
 	c0=c0..GoGo
 end	
-cryptSHA1= sha1(c0)
+local cryptSHA1= sha1(c0)
 
 file:close()
 print(cryptSHA1,"~~ Crypto SHA1 Hash :")

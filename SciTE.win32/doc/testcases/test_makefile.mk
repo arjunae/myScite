@@ -126,6 +126,8 @@ menu-project: .title
 	@make -s .menu-item tgt="phpdoc" desc="Run PhpDocumentor2 to generate the project API documentation"
 	@echo ""
 
+
+
 menu-package: .title
 	@make -s .menu-heading title="Package Description"
 	@make -s .menu-item tgt="package-ini" desc="Creates the basic package.ini file"
@@ -200,6 +202,7 @@ menu-dev: .title
 	@echo ""
 
 
+
 menu-deploy: .title
 	@make -s .menu-heading title="Deployment"
 	@echo "    Parameters: package=vendor/package (required)"
@@ -241,6 +244,7 @@ menu-deploy: .title
 .suggests-folder:
 	@([[ -f $(folder) ]] && echo -e "     $(.BOLD)$(text)$(.CLEAR)")
 
+
 # Foundation puts its files into .foundation inside your project folder.
 # You can delete .foundation anytime and then run make foundation again if you need
 foundation: .title
@@ -268,8 +272,8 @@ foundation: .title
 .foundation-backup-makefile:
 	@echo -e "    > $(.BOLD)Backing up current Makefile$(.CLEAR)"
 	@if [ -f "Makefile.bak" ];  then \
-	    export list=( @$$(ls Makefile.bak*) );\
-	    cp Makefile Makefile.bak.$${#list[@]}; \
+	    export list=( @$$(ls Makefile.bak*) ); \
+	    cp Makefile "Makefile.bak.$${#list[@]}"; \
 	else \
 	    cp Makefile Makefile.bak; \
 	fi;
@@ -315,7 +319,7 @@ project-info: .check-foundation
 	@echo "         package-version:" `$(CONFIG_TOOL) package-version `
 	@echo "       package-stability:" `$(CONFIG_TOOL) package-stability `
 	@echo -e "\r         project-authors: "`$(CONFIG_TOOL) package-authors` \
-	|tr ',' "\n"| awk -F' <' '{printf sds%-25s <%15s \n","",$$1,$$2}'
+	|tr ',' "\n"| awk -F' <' '{printf "%25s%-25s <%15s \n","",$$1,$$2}'
 	@echo -e "\r    project-contributors: "`$(CONFIG_TOOL) package-contributors ` \
 	|tr ',' "\n"| awk -F' <' '{printf "%25s%-25s <%15s \n","",$$1,$$2}'
 	@echo "       package-date-time:" `$(CONFIG_TOOL) package-date-time `
@@ -452,17 +456,18 @@ project-authors-reduce: .check-foundation
 	@export tmp="$${replace#*<}";
 	@export GIT_NEW_EMAIL="$${tmp%>*}";
 	@git filter-branch -f --env-filter ' \
-					while read author; do\
+	    while read author; do \
 	        if [ "$$GIT_COMMITTER_NAME <$$GIT_COMMITTER_EMAIL>" = "$${author}" ]; then \
 	            export GIT_COMMITTER_NAME \
-							"$${GIT_NEW_NAME}";\
+							"$${GIT_NEW_NAME}"; \
 	            export GIT_COMMITTER_EMAIL="$${GIT_NEW_EMAIL}"; \
 	        fi; \
 	        if [ "$$GIT_AUTHOR_NAME <$$GIT_AUTHOR_EMAIL>" = "$${author}" ]; then \
 	            export GIT_AUTHOR_NAME="$${GIT_NEW_NAME}"; \
 	            export GIT_AUTHOR_EMAIL="$${GIT_NEW_EMAIL}"; \
 	        fi; \
-	    done < "${auths}"';
+	    done < "${auths}"; \
+	';
 
 info-git-extras:
 	@echo -en "    $(.BOLD)Git Extras "
@@ -527,6 +532,7 @@ package-xml: .check-foundation
 	  echo Respect/Foundation:; \
 		echo $$ make pear; echo; \
 	fi;
+
 
 composer-json: .check-foundation
 	@$(GENERATE_TOOL) composer-json > composer.json.tmp && mv -f composer.json.tmp composer.json
@@ -900,7 +906,7 @@ clean-single-blank-lines:
 clean-all-whitespace: .check-foundation
 	@echo -e "    $(.BOLD)Whitespace Cleaning$(.CLEAR)"
 	@echo -e "    -----------"
-	@if test "$(file)"; then  \
+	@if test "$(file)"; then \
 		make -s -f $(THIS) clean-tabs2spaces file="$(file)"; \
 		make -s -f $(THIS) clean-unix-line-ends file="$(file)"; \
 		make -s -f $(THIS) clean-trailing-spaces file="$(file)"; \

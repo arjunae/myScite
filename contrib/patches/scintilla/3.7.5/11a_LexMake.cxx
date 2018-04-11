@@ -149,7 +149,7 @@ static unsigned int ColouriseMakeLine(
 	WordList &kwFunctions = *keywordlists[1]; // Makefile->Functions (ifdef,define...)
 	WordList &kwExtCmd = *keywordlists[2]; // Makefile->external Commands (mkdir,rm,attrib...)
 
-	// Skip initial spaces and tabs for current line.s. Spot that Position to check for later.
+	// Skip initial spaces and tabs for the current line. Spot that Position to check for later.
 	while ((i < lengthLine) && isspacechar(styler.SafeGetCharAt(startLine+i)))
 		i++;
 
@@ -296,9 +296,9 @@ static unsigned int ColouriseMakeLine(
 				 &&  AtStartChar(styler, startMark-1)) {
 				if (startMark > startLine && startMark >= stylerPos)
 					styler.ColourTo(startMark-1, state);
-				//std::cout<< "[extCMD]";
 				ColourHere(styler, currentPos, SCE_MAKE_EXTCMD);
 				ColourHere(styler, currentPos+1, state);
+				if (iDebug) std::cout<< "[extCMD] " << strSearch << "\n";
 			}
 
 			// we now search for the word within the Directives Space.
@@ -310,7 +310,7 @@ static unsigned int ColouriseMakeLine(
 					styler.ColourTo(startMark-1, state);		
 				ColourHere(styler, currentPos, SCE_MAKE_DIRECTIVE);
 				ColourHere(styler, currentPos+1, state);
-				//std::cout<< "|Directive|";
+				if (iDebug) std::cout<< "[Directive] " << strSearch << "\n";
 			} 
 
 			// ....and within functions $(sort,subst...) / used to style internal Variables too.
@@ -320,9 +320,9 @@ static unsigned int ColouriseMakeLine(
 					&& styler.SafeGetCharAt( startMark -1 ) == '(') {
 				if (startMark > startLine && startMark > stylerPos) 
 					styler.ColourTo(startMark-1, state);
-				//std::cout<< "|Func|";
 				ColourHere(styler, currentPos, SCE_MAKE_FUNCTION);
 				ColourHere(styler, currentPos+1, state);
+				if (iDebug) std::cout<< "[Function] " << strSearch << "\n";
 			} 
 			
 			// Colour Strings which end with a Number
@@ -346,6 +346,7 @@ static unsigned int ColouriseMakeLine(
 			if (state_prev==SCE_MAKE_USER_VARIABLE) state_prev = SCE_MAKE_DEFAULT;	
 			ColourHere(styler, currentPos+1, state, state_prev);
 			state = state_prev;
+			if (iDebug) std::cout<< "[UserVar] "  << "\n";
 		}
 
 		/// ... and $ based automatic Variables Rule: $@%<?^+*
@@ -356,6 +357,7 @@ static unsigned int ColouriseMakeLine(
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)chCurr)!=NULL)) {
 			ColourHere(styler, currentPos, state, state_prev);
 			state = state_prev;
+			if (iDebug) std::cout<< "[$AutomaticVar] "  << "\n";
 		}
 
 		/// Style for automatic Variables. FluxCompensators orders: @%<^+'D'||'F'
@@ -368,6 +370,7 @@ static unsigned int ColouriseMakeLine(
 				 && (strchr("DF", (int)chCurr) !=NULL))) {
 			ColourHere(styler, currentPos, state, state_prev);
 			state = SCE_MAKE_DEFAULT;
+			if (iDebug) std::cout<< "[@AutomaticVar] "  << "\n";
 		}
 
 		/// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'")
@@ -380,6 +383,7 @@ static unsigned int ColouriseMakeLine(
 		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''", (int)chNext) !=NULL) {
 			ColourHere(styler, currentPos, state, state_prev);
 			state = state_prev;
+			if (iDebug) std::cout<< "[Flags] "  << "\n";
 		}
 		
 		/// Operators..
@@ -393,7 +397,6 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos-1, state);
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 		}
-						
 		i++;
 	}
 
@@ -512,16 +515,15 @@ static int GetLineLen(Accessor &styler, Sci_Position offset) {
 
 static int calculateFoldMake(Sci_PositionU start, Sci_PositionU end, int foldlevel, Accessor &styler, bool bElse)
 {
- // If the word is too long, it is not what we are looking for
+ // If the word is >"= Chars, it's not what we are looking for.
  if ( end - start > 20 )
-  return foldlevel;
+		return foldlevel;
 
- int newFoldlevel = foldlevel;
-
- char s[20]; // The key word we are looking for has atmost 13 characters
- for (unsigned int i = 0; i < end - start + 1 && i < 19; i++) {
-  s[i] = static_cast<char>( styler[ start + i ] );
-  s[i + 1] = '\0';
+	int newFoldlevel = foldlevel;
+	char s[20]; // The key word we are looking for has atmost 13 characters
+	for (unsigned int i = 0; i < end - start + 1 && i < 19; i++) {
+		s[i] = static_cast<char>( styler[ start + i ] );
+		s[i + 1] = '\0';
  }
 
  if ( CompareCaseInsensitive(s, "IF") == 0 || CompareCaseInsensitive(s, "IFEQ") == 0  || CompareCaseInsensitive(s, "IFNEQ") == 0 
@@ -530,13 +532,13 @@ static int calculateFoldMake(Sci_PositionU start, Sci_PositionU end, int foldlev
 	|| CompareCaseInsensitive(s, "ELSEIF") == 0	|| CompareCaseInsensitive(s, "ELIF") == 0 )
   newFoldlevel++;
  else if ( CompareCaseInsensitive(s, "ENDIF") == 0 || CompareCaseInsensitive(s, "ENDWHILE") == 0
-					|| CompareCaseInsensitive(s, "ENDMACRO") == 0 || CompareCaseInsensitive(s, "ENDFOREACH") == 0
-					||  CompareCaseInsensitive(s, "FI") == 0)
+		|| CompareCaseInsensitive(s, "ENDMACRO") == 0 || CompareCaseInsensitive(s, "ENDFOREACH") == 0
+		||  CompareCaseInsensitive(s, "FI") == 0)
   newFoldlevel--;
  else if ( bElse && CompareCaseInsensitive(s, "ELSEIF") == 0 )
-  newFoldlevel++;
+		newFoldlevel++;
  else if ( bElse && CompareCaseInsensitive(s, "ELSE") == 0 )
-  newFoldlevel++;
+		newFoldlevel++;
 
  return newFoldlevel;
 }
@@ -545,13 +547,12 @@ static bool MakeNextLineHasElse(Sci_PositionU start, Sci_PositionU end, Accessor
 {
  Sci_Position nNextLine = -1;
  for ( Sci_PositionU i = start; i < end; i++ ) {
-  char cNext = styler.SafeGetCharAt( i );
-  if ( cNext == '\n' ) {
-   nNextLine = i+1;
-   break;
-  }
+		char cNext = styler.SafeGetCharAt( i );
+		if ( cNext == '\n' ) {
+			nNextLine = i+1;
+			break;
+		}
  }
-
  if ( nNextLine == -1 ) // We never foudn the next line.s...
   return false;
 
@@ -571,72 +572,70 @@ static bool MakeNextLineHasElse(Sci_PositionU start, Sci_PositionU end, Accessor
 
 static void FoldMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler)
 {
- // No folding enabled, no reason to continue...
- if ( styler.GetPropertyInt("fold") == 0 )
-  return;
+	// No folding enabled, no reason to continue...
+	if ( styler.GetPropertyInt("fold") == 0 )
+	return;
 
- bool foldAtElse = styler.GetPropertyInt("fold.at.else", 0) == 1;
+	bool foldAtElse = styler.GetPropertyInt("fold.at.else", 0) == 1;
 
- Sci_Position lineCurrent = styler.GetLine(startPos);
- Sci_PositionU safeStartPos = styler.LineStart( lineCurrent );
+	Sci_Position lineCurrent = styler.GetLine(startPos);
+	Sci_PositionU safeStartPos = styler.LineStart( lineCurrent );
 
- bool bArg1 = true;
- Sci_Position nWordStart = -1;
+	bool bArg1 = true;
+	Sci_Position nWordStart = -1;
 
- int levelCurrent = SC_FOLDLEVELBASE;
- if (lineCurrent > 0)
-  levelCurrent = styler.LevelAt(lineCurrent-1) >> 16;
- int levelNext = levelCurrent;
+	int levelCurrent = SC_FOLDLEVELBASE;
+	if (lineCurrent > 0)
+		levelCurrent = styler.LevelAt(lineCurrent-1) >> 16;
+	int levelNext = levelCurrent;
 
- for (Sci_PositionU i = safeStartPos; i < startPos + length; i++) {
-  char chCurr = styler.SafeGetCharAt(i);
+	for (Sci_PositionU i = safeStartPos; i < startPos + length; i++) {
+		char chCurr = styler.SafeGetCharAt(i);
 
-  if ( bArg1 ) {
-   if ( nWordStart == -1 && (IsAlphaNum(chCurr)) ) {
-    nWordStart = i;
-   }
-   else if ( IsAlphaNum(chCurr) == false && nWordStart > -1 ) {
-    int newLevel = calculateFoldMake( nWordStart, i-1, levelNext, styler, foldAtElse);
+		if ( bArg1 ) {
+			if ( nWordStart == -1 && (IsAlphaNum(chCurr)) ) {
+			nWordStart = i;
+			} else if ( IsAlphaNum(chCurr) == false && nWordStart > -1 ) {
+				int newLevel = calculateFoldMake( nWordStart, i-1, levelNext, styler, foldAtElse);
+				if ( newLevel == levelNext ) {
+					if ( foldAtElse ) {
+						if ( MakeNextLineHasElse(i, startPos + length, styler) )
+							levelNext--;
+							}
+					}
+					else
+					levelNext = newLevel;
+				bArg1 = false;
+			}
+		}
 
-    if ( newLevel == levelNext ) {
-     if ( foldAtElse ) {
-      if ( MakeNextLineHasElse(i, startPos + length, styler) )
-       levelNext--;
-     }
-    }
-    else
-     levelNext = newLevel;
-    bArg1 = false;
-   }
-  }
+		if ( chCurr == '\n' ) {
+			if ( bArg1 && foldAtElse) {
+				if ( MakeNextLineHasElse(i, startPos + length, styler) )
+					levelNext--;
+				}
 
-  if ( chCurr == '\n' ) {
-   if ( bArg1 && foldAtElse) {
-    if ( MakeNextLineHasElse(i, startPos + length, styler) )
-     levelNext--;
-   }
+			 // If we are on a new line...
+			 int levelUse = levelCurrent;
+			 int lev = levelUse | levelNext << 16;
+			 if (levelUse < levelNext )
+					lev |= SC_FOLDLEVELHEADERFLAG;
+			 if (lev != styler.LevelAt(lineCurrent))
+					styler.SetLevel(lineCurrent, lev);
 
-   // If we are on a new line...
-   int levelUse = levelCurrent;
-   int lev = levelUse | levelNext << 16;
-   if (levelUse < levelNext )
-    lev |= SC_FOLDLEVELHEADERFLAG;
-   if (lev != styler.LevelAt(lineCurrent))
-    styler.SetLevel(lineCurrent, lev);
+			 lineCurrent++;
+			 levelCurrent = levelNext;
+			 bArg1 = true; // New line, lets look at first argument again
+			 nWordStart = -1;
+		}
+	}
 
-   lineCurrent++;
-   levelCurrent = levelNext;
-   bArg1 = true; // New line, lets look at first argument again
-   nWordStart = -1;
-  }
- }
-
- int levelUse = levelCurrent;
- int lev = levelUse | levelNext << 16;
- if (levelUse < levelNext)
-  lev |= SC_FOLDLEVELHEADERFLAG;
- if (lev != styler.LevelAt(lineCurrent))
-  styler.SetLevel(lineCurrent, lev);
+	int levelUse = levelCurrent;
+	int lev = levelUse | levelNext << 16;
+	if (levelUse < levelNext)
+		lev |= SC_FOLDLEVELHEADERFLAG;
+	if (lev != styler.LevelAt(lineCurrent))
+		styler.SetLevel(lineCurrent, lev);
 }
 
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {

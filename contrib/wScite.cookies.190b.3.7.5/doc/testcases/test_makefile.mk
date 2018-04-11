@@ -458,7 +458,7 @@ project-authors-reduce: .check-foundation
 	@git filter-branch -f --env-filter ' \
 	    while read author; do \
 	        if [ "$$GIT_COMMITTER_NAME <$$GIT_COMMITTER_EMAIL>" = "$${author}" ]; then \
-	            export GIT_COMMITTER_NAME
+	            export GIT_COMMITTER_NAME \
 							"$${GIT_NEW_NAME}"; \
 	            export GIT_COMMITTER_EMAIL="$${GIT_NEW_EMAIL}"; \
 	        fi; \

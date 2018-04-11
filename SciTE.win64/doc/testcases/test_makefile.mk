@@ -6,7 +6,6 @@
 # Make sure you have GNU Make, and type `make` in this Makefile folder.
 #
 
-
 # General Configuration
 VERSION         = 0.1.13
 FOUNDATION_HOME = $(shell pwd)/.foundation
@@ -128,6 +127,7 @@ menu-project: .title
 	@echo ""
 
 
+
 menu-package: .title
 	@make -s .menu-heading title="Package Description"
 	@make -s .menu-item tgt="package-ini" desc="Creates the basic package.ini file"
@@ -202,6 +202,7 @@ menu-dev: .title
 	@echo ""
 
 
+
 menu-deploy: .title
 	@make -s .menu-heading title="Deployment"
 	@echo "    Parameters: package=vendor/package (required)"
@@ -271,7 +272,7 @@ foundation: .title
 .foundation-backup-makefile:
 	@echo -e "    > $(.BOLD)Backing up current Makefile$(.CLEAR)"
 	@if [ -f "Makefile.bak" ];  then \
-	    export list=( @$$(ls Makefile.bak*) );\
+	    export list=( @$$(ls Makefile.bak*) ); \
 	    cp Makefile "Makefile.bak.$${#list[@]}"; \
 	else \
 	    cp Makefile Makefile.bak; \
@@ -457,7 +458,7 @@ project-authors-reduce: .check-foundation
 	@git filter-branch -f --env-filter ' \
 	    while read author; do \
 	        if [ "$$GIT_COMMITTER_NAME <$$GIT_COMMITTER_EMAIL>" = "$${author}" ]; then \
-	            export GIT_COMMITTER_NAME
+	            export GIT_COMMITTER_NAME \
 							"$${GIT_NEW_NAME}"; \
 	            export GIT_COMMITTER_EMAIL="$${GIT_NEW_EMAIL}"; \
 	        fi; \
@@ -465,7 +466,7 @@ project-authors-reduce: .check-foundation
 	            export GIT_AUTHOR_NAME="$${GIT_NEW_NAME}"; \
 	            export GIT_AUTHOR_EMAIL="$${GIT_NEW_EMAIL}"; \
 	        fi; \
-	    done < "${auths}"; \
+	    done < "${auths}'"; \
 	';
 
 info-git-extras:
