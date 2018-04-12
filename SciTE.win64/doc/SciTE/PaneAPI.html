@@ -209,8 +209,8 @@
 	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_GETSELECTIONS'>Selections</a> read-only</p>
 	<p>bool editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_GETSELECTIONEMPTY'>SelectionEmpty</a> read-only</p>
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_CLEARSELECTIONS'>ClearSelections</a>()<span class="comment"> -- Clear selections to a single empty stream selection</span></p>
-	<p>int editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETSELECTION'>SetSelection</a>(position caret, position anchor)<span class="comment"> -- Set a simple selection</span></p>
-	<p>int editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_ADDSELECTION'>AddSelection</a>(position caret, position anchor)<span class="comment"> -- Add a selection</span></p>
+	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETSELECTION'>SetSelection</a>(position caret, position anchor)<span class="comment"> -- Set a simple selection</span></p>
+	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_ADDSELECTION'>AddSelection</a>(position caret, position anchor)<span class="comment"> -- Add a selection</span></p>
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_DROPSELECTIONN'>DropSelectionN</a>(int selection)<span class="comment"> -- Drop one selection</span></p>
 	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETMAINSELECTION'>MainSelection</a><span class="comment"> -- Set the main selection</span></p>
 	<p>position editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETSELECTIONNCARET'>SelectionNCaret</a>[int selection]<span class="comment"> -- Set the caret position of the nth selection.</span></p>
@@ -235,7 +235,7 @@
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_MULTIPLESELECTADDEACH'>MultipleSelectAddEach</a>()<span class="comment"> -- Add each occurrence of the main selection in the target to the set of selections. If the current selection is empty then select word around caret.</span></p>
 	<h2>Scrolling and automatic scrolling</h2>
 	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETFIRSTVISIBLELINE'>FirstVisibleLine</a><span class="comment"> -- Scroll so that a display line is at the top of the display.</span></p>
-	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETXOFFSET'>XOffset</a><span class="comment"> -- Get and Set the xOffset (ie, horizontal scroll position).</span></p>
+	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETXOFFSET'>XOffset</a><span class="comment"> -- Set the xOffset (ie, horizontal scroll position).</span></p>
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_LINESCROLL'>LineScroll</a>(int columns, int lines)<span class="comment"> -- Scroll horizontally and vertically.</span></p>
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SCROLLCARET'>ScrollCaret</a>()<span class="comment"> -- Ensure the caret is visible.</span></p>
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SCROLLRANGE'>ScrollRange</a>(position secondary, position primary)<span class="comment"> -- Scroll the argument positions and the range between them into view giving priority to the primary position then the secondary position. This may be used to make a search match visible.</span></p>
@@ -252,6 +252,7 @@
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETWHITESPACEFORE'>SetWhitespaceFore</a>(bool useSetting, colour fore)<span class="comment"> -- Set the foreground colour of all whitespace and whether to use this setting.</span></p>
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETWHITESPACEBACK'>SetWhitespaceBack</a>(bool useSetting, colour back)<span class="comment"> -- Set the background colour of all whitespace and whether to use this setting.</span></p>
 	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETWHITESPACESIZE'>WhitespaceSize</a><span class="comment"> -- Set the size of the dots used to mark space characters.</span></p>
+	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETTABDRAWMODE'>TabDrawMode</a><span class="comment"> -- Set how tabs are drawn when visible.</span></p>
 	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETEXTRAASCENT'>ExtraAscent</a><span class="comment"> -- Set extra ascent for each line</span></p>
 	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETEXTRADESCENT'>ExtraDescent</a><span class="comment"> -- Set extra descent for each line</span></p>
 	<h2>Cursor</h2>
@@ -309,6 +310,7 @@
 	<p>bool editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETCARETLINEVISIBLE'>CaretLineVisible</a><span class="comment"> -- Display the background of the line containing the caret in a different colour.</span></p>
 	<p>colour editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETCARETLINEBACK'>CaretLineBack</a><span class="comment"> -- Set the colour of the background of the line containing the caret.</span></p>
 	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETCARETLINEBACKALPHA'>CaretLineBackAlpha</a><span class="comment"> -- Set background alpha of the caret line.</span></p>
+	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETCARETLINEFRAME'>CaretLineFrame</a><span class="comment"> -- Display the caret line framed. Set width != 0 to enable this option and width = 0 to disable it.</span></p>
 	<p>bool editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETCARETLINEVISIBLEALWAYS'>CaretLineVisibleAlways</a><span class="comment"> -- Sets the caret line to always visible.</span></p>
 	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETCARETPERIOD'>CaretPeriod</a><span class="comment"> -- Get the time in milliseconds that the caret is on and off. 0 = steady on.</span></p>
 	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETCARETSTYLE'>CaretStyle</a><span class="comment"> -- Set the style of the caret to be drawn.</span></p>
@@ -468,7 +470,7 @@
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_CLEARALLCMDKEYS'>ClearAllCmdKeys</a>()<span class="comment"> -- Drop all key mappings.</span></p>
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_NULL'>Null</a>()<span class="comment"> -- Null operation.</span></p>
 	<h2>Popup edit menu</h2>
-	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_USEPOPUP'>UsePopUp</a>(bool allowPopUp)<span class="comment"> -- Set whether a pop up menu is displayed automatically when the user presses the wrong mouse button.</span></p>
+	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_USEPOPUP'>UsePopUp</a>(int popUpMode)<span class="comment"> -- Set whether a pop up menu is displayed automatically when the user presses the wrong mouse button on certain areas.</span></p>
 	<h2>Macro recording</h2>
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_STARTRECORD'>StartRecord</a>()<span class="comment"> -- Start notifying the container of all key presses and commands.</span></p>
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_STOPRECORD'>StopRecord</a>()<span class="comment"> -- Stop notifying the container of all key presses and commands.</span></p>
@@ -501,6 +503,8 @@
 	<p>int editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_GETLASTCHILD'>GetLastChild</a>(int line, int level)<span class="comment"> -- Find the last child line of a header line.</span></p>
 	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_GETFOLDPARENT'>FoldParent</a>[int line] read-only</p>
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_TOGGLEFOLD'>ToggleFold</a>(int line)<span class="comment"> -- Switch a header line between expanded and contracted.</span></p>
+	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_TOGGLEFOLDSHOWTEXT'>ToggleFoldShowText</a>(int line, string text)<span class="comment"> -- Switch a header line between expanded and contracted and show some text after the line.</span></p>
+	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_FOLDDISPLAYTEXTSETSTYLE'>FoldDisplayTextStyle</a> write-only<span class="comment"> -- Set the style of fold display text</span></p>
 	<p>bool editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETFOLDEXPANDED'>FoldExpanded</a>[int line]<span class="comment"> -- Show the children of a header line.</span></p>
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_FOLDLINE'>FoldLine</a>(int line, int action)<span class="comment"> -- Expand or contract a fold header.</span></p>
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_FOLDCHILDREN'>FoldChildren</a>(int line, int action)<span class="comment"> -- Expand or contract a fold header and its children.</span></p>
@@ -531,6 +535,8 @@
 	<p>colour editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETEDGECOLOUR'>EdgeColour</a><span class="comment"> -- Change the colour used in edge indication.</span></p>
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_MULTIEDGEADDLINE'>MultiEdgeAddLine</a>(int column, colour edgeColour)<span class="comment"> -- Add a new vertical edge to the view.</span></p>
 	<p>editor:<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_MULTIEDGECLEARALL'>MultiEdgeClearAll</a>()<span class="comment"> -- Clear all vertical edges.</span></p>
+	<h2>Accessibility</h2>
+	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETACCESSIBILITY'>Accessibility</a><span class="comment"> -- Enable or disable accessibility.</span></p>
 	<h2>Lexer</h2>
 	<p>int editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETLEXER'>Lexer</a><span class="comment"> -- Set the lexing language of the document.</span></p>
 	<p>string editor.<a href='http://www.scintilla.org/ScintillaDoc.html#SCI_SETLEXERLANGUAGE'>LexerLanguage</a><span class="comment"> -- Set the lexing language of the document based on string name.</span></p>
