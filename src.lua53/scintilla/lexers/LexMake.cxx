@@ -219,12 +219,13 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Style single quoted Strings	
-		if (state==SCE_MAKE_IDENTIFIER && chCurr=='\'') {
+		if (state==SCE_MAKE_IDENTIFIER && chCurr=='\''&& chPrev!='\'') {
 			ColourHere(styler, currentPos-1, state);
+			//state=state_prev;
 			state=SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
 			line.s.bWarnSqStr=false;
-		} else if	(state!=SCE_MAKE_STRING  && chCurr=='\'') {
+		} else if	(state==SCE_MAKE_DEFAULT  && chCurr=='\'' && chPrev!='\'' ) {
 			state_prev = state;
 			state = SCE_MAKE_IDENTIFIER;
 			ColourHere(styler, currentPos-1, state_prev);
@@ -232,17 +233,18 @@ static unsigned int ColouriseMakeLine(
 			line.s.bWarnSqStr=true;
 		} 
 
-		/// Style double quoted Strings
-		if (state==SCE_MAKE_STRING && chCurr=='\"' && chPrev !='\\')  {
+		/// Style double quoted Strings (But skip escaped)
+		if (state==SCE_MAKE_STRING && chCurr=='\"' && chPrev !='\\') {
 			ColourHere(styler, currentPos-1, state);
-			state=SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state_prev);
-			line.s.bWarnDqStr = false ;
-		} else if	(state!=SCE_MAKE_STRING && chCurr=='\"' && chPrev!='\\') {
+			state=state_prev;
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
+			line.s.bWarnDqStr = false;
+		} else if	((state==SCE_MAKE_DEFAULT || state==SCE_MAKE_IDENTIFIER) 
+			&& chCurr=='\"' && chPrev!='\\') {
 			state_prev = state;
 			state = SCE_MAKE_STRING;
 			ColourHere(styler, currentPos-1, state_prev);
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
+			ColourHere(styler, currentPos,  SCE_MAKE_DEFAULT, state);
 			line.s.bWarnDqStr=true;
 		}
 
@@ -367,7 +369,7 @@ static unsigned int ColouriseMakeLine(
 			state = SCE_MAKE_AUTOM_VARIABLE;
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE
 				&& (strchr("@%<^+", (int)styler.SafeGetCharAt(currentPos-1))!=NULL
-				 && (strchr("DF", (int)chCurr) !=NULL))) {
+				&& (strchr("DF", (int)chCurr) !=NULL))) {
 			ColourHere(styler, currentPos, state, state_prev);
 			state = SCE_MAKE_DEFAULT;
 			if (iDebug) std::cout<< "[@AutomaticVar] "  << "\n";

@@ -408,8 +408,8 @@ phantomjs-inject phantomjs-inject-verbose: .check-foundation
 	                Use target phantom-inject-verbose for detailed output while debugging.\n" \
 	      && exit || true;
 	$(eval VERBOSE := $(patsubst phantomjs-inject%,%,$(@)))
-	@if [ -z '$(code)' ]; then \
-	  while read -r; do \
+	@if [ -z '$(code)'  ]; then \
+	  while read -r; do s\
 	    lines="$${lines} $${REPLY}"; \
 	  done <&0; \
 	  phantomjs ${FOUNDATION_HOME}/repo/bin/jquery-console-phantom.js "$(url)" "$${lines}" "${VERBOSE}"; \
@@ -489,7 +489,7 @@ git-add-all: .check-foundation
 codesniff: .check-foundation
 	@echo "Running PHP Codesniffer to assess PSR compliancy"
 	phpcs -p --report-full=`$(CONFIG_TOOL) documentation-folder `/full2.out `$(CONFIG_TOOL) library-folder `
-
+	
 phpunit-codesniff: .check-foundation
 	@echo "Running PHP Codesniffer to assess PHPUnit compliancy"
 	phpcs -p --extensions=PHPUnit --report-full=`$(CONFIG_TOOL) documentation-folder `/full2.out `$(CONFIG_TOOL) library-folder `
