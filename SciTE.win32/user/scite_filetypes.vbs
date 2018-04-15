@@ -83,10 +83,10 @@ logging LOG_INIT, "Logfile Initialized"
 	iCntArgs= WScript.Arguments.count 
 	if iCntArgs > 0 then arg0 = WScript.Arguments.Item(0)
 	if  LCase(arg0)="uninstall" then
-		if bConsole then wscript.echo(" We do an -UNInstall- ") 
+		if bConsole then wscript.echo(" .. We do an -UNInstall- ")
 		action = 10 
 	elseif  LCase(arg0)="install" then  
-		if bConsole then wscript.echo(" We do an -Install- ")
+		if bConsole then wscript.echo(" .. We do an -Install- ")
 		action = 11
 	else
 		if bConsole then wscript.echo(" Defaulting to action -Install- ")
@@ -94,9 +94,12 @@ logging LOG_INIT, "Logfile Initialized"
 		action = 11 ' and default to action Install.
 	end if
 	if iCntArgs > 1 then app_path=lcase(wscript.Arguments.Item(1))
-	if app_path<>"" and not instr(app_path,":")>0  then
-		wscript.echo(" -Stop- Please use a Fully Qualified Path to Apps Executable")
+	
+	if app_path<>"" and (not instr(app_path,":")>0 or not instr(app_path,".")>0 )  then
+		wscript.echo(" -Stop- Please specify the Full Qualified Path.")
 		exit function
+	elseif app_path<>"" then
+		logging LOG_ALERT, " .. App lives in Path: -{ " & app_path & " }-"
 	end if
 	
 	' Open myScites known filetypes List using vbscripts funny sortof a "catchme if you can" block.

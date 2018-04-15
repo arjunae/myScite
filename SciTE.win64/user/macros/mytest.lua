@@ -5,6 +5,9 @@ local defaultHome= props["SciteDefaultHome"]
 print("Hello from scitelua!")
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+-- ####### LuaCrc32 ######
+-- ## crc32 Hash Library
+-- ##################
 function HashFileCrc32(filename)
 	--[[
 	crc32.crc32 = function (crc_in, data)
@@ -28,6 +31,7 @@ function HashFileCrc32(filename)
 	end	
 
 	file:close()
+	file=nil
 	--print("SciLexer CRC32 Hash:",crccalc:tohex())
 	return(crccalc:tohex())
 end
@@ -47,7 +51,7 @@ print(gui.to_utf8("UTF"))
 	-- First, we need a main window.
 	local wnd= gui.window "test-gui"
 	wnd:position(200, 200)
-	wnd:size(550,500)
+	wnd:size(280,500)
 	local visible,x,y,panel_width,panel_height = wnd:bounds()
 	-- Attach an event handler
 	wnd:on_close(function() print("gui window closed") end)
@@ -56,15 +60,17 @@ print(gui.to_utf8("UTF"))
 	local rtf = [[{\rtf {\colortbl; \red30 \green60 \blue90;} ]]
 
 	-- Now, lets create 2 Tabulators
+	--[[
 	local tab0= gui.panel(panel_width)
 	local memo0=gui.memo()
 	local sciLexerHash = HashFileCrc32(defaultHome.."\\".."SciLexer.dll")
 	memo0:set_text(rtf.."\\cf1Heyo from tab0 :) \\line  SciLexer.dll CRC32 Hash: " .. sciLexerHash .."" ) 		
 	tab0:add(memo0, "top", panel_height)
-
+	]]
+	
 	-- fill the scond one with the contents of guis globalScope
 	local serpent = require("serpent") -- object serializer and pretty printer
-	local globalScope=serpent.block(gui,{nocode = true}) -- multi-line indented, no self-ref section
+	local globalScope=serpent.block(gui,{compact=true}) -- multi-line indented, no self-ref section
 	
 	local tab1= gui.panel(panel_width)
 	local memo1=gui.memo()
@@ -73,10 +79,10 @@ print(gui.to_utf8("UTF"))
 
 	-- And add them to our main window
 	local tabs= gui.tabbar(wnd)
-	tabs:add_tab("0", tab0)
+	--tabs:add_tab("0", tab0)
 	tabs:add_tab("1", tab1)
 	wnd:client(tab1)
-	wnd:client(tab0)	
+	--wnd:client(tab0)	
 	-- again, add an event handler for our tabs
 	tabs:on_select(function(ind)
 	local visible,x,y,panel_width,panel_height = wnd:bounds()

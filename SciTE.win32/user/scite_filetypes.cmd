@@ -22,7 +22,9 @@ if exist scite_filetypes?.txt (
  goto DataFileErr
 )
 
-if ["%1"] equ ["/quite"] goto main
+set arg2=%2
+if ["%1"] equ ["/quite"] ( set arg1=install && goto main )
+
 echo   ..About to soft-register Filetypes with mySciTE
 call choice /C YN /M " Continue?  Yes/No" 
 if %ERRORLEVEL% == 2 goto ende
@@ -42,9 +44,8 @@ for /F "delims=: eol=# tokens=3" %%E in (filetypes2.raw) do (
 ) 
 
 del *.raw?
-echo.
 echo  .. Parsing Filetypes in %DataFile% ..
-cscript /NOLOGO scite_filetypes.vbs install
+cscript /NOLOGO scite_filetypes.vbs %arg1% %arg2%
 if %ERRORLEVEL%==0 or %ERRORLEVEL%==969 goto :DataFileErr
 echo  .. done with %ERRORLEVEL% Entries ..
 echo.

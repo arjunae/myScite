@@ -124,8 +124,8 @@ static unsigned int ColouriseMakeLine(
 	Sci_PositionU i = 0; // primary line position counter
 	Sci_PositionU styleBreak = 0;
 
-	Sci_PositionU strLen = 0;			// Keyword candidate length.
-	Sci_PositionU startMark = 0;	// Keyword candidates startPos. >0 while searching for a Keyword
+	Sci_PositionU strLen = 0; // Keyword candidate length.
+	Sci_PositionU startMark = 0;	 // Keyword candidates startPos. >0 while searching for a Keyword
 	
 	unsigned int SCE_MAKE_FUNCTION = SCE_MAKE_OPERATOR;
 	unsigned int state = SCE_MAKE_DEFAULT;
@@ -133,7 +133,7 @@ static unsigned int ColouriseMakeLine(
 
 	union { 
 			struct { // remove that one- and have fun drinkin "Coffee".......
-				bool bCommand;			// set when a line begins with a tab (command)
+				bool bCommand;		// set when a line begins with a tab (command)
 				int iWarnEOL;		// unclosed string / braces flag.
 				bool bWarnSqStr;	// unclosed singleQuoted flag.
 				bool bWarnDqStr;	// unclosed doubleQuoted flag.
@@ -529,8 +529,8 @@ static int calculateFoldMake(Sci_PositionU start, Sci_PositionU end, int foldlev
  }
 
  if ( CompareCaseInsensitive(s, "IF") == 0 || CompareCaseInsensitive(s, "IFEQ") == 0  || CompareCaseInsensitive(s, "IFNEQ") == 0 
-	||CompareCaseInsensitive(s, "IFNDEF") == 0  || CompareCaseInsensitive(s, "WHILE") == 0
-	|| CompareCaseInsensitive(s, "MACRO") == 0		|| CompareCaseInsensitive(s, "FOREACH") == 0
+	|| CompareCaseInsensitive(s, "IFNDEF") == 0  || CompareCaseInsensitive(s, "WHILE") == 0
+	|| CompareCaseInsensitive(s, "MACRO") == 0	|| CompareCaseInsensitive(s, "FOREACH") == 0
 	|| CompareCaseInsensitive(s, "ELSEIF") == 0	|| CompareCaseInsensitive(s, "ELIF") == 0 )
   newFoldlevel++;
  else if ( CompareCaseInsensitive(s, "ENDIF") == 0 || CompareCaseInsensitive(s, "ENDWHILE") == 0
