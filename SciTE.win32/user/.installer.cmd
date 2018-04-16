@@ -60,7 +60,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  if %ERRORLEVEL% == 2 (
   echo. .... Ok- Now opening %regfile% for editing .... 
   echo. .... Please press your favorite key when done. 
-  %scite_filepath% "%regfile%"
+  "%scite_filepath%" "%regfile%"
   pause> NUL
   copy "%RegFile%" .scite.to.contextMenu.reg>NUL
   move /Y "%regfile%" "%userprofile%\desktop">NUL
@@ -76,7 +76,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  :: Ask if the User wants FileType Registration
  echo  .. Register SciTE with understood Filetypes?
  echo  .. (Doesnt overwrite already made associations)  
- choice /C YN /M " -- [Yes/No]" 
+ choice /C YN" -- [Yes/No]" 
 
  :: Parses all .properties files and Registers their contained Filetypes 
  if %ERRORLEVEL% == 1 (
