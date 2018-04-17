@@ -33,17 +33,16 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  set file_name=SciTE.exe
  set scite_filepath=empty
 
- REM -- this batch can reside in a subdir to support a more clean directory structure
- :: -- Check for and write path of %file_name% in scite_filepath
+ :: -- Check for and write path of %file_name% in scite_filepath (search up to 10Dirs up)
  
  :loop
    set /a dir_count += 1
    if %dir_count% geq 10 (goto end_loop) else (cd ..)
-   if exist "%file_name%" (set scite_filepath="%cd%\%file_name%" && goto end_loop)	
+   if exist "%file_name%" (set scite_filepath=%cd%\%file_name% && goto end_loop)	
    goto loop 
  :end_loop
  popd
- IF NOT EXIST %scite_filepath% ( call :sub_fail_cmd ) else ( call :sub_create_file ) 
+ IF NOT EXIST "%scite_filepath%" ( call :sub_fail_cmd ) else ( call :sub_create_file ) 
 
  REM  -- Code Continues here --
  echo. --
@@ -61,7 +60,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  if %ERRORLEVEL% == 2 (
   echo. .... Ok- Now opening the Import File for editing .... 
   echo. .... Please press your favorite key when done. 
-  %scite_filepath% "%regfile%"
+  "%scite_filepath%" "%regfile%"
   pause> NUL
   copy "%RegFile%" .scite.to.contextMenu.reg>NUL
   move /Y "%regfile%" "%userprofile%\desktop">NUL
@@ -123,7 +122,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  set file_namepath=\"%scite_path%\\%file_name%\"  
 
  REM WorkAround Reactos 0.4.2 Bug.
- IF [%FIX_REACTOS%]==[1] ( 
+ IF [%FIX_REACTOS%]==[3] ( 
   set file_namepath="\"%scite_path%\\%file_name%\""
  )
  
@@ -145,11 +144,6 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo @="%file_namepath% %scite_cmd_open%" >> %RegFile%
  echo. >> %RegFile%
  
- REM WorkAround Reactos
- IF [%FIX_REACTOS%]==[1] ( 
-  set file_namepath="\"%scite_path%\\%file_name%\""
- )
-
 :: The following simple mechanism registers Scite to Windows known Applications.
  echo ; -- Update Program Entry >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%

@@ -39,11 +39,11 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  :loop
    set /a dir_count += 1
    if %dir_count% geq 10 (goto end_loop) else (cd ..)
-   if exist "%file_name%" (set scite_filepath="%cd%\%file_name%" && goto end_loop)	
+   if exist "%file_name%" (set scite_filepath=%cd%\%file_name% && goto end_loop)	
    goto loop 
  :end_loop
  popd
- IF NOT EXIST %scite_filepath% ( call :sub_fail_cmd ) else ( call :sub_create_file ) 
+ IF NOT EXIST "%scite_filepath%" ( call :sub_fail_cmd ) else ( call :sub_create_file ) 
 
  REM  -- Code Continues here --
  echo. --
@@ -61,7 +61,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  if %ERRORLEVEL% == 2 (
   echo. .... Ok- Now opening the Import File for editing .... 
   echo. .... Please press your favorite key when done. 
-  %scite_filepath% "%regfile%"
+  "%scite_filepath%" "%regfile%"
   pause> NUL
   copy "%RegFile%" .scite.to.contextMenu.reg>NUL
   move /Y "%regfile%" "%userprofile%\desktop">NUL

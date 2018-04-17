@@ -748,8 +748,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.as\OpenWithList]
 "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe"
 "y"="SciTE.exe"
-"MRUList"="ba"
-"b"="SciTE.exe"
+"MRUList"="ya"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.as\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
@@ -914,8 +913,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.bas\OpenWithList]
 "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe"
 "y"="SciTE.exe"
-"MRUList"="ba"
-"b"="SciTE.exe"
+"MRUList"="ya"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.bas\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
@@ -1176,8 +1174,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.coffee\OpenWithList]
 "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe"
 "y"="SciTE.exe"
-"MRUList"="ba"
-"b"="SciTE.exe"
+"MRUList"="ya"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.coffee\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
@@ -1289,7 +1286,6 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.css\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
-"CSSfile"=hex(0):
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.csv]
 
@@ -1334,12 +1330,10 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.cxx\OpenWithList]
 "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe"
 "y"="SciTE.exe"
-"MRUList"="ba"
-"b"="SciTE.exe"
+"MRUList"="ya"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.cxx\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
-"VCExpress.cxx.10.0"=hex(0):
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.cxxs]
 
@@ -1997,7 +1991,6 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.gitattributes\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
-"txtfile"=hex(0):
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.gitconfig]
 
@@ -2025,7 +2018,6 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.gitignore\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
-"txtfile"=hex(0):
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.gitmodules]
 
@@ -2083,8 +2075,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.go\OpenWithList]
 "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe"
 "y"="SciTE.exe"
-"MRUList"="ba"
-"b"="SciTE.exe"
+"MRUList"="ya"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.go\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
@@ -2193,7 +2184,6 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.hta\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
-"htafile"=hex(0):
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.htaccess]
 
@@ -2417,7 +2407,6 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.ini\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
-"inifile"=hex(0):
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.ini-development]
 
@@ -2510,8 +2499,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.java\OpenWithList]
 "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe"
 "y"="SciTE.exe"
-"MRUList"="ba"
-"b"="SciTE.exe"
+"MRUList"="ya"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.java\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
@@ -2759,18 +2747,10 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.log\OpenWithList]
 "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe"
 "y"="SciTE.exe"
-"MRUList"="ba"
-"b"="SciTE.exe"
+"MRUList"="ya"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.log\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
-"txtfile"=hex(0):
-
-
-[-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.log\UserChoice]
-[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.log\UserChoice]
-"Hash"="UtdjvsDcJy0="
-"ProgId"="SciTE.exe"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.LOG1]
 
@@ -2809,8 +2789,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.lua\OpenWithList]
 "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe"
 "y"="SciTE.exe"
-"MRUList"="ba"
-"b"="SciTE.exe"
+"MRUList"="ya"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.lua\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
@@ -3044,8 +3023,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.mib\OpenWithList]
 "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe"
 "y"="SciTE.exe"
-"MRUList"="ba"
-"b"="SciTE.exe"
+"MRUList"="ya"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.mib\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
@@ -3087,8 +3065,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.mk\OpenWithList]
 "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe"
 "y"="SciTE.exe"
-"MRUList"="ba"
-"b"="SciTE.exe"
+"MRUList"="ya"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.mk\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
@@ -3771,8 +3748,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.php\OpenWithList]
 "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe"
 "y"="SciTE.exe"
-"MRUList"="ba"
-"b"="SciTE.exe"
+"MRUList"="ya"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.php\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
@@ -4016,7 +3992,6 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.ps1\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
-"Microsoft.PowerShellScript.1"=hex(0):
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.ps1xml]
 
@@ -4087,8 +4062,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.py\OpenWithList]
 "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe"
 "y"="SciTE.exe"
-"MRUList"="ba"
-"b"="SciTE.exe"
+"MRUList"="ya"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.py\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
@@ -4197,8 +4171,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.rb\OpenWithList]
 "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe"
 "y"="SciTE.exe"
-"MRUList"="ba"
-"b"="SciTE.exe"
+"MRUList"="ya"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.rb\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
@@ -4429,8 +4402,7 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.rs\OpenWithList]
 "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe"
 "y"="SciTE.exe"
-"MRUList"="ba"
-"b"="SciTE.exe"
+"MRUList"="ya"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.rs\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
@@ -4958,18 +4930,10 @@ Windows Registry Editor Version 5.00
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.txt\OpenWithList]
 "a"="{1AC14E77-02E7-4E5D-B744-2EB1AE5198B7}\\OpenWith.exe"
 "y"="SciTE.exe"
-"MRUList"="ba"
-"b"="SciTE.exe"
+"MRUList"="ya"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.txt\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
-"txtfile"=hex(0):
-
-
-[-HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.txt\UserChoice]
-[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.txt\UserChoice]
-"Hash"="ZXoA4zcU0ew="
-"ProgId"="SciTE.exe"
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.upd]
 
@@ -5040,7 +5004,6 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.vbs\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
-"VBSFile"=hex(0):
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.vc]
 
@@ -5509,7 +5472,6 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.xml\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
-"xmlfile"=hex(0):
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.xpi]
 
@@ -5564,7 +5526,6 @@ Windows Registry Editor Version 5.00
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.xsl\OpenWithProgIDs]
 "Applications\\SciTE.exe"=""
-"WDExpress.xsl.11.0"=hex(0):
 
 [HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\.xslt]
 
