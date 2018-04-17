@@ -1,5 +1,5 @@
 @echo off
-::mode 112,20
+::mode 90,20
 chcp 65001 1>NUL
 REM  ::--::--::--::--Steampunk--::-::--::--::
 REM
@@ -120,11 +120,6 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  set scite_cmd_cwd=-CWD:%scite_path_cwd%
  set scite_cmd_open=-open new.txt
  set file_namepath=\"%scite_path%\\%file_name%\"  
-
- REM WorkAround Reactos 0.4.2 Bug.
- IF [%FIX_REACTOS%]==[3] ( 
-  set file_namepath="\"%scite_path%\\%file_name%\""
- )
  
  REM Short Explanation
  REM -- Finally, write the .reg file, \" escapes double quotes

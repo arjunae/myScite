@@ -1,5 +1,5 @@
 @echo off
-::mode 112,20
+::mode 90,20
 chcp 65001 1>NUL
 REM  ::--::--::--::--Steampunk--::-::--::--::
 REM
@@ -33,8 +33,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  set file_name=SciTE.exe
  set scite_filepath=empty
 
- REM -- this batch can reside in a subdir to support a more clean directory structure
- :: -- Check for and write path of %file_name% in scite_filepath
+ :: -- Check for and write path of %file_name% in scite_filepath (search up to 10Dirs up)
  
  :loop
    set /a dir_count += 1
@@ -121,11 +120,6 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  set scite_cmd_cwd=-CWD:%scite_path_cwd%
  set scite_cmd_open=-open new.txt
  set file_namepath=\"%scite_path%\\%file_name%\"  
-
- REM WorkAround Reactos 0.4.2 Bug.
- IF [%FIX_REACTOS%]==[1] ( 
-  set file_namepath="\"%scite_path%\\%file_name%\""
- )
  
  REM Short Explanation
  REM -- Finally, write the .reg file, \" escapes double quotes
@@ -145,11 +139,6 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo @="%file_namepath% %scite_cmd_open%" >> %RegFile%
  echo. >> %RegFile%
  
- REM WorkAround Reactos
- IF [%FIX_REACTOS%]==[1] ( 
-  set file_namepath="\"%scite_path%\\%file_name%\""
- )
-
 :: The following simple mechanism registers Scite to Windows known Applications.
  echo ; -- Update Program Entry >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
