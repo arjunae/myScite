@@ -28,9 +28,8 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  pushd %~dp0%
 
 :sub_main
- REM WorkAround Reactos 0.4.2 Variable Expansion Bug.
- ::set FIX_REACTOS=1
-
+ REM Choose to enable WorkArounds for Reactos 0.4.8. Valid Values: 0/1 
+ set FIX_REACTOS=0
  set file_name=SciTE.exe
  set scite_filepath=empty
 
@@ -40,7 +39,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  :loop
    set /a dir_count += 1
    if %dir_count% geq 10 (goto end_loop) else (cd ..)
-   if exist %file_name% (set scite_filepath=%cd%\%file_name% && goto end_loop)	
+   if exist "%file_name%" (set scite_filepath="%cd%\%file_name%" && goto end_loop)	
    goto loop 
  :end_loop
  popd
@@ -55,12 +54,14 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  :: Give the User the option to manually edit/import the generated File.
  :: When "manual Installation" has been chosen, just copy the generated reg import file to currentUsers Desktop.
  
- choice /C AM /M " -- Press [A] for automatic Install or [M] If you want to do that manually" 
+ if [%FIX_REACTOS%]==[1] Pause && ECHO. && SET ERRORLEVEL=2
+ if [%FIX_REACTOS%]==[0] choice /C AM /M " -- Press [A] for automatic Install or [M] If you want to do that manually" 
+ 
  if %ERRORLEVEL% == 1 reg import %regfile%
  if %ERRORLEVEL% == 2 (
-  echo. .... Ok- Now opening %regfile% for editing .... 
+  echo. .... Ok- Now opening the Import File for editing .... 
   echo. .... Please press your favorite key when done. 
-  "%scite_filepath%" "%regfile%"
+  %scite_filepath% "%regfile%"
   pause> NUL
   copy "%RegFile%" .scite.to.contextMenu.reg>NUL
   move /Y "%regfile%" "%userprofile%\desktop">NUL
@@ -70,25 +71,20 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
   echo   ---------------------------------------------
   echo.
  )
- 
+ if [%FIX_REACTOS%]==[1] goto freunde 
  if %ERRORLEVEL% neq 0 goto sub_fail_reg
  
  :: Ask if the User wants FileType Registration
- echo  .. Register SciTE with understood Filetypes?
- echo  .. (Doesnt overwrite already made associations)  
- choice /C YN" -- [Yes/No]" 
-
- :: Parses all .properties files and Registers their contained Filetypes 
- if %ERRORLEVEL% == 1 (
-   call scite_filetypes /quite %scite_filepath%
-   if %ERRORLEVEL% == 0 goto freunde
+ if [%FIX_REACTOS%]==[0] ( 
+  echo  .. Register SciTE with understood Filetypes?
+  echo  .. (Doesnt overwrite already made associations)  
+  choice /C YN /M " -- [Yes/No]" 
+  :: Parses all .properties files and Registers their contained Filetypes 
+  if %ERRORLEVEL% == 1 (
+    call scite_filetypes /quite %scite_filepath%
+    if %ERRORLEVEL% == 0 goto freunde
+  )
  )
- 
- echo   ---------------------------------------------
- echo   Work Done - I hope you had a nice time !
- echo.  :) Greetings to you from Deutschland, Darmstadt :) 
- echo   --------------------------------------------
- echo.
  
  :: -- Clean up --
  del /Q %tmp%\scite.tmp >NUL
@@ -149,7 +145,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo @="%file_namepath% %scite_cmd_open%" >> %RegFile%
  echo. >> %RegFile%
  
- REM WorkAround Reactos 0.4.2 Bug.
+ REM WorkAround Reactos
  IF [%FIX_REACTOS%]==[1] ( 
   set file_namepath="\"%scite_path%\\%file_name%\""
  )
@@ -216,8 +212,12 @@ exit
 :end_sub_fail_reg
 
 :freunde
-:: wait some time...
-::ping 1.0.3.0 /n 1 /w 3000 >NUL
-echo Now, please press your favorite key to be Done. HanD! 
-pause >NUL
+ echo   ---------------------------------------------
+ echo   Work Done - I hope you had a nice time !
+ echo.  :) Greetings to you from Deutschland, Darmstadt :) 
+ echo   --------------------------------------------
+ echo.
+ :: wait some time...
+ echo Now, please press your favorite key to be Done. HanD! 
+ pause >NUL
 :end_sub_freunde

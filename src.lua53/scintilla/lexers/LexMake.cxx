@@ -218,14 +218,14 @@ static unsigned int ColouriseMakeLine(
 			line.s.bWarnBrace=true;
 		}
 
-		/// Style single quoted Strings	
-		if (state==SCE_MAKE_IDENTIFIER && chCurr=='\''&& chPrev!='\'') {
+		/// Style single quoted Strings	( But skip escaped and Apostrophe's)
+		if (state==SCE_MAKE_IDENTIFIER && chCurr=='\''&& chPrev!='\'' ) {
 			ColourHere(styler, currentPos-1, state);
 			//state=state_prev;
 			state=SCE_MAKE_DEFAULT;
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
 			line.s.bWarnSqStr=false;
-		} else if	(state==SCE_MAKE_DEFAULT  && chCurr=='\'' && chPrev!='\'' ) {
+		} else if	(state==SCE_MAKE_DEFAULT  && chCurr=='\'' && chPrev!='\'' && !IsAlpha(chPrev) ) {
 			state_prev = state;
 			state = SCE_MAKE_IDENTIFIER;
 			ColourHere(styler, currentPos-1, state_prev);
