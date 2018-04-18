@@ -93,6 +93,7 @@ function fileHash(fileName)
 end
 
 -- check SciLexer once per session and inform the User if its a nonStock Version.
+
 local SLHash
 if not SLHash then SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
 	if SLHash and SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end

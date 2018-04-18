@@ -16,16 +16,16 @@ function HashFileCrc32(filename)
 	returns -> updated CRC. 
 	]]
 
-	local C32 = require 'crc32'
-	local crc32=C32.crc32
+	C32 = require 'crc32'
+	crc32=C32.crc32
 	--print ('CyclicRedundancyCheck==', crc32(0, 'CyclicRedundancyCheck')) 
 
-	local crccalc = C32.newcrc32()
-	local crccalc_mt = getmetatable(crccalc)
+	crccalc = C32.newcrc32()
+	crccalc_mt = getmetatable(crccalc)
 	assert(crccalc_mt.reset) -- reset to zero
-	local file = assert(io.open (filename, 'rb'))
+	file = assert(io.open (filename, 'rb'))
 	while true do -- read binary file in 4k chunks
-		local bytes = file:read(4096)
+		bytes = file:read(4096)
 		if not bytes then break end
 		crccalc:update(bytes)
 	end	
@@ -51,7 +51,7 @@ print(gui.to_utf8("UTF"))
 	-- First, we need a main window.
 	local wnd= gui.window "test-gui"
 	wnd:position(200, 200)
-	wnd:size(280,500)
+	wnd:size(333,500)
 	local visible,x,y,panel_width,panel_height = wnd:bounds()
 	-- Attach an event handler
 	wnd:on_close(function() print("gui window closed") end)
@@ -70,11 +70,12 @@ print(gui.to_utf8("UTF"))
 	
 	-- fill the scond one with the contents of guis globalScope
 	local serpent = require("serpent") -- object serializer and pretty printer
-	local globalScope=serpent.block(gui,{compact=true}) -- multi-line indented, no self-ref section
+	globalScope=serpent.block(gui,{compact=true}) -- multi-line indented, no self-ref section
+	sciLexerHash = HashFileCrc32(defaultHome.."\\".."SciLexer.dll")
 	
 	local tab1= gui.panel(panel_width)
 	local memo1=gui.memo()
-	memo1:set_text(globalScope)
+	memo1:set_text(globalScope.."\nSciLexer Hash: "..sciLexerHash)
 	tab1:add(memo1, "top",panel_height)
 
 	-- And add them to our main window
