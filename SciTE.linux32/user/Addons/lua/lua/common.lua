@@ -37,7 +37,7 @@ end
 function DetectUTF8()
 	if props["editor.detect.utf8"] == "1" then
 		if editor.CodePage ~= SC_CP_UTF8 then
-			CheckUTF8()
+--			CheckUTF8()
 		end
 	end
 end

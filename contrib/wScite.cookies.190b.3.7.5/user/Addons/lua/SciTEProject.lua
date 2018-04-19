@@ -170,7 +170,7 @@ function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 	props["style."..currentLexer..".11.20"]=props["colour.project.class"]
 
 	--apply themeing changes and changed keywords.
-	--scite.ApplyProperties()
+	scite.ApplyProperties()
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~
