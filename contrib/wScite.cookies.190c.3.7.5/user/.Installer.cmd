@@ -1,5 +1,5 @@
 @echo off
-::mode 90,20
+mode 90,20
 chcp 65001 1>NUL
 REM  ::--::--::--::--Steampunk--::-::--::--::
 REM
@@ -30,6 +30,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
 :sub_main
  REM Choose to enable WorkArounds for Reactos 0.4.8. Valid Values: 0/1 
  set FIX_REACTOS=0
+ if [%1]==[1] set FIX_REACTOS=1
  set file_name=SciTE.exe
  set scite_filepath=empty
 
@@ -53,8 +54,8 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  :: Give the User the option to manually edit/import the generated File.
  :: When "manual Installation" has been chosen, just copy the generated reg import file to currentUsers Desktop.
  
- if [%FIX_REACTOS%]==[1] Pause && ECHO. && SET ERRORLEVEL=2
- if [%FIX_REACTOS%]==[0] choice /C AM /M " -- Press [A] for automatic Install or [M] If you want to do that manually" 
+ if [%FIX_REACTOS%] equ [1] Pause && ECHO. && SET ERRORLEVEL=2
+ if [%FIX_REACTOS%] equ [0] choice /C AM /M " -- Press [A] for automatic Install or [M] If you want to do that manually" 
  
  if %ERRORLEVEL% == 1 reg import %regfile%
  if %ERRORLEVEL% == 2 (

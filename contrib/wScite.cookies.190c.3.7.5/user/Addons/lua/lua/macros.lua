@@ -1,24 +1,25 @@
 -- (c) Valentin Schmidt 2016
 -- PayPal: v.schmidt [a.t] dasdeck [d.o.t] de
 -- Dec2017, Marcedo [a.t] habMalNeFrage [d.o.t] de: handle already loaded lfs lib.
+-- Apr2018, ^^ : OPT_SHOW_HIDDEN
+ OPT_SHOW_HIDDEN=false
 
 if lfs==nil then err,lfs = pcall( require,"lfs")  end
 local AppList = {}
 
 -- load scripts dynamically from scripts folder
 if type(lfs)=="table" then
-
-  for f in lfs.dir(props['SciteDefaultHome'].."/user/macros") do 
-     if f ~= "." and f ~= ".." then
-        AppList[#AppList+1] = {f, f, f:sub(1,-5)}
-     end
+  for sFile in lfs.dir(props['SciteUserHome'].."/user/macros") do
+    -- Optionally do list Unix dot prefixed hidden stuff.
+   if  sFile ~= "." and sFile ~= ".." and string.sub(sFile,1,1) ~= "." or (OPT_SHOW_HIDDEN==true)  then
+  AppList[#AppList+1] = {sFile, sFile, sFile:sub(1,-5)} end
   end
   scite_Command('Macro Scripts|ChooseScript|Ctrl+9') 
 end
--- for global scripts; switch to "SciteUserHome" for per-user scripts
 
+-- for global scripts; switch to "SciteUserHome" for per-user scripts
 local function loadscript(scriptfile)  
-  dofile(props["SciteDefaultHome"].."/user/macros/"..scriptfile)
+  dofile(props["SciteUserHome"].."/user/macros/"..scriptfile)
 end
 
 -- run selected scripts, silently fails if no extman
