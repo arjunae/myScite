@@ -35,15 +35,18 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  set scite_filepath=empty
 
  :: -- Check for and write path of %file_name% in scite_filepath (search up to 10Dirs up)
- 
  :loop
    set /a dir_count += 1
    if %dir_count% geq 10 (goto end_loop) else (cd ..)
-   if exist "%file_name%" (set scite_filepath=%cd%\%file_name% && goto end_loop)	
+   if exist "%file_name%" (
+    set scite_filepath="%cd%\%file_name%"
+    set scite_path="%cd%"
+    goto end_loop
+    )	
    goto loop 
  :end_loop
  popd
- IF NOT EXIST "%scite_filepath%" ( call :sub_fail_cmd ) else ( call :sub_create_file ) 
+ IF NOT EXIST %scite_filepath% ( call :sub_fail_cmd ) else ( call :sub_create_file ) 
 
  REM  -- Code Continues here --
  echo. --
@@ -61,7 +64,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  if %ERRORLEVEL% == 2 (
   echo. .... Ok- Now opening the Import File for editing .... 
   echo. .... Please press your favorite key when done. 
-  "%scite_filepath%" "%regfile%"
+  %scite_filepath% "%regfile%"
   pause> NUL
   copy "%RegFile%" .scite.to.contextMenu.reg>NUL
   move /Y "%regfile%" "%userprofile%\desktop">NUL
@@ -87,30 +90,25 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  )
  
  :: -- Clean up --
- del /Q %tmp%\scite.tmp >NUL
+ del /Q %tmp%\scite.tmp 2>NUL
  goto :freunde
 :end_sub_main
  
 :sub_create_file
 
- REM -- Search in %scite_cmd%, expand its path to scite_path
- FOR /D  %%I IN (%scite_filepath%) do echo %%~fI > %tmp%\scite.tmp
- set /P scite_path=<%tmp%\scite.tmp
-
- REM -- Got that shorthand strReplace from
- REM -- http://www.dostips.com/DtTipsStringOperations.php
- REM -- create scite_path by removing \%file_name% from scite_filepath
+ :: -- scite_path: remove doublequotes
+ set word=
  set str=%scite_path%
- call set str=%str:\scite.exe =%
+ CALL set str=%%str:"=%word%%%
  set scite_path=%str%
 
- :: -- scite_path: replace string \ with \\
+ :: -- scite_path: Escape Backslashes
  set word=\\
  set str=%scite_path%
  CALL set str=%%str:\=%word%%%
  set scite_path=%str%
 
- :: -- replace string \\ with \\\\ to properly escape two backslashes for Scites -CWD comand"  
+ :: -- properly escape two backslashes for Scites -CWD comand"  
  set word=\\\\
  set str=%scite_path%
  CALL set str=%%str:\\=%word%%%
