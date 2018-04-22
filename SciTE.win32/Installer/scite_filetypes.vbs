@@ -23,7 +23,7 @@
 
 ' Mar2018 / Marcedo@habMalNeFrage.de
 ' License BSD-3-Clause
-' Version: 1.0 RC1  - To test --> start within a "test" UserProfile <---
+' Version: 1.0
 '=======================================================
 
 Const HKEY_CLASSES_ROOT  = &H80000000
@@ -97,6 +97,7 @@ logging LOG_INIT, "Logfile Initialized"
 	end if
 	if iCntArgs > 1 then app_path=lcase(wscript.Arguments.Item(1))
 	
+	' Validate Path
 	if app_path<>"" and (not instr(app_path,":")>0 or not instr(app_path,".")>0 )  then
 		wscript.echo(" -Stop- Please specify the Full Qualified Path.")
 		exit function
@@ -187,8 +188,9 @@ logging LOG_INIT, "Logfile Initialized"
 		if sChar= "=" Then startMark=1
 	wend
 
+	' Merge Data to extRestore.reg	
 	strTmp = ofso.GetSpecialFolder(2) ' Temporary Folder
-	if action = 11 then ' Merge Data to extRestore.reg
+	if action = 11 then 
 		on error resume next
 			' Open tmp_backup.reg file
 				set oFile1= oFso.GetFile(strTmp & "\tmp_backup.reg")
@@ -197,10 +199,10 @@ logging LOG_INIT, "Logfile Initialized"
 					exit function
 				end if
 				set oFileRegDump = oFile1.OpenAsTextStream(1, -1) ' forRead, ForceUnicode
-				oFileRegDump.SkipLine() ' FirstLine -> The registry Header was already written, so dont dupliate that.
+				oFileRegDump.SkipLine() ' FirstLine -> The registry Header was already written, so no need to duplicate that.
 		on error goto 0
 	
-		' Write the restore.reg file
+		' Write the restore.reg file, include a timeStamp
 		strHomeFolder = oShell.ExpandEnvironmentStrings("%USERPROFILE%")
 		timeStamp=Replace(FormatDateTime(date,0),".","-") : timeStamp=timeStamp & "_" & Replace(FormatDateTime(time,0),":","_")
 		regfileName=strHomeFolder & "\" & timeStamp & "_scite_extRestore.reg"
@@ -215,18 +217,16 @@ logging LOG_INIT, "Logfile Initialized"
 		oFileRestore.close()
 		oFileRegDump.close()
 		oFso.DeleteFile(strTmp & "\tmp_backup.reg")
-
 	end if
 	
 	logging LOG_APP, "Status: " & cntTyp & " Einträge verarbeitet"
 	logging LOG_CLOSE, "Close LogFile"
-
 	oFileExts.close()
 	main=cntTyp
 end function
 
+' ~~~~ Helper Functions ~~~~~
 
-' ~~~~ Functions ~~~~~
 private function logging(action, strEntry)
 '
 ' Simple Logger  - Currently supported actions:
@@ -236,8 +236,8 @@ private function logging(action, strEntry)
 	strTmp = ofso.GetSpecialFolder(2) ' Temporary Folder
 	if LOG_LEVEL < 1 or LOG_LEVEL >3  then exit function
 	
+	' ReInit the Log
 	on error resume next
-		' ReInit the Log
 		If action=LOG_INIT  then 
 			if oFso.FileExists(strTmp & "\" & LOG_FILE_NAME) then oFso.DeleteFile( strTmp & "\" & LOG_FILE_NAME)	
 			oFso.CreateTextFile strTmp & "\" & LOG_FILE_NAME,true,true ' Overwrite, Unicode
@@ -258,6 +258,7 @@ private function logging(action, strEntry)
 	
 end function
 
+' ~~~~~~~~~~~~~~~
 
 private function policyFilter(strEntry)
 '
@@ -278,7 +279,7 @@ private function policyFilter(strEntry)
 
 end function
 
-' ~~~~~~~~~~
+' ~~~~~~~~~~~
 
 private function createRegDump()
 '
@@ -395,7 +396,6 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 	end if
 
 	' ...Key (re)creation starts here....
-	
 	iKeyExist = objReg.EnumKey(HKEY_CURRENT_USER, FILE_EXT_PATH & strFileExt & "\OpenWithProgIDs", arrSubkeys) 
 
 	' Create it if it does not exist
@@ -418,7 +418,6 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 
 	' Above Stuff returns Zero on success. if anything gone wrong, we will see that here:
 	'logger LOG_APP , "assoc_ext -> Status: Error? " & Err.Number & " resultCode? " & result
-
 	if result=0 and Err.Number = 0 then 
 		assoc_ext_with_program = ERR_OK
 		' logger LOG_APP , "Created / Modified strFileExt " & strFileExt

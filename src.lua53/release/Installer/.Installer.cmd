@@ -202,6 +202,7 @@ exit
 :freunde
  echo   ---------------------------------------------
  echo   Work Done - I hope you had a nice time !
+ echo   A Backup has been stored in: %Userprofile%
  echo.  :) Greetings to you from Deutschland, Darmstadt :) 
  echo   --------------------------------------------
  echo.
