@@ -11,7 +11,7 @@
  * @brief 20.11.17 | Thorsten Kani | fixEOF && cleanUp | Folding from cMake.
  * @brief 06.04.18 | Thorsten Kani | fixErrEOL && UserVars Make / bash Style
  * @brief todos
- * todo: debug to stderr / Wrap within a Class. 
+ * todo: Wrap within a Class. 
  * todo: handle QT and VC Makefiles
  * @brief Copyright 1998-20?? by Neil Hodgson <neilh@scintilla.org>
  * The License.txt file describes the conditions under which this software may
@@ -143,7 +143,7 @@ static unsigned int ColouriseMakeLine(
 	} line; line.s.iWarnEOL=0; line.s.bWarnBrace=0;line.s.bWarnDqStr=0;line.s.bWarnSqStr=0;line.s.bWarnBrace=0;
 	
 	int iDebug=0;
-	if (iDebug>0) std::cout << "[Pos]	[Char]	[WarnEOLState]\n";	
+	if (iDebug>0) std::clog << "[Pos]	[Char]	[WarnEOLState]\n";	
 		
 	/// Keywords
 	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
@@ -252,12 +252,12 @@ static unsigned int ColouriseMakeLine(
 		line.s.iWarnEOL= line.s.bWarnBrace || line.s.bWarnDqStr || line.s.bWarnSqStr;
 
 		if (iDebug>0)	{
-			std::cout << i << "	" << chCurr<<"	"; 
-			printf("%i",line.s.iWarnEOL); 
-			printf(line.s.bWarnBrace ? "1" : "0");
-			printf(line.s.bWarnDqStr ? "1" : "0");
-			printf(line.s.bWarnSqStr ? "1" : "0");
-			std::cout << "\n";
+			std::clog << i << "	" << chCurr<<"	"; 
+			std::clog << (line.s.iWarnEOL); 
+			std::clog << (line.s.bWarnBrace);
+			std::clog << (line.s.bWarnDqStr);
+			std::clog<<  (line.s.bWarnSqStr);
+			std::clog << "\n";
 		}
 		
 		/// Style Keywords
@@ -290,7 +290,7 @@ static unsigned int ColouriseMakeLine(
 		// Do not match in Strings and the next char has to be either whitespace or ctrl.  
 		if (state!=SCE_MAKE_STRING && strSearch.size()>0 && IsAlpha(chNext) == 0) {
 			//Sci_PositionU wordLen=(Sci_PositionU)strSearch.size();
-			//std::cout<<strSearch;
+			//std::clog<<strSearch;
 			
 			// check if we get a match with Keywordlist externalCommands
 			// Rule: preceeded by line start and AtStartChar() Ends on eol, whitespace or ;
@@ -301,7 +301,7 @@ static unsigned int ColouriseMakeLine(
 					styler.ColourTo(startMark-1, state);
 				ColourHere(styler, currentPos, SCE_MAKE_EXTCMD);
 				ColourHere(styler, currentPos+1, state);
-				if (iDebug) std::cout<< "[extCMD] " << strSearch << "\n";
+				if (iDebug) std::clog<< "[extCMD] " << strSearch << "\n";
 			}
 
 			// we now search for the word within the Directives Space.
@@ -313,7 +313,7 @@ static unsigned int ColouriseMakeLine(
 					styler.ColourTo(startMark-1, state);		
 				ColourHere(styler, currentPos, SCE_MAKE_DIRECTIVE);
 				ColourHere(styler, currentPos+1, state);
-				if (iDebug) std::cout<< "[Directive] " << strSearch << "\n";
+				if (iDebug) std::clog<< "[Directive] " << strSearch << "\n";
 			} 
 
 			// ....and within functions $(sort,subst...) / used to style internal Variables too.
@@ -325,7 +325,7 @@ static unsigned int ColouriseMakeLine(
 					styler.ColourTo(startMark-1, state);
 				ColourHere(styler, currentPos, SCE_MAKE_FUNCTION);
 				ColourHere(styler, currentPos+1, state);
-				if (iDebug) std::cout<< "[Function] " << strSearch << "\n";
+				if (iDebug) std::clog<< "[Function] " << strSearch << "\n";
 			} 
 			
 			// Colour Strings which end with a Number
@@ -349,7 +349,7 @@ static unsigned int ColouriseMakeLine(
 			if (state_prev==SCE_MAKE_USER_VARIABLE) state_prev = SCE_MAKE_DEFAULT;	
 			ColourHere(styler, currentPos+1, state, state_prev);
 			state = state_prev;
-			if (iDebug) std::cout<< "[UserVar] "  << "\n";
+			if (iDebug) std::clog<< "[UserVar] "  << "\n";
 		}
 
 		/// ... and $ based automatic Variables Rule: $@%<?^+*
@@ -360,7 +360,7 @@ static unsigned int ColouriseMakeLine(
 		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)chCurr)!=NULL)) {
 			ColourHere(styler, currentPos, state, state_prev);
 			state = state_prev;
-			if (iDebug) std::cout<< "[$AutomaticVar] "  << "\n";
+			if (iDebug) std::clog<< "[$AutomaticVar] "  << "\n";
 		}
 
 		/// Style for automatic Variables. FluxCompensators orders: @%<^+'D'||'F'
@@ -373,7 +373,7 @@ static unsigned int ColouriseMakeLine(
 				&& (strchr("DF", (int)chCurr) !=NULL))) {
 			ColourHere(styler, currentPos, state, state_prev);
 			state = SCE_MAKE_DEFAULT;
-			if (iDebug) std::cout<< "[@AutomaticVar] "  << "\n";
+			if (iDebug) std::clog<< "[@AutomaticVar] "  << "\n";
 		}
 
 		/// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'")
@@ -386,7 +386,7 @@ static unsigned int ColouriseMakeLine(
 		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''", (int)chNext) !=NULL) {
 			ColourHere(styler, currentPos, state, state_prev);
 			state = state_prev;
-			if (iDebug) std::cout<< "[Flags] "  << "\n";
+			if (iDebug) std::clog<< "[Flags] "  << "\n";
 		}
 		
 		/// Operators..
