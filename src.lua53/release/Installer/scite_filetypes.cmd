@@ -43,8 +43,8 @@ if %ERRORLEVEL% == 2 goto ende
 
 :CREATE_FILE
  REM Only Recreate the File when we have a Data folder and rw space.
- echo test>test.tmp2>NUL && IF EXIST test.tmp (del test.tmp && SET is_read_write=1)
- IF EXIST %scite_userDir% and if %is_read_write% (
+ echo test>test.tmp2>NUL && IF EXIST test.tmp (del test.tmp && SET fs_read_write=1)
+ IF EXIST %scite_userDir% and if %fs_read_write% (
   :: Stupid "del" does not change ErrorLevel when the deletion failed. Working around... 
   if exist scite_filetypes?.txt (del /F /Q scite_filetypes?.txt 1>NUL 2>NUL)
   if exist scite_filetypes?.txt (

@@ -11,7 +11,8 @@
  * @brief 20.11.17 | Thorsten Kani | fixEOF && cleanUp | Folding from cMake.
  * @brief 06.04.18 | Thorsten Kani | fixErrEOL && UserVars Make / bash Style
  * @brief todos
- * todo: handle VC Makefiles ( eg //D )
+ * todo: debug to stderr / Wrap within a Class. 
+ * todo: handle QT and VC Makefiles
  * @brief Copyright 1998-20?? by Neil Hodgson <neilh@scintilla.org>
  * The License.txt file describes the conditions under which this software may
  * be distributed.
