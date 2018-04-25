@@ -1,5 +1,11 @@
 ~ mySciTE.webdev ~
 
+[xx.04.2018] mySciTE.200.Development
+- lexmake - support EolWarns on Multiline Continuations / Add logging
+- UnInstaller - Version 1.0 with Backup / logging / ReactOS support.
+- Build System - enable compling on Linux and VC again.
+- Themeing - Major CleanUp
+
 [19.01.2018] mySciTE.190.MartyMcFly (Lua5.1 & Lua5.3)
 - Add: SciTE Project Support. Settings for scite sources included.
 - Add: cTags Navigation support within project source files. ( ALT-Click )
