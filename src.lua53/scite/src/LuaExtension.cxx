@@ -327,17 +327,11 @@ static int cf_scite_strip_set_list(lua_State *L) {
 	return 0;
 }
 
-static int cf_scite_strip_value(lua_State *L) {
-	int control = luaL_checkinteger(L, 1);
-	const char *value = host->UserStripValue(control);
-	if (value) {
-		lua_pushstring(L, value);
-		delete []value;
-		return 1;
-	} else {
-		lua_pushstring(L, "");
-	}
-	return 0;
+ static int cf_scite_strip_value(lua_State *L) {
+	const int control = luaL_checkinteger(L, 1);
+	std::string value = host->UserStripValue(control);
+	lua_pushstring(L, value.c_str());
+	return 1;
 }
 
 static ExtensionAPI::Pane check_pane_object(lua_State *L, int index) {

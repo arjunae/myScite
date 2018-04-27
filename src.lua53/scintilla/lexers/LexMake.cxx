@@ -140,7 +140,7 @@ static unsigned int ColouriseMakeLine(
 				bool bWarnDqStr;	// unclosed doubleQuoted flag.
 				bool bWarnBrace;	// unclosed brace flag.
 			} s;
-	} line; line.s.iWarnEOL=0; line.s.bWarnBrace=0;line.s.bWarnDqStr=0;line.s.bWarnSqStr=0;line.s.bWarnBrace=0;
+	} line; line.s.bCommand=0; line.s.iWarnEOL=0; line.s.bWarnBrace=0;line.s.bWarnDqStr=0;line.s.bWarnSqStr=0;line.s.bWarnBrace=0;
 	
 	int iDebug=0;
 	if (iDebug>0) std::clog << "[Pos]	[Char]	[WarnEOLState]\n";	

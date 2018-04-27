@@ -4186,12 +4186,12 @@ REF	scintilla\src\RESearch.cxx	229;"	d	file:
 RESEARCH_H	scintilla\src\RESearch.h	10;"	d
 RESERVED	scite\lua\src\llex.h	/^enum RESERVED {$/;"	g
 RESERVEDSLOT	scite\lua\src\lbaselib.c	308;"	d	file:
-RESPONSE_CONVERT	scite\gtk\SciTEGTK.cxx	2881;"	d	file:
-RESPONSE_MARK_ALL	scite\gtk\SciTEGTK.cxx	3030;"	d	file:
-RESPONSE_REPLACE	scite\gtk\SciTEGTK.cxx	3031;"	d	file:
-RESPONSE_REPLACE_ALL	scite\gtk\SciTEGTK.cxx	3032;"	d	file:
-RESPONSE_REPLACE_IN_BUFFERS	scite\gtk\SciTEGTK.cxx	3034;"	d	file:
-RESPONSE_REPLACE_IN_SELECTION	scite\gtk\SciTEGTK.cxx	3033;"	d	file:
+RESPONSE_CONVERT	scite\gtk\SciTEGTK.cxx	2878;"	d	file:
+RESPONSE_MARK_ALL	scite\gtk\SciTEGTK.cxx	3027;"	d	file:
+RESPONSE_REPLACE	scite\gtk\SciTEGTK.cxx	3028;"	d	file:
+RESPONSE_REPLACE_ALL	scite\gtk\SciTEGTK.cxx	3029;"	d	file:
+RESPONSE_REPLACE_IN_BUFFERS	scite\gtk\SciTEGTK.cxx	3031;"	d	file:
+RESPONSE_REPLACE_IN_SELECTION	scite\gtk\SciTEGTK.cxx	3030;"	d	file:
 RESearch	scintilla\src\RESearch.cxx	/^RESearch::RESearch(CharClassify *charClassTable) {$/;"	f	class:RESearch	signature:(CharClassify *charClassTable)
 RESearch	scintilla\src\RESearch.h	/^class RESearch {$/;"	c	namespace:Scintilla
 RESearchRange	scintilla\src\Document.cxx	/^	RESearchRange(const Document *doc_, Sci::Position minPos, Sci::Position maxPos) : doc(doc_) {$/;"	f	class:__anon22::RESearchRange	access:public	signature:(const Document *doc_, Sci::Position minPos, Sci::Position maxPos)
@@ -8610,8 +8610,8 @@ UserStripSetList	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::UserStripSetList(int co
 UserStripSetList	scite\win32\SciTEWinDlg.cxx	/^void SciTEWin::UserStripSetList(int control, const char *value) {$/;"	f	class:SciTEWin	signature:(int control, const char *value)
 UserStripShow	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::UserStripShow(const char *description) {$/;"	f	class:SciTEGTK	signature:(const char *description)
 UserStripShow	scite\win32\SciTEWinDlg.cxx	/^void SciTEWin::UserStripShow(const char *description) {$/;"	f	class:SciTEWin	signature:(const char *description)
-UserStripValue	scite\gtk\SciTEGTK.cxx	/^const char *SciTEGTK::UserStripValue(int control) {$/;"	f	class:SciTEGTK	signature:(int control)
-UserStripValue	scite\win32\SciTEWinDlg.cxx	/^const char *SciTEWin::UserStripValue(int control) {$/;"	f	class:SciTEWin	signature:(int control)
+UserStripValue	scite\gtk\SciTEGTK.cxx	/^std:string SciTEGTK::UserStripValue(int control) {$/;"	f	class:SciTEGTK	signature:(int control)
+UserStripValue	scite\win32\SciTEWinDlg.cxx	/^std::string SciTEWin::UserStripValue(int control) {$/;"	f	class:SciTEWin	signature:(int control)
 UserVirtualSpace	scintilla\src\Editor.h	/^	bool UserVirtualSpace() const {$/;"	f	class:Scintilla::Editor	access:protected	signature:() const
 Utf16_Iter	scite\src\Utf8_16.cxx	/^Utf16_Iter::Utf16_Iter() {$/;"	f	class:Utf16_Iter	signature:()
 Utf16_Iter	scite\src\Utf8_16.h	/^class Utf16_Iter : public Utf8_16 {$/;"	c	inherits:Utf8_16
@@ -9294,7 +9294,7 @@ cf_scite_send	scite\src\LuaExtension.cxx	/^static int cf_scite_send(lua_State *L
 cf_scite_strip_set	scite\src\LuaExtension.cxx	/^static int cf_scite_strip_set(lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 cf_scite_strip_set_list	scite\src\LuaExtension.cxx	/^static int cf_scite_strip_set_list(lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 cf_scite_strip_show	scite\src\LuaExtension.cxx	/^static int cf_scite_strip_show(lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
-cf_scite_strip_value	scite\src\LuaExtension.cxx	/^static int cf_scite_strip_value(lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
+cf_scite_strip_value	scite\src\LuaExtension.cxx	/^ static int cf_scite_strip_value(lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 cf_scite_update_status_bar	scite\src\LuaExtension.cxx	/^static int cf_scite_update_status_bar(lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 ch	scintilla\include\Scintilla.h	/^	int ch;$/;"	m	struct:SCNotification	access:public
 ch	scintilla\lexlib\StyleContext.h	/^	int ch;$/;"	m	class:Scintilla::StyleContext	access:public
@@ -12537,12 +12537,12 @@ override	scite\gtk\SciTEGTK.cxx	/^	bool ParametersDialog(bool modal) override;$/
 override	scite\gtk\SciTEGTK.cxx	/^	bool ParametersOpen() override;$/;"	m	class:SciTEGTK	file:	access:protected
 override	scite\gtk\SciTEGTK.cxx	/^	bool PerformOnNewThread(Worker *pWorker) override;$/;"	m	class:SciTEGTK	file:	access:public
 override	scite\gtk\SciTEGTK.cxx	/^	bool SaveAsDialog() override;$/;"	m	class:SciTEGTK	file:	access:protected
-override	scite\gtk\SciTEGTK.cxx	/^	const char *UserStripValue(int control) override;$/;"	m	class:SciTEGTK	file:	access:protected
 override	scite\gtk\SciTEGTK.cxx	/^	gboolean Focus(GtkDirectionType direction) override;$/;"	m	class:FindStrip	file:	access:public
 override	scite\gtk\SciTEGTK.cxx	/^	gboolean Focus(GtkDirectionType direction) override;$/;"	m	class:ReplaceStrip	file:	access:public
 override	scite\gtk\SciTEGTK.cxx	/^	gboolean Focus(GtkDirectionType direction) override;$/;"	m	class:UserStrip	file:	access:public
 override	scite\gtk\SciTEGTK.cxx	/^	std::string EncodeString(const std::string &s) override;$/;"	m	class:SciTEGTK	file:	access:protected
 override	scite\gtk\SciTEGTK.cxx	/^	std::string GetRangeInUIEncoding(GUI::ScintillaWindow &win, int selStart, int selEnd) override;$/;"	m	class:SciTEGTK	file:	access:protected
+override	scite\gtk\SciTEGTK.cxx	/^	std:string UserStripValue(int control) override;$/;"	m	class:SciTEGTK	file:	access:protected
 override	scite\gtk\SciTEGTK.cxx	/^	void AboutDialog() override;$/;"	m	class:SciTEGTK	file:	access:protected
 override	scite\gtk\SciTEGTK.cxx	/^	void ActivateWindow(const char *timestamp) override;$/;"	m	class:SciTEGTK	file:	access:protected
 override	scite\gtk\SciTEGTK.cxx	/^	void AddToPopUp(const char *label, int cmd = 0, bool enabled = true) override;$/;"	m	class:SciTEGTK	file:	access:protected
@@ -12661,9 +12661,9 @@ override	scite\win32\SciteWin.h	/^	bool ParametersOpen() override;$/;"	m	class:S
 override	scite\win32\SciteWin.h	/^	bool PerformOnNewThread(Worker *pWorker) override;$/;"	m	class:SciTEWin	access:public
 override	scite\win32\SciteWin.h	/^	bool PreOpenCheck(const GUI::gui_char *arg) override;$/;"	m	class:SciTEWin	access:protected
 override	scite\win32\SciteWin.h	/^	bool SaveAsDialog() override;$/;"	m	class:SciTEWin	access:protected
-override	scite\win32\SciteWin.h	/^	const char *UserStripValue(int control) override;$/;"	m	class:SciTEWin	access:protected
 override	scite\win32\SciteWin.h	/^	std::string EncodeString(const std::string &s) override;$/;"	m	class:SciTEWin	access:public
 override	scite\win32\SciteWin.h	/^	std::string GetRangeInUIEncoding(GUI::ScintillaWindow &win, int selStart, int selEnd) override;$/;"	m	class:SciTEWin	access:public
+override	scite\win32\SciteWin.h	/^	std::string UserStripValue(int control) override;$/;"	m	class:SciTEWin	access:protected
 override	scite\win32\SciteWin.h	/^	uptr_t GetInstance() override;$/;"	m	class:SciTEWin	access:public
 override	scite\win32\SciteWin.h	/^	void AboutDialog() override;$/;"	m	class:SciTEWin	access:protected
 override	scite\win32\SciteWin.h	/^	void ActivateWindow(const char *timestamp) override;$/;"	m	class:SciTEWin	access:protected

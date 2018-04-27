@@ -31,18 +31,24 @@ if errorlevel 1 goto :error
 echo :--------------------------------------------------
 echo .... done ....
 echo :--------------------------------------------------
-::--------------------------------------------------
-:: This littl hack looks for a platform PE Signature at offset 120+
-:: Should work compiler independent for uncompressed binaries.
+
+REM This littl hack looks for a platform PE Signature at offset 120+
+REM Should work compiler independent for uncompressed binaries.
+REM Offsets MSVC/MINGW==120 BORLAND==131 PaCKERS >xxx
+REM -1 suggests that a binary is compressed
+
 set PLAT=""
-set off32=""
-set off64=""
+set file=..\bin\SciTE.exe
 
-for /f "delims=:" %%A in ('findstr /o "^.*PE..L.. " ..\bin\SciTE.exe') do ( set off32=%%A ) 
-if %off32%==120 set PLAT=WIN32
+for /f "delims=:" %%A in ('findstr /o "^.*PE..L." "%file%"') do ( 
+  if %%A LEQ 200 (SET PLAT=WIN32) ELSE (SET PLAT=NIL) 
+  if %%A LEQ 200 (SET OFFSET=%%A) ELSE (SET OFFSET=-1)
+)
 
-for /f "delims=:" %%A in ('findstr /o "^.*PE..d.. " ..\bin\SciTE.exe') do ( set off64=%%A ) 
-if %off64%==120 set PLAT=WIN64
+for /f "delims=:" %%B in ('findstr /o "^.*PE..d." "%file%"') do (
+  if %%B LEQ 200 (SET PLAT=WIN64) ELSE (SET PLAT=NIL)
+  if %%B LEQ 200 (SET OFFSET=%%B) ELSE (SET OFFSET=-1)
+)
 
 echo .... Targets platform [%PLAT%] ......
 If [%PLAT%]==[WIN32] (
