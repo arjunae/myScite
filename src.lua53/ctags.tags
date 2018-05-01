@@ -5388,12 +5388,12 @@ SCE_MAGIK_SQBRACKET_BLOCK	scintilla\include\SciLexer.h	1368;"	d
 SCE_MAGIK_STRING	scintilla\include\SciLexer.h	1359;"	d
 SCE_MAGIK_SYMBOL	scintilla\include\SciLexer.h	1372;"	d
 SCE_MAGIK_UNKNOWN_KEYWORD	scintilla\include\SciLexer.h	1369;"	d
-SCE_MAKE_AUTOM_VARIABLE	scintilla\include\SciLexer.h	551;"	d
 SCE_MAKE_COMMENT	scintilla\include\SciLexer.h	545;"	d
 SCE_MAKE_DEFAULT	scintilla\include\SciLexer.h	544;"	d
 SCE_MAKE_DIRECTIVE	scintilla\include\SciLexer.h	552;"	d
 SCE_MAKE_EXTCMD	scintilla\include\SciLexer.h	555;"	d
 SCE_MAKE_FLAGS	scintilla\include\SciLexer.h	554;"	d
+SCE_MAKE_FUNCTION	scintilla\include\SciLexer.h	551;"	d
 SCE_MAKE_IDENTIFIER	scintilla\include\SciLexer.h	547;"	d
 SCE_MAKE_IDEOL	scintilla\include\SciLexer.h	553;"	d
 SCE_MAKE_NUMBER	scintilla\include\SciLexer.h	557;"	d

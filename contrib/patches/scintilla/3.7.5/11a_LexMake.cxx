@@ -124,11 +124,8 @@ static unsigned int ColouriseMakeLine(
 
 	Sci_PositionU i = 0; // primary line position counter
 	Sci_PositionU styleBreak = 0;
-
 	Sci_PositionU strLen = 0; // Keyword candidate length.
-	Sci_PositionU startMark = 0;	 // Keyword candidates startPos. >0 while searching for a Keyword
-	
-	unsigned int SCE_MAKE_FUNCTION = SCE_MAKE_OPERATOR;
+	Sci_PositionU startMark = 0;	 // Keyword candidates startPos. >0 while searching for a Keyword	
 	unsigned int state = SCE_MAKE_DEFAULT;
 	unsigned int state_prev = startStyle;
 
@@ -156,7 +153,7 @@ static unsigned int ColouriseMakeLine(
 
 	unsigned int theStart=startLine+i; // One Byte ought (not) to be enough for everyone....?
 	stylerPos=theStart; // Keep a Reference to the last styled Position.
-		
+				
 	// check for a tab character in column 0 indicating a command
 	if ( styler.SafeGetCharAt(theStart-1)  == '\t' )
 		line.s.bCommand = true;
@@ -193,23 +190,22 @@ static unsigned int ColouriseMakeLine(
 
 		/// Style Target lines
 		// Find a good position for a style stopper.
-		if (currentPos>theStart && IsGraphic(chNext) 
+		if (currentPos>=theStart && IsGraphic(chNext) 
 			&& (strchr(" \t \"\' \\ /#!?&|+{}()[]<>;=,", (int)chCurr) != NULL)) {
 			styleBreak=currentPos;
-		}
-
+		} 
+		
 		// skip identifier and target styling if this is a command line
 		if (!line.s.bCommand && state==SCE_MAKE_DEFAULT) {
 			if (chCurr == ':' && chNext != '=') {
-				if(styleBreak>0 && styleBreak<currentPos && styleBreak>stylerPos) 
+			 // its a ':' so style as a target
+				if(styleBreak>0 && styleBreak<currentPos && styleBreak>stylerPos)
 					ColourHere(styler, styleBreak, SCE_MAKE_DEFAULT, state);
 				ColourHere(styler, currentPos-1, SCE_MAKE_TARGET, state);
-			} else if (chCurr == ':' && chNext == '=') {
-				// it's a ':=', so style as an identifier
-				ColourHere(styler, currentPos-2, SCE_MAKE_IDENTIFIER, state);
-			} else if (chCurr=='=' && chPrev != ':') {
-					ColourHere(styler, currentPos-1, SCE_MAKE_IDENTIFIER, state);		
-			}
+			} else if ( chNext == '=') {
+				// it's a ':=' or a '=', so style as an identifier
+				ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+				}
 		}
 
 		/// Lets signal a warning on unclosed Braces.
@@ -352,23 +348,23 @@ static unsigned int ColouriseMakeLine(
 			if (iDebug) std::clog<< "[UserVar] "  << "\n";
 		}
 
-		/// ... and $ based automatic Variables Rule: $@%<?^+*
+		/// ... $ prefixed automatic Variables Rule: $@%<?^+*
 		if (chCurr == '$' && (strchr("@%<?^+*", (int)chNext))!=NULL) {
 			ColourHere(styler, currentPos-1, state);
 			state_prev=state;
-			state = SCE_MAKE_AUTOM_VARIABLE;
-		} else if (state == SCE_MAKE_AUTOM_VARIABLE && (strchr("@%<?^+*", (int)chCurr)!=NULL)) {
+			state = SCE_MAKE_EXTCMD;
+		} else if (state == SCE_MAKE_EXTCMD && (strchr("@%<?^+*", (int)chCurr)!=NULL)) {
 			ColourHere(styler, currentPos, state, state_prev);
 			state = state_prev;
 			if (iDebug) std::clog<< "[$AutomaticVar] "  << "\n";
 		}
 
-		/// Style for automatic Variables. FluxCompensators orders: @%<^+'D'||'F'
+		/// ... DF suffixed automatic Variables. FluxCompensators orders: @%<^+'D'||'F'
 		if ((strchr("@%<?^+*", (int)chCurr) >0) && (strchr("DF", (int)chNext)!=NULL)) {
 			ColourHere(styler, currentPos-1, state);
 			state_prev=state;
-			state = SCE_MAKE_AUTOM_VARIABLE;
-		} else if (state == SCE_MAKE_AUTOM_VARIABLE
+			state = SCE_MAKE_EXTCMD;
+		} else if (state == SCE_MAKE_EXTCMD
 				&& (strchr("@%<^+", (int)styler.SafeGetCharAt(currentPos-1))!=NULL
 				&& (strchr("DF", (int)chCurr) !=NULL))) {
 			ColourHere(styler, currentPos, state, state_prev);
@@ -531,17 +527,16 @@ static int calculateFoldMake(Sci_PositionU start, Sci_PositionU end, int foldlev
 
  if ( CompareCaseInsensitive(s, "IF") == 0 || CompareCaseInsensitive(s, "IFEQ") == 0  || CompareCaseInsensitive(s, "IFNEQ") == 0 
 	|| CompareCaseInsensitive(s, "IFNDEF") == 0  || CompareCaseInsensitive(s, "WHILE") == 0
-	|| CompareCaseInsensitive(s, "MACRO") == 0	|| CompareCaseInsensitive(s, "FOREACH") == 0
-	|| CompareCaseInsensitive(s, "ELSEIF") == 0	|| CompareCaseInsensitive(s, "ELIF") == 0 )
-  newFoldlevel++;
+	|| CompareCaseInsensitive(s, "MACRO") == 0	|| CompareCaseInsensitive(s, "FOREACH") == 0)
+	  newFoldlevel++;
  else if ( CompareCaseInsensitive(s, "ENDIF") == 0 || CompareCaseInsensitive(s, "ENDWHILE") == 0
 		|| CompareCaseInsensitive(s, "ENDMACRO") == 0 || CompareCaseInsensitive(s, "ENDFOREACH") == 0
-		||  CompareCaseInsensitive(s, "FI") == 0)
+		||  CompareCaseInsensitive(s, "FI") == 0 ||  CompareCaseInsensitive(s, "DONE") == 0)
   newFoldlevel--;
- else if ( bElse && CompareCaseInsensitive(s, "ELSEIF") == 0 )
-		newFoldlevel++;
- else if ( bElse && CompareCaseInsensitive(s, "ELSE") == 0 )
-		newFoldlevel++;
+ 
+ // if ( bElse && (CompareCaseInsensitive(s, "ELSEIF") == 0 
+	//	|| CompareCaseInsensitive(s, "ELIF") == 0)|| CompareCaseInsensitive(s, "ELSE") == 0))
+ 	//newFoldlevel++;
 
  return newFoldlevel;
 }
@@ -579,7 +574,7 @@ static void FoldMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordLi
 	if ( styler.GetPropertyInt("fold") == 0 )
 	return;
 
-	bool foldAtElse = styler.GetPropertyInt("fold.at.else", 0) == 1;
+	bool foldAtElse =0; // styler.GetPropertyInt("fold.at.else", 0) == 1;
 
 	Sci_Position lineCurrent = styler.GetLine(startPos);
 	Sci_PositionU safeStartPos = styler.LineStart( lineCurrent );

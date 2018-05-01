@@ -6,7 +6,7 @@ diff -Nurw scintilla/include/Scintilla.iface scintilla_mod/include/Scintilla.ifa
  val SCE_MAKE_OPERATOR=4
  val SCE_MAKE_TARGET=5
 +val SCE_MAKE_USER_VARIABLE 6
-+val SCE_MAKE_AUTOM_VARIABLE 7
++val SCE_MAKE_FUNCTION 7
 +val SCE_MAKE_DIRECTIVE 8
  val SCE_MAKE_IDEOL=9
 +val SCE_MAKE_FLAGS 10

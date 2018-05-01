@@ -164,8 +164,6 @@ menu-package: .title
 	@make -s .menu-item tgt="install-composer" desc="Download and install composer"
 	@echo ""
 
-
-
 menu-dev: .title
 	@make -s .menu-heading title="Development Info"
 	@echo "    Parameters: package=vendor/package (required)"
@@ -200,8 +198,6 @@ menu-dev: .title
 	@make -s .menu-item tgt="install-travis-lint" desc="Install travis-lint configuration checker - Requires ruby gems"
 	@make -s .menu-item tgt="install-uri-template" desc="Install uri_template a php extension. Might require sudo."
 	@echo ""
-
-
 
 menu-deploy: .title
 	@make -s .menu-heading title="Deployment"
@@ -337,7 +333,7 @@ project-info: .check-foundation
 	@echo "               user-home:" `$(CONFIG_TOOL) user-home `
 	@echo ""
 
-test-skelgen:	.check-foundation
+ test-skelgen:	.check-foundation
 	@echo -e "    > $(.BOLD)Verifying test bootstrap$(.CLEAR)"
 	@test -f $(shell $(CONFIG_TOOL) test-folder)/bootstrap.php || make -f $(THIS) bootstrap-php > /dev/null
 	@$(eval source-folder=$(shell $(CONFIG_TOOL) library-folder))
@@ -532,7 +528,6 @@ package-xml: .check-foundation
 	  echo Respect/Foundation:; \
 		echo $$ make pear; echo; \
 	fi;
-
 
 composer-json: .check-foundation
 	@$(GENERATE_TOOL) composer-json > composer.json.tmp && mv -f composer.json.tmp composer.json
