@@ -236,7 +236,7 @@ static unsigned int ColouriseMakeLine(
 			state=state_prev;
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
 			line.s.bWarnDqStr = false;
-		} else if	((state==SCE_MAKE_DEFAULT || state==SCE_MAKE_IDENTIFIER) 
+		} else if	((state!=SCE_MAKE_STRING || state==SCE_MAKE_IDENTIFIER) 
 			&& chCurr=='\"' && chPrev!='\\') {
 			state_prev = state;
 			state = SCE_MAKE_STRING;
@@ -335,39 +335,40 @@ static unsigned int ColouriseMakeLine(
 			strSearch.clear();
 		}
 
-		/// Style User Variables Rule: $(...) / bash Style UserVars Rule: $$....
+		/// Style User Variables Rule: $(...)
 		if ( state!=SCE_MAKE_STRING && chCurr == '$' && (strchr("{(", (int)chNext)!=NULL)) {
 		  stylerPos =ColourHere(styler, currentPos-1, state);			
 			state_prev=state;
 			state = SCE_MAKE_USER_VARIABLE;
 			stylerPos =ColourHere(styler, currentPos, state);
-		} else if (state == SCE_MAKE_USER_VARIABLE && (strchr("})\"\'", (int)chNext)!=NULL)) {
+		} else if (state == SCE_MAKE_USER_VARIABLE && (strchr("})", (int)chNext)!=NULL)) {
 			if (state_prev==SCE_MAKE_USER_VARIABLE) state_prev = SCE_MAKE_DEFAULT;	
 			ColourHere(styler, currentPos+1, state, state_prev);
 			state = state_prev;
 			if (iDebug) std::clog<< "[UserVar] "  << "\n";
 		}
-
-		/// ... $ prefixed automatic Variables Rule: $@%<?^+*
-		if (chCurr == '$' && (strchr("@%<?^+*", (int)chNext))!=NULL) {
-			ColourHere(styler, currentPos-1, state);
+		
+		/// ...  Style bash Vars Rule: $$.... Note: Allocate an own Style here?
+		if ( state==SCE_MAKE_DEFAULT && chCurr == '$' && (strchr("$", (int)chNext)!=NULL)) {
+		  stylerPos =ColourHere(styler, currentPos-1, state);			
 			state_prev=state;
-			state = SCE_MAKE_EXTCMD;
-		} else if (state == SCE_MAKE_EXTCMD && (strchr("@%<?^+*", (int)chCurr)!=NULL)) {
+			state = SCE_MAKE_IDENTIFIER;
+			stylerPos =ColourHere(styler, currentPos, state);
+		} else if (state == SCE_MAKE_IDENTIFIER && !IsAlphaNum(chNext)) {
+			if (state_prev==SCE_MAKE_IDENTIFIER) state_prev = SCE_MAKE_DEFAULT;	
 			ColourHere(styler, currentPos, state, state_prev);
 			state = state_prev;
-			if (iDebug) std::clog<< "[$AutomaticVar] "  << "\n";
+			if (iDebug) std::clog<< "[BashVar] "  << "\n";
 		}
-
-		/// ... DF suffixed automatic Variables. FluxCompensators orders: @%<^+'D'||'F'
-		if ((strchr("@%<?^+*", (int)chCurr) >0) && (strchr("DF", (int)chNext)!=NULL)) {
+		
+		/// ... $ prefixed or DF suffixed automatic Variables. FluxCompensators orders: ($)@%<^+'D'||'F'
+		if ((chCurr=='$' && strchr("@%<?^+*", (int)chNext) >0) 
+			|| ( strchr("@%<?^+*", (int)chCurr) >0  &&	strchr("DF", (int)chNext)!=NULL)) {
 			ColourHere(styler, currentPos-1, state);
 			state_prev=state;
 			state = SCE_MAKE_EXTCMD;
-		} else if (state == SCE_MAKE_EXTCMD
-				&& (strchr("@%<^+", (int)styler.SafeGetCharAt(currentPos-1))!=NULL
-				&& (strchr("DF", (int)chCurr) !=NULL))) {
-			ColourHere(styler, currentPos, state, state_prev);
+		} else if (state == SCE_MAKE_EXTCMD && (strchr("@%<^+DF", (int)chCurr) ==NULL)) {
+			ColourHere(styler, currentPos-1, state, state_prev);
 			state = SCE_MAKE_DEFAULT;
 			if (iDebug) std::clog<< "[@AutomaticVar] "  << "\n";
 		}

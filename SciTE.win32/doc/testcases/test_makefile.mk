@@ -126,8 +126,6 @@ menu-project: .title
 	@make -s .menu-item tgt="phpdoc" desc="Run PhpDocumentor2 to generate the project API documentation"
 	@echo ""
 
-
-
 menu-package: .title
 	@make -s .menu-heading title="Package Description"
 	@make -s .menu-item tgt="package-ini" desc="Creates the basic package.ini file"
