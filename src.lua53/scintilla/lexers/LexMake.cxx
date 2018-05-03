@@ -1,4 +1,4 @@
-﻿// Scintilla source code edit control
+﻿//Scintilla source code edit control
 /**
  * @file LexMake.cxx
  * @author Neil Hodgson
@@ -61,8 +61,8 @@ static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 	    ((styler[i] == '\r') && (styler.SafeGetCharAt(i + 1) != '\n'));
 }
 
-static inline bool AtStartChar(Accessor &styler, Sci_PositionU i) {
-	return (strchr("&|@\t\r\n -\":;, '({=", (int)(styler.SafeGetCharAt(i)))!=NULL);
+static inline bool AtStartChar(const int ch) {
+	return (strchr("&|@\t\r\n -\":;, '({=", ch));
 }
 
 static inline bool IsNewline(const int ch) {
@@ -131,14 +131,17 @@ static unsigned int ColouriseMakeLine(
 
 	union { 
 			struct { // remove that one- and have fun drinkin "Coffee".......
-				bool bCommand;		// set when a line begins with a tab (command)
 				int iWarnEOL;		// unclosed string / braces flag.
 				bool bWarnSqStr;	// unclosed singleQuoted flag.
 				bool bWarnDqStr;	// unclosed doubleQuoted flag.
 				bool bWarnBrace;	// unclosed brace flag.
 			} s;
-	} line; line.s.bCommand=0; line.s.iWarnEOL=0; line.s.bWarnBrace=0;line.s.bWarnDqStr=0;line.s.bWarnSqStr=0;line.s.bWarnBrace=0;
-	
+	} line; line.s.iWarnEOL=0; line.s.bWarnBrace=0;line.s.bWarnDqStr=0;line.s.bWarnSqStr=0;line.s.bWarnBrace=0;
+		
+		bool bInCommand=false;		// set when a line begins with a tab (command)
+		bool bInUserVar=false;
+		bool bInBashVar=false;
+
 	int iDebug=0;
 	if (iDebug>0) std::clog << "[Pos]	[Char]	[WarnEOLState]\n";	
 		
@@ -153,10 +156,11 @@ static unsigned int ColouriseMakeLine(
 
 	unsigned int theStart=startLine+i; // One Byte ought (not) to be enough for everyone....?
 	stylerPos=theStart; // Keep a Reference to the last styled Position.
-				
+
+		
 	// check for a tab character in column 0 indicating a command
 	if ( styler.SafeGetCharAt(theStart-1)  == '\t' )
-		line.s.bCommand = true;
+		bInCommand = true;
 	
 	while ( i < lengthLine ) {
 		Sci_PositionU currentPos=startLine+i;
@@ -196,7 +200,7 @@ static unsigned int ColouriseMakeLine(
 		} 
 		
 		// skip identifier and target styling if this is a command line
-		if (!line.s.bCommand && state==SCE_MAKE_DEFAULT) {
+		if (!bInCommand && state==SCE_MAKE_DEFAULT) {
 			if (chCurr == ':' && chNext != '=') {
 			 // its a ':' so style as a target
 				if(styleBreak>0 && styleBreak<currentPos && styleBreak>stylerPos)
@@ -292,7 +296,7 @@ static unsigned int ColouriseMakeLine(
 			// Rule: preceeded by line start and AtStartChar() Ends on eol, whitespace or ;
 			if (kwExtCmd.InList(strSearch.c_str())
 				 && strchr("\t\r\n ; \\)", (int)chNext) !=NULL
-				 &&  AtStartChar(styler, startMark-1)) {
+				 &&  AtStartChar(styler.SafeGetCharAt( startMark-1))) {
 				if (startMark > startLine && startMark >= stylerPos)
 					styler.ColourTo(startMark-1, state);
 				ColourHere(styler, currentPos, SCE_MAKE_EXTCMD);
@@ -335,30 +339,28 @@ static unsigned int ColouriseMakeLine(
 			strSearch.clear();
 		}
 
-		/// Style User Variables Rule: $(...)
-		if ( state!=SCE_MAKE_STRING && chCurr == '$' && (strchr("{(", (int)chNext)!=NULL)) {
-		  stylerPos =ColourHere(styler, currentPos-1, state);			
+		/// ... Style User Variables Rule: $(...) // Note: save chNext to check for later.
+		if ( state!=SCE_MAKE_STRING && chCurr == '$' && (strchr("{([", (int)chNext)!=NULL)) {
+			bInUserVar=true;
+		  stylerPos =ColourHere(styler, currentPos-1, state);
 			state_prev=state;
-			state = SCE_MAKE_USER_VARIABLE;
-			stylerPos =ColourHere(styler, currentPos, state);
-		} else if (state == SCE_MAKE_USER_VARIABLE && (strchr("})", (int)chNext)!=NULL)) {
-			if (state_prev==SCE_MAKE_USER_VARIABLE) state_prev = SCE_MAKE_DEFAULT;	
-			ColourHere(styler, currentPos+1, state, state_prev);
-			state = state_prev;
+			state=SCE_MAKE_USER_VARIABLE;
+			stylerPos =ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
+		} else if (bInUserVar && (strchr("})]", (int)chNext)!=NULL)) {
+			bInUserVar=false;
+			state=state_prev;
+			ColourHere(styler, currentPos+1, SCE_MAKE_USER_VARIABLE, state);
 			if (iDebug) std::clog<< "[UserVar] "  << "\n";
 		}
 		
-		/// ...  Style bash Vars Rule: $$.... Note: Allocate an own Style here?
-		if ( state==SCE_MAKE_DEFAULT && chCurr == '$' && (strchr("$", (int)chNext)!=NULL)) {
-		  stylerPos =ColourHere(styler, currentPos-1, state);			
-			state_prev=state;
-			state = SCE_MAKE_IDENTIFIER;
-			stylerPos =ColourHere(styler, currentPos, state);
-		} else if (state == SCE_MAKE_IDENTIFIER && !IsAlphaNum(chNext)) {
-			if (state_prev==SCE_MAKE_IDENTIFIER) state_prev = SCE_MAKE_DEFAULT;	
-			ColourHere(styler, currentPos, state, state_prev);
-			state = state_prev;
-			if (iDebug) std::clog<< "[BashVar] "  << "\n";
+		/// ...  Style bash Vars Rule: $$ and VC Flags Rule: // Note: Allocate an own Style here?
+		if (state!=SCE_MAKE_STRING && (( chCurr == '$' && chNext=='$') || (chCurr == '/' && chNext=='/'))) {
+		  bInBashVar=true;
+			stylerPos =ColourHere(styler, currentPos-1, state);			
+			stylerPos =ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER);	} else if (bInBashVar && strchr(" \t\r\n \"\'\\#!?&|+{}()[]<>;=,", (int)chNext) != NULL) {
+			bInBashVar=false;
+			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state);
+			if (iDebug) std::clog<< "[BashVar / VCFLag] "  << "\n";
 		}
 		
 		/// ... $ prefixed or DF suffixed automatic Variables. FluxCompensators orders: ($)@%<^+'D'||'F'
@@ -373,15 +375,15 @@ static unsigned int ColouriseMakeLine(
 			if (iDebug) std::clog<< "[@AutomaticVar] "  << "\n";
 		}
 
-		/// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-") or ("=-") Endmatch: (whitespace || EOL || "$./:\,'")
-		if (( state!= SCE_MAKE_STRING && (AtStartChar(styler,currentPos)) && chNext=='-')
-			|| (currentPos == theStart && chCurr == '-')) {
+		/// Capture the Flags. Start match:  ( '-' ) or  (linestart + "-")  Endmatch: (whitespace || EOL || "$./:\,'")
+		if (state!=SCE_MAKE_STRING && strchr("&|\t\r\n \":;, '({=", (int)chPrev) !=NULL
+		&& ((chCurr=='-') || (chCurr=='-' && chNext=='-') || (currentPos == theStart && chNext == '-'))) {
+			ColourHere(styler,currentPos-1, state);
 			state_prev=state;
 			state = SCE_MAKE_FLAGS;
-			bool j= (i>0 && (chCurr=='-') && chNext=='-') ? 1:0; // style both '-'
-			if (currentPos-j > startLine) styler.ColourTo(currentPos-j, state_prev);
-		} else if (state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''", (int)chNext) !=NULL) {
-			ColourHere(styler, currentPos, state, state_prev);
+			ColourHere(styler,currentPos, state);
+		} else if ( state==SCE_MAKE_FLAGS && strchr("$\t\r\n /\\\",\''|", (int)chNext) !=NULL) {
+			ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			state = state_prev;
 			if (iDebug) std::clog<< "[Flags] "  << "\n";
 		}

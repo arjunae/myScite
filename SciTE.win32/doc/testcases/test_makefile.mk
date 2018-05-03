@@ -22,7 +22,7 @@ HAS_OPEN        = $(shell command -v open)
 HAS_XDG         = $(shell command -v xdg)
 HAS_SENSIBLE    = $(shell command -v sensible-browser)
 BROWSER_ALTERNS = $(HAS_XDG) $(HAS_SENSIBLE) $(HAS_OPEN) 
-BROWSE          = $(word 1,$(BROWSER_ALTERNS))
+BROWSE          = $(word,$(BROWSER_ALTERNS))
 DOTS            = $(shell printf '%0.1s' '.'{1..25})
 
 # Macros
@@ -259,7 +259,7 @@ foundation: .title
 
 	@ #.foundation/onion
 	@echo -e "    > $(.BOLD)Downloading Onion$(.CLEAR)"
-	@curl -LO --progress-bar https://github.com/c9s/Onion/raw/master/onion > ${FOUNDATION_HOME}/onion;chmod +x ${FOUNDATION_HOME}/onion
+	@curl -LO --progress-bar  https://github.com/c9s/Onion/raw/master/onion > ${FOUNDATION_HOME}/onion;chmod +x ${FOUNDATION_HOME}/onion
 	@make -f $(THIS) -s .needs-file file="${FOUNDATION_HOME}/onion" text='Onion Could not be installed'
 	@[[ -x ${FOUNDATION_HOME}/onion ]] || make -f $(THIS) -s .exit text="${FOUNDATION_HOME} not executable, run chmod +x to fix it";
 
@@ -331,7 +331,7 @@ project-info: .check-foundation
 	@echo "               user-home:" `$(CONFIG_TOOL) user-home `
 	@echo ""
 
- test-skelgen:	.check-foundation
+test-skelgen:	.check-foundation
 	@echo -e "    > $(.BOLD)Verifying test bootstrap$(.CLEAR)"
 	@test -f $(shell $(CONFIG_TOOL) test-folder)/bootstrap.php || make -f $(THIS) bootstrap-php > /dev/null
 	@$(eval source-folder=$(shell $(CONFIG_TOOL) library-folder))
@@ -483,7 +483,7 @@ git-add-all: .check-foundation
 codesniff: .check-foundation
 	@echo "Running PHP Codesniffer to assess PSR compliancy"
 	phpcs -p --report-full=`$(CONFIG_TOOL) documentation-folder `/full2.out `$(CONFIG_TOOL) library-folder `
-	
+
 phpunit-codesniff: .check-foundation
 	@echo "Running PHP Codesniffer to assess PHPUnit compliancy"
 	phpcs -p --extensions=PHPUnit --report-full=`$(CONFIG_TOOL) documentation-folder `/full2.out `$(CONFIG_TOOL) library-folder `
@@ -673,7 +673,7 @@ info-cs-fixer: .check-foundation
 
 install-cs-fixer: .check-foundation
 	@echo "Attempting to download PHP Coding Standards Fixer."
-	curl http://cs.sensiolabs.org/get/php-cs-fixer.phar -o ${FOUNDATION_HOME}/php-cs-fixer && chmod a+x ${FOUNDATION_HOME}/php-cs-fixer
+	curl  http://cs.sensiolabs.org/get/php-cs-fixer.phar -o ${FOUNDATION_HOME}/php-cs-fixer && chmod a+x ${FOUNDATION_HOME}/php-cs-fixer
 
 install-travis-lint: .check-foundation
 	@echo "Attempting to install travis-lint. Requires ruby gem..."
