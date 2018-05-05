@@ -1,7 +1,7 @@
 ~ mySciTE.webdev ~
 
 [xx.04.2018] mySciTE.200.Development
-- lexmake - support EolWarns on Multiline Continuations / Add logging
+- lexmake - support EolWarns on Multiline Continuations and qMake Vars, added logging.
 - UnInstaller - Version 1.0 with Backup / logging / ReactOS support.
 - Build System - enable compling on Linux and VC again.
 - Themeing - Major CleanUp

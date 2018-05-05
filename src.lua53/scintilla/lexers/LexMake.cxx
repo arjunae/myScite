@@ -7,7 +7,7 @@
  * - Styles GNUMake Directives, internal function Keywords $(sort subst..) ,
  * - Automatic Variables $[@%<?^+*] , Flags "-" and Keywords for externalCommands
  * - Warns on more unclosed Brackets or doublequoted Strings.
- * - Handles multiLine Continuations, inlineComments styles Strings and Numbers.
+ * - Handles multiLine Continuations & inlineComments and styles Strings and Numbers.
  * @brief 20.11.17 | Thorsten Kani | fixEOF && cleanUp | Folding from cMake.
  * @brief 06.04.18 | Thorsten Kani | fixErrEOL && UserVars Make / bash Style
  * @brief todos
@@ -702,7 +702,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	}
 	if (linePos>0){ // handle normal lines without an EOL mark.
 		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length-1, keywords, styler, startStyle);
-		styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
+		//styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
 	}
 }
 

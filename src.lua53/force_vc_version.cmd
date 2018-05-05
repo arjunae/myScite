@@ -50,7 +50,6 @@ for /F "tokens=* " %%i in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\Classes\WOW643
 )
 goto :end
 
-
 :set_vcPath
 REM ~~ found a Path entry, so call its environment setup script. 
 set vcPath=%vcDllPath:vc\vcpackages\vcbuild.dll" =%
