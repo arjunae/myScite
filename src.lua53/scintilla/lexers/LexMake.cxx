@@ -9,10 +9,10 @@
  * - Warns on more unclosed Brackets or doublequoted Strings.
  * - Handles multiLine Continuations & inlineComments and styles Strings and Numbers.
  * @brief 20.11.17 | Thorsten Kani | fixEOF && cleanUp | Folding from cMake.
- * @brief 06.04.18 | Thorsten Kani | fixErrEOL && UserVars Make / bash Style
+ * @brief 06.04.18 | Thorsten Kani | fixErrEOL && Make and bash Style UserVars 
+ * @brief 07.05.18 | Thorsten Kani | VC Flags, Convoluted UserVars , Code cleanUP && logging
  * @brief todos
- * todo: Wrap within a Class. 
- * todo: handle QT and VC Makefiles
+ * : Wrap within a Class. 
  * @brief Copyright 1998-20?? by Neil Hodgson <neilh@scintilla.org>
  * The License.txt file describes the conditions under which this software may
  * be distributed.
@@ -164,7 +164,6 @@ static unsigned int ColouriseMakeLine(
 
 	unsigned int theStart=startLine+i; // One Byte ought (not) to be enough for everyone....?
 	stylerPos=theStart; // Keep a Reference to the last styled Position.
-
 		
 	// check for a tab character in column 0 indicating a command
 	if ( styler.SafeGetCharAt(theStart-1) == '\t' )
@@ -230,7 +229,7 @@ static unsigned int ColouriseMakeLine(
 			state=SCE_MAKE_DEFAULT;
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
 			line.s.bWarnSqStr=false;
-		} else if	(state==SCE_MAKE_DEFAULT && chCurr=='\'' && chPrev!='\'' ) {
+		} else if (state==SCE_MAKE_DEFAULT && chCurr=='\'' && chPrev!='\'' ) {
 			if (iLog) std::clog<< "[SQString] " << "\n";
 			state_prev = state;
 			state = SCE_MAKE_IDENTIFIER;
@@ -246,7 +245,7 @@ static unsigned int ColouriseMakeLine(
 			state=state_prev;
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
 			line.s.bWarnDqStr = false;
-		} else if	((state!=SCE_MAKE_STRING ) && chCurr=='\"' && chPrev!='\\') {
+		} else if ((state!=SCE_MAKE_STRING ) && chCurr=='\"' && chPrev!='\\') {
 			if (iLog) std::clog<< "[DQString] " << "\n";
 			state_prev = state;
 			state = SCE_MAKE_STRING;
@@ -256,7 +255,7 @@ static unsigned int ColouriseMakeLine(
 		}
 		line.s.iWarnEOL= line.s.bWarnBrace || line.s.bWarnDqStr || line.s.bWarnSqStr;
 
-		if (iLog>0)	{
+		if (iLog>0) {
 			std::clog << i << "	" << chCurr<<"	"; 
 			std::clog << (line.s.iWarnEOL); 
 			std::clog << (line.s.bWarnBrace);
@@ -354,41 +353,41 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos+1, SCE_MAKE_USER_VARIABLE, state);				
 		}
 
-		/// ... Style bash Vars Rule: $$ and VC Flags Rule: // Note: Allocate an own Style here?
-		if (state!=SCE_MAKE_STRING && (( chCurr == '$' && chNext=='$') 
-		|| (chPrev != ':' && chCurr == '/' && chNext=='/'))) {
+		/// ... Style bash Vars Rule: $$
+		if (state!=SCE_MAKE_STRING && ( chCurr == '$' && chNext=='$')) {
 			if (iLog) std::clog<< "[BashVar_VCFLag] " << "\n";
 			bInBashVar=true;
 			stylerPos =ColourHere(styler, currentPos-1, state);			
 			stylerPos =ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
-			} else if (bInBashVar && strchr(" \t\r\n \"\'\\#!?&|+{}()[]<>;=,", (int)chNext) != NULL) {
+		} else if (bInBashVar && strchr(" \t\r\n \"\'\\#!?&|+{}()[]<>;=,", (int)chCurr) != NULL) {
 			bInBashVar=false;
 			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE, state);
 			if (iLog) std::clog<< "[/BashVar_VCFLag] " << "\n";
 		}
 
 		/// ... $ prefixed or DF suffixed automatic Variables. FluxCompensators orders: ($)@%<^+'D'||'F'
-		if ((chCurr=='$' && strchr("@%<?^+*", (int)chNext) >0) 
-		|| ( strchr("@%<?^+*", (int)chCurr) >0 &&	strchr("DF", (int)chNext)!=NULL)) {
+		if (state != SCE_MAKE_STRING && ((chCurr=='$' && strchr("@%<?^+*", (int)chNext) >0) 
+		|| ( strchr("@%<?^+*", (int)chCurr) >0 &&	strchr("DF", (int)chNext)!=NULL))) {
 			if (iLog) std::clog<< "[AutomaticVar] " << "\n";
 			ColourHere(styler, currentPos-1, state);
 			state_prev=state;
 			state = SCE_MAKE_EXTCMD;
-		} else if (state == SCE_MAKE_EXTCMD && (strchr("@%<^+DF", (int)chCurr) ==NULL)) {
+		} else if (state == SCE_MAKE_EXTCMD && (strchr("@%<^+DF", (int)chCurr) == NULL)) {
 			ColourHere(styler, currentPos-1, state, state_prev);
 			state = SCE_MAKE_DEFAULT;
 			if (iLog) std::clog<< "[/AutomaticVar] " << "\n";
 		}
 
-		/// Capture the Flags. Start match: ( '-' ) or (linestart + "-") Endmatch: (whitespace || EOL || "$./:\,'")
-		if (state!=SCE_MAKE_STRING && strchr("&|\t\r\n \":;, '({=", (int)chPrev) !=NULL
-		&& ((chCurr=='-') || (chCurr=='-' && chNext=='-') || (currentPos == theStart && chNext == '-'))) {
+		/// Capture the Flags. Start match: ( '-' ) or (linestart + "-") Endmatch: (whitespace || EOL || "$/;\'")
+		if (state!=SCE_MAKE_STRING && strchr("&|\t\r\n \":;, '({=", (int)chPrev) != NULL 
+		&& (((chCurr=='-') || (currentPos == theStart && chNext == '-')) 
+		|| (chPrev != ':' && chCurr == '/' && chNext=='/'))) {
 			if (iLog) std::clog<< "[Flags] " << "\n";
 			ColourHere(styler,currentPos-1, state);
 			state_prev=state;
 			state = SCE_MAKE_FLAGS;
 			ColourHere(styler,currentPos, state);
-		} else if ( state==SCE_MAKE_FLAGS && strchr("$\t\r\n /,|\'\"", (int)chCurr)==NULL) {
+		} else if ( state==SCE_MAKE_FLAGS && strchr(" \r\n$;\\\"\'", (int)chCurr) != NULL) {
 			ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			state = SCE_MAKE_DEFAULT;
 			if (iLog) std::clog<< "[/Flags] " << "\n";
@@ -522,8 +521,8 @@ static int GetLineLen(Accessor &styler, Sci_Position offset) {
 
 static int calculateFoldMake(Sci_PositionU start, Sci_PositionU end, int foldlevel, Accessor &styler, bool bElse)
 {
- // If the word is >"= Chars, it's not what we are looking for.
- if ( end - start > 20 )
+	// If the word is >"= Chars, it's not what we are looking for.
+	if ( end - start > 20 )
 		return foldlevel;
 
 	int newFoldlevel = foldlevel;
@@ -533,45 +532,42 @@ static int calculateFoldMake(Sci_PositionU start, Sci_PositionU end, int foldlev
 		s[i + 1] = '\0';
  }
 
- if ( CompareCaseInsensitive(s, "IF") == 0 || CompareCaseInsensitive(s, "IFEQ") == 0 || CompareCaseInsensitive(s, "IFNEQ") == 0 
-	|| CompareCaseInsensitive(s, "IFNDEF") == 0 || CompareCaseInsensitive(s, "WHILE") == 0
-	|| CompareCaseInsensitive(s, "MACRO") == 0	|| CompareCaseInsensitive(s, "FOREACH") == 0)
-	 newFoldlevel++;
- else if ( CompareCaseInsensitive(s, "ENDIF") == 0 || CompareCaseInsensitive(s, "ENDWHILE") == 0
-		|| CompareCaseInsensitive(s, "ENDMACRO") == 0 || CompareCaseInsensitive(s, "ENDFOREACH") == 0
-		|| CompareCaseInsensitive(s, "FI") == 0 || CompareCaseInsensitive(s, "DONE") == 0)
- newFoldlevel--;
+	if ( CompareCaseInsensitive(s, "IF") == 0 || CompareCaseInsensitive(s, "IFEQ") == 0 || CompareCaseInsensitive(s, "IFNEQ") == 0 
+	|| CompareCaseInsensitive(s, "IFNDEF") == 0 || CompareCaseInsensitive(s, "WHILE") == 0 || CompareCaseInsensitive(s, "MACRO") == 0	
+	|| CompareCaseInsensitive(s, "FOREACH") == 0 || CompareCaseInsensitive(s, "FOR") == 0)
+		newFoldlevel++;
+	else if ( CompareCaseInsensitive(s, "ENDIF") == 0 || CompareCaseInsensitive(s, "ENDWHILE") == 0
+	|| CompareCaseInsensitive(s, "ENDMACRO") == 0 || CompareCaseInsensitive(s, "ENDFOREACH") == 0 || CompareCaseInsensitive(s, "ENDFOR") == 0
+	|| CompareCaseInsensitive(s, "FI") == 0 || CompareCaseInsensitive(s, "DONE") == 0)
+		newFoldlevel--;
  
 	// if ( bElse && (CompareCaseInsensitive(s, "ELSEIF") == 0 
 	//	|| CompareCaseInsensitive(s, "ELIF") == 0)|| CompareCaseInsensitive(s, "ELSE") == 0))
- 	//newFoldlevel++;
+	//newFoldlevel++;
 
- return newFoldlevel;
+	return newFoldlevel;
 }
 
 static bool MakeNextLineHasElse(Sci_PositionU start, Sci_PositionU end, Accessor &styler)
 {
- Sci_Position nNextLine = -1;
- for ( Sci_PositionU i = start; i < end; i++ ) {
+	Sci_Position nNextLine = -1;
+	for ( Sci_PositionU i = start; i < end; i++ ) {
 		char cNext = styler.SafeGetCharAt( i );
 		if ( cNext == '\n' ) {
 			nNextLine = i+1;
 			break;
 		}
- }
- if ( nNextLine == -1 ) // We never found the next line.s...
- return false;
+	}
+	if ( nNextLine == -1 ) // We never found the next line.s...
+	return false;
 
- for ( Sci_PositionU firstChar = nNextLine; firstChar < end; firstChar++ ) {
- char cNext = styler.SafeGetCharAt( firstChar );
- if ( cNext == ' ' )
-  continue;
- if ( cNext == '\t' )
-  continue;
- if ( styler.Match(firstChar, "ELSE") || styler.Match(firstChar, "else"))
-  return true;
-	break;
- }
+	for ( Sci_PositionU firstChar = nNextLine; firstChar < end; firstChar++ ) {
+		char cNext = styler.SafeGetCharAt( firstChar );
+		if ( cNext == ' ' ) continue;
+		if ( cNext == '\t' ) continue;
+		if ( styler.Match(firstChar, "ELSE") || styler.Match(firstChar, "else")) return true;
+		break;
+	}
 
  return false;
 }
