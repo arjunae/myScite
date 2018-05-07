@@ -62,7 +62,10 @@ static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 }
 
 static inline bool AtStartChar(const int ch) {
-	return (strchr("&|@\t\r\n -\":;, '({=", ch));
+	if (strchr("&|@.\t\r\n -\":;, '({=", ch))
+		return (1);
+	
+	return(0);
 }
 
 static inline bool IsNewline(const int ch) {
@@ -70,38 +73,39 @@ static inline bool IsNewline(const int ch) {
 }
 
 // replacement functions because german umlauts ö Ü .. translate to negative values.
-static inline int IsNum(int ch) {
+static inline int IsNum(const int ch) {
 	if ((ch >= '0') && (ch <= '9'))
 		return (1);
 
 	return (0);
 }
 
-static inline int IsAlpha(int ch) {
+static inline int IsAlpha(const int ch) {
 	if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z'))
 		return (1);
 
 	return (0);
 }
 
-static inline int IsAlphaNum(int ch) {
+static inline int IsAlphaNum(const int ch) {
 	if (IsAlpha(ch) || IsNum(ch))
 		return (1);
 
 	return (0);
 }
 
-static inline int IsGraphic(int ch) {
+static inline int IsGraphic(const int ch) {
 	if (ch>0) return (isgraph(ch));
 	return (IsAlphaNum(ch));
 }
 
-static int opposite(int ch) {
-	if (ch == '(') return ')';
-	if (ch == '[') return ']';
-	if (ch == '{') return '}';
-	if (ch == '<') return '>';
-	return ch;
+static inline std::string opposite(const char ch) {
+	std::string ret;
+	if (ch == '(') ret= ')';
+	if (ch == '[') ret= ']';
+	if (ch == '{') ret= '}';
+	if (ch == '<') ret= '>';
+	return ret;
 }
 
 Sci_PositionU stylerPos; // Keep a Reference to the last styled Position.
@@ -148,7 +152,7 @@ static unsigned int ColouriseMakeLine(
 		
 	bool bInCommand=false;		// set when a line begins with a tab (command)	
 	bool bInBashVar=false;
-	std::string sInUserVar;	// close contained UserVars at the correct brace.
+	std::string sInUserVar=" ";		// close contained UserVars at the correct brace.
 
 	int iLog=0;
 	if (iLog>0) std::clog << "[Pos]	[Char]	[WarnEOLState]\n";	
@@ -222,14 +226,14 @@ static unsigned int ColouriseMakeLine(
 			line.s.bWarnBrace=true;
 		}
 
-		/// Style single quoted Strings	( But skip escaped and Apostrophe's)
+		/// Style single quoted Strings	( But skip escaped)
 		if (state==SCE_MAKE_IDENTIFIER && chCurr=='\''&& chPrev!='\'' ) {
 			if (iLog) std::clog<< "[/SQString] " << "\n";
 			ColourHere(styler, currentPos-1, state);
 			state=SCE_MAKE_DEFAULT;
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
 			line.s.bWarnSqStr=false;
-		} else if (state==SCE_MAKE_DEFAULT && chCurr=='\'' && chPrev!='\'' ) {
+		} else if (state!=SCE_MAKE_STRING && chCurr=='\'' && chPrev!='\'' ) {
 			if (iLog) std::clog<< "[SQString] " << "\n";
 			state_prev = state;
 			state = SCE_MAKE_IDENTIFIER;
@@ -338,8 +342,9 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// ... Style User Variables Rule: $(...) , store chNext to close the correct one later.
-		if ( !line.s.bWarnDqStr && chCurr == '$' && (strchr("{([", (int)chNext)!=NULL)) {
-			sInUserVar+=opposite(chNext);
+		if ( !line.s.bWarnDqStr && chCurr == '$' && (strchr("{([", (int)chNext)!=NULL)) {			
+			sInUserVar.append(opposite(chNext));
+			//std::cout << opposite((chNext));
 			if (iLog) std::clog<< "[UserVar: '" << sInUserVar << "']\n";
 			stylerPos =ColourHere(styler, currentPos-1, state);
 			state_prev=state;
@@ -347,7 +352,7 @@ static unsigned int ColouriseMakeLine(
 			stylerPos =ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
 		} else if (!line.s.bWarnDqStr && sInUserVar.back()==chNext) {
 			if (iLog) std::clog<< "[/UserVar: '" << sInUserVar << "']\n";
-			sInUserVar.resize(sInUserVar.size()-1);
+			if (sInUserVar.size()>1) sInUserVar.resize(sInUserVar.size()-1);
 			if (sInUserVar.size()==1) state_prev = SCE_MAKE_DEFAULT;		
 			state=state_prev;
 			ColourHere(styler, currentPos+1, SCE_MAKE_USER_VARIABLE, state);				
@@ -418,10 +423,10 @@ static unsigned int ColouriseMakeLine(
 }
 
 /**
-// @brief returns a multilines startPosition or current lines start
-// if the Position does not belong to a Multiline Segment.
+// @brief returns a multilines startPosition or current position
+// if the Offset does not belong to a Multiline Segment.
 **/
-static int GetLineStart(Accessor &styler, Sci_Position offset) {
+static int GetMLineStart(Accessor &styler, Sci_Position offset) {
 
 	int status=0; // 1=cont_end 2=cont_middle/start
 	Sci_Position currMLSegment=0;
@@ -439,6 +444,7 @@ static int GetLineStart(Accessor &styler, Sci_Position offset) {
 	} else {
 		status=1;
 		finalMLSegment=offset;
+		return(finalMLSegment); // No MultiLine
 	}
 
 	// check for continuation segments start
@@ -452,8 +458,8 @@ static int GetLineStart(Accessor &styler, Sci_Position offset) {
 		pos--;
 		if (styler[pos]!='\\' && styler[pos+1]!='\\') {
 			if (status==1) {
-				currMLSegment=finalMLSegment;
-				break; // no MultiLine
+				//currMLSegment=finalMLSegment;
+				//break; // no MultiLine
 			} else {
 				currMLSegment=prevMLSegment;
 				break; // firstSegment reached.
@@ -519,7 +525,7 @@ static int GetLineLen(Accessor &styler, Sci_Position offset) {
 // Folding code from cMake, with small changes for bash scripts. 
 //
 
-static int calculateFoldMake(Sci_PositionU start, Sci_PositionU end, int foldlevel, Accessor &styler, bool bElse)
+static int calculateFoldMake(Sci_PositionU start, Sci_PositionU end, int foldlevel, Accessor &styler)
 {
 	// If the word is >"= Chars, it's not what we are looking for.
 	if ( end - start > 20 )
@@ -598,7 +604,7 @@ static void FoldMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordLi
 			if ( nWordStart == -1 && (IsAlphaNum(chCurr)) ) {
 			nWordStart = i;
 			} else if ( IsAlphaNum(chCurr) == false && nWordStart > -1 ) {
-				int newLevel = calculateFoldMake( nWordStart, i-1, levelNext, styler, foldAtElse);
+				int newLevel = calculateFoldMake( nWordStart, i-1, levelNext, styler);
 				if ( newLevel == levelNext ) {
 					if ( foldAtElse ) {
 						if ( MakeNextLineHasElse(i, startPos + length, styler) )
@@ -648,8 +654,8 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	styler.Flush();
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
 	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:
-	// finds a (Multi)lines start.
-	Sci_PositionU o_startPos=GetLineStart(styler, startPos);
+	// find a MultiLines start
+	Sci_PositionU o_startPos=GetMLineStart(styler, startPos);
 	styler.StartSegment(o_startPos);
 	styler.StartAt(o_startPos);
 	length=length+(startPos-o_startPos);
