@@ -167,8 +167,7 @@ static unsigned int ColouriseMakeLine(
 		i++;
 
 	unsigned int theStart=startLine+i; // One Byte ought (not) to be enough for everyone....?
-	stylerPos=theStart; // Keep a Reference to the last styled Position.
-		
+	
 	// check for a tab character in column 0 indicating a command
 	if ( styler.SafeGetCharAt(theStart-1) == '\t' )
 		bInCommand = true;
@@ -341,7 +340,7 @@ static unsigned int ColouriseMakeLine(
 			strSearch.clear();
 		}
 
-		/// ... Style User Variables Rule: $(...) , store chNext to close the correct one later.
+		/// ... Style User Variables Rule: $(...) , store chNext to close the correct brace later.
 		if ( !line.m.bWarnDqStr && chCurr == '$' && (strchr("{([", (int)chNext)!=NULL)) {			
 			sInUserVar.append(opposite(chNext));
 			if (iLog) std::clog<< "[UserVar: '" << sInUserVar << "']\n";
@@ -349,10 +348,10 @@ static unsigned int ColouriseMakeLine(
 			state_prev=state;
 			state=SCE_MAKE_USER_VARIABLE;
 			stylerPos =ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
-		} else if (!line.m.bWarnDqStr && sInUserVar.back()==chNext) {
+		} else if (!line.m.bWarnDqStr && state==SCE_MAKE_USER_VARIABLE && sInUserVar.back()==chNext) {
 			if (iLog) std::clog<< "[/UserVar: '" << sInUserVar << "']\n";
 			if (sInUserVar.size()>0) sInUserVar.resize(sInUserVar.size()-1);
-			if (sInUserVar.size()==1) state_prev = SCE_MAKE_DEFAULT;		
+			if (sInUserVar.size()==0) state_prev = SCE_MAKE_DEFAULT;		
 			state=state_prev;
 			ColourHere(styler, currentPos+1, SCE_MAKE_USER_VARIABLE, state);				
 		}
@@ -457,8 +456,8 @@ static int GetMLineStart(Accessor &styler, Sci_Position offset) {
 		pos--;
 		if (styler[pos]!='\\' && styler[pos+1]!='\\') {
 			if (status==1) {
-				//currMLSegment=finalMLSegment;
-				//break; // no MultiLine
+				currMLSegment=finalMLSegment;
+				break; // no MultiLine
 			} else {
 				currMLSegment=prevMLSegment;
 				break; // firstSegment reached.
@@ -688,6 +687,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 			slineBuffer.clear();
 			lineStart = at+1;
 			linePos=0;
+			stylerPos=0;
 			}
 	}
 	if (linePos>0){ // handle normal lines without an EOL mark.

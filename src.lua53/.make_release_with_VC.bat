@@ -70,6 +70,6 @@ goto end
 pause
 
 :end
-::cd ..\..
+cd ..\..
 PAUSE
-::EXIT
+EXIT

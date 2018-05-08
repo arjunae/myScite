@@ -46,7 +46,7 @@ Makefile: ;              # skip prerequisite discovery
 	@if [[ ! -n "$(notitle)" ]]; then 
 		echo ""; \
 	fi; \
-
+	
 .check-foundation: .title
 	@make -v|grep -qi GNU || echo -e "\nWARNING: Foundation Makefile was developed for use with GNU Make\
 	using other flavoured binaries may have unwanted consequences.\n"
