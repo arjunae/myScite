@@ -147,12 +147,12 @@ static unsigned int ColouriseMakeLine(
 				bool bWarnSqStr;	// unclosed singleQuoted flag.
 				bool bWarnDqStr;	// unclosed doubleQuoted flag.
 				bool bWarnBrace;	// unclosed brace flag.
-			} s;
-	} line; line.s.iWarnEOL=0; line.s.bWarnBrace=0;line.s.bWarnDqStr=0;line.s.bWarnSqStr=0;line.s.bWarnBrace=0;
+			} m;
+	} line;line.m.iWarnEOL=0;line.m.bWarnBrace=0;line.m.bWarnDqStr=0;line.m.bWarnSqStr=0;line.m.bWarnBrace=0;
 		
 	bool bInCommand=false;		// set when a line begins with a tab (command)	
 	bool bInBashVar=false;
-	std::string sInUserVar=" ";		// close contained UserVars at the correct brace.
+	std::string sInUserVar="";		// close contained UserVars at the correct brace.
 
 	int iLog=0;
 	if (iLog>0) std::clog << "[Pos]	[Char]	[WarnEOLState]\n";	
@@ -221,9 +221,9 @@ static unsigned int ColouriseMakeLine(
 
 		/// Lets signal a warning on unclosed Braces.
 		if (state==SCE_MAKE_DEFAULT && strchr("})", (int)chCurr)!=NULL) { 
-			line.s.bWarnBrace=false;
+			line.m.bWarnBrace=false;
 		} else if (state==SCE_MAKE_DEFAULT && strchr("{(", (int)chCurr)!=NULL) {
-			line.s.bWarnBrace=true;
+			line.m.bWarnBrace=true;
 		}
 
 		/// Style single quoted Strings	( But skip escaped)
@@ -232,14 +232,14 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos-1, state);
 			state=SCE_MAKE_DEFAULT;
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
-			line.s.bWarnSqStr=false;
+			line.m.bWarnSqStr=false;
 		} else if (state!=SCE_MAKE_STRING && chCurr=='\'' && chPrev!='\'' ) {
 			if (iLog) std::clog<< "[SQString] " << "\n";
 			state_prev = state;
 			state = SCE_MAKE_IDENTIFIER;
 			ColourHere(styler, currentPos-1, state_prev);
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
-			line.s.bWarnSqStr=true;
+			line.m.bWarnSqStr=true;
 		} 
 
 		/// Style double quoted Strings (But skip escaped)
@@ -248,23 +248,23 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos-1, state);
 			state=state_prev;
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
-			line.s.bWarnDqStr = false;
+			line.m.bWarnDqStr = false;
 		} else if ((state!=SCE_MAKE_STRING ) && chCurr=='\"' && chPrev!='\\') {
 			if (iLog) std::clog<< "[DQString] " << "\n";
 			state_prev = state;
 			state = SCE_MAKE_STRING;
 			ColourHere(styler, currentPos-1, state_prev);
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
-			line.s.bWarnDqStr=true;
+			line.m.bWarnDqStr=true;
 		}
-		line.s.iWarnEOL= line.s.bWarnBrace || line.s.bWarnDqStr || line.s.bWarnSqStr;
+		line.m.iWarnEOL=line.m.bWarnBrace ||line.m.bWarnDqStr ||line.m.bWarnSqStr;
 
 		if (iLog>0) {
 			std::clog << i << "	" << chCurr<<"	"; 
-			std::clog << (line.s.iWarnEOL); 
-			std::clog << (line.s.bWarnBrace);
-			std::clog << (line.s.bWarnDqStr);
-			std::clog<< (line.s.bWarnSqStr);
+			std::clog << (line.m.iWarnEOL); 
+			std::clog << (line.m.bWarnBrace);
+			std::clog << (line.m.bWarnDqStr);
+			std::clog<< (line.m.bWarnSqStr);
 			std::clog << "\n";
 		}
 
@@ -342,17 +342,16 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// ... Style User Variables Rule: $(...) , store chNext to close the correct one later.
-		if ( !line.s.bWarnDqStr && chCurr == '$' && (strchr("{([", (int)chNext)!=NULL)) {			
+		if ( !line.m.bWarnDqStr && chCurr == '$' && (strchr("{([", (int)chNext)!=NULL)) {			
 			sInUserVar.append(opposite(chNext));
-			//std::cout << opposite((chNext));
 			if (iLog) std::clog<< "[UserVar: '" << sInUserVar << "']\n";
 			stylerPos =ColourHere(styler, currentPos-1, state);
 			state_prev=state;
 			state=SCE_MAKE_USER_VARIABLE;
 			stylerPos =ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
-		} else if (!line.s.bWarnDqStr && sInUserVar.back()==chNext) {
+		} else if (!line.m.bWarnDqStr && sInUserVar.back()==chNext) {
 			if (iLog) std::clog<< "[/UserVar: '" << sInUserVar << "']\n";
-			if (sInUserVar.size()>1) sInUserVar.resize(sInUserVar.size()-1);
+			if (sInUserVar.size()>0) sInUserVar.resize(sInUserVar.size()-1);
 			if (sInUserVar.size()==1) state_prev = SCE_MAKE_DEFAULT;		
 			state=state_prev;
 			ColourHere(styler, currentPos+1, SCE_MAKE_USER_VARIABLE, state);				
@@ -412,9 +411,9 @@ static unsigned int ColouriseMakeLine(
 		i++;
 	}
 
-	if (line.s.iWarnEOL>0) {
+	if (line.m.iWarnEOL>0) {
 		state=SCE_MAKE_IDEOL;
-	} else if (line.s.iWarnEOL<1) {
+	} else if (line.m.iWarnEOL<1) {
 		state=SCE_MAKE_DEFAULT;
 	}
 
@@ -435,8 +434,8 @@ static int GetMLineStart(Accessor &styler, Sci_Position offset) {
 
 	// check if current lines last visible char is a continuation
 	Sci_Position pos=offset;
-	while (styler[pos++]!='\n');
 	// moves to last visible char
+	while (styler[pos++]!='\n');
 	while (IsGraphic(styler.SafeGetCharAt(--pos)==0)) ;
 	pos--;
 	if (styler[pos]=='\\') {
@@ -564,7 +563,7 @@ static bool MakeNextLineHasElse(Sci_PositionU start, Sci_PositionU end, Accessor
 			break;
 		}
 	}
-	if ( nNextLine == -1 ) // We never found the next line.s...
+	if ( nNextLine == -1 ) // We never found the nextline.m...
 	return false;
 
 	for ( Sci_PositionU firstChar = nNextLine; firstChar < end; firstChar++ ) {
@@ -693,7 +692,6 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	}
 	if (linePos>0){ // handle normal lines without an EOL mark.
 		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length-1, keywords, styler, startStyle);
-		//styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
 	}
 }
 

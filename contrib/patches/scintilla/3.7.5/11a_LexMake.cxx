@@ -152,7 +152,7 @@ static unsigned int ColouriseMakeLine(
 		
 	bool bInCommand=false;		// set when a line begins with a tab (command)	
 	bool bInBashVar=false;
-	std::string sInUserVar=" ";		// close contained UserVars at the correct brace.
+	std::string sInUserVar="";		// close contained UserVars at the correct brace.
 
 	int iLog=0;
 	if (iLog>0) std::clog << "[Pos]	[Char]	[WarnEOLState]\n";	
