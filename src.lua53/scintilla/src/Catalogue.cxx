@@ -85,7 +85,6 @@ int Scintilla_LinkLexers() {
 	LINK_LEXER(lmAVS);
 	LINK_LEXER(lmBaan);
 	LINK_LEXER(lmBash);
-	LINK_LEXER(lmBatch);
 	LINK_LEXER(lmBibTeX);
 	LINK_LEXER(lmBlitzBasic);
 	LINK_LEXER(lmBullant);
