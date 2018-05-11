@@ -31,8 +31,7 @@ set dumpMode=1
 REM First we look for an installed default BuildChain
 REM Return that one if the first param equals either "default" or "anyVer"
 FOR /f "tokens=2 delims==" %%a IN ('SET ^| FINDSTR /b /i /r /c:"VS[0-9]*COMNTOOLS"') DO SET vcPath=%%a
-if %anyVer% geq 1 if "%vcPath%" neq "" 
-(
+if %anyVer% geq 1 if "%vcPath%" neq "" (
 	echo "%vcPath%"
 	call "%vcPath%\vcvarsqueryregistry.bat"
 	set okFlag=0
