@@ -325,9 +325,9 @@ M._tokenstyles = {
 }
 
 M._foldsymbols = {
-  _patterns = {'[{}]', '#'},
+  _patterns = {'[{}]', '::'},
   [l.OPERATOR] = {['{'] = 1, ['}'] = -1},
-  [l.COMMENT] = {['#'] = l.fold_line_comments('#')}
+  [l.COMMENT] = {['::'] = l.fold_line_comments('::')}
 }
 
 return M
