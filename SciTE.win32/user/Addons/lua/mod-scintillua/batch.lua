@@ -1,5 +1,5 @@
 -- Copyright 2006-2016 Mitchell mitchell.att.foicica.com. See LICENSE.
--- Batch Lexer
+-- a Batchfile Lexer.
 
 local l = require('lexer')
 local token, word_match = l.token, l.word_match
@@ -22,8 +22,12 @@ local kw_int = token(l.KEYWORD,  B(l.space) * word_match({
 
 -- External Keywords.
 local kw_ext = token(l.FUNCTION, B(l.space) * word_match({
-'assoc','chdir', 'cls', 'color', 'copy', 'date', 'del', 'dir', 'erase', 'ftype', 'mkdir', 'md', 'move', 'pause', 'rd', 'ren', 'rename', 'rmdir', 'setlocal', 'shift', 'time', 'title', 'type', 'ver', 'verify', 'vol', 'arp', 'at', 'atmadm', 'attrib', 'bootcfg','cacls', 'chcp', 'chkdsk', 'chkntfs', 'cipher', 'cmd', 'cmstp', 'comp', 'compact', 'convert', 'cprofile', 'defrag', 'diskcomp', 'diskcopy', 'diskpart', 'doskey', 'driverquery', 'eventcreate', 'eventquery', 'eventtriggers','expand', 'fc', 'find', 'findstr', 'format', 'fsutil', 'ftp', 'getmac', 'gpresult', 'gpupdate', 'graftabl', 'help', 'ipconfig', 'ipxroute', 'label', 'lodctr', 'logman', 'lpq', 'lpr', 'mode', 'more', 'mountvol', 'msiexec', 'nbtstat', 'netsh', 'netstat','ntbackup', 'openfiles', 'pathping', 'ping', 'print', 'rasdial', 'rcp', 'recover', 'reg', 'regsvr32', 'relog', 'replace', 'rexec', 'robocopy', 'route', 'runas', 'sc', 'schtasks', 'shutdown', 'sort', 'subst', 'systeminfo', 'sfc', 'taskkill', 'tasklist','telnet', 'tftp', 'tracerpt', 'tracert', 'tree', 'typeperf', 'unlodctr', 'vssadmin', 'w32tm', 'xcopy', 'append', 'debug', 'edit', 'edlin', 'exe2bin', 'fastopen', 'forcedos', 'graphics', 'loadfix', 'mem', 'nlsfunc', 'setver', 'share', 'start', 'choice', 'loadhigh', 'lh', 'call', 'prompt', 'set', 'errorlevel'
+'assoc','chdir', 'cls', 'color', 'copy', 'date', 'del', 'dir', 'erase', 'ftype', 'mkdir', 'md', 'move', 'pause', 'rd', 'ren', 'rename', 'rmdir', 'setlocal', 'shift', 'time', 'title', 'type', 'ver', 'verify', 'vol', 'arp', 'at', 'atmadm', 'attrib', 'bootcfg','cacls', 'chcp', 'chkdsk', 'chkntfs', 'cipher', 'cmd', 'cmstp', 'comp', 'compact', 'convert', 'cprofile', 'defrag', 'diskcomp', 'diskcopy', 'diskpart', 'doskey', 'driverquery', 'eventcreate', 'eventquery', 'eventtriggers','expand', 'fc', 'find', 'findstr', 'format', 'fsutil', 'ftp', 'getmac', 'gpresult', 'gpupdate', 'graftabl', 'help', 'ipconfig', 'ipxroute', 'label', 'lodctr', 'logman', 'lpq', 'lpr', 'mode', 'more', 'mountvol', 'msiexec', 'nbtstat', 'netsh', 'netstat','ntbackup', 'openfiles', 'pathping', 'ping', 'print', 'rasdial', 'rcp', 'recover', 'reg', 'regsvr32', 'relog', 'replace', 'rexec', 'robocopy', 'route', 'runas', 'sc', 'schtasks', 'shutdown', 'sort', 'subst', 'systeminfo', 'sfc', 'taskkill', 'tasklist','telnet', 'tftp', 'tracerpt', 'tracert', 'tree', 'typeperf', 'unlodctr', 'vssadmin', 'w32tm', 'xcopy', 'append', 'debug', 'edit', 'edlin', 'exe2bin', 'fastopen', 'forcedos', 'graphics', 'loadfix', 'mem', 'nlsfunc', 'setver', 'share', 'start', 'choice', 'loadhigh', 'lh', 'call', 'prompt', 'set', 'errorlevel', "wsript", "cscript"
 }, nil, true))
+
+-- Generic External Keywords.
+local exts= P(".exe") + P(".com") +P(".nt") + P(".ps") + P(".bat") + P(".vbs") + P(".js")
+local my_generics = token(l.TYPE, l.word * exts)
 
 -- Predefined Env.
 local kw_env = token(l.PREPROCESSOR, word_match({
@@ -45,7 +49,7 @@ local unecho = token('unecho', '@' )
 local nbr = token(l.NUMBER, l.float + l.integer)
 
 -- Labels.
-local lable =  token('mylable', ':' * l.word)
+local my_lable =  token('bat_lable', ':' * l.word)
 
 -- Operators.
 local oper = token(l.OPERATOR, S('+-|&<>=?:()'))
@@ -55,17 +59,18 @@ M._rules = {
   {'comment', comment},
   {'keyword', kw_int},
   {'function', kw_ext},
+  {'operator', oper},
   {'string', str},
-  {'unecho', unecho},
   {'variable', var},
   {'preprocessor', kw_env},
   {'number', nbr},
-  {'mylable', lable},
-  {'operator', oper}
+  {'bat_lable', my_lable},
+  {'type', my_generics},
+  {'unecho', unecho}
 }
 
 M._tokenstyles = {
-  mylable = l.STYLE_KEYWORD..',italics',
+  my_lable = l.STYLE_KEYWORD..',italics',
 }
 
 M._foldsymbols = {

@@ -442,7 +442,7 @@ static int GetMLineStart(Accessor &styler, Sci_Position offset) {
 	} else {
 		status=1;
 		finalMLSegment=offset;
-		return(finalMLSegment); // No MultiLine
+		//return(finalMLSegment); // No MultiLine
 	}
 
 	// check for continuation segments start
@@ -654,10 +654,12 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:
 	// find a MultiLines start
 	Sci_PositionU o_startPos=GetMLineStart(styler, startPos);
-	styler.StartSegment(o_startPos);
-	styler.StartAt(o_startPos);
-	length=length+(startPos-o_startPos);
-	startPos=o_startPos;
+	if (o_startPos != startPos) {
+		styler.StartSegment(o_startPos);
+		styler.StartAt(o_startPos);
+		length=length+(startPos-o_startPos);
+		startPos=o_startPos;
+	}
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
 	
@@ -665,7 +667,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	maxStyleLineLength = ( maxStyleLineLength > 0) ? maxStyleLineLength : LEXMAKE_MAX_LINELEN;
 			
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
-		
+		// use a seond buffer for keyword matching.
 		slineBuffer.resize(slineBuffer.size()+1);
 		slineBuffer[linePos++] = styler[at];
 
@@ -675,8 +677,6 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 			if (lineLength==0) lineLength++;
 
 			// Copy the remaining chars to the lineBuffer.
-			// Todo: I dont like copying the whole line here.
-			// It just isnt neccesary for the functionality and would help with memory usage on (very) long lines.
 			if (lineLength != linePos)
 				for (Sci_PositionU posi=linePos-1; posi<=lineLength; posi++){
 					slineBuffer.resize(slineBuffer.size()+1);
@@ -690,7 +690,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 			stylerPos=0;
 			}
 	}
-	if (linePos>0){ // handle normal lines without an EOL mark.
+	if (linePos>0){ // handle the (continuated) line
 		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length-1, keywords, styler, startStyle);
 	}
 }
