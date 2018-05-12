@@ -4,6 +4,10 @@
 # This makefile assumes the MinGW32 version of GCC 4.8+ is used and changes will
 # be needed to use other compilers.
 
+# Decide to include lua LPEG based lexer support.
+# Requires the runtime Variable $(lexer.lpeg.home) pointing to the Folder containing the lua lexers.
+LPEG_LEXER=1
+
 .SUFFIXES: .cxx
 
 DIR_BIN=../bin

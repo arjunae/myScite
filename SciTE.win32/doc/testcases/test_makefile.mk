@@ -415,7 +415,7 @@ phantomjs-inject phantomjs-inject-verbose: .check-foundation
 	  phantomjs ${FOUNDATION_HOME}/repo/bin/jquery-console-phantom.js "$(url)" "$${lines}" "${VERBOSE}"; \
 	else \
 	  phantomjs ${FOUNDATION_HOME}/repo/bin/jquery-console-phantom.js "$(url)" '$(code)' "${VERBOSE}"; \
-	fi;
+	fi;\
 
 phantomjs-snapshot: .check-foundation .check-phantomjs
 	[[ -z "$(url)" ]] && echo -e "Usage: make phantomjs-snapshot url=<site-url>\n" && exit 11 || true
