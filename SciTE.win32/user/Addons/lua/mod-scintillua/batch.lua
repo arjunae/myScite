@@ -4,7 +4,6 @@
 local l = require('lexer')
 local token, word_match = l.token, l.word_match
 local B, P, R, S = lpeg.B, lpeg.P, lpeg.R, lpeg.S
-
 local M = {_NAME = 'batch'}
 
 -- Whitespace.
@@ -15,7 +14,7 @@ local rem = (P('REM') + 'rem' + '::' ) * l.nonnewline_esc^0
 local comment = token(l.COMMENT, rem)
 
 -- Internal Keywords.
--- ToDo: Use M.property_expanded ?
+-- ToDo - use SciTEs existing lua State and - M.property() ?
 local kw_int = token(l.KEYWORD,  B(l.space) * word_match({
 'break', 'cd', 'chdir', 'defined' , 'exit', 'md', 'mkdir', 'cls', 'for', 'if', 'echo', 'echo.', 'eol', 'equ', 'geq','gtr','leq','lss', 'neq', 'move','skip', 'copy', 'ren', 'del', 'set', 'exit', 'setlocal', 'shift', 'tokens', 'usebakq' ,'endlocal', 'pause', 'defined', 'delims', 'exist','errorlevel', 'else', 'in', 'do', 'CON', 'NUL', 'AUX', 'PRN','not', 'pushd', 'popd'
 }, nil, true))
@@ -54,7 +53,7 @@ local unecho = token('unecho', '@' )
 local nbr = token(l.NUMBER, l.float + l.integer)
 
 -- Operators.
-local oper = token(l.OPERATOR, S('+-|&<>=?()'))
+local oper = token(l.OPERATOR, S('+-|&<>=?():'))
 
 M._rules = {
   {'whitespace', ws},
@@ -73,9 +72,11 @@ M._rules = {
 
 M._foldsymbols = {
  [l.KEYWORD] = { ['setlocal'] = 1, ['endlocal'] = -1 },
- [l.OPERATOR] =  {['('] = 1, [')'] = -1},
- [l.DEFAULT] = { ['::'] = l.fold_line_comments('::')},
+ [l.OPERATOR] =  { ['('] = 1, [')'] = -1},
+ [l.COMMENT] = { ['REM'] = l.fold_line_comments('REM') , ['::'] = l.fold_line_comments('::')},
  _patterns = {'():' , '%l+'}
 }
+
+l.case_insensitive_fold_points = true
 
 return M

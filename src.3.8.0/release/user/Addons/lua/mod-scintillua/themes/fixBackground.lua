@@ -3,6 +3,8 @@ local l =  require('lexer')
 l.TYPE = 'constant'
 
 --local property = l.property
+--print(property['style.whitespace'])
+
 --property['style.whitespace'] = ''
 --property['style.embedded'] =
 --property['style.linenumber'] = 
