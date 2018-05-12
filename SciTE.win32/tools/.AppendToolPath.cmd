@@ -64,7 +64,7 @@ exit /b
 :end_sub
 
 :freude
-ENDLOCAL
+endlocal
 echo.
 echo ----------------------- Fin ----------------------------------.
 ::echo waiting some time... (10sek)

@@ -22,7 +22,7 @@ HAS_OPEN        = $(shell command -v open)
 HAS_XDG         = $(shell command -v xdg)
 HAS_SENSIBLE    = $(shell command -v sensible-browser)
 BROWSER_ALTERNS = $(HAS_XDG) $(HAS_SENSIBLE) $(HAS_OPEN) 
-BROWSE          = $(word,$(BROWSER_ALTERNS))
+BROWSE          = $(word 1,$(BROWSER_ALTERNS))
 DOTS            = $(shell printf '%0.1s' '.'{1..25})
 
 # Macros
@@ -46,14 +46,14 @@ Makefile: ;              # skip prerequisite discovery
 	@if [[ ! -n "$(notitle)" ]]; then 
 		echo ""; \
 	fi; \
-	
+
 .check-foundation: .title
 	@make -v|grep -qi GNU || echo -e "\nWARNING: Foundation Makefile was developed for use with GNU Make\
 	using other flavoured binaries may have unwanted consequences.\n"
 	@make -v|grep -q 'built for .*apple' && echo -e "\nWARNING: The apple built edition of GNU Make have several\
 	known quirks and is not recommended. For best results, install make with homebrew and link it in out of\
-	"keg only" or create an alias to the non apple distributed version of GNU Make instead."
-
+	"keg only" or create an alias to the non apple distributed version of GNU Make instead.\n" || true
+	
 	@[[ -d $(FOUNDATION_HOME) ]] ||\
 		(make -s -f $(THIS) .prompt-yesno message='Update Makefile? ' && \
 		make -s -f $(THIS) foundation) 
@@ -126,6 +126,8 @@ menu-project: .title
 	@make -s .menu-item tgt="phpdoc" desc="Run PhpDocumentor2 to generate the project API documentation"
 	@echo ""
 
+
+
 menu-package: .title
 	@make -s .menu-heading title="Package Description"
 	@make -s .menu-item tgt="package-ini" desc="Creates the basic package.ini file"
@@ -162,6 +164,8 @@ menu-package: .title
 	@make -s .menu-item tgt="install-composer" desc="Download and install composer"
 	@echo ""
 
+
+
 menu-dev: .title
 	@make -s .menu-heading title="Development Info"
 	@echo "    Parameters: package=vendor/package (required)"
@@ -196,6 +200,8 @@ menu-dev: .title
 	@make -s .menu-item tgt="install-travis-lint" desc="Install travis-lint configuration checker - Requires ruby gems"
 	@make -s .menu-item tgt="install-uri-template" desc="Install uri_template a php extension. Might require sudo."
 	@echo ""
+
+
 
 menu-deploy: .title
 	@make -s .menu-heading title="Deployment"
@@ -259,7 +265,7 @@ foundation: .title
 
 	@ #.foundation/onion
 	@echo -e "    > $(.BOLD)Downloading Onion$(.CLEAR)"
-	@curl -LO --progress-bar  https://github.com/c9s/Onion/raw/master/onion > ${FOUNDATION_HOME}/onion;chmod +x ${FOUNDATION_HOME}/onion
+	@curl -LO --progress-bar https://github.com/c9s/Onion/raw/master/onion > ${FOUNDATION_HOME}/onion;chmod +x ${FOUNDATION_HOME}/onion
 	@make -f $(THIS) -s .needs-file file="${FOUNDATION_HOME}/onion" text='Onion Could not be installed'
 	@[[ -x ${FOUNDATION_HOME}/onion ]] || make -f $(THIS) -s .exit text="${FOUNDATION_HOME} not executable, run chmod +x to fix it";
 
@@ -402,14 +408,14 @@ phantomjs-inject phantomjs-inject-verbose: .check-foundation
 	                Use target phantom-inject-verbose for detailed output while debugging.\n" \
 	      && exit || true;
 	$(eval VERBOSE := $(patsubst phantomjs-inject%,%,$(@)))
-	@if [ -z '$(code)'  ]; then \
-	  while read -r; do s\
+	@if [ -z '$(code)' ]; then \
+	  while read -r; do \
 	    lines="$${lines} $${REPLY}"; \
 	  done <&0; \
 	  phantomjs ${FOUNDATION_HOME}/repo/bin/jquery-console-phantom.js "$(url)" "$${lines}" "${VERBOSE}"; \
 	else \
 	  phantomjs ${FOUNDATION_HOME}/repo/bin/jquery-console-phantom.js "$(url)" '$(code)' "${VERBOSE}"; \
-	fi;\
+	fi;
 
 phantomjs-snapshot: .check-foundation .check-phantomjs
 	[[ -z "$(url)" ]] && echo -e "Usage: make phantomjs-snapshot url=<site-url>\n" && exit 11 || true
@@ -460,7 +466,7 @@ project-authors-reduce: .check-foundation
 	            export GIT_AUTHOR_NAME="$${GIT_NEW_NAME}"; \
 	            export GIT_AUTHOR_EMAIL="$${GIT_NEW_EMAIL}"; \
 	        fi; \
-	    done < "${auths}"; \
+	    done < "${auths}'"; \
 	';
 
 info-git-extras:
@@ -526,6 +532,7 @@ package-xml: .check-foundation
 	  echo Respect/Foundation:; \
 		echo $$ make pear; echo; \
 	fi;
+
 
 composer-json: .check-foundation
 	@$(GENERATE_TOOL) composer-json > composer.json.tmp && mv -f composer.json.tmp composer.json
@@ -673,7 +680,7 @@ info-cs-fixer: .check-foundation
 
 install-cs-fixer: .check-foundation
 	@echo "Attempting to download PHP Coding Standards Fixer."
-	curl  http://cs.sensiolabs.org/get/php-cs-fixer.phar -o ${FOUNDATION_HOME}/php-cs-fixer && chmod a+x ${FOUNDATION_HOME}/php-cs-fixer
+	curl http://cs.sensiolabs.org/get/php-cs-fixer.phar -o ${FOUNDATION_HOME}/php-cs-fixer && chmod a+x ${FOUNDATION_HOME}/php-cs-fixer
 
 install-travis-lint: .check-foundation
 	@echo "Attempting to install travis-lint. Requires ruby gem..."

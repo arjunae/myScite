@@ -654,12 +654,10 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:
 	// find a MultiLines start
 	Sci_PositionU o_startPos=GetMLineStart(styler, startPos);
-	if (o_startPos != startPos) {
 		styler.StartSegment(o_startPos);
 		styler.StartAt(o_startPos);
 		length=length+(startPos-o_startPos);
 		startPos=o_startPos;
-	}
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
 	
