@@ -668,6 +668,7 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 				const char *lexer = language.c_str() + language.find("_") + 1;
 				wEditor.CallReturnPointer(SCI_PRIVATELEXERCALL, SCI_SETLEXERLANGUAGE,
 					SptrFromString(lexer));
+				// Now the Sandman comes in and inserts SciTes Luastate to be used by lex_lpeg	
 			}
 		} else {
 			wEditor.CallString(SCI_SETLEXERLANGUAGE, 0, language.c_str());
