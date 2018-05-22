@@ -1,10 +1,13 @@
 ~ mySciTE.webdev ~
 
 [xx.04.2018] mySciTE.200.Development
-- lexmake - support EolWarns on Multiline Continuations and qMake Vars, added logging.
-- UnInstaller - Version 1.0 with Backup / logging / ReactOS support.
-- Build System - enable compling on Linux and VC again.
-- Themeing - Major CleanUp
+- scintilla: Use foicica.com's cpp11 backport. (3.8.0)
+- lexer: lexmake - support EolWarns on Multiline Continuations.
+- lexer: lexmake - style qMake Vars, added logging.
+- lexer: lexbatch has been replaced by a lua based lexer.
+- UnInstaller: Version 1.0 with Backup / logging / ReactOS support.
+- Build System: enable compiling on Linux and VC again.
+- Themeing: Major CleanUp
 
 [19.01.2018] mySciTE.190.MartyMcFly (Lua5.1 & Lua5.3)
 - Add: SciTE Project Support. Settings for scite sources included.

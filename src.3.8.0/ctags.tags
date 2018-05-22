@@ -4995,6 +4995,9 @@ QuartzTextStyle	scintilla\cocoa\QuartzTextStyle.h	/^	QuartzTextStyle()$/;"	f	cla
 QuartzTextStyle	scintilla\cocoa\QuartzTextStyle.h	/^	QuartzTextStyle(const QuartzTextStyle &other)$/;"	f	class:QuartzTextStyle	access:public	signature:(const QuartzTextStyle &other)
 QuartzTextStyle	scintilla\cocoa\QuartzTextStyle.h	/^class QuartzTextStyle$/;"	c
 QueryInterface	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP ScintillaWin::QueryInterface(REFIID riid, PVOID *ppv) {$/;"	f	class:ScintillaWin	signature:(REFIID riid, PVOID *ppv)
+QueryLuaState	scite\src\LuaExtension.cxx	/^intptr_t  LuaExtension::QueryLuaState(){$/;"	f	class:LuaExtension	signature:()
+QueryLuaState	scite\src\MultiplexExtension.cxx	/^intptr_t MultiplexExtension::QueryLuaState() {$/;"	f	class:MultiplexExtension	signature:()
+QueryLuaState	scite\win32\DirectorExtension.cxx	/^intptr_t DirectorExtension::QueryLuaState() {$/;"	f	class:DirectorExtension	signature:()
 QueueIdleWork	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::QueueIdleWork(WorkNeeded::workItems items, Sci::Position upTo) {$/;"	f	class:ScintillaGTK	signature:(WorkNeeded::workItems items, Sci::Position upTo)
 QueueIdleWork	scintilla\src\Editor.cxx	/^void Editor::QueueIdleWork(WorkNeeded::workItems items, Sci::Position upTo) {$/;"	f	class:Editor	signature:(WorkNeeded::workItems items, Sci::Position upTo)
 QuitProgram	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::QuitProgram() {$/;"	f	class:SciTEGTK	signature:()

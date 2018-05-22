@@ -187,6 +187,10 @@ bool DirectorExtension::Load(const char *) {
 	return false;
 }
 
+intptr_t DirectorExtension::QueryLuaState() {
+	return 0;
+}
+
 bool DirectorExtension::OnOpen(const char *path) {
 	CheckEnvironment(host);
 	if (*path) {

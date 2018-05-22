@@ -202,7 +202,7 @@ static unsigned int ColouriseMakeLine(
 		/// Style Target lines
 		// Find a good position for a style stopper.
 		if (currentPos>=theStart && IsGraphic(chNext) 
-		&& (strchr(" \t \"\' \\ /#!?&|+{}()[]<>;=,", (int)chCurr) != NULL)) {
+		&& (strchr(" \t \"\' \\ \n /#!?&|+{}()[]<>;=,", (int)chCurr) != NULL)) {
 			styleBreak=currentPos;
 		} 
 		
@@ -688,6 +688,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	}
 	if (linePos>0){ // handle the (continuated) line
 		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length-1, keywords, styler, startStyle);
+		styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
 	}
 }
 

@@ -1484,6 +1484,15 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 	return true;
 }
 
+// First Idea to expose an already existing luaState to hand it over for use with lexLpeg.
+intptr_t  LuaExtension::QueryLuaState(){
+	if (luaState) {
+		return (intptr_t)luaState;
+		} else {
+			return 0;
+		}
+} 
+
 bool LuaExtension::Initialise(ExtensionAPI *host_) {
 	host = host_;
 
@@ -1520,6 +1529,7 @@ bool LuaExtension::Clear() {
 	} else if ((GetPropertyInt("ext.lua.reset") >= 1) && CheckStartupScript()) {
 		InitGlobalScope(false);
 	}
+
 	return false;
 }
 

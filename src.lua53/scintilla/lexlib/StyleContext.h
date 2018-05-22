@@ -133,7 +133,11 @@ public:
 	void ForwardBytes(Sci_Position nb) {
 		const Sci_PositionU forwardPos = currentPos + nb;
 		while (forwardPos > currentPos) {
+			const Sci_PositionU currentPosStart = currentPos;
 			Forward();
+			if (currentPos == currentPosStart) {
+				return; // Reached end
+			}
 		}
 	}
 	void ChangeState(int state_) {

@@ -661,14 +661,17 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 			wEditor.Call(SCI_SETLEXER, SCLEX_CONTAINER);
 		} else if (StartsWith(language, "lpeg_")) {
 			modulePath = props.GetNewExpandString("lexerpath.*.lpeg");
-			if (modulePath.length()) {
+			if (modulePath.length()) { // hum. wont need that with Scintillua included ?
 				wEditor.CallString(SCI_LOADLEXERLIBRARY, 0, modulePath.c_str());
 				wEditor.CallString(SCI_SETLEXERLANGUAGE, 0, "lpeg");
 				lexLPeg = wEditor.Call(SCI_GETLEXER);
 				const char *lexer = language.c_str() + language.find("_") + 1;
-				wEditor.CallReturnPointer(SCI_PRIVATELEXERCALL, SCI_SETLEXERLANGUAGE,
-					SptrFromString(lexer));
-				// Now the Sandman comes in and inserts SciTes Luastate to be used by lex_lpeg	
+				wEditor.CallReturnPointer(SCI_PRIVATELEXERCALL, SCI_SETLEXERLANGUAGE,SptrFromString(lexer));
+				//Plan: Now the Sandman comes in and optionally inserts SciTEs Luastate to be used by lex_lpeg
+				if (extender){
+					intptr_t L=extender->QueryLuaState();
+					printf("SciteProps,QueryLuaState %i ", L);
+				}
 			}
 		} else {
 			wEditor.CallString(SCI_SETLEXERLANGUAGE, 0, language.c_str());

@@ -21,6 +21,7 @@ public:
 	virtual bool Finalise();
 	virtual bool Clear();
 	virtual bool Load(const char *filename);
+	virtual intptr_t QueryLuaState(); 
 
 	virtual bool OnOpen(const char *path);
 	virtual bool OnSwitchFile(const char *path);

@@ -49,12 +49,12 @@
 #define LEXMAKE_MAX_LINELEN LEX_MAX_LINELEN
 #endif
 
-// Holds LEXMAKE_MAX_LINELEN or property "max.style.linelength" if it has been defined.
-Sci_PositionU maxStyleLineLength;
-
 #ifdef SCI_NAMESPACE
 using namespace Scintilla;
 #endif
+
+// Holds LEXMAKE_MAX_LINELEN or property "max.style.linelength" if it has been defined.
+Sci_PositionU maxStyleLineLength;
 
 static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 	return (styler[i] == '\n') ||
@@ -204,7 +204,7 @@ static unsigned int ColouriseMakeLine(
 		/// Style Target lines
 		// Find a good position for a style stopper.
 		if (currentPos>=theStart && IsGraphic(chNext) 
-		&& (strchr(" \t \"\' \\ /#!?&|+{}()[]<>;=,", (int)chCurr) != NULL)) {
+		&& (strchr(" \t \"\' \\ \n /#!?&|+{}()[]<>;=,", (int)chCurr) != NULL)) {
 			styleBreak=currentPos;
 		} 
 		
@@ -690,6 +690,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	}
 	if (linePos>0){ // handle the (continuated) line
 		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length-1, keywords, styler, startStyle);
+		styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
 	}
 }
 
