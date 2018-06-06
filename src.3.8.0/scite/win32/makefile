@@ -153,7 +153,7 @@ LEXPROPS=\
 
 PROPS=../bin/SciTEGlobal.properties ../bin/abbrev.properties $(LEXPROPS)
 
-ALL:	$(PROG)  $(DLLS) $(PROPS) $(LUA_SCRIPTS)
+ALL:	$(PROG) $(DLLS) $(PROPS) $(LUA_SCRIPTS)
 #$(PROGSTATIC)
 clean:
 	$(DEL) *.exe *.o *.obj *.dll *.res *.map *.plist
@@ -201,48 +201,7 @@ OBJSSTATIC = \
 	Credits.o \
 	Sc1.o \
 	Sc1Res.o \
-	Accessor.o \
-	AutoComplete.o \
-	CallTip.o \
-	CaseConvert.o \
-	CaseFolder.o \
-	Catalogue.o \
-	CellBuffer.o \
-	CharacterCategory.o \
-	CharacterSet.o \
-	CharClassify.o \
-	ContractionState.o \
-	Decoration.o \
-	DefaultLexer.o \
-	Document.o \
-	EditModel.o \
-	Editor.o \
-	EditView.o \
-	ExternalLexer.o \
-	HanjaDic.o \
-	Indicator.o \
-	KeyMap.o \
-	LexerBase.o \
-	LexerModule.o \
-	LexerSimple.o \
-	LineMarker.o \
-	MarginView.o \
-	PerLine.o \
-	PlatWin.o \
-	PositionCache.o \
-	PropSetSimple.o \
-	RESearch.o \
-	RunStyles.o \
-	ScintillaBaseL.o \
-	ScintillaWinL.o \
-	Selection.o \
-	Style.o \
-	StyleContext.o \
-	UniConversion.o \
-	ViewStyle.o \
-	WordList.o \
-	XPM.o \
-	Lexers.a \
+	libscintilla.a \
 	$(LUA_OBJS)
 
 $(PROGSTATIC): $(OBJSSTATIC)

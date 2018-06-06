@@ -2,7 +2,7 @@
 -- PayPal: v.schmidt [a.t] dasdeck [d.o.t] de
 -- Dec2017, Marcedo [a.t] habMalNeFrage [d.o.t] de: handle already loaded lfs lib.
 -- Apr2018, ^^ : OPT_SHOW_HIDDEN
- OPT_SHOW_HIDDEN=false
+OPT_SHOW_HIDDEN=false
 
 if lfs==nil then err,lfs = pcall( require,"lfs")  end
 local AppList = {}

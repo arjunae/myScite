@@ -71,19 +71,17 @@ clean:
 
 ifdef LPEG_LEXER
 CXXFLAGS+=-DLPEG_LEXER -I ../lua/src
-LUAOBJS:=lapi.o lcode.o lctype.o ldebug.o ldo.o ldump.o lfunc.o lgc.o linit.o \
-         llex.o lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o \
-         ltable.o ltm.o lundump.o lvm.o lzio.o \
-         lauxlib.o lbaselib.o lbitlib.o lcorolib.o ldblib.o liolib.o \
-         lmathlib.o loadlib.o loslib.o lstrlib.o ltablib.o lutf8lib.o \
-         lpcap.o lpcode.o lpprint.o lptree.o lpvm.o
+LUAOBJS:= lapi.o lcode.o lctype.o ldebug.o ldo.o ldump.o lfunc.o lgc.o linit.o llex.o lmem.o lobject.o \
+	lopcodes.o lparser.o lstate.o lstring.o ltable.o ltm.o lundump.o lvm.o lzio.o lauxlib.o lbaselib.o \
+	lbitlib.o lcorolib.o ldblib.o liolib.o lmathlib.o loadlib.o loslib.o lstrlib.o ltablib.o lutf8lib.o \
+	lpcap.o lpcode.o lpprint.o lptree.o lpvm.o
 endif
 
 .cxx.o:
 	$(CXX) $(CXXFLAGS) $(REFLAGS) -c $<
 
 .c.o:
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CFLAGS)   -DLUA_COMPAT_5_1 -DLUA_COMPAT_BITLIB -c $<
 
 analyze:
 	$(CXX) --analyze $(D2DFLAGS) $(CXXFLAGS) *.cxx ../src/*.cxx ../lexlib/*.cxx ../lexers/*.cxx

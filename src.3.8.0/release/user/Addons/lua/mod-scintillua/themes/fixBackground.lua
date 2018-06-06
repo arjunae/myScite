@@ -2,8 +2,7 @@
 local l =  require('lexer')
 l.TYPE = 'constant'
 
---[[
 local property = l.property
-print(property['lexer.lpeg.home'])
-print(property['style.default'])
-]]
+--print(property['lexer.lpeg.home'])
+print("check SciTE luaScopes 'colour.default' : " .. props['colour.default'])
+

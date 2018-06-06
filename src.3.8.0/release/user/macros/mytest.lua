@@ -5,6 +5,11 @@ local defaultHome= props["SciteDefaultHome"]
 print("Hello from scitelua!")
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+for n,v in pairs(_G) do
+			 print (n,v)
+end
+
+
 -- ####### LuaCrc32 ######
 -- ## crc32 Hash Library
 -- ##################
