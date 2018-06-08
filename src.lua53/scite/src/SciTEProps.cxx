@@ -667,13 +667,12 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 			if (modulePath.length()) {
 				wEditor.CallString(SCI_LOADLEXERLIBRARY, 0, modulePath.c_str());
 				wEditor.CallString(SCI_SETLEXERLANGUAGE, 0, "lpeg");
-				
-				/*Optionally inserts SciTEs Luastate to be used by lex_lpeg
+				//Optionally inserts SciTEs Luastate to be used by lex_lpeg
 				if (extender){
 					sptr_t L= extender->QueryLuaState();
 					printf("SciteProps,QueryLuaState %p ",(void *) L);
-					//wEditor.CallReturnPointer(SCI_PRIVATELEXERCALL, SCI_CHANGELEXERSTATE,L);
-				}*/
+					wEditor.CallReturnPointer(SCI_PRIVATELEXERCALL, SCI_CHANGELEXERSTATE,L);
+				}
 
 				lexLPeg = wEditor.Call(SCI_GETLEXER);
 				const char *lexer = language.c_str() + language.find("_") + 1;

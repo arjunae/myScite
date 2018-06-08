@@ -9,17 +9,18 @@ private:
 
 public:
 	static LuaExtension &Instance();
-
+	
 	// Deleted so LuaExtension objects can not be copied.
 	LuaExtension(const LuaExtension &) = delete;
 	void operator=(const LuaExtension &) = delete;
 	 ~LuaExtension();
-
+	 
 	 bool Initialise(ExtensionAPI *host_);
 	 bool Finalise();
 	 bool Clear();
 	 bool Load(const char *filename);
-
+	 intptr_t QueryLuaState();
+	 
 	 bool InitBuffer(int);
 	 bool ActivateBuffer(int);
 	 bool RemoveBuffer(int);

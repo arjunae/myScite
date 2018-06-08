@@ -77,6 +77,15 @@ bool MultiplexExtension::Load(const char *filename) {
 	return false;
 }
 
+// LuaExtension Specific. Intentionally does'nt return a bool.
+intptr_t MultiplexExtension::QueryLuaState() {
+	for (Extension *pexp : extensions) {
+		intptr_t L = pexp->QueryLuaState(); 
+		if (L) return L;
+	}
+	return false;
+}
+
 bool MultiplexExtension::InitBuffer(int index) {
 	for (Extension *pexp : extensions)
 		pexp->InitBuffer(index);

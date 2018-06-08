@@ -49,7 +49,9 @@ LUA_CORE_OBJS = lapi.o lcode.o lctype.o ldebug.o ldo.o ldump.o lfunc.o lgc.o lle
 LUA_LIB_OBJS =	lauxlib.o lbaselib.o lbitlib.o lcorolib.o ldblib.o liolib.o lmathlib.o ltablib.o \
 		lstrlib.o loadlib.o loslib.o linit.o lutf8lib.o
 
-LUA_OBJS = LuaExtension.o $(LUA_CORE_OBJS) $(LUA_LIB_OBJS)
+# Use SciLexer.dll included Lua 
+LUA_OBJS = LuaExtension.o 
+# $(LUA_CORE_OBJS) $(LUA_LIB_OBJS)
 
 vpath %.c ../lua/src  ../lua/src/lib
 
@@ -113,8 +115,7 @@ SHAREDOBJS=\
 	Utf8_16.o \
 	WinMutex.o
 
-OTHER_OBJS = $(SHAREDOBJS) $(LUA_OBJS) SciTERes.o SciTEWin.o
-
+OTHER_OBJS = $(SHAREDOBJS) SciTERes.o SciTEWin.o $(LUA_OBJS) 
 OBJS = Credits.o $(OTHER_OBJS)
 
 DLLS=../bin/Scintilla.dll ../bin/SciLexer.dll
@@ -194,7 +195,7 @@ endif
 	grep -v -h "^[#]" $(PROPS) >../src/Embedded.properties
 
 $(PROG): $(OBJS)
-	$(CXX) $(STRIPFLAG) -Xlinker --subsystem -Xlinker windows -o  $@ $^ $(LDFLAGS)
+	$(CXX) $(STRIPFLAG) -Xlinker --subsystem -Xlinker windows -o  $@ $^ $(LDFLAGS) -L..\..\ -lscilexer
 
 OBJSSTATIC = \
 	$(SHAREDOBJS) \

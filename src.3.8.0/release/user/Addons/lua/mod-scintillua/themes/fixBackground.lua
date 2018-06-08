@@ -3,7 +3,7 @@
 local l =  require('lexer')
 local property = require('lexer').property
 
-property['style.type']= props['colour.globalclass'] ..","..props['colour.background']
+property['style.type']= props['colour.keyword6'] ..","..props['colour.background']
 
 --[[
 style.default=props['colour.default']

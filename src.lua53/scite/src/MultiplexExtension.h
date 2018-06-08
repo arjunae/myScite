@@ -51,6 +51,7 @@ public:
 	virtual bool Finalise();
 	virtual bool Clear();
 	virtual bool Load(const char *filename);
+	virtual intptr_t QueryLuaState();
 
 	virtual bool InitBuffer(int);
 	virtual bool ActivateBuffer(int);

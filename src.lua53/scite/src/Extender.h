@@ -61,7 +61,8 @@ public:
 	virtual bool Finalise()=0;
 	virtual bool Clear()=0;
 	virtual bool Load(const char *filename)=0;
-
+	virtual intptr_t QueryLuaState()=0; // hmm.. That "intentionally" doesn't comply with returning a bool. ?!
+	
 	virtual bool InitBuffer(int) { return false; }
 	virtual bool ActivateBuffer(int) { return false; }
 	virtual bool RemoveBuffer(int) { return false; }

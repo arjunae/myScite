@@ -81,7 +81,7 @@ endif
 	$(CXX) $(CXXFLAGS) $(REFLAGS) -c $<
 
 .c.o:
-	$(CC) $(CFLAGS)   -DLUA_COMPAT_5_1 -DLUA_COMPAT_BITLIB -c $<
+	$(CC) $(CFLAGS)  -DLUA_COMPAT_5_1 -DLUA_COMPAT_BITLIB -c $<
 
 analyze:
 	$(CXX) --analyze $(D2DFLAGS) $(CXXFLAGS) *.cxx ../src/*.cxx ../lexlib/*.cxx ../lexers/*.cxx
