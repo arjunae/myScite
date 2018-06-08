@@ -1455,7 +1455,7 @@ function M.new(name, opts)
 
   -- Create the initial maps for token names to style numbers and styles.
   local token_styles = {}
-  for i = 1, #default do token_styles[default[i]] = i - 1 end
+  for i = 1, #default do  token_styles[default[i]] = i - 1 end
   for i = 1, #predefined do token_styles[predefined[i]] = i + 31 end
   lexer._TOKENSTYLES, lexer._numstyles = token_styles, #default
   lexer._EXTRASTYLES = {}

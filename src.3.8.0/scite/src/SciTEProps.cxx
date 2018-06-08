@@ -671,8 +671,8 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 				}
 				//Optionally inserts SciTEs Luastate to be used by lex_lpeg
 				if (extender){
-				//	sptr_t L= extender->QueryLuaState();
-				//	wEditor.CallReturnPointer(SCI_PRIVATELEXERCALL, SCI_CHANGELEXERSTATE,L);
+					sptr_t L= extender->QueryLuaState();
+					wEditor.CallReturnPointer(SCI_PRIVATELEXERCALL, SCI_CHANGELEXERSTATE,L);
 				}
 				lexLPeg = wEditor.Call(SCI_GETLEXER);
 				const char *lexer = language.c_str() + language.find("_") + 1;

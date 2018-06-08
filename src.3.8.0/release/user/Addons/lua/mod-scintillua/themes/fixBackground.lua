@@ -1,28 +1,11 @@
---~ Override some scintilla default style here, because some of them have non neutral backgrounds
+--~ Override some scintilla default style here, because some of them have non neutral backgrounds.
+--~ Currently, Backport 3.8.0 doesnt support overriding. So we use Scintillua lexLPeg.cxx, which works fine.
 local l =  require('lexer')
 local property = require('lexer').property
-local propertyEx=require('lexer').property_expanded
---l.TYPE = 'constant'
 
---print(property['lexer.lpeg.home'])
---print("check SciTE luaScopes 'colour.globalclass' : " .. props['colour.globalclass'])
---property['style.type']=props['colour.globalclass'] ..",".. props['colour.background']
-
---property['style.type']='fore:#AAAAAA,back:#010101'
---print(property['style.type'])
-print(l.property_expanded["style.type"])
-
-for n,v in pairs(_G.lpeg) do
-			 print (n,v)
-end
-
-
+property['style.type']= props['colour.globalclass'] ..","..props['colour.background']
 
 --[[
-
-for n,v in pairs(_G.lpeg) do
-			 print (n,v)
-end
 style.default=props['colour.default']
 style.whitespace=props['colour.default']
 style.comment=props['style.*.2']
