@@ -260,11 +260,12 @@ std::string SciTEBase::StyleString(const char *lang, int style) const {
 	return props.GetExpandedString(key);
 }
 
+
 StyleDefinition SciTEBase::StyleDefinitionFor(int style) {
 	const std::string languageName = !StartsWith(language, "lpeg_") ? language : "lpeg";
 
-	const std::string ssDefault = StyleString("*", style);
-	std::string ss = StyleString(languageName.c_str(), style);
+	const std::string styleDefault = StyleString("*", style);
+	std::string styleString = StyleString(languageName.c_str(), style);
 
 	if (!subStyleBases.empty()) {
 		const int baseStyle = wEditor.Call(SCI_GETSTYLEFROMSUBSTYLE, style);
@@ -278,13 +279,15 @@ StyleDefinition SciTEBase::StyleDefinitionFor(int style) {
 			if (subStyle < subStylesLength) {
 				char key[200];
 				sprintf(key, "style.%s.%0d.%0d", languageName.c_str(), baseStyle, subStyle + 1);
-				ss = props.GetNewExpandString(key);
+				styleString = props.GetNewExpandString(key);
 			}
 		}
 	}
 
-	StyleDefinition sd(ssDefault.c_str());
-	sd.ParseStyleDefinition(ss.c_str());
+
+	
+	StyleDefinition sd(styleDefault.c_str());
+	sd.ParseStyleDefinition(styleString.c_str());
 	return sd;
 }
 
@@ -665,15 +668,16 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 				// hum. wont need that with Scintillua included ?
 				wEditor.CallString(SCI_LOADLEXERLIBRARY, 0, modulePath.c_str());
 				wEditor.CallString(SCI_SETLEXERLANGUAGE, 0, "lpeg");
+				}
+				//Optionally inserts SciTEs Luastate to be used by lex_lpeg
+				if (extender){
+				//	sptr_t L= extender->QueryLuaState();
+				//	wEditor.CallReturnPointer(SCI_PRIVATELEXERCALL, SCI_CHANGELEXERSTATE,L);
+				}
 				lexLPeg = wEditor.Call(SCI_GETLEXER);
 				const char *lexer = language.c_str() + language.find("_") + 1;
 				wEditor.CallReturnPointer(SCI_PRIVATELEXERCALL, SCI_SETLEXERLANGUAGE,SptrFromString(lexer));
-				//Optionally inserts SciTEs Luastate to be used by lex_lpeg
-				if (extender){
-					sptr_t L= extender->QueryLuaState();
-					wEditor.CallReturnPointer(SCI_PRIVATELEXERCALL, SCI_CHANGELEXERSTATE,L);
-				}
-			}
+		
 		} else {
 			wEditor.CallString(SCI_SETLEXERLANGUAGE, 0, language.c_str());
 		}
@@ -708,11 +712,11 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 
 		for (int baseStyle=0;baseStyle<lenSSB;baseStyle++) {
 			//substyles.cpp.11=2
-			std::string ssSubStylesKey = "substyles.";
-			ssSubStylesKey += language;
-			ssSubStylesKey += ".";
-			ssSubStylesKey += StdStringFromInteger(subStyleBases[baseStyle]);
-			std::string ssNumber = props.GetNewExpandString(ssSubStylesKey.c_str());
+			std::string SubStylesKey = "substyles.";
+			SubStylesKey += language;
+			SubStylesKey += ".";
+			SubStylesKey += StdStringFromInteger(subStyleBases[baseStyle]);
+			std::string ssNumber = props.GetNewExpandString(SubStylesKey.c_str());
 			int subStyleIdentifiers = atoi(ssNumber.c_str());
 
 			int subStyleIdentifiersStart = 0;
@@ -806,8 +810,7 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 	CallChildren(SCI_SETADDITIONALCARETSBLINK, props.GetInt("caret.additional.blinks", 1));
 	CallChildren(SCI_SETVIRTUALSPACEOPTIONS, props.GetInt("virtual.space"));
 
-	wEditor.Call(SCI_SETMOUSEDWELLTIME,
-	           props.GetInt("dwell.period", SC_TIME_FOREVER), 0);
+	wEditor.Call(SCI_SETMOUSEDWELLTIME,props.GetInt("dwell.period", SC_TIME_FOREVER), 0);
 
 	wEditor.Call(SCI_SETCARETWIDTH, props.GetInt("caret.width", 1));
 	wOutput.Call(SCI_SETCARETWIDTH, props.GetInt("caret.width", 1));
@@ -1380,18 +1383,19 @@ void SciTEBase::ReadFontProperties() {
 	char key[200];
 	const char *languageName = language.c_str();
 
+	
 	if (lexLanguage == lexLPeg) {
 		// Retrieve style info.
 		char propStr[256];
 		for (int i = 0; i < STYLE_MAX; i++) {
 			sprintf(key, "style.lpeg.%0d", i);
-			wEditor.CallReturnPointer(SCI_PRIVATELEXERCALL, i - STYLE_MAX,
-				SptrFromString(propStr));
+			wEditor.CallReturnPointer(SCI_PRIVATELEXERCALL, i - STYLE_MAX,SptrFromString(propStr));
 			props.Set(key, static_cast<const char *>(propStr));
 		}
 		languageName = "lpeg";
 	}
-
+	
+	
 	// Set styles
 	// For each window set the global default style, then the language default style, then the other global styles, then the other language styles
 
