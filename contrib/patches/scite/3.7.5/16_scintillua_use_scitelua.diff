@@ -1,0 +1,115 @@
+/// Make Scintillua use Scite's lua state.- Currently needs lpeg as a lualib.
+diff -Nurw scite/src/Extender.h scite_mod/src/Extender.h
+--- scite/src/Extender.h	2018-04-25 14:16:29.297209300 +0200
++++ scite_mod/src/Extender.h	2018-05-22 18:52:51.206002900 +0200
+@@ -61,6 +61,7 @@
+ 	virtual bool Finalise()=0;
+ 	virtual bool Clear()=0;
+ 	virtual bool Load(const char *filename)=0;
++	virtual intptr_t QueryLuaState()=0;
+ 
+ 	virtual bool InitBuffer(int) { return false; }
+ 	virtual bool ActivateBuffer(int) { return false; }
+diff -Nurw scite/src/LuaExtension.cxx scite_mod/src/LuaExtension.cxx
+--- scite/src/LuaExtension.cxx	2018-04-25 14:59:02.864140100 +0200
++++ scite_mod/src/LuaExtension.cxx	2018-06-08 20:17:46.098294700 +0200
+@@ -1484,6 +1484,15 @@
+ 	return true;
+ }
+ 
++// Expose an already existing luaState to other libs like lexLpeg.
++intptr_t  LuaExtension::QueryLuaState(){
++	if (luaState) {
++		return (intptr_t)luaState;
++		} else {
++			return 0;
++		}
++} 
++
+ bool LuaExtension::Initialise(ExtensionAPI *host_) {
+ 	host = host_;
+ 
+diff -Nurw scite/src/LuaExtension.h scite_mod/src/LuaExtension.h
+--- scite/src/LuaExtension.h	2018-01-19 17:59:06.000000000 +0100
++++ scite_mod/src/LuaExtension.h	2018-05-22 18:33:07.049503100 +0200
+@@ -19,6 +19,7 @@
+ 	 bool Finalise();
+ 	 bool Clear();
+ 	 bool Load(const char *filename);
++	 intptr_t QueryLuaState();
+ 
+ 	 bool InitBuffer(int);
+ 	 bool ActivateBuffer(int);
+diff -Nurw scite/src/MultiplexExtension.cxx scite_mod/src/MultiplexExtension.cxx
+--- scite/src/MultiplexExtension.cxx	2018-01-19 17:59:06.000000000 +0100
++++ scite_mod/src/MultiplexExtension.cxx	2018-06-08 20:05:09.898701700 +0200
+@@ -77,6 +77,15 @@
+ 	return false;
+ }
+ 
++// LuaExtension Specific. Intentionally does'nt return a bool.
++intptr_t MultiplexExtension::QueryLuaState() {
++	for (Extension *pexp : extensions) {
++		intptr_t L = pexp->QueryLuaState(); 
++		if (L) return L;
++	}
++	return false;
++}
++
+ bool MultiplexExtension::InitBuffer(int index) {
+ 	for (Extension *pexp : extensions)
+ 		pexp->InitBuffer(index);
+diff -Nurw scite/src/MultiplexExtension.h scite_mod/src/MultiplexExtension.h
+--- scite/src/MultiplexExtension.h	2018-01-19 17:59:06.000000000 +0100
++++ scite_mod/src/MultiplexExtension.h	2018-05-22 18:21:29.651820400 +0200
+@@ -51,6 +51,7 @@
+ 	virtual bool Finalise();
+ 	virtual bool Clear();
+ 	virtual bool Load(const char *filename);
++	virtual intptr_t QueryLuaState();
+ 
+ 	virtual bool InitBuffer(int);
+ 	virtual bool ActivateBuffer(int);
+diff -Nurw scite/src/SciTEProps.cxx scite_mod/src/SciTEProps.cxx
+--- scite/src/SciTEProps.cxx	2018-06-08 20:14:06.079260700 +0200
++++ scite_mod/src/SciTEProps.cxx	2018-06-08 20:08:27.720168800 +0200
+@@ -667,6 +667,13 @@
+ 			if (modulePath.length()) {
+ 				wEditor.CallString(SCI_LOADLEXERLIBRARY, 0, modulePath.c_str());
+ 				wEditor.CallString(SCI_SETLEXERLANGUAGE, 0, "lpeg");
++				//Optionally inserts SciTEs Luastate to be used by lex_lpeg
++				if (extender){
++					sptr_t L= extender->QueryLuaState();
++					printf("SciteProps,QueryLuaState %p ",(void *) L);
++					wEditor.CallReturnPointer(SCI_PRIVATELEXERCALL, SCI_CHANGELEXERSTATE,L);
++				}
++
+ 				lexLPeg = wEditor.Call(SCI_GETLEXER);
+ 				const char *lexer = language.c_str() + language.find("_") + 1;
+ 				wEditor.CallReturnPointer(SCI_PRIVATELEXERCALL, SCI_SETLEXERLANGUAGE,
+Binary files scite/win32/Credits.o and scite_mod/win32/Credits.o differ
+diff -Nurw scite/win32/DirectorExtension.cxx scite_mod/win32/DirectorExtension.cxx
+--- scite/win32/DirectorExtension.cxx	2018-01-19 17:59:06.000000000 +0100
++++ scite_mod/win32/DirectorExtension.cxx	2018-05-22 18:27:40.241826500 +0200
+@@ -187,6 +187,10 @@
+ 	return false;
+ }
+ 
++intptr_t DirectorExtension::QueryLuaState() {
++	return 0;
++}
++
+ bool DirectorExtension::OnOpen(const char *path) {
+ 	CheckEnvironment(host);
+ 	if (*path) {
+diff -Nurw scite/win32/DirectorExtension.h scite_mod/win32/DirectorExtension.h
+--- scite/win32/DirectorExtension.h	2018-01-19 17:59:06.000000000 +0100
++++ scite_mod/win32/DirectorExtension.h	2018-05-22 18:51:36.421233500 +0200
+@@ -21,6 +21,7 @@
+ 	virtual bool Finalise();
+ 	virtual bool Clear();
+ 	virtual bool Load(const char *filename);
++	virtual intptr_t QueryLuaState(); 
+ 
+ 	virtual bool OnOpen(const char *path);
+ 	virtual bool OnSwitchFile(const char *path);

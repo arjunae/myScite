@@ -1,5 +1,8 @@
 @echo off
 REM for make debug version use:  make_with_VC.bat DEBUG
+ECHO VC_Build temporary not possible.
+PAUSE
+exit
 
 :: Try to acquire a VisualStudio 14 Context
 :: If that fails, use systems highest available Version as defined via env var VS[xxx]COMNTOOLS

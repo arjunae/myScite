@@ -4,6 +4,10 @@
 # This makefile assumes the mingw32 version of GCC 4.x is used and changes will
 # be needed to use other compilers.
 
+# Up from Scintilla3.8.0 SciLexer.dll optionally includes Lua (defined LPEG_LEXER)
+# If you choosed to do so, decide here if you want SciTE to be dynamically linked to SciLexers Lua. 
+LUA_LINK_SCILEXER=1
+
 .SUFFIXES: .cxx .properties
 WINDRES ?= windres
 
@@ -42,20 +46,19 @@ vpath %.o ../../scintilla/win32
 vpath %.a ../../scintilla/win32
 
 ifndef NO_LUA
-LUA_CORE_OBJS = lapi.o lcode.o lctype.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o \
-		lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o \
-		ltable.o ltm.o lundump.o lvm.o lzio.o
-
-LUA_LIB_OBJS =	lauxlib.o lbaselib.o lbitlib.o lcorolib.o ldblib.o liolib.o lmathlib.o ltablib.o \
-		lstrlib.o loadlib.o loslib.o linit.o lutf8lib.o
-
-# Use SciLexer.dll included Lua 
+LUA_CORE_OBJS = lapi.o lcode.o lctype.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o ltable.o ltm.o lundump.o lvm.o lzio.o
+LUA_LIB_OBJS =	lauxlib.o lbaselib.o lbitlib.o lcorolib.o ldblib.o liolib.o lmathlib.o ltablib.o lstrlib.o loadlib.o loslib.o linit.o lutf8lib.o
 LUA_OBJS = LuaExtension.o 
-# $(LUA_CORE_OBJS) $(LUA_LIB_OBJS)
+
+ifeq '$(LUA_LINK_SCILEXER)' '1'
+LUA_LDFLAGS = -Wl,-Bdynamic ../bin/SciLexer.dll
+else 
+LUA_OBS+= $(LUA_CORE_OBJS) $(LUA_LIB_OBJS)
+endif
 
 vpath %.c ../lua/src  ../lua/src/lib
-
 LUA_INCLUDES = -I ../lua/src
+
 #LUA_SCRIPTS = ..\bin\SciTEExtension.lua ..\bin\SciTEStartup.lua
 LUA_DEFINES = -DLUA_USER_H=\"scite_lua_win.h\"  -DLUA_COMPAT_5_1 -DLUA_COMPAT_BITLIB
 else
@@ -195,7 +198,7 @@ endif
 	grep -v -h "^[#]" $(PROPS) >../src/Embedded.properties
 
 $(PROG): $(OBJS)
-	$(CXX) $(STRIPFLAG) -Xlinker --subsystem -Xlinker windows -o  $@ $^ $(LDFLAGS) -L..\..\ -lscilexer
+	$(CXX) $(STRIPFLAG) -Xlinker --subsystem -Xlinker windows -o  $@ $^ $(LDFLAGS)
 
 OBJSSTATIC = \
 	$(SHAREDOBJS) \
