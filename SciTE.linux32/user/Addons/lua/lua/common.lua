@@ -37,7 +37,7 @@ end
 function DetectUTF8()
 	if props["editor.detect.utf8"] == "1" then
 		if editor.CodePage ~= SC_CP_UTF8 then
---			CheckUTF8()
+			CheckUTF8()
 		end
 	end
 end
@@ -125,7 +125,51 @@ function file_size (filePath)
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- File and Path related functions, used in debugger.lua
 
+-- returns i characters at position s as a string
+local function at (s,i)
+    return s:sub(i,i)
+end
+
+--- note: for finding the last occurance of a character, it's actualy
+--- easier to do it in an explicit loop rather than use patterns.
+--- (These are not time-critcal functions)
+local function split_last (s,ch)
+    local i = #s
+    while i > 0 do
+        if at(s,i) == ch then
+            return s:sub(i+1),i
+        end
+        i = i - 1
+    end
+end
+
+function basename(s)
+    local res = split_last(s,dirsep)
+    if res then return res else return s end
+end
+
+function path_of (s)
+	local basename,idx = split_last(s,dirsep)
+	if idx then
+		return s:sub(1,idx-1)
+	else
+		return ''
+	end
+end
+
+function extension_of (s)
+    return split_last(s,'.')
+end
+
+function filename(path)
+    local fname = basename(path)
+    local _,idx = split_last(fname,'.')
+    if idx then return fname:sub(1,idx-1) else return fname end
+end
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --line information functions --
 
 --
@@ -162,8 +206,7 @@ function start_line_position(line)
 	return editor.LineEndPosition[line]
 end
 
--- what is the word directly behind the cursor?
--- returns the word and its position.
+-- returns the word and its position directly behind the cursor.
 function word_at_cursor()
 	local pos = editor.CurrentPos
 	local line_start = start_line_position()
@@ -183,17 +226,19 @@ function center_line(line)
 	editor:LineScroll(0,line - middle)
 end
 
+-- Trims space chars from a strings end
+function rtrim(s)
+    return string.gsub(s,'%s*$','')
+end
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--colour information functions --
 
 -- allows you to use standard HTML '#RRGGBB' colours;
 function colour_parse(str)
 	-- Wo for nil value
 	if str == nil then str ="#AAFFAA" end
 	return tonumber(sub(str,6,7)..sub(str,4,5)..sub(str,2,4),16)
-end
-
-
-function rtrim(s)
-    return string.gsub(s,'%s*$','')
 end
 
 --------------------------

@@ -1746,5 +1746,6 @@ end)
 --========================================================
 -- now show SideBar:
 if tonumber(props['sidebar.show'])==1 then
-		gui.set_panel(win_parent, sidebar_position)
+	SideBar_Show();
+	gui.pass_focus();
 end

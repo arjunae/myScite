@@ -1674,7 +1674,7 @@ void UserStrip::SetDescription(const char *description) {
 				ctl.widthDesired = 100;
 				ctl.fixedWidth = false;
 				ctl.w = ::CreateWindowEx(WS_EX_CLIENTEDGE, TEXT("Edit"), ctl.text.c_str(),
-					WS_CHILD | WS_TABSTOP | WS_CLIPSIBLINGS | ES_AUTOHSCROLL,
+					WS_CHILD | WS_TABSTOP | WS_CLIPSIBLINGS | CBS_DROPDOWN | CBS_AUTOHSCROLL | WS_VSCROLL,
 					left, top, ctl.widthDesired, lineHeight - 3,
 					Hwnd(), HmenuID(controlID), ::GetModuleHandle(NULL), 0);
 				break;

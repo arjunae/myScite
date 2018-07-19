@@ -1,5 +1,5 @@
 --
--- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
+-- mySciTE's Lua Startup Script 2018 Marcedo@HabMalNeFrage.de
 --
 --~~~~~~~~~~~~~
 
@@ -16,39 +16,22 @@ package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
 dirSep, GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
 
---lua >=5.2.x renamed functions:
-local unpack = table.unpack or unpack
-math.mod = math.fmod or math.mod
-string.gfind = string.gmatch or string.gfind
---lua >=5.2.x replaced table.getn(x) with #x
---~~~~~~~~~~~~~
-
--- track the amount of lua allocated memory
-_G.session_used_memory=collectgarbage("count")*1024
-	
 -- Load extman.lua
 -- This will automatically run any lua script located in \User\Addons\lua\lua
 dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 
--- chainload eventmanager / extman remake used by some lua mods
-dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
-
--- Load mod-mitchell
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
---dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
-		
--- Load Sidebar
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
-
--- Load cTags Browser
-dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
-
 -- Load Project support functions
 dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- track the amount of lua allocated memory
+_G.session_used_memory=collectgarbage("count")*1024
 
+--lua >=5.2.x replaced table.getn(x) with #x
+--lua >=5.2.x renamed functions:
+local unpack = table.unpack or unpack
+math.mod = math.fmod or math.mod
+string.gfind = string.gmatch or string.gfind
+	
 -- ##################  Lua Samples #####################
 --   ##############################################
 
@@ -187,14 +170,30 @@ function myScite_OpenSwitch()
 	end
 scite.ApplyProperties()
 end
+
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function OnInit() 
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
+	
+	-- chainload eventmanager / extman remake used by some lua mods
+	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
-	-- Event Handlers
+	-- Load mod-mitchell
+	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
+	--dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+
+	-- Load cTags Browser
+	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-ctags\\?.lua;"
+	dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
+	
+	-- Show Sidebar
+	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
+	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
+
+		-- Event Handlers
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
 	scite_OnSave(CTagsRecreate)
 	scite_OnOpenSwitch(myScite_OpenSwitch)

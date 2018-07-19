@@ -260,12 +260,11 @@ std::string SciTEBase::StyleString(const char *lang, int style) const {
 	return props.GetExpandedString(key);
 }
 
-
 StyleDefinition SciTEBase::StyleDefinitionFor(int style) {
 	const std::string languageName = !StartsWith(language, "lpeg_") ? language : "lpeg";
 
-	const std::string styleDefault = StyleString("*", style);
-	std::string styleString = StyleString(languageName.c_str(), style);
+	const std::string ssDefault = StyleString("*", style);
+	std::string ss = StyleString(languageName.c_str(), style);
 
 	if (!subStyleBases.empty()) {
 		const int baseStyle = wEditor.Call(SCI_GETSTYLEFROMSUBSTYLE, style);
@@ -279,13 +278,13 @@ StyleDefinition SciTEBase::StyleDefinitionFor(int style) {
 			if (subStyle < subStylesLength) {
 				char key[200];
 				sprintf(key, "style.%s.%0d.%0d", languageName.c_str(), baseStyle, subStyle + 1);
-				styleString = props.GetNewExpandString(key);
+				ss = props.GetNewExpandString(key);
 			}
 		}
 	}
 
-	StyleDefinition sd(styleDefault.c_str());
-	sd.ParseStyleDefinition(styleString.c_str());
+	StyleDefinition sd(ssDefault.c_str());
+	sd.ParseStyleDefinition(ss.c_str());
 	return sd;
 }
 
@@ -706,21 +705,22 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 	}
 
 	subStyleBases.clear();
-	int lenSubStyleBase = wEditor.CallString(SCI_GETSUBSTYLEBASES, 0, NULL);
-	if (lenSubStyleBase) {
+	int lenSSB = wEditor.CallString(SCI_GETSUBSTYLEBASES, 0, NULL);
+	if (lenSSB) {
 		wEditor.Call(SCI_FREESUBSTYLES);
 
-		subStyleBases.resize(lenSubStyleBase+1);
+		subStyleBases.resize(lenSSB+1);
 		wEditor.CallString(SCI_GETSUBSTYLEBASES, 0, &subStyleBases[0]);
-		subStyleBases.resize(lenSubStyleBase);	// Remove NUL
+		subStyleBases.resize(lenSSB);	// Remove NUL
 
-		for (int baseStyle=0;baseStyle<lenSubStyleBase;baseStyle++) {
-			std::string subStylesKey = "substyles.";
-			subStylesKey += language;
-			subStylesKey += ".";
-			subStylesKey += StdStringFromInteger(subStyleBases[baseStyle]);
-			std::string sNumber = props.GetNewExpandString(subStylesKey.c_str());
-			int subStyleIdentifiers = atoi(sNumber.c_str());
+		for (int baseStyle=0;baseStyle<lenSSB;baseStyle++) {
+			//substyles.cpp.11=2
+			std::string ssSubStylesKey = "substyles.";
+			ssSubStylesKey += language;
+			ssSubStylesKey += ".";
+			ssSubStylesKey += StdStringFromInteger(subStyleBases[baseStyle]);
+			std::string ssNumber = props.GetNewExpandString(ssSubStylesKey.c_str());
+			int subStyleIdentifiers = atoi(ssNumber.c_str());
 
 			int subStyleIdentifiersStart = 0;
 			if (subStyleIdentifiers) {
@@ -730,13 +730,13 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 			}
 			for (int subStyle=0; subStyle<subStyleIdentifiers; subStyle++) {
 				// substylewords.11.1.$(file.patterns.cpp)=CharacterSet LexAccessor SString WordList
-				std::string subStyleWordsKey = "substylewords.";
-				subStyleWordsKey += StdStringFromInteger(subStyleBases[baseStyle]);
-				subStyleWordsKey += ".";
-				subStyleWordsKey += StdStringFromInteger(subStyle + 1);
-				subStyleWordsKey += ".";
-				std::string subStyleWords = props.GetNewExpandString(subStyleWordsKey.c_str(), fileNameForExtension.c_str());
-				wEditor.CallString(SCI_SETIDENTIFIERS, subStyleIdentifiersStart + subStyle, subStyleWords.c_str());
+				std::string ssWordsKey = "substylewords.";
+				ssWordsKey += StdStringFromInteger(subStyleBases[baseStyle]);
+				ssWordsKey += ".";
+				ssWordsKey += StdStringFromInteger(subStyle + 1);
+				ssWordsKey += ".";
+				std::string ssWords = props.GetNewExpandString(ssWordsKey.c_str(), fileNameForExtension.c_str());
+				wEditor.CallString(SCI_SETIDENTIFIERS, subStyleIdentifiersStart + subStyle, ssWords.c_str());
 			}
 		}
 	}

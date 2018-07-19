@@ -951,18 +951,18 @@ BOOL SciTEWin::FindMessage(HWND hDlg, UINT message, WPARAM wParam) {
 		} else if ( (ControlIDOfWParam(wParam) == IDOK) ||
 		            (ControlIDOfWParam(wParam) == IDMARKALL) ) {
 			dlg.GrabFields();
-			if (closeFind != Searcher::CloseFind::closePrevent) {
+			if (ControlIDOfWParam(wParam) == IDMARKALL) {
+				MarkAll(markWithBookMarks);
+			}
+			// Holding the Shift key inverts the current reverse flag
+			const bool found = FindNext(reverseFind != IsKeyDown(VK_SHIFT)) >= 0;
+			if (ShouldClose(found)) {
 				::EndDialog(hDlg, IDOK);
 				wFindReplace.Destroy();
 			} else {
 				FillCombos(dlg,false);
 				return TRUE;
 			}
-			 if (ControlIDOfWParam(wParam) == IDMARKALL){
-				MarkAll(markWithBookMarks);
-			}
-			// Holding the Shift key inverts the current reverse flag
-			FindNext(reverseFind != IsKeyDown(VK_SHIFT));
 			return TRUE;
 		} else if (ControlIDOfWParam(wParam) == IDFINDINSTYLE) {
 			if (FindReplaceAdvanced()) {

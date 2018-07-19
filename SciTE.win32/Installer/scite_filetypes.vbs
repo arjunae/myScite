@@ -206,7 +206,7 @@ logging LOG_INIT, "Logfile Initialized"
 		strHomeFolder = oShell.ExpandEnvironmentStrings("%USERPROFILE%")
 		timeStamp=Replace(FormatDateTime(date,0),".","-") : timeStamp=timeStamp & "_" & Replace(FormatDateTime(time,0),":","_")
 		regfileName=strHomeFolder & "\" & timeStamp & "_scite_extRestore.reg"
-		if bConsole then logging LOG_ALERT , " ..Creating FileExt Restore File"
+		if bConsole then logging LOG_ALERT , " ..Creating Restore File --{ " & regfileName & " }--"
 		' If we wanted to, we were also able to write it in Unicode. But then the file would have its size doubled.
 		set oFileRestore = oFso.OpenTextFile(regfileName,2, 1) ' forWrite, createFlag	
 		oFileRestore.write(clearCmds)
@@ -303,7 +303,7 @@ strTmp = ofso.GetSpecialFolder(2) ' Temporary Folder
 		Loop
 
 		on error resume next
-			logging LOG_ALERT , " ..Initing the FileExt Backup File.. Please Wait.."
+			logging LOG_ALERT , " .. Initing the FileExt Backup File.. Please Wait.."
 			set oFile1= oFso.GetFile(strTmp & "\" & TMP_REGFILE)
 			if err.number<>0 then 
 				logging LOG_ALERT , " ..Error invocating reg.exe, please restart (No Modifications done.)"
