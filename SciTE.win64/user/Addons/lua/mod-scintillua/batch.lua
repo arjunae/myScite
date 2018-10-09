@@ -10,7 +10,7 @@ local M = {_NAME = 'batch'}
 local ws = token(l.WHITESPACE, l.space^1)
 
 -- Comments.
-local rem = (P('REM') + 'rem' + '::' ) * l.nonnewline_esc^0
+local rem = (P('REM') + 'rem' + '::' ) * l.nonnewline^0
 local comment = token(l.COMMENT, rem)
 
 -- Internal Keywords.

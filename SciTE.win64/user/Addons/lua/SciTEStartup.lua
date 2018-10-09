@@ -181,6 +181,10 @@ function OnInit()
 	-- chainload eventmanager / extman remake used by some lua mods
 	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
+	-- Show Sidebar
+	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
+	--dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
+
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 	--dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
@@ -189,10 +193,6 @@ function OnInit()
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-ctags\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
 	
-	-- Show Sidebar
-	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-	--dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
-
 		-- Event Handlers
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
 	scite_OnSave(CTagsRecreate)

@@ -1,36 +1,32 @@
---~ Override some scintilla default style here, because some of them have non neutral backgrounds
+--~ Override some scintilla default style here, because some of them have non neutral backgrounds.
+--~ Currently, Backport 3.8.0 doesnt support overriding. So we use Scintillua lexLPeg.cxx, which works fine.
 local l =  require('lexer')
-l.TYPE = 'constant'
+local property = require('lexer').property
 
---local property = l.property
---property['style.whitespace'] = ''
---property['style.embedded'] =
---property['style.linenumber'] = 
---property['style.bracelight'] = 
---property['style.bracebad'] = 
---property['style.controlchar'] = 
---property['style.indentguide'] =
---property['style.calltip'] = 
---property['style.folddisplaytext'] =
---property['style.type'] ='fore:#9A9A9A'
---property['style.default'] = 'font:'..font..',size:'..size..','..props["colour.foreground"]..","..props["colour.background"]
---property['style.nothing'] = ''
---property['style.class'] = 
---property['style.constant'] = 
---property['style.comment'] = 'font:'..font..',size:'..size..','..props["colour.comment.line"]..","..props["colour.background"]
---property['style.default'] = 'font:'..font..',size:'..size..','..props["colour.foreground"]..","..props["colour.background"]
---property['style.definition'] =
---property['style.error'] = 
---property['style.function'] = 'font:'..font..',size:'..size..','..props["colour.keyword"]..","..props["colour.background"]
---property['style.keyword'] = 'font:'..font..',size:'..size..','..props["colour.keyword"]..","..props["colour.background"]
---property['style.label'] = 
---property['style.number'] = 'font:'..font..',size:'..size..','..props["colour.number"]..","..props["colour.background"]
---property['style.operator'] = 'font:'..font..',size:'..size..','..props["colour.operator"]..","..props["colour.background"]
---property['style.regex'] = 
---property['style.string'] = 'font:'..font..',size:'..size..','..props["colour.string"]..","..props["colour.background"]
---property['style.preprocessor'] = 'font:'..font..',size:'..size..','..props["colour.preproc"]..","..props["colour.background"]
---property['style.tag'] = 
---property['style.nothing'] = 'fore:#AA1111'
---property['style.variable'] = 
---property['style.identifier'] = 'font:'..font..',size:'..size..','..props["colour.identifier"]..","..props["colour.background"]
---property['style.action'] = 'font:'..font..',size:'..size..','..props["colour.keyword2"]..","..props["colour.background"]
+property['style.type']= props['colour.keyword6'] ..","..props['colour.background']
+
+--[[
+style.default=props['colour.default']
+style.whitespace=props['colour.default']
+style.comment=props['style.*.2']
+style.embedded=props['style.*.15']
+style.controlchar=props['style.*.36']
+style.type=props['colour.globalclass'],props['colour.background']
+style.class=props['style.*.19']
+style.nothing=
+style.constant=props['colour.globalclass'],props['colour.background']
+style.definition=props['style.*.16']
+style.error=props['colour.error']
+style.function=props['style.*.5']
+--style.keyword=$(style.*.15)
+--style.label=$(style.*.15)
+style.number=props['colour.number']
+style.operator=props['colour.operator']
+--style.regex=$(style.*.15)
+style.string=props['colour.string']
+style.preprocessor=props['colour.preproc']
+--style.tag=$(style.*.15)
+style.variable=props['colour.keyword3']
+style.identifier=props['colour.identifier']
+style.action=props['colour.globalclass']
+]]

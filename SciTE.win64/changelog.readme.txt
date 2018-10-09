@@ -1,12 +1,13 @@
 ~# mySciTE.webdev -~
 
-[xx.04.2018] mySciTE.200.Development
-# lexmake - support EolWarns on Multiline Continuations and qMake Vars, added logging.
-# UnInstaller - Version 1.0 with Backup / logging / ReactOS support.
-# Build System - enable compling on Linux and VC again.
-# Themeing - Major CleanUp
-
-[19.01.2018] myScite.190.MartyMcFly (Lua5.1 & Lua5.3)
+[13.07.2018] myScite.190a.MartyMcFly (Lua5.1 & Lua5.3)
+# =Maintenance Release=
+# Fix: Fixes for Language Support and Themeing
+# Upd: Enhanced LexMake (support qMake &  EolWarns on Multiline Continuations)
+# Upd: Tuned lua Script load order
+# Add: Added Installer (Win32/Win64)
+ 
+[12.01.2018] myScite.190.MartyMcFly (Lua5.1 & Lua5.3)
 # Add: SciTE Project Support. Settings for scite sources included.
 # Add: cTags Navigation support within project source files. ( ALT-Click )
 # Add: cTags based, cached Projects and Platform SDK sourceCode Highlightening. 

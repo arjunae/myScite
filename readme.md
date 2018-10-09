@@ -1,6 +1,6 @@
-~ mySciTE.webdev ~
+# ~ mySciTE.webdev ~
 
-[xx.04.2018] mySciTE.200.Development
+[xx.10.2018] mySciTE.200.Development
 - scintilla: Use foicica.com's cpp11 backport. (3.8.0)
 - lexer: lexmake - support EolWarns on Multiline Continuations.
 - lexer: lexmake - style qMake Vars, added logging.
@@ -8,6 +8,13 @@
 - UnInstaller: Version 1.0 with Backup / logging / ReactOS support.
 - Build System: enable compiling on Linux and VC again.
 - Themeing: Major CleanUp
+
+[13.07.2018] myScite.190.01 MartyMcFly (Lua5.1 & Lua5.3)
+  =Maintenance Release=
+- Fix: Fixes for Language Support and Themeing
+- Upd: Enhanced LexMake (support qMake &  EolWarns on Multiline Continuations)
+- Upd: Tuned lua Script load order
+- Add: Added Installer (Win32/Win64)
 
 [19.01.2018] mySciTE.190.MartyMcFly (Lua5.1 & Lua5.3)
 - Add: SciTE Project Support. Settings for scite sources included.

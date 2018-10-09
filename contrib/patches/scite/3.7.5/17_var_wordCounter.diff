@@ -1,0 +1,11 @@
+diff -Nurw scite/src/SciTEBase.cxx scite_mod/src/SciTEBase.cxx
+--- scite/src/SciTEBase.cxx	2018-10-09 17:46:31.153391900 +0200
++++ scite_mod/src/SciTEBase.cxx	2018-10-09 17:45:13.099519900 +0200
+@@ -750,6 +750,7 @@
+ 		SCFIND_MATCHCASE | SCFIND_WHOLEWORD, selectedStyle,
+ 		indicatorHighlightCurrentWord, -1);
+ 	SetIdler(true);
++	props.SetInteger("highlight.current.word.counter",  matchMarker.matchCnt);
+ }
+ 
+ std::string SciTEBase::GetRangeString(GUI::ScintillaWindow &win, int selStart, int selEnd) {

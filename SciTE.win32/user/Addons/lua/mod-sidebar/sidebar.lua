@@ -268,7 +268,7 @@ local list_dir_height = win_height/4
 if list_dir_height <= 0 then list_dir_height = 600 end
 local list_favorites = gui.list(true)
 list_favorites:add_column("Favorites", 300)
-tab0:add(list_favorites, "bottom", list_dir_height)
+tab0:add(list_favorites, "bottom", 60)
 if colorback then list_favorites:set_list_colour(colorfore,colorback) end
 
 local list_dir = gui.list(false,false)

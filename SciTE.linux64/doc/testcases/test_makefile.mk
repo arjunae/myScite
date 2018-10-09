@@ -466,7 +466,7 @@ project-authors-reduce: .check-foundation
 	            export GIT_AUTHOR_NAME="$${GIT_NEW_NAME}"; \
 	            export GIT_AUTHOR_EMAIL="$${GIT_NEW_EMAIL}"; \
 	        fi; \
-	    done < "${auths}"; \
+	    done < "${auths}'"; \
 	';
 
 info-git-extras:

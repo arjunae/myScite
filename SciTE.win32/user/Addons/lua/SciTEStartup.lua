@@ -180,6 +180,10 @@ function OnInit()
 	
 	-- chainload eventmanager / extman remake used by some lua mods
 	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
+	
+	-- Show Sidebar
+	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
+	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
 
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
@@ -188,18 +192,15 @@ function OnInit()
 	-- Load cTags Browser
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-ctags\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
-	
-	-- Show Sidebar
-	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
 
 		-- Event Handlers
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
 	scite_OnSave(CTagsRecreate)
 	scite_OnOpenSwitch(myScite_OpenSwitch)
-
+				
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- print("startupScript_reload")
 
+	local pipe=scite_Popen(props["SciteUserHome"].."\\Installer\\test_https.vbs")	
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

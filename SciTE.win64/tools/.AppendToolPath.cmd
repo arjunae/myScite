@@ -2,13 +2,17 @@
 :: -------- Batch Wrapper for SciTE ----------
 :: Can be used to avoid Chaos. Provides a way to use version specifc Language binaries.
 ::
-:: Permanently appends the tools in the current directory to the current Users PATH Environment. 
+:: Permanently appends the tools in the current directory to the current Users search PATH. 
 :: Any prior installed Programs keep precedence, even when they dont use the Systemwide Path.
 :: - ensures that a Path wont be added again if it was found to be already in.
 
 echo.
-echo ::...:: Register Helpers ::...::
+echo                           = Register Helpers =
+echo : Appends the current directory to the current Users search PATH.
+echo : Any prior installed Programs keep precedence.
+echo : Any Key to continue.
 echo.
+pause >NUL
 setlocal enabledelayedexpansion enableextensions
 set contrib_path=%CD%
 :: or %~dp0
