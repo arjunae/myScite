@@ -274,7 +274,7 @@ local function handleChar(char, calledByHotkey)
     local startPos = editor:WordStartPosition(pos, true)
     local len = pos - startPos
     buffer.dirty=true
-
+    
     if ipairs==nil then ipairs={} end
     if editor.Lexer==1  then return end
     
@@ -307,8 +307,14 @@ local function handleChar(char, calledByHotkey)
         return
     end
 
+    local prefix = normalize(editor:textrange(startPos, pos))
+    
+    -- allow autocompletition for php variables
+    if string.sub(prefix,1,1) =="$" then
+        prefix= string.gsub(prefix,"%$","")
+        len=len -1
+    end
 
-    local prefix = normalize(editor:textrange(startPos, pos))       
     menuItems = {}
     for i, name in ipairs(names) do
         local s = normalize(string.sub(name, 1, len))

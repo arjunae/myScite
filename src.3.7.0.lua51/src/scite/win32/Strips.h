@@ -14,6 +14,8 @@
 
 void *PointerFromWindow(HWND hWnd);
 void SetWindowPointer(HWND hWnd, void *ptr);
+GUI::gui_string TextOfWindow(HWND hWnd);
+GUI::gui_string ClassNameOfWindow(HWND hWnd);
 
 class BaseWin : public GUI::Window {
 protected:
@@ -93,7 +95,7 @@ public:
 	virtual void Size();
 	virtual bool HasClose() const;
 	virtual LRESULT WndProc(UINT iMessage, WPARAM wParam, LPARAM lParam);
-	void SetProgress(const GUI::gui_string &explanation, int size, int progress);
+	void SetProgress(const GUI::gui_string &explanation, size_t size, size_t progress);
 };
 
 class SearchStripBase : public Strip {
@@ -165,7 +167,7 @@ public:
 	void Focus();
 	virtual bool KeyDown(WPARAM key);
 	void Next(bool markAll, bool invertDirection);
-	void AddToPopUp(GUI::Menu &popup, const char *label, int cmd, bool checked);
+	void AddToPopUp(GUI::Menu &popup, const char *label, int cmd, bool checked) const;
 	virtual void ShowPopup();
 	virtual bool Command(WPARAM wParam);
 	virtual void Size();
@@ -189,7 +191,7 @@ public:
 	virtual int Lines() const;
 	void Focus();
 	virtual bool KeyDown(WPARAM key);
-	void AddToPopUp(GUI::Menu &popup, const char *label, int cmd, bool checked);
+	void AddToPopUp(GUI::Menu &popup, const char *label, int cmd, bool checked) const;
 	virtual void ShowPopup();
 	void HandleReplaceCommand(int cmd, bool reverseFind = false);
 	virtual bool Command(WPARAM wParam);
@@ -202,11 +204,11 @@ public:
 class StripDefinition;
 
 class UserStrip : public Strip {
-	StripDefinition *psd;
+	std::unique_ptr<StripDefinition> psd;
 	Extension *extender;
 	SciTEWin *pSciTEWin;
 public:
-	UserStrip() : psd(0), extender(0), pSciTEWin(0) {
+	UserStrip() : extender(nullptr), pSciTEWin(nullptr) {
 		lineHeight = 26;
 	}
 	virtual void Creation();
