@@ -1,21 +1,102 @@
-http://php.net/manual/en/ref.bzip2.php bzip2 0 0
-http://php.net/manual/en/ref.gettext.php 0 0
-http://php.net/manual/en/ref.ldap.php 0 0
-http://php.net/manual/en/ref.mysqlnd.php 0 0
-http://php.net/manual/en/refref.pdo-dblib.php 0 0
-http://php.net/manual/en/refref.pdo-firebird.php 0 0
-http://php.net/manual/en/refref.pdo-mysql.php 0 0
-http://php.net/manual/en/refref.pdo-oci.php 0 0
-http://php.net/manual/en/refref.pdo-odbc.php 0 0
-http://php.net/manual/en/refref.pdo-pgsql.php 0 0
-http://php.net/manual/en/refref.pdo-sqlite.php 0 0
-http://php.net/manual/en/ref.readline.php readline 0 0
-http://php.net/manual/en/ref.recode.php recode 0 0
-http://php.net/manual/en/ref.xmlreader.php 0 0
-http://php.net/manual/en/ref.xsl.php 0 0
+todo php data objects (Classes)
+http://php.net/manual/en/ref.pdo-dblib.php 0 0
+http://php.net/manual/en/ref.pdo-firebird.php 0 0
+http://php.net/manual/en/ref.pdo-mysql.php 0 0
+http://php.net/manual/en/ref.pdo-oci.php 0 0
+http://php.net/manual/en/ref.pdo-odbc.php 0 0
+http://php.net/manual/en/ref.pdo-pgsql.php 0 0
+http://php.net/manual/en/ref.pdo-sqlite.php 0 0
+http://php.net/manual/en/book.xmlreader.php (Classes)
+http://php.net/manual/en/book.xsl.php (Classes)
 
 
-
+http://php.net/manual/en/function.bzclose.php;bzclose
+http://php.net/manual/en/function.bzcompress.php;bzcompress
+http://php.net/manual/en/function.bzdecompress.php;bzdecompress
+http://php.net/manual/en/function.bzerrno.php;bzerrno
+http://php.net/manual/en/function.bzerror.php;bzerror
+http://php.net/manual/en/function.bzerrstr.php;bzerrstr
+http://php.net/manual/en/function.bzflush.php;bzflush
+http://php.net/manual/en/function.bzopen.php;bzopen
+http://php.net/manual/en/function.bzread.php;bzread
+http://php.net/manual/en/function.bzwrite.php;bzwrite
+http://php.net/manual/en/function.bind-textdomain-codeset.php;bind_textdomain_codeset
+http://php.net/manual/en/function.bindtextdomain.php;bindtextdomain
+http://php.net/manual/en/function.dcgettext.php;dcgettext
+http://php.net/manual/en/function.dcngettext.php;dcngettext
+http://php.net/manual/en/function.dgettext.php;dgettext
+http://php.net/manual/en/function.dngettext.php;dngettext
+http://php.net/manual/en/function.gettext.php;gettext
+http://php.net/manual/en/function.ngettext.php;ngettext
+http://php.net/manual/en/function.textdomain.php;textdomain
+http://php.net/manual/en/function.ldap-8859-to-t61.php;ldap_8859_to_t61
+http://php.net/manual/en/function.ldap-add.php;ldap_add
+http://php.net/manual/en/function.ldap-bind.php;ldap_bind
+http://php.net/manual/en/function.ldap-close.php;ldap_close
+http://php.net/manual/en/function.ldap-compare.php;ldap_compare
+http://php.net/manual/en/function.ldap-connect.php;ldap_connect
+http://php.net/manual/en/function.ldap-control-paged-result-response.php;ldap_control_paged_result_response
+http://php.net/manual/en/function.ldap-control-paged-result.php;ldap_control_paged_result
+http://php.net/manual/en/function.ldap-count-entries.php;ldap_count_entries
+http://php.net/manual/en/function.ldap-delete.php;ldap_delete
+http://php.net/manual/en/function.ldap-dn2ufn.php;ldap_dn2ufn
+http://php.net/manual/en/function.ldap-err2str.php;ldap_err2str
+http://php.net/manual/en/function.ldap-errno.php;ldap_errno
+http://php.net/manual/en/function.ldap-error.php;ldap_error
+http://php.net/manual/en/function.ldap-escape.php;ldap_escape
+http://php.net/manual/en/function.ldap-exop-passwd.php;ldap_exop_passwd
+http://php.net/manual/en/function.ldap-exop-refresh.php;ldap_exop_refresh
+http://php.net/manual/en/function.ldap-exop-whoami.php;ldap_exop_whoami
+http://php.net/manual/en/function.ldap-exop.php;ldap_exop
+http://php.net/manual/en/function.ldap-explode-dn.php;ldap_explode_dn
+http://php.net/manual/en/function.ldap-first-attribute.php;ldap_first_attribute
+http://php.net/manual/en/function.ldap-first-entry.php;ldap_first_entry
+http://php.net/manual/en/function.ldap-first-reference.php;ldap_first_reference
+http://php.net/manual/en/function.ldap-free-result.php;ldap_free_result
+http://php.net/manual/en/function.ldap-get-attributes.php;ldap_get_attributes
+http://php.net/manual/en/function.ldap-get-dn.php;ldap_get_dn
+http://php.net/manual/en/function.ldap-get-entries.php;ldap_get_entries
+http://php.net/manual/en/function.ldap-get-option.php;ldap_get_option
+http://php.net/manual/en/function.ldap-get-values-len.php;ldap_get_values_len
+http://php.net/manual/en/function.ldap-get-values.php;ldap_get_values
+http://php.net/manual/en/function.ldap-list.php;ldap_list
+http://php.net/manual/en/function.ldap-mod-add.php;ldap_mod_add
+http://php.net/manual/en/function.ldap-mod-del.php;ldap_mod_del
+http://php.net/manual/en/function.ldap-mod-replace.php;ldap_mod_replace
+http://php.net/manual/en/function.ldap-modify-batch.php;ldap_modify_batch
+http://php.net/manual/en/function.ldap-modify.php;ldap_modify
+http://php.net/manual/en/function.ldap-next-attribute.php;ldap_next_attribute
+http://php.net/manual/en/function.ldap-next-entry.php;ldap_next_entry
+http://php.net/manual/en/function.ldap-next-reference.php;ldap_next_reference
+http://php.net/manual/en/function.ldap-parse-exop.php;ldap_parse_exop
+http://php.net/manual/en/function.ldap-parse-reference.php;ldap_parse_reference
+http://php.net/manual/en/function.ldap-parse-result.php;ldap_parse_result
+http://php.net/manual/en/function.ldap-read.php;ldap_read
+http://php.net/manual/en/function.ldap-rename.php;ldap_rename
+http://php.net/manual/en/function.ldap-sasl-bind.php;ldap_sasl_bind
+http://php.net/manual/en/function.ldap-search.php;ldap_search
+http://php.net/manual/en/function.ldap-set-option.php;ldap_set_option
+http://php.net/manual/en/function.ldap-set-rebind-proc.php;ldap_set_rebind_proc
+http://php.net/manual/en/function.ldap-sort.php;ldap_sort
+http://php.net/manual/en/function.ldap-start-tls.php;ldap_start_tls
+http://php.net/manual/en/function.ldap-t61-to-8859.php;ldap_t61_to_8859
+http://php.net/manual/en/function.ldap-unbind.php;ldap_unbind
+http://php.net/manual/en/function.readline-add-history.php;readline_add_history
+http://php.net/manual/en/function.readline-callback-handler-install.php;readline_callback_handler_install
+http://php.net/manual/en/function.readline-callback-handler-remove.php;readline_callback_handler_remove
+http://php.net/manual/en/function.readline-callback-read-char.php;readline_callback_read_char
+http://php.net/manual/en/function.readline-clear-history.php;readline_clear_history
+http://php.net/manual/en/function.readline-completion-function.php;readline_completion_function
+http://php.net/manual/en/function.readline-info.php;readline_info
+http://php.net/manual/en/function.readline-list-history.php;readline_list_history
+http://php.net/manual/en/function.readline-on-new-line.php;readline_on_new_line
+http://php.net/manual/en/function.readline-read-history.php;readline_read_history
+http://php.net/manual/en/function.readline-redisplay.php;readline_redisplay
+http://php.net/manual/en/function.readline-write-history.php;readline_write_history
+http://php.net/manual/en/function.readline.php;readline
+http://php.net/manual/en/function.recode-file.php;recode_file
+http://php.net/manual/en/function.recode-string.php;recode_string
+http://php.net/manual/en/function.recode.php;recode
 http://php.net/manual/en/function.curl-close.php;curl_close
 http://php.net/manual/en/function.curl-copy-handle.php;curl_copy_handle
 http://php.net/manual/en/function.curl-errno.php;curl_errno

@@ -1,3 +1,6 @@
+http://php.net/manual/en/book.phar.php;phar (classes) 
+http://php.net/manual/en/book.reflection.php;reflection (classes)
+
 http://php.net/manual/en/function.array-change-key-case.php;array_change_key_case
 http://php.net/manual/en/function.array-chunk.php;array_chunk
 http://php.net/manual/en/function.array-column.php;array_column
@@ -167,13 +170,23 @@ http://php.net/manual/en/function.error-clear-last.php;error_clear_last
 http://php.net/manual/en/function.error-get-last.php;error_get_last
 http://php.net/manual/en/function.error-log.php;error_log
 http://php.net/manual/en/function.error-reporting.php;error_reporting
-http://php.net/manual/en/ Sets which PHP errors
 http://php.net/manual/en/function.restore-error-handler.php;restore_error_handler
 http://php.net/manual/en/function.restore-exception-handler.php;restore_exception_handler
 http://php.net/manual/en/function.set-error-handler.php;set_error_handler
 http://php.net/manual/en/function.set-exception-handler.php;set_exception_handler
 http://php.net/manual/en/function.trigger-error.php;trigger_error
 http://php.net/manual/en/function.user-error.php;user_error
+http://php.net/manual/en/function.escapeshellarg.php;escapeshellarg
+http://php.net/manual/en/function.escapeshellcmd.php;escapeshellcmd
+http://php.net/manual/en/function.exec.php;exec
+http://php.net/manual/en/function.passthru.php;passthrough
+http://php.net/manual/en/function.proc-close.php;proc_close
+http://php.net/manual/en/function.proc-get-status.php;proc_get_status
+http://php.net/manual/en/function.proc-nice.php;proc_nice
+http://php.net/manual/en/function.proc-open.php;proc_open
+http://php.net/manual/en/function.proc-terminate.php;proc_terminate
+http://php.net/manual/en/function.shell-exec.php;shell_exec
+http://php.net/manual/en/function.system.php;system
 http://php.net/manual/en/function.basename.php;basename
 http://php.net/manual/en/function.chgrp.php;chgrp
 http://php.net/manual/en/function.chmod.php;chmod
@@ -295,7 +308,6 @@ http://php.net/manual/en/function.assert.php;assert
 http://php.net/manual/en/function.cli-get-process-title.php;cli_get_process_title
 http://php.net/manual/en/function.cli-set-process-title.php;cli_set_process_title
 http://php.net/manual/en/function.dl.php;dl
-http://php.net/manual/en/ Loads a PHP extension
 http://php.net/manual/en/function.extension-loaded.php;extension_loaded
 http://php.net/manual/en/function.gc-collect-cycles.php;gc_collect_cycles
 http://php.net/manual/en/function.gc-disable.php;gc_disable
@@ -303,9 +315,7 @@ http://php.net/manual/en/function.gc-enable.php;gc_enable
 http://php.net/manual/en/function.gc-enabled.php;gc_enabled
 http://php.net/manual/en/function.gc-mem-caches.php;gc_mem_caches
 http://php.net/manual/en/function.get-cfg-var.php;get_cfg_var
-http://php.net/manual/en/ Gets the value of a PHP configuration
 http://php.net/manual/en/function.get-current-user.php;get_current_user
-http://php.net/manual/en/ Gets the name of the owner of the current PHP script
 http://php.net/manual/en/function.get-defined-constants.php;get_defined_constants
 http://php.net/manual/en/function.get-extension-funcs.php;get_extension_funcs
 http://php.net/manual/en/function.get-include-path.php;get_include_path
@@ -318,12 +328,9 @@ http://php.net/manual/en/function.get-resources.php;get_resources
 http://php.net/manual/en/function.getenv.php;getenv
 http://php.net/manual/en/function.getlastmod.php;getlastmod
 http://php.net/manual/en/function.getmygid.php;getmygid
-http://php.net/manual/en/ Get PHP script
 http://php.net/manual/en/function.getmyinode.php;getmyinode
 http://php.net/manual/en/function.getmypid.php;getmypid
-http://php.net/manual/en/ Gets PHP's process
 http://php.net/manual/en/function.getmyuid.php;getmyuid
-http://php.net/manual/en/ Gets PHP script
 http://php.net/manual/en/function.getopt.php;getopt
 http://php.net/manual/en/function.getrusage.php;getrusage
 http://php.net/manual/en/function.ini-alter.php;ini_alter
@@ -334,23 +341,15 @@ http://php.net/manual/en/function.ini-set.php;ini_set
 http://php.net/manual/en/function.magic-quotes-runtime.php;magic_quotes_runtime
 http://php.net/manual/en/function.main.php;main
 http://php.net/manual/en/function.memory-get-peak-usage.php;memory_get_peak_usage
-http://php.net/manual/en/ Returns the peak of memory allocated by PHP</li
 http://php.net/manual/en/function.memory-get-usage.php;memory_get_usage
-http://php.net/manual/en/ Returns the amount of memory allocated to PHP</li
 http://php.net/manual/en/function.php-ini-loaded-file.php;php_ini_loaded_file
-http://php.net/manual/en/ Retrieve a path to the loaded php.ini
 http://php.net/manual/en/function.php-ini-scanned-files.php;php_ini_scanned_files
 http://php.net/manual/en/function.php-logo-guid.php;php_logo_guid
 http://php.net/manual/en/function.php-sapi-name.php;php_sapi_name
-http://php.net/manual/en/ Returns the type of interface between web server and PHP</li
 http://php.net/manual/en/function.php-uname.php;php_uname
-http://php.net/manual/en/ Returns information about the operating system PHP is running
 http://php.net/manual/en/function.phpcredits.php;phpcredits
-http://php.net/manual/en/ Prints out the credits for PHP</li
 http://php.net/manual/en/function.phpinfo.php;phpinfo
-http://php.net/manual/en/ Outputs information about PHP's configuration
 http://php.net/manual/en/function.phpversion.php;phpversion
-http://php.net/manual/en/ Gets the current PHP version
 http://php.net/manual/en/function.putenv.php;putenv
 http://php.net/manual/en/function.restore-include-path.php;restore_include_path
 http://php.net/manual/en/function.set-include-path.php;set_include_path
@@ -420,7 +419,6 @@ http://php.net/manual/en/function.define.php;define
 http://php.net/manual/en/function.defined.php;defined
 http://php.net/manual/en/function.die.php;die
 http://php.net/manual/en/function.eval.php;eval
-http://php.net/manual/en/ Evaluate a string as PHP code
 http://php.net/manual/en/function.exit.php;exit
 http://php.net/manual/en/function.get-browser.php;get_browser
 http://php.net/manual/en/function.halt-compiler.php;__halt_compiler
@@ -430,7 +428,6 @@ http://php.net/manual/en/function.hrtime.php;hrtime
 http://php.net/manual/en/function.ignore-user-abort.php;ignore_user_abort
 http://php.net/manual/en/function.pack.php;pack
 http://php.net/manual/en/function.php-check-syntax.php;php_check_syntax
-http://php.net/manual/en/ Check the PHP syntax
 http://php.net/manual/en/function.php-strip-whitespace.php;php_strip_whitespace
 http://php.net/manual/en/function.sapi-windows-cp-conv.php;sapi_windows_cp_conv
 http://php.net/manual/en/function.sapi-windows-cp-get.php;sapi_windows_cp_get
@@ -593,7 +590,6 @@ http://php.net/manual/en/function.stream-socket-server.php;stream_socket_server
 http://php.net/manual/en/function.stream-socket-shutdown.php;stream_socket_shutdown
 http://php.net/manual/en/function.stream-supports-lock.php;stream_supports_lock
 http://php.net/manual/en/function.stream-wrapper-register.php;stream_wrapper_register
-http://php.net/manual/en/ Register a URL wrapper implemented as a PHP class
 http://php.net/manual/en/function.stream-wrapper-restore.php;stream_wrapper_restore
 http://php.net/manual/en/function.stream-wrapper-unregister.php;stream_wrapper_unregister
 http://php.net/manual/en/function.addcslashes.php;addcslashes
@@ -662,7 +658,6 @@ http://php.net/manual/en/function.strcmp.php;strcmp
 http://php.net/manual/en/function.strcoll.php;strcoll
 http://php.net/manual/en/function.strcspn.php;strcspn
 http://php.net/manual/en/function.strip-tags.php;strip_tags
-http://php.net/manual/en/ Strip HTML and PHP tags
 http://php.net/manual/en/function.stripcslashes.php;stripcslashes
 http://php.net/manual/en/function.stripos.php;stripos
 http://php.net/manual/en/function.stripslashes.php;stripslashes
@@ -696,9 +691,7 @@ http://php.net/manual/en/function.vprintf.php;vprintf
 http://php.net/manual/en/function.vsprintf.php;vsprintf
 http://php.net/manual/en/function.wordwrap.php;wordwrap
 http://php.net/manual/en/function.token-get-all.php;token_get_all
-http://php.net/manual/en/ Split given source into PHP tokens
 http://php.net/manual/en/function.token-name.php;token_name
-http://php.net/manual/en/ Get the symbolic name of a given PHP token
 http://php.net/manual/en/function.base64-decode.php;base64_decode
 http://php.net/manual/en/function.base64-encode.php;base64_encode
 http://php.net/manual/en/function.get-headers.php;get_headers
@@ -742,7 +735,6 @@ http://php.net/manual/en/function.serialize.php;serialize
 http://php.net/manual/en/function.settype.php;settype
 http://php.net/manual/en/function.strval.php;strval
 http://php.net/manual/en/function.unserialize.php;unserialize
-http://php.net/manual/en/ Creates a PHP value
 http://php.net/manual/en/function.unset.php;unset
 http://php.net/manual/en/function.var-dump.php;var_dump
 http://php.net/manual/en/function.var-export.php;var_export

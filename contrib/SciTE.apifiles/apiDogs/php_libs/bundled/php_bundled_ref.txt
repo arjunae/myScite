@@ -1,8 +1,34 @@
-http://php.net/manual/en/ref.bc.php bC Math 0 0
-http://php.net/manual/en/ref.calendar.php 0 0
-http://php.net/manual/en/ref.pdo.php 0 0
-http://php.net/manual/en/ref.sqlite3.php 0 0
+http://php.net/manual/en/book.pdo.php (Classes)
+http://php.net/manual/en/book.sqlite3.php (Classes)
 
+http://php.net/manual/en/function.cal-days-in-month.php;cal_days_in_month
+http://php.net/manual/en/function.cal-from-jd.php;cal_from_jd
+http://php.net/manual/en/function.cal-info.php;cal_info
+http://php.net/manual/en/function.cal-to-jd.php;cal_to_jd
+http://php.net/manual/en/function.easter-date.php;easter_date
+http://php.net/manual/en/function.easter-days.php;easter_days
+http://php.net/manual/en/function.frenchtojd.php;frenchtojd
+http://php.net/manual/en/function.gregoriantojd.php;gregoriantojd
+http://php.net/manual/en/function.jddayofweek.php;jddayofweek
+http://php.net/manual/en/function.jdmonthname.php;jdmonthname
+http://php.net/manual/en/function.jdtofrench.php;jdtofrench
+http://php.net/manual/en/function.jdtogregorian.php;jdtogregorian
+http://php.net/manual/en/function.jdtojewish.php;jdtojewish
+http://php.net/manual/en/function.jdtojulian.php;jdtojulian
+http://php.net/manual/en/function.jdtounix.php;jdtounix
+http://php.net/manual/en/function.jewishtojd.php;jewishtojd
+http://php.net/manual/en/function.juliantojd.php;juliantojd
+http://php.net/manual/en/function.unixtojd.php;unixtojd
+http://php.net/manual/en/function.bcadd.php;bcadd
+http://php.net/manual/en/function.bccomp.php;bccomp
+http://php.net/manual/en/function.bcdiv.php;bcdiv
+http://php.net/manual/en/function.bcmod.php;bcmod
+http://php.net/manual/en/function.bcmul.php;bcmul
+http://php.net/manual/en/function.bcpow.php;bcpow
+http://php.net/manual/en/function.bcpowmod.php;bcpowmod
+http://php.net/manual/en/function.bcscale.php;bcscale
+http://php.net/manual/en/function.bcsqrt.php;bcsqrt
+http://php.net/manual/en/function.bcsub.php;bcsub
 http://php.net/manual/en/function.apache-child-terminate.php;apache_child_terminate
 http://php.net/manual/en/function.apache-get-modules.php;apache_get_modules
 http://php.net/manual/en/function.apache-get-version.php;apache_get_version
