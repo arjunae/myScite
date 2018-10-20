@@ -14,6 +14,7 @@ const ForAppending=8
 const TristateUseDefault=-2 
 const TristateTrue=-1 'Unicode
 const TristateFalse=0 'ASCII
+dim bconcole
 
 Set fso = CreateObject("Scripting.FileSystemObject")
 Set ofile_dir = fso.OpenTextFile("php_core.txt",ForReading,TristateTrue)
