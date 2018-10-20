@@ -1,0 +1,949 @@
+��<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>PHP: array_change_key_case - Manual </title>
+
+ <link rel="shortcut icon" href="http://php.net/favicon.ico">
+ <link rel="search" type="application/opensearchdescription+xml" href="http://php.net/phpnetimprovedsearch.src" title="Add PHP.net search">
+ <link rel="alternate" type="application/atom+xml" href="http://php.net/releases/feed.php" title="PHP Release feed">
+ <link rel="alternate" type="application/atom+xml" href="http://php.net/feed.atom" title="PHP: Hypertext Preprocessor">
+
+ <link rel="canonical" href="http://php.net/manual/en/function.array-change-key-case.php">
+ <link rel="shorturl" href="http://php.net/array-change-key-case">
+ <link rel="alternate" href="http://php.net/array-change-key-case" hreflang="x-default">
+
+ <link rel="contents" href="http://php.net/manual/en/index.php">
+ <link rel="index" href="http://php.net/manual/en/ref.array.php">
+ <link rel="prev" href="http://php.net/manual/en/ref.array.php">
+ <link rel="next" href="http://php.net/manual/en/function.array-chunk.php">
+
+ <link rel="alternate" href="http://php.net/manual/en/function.array-change-key-case.php" hreflang="en">
+ <link rel="alternate" href="http://php.net/manual/pt_BR/function.array-change-key-case.php" hreflang="pt_BR">
+ <link rel="alternate" href="http://php.net/manual/zh/function.array-change-key-case.php" hreflang="zh">
+ <link rel="alternate" href="http://php.net/manual/fr/function.array-change-key-case.php" hreflang="fr">
+ <link rel="alternate" href="http://php.net/manual/de/function.array-change-key-case.php" hreflang="de">
+ <link rel="alternate" href="http://php.net/manual/ja/function.array-change-key-case.php" hreflang="ja">
+ <link rel="alternate" href="http://php.net/manual/ro/function.array-change-key-case.php" hreflang="ro">
+ <link rel="alternate" href="http://php.net/manual/ru/function.array-change-key-case.php" hreflang="ru">
+ <link rel="alternate" href="http://php.net/manual/es/function.array-change-key-case.php" hreflang="es">
+ <link rel="alternate" href="http://php.net/manual/tr/function.array-change-key-case.php" hreflang="tr">
+
+<link rel="stylesheet" type="text/css" href="/cached.php?t=1539771603&amp;f=/fonts/Fira/fira.css" media="screen">
+<link rel="stylesheet" type="text/css" href="/cached.php?t=1539765004&amp;f=/fonts/Font-Awesome/css/fontello.css" media="screen">
+<link rel="stylesheet" type="text/css" href="/cached.php?t=1539766202&amp;f=/styles/theme-base.css" media="screen">
+<link rel="stylesheet" type="text/css" href="/cached.php?t=1539765004&amp;f=/styles/theme-medium.css" media="screen">
+
+ <!--[if lte IE 7]>
+ <link rel="stylesheet" type="text/css" href="http://php.net/styles/workarounds.ie7.css" media="screen">
+ <![endif]-->
+
+ <!--[if lte IE 8]>
+ <script type="text/javascript">
+  window.brokenIE = true;
+ </script>
+ <![endif]-->
+
+ <!--[if lte IE 9]>
+ <link rel="stylesheet" type="text/css" href="http://php.net/styles/workarounds.ie9.css" media="screen">
+ <![endif]-->
+
+ <!--[if IE]>
+ <script type="text/javascript" src="http://php.net/js/ext/html5.js"></script>
+ <![endif]-->
+
+ <base href="http://php.net/manual/en/function.array-change-key-case.php">
+
+</head>
+<body class="docs ">
+
+<nav id="head-nav" class="navbar navbar-fixed-top">
+  <div class="navbar-inner clearfix">
+    <a href="/" class="brand"><img src="/images/logos/php-logo.svg" width="48" height="24" alt="php"></a>
+    <div id="mainmenu-toggle-overlay"></div>
+    <input type="checkbox" id="mainmenu-toggle">
+    <ul class="nav">
+      <li class=""><a href="/downloads">Downloads</a></li>
+      <li class="active"><a href="/docs.php">Documentation</a></li>
+      <li class=""><a href="/get-involved" >Get Involved</a></li>
+      <li class=""><a href="/support">Help</a></li>
+    </ul>
+    <form class="navbar-search" id="topsearch" action="/search.php">
+      <input type="hidden" name="show" value="quickref">
+      <input type="search" name="pattern" class="search-query" placeholder="Search" accesskey="s">
+    </form>
+  </div>
+  <div id="flash-message"></div>
+</nav>
+<nav id="trick"><div><dl>
+<dt><a href='/manual/en/getting-started.php'>Getting Started</a></dt>
+	<dd><a href='/manual/en/introduction.php'>Introduction</a></dd>
+	<dd><a href='/manual/en/tutorial.php'>A simple tutorial</a></dd>
+<dt><a href='/manual/en/langref.php'>Language Reference</a></dt>
+	<dd><a href='/manual/en/language.basic-syntax.php'>Basic syntax</a></dd>
+	<dd><a href='/manual/en/language.types.php'>Types</a></dd>
+	<dd><a href='/manual/en/language.variables.php'>Variables</a></dd>
+	<dd><a href='/manual/en/language.constants.php'>Constants</a></dd>
+	<dd><a href='/manual/en/language.expressions.php'>Expressions</a></dd>
+	<dd><a href='/manual/en/language.operators.php'>Operators</a></dd>
+	<dd><a href='/manual/en/language.control-structures.php'>Control Structures</a></dd>
+	<dd><a href='/manual/en/language.functions.php'>Functions</a></dd>
+	<dd><a href='/manual/en/language.oop5.php'>Classes and Objects</a></dd>
+	<dd><a href='/manual/en/language.namespaces.php'>Namespaces</a></dd>
+	<dd><a href='/manual/en/language.errors.php'>Errors</a></dd>
+	<dd><a href='/manual/en/language.exceptions.php'>Exceptions</a></dd>
+	<dd><a href='/manual/en/language.generators.php'>Generators</a></dd>
+	<dd><a href='/manual/en/language.references.php'>References Explained</a></dd>
+	<dd><a href='/manual/en/reserved.variables.php'>Predefined Variables</a></dd>
+	<dd><a href='/manual/en/reserved.exceptions.php'>Predefined Exceptions</a></dd>
+	<dd><a href='/manual/en/reserved.interfaces.php'>Predefined Interfaces and Classes</a></dd>
+	<dd><a href='/manual/en/context.php'>Context options and parameters</a></dd>
+	<dd><a href='/manual/en/wrappers.php'>Supported Protocols and Wrappers</a></dd>
+</dl>
+<dl>
+<dt><a href='/manual/en/security.php'>Security</a></dt>
+	<dd><a href='/manual/en/security.intro.php'>Introduction</a></dd>
+	<dd><a href='/manual/en/security.general.php'>General considerations</a></dd>
+	<dd><a href='/manual/en/security.cgi-bin.php'>Installed as CGI binary</a></dd>
+	<dd><a href='/manual/en/security.apache.php'>Installed as an Apache module</a></dd>
+	<dd><a href='/manual/en/security.sessions.php'>Session Security</a></dd>
+	<dd><a href='/manual/en/security.filesystem.php'>Filesystem Security</a></dd>
+	<dd><a href='/manual/en/security.database.php'>Database Security</a></dd>
+	<dd><a href='/manual/en/security.errors.php'>Error Reporting</a></dd>
+	<dd><a href='/manual/en/security.globals.php'>Using Register Globals</a></dd>
+	<dd><a href='/manual/en/security.variables.php'>User Submitted Data</a></dd>
+	<dd><a href='/manual/en/security.magicquotes.php'>Magic Quotes</a></dd>
+	<dd><a href='/manual/en/security.hiding.php'>Hiding PHP</a></dd>
+	<dd><a href='/manual/en/security.current.php'>Keeping Current</a></dd>
+<dt><a href='/manual/en/features.php'>Features</a></dt>
+	<dd><a href='/manual/en/features.http-auth.php'>HTTP authentication with PHP</a></dd>
+	<dd><a href='/manual/en/features.cookies.php'>Cookies</a></dd>
+	<dd><a href='/manual/en/features.sessions.php'>Sessions</a></dd>
+	<dd><a href='/manual/en/features.xforms.php'>Dealing with XForms</a></dd>
+	<dd><a href='/manual/en/features.file-upload.php'>Handling file uploads</a></dd>
+	<dd><a href='/manual/en/features.remote-files.php'>Using remote files</a></dd>
+	<dd><a href='/manual/en/features.connection-handling.php'>Connection handling</a></dd>
+	<dd><a href='/manual/en/features.persistent-connections.php'>Persistent Database Connections</a></dd>
+	<dd><a href='/manual/en/features.safe-mode.php'>Safe Mode</a></dd>
+	<dd><a href='/manual/en/features.commandline.php'>Command line usage</a></dd>
+	<dd><a href='/manual/en/features.gc.php'>Garbage Collection</a></dd>
+	<dd><a href='/manual/en/features.dtrace.php'>DTrace Dynamic Tracing</a></dd>
+</dl>
+<dl>
+<dt><a href='/manual/en/funcref.php'>Function Reference</a></dt>
+	<dd><a href='/manual/en/refs.basic.php.php'>Affecting PHP's Behaviour</a></dd>
+	<dd><a href='/manual/en/refs.utilspec.audio.php'>Audio Formats Manipulation</a></dd>
+	<dd><a href='/manual/en/refs.remote.auth.php'>Authentication Services</a></dd>
+	<dd><a href='/manual/en/refs.utilspec.cmdline.php'>Command Line Specific Extensions</a></dd>
+	<dd><a href='/manual/en/refs.compression.php'>Compression and Archive Extensions</a></dd>
+	<dd><a href='/manual/en/refs.creditcard.php'>Credit Card Processing</a></dd>
+	<dd><a href='/manual/en/refs.crypto.php'>Cryptography Extensions</a></dd>
+	<dd><a href='/manual/en/refs.database.php'>Database Extensions</a></dd>
+	<dd><a href='/manual/en/refs.calendar.php'>Date and Time Related Extensions</a></dd>
+	<dd><a href='/manual/en/refs.fileprocess.file.php'>File System Related Extensions</a></dd>
+	<dd><a href='/manual/en/refs.international.php'>Human Language and Character Encoding Support</a></dd>
+	<dd><a href='/manual/en/refs.utilspec.image.php'>Image Processing and Generation</a></dd>
+	<dd><a href='/manual/en/refs.remote.mail.php'>Mail Related Extensions</a></dd>
+	<dd><a href='/manual/en/refs.math.php'>Mathematical Extensions</a></dd>
+	<dd><a href='/manual/en/refs.utilspec.nontext.php'>Non-Text MIME Output</a></dd>
+	<dd><a href='/manual/en/refs.fileprocess.process.php'>Process Control Extensions</a></dd>
+	<dd><a href='/manual/en/refs.basic.other.php'>Other Basic Extensions</a></dd>
+	<dd><a href='/manual/en/refs.remote.other.php'>Other Services</a></dd>
+	<dd><a href='/manual/en/refs.search.php'>Search Engine Extensions</a></dd>
+	<dd><a href='/manual/en/refs.utilspec.server.php'>Server Specific Extensions</a></dd>
+	<dd><a href='/manual/en/refs.basic.session.php'>Session Extensions</a></dd>
+	<dd><a href='/manual/en/refs.basic.text.php'>Text Processing</a></dd>
+	<dd><a href='/manual/en/refs.basic.vartype.php'>Variable and Type Related Extensions</a></dd>
+	<dd><a href='/manual/en/refs.webservice.php'>Web Services</a></dd>
+	<dd><a href='/manual/en/refs.utilspec.windows.php'>Windows Only Extensions</a></dd>
+	<dd><a href='/manual/en/refs.xml.php'>XML Manipulation</a></dd>
+	<dd><a href='/manual/en/refs.ui.php'>GUI Extensions</a></dd>
+</dl>
+<dl>
+<dt>Keyboard Shortcuts</dt><dt>?</dt>
+<dd>This help</dd>
+<dt>j</dt>
+<dd>Next menu item</dd>
+<dt>k</dt>
+<dd>Previous menu item</dd>
+<dt>g p</dt>
+<dd>Previous man page</dd>
+<dt>g n</dt>
+<dd>Next man page</dd>
+<dt>G</dt>
+<dd>Scroll to bottom</dd>
+<dt>g g</dt>
+<dd>Scroll to top</dd>
+<dt>g h</dt>
+<dd>Goto homepage</dd>
+<dt>g s</dt>
+<dd>Goto search<br>(current page)</dd>
+<dt>/</dt>
+<dd>Focus search box</dd>
+</dl></div></nav>
+<div id="goto">
+    <div class="search">
+         <div class="text"></div>
+         <div class="results"><ul></ul></div>
+   </div>
+</div>
+
+  <div id="breadcrumbs" class="clearfix">
+    <div id="breadcrumbs-inner">
+          <div class="next">
+        <a href="function.array-chunk.php">
+          array_chunk &raquo;
+        </a>
+      </div>
+              <div class="prev">
+        <a href="ref.array.php">
+          &laquo; Array Functions        </a>
+      </div>
+          <ul>
+            <li><a href='index.php'>PHP Manual</a></li>      <li><a href='funcref.php'>Function Reference</a></li>      <li><a href='refs.basic.vartype.php'>Variable and Type Related Extensions</a></li>      <li><a href='book.array.php'>Arrays</a></li>      <li><a href='ref.array.php'>Array Functions</a></li>      </ul>
+    </div>
+  </div>
+
+
+
+
+<div id="layout" class="clearfix">
+  <section id="layout-content">
+  <div class="page-tools">
+    <div class="change-language">
+      <form action="/manual/change.php" method="get" id="changelang" name="changelang">
+        <fieldset>
+          <label for="changelang-langs">Change language:</label>
+          <select onchange="document.changelang.submit()" name="page" id="changelang-langs">
+            <option value='en/function.array-change-key-case.php' selected="selected">English</option>
+            <option value='pt_BR/function.array-change-key-case.php'>Brazilian Portuguese</option>
+            <option value='zh/function.array-change-key-case.php'>Chinese (Simplified)</option>
+            <option value='fr/function.array-change-key-case.php'>French</option>
+            <option value='de/function.array-change-key-case.php'>German</option>
+            <option value='ja/function.array-change-key-case.php'>Japanese</option>
+            <option value='ro/function.array-change-key-case.php'>Romanian</option>
+            <option value='ru/function.array-change-key-case.php'>Russian</option>
+            <option value='es/function.array-change-key-case.php'>Spanish</option>
+            <option value='tr/function.array-change-key-case.php'>Turkish</option>
+            <option value="help-translate.php">Other</option>
+          </select>
+        </fieldset>
+      </form>
+    </div>
+    <div class="edit-bug">
+      <a href="https://edit.php.net/?project=PHP&amp;perm=en/function.array-change-key-case.php">Edit</a>
+      <a href="https://bugs.php.net/report.php?bug_type=Documentation+problem&amp;manpage=function.array-change-key-case">Report a Bug</a>
+    </div>
+  </div><div id="function.array-change-key-case" class="refentry">
+ <div class="refnamediv">
+  <h1 class="refname">array_change_key_case</h1>
+  <p class="verinfo">(PHP 4 &gt;= 4.2.0, PHP 5, PHP 7)</p><p class="refpurpose"><span class="refname">array_change_key_case</span> &mdash; <span class="dc-title">Changes the case of all keys in an array</span></p>
+
+ </div>
+ 
+ <div class="refsect1 description" id="refsect1-function.array-change-key-case-description">
+  <h3 class="title">Description</h3>
+  <div class="methodsynopsis dc-description">
+   <span class="type">array</span> <span class="methodname"><strong>array_change_key_case</strong></span>
+    ( <span class="methodparam"><span class="type">array</span> <code class="parameter">$array</code></span>
+   [, <span class="methodparam"><span class="type">int</span> <code class="parameter">$case</code><span class="initializer"> = CASE_LOWER</span></span>
+  ] )</div>
+
+  <p class="para rdfs-comment">
+   Returns an array with all keys from <code class="parameter">array</code> lowercased
+   or uppercased. Numbered indices are left as is.
+  </p>
+ </div>
+
+
+ <div class="refsect1 parameters" id="refsect1-function.array-change-key-case-parameters">
+  <h3 class="title">Parameters</h3>
+  <p class="para">
+   <dl>
+
+
+    
+     <dt>
+<code class="parameter">array</code></dt>
+
+     <dd>
+
+      <p class="para">
+       The array to work on
+      </p>
+     </dd>
+
+    
+
+    
+     <dt>
+<code class="parameter">case</code></dt>
+
+     <dd>
+
+      <p class="para">
+       Either <strong><code>CASE_UPPER</code></strong> or
+       <strong><code>CASE_LOWER</code></strong> (default)
+      </p>
+     </dd>
+
+    
+
+   </dl>
+
+  </p>
+ </div>
+
+
+ <div class="refsect1 returnvalues" id="refsect1-function.array-change-key-case-returnvalues">
+  <h3 class="title">Return Values</h3>
+  <p class="para">
+   Returns an array with its keys lower or uppercased, or <strong><code>FALSE</code></strong> if
+   <code class="parameter">array</code> is not an array.
+  </p>
+ </div>
+
+
+ <div class="refsect1 errors" id="refsect1-function.array-change-key-case-errors">
+  <h3 class="title">Errors/Exceptions</h3>
+  <p class="para">
+   Throws <strong><code>E_WARNING</code></strong> if <code class="parameter">array</code> is
+   not an array.
+  </p>
+ </div>
+
+
+ <div class="refsect1 examples" id="refsect1-function.array-change-key-case-examples">
+  <h3 class="title">Examples</h3>
+  <p class="para">
+   <div class="example" id="example-6141">
+    <p><strong>Example #1 <span class="function"><strong>array_change_key_case()</strong></span> example</strong></p>
+    <div class="example-contents">
+<div class="phpcode"><code><span style="color: #000000">
+<span style="color: #0000BB">&lt;?php<br />$input_array&nbsp;</span><span style="color: #007700">=&nbsp;array(</span><span style="color: #DD0000">"FirSt"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">1</span><span style="color: #007700">,&nbsp;</span><span style="color: #DD0000">"SecOnd"&nbsp;</span><span style="color: #007700">=&gt;&nbsp;</span><span style="color: #0000BB">4</span><span style="color: #007700">);<br /></span><span style="color: #0000BB">print_r</span><span style="color: #007700">(</span><span style="color: #0000BB">array_change_key_case</span><span style="color: #007700">(</span><span style="color: #0000BB">$input_array</span><span style="color: #007700">,&nbsp;</span><span style="color: #0000BB">CASE_UPPER</span><span style="color: #007700">));<br /></span><span style="color: #0000BB">?&gt;</span>
+</span>
+</code></div>
+    </div>
+
+    <div class="example-contents"><p>The above example will output:</p></div>
+    <div class="example-contents screen">
+<div class="cdata"><pre>
+Array
+(
+    [FIRST] =&gt; 1
+    [SECOND] =&gt; 4
+)
+</pre></div>
+    </div>
+   </div>
+  </p>
+ </div>
+
+
+ <div class="refsect1 notes" id="refsect1-function.array-change-key-case-notes">
+  <h3 class="title">Notes</h3>
+  <blockquote class="note"><p><strong class="note">Note</strong>: 
+   <p class="para">
+    If an array has indices that will be the same once run through this
+    function (e.g. &quot;<em>keY</em>&quot; and &quot;<em>kEY</em>&quot;), 
+    the value that is later in the array will override other indices.
+   </p>
+  </p></blockquote>
+ </div>
+
+</div>
+<section id="usernotes">
+ <div class="head">
+  <span class="action"><a href="/manual/add-note.php?sect=function.array-change-key-case&amp;redirect=http://php.net/manual/en/function.array-change-key-case.php"><img src='/images/notes-add@2x.png' alt='add a note' width='12' height='12'> <small>add a note</small></a></span>
+  <h3 class="title">User Contributed Notes <span class="count">15 notes</span></h3>
+ </div><div id="allnotes">
+  <div class="note" id="107715">  <div class="votes">
+    <div id="Vu107715">
+    <a href="/manual/vote-note.php?id=107715&amp;page=function.array-change-key-case&amp;vote=up" title="Vote up!" class="usernotes-voteu">up</a>
+    </div>
+    <div id="Vd107715">
+    <a href="/manual/vote-note.php?id=107715&amp;page=function.array-change-key-case&amp;vote=down" title="Vote down!" class="usernotes-voted">down</a>
+    </div>
+    <div class="tally" id="V107715" title="56% like this...">
+    23
+    </div>
+  </div>
+  <a href="#107715" class="name">
+  <strong class="user"><em>qeremy [atta] gmail [dotta] com</em></strong></a><a class="genanchor" href="#107715"> &para;</a><div class="date" title="2012-02-28 05:15"><strong>6 years ago</strong></div>
+  <div class="text" id="Hcom107715">
+<div class="phpcode"><code><span class="html">
+Unicode example;<br /><br /><span class="default">&lt;?php<br /></span><span class="keyword">function </span><span class="default">array_change_key_case_unicode</span><span class="keyword">(</span><span class="default">$arr</span><span class="keyword">, </span><span class="default">$c </span><span class="keyword">= </span><span class="default">CASE_LOWER</span><span class="keyword">) {<br />&nbsp; &nbsp; </span><span class="default">$c </span><span class="keyword">= (</span><span class="default">$c </span><span class="keyword">== </span><span class="default">CASE_LOWER</span><span class="keyword">) ? </span><span class="default">MB_CASE_LOWER </span><span class="keyword">: </span><span class="default">MB_CASE_UPPER</span><span class="keyword">;<br />&nbsp; &nbsp; foreach (</span><span class="default">$arr </span><span class="keyword">as </span><span class="default">$k </span><span class="keyword">=&gt; </span><span class="default">$v</span><span class="keyword">) {<br />&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$ret</span><span class="keyword">[</span><span class="default">mb_convert_case</span><span class="keyword">(</span><span class="default">$k</span><span class="keyword">, </span><span class="default">$c</span><span class="keyword">, </span><span class="string">"UTF-8"</span><span class="keyword">)] = </span><span class="default">$v</span><span class="keyword">;<br />&nbsp; &nbsp; }<br />&nbsp; &nbsp; return </span><span class="default">$ret</span><span class="keyword">;<br />}<br /><br /></span><span class="default">$arr </span><span class="keyword">= array(</span><span class="string">"FirSt" </span><span class="keyword">=&gt; </span><span class="default">1</span><span class="keyword">, </span><span class="string">"yağ" </span><span class="keyword">=&gt; </span><span class="string">"Oil"</span><span class="keyword">, </span><span class="string">"şekER" </span><span class="keyword">=&gt; </span><span class="string">"sugar"</span><span class="keyword">);<br /></span><span class="default">print_r</span><span class="keyword">(</span><span class="default">array_change_key_case</span><span class="keyword">(</span><span class="default">$arr</span><span class="keyword">, </span><span class="default">CASE_UPPER</span><span class="keyword">));<br /></span><span class="default">print_r</span><span class="keyword">(</span><span class="default">array_change_key_case_unicode</span><span class="keyword">(</span><span class="default">$arr</span><span class="keyword">, </span><span class="default">CASE_UPPER</span><span class="keyword">));<br /></span><span class="default">?&gt;<br /></span><br />Array<br />(<br />&nbsp; &nbsp; [FIRST] =&gt; 1<br />&nbsp; &nbsp; [YAğ] =&gt; Oil<br />&nbsp; &nbsp; [şEKER] =&gt; sugar<br />)<br />Array<br />(<br />&nbsp; &nbsp; [FIRST] =&gt; 1<br />&nbsp; &nbsp; [YAĞ] =&gt; Oil<br />&nbsp; &nbsp; [ŞEKER] =&gt; sugar<br />)</span>
+</code></div>
+  </div>
+ </div>
+  <div class="note" id="114914">  <div class="votes">
+    <div id="Vu114914">
+    <a href="/manual/vote-note.php?id=114914&amp;page=function.array-change-key-case&amp;vote=up" title="Vote up!" class="usernotes-voteu">up</a>
+    </div>
+    <div id="Vd114914">
+    <a href="/manual/vote-note.php?id=114914&amp;page=function.array-change-key-case&amp;vote=down" title="Vote down!" class="usernotes-voted">down</a>
+    </div>
+    <div class="tally" id="V114914" title="56% like this...">
+    8
+    </div>
+  </div>
+  <a href="#114914" class="name">
+  <strong class="user"><em>xsaero00</em></strong></a><a class="genanchor" href="#114914"> &para;</a><div class="date" title="2014-04-25 05:33"><strong>4 years ago</strong></div>
+  <div class="text" id="Hcom114914">
+<div class="phpcode"><code><span class="html">
+Here is the most compact way to lower case keys in a multidimensional array<br /><br />function array_change_key_case_recursive($arr)<br />{<br />&nbsp; &nbsp; return array_map(function($item){<br />&nbsp; &nbsp; &nbsp; &nbsp; if(is_array($item))<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $item = array_change_key_case_recursive($item);<br />&nbsp; &nbsp; &nbsp; &nbsp; return $item;<br />&nbsp; &nbsp; },array_change_key_case($arr));<br />}</span>
+</code></div>
+  </div>
+ </div>
+  <div class="note" id="87367">  <div class="votes">
+    <div id="Vu87367">
+    <a href="/manual/vote-note.php?id=87367&amp;page=function.array-change-key-case&amp;vote=up" title="Vote up!" class="usernotes-voteu">up</a>
+    </div>
+    <div id="Vd87367">
+    <a href="/manual/vote-note.php?id=87367&amp;page=function.array-change-key-case&amp;vote=down" title="Vote down!" class="usernotes-voted">down</a>
+    </div>
+    <div class="tally" id="V87367" title="56% like this...">
+    3
+    </div>
+  </div>
+  <a href="#87367" class="name">
+  <strong class="user"><em>anon at ymous dot com</em></strong></a><a class="genanchor" href="#87367"> &para;</a><div class="date" title="2008-12-02 03:19"><strong>9 years ago</strong></div>
+  <div class="text" id="Hcom87367">
+<div class="phpcode"><code><span class="html">
+Below is a recursive version of this function.<br /><br /><span class="default">&lt;?php<br />&nbsp; &nbsp; </span><span class="comment">/**<br />&nbsp; &nbsp;&nbsp; * A recursive array_change_key_case function.<br />&nbsp; &nbsp;&nbsp; * @param array $input<br />&nbsp; &nbsp;&nbsp; * @param integer $case<br />&nbsp; &nbsp;&nbsp; */<br />&nbsp; &nbsp; </span><span class="keyword">function </span><span class="default">array_change_key_case_recursive</span><span class="keyword">(</span><span class="default">$input</span><span class="keyword">, </span><span class="default">$case </span><span class="keyword">= </span><span class="default">null</span><span class="keyword">){<br />&nbsp; &nbsp; &nbsp; &nbsp; if(!</span><span class="default">is_array</span><span class="keyword">(</span><span class="default">$input</span><span class="keyword">)){<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">trigger_error</span><span class="keyword">(</span><span class="string">"Invalid input array '</span><span class="keyword">{</span><span class="default">$array</span><span class="keyword">}</span><span class="string">'"</span><span class="keyword">,</span><span class="default">E_USER_NOTICE</span><span class="keyword">); exit;<br />&nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="comment">// CASE_UPPER|CASE_LOWER<br />&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="keyword">if(</span><span class="default">null </span><span class="keyword">=== </span><span class="default">$case</span><span class="keyword">){<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$case </span><span class="keyword">= </span><span class="default">CASE_LOWER</span><span class="keyword">;<br />&nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; &nbsp; &nbsp; if(!</span><span class="default">in_array</span><span class="keyword">(</span><span class="default">$case</span><span class="keyword">, array(</span><span class="default">CASE_UPPER</span><span class="keyword">, </span><span class="default">CASE_LOWER</span><span class="keyword">))){<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">trigger_error</span><span class="keyword">(</span><span class="string">"Case parameter '</span><span class="keyword">{</span><span class="default">$case</span><span class="keyword">}</span><span class="string">' is invalid."</span><span class="keyword">, </span><span class="default">E_USER_NOTICE</span><span class="keyword">); exit;<br />&nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$input </span><span class="keyword">= </span><span class="default">array_change_key_case</span><span class="keyword">(</span><span class="default">$input</span><span class="keyword">, </span><span class="default">$case</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; foreach(</span><span class="default">$input </span><span class="keyword">as </span><span class="default">$key</span><span class="keyword">=&gt;</span><span class="default">$array</span><span class="keyword">){<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(</span><span class="default">is_array</span><span class="keyword">(</span><span class="default">$array</span><span class="keyword">)){<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$input</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">] = </span><span class="default">array_change_key_case_recursive</span><span class="keyword">(</span><span class="default">$array</span><span class="keyword">, </span><span class="default">$case</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; &nbsp; &nbsp; return </span><span class="default">$input</span><span class="keyword">;<br />&nbsp; &nbsp; }<br /></span><span class="default">?&gt;</span>
+</span>
+</code></div>
+  </div>
+ </div>
+  <div class="note" id="82522">  <div class="votes">
+    <div id="Vu82522">
+    <a href="/manual/vote-note.php?id=82522&amp;page=function.array-change-key-case&amp;vote=up" title="Vote up!" class="usernotes-voteu">up</a>
+    </div>
+    <div id="Vd82522">
+    <a href="/manual/vote-note.php?id=82522&amp;page=function.array-change-key-case&amp;vote=down" title="Vote down!" class="usernotes-voted">down</a>
+    </div>
+    <div class="tally" id="V82522" title="50% like this...">
+    1
+    </div>
+  </div>
+  <a href="#82522" class="name">
+  <strong class="user"><em>andreas dot schuhmacher87 at googlemail dot com</em></strong></a><a class="genanchor" href="#82522"> &para;</a><div class="date" title="2008-04-14 06:01"><strong>10 years ago</strong></div>
+  <div class="text" id="Hcom82522">
+<div class="phpcode"><code><span class="html">
+multibyte and multi-dimensional-array support, have fun!<br /><br /><span class="default">&lt;?php<br />&nbsp; &nbsp; define</span><span class="keyword">(</span><span class="string">'ARRAY_KEY_FC_LOWERCASE'</span><span class="keyword">, </span><span class="default">25</span><span class="keyword">); </span><span class="comment">//FOO =&gt; fOO<br />&nbsp; &nbsp; </span><span class="default">define</span><span class="keyword">(</span><span class="string">'ARRAY_KEY_FC_UPPERCASE'</span><span class="keyword">, </span><span class="default">20</span><span class="keyword">); </span><span class="comment">//foo =&gt; Foo<br />&nbsp; &nbsp; </span><span class="default">define</span><span class="keyword">(</span><span class="string">'ARRAY_KEY_UPPERCASE'</span><span class="keyword">, </span><span class="default">15</span><span class="keyword">); </span><span class="comment">//foo =&gt; FOO<br />&nbsp; &nbsp; </span><span class="default">define</span><span class="keyword">(</span><span class="string">'ARRAY_KEY_LOWERCASE'</span><span class="keyword">, </span><span class="default">10</span><span class="keyword">); </span><span class="comment">//FOO =&gt; foo<br />&nbsp; &nbsp; </span><span class="default">define</span><span class="keyword">(</span><span class="string">'ARRAY_KEY_USE_MULTIBYTE'</span><span class="keyword">, </span><span class="default">true</span><span class="keyword">); </span><span class="comment">//use mutlibyte functions<br />&nbsp; &nbsp; <br />&nbsp; &nbsp; /**<br />&nbsp; &nbsp; * change the case of array-keys<br />&nbsp; &nbsp; *<br />&nbsp; &nbsp; * use: array_change_key_case_ext(array('foo' =&gt; 1, 'bar' =&gt; 2), ARRAY_KEY_UPPERCASE);<br />&nbsp; &nbsp; * result: array('FOO' =&gt; 1, 'BAR' =&gt; 2)<br />&nbsp; &nbsp; *<br />&nbsp; &nbsp; * @param&nbsp; &nbsp; array<br />&nbsp; &nbsp; * @param&nbsp; &nbsp; int<br />&nbsp; &nbsp; * @return&nbsp; &nbsp;&nbsp; array<br />&nbsp; &nbsp; */<br />&nbsp; &nbsp; </span><span class="keyword">function </span><span class="default">array_change_key_case_ext</span><span class="keyword">(array </span><span class="default">$array</span><span class="keyword">, </span><span class="default">$case </span><span class="keyword">= </span><span class="default">10</span><span class="keyword">, </span><span class="default">$useMB </span><span class="keyword">= </span><span class="default">false</span><span class="keyword">, </span><span class="default">$mbEnc </span><span class="keyword">= </span><span class="string">'UTF-8'</span><span class="keyword">) {<br />&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$newArray </span><span class="keyword">= array();<br />&nbsp; &nbsp; &nbsp; &nbsp; <br />&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="comment">//for more speed define the runtime created functions in the global namespace<br />&nbsp; &nbsp; &nbsp; &nbsp; <br />&nbsp; &nbsp; &nbsp; &nbsp; //get function<br />&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="keyword">if(</span><span class="default">$useMB </span><span class="keyword">=== </span><span class="default">false</span><span class="keyword">) {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$function </span><span class="keyword">= </span><span class="string">'strToUpper'</span><span class="keyword">; </span><span class="comment">//default<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="keyword">switch(</span><span class="default">$case</span><span class="keyword">) {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="comment">//first-char-to-lowercase<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="keyword">case </span><span class="default">25</span><span class="keyword">:<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="comment">//maybee lcfirst is not callable<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="keyword">if(!</span><span class="default">function_exists</span><span class="keyword">(</span><span class="string">'lcfirst'</span><span class="keyword">)) <br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$function </span><span class="keyword">= </span><span class="default">create_function</span><span class="keyword">(</span><span class="string">'$input'</span><span class="keyword">, </span><span class="string">'<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return strToLower($input[0]) . substr($input, 1, (strLen($input) - 1));<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; else </span><span class="default">$function </span><span class="keyword">= </span><span class="string">'lcfirst'</span><span class="keyword">;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="comment">//first-char-to-uppercase&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="keyword">case </span><span class="default">20</span><span class="keyword">:<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$function </span><span class="keyword">= </span><span class="string">'ucfirst'</span><span class="keyword">;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="comment">//lowercase<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="keyword">case </span><span class="default">10</span><span class="keyword">:<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$function </span><span class="keyword">= </span><span class="string">'strToLower'</span><span class="keyword">;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; &nbsp; &nbsp; } else {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="comment">//create functions for multibyte support<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="keyword">switch(</span><span class="default">$case</span><span class="keyword">) {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="comment">//first-char-to-lowercase<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="keyword">case </span><span class="default">25</span><span class="keyword">:<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$function </span><span class="keyword">= </span><span class="default">create_function</span><span class="keyword">(</span><span class="string">'$input'</span><span class="keyword">, </span><span class="string">'<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return mb_strToLower(mb_substr($input, 0, 1, \'' </span><span class="keyword">. </span><span class="default">$mbEnc </span><span class="keyword">. </span><span class="string">'\')) . <br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; mb_substr($input, 1, (mb_strlen($input, \'' </span><span class="keyword">. </span><span class="default">$mbEnc </span><span class="keyword">. </span><span class="string">'\') - 1), \'' </span><span class="keyword">. </span><span class="default">$mbEnc </span><span class="keyword">. </span><span class="string">'\');<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="comment">//first-char-to-uppercase<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="keyword">case </span><span class="default">20</span><span class="keyword">:<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$function </span><span class="keyword">= </span><span class="default">create_function</span><span class="keyword">(</span><span class="string">'$input'</span><span class="keyword">, </span><span class="string">'<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return mb_strToUpper(mb_substr($input, 0, 1, \'' </span><span class="keyword">. </span><span class="default">$mbEnc </span><span class="keyword">. </span><span class="string">'\')) . <br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; mb_substr($input, 1, (mb_strlen($input, \'' </span><span class="keyword">. </span><span class="default">$mbEnc </span><span class="keyword">. </span><span class="string">'\') - 1), \'' </span><span class="keyword">. </span><span class="default">$mbEnc </span><span class="keyword">. </span><span class="string">'\');<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="comment">//uppercase<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="keyword">case </span><span class="default">15</span><span class="keyword">:<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$function </span><span class="keyword">= </span><span class="default">create_function</span><span class="keyword">(</span><span class="string">'$input'</span><span class="keyword">, </span><span class="string">'<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return mb_strToUpper($input, \'' </span><span class="keyword">. </span><span class="default">$mbEnc </span><span class="keyword">. </span><span class="string">'\');<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="comment">//lowercase<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="keyword">default: </span><span class="comment">//case 10:<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$function </span><span class="keyword">= </span><span class="default">create_function</span><span class="keyword">(</span><span class="string">'$input'</span><span class="keyword">, </span><span class="string">'<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return mb_strToLower($input, \'' </span><span class="keyword">. </span><span class="default">$mbEnc </span><span class="keyword">. </span><span class="string">'\');<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; '</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; &nbsp; &nbsp; <br />&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="comment">//loop array<br />&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="keyword">foreach(</span><span class="default">$array </span><span class="keyword">as </span><span class="default">$key </span><span class="keyword">=&gt; </span><span class="default">$value</span><span class="keyword">) {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if(</span><span class="default">is_array</span><span class="keyword">(</span><span class="default">$value</span><span class="keyword">)) </span><span class="comment">//$value is an array, handle keys too<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$newArray</span><span class="keyword">[</span><span class="default">$function</span><span class="keyword">(</span><span class="default">$key</span><span class="keyword">)] = </span><span class="default">array_change_key_case_ex</span><span class="keyword">(</span><span class="default">$value</span><span class="keyword">, </span><span class="default">$case</span><span class="keyword">, </span><span class="default">$useMB</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; elseif(</span><span class="default">is_string</span><span class="keyword">(</span><span class="default">$key</span><span class="keyword">))<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$newArray</span><span class="keyword">[</span><span class="default">$function</span><span class="keyword">(</span><span class="default">$key</span><span class="keyword">)] = </span><span class="default">$value</span><span class="keyword">;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; else </span><span class="default">$newArray</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">] = </span><span class="default">$value</span><span class="keyword">; </span><span class="comment">//$key is not a string<br />&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="keyword">} </span><span class="comment">//end loop<br />&nbsp; &nbsp; &nbsp; &nbsp; <br />&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="keyword">return </span><span class="default">$newArray</span><span class="keyword">;<br />&nbsp; &nbsp; }<br /></span><span class="default">?&gt;</span>
+</span>
+</code></div>
+  </div>
+ </div>
+  <div class="note" id="100095">  <div class="votes">
+    <div id="Vu100095">
+    <a href="/manual/vote-note.php?id=100095&amp;page=function.array-change-key-case&amp;vote=up" title="Vote up!" class="usernotes-voteu">up</a>
+    </div>
+    <div id="Vd100095">
+    <a href="/manual/vote-note.php?id=100095&amp;page=function.array-change-key-case&amp;vote=down" title="Vote down!" class="usernotes-voted">down</a>
+    </div>
+    <div class="tally" id="V100095" title="48% like this...">
+    -2
+    </div>
+  </div>
+  <a href="#100095" class="name">
+  <strong class="user"><em>Lus Henrique Pessoa</em></strong></a><a class="genanchor" href="#100095"> &para;</a><div class="date" title="2010-09-24 09:03"><strong>8 years ago</strong></div>
+  <div class="text" id="Hcom100095">
+<div class="phpcode"><code><span class="html">
+<span class="default">&lt;?php<br /><br /></span><span class="comment">// improving the previous script<br /></span><span class="keyword">function </span><span class="default">ack_r3</span><span class="keyword">(&amp;</span><span class="default">$array</span><span class="keyword">, </span><span class="default">$case</span><span class="keyword">=</span><span class="default">CASE_LOWER</span><span class="keyword">, </span><span class="default">$flag_rec</span><span class="keyword">=</span><span class="default">false</span><span class="keyword">) <br />&nbsp; &nbsp; {<br />&nbsp; &nbsp; &nbsp; </span><span class="default">$array </span><span class="keyword">= </span><span class="default">array_change_key_case</span><span class="keyword">(</span><span class="default">$array</span><span class="keyword">, </span><span class="default">$case</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; if ( </span><span class="default">$flag_rec </span><span class="keyword">) {<br />&nbsp; &nbsp; &nbsp; &nbsp; foreach (</span><span class="default">$array </span><span class="keyword">as </span><span class="default">$key </span><span class="keyword">=&gt; </span><span class="default">$value</span><span class="keyword">) {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if ( </span><span class="default">is_array</span><span class="keyword">(</span><span class="default">$value</span><span class="keyword">) ) {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">ack_r3</span><span class="keyword">(</span><span class="default">$array</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">], </span><span class="default">$case</span><span class="keyword">, </span><span class="default">true</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; }<br /><br /></span><span class="comment">// same of array_change_key_case<br /></span><span class="default">$arr </span><span class="keyword">= array(</span><span class="string">'ID' </span><span class="keyword">=&gt; </span><span class="default">1</span><span class="keyword">, </span><span class="string">'NAME'</span><span class="keyword">=&gt; </span><span class="string">'Luis'</span><span class="keyword">, </span><span class="string">'Contact' </span><span class="keyword">=&gt; array(</span><span class="string">'PHONE' </span><span class="keyword">=&gt; </span><span class="string">'3010-7148'</span><span class="keyword">, </span><span class="string">'E-MAIL' </span><span class="keyword">=&gt; </span><span class="string">'luis@net.com'</span><span class="keyword">) );<br />&nbsp; &nbsp; </span><span class="default">ack_r3</span><span class="keyword">(</span><span class="default">$arr</span><span class="keyword">, </span><span class="default">CASE_LOWER</span><span class="keyword">,</span><span class="default">false</span><span class="keyword">);<br />&nbsp; &nbsp; </span><span class="default">var_dump</span><span class="keyword">(</span><span class="default">$arr</span><span class="keyword">);<br />&nbsp; &nbsp; <br />&nbsp; &nbsp; </span><span class="default">$arr </span><span class="keyword">= array(</span><span class="string">'ID' </span><span class="keyword">=&gt; </span><span class="default">1</span><span class="keyword">, </span><span class="string">'NAME'</span><span class="keyword">=&gt; </span><span class="string">'Luis'</span><span class="keyword">, </span><span class="string">'Contact' </span><span class="keyword">=&gt; array(</span><span class="string">'PHONE' </span><span class="keyword">=&gt; </span><span class="string">'3010-7148'</span><span class="keyword">, </span><span class="string">'E-MAIL' </span><span class="keyword">=&gt; </span><span class="string">'luis@net.com'</span><span class="keyword">) );<br />&nbsp; &nbsp; </span><span class="default">ack_r3</span><span class="keyword">(</span><span class="default">$arr</span><span class="keyword">, </span><span class="default">CASE_LOWER</span><span class="keyword">,</span><span class="default">true</span><span class="keyword">);<br />&nbsp; &nbsp; </span><span class="default">var_dump</span><span class="keyword">(</span><span class="default">$arr</span><span class="keyword">);<br /><br /></span><span class="default">?&gt;<br /></span><br />outputs:<br /><br />array(3) {<br />&nbsp; ["id"]=&gt;<br />&nbsp; int(1)<br />&nbsp; ["name"]=&gt;<br />&nbsp; string(4) "Luis"<br />&nbsp; ["contact"]=&gt;<br />&nbsp; array(2) {<br />&nbsp; &nbsp; ["PHONE"]=&gt;<br />&nbsp; &nbsp; string(9) "3010-7148"<br />&nbsp; &nbsp; ["E-MAIL"]=&gt;<br />&nbsp; &nbsp; string(12) "luis@net.com"<br />&nbsp; }<br />}<br />array(3) {<br />&nbsp; ["id"]=&gt;<br />&nbsp; int(1)<br />&nbsp; ["name"]=&gt;<br />&nbsp; string(4) "Luis"<br />&nbsp; ["contact"]=&gt;<br />&nbsp; array(2) {<br />&nbsp; &nbsp; ["phone"]=&gt;<br />&nbsp; &nbsp; string(9) "3010-7148"<br />&nbsp; &nbsp; ["e-mail"]=&gt;<br />&nbsp; &nbsp; string(12) "luis@net.com"<br />&nbsp; }<br />}</span>
+</code></div>
+  </div>
+ </div>
+  <div class="note" id="106233">  <div class="votes">
+    <div id="Vu106233">
+    <a href="/manual/vote-note.php?id=106233&amp;page=function.array-change-key-case&amp;vote=up" title="Vote up!" class="usernotes-voteu">up</a>
+    </div>
+    <div id="Vd106233">
+    <a href="/manual/vote-note.php?id=106233&amp;page=function.array-change-key-case&amp;vote=down" title="Vote down!" class="usernotes-voted">down</a>
+    </div>
+    <div class="tally" id="V106233" title="47% like this...">
+    -2
+    </div>
+  </div>
+  <a href="#106233" class="name">
+  <strong class="user"><em>JOE</em></strong></a><a class="genanchor" href="#106233"> &para;</a><div class="date" title="2011-10-19 11:13"><strong>7 years ago</strong></div>
+  <div class="text" id="Hcom106233">
+<div class="phpcode"><code><span class="html">
+Script to change case of sub-arrays keys to lower . It works well for me. hope it helps.<br /><br /><span class="default">&lt;?php<br />$array</span><span class="keyword">=array(</span><span class="string">"First"</span><span class="keyword">=&gt;</span><span class="string">"val1"</span><span class="keyword">,</span><span class="string">"SecoNd"</span><span class="keyword">=&gt;</span><span class="string">"val2"</span><span class="keyword">,<br /></span><span class="string">"third"</span><span class="keyword">=&gt;array(</span><span class="string">"third-INner1"</span><span class="keyword">=&gt;</span><span class="string">"val3.1"</span><span class="keyword">),<br /></span><span class="string">"fourth"</span><span class="keyword">=&gt;array(</span><span class="string">"FouthINNer1"</span><span class="keyword">=&gt;</span><span class="string">"val4.1"</span><span class="keyword">,</span><span class="string">"FourthINNER2"</span><span class="keyword">=&gt;</span><span class="string">"val4.2"</span><span class="keyword">));<br /></span><span class="default">print_r</span><span class="keyword">(</span><span class="default">$array</span><span class="keyword">);<br /></span><span class="default">$key</span><span class="keyword">=</span><span class="default">array_keys</span><span class="keyword">(</span><span class="default">$array</span><span class="keyword">);<br />foreach(</span><span class="default">$key </span><span class="keyword">as </span><span class="default">$ki</span><span class="keyword">)<br />{<br />&nbsp; &nbsp; </span><span class="default">$klower</span><span class="keyword">=</span><span class="default">strtolower</span><span class="keyword">(</span><span class="default">$ki</span><span class="keyword">);<br />&nbsp; &nbsp; </span><span class="default">$val</span><span class="keyword">=</span><span class="default">$array</span><span class="keyword">[</span><span class="default">$ki</span><span class="keyword">];<br />&nbsp; &nbsp; if(</span><span class="default">is_array</span><span class="keyword">(</span><span class="default">$val</span><span class="keyword">))<br />&nbsp; &nbsp; {<br />&nbsp; &nbsp; &nbsp; &nbsp; foreach(</span><span class="default">$val </span><span class="keyword">as </span><span class="default">$kinner</span><span class="keyword">=&gt;</span><span class="default">$vinner</span><span class="keyword">)<br />&nbsp; &nbsp; &nbsp; &nbsp; {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$tl</span><span class="keyword">=</span><span class="default">strtolower</span><span class="keyword">(</span><span class="default">$kinner</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; unset(</span><span class="default">$val</span><span class="keyword">[</span><span class="default">$kinner</span><span class="keyword">]);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$val</span><span class="keyword">[</span><span class="default">$tl</span><span class="keyword">]=</span><span class="default">$vinner</span><span class="keyword">; <br />&nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; }<br />&nbsp; &nbsp; unset(</span><span class="default">$array</span><span class="keyword">[</span><span class="default">$ki</span><span class="keyword">]);<br />&nbsp; &nbsp; </span><span class="default">$array</span><span class="keyword">[</span><span class="default">$klower</span><span class="keyword">]=</span><span class="default">$val</span><span class="keyword">; <br />}<br />echo </span><span class="string">"&lt;br&gt; After Changing Key to-LowerCase : &lt;br&gt;"</span><span class="keyword">;<br /></span><span class="default">print_r</span><span class="keyword">(</span><span class="default">$array</span><span class="keyword">);<br /><br /></span><span class="default">?&gt;</span>
+</span>
+</code></div>
+  </div>
+ </div>
+  <div class="note" id="110126">  <div class="votes">
+    <div id="Vu110126">
+    <a href="/manual/vote-note.php?id=110126&amp;page=function.array-change-key-case&amp;vote=up" title="Vote up!" class="usernotes-voteu">up</a>
+    </div>
+    <div id="Vd110126">
+    <a href="/manual/vote-note.php?id=110126&amp;page=function.array-change-key-case&amp;vote=down" title="Vote down!" class="usernotes-voted">down</a>
+    </div>
+    <div class="tally" id="V110126" title="46% like this...">
+    -2
+    </div>
+  </div>
+  <a href="#110126" class="name">
+  <strong class="user"><em>NetPanther</em></strong></a><a class="genanchor" href="#110126"> &para;</a><div class="date" title="2012-09-22 01:27"><strong>6 years ago</strong></div>
+  <div class="text" id="Hcom110126">
+<div class="phpcode"><code><span class="html">
+Use this to capitalize first letter of all array keys:<br /><br /><span class="default">&lt;?php<br /><br /></span><span class="keyword">function </span><span class="default">ucfirstKeys</span><span class="keyword">(&amp;</span><span class="default">$data</span><span class="keyword">)<br />{<br />&nbsp; foreach (</span><span class="default">$data </span><span class="keyword">as </span><span class="default">$key </span><span class="keyword">=&gt; </span><span class="default">$value</span><span class="keyword">)<br />&nbsp; {<br />&nbsp; &nbsp; </span><span class="comment">// Convert key<br />&nbsp; &nbsp; </span><span class="default">$newKey </span><span class="keyword">= </span><span class="default">ucfirst</span><span class="keyword">(</span><span class="default">$key</span><span class="keyword">);<br /><br />&nbsp; &nbsp; </span><span class="comment">// Change key if needed<br />&nbsp; &nbsp; </span><span class="keyword">if (</span><span class="default">$newKey </span><span class="keyword">!= </span><span class="default">$key</span><span class="keyword">)<br />&nbsp; &nbsp; {<br />&nbsp; &nbsp; &nbsp; unset(</span><span class="default">$data</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">]);<br />&nbsp; &nbsp; &nbsp; </span><span class="default">$data</span><span class="keyword">[</span><span class="default">$newKey</span><span class="keyword">] = </span><span class="default">$value</span><span class="keyword">;<br />&nbsp; &nbsp; }<br /><br />&nbsp; &nbsp; </span><span class="comment">// Handle nested arrays<br />&nbsp; &nbsp; </span><span class="keyword">if (</span><span class="default">is_array</span><span class="keyword">(</span><span class="default">$value</span><span class="keyword">))<br />&nbsp; &nbsp; {<br />&nbsp; &nbsp; &nbsp; </span><span class="default">ucfirstKeys</span><span class="keyword">(</span><span class="default">$data</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">]);<br />&nbsp; &nbsp; }<br />&nbsp; }<br />}<br /><br /></span><span class="default">$test </span><span class="keyword">= array(</span><span class="string">'foo' </span><span class="keyword">=&gt; </span><span class="string">'bar'</span><span class="keyword">, </span><span class="string">'moreFoo' </span><span class="keyword">=&gt; array(</span><span class="string">'more' </span><span class="keyword">=&gt; </span><span class="string">'foo'</span><span class="keyword">));<br /></span><span class="default">ucfirstKeys</span><span class="keyword">(</span><span class="default">$test</span><span class="keyword">);<br /></span><span class="default">print_r</span><span class="keyword">(</span><span class="default">$test</span><span class="keyword">);<br /><br /></span><span class="default">?&gt;<br /></span><br />Result:<br />Array ( [MoreFoo] =&gt; Array ( [More] =&gt; foo ) [Foo] =&gt; bar )</span>
+</code></div>
+  </div>
+ </div>
+  <div class="note" id="118814">  <div class="votes">
+    <div id="Vu118814">
+    <a href="/manual/vote-note.php?id=118814&amp;page=function.array-change-key-case&amp;vote=up" title="Vote up!" class="usernotes-voteu">up</a>
+    </div>
+    <div id="Vd118814">
+    <a href="/manual/vote-note.php?id=118814&amp;page=function.array-change-key-case&amp;vote=down" title="Vote down!" class="usernotes-voted">down</a>
+    </div>
+    <div class="tally" id="V118814" title="43% like this...">
+    -2
+    </div>
+  </div>
+  <a href="#118814" class="name">
+  <strong class="user"><em>oulala at yandex dot com</em></strong></a><a class="genanchor" href="#118814"> &para;</a><div class="date" title="2016-02-10 02:12"><strong>2 years ago</strong></div>
+  <div class="text" id="Hcom118814">
+<div class="phpcode"><code><span class="html">
+Recursive LowerCase First Letter in array key<br /><br />if(!function_exists("mb_lcfirstKeys")) {<br />&nbsp; &nbsp; function mb_lcfirstKeys($data) {<br />&nbsp; &nbsp; &nbsp; &nbsp; $res = [];<br />&nbsp; &nbsp; &nbsp; &nbsp; foreach ($data as $key =&gt; $value) {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $newKey = mb_lcfirst($key);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $res[$newKey] = is_array($value) ? mb_lcfirstKeys($value) : $value;<br />&nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; &nbsp; &nbsp; return $res;<br />&nbsp; &nbsp; }<br />}</span>
+</code></div>
+  </div>
+ </div>
+  <div class="note" id="78056">  <div class="votes">
+    <div id="Vu78056">
+    <a href="/manual/vote-note.php?id=78056&amp;page=function.array-change-key-case&amp;vote=up" title="Vote up!" class="usernotes-voteu">up</a>
+    </div>
+    <div id="Vd78056">
+    <a href="/manual/vote-note.php?id=78056&amp;page=function.array-change-key-case&amp;vote=down" title="Vote down!" class="usernotes-voted">down</a>
+    </div>
+    <div class="tally" id="V78056" title="45% like this...">
+    -4
+    </div>
+  </div>
+  <a href="#78056" class="name">
+  <strong class="user"><em>john at doe dot com</em></strong></a><a class="genanchor" href="#78056"> &para;</a><div class="date" title="2007-09-26 12:04"><strong>11 years ago</strong></div>
+  <div class="text" id="Hcom78056">
+<div class="phpcode"><code><span class="html">
+<span class="default">&lt;?php<br /></span><span class="keyword">function </span><span class="default">array_change_value_case</span><span class="keyword">(</span><span class="default">$input</span><span class="keyword">, </span><span class="default">$case </span><span class="keyword">= </span><span class="default">CASE_LOWER</span><span class="keyword">)<br />{<br />&nbsp; &nbsp; </span><span class="default">$aRet </span><span class="keyword">= array();<br />&nbsp; &nbsp; <br />&nbsp; &nbsp; if (!</span><span class="default">is_array</span><span class="keyword">(</span><span class="default">$input</span><span class="keyword">))<br />&nbsp; &nbsp; {<br />&nbsp; &nbsp; &nbsp; &nbsp; return </span><span class="default">$aRet</span><span class="keyword">;<br />&nbsp; &nbsp; }<br />&nbsp; &nbsp; <br />&nbsp; &nbsp; foreach (</span><span class="default">$input </span><span class="keyword">as </span><span class="default">$key </span><span class="keyword">=&gt; </span><span class="default">$value</span><span class="keyword">)<br />&nbsp; &nbsp; {<br />&nbsp; &nbsp; &nbsp; &nbsp; if (</span><span class="default">is_array</span><span class="keyword">(</span><span class="default">$value</span><span class="keyword">))<br />&nbsp; &nbsp; &nbsp; &nbsp; {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$aRet</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">] = </span><span class="default">array_change_value_case</span><span class="keyword">(</span><span class="default">$value</span><span class="keyword">, </span><span class="default">$case</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; continue;<br />&nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; &nbsp; &nbsp; <br />&nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$aRet</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">] = (</span><span class="default">$case </span><span class="keyword">== </span><span class="default">CASE_UPPER </span><span class="keyword">? </span><span class="default">strtoupper</span><span class="keyword">(</span><span class="default">$value</span><span class="keyword">) : </span><span class="default">strtolower</span><span class="keyword">(</span><span class="default">$value</span><span class="keyword">));<br />&nbsp; &nbsp; }<br />&nbsp; &nbsp; <br />&nbsp; &nbsp; return </span><span class="default">$aRet</span><span class="keyword">;<br />}<br /></span><span class="default">?&gt;</span>
+</span>
+</code></div>
+  </div>
+ </div>
+  <div class="note" id="120085">  <div class="votes">
+    <div id="Vu120085">
+    <a href="/manual/vote-note.php?id=120085&amp;page=function.array-change-key-case&amp;vote=up" title="Vote up!" class="usernotes-voteu">up</a>
+    </div>
+    <div id="Vd120085">
+    <a href="/manual/vote-note.php?id=120085&amp;page=function.array-change-key-case&amp;vote=down" title="Vote down!" class="usernotes-voted">down</a>
+    </div>
+    <div class="tally" id="V120085" title="38% like this...">
+    -4
+    </div>
+  </div>
+  <a href="#120085" class="name">
+  <strong class="user"><em>ahmadz</em></strong></a><a class="genanchor" href="#120085"> &para;</a><div class="date" title="2016-10-25 05:49"><strong>1 year ago</strong></div>
+  <div class="text" id="Hcom120085">
+<div class="phpcode"><code><span class="html">
+function convert_to_key_case($data, $case){<br /><br />&nbsp; &nbsp; &nbsp; &nbsp; $condition = ($case == 'lowercase')? 'lowercase' : 'uppercase';<br />&nbsp; &nbsp; &nbsp; &nbsp; $test = [];<br />&nbsp; &nbsp; &nbsp; &nbsp; foreach($data as&nbsp; $key =&gt; $value) {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if ($condition == 'lowercase') {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $test[strtolower($key)] = $value;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; } else {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $test[strtoupper($key)] = $value;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; return $test;<br />}<br /><br />$input = ['test1'=&gt;1, 'Test2' =&gt; 2, 'TeSt3' =&gt; 3];<br /><br />print_r(convert_to_key_case($input, 'uppercase'));<br />print_r(convert_to_key_case($input, 'lowercase'));<br /><br />OUTPUT<br /><br />Array <br />(<br /> [TEST1] =&gt; 1<br /> [TEST2] =&gt; 2 <br /> [TEST3] =&gt; 3 <br />)<br /><br />Array ( <br /> [test1] =&gt; 1<br /> [test2] =&gt; 2<br /> [test3] =&gt; 3<br /> )</span>
+</code></div>
+  </div>
+ </div>
+  <div class="note" id="100077">  <div class="votes">
+    <div id="Vu100077">
+    <a href="/manual/vote-note.php?id=100077&amp;page=function.array-change-key-case&amp;vote=up" title="Vote up!" class="usernotes-voteu">up</a>
+    </div>
+    <div id="Vd100077">
+    <a href="/manual/vote-note.php?id=100077&amp;page=function.array-change-key-case&amp;vote=down" title="Vote down!" class="usernotes-voted">down</a>
+    </div>
+    <div class="tally" id="V100077" title="41% like this...">
+    -6
+    </div>
+  </div>
+  <a href="#100077" class="name">
+  <strong class="user"><em>Luis Henrique Pessoa</em></strong></a><a class="genanchor" href="#100077"> &para;</a><div class="date" title="2010-09-23 09:25"><strong>8 years ago</strong></div>
+  <div class="text" id="Hcom100077">
+<div class="phpcode"><code><span class="html">
+Script to change case of sub-arrays keys:<br /><br /><span class="default">&lt;?php<br /><br />&nbsp; &nbsp; </span><span class="keyword">function </span><span class="default">arrKey2Lower</span><span class="keyword">(&amp;</span><span class="default">$arrVals</span><span class="keyword">) {<br />&nbsp; &nbsp; &nbsp; &nbsp; foreach( </span><span class="default">$arrVals </span><span class="keyword">as </span><span class="default">$key </span><span class="keyword">=&gt; </span><span class="default">$item </span><span class="keyword">) {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$key2 </span><span class="keyword">= </span><span class="default">strtolower</span><span class="keyword">(</span><span class="default">$key</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if ( </span><span class="default">$key2 </span><span class="keyword">!= </span><span class="default">$key</span><span class="keyword">) {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; unset(</span><span class="default">$arrVals</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">]);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$arrVals</span><span class="keyword">[</span><span class="default">$key2</span><span class="keyword">]=</span><span class="default">$item</span><span class="keyword">;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$key</span><span class="keyword">=</span><span class="default">$key2</span><span class="keyword">;<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if ( </span><span class="default">is_array</span><span class="keyword">(</span><span class="default">$item</span><span class="keyword">) ) { </span><span class="default">arrKey2Lower</span><span class="keyword">(</span><span class="default">$arrValores</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">]); }<br />&nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; }<br />&nbsp; &nbsp; <br />&nbsp; &nbsp; </span><span class="default">$arr </span><span class="keyword">= array(</span><span class="string">'ID' </span><span class="keyword">=&gt; </span><span class="default">1</span><span class="keyword">, </span><span class="string">'NAME'</span><span class="keyword">=&gt; </span><span class="string">'Luis'</span><span class="keyword">, </span><span class="string">'Contact' </span><span class="keyword">=&gt; array(</span><span class="string">'PHONE' </span><span class="keyword">=&gt; </span><span class="string">'3010-7148'</span><span class="keyword">, </span><span class="string">'E-MAIL' </span><span class="keyword">=&gt; </span><span class="string">'luis@net.com'</span><span class="keyword">) );<br />&nbsp; &nbsp; </span><span class="default">arrKey2Lower</span><span class="keyword">(</span><span class="default">$arr</span><span class="keyword">);<br />&nbsp; &nbsp; </span><span class="default">var_dump</span><span class="keyword">(</span><span class="default">$arr</span><span class="keyword">);<br />&nbsp; &nbsp; <br />&nbsp; &nbsp; <br /></span><span class="default">?&gt;<br /></span><br />outputs:<br /><br />array(3) {<br />&nbsp; ["id"]=&gt;<br />&nbsp; int(1)<br />&nbsp; ["name"]=&gt;<br />&nbsp; string(4) "Luis"<br />&nbsp; ["contact"]=&gt;<br />&nbsp; array(2) {<br />&nbsp; &nbsp; ["phone"]=&gt;<br />&nbsp; &nbsp; string(9) "3010-7148"<br />&nbsp; &nbsp; ["e-mail"]=&gt;<br />&nbsp; &nbsp; string(12) "luis@net.com"<br />&nbsp; }<br />}</span>
+</code></div>
+  </div>
+ </div>
+  <div class="note" id="77016">  <div class="votes">
+    <div id="Vu77016">
+    <a href="/manual/vote-note.php?id=77016&amp;page=function.array-change-key-case&amp;vote=up" title="Vote up!" class="usernotes-voteu">up</a>
+    </div>
+    <div id="Vd77016">
+    <a href="/manual/vote-note.php?id=77016&amp;page=function.array-change-key-case&amp;vote=down" title="Vote down!" class="usernotes-voted">down</a>
+    </div>
+    <div class="tally" id="V77016" title="38% like this...">
+    -5
+    </div>
+  </div>
+  <a href="#77016" class="name">
+  <strong class="user"><em>cm at gameswelt dot de</em></strong></a><a class="genanchor" href="#77016"> &para;</a><div class="date" title="2007-08-10 04:11"><strong>11 years ago</strong></div>
+  <div class="text" id="Hcom77016">
+<div class="phpcode"><code><span class="html">
+I just changed the code a little bit so you havent got a code that repeats itself.<br /><br /><span class="default">&lt;?php<br /><br /></span><span class="keyword">function </span><span class="default">array_change_key_case_secure</span><span class="keyword">(</span><span class="default">$array </span><span class="keyword">= array(), </span><span class="default">$case </span><span class="keyword">= </span><span class="default">CASE_UPPER</span><span class="keyword">){<br />&nbsp; &nbsp; </span><span class="default">$secure </span><span class="keyword">= array();<br />&nbsp; &nbsp; </span><span class="default">$functionWrap </span><span class="keyword">= array(</span><span class="default">CASE_UPPER </span><span class="keyword">=&gt; </span><span class="string">'strtoupper'</span><span class="keyword">,<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">CASE_LOWER </span><span class="keyword">=&gt; </span><span class="string">'strtolower'</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <br />&nbsp; &nbsp; foreach(</span><span class="default">$array </span><span class="keyword">as </span><span class="default">$key </span><span class="keyword">=&gt; </span><span class="default">$val</span><span class="keyword">){<br />&nbsp; &nbsp; &nbsp; &nbsp; if(isset(</span><span class="default">$functionWrap</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">])){<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$key </span><span class="keyword">= </span><span class="default">$functionWrap</span><span class="keyword">[</span><span class="default">$case</span><span class="keyword">](</span><span class="default">$key</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$secure</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">][] = </span><span class="default">$val</span><span class="keyword">;<br />&nbsp; &nbsp; &nbsp; &nbsp; } else {<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; die(</span><span class="string">'Not a known Type'</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; }<br />&nbsp; &nbsp; <br />&nbsp; &nbsp; foreach(</span><span class="default">$secure </span><span class="keyword">as </span><span class="default">$key </span><span class="keyword">=&gt; </span><span class="default">$val</span><span class="keyword">){<br />&nbsp; &nbsp; &nbsp; &nbsp; if(</span><span class="default">count</span><span class="keyword">(</span><span class="default">$secure</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">]) == </span><span class="default">1</span><span class="keyword">){<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$secure</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">] = </span><span class="default">$val</span><span class="keyword">[</span><span class="default">0</span><span class="keyword">];<br />&nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; }<br />&nbsp; &nbsp; <br />&nbsp; &nbsp; return </span><span class="default">$secure</span><span class="keyword">;<br />}<br /><br /></span><span class="default">$myArray </span><span class="keyword">= array(</span><span class="string">'A' </span><span class="keyword">=&gt; </span><span class="string">'Hello'</span><span class="keyword">,<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="string">'B' </span><span class="keyword">=&gt; </span><span class="string">'World'</span><span class="keyword">,<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="string">'a' </span><span class="keyword">=&gt; </span><span class="string">'how are you?'</span><span class="keyword">);<br /><br /></span><span class="default">print_r</span><span class="keyword">(</span><span class="default">$myArray</span><span class="keyword">);<br /></span><span class="default">$myArray </span><span class="keyword">= </span><span class="default">array_change_key_case_secure</span><span class="keyword">(</span><span class="default">$myArray</span><span class="keyword">);<br /></span><span class="default">print_r</span><span class="keyword">(</span><span class="default">$myArray</span><span class="keyword">);<br /><br /></span><span class="comment">/*<br />Array<br />(<br />&nbsp; &nbsp; [A] =&gt; Hello<br />&nbsp; &nbsp; [B] =&gt; World<br />&nbsp; &nbsp; [a] =&gt; how are you?<br />)<br />Array<br />(<br />&nbsp; &nbsp; [A] =&gt; Array<br />&nbsp; &nbsp; &nbsp; &nbsp; (<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [0] =&gt; Hello<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; [1] =&gt; how are you?<br />&nbsp; &nbsp; &nbsp; &nbsp; )<br /><br />&nbsp; &nbsp; [B] =&gt; World<br />)<br />*/</span>
+</span>
+</code></div>
+  </div>
+ </div>
+  <div class="note" id="94856">  <div class="votes">
+    <div id="Vu94856">
+    <a href="/manual/vote-note.php?id=94856&amp;page=function.array-change-key-case&amp;vote=up" title="Vote up!" class="usernotes-voteu">up</a>
+    </div>
+    <div id="Vd94856">
+    <a href="/manual/vote-note.php?id=94856&amp;page=function.array-change-key-case&amp;vote=down" title="Vote down!" class="usernotes-voted">down</a>
+    </div>
+    <div class="tally" id="V94856" title="30% like this...">
+    -5
+    </div>
+  </div>
+  <a href="#94856" class="name">
+  <strong class="user"><em>info at microweb dot lt</em></strong></a><a class="genanchor" href="#94856"> &para;</a><div class="date" title="2009-11-29 02:07"><strong>8 years ago</strong></div>
+  <div class="text" id="Hcom94856">
+<div class="phpcode"><code><span class="html">
+Simple function to change multidimensional array's all values to uppercase. If you would like to change to lowercase then change "mb_strtoupper" to&nbsp; "mb_strtolower". It works perfect for me ;)<br /><br /><span class="default">&lt;?php<br /></span><span class="keyword">function </span><span class="default">change_case_recursive</span><span class="keyword">(</span><span class="default">$arr</span><span class="keyword">){<br />&nbsp; &nbsp; foreach (</span><span class="default">$arr </span><span class="keyword">as </span><span class="default">$key</span><span class="keyword">=&gt;</span><span class="default">$val</span><span class="keyword">){<br />&nbsp; &nbsp; &nbsp; &nbsp; if (!</span><span class="default">is_array</span><span class="keyword">(</span><span class="default">$arr</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">])){<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$arr</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">]=</span><span class="default">mb_strtoupper</span><span class="keyword">(</span><span class="default">$arr</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">]);<br />&nbsp; &nbsp; &nbsp; &nbsp; }else{<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">$arr</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">]=</span><span class="default">change_case_recursive</span><span class="keyword">(</span><span class="default">$arr</span><span class="keyword">[</span><span class="default">$key</span><span class="keyword">]);<br />&nbsp; &nbsp; &nbsp; &nbsp; }<br />&nbsp; &nbsp; }<br />&nbsp; &nbsp; return </span><span class="default">$arr</span><span class="keyword">;&nbsp; &nbsp; <br />}<br /></span><span class="default">?&gt;</span>
+</span>
+</code></div>
+  </div>
+ </div>
+  <div class="note" id="88152">  <div class="votes">
+    <div id="Vu88152">
+    <a href="/manual/vote-note.php?id=88152&amp;page=function.array-change-key-case&amp;vote=up" title="Vote up!" class="usernotes-voteu">up</a>
+    </div>
+    <div id="Vd88152">
+    <a href="/manual/vote-note.php?id=88152&amp;page=function.array-change-key-case&amp;vote=down" title="Vote down!" class="usernotes-voted">down</a>
+    </div>
+    <div class="tally" id="V88152" title="29% like this...">
+    -7
+    </div>
+  </div>
+  <a href="#88152" class="name">
+  <strong class="user"><em>charles</em></strong></a><a class="genanchor" href="#88152"> &para;</a><div class="date" title="2009-01-12 11:38"><strong>9 years ago</strong></div>
+  <div class="text" id="Hcom88152">
+<div class="phpcode"><code><span class="html">
+<span class="default">&lt;?php<br />$input_array </span><span class="keyword">= array(</span><span class="string">"FirSt" </span><span class="keyword">=&gt; </span><span class="default">1</span><span class="keyword">, </span><span class="string">"SecOnd" </span><span class="keyword">=&gt; </span><span class="default">4</span><span class="keyword">);<br /></span><span class="default">print_r</span><span class="keyword">(</span><span class="default">array_change_key_case</span><span class="keyword">(</span><span class="default">$input_array</span><span class="keyword">, </span><span class="default">CASE_UPPER</span><span class="keyword">));<br /></span><span class="default">?&gt;</span>
+</span>
+</code></div>
+  </div>
+ </div>
+  <div class="note" id="88648">  <div class="votes">
+    <div id="Vu88648">
+    <a href="/manual/vote-note.php?id=88648&amp;page=function.array-change-key-case&amp;vote=up" title="Vote up!" class="usernotes-voteu">up</a>
+    </div>
+    <div id="Vd88648">
+    <a href="/manual/vote-note.php?id=88648&amp;page=function.array-change-key-case&amp;vote=down" title="Vote down!" class="usernotes-voted">down</a>
+    </div>
+    <div class="tally" id="V88648" title="28% like this...">
+    -11
+    </div>
+  </div>
+  <a href="#88648" class="name">
+  <strong class="user"><em>david at ramaboo dot com</em></strong></a><a class="genanchor" href="#88648"> &para;</a><div class="date" title="2009-02-02 03:22"><strong>9 years ago</strong></div>
+  <div class="text" id="Hcom88648">
+<div class="phpcode"><code><span class="html">
+Same as array_change_key_case only with the values. This should really be part of PHP!<br /><br /><span class="default">&lt;?php<br /></span><span class="comment">/**<br /> * @brief Returns an array with all values lowercased or uppercased.<br /> * @return array Returns an array with all values lowercased or uppercased.<br /> * @param object $input The array to work on <br /> * @param int $case [optional] Either \c CASE_UPPER or \c CASE_LOWER (default).<br /> */<br /></span><span class="keyword">function </span><span class="default">array_change_value_case</span><span class="keyword">(array </span><span class="default">$input</span><span class="keyword">, </span><span class="default">$case </span><span class="keyword">= </span><span class="default">CASE_LOWER</span><span class="keyword">) {<br />&nbsp; &nbsp; switch (</span><span class="default">$case</span><span class="keyword">) {<br />&nbsp; &nbsp; &nbsp; &nbsp; case </span><span class="default">CASE_LOWER</span><span class="keyword">:<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return </span><span class="default">array_map</span><span class="keyword">(</span><span class="string">'strtolower'</span><span class="keyword">, </span><span class="default">$input</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break;<br />&nbsp; &nbsp; &nbsp; &nbsp; case </span><span class="default">CASE_UPPER</span><span class="keyword">:<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return </span><span class="default">array_map</span><span class="keyword">(</span><span class="string">'strtoupper'</span><span class="keyword">, </span><span class="default">$input</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; break;<br />&nbsp; &nbsp; &nbsp; &nbsp; default:<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </span><span class="default">trigger_error</span><span class="keyword">(</span><span class="string">'Case is not valid, CASE_LOWER or CASE_UPPER only'</span><span class="keyword">, </span><span class="default">E_USER_ERROR</span><span class="keyword">);<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return </span><span class="default">false</span><span class="keyword">;<br />&nbsp; &nbsp; }<br />}<br /></span><span class="default">?&gt;</span>
+</span>
+</code></div>
+  </div>
+ </div></div>
+
+ <div class="foot"><a href="/manual/add-note.php?sect=function.array-change-key-case&amp;redirect=http://php.net/manual/en/function.array-change-key-case.php"><img src='/images/notes-add@2x.png' alt='add a note' width='12' height='12'> <small>add a note</small></a></div>
+</section>    </section><!-- layout-content -->
+        <aside class='layout-menu'>
+
+        <ul class='parent-menu-list'>
+                                    <li>
+                <a href="ref.array.php">Array Functions</a>
+
+                                    <ul class='child-menu-list'>
+
+                                                <li class="current">
+                            <a href="function.array-change-key-case.php" title="array_&#8203;change_&#8203;key_&#8203;case">array_&#8203;change_&#8203;key_&#8203;case</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-chunk.php" title="array_&#8203;chunk">array_&#8203;chunk</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-column.php" title="array_&#8203;column">array_&#8203;column</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-combine.php" title="array_&#8203;combine">array_&#8203;combine</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-count-values.php" title="array_&#8203;count_&#8203;values">array_&#8203;count_&#8203;values</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-diff-assoc.php" title="array_&#8203;diff_&#8203;assoc">array_&#8203;diff_&#8203;assoc</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-diff-key.php" title="array_&#8203;diff_&#8203;key">array_&#8203;diff_&#8203;key</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-diff-uassoc.php" title="array_&#8203;diff_&#8203;uassoc">array_&#8203;diff_&#8203;uassoc</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-diff-ukey.php" title="array_&#8203;diff_&#8203;ukey">array_&#8203;diff_&#8203;ukey</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-diff.php" title="array_&#8203;diff">array_&#8203;diff</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-fill-keys.php" title="array_&#8203;fill_&#8203;keys">array_&#8203;fill_&#8203;keys</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-fill.php" title="array_&#8203;fill">array_&#8203;fill</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-filter.php" title="array_&#8203;filter">array_&#8203;filter</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-flip.php" title="array_&#8203;flip">array_&#8203;flip</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-intersect-assoc.php" title="array_&#8203;intersect_&#8203;assoc">array_&#8203;intersect_&#8203;assoc</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-intersect-key.php" title="array_&#8203;intersect_&#8203;key">array_&#8203;intersect_&#8203;key</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-intersect-uassoc.php" title="array_&#8203;intersect_&#8203;uassoc">array_&#8203;intersect_&#8203;uassoc</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-intersect-ukey.php" title="array_&#8203;intersect_&#8203;ukey">array_&#8203;intersect_&#8203;ukey</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-intersect.php" title="array_&#8203;intersect">array_&#8203;intersect</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-key-exists.php" title="array_&#8203;key_&#8203;exists">array_&#8203;key_&#8203;exists</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-key-first.php" title="array_&#8203;key_&#8203;first">array_&#8203;key_&#8203;first</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-key-last.php" title="array_&#8203;key_&#8203;last">array_&#8203;key_&#8203;last</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-keys.php" title="array_&#8203;keys">array_&#8203;keys</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-map.php" title="array_&#8203;map">array_&#8203;map</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-merge-recursive.php" title="array_&#8203;merge_&#8203;recursive">array_&#8203;merge_&#8203;recursive</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-merge.php" title="array_&#8203;merge">array_&#8203;merge</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-multisort.php" title="array_&#8203;multisort">array_&#8203;multisort</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-pad.php" title="array_&#8203;pad">array_&#8203;pad</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-pop.php" title="array_&#8203;pop">array_&#8203;pop</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-product.php" title="array_&#8203;product">array_&#8203;product</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-push.php" title="array_&#8203;push">array_&#8203;push</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-rand.php" title="array_&#8203;rand">array_&#8203;rand</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-reduce.php" title="array_&#8203;reduce">array_&#8203;reduce</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-replace-recursive.php" title="array_&#8203;replace_&#8203;recursive">array_&#8203;replace_&#8203;recursive</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-replace.php" title="array_&#8203;replace">array_&#8203;replace</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-reverse.php" title="array_&#8203;reverse">array_&#8203;reverse</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-search.php" title="array_&#8203;search">array_&#8203;search</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-shift.php" title="array_&#8203;shift">array_&#8203;shift</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-slice.php" title="array_&#8203;slice">array_&#8203;slice</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-splice.php" title="array_&#8203;splice">array_&#8203;splice</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-sum.php" title="array_&#8203;sum">array_&#8203;sum</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-udiff-assoc.php" title="array_&#8203;udiff_&#8203;assoc">array_&#8203;udiff_&#8203;assoc</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-udiff-uassoc.php" title="array_&#8203;udiff_&#8203;uassoc">array_&#8203;udiff_&#8203;uassoc</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-udiff.php" title="array_&#8203;udiff">array_&#8203;udiff</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-uintersect-assoc.php" title="array_&#8203;uintersect_&#8203;assoc">array_&#8203;uintersect_&#8203;assoc</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-uintersect-uassoc.php" title="array_&#8203;uintersect_&#8203;uassoc">array_&#8203;uintersect_&#8203;uassoc</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-uintersect.php" title="array_&#8203;uintersect">array_&#8203;uintersect</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-unique.php" title="array_&#8203;unique">array_&#8203;unique</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-unshift.php" title="array_&#8203;unshift">array_&#8203;unshift</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-values.php" title="array_&#8203;values">array_&#8203;values</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-walk-recursive.php" title="array_&#8203;walk_&#8203;recursive">array_&#8203;walk_&#8203;recursive</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array-walk.php" title="array_&#8203;walk">array_&#8203;walk</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.array.php" title="array">array</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.arsort.php" title="arsort">arsort</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.asort.php" title="asort">asort</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.compact.php" title="compact">compact</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.count.php" title="count">count</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.current.php" title="current">current</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.each.php" title="each">each</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.end.php" title="end">end</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.extract.php" title="extract">extract</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.in-array.php" title="in_&#8203;array">in_&#8203;array</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.key-exists.php" title="key_&#8203;exists">key_&#8203;exists</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.key.php" title="key">key</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.krsort.php" title="krsort">krsort</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.ksort.php" title="ksort">ksort</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.list.php" title="list">list</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.natcasesort.php" title="natcasesort">natcasesort</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.natsort.php" title="natsort">natsort</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.next.php" title="next">next</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.pos.php" title="pos">pos</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.prev.php" title="prev">prev</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.range.php" title="range">range</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.reset.php" title="reset">reset</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.rsort.php" title="rsort">rsort</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.shuffle.php" title="shuffle">shuffle</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.sizeof.php" title="sizeof">sizeof</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.sort.php" title="sort">sort</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.uasort.php" title="uasort">uasort</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.uksort.php" title="uksort">uksort</a>
+                        </li>
+                                                <li class="">
+                            <a href="function.usort.php" title="usort">usort</a>
+                        </li>
+                        
+                    </ul>
+                
+            </li>
+                        
+                    </ul>
+    </aside>
+
+
+  </div><!-- layout -->
+
+  <footer>
+    <div class="container footer-content">
+      <div class="row-fluid">
+      <ul class="footmenu">
+        <li><a href="/copyright.php">Copyright &copy; 2001-2018 The PHP Group</a></li>
+        <li><a href="/my.php">My PHP.net</a></li>
+        <li><a href="/contact.php">Contact</a></li>
+        <li><a href="/sites.php">Other PHP.net sites</a></li>
+        <li><a href="/mirrors.php">Mirror sites</a></li>
+        <li><a href="/privacy.php">Privacy policy</a></li>
+      </ul>
+      </div>
+    </div>
+  </footer>
+
+    
+ <!-- External and third party libraries. -->
+ <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script type="text/javascript" src="/cached.php?t=1421837618&amp;f=/js/ext/modernizr.js"></script>
+<script type="text/javascript" src="/cached.php?t=1421837618&amp;f=/js/ext/hogan-2.0.0.min.js"></script>
+<script type="text/javascript" src="/cached.php?t=1421837618&amp;f=/js/ext/typeahead.min.js"></script>
+<script type="text/javascript" src="/cached.php?t=1421837618&amp;f=/js/ext/mousetrap.min.js"></script>
+<script type="text/javascript" src="/cached.php?t=1421837618&amp;f=/js/search.js"></script>
+<script type="text/javascript" src="/cached.php?t=1539765004&amp;f=/js/common.js"></script>
+
+<a id="toTop" href="javascript:;"><span id="toTopHover"></span><img width="40" height="40" alt="To Top" src="/images/to-top@2x.png"></a>
+
+</body>
+</html>

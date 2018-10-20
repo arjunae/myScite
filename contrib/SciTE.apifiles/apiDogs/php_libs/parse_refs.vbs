@@ -10,10 +10,11 @@ const TristateUseDefault=-2
 const TristateTrue=-1 'Unicode
 const TristateFalse=0 'ASCII
 dim bconsole
-dim noComment
 
-Set fso = CreateObject("Scripting.FileSystemObject")
-set  http = CreateObject("WinHttp.WinHttpRequest.5.1")
+set fso = CreateObject("Scripting.FileSystemObject")
+set http = CreateObject("WinHttp.WinHttpRequest.5.1")
+
+
 http.SetTimeouts 30000,30000,30000,30000
 	
 Set ofile_dir = fso.OpenTextFile("php_core_ref.txt",ForReading,TristateTrue)
@@ -29,7 +30,7 @@ function main()
 		ln= trim(ofile_dir.ReadLine())
 		arr_ln=split(ln,";")
 		getfnLink(arr_ln(0))
-
+	exit function
 	wend
 
 	ofile_dir.close()
@@ -38,26 +39,31 @@ end function
 
 function getfnLink(url)
 
-''wscript.echo(url)
-
-	http.Open "GET",url, false
-	http.setRequestHeader "Content-Type", "text/html; charset=UTF-8"
-	http.Send
-
-	'http://winhttp.blogspot.com/ WorkAround UnicodeBug
-	Set fileOut = FSO.CreateTextFile("utf8.txt", true, true)
-	fileOut.Write http.responsebody
-	fileOut.Close
-	Set fileIn = fso.OpenTextFile("utf8.txt",ForReading,TristateTrue)
-	content=fileIn.readAll()
-	fileIn.Close()
+''https://officetricks.com/vbscript-extract-data-web-scrape-parse-html/
+	set oXML = CreateObject("MSXML2.XMLHTTP")
+	set ohtmlFile = CreateObject("HTMLFILE")
+	wscript.echo(url)
+	oXML.open "GET" , url ,async	
+	oXML.send()
 	
-	'prefilter fatty content 
-	startPos=instr(content,"refsect1 description")
-	endPos=instr(content,"</body")
-
-	if bConsole then	wscript.echo(url & " " & startPos & " " & endpos)
+    'Get Web Data to HTML file Object
+		do  
+			wscript.sleep(50)
+		loop until oXML.Status=200 
 		
+    ohtmlFile.Write oXML.responseText
+   ohtmlFile.Close
+' vbscript WTF - HTMLFILE Objext SUCKS
+		Set oTable = ohtmlFile.getElementById("layout")
+		'wscript.echo(oTable.innerText)
+		for each bla in oTable.all
+		if bla.ClassName ="methodname" then wscript.echo(bla.innerText)
+		if bla.ClassName ="refsect1 description" then wscript.echo(bla.innerText)
+		if bla.ClassName ="refsect1 returnvalues" then wscript.echo(bla.innerText)		
+	''	wscript.echo(bla.innerText)
+
+next
+
 end function
 
 function regexp(strPattern,strContent)
