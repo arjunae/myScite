@@ -1,15 +1,3 @@
-todo php data objects (Classes)
-http://php.net/manual/en/ref.pdo-dblib.php 0 0
-http://php.net/manual/en/ref.pdo-firebird.php 0 0
-http://php.net/manual/en/ref.pdo-mysql.php 0 0
-http://php.net/manual/en/ref.pdo-oci.php 0 0
-http://php.net/manual/en/ref.pdo-odbc.php 0 0
-http://php.net/manual/en/ref.pdo-pgsql.php 0 0
-http://php.net/manual/en/ref.pdo-sqlite.php 0 0
-http://php.net/manual/en/book.xmlreader.php (Classes)
-http://php.net/manual/en/book.xsl.php (Classes)
-
-
 http://php.net/manual/en/function.bzclose.php;bzclose
 http://php.net/manual/en/function.bzcompress.php;bzcompress
 http://php.net/manual/en/function.bzdecompress.php;bzdecompress

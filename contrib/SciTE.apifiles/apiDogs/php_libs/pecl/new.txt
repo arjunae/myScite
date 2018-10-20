@@ -1,0 +1,31 @@
+todo pdo (Classes)
+http://php.net/manual/en/ref.pdo-4d.php 
+http://php.net/manual/en/ref.pdo-cubrid.php 
+http://php.net/manual/en/ref.pdo-ibm.php 
+http://php.net/manual/en/ref.pdo-informix.php 
+http://php.net/manual/en/ref.pdo-sqlsrv.php 
+http://php.net/manual/en/book.pthreads.php (Classes)
+http://php.net/manual/en/book.quickhash.php (Classes)
+http://php.net/manual/en/book.rar.php rar (Classes)
+http://php.net/manual/en/rrd.php rRD (Classes)
+http://php.net/manual/en/book.sphinx.php (Classes)
+http://php.net/manual/en/book.spl-types.php (Classes)
+http://php.net/manual/en/book.swoole.php (Classes)
+http://php.net/manual/en/book.svm.php (Classes)
+http://php.net/manual/en/book.tokyo-tyrant.php (Classes)
+http://php.net/manual/en/book.v8js.php (Classes)
+http://php.net/manual/en/book.varnish.php (Classes)
+http://php.net/manual/en/book.weakref.php (Classes)
+http://php.net/manual/en/book.yaf.php (Classes)
+http://php.net/manual/en/book.zookeeper.php (Classes)
+http://php.net/manual/en/book.ev.php (Classes)
+http://php.net/manual/en/book.event.php (Classes)
+http://php.net/manual/en/book.gearman.php (Classes)
+http://php.net/manual/en/book.gender.php (Classes)
+http://php.net/manual/en/book.gmagick.php (Classes)
+http://php.net/manual/en/book.haru.php (Classes)
+http://php.net/manual/en/book.imagick.php (Classes)
+http://php.net/manual/en/book.ktaglib.php (Classes)
+http://php.net/manual/en/book.lapack.php (Classes)
+http://php.net/manual/en/book.lua.php (Classes)
+http://php.net/manual/en/book.memcached.php (Classes)

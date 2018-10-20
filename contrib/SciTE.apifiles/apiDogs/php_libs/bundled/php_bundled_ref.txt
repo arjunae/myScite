@@ -1,6 +1,3 @@
-http://php.net/manual/en/book.pdo.php (Classes)
-http://php.net/manual/en/book.sqlite3.php (Classes)
-
 http://php.net/manual/en/function.cal-days-in-month.php;cal_days_in_month
 http://php.net/manual/en/function.cal-from-jd.php;cal_from_jd
 http://php.net/manual/en/function.cal-info.php;cal_info

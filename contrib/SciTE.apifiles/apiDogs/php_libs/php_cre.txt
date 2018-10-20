@@ -1,8 +1,0 @@
-unicode
-http://php.net/manual/en/book.bbcode.php bBCode 
-http://php.net/manual/en/book.msession.php 
-http://php.net/manual/en/book.runkit.php runkit 
-http://php.net/manual/en/book.rpmreader.php rPM Reader 
-http://php.net/manual/en/book.radius.php radius 
-http://php.net/manual/en/book.bcompiler.php bcompiler 
-http://php.net/manual/en/book.fdf.php 
