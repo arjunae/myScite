@@ -2,6 +2,8 @@
 '  /vbScript Hate/
 ' (...)
 ' todo:  calm down. rewrite and use a DOM Parser.
+' (%!&UUC!!K!) 
+' ok. seems usable...Dont try that at home.
 
 const ForReading=1
 const ForWriting=2
@@ -12,10 +14,6 @@ const TristateFalse=0 'ASCII
 dim bconsole
 
 set fso = CreateObject("Scripting.FileSystemObject")
-set http = CreateObject("WinHttp.WinHttpRequest.5.1")
-
-
-http.SetTimeouts 30000,30000,30000,30000
 	
 Set ofile_dir = fso.OpenTextFile("php_core_ref.txt",ForReading,TristateTrue)
 Set ofile_ref = fso.OpenTextFile("php_core.func.txt",ForWriting,TristateTrue)
@@ -30,7 +28,7 @@ function main()
 		ln= trim(ofile_dir.ReadLine())
 		arr_ln=split(ln,";")
 		getfnLink(arr_ln(0))
-	exit function
+
 	wend
 
 	ofile_dir.close()
@@ -45,23 +43,36 @@ function getfnLink(url)
 	wscript.echo(url)
 	oXML.open "GET" , url ,async	
 	oXML.send()
-	
+
     'Get Web Data to HTML file Object
-		do  
-			wscript.sleep(50)
-		loop until oXML.Status=200 
+		''do  
+			wscript.sleep(1500)
+		''loop until oXML.Status=200 
 		
     ohtmlFile.Write oXML.responseText
    ohtmlFile.Close
+	 
 ' vbscript WTF - HTMLFILE Objext SUCKS
 		Set oTable = ohtmlFile.getElementById("layout")
 		'wscript.echo(oTable.innerText)
 		for each bla in oTable.all
-		if bla.ClassName ="methodname" then wscript.echo(bla.innerText)
-		if bla.ClassName ="refsect1 description" then wscript.echo(bla.innerText)
-		if bla.ClassName ="refsect1 returnvalues" then wscript.echo(bla.innerText)		
-	''	wscript.echo(bla.innerText)
-
+		if bla.ClassName ="refsect1 description" then 
+			''wscript.echo(bla.innerText)
+			if not instr(bla.innerText,"alias of")>0 then
+				strraw=bla.innerText
+				strraw=replace(strraw,"Description", "")
+				
+				x=split(bla.innerText,vbLf)			
+				strFunc = replace(x(1),vbcr,"")
+				if UBound(x)=2 then strDescr = replace(x(2),vbcr,"")
+				' then get the short desc
+				
+				ofile_ref.WriteLine (strFunc & " " & strDescr )
+			end if
+		end if
+		''if bla.ClassName ="methodname" then wscript.echo(bla.innerText)		
+		''if bla.ClassName ="refsect1 returnvalues" then wscript.echo(bla.innerText)		
+	
 next
 
 end function
@@ -84,6 +95,7 @@ function regexp(strPattern,strContent)
 	''wscript.echo(myMatches.Item(0))
 	''wscript.echo(myMatches.Item(0).submatches.count)
 	''wscript.echo(myMatches.Item(0).submatches(0))
+
 
 	for each myMatch in myMatches
 		for each subMatch in myMatch.Submatches

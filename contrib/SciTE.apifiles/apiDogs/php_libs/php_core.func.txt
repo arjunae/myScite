@@ -1,0 +1,680 @@
+array array_change_key_case ( array $array [, int $case = CASE_LOWER ] ) Returns an array with all keys from array lowercased or uppercased. Numbered indices are left as is. 
+array array_chunk ( array $array , int $size [, bool $preserve_keys = FALSE ] ) Chunks an array into arrays with size elements. The last chunk may contain less than size elements. 
+array array_column ( array $input , mixed $column_key [, mixed $index_key = NULL ] ) array_column() returns the values from a single column of the input, identified by the column_key. Optionally, an index_key may be provided to index the values in the returned array by the values from the index_key column of the input array. 
+array array_combine ( array $keys , array $values ) Creates an array by using the values from the keys array as keys and the values from the values array as the corresponding values. 
+array array_count_values ( array $array ) array_count_values() returns an array using the values of array as keys and their frequency in array as values. 
+array array_diff_assoc ( array $array1 , array $array2 [, array $... ] ) Compares array1 against array2 and returns the difference. Unlike array_diff() the array keys are also used in the comparison. 
+array array_diff_key ( array $array1 , array $array2 [, array $... ] ) Compares the keys from array1 against the keys from array2 and returns the difference. This function is like array_diff() except the comparison is done on the keys instead of the values. 
+array array_diff_uassoc ( array $array1 , array $array2 [, array $... ], callable $key_compare_func ) 
+array array_diff_ukey ( array $array1 , array $array2 [, array $... ], callable $key_compare_func ) 
+array array_diff ( array $array1 , array $array2 [, array $... ] ) Compares array1 against one or more other arrays and returns the values in array1 that are not present in any of the other arrays. 
+array array_fill_keys ( array $keys , mixed $value ) Fills an array with the value of the value parameter, using the values of the keys array as keys. 
+array array_fill ( int $start_index , int $num , mixed $value ) Fills an array with num entries of the value of the value parameter, keys starting at the start_index parameter. 
+array array_filter ( array $array [, callable $callback [, int $flag = 0 ]] ) Iterates over each value in the array passing them to the callback function. If the callback function returns true, the current value from array is returned into the result array. Array keys are preserved. 
+array array_flip ( array $array ) 
+array array_intersect_assoc ( array $array1 , array $array2 [, array $... ] ) array_intersect_assoc() returns an array containing all the values of array1 that are present in all the arguments. Note that the keys are also used in the comparison unlike in array_intersect(). 
+array array_intersect_key ( array $array1 , array $array2 [, array $... ] ) array_intersect_key() returns an array containing all the entries of array1 which have keys that are present in all the arguments. 
+array array_intersect_uassoc ( array $array1 , array $array2 [, array $... ], callable $key_compare_func ) array_intersect_uassoc() returns an array containing all the values of array1 that are present in all the arguments. Note that the keys are used in the comparison unlike in array_intersect(). 
+array array_intersect_ukey ( array $array1 , array $array2 [, array $... ], callable $key_compare_func ) array_intersect_ukey() returns an array containing all the values of array1 which have matching keys that are present in all the arguments. 
+array array_intersect ( array $array1 , array $array2 [, array $... ] ) array_intersect() returns an array containing all the values of array1 that are present in all the arguments. Note that keys are preserved. 
+bool array_key_exists ( mixed $key , array $array ) array_key_exists() returns TRUE if the given key is set in the array. key can be any value possible for an array index. 
+mixed array_key_first ( array $array ) Get the first key of the given array without affecting the internal array pointer. 
+mixed array_key_last ( array $array ) Get the last key of the given array without affecting the internal array pointer. 
+array array_keys ( array $array [, mixed $search_value [, bool $strict = FALSE ]] ) 
+array array_map ( callable $callback , array $array1 [, array $... ] ) array_map() returns an array containing all the elements of array1 after applying the callback function to each one. The number of parameters that the callback function accepts should match the number of arrays passed to the array_map() 
+array array_merge_recursive ( array $array1 [, array $... ] ) 
+array array_merge ( array $array1 [, array $... ] ) 
+bool array_multisort ( array &$array1 [, mixed $array1_sort_order = SORT_ASC [, mixed $array1_sort_flags = SORT_REGULAR [, mixed $... ]]] ) 
+array array_pad ( array $array , int $size , mixed $value ) array_pad() returns a copy of the array padded to size specified by size with value value. If size is positive then the array is padded on the right, if it's negative then on the left. If the absolute value of size is less than or equal to the length of the array then no padding takes place. It is possible to add at most 1048576 elements at a time. 
+mixed array_pop ( array &$array ) 
+number array_product ( array $array ) array_product() returns the product of values in an array. 
+int array_push ( array &$array [, mixed $... ] ) 
+mixed array_rand ( array $array [, int $num = 1 ] ) Picks one or more random entries out of an array, and returns the key (or keys) of the random entries. It uses a pseudo random number generator that is not suitable for cryptographic purposes. 
+mixed array_reduce ( array $array , callable $callback [, mixed $initial = NULL ] ) array_reduce() applies iteratively the callback function to the elements of the array, so as to reduce the array to a single value. 
+array array_replace_recursive ( array $array1 [, array $... ] ) 
+array array_replace ( array $array1 [, array $... ] ) 
+array array_reverse ( array $array [, bool $preserve_keys = FALSE ] ) Takes an input array and returns a new array with the order of the elements reversed. 
+mixed array_search ( mixed $needle , array $haystack [, bool $strict = FALSE ] ) Searches haystack for needle. 
+mixed array_shift ( array &$array ) 
+array array_slice ( array $array , int $offset [, int $length = NULL [, bool $preserve_keys = FALSE ]] ) array_slice() returns the sequence of elements from the array array as specified by the offset and length parameters. 
+array array_splice ( array &$input , int $offset [, int $length = count($input) [, mixed $replacement = array() ]] ) 
+number array_sum ( array $array ) array_sum() returns the sum of values in an array. 
+array array_udiff_assoc ( array $array1 , array $array2 [, array $... ], callable $value_compare_func ) 
+array array_udiff_uassoc ( array $array1 , array $array2 [, array $... ], callable $value_compare_func , callable $key_compare_func ) 
+array array_udiff ( array $array1 , array $array2 [, array $... ], callable $value_compare_func ) Computes the difference of arrays by using a callback function for data comparison. This is unlike array_diff() which uses an internal function for comparing the data. 
+array array_uintersect_assoc ( array $array1 , array $array2 [, array $... ], callable $value_compare_func ) 
+array array_uintersect_uassoc ( array $array1 , array $array2 [, array $... ], callable $value_compare_func , callable $key_compare_func ) Computes the intersection of arrays with additional index check, compares data and indexes by separate callback functions. 
+array array_uintersect ( array $array1 , array $array2 [, array $... ], callable $value_compare_func ) Computes the intersection of arrays, compares data by a callback function. 
+array array_unique ( array $array [, int $sort_flags = SORT_STRING ] ) 
+int array_unshift ( array &$array [, mixed $... ] ) array_unshift() prepends passed elements to the front of the array. Note that the list of elements is prepended as a whole, so that the prepended elements stay in the same order. All numerical array keys will be modified to start counting from zero while literal keys won't be changed. 
+array array_values ( array $array ) array_values() returns all the values from the array and indexes the array numerically. 
+bool array_walk_recursive ( array &$array , callable $callback [, mixed $userdata = NULL ] ) Applies the user-defined callback function to each element of the array. This function will recurse into deeper arrays. 
+bool array_walk ( array &$array , callable $callback [, mixed $userdata = NULL ] ) 
+array array ([ mixed $... ] ) Creates an array. Read the section on the array type for more information on what an array is. 
+bool arsort ( array &$array [, int $sort_flags = SORT_REGULAR ] ) 
+bool asort ( array &$array [, int $sort_flags = SORT_REGULAR ] ) 
+array compact ( mixed $varname1 [, mixed $... ] ) 
+int count ( mixed $array_or_countable [, int $mode = COUNT_NORMAL ] ) 
+mixed current ( array $array ) Every array has an internal pointer to its "current" element, which is initialized to the first element inserted into the array. 
+array each ( array &$array ) 
+mixed end ( array &$array ) end() advances array's internal pointer to the last element, and returns its value. 
+int extract ( array &$array [, int $flags = EXTR_OVERWRITE [, string $prefix = NULL ]] ) 
+bool in_array ( mixed $needle , array $haystack [, bool $strict = FALSE ] ) Searches haystack for needle using loose comparison unless strict is set. 
+mixed key ( array $array ) key() returns the index element of the current array position. 
+bool krsort ( array &$array [, int $sort_flags = SORT_REGULAR ] ) Sorts an array by key in reverse order, maintaining key to data correlations. This is useful mainly for associative arrays. 
+bool ksort ( array &$array [, int $sort_flags = SORT_REGULAR ] ) Sorts an array by key, maintaining key to data correlations. This is useful mainly for associative arrays. 
+array list ( mixed $var1 [, mixed $... ] ) 
+bool natcasesort ( array &$array ) 
+bool natsort ( array &$array ) 
+mixed next ( array &$array ) next() behaves like current(), with one difference. It advances the internal array pointer one place forward before returning the element value. That means it returns the next array value and advances the internal array pointer by one. 
+mixed prev ( array &$array ) 
+array range ( mixed $start , mixed $end [, number $step = 1 ] ) Create an array containing a range of elements. 
+mixed reset ( array &$array ) reset() rewinds array's internal pointer to the first element and returns the value of the first array element. 
+bool rsort ( array &$array [, int $sort_flags = SORT_REGULAR ] ) 
+bool shuffle ( array &$array ) This function shuffles (randomizes the order of the elements in) an array. It uses a pseudo random number generator that is not suitable for cryptographic purposes. 
+bool sort ( array &$array [, int $sort_flags = SORT_REGULAR ] ) 
+bool uasort ( array &$array , callable $value_compare_func ) 
+bool uksort ( array &$array , callable $key_compare_func ) 
+bool usort ( array &$array , callable $value_compare_func ) 
+void __autoload ( string $class ) You can define this function to enable classes autoloading. 
+mixed call_user_method_array ( string $method_name , object &$obj , array $params ) 
+mixed call_user_method ( string $method_name , object &$obj [, mixed $parameter [, mixed $... ]] ) 
+bool class_alias ( string $original , string $alias [, bool $autoload = TRUE ] ) Creates an alias named alias based on the user defined class original. The aliased class is exactly the same as the original class. 
+bool class_exists ( string $class_name [, bool $autoload = TRUE ] ) This function checks whether or not the given class has been defined. 
+string get_called_class ( void ) Gets the name of the class the static method is called in. 
+array get_class_methods ( mixed $class_name ) Gets the class methods names. 
+array get_class_vars ( string $class_name ) Get the default properties of the given class. 
+string get_class ([ object $object ] ) Gets the name of the class of the given object. 
+array get_declared_classes ( void ) Gets the declared classes. 
+array get_declared_interfaces ( void ) Gets the declared interfaces. 
+array get_declared_traits ( void ) 
+array get_object_vars ( object $object ) Gets the accessible non-static properties of the given object according to scope. 
+string get_parent_class ([ mixed $object ] ) Retrieves the parent class name for object or class. 
+bool interface_exists ( string $interface_name [, bool $autoload = TRUE ] ) Checks if the given interface has been defined. 
+bool is_a ( object $object , string $class_name [, bool $allow_string = FALSE ] ) Checks if the given object is of this class or has this class as one of its parents. 
+bool is_subclass_of ( mixed $object , string $class_name [, bool $allow_string = TRUE ] ) Checks if the given object has the class class_name as one of its parents or implements it. 
+bool method_exists ( mixed $object , string $method_name ) Checks if the class method exists in the given object. 
+bool property_exists ( mixed $class , string $property ) 
+bool trait_exists ( string $traitname [, bool $autoload ] ) 
+string random_bytes ( int $length ) 
+int random_int ( int $min , int $max ) 
+bool checkdate ( int $month , int $day , int $year ) Checks the validity of the date formed by the arguments. A date is considered valid if each parameter is properly defined. 
+string date_default_timezone_get ( void ) 
+bool date_default_timezone_set ( string $timezone_identifier ) 
+array date_parse_from_format ( string $format , string $date ) Returns associative array with detailed info about given date. 
+array date_parse ( string $date ) 
+array date_sun_info ( int $time , float $latitude , float $longitude ) 
+mixed date_sunrise ( int $timestamp [, int $format = SUNFUNCS_RET_STRING [, float $latitude = ini_get("date.default_latitude") [, float $longitude = ini_get("date.default_longitude") [, float $zenith = ini_get("date.sunrise_zenith") [, float $gmt_offset = 0 ]]]]] ) date_sunrise() returns the sunrise time for a given day (specified as a timestamp) and location. 
+mixed date_sunset ( int $timestamp [, int $format = SUNFUNCS_RET_STRING [, float $latitude = ini_get("date.default_latitude") [, float $longitude = ini_get("date.default_longitude") [, float $zenith = ini_get("date.sunset_zenith") [, float $gmt_offset = 0 ]]]]] ) date_sunset() returns the sunset time for a given day (specified as a timestamp) and location. 
+string date ( string $format [, int $timestamp = time() ] ) Returns a string formatted according to the given format string using the given integer timestamp or the current time if no timestamp is given. In other words, timestamp is optional and defaults to the value of time(). 
+array getdate ([ int $timestamp = time() ] ) Returns an associative array containing the date information of the timestamp, or the current local time if no timestamp is given. 
+mixed gettimeofday ([ bool $return_float = FALSE ] ) This is an interface to gettimeofday(2). It returns an associative array containing the data returned from the system call. 
+string gmdate ( string $format [, int $timestamp = time() ] ) Identical to the date() function except that the time returned is Greenwich Mean Time (GMT). 
+int gmmktime ([ int $hour = gmdate("H") [, int $minute = gmdate("i") [, int $second = gmdate("s") [, int $month = gmdate("n") [, int $day = gmdate("j") [, int $year = gmdate("Y") [, int $is_dst = -1 ]]]]]]] ) 
+string gmstrftime ( string $format [, int $timestamp = time() ] ) Behaves the same as strftime() except that the time returned is Greenwich Mean Time (GMT). For example, when run in Eastern Standard Time (GMT -0500), the first line below prints "Dec 31 1998 20:00:00", while the second prints "Jan 01 1999 01:00:00". 
+int idate ( string $format [, int $timestamp = time() ] ) 
+array localtime ([ int $timestamp = time() [, bool $is_associative = FALSE ]] ) The localtime() function returns an array identical to that of the structure returned by the C function call. 
+mixed microtime ([ bool $get_as_float = FALSE ] ) microtime() returns the current Unix timestamp with microseconds. This function is only available on operating systems that support the gettimeofday() system call. 
+int mktime ([ int $hour = date("H") [, int $minute = date("i") [, int $second = date("s") [, int $month = date("n") [, int $day = date("j") [, int $year = date("Y") [, int $is_dst = -1 ]]]]]]] ) 
+string strftime ( string $format [, int $timestamp = time() ] ) 
+array strptime ( string $date , string $format ) 
+int strtotime ( string $time [, int $now = time() ] ) 
+int time ( void ) Returns the current time measured in the number of seconds since the Unix Epoch (January 1 1970 00:00:00 GMT). 
+string timezone_name_from_abbr ( string $abbr [, int $gmtOffset = -1 [, int $isdst = -1 ]] ) 
+string timezone_version_get ( void ) Returns the current version of the timezonedb. 
+bool chdir ( string $directory ) Changes PHP's current directory to directory. 
+bool chroot ( string $directory ) 
+void closedir ([ resource $dir_handle ] ) Closes the directory stream indicated by dir_handle. The stream must have previously been opened by opendir(). 
+Directory dir ( string $directory [, resource $context ] ) A pseudo-object oriented mechanism for reading a directory. The given directory is opened. 
+string getcwd ( void ) Gets the current working directory. 
+resource opendir ( string $path [, resource $context ] ) Opens up a directory handle to be used in subsequent closedir(), readdir(), and rewinddir() calls. 
+string readdir ([ resource $dir_handle ] ) Returns the name of the next entry in the directory. The entries are returned in the order in which they are stored by the filesystem. 
+void rewinddir ([ resource $dir_handle ] ) Resets the directory stream indicated by dir_handle to the beginning of the directory. 
+array scandir ( string $directory [, int $sorting_order = SCANDIR_SORT_ASCENDING [, resource $context ]] ) Returns an array of files and directories from the directory. 
+array debug_backtrace ([ int $options = DEBUG_BACKTRACE_PROVIDE_OBJECT [, int $limit = 0 ]] ) debug_backtrace() generates a PHP backtrace. 
+void debug_print_backtrace ([ int $options = 0 [, int $limit = 0 ]] ) debug_print_backtrace() prints a PHP backtrace. It prints the function calls, included/required files and eval()ed stuff. 
+void error_clear_last ( void ) 
+array error_get_last ( void ) Gets information about the last error that occurred. 
+bool error_log ( string $message [, int $message_type = 0 [, string $destination [, string $extra_headers ]]] ) Sends an error message to the web server's error log or to a file. 
+int error_reporting ([ int $level ] ) The error_reporting() function sets the error_reporting directive at runtime. PHP has many levels of errors, using this function sets that level for the duration (runtime) of your script. If the optional level is not set, error_reporting() will just return the current error reporting level. 
+bool restore_error_handler ( void ) Used after changing the error handler function using set_error_handler(), to revert to the previous error handler (which could be the built-in or a user defined function). 
+bool restore_exception_handler ( void ) Used after changing the exception handler function using set_exception_handler(), to revert to the previous exception handler (which could be the built-in or a user defined function). 
+mixed set_error_handler ( callable $error_handler [, int $error_types = E_ALL | E_STRICT ] ) 
+callable set_exception_handler ( callable $exception_handler ) Sets the default exception handler if an exception is not caught within a try/catch block. Execution will stop after the exception_handler is called. 
+bool trigger_error ( string $error_msg [, int $error_type = E_USER_NOTICE ] ) 
+string escapeshellarg ( string $arg ) 
+string escapeshellcmd ( string $command ) 
+string exec ( string $command [, array &$output [, int &$return_var ]] ) exec() executes the given command. 
+void passthru ( string $command [, int &$return_var ] ) The passthru() function is similar to the exec() function in that it executes a command. This function should be used in place of exec() or system() when the output from the Unix command is binary data which needs to be passed directly back to the browser. A common use for this is to execute something like the pbmplus utilities that can output an image stream directly. By setting the Content-type to image/gif and then calling a pbmplus program to output a gif, you can create PHP scripts that output images directly. 
+int proc_close ( resource $process ) proc_close() is similar to pclose() except that it only works on processes opened by proc_open(). proc_close() waits for the process to terminate, and returns its exit code. If you have open pipes to that process, you should fclose() them prior to calling this function in order to avoid a deadlock - the child process may not be able to exit while the pipes are open. 
+array proc_get_status ( resource $process ) proc_get_status() fetches data about a process opened using proc_open(). 
+bool proc_nice ( int $increment ) 
+resource proc_open ( string $cmd , array $descriptorspec , array &$pipes [, string $cwd [, array $env [, array $other_options ]]] ) proc_open() is similar to popen() but provides a much greater degree of control over the program execution. 
+bool proc_terminate ( resource $process [, int $signal = 15 ] ) 
+string shell_exec ( string $cmd ) This function is identical to the backtick operator. 
+string system ( string $command [, int &$return_var ] ) 
+string basename ( string $path [, string $suffix ] ) 
+bool chgrp ( string $filename , mixed $group ) 
+bool chmod ( string $filename , int $mode ) Attempts to change the mode of the specified file to that given in mode. 
+bool chown ( string $filename , mixed $user ) Attempts to change the owner of the file filename to user user. Only the superuser may change the owner of a file. 
+void clearstatcache ([ bool $clear_realpath_cache = FALSE [, string $filename ]] ) 
+bool copy ( string $source , string $dest [, resource $context ] ) 
+This is a dummy manual entry to satisfy those people who are looking for unlink() or unset() in the wrong place.  
+string dirname ( string $path [, int $levels = 1 ] ) 
+float disk_free_space ( string $directory ) Given a string containing a directory, this function will return the number of bytes available on the corresponding filesystem or disk partition. 
+float disk_total_space ( string $directory ) Given a string containing a directory, this function will return the total number of bytes on the corresponding filesystem or disk partition. 
+bool fclose ( resource $handle ) The file pointed to by handle is closed. 
+bool feof ( resource $handle ) Tests for end-of-file on a file pointer. 
+bool fflush ( resource $handle ) This function forces a write of all buffered output to the resource pointed to by the file handle. 
+string fgetc ( resource $handle ) Gets a character from the given file pointer. 
+array fgetcsv ( resource $handle [, int $length = 0 [, string $delimiter = "," [, string $enclosure = '"' [, string $escape = "\\" ]]]] ) 
+string fgets ( resource $handle [, int $length ] ) Gets a line from file pointer. 
+string fgetss ( resource $handle [, int $length [, string $allowable_tags ]] ) Identical to fgets(), except that fgetss() attempts to strip any NUL bytes, HTML and PHP tags from the text it reads. 
+bool file_exists ( string $filename ) Checks whether a file or directory exists. 
+string file_get_contents ( string $filename [, bool $use_include_path = FALSE [, resource $context [, int $offset = 0 [, int $maxlen ]]]] ) 
+int file_put_contents ( string $filename , mixed $data [, int $flags = 0 [, resource $context ]] ) 
+array file ( string $filename [, int $flags = 0 [, resource $context ]] ) 
+int fileatime ( string $filename ) Gets the last access time of the given file. 
+int filectime ( string $filename ) Gets the inode change time of a file. 
+int filegroup ( string $filename ) Gets the file group. The group ID is returned in numerical format, use posix_getgrgid() to resolve it to a group name. 
+int fileinode ( string $filename ) Gets the file inode. 
+int filemtime ( string $filename ) This function returns the time when the data blocks of a file were being written to, that is, the time when the content of the file was changed. 
+int fileowner ( string $filename ) Gets the file owner. 
+int fileperms ( string $filename ) Gets permissions for the given file. 
+int filesize ( string $filename ) Gets the size for the given file. 
+string filetype ( string $filename ) Returns the type of the given file. 
+bool flock ( resource $handle , int $operation [, int &$wouldblock ] ) 
+bool fnmatch ( string $pattern , string $string [, int $flags = 0 ] ) fnmatch() checks if the passed string would match the given shell wildcard pattern. 
+resource fopen ( string $filename , string $mode [, bool $use_include_path = FALSE [, resource $context ]] ) fopen() binds a named resource, specified by filename, to a stream. 
+int fpassthru ( resource $handle ) 
+int fputcsv ( resource $handle , array $fields [, string $delimiter = "," [, string $enclosure = '"' [, string $escape_char = "\\" ]]] ) fputcsv() formats a line (passed as a fields array) as CSV and write it (terminated by a newline) to the specified file handle. 
+string fread ( resource $handle , int $length ) 
+mixed fscanf ( resource $handle , string $format [, mixed &$... ] ) 
+int fseek ( resource $handle , int $offset [, int $whence = SEEK_SET ] ) 
+array fstat ( resource $handle ) Gathers the statistics of the file opened by the file pointer handle. This function is similar to the stat() function except that it operates on an open file pointer instead of a filename. 
+int ftell ( resource $handle ) Returns the position of the file pointer referenced by handle. 
+bool ftruncate ( resource $handle , int $size ) Takes the filepointer, handle, and truncates the file to length, size. 
+int fwrite ( resource $handle , string $string [, int $length ] ) fwrite() writes the contents of string to the file stream pointed to by handle. 
+array glob ( string $pattern [, int $flags = 0 ] ) The glob() function searches for all the pathnames matching pattern according to the rules used by the libc glob() function, which is similar to the rules used by common shells. 
+bool is_dir ( string $filename ) Tells whether the given filename is a directory. 
+bool is_executable ( string $filename ) Tells whether the filename is executable. 
+bool is_file ( string $filename ) Tells whether the given file is a regular file. 
+bool is_link ( string $filename ) Tells whether the given file is a symbolic link. 
+bool is_readable ( string $filename ) Tells whether a file exists and is readable. 
+bool is_uploaded_file ( string $filename ) 
+bool is_writable ( string $filename ) 
+bool lchgrp ( string $filename , mixed $group ) 
+bool lchown ( string $filename , mixed $user ) 
+bool link ( string $target , string $link ) link() creates a hard link. 
+int linkinfo ( string $path ) 
+array lstat ( string $filename ) Gathers the statistics of the file or symbolic link named by filename. 
+bool mkdir ( string $pathname [, int $mode = 0777 [, bool $recursive = FALSE [, resource $context ]]] ) Attempts to create the directory specified by pathname. 
+bool move_uploaded_file ( string $filename , string $destination ) 
+array parse_ini_file ( string $filename [, bool $process_sections = FALSE [, int $scanner_mode = INI_SCANNER_NORMAL ]] ) 
+array parse_ini_string ( string $ini [, bool $process_sections = FALSE [, int $scanner_mode = INI_SCANNER_NORMAL ]] ) 
+mixed pathinfo ( string $path [, int $options = PATHINFO_DIRNAME | PATHINFO_BASENAME | PATHINFO_EXTENSION | PATHINFO_FILENAME ] ) 
+int pclose ( resource $handle ) Closes a file pointer to a pipe opened by popen(). 
+resource popen ( string $command , string $mode ) Opens a pipe to a process executed by forking the command given by command. 
+int readfile ( string $filename [, bool $use_include_path = FALSE [, resource $context ]] ) Reads a file and writes it to the output buffer. 
+string readlink ( string $path ) readlink() does the same as the readlink C function. 
+array realpath_cache_get ( void ) Get the contents of the realpath cache. 
+int realpath_cache_size ( void ) Get the amount of memory used by the realpath cache. 
+string realpath ( string $path ) realpath() expands all symbolic links and resolves references to /./, /../ and extra / characters in the input path and returns the canonicalized absolute pathname. 
+bool rename ( string $oldname , string $newname [, resource $context ] ) Attempts to rename oldname to newname, moving it between directories if necessary. If renaming a file and newname exists, it will be overwritten. If renaming a directory and newname exists, this function will emit a warning. 
+bool rewind ( resource $handle ) 
+bool rmdir ( string $dirname [, resource $context ] ) Attempts to remove the directory named by dirname. The directory must be empty, and the relevant permissions must permit this. A E_WARNING level error will be generated on failure. 
+array stat ( string $filename ) 
+bool symlink ( string $target , string $link ) symlink() creates a symbolic link to the existing target with the specified name link. 
+string tempnam ( string $dir , string $prefix ) Creates a file with a unique filename, with access permission set to 0600, in the specified directory. If the directory does not exist or is not writable, tempnam() may generate a file in the system's temporary directory, and return the full path to that file, including its name. 
+resource tmpfile ( void ) 
+bool touch ( string $filename [, int $time = time() [, int $atime ]] ) 
+int umask ([ int $mask ] ) umask() sets PHP's umask to mask & 0777 and returns the old umask. When PHP is being used as a server module, the umask is restored when each request is finished. 
+bool unlink ( string $filename [, resource $context ] ) Deletes filename. Similar to the Unix C unlink() function. An E_WARNING level error will be generated on failure. 
+bool filter_has_var ( int $type , string $variable_name ) 
+int filter_id ( string $filtername ) 
+mixed filter_input_array ( int $type [, mixed $definition [, bool $add_empty = TRUE ]] ) This function is useful for retrieving many values without repetitively calling filter_input(). 
+mixed filter_input ( int $type , string $variable_name [, int $filter = FILTER_DEFAULT [, mixed $options ]] ) 
+array filter_list ( void ) 
+mixed filter_var_array ( array $data [, mixed $definition [, bool $add_empty = TRUE ]] ) This function is useful for retrieving many values without repetitively calling filter_var(). 
+mixed filter_var ( mixed $variable [, int $filter = FILTER_DEFAULT [, mixed $options ]] ) 
+mixed call_user_func_array ( callable $callback , array $param_arr ) Calls the callback given by the first parameter with the parameters in param_arr. 
+mixed call_user_func ( callable $callback [, mixed $parameter [, mixed $... ]] ) Calls the callback given by the first parameter and passes the remaining parameters as arguments. 
+string create_function ( string $args , string $code ) 
+mixed forward_static_call_array ( callable $function , array $parameters ) Calls a user defined function or method given by the function parameter. This function must be called within a method context, it can't be used outside a class. It uses the late static binding. All arguments of the forwarded method are passed as values, and as an array, similarly to call_user_func_array(). 
+mixed forward_static_call ( callable $function [, mixed $parameter [, mixed $... ]] ) Calls a user defined function or method given by the function parameter, with the following arguments. This function must be called within a method context, it can't be used outside a class. It uses the late static binding. 
+mixed func_get_arg ( int $arg_num ) 
+array func_get_args ( void ) 
+int func_num_args ( void ) 
+bool function_exists ( string $function_name ) Checks the list of defined functions, both built-in (internal) and user-defined, for function_name. 
+array get_defined_functions ([ bool $exclude_disabled = FALSE ] ) Gets an array of all defined functions. 
+void register_shutdown_function ( callable $callback [, mixed $parameter [, mixed $... ]] ) 
+bool register_tick_function ( callable $function [, mixed $arg [, mixed $... ]] ) Registers the given function to be executed when a tick is called. 
+void unregister_tick_function ( string $function_name ) De-registers the function named by function_name so it is no longer executed when a tick is called. 
+array hash_algos ( void ) 
+HashContext hash_copy ( HashContext $context ) 
+bool hash_equals ( string $known_string , string $user_string ) 
+string hash_file ( string $algo , string $filename [, bool $raw_output = FALSE ] ) 
+string hash_final ( HashContext $context [, bool $raw_output = FALSE ] ) 
+string hash_hkdf ( string $algo , string $ikm [, int $length = 0 [, string $info = '' [, string $salt = '' ]]] ) 
+array hash_hmac_algos ( void ) 
+string hash_hmac_file ( string $algo , string $filename , string $key [, bool $raw_output = FALSE ] ) 
+string hash_hmac ( string $algo , string $data , string $key [, bool $raw_output = FALSE ] ) 
+HashContext hash_init ( string $algo [, int $options = 0 [, string $key = NULL ]] ) 
+string hash_pbkdf2 ( string $algo , string $password , string $salt , int $iterations [, int $length = 0 [, bool $raw_output = FALSE ]] ) 
+bool hash_update_file ( HashContext $hcontext , string $filename [, resource $scontext = NULL ] ) 
+int hash_update_stream ( HashContext $context , resource $handle [, int $length = -1 ] ) 
+bool hash_update ( HashContext $context , string $data ) 
+string hash ( string $algo , string $data [, bool $raw_output = FALSE ] ) 
+mixed assert_options ( int $what [, mixed $value ] ) Set the various assert() control options or just query their current settings. 
+PHP 5 and 7 
+string cli_get_process_title ( void ) 
+bool cli_set_process_title ( string $title ) Sets the process title visible in tools such as top and ps. This function is available only in CLI mode. 
+bool dl ( string $library ) 
+bool extension_loaded ( string $name ) Finds out whether the extension is loaded. 
+int gc_collect_cycles ( void ) Forces collection of any existing garbage cycles. 
+void gc_disable ( void ) Deactivates the circular reference collector, setting zend.enable_gc to 0. 
+void gc_enable ( void ) Activates the circular reference collector, setting zend.enable_gc to 1. 
+bool gc_enabled ( void ) Returns status of the circular reference collector. 
+int gc_mem_caches ( void ) Reclaims memory used by the Zend Engine memory manager. 
+mixed get_cfg_var ( string $option ) 
+string get_current_user ( void ) Returns the name of the owner of the current PHP script. 
+array get_defined_constants ([ bool $categorize = FALSE ] ) Returns the names and values of all the constants currently defined. This includes those created by extensions as well as those created with the define() function. 
+array get_extension_funcs ( string $module_name ) This function returns the names of all the functions defined in the module indicated by module_name. 
+string get_include_path ( void ) Gets the current include_path configuration option value. 
+array get_included_files ( void ) Gets the names of all files that have been included using include, include_once, require or require_once. 
+array get_loaded_extensions ([ bool $zend_extensions = FALSE ] ) This function returns the names of all the modules compiled and loaded in the PHP interpreter. 
+bool get_magic_quotes_gpc ( void ) 
+bool get_magic_quotes_runtime ( void ) Returns the current active configuration setting of magic_quotes_runtime. 
+array get_resources ([ string $type ] ) Returns an array of all currently active resources, optionally filtered by resource type. 
+string getenv ( string $varname [, bool $local_only = FALSE ] ) 
+int getlastmod ( void ) 
+int getmygid ( void ) Gets the group ID of the current script. 
+int getmyinode ( void ) Gets the inode of the current script. 
+int getmypid ( void ) Gets the current PHP process ID. 
+int getmyuid ( void ) Gets the user ID of the current script. 
+array getopt ( string $options [, array $longopts [, int &$optind ]] ) Parses options passed to the script. 
+array getrusage ([ int $who = 0 ] ) This is an interface to getrusage(2). It gets data returned from the system call. 
+array ini_get_all ([ string $extension [, bool $details = TRUE ]] ) Returns all the registered configuration options. 
+string ini_get ( string $varname ) Returns the value of the configuration option on success. 
+void ini_restore ( string $varname ) Restores a given configuration option to its original value. 
+string ini_set ( string $varname , string $newvalue ) Sets the value of the given configuration option. The configuration option will keep this new value during the script's execution, and will be restored at the script's ending. 
+There is no function named main() except in the PHP source. In PHP 4.3.0, a new type of error handling in the PHP source (php_error_docref) was introduced. One feature is to provide links to a manual page in PHP error messages when the PHP directives html_errors (on by default) and docref_root (on by default until PHP 4.3.2) are set.  
+int memory_get_peak_usage ([ bool $real_usage = FALSE ] ) Returns the peak of memory, in bytes, that's been allocated to your PHP script. 
+int memory_get_usage ([ bool $real_usage = FALSE ] ) Returns the amount of memory, in bytes, that's currently being allocated to your PHP script. 
+string php_ini_loaded_file ( void ) Check if a php.ini file is loaded, and retrieve its path. 
+string php_ini_scanned_files ( void ) 
+string php_logo_guid ( void ) 
+string php_sapi_name ( void ) Returns a lowercase string that describes the type of interface (the Server API, SAPI) that PHP is using. For example, in CLI PHP this string will be "cli" whereas with Apache it may have several different values depending on the exact SAPI used. Possible values are listed below. 
+string php_uname ([ string $mode = "a" ] ) 
+bool phpcredits ([ int $flag = CREDITS_ALL ] ) This function prints out the credits listing the PHP developers, modules, etc. It generates the appropriate HTML codes to insert the information in a page. 
+bool phpinfo ([ int $what = INFO_ALL ] ) 
+string phpversion ([ string $extension ] ) Returns a string containing the version of the currently running PHP parser or extension. 
+bool putenv ( string $setting ) 
+void restore_include_path ( void ) Restores the include_path configuration option back to its original master value as set in php.ini 
+string set_include_path ( string $new_include_path ) Sets the include_path configuration option for the duration of the script. 
+bool set_magic_quotes_runtime ( bool $new_setting ) Set the current active configuration setting of magic_quotes_runtime. 
+bool set_time_limit ( int $seconds ) 
+string sys_get_temp_dir ( void ) Returns the path of the directory PHP stores temporary files in by default. 
+int version_compare ( string $version1 , string $version2 ) 
+string zend_logo_guid ( void ) 
+int zend_thread_id ( void ) This function returns a unique identifier for the current thread. 
+string zend_version ( void ) Returns a string containing the version of the currently running Zend Engine. 
+int ezmlm_hash ( string $addr ) ezmlm_hash() calculates the hash value needed when keeping EZMLM mailing lists in a MySQL database. 
+bool mail ( string $to , string $subject , string $message [, mixed $additional_headers [, string $additional_parameters ]] ) Sends an email. 
+number abs ( mixed $number ) Returns the absolute value of number. 
+float acos ( float $arg ) Returns the arc cosine of arg in radians. acos() is the inverse function of cos(), which means that a==cos(acos(a)) for every value of a that is within acos()' range. 
+float acosh ( float $arg ) Returns the inverse hyperbolic cosine of arg, i.e. the value whose hyperbolic cosine is arg. 
+float asin ( float $arg ) Returns the arc sine of arg in radians. asin() is the inverse function of sin(), which means that a==sin(asin(a)) for every value of a that is within asin()'s range. 
+float asinh ( float $arg ) Returns the inverse hyperbolic sine of arg, i.e. the value whose hyperbolic sine is arg. 
+float atan2 ( float $y , float $x ) 
+float atan ( float $arg ) Returns the arc tangent of arg in radians. atan() is the inverse function of tan(), which means that a==tan(atan(a)) for every value of a that is within atan()'s range. 
+float atanh ( float $arg ) Returns the inverse hyperbolic tangent of arg, i.e. the value whose hyperbolic tangent is arg. 
+string base_convert ( string $number , int $frombase , int $tobase ) 
+number bindec ( string $binary_string ) 
+float ceil ( float $value ) Returns the next highest integer value by rounding up value if necessary. 
+float cos ( float $arg ) cos() returns the cosine of the arg parameter. The arg parameter is in radians. 
+float cosh ( float $arg ) Returns the hyperbolic cosine of arg, defined as (exp(arg) + exp(-arg))/2. 
+string decbin ( int $number ) Returns a string containing a binary representation of the given number argument. 
+string dechex ( int $number ) 
+string decoct ( int $number ) Returns a string containing an octal representation of the given number argument. The largest number that can be converted depends on the platform in use. For 32-bit platforms this is usually 4294967295 in decimal resulting in 37777777777. For 64-bit platforms this is usually 9223372036854775807 in decimal resulting in 777777777777777777777. 
+float deg2rad ( float $number ) This function converts number from degrees to the radian equivalent. 
+float exp ( float $arg ) 
+float expm1 ( float $arg ) expm1() returns the equivalent to 'exp(arg) - 1' computed in a way that is accurate even if the value of arg is near zero, a case where 'exp (arg) - 1' would be inaccurate due to subtraction of two numbers that are nearly equal. 
+float floor ( float $value ) Returns the next lowest integer value (as float) by rounding down value if necessary. 
+float fmod ( float $x , float $y ) Returns the floating point remainder of dividing the dividend (x) by the divisor (y). The remainder (r) is defined as: x = i * y + r, for some integer i. If y is non-zero, r has the same sign as x and a magnitude less than the magnitude of y. 
+int getrandmax ( void ) Returns the maximum value that can be returned by a call to rand(). 
+number hexdec ( string $hex_string ) 
+float hypot ( float $x , float $y ) hypot() returns the length of the hypotenuse of a right-angle triangle with sides of length x and y, or the distance of the point (x, y) from the origin. This is equivalent to sqrt(x*x + y*y). 
+int intdiv ( int $dividend , int $divisor ) Returns the integer quotient of the division of dividend by divisor. 
+bool is_finite ( float $val ) Checks whether val is a legal finite on this platform. 
+bool is_infinite ( float $val ) Returns TRUE if val is infinite (positive or negative), like the result of log(0) or any value too big to fit into a float on this platform. 
+bool is_nan ( float $val ) Checks whether val is 'not a number', like the result of acos(1.01). 
+float lcg_value ( void ) 
+float log10 ( float $arg ) Returns the base-10 logarithm of arg. 
+float log1p ( float $number ) log1p() returns log(1 + number) computed in a way that is accurate even when the value of number is close to zero. log() might only return log(1) in this case due to lack of precision. 
+float log ( float $arg [, float $base = M_E ] ) If the optional base parameter is specified, log() returns logbase arg, otherwise log() returns the natural logarithm of arg. 
+mixed max ( array $values ) 
+mixed min ( array $values ) 
+int mt_getrandmax ( void ) Returns the maximum value that can be returned by a call to mt_rand(). 
+int mt_rand ( void ) 
+void mt_srand ([ int $seed [, int $mode = MT_RAND_MT19937 ]] ) 
+number octdec ( string $octal_string ) Returns the decimal equivalent of the octal number represented by the octal_string argument. 
+float pi ( void ) Returns an approximation of pi. The returned float has a precision based on the precision directive in php.ini, which defaults to 14. Also, you can use the M_PI constant which yields identical results to pi(). 
+number pow ( number $base , number $exp ) 
+float rad2deg ( float $number ) This function converts number from radian to degrees. 
+int rand ( void ) 
+float round ( float $val [, int $precision = 0 [, int $mode = PHP_ROUND_HALF_UP ]] ) 
+float sin ( float $arg ) sin() returns the sine of the arg parameter. The arg parameter is in radians. 
+float sinh ( float $arg ) Returns the hyperbolic sine of arg, defined as (exp(arg) - exp(-arg))/2. 
+float sqrt ( float $arg ) Returns the square root of arg. 
+float tan ( float $arg ) tan() returns the tangent of the arg parameter. The arg parameter is in radians. 
+float tanh ( float $arg ) Returns the hyperbolic tangent of arg, defined as sinh(arg)/cosh(arg). 
+int connection_aborted ( void ) Checks whether the client disconnected. 
+int connection_status ( void ) Gets the connection status bitfield. 
+mixed constant ( string $name ) 
+bool define ( string $name , mixed $value [, bool $case_insensitive = FALSE ] ) Defines a named constant at runtime. 
+bool defined ( string $name ) 
+This language construct is equivalent to exit().  
+mixed eval ( string $code ) 
+void exit ([ string $status ] ) 
+mixed get_browser ([ string $user_agent [, bool $return_array = FALSE ]] ) Attempts to determine the capabilities of the user's browser, by looking up the browser's information in the browscap.ini file. 
+void __halt_compiler ( void ) 
+mixed highlight_file ( string $filename [, bool $return = FALSE ] ) 
+mixed highlight_string ( string $str [, bool $return = FALSE ] ) Outputs or returns html markup for a syntax highlighted version of the given PHP code using the colors defined in the built-in syntax highlighter for PHP. 
+mixed hrtime ([ bool $get_as_number = FALSE ] ) Returns the system's high resolution time, counted from an arbitrary point in time. The delivered timestamp is monotonic and can not be adjusted. 
+int ignore_user_abort ([ bool $value ] ) 
+string pack ( string $format [, mixed $args [, mixed $... ]] ) 
+bool php_check_syntax ( string $filename [, string &$error_message ] ) 
+string php_strip_whitespace ( string $filename ) Returns the PHP source code in filename with PHP comments and whitespace removed. This may be useful for determining the amount of actual code in your scripts compared with the amount of comments. This is similar to using php -w from the commandline. 
+string sapi_windows_cp_conv ( int|string $in_codepage , int|string $out_codepage , string $subject ) Convert string from one codepage to another. 
+int sapi_windows_cp_get ( string $kind ) Get the identifier of the codepage of the current process. 
+bool sapi_windows_cp_is_utf8 ( void ) Indicates whether the codepage of the current process is UTF-8 compatible. 
+bool sapi_windows_cp_set ( int $cp ) Set the codepage of the current process. 
+bool sapi_windows_vt100_support ( resource $stream [, bool $enable ] ) 
+int sleep ( int $seconds ) Delays the program execution for the given number of seconds. 
+array sys_getloadavg ( void ) Returns three samples representing the average system load (the number of processes in the system run queue) over the last 1, 5 and 15 minutes, respectively. 
+mixed time_nanosleep ( int $seconds , int $nanoseconds ) Delays program execution for the given number of seconds and nanoseconds. 
+bool time_sleep_until ( float $timestamp ) Makes the script sleep until the specified timestamp. 
+string uniqid ([ string $prefix = "" [, bool $more_entropy = FALSE ]] ) 
+array unpack ( string $format , string $data [, int $offset = 0 ] ) 
+void usleep ( int $micro_seconds ) Delays program execution for the given number of microseconds. 
+bool checkdnsrr ( string $host [, string $type = "MX" ] ) Searches DNS for records of type type corresponding to host. 
+bool closelog ( void ) closelog() closes the descriptor being used to write to the system logger. The use of closelog() is optional. 
+void define_syslog_variables ( void ) Initializes all variables used in the syslog functions. 
+array dns_get_record ( string $hostname [, int $type = DNS_ANY [, array &$authns [, array &$addtl [, bool $raw = FALSE ]]]] ) Fetch DNS Resource Records associated with the given hostname. 
+resource fsockopen ( string $hostname [, int $port = -1 [, int &$errno [, string &$errstr [, float $timeout = ini_get("default_socket_timeout") ]]]] ) 
+string gethostbyaddr ( string $ip_address ) Returns the host name of the Internet host specified by ip_address. 
+string gethostbyname ( string $hostname ) Returns the IPv4 address of the Internet host specified by hostname. 
+array gethostbynamel ( string $hostname ) Returns a list of IPv4 addresses to which the Internet host specified by hostname resolves. 
+string gethostname ( void ) gethostname() gets the standard host name for the local machine. 
+bool getmxrr ( string $hostname , array &$mxhosts [, array &$weight ] ) Searches DNS for MX records corresponding to hostname. 
+int getprotobyname ( string $name ) getprotobyname() returns the protocol number associated with the protocol name as per /etc/protocols. 
+string getprotobynumber ( int $number ) getprotobynumber() returns the protocol name associated with protocol number as per /etc/protocols. 
+int getservbyname ( string $service , string $protocol ) getservbyname() returns the Internet port which corresponds to service for the specified protocol as per /etc/services. 
+string getservbyport ( int $port , string $protocol ) getservbyport() returns the Internet service associated with port for the specified protocol as per /etc/services. 
+bool header_register_callback ( callable $callback ) 
+void header_remove ([ string $name ] ) Removes an HTTP header previously set using header(). 
+void header ( string $header [, bool $replace = TRUE [, int $http_response_code ]] ) 
+array headers_list ( void ) headers_list() will return a list of headers to be sent to the browser / client. To determine whether or not these headers have been sent yet, use headers_sent(). 
+bool headers_sent ([ string &$file [, int &$line ]] ) 
+mixed http_response_code ([ int $response_code ] ) Gets or sets the HTTP response status code. 
+string inet_ntop ( string $in_addr ) This function converts a 32bit IPv4, or 128bit IPv6 address (if PHP was built with IPv6 support enabled) into an address family appropriate string representation. 
+string inet_pton ( string $address ) This function converts a human readable IPv4 or IPv6 address (if PHP was built with IPv6 support enabled) into an address family appropriate 32bit or 128bit binary structure. 
+int ip2long ( string $ip_address ) 
+string long2ip ( int $proper_address ) The function long2ip() generates an Internet address in dotted format (i.e.: aaa.bbb.ccc.ddd) from the long integer representation. 
+bool openlog ( string $ident , int $option , int $facility ) 
+resource pfsockopen ( string $hostname [, int $port = -1 [, int &$errno [, string &$errstr [, float $timeout = ini_get("default_socket_timeout") ]]]] ) This function behaves exactly as fsockopen() with the difference that the connection is not closed after the script finishes. It is the persistent version of fsockopen(). 
+bool setcookie ( string $name [, string $value = "" [, int $expires = 0 [, string $path = "" [, string $domain = "" [, bool $secure = FALSE [, bool $httponly = FALSE ]]]]]] ) 
+bool setrawcookie ( string $name [, string $value [, int $expires = 0 [, string $path [, string $domain [, bool $secure = FALSE [, bool $httponly = FALSE ]]]]]] ) 
+bool syslog ( int $priority , string $message ) 
+void flush ( void ) 
+void ob_clean ( void ) 
+bool ob_end_clean ( void ) 
+bool ob_end_flush ( void ) 
+void ob_flush ( void ) 
+string ob_get_clean ( void ) 
+string ob_get_contents ( void ) Gets the contents of the output buffer without clearing it. 
+string ob_get_flush ( void ) 
+int ob_get_length ( void ) This will return the length of the contents in the output buffer, in bytes. 
+int ob_get_level ( void ) Returns the nesting level of the output buffering mechanism. 
+array ob_get_status ([ bool $full_status = FALSE ] ) ob_get_status() returns status information on either the top level output buffer or all active output buffer levels if full_status is set to TRUE. 
+string ob_gzhandler ( string $buffer , int $mode ) ob_gzhandler() is intended to be used as a callback function for ob_start() to help facilitate sending gz-encoded data to web browsers that support compressed web pages. Before ob_gzhandler() actually sends compressed data, it determines what type of content encoding the browser will accept ("gzip", "deflate" or none at all) and will return its output accordingly. All browsers are supported since it's up to the browser to send the correct header saying that it accepts compressed web pages. If a browser doesn't support compressed pages this function returns FALSE. 
+void ob_implicit_flush ([ int $flag = 1 ] ) ob_implicit_flush() will turn implicit flushing on or off. Implicit flushing will result in a flush operation after every output call, so that explicit calls to flush() will no longer be needed. 
+array ob_list_handlers ( void ) Lists all output handlers in use. 
+bool ob_start ([ callable $output_callback = NULL [, int $chunk_size = 0 [, int $flags = PHP_OUTPUT_HANDLER_STDFLAGS ]]] ) 
+bool output_add_rewrite_var ( string $name , string $value ) 
+bool output_reset_rewrite_vars ( void ) This function resets the URL rewriter and removes all rewrite variables previously set by the output_add_rewrite_var() function. 
+array password_get_info ( string $hash ) When passed in a valid hash created by an algorithm supported by password_hash(), this function will return an array of information about that hash. 
+string password_hash ( string $password , int $algo [, array $options ] ) 
+bool password_needs_rehash ( string $hash , int $algo [, array $options ] ) This function checks to see if the supplied hash implements the algorithm and options provided. If not, it is assumed that the hash needs to be rehashed. 
+bool password_verify ( string $password , string $hash ) 
+string ereg_replace ( string $pattern , string $replacement , string $string ) This function scans string for matches to pattern, then replaces the matched text with replacement. 
+int ereg ( string $pattern , string $string [, array &$regs ] ) Searches a string for matches to the regular expression given in pattern in a case-sensitive way. 
+string eregi_replace ( string $pattern , string $replacement , string $string ) This function is identical to ereg_replace() except that this ignores case distinction when matching alphabetic characters. 
+int eregi ( string $pattern , string $string [, array &$regs ] ) This function is identical to ereg() except that it ignores case distinction when matching alphabetic characters. 
+array split ( string $pattern , string $string [, int $limit = -1 ] ) Splits a string into array by regular expression. 
+array spliti ( string $pattern , string $string [, int $limit = -1 ] ) 
+string sql_regcase ( string $string ) Creates a regular expression for a case insensitive match. 
+bool session_abort ( void ) session_abort() finishes session without saving data. Thus the original values in session data are kept. 
+int session_cache_expire ([ string $new_cache_expire ] ) 
+string session_cache_limiter ([ string $cache_limiter ] ) 
+string session_create_id ([ string $prefix ] ) 
+bool session_decode ( string $data ) 
+bool session_destroy ( void ) 
+string session_encode ( void ) 
+int session_gc ( void ) 
+array session_get_cookie_params ( void ) Gets the session cookie parameters. 
+string session_id ([ string $id ] ) 
+bool session_is_registered ( string $name ) 
+string session_module_name ([ string $module ] ) session_module_name() gets the name of the current session module. 
+string session_name ([ string $name ] ) 
+bool session_regenerate_id ([ bool $delete_old_session = FALSE ] ) 
+void session_register_shutdown ( void ) Registers session_write_close() as a shutdown function. 
+bool session_register ( mixed $name [, mixed $... ] ) 
+bool session_reset ( void ) session_reset() reinitializes a session with original values stored in session storage. This function requires an active session and discards changes in $_SESSION. 
+string session_save_path ([ string $path ] ) session_save_path() returns the path of the current directory used to save session data. 
+bool session_set_cookie_params ( int $lifetime [, string $path [, string $domain [, bool $secure = FALSE [, bool $httponly = FALSE ]]]] ) 
+bool session_set_save_handler ( callable $open , callable $close , callable $read , callable $write , callable $destroy , callable $gc [, callable $create_sid [, callable $validate_sid [, callable $update_timestamp ]]] ) 
+bool session_start ([ array $options = array() ] ) 
+int session_status ( void ) session_status() is used to return the current session status. 
+bool session_unregister ( string $name ) 
+bool session_unset ( void ) The session_unset() function frees all session variables currently registered. 
+bool session_write_close ( void ) 
+array class_implements ( mixed $class [, bool $autoload = TRUE ] ) This function returns an array with the names of the interfaces that the given class and its parents implement. 
+array class_parents ( mixed $class [, bool $autoload = TRUE ] ) This function returns an array with the name of the parent classes of the given class. 
+array class_uses ( mixed $class [, bool $autoload = TRUE ] ) This function returns an array with the names of the traits that the given class uses. This does however not include any traits used by a parent class. 
+int iterator_apply ( Traversable $iterator , callable $function [, array $args = NULL ] ) Calls a function for every element in an iterator. 
+int iterator_count ( Traversable $iterator ) Count the elements in an iterator. iterator_count() is not guaranteed to retain the current position of the iterator. 
+array iterator_to_array ( Traversable $iterator [, bool $use_keys = TRUE ] ) Copy the elements of an iterator into an array. 
+void spl_autoload_call ( string $class_name ) This function can be used to manually search for a class or interface using the registered __autoload functions. 
+string spl_autoload_extensions ([ string $file_extensions ] ) This function can modify and check the file extensions that the built in __autoload() fallback function spl_autoload() will be using. 
+array spl_autoload_functions ( void ) Get all registered __autoload() functions. 
+bool spl_autoload_register ([ callable $autoload_function [, bool $throw = TRUE [, bool $prepend = FALSE ]]] ) 
+bool spl_autoload_unregister ( mixed $autoload_function ) 
+void spl_autoload ( string $class_name [, string $file_extensions = spl_autoload_extensions() ] ) This function is intended to be used as a default implementation for __autoload(). If nothing else is specified and spl_autoload_register() is called without any parameters then this function will be used for any later call to __autoload(). 
+array spl_classes ( void ) This function returns an array with the current available SPL classes. 
+string spl_object_hash ( object $obj ) This function returns a unique identifier for the object. This id can be used as a hash key for storing objects, or for identifying an object, as long as the object is not destroyed. Once the object is destroyed, its hash may be reused for other objects. 
+int spl_object_id ( object $obj ) This function returns a unique identifier for the object. The object id is unique for the lifetime of the object. Once the object is destroyed, its id may be reused for other objects. This behavior is similar to spl_object_hash(). 
+void stream_bucket_append ( resource $brigade , object $bucket ) 
+object stream_bucket_make_writeable ( resource $brigade ) 
+object stream_bucket_new ( resource $stream , string $buffer ) 
+void stream_bucket_prepend ( resource $brigade , object $bucket ) This function can be called to prepend a bucket to a bucket brigade. It is typically called from php_user_filter::filter(). 
+resource stream_context_create ([ array $options [, array $params ]] ) Creates and returns a stream context with any options supplied in options preset. 
+resource stream_context_get_default ([ array $options ] ) Returns the default stream context which is used whenever file operations (fopen(), file_get_contents(), etc...) are called without a context parameter. Options for the default context can optionally be specified with this function using the same syntax as stream_context_create(). 
+array stream_context_get_options ( resource $stream_or_context ) Returns an array of options on the specified stream or context. 
+array stream_context_get_params ( resource $stream_or_context ) Retrieves parameter and options information from the stream or context. 
+resource stream_context_set_default ( array $options ) Set the default stream context which will be used whenever file operations (fopen(), file_get_contents(), etc...) are called without a context parameter. Uses the same syntax as stream_context_create(). 
+bool stream_context_set_option ( resource $stream_or_context , string $wrapper , string $option , mixed $value ) 
+bool stream_context_set_params ( resource $stream_or_context , array $params ) Sets parameters on the specified context. 
+int stream_copy_to_stream ( resource $source , resource $dest [, int $maxlength = -1 [, int $offset = 0 ]] ) Makes a copy of up to maxlength bytes of data from the current position (or from the offset position, if specified) in source to dest. If maxlength is not specified, all remaining content in source will be copied. 
+resource stream_filter_append ( resource $stream , string $filtername [, int $read_write [, mixed $params ]] ) Adds filtername to the list of filters attached to stream. 
+resource stream_filter_prepend ( resource $stream , string $filtername [, int $read_write [, mixed $params ]] ) Adds filtername to the list of filters attached to stream. 
+bool stream_filter_register ( string $filtername , string $classname ) stream_filter_register() allows you to implement your own filter on any registered stream used with all the other filesystem functions (such as fopen(), fread() etc.). 
+bool stream_filter_remove ( resource $stream_filter ) Removes a stream filter previously added to a stream with stream_filter_prepend() or stream_filter_append(). Any data remaining in the filter's internal buffer will be flushed through to the next filter before removing it. 
+string stream_get_contents ( resource $handle [, int $maxlength = -1 [, int $offset = -1 ]] ) Identical to file_get_contents(), except that stream_get_contents() operates on an already open stream resource and returns the remaining contents in a string, up to maxlength bytes and starting at the specified offset. 
+array stream_get_filters ( void ) Retrieve the list of registered filters on the running system. 
+string stream_get_line ( resource $handle , int $length [, string $ending ] ) 
+array stream_get_meta_data ( resource $stream ) Returns information about an existing stream. 
+array stream_get_transports ( void ) Returns an indexed array containing the name of all socket transports available on the running system. 
+array stream_get_wrappers ( void ) Retrieve list of registered streams available on the running system. 
+bool stream_is_local ( mixed $stream_or_url ) Checks if a stream, or a URL, is a local one or not. 
+bool stream_isatty ( resource $stream ) Determines if stream stream refers to a valid terminal type device. This is a more portable version of posix_isatty(), since it works on Windows systems too. 
+void stream_notification_callback ( int $notification_code , int $severity , string $message , int $message_code , int $bytes_transferred , int $bytes_max ) 
+string stream_resolve_include_path ( string $filename ) Resolve filename against the include path according to the same rules as fopen()/include. 
+int stream_select ( array &$read , array &$write , array &$except , int $tv_sec [, int $tv_usec = 0 ] ) The stream_select() function accepts arrays of streams and waits for them to change status. Its operation is equivalent to that of the socket_select() function except in that it acts on streams. 
+bool stream_set_blocking ( resource $stream , bool $mode ) 
+int stream_set_chunk_size ( resource $fp , int $chunk_size ) Set the stream chunk size. 
+int stream_set_read_buffer ( resource $stream , int $buffer ) Sets the read buffer. It's the equivalent of stream_set_write_buffer(), but for read operations. 
+bool stream_set_timeout ( resource $stream , int $seconds [, int $microseconds = 0 ] ) 
+int stream_set_write_buffer ( resource $stream , int $buffer ) Sets the buffering for write operations on the given stream to buffer bytes. 
+resource stream_socket_accept ( resource $server_socket [, float $timeout = ini_get("default_socket_timeout") [, string &$peername ]] ) Accept a connection on a socket previously created by stream_socket_server(). 
+resource stream_socket_client ( string $remote_socket [, int &$errno [, string &$errstr [, float $timeout = ini_get("default_socket_timeout") [, int $flags = STREAM_CLIENT_CONNECT [, resource $context ]]]]] ) 
+mixed stream_socket_enable_crypto ( resource $stream , bool $enable [, int $crypto_type [, resource $session_stream ]] ) 
+string stream_socket_get_name ( resource $handle , bool $want_peer ) Returns the local or remote name of a given socket connection. 
+array stream_socket_pair ( int $domain , int $type , int $protocol ) stream_socket_pair() creates a pair of connected, indistinguishable socket streams. This function is commonly used in IPC (Inter-Process Communication). 
+string stream_socket_recvfrom ( resource $socket , int $length [, int $flags = 0 [, string &$address ]] ) stream_socket_recvfrom() accepts data from a remote socket up to length bytes. 
+int stream_socket_sendto ( resource $socket , string $data [, int $flags = 0 [, string $address ]] ) Sends the specified data through the socket. 
+resource stream_socket_server ( string $local_socket [, int &$errno [, string &$errstr [, int $flags = STREAM_SERVER_BIND | STREAM_SERVER_LISTEN [, resource $context ]]]] ) 
+bool stream_socket_shutdown ( resource $stream , int $how ) 
+bool stream_supports_lock ( resource $stream ) Tells whether the stream supports locking through flock(). 
+bool stream_wrapper_register ( string $protocol , string $classname [, int $flags = 0 ] ) Allows you to implement your own protocol handlers and streams for use with all the other filesystem functions (such as fopen(), fread() etc.). 
+bool stream_wrapper_restore ( string $protocol ) Restores a built-in wrapper previously unregistered with stream_wrapper_unregister(). 
+bool stream_wrapper_unregister ( string $protocol ) Allows you to disable an already defined stream wrapper. Once the wrapper has been disabled you may override it with a user-defined wrapper using stream_wrapper_register() or reenable it later on with stream_wrapper_restore(). 
+string addcslashes ( string $str , string $charlist ) Returns a string with backslashes before characters that are listed in charlist parameter. 
+string addslashes ( string $str ) 
+string bin2hex ( string $str ) Returns an ASCII string containing the hexadecimal representation of str. The conversion is done byte-wise with the high-nibble first. 
+string chr ( int $bytevalue ) 
+string chunk_split ( string $body [, int $chunklen = 76 [, string $end = "\r\n" ]] ) Can be used to split a string into smaller chunks which is useful for e.g. converting base64_encode() output to match RFC 2045 semantics. It inserts end every chunklen characters. 
+string convert_cyr_string ( string $str , string $from , string $to ) Converts from one Cyrillic character set to another. 
+string convert_uudecode ( string $data ) 
+string convert_uuencode ( string $data ) 
+mixed count_chars ( string $string [, int $mode = 0 ] ) Counts the number of occurrences of every byte-value (0..255) in string and returns it in various ways. 
+int crc32 ( string $str ) 
+string crypt ( string $str [, string $salt ] ) 
+void echo ( string $arg1 [, string $... ] ) 
+array explode ( string $delimiter , string $string [, int $limit = PHP_INT_MAX ] ) Returns an array of strings, each of which is a substring of string formed by splitting it on boundaries formed by the string delimiter. 
+int fprintf ( resource $handle , string $format [, mixed $args [, mixed $... ]] ) Write a string produced according to format to the stream resource specified by handle. 
+array get_html_translation_table ([ int $table = HTML_SPECIALCHARS [, int $flags = ENT_COMPAT | ENT_HTML401 [, string $encoding = "UTF-8" ]]] ) 
+string hebrev ( string $hebrew_text [, int $max_chars_per_line = 0 ] ) 
+string hebrevc ( string $hebrew_text [, int $max_chars_per_line = 0 ] ) 
+string hex2bin ( string $data ) 
+string html_entity_decode ( string $string [, int $flags = ENT_COMPAT | ENT_HTML401 [, string $encoding = ini_get("default_charset") ]] ) 
+string htmlentities ( string $string [, int $flags = ENT_COMPAT | ENT_HTML401 [, string $encoding = ini_get("default_charset") [, bool $double_encode = TRUE ]]] ) 
+string htmlspecialchars_decode ( string $string [, int $flags = ENT_COMPAT | ENT_HTML401 ] ) 
+string htmlspecialchars ( string $string [, int $flags = ENT_COMPAT | ENT_HTML401 [, string $encoding = ini_get("default_charset") [, bool $double_encode = TRUE ]]] ) 
+string implode ( string $glue , array $pieces ) 
+string lcfirst ( string $str ) 
+int levenshtein ( string $str1 , string $str2 ) 
+array localeconv ( void ) Returns an associative array containing localized numeric and monetary formatting information. 
+string ltrim ( string $str [, string $character_mask ] ) Strip whitespace (or other characters) from the beginning of a string. 
+string md5_file ( string $filename [, bool $raw_output = FALSE ] ) Calculates the MD5 hash of the file specified by the filename parameter using the » RSA Data Security, Inc. MD5 Message-Digest Algorithm, and returns that hash. The hash is a 32-character hexadecimal number. 
+string md5 ( string $str [, bool $raw_output = FALSE ] ) Calculates the MD5 hash of str using the » RSA Data Security, Inc. MD5 Message-Digest Algorithm, and returns that hash. 
+string metaphone ( string $str [, int $phonemes = 0 ] ) 
+string money_format ( string $format , float $number ) money_format() returns a formatted version of number. This function wraps the C library function strfmon(), with the difference that this implementation converts only one number at a time. 
+string nl_langinfo ( int $item ) nl_langinfo() is used to access individual elements of the locale categories. Unlike localeconv(), which returns all of the elements, nl_langinfo() allows you to select any specific element. 
+string nl2br ( string $string [, bool $is_xhtml = TRUE ] ) Returns string with <br /> or <br> inserted before all newlines (\r\n, \n\r, \n and \r). 
+string number_format ( float $number [, int $decimals = 0 ] ) 
+int ord ( string $string ) 
+void parse_str ( string $encoded_string [, array &$result ] ) Parses encoded_string as if it were the query string passed via a URL and sets variables in the current scope (or in the array if result is provided). 
+int print ( string $arg ) 
+int printf ( string $format [, mixed $args [, mixed $... ]] ) Produces output according to format. 
+string quoted_printable_decode ( string $str ) 
+string quoted_printable_encode ( string $str ) 
+string quotemeta ( string $str ) 
+string rtrim ( string $str [, string $character_mask ] ) 
+string setlocale ( int $category , string $locale [, string $... ] ) 
+string sha1_file ( string $filename [, bool $raw_output = FALSE ] ) Calculates the sha1 hash of the file specified by filename using the » US Secure Hash Algorithm 1, and returns that hash. The hash is a 40-character hexadecimal number. 
+string sha1 ( string $str [, bool $raw_output = FALSE ] ) Calculates the sha1 hash of str using the » US Secure Hash Algorithm 1. 
+int similar_text ( string $first , string $second [, float &$percent ] ) This calculates the similarity between two strings as described in Programming Classics: Implementing the World's Best Algorithms by Oliver (ISBN 0-131-00413-1). Note that this implementation does not use a stack as in Oliver's pseudo code, but recursive calls which may or may not speed up the whole process. Note also that the complexity of this algorithm is O(N**3) where N is the length of the longest string. 
+string soundex ( string $str ) 
+string sprintf ( string $format [, mixed $args [, mixed $... ]] ) Returns a string produced according to the formatting string format. 
+mixed sscanf ( string $str , string $format [, mixed &$... ] ) 
+array str_getcsv ( string $input [, string $delimiter = "," [, string $enclosure = '"' [, string $escape = "\\" ]]] ) 
+mixed str_ireplace ( mixed $search , mixed $replace , mixed $subject [, int &$count ] ) This function returns a string or an array with all occurrences of search in subject (ignoring case) replaced with the given replace value. If you don't need fancy replacing rules, you should generally use this function instead of preg_replace() with the i modifier. 
+string str_pad ( string $input , int $pad_length [, string $pad_string = " " [, int $pad_type = STR_PAD_RIGHT ]] ) This function returns the input string padded on the left, the right, or both sides to the specified padding length. If the optional argument pad_string is not supplied, the input is padded with spaces, otherwise it is padded with characters from pad_string up to the limit. 
+string str_repeat ( string $input , int $multiplier ) Returns input repeated multiplier times. 
+mixed str_replace ( mixed $search , mixed $replace , mixed $subject [, int &$count ] ) 
+string str_rot13 ( string $str ) 
+string str_shuffle ( string $str ) 
+array str_split ( string $string [, int $split_length = 1 ] ) Converts a string to an array. 
+mixed str_word_count ( string $string [, int $format = 0 [, string $charlist ]] ) 
+int strcasecmp ( string $str1 , string $str2 ) Binary safe case-insensitive string comparison. 
+int strcmp ( string $str1 , string $str2 ) Note that this comparison is case sensitive. 
+int strcoll ( string $str1 , string $str2 ) 
+int strcspn ( string $subject , string $mask [, int $start [, int $length ]] ) 
+string strip_tags ( string $str [, string $allowable_tags ] ) This function tries to return a string with all NULL bytes, HTML and PHP tags stripped from a given str. It uses the same tag stripping state machine as the fgetss() function. 
+string stripcslashes ( string $str ) Returns a string with backslashes stripped off. Recognizes C-like \n, \r ..., octal and hexadecimal representation. 
+int stripos ( string $haystack , mixed $needle [, int $offset = 0 ] ) 
+string stripslashes ( string $str ) 
+string stristr ( string $haystack , mixed $needle [, bool $before_needle = FALSE ] ) Returns all of haystack starting from and including the first occurrence of needle to the end. 
+int strlen ( string $string ) Returns the length of the given string. 
+int strnatcasecmp ( string $str1 , string $str2 ) This function implements a comparison algorithm that orders alphanumeric strings in the way a human being would. The behaviour of this function is similar to strnatcmp(), except that the comparison is not case sensitive. For more information see: Martin Pool's » Natural Order String Comparison page. 
+int strnatcmp ( string $str1 , string $str2 ) This function implements a comparison algorithm that orders alphanumeric strings in the way a human being would, this is described as a "natural ordering". Note that this comparison is case sensitive. 
+int strncasecmp ( string $str1 , string $str2 , int $len ) This function is similar to strcasecmp(), with the difference that you can specify the (upper limit of the) number of characters from each string to be used in the comparison. 
+int strncmp ( string $str1 , string $str2 , int $len ) 
+string strpbrk ( string $haystack , string $char_list ) strpbrk() searches the haystack string for a char_list. 
+int strpos ( string $haystack , mixed $needle [, int $offset = 0 ] ) Find the numeric position of the first occurrence of needle in the haystack string. 
+string strrchr ( string $haystack , mixed $needle ) This function returns the portion of haystack which starts at the last occurrence of needle and goes until the end of haystack. 
+string strrev ( string $string ) Returns string, reversed. 
+int strripos ( string $haystack , mixed $needle [, int $offset = 0 ] ) 
+int strrpos ( string $haystack , mixed $needle [, int $offset = 0 ] ) Find the numeric position of the last occurrence of needle in the haystack string. 
+int strspn ( string $subject , string $mask [, int $start [, int $length ]] ) 
+string strstr ( string $haystack , mixed $needle [, bool $before_needle = FALSE ] ) 
+string strtok ( string $str , string $token ) 
+string strtolower ( string $string ) 
+string strtoupper ( string $string ) 
+string strtr ( string $str , string $from , string $to ) 
+int substr_compare ( string $main_str , string $str , int $offset [, int $length [, bool $case_insensitivity = FALSE ]] ) substr_compare() compares main_str from position offset with str up to length characters. 
+int substr_count ( string $haystack , string $needle [, int $offset = 0 [, int $length ]] ) 
+mixed substr_replace ( mixed $string , mixed $replacement , mixed $start [, mixed $length ] ) substr_replace() replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement. 
+string substr ( string $string , int $start [, int $length ] ) Returns the portion of string specified by the start and length parameters. 
+string trim ( string $str [, string $character_mask = " \t\n\r\0\x0B" ] ) 
+string ucfirst ( string $str ) 
+string ucwords ( string $str [, string $delimiters = " \t\r\n\f\v" ] ) 
+int vfprintf ( resource $handle , string $format , array $args ) 
+int vprintf ( string $format , array $args ) 
+string vsprintf ( string $format , array $args ) Operates as sprintf() but accepts an array of arguments, rather than a variable number of arguments. 
+string wordwrap ( string $str [, int $width = 75 [, string $break = "\n" [, bool $cut = FALSE ]]] ) Wraps a string to a given number of characters using a string break character. 
+array token_get_all ( string $source [, int $flags = 0 ] ) 
+string token_name ( int $token ) token_name() gets the symbolic name for a PHP token value. 
+string base64_decode ( string $data [, bool $strict = FALSE ] ) Decodes a base64 encoded data. 
+string base64_encode ( string $data ) 
+array get_headers ( string $url [, int $format = 0 [, resource $context ]] ) get_headers() returns an array with the headers sent by the server in response to a HTTP request. 
+array get_meta_tags ( string $filename [, bool $use_include_path = FALSE ] ) Opens filename and parses it line by line for <meta> tags in the file. The parsing stops at </head>. 
+string http_build_query ( mixed $query_data [, string $numeric_prefix [, string $arg_separator [, int $enc_type = PHP_QUERY_RFC1738 ]]] ) Generates a URL-encoded query string from the associative (or indexed) array provided. 
+mixed parse_url ( string $url [, int $component = -1 ] ) 
+string rawurldecode ( string $str ) Returns a string in which the sequences with percent (%) signs followed by two hex digits have been replaced with literal characters. 
+string rawurlencode ( string $str ) Encodes the given string according to » RFC 3986. 
+string urldecode ( string $str ) Decodes any %## encoding in the given string. Plus symbols ('+') are decoded to a space character. 
+string urlencode ( string $str ) This function is convenient when encoding a string to be used in a query part of a URL, as a convenient way to pass variables to the next page. 
+bool boolval ( mixed $var ) Returns the boolean value of var. 
+void debug_zval_dump ( mixed $variable [, mixed $... ] ) Dumps a string representation of an internal zend value to output. 
+bool empty ( mixed $var ) Determine whether a variable is considered to be empty. A variable is considered empty if it does not exist or if its value equals FALSE. empty() does not generate a warning if the variable does not exist. 
+float floatval ( mixed $var ) Gets the float value of var. 
+array get_defined_vars ( void ) This function returns a multidimensional array containing a list of all defined variables, be them environment, server or user-defined variables, within the scope that get_defined_vars() is called. 
+string get_resource_type ( resource $handle ) This function gets the type of the given resource. 
+string gettype ( mixed $var ) Returns the type of the PHP variable var. For type checking, use is_* functions. 
+bool import_request_variables ( string $types [, string $prefix ] ) 
+int intval ( mixed $var [, int $base = 10 ] ) Returns the integer value of var, using the specified base for the conversion (the default is base 10). intval() should not be used on objects, as doing so will emit an E_NOTICE level error and return 1. 
+bool is_array ( mixed $var ) Finds whether the given variable is an array. 
+bool is_bool ( mixed $var ) Finds whether the given variable is a boolean. 
+bool is_callable ( mixed $var [, bool $syntax_only = FALSE [, string &$callable_name ]] ) Verify that the contents of a variable can be called as a function. This can check that a simple variable contains the name of a valid function, or that an array contains a properly encoded object and function name. 
+bool is_countable ( mixed $var ) Verify that the contents of a variable is an array or an object implementing Countable 
+bool is_float ( mixed $var ) 
+bool is_int ( mixed $var ) 
+bool is_iterable ( mixed $var ) Verify that the contents of a variable is accepted by the iterable pseudo-type, i.e. that it is an array or an object implementing Traversable 
+bool is_null ( mixed $var ) Finds whether the given variable is NULL. 
+bool is_numeric ( mixed $var ) Finds whether the given variable is numeric. Numeric strings consist of optional sign, any number of digits, optional decimal part and optional exponential part. Thus +0123.45e6 is a valid numeric value. Hexadecimal (e.g. 0xf4c3b00c) and binary (e.g. 0b10100111001) notation is not allowed. 
+bool is_object ( mixed $var ) Finds whether the given variable is an object. 
+bool is_resource ( mixed $var ) Finds whether the given variable is a resource. 
+bool is_scalar ( mixed $var ) 
+bool is_string ( mixed $var ) Finds whether the type of the given variable is string. 
+bool isset ( mixed $var [, mixed $... ] ) 
+mixed print_r ( mixed $expression [, bool $return = FALSE ] ) 
+string serialize ( mixed $value ) 
+bool settype ( mixed &$var , string $type ) Set the type of variable var to type. 
+string strval ( mixed $var ) 
+mixed unserialize ( string $str [, array $options ] ) 
+void unset ( mixed $var [, mixed $... ] ) 
+void var_dump ( mixed $expression [, mixed $... ] ) 
+mixed var_export ( mixed $expression [, bool $return = FALSE ] ) var_export() gets structured information about the given variable. It is similar to var_dump() with one exception: the returned representation is valid PHP code. 
