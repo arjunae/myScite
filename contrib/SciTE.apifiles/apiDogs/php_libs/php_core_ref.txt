@@ -1,3 +1,6 @@
+http://php.net/manual/en/function.sys-get-temp-dir.php;sys_get_temp_dir
+http://php.net/manual/en/function.version-compare.php;version_compare
+http://php.net/manual/en/function.sizeof.php;sizeof
 http://php.net/manual/en/function.array-change-key-case.php;array_change_key_case
 http://php.net/manual/en/function.array-chunk.php;array_chunk
 http://php.net/manual/en/function.array-column.php;array_column
@@ -74,7 +77,6 @@ http://php.net/manual/en/function.range.php;range
 http://php.net/manual/en/function.reset.php;reset
 http://php.net/manual/en/function.rsort.php;rsort
 http://php.net/manual/en/function.shuffle.php;shuffle
-http://php.net/manual/en/function.sizeof.php;sizeof
 http://php.net/manual/en/function.sort.php;sort
 http://php.net/manual/en/function.uasort.php;uasort
 http://php.net/manual/en/function.uksort.php;uksort
@@ -352,9 +354,6 @@ http://php.net/manual/en/function.restore-include-path.php;restore_include_path
 http://php.net/manual/en/function.set-include-path.php;set_include_path
 http://php.net/manual/en/function.set-magic-quotes-runtime.php;set_magic_quotes_runtime
 http://php.net/manual/en/function.set-time-limit.php;set_time_limit
-http://php.net/manual/en/function.sys-get-temp-dir.php;sys_get_temp_dir
-http://php.net/manual/en/function.version-compare.php;version_compare
-http://php.net/manual/en/quot;PHP-standardized
 http://php.net/manual/en/function.zend-logo-guid.php;zend_logo_guid
 http://php.net/manual/en/function.zend-thread-id.php;zend_thread_id
 http://php.net/manual/en/function.zend-version.php;zend_version

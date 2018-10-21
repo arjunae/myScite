@@ -1,9 +1,9 @@
-'Veery Bitschyy Dirty function parser
+' Veery Bitschyy function parser
 '  /vbScript Hate/
 ' (...)
 ' todo:  calm down. rewrite and use a DOM Parser.
 ' (%!&UUC!!K!) 
-' ok. seems usable...Dont try that at home.
+' hrmpf -ok. seems usable..
 
 const ForReading=1
 const ForWriting=2
@@ -14,21 +14,20 @@ const TristateFalse=0 'ASCII
 dim bconsole
 
 set fso = CreateObject("Scripting.FileSystemObject")
-	
 Set ofile_dir = fso.OpenTextFile("php_core_ref.txt",ForReading,TristateTrue)
 Set ofile_ref = fso.OpenTextFile("php_core.func.txt",ForWriting,TristateTrue)
+set oXML = CreateObject("MSXML2.ServerXMLHTTP") ' more advanced then XMLHTTP 
+set ohtmlFile = CreateObject("HTMLFILE") 
 
 wscript.quit(main)
 
 function main()
 	if instr(1,wscript.fullName,"cscript") then bConsole=true
 
-	''Description= ofile_dir.ReadLine()
 	while not ofile_dir.AtEndOfStream
 		ln= trim(ofile_dir.ReadLine())
 		arr_ln=split(ln,";")
 		getfnLink(arr_ln(0))
-
 	wend
 
 	ofile_dir.close()
@@ -36,49 +35,56 @@ function main()
 end function
 
 function getfnLink(url)
+	''https://stackoverflow.com/questions/3836130/vbs-microsoft-xmlhttp-status
+	dim alias
+	dim strMethodName
 
-''https://officetricks.com/vbscript-extract-data-web-scrape-parse-html/
-	set oXML = CreateObject("MSXML2.XMLHTTP")
-	set ohtmlFile = CreateObject("HTMLFILE")
-	wscript.echo(url)
-	oXML.open "GET" , url ,async	
-	oXML.send()
+	oXML.open "GET" , url ,false	'synchronous'
+	oXML.send()	
+	do  
+		wscript.sleep(250) 
+		'todo timeout?
+	loop until oXML.status=200
 
-    'Get Web Data to HTML file Object
-		''do  
-			wscript.sleep(1500)
-		''loop until oXML.Status=200 
-		
-    ohtmlFile.Write oXML.responseText
-   ohtmlFile.Close
-	 
-' vbscript WTF - HTMLFILE Objext SUCKS
-		Set oTable = ohtmlFile.getElementById("layout")
-		'wscript.echo(oTable.innerText)
-		for each bla in oTable.all
-		if bla.ClassName ="refsect1 description" then 
-			''wscript.echo(bla.innerText)
-			if not instr(bla.innerText,"alias of")>0 then
-				strraw=bla.innerText
-				strraw=replace(strraw,"Description", "")
-				
-				x=split(bla.innerText,vbLf)			
-				strFunc = replace(x(1),vbcr,"")
-				if UBound(x)=2 then strDescr = replace(x(2),vbcr,"")
-				' then get the short desc
-				
-				ofile_ref.WriteLine (strFunc & " " & strDescr )
-			end if
-		end if
-		''if bla.ClassName ="methodname" then wscript.echo(bla.innerText)		
-		''if bla.ClassName ="refsect1 returnvalues" then wscript.echo(bla.innerText)		
+	'Strange way to assign them...
+	ohtmlFile.Write oXML.responseText 
+	ohtmlFile.Close
 	
-next
-
+	' HTMLFILE has no getElementsByClassName - so iterate through
+	Set oDiv = ohtmlFile.getElementById("layout")
+	alias=false
+	
+	for each oItem in oDiv.all				
+		'-- Parse Description Content
+		if oItem.ClassName ="refsect1 description" then 
+			'wscript.echo(oitem.innerText)
+			if  instr(oItem.innerText,"alias of")>0 then alias=true
+			' -- parameters
+				strraw=replace(oItem.innerText,"Description", "")
+				''wscript.echo(strRaw)
+				x=split(oItem.innerText,vbLf)			
+				strFunc = replace(x(1),vbcr,"")
+			' -- Function Description - Some Functions dont seem to have one
+				if UBound(x)=2 then strDescr = replace(x(2),vbcr,"")
+		end if	
+	
+	' For Function Aliases, writ their name and the name of the original		
+		if oItem.ClassName ="refname" then 
+			strMethodName=oItem.innerText		
+		end if
+	next
+		
+	if alias=true then  strFunc=strMethodName & "(->) " & strFunc
+	if bConsole then wscript.echo strFunc & " " & strDescr	
+	ofile_ref.WriteLine (strFunc & " " &  replace(strDescr,vbLF,"") )
+	''if oItem.ClassName ="refsect1 returnvalues" then wscript.echo(oItem.innerText)		
+		
 end function
 
+
+' a Leftover - just here in case we need that sometimes
 function regexp(strPattern,strContent)
-' again very simple. 
+' again very simple. No Multilines
 ' designed to return all submatches from all matches as an array 
 
 	Set myRegExp = New RegExp
@@ -88,24 +94,20 @@ function regexp(strPattern,strContent)
 
 	myRegExp.Pattern=strPattern
 	Set myMatches = myRegExp.Execute(strContent)
-	
 	''wscript.echo(myMatches.count)
 	
 	if myMatches.count>0 then
-	''wscript.echo(myMatches.Item(0))
-	''wscript.echo(myMatches.Item(0).submatches.count)
-	''wscript.echo(myMatches.Item(0).submatches(0))
+		''wscript.echo(myMatches.Item(0))
+		''wscript.echo(myMatches.Item(0).submatches.count)
+		''wscript.echo(myMatches.Item(0).submatches(0))
 
-
-	for each myMatch in myMatches
-		for each subMatch in myMatch.Submatches
-		''wscript.echo(subMatch)
-			strRes=strRes&subMatch&";"
+		for each myMatch in myMatches
+			for each subMatch in myMatch.Submatches
+			''wscript.echo(subMatch)
+				strRes=strRes&subMatch&";"
+			next
 		next
-	next
-	regexp=split(strRes,";")
-	
+		regexp=split(strRes,";")
 	end if	
 	
 end function
-
