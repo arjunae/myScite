@@ -1,0 +1,494 @@
+int cal_days_in_month ( int $calendar , int $month , int $year ) This function will return the number of days in the month of year for the specified calendar. 
+array cal_from_jd ( int $jd , int $calendar ) cal_from_jd() converts the Julian day given in jd into a date of the specified calendar. Supported calendar values are CAL_GREGORIAN, CAL_JULIAN, CAL_JEWISH and CAL_FRENCH. 
+array cal_info ([ int $calendar = -1 ] ) 
+int cal_to_jd ( int $calendar , int $month , int $day , int $year ) cal_to_jd() calculates the Julian day count for a date in the specified calendar. Supported calendars are CAL_GREGORIAN, CAL_JULIAN, CAL_JEWISH and CAL_FRENCH. 
+int easter_date ([ int $year = date("Y") ] ) 
+int easter_days ([ int $year = date("Y") [, int $method = CAL_EASTER_DEFAULT ]] ) 
+int frenchtojd ( int $month , int $day , int $year ) 
+int gregoriantojd ( int $month , int $day , int $year ) 
+mixed jddayofweek ( int $julianday [, int $mode = CAL_DOW_DAYNO ] ) Returns the day of the week. Can return a string or an integer depending on the mode. 
+string jdmonthname ( int $julianday , int $mode ) 
+string jdtofrench ( int $juliandaycount ) Converts a Julian Day Count to the French Republican Calendar. 
+string jdtogregorian ( int $julianday ) Converts Julian Day Count to a string containing the Gregorian date in the format of "month/day/year". 
+string jdtojewish ( int $juliandaycount [, bool $hebrew = FALSE [, int $fl = 0 ]] ) Converts a Julian Day Count to the Jewish Calendar. 
+string jdtojulian ( int $julianday ) Converts Julian Day Count to a string containing the Julian Calendar Date in the format of "month/day/year". 
+int jdtounix ( int $jday ) This function will return a Unix timestamp corresponding to the Julian Day given in jday or FALSE if jday is not inside the Unix epoch (Gregorian years between 1970 and 2037 or 2440588 <= jday <= 2465342 ). The time returned is UTC. 
+int jewishtojd ( int $month , int $day , int $year ) Although this function can handle dates all the way back to the year 1 (3761 B.C.), such use may not be meaningful. The Jewish calendar has been in use for several thousand years, but in the early days there was no formula to determine the start of a month. A new month was started when the new moon was first observed. 
+int juliantojd ( int $month , int $day , int $year ) 
+int unixtojd ([ int $timestamp = time() ] ) Return the Julian Day for a Unix timestamp (seconds since 1.1.1970), or for the current day if no timestamp is given. Either way, the time is regarded as local time (not UTC). 
+string bcadd ( string $left_operand , string $right_operand [, int $scale = 0 ] ) Sums left_operand and right_operand. 
+int bccomp ( string $left_operand , string $right_operand [, int $scale = 0 ] ) Compares the left_operand to the right_operand and returns the result as an integer. 
+string bcdiv ( string $dividend , string $divisor [, int $scale = 0 ] ) Divides the dividend by the divisor. 
+string bcmod ( string $dividend , string $divisor [, int $scale ] ) Get the remainder of dividing dividend by divisor. Unless divisor is zero, the result has the same sign as dividend. 
+string bcmul ( string $left_operand , string $right_operand [, int $scale = 0 ] ) Multiply the left_operand by the right_operand. 
+string bcpow ( string $base , string $exponent [, int $scale = 0 ] ) Raise base to the power exponent. 
+string bcpowmod ( string $base , string $exponent , string $modulus [, int $scale = 0 ] ) Use the fast-exponentiation method to raise base to the power exponent with respect to the modulus modulus. 
+int bcscale ([ int $scale ] ) Sets the default scale parameter for all subsequent calls to bc math functions that do not explicitly specify a scale parameter. If scale is omitted, the function gets the current scale factor. 
+string bcsqrt ( string $operand [, int $scale = 0 ] ) Return the square root of the operand. 
+string bcsub ( string $left_operand , string $right_operand [, int $scale = 0 ] ) Subtracts the right_operand from the left_operand. 
+bool apache_child_terminate ( void ) apache_child_terminate() will register the Apache process executing the current PHP request for termination once execution of PHP code is completed. It may be used to terminate a process after a script with high memory consumption has been run as memory will usually only be freed internally but not given back to the operating system. 
+array apache_get_modules ( void ) Get a list of loaded Apache modules. 
+string apache_get_version ( void ) Fetch the Apache version. 
+string apache_getenv ( string $variable [, bool $walk_to_top = FALSE ] ) 
+object apache_lookup_uri ( string $filename ) 
+string apache_note ( string $note_name [, string $note_value = "" ] ) 
+array apache_request_headers ( void ) Fetches all HTTP request headers from the current request. 
+bool apache_reset_timeout ( void ) 
+array apache_response_headers ( void ) Fetch all HTTP response headers. 
+bool apache_setenv ( string $variable , string $value [, bool $walk_to_top = FALSE ] ) 
+array getallheaders ( void ) 
+bool virtual ( string $filename ) 
+bool ctype_alnum ( string $text ) Checks if all of the characters in the provided string, text, are alphanumeric. 
+bool ctype_alpha ( string $text ) Checks if all of the characters in the provided string, text, are alphabetic. In the standard C locale letters are just [A-Za-z] and ctype_alpha() is equivalent to (ctype_upper($text) || ctype_lower($text)) if $text is just a single character, but other languages have letters that are considered neither upper nor lower case. 
+bool ctype_cntrl ( string $text ) Checks if all of the characters in the provided string, text, are control characters. Control characters are e.g. line feed, tab, escape. 
+bool ctype_digit ( string $text ) Checks if all of the characters in the provided string, text, are numerical. 
+bool ctype_graph ( string $text ) Checks if all of the characters in the provided string, text, creates visible output. 
+bool ctype_lower ( string $text ) Checks if all of the characters in the provided string, text, are lowercase letters. 
+bool ctype_print ( string $text ) Checks if all of the characters in the provided string, text, are printable. 
+bool ctype_punct ( string $text ) Checks if all of the characters in the provided string, text, are punctuation character. 
+bool ctype_space ( string $text ) Checks if all of the characters in the provided string, text, creates whitespace. 
+bool ctype_upper ( string $text ) Checks if all of the characters in the provided string, text, are uppercase characters. 
+bool ctype_xdigit ( string $text ) Checks if all of the characters in the provided string, text, are hexadecimal 'digits'. 
+void dba_close ( resource $handle ) dba_close() closes the established database and frees all resources of the specified database handle. 
+bool dba_delete ( string $key , resource $handle ) dba_delete() deletes the specified entry from the database. 
+bool dba_exists ( string $key , resource $handle ) dba_exists() checks whether the specified key exists in the database. 
+string dba_fetch ( string $key , resource $handle ) 
+string dba_firstkey ( resource $handle ) dba_firstkey() returns the first key of the database and resets the internal key pointer. This permits a linear search through the whole database. 
+array dba_handlers ([ bool $full_info = FALSE ] ) dba_handlers() list all the handlers supported by this extension. 
+bool dba_insert ( string $key , string $value , resource $handle ) dba_insert() inserts the entry described with key and value into the database. 
+mixed dba_key_split ( mixed $key ) dba_key_split() splits a key (string representation) into an array representation. 
+array dba_list ( void ) dba_list() list all open database files. 
+string dba_nextkey ( resource $handle ) dba_nextkey() returns the next key of the database and advances the internal key pointer. 
+resource dba_open ( string $path , string $mode [, string $handler [, mixed $... ]] ) dba_open() establishes a database instance for path with mode using handler. 
+bool dba_optimize ( resource $handle ) dba_optimize() optimizes the underlying database. 
+resource dba_popen ( string $path , string $mode [, string $handler [, mixed $... ]] ) dba_popen() establishes a persistent database instance for path with mode using handler. 
+bool dba_replace ( string $key , string $value , resource $handle ) dba_replace() replaces or inserts the entry described with key and value into the database specified by handle. 
+bool dba_sync ( resource $handle ) dba_sync() synchronizes the database. This will probably trigger a physical write to the disk, if supported. 
+int exif_imagetype ( string $filename ) 
+array exif_read_data ( mixed $stream [, string $sections = NULL [, bool $arrays = FALSE [, bool $thumbnail = FALSE ]]] ) 
+string exif_tagname ( int $index ) 
+string exif_thumbnail ( mixed $stream [, int &$width [, int &$height [, int &$imagetype ]]] ) 
+read_exif_data(->) This function is an alias of: exif_read_data().  
+string finfo_buffer ( resource $finfo , string $string = NULL [, int $options = FILEINFO_NONE [, resource $context = NULL ]] ) 
+bool finfo_close ( resource $finfo ) This function closes the resource opened by finfo_open(). 
+string finfo_file ( resource $finfo , string $file_name = NULL [, int $options = FILEINFO_NONE [, resource $context = NULL ]] ) 
+resource finfo_open ([ int $options = FILEINFO_NONE [, string $magic_file = NULL ]] ) 
+bool finfo_set_flags ( resource $finfo , int $options ) 
+string mime_content_type ( string $filename ) Returns the MIME content type for a file as determined by using information from the magic.mime file. 
+bool ftp_alloc ( resource $ftp_stream , int $filesize [, string &$result ] ) 
+bool ftp_append ( resource $ftp , string $remote_file , string $local_file [, int $mode = FTP_IMAGE ] ) 
+bool ftp_cdup ( resource $ftp_stream ) Changes to the parent directory. 
+bool ftp_chdir ( resource $ftp_stream , string $directory ) Changes the current directory to the specified one. 
+int ftp_chmod ( resource $ftp_stream , int $mode , string $filename ) Sets the permissions on the specified remote file to mode. 
+bool ftp_close ( resource $ftp_stream ) 
+resource ftp_connect ( string $host [, int $port = 21 [, int $timeout = 90 ]] ) ftp_connect() opens an FTP connection to the specified host. 
+bool ftp_delete ( resource $ftp_stream , string $path ) ftp_delete() deletes the file specified by path from the FTP server. 
+bool ftp_exec ( resource $ftp_stream , string $command ) Sends a SITE EXEC command request to the FTP server. 
+bool ftp_fget ( resource $ftp_stream , resource $handle , string $remote_file [, int $mode = FTP_IMAGE [, int $resumepos = 0 ]] ) ftp_fget() retrieves remote_file from the FTP server, and writes it to the given file pointer. 
+bool ftp_fput ( resource $ftp_stream , string $remote_file , resource $handle [, int $mode = FTP_IMAGE [, int $startpos = 0 ]] ) ftp_fput() uploads the data from a file pointer to a remote file on the FTP server. 
+mixed ftp_get_option ( resource $ftp_stream , int $option ) This function returns the value for the requested option from the specified FTP connection. 
+bool ftp_get ( resource $ftp_stream , string $local_file , string $remote_file [, int $mode = FTP_BINARY [, int $resumepos = 0 ]] ) ftp_get() retrieves a remote file from the FTP server, and saves it into a local file. 
+bool ftp_login ( resource $ftp_stream , string $username , string $password ) Logs in to the given FTP stream. 
+int ftp_mdtm ( resource $ftp_stream , string $remote_file ) 
+string ftp_mkdir ( resource $ftp_stream , string $directory ) Creates the specified directory on the FTP server. 
+array ftp_mlsd ( resource $ftp_stream , string $directory ) 
+int ftp_nb_continue ( resource $ftp_stream ) Continues retrieving/sending a file non-blocking. 
+int ftp_nb_fget ( resource $ftp_stream , resource $handle , string $remote_file [, int $mode = FTP_IMAGE [, int $resumepos = 0 ]] ) 
+int ftp_nb_fput ( resource $ftp_stream , string $remote_file , resource $handle [, int $mode = FTP_IMAGE [, int $startpos = 0 ]] ) 
+int ftp_nb_get ( resource $ftp_stream , string $local_file , string $remote_file [, int $mode = FTP_IMAGE [, int $resumepos = 0 ]] ) 
+int ftp_nb_put ( resource $ftp_stream , string $remote_file , string $local_file [, int $mode = FTP_IMAGE [, int $startpos = 0 ]] ) 
+array ftp_nlist ( resource $ftp_stream , string $directory ) 
+bool ftp_pasv ( resource $ftp_stream , bool $pasv ) 
+bool ftp_put ( resource $ftp_stream , string $remote_file , string $local_file [, int $mode = FTP_IMAGE [, int $startpos = 0 ]] ) ftp_put() stores a local file on the FTP server. 
+string ftp_pwd ( resource $ftp_stream ) 
+ftp_quit(->) This function is an alias of: ftp_close().  
+array ftp_raw ( resource $ftp_stream , string $command ) Sends an arbitrary command to the FTP server. 
+array ftp_rawlist ( resource $ftp_stream , string $directory [, bool $recursive = FALSE ] ) ftp_rawlist() executes the FTP LIST command, and returns the result as an array. 
+bool ftp_rename ( resource $ftp_stream , string $oldname , string $newname ) ftp_rename() renames a file or a directory on the FTP server. 
+bool ftp_rmdir ( resource $ftp_stream , string $directory ) Removes the specified directory on the FTP server. 
+bool ftp_set_option ( resource $ftp_stream , int $option , mixed $value ) This function controls various runtime options for the specified FTP stream. 
+bool ftp_site ( resource $ftp_stream , string $command ) 
+int ftp_size ( resource $ftp_stream , string $remote_file ) 
+resource ftp_ssl_connect ( string $host [, int $port = 21 [, int $timeout = 90 ]] ) 
+string ftp_systype ( resource $ftp_stream ) Returns the system type identifier of the remote FTP server. 
+mixed iconv_get_encoding ([ string $type = "all" ] ) Retrieve internal configuration variables of iconv extension. 
+array iconv_mime_decode_headers ( string $encoded_headers [, int $mode = 0 [, string $charset = ini_get("iconv.internal_encoding") ]] ) Decodes multiple MIME header fields at once. 
+string iconv_mime_decode ( string $encoded_header [, int $mode = 0 [, string $charset = ini_get("iconv.internal_encoding") ]] ) Decodes a MIME header field. 
+string iconv_mime_encode ( string $field_name , string $field_value [, array $preferences = NULL ] ) 
+bool iconv_set_encoding ( string $type , string $charset ) Changes the value of the internal configuration variable specified by type to charset. 
+int iconv_strlen ( string $str [, string $charset = ini_get("iconv.internal_encoding") ] ) In contrast to strlen(), iconv_strlen() counts the occurrences of characters in the given byte sequence str on the basis of the specified character set, the result of which is not necessarily identical to the length of the string in byte. 
+int iconv_strpos ( string $haystack , string $needle [, int $offset = 0 [, string $charset = ini_get("iconv.internal_encoding") ]] ) 
+int iconv_strrpos ( string $haystack , string $needle [, string $charset = ini_get("iconv.internal_encoding") ] ) 
+string iconv_substr ( string $str , int $offset [, int $length = iconv_strlen($str, $charset) [, string $charset = ini_get("iconv.internal_encoding") ]] ) Cuts a portion of str specified by the offset and length parameters. 
+string iconv ( string $in_charset , string $out_charset , string $str ) Performs a character set conversion on the string str from in_charset to out_charset. 
+string ob_iconv_handler ( string $contents , int $status ) 
+array gd_info ( void ) Gets information about the version and capabilities of the installed GD library. 
+array getimagesize ( string $filename [, array &$imageinfo ] ) 
+array getimagesizefromstring ( string $imagedata [, array &$imageinfo ] ) 
+string image_type_to_extension ( int $imagetype [, bool $include_dot = TRUE ] ) Returns the extension for the given IMAGETYPE_XXX constant. 
+string image_type_to_mime_type ( int $imagetype ) The image_type_to_mime_type() function will determine the Mime-Type for an IMAGETYPE constant. 
+bool image2wbmp ( resource $image [, string $filename [, int $foreground ]] ) image2wbmp() outputs or save a WBMP version of the given image. 
+resource imageaffine ( resource $image , array $affine [, array $clip ] ) 
+array imageaffinematrixconcat ( array $m1 , array $m2 ) Returns the concatenation of two affine transformation matrices, what is useful if multiple transformations should be applied to the same image in one go. 
+array imageaffinematrixget ( int $type [, mixed $options ] ) Returns an affine transformation matrix. 
+bool imagealphablending ( resource $image , bool $blendmode ) imagealphablending() allows for two different modes of drawing on truecolor images. In blending mode, the alpha channel component of the color supplied to all drawing function, such as imagesetpixel() determines how much of the underlying color should be allowed to shine through. As a result, gd automatically blends the existing color at that point with the drawing color, and stores the result in the image. The resulting pixel is opaque. In non-blending mode, the drawing color is copied literally with its alpha channel information, replacing the destination pixel. Blending mode is not available when drawing on palette images. 
+bool imageantialias ( resource $image , bool $enabled ) 
+bool imagearc ( resource $image , int $cx , int $cy , int $width , int $height , int $start , int $end , int $color ) imagearc() draws an arc of circle centered at the given coordinates. 
+bool imagebmp ( resource $image [, mixed $to = NULL [, bool $compressed = TRUE ]] ) Outputs or saves a BMP version of the given image. 
+bool imagechar ( resource $image , int $font , int $x , int $y , string $c , int $color ) imagechar() draws the first character of c in the image identified by image with its upper-left at x,y (top left is 0, 0) with the color color. 
+bool imagecharup ( resource $image , int $font , int $x , int $y , string $c , int $color ) Draws the character c vertically at the specified coordinate on the given image. 
+int imagecolorallocate ( resource $image , int $red , int $green , int $blue ) 
+int imagecolorallocatealpha ( resource $image , int $red , int $green , int $blue , int $alpha ) imagecolorallocatealpha() behaves identically to imagecolorallocate() with the addition of the transparency parameter alpha. 
+int imagecolorat ( resource $image , int $x , int $y ) 
+int imagecolorclosest ( resource $image , int $red , int $green , int $blue ) 
+int imagecolorclosestalpha ( resource $image , int $red , int $green , int $blue , int $alpha ) Returns the index of the color in the palette of the image which is "closest" to the specified RGB value and alpha level. 
+int imagecolorclosesthwb ( resource $image , int $red , int $green , int $blue ) Get the index of the color which has the hue, white and blackness nearest the given color. 
+bool imagecolordeallocate ( resource $image , int $color ) De-allocates a color previously allocated with imagecolorallocate() or imagecolorallocatealpha(). 
+int imagecolorexact ( resource $image , int $red , int $green , int $blue ) 
+int imagecolorexactalpha ( resource $image , int $red , int $green , int $blue , int $alpha ) Returns the index of the specified color+alpha in the palette of the image. 
+bool imagecolormatch ( resource $image1 , resource $image2 ) Makes the colors of the palette version of an image more closely match the true color version. 
+int imagecolorresolve ( resource $image , int $red , int $green , int $blue ) 
+int imagecolorresolvealpha ( resource $image , int $red , int $green , int $blue , int $alpha ) This function is guaranteed to return a color index for a requested color, either the exact color or the closest possible alternative. 
+void imagecolorset ( resource $image , int $index , int $red , int $green , int $blue [, int $alpha = 0 ] ) This sets the specified index in the palette to the specified color. This is useful for creating flood-fill-like effects in palleted images without the overhead of performing the actual flood-fill. 
+array imagecolorsforindex ( resource $image , int $index ) Gets the color for a specified index. 
+int imagecolorstotal ( resource $image ) Returns the number of colors in an image palette. 
+int imagecolortransparent ( resource $image [, int $color ] ) Sets the transparent color in the given image. 
+bool imageconvolution ( resource $image , array $matrix , float $div , float $offset ) Applies a convolution matrix on the image, using the given coefficient and offset. 
+bool imagecopy ( resource $dst_im , resource $src_im , int $dst_x , int $dst_y , int $src_x , int $src_y , int $src_w , int $src_h ) Copy a part of src_im onto dst_im starting at the x,y coordinates src_x, src_y with a width of src_w and a height of src_h. The portion defined will be copied onto the x,y coordinates, dst_x and dst_y. 
+bool imagecopymerge ( resource $dst_im , resource $src_im , int $dst_x , int $dst_y , int $src_x , int $src_y , int $src_w , int $src_h , int $pct ) Copy a part of src_im onto dst_im starting at the x,y coordinates src_x, src_y with a width of src_w and a height of src_h. The portion defined will be copied onto the x,y coordinates, dst_x and dst_y. 
+bool imagecopymergegray ( resource $dst_im , resource $src_im , int $dst_x , int $dst_y , int $src_x , int $src_y , int $src_w , int $src_h , int $pct ) 
+bool imagecopyresampled ( resource $dst_image , resource $src_image , int $dst_x , int $dst_y , int $src_x , int $src_y , int $dst_w , int $dst_h , int $src_w , int $src_h ) 
+bool imagecopyresized ( resource $dst_image , resource $src_image , int $dst_x , int $dst_y , int $src_x , int $src_y , int $dst_w , int $dst_h , int $src_w , int $src_h ) 
+resource imagecreate ( int $width , int $height ) 
+resource imagecreatefrombmp ( string $filename ) 
+resource imagecreatefromgd2 ( string $filename ) 
+resource imagecreatefromgd2part ( string $filename , int $srcX , int $srcY , int $width , int $height ) 
+resource imagecreatefromgd ( string $filename ) 
+resource imagecreatefromgif ( string $filename ) 
+resource imagecreatefromjpeg ( string $filename ) 
+resource imagecreatefrompng ( string $filename ) 
+resource imagecreatefromstring ( string $image ) imagecreatefromstring() returns an image identifier representing the image obtained from the given image. These types will be automatically detected if your build of PHP supports them: JPEG, PNG, GIF, BMP, WBMP, and GD2. 
+resource imagecreatefromwbmp ( string $filename ) 
+resource imagecreatefromwebp ( string $filename ) 
+resource imagecreatefromxbm ( string $filename ) 
+resource imagecreatefromxpm ( string $filename ) 
+resource imagecreatetruecolor ( int $width , int $height ) imagecreatetruecolor() returns an image identifier representing a black image of the specified size. 
+resource imagecrop ( resource $image , array $rect ) Crops an image to the given rectangular area and returns the resulting image. The given image is not modified. 
+resource imagecropauto ( resource $image [, int $mode = -1 [, float $threshold = .5 [, int $color = -1 ]]] ) Automatically crops an image according to the given mode. 
+bool imagedashedline ( resource $image , int $x1 , int $y1 , int $x2 , int $y2 , int $color ) This function is deprecated. Use combination of imagesetstyle() and imageline() instead. 
+bool imagedestroy ( resource $image ) imagedestroy() frees any memory associated with image image. 
+bool imageellipse ( resource $image , int $cx , int $cy , int $width , int $height , int $color ) Draws an ellipse centered at the specified coordinates. 
+bool imagefill ( resource $image , int $x , int $y , int $color ) Performs a flood fill starting at the given coordinate (top left is 0, 0) with the given color in the image. 
+bool imagefilledarc ( resource $image , int $cx , int $cy , int $width , int $height , int $start , int $end , int $color , int $style ) Draws a partial arc centered at the specified coordinate in the given image. 
+bool imagefilledellipse ( resource $image , int $cx , int $cy , int $width , int $height , int $color ) Draws an ellipse centered at the specified coordinate on the given image. 
+bool imagefilledpolygon ( resource $image , array $points , int $num_points , int $color ) imagefilledpolygon() creates a filled polygon in the given image. 
+bool imagefilledrectangle ( resource $image , int $x1 , int $y1 , int $x2 , int $y2 , int $color ) Creates a rectangle filled with color in the given image starting at point 1 and ending at point 2. 0, 0 is the top left corner of the image. 
+bool imagefilltoborder ( resource $image , int $x , int $y , int $border , int $color ) imagefilltoborder() performs a flood fill whose border color is defined by border. The starting point for the fill is x, y (top left is 0, 0) and the region is filled with color color. 
+bool imagefilter ( resource $image , int $filtertype [, int $arg1 [, int $arg2 [, int $arg3 [, int $arg4 ]]]] ) imagefilter() applies the given filter filtertype on the image. 
+bool imageflip ( resource $image , int $mode ) Flips the image image using the given mode. 
+int imagefontheight ( int $font ) Returns the pixel height of a character in the specified font. 
+int imagefontwidth ( int $font ) Returns the pixel width of a character in font. 
+array imageftbbox ( float $size , float $angle , string $fontfile , string $text [, array $extrainfo ] ) 
+array imagefttext ( resource $image , float $size , float $angle , int $x , int $y , int $color , string $fontfile , string $text [, array $extrainfo ] ) 
+bool imagegammacorrect ( resource $image , float $inputgamma , float $outputgamma ) Applies gamma correction to the given gd image given an input and an output gamma. 
+bool imagegd2 ( resource $image [, mixed $to = NULL [, int $chunk_size = 128 [, int $type = IMG_GD2_RAW ]]] ) Outputs a GD2 image to the given to. 
+bool imagegd ( resource $image [, mixed $to = NULL ] ) Outputs a GD image to the given to. 
+array imagegetclip ( resource $im ) imagegetclip() retrieves the current clipping rectangle, i.e. the area beyond which no pixels will be drawn. 
+bool imagegif ( resource $image [, mixed $to ] ) 
+resource imagegrabscreen ( void ) 
+resource imagegrabwindow ( int $window_handle [, int $client_area = 0 ] ) 
+int imageinterlace ( resource $image [, int $interlace = 0 ] ) 
+bool imageistruecolor ( resource $image ) imageistruecolor() finds whether the image image is a truecolor image. 
+bool imagejpeg ( resource $image [, mixed $to [, int $quality ]] ) imagejpeg() creates a JPEG file from the given image. 
+bool imagelayereffect ( resource $image , int $effect ) Set the alpha blending flag to use layering effects. 
+bool imageline ( resource $image , int $x1 , int $y1 , int $x2 , int $y2 , int $color ) Draws a line between the two given points. 
+int imageloadfont ( string $file ) imageloadfont() loads a user-defined bitmap and returns its identifier. 
+bool imageopenpolygon ( resource $image , array $points , int $num_points , int $color ) imageopenpolygon() draws an open polygon on the given image. Contrary to imagepolygon(), no line is drawn between the last and the first point. 
+void imagepalettecopy ( resource $destination , resource $source ) imagepalettecopy() copies the palette from the source image to the destination image. 
+bool imagepalettetotruecolor ( resource $src ) Converts a palette based image, created by functions like imagecreate() to a true color image, like imagecreatetruecolor(). 
+bool imagepng ( resource $image [, mixed $to [, int $quality [, int $filters ]]] ) Outputs or saves a PNG image from the given image. 
+bool imagepolygon ( resource $image , array $points , int $num_points , int $color ) imagepolygon() creates a polygon in the given image. 
+array imagepsbbox ( string $text , resource $font , int $size ) 
+bool imagepsencodefont ( resource $font_index , string $encodingfile ) 
+bool imagepsextendfont ( resource $font_index , float $extend ) Extend or condense a font (font_index), if the value of the extend parameter is less than one you will be condensing the font. 
+bool imagepsfreefont ( resource $font_index ) imagepsfreefont() frees memory used by a PostScript Type 1 font. 
+resource imagepsloadfont ( string $filename ) Load a PostScript Type 1 font from the given filename. 
+bool imagepsslantfont ( resource $font_index , float $slant ) Slant a given font. 
+array imagepstext ( resource $image , string $text , resource $font_index , int $size , int $foreground , int $background , int $x , int $y [, int $space = 0 [, int $tightness = 0 [, float $angle = 0.0 [, int $antialias_steps = 4 ]]]] ) 
+bool imagerectangle ( resource $image , int $x1 , int $y1 , int $x2 , int $y2 , int $color ) imagerectangle() creates a rectangle starting at the specified coordinates. 
+mixed imageresolution ( resource $image [, int $res_x [, int $res_y ]] ) 
+resource imagerotate ( resource $image , float $angle , int $bgd_color [, int $ignore_transparent = 0 ] ) 
+bool imagesavealpha ( resource $image , bool $saveflag ) 
+resource imagescale ( resource $image , int $new_width [, int $new_height = -1 [, int $mode = IMG_BILINEAR_FIXED ]] ) imagescale() scales an image using the given interpolation algorithm. 
+bool imagesetbrush ( resource $image , resource $brush ) imagesetbrush() sets the brush image to be used by all line drawing functions (such as imageline() and imagepolygon()) when drawing with the special colors IMG_COLOR_BRUSHED or IMG_COLOR_STYLEDBRUSHED. 
+bool imagesetclip ( resource $im , int $x1 , int $y1 , int $x2 , int $y2 ) imagesetclip() sets the current clipping rectangle, i.e. the area beyond which no pixels will be drawn. 
+bool imagesetinterpolation ( resource $image [, int $method = IMG_BILINEAR_FIXED ] ) Sets the interpolation method, setting an interpolation method affects the rendering of various functions in GD, such as the imagerotate() function. 
+bool imagesetpixel ( resource $image , int $x , int $y , int $color ) imagesetpixel() draws a pixel at the specified coordinate. 
+bool imagesetstyle ( resource $image , array $style ) imagesetstyle() sets the style to be used by all line drawing functions (such as imageline() and imagepolygon()) when drawing with the special color IMG_COLOR_STYLED or lines of images with color IMG_COLOR_STYLEDBRUSHED. 
+bool imagesetthickness ( resource $image , int $thickness ) imagesetthickness() sets the thickness of the lines drawn when drawing rectangles, polygons, arcs etc. to thickness pixels. 
+bool imagesettile ( resource $image , resource $tile ) 
+bool imagestring ( resource $image , int $font , int $x , int $y , string $string , int $color ) Draws a string at the given coordinates. 
+bool imagestringup ( resource $image , int $font , int $x , int $y , string $string , int $color ) Draws a string vertically at the given coordinates. 
+int imagesx ( resource $image ) Returns the width of the given image resource. 
+int imagesy ( resource $image ) Returns the height of the given image resource. 
+bool imagetruecolortopalette ( resource $image , bool $dither , int $ncolors ) imagetruecolortopalette() converts a truecolor image to a palette image. The code for this function was originally drawn from the Independent JPEG Group library code, which is excellent. The code has been modified to preserve as much alpha channel information as possible in the resulting palette, in addition to preserving colors as well as possible. This does not work as well as might be hoped. It is usually best to simply produce a truecolor output image instead, which guarantees the highest output quality. 
+array imagettfbbox ( float $size , float $angle , string $fontfile , string $text ) 
+array imagettftext ( resource $image , float $size , float $angle , int $x , int $y , int $color , string $fontfile , string $text ) 
+int imagetypes ( void ) Returns the image types supported by the current PHP installation. 
+bool imagewbmp ( resource $image [, mixed $to [, int $foreground ]] ) imagewbmp() outputs or save a WBMP version of the given image. 
+bool imagewebp ( resource $image [, mixed $to = NULL [, int $quality = 80 ]] ) Outputs or saves a WebP version of the given image. 
+bool imagexbm ( resource $image , string $filename [, int $foreground ] ) 
+mixed iptcembed ( string $iptcdata , string $jpeg_file_name [, int $spool = 0 ] ) Embeds binary IPTC data into a JPEG image. 
+array iptcparse ( string $iptcblock ) Parses an » IPTC block into its single tags. 
+bool jpeg2wbmp ( string $jpegname , string $wbmpname , int $dest_height , int $dest_width , int $threshold ) Converts a JPEG file into a WBMP file. 
+bool png2wbmp ( string $pngname , string $wbmpname , int $dest_height , int $dest_width , int $threshold ) Converts a PNG file into a WBMP file. 
+string intl_error_name ( int $error_code ) Return ICU error code name. 
+int intl_get_error_code ( void ) Useful to handle errors occurred in static methods when there's no object to get error code from. 
+string intl_get_error_message ( void ) Get error message from last internationalization function called. 
+bool intl_is_failure ( int $error_code ) 
+mixed json_decode ( string $json [, bool $assoc = FALSE [, int $depth = 512 [, int $options = 0 ]]] ) Takes a JSON encoded string and converts it into a PHP variable. 
+string json_encode ( mixed $value [, int $options = 0 [, int $depth = 512 ]] ) 
+string json_last_error_msg ( void ) 
+int json_last_error ( void ) Returns the last error (if any) occurred during the last JSON encoding/decoding. 
+bool mb_check_encoding ([ string $var = NULL [, string $encoding = mb_internal_encoding() ]] ) Checks if the specified byte stream is valid for the specified encoding. It is useful to prevent so-called "Invalid Encoding Attack". 
+string mb_chr ( int $cp [, string $encoding ] ) 
+string mb_convert_case ( string $str , int $mode [, string $encoding = mb_internal_encoding() ] ) Performs case folding on a string, converted in the way specified by mode. 
+string mb_convert_encoding ( string $str , string $to_encoding [, mixed $from_encoding = mb_internal_encoding() ] ) Converts the character encoding of string str to to_encoding from optionally from_encoding. 
+string mb_convert_kana ( string $str [, string $option = "KV" [, string $encoding = mb_internal_encoding() ]] ) Performs a "han-kaku" - "zen-kaku" conversion for string str. This function is only useful for Japanese. 
+string mb_convert_variables ( string $to_encoding , mixed $from_encoding , mixed &$vars [, mixed &$... ] ) 
+string mb_decode_mimeheader ( string $str ) Decodes encoded-word string str in MIME header. 
+string mb_decode_numericentity ( string $str , array $convmap [, string $encoding = mb_internal_encoding() [, bool $is_hex = FALSE ]] ) Convert numeric string reference of string str in a specified block to character. 
+string mb_detect_encoding ( string $str [, mixed $encoding_list = mb_detect_order() [, bool $strict = FALSE ]] ) Detects character encoding in string str. 
+mixed mb_detect_order ([ mixed $encoding_list = mb_detect_order() ] ) Sets the automatic character encoding detection order to encoding_list. 
+string mb_encode_mimeheader ( string $str [, string $charset = determined by mb_language() [, string $transfer_encoding = "B" [, string $linefeed = "\r\n" [, int $indent = 0 ]]]] ) Encodes a given string str by the MIME header encoding scheme. 
+string mb_encode_numericentity ( string $str , array $convmap [, string $encoding = mb_internal_encoding() [, bool $is_hex = FALSE ]] ) Converts specified character codes in string str from character code to HTML numeric character reference. 
+array mb_encoding_aliases ( string $encoding ) Returns an array of aliases for a known encoding type. 
+bool mb_ereg_match ( string $pattern , string $string [, string $option = "msr" ] ) A regular expression match for a multibyte string 
+string mb_ereg_replace_callback ( string $pattern , callable $callback , string $string [, string $option = "msr" ] ) 
+string mb_ereg_replace ( string $pattern , string $replacement , string $string [, string $option = "msr" ] ) Scans string for matches to pattern, then replaces the matched text with replacement 
+int mb_ereg_search_getpos ( void ) Returns the start point for the next regular expression match. 
+array mb_ereg_search_getregs ( void ) Retrieve the result from the last multibyte regular expression match 
+bool mb_ereg_search_init ( string $string [, string $pattern [, string $option = "msr" ]] ) mb_ereg_search_init() sets string and pattern for a multibyte regular expression. These values are used for mb_ereg_search(), mb_ereg_search_pos(), and mb_ereg_search_regs(). 
+array mb_ereg_search_pos ([ string $pattern [, string $option = "ms" ]] ) 
+array mb_ereg_search_regs ([ string $pattern [, string $option = "ms" ]] ) Returns the matched part of a multibyte regular expression. 
+bool mb_ereg_search_setpos ( int $position ) mb_ereg_search_setpos() sets the starting point of a match for mb_ereg_search(). 
+bool mb_ereg_search ([ string $pattern [, string $option = "ms" ]] ) Performs a multibyte regular expression match for a predefined multibyte string. 
+int mb_ereg ( string $pattern , string $string [, array &$regs ] ) Executes the regular expression match with multibyte support. 
+string mb_eregi_replace ( string $pattern , string $replace , string $string [, string $option = "msri" ] ) Scans string for matches to pattern, then replaces the matched text with replacement. 
+int mb_eregi ( string $pattern , string $string [, array &$regs ] ) Executes the case insensitive regular expression match with multibyte support. 
+mixed mb_get_info ([ string $type = "all" ] ) mb_get_info() returns the internal setting parameters of mbstring. 
+mixed mb_http_input ([ string $type = "" ] ) Detects the HTTP input character encoding. 
+mixed mb_http_output ([ string $encoding = mb_http_output() ] ) Set/Get the HTTP output character encoding. Output after this function is called will be converted from the set internal encoding to encoding. 
+mixed mb_internal_encoding ([ string $encoding = mb_internal_encoding() ] ) Set/Get the internal character encoding 
+mixed mb_language ([ string $language = mb_language() ] ) Set/Get the current language. 
+array mb_list_encodings ( void ) Returns an array containing all supported encodings. 
+int mb_ord ( string $str [, string $encoding ] ) 
+string mb_output_handler ( string $contents , int $status ) mb_output_handler() is ob_start() callback function. mb_output_handler() converts characters in the output buffer from internal character encoding to HTTP output character encoding. 
+bool mb_parse_str ( string $encoded_string [, array &$result ] ) Parses GET/POST/COOKIE data and sets global variables. Since PHP does not provide raw POST/COOKIE data, it can only be used for GET data for now. It parses URL encoded data, detects encoding, converts coding to internal encoding and set values to the result array or global variables. 
+string mb_preferred_mime_name ( string $encoding ) Get a MIME charset string for a specific encoding. 
+mixed mb_regex_encoding ([ string $encoding = mb_regex_encoding() ] ) Set/Get character encoding for a multibyte regex. 
+string mb_regex_set_options ([ string $options = mb_regex_set_options() ] ) Sets the default options described by options for multibyte regex functions. 
+string mb_scrub ( string $str [, string $encoding ] ) 
+bool mb_send_mail ( string $to , string $subject , string $message [, mixed $additional_headers = NULL [, string $additional_parameter = NULL ]] ) Sends email. Headers and messages are converted and encoded according to the mb_language() setting. It's a wrapper function for mail(), so see also mail() for details. 
+array mb_split ( string $pattern , string $string [, int $limit = -1 ] ) Split a multibyte string using regular expression pattern and returns the result as an array. 
+string mb_strcut ( string $str , int $start [, int $length = NULL [, string $encoding = mb_internal_encoding() ]] ) mb_strcut() extracts a substring from a string similarly to mb_substr(), but operates on bytes instead of characters. If the cut position happens to be between two bytes of a multi-byte character, the cut is performed starting from the first byte of that character. This is also the difference to the substr() function, which would simply cut the string between the bytes and thus result in a malformed byte sequence. 
+string mb_strimwidth ( string $str , int $start , int $width [, string $trimmarker = "" [, string $encoding = mb_internal_encoding() ]] ) Truncates string str to specified width. 
+int mb_stripos ( string $haystack , string $needle [, int $offset = 0 [, string $encoding = mb_internal_encoding() ]] ) mb_stripos() returns the numeric position of the first occurrence of needle in the haystack string. Unlike mb_strpos(), mb_stripos() is case-insensitive. If needle is not found, it returns FALSE. 
+string mb_stristr ( string $haystack , string $needle [, bool $before_needle = FALSE [, string $encoding = mb_internal_encoding() ]] ) mb_stristr() finds the first occurrence of needle in haystack and returns the portion of haystack. Unlike mb_strstr(), mb_stristr() is case-insensitive. If needle is not found, it returns FALSE. 
+int mb_strlen ( string $str [, string $encoding = mb_internal_encoding() ] ) Gets the length of a string. 
+int mb_strpos ( string $haystack , string $needle [, int $offset = 0 [, string $encoding = mb_internal_encoding() ]] ) 
+string mb_strrchr ( string $haystack , string $needle [, bool $part = FALSE [, string $encoding = mb_internal_encoding() ]] ) mb_strrchr() finds the last occurrence of needle in haystack and returns the portion of haystack. If needle is not found, it returns FALSE. 
+string mb_strrichr ( string $haystack , string $needle [, bool $part = FALSE [, string $encoding = mb_internal_encoding() ]] ) mb_strrichr() finds the last occurrence of needle in haystack and returns the portion of haystack. Unlike mb_strrchr(), mb_strrichr() is case-insensitive. If needle is not found, it returns FALSE. 
+int mb_strripos ( string $haystack , string $needle [, int $offset = 0 [, string $encoding = mb_internal_encoding() ]] ) mb_strripos() performs multi-byte safe strripos() operation based on number of characters. needle position is counted from the beginning of haystack. First character's position is 0. Second character position is 1. Unlike mb_strrpos(), mb_strripos() is case-insensitive. 
+int mb_strrpos ( string $haystack , string $needle [, int $offset = 0 [, string $encoding = mb_internal_encoding() ]] ) Performs a multibyte safe strrpos() operation based on the number of characters. needle position is counted from the beginning of haystack. First character's position is 0. Second character position is 1. 
+string mb_strstr ( string $haystack , string $needle [, bool $before_needle = FALSE [, string $encoding = mb_internal_encoding() ]] ) mb_strstr() finds the first occurrence of needle in haystack and returns the portion of haystack. If needle is not found, it returns FALSE. 
+string mb_strtolower ( string $str [, string $encoding = mb_internal_encoding() ] ) Returns str with all alphabetic characters converted to lowercase. 
+string mb_strtoupper ( string $str [, string $encoding = mb_internal_encoding() ] ) Returns str with all alphabetic characters converted to uppercase. 
+int mb_strwidth ( string $str [, string $encoding = mb_internal_encoding() ] ) 
+mixed mb_substitute_character ([ mixed $substchar = mb_substitute_character() ] ) 
+int mb_substr_count ( string $haystack , string $needle [, string $encoding = mb_internal_encoding() ] ) Counts the number of times the needle substring occurs in the haystack string. 
+string mb_substr ( string $str , int $start [, int $length = NULL [, string $encoding = mb_internal_encoding() ]] ) Performs a multi-byte safe substr() operation based on number of characters. Position is counted from the beginning of str. First character's position is 0. Second character position is 1, and so on. 
+array nsapi_request_headers ( void ) 
+array nsapi_response_headers ( void ) Gets all the NSAPI response headers. 
+bool nsapi_virtual ( string $uri ) 
+bool opcache_compile_file ( string $file ) This function compiles a PHP script and adds it to the opcode cache without executing it. This can be used to prime the cache after a Web server restart by pre-caching files that will be included in later requests. 
+array opcache_get_configuration ( void ) This function returns configuration information about the cache instance 
+array opcache_get_status ([ bool $get_scripts = TRUE ] ) This function returns state information about the cache instance 
+bool opcache_invalidate ( string $script [, bool $force = FALSE ] ) This function invalidates a particular script from the opcode cache. If force is unset or FALSE, the script will only be invalidated if the modification time of the script is newer than the cached opcodes. 
+bool opcache_is_script_cached ( string $file ) This function checks if a PHP script has been cached in OPCache. This can be used to more easily detect the "warming" of the cache for a particular script. 
+bool opcache_reset ( void ) This function resets the entire opcode cache. After calling opcache_reset(), all scripts will be reloaded and reparsed the next time they are hit. 
+int pcntl_alarm ( int $seconds ) Creates a timer that will send a SIGALRM signal to the process after the given number of seconds. Any call to pcntl_alarm() will cancel any previously set alarm. 
+bool pcntl_async_signals ([ bool $on = NULL ] ) If the on parameter is omitted, pcntl_async_signals() returns whether asynchronous signal handling is enabled. Otherwise, asynchronous signal handling is enabled or disabled. 
+pcntl_errno(->) This function is an alias of: pcntl_get_last_error()  
+void pcntl_exec ( string $path [, array $args [, array $envs ]] ) Executes the program with the given arguments. 
+int pcntl_fork ( void ) The pcntl_fork() function creates a child process that differs from the parent process only in its PID and PPID. Please see your system's fork(2) man page for specific details as to how fork works on your system. 
+int pcntl_get_last_error ( void ) 
+int pcntl_getpriority ([ int $pid = getmypid() [, int $process_identifier = PRIO_PROCESS ]] ) pcntl_getpriority() gets the priority of pid. Because priority levels can differ between system types and kernel versions, please see your system's getpriority(2) man page for specific details. 
+bool pcntl_setpriority ( int $priority [, int $pid = getmypid() [, int $process_identifier = PRIO_PROCESS ]] ) pcntl_setpriority() sets the priority of pid. 
+bool pcntl_signal_dispatch ( void ) The pcntl_signal_dispatch() function calls the signal handlers installed by pcntl_signal() for each pending signal. 
+mixed pcntl_signal_get_handler ( int $signo ) The pcntl_signal_get_handler() function will get the current handler for the specified signo. 
+bool pcntl_signal ( int $signo , callable|int $handler [, bool $restart_syscalls = TRUE ] ) The pcntl_signal() function installs a new signal handler or replaces the current signal handler for the signal indicated by signo. 
+bool pcntl_sigprocmask ( int $how , array $set [, array &$oldset ] ) The pcntl_sigprocmask() function adds, removes or sets blocked signals, depending on the how parameter. 
+int pcntl_sigtimedwait ( array $set [, array &$siginfo [, int $seconds = 0 [, int $nanoseconds = 0 ]]] ) The pcntl_sigtimedwait() function operates in exactly the same way as pcntl_sigwaitinfo() except that it takes two additional parameters, seconds and nanoseconds, which enable an upper bound to be placed on the time for which the script is suspended. 
+int pcntl_sigwaitinfo ( array $set [, array &$siginfo ] ) The pcntl_sigwaitinfo() function suspends execution of the calling script until one of the signals given in set are delivered. If one of the signal is already pending (e.g. blocked by pcntl_sigprocmask()), pcntl_sigwaitinfo() will return immediately. 
+string pcntl_strerror ( int $errno ) 
+int pcntl_wait ( int &$status [, int $options = 0 [, array &$rusage ]] ) 
+int pcntl_waitpid ( int $pid , int &$status [, int $options = 0 [, array &$rusage ]] ) 
+int pcntl_wexitstatus ( int $status ) Returns the return code of a terminated child. This function is only useful if pcntl_wifexited() returned TRUE. 
+bool pcntl_wifexited ( int $status ) Checks whether the child status code represents a normal exit. 
+bool pcntl_wifsignaled ( int $status ) Checks whether the child process exited because of a signal which was not caught. 
+bool pcntl_wifstopped ( int $status ) Checks whether the child process which caused the return is currently stopped; this is only possible if the call to pcntl_waitpid() was done using the option WUNTRACED. 
+int pcntl_wstopsig ( int $status ) Returns the number of the signal which caused the child to stop. This function is only useful if pcntl_wifstopped() returned TRUE. 
+int pcntl_wtermsig ( int $status ) Returns the number of the signal that caused the child process to terminate. This function is only useful if pcntl_wifsignaled() returned TRUE. 
+mixed preg_filter ( mixed $pattern , mixed $replacement , mixed $subject [, int $limit = -1 [, int &$count ]] ) preg_filter() is identical to preg_replace() except it only returns the (possibly transformed) subjects where there was a match. For details about how this function works, read the preg_replace() documentation. 
+array preg_grep ( string $pattern , array $input [, int $flags = 0 ] ) Returns the array consisting of the elements of the input array that match the given pattern. 
+int preg_last_error ( void ) 
+int preg_match_all ( string $pattern , string $subject [, array &$matches [, int $flags = PREG_PATTERN_ORDER [, int $offset = 0 ]]] ) 
+int preg_match ( string $pattern , string $subject [, array &$matches [, int $flags = 0 [, int $offset = 0 ]]] ) Searches subject for a match to the regular expression given in pattern. 
+string preg_quote ( string $str [, string $delimiter = NULL ] ) 
+mixed preg_replace_callback_array ( array $patterns_and_callbacks , mixed $subject [, int $limit = -1 [, int &$count ]] ) The behavior of this function is similar to preg_replace_callback(), except that callbacks are executed on a per-pattern basis. 
+mixed preg_replace_callback ( mixed $pattern , callable $callback , mixed $subject [, int $limit = -1 [, int &$count ]] ) The behavior of this function is almost identical to preg_replace(), except for the fact that instead of replacement parameter, one should specify a callback. 
+mixed preg_replace ( mixed $pattern , mixed $replacement , mixed $subject [, int $limit = -1 [, int &$count ]] ) Searches subject for matches to pattern and replaces them with replacement. 
+array preg_split ( string $pattern , string $subject [, int $limit = -1 [, int $flags = 0 ]] ) Split the given string by a regular expression. 
+bool posix_access ( string $file [, int $mode = POSIX_F_OK ] ) posix_access() checks the user's permission of a file. 
+string posix_ctermid ( void ) Generates a string which is the pathname for the current controlling terminal for the process. On error this will set errno, which can be checked using posix_get_last_error() 
+posix_errno(->) This function is an alias of: posix_get_last_error().  
+int posix_get_last_error ( void ) Retrieve the error number set by the last posix function that failed. The system error message associated with the errno may be checked with posix_strerror(). 
+string posix_getcwd ( void ) Gets the absolute pathname of the script's current working directory. On error, it sets errno which can be checked using posix_get_last_error() 
+int posix_getegid ( void ) Return the numeric effective group ID of the current process. 
+int posix_geteuid ( void ) Return the numeric effective user ID of the current process. See also posix_getpwuid() for information on how to convert this into a useable username. 
+int posix_getgid ( void ) Return the numeric real group ID of the current process. 
+array posix_getgrgid ( int $gid ) Gets information about a group provided its id. 
+array posix_getgrnam ( string $name ) Gets information about a group provided its name. 
+array posix_getgroups ( void ) Gets the group set of the current process. 
+string posix_getlogin ( void ) Returns the login name of the user owning the current process. 
+int posix_getpgid ( int $pid ) Returns the process group identifier of the process pid or FALSE on failure. 
+int posix_getpgrp ( void ) Return the process group identifier of the current process. 
+int posix_getpid ( void ) Return the process identifier of the current process. 
+int posix_getppid ( void ) Return the process identifier of the parent process of the current process. 
+array posix_getpwnam ( string $username ) Returns an array of information about the given user. 
+array posix_getpwuid ( int $uid ) Returns an array of information about the user referenced by the given user ID. 
+array posix_getrlimit ( void ) 
+int posix_getsid ( int $pid ) Return the session id of the process pid. The session id of a process is the process group id of the session leader. 
+int posix_getuid ( void ) Return the numeric real user ID of the current process. 
+bool posix_initgroups ( string $name , int $base_group_id ) Calculates the group access list for the user specified in name. 
+bool posix_isatty ( mixed $fd ) Determines if the file descriptor fd refers to a valid terminal type device. 
+bool posix_kill ( int $pid , int $sig ) Send the signal sig to the process with the process identifier pid. 
+bool posix_mkfifo ( string $pathname , int $mode ) posix_mkfifo() creates a special FIFO file which exists in the file system and acts as a bidirectional communication endpoint for processes. 
+bool posix_mknod ( string $pathname , int $mode [, int $major = 0 [, int $minor = 0 ]] ) Creates a special or ordinary file. 
+bool posix_setegid ( int $gid ) Set the effective group ID of the current process. This is a privileged function and needs appropriate privileges (usually root) on the system to be able to perform this function. 
+bool posix_seteuid ( int $uid ) Set the effective user ID of the current process. This is a privileged function and needs appropriate privileges (usually root) on the system to be able to perform this function. 
+bool posix_setgid ( int $gid ) 
+bool posix_setpgid ( int $pid , int $pgid ) Let the process pid join the process group pgid. 
+bool posix_setrlimit ( int $resource , int $softlimit , int $hardlimit ) 
+int posix_setsid ( void ) Make the current process a session leader. 
+bool posix_setuid ( int $uid ) Set the real user ID of the current process. This is a privileged function that needs appropriate privileges (usually root) on the system to be able to perform this function. 
+string posix_strerror ( int $errno ) Returns the POSIX system error message associated with the given errno. You may get the errno parameter by calling posix_get_last_error(). 
+array posix_times ( void ) Gets information about the current CPU usage. 
+string posix_ttyname ( mixed $fd ) Returns a string for the absolute path to the current terminal device that is open on the file descriptor fd. 
+array posix_uname ( void ) 
+int ftok ( string $pathname , string $proj ) The function converts the pathname of an existing accessible file and a project identifier into an integer for use with for example shmop_open() and other System V IPC keys. 
+resource msg_get_queue ( int $key [, int $perms = 0666 ] ) msg_get_queue() returns an id that can be used to access the System V message queue with the given key. The first call creates the message queue with the optional perms. A second call to msg_get_queue() for the same key will return a different message queue identifier, but both identifiers access the same underlying message queue. 
+bool msg_queue_exists ( int $key ) Checks whether the message queue key exists. 
+bool msg_receive ( resource $queue , int $desiredmsgtype , int &$msgtype , int $maxsize , mixed &$message [, bool $unserialize = TRUE [, int $flags = 0 [, int &$errorcode ]]] ) msg_receive() will receive the first message from the specified queue of the type specified by desiredmsgtype. 
+bool msg_remove_queue ( resource $queue ) msg_remove_queue() destroys the message queue specified by the queue. Only use this function when all processes have finished working with the message queue and you need to release the system resources held by it. 
+bool msg_send ( resource $queue , int $msgtype , mixed $message [, bool $serialize = TRUE [, bool $blocking = TRUE [, int &$errorcode ]]] ) msg_send() sends a message of type msgtype (which MUST be greater than 0) to the message queue specified by queue. 
+bool msg_set_queue ( resource $queue , array $data ) 
+array msg_stat_queue ( resource $queue ) msg_stat_queue() returns the message queue meta data for the message queue specified by the queue. This is useful, for example, to determine which process sent the message that was just received. 
+bool sem_acquire ( resource $sem_identifier [, bool $nowait = FALSE ] ) 
+resource sem_get ( int $key [, int $max_acquire = 1 [, int $perm = 0666 [, int $auto_release = 1 ]]] ) 
+bool sem_release ( resource $sem_identifier ) 
+bool sem_remove ( resource $sem_identifier ) 
+resource shm_attach ( int $key [, int $memsize [, int $perm = 0666 ]] ) 
+bool shm_detach ( resource $shm_identifier ) shm_detach() disconnects from the shared memory given by the shm_identifier created by shm_attach(). Remember, that shared memory still exist in the Unix system and the data is still present. 
+mixed shm_get_var ( resource $shm_identifier , int $variable_key ) shm_get_var() returns the variable with a given variable_key, in the given shared memory segment. The variable is still present in the shared memory. 
+bool shm_has_var ( resource $shm_identifier , int $variable_key ) Checks whether a specific key exists inside a shared memory segment. 
+bool shm_put_var ( resource $shm_identifier , int $variable_key , mixed $variable ) 
+bool shm_remove_var ( resource $shm_identifier , int $variable_key ) Removes a variable with a given variable_key and frees the occupied memory. 
+bool shm_remove ( resource $shm_identifier ) shm_remove() removes the shared memory shm_identifier. All data will be destroyed. 
+void shmop_close ( resource $shmid ) shmop_close() is used to close a shared memory block. 
+bool shmop_delete ( resource $shmid ) shmop_delete() is used to delete a shared memory block. 
+resource shmop_open ( int $key , string $flags , int $mode , int $size ) shmop_open() can create or open a shared memory block. 
+string shmop_read ( resource $shmid , int $start , int $count ) shmop_read() will read a string from shared memory block. 
+int shmop_size ( resource $shmid ) shmop_size() is used to get the size, in bytes of the shared memory block. 
+int shmop_write ( resource $shmid , string $data , int $offset ) shmop_write() will write a string into shared memory block. 
+resource socket_accept ( resource $socket ) 
+resource socket_addrinfo_bind ( resource $addr ) Create a Socket resource, and bind it to the provided AddrInfo resource. The return value of this function may be used with socket_listen(). 
+resource socket_addrinfo_connect ( resource $addr ) Create a Socket resource, and connect it to the provided AddrInfo resource. The return value of this function may be used with the rest of the socket functions. 
+array socket_addrinfo_explain ( resource $addr ) socket_addrinfo_explain()() exposed the underlying addrinfo structure. 
+array socket_addrinfo_lookup ( string $host [, string $service [, array $hints ]] ) Lookup different ways we can connect to host. The returned array contains a set of resources that we can bind to using socket_addrinfo_bind(). 
+bool socket_bind ( resource $socket , string $address [, int $port = 0 ] ) Binds the name given in address to the socket described by socket. This has to be done before a connection is be established using socket_connect() or socket_listen(). 
+void socket_clear_error ([ resource $socket ] ) 
+void socket_close ( resource $socket ) socket_close() closes the socket resource given by socket. This function is specific to sockets and cannot be used on any other type of resources. 
+int socket_cmsg_space ( int $level , int $type [, int $n = 0 ] ) 
+bool socket_connect ( resource $socket , string $address [, int $port = 0 ] ) Initiate a connection to address using the socket resource socket, which must be a valid socket resource created with socket_create(). 
+resource socket_create_listen ( int $port [, int $backlog = 128 ] ) 
+bool socket_create_pair ( int $domain , int $type , int $protocol , array &$fd ) socket_create_pair() creates two connected and indistinguishable sockets, and stores them in fd. This function is commonly used in IPC (InterProcess Communication). 
+resource socket_create ( int $domain , int $type , int $protocol ) Creates and returns a socket resource, also referred to as an endpoint of communication. A typical network connection is made up of 2 sockets, one performing the role of the client, and another performing the role of the server. 
+resource socket_export_stream ( resource $socket ) 
+mixed socket_get_option ( resource $socket , int $level , int $optname ) The socket_get_option() function retrieves the value for the option specified by the optname parameter for the specified socket. 
+socket_getopt(->) This function is an alias of: socket_get_option().  
+bool socket_getpeername ( resource $socket , string &$address [, int &$port ] ) Queries the remote side of the given socket which may either result in host/port or in a Unix filesystem path, dependent on its type. 
+bool socket_getsockname ( resource $socket , string &$addr [, int &$port ] ) Note: socket_getsockname() should not be used with AF_UNIX sockets created with socket_connect(). Only sockets created with socket_accept() or a primary server socket following a call to socket_bind() will return meaningful values. 
+resource socket_import_stream ( resource $stream ) Imports a stream that encapsulates a socket into a socket extension resource. 
+int socket_last_error ([ resource $socket ] ) 
+bool socket_listen ( resource $socket [, int $backlog = 0 ] ) 
+string socket_read ( resource $socket , int $length [, int $type = PHP_BINARY_READ ] ) The function socket_read() reads from the socket resource socket created by the socket_create() or socket_accept() functions. 
+int socket_recv ( resource $socket , string &$buf , int $len , int $flags ) 
+int socket_recvfrom ( resource $socket , string &$buf , int $len , int $flags , string &$name [, int &$port ] ) 
+int socket_recvmsg ( resource $socket , array &$message [, int $flags = 0 ] ) 
+int socket_select ( array &$read , array &$write , array &$except , int $tv_sec [, int $tv_usec = 0 ] ) socket_select() accepts arrays of sockets and waits for them to change status. Those coming with BSD sockets background will recognize that those socket resource arrays are in fact the so-called file descriptor sets. Three independent arrays of socket resources are watched. 
+int socket_send ( resource $socket , string $buf , int $len , int $flags ) The function socket_send() sends len bytes to the socket socket from buf. 
+int socket_sendmsg ( resource $socket , array $message [, int $flags = 0 ] ) 
+int socket_sendto ( resource $socket , string $buf , int $len , int $flags , string $addr [, int $port = 0 ] ) The function socket_sendto() sends len bytes from buf through the socket socket to the port at the address addr. 
+bool socket_set_block ( resource $socket ) 
+bool socket_set_nonblock ( resource $socket ) 
+bool socket_set_option ( resource $socket , int $level , int $optname , mixed $optval ) The socket_set_option() function sets the option specified by the optname parameter, at the specified protocol level, to the value pointed to by the optval parameter for the socket. 
+socket_setopt(->) This function is an alias of: socket_set_option().  
+bool socket_shutdown ( resource $socket [, int $how = 2 ] ) 
+string socket_strerror ( int $errno ) 
+int socket_write ( resource $socket , string $buffer [, int $length = 0 ] ) The function socket_write() writes to the socket from the given buffer. 
+mixed xmlrpc_decode_request ( string $xml , string &$method [, string $encoding ] ) 
+mixed xmlrpc_decode ( string $xml [, string $encoding = "iso-8859-1" ] ) 
+string xmlrpc_encode_request ( string $method , mixed $params [, array $output_options ] ) 
+string xmlrpc_encode ( mixed $value ) 
+string xmlrpc_get_type ( mixed $value ) 
+bool xmlrpc_is_fault ( array $arg ) 
+array xmlrpc_parse_method_descriptions ( string $xml ) 
+int xmlrpc_server_add_introspection_data ( resource $server , array $desc ) 
+string xmlrpc_server_call_method ( resource $server , string $xml , mixed $user_data [, array $output_options ] ) 
+resource xmlrpc_server_create ( void ) 
+bool xmlrpc_server_destroy ( resource $server ) 
+bool xmlrpc_server_register_introspection_callback ( resource $server , string $function ) 
+bool xmlrpc_server_register_method ( resource $server , string $method_name , string $function ) 
+bool xmlrpc_set_type ( string &$value , string $type ) 
+string deflate_add ( resource $context , string $data [, int $flush_mode = ZLIB_SYNC_FLUSH ] ) Incrementally deflates data in the specified context. 
+resource deflate_init ( int $encoding [, array $options = array() ] ) 
+bool gzclose ( resource $zp ) Closes the given gz-file pointer. 
+string gzcompress ( string $data [, int $level = -1 [, int $encoding = ZLIB_ENCODING_DEFLATE ]] ) 
+string gzdecode ( string $data [, int $length ] ) This function returns a decoded version of the input data. 
+string gzdeflate ( string $data [, int $level = -1 [, int $encoding = ZLIB_ENCODING_RAW ]] ) 
+string gzencode ( string $data [, int $level = -1 [, int $encoding_mode = FORCE_GZIP ]] ) 
+int gzeof ( resource $zp ) Tests the given GZ file pointer for EOF. 
+array gzfile ( string $filename [, int $use_include_path = 0 ] ) This function is identical to readgzfile(), except that it returns the file in an array. 
+string gzgetc ( resource $zp ) Returns a string containing a single (uncompressed) character read from the given gz-file pointer. 
+string gzgets ( resource $zp [, int $length ] ) Gets a (uncompressed) string of up to length - 1 bytes read from the given file pointer. Reading ends when length - 1 bytes have been read, on a newline, or on EOF (whichever comes first). 
+string gzgetss ( resource $zp , int $length [, string $allowable_tags ] ) Identical to gzgets(), except that gzgetss() attempts to strip any HTML and PHP tags from the text it reads. 
+string gzinflate ( string $data [, int $length = 0 ] ) This function inflates a deflated string. 
+resource gzopen ( string $filename , string $mode [, int $use_include_path = 0 ] ) 
+int gzpassthru ( resource $zp ) 
+gzputs(->) This function is an alias of: gzwrite().  
+string gzread ( resource $zp , int $length ) gzread() reads up to length bytes from the given gz-file pointer. Reading stops when length (uncompressed) bytes have been read or EOF is reached, whichever comes first. 
+bool gzrewind ( resource $zp ) Sets the file position indicator of the given gz-file pointer to the beginning of the file stream. 
+int gzseek ( resource $zp , int $offset [, int $whence = SEEK_SET ] ) 
+int gztell ( resource $zp ) Gets the position of the given file pointer; i.e., its offset into the uncompressed file stream. 
+string gzuncompress ( string $data [, int $length = 0 ] ) This function uncompress a compressed string. 
+int gzwrite ( resource $zp , string $string [, int $length ] ) gzwrite() writes the contents of string to the given gz-file. 
+string inflate_add ( resource $context , string $encoded_data [, int $flush_mode = ZLIB_SYNC_FLUSH ] ) 
+int inflate_get_read_len ( resource $resource ) 
+int inflate_get_status ( resource $resource ) Usually returns either ZLIB_OK or ZLIB_STREAM_END. 
+resource inflate_init ( int $encoding [, array $options = array() ] ) Initialize an incremental inflate context with the specified encoding. 
+int readgzfile ( string $filename [, int $use_include_path = 0 ] ) 
+string zlib_decode ( string $data [, string $max_decoded_len ] ) 
+string zlib_encode ( string $data , int $encoding [, int $level = -1 ] ) 
+string zlib_get_coding_type ( void ) Returns the coding type used for output compression. 
