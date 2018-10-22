@@ -1,10 +1,11 @@
 ' (Veery Bitschyy) function parser '
-'  alpha 07 - does not depend on ie.
+'  alpha 07 - does not depend on ie. / doesnt crash.
+'  alpha 0.8 - move retType behind params / search reference.txt for function descriptions
 ' inFile -> File generated with simple.phpm containing Hrfefs to parse
 ' outfile -> File containing the WebScraüed function definitions
 ' Marcedo@habMalNeFrage.de
 
-inFile = "php_pecl_ref.txt"
+inFile = "php_core_ref.txt"
 
 ' Unicode and Vbs arent "real friends (tm)".... 
 const ForReading=1
@@ -13,8 +14,8 @@ const ForAppending=8
 const TristateUseDefault=-2 
 const TristateTrue=-1 'Unicode
 const TristateFalse=0 'ASCII
-dim ofile_ref
-
+dim ofile_ref, ofile_docs
+dim arrDescr()
 
 ' Stonehenge was great science back 3000 Years ago.
 ' its still a wonder how peops wre able to work like that.....
@@ -22,8 +23,8 @@ if instr(1,wscript.fullName,"cscript") then bConsole=true
 set fso = CreateObject("Scripting.FileSystemObject")
 set oXML = CreateObject("MSXML2.ServerXMLHTTP") ' more advanced then XMLHTTP 
 set ohtmlFile = CreateObject("HTMLFILE") ' funny Task : find an object Reference on MSDN ? '
-wscript.quit(main)
 
+wscript.quit(main)
 
 function main()
 dim arg0
@@ -41,7 +42,8 @@ dim arg0
 	arg0=replace(arg0,".txt","" )
 	Set ofile_dir = fso.OpenTextFile(arg0 & ".txt", ForReading,TristateTrue)
 	Set ofile_ref = fso.OpenTextFile(arg0 & ".func.txt", ForWriting,TristateTrue)
-
+	getDescrFromFile()
+	
 	while not ofile_dir.AtEndOfStream
 		ln= trim(ofile_dir.ReadLine())
 		arr_ln=split(ln,";")
@@ -50,6 +52,31 @@ dim arg0
 
 	ofile_dir.close()
 	ofile_ref.close()
+	ofile_docs.close()
+end function
+
+
+function getDescrFromFile()
+
+	set ofile_docs = fso.OpenTextFile("reference.txt", ForReading,TristateTrue)
+	redim preserve arrDescr(0)	
+		
+	while not ofile_docs.AtEndOfStream
+		ln= trim(ofile_docs.ReadLine())
+		arrMax=UBound(arrDescr)
+		redim preserve arrDescr(arrMax+2)	
+		
+		paramStartPos=instr(ln,"(") -1
+		funcName=mid(ln,1,paramStartPos)
+		arrDescr(arrMax+1) =funcName
+		
+		paramEndPos=instr(ln,")") +2
+		descr=mid(ln,paramEndPos,len(ln)-paramStartPos +1 )
+		arrDescr(arrMax+2) =descr
+		
+	  ''wscript.echo( paramStartPos &" " & paramEndPos & " " & funcName & "|" & descr)
+	wend
+	
 end function
 
 
@@ -79,34 +106,56 @@ function getfnLink(url)
 	alias=false
 	
 	for each oItem in oDiv.all '-- Parse Description Content
-		if oItem.ClassName ="refsect1 description" then 
-			'wscript.echo(url & vbcrlf & oitem.innerText)
-			
-			' -- remove fat
+	
+	
+	' Functions Name
+	if oItem.ClassName ="refname" then 
+			strMethodName=oItem.innerText
+	end if
+		
+	if oItem.ClassName ="refsect1 description" then 
+			''wscript.echo(url & vbcrlf & oitem.innerText)
+
+			' For Function Aliases, writ their name and the name of the original		
 			if  instr(oItem.innerText,"alias of")>0 then alias=true
 			if  instr(oItem.innerText,"deprecated")>0 then alias=true
-			
+
+			' -- remove fat
 			strraw=replace(oItem.innerText,"Description", "")
 			strraw=replace(strRaw,vbLF &"Procedural style", "")
-			
-			' -- parameters
-				''wscript.echo(strRaw)
+			''wscript.echo(strRaw)
+				
+			' -- split parameters to an array
 				x=split(strRaw,vbLf)					
 				strFunc = replace(x(1),vbcr,"")
 				
+			' move returnVal behind the functionParams	
+				firstSpace=instr(strFunc," ")
+				if firstSpace>0 then
+					returnType = mid(strFunc, 1, firstSpace)
+					strFunc = Replace(strFunc, returnType,"")
+				end if
+				
 			' -- Function Description - Some Functions dont seem to have one
-				if UBound(x)=2 then strDescr = replace(x(2),vbcr,"")				
-		end if	
-	
-	' For Function Aliases, writ their name and the name of the original		
-		if oItem.ClassName ="refname" then 
-			strMethodName=oItem.innerText		
+				if UBound(x)=2 then 
+					strDescr = replace(x(2),vbcr,"")
+				else 
+					noDescr=true		
+				end if		
 		end if
-	next
 		
+	next
+	
+	if noDescr then 	' try to get the function description from reference.txt	
+		for i =1 to UBound(arrDescr)-1 step 2
+		'	wscript.echo(arrDescr(i) & " " & strMethodName)
+			if arrDescr(i) = strMethodName then  strDescr=arrDescr(i+1) : DescrFound="[reference.txt]->"
+		next
+	end if
+	
 	if alias=true then  strFunc=strMethodName & "(->) " & strFunc
-	if bConsole then wscript.echo strFunc & " " & strDescr	
-	ofile_ref.WriteLine (strFunc & " " &  replace(strDescr,vbLF,"") )
+	if bConsole then wscript.echo  strFunc & ":" & returnType & DescrFound & strDescr
+	ofile_ref.WriteLine (strFunc & ":" & returnType & "\t\n" & replace(strDescr,vbLF,"") )
 	''if oItem.ClassName ="refsect1 returnvalues" then wscript.echo(oItem.innerText)		
 		
 end function
