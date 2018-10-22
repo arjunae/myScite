@@ -1,135 +1,3 @@
-bool bbcode_add_element ( resource $bbcode_container , string $tag_name , array $tag_rules ) Adds a tag to an existing BBCode_Container tag_set using tag_rules. 
-bool bbcode_add_smiley ( resource $bbcode_container , string $smiley , string $replace_by ) Adds a smiley to the parser 
-resource bbcode_create ([ array $bbcode_initial_tags = NULL ] ) This function returns a new BBCode Resource used to parse BBCode strings. 
-bool bbcode_destroy ( resource $bbcode_container ) This function closes the resource opened by bbcode_create(). 
-string bbcode_parse ( resource $bbcode_container , string $to_parse ) This function parse the string to_parse following the rules in the bbcode_container created by bbcode_create() 
-bool bbcode_set_arg_parser ( resource $bbcode_container , resource $bbcode_arg_parser ) Attaches another parser to the bbcode_container. This parser is used only when arguments must be parsed. If this function is not used, the default argument parser is the parser itself. 
-bool bbcode_set_flags ( resource $bbcode_container , int $flags [, int $mode = BBCODE_SET_FLAGS_SET ] ) Set or alter parser options 
-bool msession_connect ( string $host , string $port ) 
-int msession_count ( void ) 
-bool msession_create ( string $session [, string $classname [, string $data ]] ) 
-bool msession_destroy ( string $name ) 
-void msession_disconnect ( void ) 
-array msession_find ( string $name , string $value ) 
-array msession_get_array ( string $session ) 
-string msession_get_data ( string $session ) 
-string msession_get ( string $session , string $name , string $value ) 
-string msession_inc ( string $session , string $name ) 
-array msession_list ( void ) 
-array msession_listvar ( string $name ) Used for searching sessions with common attributes. 
-int msession_lock ( string $name ) 
-string msession_plugin ( string $session , string $val [, string $param ] ) 
-string msession_randstr ( int $param ) 
-void msession_set_array ( string $session , array $tuples ) 
-bool msession_set_data ( string $session , string $value ) 
-bool msession_set ( string $session , string $name , string $value ) 
-int msession_timeout ( string $session [, int $param ] ) 
-string msession_uniq ( int $param [, string $classname [, string $data ]] ) 
-int msession_unlock ( string $session , int $key ) 
-Instantiating the Runkit_Sandbox class creates a new thread with its own scope and program stack. Using a set of options passed to the constructor, this environment may be restricted to a subset of what the primary interpreter can do and provide a safer environment for executing user supplied code.  Note: Sandbox support (required for runkit_lint(), runkit_lint_file(), and the Runkit_Sandbox class) is only available as of PHP 5.1.0 or specially patched versions of PHP 5.0, and requires that thread safety be enabled. See the README file included in the runkit package for more information.
-void Runkit_Sandbox_Parent::__construct ( void ) 
-bool runkit_class_adopt ( string $classname , string $parentname ) 
-bool runkit_class_emancipate ( string $classname ) 
-bool runkit_constant_add ( string $constname , mixed $value ) 
-bool runkit_constant_redefine ( string $constname , mixed $newvalue ) 
-bool runkit_constant_remove ( string $constname ) 
-bool runkit_function_add ( string $funcname , string $arglist , string $code [, bool $return_by_reference = NULL [, string $doc_comment = NULL ]] ) bool runkit_function_add ( string $funcname , Closure $closure [, string $doc_comment = NULL ] )
-bool runkit_function_copy ( string $funcname , string $targetname ) 
-bool runkit_function_redefine ( string $funcname , string $arglist , string $code [, bool $return_by_reference = NULL [, string $doc_comment = NULL ]] ) 
-bool runkit_function_remove ( string $funcname ) Note: By default, only userspace functions may be removed, renamed, or modified. In order to override internal functions, you must enable the runkit.internal_override setting in php.ini. 
-bool runkit_function_rename ( string $funcname , string $newname ) Note: By default, only userspace functions may be removed, renamed, or modified. In order to override internal functions, you must enable the runkit.internal_override setting in php.ini. 
-bool runkit_import ( string $filename [, int $flags = RUNKIT_IMPORT_CLASS_METHODS ] ) Similar to include however any code residing outside of a function or class is simply ignored. Additionally, depending on the value of flags, any functions or classes which already exist in the currently running environment may be automatically overwritten by their new definitions. 
-bool runkit_lint_file ( string $filename ) 
-bool runkit_lint ( string $code ) 
-bool runkit_method_add ( string $classname , string $methodname , string $args , string $code [, int $flags = RUNKIT_ACC_PUBLIC [, string $doc_comment = NULL ]] ) bool runkit_method_add ( string $classname , string $methodname , Closure $closure [, int $flags = RUNKIT_ACC_PUBLIC [, string $doc_comment = NULL ]] )
-bool runkit_method_copy ( string $dClass , string $dMethod , string $sClass [, string $sMethod ] ) 
-bool runkit_method_redefine ( string $classname , string $methodname , string $args , string $code [, int $flags = RUNKIT_ACC_PUBLIC [, string $doc_comment = NULL ]] ) 
-bool runkit_method_remove ( string $classname , string $methodname ) Note: This function cannot be used to manipulate the currently running (or chained) method. 
-bool runkit_method_rename ( string $classname , string $methodname , string $newname ) Note: This function cannot be used to manipulate the currently running (or chained) method. 
-bool runkit_return_value_used ( void ) 
-mixed runkit_sandbox_output_handler ( object $sandbox [, mixed $callback ] ) 
-array runkit_superglobals ( void ) 
-bool rpm_close ( resource $rpmr ) rpm_close() will close an RPM file pointer. 
-mixed rpm_get_tag ( resource $rpmr , int $tagnum ) rpm_get_tag() will retrieve a given tag from the RPM file's header and return it. 
-bool rpm_is_valid ( string $filename ) rpm_is_valid() will test an RPM file for validity as an RPM file. This is not the same as rpm_open() as it only checks the file for validity but does not return a file pointer to be used by further functions. 
-resource rpm_open ( string $filename ) rpm_open() will open an RPM file and will determine if the file is a valid RPM file. 
-string rpm_version ( void ) rpm_version() will return the current version of the rpmreader extension. 
-resource radius_acct_open ( void ) 
-bool radius_add_server ( resource $radius_handle , string $hostname , int $port , string $secret , int $timeout , int $max_tries ) radius_add_server() may be called multiple times, and it may be used together with radius_config(). At most 10 servers may be specified. When multiple servers are given, they are tried in round-robin fashion until a valid response is received, or until each server's max_tries limit has been reached. 
-resource radius_auth_open ( void ) 
-bool radius_close ( resource $radius_handle ) It is not needed to call this function because php frees all resources at the end of each request. 
-bool radius_config ( resource $radius_handle , string $file ) Before issuing any Radius requests, the library must be made aware of the servers it can contact. The easiest way to configure the library is to call radius_config(). radius_config() causes the library to read a configuration file whose format is described in » radius.conf. 
-bool radius_create_request ( resource $radius_handle , int $type ) 
-string radius_cvt_addr ( string $data ) 
-int radius_cvt_int ( string $data ) 
-string radius_cvt_string ( string $data ) 
-string radius_demangle_mppe_key ( resource $radius_handle , string $mangled ) When using MPPE with MS-CHAPv2, the send- and recv-keys are mangled (see » RFC 2548), however this function is useless, because I don't think that there is or will be a PPTP-MPPE implementation in PHP. 
-string radius_demangle ( resource $radius_handle , string $mangled ) Some data (Passwords, MS-CHAPv1 MPPE-Keys) is mangled for security reasons, and must be demangled before you can use them. 
-mixed radius_get_attr ( resource $radius_handle ) Like Radius requests, each response may contain zero or more attributes. After a response has been received successfully by radius_send_request(), its attributes can be extracted one by one using radius_get_attr(). Each time radius_get_attr() is called, it gets the next attribute from the current response. 
-string radius_get_tagged_attr_data ( string $data ) If a tagged attribute has been returned from radius_get_attr(), radius_get_tagged_attr_data() will return the data from the attribute. 
-int radius_get_tagged_attr_tag ( string $data ) If a tagged attribute has been returned from radius_get_attr(), radius_get_tagged_attr_data() will return the tag from the attribute. 
-array radius_get_vendor_attr ( string $data ) If radius_get_attr() returns RADIUS_VENDOR_SPECIFIC, radius_get_vendor_attr() may be called to determine the vendor. 
-bool radius_put_addr ( resource $radius_handle , int $type , string $addr [, int $options = 0 [, int $tag ]] ) 
-bool radius_put_attr ( resource $radius_handle , int $type , string $value [, int $options = 0 [, int $tag ]] ) 
-bool radius_put_int ( resource $radius_handle , int $type , int $value [, int $options = 0 [, int $tag ]] ) 
-bool radius_put_string ( resource $radius_handle , int $type , string $value [, int $options = 0 [, int $tag ]] ) 
-bool radius_put_vendor_addr ( resource $radius_handle , int $vendor , int $type , string $addr ) 
-bool radius_put_vendor_attr ( resource $radius_handle , int $vendor , int $type , string $value [, int $options = 0 [, int $tag ]] ) 
-bool radius_put_vendor_int ( resource $radius_handle , int $vendor , int $type , int $value [, int $options = 0 [, int $tag ]] ) 
-bool radius_put_vendor_string ( resource $radius_handle , int $vendor , int $type , string $value [, int $options = 0 [, int $tag ]] ) 
-string radius_request_authenticator ( resource $radius_handle ) The request authenticator is needed for demangling mangled data like passwords and encryption-keys. 
-string radius_salt_encrypt_attr ( resource $radius_handle , string $data ) 
-int radius_send_request ( resource $radius_handle ) 
-string radius_server_secret ( resource $radius_handle ) The shared secret is needed as salt for demangling mangled data like passwords and encryption-keys. 
-string radius_strerror ( resource $radius_handle ) If Radius-functions fail then they record an error message. This error message can be retrieved with this function. 
-bool bcompiler_load_exe ( string $filename ) Reads data from a bcompiler exe file and creates classes from the bytecodes. 
-bool bcompiler_load ( string $filename ) Reads data from a bzcompressed file and creates classes from the bytecodes. 
-bool bcompiler_parse_class ( string $class , string $callback ) Reads the bytecodes of a class and calls back to a user function. 
-bool bcompiler_read ( resource $filehandle ) Reads data from a open file handle and creates classes from the bytecodes. 
-bool bcompiler_write_class ( resource $filehandle , string $className [, string $extends ] ) Reads the bytecodes from PHP for an existing class, and writes them to the open file handle. 
-bool bcompiler_write_constant ( resource $filehandle , string $constantName ) Reads the bytecodes from PHP for an existing constant, and writes them to the open file handle. 
-bool bcompiler_write_exe_footer ( resource $filehandle , int $startpos ) 
-bool bcompiler_write_file ( resource $filehandle , string $filename ) This function compiles specified source file into bytecodes, and writes them to the open file handle. 
-bool bcompiler_write_footer ( resource $filehandle ) Writes the single character \x00 to indicate End of compiled data. 
-bool bcompiler_write_function ( resource $filehandle , string $functionName ) Reads the bytecodes from PHP for an existing function, and writes them to the open file handle. Order is not important, (eg. if function b uses function a, and you compile it like the example below, it will work perfectly OK). 
-bool bcompiler_write_functions_from_file ( resource $filehandle , string $fileName ) Searches for all functions declared in the given file, and writes their correspondent bytecodes to the open file handle. 
-bool bcompiler_write_header ( resource $filehandle [, string $write_ver ] ) Writes the header part of a bcompiler file. 
-bool bcompiler_write_included_filename ( resource $filehandle , string $filename ) 
-bool fdf_add_doc_javascript ( resource $fdf_document , string $script_name , string $script_code ) Adds a script to the FDF, which Acrobat then adds to the doc-level scripts of a document, once the FDF is imported into it. 
-bool fdf_add_template ( resource $fdf_document , int $newpage , string $filename , string $template , int $rename ) 
-void fdf_close ( resource $fdf_document ) Closes the FDF document. 
-resource fdf_create ( void ) 
-bool fdf_enum_values ( resource $fdf_document , callable $function [, mixed $userdata ] ) 
-int fdf_errno ( void ) 
-string fdf_error ([ int $error_code = -1 ] ) Gets a textual description for the FDF error code given in error_code. 
-bool fdf_get_ap ( resource $fdf_document , string $field , int $face , string $filename ) Gets the appearance of a field (i.e. the value of the /AP key) and stores it in a file. 
-array fdf_get_attachment ( resource $fdf_document , string $fieldname , string $savepath ) Extracts a file uploaded by means of the "file selection" field fieldname and stores it under savepath. 
-string fdf_get_encoding ( resource $fdf_document ) Gets the value of the /Encoding key. 
-string fdf_get_file ( resource $fdf_document ) Gets the value of the /F key. 
-int fdf_get_flags ( resource $fdf_document , string $fieldname , int $whichflags ) 
-mixed fdf_get_opt ( resource $fdf_document , string $fieldname [, int $element = -1 ] ) 
-string fdf_get_status ( resource $fdf_document ) Gets the value of the /STATUS key. 
-mixed fdf_get_value ( resource $fdf_document , string $fieldname [, int $which = -1 ] ) Gets the value for the requested field. 
-string fdf_get_version ([ resource $fdf_document ] ) Return the FDF version for the given document, or the toolkit API version number if no parameter is given. 
-void fdf_header ( void ) This is a convenience function to set appropriate HTTP headers for FDF output. It sets the Content-type: to application/vnd.fdf. 
-string fdf_next_field_name ( resource $fdf_document [, string $fieldname ] ) Gets the name of the field after the given field. This name can be used with several functions. 
-resource fdf_open_string ( string $fdf_data ) 
-resource fdf_open ( string $filename ) 
-bool fdf_remove_item ( resource $fdf_document , string $fieldname , int $item ) 
-string fdf_save_string ( resource $fdf_document ) Returns the FDF document as a string. 
-bool fdf_save ( resource $fdf_document [, string $filename ] ) Saves a FDF document. 
-bool fdf_set_ap ( resource $fdf_document , string $field_name , int $face , string $filename , int $page_number ) Sets the appearance of a field (i.e. the value of the /AP key). 
-bool fdf_set_encoding ( resource $fdf_document , string $encoding ) Sets the character encoding for the FDF document. 
-bool fdf_set_file ( resource $fdf_document , string $url [, string $target_frame ] ) Selects a different PDF document to display the form results in then the form it originated from. 
-bool fdf_set_flags ( resource $fdf_document , string $fieldname , int $whichFlags , int $newFlags ) Sets certain flags of the given field. 
-bool fdf_set_javascript_action ( resource $fdf_document , string $fieldname , int $trigger , string $script ) Sets a javascript action for the given field. 
-bool fdf_set_on_import_javascript ( resource $fdf_document , string $script , bool $before_data_import ) 
-bool fdf_set_opt ( resource $fdf_document , string $fieldname , int $element , string $str1 , string $str2 ) Sets options of the given field. 
-bool fdf_set_status ( resource $fdf_document , string $status ) Sets the value of the /STATUS key. When a client receives a FDF with a status set it will present the value in an alert box. 
-bool fdf_set_submit_form_action ( resource $fdf_document , string $fieldname , int $trigger , string $script , int $flags ) Sets a submit form action for the given field. 
-bool fdf_set_target_frame ( resource $fdf_document , string $frame_name ) Sets the target frame to display a result PDF defined with fdf_save_file() in. 
-bool fdf_set_value ( resource $fdf_document , string $fieldname , mixed $value [, int $isName ] ) Sets the value for the given field. 
-bool fdf_set_version ( resource $fdf_document , string $version ) 
 bool apc_add ( string $key , mixed $var [, int $ttl = 0 ] ) 
 string apc_bin_dump ([ array $files = NULL [, array $user_vars = NULL ]] ) Returns a binary dump of the given files and user variables from the APC cache. A NULL for files or user_vars signals a dump of every entry, whereas array() will dump nothing. 
 int apc_bin_dumpfile ( array $files , array $user_vars , string $filename [, int $flags = 0 [, resource $context = NULL ]] ) Outputs a binary dump of the given files and user variables from the APC cache to the named file. 
@@ -429,7 +297,7 @@ void eio_grp_add ( resource $grp , resource $req ) eio_grp_add() adds a request 
 void eio_grp_cancel ( resource $grp ) eio_grp_cancel() cancels a group request specified by grp request group resource. 
 void eio_grp_limit ( resource $grp , int $limit ) Limit number of requests in the request group. 
 resource eio_grp ( callable $callback [, string $data = NULL ] ) eio_grp() creates a request group. 
-void eio_init ( void ) 
+eio_init(->) void eio_init ( void ) 
 resource eio_link ( string $path , string $new_path [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ) eio_link() creates a hardlink new_path for a file specified by path. 
 resource eio_lstat ( string $path , int $pri , callable $callback [, mixed $data = NULL ] ) eio_lstat() returns file status information in result argument of callback 
 resource eio_mkdir ( string $path , int $mode [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ) eio_mkdir() creates directory with specified access mode. 
@@ -477,6 +345,41 @@ resource fam_open ([ string $appname ] ) Opens a connection to the FAM service d
 int fam_pending ( resource $fam ) Checks for pending FAM events. 
 bool fam_resume_monitor ( resource $fam , resource $fam_monitor ) Resumes monitoring of a resource previously suspended using fam_suspend_monitor(). 
 bool fam_suspend_monitor ( resource $fam , resource $fam_monitor ) 
+bool fdf_add_doc_javascript ( resource $fdf_document , string $script_name , string $script_code ) Adds a script to the FDF, which Acrobat then adds to the doc-level scripts of a document, once the FDF is imported into it. 
+bool fdf_add_template ( resource $fdf_document , int $newpage , string $filename , string $template , int $rename ) 
+void fdf_close ( resource $fdf_document ) Closes the FDF document. 
+resource fdf_create ( void ) 
+bool fdf_enum_values ( resource $fdf_document , callable $function [, mixed $userdata ] ) 
+int fdf_errno ( void ) 
+string fdf_error ([ int $error_code = -1 ] ) Gets a textual description for the FDF error code given in error_code. 
+bool fdf_get_ap ( resource $fdf_document , string $field , int $face , string $filename ) Gets the appearance of a field (i.e. the value of the /AP key) and stores it in a file. 
+array fdf_get_attachment ( resource $fdf_document , string $fieldname , string $savepath ) Extracts a file uploaded by means of the "file selection" field fieldname and stores it under savepath. 
+string fdf_get_encoding ( resource $fdf_document ) Gets the value of the /Encoding key. 
+string fdf_get_file ( resource $fdf_document ) Gets the value of the /F key. 
+int fdf_get_flags ( resource $fdf_document , string $fieldname , int $whichflags ) 
+mixed fdf_get_opt ( resource $fdf_document , string $fieldname [, int $element = -1 ] ) 
+string fdf_get_status ( resource $fdf_document ) Gets the value of the /STATUS key. 
+mixed fdf_get_value ( resource $fdf_document , string $fieldname [, int $which = -1 ] ) Gets the value for the requested field. 
+string fdf_get_version ([ resource $fdf_document ] ) Return the FDF version for the given document, or the toolkit API version number if no parameter is given. 
+void fdf_header ( void ) This is a convenience function to set appropriate HTTP headers for FDF output. It sets the Content-type: to application/vnd.fdf. 
+string fdf_next_field_name ( resource $fdf_document [, string $fieldname ] ) Gets the name of the field after the given field. This name can be used with several functions. 
+resource fdf_open_string ( string $fdf_data ) 
+resource fdf_open ( string $filename ) 
+bool fdf_remove_item ( resource $fdf_document , string $fieldname , int $item ) 
+string fdf_save_string ( resource $fdf_document ) Returns the FDF document as a string. 
+bool fdf_save ( resource $fdf_document [, string $filename ] ) Saves a FDF document. 
+bool fdf_set_ap ( resource $fdf_document , string $field_name , int $face , string $filename , int $page_number ) Sets the appearance of a field (i.e. the value of the /AP key). 
+bool fdf_set_encoding ( resource $fdf_document , string $encoding ) Sets the character encoding for the FDF document. 
+bool fdf_set_file ( resource $fdf_document , string $url [, string $target_frame ] ) Selects a different PDF document to display the form results in then the form it originated from. 
+bool fdf_set_flags ( resource $fdf_document , string $fieldname , int $whichFlags , int $newFlags ) Sets certain flags of the given field. 
+bool fdf_set_javascript_action ( resource $fdf_document , string $fieldname , int $trigger , string $script ) Sets a javascript action for the given field. 
+bool fdf_set_on_import_javascript ( resource $fdf_document , string $script , bool $before_data_import ) 
+bool fdf_set_opt ( resource $fdf_document , string $fieldname , int $element , string $str1 , string $str2 ) Sets options of the given field. 
+bool fdf_set_status ( resource $fdf_document , string $status ) Sets the value of the /STATUS key. When a client receives a FDF with a status set it will present the value in an alert box. 
+bool fdf_set_submit_form_action ( resource $fdf_document , string $fieldname , int $trigger , string $script , int $flags ) Sets a submit form action for the given field. 
+bool fdf_set_target_frame ( resource $fdf_document , string $frame_name ) Sets the target frame to display a result PDF defined with fdf_save_file() in. 
+bool fdf_set_value ( resource $fdf_document , string $fieldname , mixed $value [, int $isName ] ) Sets the value for the given field. 
+bool fdf_set_version ( resource $fdf_document , string $version ) 
 int filepro_fieldcount ( void ) Returns the number of fields (columns) in the opened filePro database. 
 string filepro_fieldname ( int $field_number ) Returns the name of the field corresponding to field_number. 
 string filepro_fieldtype ( int $field_number ) Returns the edit type of the field corresponding to field_number. 
@@ -564,59 +467,6 @@ bool gupnp_service_proxy_remove_notify ( resource $proxy , string $value ) Cance
 array gupnp_service_proxy_send_action ( resource $proxy , string $action , array $in_params , array $out_params ) Send action with parameters in_params to the service exposed by proxy synchronously and return out_params with values or FALSE on error. 
 bool gupnp_service_proxy_set_subscribed ( resource $proxy , bool $subscribed ) (Un)subscribes to the service. 
 bool gupnp_service_thaw_notify ( resource $service ) Sends out any pending notifications and stops queuing of new ones. 
-bool hw_api::checkin ( array $parameter ) 
-bool hw_api::checkout ( array $parameter ) This function checks out an object or a whole hierarchy of objects. 
-array hw_api::children ( array $parameter ) Retrieves the children of a collection or the attributes of a document. The children can be further filtered by specifying an object query. 
-HW_API_Content hw_api::content ( array $parameter ) This function returns the content of a document as an object of type hw_api_content. 
-hw_api_content hw_api::copy ( array $parameter ) This function will make a physical copy including the content if it exists and returns the new object or an error object. 
-hw_api_object hw_api::dbstat ( array $parameter ) Returns statistics about database server. 
-hw_api_object hw_api::dcstat ( array $parameter ) Returns statistics about document cache server. 
-array hw_api::dstanchors ( array $parameter ) Retrieves all destination anchors of an object. 
-hw_api_object hw_api::dstofsrcanchor ( array $parameter ) Retrieves the destination object pointed by the specified source anchors. The destination object can either be a destination anchor or a whole document. 
-array hw_api::find ( array $parameter ) This functions searches for objects either by executing a key or/and full text query. The found objects can further be filtered by an optional object query. They are sorted by their importance. The second search operation is relatively slow and its result can be limited to a certain number of hits. This allows to perform an incremental search, each returning just a subset of all found documents, starting at a given index. 
-hw_api_object hw_api::ftstat ( array $parameter ) Returns statistics about fulltext server. 
-hw_api_object hw_api::hwstat ( array $parameter ) Returns statistics about Hyperwave server. 
-bool hw_api::identify ( array $parameter ) Logs into the Hyperwave Server. 
-array hw_api::info ( array $parameter ) Returns information about server configuration. 
-hw_api_object hw_api::insert ( array $parameter ) Insert a new object. The object type can be user, group, document or anchor. Depending on the type other object attributes has to be set. 
-hw_api_object hw_api::insertanchor ( array $parameter ) This function is a shortcut for hwapi_insert(). It inserts an object of type anchor and sets some of the attributes required for an anchor. 
-hw_api_object hw_api::insertcollection ( array $parameter ) This function is a shortcut for hwapi_insert(). It inserts an object of type collection and sets some of the attributes required for a collection. 
-hw_api_object hw_api::insertdocument ( array $parameter ) This function is a shortcut for hwapi_insert(). It inserts an object with content and sets some of the attributes required for a document. 
-bool hw_api::link ( array $parameter ) Creates a link to an object. Accessing this link is like accessing the object to links points to. 
-bool hw_api::lock ( array $parameter ) Locks an object for exclusive editing by the user calling this function. The object can be only unlocked by this user or the system user. 
-bool hw_api::move ( array $parameter ) Moves object between collections. 
-hw_api_object hw_api::object ( array $parameter ) This function retrieves the attribute information of an object of any version. It will not return the document content. 
-hw_api_object hw_api::objectbyanchor ( array $parameter ) This function retrieves an object the specified anchor belongs to. 
-array hw_api::parents ( array $parameter ) Retrieves the parents of an object. The parents can be further filtered by specifying an object query. 
-bool hw_api::remove ( array $parameter ) Removes an object from the specified parent. Collections will be removed recursively. 
-hw_api_object hw_api::replace ( array $parameter ) Replaces the attributes and the content of an object. 
-hw_api_object hw_api::setcommittedversion ( array $parameter ) Commits a version of a document. The committed version is the one which is visible to users with read access. By default the last version is the committed version. 
-array hw_api::srcanchors ( array $parameter ) Retrieves all source anchors of an object. 
-array hw_api::srcsofdst ( array $parameter ) Retrieves all the source anchors pointing to the specified destination. The destination object can either be a destination anchor or a whole document. 
-bool hw_api::unlock ( array $parameter ) Unlocks a locked object. Only the user who has locked the object and the system user may unlock an object. 
-hw_api_object hw_api::user ( array $parameter ) Returns the own user object. 
-array hw_api::userlist ( array $parameter ) Returns a list of all logged in users. 
-string hw_api_attribute::key ( void ) Returns the name of the attribute. 
-string hw_api_attribute::langdepvalue ( string $language ) Returns the value in the given language of the attribute. 
-string hw_api_attribute::value ( void ) Gets the value of the attribute. 
-array hw_api_attribute::values ( void ) Gets all values of the attribute. 
-string hw_api_content::mimetype ( void ) Returns the mimetype of the content. 
-string hw_api_content::read ( string $buffer , int $len ) Reads len bytes from the content into the given buffer. 
-int hw_api_error::count ( void ) Returns the number of error reasons. 
-HW_API_Reason hw_api_error::reason ( void ) Returns the first error reason. 
-bool hw_api_object::assign ( array $parameter ) Clones the attributes of an object. 
-bool hw_api_object::attreditable ( array $parameter ) Checks whether an attribute is editable. 
-int hw_api_object::count ( array $parameter ) Returns the number of attributes. 
-bool hw_api_object::insert ( HW_API_Attribute $attribute ) Adds an attribute to the object. 
-bool hw_api_object::remove ( string $name ) Removes the attribute with the given name. 
-string hw_api_object::title ( array $parameter ) Returns the title attribute. 
-string hw_api_object::value ( string $name ) Returns value of an attribute. 
-string hw_api_reason::description ( void ) Returns the description of a reason 
-HW_API_Reason hw_api_reason::type ( void ) Returns the type of a reason. 
-HW_API_Attribute hwapi_attribute_new ([ string $name [, string $value ]] ) Creates a new instance of hw_api_attribute with the given name and value. 
-HW_API_Content hwapi_content_new ( string $content , string $mimetype ) Creates a new content object from the string content. 
-HW_API hwapi_hgcsp ( string $hostname [, int $port ] ) Opens a connection to the Hyperwave server on host hostname. The protocol used is HGCSP. 
-hw_api_object hwapi_object_new ( array $parameter ) Creates a new instance of the class hw_api_object. 
 mixed db2_autocommit ( resource $connection [, bool $value ] ) Sets or gets the AUTOCOMMIT behavior of the specified connection resource. 
 bool db2_bind_param ( resource $stmt , int $parameter_number , string $variable_name [, int $parameter_type [, int $data_type = 0 [, int $precision = -1 [, int $scale = 0 ]]]] ) Binds a PHP variable to an SQL statement parameter in a statement resource returned by db2_prepare(). This function gives you more control over the parameter type, data type, precision, and scale for the parameter than simply passing the variable as part of the optional input array to db2_execute(). 
 object db2_client_info ( resource $connection ) 
@@ -977,6 +827,27 @@ void mqseries_put1 ( resource $hconn , resource &$objDesc , resource &$msgDesc ,
 void mqseries_put ( resource $hConn , resource $hObj , array &$md , array &$pmo , string $message , resource &$compCode , resource &$reason ) The mqseries_put() (MQPUT) call puts a message on a queue or distribution list. The queue or distribution list must already be open. 
 void mqseries_set ( resource $hConn , resource $hObj , int $selectorCount , array $selectors , int $intAttrCount , array $intAttrs , int $charAttrLength , array $charAttrs , resource &$compCode , resource &$reason ) The mqseries_set() (MQSET) call is used to change the attributes of an object represented by a handle. The object must be a queue. 
 string mqseries_strerror ( int $reason ) mqseries_strerror() returns the message that correspond to the reason result code. 
+bool msession_connect ( string $host , string $port ) 
+int msession_count ( void ) 
+bool msession_create ( string $session [, string $classname [, string $data ]] ) 
+bool msession_destroy ( string $name ) 
+void msession_disconnect ( void ) 
+array msession_find ( string $name , string $value ) 
+array msession_get_array ( string $session ) 
+string msession_get_data ( string $session ) 
+string msession_get ( string $session , string $name , string $value ) 
+string msession_inc ( string $session , string $name ) 
+array msession_list ( void ) 
+array msession_listvar ( string $name ) Used for searching sessions with common attributes. 
+int msession_lock ( string $name ) 
+string msession_plugin ( string $session , string $val [, string $param ] ) 
+string msession_randstr ( int $param ) 
+void msession_set_array ( string $session , array $tuples ) 
+bool msession_set_data ( string $session , string $value ) 
+bool msession_set ( string $session , string $name , string $value ) 
+int msession_timeout ( string $session [, int $param ] ) 
+string msession_uniq ( int $param [, string $classname [, string $data ]] ) 
+int msession_unlock ( string $session , int $key ) 
 array mysqlnd_memcache_get_config ( mixed $connection ) This function returns an array of all mysqlnd_memcache related configuration information that is attached to the MySQL connection. This includes MySQL, the Memcache object provided via mysqlnd_memcache_set(), and the table mapping configuration that was automatically collected from the MySQL Server. 
 bool mysqlnd_memcache_set ( mixed $mysql_connection [, Memcached $memcache_connection [, string $pattern [, callback $callback ]]] ) 
 array mysqlnd_ms_dump_servers ( mixed $connection ) Returns a list of currently configured servers. 
@@ -1338,8 +1209,8 @@ bool px_put_record ( resource $pxdoc , array $record [, int $recpos = -1 ] ) Sto
 array px_retrieve_record ( resource $pxdoc , int $num [, int $mode = 0 ] ) 
 bool px_set_blob_file ( resource $pxdoc , string $filename ) 
 bool px_set_parameter ( resource $pxdoc , string $name , string $value ) Sets various parameters. 
-void px_set_tablename ( resource $pxdoc , string $name ) Sets the table name of a paradox database, which was created with px_create_fp(). This function is deprecated use px_set_parameter() instead. 
-bool px_set_targetencoding ( resource $pxdoc , string $encoding ) 
+px_set_tablename(->) void px_set_tablename ( resource $pxdoc , string $name ) Sets the table name of a paradox database, which was created with px_create_fp(). This function is deprecated use px_set_parameter() instead. 
+px_set_targetencoding(->) bool px_set_targetencoding ( resource $pxdoc , string $encoding ) 
 bool px_set_value ( resource $pxdoc , string $name , float $value ) Sets various values. 
 string px_timestamp2string ( resource $pxdoc , float $value , string $format ) Turns a timestamp as it stored in the paradox file into human readable format. Paradox timestamps are the number of miliseconds since 0001-01-02. This function is just for convenience. It can be easily replaced by some math and the calendar functions as demonstrated in the following example. 
 bool px_update_record ( resource $pxdoc , array $data , int $num ) 
@@ -1347,37 +1218,37 @@ array parsekit_compile_file ( string $filename [, array &$errors [, int $options
 array parsekit_compile_string ( string $phpcode [, array &$errors [, int $options = PARSEKIT_QUIET ]] ) 
 array parsekit_func_arginfo ( mixed $function ) 
 bool PDF_activate_item ( resource $pdfdoc , int $id ) Activates a previously created structure element or other content item. Returns TRUE on success or FALSE on failure. 
-This function is deprecated, use PDF_create_annotation() with type=Text instead.  
-This function is deprecated since PDFlib version 6, use PDF_create_bookmark() instead.  
-bool PDF_add_launchlink ( resource $pdfdoc , float $llx , float $lly , float $urx , float $ury , string $filename ) 
-bool PDF_add_locallink ( resource $pdfdoc , float $lowerleftx , float $lowerlefty , float $upperrightx , float $upperrighty , int $page , string $dest ) 
+PDF_add_annotation(->) This function is deprecated, use PDF_create_annotation() with type=Text instead.  
+PDF_add_bookmark(->) This function is deprecated since PDFlib version 6, use PDF_create_bookmark() instead.  
+PDF_add_launchlink(->) bool PDF_add_launchlink ( resource $pdfdoc , float $llx , float $lly , float $urx , float $ury , string $filename ) 
+PDF_add_locallink(->) bool PDF_add_locallink ( resource $pdfdoc , float $lowerleftx , float $lowerlefty , float $upperrightx , float $upperrighty , int $page , string $dest ) 
 bool PDF_add_nameddest ( resource $pdfdoc , string $name , string $optlist ) Creates a named destination on an arbitrary page in the current document. Returns TRUE on success or FALSE on failure. 
-bool PDF_add_note ( resource $pdfdoc , float $llx , float $lly , float $urx , float $ury , string $contents , string $title , string $icon , int $open ) 
-This function is deprecated, use PDF_create_bookmark() instead.  
-bool PDF_add_pdflink ( resource $pdfdoc , float $bottom_left_x , float $bottom_left_y , float $up_right_x , float $up_right_y , string $filename , int $page , string $dest ) 
+PDF_add_note(->) bool PDF_add_note ( resource $pdfdoc , float $llx , float $lly , float $urx , float $ury , string $contents , string $title , string $icon , int $open ) 
+PDF_add_outline(->) This function is deprecated, use PDF_create_bookmark() instead.  
+PDF_add_pdflink(->) bool PDF_add_pdflink ( resource $pdfdoc , float $bottom_left_x , float $bottom_left_y , float $up_right_x , float $up_right_y , string $filename , int $page , string $dest ) 
 int PDF_add_table_cell ( resource $pdfdoc , int $table , int $column , int $row , string $text , string $optlist ) Adds a cell to a new or existing table. 
 int PDF_add_textflow ( resource $pdfdoc , int $textflow , string $text , string $optlist ) Creates a Textflow object, or adds text and explicit options to an existing Textflow. 
 bool PDF_add_thumbnail ( resource $pdfdoc , int $image ) Adds an existing image as thumbnail for the current page. Returns TRUE on success or FALSE on failure. 
-bool PDF_add_weblink ( resource $pdfdoc , float $lowerleftx , float $lowerlefty , float $upperrightx , float $upperrighty , string $url ) 
+PDF_add_weblink(->) bool PDF_add_weblink ( resource $pdfdoc , float $lowerleftx , float $lowerlefty , float $upperrightx , float $upperrighty , string $url ) 
 bool PDF_arc ( resource $p , float $x , float $y , float $r , float $alpha , float $beta ) Adds a counterclockwise circular arc. 
 bool PDF_arcn ( resource $p , float $x , float $y , float $r , float $alpha , float $beta ) Except for the drawing direction, this function behaves exactly like PDF_arc(). 
-bool PDF_attach_file ( resource $pdfdoc , float $llx , float $lly , float $urx , float $ury , string $filename , string $description , string $author , string $mimetype , string $icon ) 
+PDF_attach_file(->) bool PDF_attach_file ( resource $pdfdoc , float $llx , float $lly , float $urx , float $ury , string $filename , string $description , string $author , string $mimetype , string $icon ) 
 int PDF_begin_document ( resource $pdfdoc , string $filename , string $optlist ) Creates a new PDF file subject to various options. 
 bool PDF_begin_font ( resource $pdfdoc , string $filename , float $a , float $b , float $c , float $d , float $e , float $f , string $optlist ) Starts a Type 3 font definition. 
 bool PDF_begin_glyph ( resource $pdfdoc , string $glyphname , float $wx , float $llx , float $lly , float $urx , float $ury ) Starts a glyph definition for a Type 3 font. 
 int PDF_begin_item ( resource $pdfdoc , string $tag , string $optlist ) Opens a structure element or other content item with attributes supplied as options. 
 bool PDF_begin_layer ( resource $pdfdoc , int $layer ) 
 bool PDF_begin_page_ext ( resource $pdfdoc , float $width , float $height , string $optlist ) 
-bool PDF_begin_page ( resource $pdfdoc , float $width , float $height ) 
+PDF_begin_page(->) bool PDF_begin_page ( resource $pdfdoc , float $width , float $height ) 
 int PDF_begin_pattern ( resource $pdfdoc , float $width , float $height , float $xstep , float $ystep , int $painttype ) Starts a new pattern definition. 
 int PDF_begin_template_ext ( resource $pdfdoc , float $width , float $height , string $optlist ) Starts a new template definition. 
-int PDF_begin_template ( resource $pdfdoc , float $width , float $height ) 
+PDF_begin_template(->) int PDF_begin_template ( resource $pdfdoc , float $width , float $height ) 
 bool PDF_circle ( resource $pdfdoc , float $x , float $y , float $r ) Adds a circle. Returns TRUE on success or FALSE on failure. 
 bool PDF_clip ( resource $p ) Uses the current path as clipping path, and terminate the path. Returns TRUE on success or FALSE on failure. 
 bool PDF_close_image ( resource $p , int $image ) Closes an image retrieved with the PDF_open_image() function. 
 bool PDF_close_pdi_page ( resource $p , int $page ) Closes the page handle, and frees all page-related resources. Returns TRUE on success or FALSE on failure. 
-bool PDF_close_pdi ( resource $p , int $doc ) 
-bool PDF_close ( resource $p ) 
+PDF_close_pdi(->) bool PDF_close_pdi ( resource $p , int $doc ) 
+PDF_close(->) bool PDF_close ( resource $p ) 
 bool PDF_closepath_fill_stroke ( resource $p ) Closes the path, fills, and strokes it. Returns TRUE on success or FALSE on failure. 
 bool PDF_closepath_stroke ( resource $p ) Closes the path, and strokes it. Returns TRUE on success or FALSE on failure. 
 bool PDF_closepath ( resource $p ) Closes the current path. Returns TRUE on success or FALSE on failure. 
@@ -1414,7 +1285,7 @@ int PDF_fill_pdfblock ( resource $pdfdoc , int $page , string $blockname , int $
 bool PDF_fill_stroke ( resource $p ) Fills and strokes the current path with the current fill and stroke color. Returns TRUE on success or FALSE on failure. 
 int PDF_fill_textblock ( resource $pdfdoc , int $page , string $blockname , string $text , string $optlist ) 
 bool PDF_fill ( resource $p ) Fills the interior of the current path with the current fill color. Returns TRUE on success or FALSE on failure. 
-int PDF_findfont ( resource $p , string $fontname , string $encoding , int $embed ) 
+PDF_findfont(->) int PDF_findfont ( resource $p , string $fontname , string $encoding , int $embed ) 
 bool PDF_fit_image ( resource $pdfdoc , int $image , float $x , float $y , string $optlist ) Places an image or template on the page, subject to various options. Returns TRUE on success or FALSE on failure. 
 bool PDF_fit_pdi_page ( resource $pdfdoc , int $page , float $x , float $y , string $optlist ) Places an imported PDF page on the page, subject to various options. Returns TRUE on success or FALSE on failure. 
 string PDF_fit_table ( resource $pdfdoc , int $table , float $llx , float $lly , float $urx , float $ury , string $optlist ) Places a table on the page fully or partially. 
@@ -1424,16 +1295,16 @@ string PDF_get_apiname ( resource $pdfdoc ) Gets the name of the API function wh
 string PDF_get_buffer ( resource $p ) Fetches the buffer containing the generated PDF data. 
 string PDF_get_errmsg ( resource $pdfdoc ) Gets the text of the last thrown exception or the reason for a failed function call. 
 int PDF_get_errnum ( resource $pdfdoc ) Gets the number of the last thrown exception or the reason for a failed function call. 
-This function is deprecated since PDFlib version 3, use PDF_get_value() with the parameter font instead.  
-This function is deprecated since PDFlib version 3, use PDF_get_parameter() with the parameter fontname instead.  
-This function is deprecated since PDFlib version 3, use PDF_get_value() with the parameter fontsizeinstead.  
-This function is deprecated since PDFlib version 3, use PDF_get_value() with the parameter imageheight instead.  
-This function is deprecated since PDFlib version 3, use PDF_get_value() with the parameter imagewidth instead.  
-int PDF_get_majorversion ( void ) This function is deprecated since PDFlib version 5, use PDF_get_value() with the parameter major instead. 
-int PDF_get_minorversion ( void ) 
+PDF_get_font(->) This function is deprecated since PDFlib version 3, use PDF_get_value() with the parameter font instead.  
+PDF_get_fontname(->) This function is deprecated since PDFlib version 3, use PDF_get_parameter() with the parameter fontname instead.  
+PDF_get_fontsize(->) This function is deprecated since PDFlib version 3, use PDF_get_value() with the parameter fontsizeinstead.  
+PDF_get_image_height(->) This function is deprecated since PDFlib version 3, use PDF_get_value() with the parameter imageheight instead.  
+PDF_get_image_width(->) This function is deprecated since PDFlib version 3, use PDF_get_value() with the parameter imagewidth instead.  
+PDF_get_majorversion(->) int PDF_get_majorversion ( void ) This function is deprecated since PDFlib version 5, use PDF_get_value() with the parameter major instead. 
+PDF_get_minorversion(->) int PDF_get_minorversion ( void ) 
 string PDF_get_parameter ( resource $p , string $key , float $modifier ) Gets the contents of some PDFlib parameter with string type. 
-string PDF_get_pdi_parameter ( resource $p , string $key , int $doc , int $page , int $reserved ) 
-float PDF_get_pdi_value ( resource $p , string $key , int $doc , int $page , int $reserved ) 
+PDF_get_pdi_parameter(->) string PDF_get_pdi_parameter ( resource $p , string $key , int $doc , int $page , int $reserved ) 
+PDF_get_pdi_value(->) float PDF_get_pdi_value ( resource $p , string $key , int $doc , int $page , int $reserved ) 
 float PDF_get_value ( resource $p , string $key , float $modifier ) Gets the value of some PDFlib parameter with numerical type. 
 float PDF_info_font ( resource $pdfdoc , int $font , string $keyword , string $optlist ) Queries detailed information about a loaded font. 
 float PDF_info_matchbox ( resource $pdfdoc , string $boxname , int $num , string $keyword ) Queries information about a matchbox on the current page. 
@@ -1449,22 +1320,22 @@ int PDF_load_image ( resource $pdfdoc , string $imagetype , string $filename , s
 int PDF_makespotcolor ( resource $p , string $spotname ) Finds a built-in spot color name, or makes a named spot color from the current fill color. Returns TRUE on success or FALSE on failure. 
 bool PDF_moveto ( resource $p , float $x , float $y ) Sets the current point for graphics output. Returns TRUE on success or FALSE on failure. 
 resource PDF_new ( void ) Creates a new PDFlib object with default settings. 
-int PDF_open_ccitt ( resource $pdfdoc , string $filename , int $width , int $height , int $BitReverse , int $k , int $Blackls1 ) 
-bool PDF_open_file ( resource $p , string $filename ) 
-This function is deprecated since PDFlib version 3, use PDF_load_image() instead.  
-int PDF_open_image_file ( resource $p , string $imagetype , string $filename , string $stringparam , int $intparam ) 
-int PDF_open_image ( resource $p , string $imagetype , string $source , string $data , int $length , int $width , int $height , int $components , int $bpc , string $params ) 
-This function is deprecated since PDFlib version 3, use PDF_load_image() instead.  
+PDF_open_ccitt(->) int PDF_open_ccitt ( resource $pdfdoc , string $filename , int $width , int $height , int $BitReverse , int $k , int $Blackls1 ) 
+PDF_open_file(->) bool PDF_open_file ( resource $p , string $filename ) 
+PDF_open_gif(->) This function is deprecated since PDFlib version 3, use PDF_load_image() instead.  
+PDF_open_image_file(->) int PDF_open_image_file ( resource $p , string $imagetype , string $filename , string $stringparam , int $intparam ) 
+PDF_open_image(->) int PDF_open_image ( resource $p , string $imagetype , string $source , string $data , int $length , int $width , int $height , int $components , int $bpc , string $params ) 
+PDF_open_jpeg(->) This function is deprecated since PDFlib version 3, use PDF_load_image() instead.  
 int PDF_open_memory_image ( resource $p , resource $image ) This function is not supported by PDFlib GmbH. 
 int PDF_open_pdi_document ( resource $p , string $filename , string $optlist ) Open a disk-based or virtual PDF document and prepare it for later use. 
 int PDF_open_pdi_page ( resource $p , int $doc , int $pagenumber , string $optlist ) Prepares a page for later use with PDF_fit_pdi_page(). 
-int PDF_open_pdi ( resource $pdfdoc , string $filename , string $optlist , int $len ) 
-This function is deprecated since PDFlib version 3, use PDF_load_image() instead.  
+PDF_open_pdi(->) int PDF_open_pdi ( resource $pdfdoc , string $filename , string $optlist , int $len ) 
+PDF_open_tiff(->) This function is deprecated since PDFlib version 3, use PDF_load_image() instead.  
 float PDF_pcos_get_number ( resource $p , int $doc , string $path ) Gets the value of a pCOS path with type number or boolean. 
 string PDF_pcos_get_stream ( resource $p , int $doc , string $optlist , string $path ) Gets the contents of a pCOS path with type stream, fstream, or string. 
 string PDF_pcos_get_string ( resource $p , int $doc , string $path ) Gets the value of a pCOS path with type name, string, or boolean. 
-bool PDF_place_image ( resource $pdfdoc , int $image , float $x , float $y , float $scale ) 
-bool PDF_place_pdi_page ( resource $pdfdoc , int $page , float $x , float $y , float $sx , float $sy ) 
+PDF_place_image(->) bool PDF_place_image ( resource $pdfdoc , int $image , float $x , float $y , float $scale ) 
+PDF_place_pdi_page(->) bool PDF_place_pdi_page ( resource $pdfdoc , int $page , float $x , float $y , float $sx , float $sy ) 
 int PDF_process_pdi ( resource $pdfdoc , int $doc , int $page , string $optlist ) Processes certain elements of an imported PDF document. 
 bool PDF_rect ( resource $p , float $x , float $y , float $width , float $height ) Draws a rectangle. Returns TRUE on success or FALSE on failure. 
 bool PDF_restore ( resource $p ) Restores the most recently saved graphics state. Returns TRUE on success or FALSE on failure. 
@@ -1472,49 +1343,49 @@ bool PDF_resume_page ( resource $pdfdoc , string $optlist ) Resumes a page to ad
 bool PDF_rotate ( resource $p , float $phi ) Rotates the coordinate system. Returns TRUE on success or FALSE on failure. 
 bool PDF_save ( resource $p ) Saves the current graphics state. Returns TRUE on success or FALSE on failure. 
 bool PDF_scale ( resource $p , float $sx , float $sy ) Scales the coordinate system. Returns TRUE on success or FALSE on failure. 
-bool PDF_set_border_color ( resource $p , float $red , float $green , float $blue ) 
-bool PDF_set_border_dash ( resource $pdfdoc , float $black , float $white ) 
-bool PDF_set_border_style ( resource $pdfdoc , string $style , float $width ) 
-This function is deprecated since PDFlib version 3, use PDF_set_value() with parameter charspacing instead.  
-This function is deprecated since PDFlib version 3, use the duration option in PDF_begin_page_ext() or PDF_end_page_ext() instead.  
+PDF_set_border_color(->) bool PDF_set_border_color ( resource $p , float $red , float $green , float $blue ) 
+PDF_set_border_dash(->) bool PDF_set_border_dash ( resource $pdfdoc , float $black , float $white ) 
+PDF_set_border_style(->) bool PDF_set_border_style ( resource $pdfdoc , string $style , float $width ) 
+PDF_set_char_spacing(->) This function is deprecated since PDFlib version 3, use PDF_set_value() with parameter charspacing instead.  
+PDF_set_duration(->) This function is deprecated since PDFlib version 3, use the duration option in PDF_begin_page_ext() or PDF_end_page_ext() instead.  
 bool PDF_set_gstate ( resource $pdfdoc , int $gstate ) Activates a graphics state object. 
-This function is deprecated since PDFlib version 3, use PDF_set_value() with parameter horizscaling instead.  
-This function is deprecated since PDFlib version 3, use PDF_set_info() instead.  
-This function is deprecated since PDFlib version 3, use PDF_set_info() instead.  
-This function is deprecated since PDFlib version 3, use PDF_set_info() instead.  
-This function is deprecated since PDFlib version 3, use PDF_set_info() instead.  
-This function is deprecated since PDFlib version 3, use PDF_set_info() instead.  
+PDF_set_horiz_scaling(->) This function is deprecated since PDFlib version 3, use PDF_set_value() with parameter horizscaling instead.  
+PDF_set_info_author(->) This function is deprecated since PDFlib version 3, use PDF_set_info() instead.  
+PDF_set_info_creator(->) This function is deprecated since PDFlib version 3, use PDF_set_info() instead.  
+PDF_set_info_keywords(->) This function is deprecated since PDFlib version 3, use PDF_set_info() instead.  
+PDF_set_info_subject(->) This function is deprecated since PDFlib version 3, use PDF_set_info() instead.  
+PDF_set_info_title(->) This function is deprecated since PDFlib version 3, use PDF_set_info() instead.  
 bool PDF_set_info ( resource $p , string $key , string $value ) Fill document information field key with value. Returns TRUE on success or FALSE on failure. 
 bool PDF_set_layer_dependency ( resource $pdfdoc , string $type , string $optlist ) 
-This function is deprecated since PDFlib version 3, use PDF_set_value() with the parameter leading instead.  
+PDF_set_leading(->) This function is deprecated since PDFlib version 3, use PDF_set_value() with the parameter leading instead.  
 bool PDF_set_parameter ( resource $p , string $key , string $value ) Sets some PDFlib parameter with string type. Returns TRUE on success or FALSE on failure. 
-This function is deprecated since PDFlib version 3, use PDF_scale(), PDF_translate(), PDF_rotate(), or PDF_skew() instead.  
+PDF_set_text_matrix(->) This function is deprecated since PDFlib version 3, use PDF_scale(), PDF_translate(), PDF_rotate(), or PDF_skew() instead.  
 bool PDF_set_text_pos ( resource $p , float $x , float $y ) Sets the position for text output on the page. Returns TRUE on success or FALSE on failure. 
-This function is deprecated since PDFlib version 3, use PDF_set_value() with the textrendering parameter instead.  
-This function is deprecated since PDFlib version 3, use PDF_set_value() with the textrise parameter instead.  
+PDF_set_text_rendering(->) This function is deprecated since PDFlib version 3, use PDF_set_value() with the textrendering parameter instead.  
+PDF_set_text_rise(->) This function is deprecated since PDFlib version 3, use PDF_set_value() with the textrise parameter instead.  
 bool PDF_set_value ( resource $p , string $key , float $value ) Sets the value of some PDFlib parameter with numerical type. Returns TRUE on success or FALSE on failure. 
-This function is deprecated since PDFlib version 3, use PDF_set_value() with the wordspacing parameter instead.  
+PDF_set_word_spacing(->) This function is deprecated since PDFlib version 3, use PDF_set_value() with the wordspacing parameter instead.  
 bool PDF_setcolor ( resource $p , string $fstype , string $colorspace , float $c1 , float $c2 , float $c3 , float $c4 ) Sets the current color space and color. Returns TRUE on success or FALSE on failure. 
 bool PDF_setdash ( resource $pdfdoc , float $b , float $w ) Sets the current dash pattern to b black and w white units. Returns TRUE on success or FALSE on failure. 
 bool PDF_setdashpattern ( resource $pdfdoc , string $optlist ) Sets a dash pattern defined by an option list. Returns TRUE on success or FALSE on failure. 
 bool PDF_setflat ( resource $pdfdoc , float $flatness ) Sets the flatness parameter. Returns TRUE on success or FALSE on failure. 
 bool PDF_setfont ( resource $pdfdoc , int $font , float $fontsize ) Sets the current font in the specified fontsize, using a font handle returned by PDF_load_font(). Returns TRUE on success or FALSE on failure. 
-bool PDF_setgray_fill ( resource $p , float $g ) 
-bool PDF_setgray_stroke ( resource $p , float $g ) 
-bool PDF_setgray ( resource $p , float $g ) 
+PDF_setgray_fill(->) bool PDF_setgray_fill ( resource $p , float $g ) 
+PDF_setgray_stroke(->) bool PDF_setgray_stroke ( resource $p , float $g ) 
+PDF_setgray(->) bool PDF_setgray ( resource $p , float $g ) 
 bool PDF_setlinecap ( resource $p , int $linecap ) Sets the linecap parameter to control the shape at the end of a path with respect to stroking. 
 bool PDF_setlinejoin ( resource $p , int $value ) Sets the linejoin parameter to specify the shape at the corners of paths that are stroked. Returns TRUE on success or FALSE on failure. 
 bool PDF_setlinewidth ( resource $p , float $width ) Sets the current line width. Returns TRUE on success or FALSE on failure. 
 bool PDF_setmatrix ( resource $p , float $a , float $b , float $c , float $d , float $e , float $f ) Explicitly sets the current transformation matrix. Returns TRUE on success or FALSE on failure. 
 bool PDF_setmiterlimit ( resource $pdfdoc , float $miter ) Sets the miter limit.Returns TRUE on success or FALSE on failure. 
-This function is deprecated since PDFlib version 5, use PDF_setdashpattern() instead.  
-bool PDF_setrgbcolor_fill ( resource $p , float $red , float $green , float $blue ) 
-bool PDF_setrgbcolor_stroke ( resource $p , float $red , float $green , float $blue ) 
-bool PDF_setrgbcolor ( resource $p , float $red , float $green , float $blue ) 
+PDF_setpolydash(->) This function is deprecated since PDFlib version 5, use PDF_setdashpattern() instead.  
+PDF_setrgbcolor_fill(->) bool PDF_setrgbcolor_fill ( resource $p , float $red , float $green , float $blue ) 
+PDF_setrgbcolor_stroke(->) bool PDF_setrgbcolor_stroke ( resource $p , float $red , float $green , float $blue ) 
+PDF_setrgbcolor(->) bool PDF_setrgbcolor ( resource $p , float $red , float $green , float $blue ) 
 int PDF_shading_pattern ( resource $pdfdoc , int $shading , string $optlist ) 
 int PDF_shading ( resource $pdfdoc , string $shtype , float $x0 , float $y0 , float $x1 , float $y1 , float $c1 , float $c2 , float $c3 , float $c4 , string $optlist ) 
 bool PDF_shfill ( resource $pdfdoc , int $shading ) 
-int PDF_show_boxed ( resource $p , string $text , float $left , float $top , float $width , float $height , string $mode , string $feature ) This function is deprecated since PDFlib version 6, use PDF_fit_textline() for single lines, or the PDF_*_textflow() functions for multi-line formatting instead. 
+PDF_show_boxed(->) int PDF_show_boxed ( resource $p , string $text , float $left , float $top , float $width , float $height , string $mode , string $feature ) This function is deprecated since PDFlib version 6, use PDF_fit_textline() for single lines, or the PDF_*_textflow() functions for multi-line formatting instead. 
 bool PDF_show_xy ( resource $p , string $text , float $x , float $y ) Prints text in the current font. Returns TRUE on success or FALSE on failure. 
 bool PDF_show ( resource $pdfdoc , string $text ) Prints text in the current font and size at the current position. Returns TRUE on success or FALSE on failure. 
 bool PDF_skew ( resource $p , float $alpha , float $beta ) Skews the coordinate system in x and y direction by alpha and beta degrees, respectively. Returns TRUE on success or FALSE on failure. 
@@ -1605,97 +1476,6 @@ string ps_symbol_name ( resource $psdoc , int $ord [, int $fontid = 0 ] ) This f
 float ps_symbol_width ( resource $psdoc , int $ord [, int $fontid = 0 [, float $size = 0.0 ]] ) Calculates the width of a glyph in points if it was output in the given font and font size. This function needs an Adobe font metrics file to calculate the precise width. 
 bool ps_symbol ( resource $psdoc , int $ord ) Output the glyph at position ord in the font encoding vector of the current font. The font encoding for a font can be set when loading the font with ps_findfont(). 
 bool ps_translate ( resource $psdoc , float $x , float $y ) Sets a new initial point of the coordinate system. 
-bool SAMConnection::commit ( void ) Calling the "commit" method on a Connection object commits (completes) all in-flight transactions that are part of the current unit of work. 
-bool SAMConnection::connect ( string $protocol [, array $properties ] ) Calling the "connect" method on a SAMConnection object connects the PHP script to a messaging server. No messages can be sent or received until a connection is made. 
-SAMConnection::__construct ( void ) Creates a new SAMConnection object. 
-bool SAMConnection::disconnect ( void ) Calling the "disconnect" method on a SAMConnection object disconnects the PHP script from a messaging server. No messages can be sent or received after a connection has been disconnected. 
-int $SAMConnection->errno; Contains the numeric error code of the last executed SAM operation on this connection. If the last operation completed successfully this property contains 0. 
-string $SAMConnection->error; Contains the text description of the last failed SAM operation on this connection. If the last operation completed successfully this property contains an empty string. 
-bool SAMConnection::isConnected ( void ) Calling the "isConnected" method on a Connection object will check whether the PHP script is connected to a messaging server. No messages can be sent or received unless a connection has been established with a Messaging server. 
-SAMMessage SAMConnection::peek ( string $target [, array $properties ] ) 
-array SAMConnection::peekAll ( string $target [, array $properties ] ) 
-SAMMessage SAMConnection::receive ( string $target [, array $properties ] ) 
-SAMMessage SAMConnection::remove ( string $target [, array $properties ] ) Removes a message from a queue. 
-bool SAMConnection::rollback ( void ) Rolls back an in-flight unit of work. 
-string SAMConnection::send ( string $target , SAMMessage $msg [, array $properties ] ) The "send" method is used to send a message to a specific queue or to publish to a specific topic. The method returns a correlation id that can be used as a selector to identify reply or response messages when these are requested. 
-The "setdebug" method is used to turn on or off additional debugging output. The SAM framework will provide method/function entry and exit trace data plus additional information. Protocol specific implementations also provide extra output.  void SAMConnection::setDebug ( bool $switch )
-string SAMConnection::subscribe ( string $targetTopic ) The "subscribe" method is used to create a new subscription to a specified topic. 
-bool SAMConnection::unsubscribe ( string $subscriptionId [, string $targetTopic ] ) The "unsubscribe" method is used to delete an existing subscription to a specified topic. 
-string $SAMMessage->body; The "body" property contains the actual body of the message. It may not always be set. 
-SAMMessage::__construct ([ mixed $body ] ) Creates a new SAMMessage object optionally specifying a message body. 
-object $SAMMessage->header; 
-SDO_DataObject SCA::createDataObject ( string $type_namespace_uri , string $type_name ) 
-mixed SCA::getService ( string $target [, string $binding [, array $config ]] ) 
-SDO_DataObject SCA_LocalProxy::createDataObject ( string $type_namespace_uri , string $type_name ) 
-SDO_DataObject SCA_SoapProxy::createDataObject ( string $type_namespace_uri , string $type_name ) 
-void SDO_DAS_ChangeSummary::beginLogging ( void ) 
-void SDO_DAS_ChangeSummary::endLogging ( void ) 
-int SDO_DAS_ChangeSummary::getChangeType ( SDO_DataObject $dataObject ) 
-SDO_List SDO_DAS_ChangeSummary::getChangedDataObjects ( void ) 
-SDO_DataObject SDO_DAS_ChangeSummary::getOldContainer ( SDO_DataObject $data_object ) 
-SDO_List SDO_DAS_ChangeSummary::getOldValues ( SDO_DataObject $data_object ) 
-bool SDO_DAS_ChangeSummary::isLogging ( void ) 
-void SDO_DAS_DataFactory::addPropertyToType ( string $parent_type_namespace_uri , string $parent_type_name , string $property_name , string $type_namespace_uri , string $type_name [, array $options ] ) 
-void SDO_DAS_DataFactory::addType ( string $type_namespace_uri , string $type_name [, array $options ] ) 
-SDO_DAS_DataFactory SDO_DAS_DataFactory::getDataFactory ( void ) 
-SDO_DAS_ChangeSummary SDO_DAS_DataObject::getChangeSummary ( void ) 
-int SDO_DAS_Setting::getListIndex ( void ) 
-int SDO_DAS_Setting::getPropertyIndex ( void ) 
-string SDO_DAS_Setting::getPropertyName ( void ) 
-mixed SDO_DAS_Setting::getValue ( void ) 
-bool SDO_DAS_Setting::isSet ( void ) 
-void SDO_DataFactory::create ( string $type_namespace_uri , string $type_name ) 
-void SDO_DataObject::clear ( void ) 
-SDO_DataObject SDO_DataObject::createDataObject ( mixed $identifier ) 
-SDO_DataObject SDO_DataObject::getContainer ( void ) 
-SDO_Sequence SDO_DataObject::getSequence ( void ) 
-string SDO_DataObject::getTypeName ( void ) 
-string SDO_DataObject::getTypeNamespaceURI ( void ) 
-mixed SDO_Exception::getCause ( void ) 
-void SDO_List::insert ( mixed $value [, int $index ] ) 
-SDO_Model_Type SDO_Model_Property::getContainingType ( void ) 
-mixed SDO_Model_Property::getDefault ( void ) 
-string SDO_Model_Property::getName ( void ) 
-SDO_Model_Type SDO_Model_Property::getType ( void ) 
-bool SDO_Model_Property::isContainment ( void ) 
-bool SDO_Model_Property::isMany ( void ) 
-SDO_Model_ReflectionDataObject::__construct ( SDO_DataObject $data_object ) 
-mixed SDO_Model_ReflectionDataObject::export ( SDO_Model_ReflectionDataObject $rdo [, bool $return ] ) 
-SDO_Model_Property SDO_Model_ReflectionDataObject::getContainmentProperty ( void ) 
-array SDO_Model_ReflectionDataObject::getInstanceProperties ( void ) 
-SDO_Model_Type SDO_Model_ReflectionDataObject::getType ( void ) 
-SDO_Model_Type SDO_Model_Type::getBaseType ( void ) 
-string SDO_Model_Type::getName ( void ) 
-string SDO_Model_Type::getNamespaceURI ( void ) 
-array SDO_Model_Type::getProperties ( void ) 
-SDO_Model_Property SDO_Model_Type::getProperty ( mixed $identifier ) 
-bool SDO_Model_Type::isAbstractType ( void ) 
-bool SDO_Model_Type::isDataType ( void ) 
-bool SDO_Model_Type::isInstance ( SDO_DataObject $data_object ) 
-bool SDO_Model_Type::isOpenType ( void ) 
-bool SDO_Model_Type::isSequencedType ( void ) 
-SDO_Model_Property SDO_Sequence::getProperty ( int $sequence_index ) 
-void SDO_Sequence::insert ( mixed $value [, int $sequenceIndex [, mixed $propertyIdentifier ]] ) 
-void SDO_Sequence::move ( int $toIndex, int $fromIndex ) 
-void SDO_DAS_XML::addTypes ( string $xsd_file ) Load a second or subsequent schema file to an XML DAS that has already been created with the static method create(). Although the file may be any valid schema file, a likely reason for using this method is to add a schema file containing definitions of extra complex types, hence the name. See Example 4 of the parent document for an example. 
-SDO_DAS_XML SDO_DAS_XML::create ([ mixed $xsd_file [, string $key ]] ) This is the only static method of SDO_DAS_XML class. Used to instantiate SDO_DAS_XML object. 
-SDO_DataObject SDO_DAS_XML::createDataObject ( string $namespace_uri , string $type_name ) Creates SDO_DataObject for a given namespace URI and type name. The type should be defined in the underlying model otherwise SDO_TypeNotFoundException will be thrown. 
-SDO_DAS_XML_Document SDO_DAS_XML::createDocument ([ string $document_element_name ] ) 
-SDO_XMLDocument SDO_DAS_XML::loadFile ( string $xml_file ) Constructs the tree of SDO_DataObjects from the given address to xml instance document. Returns SDO_DAS_XML_Document Object. Use SDO_DAS_XML_Document::getRootDataObject method to get root data object. 
-SDO_DAS_XML_Document SDO_DAS_XML::loadString ( string $xml_string ) Constructs the tree of SDO_DataObjects from the given xml instance string. Returns SDO_DAS_XML_Document Object. Use SDO_DAS_XML_Document::getRootDataObject method to get root data object. 
-void SDO_DAS_XML::saveFile ( SDO_XMLDocument $xdoc , string $xml_file [, int $indent ] ) Saves the SDO_DAS_XML_Document object to a file. 
-string SDO_DAS_XML::saveString ( SDO_XMLDocument $xdoc [, int $indent ] ) Saves the SDO_DAS_XML_Document object to string. 
-SDO_DataObject SDO_DAS_XML_Document::getRootDataObject ( void ) Returns the root SDO_DataObject. 
-string SDO_DAS_XML_Document::getRootElementName ( void ) Returns root element's name. 
-string SDO_DAS_XML_Document::getRootElementURI ( void ) Returns root element's URI string. 
-void SDO_DAS_XML_Document::setEncoding ( string $encoding ) Sets the given string as encoding. 
-void SDO_DAS_XML_Document::setXMLDeclaration ( bool $xmlDeclatation ) Controls whether an XML declaration will be generated at the start of the XML document. Set to TRUE to generate the XML declaration, or FALSE to suppress it. 
-void SDO_DAS_XML_Document::setXMLVersion ( string $xmlVersion ) Sets the given string as xml version. 
-void SDO_DAS_Relational::applyChanges ( PDO $database_handle , SDODataObject $root_data_object ) 
-SDO_DAS_Relational::__construct ( array $database_metadata [, string $application_root_type [, array $SDO_containment_references_metadata ]] ) 
-SDODataObject SDO_DAS_Relational::createRootDataObject ( void ) 
-SDODataObject SDO_DAS_Relational::executePreparedQuery ( PDO $database_handle , PDOStatement $prepared_statement , array $value_list [, array $column_specifier ] ) 
-SDODataObject SDO_DAS_Relational::executeQuery ( PDO $database_handle , string $SQL_statement [, array $column_specifier ] ) 
 string seaslog_get_author ( void ) 
 string seaslog_get_version ( void ) 
 bool session_pgsql_add_error ( int $error_level [, string $error_message ] ) 
@@ -1924,23 +1704,6 @@ bool svn_repos_recover ( string $path )
 bool svn_revert ( string $path [, bool $recursive = FALSE ] ) Revert any local changes to the path in a working copy. 
 array svn_status ( string $path [, int $flags = 0 ] ) Returns the status of working copy files and directories, giving modifications, additions, deletions and other changes to items in the working copy. 
 int svn_update ( string $path [, int $revno = SVN_REVISION_HEAD [, bool $recurse = TRUE ]] ) Update working copy at path to revision revno. If recurse is true, directories will be recursively updated. 
-void Swish::__construct ( string $index_names ) 
-array Swish::getMetaList ( string $index_name ) 
-array Swish::getPropertyList ( string $index_name ) 
-object Swish::prepare ([ string $query ] ) 
-object Swish::query ( string $query ) 
-array SwishResult::getMetaList ( void ) 
-array SwishResult::stem ( string $word ) 
-array SwishResults::getParsedWords ( string $index_name ) 
-array SwishResults::getRemovedStopwords ( string $index_name ) 
-object SwishResults::nextResult ( void ) 
-int SwishResults::seekResult ( int $position ) 
-object SwishSearch::execute ([ string $query ] ) 
-void SwishSearch::resetLimit ( void ) 
-void SwishSearch::setLimit ( string $property , string $low , string $high ) 
-void SwishSearch::setPhraseDelimiter ( string $delimiter ) 
-void SwishSearch::setSort ( string $sort ) 
-void SwishSearch::setStructure ( int $structure ) 
 bool is_tainted ( string $string ) Checks whether a string is tainted 
 bool taint ( string &$string [, string $... ] ) Make a string tainted. This is used for testing purpose only. 
 bool untaint ( string &$string [, string $... ] ) Untaint strings 

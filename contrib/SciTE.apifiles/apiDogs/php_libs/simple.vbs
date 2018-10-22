@@ -17,15 +17,28 @@ const TristateFalse=0 'ASCII
 dim bconcole
 
 Set fso = CreateObject("Scripting.FileSystemObject")
-Set ofile_dir = fso.OpenTextFile("php_core.txt",ForReading,TristateTrue)
-Set ofile_ref = fso.OpenTextFile("php_core.ref.txt",ForWriting,TristateTrue)
+dim ofile_dir, ofile_ref
+
+inFile="php_core.txt"
 
 wscript.quit(main)
 
 function main()
 	if instr(1,wscript.fullName,"cscript") then bConsole=true
+	iCntArgs= WScript.Arguments.count 
+	if iCntArgs > 0 then
+	 arg0 = WScript.Arguments.Item(0)
+	else
+		'wscript.echo "no filename given"
+		arg0=inFile
+		''exit function
+	end if
 
-		Description= ofile_dir.ReadLine()
+	arg0=replace(arg0,".txt","")
+	Set ofile_dir = fso.OpenTextFile(arg0 & ".txt",ForReading,TristateTrue)
+	Set ofile_ref = fso.OpenTextFile(arg0 & "_ref.txt",ForWriting,TristateTrue)
+
+	Description= ofile_dir.ReadLine()
 	while not ofile_dir.AtEndOfStream
 		ln= ofile_dir.ReadLine()
 		arr_ln=split(ln,";")
@@ -76,7 +89,10 @@ function getFunctionLinks(strhtml,lnk)
 	For Each myMatch in myMatches
 		line=replace(myMatch.value,chr(34) & ">",";")
 		line="http://php.net/manual/en/"&line
-		if  not InStr(line, " ")>0 then  ofile_ref.WriteLine(line)
+		if  not InStr(line, " ")>0 then  
+			wscript.echo(line)
+			ofile_ref.WriteLine(line)
+		end if	
 	Next
 
 end function

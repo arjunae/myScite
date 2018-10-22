@@ -1,90 +1,3 @@
-int bzclose ( resource $bz ) Closes the given bzip2 file pointer. 
-mixed bzcompress ( string $source [, int $blocksize = 4 [, int $workfactor = 0 ]] ) bzcompress() compresses the given string and returns it as bzip2 encoded data. 
-mixed bzdecompress ( string $source [, int $small = 0 ] ) bzdecompress() decompresses the given string containing bzip2 encoded data. 
-int bzerrno ( resource $bz ) Returns the error number of any bzip2 error returned by the given file pointer. 
-array bzerror ( resource $bz ) Returns the error number and error string of any bzip2 error returned by the given file pointer. 
-string bzerrstr ( resource $bz ) Gets the error string of any bzip2 error returned by the given file pointer. 
-bool bzflush ( resource $bz ) Forces a write of all buffered bzip2 data for the file pointer bz. 
-resource bzopen ( mixed $file , string $mode ) bzopen() opens a bzip2 (.bz2) file for reading or writing. 
-string bzread ( resource $bz [, int $length = 1024 ] ) 
-int bzwrite ( resource $bz , string $data [, int $length ] ) bzwrite() writes a string into the given bzip2 file stream. 
-string bind_textdomain_codeset ( string $domain , string $codeset ) With bind_textdomain_codeset(), you can set in which encoding will be messages from domain returned by gettext() and similar functions. 
-string bindtextdomain ( string $domain , string $directory ) The bindtextdomain() function sets the path for a domain. 
-string dcgettext ( string $domain , string $message , int $category ) This function allows you to override the current domain for a single message lookup. 
-string dcngettext ( string $domain , string $msgid1 , string $msgid2 , int $n , int $category ) This function allows you to override the current domain for a single plural message lookup. 
-string dgettext ( string $domain , string $message ) The dgettext() function allows you to override the current domain for a single message lookup. 
-string dngettext ( string $domain , string $msgid1 , string $msgid2 , int $n ) The dngettext() function allows you to override the current domain for a single plural message lookup. 
-string gettext ( string $message ) Looks up a message in the current domain. 
-string ngettext ( string $msgid1 , string $msgid2 , int $n ) The plural version of gettext(). Some languages have more than one form for plural messages dependent on the count. 
-string textdomain ( string $text_domain = NULL ) This function sets the domain to search within when calls are made to gettext(), usually the named after an application. 
-string ldap_8859_to_t61 ( string $value ) 
-bool ldap_add ( resource $link_identifier , string $dn , array $entry [, array $serverctrls ] ) Add entries in the LDAP directory. 
-bool ldap_bind ( resource $link_identifier [, string $bind_rdn = NULL [, string $bind_password = NULL ]] ) Binds to the LDAP directory with specified RDN and password. 
-ldap_close(->) This function is an alias of: ldap_unbind().  
-mixed ldap_compare ( resource $link_identifier , string $dn , string $attribute , string $value [, array $serverctrls ] ) Compare value of attribute with value of same attribute in an LDAP directory entry. 
-resource ldap_connect ([ string $host = NULL [, int $port = 389 ]] ) 
-bool ldap_control_paged_result_response ( resource $link , resource $result [, string &$cookie [, int &$estimated ]] ) Retrieve the pagination information send by the server. 
-bool ldap_control_paged_result ( resource $link , int $pagesize [, bool $iscritical = FALSE [, string $cookie = "" ]] ) Enable LDAP pagination by sending the pagination control (page size, cookie...). 
-int ldap_count_entries ( resource $link_identifier , resource $result_identifier ) Returns the number of entries stored in the result of previous search operations. 
-bool ldap_delete ( resource $link_identifier , string $dn [, array $serverctrls ] ) Deletes a particular entry in LDAP directory. 
-string ldap_dn2ufn ( string $dn ) Turns the specified dn, into a more user-friendly form, stripping off type names. 
-string ldap_err2str ( int $errno ) Returns the string error message explaining the error number errno. While LDAP errno numbers are standardized, different libraries return different or even localized textual error messages. Never check for a specific error message text, but always use an error number to check. 
-int ldap_errno ( resource $link_identifier ) Returns the standardized error number returned by the last LDAP command. This number can be converted into a textual error message using ldap_err2str(). 
-string ldap_error ( resource $link_identifier ) 
-string ldap_escape ( string $value [, string $ignore [, int $flags ]] ) Escapes value for use in the context implied by flags. 
-mixed ldap_exop_passwd ( resource $link [, string $user [, string $oldpw [, string $newpw [, array &$serverctrls ]]]] ) Performs a PASSWD extended operation. 
-int ldap_exop_refresh ( resource $link , string $dn , int $ttl ) Performs a Refresh extended operation and returns the data. 
-string ldap_exop_whoami ( resource $link ) Performs a WHOAMI extended operation and returns the data. 
-mixed ldap_exop ( resource $link , string $reqoid [, string $reqdata [, array $servercontrols [, string &$retdata [, string &$retoid ]]]] ) Performs an extended operation on the specified link with reqoid the OID of the operation and reqdata the data. 
-array ldap_explode_dn ( string $dn , int $with_attrib ) Splits the DN returned by ldap_get_dn() and breaks it up into its component parts. Each part is known as Relative Distinguished Name, or RDN. 
-string ldap_first_attribute ( resource $link_identifier , resource $result_entry_identifier ) 
-resource ldap_first_entry ( resource $link_identifier , resource $result_identifier ) 
-resource ldap_first_reference ( resource $link , resource $result ) 
-bool ldap_free_result ( resource $result_identifier ) 
-array ldap_get_attributes ( resource $link_identifier , resource $result_entry_identifier ) 
-string ldap_get_dn ( resource $link_identifier , resource $result_entry_identifier ) Finds out the DN of an entry in the result. 
-array ldap_get_entries ( resource $link_identifier , resource $result_identifier ) Reads multiple entries from the given result, and then reading the attributes and multiple values. 
-bool ldap_get_option ( resource $link_identifier , int $option , mixed &$retval ) Sets retval to the value of the specified option. 
-array ldap_get_values_len ( resource $link_identifier , resource $result_entry_identifier , string $attribute ) 
-array ldap_get_values ( resource $link_identifier , resource $result_entry_identifier , string $attribute ) 
-resource ldap_list ( resource $link_identifier , string $base_dn , string $filter [, array $attributes [, int $attrsonly [, int $sizelimit [, int $timelimit [, int $deref [, array $serverctrls ]]]]]] ) 
-bool ldap_mod_add ( resource $link_identifier , string $dn , array $entry [, array $serverctrls ] ) Adds one or more attribute values to the specified dn. To add a whole new object see ldap_add() function. 
-bool ldap_mod_del ( resource $link_identifier , string $dn , array $entry [, array $serverctrls ] ) Removes one or more attribute values from the specified dn. Object deletions are done by the ldap_delete() function. 
-bool ldap_mod_replace ( resource $link_identifier , string $dn , array $entry [, array $serverctrls ] ) Replaces one or more attributes from the specified dn. It may also add or remove attributes. 
-bool ldap_modify_batch ( resource $link_identifier , string $dn , array $entry [, array $serverctrls ] ) Modifies an existing entry in the LDAP directory. Allows detailed specification of the modifications to perform. 
-ldap_modify(->) This function is an alias of: ldap_mod_replace().  
-string ldap_next_attribute ( resource $link_identifier , resource $result_entry_identifier ) Retrieves the attributes in an entry. The first call to ldap_next_attribute() is made with the result_entry_identifier returned from ldap_first_attribute(). 
-resource ldap_next_entry ( resource $link_identifier , resource $result_entry_identifier ) Retrieve the entries stored in the result. Successive calls to the ldap_next_entry() return entries one by one till there are no more entries. The first call to ldap_next_entry() is made after the call to ldap_first_entry() with the result_entry_identifier as returned from the ldap_first_entry(). 
-resource ldap_next_reference ( resource $link , resource $entry ) 
-bool ldap_parse_exop ( resource $link , resource $result [, string &$retdata [, string &$retoid ]] ) Parse LDAP extended operation data from result object result 
-bool ldap_parse_reference ( resource $link , resource $entry , array &$referrals ) 
-bool ldap_parse_result ( resource $link , resource $result , int &$errcode [, string &$matcheddn [, string &$errmsg [, array &$referrals [, array &$serverctrls ]]]] ) Parses an LDAP search result. 
-resource ldap_read ( resource $link_identifier , string $base_dn , string $filter [, array $attributes [, int $attrsonly [, int $sizelimit [, int $timelimit [, int $deref [, array $serverctrls ]]]]]] ) Performs the search for a specified filter on the directory with the scope LDAP_SCOPE_BASE. So it is equivalent to reading an entry from the directory. 
-bool ldap_rename ( resource $link_identifier , string $dn , string $newrdn , string $newparent , bool $deleteoldrdn [, array $serverctrls ] ) The entry specified by dn is renamed/moved. 
-bool ldap_sasl_bind ( resource $link [, string $binddn = NULL [, string $password = NULL [, string $sasl_mech = NULL [, string $sasl_realm = NULL [, string $sasl_authc_id = NULL [, string $sasl_authz_id = NULL [, string $props = NULL ]]]]]]] ) 
-resource ldap_search ( resource $link_identifier , string $base_dn , string $filter [, array $attributes [, int $attrsonly [, int $sizelimit [, int $timelimit [, int $deref [, array $serverctrls ]]]]]] ) 
-bool ldap_set_option ( resource $link_identifier , int $option , mixed $newval ) Sets the value of the specified option to be newval. 
-bool ldap_set_rebind_proc ( resource $link , callable $callback ) 
-bool ldap_sort ( resource $link , resource $result , string $sortfilter ) 
-bool ldap_start_tls ( resource $link ) 
-string ldap_t61_to_8859 ( string $value ) 
-bool ldap_unbind ( resource $link_identifier ) Unbinds from the LDAP directory. 
-bool readline_add_history ( string $line ) This function adds a line to the command line history. 
-Example #1 Readline Callback Interface Example 
-bool readline_callback_handler_remove ( void ) Removes a previously installed callback handler and restores terminal settings. 
-void readline_callback_read_char ( void ) Reads a character of user input. When a line is received, this function informs the readline callback interface installed using readline_callback_handler_install() that a line is ready for input. 
-bool readline_clear_history ( void ) This function clears the entire command line history. 
-bool readline_completion_function ( callable $function ) This function registers a completion function. This is the same kind of functionality you'd get if you hit your tab key while using Bash. 
-mixed readline_info ([ string $varname [, string $newvalue ]] ) Gets or sets various internal readline variables. 
-array readline_list_history ( void ) Gets the entire command line history. 
-void readline_on_new_line ( void ) Tells readline that the cursor has moved to a new line. 
-bool readline_read_history ([ string $filename ] ) This function reads a command history from a file. 
-void readline_redisplay ( void ) Redraws readline to redraw the display. 
-bool readline_write_history ([ string $filename ] ) This function writes the command history to a file. 
-string readline ([ string $prompt ] ) Reads a single line from the user. You must add this line to the history yourself using readline_add_history(). 
-bool recode_file ( string $request , resource $input , resource $output ) Recode the file referenced by file handle input into the file referenced by file handle output according to the recode request. 
-string recode_string ( string $request , string $string ) Recode the string string according to the recode request request. 
-recode(->) This function is an alias of: recode_string().  
 void curl_close ( resource $ch ) Closes a cURL session and frees all resources. The cURL handle, ch, is also deleted. 
 resource curl_copy_handle ( resource $ch ) Copies a cURL handle keeping the same preferences. 
 int curl_errno ( resource $ch ) Returns the error number for the last cURL operation. 
@@ -211,6 +124,15 @@ string fbsql_table_name ( resource $result , int $index )
 fbsql_tablename(->) This function is an alias of: fbsql_table_name().  
 string fbsql_username ( resource $link_identifier [, string $username ] ) Get or set the username used for the connection. 
 bool fbsql_warnings ([ bool $OnOff ] ) Enables or disables FrontBase warnings. 
+string bind_textdomain_codeset ( string $domain , string $codeset ) With bind_textdomain_codeset(), you can set in which encoding will be messages from domain returned by gettext() and similar functions. 
+string bindtextdomain ( string $domain , string $directory ) The bindtextdomain() function sets the path for a domain. 
+string dcgettext ( string $domain , string $message , int $category ) This function allows you to override the current domain for a single message lookup. 
+string dcngettext ( string $domain , string $msgid1 , string $msgid2 , int $n , int $category ) This function allows you to override the current domain for a single plural message lookup. 
+string dgettext ( string $domain , string $message ) The dgettext() function allows you to override the current domain for a single message lookup. 
+string dngettext ( string $domain , string $msgid1 , string $msgid2 , int $n ) The dngettext() function allows you to override the current domain for a single plural message lookup. 
+string gettext ( string $message ) Looks up a message in the current domain. 
+string ngettext ( string $msgid1 , string $msgid2 , int $n ) The plural version of gettext(). Some languages have more than one form for plural messages dependent on the count. 
+string textdomain ( string $text_domain = NULL ) This function sets the domain to search within when calls are made to gettext(), usually the named after an application. 
 GMP gmp_abs ( GMP $a ) Get the absolute value of a number. 
 GMP gmp_add ( GMP $a , GMP $b ) Add two numbers. 
 GMP gmp_and ( GMP $a , GMP $b ) Calculates bitwise AND of two GMP numbers. 
@@ -421,6 +343,58 @@ string imap_utf7_decode ( string $text )
 string imap_utf7_encode ( string $data ) 
 string imap_utf8_to_mutf7 ( string $in ) 
 string imap_utf8 ( string $mime_encoded_text ) Converts the given mime_encoded_text to UTF-8. 
+string ldap_8859_to_t61 ( string $value ) 
+bool ldap_add ( resource $link_identifier , string $dn , array $entry [, array $serverctrls ] ) Add entries in the LDAP directory. 
+bool ldap_bind ( resource $link_identifier [, string $bind_rdn = NULL [, string $bind_password = NULL ]] ) Binds to the LDAP directory with specified RDN and password. 
+ldap_close(->) This function is an alias of: ldap_unbind().  
+mixed ldap_compare ( resource $link_identifier , string $dn , string $attribute , string $value [, array $serverctrls ] ) Compare value of attribute with value of same attribute in an LDAP directory entry. 
+resource ldap_connect ([ string $host = NULL [, int $port = 389 ]] ) 
+bool ldap_control_paged_result_response ( resource $link , resource $result [, string &$cookie [, int &$estimated ]] ) Retrieve the pagination information send by the server. 
+bool ldap_control_paged_result ( resource $link , int $pagesize [, bool $iscritical = FALSE [, string $cookie = "" ]] ) Enable LDAP pagination by sending the pagination control (page size, cookie...). 
+int ldap_count_entries ( resource $link_identifier , resource $result_identifier ) Returns the number of entries stored in the result of previous search operations. 
+bool ldap_delete ( resource $link_identifier , string $dn [, array $serverctrls ] ) Deletes a particular entry in LDAP directory. 
+string ldap_dn2ufn ( string $dn ) Turns the specified dn, into a more user-friendly form, stripping off type names. 
+string ldap_err2str ( int $errno ) Returns the string error message explaining the error number errno. While LDAP errno numbers are standardized, different libraries return different or even localized textual error messages. Never check for a specific error message text, but always use an error number to check. 
+int ldap_errno ( resource $link_identifier ) Returns the standardized error number returned by the last LDAP command. This number can be converted into a textual error message using ldap_err2str(). 
+string ldap_error ( resource $link_identifier ) 
+string ldap_escape ( string $value [, string $ignore [, int $flags ]] ) Escapes value for use in the context implied by flags. 
+mixed ldap_exop_passwd ( resource $link [, string $user [, string $oldpw [, string $newpw [, array &$serverctrls ]]]] ) Performs a PASSWD extended operation. 
+int ldap_exop_refresh ( resource $link , string $dn , int $ttl ) Performs a Refresh extended operation and returns the data. 
+string ldap_exop_whoami ( resource $link ) Performs a WHOAMI extended operation and returns the data. 
+mixed ldap_exop ( resource $link , string $reqoid [, string $reqdata [, array $servercontrols [, string &$retdata [, string &$retoid ]]]] ) Performs an extended operation on the specified link with reqoid the OID of the operation and reqdata the data. 
+array ldap_explode_dn ( string $dn , int $with_attrib ) Splits the DN returned by ldap_get_dn() and breaks it up into its component parts. Each part is known as Relative Distinguished Name, or RDN. 
+string ldap_first_attribute ( resource $link_identifier , resource $result_entry_identifier ) 
+resource ldap_first_entry ( resource $link_identifier , resource $result_identifier ) 
+resource ldap_first_reference ( resource $link , resource $result ) 
+bool ldap_free_result ( resource $result_identifier ) 
+array ldap_get_attributes ( resource $link_identifier , resource $result_entry_identifier ) 
+string ldap_get_dn ( resource $link_identifier , resource $result_entry_identifier ) Finds out the DN of an entry in the result. 
+array ldap_get_entries ( resource $link_identifier , resource $result_identifier ) Reads multiple entries from the given result, and then reading the attributes and multiple values. 
+bool ldap_get_option ( resource $link_identifier , int $option , mixed &$retval ) Sets retval to the value of the specified option. 
+array ldap_get_values_len ( resource $link_identifier , resource $result_entry_identifier , string $attribute ) 
+array ldap_get_values ( resource $link_identifier , resource $result_entry_identifier , string $attribute ) 
+resource ldap_list ( resource $link_identifier , string $base_dn , string $filter [, array $attributes [, int $attrsonly [, int $sizelimit [, int $timelimit [, int $deref [, array $serverctrls ]]]]]] ) 
+bool ldap_mod_add ( resource $link_identifier , string $dn , array $entry [, array $serverctrls ] ) Adds one or more attribute values to the specified dn. To add a whole new object see ldap_add() function. 
+bool ldap_mod_del ( resource $link_identifier , string $dn , array $entry [, array $serverctrls ] ) Removes one or more attribute values from the specified dn. Object deletions are done by the ldap_delete() function. 
+bool ldap_mod_replace ( resource $link_identifier , string $dn , array $entry [, array $serverctrls ] ) Replaces one or more attributes from the specified dn. It may also add or remove attributes. 
+bool ldap_modify_batch ( resource $link_identifier , string $dn , array $entry [, array $serverctrls ] ) Modifies an existing entry in the LDAP directory. Allows detailed specification of the modifications to perform. 
+ldap_modify(->) This function is an alias of: ldap_mod_replace().  
+string ldap_next_attribute ( resource $link_identifier , resource $result_entry_identifier ) Retrieves the attributes in an entry. The first call to ldap_next_attribute() is made with the result_entry_identifier returned from ldap_first_attribute(). 
+resource ldap_next_entry ( resource $link_identifier , resource $result_entry_identifier ) Retrieve the entries stored in the result. Successive calls to the ldap_next_entry() return entries one by one till there are no more entries. The first call to ldap_next_entry() is made after the call to ldap_first_entry() with the result_entry_identifier as returned from the ldap_first_entry(). 
+resource ldap_next_reference ( resource $link , resource $entry ) 
+bool ldap_parse_exop ( resource $link , resource $result [, string &$retdata [, string &$retoid ]] ) Parse LDAP extended operation data from result object result 
+bool ldap_parse_reference ( resource $link , resource $entry , array &$referrals ) 
+bool ldap_parse_result ( resource $link , resource $result , int &$errcode [, string &$matcheddn [, string &$errmsg [, array &$referrals [, array &$serverctrls ]]]] ) Parses an LDAP search result. 
+resource ldap_read ( resource $link_identifier , string $base_dn , string $filter [, array $attributes [, int $attrsonly [, int $sizelimit [, int $timelimit [, int $deref [, array $serverctrls ]]]]]] ) Performs the search for a specified filter on the directory with the scope LDAP_SCOPE_BASE. So it is equivalent to reading an entry from the directory. 
+bool ldap_rename ( resource $link_identifier , string $dn , string $newrdn , string $newparent , bool $deleteoldrdn [, array $serverctrls ] ) The entry specified by dn is renamed/moved. 
+bool ldap_sasl_bind ( resource $link [, string $binddn = NULL [, string $password = NULL [, string $sasl_mech = NULL [, string $sasl_realm = NULL [, string $sasl_authc_id = NULL [, string $sasl_authz_id = NULL [, string $props = NULL ]]]]]]] ) 
+resource ldap_search ( resource $link_identifier , string $base_dn , string $filter [, array $attributes [, int $attrsonly [, int $sizelimit [, int $timelimit [, int $deref [, array $serverctrls ]]]]]] ) 
+bool ldap_set_option ( resource $link_identifier , int $option , mixed $newval ) Sets the value of the specified option to be newval. 
+bool ldap_set_rebind_proc ( resource $link , callable $callback ) 
+bool ldap_sort ( resource $link , resource $result , string $sortfilter ) 
+bool ldap_start_tls ( resource $link ) 
+string ldap_t61_to_8859 ( string $value ) 
+bool ldap_unbind ( resource $link_identifier ) Unbinds from the LDAP directory. 
 void libxml_clear_errors ( void ) libxml_clear_errors() clears the libxml error buffer. 
 bool libxml_disable_entity_loader ([ bool $disable = TRUE ] ) Disable/enable the ability to load external entities. 
 array libxml_get_errors ( void ) Retrieve array of errors. 
@@ -717,6 +691,25 @@ string openssl_x509_fingerprint ( mixed $x509 [, string $hash_algorithm = "sha1"
 void openssl_x509_free ( resource $x509cert ) openssl_x509_free() frees the certificate associated with the specified x509cert resource from memory. 
 array openssl_x509_parse ( mixed $x509cert [, bool $shortnames = TRUE ] ) openssl_x509_parse() returns information about the supplied x509cert, including fields such as subject name, issuer name, purposes, valid from and valid to dates etc. 
 resource openssl_x509_read ( mixed $x509certdata ) openssl_x509_read() parses the certificate supplied by x509certdata and returns a resource identifier for it. 
+The PDO_DBLIB Data Source Name (DSN) is composed of the following elements:  
+The PDO_FIREBIRD Data Source Name (DSN) is composed of the following elements:  
+The PDO_MYSQL Data Source Name (DSN) is composed of the following elements:  
+The PDO_OCI Data Source Name (DSN) is composed of the following elements:  
+The PDO_ODBC Data Source Name (DSN) is composed of the following elements:  
+The PDO_PGSQL Data Source Name (DSN) is composed of the following elements, delimited by spaces or semicolons:  
+public bool PDO::pgsqlCopyFromArray ( string $table_name , array $rows [, string $delimiter = '\t' [, string $null_as = "\\\\N" [, string $fields ]]] ) Copies data from rows array to table table_name using delimiter as fields delimiter and fields list 
+public bool PDO::pgsqlCopyFromFile ( string $table_name , string $filename [, string $delimiter = '\t' [, string $null_as = "\\\\N" [, string $fields ]]] ) Copies data from file specified by filename into table table_name using delimiter as fields delimiter and fields list 
+public array PDO::pgsqlCopyToArray ( string $table_name [, string $delimiter = '\t' [, string $null_as = "\\\\N" [, string $fields ]]] ) Copies data from table into array using delimiter as fields delimiter and fields list 
+public bool PDO::pgsqlCopyToFile ( string $table_name , string $filename [, string $delimiter = '\t' [, string $null_as = "\\\\N" [, string $fields ]]] ) Copies data from table into file specified by filename using delimiter as fields delimiter and fields list 
+public array PDO::pgsqlGetNotify ([ int $result_type = PDO::FETCH_USE_DEFAULT [, int $ms_timeout = 0 ]] ) Returns a result set representing a pending asynchronous notification. 
+public int PDO::pgsqlGetPid ( void ) Returns the server's PID. 
+public string PDO::pgsqlLOBCreate ( void ) 
+public resource PDO::pgsqlLOBOpen ( string $oid [, string $mode = "rb" ] ) 
+public bool PDO::pgsqlLOBUnlink ( string $oid ) 
+The PDO_SQLITE Data Source Name (DSN) is composed of the following elements:  
+public bool PDO::sqliteCreateAggregate ( string $function_name , callable $step_func , callable $finalize_func [, int $num_args ] ) 
+public bool PDO::sqliteCreateCollation ( string $name , callable $callback ) 
+public bool PDO::sqliteCreateFunction ( string $function_name , callable $callback [, int $num_args = -1 [, int $flags = 0 ]] ) 
 int pg_affected_rows ( resource $result ) 
 bool pg_cancel_query ( resource $connection ) pg_cancel_query() cancels an asynchronous query sent with pg_send_query(), pg_send_query_params() or pg_send_execute(). You cannot cancel a query executed using pg_query(). 
 string pg_client_encoding ([ resource $connection ] ) 
@@ -1045,6 +1038,48 @@ bool xml_set_object ( resource $parser , object &$object ) This function allows 
 bool xml_set_processing_instruction_handler ( resource $parser , callable $handler ) 
 bool xml_set_start_namespace_decl_handler ( resource $parser , callable $handler ) Set a handler to be called when a namespace is declared. Namespace declarations occur inside start tags. But the namespace declaration start handler is called before the start tag handler for each namespace declared in that start tag. 
 bool xml_set_unparsed_entity_decl_handler ( resource $parser , callable $handler ) 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
+Object oriented style 
 void zip_close ( resource $zip ) Closes the given ZIP file archive. 
 bool zip_entry_close ( resource $zip_entry ) Closes the specified directory entry. 
 int zip_entry_compressedsize ( resource $zip_entry ) Returns the compressed size of the specified directory entry. 

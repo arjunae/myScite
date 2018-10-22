@@ -36,7 +36,6 @@ dim arg0
 	else
 		'wscript.echo "no filename given"
 		arg0=inFile
-		''exit function
 	end if
 
 	arg0=replace(arg0,".txt","" )
@@ -81,10 +80,12 @@ function getfnLink(url)
 	
 	for each oItem in oDiv.all '-- Parse Description Content
 		if oItem.ClassName ="refsect1 description" then 
-			'wscript.echo(oitem.innerText)
+			'wscript.echo(url & vbcrlf & oitem.innerText)
 			
 			' -- remove fat
 			if  instr(oItem.innerText,"alias of")>0 then alias=true
+			if  instr(oItem.innerText,"deprecated")>0 then alias=true
+			
 			strraw=replace(oItem.innerText,"Description", "")
 			strraw=replace(strRaw,vbLF &"Procedural style", "")
 			
@@ -129,14 +130,14 @@ function regexp(strPattern,strContent)
 		''wscript.echo(myMatches.Item(0))
 		''wscript.echo(myMatches.Item(0).submatches.count)
 		''wscript.echo(myMatches.Item(0).submatches(0))
-
+				
 		for each myMatch in myMatches
 			for each subMatch in myMatch.Submatches
 			''wscript.echo(subMatch)
-				strRes=strRes&subMatch&";"
+				strRes=strRes&subMatch & "|"
 			next
 		next
-		regexp=split(strRes,";")
+		regexp=split(strRes,"|")
 	end if	
 	
 end function

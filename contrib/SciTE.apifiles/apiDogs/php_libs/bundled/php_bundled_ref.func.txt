@@ -1,3 +1,15 @@
+bool apache_child_terminate ( void ) apache_child_terminate() will register the Apache process executing the current PHP request for termination once execution of PHP code is completed. It may be used to terminate a process after a script with high memory consumption has been run as memory will usually only be freed internally but not given back to the operating system. 
+array apache_get_modules ( void ) Get a list of loaded Apache modules. 
+string apache_get_version ( void ) Fetch the Apache version. 
+string apache_getenv ( string $variable [, bool $walk_to_top = FALSE ] ) 
+object apache_lookup_uri ( string $filename ) 
+string apache_note ( string $note_name [, string $note_value = "" ] ) 
+array apache_request_headers ( void ) Fetches all HTTP request headers from the current request. 
+bool apache_reset_timeout ( void ) 
+array apache_response_headers ( void ) Fetch all HTTP response headers. 
+bool apache_setenv ( string $variable , string $value [, bool $walk_to_top = FALSE ] ) 
+array getallheaders ( void ) 
+bool virtual ( string $filename ) 
 int cal_days_in_month ( int $calendar , int $month , int $year ) This function will return the number of days in the month of year for the specified calendar. 
 array cal_from_jd ( int $jd , int $calendar ) cal_from_jd() converts the Julian day given in jd into a date of the specified calendar. Supported calendar values are CAL_GREGORIAN, CAL_JULIAN, CAL_JEWISH and CAL_FRENCH. 
 array cal_info ([ int $calendar = -1 ] ) 
@@ -16,28 +28,38 @@ int jdtounix ( int $jday ) This function will return a Unix timestamp correspond
 int jewishtojd ( int $month , int $day , int $year ) Although this function can handle dates all the way back to the year 1 (3761 B.C.), such use may not be meaningful. The Jewish calendar has been in use for several thousand years, but in the early days there was no formula to determine the start of a month. A new month was started when the new moon was first observed. 
 int juliantojd ( int $month , int $day , int $year ) 
 int unixtojd ([ int $timestamp = time() ] ) Return the Julian Day for a Unix timestamp (seconds since 1.1.1970), or for the current day if no timestamp is given. Either way, the time is regarded as local time (not UTC). 
-string bcadd ( string $left_operand , string $right_operand [, int $scale = 0 ] ) Sums left_operand and right_operand. 
-int bccomp ( string $left_operand , string $right_operand [, int $scale = 0 ] ) Compares the left_operand to the right_operand and returns the result as an integer. 
-string bcdiv ( string $dividend , string $divisor [, int $scale = 0 ] ) Divides the dividend by the divisor. 
-string bcmod ( string $dividend , string $divisor [, int $scale ] ) Get the remainder of dividing dividend by divisor. Unless divisor is zero, the result has the same sign as dividend. 
-string bcmul ( string $left_operand , string $right_operand [, int $scale = 0 ] ) Multiply the left_operand by the right_operand. 
-string bcpow ( string $base , string $exponent [, int $scale = 0 ] ) Raise base to the power exponent. 
-string bcpowmod ( string $base , string $exponent , string $modulus [, int $scale = 0 ] ) Use the fast-exponentiation method to raise base to the power exponent with respect to the modulus modulus. 
-int bcscale ([ int $scale ] ) Sets the default scale parameter for all subsequent calls to bc math functions that do not explicitly specify a scale parameter. If scale is omitted, the function gets the current scale factor. 
-string bcsqrt ( string $operand [, int $scale = 0 ] ) Return the square root of the operand. 
-string bcsub ( string $left_operand , string $right_operand [, int $scale = 0 ] ) Subtracts the right_operand from the left_operand. 
-bool apache_child_terminate ( void ) apache_child_terminate() will register the Apache process executing the current PHP request for termination once execution of PHP code is completed. It may be used to terminate a process after a script with high memory consumption has been run as memory will usually only be freed internally but not given back to the operating system. 
-array apache_get_modules ( void ) Get a list of loaded Apache modules. 
-string apache_get_version ( void ) Fetch the Apache version. 
-string apache_getenv ( string $variable [, bool $walk_to_top = FALSE ] ) 
-object apache_lookup_uri ( string $filename ) 
-string apache_note ( string $note_name [, string $note_value = "" ] ) 
-array apache_request_headers ( void ) Fetches all HTTP request headers from the current request. 
-bool apache_reset_timeout ( void ) 
-array apache_response_headers ( void ) Fetch all HTTP response headers. 
-bool apache_setenv ( string $variable , string $value [, bool $walk_to_top = FALSE ] ) 
-array getallheaders ( void ) 
-bool virtual ( string $filename ) 
+string com_create_guid ( void ) 
+bool com_event_sink ( variant $comobject , object $sinkobject [, mixed $sinkinterface ] ) 
+variant com_get_active_object ( string $progid [, int $code_page ] ) com_get_active_object() is similar to creating a new instance of a COM object, except that it will only return an object to your script if the object is already running. OLE applications use something known as the "Running Object Table" to allow well-known applications to be launched only once; this function exposes the COM library function GetActiveObject() to get a handle on a running instance. 
+bool com_load_typelib ( string $typelib_name [, bool $case_insensitive = TRUE ] ) 
+bool com_message_pump ([ int $timeoutms = 0 ] ) 
+bool com_print_typeinfo ( object $comobject [, string $dispinterface [, bool $wantsink = FALSE ]] ) The purpose of this function is to help generate a skeleton class for use as an event sink. You may also use it to generate a dump of any COM object, provided that it supports enough of the introspection interfaces, and that you know the name of the interface you want to display. 
+mixed variant_abs ( mixed $val ) Returns the absolute value of a variant. 
+mixed variant_add ( mixed $left , mixed $right ) 
+mixed variant_and ( mixed $left , mixed $right ) Performs a bitwise AND operation. Note that this is slightly different from a regular AND operation. 
+variant variant_cast ( variant $variant , int $type ) 
+mixed variant_cat ( mixed $left , mixed $right ) 
+int variant_cmp ( mixed $left , mixed $right [, int $lcid [, int $flags ]] ) 
+variant variant_date_from_timestamp ( int $timestamp ) Converts timestamp from a unix timestamp value into a variant of type VT_DATE. This allows easier interopability between the unix-ish parts of PHP and COM. 
+int variant_date_to_timestamp ( variant $variant ) Converts variant from a VT_DATE (or similar) value into a Unix timestamp. This allows easier interopability between the Unix-ish parts of PHP and COM. 
+mixed variant_div ( mixed $left , mixed $right ) Divides left by right and returns the result. 
+mixed variant_eqv ( mixed $left , mixed $right ) Performs a bitwise equivalence on two variants. 
+mixed variant_fix ( mixed $variant ) Gets the integer portion of a variant. 
+int variant_get_type ( variant $variant ) Returns the type of a variant object. 
+mixed variant_idiv ( mixed $left , mixed $right ) Converts left and right to integer values, and then performs integer division. 
+mixed variant_imp ( mixed $left , mixed $right ) Performs a bitwise implication operation. 
+mixed variant_int ( mixed $variant ) Gets the integer portion of a variant. 
+mixed variant_mod ( mixed $left , mixed $right ) Divides left by right and returns the remainder. 
+mixed variant_mul ( mixed $left , mixed $right ) Multiplies left by right. 
+mixed variant_neg ( mixed $variant ) Performs logical negation of variant. 
+mixed variant_not ( mixed $variant ) Performs bitwise not negation on variant and returns the result. 
+mixed variant_or ( mixed $left , mixed $right ) Performs a bitwise OR operation. Note that this is slightly different from a regular OR operation. 
+mixed variant_pow ( mixed $left , mixed $right ) Returns the result of left to the power of right. 
+mixed variant_round ( mixed $variant , int $decimals ) Returns the value of variant rounded to decimals decimal places. 
+void variant_set_type ( variant $variant , int $type ) This function is similar to variant_cast() except that the variant is modified "in-place"; no new variant is created. The parameters for this function have identical meaning to those of variant_cast(). 
+void variant_set ( variant $variant , mixed $value ) Converts value to a variant and assigns it to the variant object; no new variant object is created, and the old value of variant is freed/released. 
+mixed variant_sub ( mixed $left , mixed $right ) Subtracts right from left. 
+mixed variant_xor ( mixed $left , mixed $right ) Performs a logical exclusion. 
 bool ctype_alnum ( string $text ) Checks if all of the characters in the provided string, text, are alphanumeric. 
 bool ctype_alpha ( string $text ) Checks if all of the characters in the provided string, text, are alphabetic. In the standard C locale letters are just [A-Za-z] and ctype_alpha() is equivalent to (ctype_upper($text) || ctype_lower($text)) if $text is just a single character, but other languages have letters that are considered neither upper nor lower case. 
 bool ctype_cntrl ( string $text ) Checks if all of the characters in the provided string, text, are control characters. Control characters are e.g. line feed, tab, escape. 
