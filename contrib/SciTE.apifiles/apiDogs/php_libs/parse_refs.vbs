@@ -155,7 +155,7 @@ function getfnLink(url)
 	
 	if alias=true then  strFunc=strMethodName & "(->) " & strFunc
 	if bConsole then wscript.echo  strFunc & ":" & returnType & DescrFound & strDescr
-	ofile_ref.WriteLine (strFunc & ":" & returnType & "\t\n" & replace(strDescr,vbLF,"") )
+	ofile_ref.WriteLine (strFunc & ":" & returnType & " | " & replace(strDescr,vbLF,"") )
 	''if oItem.ClassName ="refsect1 returnvalues" then wscript.echo(oItem.innerText)		
 		
 end function

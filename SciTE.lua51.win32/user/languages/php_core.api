@@ -1,736 +1,773 @@
-array_change_key_case ( $[, int $case = CASE_LOWER ] ):array\t\nReturns an array with all keys from array lowercased or uppercased. Numbered indices are left as is. 
-array_chunk ( $, int $size [, bool $preserve_keys = FALSE ] ):array\t\nChunks an array into arrays with size elements. The last chunk may contain less than size elements. 
-array_column ( $input , mixed $column_key [, mixed $index_key = NULL ] ):array\t\narray_column() returns the values from a single column of the input, identified by the column_key. Optionally, an index_key may be provided to index the values in the returned array by the values from the index_key column of the input array. 
-array_combine ( $keys , $values ):array\t\nCreates an array by using the values from the keys array as keys and the values from the values array as the corresponding values. 
-array_count_values ( $):array\t\narray_count_values() returns an array using the values of array as keys and their frequency in array as values. 
-array_diff_assoc ( $array1 , $array2 [, $... ] ):array\t\nCompares array1 against array2 and returns the difference. Unlike array_diff() the array keys are also used in the comparison. 
-array_diff_key ( $array1 , $array2 [, $... ] ):array\t\nCompares the keys from array1 against the keys from array2 and returns the difference. This function is like array_diff() except the comparison is done on the keys instead of the values. 
-array_diff_uassoc ( $array1 , $array2 [, $... ], callable $key_compare_func ):array\t\n Returns the entries of arr1 that have values which are not present in any of the others arguments but do additional checks whether the keys are equal. Elements are compared by user supplied function.
-array_diff_ukey ( $array1 , $array2 [, $... ], callable $key_compare_func ):array\t\n
-array_diff ( $array1 , $array2 [, $... ] ):array\t\nCompares array1 against one or more other arrays and returns the values in array1 that are not present in any of the other arrays. 
-array_fill_keys ( $keys , mixed $value ):array\t\nFills an array with the value of the value parameter, using the values of the keys array as keys. 
-array_fill ( int $start_index , int $num , mixed $value ):array\t\nFills an array with num entries of the value of the value parameter, keys starting at the start_index parameter. 
-array_filter ( $[, callable $callback [, int $flag = 0 ]] ):array\t\nIterates over each value in the array passing them to the callback function. If the callback function returns true, the current value from array is returned into the result array. Array keys are preserved. 
-array_flip ( $):array\t\n Return array with key <-> value flipped
-array_intersect_assoc ( $array1 , $array2 [, $... ] ):array\t\narray_intersect_assoc() returns an array containing all the values of array1 that are present in all the arguments. Note that the keys are also used in the comparison unlike in array_intersect(). 
-array_intersect_key ( $array1 , $array2 [, $... ] ):array\t\narray_intersect_key() returns an array containing all the entries of array1 which have keys that are present in all the arguments. 
-array_intersect_uassoc ( $array1 , $array2 [, $... ], callable $key_compare_func ):array\t\narray_intersect_uassoc() returns an array containing all the values of array1 that are present in all the arguments. Note that the keys are used in the comparison unlike in array_intersect(). 
-array_intersect_ukey ( $array1 , $array2 [, $... ], callable $key_compare_func ):array\t\narray_intersect_ukey() returns an array containing all the values of array1 which have matching keys that are present in all the arguments. 
-array_intersect ( $array1 , $array2 [, $... ] ):array\t\narray_intersect() returns an array containing all the values of array1 that are present in all the arguments. Note that keys are preserved. 
-array_key_exists ( mixed $key , array $array ):bool\t\narray_key_exists() returns TRUE if the given key is set in the array. key can be any value possible for an array index. 
-array_key_first ( array $array ):mixed\t\nGet the first key of the given array without affecting the internal array pointer. 
-array_key_last ( array $array ):mixed\t\nGet the last key of the given array without affecting the internal array pointer. 
-array_keys ( $[, mixed $search_value [, bool $strict = FALSE ]] ):array\t\n Return just the keys from the input array, optionally only for the specified search_value
-array_map ( callable $callback , $array1 [, $... ] ):array\t\narray_map() returns an array containing all the elements of array1 after applying the callback function to each one. The number of parameters that the callback function accepts should match the number of arrays passed to the array_map() 
-array_merge_recursive ( $array1 [, $... ] ):array\t\n Recursively merges elements from passed arrays into one array
-array_merge ( $array1 [, $... ] ):array\t\n Merges elements from passed arrays into one array
-array_multisort ( array &$array1 [, mixed $array1_sort_order = SORT_ASC [, mixed $array1_sort_flags = SORT_REGULAR [, mixed $... ]]] ):bool\t\n Sort multiple arrays at once similar to how ORDER BY clause works in SQL
-array_pad ( $, int $size , mixed $value ):array\t\narray_pad() returns a copy of the array padded to size specified by size with value value. If size is positive then the array is padded on the right, if it's negative then on the left. If the absolute value of size is less than or equal to the length of the array then no padding takes place. It is possible to add at most 1048576 elements at a time. 
-array_pop ( array &$array ):mixed\t\n Pops an element off the end of the array
-array_product ( array $array ):number\t\narray_product() returns the product of values in an array. 
-array_push ( array &$array [, mixed $... ] ):int\t\n Pushes elements onto the end of the array
-array_rand ( array $array [, int $num = 1 ] ):mixed\t\nPicks one or more random entries out of an array, and returns the key (or keys) of the random entries. It uses a pseudo random number generator that is not suitable for cryptographic purposes. 
-array_reduce ( array $array , callable $callback [, $initial = NULL ] ):mixed\t\narray_reduce() applies iteratively the callback function to the elements of the array, so as to reduce the array to a single value. 
-array_replace_recursive ( $array1 [, $... ] ):array\t\n
-array_replace ( $array1 [, $... ] ):array\t\n
-array_reverse ( $[, bool $preserve_keys = FALSE ] ):array\t\nTakes an input array and returns a new array with the order of the elements reversed. 
-array_search ( $needle , array $haystack [, bool $strict = FALSE ] ):mixed\t\nSearches haystack for needle. 
-array_shift ( array &$array ):mixed\t\n Pops an element off the beginning of the array
-array_slice ( $, int $offset [, int $length = NULL [, bool $preserve_keys = FALSE ]] ):array\t\narray_slice() returns the sequence of elements from the array array as specified by the offset and length parameters. 
-array_splice ( &$input , int $offset [, int $length = count($input) [, mixed $replacement = array() ]] ):array\t\n Removes the elements designated by offset and length and replace them with supplied array
-array_sum ( array $array ):number\t\narray_sum() returns the sum of values in an array. 
-array_udiff_assoc ( $array1 , $array2 [, $... ], callable $value_compare_func ):array\t\n Returns the entries of arr1 that have values which are not present in any of the others arguments but do additional checks whether the keys are equal. Keys are compared by user supplied function.
-array_udiff_uassoc ( $array1 , $array2 [, $... ], callable $value_compare_func , callable $key_compare_func ):array\t\n Returns the entries of arr1 that have values which are not present in any of the others arguments but do additional checks whether the keys are equal. Keys and elements are compared by user supplied functions.
-array_udiff ( $array1 , $array2 [, $... ], callable $value_compare_func ):array\t\nComputes the difference of arrays by using a callback function for data comparison. This is unlike array_diff() which uses an internal function for comparing the data. 
-array_uintersect_assoc ( $array1 , $array2 [, $... ], callable $value_compare_func ):array\t\n Returns the entries of arr1 that have values which are present in all the other arguments. Keys are used to do more restrictive check. Data is compared by using an user-supplied callback.
-array_uintersect_uassoc ( $array1 , $array2 [, $... ], callable $value_compare_func , callable $key_compare_func ):array\t\nComputes the intersection of arrays with additional index check, compares data and indexes by separate callback functions. 
-array_uintersect ( $array1 , $array2 [, $... ], callable $value_compare_func ):array\t\nComputes the intersection of arrays, compares data by a callback function. 
-array_unique ( $[, int $sort_flags = SORT_STRING ] ):array\t\n Removes duplicate values from array
-array_unshift ( array &$array [, mixed $... ] ):int\t\narray_unshift() prepends passed elements to the front of the array. Note that the list of elements is prepended as a whole, so that the prepended elements stay in the same order. All numerical array keys will be modified to start counting from zero while literal keys won't be changed. 
-array_values ( $):array\t\narray_values() returns all the values from the array and indexes the array numerically. 
-array_walk_recursive ( array &$array , callable $callback [, mixed $userdata = NULL ] ):bool\t\nApplies the user-defined callback function to each element of the array. This function will recurse into deeper arrays. 
-array_walk ( array &$array , callable $callback [, mixed $userdata = NULL ] ):bool\t\n Apply a user function to every member of an array
-([ mixed $... ] ):array\t\nCreates an array. Read the section on the array type for more information on what an array is. 
-arsort ( array &$array [, int $sort_flags = SORT_REGULAR ] ):bool\t\n Sort an array in reverse order and maintain index association
-asort ( array &$array [, int $sort_flags = SORT_REGULAR ] ):bool\t\n Sort an array and maintain index association
-compact ( mixed $varname1 [, mixed $... ] ):array\t\n Creates a hash containing variables and their values
-count ( mixed $array_or_countable [, $mode = COUNT_NORMAL ] ):int\t\n Count the number of elements in a variable (usually an array)
-current ( array $array ):mixed\t\nEvery array has an internal pointer to its "current" element, which is initialized to the first element inserted into the array. 
-each ( &$):array\t\n Return the currently pointed key..value pair in the passed array, and advance the pointer to the next element
-end ( array &$array ):mixed\t\nend() advances array's internal pointer to the last element, and returns its value. 
-extract ( array &$array [, $flags = EXTR_OVERWRITE [, string $prefix = NULL ]] ):int\t\n Imports variables into symbol table from an array
-in_array ( mixed $needle , array $haystack [, $strict = FALSE ] ):bool\t\nSearches haystack for needle using loose comparison unless strict is set. 
-key_exists(->) function is an alias of: array_key_exists(). :This\t\n
-key ( array $array ):mixed\t\nkey() returns the index element of the current array position. 
-krsort ( array &$array [, int $sort_flags = SORT_REGULAR ] ):bool\t\nSorts an array by key in reverse order, maintaining key to data correlations. This is useful mainly for associative arrays. 
-ksort ( array &$array [, int $sort_flags = SORT_REGULAR ] ):bool\t\nSorts an array by key, maintaining key to data correlations. This is useful mainly for associative arrays. 
-list ( mixed $var1 [, mixed $... ] ):array\t\n
-natcasesort ( array &$array ):bool\t\n Sort an array using case-insensitive natural sort
-natsort ( array &$array ):bool\t\n Sort an array using natural sort
-next ( array &$array ):mixed\t\nnext() behaves like current(), with one difference. It advances the internal array pointer one place forward before returning the element value. That means it returns the next array value and advances the internal array pointer by one. 
-pos(->) function is an alias of: current() :This\t\n
-prev ( array &$array ):mixed\t\n Move array argument's internal pointer to the previous element and return it
-range ( mixed $start , mixed $end [, number $step = 1 ] ):array\t\nCreate an array containing a range of elements. 
-reset ( array &$array ):mixed\t\nreset() rewinds array's internal pointer to the first element and returns the value of the first array element. 
-rsort ( array &$array [, int $sort_flags = SORT_REGULAR ] ):bool\t\n Sort an array in reverse order
-shuffle ( array &$array ):bool\t\nThis function shuffles (randomizes the order of the elements in) an array. It uses a pseudo random number generator that is not suitable for cryptographic purposes. 
-sizeof(->) function is an alias of: count(). :This\t\n
-sort ( array &$array [, int $sort_flags = SORT_REGULAR ] ):bool\t\n Sort an array
-uasort ( array &$array , callable $value_compare_func ):bool\t\n Sort an array with a user-defined comparison function and maintain index association
-uksort ( array &$array , callable $key_compare_func ):bool\t\n Sort an array by keys using a user-defined comparison function
-usort ( array &$array , callable $value_compare_func ):bool\t\n Sort an array by values using a user-defined comparison function
-__autoload ( string $class ):void\t\nYou can define this function to enable classes autoloading. 
-call_user_method_array ( string $method_name , object &$obj , array $params ):mixed\t\n Call a user method on a specific object or class using a parameter array
-call_user_method ( string $method_name , object &$obj [, $parameter [, $... ]] ):mixed\t\n Call a user method on a specific object or class
-class_alias ( string $original , string $alias [, $autoload = TRUE ] ):bool\t\nCreates an alias named alias based on the user defined class original. The aliased class is exactly the same as the original class. 
-class_exists ( string $class_name [, $autoload = TRUE ] ):bool\t\nThis function checks whether or not the given class has been defined. 
-get_called_class ( void ):string\t\nGets the name of the class the static method is called in. 
-get_class_methods ( mixed $class_name ):array\t\nGets the class methods names. 
-get_class_vars ( string $class_name ):array\t\nGet the default properties of the given class. 
-get_class ([ object $object ] ):string\t\nGets the name of the class of the given object. 
-get_declared_classes ( void ):array\t\nGets the declared classes. 
-get_declared_interfaces ( void ):array\t\nGets the declared interfaces. 
-get_declared_traits ( void ):array\t\n
-get_object_vars ( object $object ):array\t\nGets the accessible non-static properties of the given object according to scope. 
-get_parent_class ([ mixed $object ] ):string\t\nRetrieves the parent class name for object or class. 
-interface_exists ( string $interface_name [, $autoload = TRUE ] ):bool\t\nChecks if the given interface has been defined. 
-is_a ( object $object , string $class_name [, $allow_string = FALSE ] ):bool\t\nChecks if the given object is of this class or has this class as one of its parents. 
-is_subclass_of ( mixed $object , string $class_name [, $allow_string = TRUE ] ):bool\t\nChecks if the given object has the class class_name as one of its parents or implements it. 
-method_exists ( mixed $object , string $method_name ):bool\t\nChecks if the class method exists in the given object. 
-property_exists ( mixed $class , string $property ):bool\t\n
-trait_exists ( string $traitname [, $autoload ] ):bool\t\n
-random_bytes ( int $length ):string\t\n
-random_( $min , $max ):int\t\n
-checkdate ( int $month , int $day , int $year ):bool\t\nChecks the validity of the date formed by the arguments. A date is considered valid if each parameter is properly defined. 
-date_add(->) function is an alias of: DateTime::add() :This\t\n
-date_create_from_format(->) function is an alias of: DateTime::createFromFormat() :This\t\n
-date_create_immutable_from_format(->) function is an alias of: DateTimeImmutable::createFromFormat() :This\t\n
-date_create_immutable(->) function is an alias of: DateTimeImmutable::__construct() :This\t\n
-date_create(->) function is an alias of: DateTime::__construct() :This\t\n
-date_date_set(->) function is an alias of: DateTime::setDate() :This\t\n
-date_default_timezone_get ( void ):string\t\n
-date_default_timezone_set ( string $timezone_identifier ):bool\t\n
-date_diff(->) function is an alias of: DateTime::diff() :This\t\n
-date_format(->) function is an alias of: DateTime::format() :This\t\n
-date_get_last_errors(->) function is an alias of: DateTime::getLastErrors() :This\t\n
-date_interval_create_from_date_string(->) function is an alias of: DateInterval::createFromDateString() :This\t\n
-date_interval_format(->) function is an alias of: DateInterval::format() :This\t\n
-date_isodate_set(->) function is an alias of: DateTime::setISODate() :This\t\n
-date_modify(->) function is an alias of: DateTime::modify() :This\t\n
-date_offset_get(->) function is an alias of: DateTime::getOffset() :This\t\n
-date_parse_from_format ( string $format , string $date ):array\t\nReturns associative array with detailed info about given date. 
-date_parse ( string $date ):array\t\n
-date_sub(->) function is an alias of: DateTime::sub() :This\t\n
-date_sun_info ( int $time , float $latitude , float $longitude ):array\t\n
-date_sunrise ( int $timestamp [, int $format = SUNFUNCS_RET_STRING [, float $latitude = ini_get("date.default_latitude") [, float $longitude = ini_get("date.default_longitude") [, float $zenith = ini_get("date.sunrise_zenith") [, float $gmt_offset = 0 ]]]]] ):mixed\t\ndate_sunrise() returns the sunrise time for a given day (specified as a timestamp) and location. 
-date_sunset ( int $timestamp [, int $format = SUNFUNCS_RET_STRING [, float $latitude = ini_get("date.default_latitude") [, float $longitude = ini_get("date.default_longitude") [, float $zenith = ini_get("date.sunset_zenith") [, float $gmt_offset = 0 ]]]]] ):mixed\t\ndate_sunset() returns the sunset time for a given day (specified as a timestamp) and location. 
-date_time_set(->) function is an alias of: DateTime::setTime() :This\t\n
-date_timestamp_get(->) function is an alias of: DateTime::getTimestamp() :This\t\n
-date_timestamp_set(->) function is an alias of: DateTime::setTimestamp() :This\t\n
-date_timezone_get(->) function is an alias of: DateTime::getTimezone() :This\t\n
-date_timezone_set(->) function is an alias of: DateTime::setTimezone() :This\t\n
-date ( $format [, int $timestamp = time() ] ):string\t\nReturns a string formatted according to the given format string using the given integer timestamp or the current time if no timestamp is given. In other words, timestamp is optional and defaults to the value of time(). 
-getdate ([ int $timestamp = time() ] ):array\t\nReturns an associative array containing the date information of the timestamp, or the current local time if no timestamp is given. 
-gettimeofday ([ bool $return_float = FALSE ] ):mixed\t\nThis is an interface to gettimeofday(2). It returns an associative array containing the data returned from the system call. 
-gmdate ( $format [, int $timestamp = time() ] ):string\t\nIdentical to the date() function except that the time returned is Greenwich Mean Time (GMT). 
-gmmktime ([ $hour = gmdate("H") [, $minute = gmdate("i") [, $second = gmdate("s") [, $month = gmdate("n") [, $day = gmdate("j") [, $year = gmdate("Y") [, $is_dst = -1 ]]]]]]] ):int\t\n Get UNIX timestamp for a GMT date
-gmstrftime ( $format [, int $timestamp = time() ] ):string\t\nBehaves the same as strftime() except that the time returned is Greenwich Mean Time (GMT). For example, when run in Eastern Standard Time (GMT -0500), the first line below prints "Dec 31 1998 20:00:00", while the second prints "Jan 01 1999 01:00:00". 
-idate ( string $format [, $timestamp = time() ] ):int\t\n Format a local time/date as integer
-localtime ([ int $timestamp = time() [, bool $is_associative = FALSE ]] ):array\t\nThe localtime() function returns an array identical to that of the structure returned by the C function call. 
-microtime ([ bool $get_as_float = FALSE ] ):mixed\t\nmicrotime() returns the current Unix timestamp with microseconds. This function is only available on operating systems that support the gettimeofday() system call. 
-mktime ([ $hour = date("H") [, $minute = date("i") [, $second = date("s") [, $month = date("n") [, $day = date("j") [, $year = date("Y") [, $is_dst = -1 ]]]]]]] ):int\t\n Get UNIX timestamp for a date
-strftime ( $format [, int $timestamp = time() ] ):string\t\n Format a local time/date according to locale settings
-strptime ( string $date , string $format ):array\t\n
-strtotime ( string $time [, $now = time() ] ):int\t\n Convert string representation of date and time to a timestamp
-time ( void ):int\t\nReturns the current time measured in the number of seconds since the Unix Epoch (January 1 1970 00:00:00 GMT). 
-timezone_abbreviations_list(->) function is an alias of: DateTimeZone::listAbbreviations() :This\t\n
-timezone_identifiers_list(->) function is an alias of: DateTimeZone::listIdentifiers() :This\t\n
-timezone_location_get(->) function is an alias of: DateTimeZone::getLocation() :This\t\n
-timezone_name_from_abbr ( $abbr [, int $gmtOffset = -1 [, int $isdst = -1 ]] ):string\t\n
-timezone_name_get(->) function is an alias of: DateTimeZone::getName() :This\t\n
-timezone_offset_get(->) function is an alias of: DateTimeZone::getOffset() :This\t\n
-timezone_open(->) function is an alias of: DateTimeZone::__construct() :This\t\n
-timezone_transitions_get(->) function is an alias of: DateTimeZone::getTransitions() :This\t\n
-timezone_version_get ( void ):string\t\nReturns the current version of the timezonedb. 
-chdir ( string $directory ):bool\t\nChanges PHP's current directory to directory. 
-chroot ( string $directory ):bool\t\n Change root directory
-closedir ([ resource $dir_handle ] ):void\t\nCloses the directory stream indicated by dir_handle. The stream must have previously been opened by opendir(). 
-dir ( string $directory [, resource $context ] ):Directory\t\nA pseudo-object oriented mechanism for reading a directory. The given directory is opened. 
-getcwd ( void ):string\t\nGets the current working directory. 
-opendir ( string $path [, $context ] ):resource\t\nOpens up a directory handle to be used in subsequent closedir(), readdir(), and rewinddir() calls. 
-readdir ([ resource $dir_handle ] ):string\t\nReturns the name of the next entry in the directory. The entries are returned in the order in which they are stored by the filesystem. 
-rewinddir ([ resource $dir_handle ] ):void\t\nResets the directory stream indicated by dir_handle to the beginning of the directory. 
-scandir ( string $directory [, int $sorting_order = SCANDIR_SORT_ASCENDING [, resource $context ]] ):array\t\nReturns an array of files and directories from the directory. 
-debug_backtrace ([ int $options = DEBUG_BACKTRACE_PROVIDE_OBJECT [, int $limit = 0 ]] ):array\t\ndebug_backtrace() generates a PHP backtrace. 
-debug_print_backtrace ([ int $options = 0 [, int $limit = 0 ]] ):void\t\ndebug_print_backtrace() prints a PHP backtrace. It prints the function calls, included/required files and eval()ed stuff. 
-error_clear_last ( ):void\t\n
-error_get_last ( void ):array\t\nGets information about the last error that occurred. 
-error_log ( string $message [, int $message_type = 0 [, string $destination [, string $extra_headers ]]] ):bool\t\nSends an error message to the web server's error log or to a file. 
-error_reporting ([ $level ] ):int\t\nThe error_reporting() function sets the error_reporting directive at runtime. PHP has many levels of errors, using this function sets that level for the duration (runtime) of your script. If the optional level is not set, error_reporting() will just return the current error reporting level. 
-restore_error_handler ( void ):bool\t\nUsed after changing the error handler function using set_error_handler(), to revert to the previous error handler (which could be the built-in or a user defined function). 
-restore_exception_handler ( void ):bool\t\nUsed after changing the exception handler function using set_exception_handler(), to revert to the previous exception handler (which could be the built-in or a user defined function). 
-set_error_handler ( callable $error_handler [, int $error_types = E_ALL | E_STRICT ] ):mixed\t\n Sets a user-defined error handler function.\t\nReturns the previously defined error handler, or false on error
-set_exception_handler ( $exception_handler ):callable\t\nSets the default exception handler if an exception is not caught within a try/catch block. Execution will stop after the exception_handler is called. 
-trigger_error ( string $error_msg [, int $error_type = E_USER_NOTICE ] ):bool\t\n Generates a user-level error/warning/notice message
-user_error(->) function is an alias of: trigger_error(). :This\t\n
-escapeshellarg ( $arg ):string\t\n Quote and escape an argument for use in a shell command
-escapeshellcmd ( $command ):string\t\n Escape shell metacharacters
-exec ( $command [, array &$output [, int &$return_var ]] ):string\t\nexec() executes the given command. 
-passthru ( string $command [, int &$return_var ] ):void\t\nUse in place of exec() or system() when the output from the Unix command is binary data 
-proc_close ( resource $process ):int\t\nproc_close() is similar to pclose() except that it only works on processes opened by proc_open(). 
-proc_get_status ( resource $process ):array\t\nproc_get_status() fetches data about a process opened using proc_open(). 
-proc_nice ( int $increment ):bool\t\n Change the priority of the current process
-proc_open ( string $cmd , array $descriptorspec , array &$pipes [, string $cwd [, array $env [, array $other_options ]]] ):resource\t\nproc_open() is similar to popen() but provides a much greater degree of control over the program execution. 
-proc_terminate ( resource $process [, int $signal = 15 ] ):bool\t\n kill a process opened by proc_open
-shell_exec ( $cmd ):string\t\nThis function is identical to the backtick operator. 
-system ( $command [, int &$return_var ] ):string\t\n Execute an external program and display output
-basename ( $path [, $suffix ] ):string\t\n Returns the filename component of the path
-chgrp ( string $filename , mixed $group ):bool\t\n Change file group
-chmod ( string $filename , int $mode ):bool\t\nAttempts to change the mode of the specified file to that given in mode. 
-chown ( string $filename , mixed $user ):bool\t\nAttempts to change the owner of the file filename to user user. Only the superuser may change the owner of a file. 
-clearstatcache ([ bool $clear_realpath_cache = FALSE [, string $filename ]] ):void\t\n Clear file stat cache
-copy ( string $source , string $dest [, resource $context ] ):bool\t\n Copy a file
-is a dummy manual entry to satisfy those people who are looking for unlink() or unset() in the wrong place. :This\t\n
-dirname ( $path [, int $levels = 1 ] ):string\t\n Returns the directory name component of the path
-disk_free_space ( string $directory ):float\t\nGiven a string containing a directory, this function will return the number of bytes available on the corresponding filesystem or disk partition. 
-disk_total_space ( string $directory ):float\t\nGiven a string containing a directory, this function will return the total number of bytes on the corresponding filesystem or disk partition. 
-diskfreespace(->) function is an alias of: disk_free_space(). :This\t\n
-fclose ( resource $handle ):bool\t\nThe file pointed to by handle is closed. 
-feof ( resource $handle ):bool\t\nTests for end-of-file on a file pointer. 
-fflush ( resource $handle ):bool\t\nThis function forces a write of all buffered output to the resource pointed to by the file handle. 
-fgetc ( resource $handle ):string\t\nGets a character from the given file pointer. 
-fgetcsv ( resource $handle [, int $length = 0 [, string $delimiter = "," [, string $enclosure = '"' [, string $escape = "\\" ]]]] ):array\t\n Get line from file pointer and parse for CSV fields
-fgets ( resource $handle [, int $length ] ):string\t\nGets a line from file pointer. 
-fgetss ( resource $handle [, int $length [, $allowable_tags ]] ):string\t\nIdentical to fgets(), except that fgetss() attempts to strip any NUL bytes, HTML and PHP tags from the text it reads. 
-file_exists ( string $filename ):bool\t\nChecks whether a file or directory exists. 
-file_get_contents ( $filename [, bool $use_include_path = FALSE [, resource $context [, int $offset = 0 [, int $maxlen ]]]] ):string\t\n Read the entire file into a string
-file_put_contents ( string $filename , mixed $data [, $flags = 0 [, resource $context ]] ):int\t\n Write/Create a file with contents data and return the number of bytes written
-file ( string $filename [, int $flags = 0 [, resource $context ]] ):array\t\n Read entire file into an array
-fileatime ( string $filename ):int\t\nGets the last access time of the given file. 
-filectime ( string $filename ):int\t\nGets the inode change time of a file. 
-filegroup ( string $filename ):int\t\nGets the file group. The group ID is returned in numerical format, use posix_getgrgid() to resolve it to a group name. 
-fileinode ( string $filename ):int\t\nGets the file inode. 
-filemtime ( string $filename ):int\t\nThis function returns the time when the data blocks of a file were being written to, that is, the time when the content of the file was changed. 
-fileowner ( string $filename ):int\t\nGets the file owner. 
-fileperms ( string $filename ):int\t\nGets permissions for the given file. 
-filesize ( string $filename ):int\t\nGets the size for the given file. 
-filetype ( $filename ):string\t\nReturns the type of the given file. 
-flock ( resource $handle , int $operation [, int &$wouldblock ] ):bool\t\n Portable file locking
-fnmatch ( string $pattern , string $string [, int $flags = 0 ] ):bool\t\nfnmatch() checks if the passed string would match the given shell wildcard pattern. 
-fopen ( string $filename , string $mode [, bool $use_include_path = FALSE [, $context ]] ):resource\t\nfopen() binds a named resource, specified by filename, to a stream. 
-fpassthru ( resource $handle ):int\t\n Output all remaining data from a file pointer
-fputcsv ( resource $handle , array $fields [, string $delimiter = "," [, string $enclosure = '"' [, string $escape_char = "\\" ]]] ):int\t\nfputcsv() formats a line (passed as a fields array) as CSV and write it (terminated by a newline) to the specified file handle. 
-fputs(->) function is an alias of: fwrite(). :This\t\n
-fread ( resource $handle , int $length ):string\t\n Binary-safe file read
-fscanf ( resource $handle , string $format [, &$... ] ):mixed\t\n Implements a mostly ANSI compatible fscanf()
-fseek ( resource $handle , $offset [, $whence = SEEK_SET ] ):int\t\n Seek on a file pointer
-fstat ( resource $handle ):array\t\nGathers the statistics of the file opened by the file pointer handle. This function is similar to the stat() function except that it operates on an open file pointer instead of a filename. 
-ftell ( resource $handle ):int\t\nReturns the position of the file pointer referenced by handle. 
-ftruncate ( resource $handle , int $size ):bool\t\nTakes the filepointer, handle, and truncates the file to length, size. 
-fwrite ( resource $handle , string $string [, $length ] ):int\t\nfwrite() writes the contents of string to the file stream pointed to by handle. 
-glob ( string $pattern [, int $flags = 0 ] ):array\t\nThe glob() function searches for all the pathnames matching pattern according to the rules used by the libc glob() function, which is similar to the rules used by common shells. 
-is_dir ( string $filename ):bool\t\nTells whether the given filename is a directory. 
-is_executable ( string $filename ):bool\t\nTells whether the filename is executable. 
-is_file ( string $filename ):bool\t\nTells whether the given file is a regular file. 
-is_link ( string $filename ):bool\t\nTells whether the given file is a symbolic link. 
-is_readable ( string $filename ):bool\t\nTells whether a file exists and is readable. 
-is_uploaded_file ( string $filename ):bool\t\n Check if file was created by rfc1867 upload
-is_writable ( string $filename ):bool\t\n Returns true if file can be written
-is_writeable(->) function is an alias of: is_writable(). :This\t\n
-lchgrp ( string $filename , mixed $group ):bool\t\n
-lchown ( string $filename , mixed $user ):bool\t\n
-link ( string $target , string $link ):bool\t\nlink() creates a hard link. 
-linkinfo ( string $path ):int\t\n Returns the st_dev field of the UNIX C stat structure describing the link
-lstat ( string $filename ):array\t\nGathers the statistics of the file or symbolic link named by filename. 
-mkdir ( string $pathname [, int $mode = 0777 [, $recursive = FALSE [, resource $context ]]] ):bool\t\nAttempts to create the directory specified by pathname. 
-move_uploaded_file ( string $filename , string $destination ):bool\t\n Move a file if and only if it was created by an upload
-parse_ini_file ( string $filename [, bool $process_sections = FALSE [, int $scanner_mode = INI_SCANNER_NORMAL ]] ):array\t\n Parse configuration file
-parse_ini_string ( string $ini [, bool $process_sections = FALSE [, int $scanner_mode = INI_SCANNER_NORMAL ]] ):array\t\n
-pathinfo ( string $path [, int $options = PATHINFO_DIRNAME | PATHINFO_BASENAME | PATHINFO_EXTENSION | PATHINFO_FILENAME ] ):mixed\t\n Returns information about a certain string
-pclose ( resource $handle ):int\t\nCloses a file pointer to a pipe opened by popen(). 
-popen ( string $command , string $mode ):resource\t\nOpens a pipe to a process executed by forking the command given by command. 
-readfile ( string $filename [, bool $use_include_path = FALSE [, resource $context ]] ):int\t\nReads a file and writes it to the output buffer. 
-readlink ( $path ):string\t\nreadlink() does the same as the readlink C function. 
-realpath_cache_get ( void ):array\t\nGet the contents of the realpath cache. 
-realpath_cache_size ( void ):int\t\nGet the amount of memory used by the realpath cache. 
-realpath ( $path ):string\t\nrealpath() expands all symbolic links and resolves references to /./, /../ and extra / characters in the input path and returns the canonicalized absolute pathname. 
-rename ( string $oldname , string $newname [, resource $context ] ):bool\t\nAttempts to rename oldname to newname, moving it between directories if necessary. If renaming a file and newname exists, it will be overwritten. If renaming a directory and newname exists, this function will emit a warning. 
-rewind ( resource $handle ):bool\t\n Rewind the position of a file pointer
-rmdir ( string $dirname [, resource $context ] ):bool\t\nAttempts to remove the directory named by dirname. The directory must be empty, and the relevant permissions must permit this. A E_WARNING level error will be generated on failure. 
-set_file_buffer(->) function is an alias of: stream_set_write_buffer(). :This\t\n
-stat ( string $filename ):array\t\n Give information about a file
-symlink ( string $target , string $link ):bool\t\nsymlink() creates a symbolic link to the existing target with the specified name link. 
-tempnam ( $dir , $prefix ):string\t\nCreates a file with a unique filename, with access permission set to 0600, in the specified directory. If the directory does not exist or is not writable, tempnam() may generate a file in the system's temporary directory, and return the full path to that file, including its name. 
-tmpfile ( void ):resource\t\n Create a temporary file that will be deleted automatically after use
-touch ( string $filename [, int $time = time() [, int $atime ]] ):bool\t\n Set modification time of file
-umask ([ $mask ] ):int\t\numask() sets PHP's umask to mask & 0777 and returns the old umask. When PHP is being used as a server module, the umask is restored when each request is finished. 
-unlink ( string $filename [, resource $context ] ):bool\t\nDeletes filename. Similar to the Unix C unlink() function. An E_WARNING level error will be generated on failure. 
-filter_has_var ( int $type , string $variable_name ):bool\t\n
-filter_id ( string $filtername ):int\t\n
-filter_input_array ( int $type [, $definition [, bool $add_empty = TRUE ]] ):mixed\t\nThis function is useful for retrieving many values without repetitively calling filter_input(). 
-filter_input ( int $type , string $variable_name [, int $filter = FILTER_DEFAULT [, $options ]] ):mixed\t\n
-filter_list ( void ):array\t\n
-filter_var_array ( array $data [, $definition [, bool $add_empty = TRUE ]] ):mixed\t\nThis function is useful for retrieving many values without repetitively calling filter_var(). 
-filter_var ( $variable [, int $filter = FILTER_DEFAULT [, $options ]] ):mixed\t\n
-call_user_func_array ( callable $callback , array $param_arr ):mixed\t\nCalls the callback given by the first parameter with the parameters in param_arr. 
-call_user_func ( callable $callback [, $parameter [, $... ]] ):mixed\t\nCalls the callback given by the first parameter and passes the remaining parameters as arguments. 
-create_function ( $args , $code ):string\t\n Creates an anonymous function, and returns its name (funny, eh?)
-forward_static_call_array ( callable $function , array $parameters ):mixed\t\nCalls a user defined function or method given by the function parameter. This function must be called within a method context, it can't be used outside a class. 
- orward_static_call ( callable $function [, $parameter [, $... ]] ):mixed\t\nCalls a user defined function or method given by the function parameter, with the following arguments. This function must be called within a method context, it can't be used outside a class. It uses the late static binding. 
-func_get_arg ( int $arg_num ):mixed\t\n Get the $arg_num'th argument that was passed to the function
-func_get_args ( void ):array\t\n Get an array of the arguments that were passed to the function
-func_num_args ( void ):int\t\n Get the number of arguments that were passed to the function
-function_exists ( string $function_name ):bool\t\nChecks the list of defined functions, both built-in (internal) and user-defined, for function_name. 
-get_defined_functions ([ bool $exclude_disabled = FALSE ] ):array\t\nGets an array of all defined functions. 
-register_shutdown_function ( callable $callback [, mixed $parameter [, mixed $... ]] ):void\t\n Register a user-level function to be called on request termination
-register_tick_function ( callable $function [, mixed $arg [, mixed $... ]] ):bool\t\nRegisters the given function to be executed when a tick is called. 
-unregister_tick_function ( string $function_name ):void\t\nDe-registers the function named by function_name so it is no longer executed when a tick is called. 
-hash_algos ( void ):array\t\n
-hash_copy ( $context ):HashContext\t\n
-hash_equals ( string $known_string , string $user_string ):bool\t\n
-hash_file ( $algo , $filename [, bool $raw_output = FALSE ] ):string\t\n
-hash_final ( HashContext $context [, bool $raw_output = FALSE ] ):string\t\n
-hash_hkdf ( $algo , $ikm [, int $length = 0 [, $info = '' [, $salt = '' ]]] ):string\t\n
-hash_hmac_algos ( void ):array\t\n
-hash_hmac_file ( $algo , $filename , $key [, bool $raw_output = FALSE ] ):string\t\n
-hash_hmac ( $algo , $data , $key [, bool $raw_output = FALSE ] ):string\t\n
-hash_init ( string $algo [, int $options = 0 [, string $key = NULL ]] ):HashContext\t\n
-hash_pbkdf2 ( $algo , $password , $salt , int $iterations [, int $length = 0 [, bool $raw_output = FALSE ]] ):string\t\n
-hash_update_file ( HashContext $hcontext , string $filename [, resource $scontext = NULL ] ):bool\t\n
-hash_update_stream ( HashContext $context , resource $handle [, $length = -1 ] ):int\t\n
-hash_update ( HashContext $context , string $data ):bool\t\n
-hash ( $algo , $data [, bool $raw_output = FALSE ] ):string\t\n
-assert_options ( int $what [, $value ] ):mixed\t\nSet the various assert() control options or just query their current settings. 
-5 and 7:PHP\t\n Checks if assertion is false
-cli_get_process_title ( void ):string\t\n
-cli_set_process_title ( string $title ):bool\t\nSets the process title visible in tools such as top and ps. This function is available only in CLI mode. 
-dl ( string $library ):bool\t\n Load a PHP extension at runtime
-extension_loaded ( string $name ):bool\t\nFinds out whether the extension is loaded. 
-gc_collect_cycles ( void ):int\t\nForces collection of any existing garbage cycles. 
-gc_disable ( ):void\t\nDeactivates the circular reference collector, setting zend.enable_gc to 0. 
-gc_enable ( ):void\t\nActivates the circular reference collector, setting zend.enable_gc to 1. 
-gc_enabled ( void ):bool\t\nReturns status of the circular reference collector. 
-gc_mem_caches ( void ):int\t\nReclaims memory used by the Zend Engine memory manager. 
-get_cfg_var ( string $option ):mixed\t\n Get the value of a PHP configuration option
-get_current_user ( void ):string\t\nReturns the name of the owner of the current PHP script. 
-get_defined_constants ([ bool $categorize = FALSE ] ):array\t\nReturns the names and values of all the constants currently defined. This includes those created by extensions as well as those created with the define() function. 
-get_extension_funcs ( string $module_name ):array\t\nThis function returns the names of all the functions defined in the module indicated by module_name. 
-get_include_path ( void ):string\t\nGets the current include_path configuration option value. 
-get_included_files ( void ):array\t\nGets the names of all files that have been included using include, include_once, require or require_once. 
-get_loaded_extensions ([ bool $zend_extensions = FALSE ] ):array\t\nThis function returns the names of all the modules compiled and loaded in the PHP interpreter. 
-get_magic_quotes_gpc ( void ):bool\t\n Get the current active configuration setting of magic_quotes_gpc
-get_magic_quotes_runtime ( void ):bool\t\nReturns the current active configuration setting of magic_quotes_runtime. 
-get_required_files(->) function is an alias of: get_included_files(). :This\t\n
-get_resources ([ string $type ] ):array\t\nReturns an array of all currently active resources, optionally filtered by resource type. 
-getenv ( $varname [, bool $local_only = FALSE ] ):string\t\n Get the value of an environment variable
-getlastmod ( void ):int\t\n Get time of last page modification
-getmygid ( void ):int\t\nGets the group ID of the current script. 
-getmyinode ( void ):int\t\nGets the inode of the current script. 
-getmypid ( void ):int\t\nGets the current PHP process ID. 
-getmyuid ( void ):int\t\nGets the user ID of the current script. 
-getopt ( string $options [, $longopts [, int &$optind ]] ):array\t\nParses options passed to the script. 
-getrusage ([ int $who = 0 ] ):array\t\nThis is an interface to getrusage(2). It gets data returned from the system call. 
-ini_alter(->) function is an alias of: ini_set(). :This\t\n
-ini_get_all ([ string $extension [, bool $details = TRUE ]] ):array\t\nReturns all the registered configuration options. 
-ini_get ( $varname ):string\t\nReturns the value of the configuration option on success. 
-ini_restore ( string $varname ):void\t\nRestores a given configuration option to its original value. 
-ini_set ( $varname , $newvalue ):string\t\nSets the value of the given configuration option. The configuration option will keep this new value during the script's execution, and will be restored at the script's ending. 
-magic_quotes_runtime(->) function is an alias of: set_magic_quotes_runtime() :This\t\n
-is no function named main() except in the PHP source. In PHP 4.3.0, a new type of error handling in the PHP source (php_error_docref) was introduced. One feature is to provide links to a manual page in PHP error messages when the PHP directives html_errors (on by default) and docref_root (on by default until PHP 4.3.2) are set. :There\t\n
-memory_get_peak_usage ([ bool $real_usage = FALSE ] ):int\t\nReturns the peak of memory, in bytes, that's been allocated to your PHP script. 
-memory_get_usage ([ bool $real_usage = FALSE ] ):int\t\nReturns the amount of memory, in bytes, that's currently being allocated to your PHP script. 
-php_ini_loaded_file ( void ):string\t\nCheck if a php.ini file is loaded, and retrieve its path. 
-php_ini_scanned_files ( void ):string\t\n Return comma-separated string of .ini files parsed from the additional ini dir
-php_logo_guid ( void ):string\t\n Return the special ID used to request the PHP logo in phpinfo screens
-php_sapi_name ( void ):string\t\nReturns a lowercase string that describes the type of interface (the Server API, SAPI) that PHP is using. For example, in CLI PHP this string will be "cli" whereas with Apache it may have several different values depending on the exact SAPI used. Possible values are listed below. 
-php_uname ([ $mode = "a" ] ):string\t\n Return information about the system PHP was built on
-phpcredits ([ int $flag = CREDITS_ALL ] ):bool\t\nThis function prints out the credits listing the PHP developers, modules, etc. It generates the appropriate HTML codes to insert the information in a page. 
-phpinfo ([ int $what = INFO_ALL ] ):bool\t\n Output a page of useful information about PHP and the current request
-phpversion ([ $extension ] ):string\t\nReturns a string containing the version of the currently running PHP parser or extension. 
-putenv ( string $setting ):bool\t\n Set the value of an environment variable
-restore_include_path ( ):void\t\nRestores the include_path configuration option back to its original master value as set in php.ini 
-set_include_path ( $new_include_path ):string\t\nSets the include_path configuration option for the duration of the script. 
-set_magic_quotes_runtime ( $new_setting ):bool\t\nSet the current active configuration setting of magic_quotes_runtime. 
-set_time_limit ( int $seconds ):bool\t\n Sets the maximum time a script can run
-sys_get_temp_dir ( void ):string\t\nReturns the path of the directory PHP stores temporary files in by default. 
-version_compare ( string $version1 , string $version2 ):int\t\n Compares two "PHP-standardized" version number strings
-zend_logo_guid ( void ):string\t\n Return the special ID used to request the Zend logo in phpinfo screens
-zend_thread_id ( void ):int\t\nThis function returns a unique identifier for the current thread. 
-zend_version ( void ):string\t\nReturns a string containing the version of the currently running Zend Engine. 
-ezmlm_hash ( string $addr ):int\t\nezmlm_hash() calculates the hash value needed when keeping EZMLM mailing lists in a MySQL database. 
-mail ( string $to , string $subject , string $message [, mixed $additional_headers [, string $additional_parameters ]] ):bool\t\nSends an email. 
-abs ( mixed $):number\t\nReturns the absolute value of number. 
-acos ( $arg ):float\t\nReturns the arc cosine of arg in radians. acos() is the inverse function of cos(), which means that a==cos(acos(a)) for every value of a that is within acos()' range. 
-acosh ( $arg ):float\t\nReturns the inverse hyperbolic cosine of arg, i.e. the value whose hyperbolic cosine is arg. 
-asin ( $arg ):float\t\nReturns the arc sine of arg in radians. asin() is the inverse function of sin(), which means that a==sin(asin(a)) for every value of a that is within asin()'s range. 
-asinh ( $arg ):float\t\nReturns the inverse hyperbolic sine of arg, i.e. the value whose hyperbolic sine is arg. 
-atan2 ( $y , $x ):float\t\n Returns the arc tangent of y/x, with the resulting quadrant determined by the signs of y and x
-atan ( $arg ):float\t\nReturns the arc tangent of arg in radians. atan() is the inverse function of tan(), which means that a==tan(atan(a)) for every value of a that is within atan()'s range. 
-atanh ( $arg ):float\t\nReturns the inverse hyperbolic tangent of arg, i.e. the value whose hyperbolic tangent is arg. 
-base_convert ( $number , int $frombase , int $tobase ):string\t\n Converts a number in a string from any base <= 36 to any base <= 36
-bindec ( string $binary_string ):number\t\n Returns the decimal equivalent of the binary number
-ceil ( $value ):float\t\nReturns the next highest integer value by rounding up value if necessary. 
-cos ( $arg ):float\t\ncos() returns the cosine of the arg parameter. The arg parameter is in radians. 
-cosh ( $arg ):float\t\nReturns the hyperbolic cosine of arg, defined as (exp(arg) + exp(-arg))/2. 
-decbin ( int $number ):string\t\nReturns a string containing a binary representation of the given number argument. 
-dechex ( int $number ):string\t\n Returns a string containing a hexadecimal representation of the given number
-decoct ( int $number ):string\t\nReturns a string containing an octal representation of the given number argument. The largest number that can be converted depends on the platform in use. For 32-bit platforms this is usually 4294967295 in decimal resulting in 37777777777. For 64-bit platforms this is usually 9223372036854775807 in decimal resulting in 777777777777777777777. 
-deg2rad ( $number ):float\t\nThis function converts number from degrees to the radian equivalent. 
-exp ( $arg ):float\t\n Returns e raised to the power of the number
-expm1 ( $arg ):float\t\nexpm1() returns the equivalent to 'exp(arg) - 1' computed in a way that is accurate even if the value of arg is near zero, a case where 'exp (arg) - 1' would be inaccurate due to subtraction of two numbers that are nearly equal. 
-floor ( $value ):float\t\nReturns the next lowest integer value (as float) by rounding down value if necessary. 
-fmod ( $x , $y ):float\t\nReturns the floating point remainder of dividing the dividend (x) by the divisor (y). The remainder (r) is defined as: x = i * y + r, for some integer i. If y is non-zero, r has the same sign as x and a magnitude less than the magnitude of y. 
-getrandmax ( void ):int\t\nReturns the maximum value that can be returned by a call to rand(). 
-hexdec ( string $hex_string ):number\t\n Returns the decimal equivalent of the hexadecimal number
-hypot ( $x , $y ):float\t\nhypot() returns the length of the hypotenuse of a right-angle triangle with sides of length x and y, or the distance of the point (x, y) from the origin. This is equivalent to sqrt(x*x + y*y). 
-intdiv ( $dividend , $divisor ):int\t\nReturns the integer quotient of the division of dividend by divisor. 
-is_finite ( float $val ):bool\t\nChecks whether val is a legal finite on this platform. 
-is_infinite ( float $val ):bool\t\nReturns TRUE if val is infinite (positive or negative), like the result of log(0) or any value too big to fit into a float on this platform. 
-is_nan ( float $val ):bool\t\nChecks whether val is 'not a number', like the result of acos(1.01). 
-lcg_value ( void ):float\t\n Returns a value from the combined linear congruential generator
-log10 ( $arg ):float\t\nReturns the base-10 logarithm of arg. 
-log1p ( $number ):float\t\nlog1p() returns log(1 + number) computed in a way that is accurate even when the value of number is close to zero. log() might only return log(1) in this case due to lack of precision. 
-log ( $arg [, $base = M_E ] ):float\t\nIf the optional base parameter is specified, log() returns logbase arg, otherwise log() returns the natural logarithm of arg. 
-max ( array $values ):mixed\t\n Return the highest value in an array or a series of arguments
-min ( array $values ):mixed\t\n Return the lowest value in an array or a series of arguments
-mt_getrandmax ( void ):int\t\nReturns the maximum value that can be returned by a call to mt_rand(). 
-mt_rand ( void ):int\t\n Returns a random number from Mersenne Twister
-mt_srand ([ int $seed [, int $mode = MT_RAND_MT19937 ]] ):void\t\n Seeds Mersenne Twister random number generator
-octdec ( string $octal_string ):number\t\nReturns the decimal equivalent of the octal number represented by the octal_string argument. 
-pi ( void ):float\t\nReturns an approximation of pi. The returned float has a precision based on the precision directive in php.ini, which defaults to 14. Also, you can use the M_PI constant which yields identical results to pi(). 
-pow ( $base , $exp ):number\t\n Returns base raised to the power of exponent. Returns integer result when possible
-rad2deg ( $number ):float\t\nThis function converts number from radian to degrees. 
-rand ( void ):int\t\n Returns a random number
-round ( $val [, int $precision = 0 [, int $mode = PHP_ROUND_HALF_UP ]] ):float\t\n Returns the number rounded to specified precision
-sin ( $arg ):float\t\nsin() returns the sine of the arg parameter. The arg parameter is in radians. 
-sinh ( $arg ):float\t\nReturns the hyperbolic sine of arg, defined as (exp(arg) - exp(-arg))/2. 
-sqrt ( $arg ):float\t\nReturns the square root of arg. 
-srand(->) srand ([ int $seed ] ):void\t\n Seeds random number generator
-tan ( $arg ):float\t\ntan() returns the tangent of the arg parameter. The arg parameter is in radians. 
-tanh ( $arg ):float\t\nReturns the hyperbolic tangent of arg, defined as sinh(arg)/cosh(arg). 
-connection_aborted ( void ):int\t\nChecks whether the client disconnected. 
-connection_status ( void ):int\t\nGets the connection status bitfield. 
-constant ( string $name ):mixed\t\n Given the name of a constant this function will return the constants associated value
-define ( string $name , mixed $value [, $case_insensitive = FALSE ] ):bool\t\nDefines a named constant at runtime. 
-defined ( string $name ):bool\t\n Check whether a constant exists
-language construct is equivalent to exit(). :This\t\n
-eval ( string $code ):mixed\t\n
-exit ([ string $status ] ):void\t\n
-get_browser ([ string $user_agent [, bool $return_array = FALSE ]] ):mixed\t\nAttempts to determine the capabilities of the user's browser, by looking up the browser's information in the browscap.ini file. 
-__halt_compiler ( ):void\t\n
-highlight_file ( string $filename [, bool $return = FALSE ] ):mixed\t\n Syntax highlight a source file
-highlight_string ( string $str [, bool $return = FALSE ] ):mixed\t\nOutputs or returns html markup for a syntax highlighted version of the given PHP code using the colors defined in the built-in syntax highlighter for PHP. 
-hrtime ([ bool $get_as_number = FALSE ] ):mixed\t\nReturns the system's high resolution time, counted from an arbitrary point in time. The delivered timestamp is monotonic and can not be adjusted. 
-ignore_user_abort ([ bool $value ] ):int\t\n Set whether we want to ignore a user abort event or not
-pack ( $format [, mixed $args [, mixed $... ]] ):string\t\n Takes one or more arguments and packs them into a binary string according to the format argument
-php_check_syntax(->) php_check_syntax ( string $filename [, string &$error_message ] ):bool\t\n Check the syntax of the specified file.
-php_strip_whitespace ( $filename ):string\t\nReturns the PHP source code in filename with PHP comments and whitespace removed. This may be useful for determining the amount of actual code in your scripts compared with the amount of comments. This is similar to using php -w from the commandline. 
-sapi_windows_cp_conv ( int|$in_codepage , int|$out_codepage , $subject ):string\t\nConvert string from one codepage to another. 
-sapi_windows_cp_get ( string $kind ):int\t\nGet the identifier of the codepage of the current process. 
-sapi_windows_cp_is_utf8 ( void ):bool\t\nIndicates whether the codepage of the current process is UTF-8 compatible. 
-sapi_windows_cp_set ( int $cp ):bool\t\nSet the codepage of the current process. 
-sapi_windows_vt100_support ( resource $stream [, $enable ] ):bool\t\n
-show_source(->) function is an alias of: highlight_file(). :This\t\n
-sleep ( $seconds ):int\t\nDelays the program execution for the given number of seconds. 
-sys_getloadavg ( void ):array\t\nReturns three samples representing the average system load (the number of processes in the system run queue) over the last 1, 5 and 15 minutes, respectively. 
-time_nanosleep ( int $seconds , int $nanoseconds ):mixed\t\nDelays program execution for the given number of seconds and nanoseconds. 
-time_sleep_until ( float $timestamp ):bool\t\nMakes the script sleep until the specified timestamp. 
-uniqid ([ $prefix = "" [, bool $more_entropy = FALSE ]] ):string\t\n Generates a unique ID
-unpack ( string $format , string $data [, int $offset = 0 ] ):array\t\n Unpack binary string into named array elements according to format argument
-usleep ( int $micro_seconds ):void\t\nDelays program execution for the given number of microseconds. 
-checkdnsrr ( string $host [, string $type = "MX" ] ):bool\t\nSearches DNS for records of type type corresponding to host. 
-closelog ( void ):bool\t\ncloselog() closes the descriptor being used to write to the system logger. The use of closelog() is optional. 
-define_syslog_variables ( ):void\t\nInitializes all variables used in the syslog functions. 
-dns_check_record(->) function is an alias of: checkdnsrr(). :This\t\n Check DNS records corresponding to a given Internet host name or IP address
-dns_get_mx(->) function is an alias of: getmxrr(). :This\t\n Get MX records corresponding to a given Internet host name
-dns_get_record ( string $hostname [, int $type = DNS_ANY [, &$authns [, &$addtl [, bool $raw = FALSE ]]]] ):array\t\nFetch DNS Resource Records associated with the given hostname. 
-fsockopen ( string $hostname [, int $port = -1 [, int &$errno [, string &$errstr [, float $timeout = ini_get("default_socket_timeout") ]]]] ):resource\t\n Open Internet or Unix domain socket connection
-gethostbyaddr ( $ip_address ):string\t\nReturns the host name of the Internet host specified by ip_address. 
-gethostbyname ( $hostname ):string\t\nReturns the IPv4 address of the Internet host specified by hostname. 
-gethostbynamel ( string $hostname ):array\t\nReturns a list of IPv4 addresses to which the Internet host specified by hostname resolves. 
-gethostname ( void ):string\t\ngethostname() gets the standard host name for the local machine. 
-getmxrr ( string $hostname , array &$mxhosts [, array &$weight ] ):bool\t\nSearches DNS for MX records corresponding to hostname. 
-getprotobyname ( string $name ):int\t\ngetprotobyname() returns the protocol number associated with the protocol name as per /etc/protocols. 
-getprotobynumber ( int $number ):string\t\ngetprotobynumber() returns the protocol name associated with protocol number as per /etc/protocols. 
-getservbyname ( string $service , string $protocol ):int\t\ngetservbyname() returns the Internet port which corresponds to service for the specified protocol as per /etc/services. 
-getservbyport ( int $port , $protocol ):string\t\ngetservbyport() returns the Internet service associated with port for the specified protocol as per /etc/services. 
-header_register_callback ( callable $callback ):bool\t\n
-header_remove ([ string $name ] ):void\t\nRemoves an HTTP header previously set using header(). 
-header ( string $header [, bool $replace = TRUE [, int $http_response_code ]] ):void\t\n Sends a raw HTTP header
-headers_list ( void ):array\t\nheaders_list() will return a list of headers to be sent to the browser / client. To determine whether or not these headers have been sent yet, use headers_sent(). 
-headers_sent ([ string &$file [, int &$line ]] ):bool\t\n Returns true if headers have already been sent, false otherwise
-http_response_code ([ int $response_code ] ):mixed\t\nGets or sets the HTTP response status code. 
-inet_ntop ( $in_addr ):string\t\nThis function converts a 32bit IPv4, or 128bit IPv6 address (if PHP was built with IPv6 support enabled) into an address family appropriate string representation. 
-inet_pton ( $address ):string\t\nThis function converts a human readable IPv4 or IPv6 address (if PHP was built with IPv6 support enabled) into an address family appropriate 32bit or 128bit binary structure. 
-ip2long ( string $ip_address ):int\t\n Converts a string containing an (IPv4) Internet Protocol dotted address into a proper address
-long2ip ( int $proper_address ):string\t\nThe function long2ip() generates an Internet address in dotted format (i.e.: aaa.bbb.ccc.ddd) from the long integer representation. 
-openlog ( string $ident , int $option , int $facility ):bool\t\n Open connection to system logger
-pfsockopen ( string $hostname [, int $port = -1 [, int &$errno [, string &$errstr [, float $timeout = ini_get("default_socket_timeout") ]]]] ):resource\t\nThis function behaves exactly as fsockopen() with the difference that the connection is not closed after the script finishes. It is the persistent version of fsockopen(). 
-setcookie ( string $name [, string $value = "" [, int $expires = 0 [, string $path = "" [, string $domain = "" [, $secure = FALSE [, $httponly = FALSE ]]]]]] ):bool\t\n Send a cookie
-setrawcookie ( string $name [, string $value [, int $expires = 0 [, string $path [, string $domain [, $secure = FALSE [, $httponly = FALSE ]]]]]] ):bool\t\n Send a cookie with no url encoding of the value
-socket_get_status(->) function is an alias of: stream_get_meta_data(). :This\t\n
-socket_set_blocking(->) function is an alias of: stream_set_blocking(). :This\t\n
-socket_set_timeout(->) function is an alias of: stream_set_timeout(). :This\t\n
-syslog ( int $priority , string $message ):bool\t\n Generate a system log message
-flush ( ):void\t\n Flush the output buffer
-ob_clean ( ):void\t\n Clean (delete) the current output buffer
-ob_end_clean ( void ):bool\t\n Clean the output buffer, and delete current output buffer
-ob_end_flush ( void ):bool\t\n Flush (send) the output buffer, and delete current output buffer
-ob_flush ( ):void\t\n Flush (send) contents of the output buffer. The last buffer content is sent to next buffer
-ob_get_clean ( void ):string\t\n Get current buffer contents and delete current output buffer
-ob_get_contents ( void ):string\t\nGets the contents of the output buffer without clearing it. 
-ob_get_flush ( void ):string\t\n Get current buffer contents, flush (send) the output buffer, and delete current output buffer
-ob_get_length ( void ):int\t\nThis will return the length of the contents in the output buffer, in bytes. 
-ob_get_level ( void ):int\t\nReturns the nesting level of the output buffering mechanism. 
-ob_get_status ([ bool $full_status = FALSE ] ):array\t\nob_get_status() returns status information on either the top level output buffer or all active output buffer levels if full_status is set to TRUE. 
-ob_gzhandler ( $buffer , int $mode ):string\t\nob_gzhandler() is intended to be used as a callback function for ob_start() to help facilitate sending gz-encoded data to web browsers that support compressed web pages.
-ob_implicit_flush ([ int $flag = 1 ] ):void\t\nob_implicit_flush() will turn implicit flushing on or off. Implicit flushing will result in a flush operation after every output call, so that explicit calls to flush() will no longer be needed. 
-ob_list_handlers ( void ):array\t\nLists all output handlers in use. 
-ob_start ([ callable $output_callback = NULL [, int $chunk_size = 0 [, int $flags = PHP_OUTPUT_HANDLER_STDFLAGS ]]] ):bool\t\n Turn on Output Buffering (specifying an optional output handler).
-output_add_rewrite_var ( string $name , string $value ):bool\t\n Add URL rewriter values
-output_reset_rewrite_vars ( void ):bool\t\nThis function resets the URL rewriter and removes all rewrite variables previously set by the output_add_rewrite_var() function. 
-password_get_info ( string $hash ):array\t\nWhen passed in a valid hash created by an algorithm supported by password_hash(), this function will return an array of information about that hash. 
-password_hash(->) password_hash ( $password , int $algo [, array $options ] ):string\t\n
-password_needs_rehash ( string $hash , int $algo [, array $options ] ):bool\t\nThis function checks to see if the supplied hash implements the algorithm and options provided. If not, it is assumed that the hash needs to be rehashed. 
-password_verify ( string $password , string $hash ):bool\t\n
-ereg_replace ( $pattern , $replacement , $):string\t\nThis function scans string for matches to pattern, then replaces the matched text with replacement. 
-ereg ( string $pattern , string $string [, array &$regs ] ):int\t\nSearches a string for matches to the regular expression given in pattern in a case-sensitive way. 
-eregi_replace ( $pattern , $replacement , $):string\t\nThis function is identical to ereg_replace() except that this ignores case distinction when matching alphabetic characters. 
-eregi ( string $pattern , string $string [, array &$regs ] ):int\t\nThis function is identical to ereg() except that it ignores case distinction when matching alphabetic characters. 
-split ( string $pattern , string $string [, int $limit = -1 ] ):array\t\nSplits a string into array by regular expression. 
-spliti ( string $pattern , string $string [, int $limit = -1 ] ):array\t\n Split string into array by regular expression case-insensitive
-sql_regcase ( $):string\t\nCreates a regular expression for a case insensitive match. 
-session_abort ( void ):bool\t\nsession_abort() finishes session without saving data. Thus the original values in session data are kept. 
-session_cache_expire ([ string $new_cache_expire ] ):int\t\n Return the current cache expire. If new_cache_expire is given, the current cache_expire is replaced with new_cache_expire
-session_cache_limiter ([ $cache_limiter ] ):string\t\n Return the current cache limiter. If new_cache_limited is given, the current cache_limiter is replaced with new_cache_limiter
-session_commit(->) function is an alias of: session_write_close(). :This\t\n
-session_create_id ([ $prefix ] ):string\t\n
-session_decode ( string $data ):bool\t\n Deserializes data and reinitializes the variables
-session_destroy ( void ):bool\t\n Destroy the current session and all data associated with it
-session_encode ( void ):string\t\n Serializes the current setup and returns the serialized representation
-session_gc ( void ):int\t\n
-session_get_cookie_params ( void ):array\t\nGets the session cookie parameters. 
-session_id ([ $id ] ):string\t\n Return the current session id. If newid is given, the session id is replaced with newid
-session_is_registered ( string $name ):bool\t\n Checks if a variable is registered in session
-session_module_name ([ $module ] ):string\t\nsession_module_name() gets the name of the current session module. 
-session_name ([ $name ] ):string\t\n Return the current session name. If newname is given, the session name is replaced with newname
-session_regenerate_id ([ $delete_old_session = FALSE ] ):bool\t\n Update the current session id with a newly generated one.
-session_register_shutdown ( ):void\t\nRegisters session_write_close() as a shutdown function. 
-session_register(->) session_register ( mixed $name [, mixed $... ] ):bool\t\n Adds varname(s) to the list of variables which are freezed at the session end
-session_reset ( void ):bool\t\nsession_reset() reinitializes a session with original values stored in session storage. This function requires an active session and discards changes in $_SESSION. 
-session_save_path ([ $path ] ):string\t\nsession_save_path() returns the path of the current directory used to save session data. 
-session_set_cookie_params ( int $lifetime [, string $path [, string $domain [, $secure = FALSE [, $httponly = FALSE ]]]] ):bool\t\n Set session cookie parameters
-session_set_save_handler ( callable $open , callable $close , callable $read , callable $write , callable $destroy , callable $gc [, callable $create_sid [, callable $validate_sid [, callable $update_timestamp ]]] ):bool\t\n Sets user-level functions
-session_start ([ array $options = array() ] ):bool\t\n Begin session - reinitializes freezed variables, registers browsers etc
-session_status ( void ):int\t\nsession_status() is used to return the current session status. 
-session_unregister ( string $name ):bool\t\n Removes varname from the list of variables which are freezed at the session end
-session_unset ( void ):bool\t\nThe session_unset() function frees all session variables currently registered. 
-session_write_close ( void ):bool\t\n Write session data and end session
-class_implements ( mixed $class [, bool $autoload = TRUE ] ):array\t\nThis function returns an array with the names of the interfaces that the given class and its parents implement. 
-class_parents ( mixed $class [, bool $autoload = TRUE ] ):array\t\nThis function returns an array with the name of the parent classes of the given class. 
-class_uses ( mixed $class [, bool $autoload = TRUE ] ):array\t\nThis function returns an array with the names of the traits that the given class uses. This does however not include any traits used by a parent class. 
-iterator_apply ( Traversable $iterator , callable $function [, array $args = NULL ] ):int\t\nCalls a function for every element in an iterator. 
-iterator_count ( Traversable $iterator ):int\t\nCount the elements in an iterator. iterator_count() is not guaranteed to retain the current position of the iterator. 
-iterator_to_( Traversable $iterator [, bool $use_keys = TRUE ] ):array\t\nCopy the elements of an iterator into an array. 
-spl_autoload_call ( string $class_name ):void\t\nThis function can be used to manually search for a class or interface using the registered __autoload functions. 
-spl_autoload_extensions ([ $file_extensions ] ):string\t\nThis function can modify and check the file extensions that the built in __autoload() fallback function spl_autoload() will be using. 
-spl_autoload_functions ( void ):array\t\nGet all registered __autoload() functions. 
-spl_autoload_register ([ callable $autoload_function [, $throw = TRUE [, $prepend = FALSE ]]] ):bool\t\n
-spl_autoload_unregister ( mixed $autoload_function ):bool\t\n
-spl_autoload ( string $class_name [, string $file_extensions = spl_autoload_extensions() ] ):void\t\nThis function is intended to be used as a default implementation for __autoload(). If nothing else is specified and spl_autoload_register() is called without any parameters then this function will be used for any later call to __autoload(). 
-spl_classes ( void ):array\t\nThis function returns an array with the current available SPL classes. 
-spl_object_hash ( object $obj ):string\t\nThis function returns a unique identifier for the object. This id can be used as a hash key for storing objects, or for identifying an object, as long as the object is not destroyed. Once the object is destroyed, its hash may be reused for other objects. 
-spl_object_id ( object $obj ):int\t\nThis function returns a unique identifier for the object. The object id is unique for the lifetime of the object. Once the object is destroyed, its id may be reused for other objects. This behavior is similar to spl_object_hash(). 
-set_socket_blocking(->) function is an alias of: stream_set_blocking() :This\t\n Set blocking/non-blocking mode on a socket
-stream_bucket_append ( resource $brigade , object $bucket ):void\t\n Append bucket to brigade
-stream_bucket_make_writeable ( resource $brigade ):object\t\n Return a bucket object from the brigade for operating on
-stream_bucket_new ( resource $stream , string $buffer ):object\t\n Create a new bucket for use on the current stream
-stream_bucket_prepend ( resource $brigade , object $bucket ):void\t\nThis function can be called to prepend a bucket to a bucket brigade. It is typically called from php_user_filter::filter(). 
-stream_context_create ([ array $options [, array $params ]] ):resource\t\nCreates and returns a stream context with any options supplied in options preset. 
-stream_context_get_default ([ array $options ] ):resource\t\nReturns the default stream context which is used whenever file operations (fopen(), file_get_contents(), etc...) are called without a context parameter. Options for the default context can optionally be specified with this function using the same syntax as stream_context_create(). 
-stream_context_get_options ( resource $stream_or_context ):array\t\nReturns an array of options on the specified stream or context. 
-stream_context_get_params ( resource $stream_or_context ):array\t\nRetrieves parameter and options information from the stream or context. 
-stream_context_set_default ( array $options ):resource\t\nSet the default stream context which will be used whenever file operations (fopen(), file_get_contents(), etc...) are called without a context parameter. Uses the same syntax as stream_context_create(). 
-stream_context_set_option ( resource $stream_or_context , string $wrapper , string $option , mixed $value ):bool\t\n Set an option for a wrapper
-stream_context_set_params ( resource $stream_or_context , array $params ):bool\t\nSets parameters on the specified context. 
-stream_copy_to_stream ( resource $source , resource $dest [, $maxlength = -1 [, $offset = 0 ]] ):int\t\nMakes a copy of up to maxlength bytes of data from the current position (or from the offset position, if specified) in source to dest. If maxlength is not specified, all remaining content in source will be copied. 
-stream_filter_append ( $stream , string $filtername [, int $read_write [, mixed $params ]] ):resource\t\nAdds filtername to the list of filters attached to stream. 
-stream_filter_prepend ( $stream , string $filtername [, int $read_write [, mixed $params ]] ):resource\t\nAdds filtername to the list of filters attached to stream. 
-stream_filter_register ( string $filtername , string $classname ):bool\t\nstream_filter_register() allows you to implement your own filter on any registered stream used with all the other filesystem functions (such as fopen(), fread() etc.). 
-stream_filter_remove ( resource $stream_filter ):bool\t\nRemoves a stream filter previously added to a stream with stream_filter_prepend() or stream_filter_append(). Any data remaining in the filter's internal buffer will be flushed through to the next filter before removing it. 
-stream_get_contents ( resource $handle [, int $maxlength = -1 [, int $offset = -1 ]] ):string\t\nIdentical to file_get_contents(), except that stream_get_contents() operates on an already open stream resource and returns the remaining contents in a string, up to maxlength bytes and starting at the specified offset. 
-stream_get_filters ( void ):array\t\nRetrieve the list of registered filters on the running system. 
-stream_get_line ( resource $handle , int $length [, $ending ] ):string\t\n Read up to maxlen bytes from a stream or until the ending string is found
-stream_get_meta_data ( resource $stream ):array\t\nReturns information about an existing stream. 
-stream_get_transports ( void ):array\t\nReturns an indexed array containing the name of all socket transports available on the running system. 
-stream_get_wrappers ( void ):array\t\nRetrieve list of registered streams available on the running system. 
-stream_is_local ( mixed $stream_or_url ):bool\t\nChecks if a stream, or a URL, is a local one or not. 
-stream_isatty ( resource $stream ):bool\t\nDetermines if stream stream refers to a valid terminal type device. This is a more portable version of posix_isatty(), since it works on Windows systems too. 
-stream_notification_callback ( int $notification_code , int $severity , string $message , int $message_code , int $bytes_transferred , int $bytes_max ):void\t\n
-stream_register_wrapper(->) function is an alias of: stream_wrapper_register(). :This\t\n
-stream_resolve_include_path ( $filename ):string\t\nResolve filename against the include path according to the same rules as fopen()/include. 
-stream_select ( array &$read , array &$write , array &$except , $tv_sec [, $tv_usec = 0 ] ):int\t\nThe stream_select() function accepts arrays of streams and waits for them to change status. Its operation is equivalent to that of the socket_select() function except in that it acts on streams. 
-stream_set_blocking ( resource $stream , $mode ):bool\t\n Set blocking/non-blocking mode on a socket or stream
-stream_set_chunk_size ( resource $fp , $chunk_size ):int\t\nSet the stream chunk size. 
-stream_set_read_buffer ( resource $stream , $buffer ):int\t\nSets the read buffer. It's the equivalent of stream_set_write_buffer(), but for read operations. 
-stream_set_timeout ( resource $stream , int $seconds [, int $microseconds = 0 ] ):bool\t\n Set timeout on stream read to seconds\t\n\t\n\t\nmicroseonds
-stream_set_write_buffer ( resource $stream , $buffer ):int\t\nSets the buffering for write operations on the given stream to buffer bytes. 
-stream_socket_accept ( $server_socket [, float $timeout = ini_get("default_socket_timeout") [, string &$peername ]] ):resource\t\nAccept a connection on a socket previously created by stream_socket_server(). 
-stream_socket_client ( string $remote_socket [, int &$errno [, string &$errstr [, float $timeout = ini_get("default_socket_timeout") [, int $flags = STREAM_CLIENT_CONNECT [, $context ]]]]] ):resource\t\n Open a client connection to a remote address
-stream_socket_enable_crypto ( resource $stream , bool $enable [, int $crypto_type [, resource $session_stream ]] ):mixed\t\n
-stream_socket_get_name ( resource $handle , bool $want_peer ):string\t\nReturns the local or remote name of a given socket connection. 
-stream_socket_pair ( int $domain , int $type , int $protocol ):array\t\nstream_socket_pair() creates a pair of connected, indistinguishable socket streams. This function is commonly used in IPC (Inter-Process Communication). 
-stream_socket_recvfrom ( resource $socket , int $length [, int $flags = 0 [, &$address ]] ):string\t\nstream_socket_recvfrom() accepts data from a remote socket up to length bytes. 
-stream_socket_sendto ( resource $socket , string $data [, $flags = 0 [, string $address ]] ):int\t\nSends the specified data through the socket. 
-stream_socket_server ( string $local_socket [, int &$errno [, string &$errstr [, int $flags = STREAM_SERVER_BIND | STREAM_SERVER_LISTEN [, $context ]]]] ):resource\t\n Create a server socket bound to localaddress
-stream_socket_shutdown ( resource $stream , int $how ):bool\t\n
-stream_supports_lock ( resource $stream ):bool\t\nTells whether the stream supports locking through flock(). 
-stream_wrapper_register ( string $protocol , string $classname [, int $flags = 0 ] ):bool\t\nAllows you to implement your own protocol handlers and streams for use with all the other filesystem functions (such as fopen(), fread() etc.). 
-stream_wrapper_restore ( string $protocol ):bool\t\nRestores a built-in wrapper previously unregistered with stream_wrapper_unregister(). 
-stream_wrapper_unregister ( string $protocol ):bool\t\nAllows you to disable an already defined stream wrapper. Once the wrapper has been disabled you may override it with a user-defined wrapper using stream_wrapper_register() or reenable it later on with stream_wrapper_restore(). 
-addcslashes ( $str , $charlist ):string\t\nReturns a string with backslashes before characters that are listed in charlist parameter. 
-addslashes ( $str ):string\t\n Escapes single quote, double quotes and backslash characters in a string with backslashes
-bin2hex ( $str ):string\t\nReturns an ASCII string containing the hexadecimal representation of str. The conversion is done byte-wise with the high-nibble first. 
-chop(->) function is an alias of: rtrim(). :This\t\n
-chr ( int $bytevalue ):string\t\n Converts ASCII code to a character
-chunk_split ( $body [, int $chunklen = 76 [, $end = "\r\n" ]] ):string\t\nCan be used to split a string into smaller chunks which is useful for e.g. converting base64_encode() output to match RFC 2045 semantics. It inserts end every chunklen characters. 
-convert_cyr_( $str , $from , $to ):string\t\nConverts from one Cyrillic character set to another. 
-convert_uudecode ( $data ):string\t\n
-convert_uuencode ( $data ):string\t\n
-count_chars ( string $string [, int $mode = 0 ] ):mixed\t\nCounts the number of occurrences of every byte-value (0..255) in string and returns it in various ways. 
-crc32 ( string $str ):int\t\n Calculate the crc32 polynomial of a string
-crypt ( $str [, $salt ] ):string\t\n Encrypt a string
-echo ( string $arg1 [, string $... ] ):void\t\n
-explode ( string $delimiter , string $string [, int $limit = PHP_INT_MAX ] ):array\t\nReturns an array of strings, each of which is a substring of string formed by splitting it on boundaries formed by the string delimiter. 
-fprintf ( resource $handle , string $format [, mixed $args [, mixed $... ]] ):int\t\nWrite a string produced according to format to the stream resource specified by handle. 
-get_html_translation_table ([ int $table = HTML_SPECIALCHARS [, int $flags = ENT_COMPAT | ENT_HTML401 [, string $encoding = "UTF-8" ]]] ):array\t\n Returns the internal translation table used by htmlspecialchars and htmlentities
-hebrev ( $hebrew_text [, int $max_chars_per_line = 0 ] ):string\t\n Converts logical Hebrew text to visual text
-hebrevc ( $hebrew_text [, int $max_chars_per_line = 0 ] ):string\t\n Converts logical Hebrew text to visual text with newline conversion
-hex2bin ( $data ):string\t\n
-html_entity_decode ( $[, int $flags = ENT_COMPAT | ENT_HTML401 [, $encoding = ini_get("default_charset") ]] ):string\t\n Convert all HTML entities to their applicable characters
-htmlentities ( $[, int $flags = ENT_COMPAT | ENT_HTML401 [, $encoding = ini_get("default_charset") [, bool $double_encode = TRUE ]]] ):string\t\n Convert all applicable characters to HTML entities
-htmlspecialchars_decode ( $[, int $flags = ENT_COMPAT | ENT_HTML401 ] ):string\t\n
-htmlspecialchars ( $[, int $flags = ENT_COMPAT | ENT_HTML401 [, $encoding = ini_get("default_charset") [, bool $double_encode = TRUE ]]] ):string\t\n Convert special characters to HTML entities
-implode ( $glue , array $pieces ):string\t\n Joins array elements placing glue string between items and return one string
-join(->) function is an alias of: implode(). :This\t\n An alias for implode
-lcfirst ( $str ):string\t\n
-levenshtein ( string $str1 , string $str2 ):int\t\n Calculate Levenshtein distance between two strings
-localeconv ( void ):array\t\nReturns an associative array containing localized numeric and monetary formatting information. 
-ltrim ( $str [, $character_mask ] ):string\t\nStrip whitespace (or other characters) from the beginning of a string. 
-md5_file ( $filename [, bool $raw_output = FALSE ] ):string\t\nCalculates the MD5 hash of the file specified by the filename parameter using the » RSA Data Security, Inc. MD5 Message-Digest Algorithm, and returns that hash. The hash is a 32-character hexadecimal number. 
-md5 ( $str [, bool $raw_output = FALSE ] ):string\t\nCalculates the MD5 hash of str using the » RSA Data Security, Inc. MD5 Message-Digest Algorithm, and returns that hash. 
-metaphone ( $str [, int $phonemes = 0 ] ):string\t\n Break english phrases down into their phonemes
-money_format ( $format , float $number ):string\t\nmoney_format() returns a formatted version of number. This function wraps the C library function strfmon(), with the difference that this implementation converts only one number at a time. 
-nl_langinfo ( int $item ):string\t\nnl_langinfo() is used to access individual elements of the locale categories. Unlike localeconv(), which returns all of the elements, nl_langinfo() allows you to select any specific element. 
-nl2br ( $[, bool $is_xhtml = TRUE ] ):string\t\nReturns string with <br /> or <br> inserted before all newlines (\r\n, \n\r, \n and \r). 
-number_format ( float $number [, int $decimals = 0 ] ):string\t\n Formats a number with grouped thousands
-ord ( string $string ):int\t\n Returns ASCII value of character
-parse_str ( string $encoded_string [, array &$result ] ):void\t\nParses encoded_string as if it were the query string passed via a URL and sets variables in the current scope (or in the array if result is provided). 
-pr( string $arg ):int\t\n
-printf ( string $format [, mixed $args [, mixed $... ]] ):int\t\nProduces output according to format. 
-quoted_printable_decode ( $str ):string\t\n Convert a quoted-printable string to an 8 bit string
-quoted_printable_encode ( $str ):string\t\n
-quotemeta ( $str ):string\t\n Quotes meta characters
-rtrim ( $str [, $character_mask ] ):string\t\n Removes trailing whitespace
-setlocale ( int $category , $locale [, $... ] ):string\t\n Set locale information
-sha1_file ( $filename [, bool $raw_output = FALSE ] ):string\t\nCalculates the sha1 hash of the file specified by filename using the » US Secure Hash Algorithm 1, and returns that hash. The hash is a 40-character hexadecimal number. 
-sha1 ( $str [, bool $raw_output = FALSE ] ):string\t\nCalculates the sha1 hash of str using the » US Secure Hash Algorithm 1. 
-similar_text ( string $first , string $second [, float &$percent ] ):int\t\nThis calculates the similarity between two strings
-soundex ( $str ):string\t\n Calculate the soundex key of a string
-sprintf ( $format [, mixed $args [, mixed $... ]] ):string\t\nReturns a string produced according to the formatting string format. 
-sscanf ( string $str , string $format [, &$... ] ):mixed\t\n Implements an ANSI C compatible sscanf
-str_getcsv ( string $input [, string $delimiter = "," [, string $enclosure = '"' [, string $escape = "\\" ]]] ):array\t\n
-str_ireplace ( $search , $replace , $subject [, int &$count ] ):mixed\t\nThis function returns a string or an array with all occurrences of search in subject (ignoring case) replaced with the given replace value. If you don't need fancy replacing rules, you should generally use this function instead of preg_replace() with the i modifier. 
-str_pad ( $input , int $pad_length [, $pad_= " " [, int $pad_type = STR_PAD_RIGHT ]] ):string\t\nThis function returns the input string padded on the left, the right, or both sides to the specified padding length. If the optional argument pad_string is not supplied, the input is padded with spaces, otherwise it is padded with characters from pad_string up to the limit. 
-str_repeat ( $input , int $multiplier ):string\t\nReturns input repeated multiplier times. 
-str_replace ( $search , $replace , $subject [, int &$count ] ):mixed\t\n Replaces all occurrences of search in haystack with replace
-str_rot13 ( $str ):string\t\n Perform the rot13 transform on a string
-str_shuffle ( $str ):string\t\n Shuffles string. One permutation of all possible is created
-str_split ( string $string [, int $split_length = 1 ] ):array\t\nConverts a string to an array. 
-str_word_count ( string $string [, int $format = 0 [, string $charlist ]] ):mixed\t\n Counts the number of words inside a string. format 1 will return an array containing all the words found inside the string.\t\nformat 2 ireturn an associated array where the position of the word is the key 	and the word itself is the value. 
-strcasecmp ( string $str1 , string $str2 ):int\t\nBinary safe case-insensitive string comparison. 
-strchr(->) function is an alias of: strstr(). :This\t\n An alias for strstr
-strcmp ( string $str1 , string $str2 ):int\t\nNote that this comparison is case sensitive. 
-strcoll ( string $str1 , string $str2 ):int\t\n Compares two strings using the current locale
-strcspn ( string $subject , string $mask [, $start [, $length ]] ):int\t\n Finds length of initial segment consisting entirely of characters not found in mask. If start or/and length is provide works like strcspn(substr($s,$start,$len),$bad_chars)
-strip_tags ( $str [, $allowable_tags ] ):string\t\nThis function tries to return a string with all NULL bytes, HTML and PHP tags stripped from a given str. It uses the same tag stripping state machine as the fgetss() function. 
-stripcslashes ( $str ):string\t\nReturns a string with backslashes stripped off. Recognizes C-like \n, \r ..., octal and hexadecimal representation. 
-stripos ( string $haystack , mixed $needle [, $offset = 0 ] ):int\t\n Finds position of first occurrence of a string within another, case insensitive
-stripslashes ( $str ):string\t\n Strips backslashes from a string
-stristr ( $haystack , mixed $needle [, bool $before_needle = FALSE ] ):string\t\nReturns all of haystack starting from and including the first occurrence of needle to the end. 
-strlen ( string $string ):int\t\nReturns the length of the given string. 
-strnatcasecmp ( string $str1 , string $str2 ):int\t\nThis function implements a comparison algorithm that orders alphanumeric strings in the way a human being would. The behaviour of this function is similar to strnatcmp(), except that the comparison is not case sensitive. For more information see: Martin Pool's » Natural Order String Comparison page. 
-strnatcmp ( string $str1 , string $str2 ):int\t\nThis function implements a comparison algorithm that orders alphanumeric strings in the way a human being would, this is described as a "natural ordering". Note that this comparison is case sensitive. 
-strncasecmp ( string $str1 , string $str2 , $len ):int\t\nThis function is similar to strcasecmp(), with the difference that you can specify the (upper limit of the) number of characters from each string to be used in the comparison. 
-strncmp ( string $str1 , string $str2 , $len ):int\t\n Binary safe string comparison
-strpbrk ( $haystack , $char_list ):string\t\nstrpbrk() searches the haystack string for a char_list. 
-strpos ( string $haystack , mixed $needle [, $offset = 0 ] ):int\t\nFind the numeric position of the first occurrence of needle in the haystack string. 
-strrchr ( $haystack , mixed $needle ):string\t\nThis function returns the portion of haystack which starts at the last occurrence of needle and goes until the end of haystack. 
-strrev ( $):string\t\nReturns string, reversed. 
-strripos ( string $haystack , mixed $needle [, $offset = 0 ] ):int\t\n Finds position of last occurrence of a string within another string
-strrpos ( string $haystack , mixed $needle [, $offset = 0 ] ):int\t\nFind the numeric position of the last occurrence of needle in the haystack string. 
-strspn ( string $subject , string $mask [, $start [, $length ]] ):int\t\n Finds length of initial segment consisting entirely of characters found in mask. If start or/and length is provided works like strspn(substr($s,$start,$len),$good_chars)
-strstr ( $haystack , mixed $needle [, bool $before_needle = FALSE ] ):string\t\n Finds first occurrence of a string within another
-strtok ( $str , $token ):string\t\n Tokenize a string
-strtolower ( $):string\t\n Makes a string lowercase
-strtoupper ( $):string\t\n Makes a string uppercase
-strtr ( $str , $from , $to ):string\t\n Translates characters in str using given translation tables
-substr_compare ( string $main_str , string $str , $offset [, $length [, bool $case_insensitivity = FALSE ]] ):int\t\nsubstr_compare() compares main_str from position offset with str up to length characters. 
-substr_count ( string $haystack , string $needle [, $offset = 0 [, $length ]] ):int\t\n Returns the number of times a substring occurs in the string
-substr_replace ( $string , $replacement , $start [, $length ] ):mixed\t\nsubstr_replace() replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement. 
-substr ( $, int $start [, int $length ] ):string\t\nReturns the portion of string specified by the start and length parameters. 
-trim ( $str [, $character_mask = " \t\n\r\0\x0B" ] ):string\t\n Strips whitespace from the beginning and end of a string
-ucfirst ( $str ):string\t\n Makes a string's first character uppercase
-ucwords ( $str [, $delimiters = " \t\r\n\f\v" ] ):string\t\n Uppercase the first character of every word in a string
-vfprintf ( resource $handle , string $format , array $args ):int\t\n Output a formatted string into a stream
-vprintf ( string $format , array $args ):int\t\n Output a formatted string
-vsprintf ( $format , array $args ):string\t\nOperates as sprintf() but accepts an array of arguments, rather than a variable number of arguments. 
-wordwrap ( $str [, int $width = 75 [, $break = "\n" [, bool $cut = FALSE ]]] ):string\t\nWraps a string to a given number of characters using a string break character. 
-token_get_all ( string $source [, int $flags = 0 ] ):array\t\n
-token_name ( int $token ):string\t\ntoken_name() gets the symbolic name for a PHP token value. 
-base64_decode ( $data [, bool $strict = FALSE ] ):string\t\nDecodes a base64 encoded data. 
-base64_encode ( $data ):string\t\n Encodes string using MIME base64 algorithm
-get_headers ( string $url [, int $format = 0 [, resource $context ]] ):array\t\nget_headers() returns an array with the headers sent by the server in response to a HTTP request. 
-get_meta_tags ( string $filename [, bool $use_include_path = FALSE ] ):array\t\nOpens filename and parses it line by line for <meta> tags in the file. The parsing stops at </head>. 
-http_build_query ( mixed $query_data [, $numeric_prefix [, $arg_separator [, int $enc_type = PHP_QUERY_RFC1738 ]]] ):string\t\nGenerates a URL-encoded query string from the associative (or indexed) array provided. 
-parse_url ( string $url [, int $component = -1 ] ):mixed\t\n Parse a URL and return its components
-rawurldecode ( $str ):string\t\nReturns a string in which the sequences with percent (%) signs followed by two hex digits have been replaced with literal characters. 
-rawurlencode ( $str ):string\t\nEncodes the given string according to » RFC 3986. 
-urldecode ( $str ):string\t\nDecodes any %## encoding in the given string. Plus symbols ('+') are decoded to a space character. 
-urlencode ( $str ):string\t\nThis function is convenient when encoding a string to be used in a query part of a URL, as a convenient way to pass variables to the next page. 
-boolval ( mixed $var ):bool\t\nReturns the boolean value of var. 
-debug_zval_dump ( mixed $variable [, mixed $... ] ):void\t\nDumps a string representation of an internal zend value to output. 
-doubleval(->) function is an alias of: floatval(). :This\t\n
-empty ( mixed $var ):bool\t\nDetermine whether a variable is considered to be empty. A variable is considered empty if it does not exist or if its value equals FALSE. empty() does not generate a warning if the variable does not exist. 
-floatval ( mixed $var ):float\t\nGets the float value of var. 
-get_defined_vars ( void ):array\t\nThis function returns a multidimensional array containing a list of all defined variables, be them environment, server or user-defined variables, within the scope that get_defined_vars() is called. 
-get_resource_type ( resource $handle ):string\t\nThis function gets the type of the given resource. 
-gettype ( mixed $var ):string\t\nReturns the type of the PHP variable var. For type checking, use is_* functions. 
-import_request_variables ( string $types [, string $prefix ] ):bool\t\n Import GET/POST/Cookie variables into the global scope
-intval ( mixed $var [, $base = 10 ] ):int\t\nReturns the integer value of var, using the specified base for the conversion (the default is base 10). intval() should not be used on objects, as doing so will emit an E_NOTICE level error and return 1. 
-is_array ( mixed $var ):bool\t\nFinds whether the given variable is an array. 
-is_( mixed $var ):bool\t\nFinds whether the given variable is a boolean. 
-is_callable ( mixed $var [, $syntax_only = FALSE [, string &$callable_name ]] ):bool\t\nVerify that the contents of a variable can be called as a function. This can check that a simple variable contains the name of a valid function, or that an array contains a properly encoded object and function name. 
-is_countable ( mixed $var ):bool\t\nVerify that the contents of a variable is an array or an object implementing Countable 
-is_double(->) function is an alias of: is_float(). :This\t\n
-is_float ( mixed $var ):bool\t\n Returns true if variable is float point
-is_int ( mixed $var ):bool\t\n
-is_integer(->) function is an alias of: is_int(). :This\t\n
-is_iterable ( mixed $var ):bool\t\nVerify that the contents of a variable is accepted by the iterable pseudo-type, i.e. that it is an array or an object implementing Traversable 
-is_long(->) function is an alias of: is_int(). :This\t\n Returns true if variable is a long (integer)
-is_null ( mixed $var ):bool\t\nFinds whether the given variable is NULL. 
-is_numeric ( mixed $var ):bool\t\nFinds whether the given variable is numeric. Numeric strings consist of optional sign, any number of digits, optional decimal part and optional exponential part. Thus +0123.45e6 is a valid numeric value. Hexadecimal (e.g. 0xf4c3b00c) and binary (e.g. 0b10100111001) notation is not allowed. 
-is_object ( mixed $var ):bool\t\nFinds whether the given variable is an object. 
-is_real(->) function is an alias of: is_float(). :This\t\n
-is_resource ( mixed $var ):bool\t\nFinds whether the given variable is a resource. 
-is_scalar ( mixed $var ):bool\t\n Returns true if value is a scalar
-is_string ( mixed $var ):bool\t\nFinds whether the type of the given variable is string. 
-isset ( mixed $var [, mixed $... ] ):bool\t\n
-print_r ( $expression [, bool $return = FALSE ] ):mixed\t\n Prints out or returns information about the specified variable
-serialize ( mixed $value ):string\t\n Returns a string representation of variable (which can later be unserialized)
-settype ( mixed &$var , string $type ):bool\t\nSet the type of variable var to type. 
-strval ( mixed $var ):string\t\n Get the string value of a variable
-unserialize ( string $str [, array $options ] ):mixed\t\n Takes a string representation of variable and recreates it
-unset ( mixed $var [, mixed $... ] ):void\t\n
-var_dump ( mixed $expression [, mixed $... ] ):void\t\n Dumps a string representation of variable to output
-var_export ( $expression [, bool $return = FALSE ] ):mixed\t\nvar_export() gets structured information about the given variable. It is similar to var_dump() with one exception: the returned representation is valid PHP code. 
+$AUTH_TYPE
+$DOCUMENT_ROOT
+$GATEWAY_INTERFACE
+$GLOBALS
+$HTTP_ACCEPT
+$HTTP_ACCEPT_CHARSET
+$HTTP_ACCEPT_ENCODING
+$HTTP_ACCEPT_LANGUAGE
+$HTTP_CONNECTION
+$HTTP_HOST
+$HTTP_REFERER
+$HTTP_USER_AGENT
+$PATH_TRANSLATED
+$PHP_AUTH_PW
+$PHP_AUTH_USER
+$PHP_SELF
+$QUERY_STRING
+$REMOTE_ADDR
+$REMOTE_HOST
+$REMOTE_PORT
+$REQUEST_METHOD
+$REQUEST_URI
+$SCRIPT_FILENAME
+$SCRIPT_NAME
+$SERVER_ADMIN
+$SERVER_NAME
+$SERVER_PORT
+$SERVER_PROTOCOL
+$SERVER_SIGNATURE
+$SERVER_SOFTWARE
+$_COOKIE
+$_ENV
+$_FILES
+$_GET
+$_POST
+$_REQUEST
+$_SERVER
+$_SESSION
+array_change_key_case ( $[, int $case = CASE_LOWER ] ):array | Returns an array with all keys from array lowercased or uppercased. Numbered indices are left as is. 
+array_chunk ( $, int $size [, bool $preserve_keys = FALSE ] ):array | Chunks an array into arrays with size elements. The last chunk may contain less than size elements. 
+array_column ( $input , mixed $column_key [, mixed $index_key = NULL ] ):array | array_column() returns the values from a single column of the input, identified by the column_key. Optionally, an index_key may be provided to index the values in the returned array by the values from the index_key column of the input array. 
+array_combine ( $keys , $values ):array | Creates an array by using the values from the keys array as keys and the values from the values array as the corresponding values. 
+array_count_values ( $):array | array_count_values() returns an array using the values of array as keys and their frequency in array as values. 
+array_diff_assoc ( $array1 , $array2 [, $... ] ):array | Compares array1 against array2 and returns the difference. Unlike array_diff() the array keys are also used in the comparison. 
+array_diff_key ( $array1 , $array2 [, $... ] ):array | Compares the keys from array1 against the keys from array2 and returns the difference. This function is like array_diff() except the comparison is done on the keys instead of the values. 
+array_diff_uassoc ( $array1 , $array2 [, $... ], callable $key_compare_func ):array |  Returns the entries of arr1 that have values which are not present in any of the others arguments but do additional checks whether the keys are equal. Elements are compared by user supplied function.
+array_diff_ukey ( $array1 , $array2 [, $... ], callable $key_compare_func ):array | 
+array_diff ( $array1 , $array2 [, $... ] ):array | Compares array1 against one or more other arrays and returns the values in array1 that are not present in any of the other arrays. 
+array_fill_keys ( $keys , mixed $value ):array | Fills an array with the value of the value parameter, using the values of the keys array as keys. 
+array_fill ( int $start_index , int $num , mixed $value ):array | Fills an array with num entries of the value of the value parameter, keys starting at the start_index parameter. 
+array_filter ( $[, callable $callback [, int $flag = 0 ]] ):array | Iterates over each value in the array passing them to the callback function. If the callback function returns true, the current value from array is returned into the result array. Array keys are preserved. 
+array_flip ( $):array |  Return array with key <-> value flipped
+array_intersect_assoc ( $array1 , $array2 [, $... ] ):array | array_intersect_assoc() returns an array containing all the values of array1 that are present in all the arguments. Note that the keys are also used in the comparison unlike in array_intersect(). 
+array_intersect_key ( $array1 , $array2 [, $... ] ):array | array_intersect_key() returns an array containing all the entries of array1 which have keys that are present in all the arguments. 
+array_intersect_uassoc ( $array1 , $array2 [, $... ], callable $key_compare_func ):array | array_intersect_uassoc() returns an array containing all the values of array1 that are present in all the arguments. Note that the keys are used in the comparison unlike in array_intersect(). 
+array_intersect_ukey ( $array1 , $array2 [, $... ], callable $key_compare_func ):array | array_intersect_ukey() returns an array containing all the values of array1 which have matching keys that are present in all the arguments. 
+array_intersect ( $array1 , $array2 [, $... ] ):array | array_intersect() returns an array containing all the values of array1 that are present in all the arguments. Note that keys are preserved. 
+array_key_exists ( mixed $key , array $array ):bool | array_key_exists() returns TRUE if the given key is set in the array. key can be any value possible for an array index. 
+array_key_first ( array $array ):mixed | Get the first key of the given array without affecting the internal array pointer. 
+array_key_last ( array $array ):mixed | Get the last key of the given array without affecting the internal array pointer. 
+array_keys ( $[, mixed $search_value [, bool $strict = FALSE ]] ):array |  Return just the keys from the input array, optionally only for the specified search_value
+array_map ( callable $callback , $array1 [, $... ] ):array | array_map() returns an array containing all the elements of array1 after applying the callback function to each one. The number of parameters that the callback function accepts should match the number of arrays passed to the array_map() 
+array_merge_recursive ( $array1 [, $... ] ):array |  Recursively merges elements from passed arrays into one array
+array_merge ( $array1 [, $... ] ):array |  Merges elements from passed arrays into one array
+array_multisort ( array &$array1 [, mixed $array1_sort_order = SORT_ASC [, mixed $array1_sort_flags = SORT_REGULAR [, mixed $... ]]] ):bool |  Sort multiple arrays at once similar to how ORDER BY clause works in SQL
+array_pad ( $, int $size , mixed $value ):array | array_pad() returns a copy of the array padded to size specified by size with value value. If size is positive then the array is padded on the right,
+array_pop ( array &$array ):mixed |  Pops an element off the end of the array
+array_product ( array $array ):number | array_product() returns the product of values in an array. 
+array_push ( array &$array [, mixed $... ] ):int |  Pushes elements onto the end of the array
+array_rand ( array $array [, int $num = 1 ] ):mixed | Picks one or more random entries out of an array, and returns the key (or keys) of the random entries. It uses a pseudo random number generator that is not suitable for cryptographic purposes. 
+array_reduce ( array $array , callable $callback [, $initial = NULL ] ):mixed | array_reduce() applies iteratively the callback function to the elements of the array, so as to reduce the array to a single value. 
+array_replace_recursive ( $array1 [, $... ] ):array | 
+array_replace ( $array1 [, $... ] ):array | 
+array_reverse ( $[, bool $preserve_keys = FALSE ] ):array | Takes an input array and returns a new array with the order of the elements reversed. 
+array_search ( $needle , array $haystack [, bool $strict = FALSE ] ):mixed | Searches haystack for needle. 
+array_shift ( array &$array ):mixed |  Pops an element off the beginning of the array
+array_slice ( $, int $offset [, int $length = NULL [, bool $preserve_keys = FALSE ]] ):array | array_slice() returns the sequence of elements from the array array as specified by the offset and length parameters. 
+array_splice ( &$input , int $offset [, int $length = count($input) [, mixed $replacement = array() ]] ):array |  Removes the elements designated by offset and length and replace them with supplied array
+array_sum ( array $array ):number | array_sum() returns the sum of values in an array. 
+array_udiff_assoc ( $array1 , $array2 [, $... ], callable $value_compare_func ):array |  Returns the entries of arr1 that have values which are not present in any of the others arguments but do additional checks whether the keys are equal. Keys are compared by user supplied function.
+array_udiff_uassoc ( $array1 , $array2 [, $... ], callable $value_compare_func , callable $key_compare_func ):array |  Returns the entries of arr1 that have values which are not present in any of the others arguments but do additional checks whether the keys are equal. Keys and elements are compared by user supplied functions.
+array_udiff ( $array1 , $array2 [, $... ], callable $value_compare_func ):array | Computes the difference of arrays by using a callback function for data comparison. This is unlike array_diff() which uses an internal function for comparing the data. 
+array_uintersect_assoc ( $array1 , $array2 [, $... ], callable $value_compare_func ):array |  Returns the entries of arr1 that have values which are present in all the other arguments. Keys are used to do more restrictive check. Data is compared by using an user-supplied callback.
+array_uintersect_uassoc ( $array1 , $array2 [, $... ], callable $value_compare_func , callable $key_compare_func ):array | Computes the intersection of arrays with additional index check, compares data and indexes by separate callback functions. 
+array_uintersect ( $array1 , $array2 [, $... ], callable $value_compare_func ):array | Computes the intersection of arrays, compares data by a callback function. 
+array_unique ( $[, int $sort_flags = SORT_STRING ] ):array |  Removes duplicate values from array
+array_unshift ( array &$array [, mixed $... ] ):int | array_unshift() prepends passed elements to the front of the array. Note that the list of elements is prepended as a whole, so that the prepended elements stay in the same order. All numerical array keys will be modified to start counting from zero while literal keys won't be changed. 
+array_values ( $):array | array_values() returns all the values from the array and indexes the array numerically. 
+array_walk_recursive ( array &$array , callable $callback [, mixed $userdata = NULL ] ):bool | Applies the user-defined callback function to each element of the array. This function will recurse into deeper arrays. 
+array_walk ( array &$array , callable $callback [, mixed $userdata = NULL ] ):bool |  Apply a user function to every member of an array
+([ mixed $... ] ):array | Creates an array. Read the section on the array type for more information on what an array is. 
+arsort ( array &$array [, int $sort_flags = SORT_REGULAR ] ):bool |  Sort an array in reverse order and maintain index association
+asort ( array &$array [, int $sort_flags = SORT_REGULAR ] ):bool |  Sort an array and maintain index association
+compact ( mixed $varname1 [, mixed $... ] ):array |  Creates a hash containing variables and their values
+count ( mixed $array_or_countable [, $mode = COUNT_NORMAL ] ):int |  Count the number of elements in a variable (usually an array)
+current ( array $array ):mixed | Every array has an internal pointer to its "current" element, which is initialized to the first element inserted into the array. 
+each ( &$):array |  Return the currently pointed key..value pair in the passed array, and advance the pointer to the next element
+end ( array &$array ):mixed | end() advances array's internal pointer to the last element, and returns its value. 
+extract ( array &$array [, $flags = EXTR_OVERWRITE [, string $prefix = NULL ]] ):int |  Imports variables into symbol table from an array
+in_array ( mixed $needle , array $haystack [, $strict = FALSE ] ):bool | Searches haystack for needle using loose comparison unless strict is set. 
+key_exists(->) function is an alias of: array_key_exists(). :This | 
+key ( array $array ):mixed | key() returns the index element of the current array position. 
+krsort ( array &$array [, int $sort_flags = SORT_REGULAR ] ):bool | Sorts an array by key in reverse order, maintaining key to data correlations. This is useful mainly for associative arrays. 
+ksort ( array &$array [, int $sort_flags = SORT_REGULAR ] ):bool | Sorts an array by key, maintaining key to data correlations. This is useful mainly for associative arrays. 
+list ( mixed $var1 [, mixed $... ] ):array | 
+natcasesort ( array &$array ):bool |  Sort an array using case-insensitive natural sort
+natsort ( array &$array ):bool |  Sort an array using natural sort
+next ( array &$array ):mixed | next() behaves like current(), with one difference. It advances the internal array pointer one place forward before returning the element value. That means it returns the next array value and advances the internal array pointer by one. 
+pos(->) function is an alias of: current() :This | 
+prev ( array &$array ):mixed |  Move array argument's internal pointer to the previous element and return it
+range ( mixed $start , mixed $end [, number $step = 1 ] ):array | Create an array containing a range of elements. 
+reset ( array &$array ):mixed | reset() rewinds array's internal pointer to the first element and returns the value of the first array element. 
+rsort ( array &$array [, int $sort_flags = SORT_REGULAR ] ):bool |  Sort an array in reverse order
+shuffle ( array &$array ):bool | This function shuffles (randomizes the order of the elements in) an array. It uses a pseudo random number generator that is not suitable for cryptographic purposes. 
+sizeof(->) function is an alias of: count(). :This | 
+sort ( array &$array [, int $sort_flags = SORT_REGULAR ] ):bool |  Sort an array
+uasort ( array &$array , callable $value_compare_func ):bool |  Sort an array with a user-defined comparison function and maintain index association
+uksort ( array &$array , callable $key_compare_func ):bool |  Sort an array by keys using a user-defined comparison function
+usort ( array &$array , callable $value_compare_func ):bool |  Sort an array by values using a user-defined comparison function
+__autoload ( string $class ):void | You can define this function to enable classes autoloading. 
+call_user_method_array ( string $method_name , object &$obj , array $params ):mixed |  Call a user method on a specific object or class using a parameter array
+call_user_method ( string $method_name , object &$obj [, $parameter [, $... ]] ):mixed |  Call a user method on a specific object or class
+class_alias ( string $original , string $alias [, $autoload = TRUE ] ):bool | Creates an alias named alias based on the user defined class original. The aliased class is exactly the same as the original class. 
+class_exists ( string $class_name [, $autoload = TRUE ] ):bool | This function checks whether or not the given class has been defined. 
+get_called_class ( void ):string | Gets the name of the class the static method is called in. 
+get_class_methods ( mixed $class_name ):array | Gets the class methods names. 
+get_class_vars ( string $class_name ):array | Get the default properties of the given class. 
+get_class ([ object $object ] ):string | Gets the name of the class of the given object. 
+get_declared_classes ( void ):array | Gets the declared classes. 
+get_declared_interfaces ( void ):array | Gets the declared interfaces. 
+get_declared_traits ( void ):array | 
+get_object_vars ( object $object ):array | Gets the accessible non-static properties of the given object according to scope. 
+get_parent_class ([ mixed $object ] ):string | Retrieves the parent class name for object or class. 
+interface_exists ( string $interface_name [, $autoload = TRUE ] ):bool | Checks if the given interface has been defined. 
+is_a ( object $object , string $class_name [, $allow_string = FALSE ] ):bool | Checks if the given object is of this class or has this class as one of its parents. 
+is_subclass_of ( mixed $object , string $class_name [, $allow_string = TRUE ] ):bool | Checks if the given object has the class class_name as one of its parents or implements it. 
+method_exists ( mixed $object , string $method_name ):bool | Checks if the class method exists in the given object. 
+property_exists ( mixed $class , string $property ):bool | 
+trait_exists ( string $traitname [, $autoload ] ):bool | 
+random_bytes ( int $length ):string | 
+random_( $min , $max ):int | 
+checkdate ( int $month , int $day , int $year ):bool | Checks the validity of the date formed by the arguments. A date is considered valid if each parameter is properly defined. 
+date_add(->) function is an alias of: DateTime::add() :This | 
+date_create_from_format(->) function is an alias of: DateTime::createFromFormat() :This | 
+date_create_immutable_from_format(->) function is an alias of: DateTimeImmutable::createFromFormat() :This | 
+date_create_immutable(->) function is an alias of: DateTimeImmutable::__construct() :This | 
+date_create(->) function is an alias of: DateTime::__construct() :This | 
+date_date_set(->) function is an alias of: DateTime::setDate() :This | 
+date_default_timezone_get ( void ):string | 
+date_default_timezone_set ( string $timezone_identifier ):bool | 
+date_diff(->) function is an alias of: DateTime::diff() :This | 
+date_format(->) function is an alias of: DateTime::format() :This | 
+date_get_last_errors(->) function is an alias of: DateTime::getLastErrors() :This | 
+date_interval_create_from_date_string(->) function is an alias of: DateInterval::createFromDateString() :This | 
+date_interval_format(->) function is an alias of: DateInterval::format() :This | 
+date_isodate_set(->) function is an alias of: DateTime::setISODate() :This | 
+date_modify(->) function is an alias of: DateTime::modify() :This | 
+date_offset_get(->) function is an alias of: DateTime::getOffset() :This | 
+date_parse_from_format ( string $format , string $date ):array | Returns associative array with detailed info about given date. 
+date_parse ( string $date ):array | 
+date_sub(->) function is an alias of: DateTime::sub() :This | 
+date_sun_info ( int $time , float $latitude , float $longitude ):array | 
+date_sunrise ( int $timestamp [, int $format = SUNFUNCS_RET_STRING [, float $latitude = ini_get("date.default_latitude") [, float $longitude = ini_get("date.default_longitude") [, float $zenith = ini_get("date.sunrise_zenith") [, float $gmt_offset = 0 ]]]]] ):mixed | date_sunrise() returns the sunrise time for a given day (specified as a timestamp) and location. 
+date_sunset ( int $timestamp [, int $format = SUNFUNCS_RET_STRING [, float $latitude = ini_get("date.default_latitude") [, float $longitude = ini_get("date.default_longitude") [, float $zenith = ini_get("date.sunset_zenith") [, float $gmt_offset = 0 ]]]]] ):mixed | date_sunset() returns the sunset time for a given day (specified as a timestamp) and location. 
+date_time_set(->) function is an alias of: DateTime::setTime() :This | 
+date_timestamp_get(->) function is an alias of: DateTime::getTimestamp() :This | 
+date_timestamp_set(->) function is an alias of: DateTime::setTimestamp() :This | 
+date_timezone_get(->) function is an alias of: DateTime::getTimezone() :This | 
+date_timezone_set(->) function is an alias of: DateTime::setTimezone() :This | 
+date ( $format [, int $timestamp = time() ] ):string | Returns a string formatted according to the given format string using the given integer timestamp or the current time if no timestamp is given. In other words, timestamp is optional and defaults to the value of time(). 
+getdate ([ int $timestamp = time() ] ):array | Returns an associative array containing the date information of the timestamp, or the current local time if no timestamp is given. 
+gettimeofday ([ bool $return_float = FALSE ] ):mixed | This is an interface to gettimeofday(2). It returns an associative array containing the data returned from the system call. 
+gmdate ( $format [, int $timestamp = time() ] ):string | Identical to the date() function except that the time returned is Greenwich Mean Time (GMT). 
+gmmktime ([ $hour = gmdate("H") [, $minute = gmdate("i") [, $second = gmdate("s") [, $month = gmdate("n") [, $day = gmdate("j") [, $year = gmdate("Y") [, $is_dst = -1 ]]]]]]] ):int |  Get UNIX timestamp for a GMT date
+gmstrftime ( $format [, int $timestamp = time() ] ):string | Behaves the same as strftime() except that the time returned is Greenwich Mean Time (GMT). For example, when run in Eastern Standard Time (GMT -0500), the first line below prints "Dec 31 1998 20:00:00", while the second prints "Jan 01 1999 01:00:00". 
+idate ( string $format [, $timestamp = time() ] ):int |  Format a local time/date as integer
+localtime ([ int $timestamp = time() [, bool $is_associative = FALSE ]] ):array | The localtime() function returns an array identical to that of the structure returned by the C function call. 
+microtime ([ bool $get_as_float = FALSE ] ):mixed | microtime() returns the current Unix timestamp with microseconds. This function is only available on operating systems that support the gettimeofday() system call. 
+mktime ([ $hour = date("H") [, $minute = date("i") [, $second = date("s") [, $month = date("n") [, $day = date("j") [, $year = date("Y") [, $is_dst = -1 ]]]]]]] ):int |  Get UNIX timestamp for a date
+strftime ( $format [, int $timestamp = time() ] ):string |  Format a local time/date according to locale settings
+strptime ( string $date , string $format ):array | 
+strtotime ( string $time [, $now = time() ] ):int |  Convert string representation of date and time to a timestamp
+time ( void ):int | Returns the current time measured in the number of seconds since the Unix Epoch (January 1 1970 00:00:00 GMT). 
+timezone_abbreviations_list(->) function is an alias of: DateTimeZone::listAbbreviations() :This | 
+timezone_identifiers_list(->) function is an alias of: DateTimeZone::listIdentifiers() :This | 
+timezone_location_get(->) function is an alias of: DateTimeZone::getLocation() :This | 
+timezone_name_from_abbr ( $abbr [, int $gmtOffset = -1 [, int $isdst = -1 ]] ):string | 
+timezone_name_get(->) function is an alias of: DateTimeZone::getName() :This | 
+timezone_offset_get(->) function is an alias of: DateTimeZone::getOffset() :This | 
+timezone_open(->) function is an alias of: DateTimeZone::__construct() :This | 
+timezone_transitions_get(->) function is an alias of: DateTimeZone::getTransitions() :This | 
+timezone_version_get ( void ):string | Returns the current version of the timezonedb. 
+chdir ( string $directory ):bool | Changes PHP's current directory to directory. 
+chroot ( string $directory ):bool |  Change root directory
+closedir ([ resource $dir_handle ] ):void | Closes the directory stream indicated by dir_handle. The stream must have previously been opened by opendir(). 
+dir ( string $directory [, resource $context ] ):Directory | A pseudo-object oriented mechanism for reading a directory. The given directory is opened. 
+getcwd ( void ):string | Gets the current working directory. 
+opendir ( string $path [, $context ] ):resource | Opens up a directory handle to be used in subsequent closedir(), readdir(), and rewinddir() calls. 
+readdir ([ resource $dir_handle ] ):string | Returns the name of the next entry in the directory. The entries are returned in the order in which they are stored by the filesystem. 
+rewinddir ([ resource $dir_handle ] ):void | Resets the directory stream indicated by dir_handle to the beginning of the directory. 
+scandir ( string $directory [, int $sorting_order = SCANDIR_SORT_ASCENDING [, resource $context ]] ):array | Returns an array of files and directories from the directory. 
+debug_backtrace ([ int $options = DEBUG_BACKTRACE_PROVIDE_OBJECT [, int $limit = 0 ]] ):array | debug_backtrace() generates a PHP backtrace. 
+debug_print_backtrace ([ int $options = 0 [, int $limit = 0 ]] ):void | debug_print_backtrace() prints a PHP backtrace. It prints the function calls, included/required files and eval()ed stuff. 
+error_clear_last ( ):void | 
+error_get_last ( void ):array | Gets information about the last error that occurred. 
+error_log ( string $message [, int $message_type = 0 [, string $destination [, string $extra_headers ]]] ):bool | Sends an error message to the web server's error log or to a file. 
+error_reporting ([ $level ] ):int |  sets the error_reporting directive at runtime.
+restore_error_handler ( void ):bool | Used after using set_error_handler() to revert to the previous error handler
+restore_exception_handler ( void ):bool | Used after changing the exception handler function using set_exception_handler().
+set_error_handler ( callable $error_handler [, int $error_types = E_ALL | E_STRICT ] ):mixed |  Sets a user-defined error handler function. | Returns the previously defined error handler, or false on error
+set_exception_handler ( $exception_handler ):callable | Sets the default exception handler if an exception is not caught within a try/catch block. Execution will stop after the exception_handler is called. 
+trigger_error ( string $error_msg [, int $error_type = E_USER_NOTICE ] ):bool |  Generates a user-level error/warning/notice message
+user_error(->) function is an alias of: trigger_error(). :This | 
+escapeshellarg ( $arg ):string |  Quote and escape an argument for use in a shell command
+escapeshellcmd ( $command ):string |  Escape shell metacharacters
+exec ( $command [, array &$output [, int &$return_var ]] ):string | exec() executes the given command. 
+passthru ( string $command [, int &$return_var ] ):void | Use in place of exec() or system() when the output from the Unix command is binary data 
+proc_close ( resource $process ):int | proc_close() is similar to pclose() except that it only works on processes opened by proc_open(). 
+proc_get_status ( resource $process ):array | proc_get_status() fetches data about a process opened using proc_open(). 
+proc_nice ( int $increment ):bool |  Change the priority of the current process
+proc_open ( string $cmd , array $descriptorspec , array &$pipes [, string $cwd [, array $env [, array $other_options ]]] ):resource | similar to popen() but provides a much greater degree of control over the program execution. 
+proc_terminate ( resource $process [, int $signal = 15 ] ):bool |  kill a process opened by proc_open
+shell_exec ( $cmd ):string | This function is identical to the backtick operator. 
+system ( $command [, int &$return_var ] ):string |  Execute an external program and display output
+basename ( $path [, $suffix ] ):string |  Returns the filename component of the path
+chgrp ( string $filename , mixed $group ):bool |  Change file group
+chmod ( string $filename , int $mode ):bool | Attempts to change the mode of the specified file to that given in mode. 
+chown ( string $filename , mixed $user ):bool | Attempts to change the owner of the file filename to user user. Only the superuser may change the owner of a file. 
+clearstatcache ([ bool $clear_realpath_cache = FALSE [, string $filename ]] ):void |  Clear file stat cache
+copy ( string $source , string $dest [, resource $context ] ):bool |  Copy a file
+is a dummy manual entry to satisfy those people who are looking for unlink() or unset() in the wrong place. :This | 
+dirname ( $path [, int $levels = 1 ] ):string |  Returns the directory name component of the path
+disk_free_space ( string $directory ):float | Given a string containing a directory, this function will return the number of bytes available on the corresponding filesystem or disk partition. 
+disk_total_space ( string $directory ):float | Given a string containing a directory, this function will return the total number of bytes on the corresponding filesystem or disk partition. 
+diskfreespace(->) function is an alias of: disk_free_space(). :This | 
+fclose ( resource $handle ):bool | The file pointed to by handle is closed. 
+feof ( resource $handle ):bool | Tests for end-of-file on a file pointer. 
+fflush ( resource $handle ):bool | This function forces a write of all buffered output to the resource pointed to by the file handle. 
+fgetc ( resource $handle ):string | Gets a character from the given file pointer. 
+fgetcsv ( resource $handle [, int $length = 0 [, string $delimiter = "," [, string $enclosure = '"' [, string $escape = "\\" ]]]] ):array |  Get line from file pointer and parse for CSV fields
+fgets ( resource $handle [, int $length ] ):string | Gets a line from file pointer. 
+fgetss ( resource $handle [, int $length [, $allowable_tags ]] ):string | Identical to fgets(), except that fgetss() attempts to strip any NUL bytes, HTML and PHP tags from the text it reads. 
+file_exists ( string $filename ):bool | Checks whether a file or directory exists. 
+file_get_contents ( $filename [, bool $use_include_path = FALSE [, resource $context [, int $offset = 0 [, int $maxlen ]]]] ):string |  Read the entire file into a string
+file_put_contents ( string $filename , mixed $data [, $flags = 0 [, resource $context ]] ):int |  Write/Create a file with contents data and return the number of bytes written
+file ( string $filename [, int $flags = 0 [, resource $context ]] ):array |  Read entire file into an array
+fileatime ( string $filename ):int | Gets the last access time of the given file. 
+filectime ( string $filename ):int | Gets the inode change time of a file. 
+filegroup ( string $filename ):int | Gets the file group. The group ID is returned in numerical format, use posix_getgrgid() to resolve it to a group name. 
+fileinode ( string $filename ):int | Gets the file inode. 
+filemtime ( string $filename ):int | This function returns the time when the data blocks of a file were being written to, that is, the time when the content of the file was changed. 
+fileowner ( string $filename ):int | Gets the file owner. 
+fileperms ( string $filename ):int | Gets permissions for the given file. 
+filesize ( string $filename ):int | Gets the size for the given file. 
+filetype ( $filename ):string | Returns the type of the given file. 
+flock ( resource $handle , int $operation [, int &$wouldblock ] ):bool |  Portable file locking
+fnmatch ( string $pattern , string $string [, int $flags = 0 ] ):bool | fnmatch() checks if the passed string would match the given shell wildcard pattern. 
+fopen ( string $filename , string $mode [, bool $use_include_path = FALSE [, $context ]] ):resource | fopen() binds a named resource, specified by filename, to a stream. 
+fpassthru ( resource $handle ):int |  Output all remaining data from a file pointer
+fputcsv ( resource $handle , array $fields [, string $delimiter = "," [, string $enclosure = '"' [, string $escape_char = "\\" ]]] ):int | fputcsv() formats a line (passed as a fields array) as CSV and write it (terminated by a newline) to the specified file handle. 
+fputs(->) function is an alias of: fwrite(). :This | 
+fread ( resource $handle , int $length ):string |  Binary-safe file read
+fscanf ( resource $handle , string $format [, &$... ] ):mixed |  Implements a mostly ANSI compatible fscanf()
+fseek ( resource $handle , $offset [, $whence = SEEK_SET ] ):int |  Seek on a file pointer
+fstat ( resource $handle ):array | Gathers the statistics of the file opened by the file pointer handle. This function is similar to the stat() function except that it operates on an open file pointer instead of a filename. 
+ftell ( resource $handle ):int | Returns the position of the file pointer referenced by handle. 
+ftruncate ( resource $handle , int $size ):bool | Takes the filepointer, handle, and truncates the file to length, size. 
+fwrite ( resource $handle , string $string [, $length ] ):int | fwrite() writes the contents of string to the file stream pointed to by handle. 
+glob ( string $pattern [, int $flags = 0 ] ):array | The glob() function searches for all the pathnames matching pattern according to the rules used by the libc glob() function, which is similar to the rules used by common shells. 
+is_dir ( string $filename ):bool | Tells whether the given filename is a directory. 
+is_executable ( string $filename ):bool | Tells whether the filename is executable. 
+is_file ( string $filename ):bool | Tells whether the given file is a regular file. 
+is_link ( string $filename ):bool | Tells whether the given file is a symbolic link. 
+is_readable ( string $filename ):bool | Tells whether a file exists and is readable. 
+is_uploaded_file ( string $filename ):bool |  Check if file was created by rfc1867 upload
+is_writable ( string $filename ):bool |  Returns true if file can be written
+is_writeable(->) function is an alias of: is_writable(). :This | 
+lchgrp ( string $filename , mixed $group ):bool | 
+lchown ( string $filename , mixed $user ):bool | 
+link ( string $target , string $link ):bool | link() creates a hard link. 
+linkinfo ( string $path ):int |  Returns the st_dev field of the UNIX C stat structure describing the link
+lstat ( string $filename ):array | Gathers the statistics of the file or symbolic link named by filename. 
+mkdir ( string $pathname [, int $mode = 0777 [, $recursive = FALSE [, resource $context ]]] ):bool | Attempts to create the directory specified by pathname. 
+move_uploaded_file ( string $filename , string $destination ):bool |  Move a file if and only if it was created by an upload
+parse_ini_file ( string $filename [, bool $process_sections = FALSE [, int $scanner_mode = INI_SCANNER_NORMAL ]] ):array |  Parse configuration file
+parse_ini_string ( string $ini [, bool $process_sections = FALSE [, int $scanner_mode = INI_SCANNER_NORMAL ]] ):array | 
+pathinfo ( string $path [, int $options = PATHINFO_DIRNAME | PATHINFO_BASENAME | PATHINFO_EXTENSION | PATHINFO_FILENAME ] ):mixed |  Returns information about a certain string
+pclose ( resource $handle ):int | Closes a file pointer to a pipe opened by popen(). 
+popen ( string $command , string $mode ):resource | Opens a pipe to a process executed by forking the command given by command. 
+readfile ( string $filename [, bool $use_include_path = FALSE [, resource $context ]] ):int | Reads a file and writes it to the output buffer. 
+readlink ( $path ):string | readlink() does the same as the readlink C function. 
+realpath_cache_get ( void ):array | Get the contents of the realpath cache. 
+realpath_cache_size ( void ):int | Get the amount of memory used by the realpath cache. 
+realpath ( $path ):string | realpath() expands all symbolic links and resolves references to /./, /../ and extra / characters in the input path and returns the canonicalized absolute pathname. 
+rename ( string $oldname , string $newname [, resource $context ] ):bool | Attempts to rename oldname to newname, moving it between directories if necessary. overwrittes newname.
+rewind ( resource $handle ):bool |  Rewind the position of a file pointer
+rmdir ( string $dirname [, resource $context ] ):bool | Attempts to remove the directory named by dirname. The directory must be empty, and the relevant permissions must permit this. 
+set_file_buffer(->) function is an alias of: stream_set_write_buffer(). :This | 
+stat ( string $filename ):array |  Give information about a file
+symlink ( string $target , string $link ):bool | symlink() creates a symbolic link to the existing target with the specified name link. 
+tempnam ( $dir , $prefix ):string | Creates a file with a unique filename, with access permission set to 0600, in the specified directory. 
+tmpfile ( void ):resource |  Create a temporary file that will be deleted automatically after use
+touch ( string $filename [, int $time = time() [, int $atime ]] ):bool |  Set modification time of file
+umask ([ $mask ] ):int | umask() sets PHP's umask to mask & 0777 and returns the old umask.
+unlink ( string $filename [, resource $context ] ):bool | Deletes filename. Similar to the Unix C unlink() function. An E_WARNING level error will be generated on failure. 
+filter_has_var ( int $type , string $variable_name ):bool | 
+filter_id ( string $filtername ):int | 
+filter_input_array ( int $type [, $definition [, bool $add_empty = TRUE ]] ):mixed | This function is useful for retrieving many values without repetitively calling filter_input(). 
+filter_input ( int $type , string $variable_name [, int $filter = FILTER_DEFAULT [, $options ]] ):mixed | 
+filter_list ( void ):array | 
+filter_var_array ( array $data [, $definition [, bool $add_empty = TRUE ]] ):mixed | This function is useful for retrieving many values without repetitively calling filter_var(). 
+filter_var ( $variable [, int $filter = FILTER_DEFAULT [, $options ]] ):mixed | 
+call_user_func_array ( callable $callback , array $param_arr ):mixed | Calls the callback given by the first parameter with the parameters in param_arr. 
+call_user_func ( callable $callback [, $parameter [, $... ]] ):mixed | Calls the callback given by the first parameter and passes the remaining parameters as arguments. 
+create_function ( $args , $code ):string |  Creates an anonymous function, and returns its name (funny, eh?)
+forward_static_call_array ( callable $function , array $parameters ):mixed | Calls a user defined function or method given by the function parameter. This function must be called within a method context
+ orward_static_call ( callable $function [, $parameter [, $... ]] ):mixed | Calls a user defined function or method given by the function parameter, with the following arguments. This function must be called within a method context.
+func_get_arg ( int $arg_num ):mixed |  Get the $arg_num'th argument that was passed to the function
+func_get_args ( void ):array |  Get an array of the arguments that were passed to the function
+func_num_args ( void ):int |  Get the number of arguments that were passed to the function
+function_exists ( string $function_name ):bool | Checks the list of defined functions, both built-in (internal) and user-defined, for function_name. 
+get_defined_functions ([ bool $exclude_disabled = FALSE ] ):array | Gets an array of all defined functions. 
+register_shutdown_function ( callable $callback [, mixed $parameter [, mixed $... ]] ):void |  Register a user-level function to be called on request termination
+register_tick_function ( callable $function [, mixed $arg [, mixed $... ]] ):bool | Registers the given function to be executed when a tick is called. 
+unregister_tick_function ( string $function_name ):void | De-registers the function named by function_name so it is no longer executed when a tick is called. 
+hash_algos ( void ):array | 
+hash_copy ( $context ):HashContext | 
+hash_equals ( string $known_string , string $user_string ):bool | 
+hash_file ( $algo , $filename [, bool $raw_output = FALSE ] ):string | 
+hash_final ( HashContext $context [, bool $raw_output = FALSE ] ):string | 
+hash_hkdf ( $algo , $ikm [, int $length = 0 [, $info = '' [, $salt = '' ]]] ):string | 
+hash_hmac_algos ( void ):array | 
+hash_hmac_file ( $algo , $filename , $key [, bool $raw_output = FALSE ] ):string | 
+hash_hmac ( $algo , $data , $key [, bool $raw_output = FALSE ] ):string | 
+hash_init ( string $algo [, int $options = 0 [, string $key = NULL ]] ):HashContext | 
+hash_pbkdf2 ( $algo , $password , $salt , int $iterations [, int $length = 0 [, bool $raw_output = FALSE ]] ):string | 
+hash_update_file ( HashContext $hcontext , string $filename [, resource $scontext = NULL ] ):bool | 
+hash_update_stream ( HashContext $context , resource $handle [, $length = -1 ] ):int | 
+hash_update ( HashContext $context , string $data ):bool | 
+hash ( $algo , $data [, bool $raw_output = FALSE ] ):string | 
+assert_options ( int $what [, $value ] ):mixed | Set the various assert() control options or just query their current settings. 
+5 and 7:PHP |  Checks if assertion is false
+cli_get_process_title ( void ):string | 
+cli_set_process_title ( string $title ):bool | Sets the process title visible in tools such as top and ps. This function is available only in CLI mode. 
+dl ( string $library ):bool |  Load a PHP extension at runtime
+extension_loaded ( string $name ):bool | Finds out whether the extension is loaded. 
+gc_collect_cycles ( void ):int | Forces collection of any existing garbage cycles. 
+gc_disable ( ):void | Deactivates the circular reference collector, setting zend.enable_gc to 0. 
+gc_enable ( ):void | Activates the circular reference collector, setting zend.enable_gc to 1. 
+gc_enabled ( void ):bool | Returns status of the circular reference collector. 
+gc_mem_caches ( void ):int | Reclaims memory used by the Zend Engine memory manager. 
+get_cfg_var ( string $option ):mixed |  Get the value of a PHP configuration option
+get_current_user ( void ):string | Returns the name of the owner of the current PHP script. 
+get_defined_constants ([ bool $categorize = FALSE ] ):array | Returns the names and values of all the constants currently defined. 
+get_extension_funcs ( string $module_name ):array | This function returns the names of all the functions defined in the module indicated by module_name. 
+get_include_path ( void ):string | Gets the current include_path configuration option value. 
+get_included_files ( void ):array | Gets the names of all files that have been included using include, include_once, require or require_once. 
+get_loaded_extensions ([ bool $zend_extensions = FALSE ] ):array | This function returns the names of all the modules compiled and loaded in the PHP interpreter. 
+get_magic_quotes_gpc ( void ):bool |  Get the current active configuration setting of magic_quotes_gpc
+get_magic_quotes_runtime ( void ):bool | Returns the current active configuration setting of magic_quotes_runtime. 
+get_required_files(->) function is an alias of: get_included_files(). :This | 
+get_resources ([ string $type ] ):array | Returns an array of all currently active resources, optionally filtered by resource type. 
+getenv ( $varname [, bool $local_only = FALSE ] ):string |  Get the value of an environment variable
+getlastmod ( void ):int |  Get time of last page modification
+getmygid ( void ):int | Gets the group ID of the current script. 
+getmyinode ( void ):int | Gets the inode of the current script. 
+getmypid ( void ):int | Gets the current PHP process ID. 
+getmyuid ( void ):int | Gets the user ID of the current script. 
+getopt ( string $options [, $longopts [, int &$optind ]] ):array | Parses options passed to the script. 
+getrusage ([ int $who = 0 ] ):array | This is an interface to getrusage(2). It gets data returned from the system call. 
+ini_alter(->) function is an alias of: ini_set(). :This | 
+ini_get_all ([ string $extension [, bool $details = TRUE ]] ):array | Returns all the registered configuration options. 
+ini_get ( $varname ):string | Returns the value of the configuration option on success. 
+ini_restore ( string $varname ):void | Restores a given configuration option to its original value. 
+ini_set ( $varname , $newvalue ):string | Sets the value of the given configuration option for that session. 
+magic_quotes_runtime(->) function is an alias of: set_magic_quotes_runtime() :This | 
+memory_get_peak_usage ([ bool $real_usage = FALSE ] ):int | Returns the peak of memory, in bytes, that's been allocated to your PHP script. 
+memory_get_usage ([ bool $real_usage = FALSE ] ):int | Returns the amount of memory, in bytes, that's currently being allocated to your PHP script. 
+php_ini_loaded_file ( void ):string | Check if a php.ini file is loaded, and retrieve its path. 
+php_ini_scanned_files ( void ):string |  Return comma-separated string of .ini files parsed from the additional ini dir
+php_logo_guid ( void ):string |  Return the special ID used to request the PHP logo in phpinfo screens
+php_sapi_name ( void ):string | Returns a lowercase string that describes the type of interface (the Server API, SAPI) that PHP is using.
+php_uname ([ $mode = "a" ] ):string |  Return information about the system PHP was built on
+phpcredits ([ int $flag = CREDITS_ALL ] ):bool | This function prints out the HTML credits listing the PHP developers, modules, etc. 
+phpinfo ([ int $what = INFO_ALL ] ):bool |  Output a page of useful information about PHP and the current request
+phpversion ([ $extension ] ):string | Returns a string containing the version of the currently running PHP parser or extension. 
+putenv ( string $setting ):bool |  Set the value of an environment variable
+restore_include_path ( ):void | Restores the include_path configuration option back to its original master value as set in php.ini 
+set_include_path ( $new_include_path ):string | Sets the include_path configuration option for the duration of the script. 
+set_magic_quotes_runtime ( $new_setting ):bool | Set the current active configuration setting of magic_quotes_runtime. 
+set_time_limit ( int $seconds ):bool |  Sets the maximum time a script can run
+sys_get_temp_dir ( void ):string | Returns the path of the directory PHP stores temporary files in by default. 
+version_compare ( string $version1 , string $version2 ):int |  Compares two "PHP-standardized" version number strings
+zend_logo_guid ( void ):string |  Return the special ID used to request the Zend logo in phpinfo screens
+zend_thread_id ( void ):int | This function returns a unique identifier for the current thread. 
+zend_version ( void ):string | Returns a string containing the version of the currently running Zend Engine. 
+ezmlm_hash ( string $addr ):int | ezmlm_hash() calculates the hash value needed when keeping EZMLM mailing lists in a MySQL database. 
+mail ( string $to , string $subject , string $message [, mixed $additional_headers [, string $additional_parameters ]] ):bool | Sends an email. 
+abs ( mixed $):number | Returns the absolute value of number. 
+acos ( $arg ):float | Returns the arc cosine of arg in radians. acos() is the inverse function of cos(), which means that a==cos(acos(a)) for every value of a that is within acos()' range. 
+acosh ( $arg ):float | Returns the inverse hyperbolic cosine of arg, i.e. the value whose hyperbolic cosine is arg. 
+asin ( $arg ):float | Returns the arc sine of arg in radians. asin() is the inverse function of sin(), which means that a==sin(asin(a)) for every value of a that is within asin()'s range. 
+asinh ( $arg ):float | Returns the inverse hyperbolic sine of arg, i.e. the value whose hyperbolic sine is arg. 
+atan2 ( $y , $x ):float |  Returns the arc tangent of y/x, with the resulting quadrant determined by the signs of y and x
+atan ( $arg ):float | Returns the arc tangent of arg in radians. atan() is the inverse function of tan(), which means that a==tan(atan(a)) for every value of a that is within atan()'s range. 
+atanh ( $arg ):float | Returns the inverse hyperbolic tangent of arg, i.e. the value whose hyperbolic tangent is arg. 
+base_convert ( $number , int $frombase , int $tobase ):string |  Converts a number in a string from any base <= 36 to any base <= 36
+bindec ( string $binary_string ):number |  Returns the decimal equivalent of the binary number
+ceil ( $value ):float | Returns the next highest integer value by rounding up value if necessary. 
+cos ( $arg ):float | cos() returns the cosine of the arg parameter. The arg parameter is in radians. 
+cosh ( $arg ):float | Returns the hyperbolic cosine of arg, defined as (exp(arg) + exp(-arg))/2. 
+decbin ( int $number ):string | Returns a string containing a binary representation of the given number argument. 
+dechex ( int $number ):string |  Returns a string containing a hexadecimal representation of the given number
+decoct ( int $number ):string | Returns a string containing an octal representation of the given number argument. 
+deg2rad ( $number ):float | This function converts number from degrees to the radian equivalent. 
+exp ( $arg ):float |  Returns e raised to the power of the number
+expm1 ( $arg ):float | returns the equivalent to 'exp(arg) - 1' computed in a way that is accurate even if the value of arg is near zero.
+floor ( $value ):float | Returns the next lowest integer value (as float) by rounding down value if necessary. 
+fmod ( $x , $y ):float | Returns the floating point remainder of dividing the dividend (x) by the divisor (y). 
+getrandmax ( void ):int | Returns the maximum value that can be returned by a call to rand(). 
+hexdec ( string $hex_string ):number |  Returns the decimal equivalent of the hexadecimal number
+hypot ( $x , $y ):float | hypot() returns the length of the hypotenuse of a right-angle triangle or the distance of the point (x, y) from the origin.  
+intdiv ( $dividend , $divisor ):int | Returns the integer quotient of the division of dividend by divisor. 
+is_finite ( float $val ):bool | Checks whether val is a legal finite on this platform. 
+is_infinite ( float $val ):bool | Returns TRUE if val is infinite (positive or negative), like the result of log(0) or any value too big to fit into a float on this platform. 
+is_nan ( float $val ):bool | Checks whether val is 'not a number', like the result of acos(1.01). 
+lcg_value ( void ):float |  Returns a value from the combined linear congruential generator
+log10 ( $arg ):float | Returns the base-10 logarithm of arg. 
+log1p ( $number ):float | log1p() returns log(1 + number) computed in a way that is accurate even when the value of number is close to zero. 
+log ( $arg [, $base = M_E ] ):float | If the optional base parameter is specified, log() returns logbase arg, otherwise log() returns the natural logarithm of arg. 
+max ( array $values ):mixed |  Return the highest value in an array or a series of arguments
+min ( array $values ):mixed |  Return the lowest value in an array or a series of arguments
+mt_getrandmax ( void ):int | Returns the maximum value that can be returned by a call to mt_rand(). 
+mt_rand ( void ):int |  Returns a random number from Mersenne Twister
+mt_srand ([ int $seed [, int $mode = MT_RAND_MT19937 ]] ):void |  Seeds Mersenne Twister random number generator
+octdec ( string $octal_string ):number | Returns the decimal equivalent of the octal number represented by the octal_string argument. 
+pi ( void ):float | Returns an approximation of pi. The returned float has a precision based on the precision directive in php.ini, which defaults to 14. 
+pow ( $base , $exp ):number |  Returns base raised to the power of exponent. Returns integer result when possible
+rad2deg ( $number ):float | This function converts number from radian to degrees. 
+rand ( void ):int |  Returns a random number
+round ( $val [, int $precision = 0 [, int $mode = PHP_ROUND_HALF_UP ]] ):float |  Returns the number rounded to specified precision
+sin ( $arg ):float | sin() returns the sine of the arg parameter. The arg parameter is in radians. 
+sinh ( $arg ):float | Returns the hyperbolic sine of arg, defined as (exp(arg) - exp(-arg))/2. 
+sqrt ( $arg ):float | Returns the square root of arg. 
+srand(->) srand ([ int $seed ] ):void |  Seeds random number generator
+tan ( $arg ):float | tan() returns the tangent of the arg parameter. The arg parameter is in radians. 
+tanh ( $arg ):float | Returns the hyperbolic tangent of arg, defined as sinh(arg)/cosh(arg). 
+connection_aborted ( void ):int | Checks whether the client disconnected. 
+connection_status ( void ):int | Gets the connection status bitfield. 
+constant ( string $name ):mixed |  Given the name of a constant this function will return the constants associated value
+define ( string $name , mixed $value [, $case_insensitive = FALSE ] ):bool | Defines a named constant at runtime. 
+defined ( string $name ):bool |  Check whether a constant exists
+language construct is equivalent to exit(). :This | 
+eval ( string $code ):mixed | 
+exit ([ string $status ] ):void | 
+get_browser ([ string $user_agent [, bool $return_array = FALSE ]] ):mixed | Attempts to determine the capabilities of the user's browser, see browscap.ini file. 
+__halt_compiler ( ):void | 
+highlight_file ( string $filename [, bool $return = FALSE ] ):mixed |  Syntax highlight a source file
+highlight_string ( string $str [, bool $return = FALSE ] ):mixed | Outputs or returns html markup for a syntax highlighted version of the given PHP code.
+hrtime ([ bool $get_as_number = FALSE ] ):mixed | Returns the system's high resolution time, counted from an arbitrary point in time. The delivered timestamp is monotonic and can not be adjusted. 
+ignore_user_abort ([ bool $value ] ):int |  Set whether we want to ignore a user abort event or not
+pack ( $format [, mixed $args [, mixed $... ]] ):string |  Takes one or more arguments and packs them into a binary string according to the format argument
+php_check_syntax(->) php_check_syntax ( string $filename [, string &$error_message ] ):bool |  Check the syntax of the specified file.
+php_strip_whitespace ( $filename ):string | Returns the PHP source code in filename with PHP comments and whitespace removed. (see php -w)
+sapi_windows_cp_conv ( int|$in_codepage , int|$out_codepage , $subject ):string | Convert string from one codepage to another. 
+sapi_windows_cp_get ( string $kind ):int | Get the identifier of the codepage of the current process. 
+sapi_windows_cp_is_utf8 ( void ):bool | Indicates whether the codepage of the current process is UTF-8 compatible. 
+sapi_windows_cp_set ( int $cp ):bool | Set the codepage of the current process. 
+sapi_windows_vt100_support ( resource $stream [, $enable ] ):bool | 
+show_source(->) function is an alias of: highlight_file(). :This | 
+sleep ( $seconds ):int | Delays the program execution for the given number of seconds. 
+sys_getloadavg ( void ):array | Returns three samples representing the average system load (the number of processes in the system run queue) over the last 1, 5 and 15 minutes, respectively. 
+time_nanosleep ( int $seconds , int $nanoseconds ):mixed | Delays program execution for the given number of seconds and nanoseconds. 
+time_sleep_until ( float $timestamp ):bool | Makes the script sleep until the specified timestamp. 
+uniqid ([ $prefix = "" [, bool $more_entropy = FALSE ]] ):string |  Generates a unique ID
+unpack ( string $format , string $data [, int $offset = 0 ] ):array |  Unpack binary string into named array elements according to format argument
+usleep ( int $micro_seconds ):void | Delays program execution for the given number of microseconds. 
+checkdnsrr ( string $host [, string $type = "MX" ] ):bool | Searches DNS for records of type type corresponding to host. 
+closelog ( void ):bool | closelog() closes the descriptor being used to write to the system logger. The use of closelog() is optional. 
+define_syslog_variables ( ):void | Initializes all variables used in the syslog functions. 
+dns_check_record(->) function is an alias of: checkdnsrr(). :This |  Check DNS records corresponding to a given Internet host name or IP address
+dns_get_mx(->) function is an alias of: getmxrr(). :This |  Get MX records corresponding to a given Internet host name
+dns_get_record ( string $hostname [, int $type = DNS_ANY [, &$authns [, &$addtl [, bool $raw = FALSE ]]]] ):array | Fetch DNS Resource Records associated with the given hostname. 
+fsockopen ( string $hostname [, int $port = -1 [, int &$errno [, string &$errstr [, float $timeout = ini_get("default_socket_timeout") ]]]] ):resource |  Open Internet or Unix domain socket connection
+gethostbyaddr ( $ip_address ):string | Returns the host name of the Internet host specified by ip_address. 
+gethostbyname ( $hostname ):string | Returns the IPv4 address of the Internet host specified by hostname. 
+gethostbynamel ( string $hostname ):array | Returns a list of IPv4 addresses to which the Internet host specified by hostname resolves. 
+gethostname ( void ):string | gethostname() gets the standard host name for the local machine. 
+getmxrr ( string $hostname , array &$mxhosts [, array &$weight ] ):bool | Searches DNS for MX records corresponding to hostname. 
+getprotobyname ( string $name ):int | getprotobyname() returns the protocol number associated with the protocol name as per /etc/protocols. 
+getprotobynumber ( int $number ):string | getprotobynumber() returns the protocol name associated with protocol number as per /etc/protocols. 
+getservbyname ( string $service , string $protocol ):int | getservbyname() returns the Internet port which corresponds to service for the specified protocol as per /etc/services. 
+getservbyport ( int $port , $protocol ):string | getservbyport() returns the Internet service associated with port for the specified protocol as per /etc/services. 
+header_register_callback ( callable $callback ):bool | 
+header_remove ([ string $name ] ):void | Removes an HTTP header previously set using header(). 
+header ( string $header [, bool $replace = TRUE [, int $http_response_code ]] ):void |  Sends a raw HTTP header
+headers_list ( void ):array | headers_list() will return a list of headers to be sent to the browser / client. To determine whether or not these headers have been sent yet, use headers_sent(). 
+headers_sent ([ string &$file [, int &$line ]] ):bool |  Returns true if headers have already been sent, false otherwise
+http_response_code ([ int $response_code ] ):mixed | Gets or sets the HTTP response status code. 
+inet_ntop ( $in_addr ):string | This function converts a 32bit IPv4, or 128bit IPv6 address (if PHP was built with IPv6 support enabled) into an address family appropriate string representation. 
+inet_pton ( $address ):string | This function converts a human readable IPv4 or IPv6 address (if PHP was built with IPv6 support enabled) into an address family appropriate 32bit or 128bit binary structure. 
+ip2long ( string $ip_address ):int |  Converts a string containing an (IPv4) Internet Protocol dotted address into a proper address
+long2ip ( int $proper_address ):string | The function long2ip() generates an Internet address in dotted format (i.e.: aaa.bbb.ccc.ddd) from the long integer representation. 
+openlog ( string $ident , int $option , int $facility ):bool |  Open connection to system logger
+pfsockopen ( string $hostname [, int $port = -1 [, int &$errno [, string &$errstr [, float $timeout = ini_get("default_socket_timeout") ]]]] ):resource | This function behaves exactly as fsockopen() with the difference that the connection is not closed after the script finishes. It is the persistent version of fsockopen(). 
+setcookie ( string $name [, string $value = "" [, int $expires = 0 [, string $path = "" [, string $domain = "" [, $secure = FALSE [, $httponly = FALSE ]]]]]] ):bool |  Send a cookie
+setrawcookie ( string $name [, string $value [, int $expires = 0 [, string $path [, string $domain [, $secure = FALSE [, $httponly = FALSE ]]]]]] ):bool |  Send a cookie with no url encoding of the value
+socket_get_status(->) function is an alias of: stream_get_meta_data(). :This | 
+socket_set_blocking(->) function is an alias of: stream_set_blocking(). :This | 
+socket_set_timeout(->) function is an alias of: stream_set_timeout(). :This | 
+syslog ( int $priority , string $message ):bool |  Generate a system log message
+flush ( ):void |  Flush the output buffer
+ob_clean ( ):void |  Clean (delete) the current output buffer
+ob_end_clean ( void ):bool |  Clean the output buffer, and delete current output buffer
+ob_end_flush ( void ):bool |  Flush (send) the output buffer, and delete current output buffer
+ob_flush ( ):void |  Flush (send) contents of the output buffer. The last buffer content is sent to next buffer
+ob_get_clean ( void ):string |  Get current buffer contents and delete current output buffer
+ob_get_contents ( void ):string | Gets the contents of the output buffer without clearing it. 
+ob_get_flush ( void ):string |  Get current buffer contents, flush (send) the output buffer, and delete current output buffer
+ob_get_length ( void ):int | This will return the length of the contents in the output buffer, in bytes. 
+ob_get_level ( void ):int | Returns the nesting level of the output buffering mechanism. 
+ob_get_status ([ bool $full_status = FALSE ] ):array | ob_get_status() returns status information on either the top level output buffer or all active output buffer levels if full_status is set to TRUE. 
+ob_gzhandler ( $buffer , int $mode ):string | ob_gzhandler() is intended to be used as a callback function for ob_start() to help facilitate sending gz-encoded data to web browsers that support compressed web pages.
+ob_implicit_flush ([ int $flag = 1 ] ):void | ob_implicit_flush() will turn implicit flushing on or off. Implicit flushing will result in a flush operation after every output call, so that explicit calls to flush() will no longer be needed. 
+ob_list_handlers ( void ):array | Lists all output handlers in use. 
+ob_start ([ callable $output_callback = NULL [, int $chunk_size = 0 [, int $flags = PHP_OUTPUT_HANDLER_STDFLAGS ]]] ):bool |  Turn on Output Buffering (specifying an optional output handler).
+output_add_rewrite_var ( string $name , string $value ):bool |  Add URL rewriter values
+output_reset_rewrite_vars ( void ):bool | This function resets the URL rewriter and removes all rewrite variables previously set by the output_add_rewrite_var() function. 
+password_get_info ( string $hash ):array | When passed in a valid hash created by an algorithm supported by password_hash(), this function will return an array of information about that hash. 
+password_hash(->) password_hash ( $password , int $algo [, array $options ] ):string | 
+password_needs_rehash ( string $hash , int $algo [, array $options ] ):bool | This function checks to see if the supplied hash implements the algorithm and options provided. If not, it is assumed that the hash needs to be rehashed. 
+password_verify ( string $password , string $hash ):bool | 
+ereg_replace ( $pattern , $replacement , $):string | This function scans string for matches to pattern, then replaces the matched text with replacement. 
+ereg ( string $pattern , string $string [, array &$regs ] ):int | Searches a string for matches to the regular expression given in pattern in a case-sensitive way. 
+eregi_replace ( $pattern , $replacement , $):string | This function is identical to ereg_replace() except that this ignores case distinction when matching alphabetic characters. 
+eregi ( string $pattern , string $string [, array &$regs ] ):int | This function is identical to ereg() except that it ignores case distinction when matching alphabetic characters. 
+split ( string $pattern , string $string [, int $limit = -1 ] ):array | Splits a string into array by regular expression. 
+spliti ( string $pattern , string $string [, int $limit = -1 ] ):array |  Split string into array by regular expression case-insensitive
+sql_regcase ( $):string | Creates a regular expression for a case insensitive match. 
+session_abort ( void ):bool | session_abort() finishes session without saving data. Thus the original values in session data are kept. 
+session_cache_expire ([ string $new_cache_expire ] ):int |  Return the current cache expire. If new_cache_expire is given, the current cache_expire is replaced with new_cache_expire
+session_cache_limiter ([ $cache_limiter ] ):string |  Return the current cache limiter. If new_cache_limited is given, the current cache_limiter is replaced with new_cache_limiter
+session_commit(->) function is an alias of: session_write_close(). :This | 
+session_create_id ([ $prefix ] ):string | 
+session_decode ( string $data ):bool |  Deserializes data and reinitializes the variables
+session_destroy ( void ):bool |  Destroy the current session and all data associated with it
+session_encode ( void ):string |  Serializes the current setup and returns the serialized representation
+session_gc ( void ):int | 
+session_get_cookie_params ( void ):array | Gets the session cookie parameters. 
+session_id ([ $id ] ):string |  Return the current session id. If newid is given, the session id is replaced with newid
+session_is_registered ( string $name ):bool |  Checks if a variable is registered in session
+session_module_name ([ $module ] ):string | session_module_name() gets the name of the current session module. 
+session_name ([ $name ] ):string |  Return the current session name. If newname is given, the session name is replaced with newname
+session_regenerate_id ([ $delete_old_session = FALSE ] ):bool |  Update the current session id with a newly generated one.
+session_register_shutdown ( ):void | Registers session_write_close() as a shutdown function. 
+session_register(->) session_register ( mixed $name [, mixed $... ] ):bool |  Adds varname(s) to the list of variables which are freezed at the session end
+session_reset ( void ):bool | session_reset() reinitializes a session with original values stored in session storage. This function requires an active session and discards changes in $_SESSION. 
+session_save_path ([ $path ] ):string | session_save_path() returns the path of the current directory used to save session data. 
+session_set_cookie_params ( int $lifetime [, string $path [, string $domain [, $secure = FALSE [, $httponly = FALSE ]]]] ):bool |  Set session cookie parameters
+session_set_save_handler ( callable $open , callable $close , callable $read , callable $write , callable $destroy , callable $gc [, callable $create_sid [, callable $validate_sid [, callable $update_timestamp ]]] ):bool |  Sets user-level functions
+session_start ([ array $options = array() ] ):bool |  Begin session - reinitializes freezed variables, registers browsers etc
+session_status ( void ):int | session_status() is used to return the current session status. 
+session_unregister ( string $name ):bool |  Removes varname from the list of variables which are freezed at the session end
+session_unset ( void ):bool | The session_unset() function frees all session variables currently registered. 
+session_write_close ( void ):bool |  Write session data and end session
+class_implements ( mixed $class [, bool $autoload = TRUE ] ):array | This function returns an array with the names of the interfaces that the given class and its parents implement. 
+class_parents ( mixed $class [, bool $autoload = TRUE ] ):array | This function returns an array with the name of the parent classes of the given class. 
+class_uses ( mixed $class [, bool $autoload = TRUE ] ):array | This function returns an array with the names of the traits that the given class uses. This does however not include any traits used by a parent class. 
+iterator_apply ( Traversable $iterator , callable $function [, array $args = NULL ] ):int | Calls a function for every element in an iterator. 
+iterator_count ( Traversable $iterator ):int | Count the elements in an iterator. iterator_count() is not guaranteed to retain the current position of the iterator. 
+iterator_to_( Traversable $iterator [, bool $use_keys = TRUE ] ):array | Copy the elements of an iterator into an array. 
+spl_autoload_call ( string $class_name ):void | This function can be used to manually search for a class or interface using the registered __autoload functions. 
+spl_autoload_extensions ([ $file_extensions ] ):string | This function can modify and check the file extensions that the built in __autoload() fallback function spl_autoload() will be using. 
+spl_autoload_functions ( void ):array | Get all registered __autoload() functions. 
+spl_autoload_register ([ callable $autoload_function [, $throw = TRUE [, $prepend = FALSE ]]] ):bool | 
+spl_autoload_unregister ( mixed $autoload_function ):bool | 
+spl_autoload ( string $class_name [, string $file_extensions = spl_autoload_extensions() ] ):void | default implementation for __autoload(). 
+spl_classes ( void ):array | This function returns an array with the current available SPL classes. 
+spl_object_hash ( object $obj ):string | This function returns a unique identifier for the object. This id can be used as a hash key for storing or for identifying an object, as long as the object is not destroyed. 
+spl_object_id ( object $obj ):int | This function returns a unique identifier for the object. The object id is unique for the lifetime of the object. 
+set_socket_blocking(->) function is an alias of: stream_set_blocking() :This |  Set blocking/non-blocking mode on a socket
+stream_bucket_append ( resource $brigade , object $bucket ):void |  Append bucket to brigade
+stream_bucket_make_writeable ( resource $brigade ):object |  Return a bucket object from the brigade for operating on
+stream_bucket_new ( resource $stream , string $buffer ):object |  Create a new bucket for use on the current stream
+stream_bucket_prepend ( resource $brigade , object $bucket ):void | This function can be called to prepend a bucket to a bucket brigade. It is typically called from php_user_filter::filter(). 
+stream_context_create ([ array $options [, array $params ]] ):resource | Creates and returns a stream context with any options supplied in options preset. 
+stream_context_get_default ([ array $options ] ):resource | Returns the default stream context which is used whenever file operations are called without a context parameter. 
+stream_context_get_options ( resource $stream_or_context ):array | Returns an array of options on the specified stream or context. 
+stream_context_get_params ( resource $stream_or_context ):array | Retrieves parameter and options information from the stream or context. 
+stream_context_set_default ( array $options ):resource | Set the default stream context which will be used whenever file operations are called without a context parameter. 
+stream_context_set_option ( resource $stream_or_context , string $wrapper , string $option , mixed $value ):bool |  Set an option for a wrapper
+stream_context_set_params ( resource $stream_or_context , array $params ):bool | Sets parameters on the specified context. 
+stream_copy_to_stream ( resource $source , resource $dest [, $maxlength = -1 [, $offset = 0 ]] ):int | Makes a copy of up to maxlength bytes of data from the current position (or from the offset position, if specified) in source to dest. 
+stream_filter_append ( $stream , string $filtername [, int $read_write [, mixed $params ]] ):resource | Adds filtername to the list of filters attached to stream. 
+stream_filter_prepend ( $stream , string $filtername [, int $read_write [, mixed $params ]] ):resource | Adds filtername to the list of filters attached to stream. 
+stream_filter_register ( string $filtername , string $classname ):bool | stream_filter_register() allows you to implement your own filter on any registered stream used with all the other filesystem functions (such as fopen(), fread() etc.). 
+stream_filter_remove ( resource $stream_filter ):bool | Removes a stream filter previously added to a stream with stream_filter_prepend() or stream_filter_append(). 
+stream_get_contents ( resource $handle [, int $maxlength = -1 [, int $offset = -1 ]] ):string | Identical to file_get_contents(), except that stream_get_contents() operates on an already open stream resource.
+stream_get_filters ( void ):array | Retrieve the list of registered filters on the running system. 
+stream_get_line ( resource $handle , int $length [, $ending ] ):string |  Read up to maxlen bytes from a stream or until the ending string is found
+stream_get_meta_data ( resource $stream ):array | Returns information about an existing stream. 
+stream_get_transports ( void ):array | Returns an indexed array containing the name of all socket transports available on the running system. 
+stream_get_wrappers ( void ):array | Retrieve list of registered streams available on the running system. 
+stream_is_local ( mixed $stream_or_url ):bool | Checks if a stream, or a URL, is a local one or not. 
+stream_isatty ( resource $stream ):bool | Determines if stream stream refers to a valid terminal type device. This is a more portable version of posix_isatty(), since it works on Windows systems too. 
+stream_notification_callback ( int $notification_code , int $severity , string $message , int $message_code , int $bytes_transferred , int $bytes_max ):void | 
+stream_register_wrapper(->) function is an alias of: stream_wrapper_register(). :This | 
+stream_resolve_include_path ( $filename ):string | Resolve filename against the include path according to the same rules as fopen()/include. 
+stream_select ( array &$read , array &$write , array &$except , $tv_sec [, $tv_usec = 0 ] ):int | accepts arrays of streams and waits for them to change status. Like socket_select() except in that it acts on streams. 
+stream_set_blocking ( resource $stream , $mode ):bool |  Set blocking/non-blocking mode on a socket or stream
+stream_set_chunk_size ( resource $fp , $chunk_size ):int | Set the stream chunk size. 
+stream_set_read_buffer ( resource $stream , $buffer ):int | Sets the read buffer. It's the equivalent of stream_set_write_buffer(), but for read operations. 
+stream_set_timeout ( resource $stream , int $seconds [, int $microseconds = 0 ] ):bool |  Set timeout on stream read to seconds |  |  | microseonds
+stream_set_write_buffer ( resource $stream , $buffer ):int | Sets the buffering for write operations on the given stream to buffer bytes. 
+stream_socket_accept ( $server_socket [, float $timeout = ini_get("default_socket_timeout") [, string &$peername ]] ):resource | Accept a connection on a socket previously created by stream_socket_server(). 
+stream_socket_client ( string $remote_socket [, int &$errno [, string &$errstr [, float $timeout = ini_get("default_socket_timeout") [, int $flags = STREAM_CLIENT_CONNECT [, $context ]]]]] ):resource |  Open a client connection to a remote address
+stream_socket_enable_crypto ( resource $stream , bool $enable [, int $crypto_type [, resource $session_stream ]] ):mixed | 
+stream_socket_get_name ( resource $handle , bool $want_peer ):string | Returns the local or remote name of a given socket connection. 
+stream_socket_pair ( int $domain , int $type , int $protocol ):array | stream_socket_pair() creates a pair of connected, indistinguishable socket streams. This function is commonly used in IPC (Inter-Process Communication). 
+stream_socket_recvfrom ( resource $socket , int $length [, int $flags = 0 [, &$address ]] ):string | stream_socket_recvfrom() accepts data from a remote socket up to length bytes. 
+stream_socket_sendto ( resource $socket , string $data [, $flags = 0 [, string $address ]] ):int | Sends the specified data through the socket. 
+stream_socket_server ( string $local_socket [, int &$errno [, string &$errstr [, int $flags = STREAM_SERVER_BIND | STREAM_SERVER_LISTEN [, $context ]]]] ):resource |  Create a server socket bound to localaddress
+stream_socket_shutdown ( resource $stream , int $how ):bool | 
+stream_supports_lock ( resource $stream ):bool | Tells whether the stream supports locking through flock(). 
+stream_wrapper_register ( string $protocol , string $classname [, int $flags = 0 ] ):bool | Allows you to implement your own protocol handlers and streams for use with all the other filesystem functions (such as fopen(), fread() etc.). 
+stream_wrapper_restore ( string $protocol ):bool | Restores a built-in wrapper previously unregistered with stream_wrapper_unregister(). 
+stream_wrapper_unregister ( string $protocol ):bool | Allows you to disable an already defined stream wrapper.
+addcslashes ( $str , $charlist ):string | Returns a string with backslashes before characters that are listed in charlist parameter. 
+addslashes ( $str ):string |  Escapes single quote, double quotes and backslash characters in a string with backslashes
+bin2hex ( $str ):string | Returns an ASCII string containing the hexadecimal representation of str. The conversion is done byte-wise with the high-nibble first. 
+chop(->) function is an alias of: rtrim(). :This | 
+chr ( int $bytevalue ):string |  Converts ASCII code to a character
+chunk_split ( $body [, int $chunklen = 76 [, $end = "\r\n" ]] ):string | Can be used to split a string into smaller chunks. It inserts end every chunklen characters. 
+convert_cyr_( $str , $from , $to ):string | Converts from one Cyrillic character set to another. 
+convert_uudecode ( $data ):string | 
+convert_uuencode ( $data ):string | 
+count_chars ( string $string [, int $mode = 0 ] ):mixed | Counts the number of occurrences of every byte-value (0..255) in string and returns it in various ways. 
+crc32 ( string $str ):int |  Calculate the crc32 polynomial of a string
+crypt ( $str [, $salt ] ):string |  Encrypt a string
+echo ( string $arg1 [, string $... ] ):void | 
+explode ( string $delimiter , string $string [, int $limit = PHP_INT_MAX ] ):array | Returns an array of strings, each of which is a substring of string formed by splitting it on boundaries formed by the string delimiter. 
+fprintf ( resource $handle , string $format [, mixed $args [, mixed $... ]] ):int | Write a string produced according to format to the stream resource specified by handle. 
+get_html_translation_table ([ int $table = HTML_SPECIALCHARS [, int $flags = ENT_COMPAT | ENT_HTML401 [, string $encoding = "UTF-8" ]]] ):array |  Returns the internal translation table used by htmlspecialchars and htmlentities
+hebrev ( $hebrew_text [, int $max_chars_per_line = 0 ] ):string |  Converts logical Hebrew text to visual text
+hebrevc ( $hebrew_text [, int $max_chars_per_line = 0 ] ):string |  Converts logical Hebrew text to visual text with newline conversion
+hex2bin ( $data ):string | 
+html_entity_decode ( $[, int $flags = ENT_COMPAT | ENT_HTML401 [, $encoding = ini_get("default_charset") ]] ):string |  Convert all HTML entities to their applicable characters
+htmlentities ( $[, int $flags = ENT_COMPAT | ENT_HTML401 [, $encoding = ini_get("default_charset") [, bool $double_encode = TRUE ]]] ):string |  Convert all applicable characters to HTML entities
+htmlspecialchars_decode ( $[, int $flags = ENT_COMPAT | ENT_HTML401 ] ):string | 
+htmlspecialchars ( $[, int $flags = ENT_COMPAT | ENT_HTML401 [, $encoding = ini_get("default_charset") [, bool $double_encode = TRUE ]]] ):string |  Convert special characters to HTML entities
+implode ( $glue , array $pieces ):string |  Joins array elements placing glue string between items and return one string
+join(->) function is an alias of: implode() |  An alias for implode
+lcfirst ( $str ):string | 
+levenshtein ( string $str1 , string $str2 ):int |  Calculate Levenshtein distance between two strings
+localeconv ( void ):array | Returns an associative array containing localized numeric and monetary formatting information. 
+ltrim ( $str [, $character_mask ] ):string | Strip whitespace (or other characters) from the beginning of a string. 
+md5_file ( $filename [, bool $raw_output = FALSE ] ):string | Calculates the MD5 hash of the file specified by the filename parameter using the RSA- MD5 Message-Digest Algorithm.
+md5 ( $str [, bool $raw_output = FALSE ] ):string | Calculates the MD5 hash of str using the  RSA Data Security, Inc. MD5 Message-Digest Algorithm, and returns that hash. 
+metaphone ( $str [, int $phonemes = 0 ] ):string |  Break english phrases down into their phonemes
+money_format ( $format , float $number ):string | returns a formatted version of number.
+nl_langinfo ( int $item ):string | used to access individual elements of the locale categories. 
+nl2br ( $[, bool $is_xhtml = TRUE ] ):string | Returns string with <br /> or <br> inserted before all newlines (\r\n, \n\r, \n and \r). 
+number_format ( float $number [, int $decimals = 0 ] ):string |  Formats a number with grouped thousands
+ord ( string $string ):int |  Returns ASCII value of character
+parse_str ( string $encoded_string [, array &$result ] ):void | Parses encoded_string as if it were the query string passed via a URL and sets variables in the current scope or within result
+pr( string $arg ):int | 
+printf ( string $format [, mixed $args [, mixed $... ]] ):int | Produces output according to format. 
+quoted_printable_decode ( $str ):string |  Convert a quoted-printable string to an 8 bit string
+quoted_printable_encode ( $str ):string | 
+quotemeta ( $str ):string |  Quotes meta characters
+rtrim ( $str [, $character_mask ] ):string |  Removes trailing whitespace
+setlocale ( int $category , $locale [, $... ] ):string |  Set locale information
+sha1_file ( $filename [, bool $raw_output = FALSE ] ):string | Calculates the sha1 hash of the file specified by filename using the US Secure Hash Algorithm 1.
+sha1 ( $str [, bool $raw_output = FALSE ] ):string | Calculates the sha1 hash of str using the US Secure Hash Algorithm 1. 
+similar_text ( string $first , string $second [, float &$percent ] ):int | This calculates the similarity between two strings
+soundex ( $str ):string |  Calculate the soundex key of a string
+sprintf ( $format [, mixed $args [, mixed $... ]] ):string | Returns a string produced according to the formatting string format. 
+sscanf ( string $str , string $format [, &$... ] ):mixed |  Implements an ANSI C compatible sscanf
+str_getcsv ( string $input [, string $delimiter = "," [, string $enclosure = '"' [, string $escape = "\\" ]]] ):array | 
+str_ireplace ( $search , $replace , $subject [, int &$count ] ):mixed | This function returns a string or an array with all occurrences of search in subject (ignoring case) replaced with the given replace value. 
+str_pad ( $input , int $pad_length [, $pad_= " " [, int $pad_type = STR_PAD_RIGHT ]] ):string | This function returns the input string padded on the left, the right, or both sides to the specified padding length. 
+str_repeat ( $input , int $multiplier ):string | Returns input repeated multiplier times. 
+str_replace ( $search , $replace , $subject [, int &$count ] ):mixed |  Replaces all occurrences of search in haystack with replace
+str_rot13 ( $str ):string |  Perform the rot13 transform on a string
+str_shuffle ( $str ):string |  Shuffles string. One permutation of all possible is created
+str_split ( string $string [, int $split_length = 1 ] ):array | Converts a string to an array. 
+str_word_count ( string $string [, int $format = 0 [, string $charlist ]] ):mixed |  Counts the number of words inside a string. 
+strcasecmp ( string $str1 , string $str2 ):int | Binary safe case-insensitive string comparison. 
+strchr(->) function is an alias of: strstr(). :This |  An alias for strstr
+strcmp ( string $str1 , string $str2 ):int | Note that this comparison is case sensitive. 
+strcoll ( string $str1 , string $str2 ):int |  Compares two strings using the current locale
+strcspn ( string $subject , string $mask [, $start [, $length ]] ):int |  Finds length of initial segment consisting entirely of characters not found in mask. 
+strip_tags ( $str [, $allowable_tags ] ):string | This function tries to return a string with all NULL bytes, HTML and PHP tags stripped from a given str.
+stripcslashes ( $str ):string | Returns a string with backslashes stripped off. Recognizes C-like \n, \r ..., octal and hexadecimal representation. 
+stripos ( string $haystack , mixed $needle [, $offset = 0 ] ):int |  Finds position of first occurrence of a string within another, case insensitive
+stripslashes ( $str ):string |  Strips backslashes from a string
+stristr ( $haystack , mixed $needle [, bool $before_needle = FALSE ] ):string | Returns all of haystack starting from and including the first occurrence of needle to the end. 
+strlen ( string $string ):int | Returns the length of the given string. 
+strnatcasecmp ( string $str1 , string $str2 ):int | This function implements a comparison algorithm that orders alphanumeric strings in the way a human being would. 
+strnatcmp ( string $str1 , string $str2 ):int | This function implements a comparison algorithm that orders alphanumeric strings in the way a human being would, 
+strncasecmp ( string $str1 , string $str2 , $len ):int | This function is similar to strcasecmp(), with the difference that you can specify the (upper limit of the) number of characters from each string to be used in the comparison. 
+strncmp ( string $str1 , string $str2 , $len ):int |  Binary safe string comparison
+strpbrk ( $haystack , $char_list ):string | strpbrk() searches the haystack string for a char_list. 
+strpos ( string $haystack , mixed $needle [, $offset = 0 ] ):int | Find the numeric position of the first occurrence of needle in the haystack string. 
+strrchr ( $haystack , mixed $needle ):string | This function returns the portion of haystack which starts at the last occurrence of needle and goes until the end of haystack. 
+strrev ( $):string | Returns string, reversed. 
+strripos ( string $haystack , mixed $needle [, $offset = 0 ] ):int |  Finds position of last occurrence of a string within another string
+strrpos ( string $haystack , mixed $needle [, $offset = 0 ] ):int | Find the numeric position of the last occurrence of needle in the haystack string. 
+strspn ( string $subject , string $mask [, $start [, $length ]] ):int |  Finds length of initial segment consisting entirely of characters found in mask. 
+strstr ( $haystack , mixed $needle [, bool $before_needle = FALSE ] ):string |  Finds first occurrence of a string within another
+strtok ( $str , $token ):string |  Tokenize a string
+strtolower ( $):string |  Makes a string lowercase
+strtoupper ( $):string |  Makes a string uppercase
+strtr ( $str , $from , $to ):string |  Translates characters in str using given translation tables
+substr_compare ( string $main_str , string $str , $offset [, $length [, bool $case_insensitivity = FALSE ]] ):int | substr_compare() compares main_str from position offset with str up to length characters. 
+substr_count ( string $haystack , string $needle [, $offset = 0 [, $length ]] ):int |  Returns the number of times a substring occurs in the string
+substr_replace ( $string , $replacement , $start [, $length ] ):mixed | substr_replace() replaces a copy of string delimited by the start and (optionally) length parameters with the string given in replacement. 
+substr ( $, int $start [, int $length ] ):string | Returns the portion of string specified by the start and length parameters. 
+trim ( $str [, $character_mask = "  | \r\0\x0B" ] ):string |  Strips whitespace from the beginning and end of a string
+ucfirst ( $str ):string |  Makes a string's first character uppercase
+ucwords ( $str [, $delimiters = " \t\r\n\f\v" ] ):string |  Uppercase the first character of every word in a string
+vfprintf ( resource $handle , string $format , array $args ):int |  Output a formatted string into a stream
+vprintf ( string $format , array $args ):int |  Output a formatted string
+vsprintf ( $format , array $args ):string | Operates as sprintf() but accepts an array of arguments, rather than a variable number of arguments. 
+wordwrap ( $str [, int $width = 75 [, $break = "\n" [, bool $cut = FALSE ]]] ):string | Wraps a string to a given number of characters using a string break character. 
+token_get_all ( string $source [, int $flags = 0 ] ):array | 
+token_name ( int $token ):string | token_name() gets the symbolic name for a PHP token value. 
+base64_decode ( $data [, bool $strict = FALSE ] ):string | Decodes a base64 encoded data. 
+base64_encode ( $data ):string |  Encodes string using MIME base64 algorithm
+get_headers ( string $url [, int $format = 0 [, resource $context ]] ):array | get_headers() returns an array with the headers sent by the server in response to a HTTP request. 
+get_meta_tags ( string $filename [, bool $use_include_path = FALSE ] ):array | Opens filename and parses it line by line for <meta> tags in the file. The parsing stops at </head>. 
+http_build_query ( mixed $query_data [, $numeric_prefix [, $arg_separator [, int $enc_type = PHP_QUERY_RFC1738 ]]] ):string | Generates a URL-encoded query string from the associative (or indexed) array provided. 
+parse_url ( string $url [, int $component = -1 ] ):mixed |  Parse a URL and return its components
+rawurldecode ( $str ):string | Returns a string in which the sequences with percent (%) signs followed by two hex digits have been replaced with literal characters. 
+rawurlencode ( $str ):string | Encodes the given string according to RFC 3986. 
+urldecode ( $str ):string | Decodes any %## encoding in the given string. Plus symbols ('+') are decoded to a space character. 
+urlencode ( $str ):string | This function is convenient when encoding a string to be used in a query part of a URL, as a convenient way to pass variables to the next page. 
+boolval ( mixed $var ):bool | Returns the boolean value of var. 
+debug_zval_dump ( mixed $variable [, mixed $... ] ):void | Dumps a string representation of an internal zend value to output. 
+doubleval(->) function is an alias of: floatval(). :This | 
+empty ( mixed $var ):bool | Determine whether a variable is considered to be empty.
+floatval ( mixed $var ):float | Gets the float value of var. 
+get_defined_vars ( void ):array | This function returns a multidimensional array containing a list of all defined variables.
+get_resource_type ( resource $handle ):string | This function gets the type of the given resource. 
+gettype ( mixed $var ):string | Returns the type of the PHP variable var. For type checking, use is_* functions. 
+import_request_variables ( string $types [, string $prefix ] ):bool |  Import GET/POST/Cookie variables into the global scope
+intval ( mixed $var [, $base = 10 ] ):int | Returns the integer value of var, using the specified base for the conversion (the default is base 10).
+is_array ( mixed $var ):bool | Finds whether the given variable is an array. 
+is_( mixed $var ):bool | Finds whether the given variable is a boolean. 
+is_callable ( mixed $var [, $syntax_only = FALSE [, string &$callable_name ]] ):bool | Verify that the contents of a variable can be called as a function. 
+is_countable ( mixed $var ):bool | Verify that the contents of a variable is an array or an object implementing Countable 
+is_double(->) function is an alias of: is_float(). :This | 
+is_float ( mixed $var ):bool |  Returns true if variable is float point
+is_int ( mixed $var ):bool | 
+is_integer(->) function is an alias of: is_int(). :This | 
+is_iterable ( mixed $var ):bool | Verify that the contents of a variable is accepted by the iterable pseudo-type, i.e. that it is an array or an object implementing Traversable 
+is_long(->) function is an alias of: is_int(). :This |  Returns true if variable is a long (integer)
+is_null ( mixed $var ):bool | Finds whether the given variable is NULL. 
+is_numeric ( mixed $var ):bool | Finds whether the given variable is numeric. 
+is_object ( mixed $var ):bool | Finds whether the given variable is an object. 
+is_real(->) function is an alias of: is_float(). :This | 
+is_resource ( mixed $var ):bool | Finds whether the given variable is a resource. 
+is_scalar ( mixed $var ):bool |  Returns true if value is a scalar
+is_string ( mixed $var ):bool | Finds whether the type of the given variable is string. 
+isset ( mixed $var [, mixed $... ] ):bool | 
+print_r ( $expression [, bool $return = FALSE ] ):mixed |  Prints out or returns information about the specified variable
+serialize ( mixed $value ):string |  Returns a string representation of variable (which can later be unserialized)
+settype ( mixed &$var , string $type ):bool | Set the type of variable var to type. 
+strval ( mixed $var ):string |  Get the string value of a variable
+unserialize ( string $str [, array $options ] ):mixed |  Takes a string representation of variable and recreates it
+unset ( mixed $var [, mixed $... ] ):void | 
+var_dump ( mixed $expression [, mixed $... ] ):void |  Dumps a string representation of variable to output
+var_export ( $expression [, bool $return = FALSE ] ):mixed | var_export() gets structured, valid php code, information about the given variable.
