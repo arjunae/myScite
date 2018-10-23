@@ -153,7 +153,7 @@ image2wbmp ( resource $image [, string $filename [, int $foreground ]] ):bool | 
 imageaffine ( $image , array $affine [, array $clip ] ):resource | 
 imageaffinematrixconcat ( $m1 , $m2 ):array | Returns the concatenation of two affine transformation matrices, what is useful if multiple transformations should be applied to the same image in one go. 
 imageaffinematrixget ( int $type [, mixed $options ] ):array | Returns an affine transformation matrix. 
-imagealphablending ( resource $image , $blendmode ):bool | imagealphablending() allows for two different modes of drawing on truecolor images. In blending mode, the resulting pixel is opaque.\t\nIn non-blending mode, the drawing color is copied literally with its alpha channel information, replacing the destination pixel. 
+imagealphablending ( resource $image , $blendmode ):bool | allows for two different modes of drawing on truecolor images. In blending mode, the resulting pixel is opaque.\t\nIn non-blending mode, the drawing color is copied literally with its alpha channel information, replacing the destination pixel. 
 imageantialias ( resource $image , $enabled ):bool |  Should antialiased functions used or not
 imagearc ( resource $image , int $cx , int $cy , int $width , int $height , int $start , int $end , int $color ):bool | imagearc() draws an arc of circle centered at the given coordinates. 
 imagebmp ( resource $image [, mixed $to = NULL [, $compressed = TRUE ]] ):bool | Outputs or saves a BMP version of the given image. 
@@ -311,12 +311,12 @@ mb_preferred_mime_name ( $encoding ):string | Get a MIME charset string for a sp
 mb_regex_encoding ([ string $encoding = mb_regex_encoding() ] ):mixed | Set/Get character encoding for a multibyte regex. 
 mb_regex_set_options ([ $options = mb_regex_set_options() ] ):string | Sets the default options described by options for multibyte regex functions. 
 mb_scrub ( $str [, $encoding ] ):string | 
-mb_send_mail ( string $to , string $subject , string $message [, mixed $additional_headers = NULL [, string $additional_parameter = NULL ]] ):bool | Sends email. Headers and messages are converted and encoded according to the mb_language() setting. It's a wrapper function for mail(), so see also mail() for details. 
+mb_send_mail ( string $to , string $subject , string $message [, mixed $additional_headers = NULL [, string $additional_parameter = NULL ]] ):bool | Sends email. Headers and messages are converted and encoded according to the mb_language() setting. see mail(). 
 mb_split ( string $pattern , string $string [, int $limit = -1 ] ):array | Split a multibyte string using regular expression pattern and returns the result as an array. 
 mb_strcut ( $str , int $start [, int $length = NULL [, $encoding = mb_internal_encoding() ]] ):string | mb_strcut() extracts a substring from a string similarly to mb_substr(), but operates on bytes instead of characters.
 mb_strimwidth ( $str , int $start , int $width [, $trimmarker = "" [, $encoding = mb_internal_encoding() ]] ):string | Truncates string str to specified width. 
-mb_stripos ( string $haystack , string $needle [, $offset = 0 [, string $encoding = mb_internal_encoding() ]] ):int |  returns the numeric position of the first occurrence of needle in the haystack string. Unlike mb_strpos(), mb_stripos() is case-insensitive. If needle is not found, it returns FALSE. 
-mb_stristr ( $haystack , $needle [, bool $before_needle = FALSE [, $encoding = mb_internal_encoding() ]] ):string | finds the first occurrence of needle in haystack and returns the portion of haystack. Unlike mb_strstr(), mb_stristr() is case-insensitive. If needle is not found, it returns FALSE. 
+mb_stripos ( string $haystack , string $needle [, $offset = 0 [, string $encoding = mb_internal_encoding() ]] ):int |  returns the numeric position of the first occurrence of needle in the haystack string. case-insensitive. If needle is not found, it returns FALSE. 
+mb_stristr ( $haystack , $needle [, bool $before_needle = FALSE [, $encoding = mb_internal_encoding() ]] ):string | finds the first occurrence of needle in haystack and returns the portion of haystack. case-insensitive. If needle is not found, it returns FALSE. 
 mb_strlen ( string $str [, string $encoding = mb_internal_encoding() ] ):int | Gets the length of a string. 
 mb_strpos ( string $haystack , string $needle [, $offset = 0 [, string $encoding = mb_internal_encoding() ]] ):int |  Find position of first occurrence of a string within another
 mb_strrchr ( $haystack , $needle [, bool $part = FALSE [, $encoding = mb_internal_encoding() ]] ):string |  finds the last occurrence of needle in haystack and returns the portion of haystack. If needle is not found, it returns FALSE. 
@@ -351,7 +351,7 @@ pcntl_signal_dispatch ( void ):bool | The pcntl_signal_dispatch() function calls
 pcntl_signal_get_handler ( int $signo ):mixed | The pcntl_signal_get_handler() function will get the current handler for the specified signo. 
 pcntl_signal ( int $signo , callable|int $handler [, $restart_syscalls = TRUE ] ):bool | The pcntl_signal() function installs a new signal handler or replaces the current signal handler for the signal indicated by signo. 
 pcntl_sigprocmask ( int $how , array $set [, array &$oldset ] ):bool | The pcntl_sigprocmask() function adds, removes or sets blocked signals, depending on the how parameter. 
-pcntl_sigtimedwait ( array $set [, array &$siginfo [, $seconds = 0 [, $nanoseconds = 0 ]]] ):int |  operates in exactly the same way as pcntl_sigwaitinfo() except that it takes two additional parameters, seconds and nanoseconds, which enable an upper bound to be placed on the time for which the script is suspended. 
+pcntl_sigtimedwait ( array $set [, array &$siginfo [, $seconds = 0 [, $nanoseconds = 0 ]]] ):int |  like pcntl_sigwaitinfo() except that it takes two additional parameters, seconds and nanoseconds to be placed on the time for which the script is suspended. 
 pcntl_sigwaitinfo ( array $set [, array &$siginfo ] ):int |  suspends execution of the calling script until one of the signals given in set are delivered. If one of the signal is already pending, it will return immediately. 
 pcntl_strerror ( int $errno ):string | 
 pcntl_wait ( &$status [, $options = 0 [, array &$rusage ]] ):int |  Waits on or returns the status of a forked child as defined by the waitpid() system call
@@ -368,8 +368,8 @@ preg_last_error ( void ):int |
 preg_match_all ( string $pattern , string $subject [, array &$matches [, $flags = PREG_PATTERN_ORDER [, $offset = 0 ]]] ):int |  Perform a Perl-style global regular expression match
 preg_match ( string $pattern , string $subject [, array &$matches [, $flags = 0 [, $offset = 0 ]]] ):int | Searches subject for a match to the regular expression given in pattern. 
 preg_quote ( $str [, $delimiter = NULL ] ):string |  Quote regular expression characters plus an optional character
-preg_replace_callback_array ( array $patterns_and_callbacks , $subject [, int $limit = -1 [, int &$count ]] ):mixed | The behavior of this function is similar to preg_replace_callback(), except that callbacks are executed on a per-pattern basis. 
-preg_replace_callback ( $pattern , callable $callback , $subject [, int $limit = -1 [, int &$count ]] ):mixed | The behavior of this function is almost identical to preg_replace(), except for the fact that instead of replacement parameter, one should specify a callback. 
+preg_replace_callback_array ( array $patterns_and_callbacks , $subject [, int $limit = -1 [, int &$count ]] ):mixed | like preg_replace_callback(), except that callbacks are executed on a per-pattern basis. 
+preg_replace_callback ( $pattern , callable $callback , $subject [, int $limit = -1 [, int &$count ]] ):mixed | like preg_replace(), except for the fact that instead of replacement parameter, one should specify a callback. 
 preg_replace ( $pattern , $replacement , $subject [, int $limit = -1 [, int &$count ]] ):mixed | Searches subject for matches to pattern and replaces them with replacement. 
 preg_split ( string $pattern , string $subject [, int $limit = -1 [, int $flags = 0 ]] ):array | Split the given string by a regular expression. 
 posix_access ( string $file [, int $mode = POSIX_F_OK ] ):bool | posix_access() checks the user's permission of a file. 
@@ -413,8 +413,8 @@ ftok ( string $pathname , string $proj ):int | The function converts the pathnam
 msg_get_queue ( int $key [, int $perms = 0666 ] ):resource | returns an id that can be used to access the System V message queue with the given key. 
 msg_queue_exists ( int $key ):bool | Checks whether the message queue key exists. 
 msg_receive ( resource $queue , int $desiredmsgtype , int &$msgtype , int $maxsize , mixed &$message [, $unserialize = TRUE [, int $flags = 0 [, int &$errorcode ]]] ):bool | will receive the first message from the specified queue of the type specified by desiredmsgtype. 
-msg_remove_queue ( resource $queue ):bool | msg_remove_queue() destroys the message queue specified by the queue. Only use this function when all processes have finished working with the message queue and you need to release the system resources held by it. 
-msg_send ( resource $queue , int $msgtype , mixed $message [, $serialize = TRUE [, $blocking = TRUE [, int &$errorcode ]]] ):bool | msg_send() sends a message of type msgtype (which MUST be greater than 0) to the message queue specified by queue. 
+msg_remove_queue ( resource $queue ):bool |  destroys the message queue specified by the queue. Only use this function when all processes have finished working with the message queue.
+msg_send ( resource $queue , int $msgtype , mixed $message [, $serialize = TRUE [, $blocking = TRUE [, int &$errorcode ]]] ):bool | sends a message of type msgtype (MUST be greater than 0) to the message queue specified by queue. 
 msg_set_queue ( resource $queue , array $data ):bool |  Set information for a message queue
 msg_stat_queue ( resource $queue ):array |  returns the message queue meta data for the message queue specified by the queue.
 sem_acquire ( resource $sem_identifier [, $nowait = FALSE ] ):bool |  Acquires the semaphore with the given id, blocking if necessary
@@ -439,7 +439,7 @@ socket_addrinfo_bind ( $addr ):resource | Create a Socket resource, and bind it 
 socket_addrinfo_connect ( $addr ):resource | Create a Socket resource, and connect it to the provided AddrInfo resource. The return value of this function may be used with the rest of the socket functions. 
 socket_addrinfo_explain ( resource $addr ):array | exposes the underlying addrinfo structure. 
 socket_addrinfo_lookup ( string $host [, string $service [, $hints ]] ):array | Lookup different ways we can connect to host. The returned array contains a set of resources that we can bind to using socket_addrinfo_bind(). 
-socket_bind ( resource $socket , string $address [, int $port = 0 ] ):bool | Binds the name given in address to the socket described by socket. This has to be done before a connection is be established using socket_connect() or socket_listen(). 
+socket_bind ( resource $socket , string $address [, int $port = 0 ] ):bool | Binds the name given in address to the socket described by socket. 
 socket_clear_error ([ resource $socket ] ):void |  Clears the error on the socket or the last error code.
 socket_close ( resource $socket ):void | closes the socket resource given by socket. 
 socket_cmsg_space ( $level , $type [, $n = 0 ] ):int | 
@@ -494,13 +494,13 @@ gzencode ( $data [, int $level = -1 [, int $encoding_mode = FORCE_GZIP ]] ):stri
 gzeof ( resource $zp ):int | Tests the given GZ file pointer for EOF. 
 gzfile ( string $filename [, int $use_include_path = 0 ] ):array | This function is identical to readgzfile(), except that it returns the file in an array. 
 gzgetc ( resource $zp ):string | Returns a string containing a single (uncompressed) character read from the given gz-file pointer. 
-gzgets ( resource $zp [, int $length ] ):string | Gets a (uncompressed) string of up to length - 1 bytes read from the given file pointer. Reading ends when length - 1 bytes have been read, on a newline, or on EOF (whichever comes first). 
+gzgets ( resource $zp [, int $length ] ):string | Gets a (uncompressed) string of up to length - 1 bytes read from the given file pointer. Reading ends when length - 1 bytes have been read, on a newline, or on EOF. 
 gzgetss ( resource $zp , int $length [, $allowable_tags ] ):string | Identical to gzgets(), except that gzgetss() attempts to strip any HTML and PHP tags from the text it reads. 
 gzinflate ( $data [, int $length = 0 ] ):string | This function inflates a deflated string. 
 gzopen ( string $filename , string $mode [, int $use_include_path = 0 ] ):resource |  Open a .gz-file and return a .gz-file pointer
 gzpassthru ( resource $zp ):int | 
 gzputs(->) function is an alias of: gzwrite(). :This | 
-gzread ( resource $zp , int $length ):string | gzread() reads up to length bytes from the given gz-file pointer. Reading stops when length (uncompressed) bytes have been read or EOF is reached, whichever comes first. 
+gzread ( resource $zp , int $length ):string | gzread() reads up to length bytes from the given gz-file pointer. Reading stops when length (uncompressed) bytes have been read or EOF is reached. 
 gzrewind ( resource $zp ):bool | Sets the file position indicator of the given gz-file pointer to the beginning of the file stream. 
 gzseek ( resource $zp , $offset [, $whence = SEEK_SET ] ):int | 
 gztell ( resource $zp ):int | Gets the position of the given file pointer; i.e., its offset into the uncompressed file stream. 
