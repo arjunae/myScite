@@ -1,0 +1,11 @@
+
+File: calltips.diff
+Authors: SciTE.ru / https://bitbucket.org/scite-ru/scite-ru.bitbucket.org/downloads/
+Desr: A set of new calltip related Scintilla Messages
+Notes: Patchset adapted for Scintilla 3.8.0 - Experimental
+
+Adds: 
+SCI_CALLTIPADDHLT:	void AddHighlight(int start, int end); 	// Add a range of characters to be displayed in a highlight style.
+SCI_CALLTIPCLEARHLT:	void ClearHighlight(); // Delete all highlighted ranges
+SCI_CALLTIPUPDATEHL:	void UpdateHighlight(); 	/// Update calltip window to reflect changes made by AddHighlight() and ClearHighlight()
+SCI_CALLTIPSETWORDWRAP: void SetWrapBound(int wrapBnd);  Set calltip line wrap bound in characters, 0 means no wrap

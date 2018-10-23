@@ -9,9 +9,9 @@ setlocal enabledelayedexpansion enableextensions
 ::set PATH=E:\MinGW\bin;%PATH%;
 
 :: ... use customized CMD Terminal
-if "%2"=="" (
-  reg import ..\contrib\TinyTonCMD\TinyTonCMD.reg
-  start "TinyTonCMD" %~nI %1 tiny
+if "%1"=="" (
+ rem reg import ..\contrib\TinyTonCMD\TinyTonCMD.reg
+  start "TinyTonCMD" %~nx0 %1 tiny
   EXIT
 )
 
