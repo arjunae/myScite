@@ -1,5 +1,7 @@
 
-File: calltips.diff
+######---------
+
+File: 18b_calltips.diff
 Authors: SciTE.ru / https://bitbucket.org/scite-ru/scite-ru.bitbucket.org/downloads/
 Desr: A set of new calltip related Scintilla Messages
 Notes: Patchset adapted for Scintilla 3.8.0 - Experimental
@@ -9,3 +11,15 @@ SCI_CALLTIPADDHLT:	void AddHighlight(int start, int end); 	// Add a range of cha
 SCI_CALLTIPCLEARHLT:	void ClearHighlight(); // Delete all highlighted ranges
 SCI_CALLTIPUPDATEHL:	void UpdateHighlight(); 	/// Update calltip window to reflect changes made by AddHighlight() and ClearHighlight()
 SCI_CALLTIPSETWORDWRAP: void SetWrapBound(int wrapBnd);  Set calltip line wrap bound in characters, 0 means no wrap
+
+#######---------
+
+File: 18a_calltips.diff
+Authors: SciTE.ru / https://bitbucket.org/scite-ru/scite-ru.bitbucket.org/downloads/
+Desr: A set of new calltip related properties
+Notes: Patchset adapted for Scite 3.7.5 - Experimental
+
+Adds:
+calltip.*.automatic  | setting that to 0 will cause calltips to  only appear through CTRL-Shift-Space
+calltip.*.show.per.page | show multiple entries from the api file, navigate withUp and Down keys.
+calltip.*.word.wrap | forces a linebreak within the calltip window at that position.

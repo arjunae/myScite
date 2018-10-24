@@ -1,0 +1,328 @@
+// Needs 18b_calltips.diff Adds calltip.*.automatic calltip.*.show.per.page calltip.*.word.wrap
+diff -Nurw scite/src/SciTEBase.cxx scite_mod/src/SciTEBase.cxx
+--- scite/src/SciTEBase.cxx	2018-10-10 08:41:21.942237400 +0200
++++ scite_mod/src/SciTEBase.cxx	2018-10-24 13:59:15.260367700 +0200
+@@ -157,6 +157,7 @@
+ 	imeAutoComplete = false;
+ 	callTipUseEscapes = false;
+ 	callTipIgnoreCase = false;
++	calltipShowPerPage = 1; //!-add-[BetterCalltips]
+ 	autoCCausedByOnlyOne = false;
+ 	startCalltipWord = 0;
+ 	currentCallTip = 0;
+@@ -1491,6 +1492,7 @@
+ std::string SciTEBase::GetNearestWords(const char *wordStart, size_t searchLen,
+ 		const char *separators, bool ignoreCase /*=false*/, bool exactLen /*=false*/) {
+ 	std::string words;
++
+ 	while (words.empty() && *separators) {
+ 		words = apis.GetNearestWords(wordStart, searchLen, ignoreCase, *separators, exactLen);
+ 		separators++;
+@@ -1509,32 +1511,52 @@
+ 			return;
+ 		// Counts how many call tips
+ 		maxCallTips = static_cast<int>(std::count(words.begin(), words.end(), ' ') + 1);
+-
+ 		// Should get current api definition
++		//std::string word = apis.GetNearestWord(currentCallTipWord.c_str(), currentCallTipWord.length(),
++		//        callTipIgnoreCase, calltipWordCharacters, currentCallTip);
++		//!-start-[BetterCalltips]
++		functionDefinition = "";
++		for (int i = currentCallTip; i < currentCallTip + calltipShowPerPage; i++) {
+ 		std::string word = apis.GetNearestWord(currentCallTipWord.c_str(), currentCallTipWord.length(),
+-		        callTipIgnoreCase, calltipWordCharacters, currentCallTip);
+-		if (word.length()) {
++				callTipIgnoreCase, calltipWordCharacters, i);
++			if (word.empty()) break;
++			if (functionDefinition != "")
++				functionDefinition.append("\n");
++			functionDefinition.append(word);
++		}
++		//!-end-[BetterCalltips]
++		/*if (word.length()) {
+ 			functionDefinition = word;
+ 			if (maxCallTips > 1) {
++		*/	
++		//!-start-[BetterCalltips]
++		if (functionDefinition.length()) {
++			if (maxCallTips > calltipShowPerPage) {
++		//!-end-[BetterCalltips]
+ 				functionDefinition.insert(0, "\001");
+ 			}
+ 
+ 			if (calltipEndDefinition != "") {
+ 				size_t posEndDef = functionDefinition.find(calltipEndDefinition.c_str());
+-				if (maxCallTips > 1) {
++//!				if (maxCallTips > 1) {
++				if (maxCallTips > calltipShowPerPage) { //!-change-[BetterCalltips]
+ 					if (posEndDef != std::string::npos) {
+ 						functionDefinition.insert(posEndDef + calltipEndDefinition.length(), "\n\002");
+ 					} else {
+ 						functionDefinition.append("\n\002");
+ 					}
+ 				} else {
+-					if (posEndDef != std::string::npos) {
++//!					if (posEndDef != std::string::npos) {
++					if ((int)posEndDef > calltipShowPerPage) { //!-change-[BetterCalltips]
+ 						functionDefinition.insert(posEndDef + calltipEndDefinition.length(), "\n");
+ 					}
+ 				}
+-			} else if (maxCallTips > 1) {
++//!			} else if (maxCallTips > 1) {
++			} else if (maxCallTips > calltipShowPerPage) { //!-change-[BetterCalltips]
+ 				functionDefinition.insert(1, "\002");
+ 			}
++			//Substitute(functionDefinition, "\\n", "\n"); //!-add-[CalltipBreaks]
++			//functionDefinition = EncodeString(functionDefinition); //!-add-[FixEncoding]
+ 
+ 			std::string definitionForDisplay;
+ 			if (callTipUseEscapes) {
+@@ -1549,6 +1571,7 @@
+ 	}
+ }
+ 
++
+ bool SciTEBase::StartCallTip() {
+ 	currentCallTip = 0;
+ 	currentCallTipWord = "";
+@@ -1591,6 +1614,27 @@
+ 	return true;
+ }
+ 
++//!-start-[BetterCalltips]
++static int CompareNCaseInsensitive(const char *a, const char *b, size_t len) {
++	while (*a && *b && len) {
++		if (*a != *b) {
++			char upperA = MakeUpperCase(*a);
++			char upperB = MakeUpperCase(*b);
++			if (upperA != upperB)
++				return upperA - upperB;
++		}
++		a++;
++		b++;
++		len--;
++	}
++	if (len == 0)
++		return 0;
++	else
++		// Either *a or *b is nul
++		return *a - *b;
++}
++//!-end-[BetterCalltips]
++
+ void SciTEBase::ContinueCallTip() {
+ 	std::string line = GetCurrentLine();
+ 	const int current = GetCaretInLine();
+@@ -1605,7 +1649,7 @@
+ 		else if (braces == 1 && Contains(calltipParametersSeparators, line[i]))
+ 			commas++;
+ 	}
+-
++/*
+ 	size_t startHighlight = 0;
+ 	while ((startHighlight < functionDefinition.length()) && !Contains(calltipParametersStart, functionDefinition[startHighlight]))
+ 		startHighlight++;
+@@ -1643,6 +1687,68 @@
+ 	}
+ 
+ 	wEditor.Call(SCI_CALLTIPSETHLT, startHighlight, endHighlight);
++*/
++
++//!-start-[BetterCalltips]
++	wEditor.Call(SCI_CALLTIPCLEARHLT);
++	int startHighlight = 0;
++	while(startHighlight != -1) {
++		if (startHighlight) {
++			// go to next line
++			startHighlight = functionDefinition.find("\n", startHighlight);
++			if (startHighlight == -1) break;
++			startHighlight++; // go to start of the line
++			// check if line starts with calltip word
++			if (startHighlight + currentCallTipWord.length() > functionDefinition.length()) break;
++			int cmp_res;
++			if (callTipIgnoreCase)
++				cmp_res = ::CompareNCaseInsensitive(functionDefinition.c_str() + startHighlight, currentCallTipWord.c_str(), currentCallTipWord.length());
++			else
++				cmp_res = ::strncmp(functionDefinition.c_str() + startHighlight, currentCallTipWord.c_str(), currentCallTipWord.length());
++			// line does not start with definition - goto next line
++			if (cmp_res != 0)
++				continue;
++		}
++
++		while ((startHighlight < (int)functionDefinition.length()) && !Contains(calltipParametersStart, functionDefinition[startHighlight]))
++			startHighlight++;
++		if (Contains(calltipParametersStart, functionDefinition[startHighlight]))
++			startHighlight++;
++		int comma_cnt = commas;
++		while ((startHighlight < (int)functionDefinition.length()) && comma_cnt > 0) {
++			if (Contains(calltipParametersSeparators, functionDefinition[startHighlight]))
++				comma_cnt--;
++			// If it reached the end of the argument list it means that the user typed in more
++			// arguments than the ones listed in the calltip
++			if (Contains(calltipParametersEnd, functionDefinition[startHighlight]))
++				comma_cnt = 0;
++			else
++				startHighlight++;
++		}
++		if ((functionDefinition.length() > 0) && Contains(calltipParametersSeparators, functionDefinition[startHighlight]))
++			startHighlight++;
++		size_t endHighlight = startHighlight;
++		while ((endHighlight < functionDefinition.length()) && !Contains(calltipParametersSeparators, functionDefinition[endHighlight]) && !Contains(calltipParametersEnd, functionDefinition[endHighlight]))
++			endHighlight++;
++
++		if (callTipUseEscapes) {
++			std::string sUnslashed = functionDefinition.substr(0, startHighlight + 1);
++			int unslashedStartHighlight = UnSlash(&sUnslashed[0]);
++
++			int unslashedEndHighlight = unslashedStartHighlight;
++			if (startHighlight < (int)endHighlight) {
++				sUnslashed = functionDefinition.substr(startHighlight, endHighlight - startHighlight + 1);
++				unslashedEndHighlight = unslashedStartHighlight + UnSlash(&sUnslashed[0]);
++			}
++
++			startHighlight = unslashedStartHighlight;
++			endHighlight = unslashedEndHighlight;
++		}
++		wEditor.Call(SCI_CALLTIPADDHLT, startHighlight, endHighlight);
++		if (functionDefinition.length() == 0) break;
++	};
++	wEditor.Call(SCI_CALLTIPUPDATEHLT);
++//!-end-[BetterCalltips]
+ }
+ 
+ void SciTEBase::EliminateDuplicateWords(std::string &words) {
+@@ -2700,7 +2806,8 @@
+ 		} else if (wEditor.Call(SCI_AUTOCACTIVE)) {
+ 			if (Contains(calltipParametersStart, ch)) {
+ 				braceCount++;
+-				StartCallTip();
++//				StartCallTip();
++			if (callTipAutomatic) StartCallTip(); //!-change-[BetterCalltips]
+ 			} else if (Contains(calltipParametersEnd, ch)) {
+ 				braceCount--;
+ 			} else if (!Contains(wordCharacters, ch)) {
+@@ -2716,7 +2823,8 @@
+ 		} else {
+ 			if (Contains(calltipParametersStart, ch)) {
+ 				braceCount = 1;
+-				StartCallTip();
++//				StartCallTip();
++				if (callTipAutomatic) StartCallTip(); //!-change-[BetterCalltips]
+ 			} else {
+ 				autoCCausedByOnlyOne = false;
+ 				if (indentMaintain)
+@@ -4126,10 +4234,21 @@
+ 
+ 	case SCN_CALLTIPCLICK: {
+ 			if (notification->position == 1 && currentCallTip > 0) {
++/*			
+ 				currentCallTip--;
+ 				FillFunctionDefinition();
+ 			} else if (notification->position == 2 && currentCallTip + 1 < maxCallTips) {
+ 				currentCallTip++;
++*/
++//!-start-[BetterCalltips]
++				if (currentCallTip >= calltipShowPerPage)
++					currentCallTip -= calltipShowPerPage;
++				else
++					currentCallTip = 0;
++				FillFunctionDefinition();
++			} else if (notification->position == 2 && currentCallTip + calltipShowPerPage < maxCallTips) {
++				currentCallTip += calltipShowPerPage;
++//!-end-[BetterCalltips]
+ 				FillFunctionDefinition();
+ 			}
+ 		}
+diff -Nurw scite/src/SciTEBase.h scite_mod/src/SciTEBase.h
+--- scite/src/SciTEBase.h	2018-10-10 08:41:21.942237400 +0200
++++ scite_mod/src/SciTEBase.h	2018-10-24 13:44:16.071575100 +0200
+@@ -463,9 +463,11 @@
+ 	int indentationWSVisible;
+ 	int indentExamine;
+ 	bool autoCompleteIgnoreCase;
++	bool callTipAutomatic; //!-add-[BetterCalltips]
+ 	bool imeAutoComplete;
+ 	bool callTipUseEscapes;
+ 	bool callTipIgnoreCase;
++	int calltipShowPerPage; //!-add-[BetterCalltips]
+ 	bool autoCCausedByOnlyOne;
+ 	std::string calltipWordCharacters;
+ 	std::string calltipParametersStart;
+@@ -886,6 +888,7 @@
+ 	void DefineMarker(int marker, int markerType, Colour fore, Colour back, Colour backSelected);
+ 	void ReadAPI(const std::string &fileNameForExtension);
+ 	std::string FindLanguageProperty(const char *pattern, const char *defaultValue = "");
++	int FindIntLanguageProperty(const char *pattern, int defaultValue = 0); //!-add-[BetterCalltips]
+ 	virtual void ReadProperties(bool reloadScripts);
+ 	std::string StyleString(const char *lang, int style) const;
+ 	StyleDefinition StyleDefinitionFor(int style);
+diff -Nurw scite/src/SciTEProps.cxx scite_mod/src/SciTEProps.cxx
+--- scite/src/SciTEProps.cxx	2018-10-10 08:41:21.973713500 +0200
++++ scite_mod/src/SciTEProps.cxx	2018-10-24 13:28:38.957670200 +0200
+@@ -416,6 +416,21 @@
+ 	return ret;
+ }
+ 
++//!-start-[BetterCalltips]
++int SciTEBase::FindIntLanguageProperty(const char *pattern, int defaultValue /*=0*/) {
++	std::string key = pattern;
++	Substitute(key, "*", language.c_str());
++	std::string val = props.GetExpandedString(key.c_str());
++	if (val == "") {
++		val = props.GetExpandedString(pattern);
++	}
++	if (val == "") {
++		return defaultValue;
++	}
++	return atoi(val.c_str());
++}
++//!-end-[BetterCalltips]
++
+ /**
+  * A list of all the properties that should be forwarded to Scintilla lexers.
+  */
+@@ -930,11 +945,19 @@
+ 
+ 	char key[200];
+ 	std::string sval;
++//!-start-[BetterCalltips]
++	sval = FindLanguageProperty("calltip.*.automatic", "1");
++	callTipAutomatic = sval == "1";
++//!-end-[BetterCalltips]
+ 
+ 	sval = FindLanguageProperty("calltip.*.ignorecase");
+ 	callTipIgnoreCase = sval == "1";
+ 	sval = FindLanguageProperty("calltip.*.use.escapes");
+ 	callTipUseEscapes = sval == "1";
++//!-start-[BetterCalltips]
++	calltipShowPerPage = FindIntLanguageProperty("calltip.*.show.per.page", 1);
++	if (calltipShowPerPage < 1) calltipShowPerPage = 1;
++//!-end-[BetterCalltips]
+ 
+ 	calltipWordCharacters = FindLanguageProperty("calltip.*.word.characters",
+ 		"_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+@@ -943,6 +966,10 @@
+ 	calltipParametersSeparators = FindLanguageProperty("calltip.*.parameters.separators", ",;");
+ 
+ 	calltipEndDefinition = FindLanguageProperty("calltip.*.end.definition");
++//!-start-[BetterCalltips]
++	int calltipWordWrap = FindIntLanguageProperty("calltip.*.word.wrap");
++	wEditor.Call(SCI_CALLTIPSETWORDWRAP, calltipWordWrap > 0 ? calltipWordWrap : 0);
++//!-end-[BetterCalltips]
+ 
+ 	sprintf(key, "autocomplete.%s.start.characters", language.c_str());
+ 	autoCompleteStartCharacters = props.GetExpandedString(key);
+Binary files scite/win32/Credits.o and scite_mod/win32/Credits.o differ
+Binary files scite/win32/ExportHTML.o and scite_mod/win32/ExportHTML.o differ
+Binary files scite/win32/ExportPDF.o and scite_mod/win32/ExportPDF.o differ
+Binary files scite/win32/ExportRTF.o and scite_mod/win32/ExportRTF.o differ
+Binary files scite/win32/ExportTEX.o and scite_mod/win32/ExportTEX.o differ
+Binary files scite/win32/ExportXML.o and scite_mod/win32/ExportXML.o differ
+Binary files scite/win32/SciTEBase.o and scite_mod/win32/SciTEBase.o differ
+Binary files scite/win32/SciTEBuffers.o and scite_mod/win32/SciTEBuffers.o differ
+Binary files scite/win32/SciTEIO.o and scite_mod/win32/SciTEIO.o differ
+Binary files scite/win32/SciTEProps.o and scite_mod/win32/SciTEProps.o differ
+Binary files scite/win32/SciTEWin.o and scite_mod/win32/SciTEWin.o differ
+Binary files scite/win32/SciTEWinBar.o and scite_mod/win32/SciTEWinBar.o differ
+Binary files scite/win32/SciTEWinDlg.o and scite_mod/win32/SciTEWinDlg.o differ
+Binary files scite/win32/UniqueInstance.o and scite_mod/win32/UniqueInstance.o differ
