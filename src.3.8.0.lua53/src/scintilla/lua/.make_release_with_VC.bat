@@ -1,11 +1,10 @@
 @echo off
-
 :: Try to acquire a VisualStudio 14 Context
 :: If that fails, use systems highest available Version as defined via env var VS[xxx]COMNTOOLS
 
 SET buildContext=14.0
 SET arch=x86
-rem SET arch=x64
+::SET arch=x64
 
 :: #############
 
@@ -19,31 +18,13 @@ echo ~~
 echo Target Architecture will be: %arch%
 call "%VCINSTALLDIR%\vcvarsall.bat"  %arch%
 
-set parameter1=DEBUG=1
+if "%1"=="DEBUG" set parameter1=DEBUG=1
+REM set parameter1=DEBUG=1
+cd src
+nmake  /f mylua.mak lib
+nmake  /f mylua.mak clean
 
-ECHO ~~~~~~~~~~Build: Scintilla
-cd src\scintilla\win32
-nmake %parameter1% -f scintilla.mak
-if errorlevel 1 goto :error
-
-ECHO ~~~~~~~~~~~Build: SciTE
-cd ..\..\scite\win32
-nmake %parameter1% -f scite.mak
-if errorlevel 1 goto :error
-
+move *.lib ..\
 echo :--------------------------------------------------
 echo .... done ....
 echo :--------------------------------------------------
-
-move ..\bin\SciTE.exe ..\..\..\release
-move ..\bin\SciLexer.dll ..\..\..\release
-
-goto end
-
-:error
-pause
-
-:end
-cd ..\..
-PAUSE
-EXIT

@@ -6,6 +6,7 @@
 // The License.txt file describes the conditions under which this software may be distributed.
 
 #include <stdlib.h>
+#include <string>
 #include <string.h>
 #include <ctype.h>
 #include <stdio.h>
@@ -14,6 +15,8 @@
 #include <stdarg.h>
 #include <sys/stat.h>
 #include <time.h>
+
+#include <iostream>
 
 #include <string>
 #include <vector>
@@ -1498,6 +1501,82 @@ std::string SciTEBase::GetNearestWords(const char *wordStart, size_t searchLen,
 	return words;
 }
 
+
+unsigned int SciTEBase::parseFunctionDefinition(std::string text, unsigned partNo)
+{
+// find the end of function declaration(). 
+// skip subfunctions() and :retType
+// Return the startPosition of the Functions Documentation
+  
+unsigned int pos=0;
+unsigned int brackets=0;
+unsigned int marker=0;
+
+    while (pos < text.size()){ 
+			if (text[pos]=='(') {
+					brackets++ ;
+					marker=1; // end of function declaration
+					if (partNo==marker) return pos-1;					
+			} else if (text[pos]==')' && brackets>0){
+					brackets--;
+			} else if (brackets==0 && marker==1) {
+					marker=2; // end of functions returnType
+					if (partNo==marker) return pos-1;
+			} else if (marker==2 && (isspace(text[pos]))) {
+					marker=3; // whitespace
+					if (!isspace(text[pos+1])) return pos; // returnType
+			} else if (marker>=2 && pos==text.size()-1 ) {
+					return pos; // eol
+			}
+			
+			pos++;
+			
+    }
+
+    return(0);
+}
+
+
+std::string SciTEBase::word_wrap(std::string text, unsigned per_line)
+{
+// Author unknown
+// wraps a Text within a column boundary
+
+    unsigned line_begin = 0;
+
+    while (line_begin < text.size())
+    {
+        const unsigned ideal_end = line_begin + per_line ;
+        unsigned line_end = ideal_end <= text.size() ? ideal_end : text.size()-1;
+
+        if (line_end == text.size() - 1)
+            ++line_end;
+        else if (isspace(text[line_end]))
+        {
+            text[line_end] = '\n';
+            ++line_end;
+        }
+        else    // backtrack
+        {
+            unsigned end = line_end;
+            while ( end > line_begin && !isspace(text[end]))
+                --end;
+
+            if (end != line_begin)                  
+            {                                       
+                line_end = end;                     
+                text[line_end++] = '\n';            
+            }                                       
+            else                                 
+                text.insert(line_end++, 1, '\n');
+        }
+
+        line_begin = line_end;
+    }
+
+    return text;
+}
+
 void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 	if (pos > 0) {
 		lastPosCallTip = pos;
@@ -1513,14 +1592,38 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 		// Should get current api definition
 		std::string word = apis.GetNearestWord(currentCallTipWord.c_str(), currentCallTipWord.length(),
 		        callTipIgnoreCase, calltipWordCharacters, currentCallTip);
-		if (word.length()) {
-			functionDefinition = word;
+					
+		// lineWrap that functions Api Documentation
+		if (word.length()) {		
+
+			unsigned int docSep=parseFunctionDefinition(word,false); // get Function Description
+			unsigned int maxOneLiner=125; // dont linewrap below that size
+			unsigned int minWrapPos=90; // minimum linewrap size to use.
+			
+			std::string funcDescr= word.substr(0,docSep);
+			std::string funcDocs = word.substr(docSep, std::string::npos);
+			
+			unsigned wrapPos=(funcDocs.size()<maxOneLiner)?funcDocs.size():funcDescr.size(); // maximum one liner size.
+			wrapPos=(wrapPos<minWrapPos)?minWrapPos:wrapPos; // minimum text size
+
+			if (funcDescr.size()>0)
+				functionDefinition=funcDescr;
+			
+			functionDefinition+= word_wrap(funcDocs, wrapPos);		
+			
 			if (maxCallTips > 1) {
 				functionDefinition.insert(0, "\001");
 			}
 
 			if (calltipEndDefinition != "") {
-				size_t posEndDef = functionDefinition.find(calltipEndDefinition.c_str());
+			// fix constructs aka fn(p1,p2=z.(),p3)
+				size_t posEndDef;
+				if (calltipEndDefinition== ")") {
+					posEndDef= parseFunctionDefinition(word,true);
+				} else {
+					posEndDef = functionDefinition.find(calltipEndDefinition.c_str());
+				}
+				
 				if (maxCallTips > 1) {
 					if (posEndDef != std::string::npos) {
 						functionDefinition.insert(posEndDef + calltipEndDefinition.length(), "\n\002");
@@ -1542,7 +1645,7 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 			} else {
 				definitionForDisplay = functionDefinition;
 			}
-
+			
 			wEditor.CallString(SCI_CALLTIPSHOW, lastPosCallTip - currentCallTipWord.length(), definitionForDisplay.c_str());
 			ContinueCallTip();
 		}

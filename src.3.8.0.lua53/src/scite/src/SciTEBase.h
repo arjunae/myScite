@@ -758,6 +758,8 @@ protected:
 	void ShowMessages(int line);
 	void GoMessage(int dir);
 	virtual bool StartCallTip();
+	unsigned int parseFunctionDefinition(std::string text, unsigned partNo);
+	std::string word_wrap(std::string text, unsigned per_line);
 	std::string GetNearestWords(const char *wordStart, size_t searchLen,
 		const char *separators, bool ignoreCase=false, bool exactLen=false);
 	virtual void FillFunctionDefinition(int pos = -1);

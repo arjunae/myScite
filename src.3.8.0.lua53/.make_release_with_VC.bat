@@ -1,8 +1,5 @@
 @echo off
-REM for make debug version use:  make_with_VC.bat DEBUG
-ECHO VC_Build temporary not possible.
-PAUSE
-exit
+REM for a debug build use:  make_with_VC.bat DEBUG
 
 :: Try to acquire a VisualStudio 14 Context
 :: If that fails, use systems highest available Version as defined via env var VS[xxx]COMNTOOLS
@@ -26,10 +23,12 @@ call "%VCINSTALLDIR%\vcvarsall.bat"  %arch%
 if "%1"=="DEBUG" set parameter1=DEBUG=1
 REM set parameter1=DEBUG=1
 
+ECHO ~~~~~~BUILD: Scintilla
 cd src\scintilla\win32
-nmake %parameter1% -f scintilla.mak
+nmake   %parameter1% -f scintilla.mak
 if errorlevel 1 goto :error
 
+ECHO ~~~~~~BUILD: SciTE
 cd ..\..\scite\win32
 nmake %parameter1% -f scite.mak
 if errorlevel 1 goto :error

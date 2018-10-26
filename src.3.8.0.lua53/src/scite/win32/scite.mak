@@ -8,13 +8,18 @@
 # For a build without Lua, define NO_LUA on the command line.
 # The main makefile uses mingw32 gcc and may be more current than this file.
 
+# Up from Scintilla3.8.0 SciLexer.dll optionally includes Lua (defined LPEG_LEXER)
+# If you choosed to do so, decide here if you want SciTE to be dynamically linked to SciLexers Lua. 
+LUA_LINK_SCILEXER=1
+
 .SUFFIXES: .cxx .properties
 
 DIR_BIN=..\bin
 
 PROG=$(DIR_BIN)\SciTE.exe
 PROGSTATIC=$(DIR_BIN)\Sc1.exe
-DLLS=$(DIR_BIN)\Scintilla.dll $(DIR_BIN)\SciLexer.dll
+DLLS= $(DIR_BIN)\SciLexer.dll
+#$(DIR_BIN)\Scintilla.dll
 
 WIDEFLAGS=-DUNICODE -D_UNICODE
 
@@ -33,7 +38,7 @@ CXXDEBUG=-Od -MTd -DDEBUG -EHa
 CXXNDEBUG=-O1 -Oi -MT -DNDEBUG -GL -EHsc 
 NAME=-Fo
 LDFLAGS=-OPT:REF -LTCG -DEBUG $(XP_LINK)
-LDDEBUG=
+LDDEBUG= -DEBUG -OPT:REF
 LIBS=KERNEL32.lib USER32.lib GDI32.lib MSIMG32.lib COMDLG32.lib COMCTL32.lib ADVAPI32.lib IMM32.lib SHELL32.LIB OLE32.LIB OLEAUT32.LIB UXTHEME.LIB
 NOLOGO=-nologo
 
@@ -188,10 +193,16 @@ LUA_CORE_OBJS = lapi.obj lcode.obj lctype.obj ldebug.obj ldo.obj ldump.obj lfunc
 LUA_LIB_OBJS =	lauxlib.obj lbaselib.obj lbitlib.obj lcorolib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj \
                 lstrlib.obj loadlib.obj loslib.obj linit.obj lutf8lib.obj
 
-LUA_OBJS = LuaExtension.obj $(LUA_CORE_OBJS) $(LUA_LIB_OBJS)
+LUA_OBJS = LuaExtension.obj
 
+!IFDEF LUA_LINK_SCILEXER
+LUA_LIB=..\..\scintilla\bin\SciLexer.lib
 OBJS = $(OBJS) $(LUA_OBJS)
+!ELSE
+OBJS = $(OBJS) $(LUA_OBJS) $(LUA_CORE_OBJS) $(LUA_LIB_OBJS)
 OBJSSTATIC = $(OBJSSTATIC) $(LUA_OBJS)
+!ENDIF
+
 INCLUDEDIRS = $(INCLUDEDIRS) -I../lua/src
 !ELSE
 CXXFLAGS=$(CXXFLAGS) -DNO_LUA
@@ -200,8 +211,8 @@ CXXFLAGS=$(CXXFLAGS) -DNO_LUA
 CXXFLAGS=$(CXXFLAGS) $(INCLUDEDIRS)
 CCFLAGS=$(CCFLAGS) $(INCLUDEDIRS)
 
-
-ALL: $(PROG) $(PROGSTATIC) $(DLLS) $(PROPS)
+ALL: $(PROG)  $(DLLS) $(PROPS)
+#$(PROGSTATIC)
 
 clean:
 	del /q $(DIR_BIN)\*.exe *.o *.obj $(DIR_BIN)\*.dll *.res *.map $(DIR_BIN)\*.exp $(DIR_BIN)\*.lib $(DIR_BIN)\*.pdb
@@ -237,8 +248,8 @@ SciTERes.res: SciTERes.rc ..\src\SciTE.h SciTE.exe.manifest
 Sc1Res.res: SciTERes.rc ..\src\SciTE.h SciTE.exe.manifest
 	$(RC) $(INCLUDEDIRS) -dSTATIC_BUILD -fo$@ SciTERes.rc
 
-$(PROG): $(OBJS) SciTERes.res
-	$(LD) $(LDFLAGS) -OUT:$@ $** $(LIBS)
+$(PROG): $(LUA_LIB) $(OBJS)  SciTERes.res
+	$(LD) $(LDFLAGS) -OUT:$@  $**  $(LIBS)
 
 $(PROGSTATIC): $(OBJSSTATIC) $(LEXLIB) Sc1Res.res
 	$(LD) $(LDFLAGS) -OUT:$@ $** $(LIBS)

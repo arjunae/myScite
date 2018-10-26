@@ -1,8 +1,3 @@
-
-
-
-
-
 _G holds global environment, setfenv changes environments
 _VERSION current interpreter version "Lua 5.0"
 assert (v [, message]) error if v nil or false, otherwise returns v
@@ -107,7 +102,7 @@ os.setlocale (locale [, category]) set current locale of program, returns name o
 os.sleep(seconds) pause for the given amount of seconds (can be fraction) (ex)
 os.spawn(filename) create a child process (ex)
 os.time ([table]) returns current time (usually seconds) or time as represented by table
-os.tmpname () returns a string with a filename for a temporary file (dangerous! tmpfile is better)
+os.tmpname () returns a string with a filename for a temporary file (dangerous! io.tmpfile is better)
 pairs (t) returns the next function and table t plus a nil, iterates over all key-value pairs
 pcall (f, arg1, arg2, ...) protected mode call, catches errors, returns status code first (true=success)
 print (e1, e2, ...) prints values to stdout using tostring

@@ -251,12 +251,14 @@
 #else				/* }{ */
 
 #if defined(_WIN32)
-#define LUA_API __declspec(dllexport)
+
 #else
-#define LUA_API         extern
+
 #endif
 
 #endif				/* } */
+//#define LUA_API __declspec(dllimport)
+#define LUA_API extern
 
 
 /* more often than not the libs go together with the core */
