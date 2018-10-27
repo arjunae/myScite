@@ -1,7 +1,7 @@
 /*
-** $Id: lptypes.h,v 1.14 2015/09/28 17:17:41 roberto Exp $
+** $Id: lptypes.h,v 1.8 2013/04/12 16:26:38 roberto Exp $
 ** LPeg - PEG pattern matching for Lua
-** Copyright 2007-2015, Lua.org & PUC-Rio  (see 'lpeg.html' for license)
+** Copyright 2007, Lua.org & PUC-Rio  (see 'lpeg.html' for license)
 ** written by Roberto Ierusalimschy
 */
 
@@ -19,7 +19,7 @@
 #include "lua.h"
 
 
-#define VERSION         "1.0.0"
+#define VERSION         "0.12"
 
 
 #define PATTERN_T	"lpeg-pattern"
@@ -27,38 +27,36 @@
 
 
 /*
-** compatibility with Lua 5.1
+** compatibility with Lua 5.2
 */
-#if (LUA_VERSION_NUM == 501)
+#if (LUA_VERSION_NUM == 502)
 
-#define lp_equal	lua_equal
+#undef lua_equal
+#define lua_equal(L,idx1,idx2)  lua_compare(L,(idx1),(idx2),LUA_OPEQ)
 
-#define lua_getuservalue	lua_getfenv
-#define lua_setuservalue	lua_setfenv
+#undef lua_getfenv
+#define lua_getfenv	lua_getuservalue
+#undef lua_setfenv
+#define lua_setfenv	lua_setuservalue
 
-#define lua_rawlen		lua_objlen
+#undef lua_objlen
+#define lua_objlen	lua_rawlen
 
-#define luaL_setfuncs(L,f,n)	luaL_register(L,NULL,f)
-#define luaL_newlib(L,f)	luaL_register(L,"lpeg",f)
+#undef luaL_register
+#define luaL_register(L,n,f) \
+	{ if ((n) == NULL) luaL_setfuncs(L,f,0); else luaL_newlib(L,f); }
 
-#endif
-
-
-#if !defined(lp_equal)
-#define lp_equal(L,idx1,idx2)  lua_compare(L,(idx1),(idx2),LUA_OPEQ)
 #endif
 
 
 /* default maximum size for call/backtrack stack */
 #if !defined(MAXBACK)
-#define MAXBACK         400
+#define MAXBACK         100
 #endif
 
 
 /* maximum number of rules in a grammar */
-#if !defined(MAXRULES)
-#define MAXRULES        1000
-#endif
+#define MAXRULES        200
 
 
 

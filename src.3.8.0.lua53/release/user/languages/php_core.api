@@ -1911,9 +1911,9 @@ stream_select ( array &$read , array &$write , array &$except , $tv_sec [, $tv_u
 stream_set_blocking ( resource $stream , $mode ):bool |  Set blocking/non-blocking mode on a socket or stream
 stream_set_chunk_size ( resource $fp , $chunk_size ):int | Set the stream chunk size. 
 stream_set_read_buffer ( resource $stream , $buffer ):int | Sets the read buffer. It's the equivalent of stream_set_write_buffer(), but for read operations. 
-stream_set_timeout ( resource $stream , int $seconds [, int $microseconds = 0 ] ):bool |  Set timeout on stream read to microseonds
+stream_set_timeout ( resource $stream , int $seconds [, int $microseconds = 0 ] ):bool |  Set timeout on stream read to seconds |  |  | microseonds
 stream_set_write_buffer ( resource $stream , $buffer ):int | Sets the buffering for write operations on the given stream to buffer bytes. 
-stream_socket_accept ( $server_socket [, float $timeout=ini_get("default_socket_timeout") [, string &$peername ]] ):resource | adflkdsaflkjasdlkjfdsalkjfdslkjfds
+stream_socket_accept ( $server_socket [, float $timeout = ini_get("default_socket_timeout") [, string &$peername ]] ):resource | Accept a connection on a socket previously created by stream_socket_server(). 
 stream_socket_client ( string $remote_socket [, int &$errno [, string &$errstr [, float $timeout = ini_get("default_socket_timeout") [, int $flags = STREAM_CLIENT_CONNECT [, $context ]]]]] ):resource |  Open a client connection to a remote address
 stream_socket_enable_crypto ( resource $stream , bool $enable [, int $crypto_type [, resource $session_stream ]] ):mixed | 
 stream_socket_get_name ( resource $handle , bool $want_peer ):string | Returns the local or remote name of a given socket connection. 

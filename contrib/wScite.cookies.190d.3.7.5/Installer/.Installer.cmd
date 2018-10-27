@@ -24,7 +24,7 @@ REM ::--::--::--::--Steampunk--::-::--::--::
 
 REM Normally, the keyword REM identifies a comment line, but we also use the defacto shortform ::
 REM Exception: some Dos parsers dont fully support :: within loops, so definately use REM there.
- 
+
  pushd %~dp0%
 
 :sub_main
@@ -80,7 +80,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  :: Ask if the User wants FileType Registration
  if [%FIX_REACTOS%]==[0] ( 
   echo  .. Register SciTE with understood Filetypes?
-  echo  .. (Doesnt overwrite already made associations)  
+  echo  .. [Doesnt overwrite already made associations]
   choice /C YN /M " -- [Yes/No]" 
   :: Parses all .properties files and Registers their contained Filetypes 
   if %ERRORLEVEL% == 1 (

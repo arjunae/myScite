@@ -1596,7 +1596,7 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 		// lineWrap that functions Api Documentation
 		if (word.length()) {		
 
-			unsigned int docSep=parseFunctionDefinition(word,false); // get Function Description
+			unsigned int docSep=parseFunctionDefinition(word,2); // get Function Description
 			unsigned int maxOneLiner=125; // dont linewrap below that size
 			unsigned int minWrapPos=90; // minimum linewrap size to use.
 			

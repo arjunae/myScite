@@ -177,6 +177,7 @@ deps:
 embedded: ../src/Embedded.properties
 
 ../bin/Scintilla.dll:	../../scintilla/bin/Scintilla.dll
+
 ifeq ($(OS),Windows_NT)
 	$(COPY) $(subst /,\, $< $(@D))
 else

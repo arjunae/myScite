@@ -11,12 +11,15 @@
 #include <limits.h>
 #include <stddef.h>
 
+#define lua_getfenv	lua_getuservalue
+#define lua_setfenv	lua_setuservalue
 
 /*
 ** ===================================================================
 ** Search for "@@" to find all configurable definitions.
 ** ===================================================================
 */
+
 
 
 /*
@@ -241,14 +244,21 @@
 ** the libraries, you may want to use the following definition (define
 ** LUA_BUILD_AS_DLL to get it).
 */
+#if defined(LUA_BUILD_AS_DLL)	/* { */
 
-#if defined(LUA_EXPORT_VC) /*  { */
-//#define LUA_API		extern
-#define LUA_API __declspec(dllexport)
+#if defined(LUA_CORE) || defined(LUA_LIB)	/* { */
+//#define LUA_API __declspec(dllexport)
 #else						/* }{ */
-#define LUA_API __declspec(dllexport)
+//#define LUA_API __declspec(dllimport)
+#endif						/* } */
+
+#else				/* }{ */
+
+//#define LUA_API		extern
+
 #endif				/* } */
 
+#define LUA_API __declspec(dllexport)
 /* more often than not the libs go together with the core */
 #define LUALIB_API	LUA_API
 #define LUAMOD_API	LUALIB_API

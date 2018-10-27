@@ -12,8 +12,8 @@ CORE_O=	lapi.o lcode.o lctype.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o \
 	lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o ltable.o \
 	ltm.o lundump.o lvm.o lzio.o
 LIB_O=	lauxlib.o lbaselib.o lbitlib.o lcorolib.o ldblib.o liolib.o \
-	lmathlib.o loslib.o lstrlib.o ltablib.o lutf8lib.o loadlib.o linit.o
-
+	lmathlib.o loslib.o lstrlib.o ltablib.o lutf8lib.o loadlib.o linit.o \
+	lpcap.o lpcode.o lpprint.o lptree.o lpvm.o 
 # -- copy from original Makefile : end ---------------------------------
 
 OBJS    = $(CORE_O) $(LIB_O)
@@ -34,7 +34,7 @@ RUNTIME = /MT
 OPTIM   = /Od
 
 CFLAGS  = /GS $(WARN) $(RUNTIME) $(OPTIM) /DWIN32 /D_WINDOWS /D_MBCS \
-          /DNDEBUG /DLUA_COMPAT_5_2 /DLUA_BUILD_AS_DLL
+          /DNDEBUG /DLUA_COMPAT_5_1 /DLUA_BUILD_AS_DLL
 
 # ----------------------------------------------------------------------
 
@@ -129,6 +129,4 @@ lpprint.o: lpprint.c lpprint.h lptypes.h lua.h lauxlib.h
 lptree.o: lptree.c lptree.h lptypes.h lua.h lauxlib.h
 lpvm.o: lpvm.c lpvm.h lptypes.h lua.h lauxlib.h
 
-
-
-# -- copy from original Makefile : end ---------------------------------
+# -- copy from original Makefile : end --------------------------------
