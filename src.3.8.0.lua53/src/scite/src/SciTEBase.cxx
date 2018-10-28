@@ -1502,7 +1502,7 @@ std::string SciTEBase::GetNearestWords(const char *wordStart, size_t searchLen,
 }
 
 
-unsigned int SciTEBase::parseFunctionDefinition(std::string text, unsigned partNo)
+unsigned int SciTEBase::parseFunctionDefinition(std::string text, unsigned int partNo)
 {
 // find the end of function declaration(). 
 // skip subfunctions() and :retType
@@ -1515,21 +1515,21 @@ unsigned int marker=0;
     while (pos < text.size()){ 
 			if (text[pos]=='(') {
 					brackets++ ;
-					marker=1; // end of function declaration
-					if (partNo==marker) return pos-1;					
+					marker=1; 
 			} else if (text[pos]==')' && brackets>0){
 					brackets--;
 			} else if (brackets==0 && marker==1) {
-					marker=2; // end of functions returnType
-					if (partNo==marker) return pos-1;
+					if (marker==1 && partNo==1 ) return pos-1; // start functions params					
+					marker=2; 
 			} else if (marker==2 && (isspace(text[pos]))) {
-					marker=3; // whitespace
-					if (!isspace(text[pos+1])) return pos; // returnType
+					if (marker==2 && partNo==2) return pos-1; // start functions Description
+					marker=3;
+					if (!isspace(text[pos]) && partNo==3) return pos-1; // start returnType
 			} else if (marker>=2 && pos==text.size()-1 ) {
 					return pos; // eol
 			}
 			
-			pos++;
+				pos++;
 			
     }
 
