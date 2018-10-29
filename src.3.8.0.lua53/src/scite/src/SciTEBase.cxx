@@ -1600,7 +1600,8 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 			unsigned int docSep=parseFunctionDefinition(word,3); // get Function Description
 			unsigned int wrapPos;
 			unsigned int maxOneLiner=111; // do not linewrap below that size
-			unsigned int minWrapPos=80; // minimum linewrap size to use.
+			unsigned int minWrapPos=80; // minimum / maximum linewrap size to use.
+			unsigned int maxWrapPos=140;
 			
 			std::string funcDescr= word.substr(0,docSep);
 			std::string funcDocs = word.substr(docSep, std::string::npos);
@@ -1618,7 +1619,9 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 					lineRest=std::stoi(strTmp.substr(strTmp.size()-2,std::string::npos));
 					if (lineRest<36) wrapPos+=lineRest;
 			}
-				
+			
+			wrapPos=(wrapPos<maxWrapPos)?wrapPos:maxWrapPos;
+			
 			functionDefinition+= word_wrap(funcDocs, wrapPos);		
 					
 			if (maxCallTips > 1) {
