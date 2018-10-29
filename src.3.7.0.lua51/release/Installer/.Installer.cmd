@@ -58,6 +58,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  :: When "manual Installation" has been chosen, just copy the generated reg import file to currentUsers Desktop.
  
  if [%FIX_REACTOS%] equ [1] Pause && ECHO. && SET ERRORLEVEL=2
+ REM if [%FIX_REACTOS%] equ [1] choice /C:AM  -- Press [A] for automatic Install or [M] If you want to do that manually
  if [%FIX_REACTOS%] equ [0] choice /C AM /M " -- Press [A] for automatic Install or [M] If you want to do that manually" 
  
  if %ERRORLEVEL% == 1 reg import %regfile%
@@ -80,8 +81,9 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  :: Ask if the User wants FileType Registration
  if [%FIX_REACTOS%]==[0] ( 
   echo  .. Register SciTE with understood Filetypes?
-  echo  .. [Doesnt overwrite already made associations]
-  choice /C YN /M " -- [Yes/No]" 
+  echo  .. (Doesnt overwrite already made associations)  
+  if [%FIX_REACTOS%] equ [1] choice /C:YN -- [Yes/No]
+  if [%FIX_REACTOS%] equ [0] choice /C YN /M " -- [Yes/No]" 
   :: Parses all .properties files and Registers their contained Filetypes 
   if %ERRORLEVEL% == 1 (
     call scite_filetypes /quite %scite_filepath%

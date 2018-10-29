@@ -1504,9 +1504,10 @@ std::string SciTEBase::GetNearestWords(const char *wordStart, size_t searchLen,
 
 unsigned int SciTEBase::parseFunctionDefinition(std::string text, unsigned int partNo)
 {
-// find the end of function declaration(). 
+// finds parts within an api entry. 
 // skip subfunctions() and :retType
-// Return the startPosition of the Functions Documentation
+// Return the startPosition of the respective part params / funcs Documentation
+// need an idea for a better file format...
   
 unsigned int pos=0;
 unsigned int brackets=0;
@@ -1515,17 +1516,17 @@ unsigned int marker=0;
     while (pos < text.size()){ 
 			if (text[pos]=='(') {
 					brackets++ ;
-					marker=1; 
+					marker=1;
+          if (marker==1 && partNo==1 ) return pos-1; // start functions params				
 			} else if (text[pos]==')' && brackets>0){
 					brackets--;
 			} else if (brackets==0 && marker==1) {
-					if (marker==1 && partNo==1 ) return pos-1; // start functions params					
 					marker=2; 
+          if (partNo==2) return pos; // end functions params
 			} else if (marker==2 && (isspace(text[pos]))) {
-					if (marker==2 && partNo==2) return pos-1; // start functions Description
+					if (partNo==3) return pos; // start functions Description
 					marker=3;
-					if (!isspace(text[pos]) && partNo==3) return pos-1; // start returnType
-			} else if (marker>=2 && pos==text.size()-1 ) {
+      } else if (marker>=2 && pos==text.size()-1 ) {
 					return pos; // eol
 			}
 			
@@ -1596,21 +1597,30 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 		// lineWrap that functions Api Documentation
 		if (word.length()) {		
 
-			unsigned int docSep=parseFunctionDefinition(word,2); // get Function Description
-			unsigned int maxOneLiner=125; // dont linewrap below that size
-			unsigned int minWrapPos=90; // minimum linewrap size to use.
+			unsigned int docSep=parseFunctionDefinition(word,3); // get Function Description
+			unsigned int wrapPos;
+			unsigned int maxOneLiner=111; // do not linewrap below that size
+			unsigned int minWrapPos=80; // minimum linewrap size to use.
 			
 			std::string funcDescr= word.substr(0,docSep);
 			std::string funcDocs = word.substr(docSep, std::string::npos);
 			
-			unsigned wrapPos=(funcDocs.size()<maxOneLiner)?funcDocs.size():funcDescr.size(); // maximum one liner size.
-			wrapPos=(wrapPos<minWrapPos)?minWrapPos:wrapPos; // minimum text size
-
 			if (funcDescr.size()>0)
 				functionDefinition=funcDescr;
 			
+			if (funcDocs.size()<maxOneLiner) {
+					wrapPos=funcDocs.size()+1;
+			} else {
+				wrapPos=(funcDescr.size()<minWrapPos)?minWrapPos:funcDescr.size();
+				//  move smaller chunks back to the previous lines.  		
+					unsigned int lineRest;
+					std::string strTmp = std::to_string((funcDocs.size()*100 / wrapPos*100)/100);
+					lineRest=std::stoi(strTmp.substr(strTmp.size()-2,std::string::npos));
+					if (lineRest<36) wrapPos+=lineRest;
+			}
+				
 			functionDefinition+= word_wrap(funcDocs, wrapPos);		
-			
+					
 			if (maxCallTips > 1) {
 				functionDefinition.insert(0, "\001");
 			}
@@ -1619,7 +1629,7 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 			// fix constructs aka fn(p1,p2=z.(),p3)
 				size_t posEndDef;
 				if (calltipEndDefinition== ")") {
-					posEndDef= parseFunctionDefinition(word,true);
+					posEndDef= parseFunctionDefinition(word,2)-1;
 				} else {
 					posEndDef = functionDefinition.find(calltipEndDefinition.c_str());
 				}
