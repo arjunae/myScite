@@ -31,8 +31,8 @@ echo .... done ....
 echo :--------------------------------------------------
 
 echo ... move to Release
-copy ..\bin\SciTE.exe ..\..\..\..\SciTE.win64
-copy ..\bin\SciLexer.dll ..\..\..\..\SciTE.win64
+copy ..\bin\SciTE.exe ..\..\..\release
+copy ..\bin\SciLexer.dll ..\..\..\release
 
 goto end
 
