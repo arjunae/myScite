@@ -1,7 +1,7 @@
 
 ######---------
 
-File: 18b_calltips.diff
+File: 18b_calltipMsg.diff
 Authors: SciTE.ru / https://bitbucket.org/scite-ru/scite-ru.bitbucket.org/downloads/
 Desr: A set of new calltip related Scintilla Messages
 Notes: Patchset adapted for Scintilla 3.8.0 - Experimental
@@ -14,7 +14,7 @@ SCI_CALLTIPSETWORDWRAP: void SetWrapBound(int wrapBnd);  Set calltip line wrap b
 
 #######---------
 
-File: 18a_calltips.diff
+File: 18a_calltipMsg.diff
 Authors: SciTE.ru / https://bitbucket.org/scite-ru/scite-ru.bitbucket.org/downloads/
 Desr: A set of new calltip related properties
 Notes: Patchset adapted for Scite 3.7.5 - Experimental
