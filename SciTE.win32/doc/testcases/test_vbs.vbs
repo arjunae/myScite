@@ -27,7 +27,7 @@ Dim oIE
   oIE.Visible = 1   ' Keep visible. 
   
   wscript.echo("stdOut - Please close IE now....")
-   
+  
   do ' -- wait for Events to be recieved
     wscript.sleep(2000) :
     if bconsole=true then wscript.stdOut.write("-=-")

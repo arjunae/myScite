@@ -1501,7 +1501,6 @@ std::string SciTEBase::GetNearestWords(const char *wordStart, size_t searchLen,
 	return words;
 }
 
-
 unsigned int SciTEBase::parseFunctionDefinition(std::string text, unsigned int partNo) {
 /* 
 		Returns positions of parts within an api entry. ( params / funcs Documentation )
@@ -1513,28 +1512,28 @@ unsigned int brackets=0;
 unsigned int marker=0;
 
     while (pos < text.size()){ 
-			if (text[pos]==(int)calltipParametersStart.c_str()) {
-					brackets++ ;
+			if (text.substr(pos,1)==calltipParametersStart.substr(0,1)) {
+					brackets++;
 					marker=1;
-          if (marker==1 && partNo==1 ) return pos-1; // start functions params				
-			} else if (text[pos]==(int)calltipParametersEnd.c_str() && brackets>0){
+        			if (marker==1 && partNo==1 ) return pos; // start functions params			
+			} else if ( brackets>0 && (text.substr(pos,1)==calltipParametersEnd.substr(0,1))){
 					brackets--;
+					if (brackets==0 && partNo==2 ) return pos; // end functions params			
 			} else if (brackets==0 && marker==1) {
-					marker=2; 
-					if (partNo==2) return pos; // end functions params
+					marker=2;
+					if (!(text[pos]==':' && partNo==3)) return pos; // noParams, start functions Description 				
 			} else if (marker==2 && (isspace(text[pos]))) {
 					if (partNo==3) return pos; // start functions Description
 					marker=3;
-			} else if (marker>=2 && pos==text.size()-1 ) {
+			} else if (marker>=2 && (pos==text.size()-1)) {
 					return pos; // eol
 			}
 			pos++;
 
     }
 
-    return(0);
+    return(text.size());
 }
-
 
 std::string SciTEBase::wrapText(std::string text, unsigned per_line) {
 /*	Submitted by Sean Hubbard on https://www.cprogramming.com/snippets/source-code/word-wrap-in-c
@@ -1606,9 +1605,14 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 			
 			std::string funcDescr= word.substr(0,docSep);
 			std::string funcDocs = word.substr(docSep, std::string::npos);
+			if (funcDescr.substr(funcDescr.size()-1,1)==calltipParametersEnd.substr(0,1))
+				funcDescr+=" ";			
 			
-			if (funcDescr.size()>0)
-				functionDefinition=funcDescr;
+			if (funcDescr.size()==0)
+				funcDocs="";
+			else
+				functionDefinition= funcDescr;
+
 			
 			if (funcDocs.size()<maxOneLiner) {
 					wrapPos=funcDocs.size()+1;
@@ -1616,8 +1620,8 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 				wrapPos=(funcDescr.size()<minWrapPos)?minWrapPos:funcDescr.size();
 				//  move smaller chunks back to the previous lines.  		
 					unsigned int lineRest;
-					std::string strTmp = std::to_string((funcDocs.size()*100 / wrapPos*100)/100);
-					lineRest=std::stoi(strTmp.substr(strTmp.size()-2,std::string::npos));
+					std::string strTmp = std::to_string((funcDocs.size()*1000 / wrapPos*1000)/1000);
+					lineRest=std::stoi(strTmp.substr(strTmp.size()-3,std::string::npos));
 					if (lineRest<36) wrapPos+=lineRest;
 			}
 			
@@ -1629,7 +1633,7 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 			}
 
 			if (calltipEndDefinition != "") {
-				size_t posEndDef= parseFunctionDefinition(word,2)-1; // fix constructs aka fn(p1,p2=z.(),p3)
+				size_t posEndDef= parseFunctionDefinition(word,2); // fix constructs aka fn(p1,p2=z.(),p3)
 				if (maxCallTips > 1) {
 					if (posEndDef != std::string::npos) {
 						functionDefinition.insert(posEndDef + calltipEndDefinition.length(), "\n\002");

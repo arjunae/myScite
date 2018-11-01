@@ -17,20 +17,22 @@ if "%1"=="" (
 echo ::...::..:::...::..::.:.::
 echo ::    SciTE Debug	::  
 echo ::...::..:::...::..::.:.::
-
+echo.
+echo ~~~~Build: Scintilla
 cd src\scintilla\win32
 mingw32-make -j %NUMBER_OF_PROCESSORS%
 if errorlevel 1 goto :error
-
+echo.
+echo ~~~~Build: SciTE
 cd ..\..\scite\win32
 mingw32-make -j %NUMBER_OF_PROCESSORS%
 if errorlevel 1 goto :error
-
+echo.
 echo :--------------------------------------------------
 echo .... done ....
 echo :--------------------------------------------------
 
-echo ... move to Release
+echo ~~~~~ Copying Files to release...
 copy ..\bin\SciTE.exe ..\..\..\release
 copy ..\bin\SciLexer.dll ..\..\..\release
 

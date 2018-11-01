@@ -18,15 +18,17 @@ if "%1"=="" (
 echo ::..::..:::..::..::.:.::
 echo ::    SciTE Prod      ::
 echo ::..::..:::..::..::.:.::
-
+echo.
+echo ~~~~Build: Scintilla
 cd src\scintilla\win32
 mingw32-make -j %NUMBER_OF_PROCESSORS%
 if errorlevel 1 goto :error
-
+echo.
+echo ~~~~Build: SciTE
 cd ..\..\scite\win32
 mingw32-make -j %NUMBER_OF_PROCESSORS%
 ::if errorlevel 1 goto :error
-
+echo.
 echo :--------------------------------------------------
 echo .... done ....
 echo :--------------------------------------------------
@@ -46,6 +48,7 @@ for /f "delims=:" %%A in ('findstr /o "^.*PE..d." ..\bin\SciTE.exe') do ( set of
 if %off64%==120 set PLAT=WIN64
 
 echo .... Targets platform [%PLAT%] ......
+echo ~~~~~ Copying Files to release...
 If [%PLAT%]==[WIN32] (
 echo .... move to SciTE.win32 ......
 copy ..\bin\SciTE.exe ..\..\..\release

@@ -20,21 +20,22 @@ echo Target Architecture will be: %arch%
 call "%VCINSTALLDIR%\vcvarsall.bat"  %arch%
 
 set parameter1=DEBUG=1
-
-ECHO ~~~~~~~~~~Build: Scintilla
+echo.
+echo ~~~~Build: Scintilla
 cd src\scintilla\win32
 nmake %parameter1% -f scintilla.mak
 if errorlevel 1 goto :error
 
-ECHO ~~~~~~~~~~~Build: SciTE
+echo ~~~~Build: SciTE
 cd ..\..\scite\win32
 nmake %parameter1% -f scite.mak
 if errorlevel 1 goto :error
-
+echo.
 echo :--------------------------------------------------
 echo .... done ....
 echo :--------------------------------------------------
-
+echo.
+echo ~~~~~ Copying Files to release...
 move ..\bin\SciTE.exe ..\..\..\release
 move ..\bin\SciLexer.dll ..\..\..\release
 

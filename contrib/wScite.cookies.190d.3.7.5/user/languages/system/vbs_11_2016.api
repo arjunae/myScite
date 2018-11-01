@@ -5,19 +5,35 @@
 Scripting.Signer()The Scripting.Signer object enables an author to sign a script \t\nwith a digital signature and a recipient to verify the signature's authenticity and trustworthiness Signer.SignFile(File, Cert, Store) {VBS}
 Arguments()Returns the WshArguments object - a collection of arguments.\t\nobject.Arguments (VBS)
 WScript()Provides access to root object for the Windows Script Host object model {VBS}
-WshArguments()Provides access to the entire collection of command-line parameters \t\n in the order in which they were originally entered {VBS}
-WshEnvironment()Provides access to the collection of Windows environment variables {VBS}
-WshController()Provides access to the CreateScript method (for creating a remote script process) {VBS}
-WshNamed()Provides access to the named arguments from the command line {VBS}
-WshNetwork()Provides access to the shared resources on the network to which your computer is connected WScript.Echo "User Name = " & WshNetwork.UserName {VBS}
-WshRemote()Provides access to the remote script process. **  {VBS}
-WshRemoteError()Provides access to the error information available when a \t\nremote script (a WshRemote object) terminates as a result of a script error {VBS}
-WshScriptExec()Provides status information about a script run with Exec along \t\nwith access to the StdIn, StdOut, and StdErr streams {VBS}
-WshShell()Provides access to the native Windows shell oShellLink = WshShell.CreateShortcut(strDesktop & "\Shortcut Script.lnk") {VBS}
-WshShortcut()Allows you to create a shortcut programmatically {VBS}
-WshSpecialFolders()Provides access to the collection of Windows special folders {VBS}
-WshUnnamed()Provides access to the unnamed arguments from the command line {VBS}
-WshUrlShortcut()Allows you to create a shortcut to an Internet resource programmatically {VBS}
+Arguments()Provides access to the entire collection of command-line parameters \t\n in the order in which they were originally entered {VBS}
+Environment()Provides access to the collection of Windows environment variables {VBS}
+Controller()Provides access to the CreateScript method (for creating a remote script process) {VBS}
+Named()Provides access to the named arguments from the command line {VBS}
+Network()Provides access to the shared resources on the network to which your computer is connected WScript.Echo "User Name = " & WshNetwork.UserName {VBS}
+Remote()Provides access to the remote script process. **  {VBS}
+RemoteError()Provides access to the error information available when a \t\nremote script (a WshRemote object) terminates as a result of a script error {VBS}
+ScriptExec()Provides status information about a script run with Exec along \t\nwith access to the StdIn, StdOut, and StdErr streams {VBS}
+Shell()Provides access to the native Windows shell oShellLink = WshShell.CreateShortcut(strDesktop & "\Shortcut Script.lnk") {VBS}
+Shortcut()Allows you to create a shortcut programmatically {VBS}
+SpecialFolders()Provides access to the collection of Windows special folders {VBS}
+Unnamed()Provides access to the unnamed arguments from the command line {VBS}
+UrlShortcut()Allows you to create a shortcut to an Internet resource programmatically {VBS}
+
+
+#~---- Object Methods {VBS}
+# Arguments
+# Environment
+# Controller
+# Named
+# Network
+# Remote
+# RemoteError
+# ScriptExec
+# Shell
+# Shortcut
+# SpecialFolders
+# Unnamed
+# URLShortcut
 
 #~---- Functions {VBS}
 Abs(number)Returns the absolute value of a number.\t\nAbs {VBS}
@@ -222,32 +238,6 @@ stdout @@exposes the write-only output stream for the current script.\t\nobject.
 _End()Event that is fired when the remote script completes.\t\nvar WshController = new ActiveXObject("WSHController"),\t\nvar RemoteProc = WshController.CreateScript("app.wsf", "remotemachine"),\t\nWScript.ConnectObject(RemoteProc, "RemoteProc_"),\t\nvar Done = false,\t\nRemoteProc.Execute(),\t\nwhile (!Done)\t\nWScript.Sleep(100),\t\nfunction RemoteProc_End()\t\n{\t\nWScript.Echo("The process has ended"),\t\nDone = true,\t\n}\t\nfunction RemoteProc_Error()\t\n{\t\nWScript.Echo("An error has occurred: " + RemoteProc.Error.Description),\t\nDone = true,\t\n}\t\nfunction RemoteProc_Start()\t\n{\t\nWScript.Echo("The process has started"),\t\n} {VBS}
 _Error()Event that is fired when an error occurs in the remote script.\t\nObject_Error {VBS}
 _Start()Event that is fired when the remote script begins executing.\t\nObject_Start {VBS}
-
-#~--xml
-<description>
-<example>
-<job
-id=
-<named
-name=
-helpstring=
-type=
-required=
-<object>
-guid=
-progID=
-hookevents=
-<package>
-<reference>
-version=
-<resource>
-<runtime>
-<script>
-language=
-src=
-<unnamed>
-many=
-<usage>
 
 #https://msdn.microsoft.com/de-de/library/microsoft.visualbasic.constants_fields(v=vs.110).aspx
 vbAbort @@Indicates that the Abort button was clicked in a message box. Returned by the MsgBox function.

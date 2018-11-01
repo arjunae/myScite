@@ -13,11 +13,11 @@
             "externalConsole": true
         },
         {
-            "name": "C++ Launch",
+            "name": "GDB Launch",
             "type": "cppdbg",
             "request": "launch",
             "args": [],
-            "stopAtEntry": true,
+            "stopAtEntry": false,
             "cwd": "${workspaceRoot}",
             "environment": [],
             "externalConsole": true,
@@ -33,7 +33,7 @@
             ]
         },
         {
-            "name": "C++ Attach",
+            "name": "GDB Attach",
             "miDebuggerPath": "D:\\apps\\msys64\\mingw32\\bin\\gdb.exe",
             "type": "cppdbg",
             "request": "attach",
