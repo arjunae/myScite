@@ -12,7 +12,7 @@ sLang = "German"
 
 'sText = "As of March 2017, Wikipedia has about forty thousand high-quality articles known as Featured Articles and Good Articles that cover vital topics."
 'sLang = "English"
-
+arguments(
 function test_comIE
 ' opens a site in ie and handles some of its Events
 ' Derived from original MSDN Sample

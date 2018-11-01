@@ -1607,13 +1607,12 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 			std::string funcDocs = word.substr(docSep, std::string::npos);
 			if (funcDescr.substr(funcDescr.size()-1,1)==calltipParametersEnd.substr(0,1))
 				funcDescr+=" ";			
-			
-			if (funcDescr.size()==0)
-				funcDocs="";
-			else
-				functionDefinition= funcDescr;
 
-			
+			functionDefinition+=funcDescr;
+
+			if (funcDocs.size()==0)
+				funcDocs=" ";
+
 			if (funcDocs.size()<maxOneLiner) {
 					wrapPos=funcDocs.size()+1;
 			} else {

@@ -4,7 +4,7 @@
 #~--- Objects {VBS}
 Scripting.Signer()The Scripting.Signer object enables an author to sign a script \t\nwith a digital signature and a recipient to verify the signature's authenticity and trustworthiness Signer.SignFile(File, Cert, Store) {VBS}
 WScript()Provides access to root object for the Windows Script Host object model {VBS}
-Arguments() Provides access to the entire collection of command-line parameters in the order in which they were originally entered {VBS}
+Arguments()Provides access to the entire collection of command-line parameters in the order in which they were originally entered {VBS}
 Environment()Provides access to the collection of Windows environment variables {VBS}
 Controller()Provides access to the CreateScript method (for creating a remote script process) {VBS}
 Named()Provides access to the named arguments from the command line {VBS}
@@ -116,8 +116,7 @@ Math()The following table lists the VBScript math functions.\t\n {VBS}
 Conversion()The following table lists the conversion functions in VBScript. {VBS}
 
 #~---- properties {vbs}
-#arguments @@sets the arguments for a shortcut, or identifies a shortcut's arguments.\t\nobject.arguments {vbs}
-atendofline @@returns a boolean value indicating whether the end of a line in an input stream has been reached.\t\nobject.atendofline  {vbs}
+arguments @@sets the arguments for a shortcut, or identifies a shortcut's arguments.\t\nobject.arguments {vbs}
 atendofstream @@returns a boolean value indicating whether the end of an input stream has been reached.\t\nobject.atendofstream  {vbs}
 buildversion @@returns the windows script host build version number.\t\nobject.buildversion {vbs}
 character @@reports the specific character in a line of code that contains an error.\t\nobject.character {vbs}
