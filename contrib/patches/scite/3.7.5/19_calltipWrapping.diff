@@ -1,8 +1,8 @@
-// Automatic linewrap SciTe's Calltips -> beta todo: More Testing / add some steering vars.
+// Automatic linewrap SciTe's Calltips when CalltipUsesEscapes wasnt set.
 diff -Nurw scite/src/SciTEBase.cxx scite_mod/src/SciTEBase.cxx
 --- scite/src/SciTEBase.cxx	2017-05-26 00:25:03.000000000 +0200
-+++ scite_mod/src/SciTEBase.cxx	2018-11-01 18:04:02.867133500 +0100
-@@ -1497,6 +1497,83 @@
++++ scite_mod/src/SciTEBase.cxx	2018-11-03 11:13:22.336453200 +0100
+@@ -1497,6 +1497,91 @@
  	return words;
  }
  
@@ -12,15 +12,25 @@ diff -Nurw scite/src/SciTEBase.cxx scite_mod/src/SciTEBase.cxx
 +		coops with subfunctions() within the funcs definition.
 +*/
 +
-+unsigned int pos=0;
++
++size_t pos=0;
 +unsigned int brackets=0;
 +unsigned int marker=0;
++ 	
++	// Attributes dont have parameters. 
++	// Lets define @@ as an optional sep between attributes name and Documentation
++	pos=text.find("@@");
++	if ( pos != std::string::npos && partNo==1 ) return pos-1;
++	if ( pos != std::string::npos && partNo==2 ) return pos+1;
++	if ( pos != std::string::npos && partNo==3) return pos+2;
++	pos=0;
 +
++	// Otherwise, continue parsing calltipParameters.
 +    while (pos < text.size()){ 
 +			if (text.substr(pos,1)==calltipParametersStart.substr(0,1)) {
 +					brackets++;
 +					marker=1;
-+        			if (marker==1 && partNo==1 ) return pos; // start functions params			
++        			if (marker==1 && partNo==1 ) return pos; // start functions params							
 +			} else if ( brackets>0 && (text.substr(pos,1)==calltipParametersEnd.substr(0,1))){
 +					brackets--;
 +					if (brackets==0 && partNo==2 ) return pos; // end functions params			
@@ -30,14 +40,12 @@ diff -Nurw scite/src/SciTEBase.cxx scite_mod/src/SciTEBase.cxx
 +			} else if (marker==2 && (isspace(text[pos]))) {
 +					if (partNo==3) return pos; // start functions Description
 +					marker=3;
-+			} else if (marker>=2 && (pos==text.size()-1)) {
-+					return pos; // eol
 +			}
 +			pos++;
 +
 +    }
 +
-+    return(text.size());
++    return(std::string::npos);
 +}
 +
 +std::string SciTEBase::wrapText(std::string text, unsigned per_line) {
@@ -86,7 +94,7 @@ diff -Nurw scite/src/SciTEBase.cxx scite_mod/src/SciTEBase.cxx
  void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
  	if (pos > 0) {
  		lastPosCallTip = pos;
-@@ -1512,14 +1589,46 @@
+@@ -1512,14 +1597,48 @@
  		// Should get current api definition
  		std::string word = apis.GetNearestWord(currentCallTipWord.c_str(), currentCallTipWord.length(),
  		        callTipIgnoreCase, calltipWordCharacters, currentCallTip);
@@ -97,41 +105,43 @@ diff -Nurw scite/src/SciTEBase.cxx scite_mod/src/SciTEBase.cxx
 +
 +			unsigned int docSep=parseFunctionDefinition(word,3); // get Function Description
 +			unsigned int wrapPos;
-+			unsigned int maxOneLiner=111; // do not linewrap below that size
++			unsigned int maxOneLiner=100; // do not linewrap below that size
 +			unsigned int minWrapPos=80; // minimum / maximum linewrap size to use.
 +			unsigned int maxWrapPos=140;
 +			
 +			std::string funcDescr= word.substr(0,docSep);
-+			std::string funcDocs = word.substr(docSep, std::string::npos);
-+			if (funcDescr.substr(funcDescr.size()-1,1)==calltipParametersEnd.substr(0,1))
-+				funcDescr+=" ";			
++			std::string funcDocs = (docSep==std::string::npos)?"":word.substr(docSep, std::string::npos);
++			functionDefinition=funcDescr;
 +
-+			functionDefinition+=funcDescr;
-+
-+			if (funcDocs.size()==0)
-+				funcDocs=" ";
-+
-+			if (funcDocs.size()<maxOneLiner) {
-+					wrapPos=funcDocs.size()+1;
++			// user Choice: wrap manually / automatically.		
++			if (callTipUseEscapes && (funcDocs.find("/n") != std::string::npos)) {
++				functionDefinition+= funcDocs;
 +			} else {
-+				wrapPos=(funcDescr.size()<minWrapPos)?minWrapPos:funcDescr.size();
-+				//  move smaller chunks back to the previous lines.  		
-+					unsigned int lineRest;
-+					std::string strTmp = std::to_string((funcDocs.size()*1000 / wrapPos*1000)/1000);
-+					lineRest=std::stoi(strTmp.substr(strTmp.size()-3,std::string::npos));
-+					if (lineRest<36) wrapPos+=lineRest;
-+			}
++					// does the text fit within the first line ?
++					if (funcDocs.size()<maxOneLiner) {	
++							wrapPos=funcDocs.size()+1;
++					} else {
++						unsigned int lineRest;					
++						// dont try to align to funcDescrs boundaries if that will be to small.
++						wrapPos=(funcDescr.size()<minWrapPos)?minWrapPos:funcDescr.size();
++						//  move smaller chunks back to the previous lines.
++						std::string strTmp = std::to_string((funcDocs.size()*1000 / wrapPos*1000)/1000);
++						lineRest=std::stoi(strTmp.substr(strTmp.size()-3,std::string::npos));
++						if (lineRest<36) wrapPos+=lineRest;
++					}
++					// In case of a long funcDescr, keep an eye on the maximum linewrap. 
++					wrapPos=(wrapPos<maxWrapPos)?wrapPos:maxWrapPos;
++					functionDefinition+= wrapText(funcDocs, wrapPos);		
++				}	
 +			
-+			wrapPos=(wrapPos<maxWrapPos)?wrapPos:maxWrapPos;
-+			functionDefinition+= wrapText(funcDocs, wrapPos);		
-+					
++
  			if (maxCallTips > 1) {
  				functionDefinition.insert(0, "\001");
  			}
  
  			if (calltipEndDefinition != "") {
 -				size_t posEndDef = functionDefinition.find(calltipEndDefinition.c_str());
-+				size_t posEndDef= parseFunctionDefinition(word,2); // fix constructs aka fn(p1,p2=z.(),p3)
++				size_t posEndDef= parseFunctionDefinition(functionDefinition,2); // fix constructs aka fn(p1,p2=z.(),p3)
  				if (maxCallTips > 1) {
  					if (posEndDef != std::string::npos) {
  						functionDefinition.insert(posEndDef + calltipEndDefinition.length(), "\n\002");
@@ -147,68 +157,3 @@ diff -Nurw scite/src/SciTEBase.h scite_mod/src/SciTEBase.h
  	std::string GetNearestWords(const char *wordStart, size_t searchLen,
  		const char *separators, bool ignoreCase=false, bool exactLen=false);
  	virtual void FillFunctionDefinition(int pos = -1);
-Binary files scite/win32/Cookie.obj and scite_mod/win32/Cookie.obj differ
-Binary files scite/win32/Credits.obj and scite_mod/win32/Credits.obj differ
-Binary files scite/win32/DirectorExtension.obj and scite_mod/win32/DirectorExtension.obj differ
-Binary files scite/win32/ExportHTML.obj and scite_mod/win32/ExportHTML.obj differ
-Binary files scite/win32/ExportPDF.obj and scite_mod/win32/ExportPDF.obj differ
-Binary files scite/win32/ExportRTF.obj and scite_mod/win32/ExportRTF.obj differ
-Binary files scite/win32/ExportTEX.obj and scite_mod/win32/ExportTEX.obj differ
-Binary files scite/win32/ExportXML.obj and scite_mod/win32/ExportXML.obj differ
-Binary files scite/win32/FilePath.obj and scite_mod/win32/FilePath.obj differ
-Binary files scite/win32/FileWorker.obj and scite_mod/win32/FileWorker.obj differ
-Binary files scite/win32/GUIWin.obj and scite_mod/win32/GUIWin.obj differ
-Binary files scite/win32/IFaceTable.obj and scite_mod/win32/IFaceTable.obj differ
-Binary files scite/win32/JobQueue.obj and scite_mod/win32/JobQueue.obj differ
-Binary files scite/win32/lapi.obj and scite_mod/win32/lapi.obj differ
-Binary files scite/win32/lauxlib.obj and scite_mod/win32/lauxlib.obj differ
-Binary files scite/win32/lbaselib.obj and scite_mod/win32/lbaselib.obj differ
-Binary files scite/win32/lcode.obj and scite_mod/win32/lcode.obj differ
-Binary files scite/win32/ldblib.obj and scite_mod/win32/ldblib.obj differ
-Binary files scite/win32/ldebug.obj and scite_mod/win32/ldebug.obj differ
-Binary files scite/win32/ldo.obj and scite_mod/win32/ldo.obj differ
-Binary files scite/win32/ldump.obj and scite_mod/win32/ldump.obj differ
-Binary files scite/win32/lfunc.obj and scite_mod/win32/lfunc.obj differ
-Binary files scite/win32/lgc.obj and scite_mod/win32/lgc.obj differ
-Binary files scite/win32/linit.obj and scite_mod/win32/linit.obj differ
-Binary files scite/win32/liolib.obj and scite_mod/win32/liolib.obj differ
-Binary files scite/win32/llex.obj and scite_mod/win32/llex.obj differ
-Binary files scite/win32/lmathlib.obj and scite_mod/win32/lmathlib.obj differ
-Binary files scite/win32/lmem.obj and scite_mod/win32/lmem.obj differ
-Binary files scite/win32/loadlib.obj and scite_mod/win32/loadlib.obj differ
-Binary files scite/win32/lobject.obj and scite_mod/win32/lobject.obj differ
-Binary files scite/win32/lopcodes.obj and scite_mod/win32/lopcodes.obj differ
-Binary files scite/win32/loslib.obj and scite_mod/win32/loslib.obj differ
-Binary files scite/win32/lparser.obj and scite_mod/win32/lparser.obj differ
-Binary files scite/win32/lstate.obj and scite_mod/win32/lstate.obj differ
-Binary files scite/win32/lstring.obj and scite_mod/win32/lstring.obj differ
-Binary files scite/win32/lstrlib.obj and scite_mod/win32/lstrlib.obj differ
-Binary files scite/win32/ltable.obj and scite_mod/win32/ltable.obj differ
-Binary files scite/win32/ltablib.obj and scite_mod/win32/ltablib.obj differ
-Binary files scite/win32/ltm.obj and scite_mod/win32/ltm.obj differ
-Binary files scite/win32/LuaExtension.obj and scite_mod/win32/LuaExtension.obj differ
-Binary files scite/win32/lundump.obj and scite_mod/win32/lundump.obj differ
-Binary files scite/win32/lvm.obj and scite_mod/win32/lvm.obj differ
-Binary files scite/win32/lzio.obj and scite_mod/win32/lzio.obj differ
-Binary files scite/win32/MatchMarker.obj and scite_mod/win32/MatchMarker.obj differ
-Binary files scite/win32/MultiplexExtension.obj and scite_mod/win32/MultiplexExtension.obj differ
-Binary files scite/win32/PropSetFile.obj and scite_mod/win32/PropSetFile.obj differ
-Binary files scite/win32/Sc1.obj and scite_mod/win32/Sc1.obj differ
-Binary files scite/win32/Sc1Res.res and scite_mod/win32/Sc1Res.res differ
-Binary files scite/win32/SciTEBase.obj and scite_mod/win32/SciTEBase.obj differ
-Binary files scite/win32/SciTEBuffers.obj and scite_mod/win32/SciTEBuffers.obj differ
-Binary files scite/win32/SciTEIO.obj and scite_mod/win32/SciTEIO.obj differ
-Binary files scite/win32/SciTEProps.obj and scite_mod/win32/SciTEProps.obj differ
-Binary files scite/win32/SciTERes.res and scite_mod/win32/SciTERes.res differ
-Binary files scite/win32/SciTEWin.obj and scite_mod/win32/SciTEWin.obj differ
-Binary files scite/win32/SciTEWinBar.obj and scite_mod/win32/SciTEWinBar.obj differ
-Binary files scite/win32/SciTEWinDlg.obj and scite_mod/win32/SciTEWinDlg.obj differ
-Binary files scite/win32/StringHelpers.obj and scite_mod/win32/StringHelpers.obj differ
-Binary files scite/win32/StringList.obj and scite_mod/win32/StringList.obj differ
-Binary files scite/win32/Strips.obj and scite_mod/win32/Strips.obj differ
-Binary files scite/win32/StyleDefinition.obj and scite_mod/win32/StyleDefinition.obj differ
-Binary files scite/win32/StyleWriter.obj and scite_mod/win32/StyleWriter.obj differ
-Binary files scite/win32/UniqueInstance.obj and scite_mod/win32/UniqueInstance.obj differ
-Binary files scite/win32/Utf8_16.obj and scite_mod/win32/Utf8_16.obj differ
-Binary files scite/win32/vc140.pdb and scite_mod/win32/vc140.pdb differ
-Binary files scite/win32/WinMutex.obj and scite_mod/win32/WinMutex.obj differ

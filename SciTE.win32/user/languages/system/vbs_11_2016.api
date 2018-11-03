@@ -117,6 +117,7 @@ Conversion()The following table lists the conversion functions in VBScript. {VBS
 
 #~---- properties {vbs}
 arguments @@sets the arguments for a shortcut, or identifies a shortcut's arguments.\t\nobject.arguments {vbs}
+atendofline @@returns a boolean value indicating whether the end of a line in an input stream has been reached.\t\nobject.atendofline  {vbs}
 atendofstream @@returns a boolean value indicating whether the end of an input stream has been reached.\t\nobject.atendofstream  {vbs}
 buildversion @@returns the windows script host build version number.\t\nobject.buildversion {vbs}
 character @@reports the specific character in a line of code that contains an error.\t\nobject.character {vbs}
