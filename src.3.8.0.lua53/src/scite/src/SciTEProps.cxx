@@ -935,7 +935,12 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 	callTipIgnoreCase = sval == "1";
 	sval = FindLanguageProperty("calltip.*.use.escapes");
 	callTipUseEscapes = sval == "1";
-
+	sval = FindLanguageProperty("calltip.*.use.manual.escapes");
+	callTipUseManualEscapes= sval == "1";
+	sval = FindLanguageProperty("calltip.*.show.funcdocs","1");
+	callTipShowFuncDocs= sval == "1";
+	callTipMaxWrapPos = props.GetInt("calltip.max.wrappos",140);
+	
 	calltipWordCharacters = FindLanguageProperty("calltip.*.word.characters",
 		"_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
 	calltipParametersStart = FindLanguageProperty("calltip.*.parameters.start", "(");

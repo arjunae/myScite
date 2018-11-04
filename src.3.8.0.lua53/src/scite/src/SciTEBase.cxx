@@ -1605,20 +1605,28 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 		// lineWrap that functions Api Documentation
 		if (word.length()) {		
 
-			unsigned int docSep=parseFunctionDefinition(word,3); // get Function Description
 			unsigned int wrapPos;
 			unsigned int maxOneLiner=100; // do not linewrap below that size
-			unsigned int minWrapPos=80; // minimum / maximum linewrap size to use.
-			unsigned int maxWrapPos=140;
+			unsigned int minWrapPos=70; // minimum / maximum linewrap size to use.
+			unsigned int maxWrapPos=callTipMaxWrapPos;
+			unsigned int docSep=parseFunctionDefinition(word,3); // get Function Description
 			
-			std::string funcDescr= word.substr(0,docSep);
+			std::string funcDescr = word.substr(0,docSep);
 			std::string funcDocs = (docSep==std::string::npos)?"":word.substr(docSep, std::string::npos);
 			functionDefinition=funcDescr;
-
-			// user Choice: wrap manually / automatically.		
-			if (callTipUseEscapes && (funcDocs.find("/n") != std::string::npos)) {
+			
+			// User choice: Show/Omit Function Documentation ?
+			funcDocs=(!callTipShowFuncDocs)?"":funcDocs; 
+			
+			// User choice: wrap manually / automatically.		
+			if (callTipUseManualEscapes) {
 				functionDefinition+= funcDocs;
 			} else {
+					// replace fixed position line ends 
+					funcDocs=UnSlashString(funcDocs.c_str());
+					std::replace(funcDocs.begin(), funcDocs.end(), '\t', '\n');
+					std::replace(funcDocs.begin(), funcDocs.end(), '\n', ' ');
+			
 					// does the text fit within the first line ?
 					if (funcDocs.size()<maxOneLiner) {	
 							wrapPos=funcDocs.size()+1;
@@ -1659,7 +1667,7 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 			}
 
 			std::string definitionForDisplay;
-			if (callTipUseEscapes) {
+			if (callTipUseEscapes || callTipUseManualEscapes) {
 				definitionForDisplay = UnSlashString(functionDefinition.c_str());
 			} else {
 				definitionForDisplay = functionDefinition;

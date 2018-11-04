@@ -462,9 +462,12 @@ protected:
 
 	int indentationWSVisible;
 	int indentExamine;
+	int callTipMaxWrapPos;
 	bool autoCompleteIgnoreCase;
 	bool imeAutoComplete;
 	bool callTipUseEscapes;
+	bool callTipUseManualEscapes;
+	bool callTipShowFuncDocs;
 	bool callTipIgnoreCase;
 	bool autoCCausedByOnlyOne;
 	std::string calltipWordCharacters;
