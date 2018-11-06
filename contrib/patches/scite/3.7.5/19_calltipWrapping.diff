@@ -1,7 +1,7 @@
-// Automatic linewrap SciTe's Calltips  // Preserve current behaviour with calltip.*.use.manual.escapes // Show/omit Functions Documentation with calltip.*.show.funcdocs
+// Automatic linewrap SciTe's Calltips with  calltip.*.use.escapes // Preserve current behaviour with calltip.*.use.manual.escapes // Show/omit Functions Documentation with calltip.*.show.funcdocs
 diff -Nurw scite/src/SciTEBase.cxx scite_mod/src/SciTEBase.cxx
 --- scite/src/SciTEBase.cxx	2017-05-26 00:25:03.000000000 +0200
-+++ scite_mod/src/SciTEBase.cxx	2018-11-04 10:07:25.614044500 +0100
++++ scite_mod/src/SciTEBase.cxx	2018-11-05 17:36:37.940898400 +0100
 @@ -1497,6 +1497,91 @@
  	return words;
  }
@@ -117,14 +117,12 @@ diff -Nurw scite/src/SciTEBase.cxx scite_mod/src/SciTEBase.cxx
 +			funcDocs=(!callTipShowFuncDocs)?"":funcDocs; 
 +			
 +			// User choice: wrap manually / automatically.		
-+			if (!callTipUseManualEscapes) {
-+				functionDefinition+= funcDocs;
-+			} else {
++			if (callTipUseEscapes) {
 +					// replace fixed position line ends 
 +					funcDocs=UnSlashString(funcDocs.c_str());
 +					std::replace(funcDocs.begin(), funcDocs.end(), '\t', ' \n');
 +					std::replace(funcDocs.begin(), funcDocs.end(), '\n', ' ');
-+			
++
 +					// does the text fit within the first line ?
 +					if (funcDocs.size()<maxOneLiner) {	
 +							wrapPos=funcDocs.size()+1;
@@ -140,8 +138,10 @@ diff -Nurw scite/src/SciTEBase.cxx scite_mod/src/SciTEBase.cxx
 +					// In case of a long funcDescr, keep an eye on the maximum linewrap. 
 +					wrapPos=(wrapPos<maxWrapPos)?wrapPos:maxWrapPos;
 +					functionDefinition+= wrapText(funcDocs, wrapPos);		
-+				}	
-+			
++				}	else {	
++					functionDefinition+= funcDocs;
++			} 
++
 +
  			if (maxCallTips > 1) {
  				functionDefinition.insert(0, "\001");
@@ -158,13 +158,13 @@ diff -Nurw scite/src/SciTEBase.cxx scite_mod/src/SciTEBase.cxx
  
  			std::string definitionForDisplay;
 -			if (callTipUseEscapes) {
-+			if (callTipUseEscapes || callTipUseManualEscapes) {
++			if (callTipUseEscapes  || callTipUseManualEscapes) {
  				definitionForDisplay = UnSlashString(functionDefinition.c_str());
  			} else {
  				definitionForDisplay = functionDefinition;
 diff -Nurw scite/src/SciTEBase.h scite_mod/src/SciTEBase.h
 --- scite/src/SciTEBase.h	2017-05-26 00:25:03.000000000 +0200
-+++ scite_mod/src/SciTEBase.h	2018-11-04 09:55:52.147658900 +0100
++++ scite_mod/src/SciTEBase.h	2018-11-05 17:35:37.050289700 +0100
 @@ -461,10 +461,13 @@
  
  	int indentationWSVisible;
@@ -173,8 +173,8 @@ diff -Nurw scite/src/SciTEBase.h scite_mod/src/SciTEBase.h
  	bool autoCompleteIgnoreCase;
  	bool imeAutoComplete;
  	bool callTipUseEscapes;
- 	bool callTipIgnoreCase;
 +	bool callTipUseManualEscapes;
+ 	bool callTipIgnoreCase;
 +	bool callTipShowFuncDocs;
  	bool autoCCausedByOnlyOne;
  	std::string calltipWordCharacters;
@@ -190,13 +190,13 @@ diff -Nurw scite/src/SciTEBase.h scite_mod/src/SciTEBase.h
  	virtual void FillFunctionDefinition(int pos = -1);
 diff -Nurw scite/src/SciTEProps.cxx scite_mod/src/SciTEProps.cxx
 --- scite/src/SciTEProps.cxx	2018-11-03 19:43:03.835934500 +0100
-+++ scite_mod/src/SciTEProps.cxx	2018-11-04 13:16:41.468844400 +0100
++++ scite_mod/src/SciTEProps.cxx	2018-11-05 17:35:07.675460000 +0100
 @@ -925,6 +925,11 @@
  	callTipIgnoreCase = sval == "1";
  	sval = FindLanguageProperty("calltip.*.use.escapes");
  	callTipUseEscapes = sval == "1";
 +	sval = FindLanguageProperty("calltip.*.use.manual.escapes");
-+	callTipUseManualEscapes= sval == "1";
++	callTipUseManualEscapes = sval == "1";
 +	sval = FindLanguageProperty("calltip.*.show.funcdocs","1");
 +	callTipShowFuncDocs= sval == "1";
 +	callTipMaxWrapPos = props.GetInt("calltip.max.wrappos",140);	

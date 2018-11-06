@@ -1619,9 +1619,7 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 			funcDocs=(!callTipShowFuncDocs)?"":funcDocs; 
 			
 			// User choice: wrap manually / automatically.		
-			if (callTipUseManualEscapes) {
-				functionDefinition+= funcDocs;
-			} else {
+			if (callTipUseEscapes) {
 					// replace fixed position line ends 
 					funcDocs=UnSlashString(funcDocs.c_str());
 					std::replace(funcDocs.begin(), funcDocs.end(), '\t', '\n');
@@ -1642,7 +1640,9 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 					// In case of a long funcDescr, keep an eye on the maximum linewrap. 
 					wrapPos=(wrapPos<maxWrapPos)?wrapPos:maxWrapPos;
 					functionDefinition+= wrapText(funcDocs, wrapPos);		
-				}	
+				}	else {
+					functionDefinition+= funcDocs;
+			} 
 			
 
 			if (maxCallTips > 1) {
