@@ -44,7 +44,7 @@ Const ERR_OK			= 0
 
 ' Ther's much depreceated Information in the Net, even from MS which still refers to use machine wide HKCR for file Exts.
 ' But modifying that mostly needs root privs when changed and myScite has dropped to be XP Compatible for a while now. 
-' So we rely to use HKCU to reach our goals - and dont require admin privs - since we only touch stuff within our own User profile.
+' So we rely to use HKCU to reach our goals which dont require admin privs.
 
 Const FILE_EXT_PATH	= "Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\"
 Const FILE_EXT_PATH_CLS	= "Software\Classes\"

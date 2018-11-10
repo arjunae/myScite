@@ -1,6 +1,7 @@
 ##
 # C/CPP11 API Additions, ordered by header. As fetched from CPlusPlus.com / Februar2017, Marcedo@HabmalneFrage.de | https://sourceforge.net/projects/scite-webdev
 ##
+
 proj(const complex<T>& x)Param: (Complex value.)\t\nDesc: Complex projection. (function template)\t\nProto: template<class T> complex<T> proj (const complex<T>& x);\t\n|[cpp11]|[<complex>]
 condition_variable()Param: ()\t\nDesc: Condition variable (class)\t\nProto: class condition_variable;\t\n|[cpp11 ]|[<condition_variable>]
 condition_variable_any()Param: ()\t\nDesc: Condition variable (any lock) (class)\t\nProto: class condition_variable_any;\t\n|[cpp11 ]|[<condition_variable>]

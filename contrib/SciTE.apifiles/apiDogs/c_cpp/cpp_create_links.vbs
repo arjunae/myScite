@@ -168,13 +168,19 @@ Function fParseResult(obrowser)
 
   For Each link In olistEntries
 
+  ' 11.2018 
+    obrowser.quit()
+    reset_ie
+          
     For i = 1 To MAX_TRIES
         debug_log ("click -> " & link)
         obrowser.Navigate2 link
         result = fSyncBrowser
-        If result = 0 Then Exit For Else reset_ie
+        If result = 0 Then Exit For 
     Next
-
+    
+  Set oSidebar = obrowser.Document.getElementById("reference_box").getElementsByTagName("ul")
+  
     '---- The Sidebar has two Info Boxes. TopBox contains the MainNav, BottomBox contains detail information
      Set sidebar = obrowser.Document.getElementById("I_nav").getElementsByClassName("C_BoxSort")
 
@@ -260,6 +266,7 @@ Do
    actual_time = timevalue(time)
    If actual_time - start_time > timeout Then
       fSyncBrowser = 1
+      debug_log_str("timeout")
       Exit Function
    ElseIf actual_time - start_time > signal_time And (actual_time <> last_signal) Then
       ' Do it per second and nicely formatted :)

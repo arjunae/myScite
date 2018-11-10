@@ -23,7 +23,17 @@ if instr(1,wscript.fullName,"cscript") then bConsole=true
 set fso = CreateObject("Scripting.FileSystemObject")
 set oXML = CreateObject("MSXML2.ServerXMLHTTP") ' more advanced then XMLHTTP 
 set ohtmlFile = CreateObject("HTMLFILE") ' funny Task : find an object Reference on MSDN ? '
-
+' also htmlfile_FullWindowEmbed and mhtmlfile
+'	.toString
+'	.nodeName
+'	.nodeType
+' .className
+'	.parentNode.nodeName
+'	.childNodes(0).nodeName
+'	.firstChild.nodeName
+'	.nextSibling.nodeName
+'	.previousSibling.nodeName
+	
 wscript.quit(main)
 
 function main()
