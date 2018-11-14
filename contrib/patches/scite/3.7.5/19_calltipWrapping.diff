@@ -1,7 +1,7 @@
 // Automatic linewrap SciTe's Calltips with  calltip.*.use.escapes // Preserve current behaviour with calltip.*.use.manual.escapes // Show/omit Functions Documentation with calltip.*.show.funcdocs
 diff -Nurw scite/src/SciTEBase.cxx scite_mod/src/SciTEBase.cxx
 --- scite/src/SciTEBase.cxx	2017-05-26 00:25:03.000000000 +0200
-+++ scite_mod/src/SciTEBase.cxx	2018-11-05 17:36:37.940898400 +0100
++++ scite_mod/src/SciTEBase.cxx	2018-11-10 21:31:43.764352400 +0100
 @@ -1497,6 +1497,91 @@
  	return words;
  }
@@ -117,12 +117,12 @@ diff -Nurw scite/src/SciTEBase.cxx scite_mod/src/SciTEBase.cxx
 +			funcDocs=(!callTipShowFuncDocs)?"":funcDocs; 
 +			
 +			// User choice: wrap manually / automatically.		
-+			if (callTipUseEscapes) {
++			if (callTipUseEscapes && !callTipUseManualEscapes) {
 +					// replace fixed position line ends 
 +					funcDocs=UnSlashString(funcDocs.c_str());
-+					std::replace(funcDocs.begin(), funcDocs.end(), '\t', ' \n');
-+					std::replace(funcDocs.begin(), funcDocs.end(), '\n', ' ');
-+
++					for (unsigned int cnt = funcDocs.find("\t\n") ; cnt != std::string::npos ; cnt = funcDocs.find("\t\n"))
++						funcDocs.erase(cnt, 2);
++						
 +					// does the text fit within the first line ?
 +					if (funcDocs.size()<maxOneLiner) {	
 +							wrapPos=funcDocs.size()+1;

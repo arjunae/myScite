@@ -81,9 +81,6 @@ calloc(size_t num, size_t size)Param: (Number of elements to allocate.)\t\nDesc:
 cbrt(double x)Param: (Value whose cubit root is computed.)\t\nDesc: Compute cubic root (function)\t\nProto: double cbrt (double x); float cbrtf (float x);\t\nProto: long double cbrtl (long double x);\t\n|[c99 cpp11]|[<cmath> (math.h)]
 ceil(double x)Param: (Value to round up.)\t\nDesc: Round up value (function)\t\nProto: double ceil (double x);\t\n|[c90 c99 arm cpp98 cpp11]|[<cmath> (math.h)]
 cerr()Param: ()\t\nDesc: Standard output stream for errors (object)\t\nProto: extern ostream cerr;\t\n|[arm cpp98 cpp11]|[<iostream>]
-CHAR_BIT (@)|[c99 cpp98 cpp11]|[<limits>]
-CHAR_MAX (@)|[c99 cpp98 cpp11]|[<limits>]
-CHAR_MIN (@)|[c99 cpp98 cpp11]|[<limits>]
 char_traits(charT)Param: (Character type.)\t\nDesc: Character traits (class template)\t\nProto: template <class charT> struct char_traits;template <> struct char_traits<char>;template <> struct char_traits<wchar_t>;\t\n|[cpp98 cpp11 ]|[<string>]
 char_traits(charT)Param: (Character type.)\t\nDesc: Character traits (class template)\t\nProto: template <class charT> struct char_traits;template <> struct char_traits<char>;template <> struct char_traits<wchar_t>;\t\n|[cpp98 cpp11 ]|[<string>]
 cin()Param: ()\t\nDesc: Standard input stream (object)\t\nProto: extern istream cin;\t\n|[arm cpp98 cpp11]|[<iostream>]
@@ -237,8 +234,6 @@ find_end(ForwardIterator1 first1, ForwardIterator1 last1, ForwardIterator2 first
 find_first_of(ForwardIterator1 first1, ForwardIterator1 last1,  ForwardIterator2 first2, ForwardIterator2 last2)Param: (Forward iterators to the initial and final positions of the searched sequence.)\t\nDesc: Find element from set in range (function template)\t\nProto: template <class ForwardIterator1, class ForwardIterator2> ForwardIterator1 find_first_of (ForwardIterator1 first1, ForwardIterator1 last1,  ForwardIterator2 first2, ForwardIterator2 last2);\t\n|[cpp98 cpp11]|[<algorithm>]
 find_if(InputIterator first, InputIterator last, UnaryPredicate pred)Param: (Input iterators to the initial and final positions in a sequence.)\t\nDesc: Find element in range (function template)\t\nProto: template <class InputIterator, class UnaryPredicate>\t\n InputIterator find_if (InputIterator first, InputIterator last, UnaryPredicate pred);\t\n|[cpp98 cpp11]|[<algorithm>]
 fixed(ios_base& str)Param: (Stream object whose floatfield format flag is affected.)\t\nDesc: Use fixed floating-point notation (function)\t\nProto: ios_base& fixed (ios_base& str);\t\n|[arm cpp98 cpp11]|[<ios>]
-float_denorm_style()Param: ()\t\nDesc: Enum type for float denormalization style (type)\t\nProto: enum float_denorm_style;\t\n|[cpp98 cpp11]|[<limits>]
-float_round_style()Param: ()\t\nDesc: Enum type for float rounding style (type)\t\nProto: enum float_round_style;\t\n|[cpp98 cpp11]|[<limits>]
 float_t()Param: ()\t\nDesc: Floating-point type (type)\t\nProto: no-proto\t\n|[cpp99 cpp11]|[<cmath> (math.h)]
 floor(double x)Param: (Value to round down.)\t\nDesc: Round down value (function)\t\nProto: double floor (double x);\t\n|[c90 c99 arm cpp98 cpp11]|[<cmath> (math.h)]
 FLT_DIG (@)|[c99 cpp98 cpp11]|[<cfloat>]
@@ -348,8 +343,6 @@ int_least64_t (@)|[c99 cpp98 cpp11]|[<cstdint>]
 INT_LEAST8_MAX (@)|[c99 cpp98 cpp11]|[<cstdint>]
 INT_LEAST8_MIN (@)|[c99 cpp98 cpp11]|[<cstdint>]
 int_least8_t (@)|[c99 cpp98 cpp11]|[<cstdint>]
-INT_MAX (@)|[c99 cpp98 cpp11]|[<limits>]
-INT_MIN (@)|[c99 cpp98 cpp11]|[<limits>]
 internal(ios_base& str)Param: (Stream object whose adjustfield format flag is affected.)\t\nDesc: Adjust field by inserting characters at an internal position (function)\t\nProto: ios_base& internal (ios_base& str);\t\n|[arm cpp98 cpp11]|[<ios>]
 INTMAX_C (@)|[c99 cpp98 cpp11]|[<cstdint>]
 INTMAX_MAX (@)|[c99 cpp98 cpp11]|[<cstdint>]
@@ -431,8 +424,6 @@ lgamma(double x)Param: (Parameter for the log-gamma function.)\t\nDesc: Compute 
 llabs(long long int n)Param: (Integral value.)\t\nDesc: Absolute value (function)\t\nProto: long long int llabs (long long int n);\t\n|[c99 cpp11]|[<cstdlib> (stdlib.h)]
 lldiv(long long int numer, long long int denom)Param: (Numerator.)\t\nDesc: Integral division (function)\t\nProto: lldiv_t lldiv (long long int numer, long long int denom);\t\n|[c99 cpp11]|[<cstdlib> (stdlib.h)]
 lldiv_t(quot)Param: (Represents the quotient of the integral division operation performed by lldiv, which is the integer of lesser magnitude that is nearest to the algebraic quotient.)\t\nDesc: Structure returned by lldiv (type)\t\nProto: no-proto\t\n|[c99 cpp11]|[<cstdlib> (stdlib.h)]
-LLONG_MAX (@)|[c99 cpp98 cpp11]|[<limits>]
-LLONG_MIN (@)|[c99 cpp98 cpp11]|[<limits>]
 llrint(double x)Param: (Value to round.)\t\nDesc: Round and cast to long long integer (function)\t\nProto: long long int llrint (double x);\t\nProto: long long int llrintf (float x);\t\nProto: long long int llrintl (long double x);\t\n|[c99 cpp11]|[<cmath> (math.h)]
 llround(double x)Param: (Value to round.)\t\nDesc: Round to nearest and cast to long long integer (function)\t\nProto: long long int llround (double x);\t\nProto: long long int llroundf (float x);\t\nProto: long long int llroundl (long double x);\t\n|[c99 cpp11]|[<cmath> (math.h)]
 localeconv(void)Param: ()\t\nDesc: Get locale formatting parameters for quantities (function)\t\nProto: struct lconv* localeconv (void);\t\n|[c90 c99 arm cpp98 cpp11]|[<clocale> (locale.h)]
@@ -445,8 +436,6 @@ logic_error()Param: ()\t\nDesc: Logic error exception (class)\t\nProto: class lo
 logical_and(T)Param: (Type of the arguments passed to the functional call.)\t\nDesc: Logical AND function object class (class template)\t\nProto: template <class T> struct logical_and;\t\n|[cpp98 cpp11]|[<functional>]
 logical_not(T)Param: (Type of the argument passed to the functional call.)\t\nDesc: Logical NOT function object class (class template)\t\nProto: template <class T> struct logical_not;\t\n|[cpp98 cpp11]|[<functional>]
 logical_or(T)Param: (Type of the arguments passed to the functional call.)\t\nDesc: Logical OR function object class (class template)\t\nProto: template <class T> struct logical_or;\t\n|[).]|[class template]
-LONG_MAX (@)|[c99 cpp98 cpp11]|[<limits>]
-LONG_MIN (@)|[c99 cpp98 cpp11]|[<limits>]
 longjmp(jmp_buf env, int val)Param: (Object of type jmp_buf filled by a previous call to setjmp that contains information to restore the environment to that point.)\t\nDesc: Long jump (function)\t\nProto: void longjmp (jmp_buf env, int val);\t\n|[c90 c99 arm cpp98 cpp11]|[<csetjmp> (setjmp.h)]
 lower_bound(first, last)Param: (Forward iterators to the initial and final positions of a sorted (or properly partitioned) sequence.)\t\nDesc: Return iterator to lower bound (function template)\t\nProto: long-proto\t\n|[cpp98 cpp11]|[<algorithm>]
 lrint(double x)Param: (Value to round.)\t\nDesc: Round and cast to long integer (function)\t\nProto: long int llrint (double x);\t\nProto: long int llrintf (float x);\t\nProto: long int llrintl (long double x);\t\n|[c99 cpp11]|[<cmath> (math.h)]
@@ -459,13 +448,11 @@ mask_array()Param: ()\t\nDesc: Valarray mask selection (class template)\t\nProto
 math_errhandling()Param: ()\t\nDesc: Error handling (macro)\t\nProto: no-proto\t\n|[c99 cpp11]|[<cmath> (math.h)]
 max_element(first, last)Param: (Input iterators to the initial and final positions of the sequence to compare.)\t\nDesc: Return largest element in range (function template)\t\nProto: long-proto\t\n|[cpp98 cpp11]|[<algorithm>]
 MB_CUR_MAX()Param: ()\t\nDesc: Maximum size of multibyte characters (macro)\t\nProto: no-proto\t\n|[c90 c99 arm cpp98 cpp11]|[<cstdlib> (stdlib.h)]
-MB_LEN_MAX (@)|[c99 cpp98 cpp11]|[<limits>]
 mblen(const char* pmb, size_t max)Param: (Pointer to the first byte of a multibyte character.)\t\nDesc: Get length of multibyte character (function)\t\nProto: int mblen (const char* pmb, size_t max);\t\n|[c90 c99 arm cpp98 cpp11]|[<cstdlib> (stdlib.h)]
 mbrlen(const char* pmb, size_t max, mbstate_t* ps)Param: (Pointer to the first byte of a multibyte character.)\t\nDesc: Get length of multibyte character (function)\t\nProto: size_t mbrlen (const char* pmb, size_t max, mbstate_t* ps);\t\n|[c90 c99 arm cpp98 cpp11]|[<cwchar> (wchar.h)]
 mbrtowc(wchar_t* pwc, const char* pmb, size_t max, mbstate_t* ps)Param: (Pointer to an object of type wchar_t.)\t\nDesc: Convert multibyte sequence to wide character (function)\t\nProto: size_t mbrtowc (wchar_t* pwc, const char* pmb, size_t max, mbstate_t* ps);\t\n|[c90 c99 arm cpp98 cpp11]|[<cwchar> (wchar.h)]
 mbsinit(const mbstate_t* ps)Param: (Pointer to an mbstate_t object.)\t\nDesc: Check if initial conversion state (function)\t\nProto: int mbsinit (const mbstate_t* ps);\t\n|[c90 c99 arm cpp98 cpp11]|[<cwchar> (wchar.h)]
 mbsrtowcs(wchar_t* dest, const char** src, size_t max, mbstate_t* ps)Param: (Pointer to an array of wchar_t elements long enough to store a string of max wide characters.)\t\nDesc: Convert multibyte string to wide-character string (function)\t\nProto: size_t mbsrtowcs (wchar_t* dest, const char** src, size_t max, mbstate_t* ps);\t\n|[c90 c99 arm cpp98 cpp11]|[<cwchar> (wchar.h)]
-mbstate_t (@)|[c99 cpp98 cpp11]|[<cwchar>]
 mbstate_t()Param: ()\t\nDesc: Multibyte conversion state (type)\t\nProto: no-proto\t\n|[c90 c99 arm cpp98 cpp11]|[<cwchar> (wchar.h)]
 mbstowcs(wchar_t* dest, const char* src, size_t max)Param: (Pointer to an array of wchar_t elements long enough to contain the resulting sequence (at most, max wide characters).)\t\nDesc: Convert multibyte string to wide-character string (function)\t\nProto: size_t mbstowcs (wchar_t* dest, const char* src, size_t max);\t\n|[c90 c99 arm cpp98 cpp11]|[<cstdlib> (stdlib.h)]
 mbtowc(wchar_t* pwc, const char* pmb, size_t max)Param: (Pointer to an object of type wchar_t.)\t\nDesc: Convert multibyte sequence to wide character (function)\t\nProto: int mbtowc (wchar_t* pwc, const char* pmb, size_t max);\t\n|[c90 c99 arm cpp98 cpp11]|[<cstdlib> (stdlib.h)]
@@ -517,7 +504,6 @@ NULL (@)|[c99 cpp98 cpp11]|[<cstdio>]
 NULL()Param: ()\t\nDesc: no-Description\t\nProto: no-proto\t\n|[c90 c99 arm cpp98 cpp11]|[<clocale> (locale.h)]
 num_get(charT)Param: (Character type: the type of the characters in the sequence to interpret.)\t\nDesc: Facet to parse numeric values (class template)\t\nProto: template <class charT, class InputIterator = istreambuf_iterator<charT> > class num_get;\t\n|[cpp98 cpp11 ]|[<locale>]
 num_put(charT)Param: (Character type: the type of the characters in the sequence to write.)\t\nDesc: Facet to format numeric values (class template)\t\nProto: template <class charT, class OutputIterator = ostreambuf_iterator<charT> > class num_put;\t\n|[cpp98 cpp11 ]|[<locale>]
-numeric_limits(T)Param: (A type.)\t\nDesc: Numeric limits type (class template)\t\nProto: template <class T> numeric_limits;\t\n|[cpp98 cpp11]|[<limits>]
 numpunct(charT)Param: (Character type.)\t\nDesc: Numeric punctuation facet (class template)\t\nProto: template <class charT> class numpunct;\t\n|[cpp98 cpp11 ]|[<locale>]
 numpunct_byname()Param: ()\t\nDesc: Numeric puntuation facet (class template)\t\nProto: template <class charT> class numpunct_byname;\t\n|[cpp98 cpp11]|[<locale>]
 oct(ios_base& str)Param: (Stream object whose basefield format flag is affected.)\t\nDesc: Use octal base (function)\t\nProto: ios_base& oct (ios_base& str);\t\n|[arm cpp98 cpp11]|[<ios>]
@@ -605,33 +591,19 @@ PRIuLEAST64 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIuLEAST8 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIuMAX (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIuPTR (@)|[c99 cpp98 cpp11]|[<cinttypes>]
-PRIx16 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIX16 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
-PRIX32 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIx32 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
-PRIX64 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIx64 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
-PRIx8 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIX8 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
-PRIxFAST16 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIXFAST16 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
-PRIxFAST32 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIXFAST32 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
-PRIXFAST64 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIxFAST64 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
-PRIXFAST8 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIxFAST8 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
-PRIxLEAST16 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIXLEAST16 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
-PRIxLEAST32 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIXLEAST32 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
-PRIxLEAST64 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIXLEAST64 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
-PRIXLEAST8 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIxLEAST8 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
-PRIXMAX (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIxMAX (@)|[c99 cpp98 cpp11]|[<cinttypes>]
-PRIxPTR (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRIXPTR (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 ptr_fun()Param: ()\t\nDesc: Convert function pointer to function object (function template)\t\nProto: long-proto\t\n|[cpp98 cpp11]|[<functional>]
 PTRDIFF_MAX (@)|[c99 cpp98 cpp11]|[<cstdint>]
@@ -677,8 +649,6 @@ runtime_error()Param: ()\t\nDesc: Runtime error exception (class)\t\nProto: clas
 scalbln(double x)Param: (significand.)\t\nDesc: Scale significand using floating-point base exponent (long) (function)\t\nProto: double scalbln (double x, long int n); float scalblnf (float x , long int n);\t\nProto: long double scalblnl (long double x, long int n);\t\n|[c99 cpp11]|[<cmath> (math.h)]
 scalbn(double x)Param: (Value representing the significand.)\t\nDesc: Scale significand using floating-point base exponent (function)\t\nProto: double scalbn (double x, int n); float scalbnf (float x , int n);\t\nProto: long double scalbnl (long double x, int n);\t\n|[c99 cpp11]|[<cmath> (math.h)]
 scanf(const char *format, ...):int #Read formatted input
-SCHAR_MAX (@)|[c99 cpp98 cpp11]|[<limits>]
-SCHAR_MIN (@)|[c99 cpp98 cpp11]|[<limits>]
 scientific(ios_base& str)Param: (Stream object whose floatfield format flag is affected.)\t\nDesc: Use scientific floating-point notation (function)\t\nProto: ios_base& scientific (ios_base& str);\t\n|[arm cpp98 cpp11]|[<ios>]
 SCNd16 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 SCNd32 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
@@ -783,8 +753,6 @@ setlocale(int category, const char* locale)Param: (Portion of the locale affecte
 setprecision(int n)Param: (New value for the decimal precision.)\t\nDesc: Set decimal precision (function)\t\nProto: /*unspecified*/ setprecision (int n);\t\n|[arm cpp98 cpp11]|[<iomanip>]
 setvbuf( FILE * stream, char * buffer, int mode, size_t size )Param: (Pointer to a FILE object that identifies an open stream.)\t\nDesc: Change stream buffering (function)\t\nProto: int setvbuf ( FILE * stream, char * buffer, int mode, size_t size );\t\n|[c90 c99 arm cpp98 cpp11]|[<cstdio> (stdio.h)]
 setw(int n)Param: (Number of characters to be used as field width.)\t\nDesc: Set field width (function)\t\nProto: /*undefined*/ setw (int n);\t\n|[arm cpp98 cpp11]|[<iomanip>]
-SHRT_MAX (@)|[c99 cpp98 cpp11]|[<limits>]
-SHRT_MIN (@)|[c99 cpp98 cpp11]|[<limits>]
 SIG_ATOMIC_MAX (@)|[c99 cpp98 cpp11]|[<cstdint>]
 SIG_ATOMIC_MIN (@)|[c99 cpp98 cpp11]|[<cstdint>]
 SIG_DFL (@)|[c99 cpp98 cpp11]|[<csignal>]
@@ -1006,210 +974,83 @@ wstringstream()Param: ()\t\nDesc: Input/output string stream (wide) (class)\t\nP
 xor (x)|[c99 cpp98 cpp11]|[<ciso646>]
 xor_eq (x)|[c99 cpp98 cpp11]|[<ciso646>]
 
+# ...Limits.h
+numeric_limits(T)Param: (A type.)\t\nDesc: Numeric limits type (class template)\t\nProto: template <class T> numeric_limits;\t\n|[cpp98 cpp11]|[<limits>]
+MB_LEN_MAX(@)|[c99 cpp98 cpp11]|[<limits>]
+float_denorm_style()Param: ()\t\nDesc: Enum type for float denormalization style (type)\t\nProto: enum float_denorm_style;\t\n|[cpp98 cpp11]|[<limits>]
+float_round_style()Param: ()\t\nDesc: Enum type for float rounding style (type)\t\nProto: enum float_round_style;\t\n|[cpp98 cpp11]|[<limits>]
+CHAR_BIT(@)|[c99 cpp98 cpp11]|[<limits>]
+is_specialized(bool)	true for all arithmetic types (i.e., those for which numeric_limits is specialized). false...for all other types.|[c99 cpp98 cpp11]|[<limits>]
+min(@)Minimum finite value. For floating types with denormalization (variable number of exponent bits): minimum positive normalized value.|[c99 cpp98 cpp11]|[<limits>]
+CHAR_MIN(@)Minimum finite value.|[c99 cpp98 cpp11]|[<limits>]
+SCHAR_MIN(@)Minimum finite value.|[c99 cpp98 cpp11]|[<limits>]
+SHRT_MIN(@)Minimum finite value.|[c99 cpp98 cpp11]|[<limits>]
+INT_MIN(@)Minimum finite value.|[c99 cpp98 cpp11]|[<limits>]
+LONG_MIN(@)Minimum finite value.|[c99 cpp98 cpp11]|[<limits>]
+LLONG_MIN(@)Minimum finite value.|[c99 cpp98 cpp11]|[<limits>]
+FLT_MIN(@)Minimum finite value.|[c99 cpp98 cpp11]|[<limits>]
+DBL_MIN(@)Minimum finite value.|[c99 cpp98 cpp11]|[<limits>]
+LDBL_MIN(@)Minimum finite value.|[c99 cpp98 cpp11]|[<limits>]
+max(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+CHAR_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+SCHAR_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+UCHAR_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+SHRT_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+USHRT_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+INT_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+UINT_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+LONG_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+ULONG_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+LLONG_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+ULLONG_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+UINT_LEAST16_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+UINT_LEAST32_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+FLT_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+DBL_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+LDBL_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
+lowest()Minimum finite value. (since C++11) For integral types: the same as min. For floating-point types: implementation-dependent; generally, the negative of max.|[c99 cpp98 cpp11]|[<limits>]
+digits(int)	For integer types: number of non-sign bits (radix base digits) in the representation.For floating types: number of digits (in radix base) in the mantissa (equivalent to FLT_MANT_DIG, DBL_MANT_DIG or LDBL_MANT_DIG).|[c99 cpp98 cpp11]|[<limits>]
+digits10(int)Number of digits (in decimal base) hat can be represented without change. Equivalent to FLT_DIG, DBL_DIG or LDBL_DIG for floating types.|[c99 cpp98 cpp11]|[<limits>]
+max_digits10(int)Number of digits (in decimal base) required to ensure that values that differ are always differentiated.|[c99 cpp98 cpp11]|[<limits>]
+is_signed(bool)true if type is signed.|[c99 cpp98 cpp11]|[<limits>]
+is_integer(bool)true if type is integer.|[c99 cpp98 cpp11]|[<limits>]
+is_exact(bool)true if type uses exact representations.|[c99 cpp98 cpp11]|[<limits>]
+radix(int)For integer types: base of the representation. For floating types: base of the exponent of the representation (equivalent to FLT_RADIX).|[c99 cpp98 cpp11]|[<limits>]
+epsilon()Machine epsilon (the difference between 1 and the least value greater than 1 that is representable). Equivalent to FLT_EPSILON, DBL_EPSILON or LDBL_EPSILON for floating types.|[c99 cpp98 cpp11]|[<limits>]
+round_error() Measure of the maximum rounding error.|[c99 cpp98 cpp11]|[<limits>]
+min_exponent(int)Minimum negative integer value such that radix raised to (min_exponent-1) generates a normalized floating-point number.Equivalent to FLT_MIN_EXP, DBL_MIN_EXP or LDBL_MIN_EXP for floating types.|[c99 cpp98 cpp11]|[<limits>]
+min_exponent10(int)Minimum negative integer value such that 10 raised to that power generates a normalized floating-point number.Equivalent to FLT_MIN_10_EXP, DBL_MIN_10_EXP or LDBL_MIN_10_EXP for floating types.|[c99 cpp98 cpp11]|[<limits>]
+max_exponent(int)Maximum integer value such that radix raised to (max_exponent-1) generates a representable finite floating-point number.Equivalent to FLT_MAX_EXP, DBL_MAX_EXP or LDBL_MAX_EXP for floating types.|[c99 cpp98 cpp11]|[<limits>]
+max_exponent10(int)Maximum integer value such that 10 raised to that power generates a normalized finite floating-point number.Equivalent to FLT_MAX_10_EXP, DBL_MAX_10_EXP or LDBL_MAX_10_EXP for floating types.|[c99 cpp98 cpp11]|[<limits>]
+has_infinity(bool)true if the type has a representation for positive infinity.|[c99 cpp98 cpp11]|[<limits>]
+has_quiet_NaN(bool)true if the type has a representation for a quiet (non-signaling) Not-a-Number.|[c99 cpp98 cpp11]|[<limits>]
+has_signaling_NaN(bool)true if the type has a representation for a signaling Not-a-Number.|[c99 cpp98 cpp11]|[<limits>]
+has_denorm(float_denorm_style)Denormalized values -representations with a variable number of exponent bits-. A type may have any of the following enum values:
+denorm_absent(@) if it does not allow denormalized values.|[c99 cpp98 cpp11]|[<limits>]
+denorm_present(@) if it allows denormalized values.|[c99 cpp98 cpp11]|[<limits>]
+denorm_indeterminate(@) if indeterminate at compile time.|[c99 cpp98 cpp11]|[<limits>]
+has_denorm_loss(bool)true if a loss of accuracy is detected as a denormalization loss, rather than an inexact result.|[c99 cpp98 cpp11]|[<limits>]
+infinity() Representation of positive infinity, if available.|[c99 cpp98 cpp11]|[<limits>]
+quiet_NaN() Representation of quiet (non-signaling) Not-a-Number, if available.|[c99 cpp98 cpp11]|[<limits>]
+signaling_NaN() Representation of signaling Not-a-Number, if available.|[c99 cpp98 cpp11]|[<limits>]
+denorm_min() Minimum positive denormalized value.For types not allowing denormalized values: same as min().|[c99 cpp98 cpp11]|[<limits>]
+is_iec559(bool)true if the type adheres to IEC-559 / IEEE-754 standard.An IEC-559 type always has has_infinity, has_quiet_NaN and has_signaling_NaN set to true; And infinity, quiet_NaN and signaling_NaN return some non-zero value.|[c99 cpp98 cpp11]|[<limits>]
+is_bounded(bool)true if the set of values represented by the type is finite.|[c99 cpp98 cpp11]|[<limits>]
+is_modulo(bool)true if the type is modulo. A type is modulo if it is possible to add two positive numbers and have a result that wraps around to a third number that is less.|[c99 cpp98 cpp11]|[<limits>]
+traps(bool)true if trapping is implemented for the type.|[c99 cpp98 cpp11]|[<limits>]
+tinyness_before(bool)true if tinyness is detected before rounding.|[c99 cpp98 cpp11]|[<limits>]
+round_style(@)	Rounding style. see round_.|[c99 cpp98 cpp11]|[<limits>]
+float_round_style(@)	Rounding style. see round_.|[c99 cpp98 cpp11]|[<limits>]
+round_toward_zero(@) if it rounds toward zero.|[c99 cpp98 cpp11]|[<limits>]
+round_to_nearest(@) if it rounds to the nearest representable value.|[c99 cpp98 cpp11]|[<limits>]
+round_toward_infinity(@) if it rounds toward infinity.|[c99 cpp98 cpp11]|[<limits>]
+round_toward_neg_infinity(@) if it rounds toward negative infinity.|[c99 cpp98 cpp11]|[<limits>]
+round_indeterminate(@) if the rounding style is indeterminable at compile time.|[c99 cpp98 cpp11]|[<limits>]
+
 [ Types and Type Macros ]
  
-PRId8
-PRId16
-PRId32
-PRId64
-PRIdFAST8
-PRIdFAST16
-PRIdFAST32
-PRIdFAST64
-PRIdLEAST8
-PRIdLEAST16
-PRIdLEAST32
-PRIdLEAST64
-PRIdMAX
-PRIdPTR
-PRIi8
-PRIi16
-PRIi32
-PRIi64
-PRIiFAST8
-PRIiFAST16
-PRIiFAST32
-PRIiFAST64
-PRIiLEAST8
-PRIiLEAST16
-PRIiLEAST32
-PRIiLEAST64
-PRIiMAX
-PRIiPTR
-PRIo8
-PRIo16
-PRIo32
-PRIo64
-PRIoFAST8
-PRIoFAST16
-PRIoFAST32
-PRIoFAST64
-PRIoLEAST8
-PRIoLEAST16
-PRIoLEAST32
-PRIoLEAST64
-PRIoMAX
-PRIoPTR
-PRIu8
-PRIu16
-PRIu32
-PRIu64
-PRIuFAST8
-PRIuFAST16
-PRIuFAST32
-PRIuFAST64
-PRIuLEAST8
-PRIuLEAST16
-PRIuLEAST32
-PRIuLEAST64
-PRIuPTR
-PRIx8
-PRIx16
-PRIx32
-PRIx64
-PRIxFAST8
-PRIxFAST16
-PRIxFAST32
-PRIxFAST64
-PRIxLEAST8
-PRIxLEAST16
-PRIxLEAST32
-PRIxLEAST64
-PRIxMAX
-PRIxPTR
-PRIX8
-PRIX16
-PRIX32
-PRIX64
-PRIXFAST8
-PRIXFAST16
-PRIXFAST32
-PRIXFAST64
-PRIXLEAST8
-PRIXLEAST16
-PRIXLEAST32
-PRIXLEAST64
-PRIXMAX
-PRIXPTR
-SCNd8
-SCNd16
-SCNd32
-SCNd64
-SCNdFAST8
-SCNdFAST16
-SCNdFAST32
-SCNdFAST64
-SCNdLEAST8
-SCNdLEAST16
-SCNdLEAST32
-SCNdLEAST64
-SCNdMAX
-SCNdPTR
-SCNi8
-SCNi16
-SCNi32
-SCNi64
-SCNiFAST8
-SCNiFAST16
-SCNiFAST32
-SCNiFAST64
-SCNiLEAST8
-SCNiLEAST16
-SCNiLEAST32
-SCNiLEAST64
-SCNiMAX
-SCNiPTR
-SCNo8
-SCNo16
-SCNo32
-SCNo64
-SCNoFAST8
-SCNoFAST16
-SCNoFAST32
-SCNoFAST64
-SCNoLEAST8
-SCNoLEAST16
-SCNoLEAST32
-SCNoLEAST64
-SCNoMAX
-SCNoPTR
-SCNu8
-SCNu16
-SCNu32
-SCNu64
-SCNuFAST8
-SCNuFAST16
-SCNuFAST32
-SCNuFAST64
-SCNuLEAST8
-SCNuLEAST16
-SCNuLEAST32
-SCNuLEAST64
-SCNuMAX
-SCNuPTR
-SCNx8
-SCNx16
-SCNx32
-SCNx64
-SCNxFAST8
-SCNxFAST16
-SCNxFAST32
-SCNxFAST64
-SCNxLEAST8
-SCNxLEAST16
-SCNxLEAST32
-SCNxLEAST64
-SCNxMAX
-SCNxPTR
-SCNX8
-SCNX16
-SCNX32
-SCNX64
-SCNXFAST8
-SCNXFAST16
-SCNXFAST32
-SCNXFAST64
-SCNXLEAST8
-SCNXLEAST16
-SCNXLEAST32
-SCNXLEAST64
-SCNXMAX
-SCNXPTR
-FLT_RADIX
-FLT_ROUNDS
-FLT_EVAL_METHOD
-DECIMAL_DIG
-DBL_DIG
-DBL_EPSILON
-DBL_MANT_DIG
-DBL_MAX
-DBL_MAX_10_EXP
-DBL_MAX_EXP
-DBL_MIN
-DBL_MIN_10_EXP
-DBL_MIN_EXP
-FLT_DIG
-FLT_EPSILON
-FLT_MANT_DIG
-FLT_MAX
-FLT_MAX_10_EXP
-FLT_MAX_EXP
-FLT_MIN
-FLT_MIN_10_EXP
-FLT_MIN_EXP
-LDBL_DIG
-LDBL_EPSILON
-LDBL_MANT_DIG
-LDBL_MAX
-LDBL_MAX_10_EXP
-LDBL_MAX_EXP
-LDBL_MIN
-LDBL_MIN_10_EXP
-LDBL_MIN_EXP
-bool
 true
 false
-CHAR_BIT
 signed
 unsigned 
 short
@@ -1222,76 +1063,13 @@ int
 long 
 short
 signed
-wint_t
-wctrans_t
-wctype_t 
-mbstate_t
 wchar_t
 char16_t
 char32_t
-int8_t
-int16_t
-int32_t
-int64_t
-int_fast8_t
-int_fast16_t
-int_fast32_t
-int_fast64_t
-int_least8_t
-int_least16_t
-int_least32_t
-int_least64_t
-uint8_t
-uint16_t
-uint32_t
-uint64_t
-uint_fast8_t
-uint_fast16_t
-uint_fast32_t
-uint_fast64_t
-uint_least8_t
-uint_least16_t
-uint_least32_t
-uint_least64_t
-intmax_t
-intptr_t
-uintmax_t
-uintptr_t
-INT8_C
-INT16_C
-INT32_C
-INT64_C
-INT8_MAX
-INT16_MAX
-INT32_MAX
-INT64_MAX
-INT8_MIN
-INT16_MIN
-INT32_MIN
-INT64_MIN
-INT_FAST8_MAX
-INT_FAST16_MAX
-INT_FAST32_MAX
-INT_FAST64_MAX
-INT_FAST8_MIN
-INT_FAST16_MIN
-INT_FAST32_MIN
-INT_FAST64_MIN
-INT_LEAST8_MAX
-INT_LEAST16_MAX
-INT_LEAST32_MAX
-INT_LEAST64_MAX
-INT_LEAST8_MIN
-INT_LEAST16_MIN
-INT_LEAST32_MIN
-INT_LEAST64_MIN
-UINT8_C
-UINT16_C
-UINT32_C
-UINT64_C
-UINT_PTR
+
 
 # test for class member calltips. Here <basic_string>
+# add . to autocomplete/calltip word characters
 .get_allocator()<basic_string> Desc:
 .assign() <basic_string> Desc:
 .at()<basic_string> Desc:
@@ -1330,7 +1108,8 @@ UINT_PTR
 .npos()<basic_string> Desc:
 
 # Test: Classes and Convenience Typedefs
-std::duration
+# add : to autocomplete/calltip word characters
+std::duration()TestTest Desc:
 std::time_point
 std::system_clock
 std::high_resolution_clock

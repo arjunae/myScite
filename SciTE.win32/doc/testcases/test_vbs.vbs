@@ -50,7 +50,6 @@ Sub IE_onQuit()
   bonQuit=true
   oTTS.speak "OK"
 End Sub
-'======================================'
 
 function test_TextToSpeech(sText, sLang)
 ' 

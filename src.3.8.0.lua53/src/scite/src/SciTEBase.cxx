@@ -1619,12 +1619,12 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 			funcDocs=(!callTipShowFuncDocs)?"":funcDocs; 
 			
 			// User choice: wrap manually / automatically.		
-			if (callTipUseEscapes) {
+			if (callTipUseEscapes && !callTipUseManualEscapes) {
 					// replace fixed position line ends 
 					funcDocs=UnSlashString(funcDocs.c_str());
-					std::replace(funcDocs.begin(), funcDocs.end(), '\t', '\n');
-					std::replace(funcDocs.begin(), funcDocs.end(), '\n', ' ');
-			
+					for (unsigned int cnt = funcDocs.find("\t\n") ; cnt != std::string::npos ; cnt = funcDocs.find("\t\n"))
+						funcDocs.erase(cnt, 2);
+						
 					// does the text fit within the first line ?
 					if (funcDocs.size()<maxOneLiner) {	
 							wrapPos=funcDocs.size()+1;

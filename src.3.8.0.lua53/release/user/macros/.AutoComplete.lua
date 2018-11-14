@@ -64,7 +64,7 @@ local MIN_PREFIX_LEN = 3
 -- Length of shortest word to add to the autocomplete list:
 local MIN_IDENTIFIER_LEN = 4
 -- List of regex patterns for finding suggestions for the autocomplete menu:
-local IDENTIFIER_PATTERNS = {"[a-z_][a-z_0-9]+"}
+local IDENTIFIER_PATTERNS = {"[a-z_:.][a-z_0-9]+"}
 -- Override settings that interfere with this script:
 props["autocomplete.start.characters"] = ""
 -- This feature is very awkward when combined with automatic popups:
@@ -274,7 +274,7 @@ local function handleChar(char, calledByHotkey)
     local startPos = editor:WordStartPosition(pos, true)
     local len = pos - startPos
     buffer.dirty=true
-
+    
     if ipairs==nil then ipairs={} end
     if editor.Lexer==1  then return end
     
@@ -307,8 +307,14 @@ local function handleChar(char, calledByHotkey)
         return
     end
 
+    local prefix = normalize(editor:textrange(startPos, pos))
 
-    local prefix = normalize(editor:textrange(startPos, pos))       
+    -- allow autocompletition for php variables
+    if string.sub(prefix,1,1) =="$" then
+        prefix= string.gsub(prefix,"%$","")
+        len=len -1
+    end
+    
     menuItems = {}
     for i, name in ipairs(names) do
         local s = normalize(string.sub(name, 1, len))
@@ -342,7 +348,7 @@ local function handleChar(char, calledByHotkey)
                 end
             end
             if #menuItems == 1 then
-                editor:AutoCCancel()
+               editor:AutoCCancel()
                 return
             end
         end
@@ -353,7 +359,7 @@ local function handleChar(char, calledByHotkey)
     else
         -- No relevant items.
         if editor:AutoCActive() then
-            editor:AutoCCancel()
+           editor:AutoCCancel()
         end
     end
 end

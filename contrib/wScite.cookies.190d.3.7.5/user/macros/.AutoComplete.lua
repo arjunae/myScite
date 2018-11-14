@@ -64,7 +64,7 @@ local MIN_PREFIX_LEN = 3
 -- Length of shortest word to add to the autocomplete list:
 local MIN_IDENTIFIER_LEN = 4
 -- List of regex patterns for finding suggestions for the autocomplete menu:
-local IDENTIFIER_PATTERNS = {"[a-z_:][a-z_0-9]+"}
+local IDENTIFIER_PATTERNS = {"[a-z_:.][a-z_0-9]+"}
 -- Override settings that interfere with this script:
 props["autocomplete.start.characters"] = ""
 -- This feature is very awkward when combined with automatic popups:
