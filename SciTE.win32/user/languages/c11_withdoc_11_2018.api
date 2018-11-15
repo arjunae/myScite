@@ -7,7 +7,7 @@ __FILE__ (@)|[c99 cpp98 cpp11]|[ <cassert>]
 __func__ (@)|[c99 cpp98 cpp11]|[ <cassert>]
 __LINE__ (@)|[c99 cpp98 cpp11]|[ <cassert>]
 assert(int expression)Param: (Expression to be evaluated.)\t\nDesc: Evaluate assertion (macro)\t\nProto: void assert (int expression);\t\n|[c90 c99 arm cpp98 cpp11]|[<cassert> (assert.h)]
-
+#[</cassert>]
 #[<cctype>]
 isalnum( int c )Param: (Character to be checked, casted as an int, or EOF.)\t\nDesc: Check if character is alphanumeric (function)\t\nProto: int isalnum ( int c );\t\n|[c90 c99 arm cpp98 cpp11]|[<cctype> (ctype.h)]
 isalpha( int c )Param: (Character to be checked, casted to an int, or EOF.)\t\nDesc: Check if character is alphabetic (function)\t\nProto: int isalpha ( int c );\t\n|[c90 c99 arm cpp98 cpp11]|[<cctype> (ctype.h)]
@@ -23,7 +23,7 @@ isupper( int c )Param: (Character to be checked, casted to an int, or EOF.)\t\nD
 isxdigit( int c )Param: (Character to be checked, casted to an int, or EOF.)\t\nDesc: Check if character is hexadecimal digit (function)\t\nProto: int isxdigit ( int c );\t\n|[c90 c99 arm cpp98 cpp11]|[<cctype> (ctype.h)]
 tolower( int c )Param: (Character to be converted, casted to an int, or EOF.)\t\nDesc: Convert uppercase letter to lowercase (function)\t\nProto: int tolower ( int c );\t\n|[c90 c99 arm cpp98 cpp11]|[<cctype> (ctype.h)]
 toupper( int c )Param: (Character to be converted, casted to an int, or EOF.)\t\nDesc: Convert lowercase letter to uppercase (function)\t\nProto: int toupper ( int c );\t\n|[c90 c99 arm cpp98 cpp11]|[<cctype> (ctype.h)]
-
+#[</cctype>]
 #[<cerrno>]
 errno()Param: ()\t\nDesc: Last error number (macro)\t\nProto: no-proto\t\n|[c90 c99 arm cpp98 cpp11]|[<cerrno> (errno.h)]
 E2BIG (@)|[c99 cpp98 cpp11]|[<cerrno>]
@@ -70,7 +70,7 @@ ESPIPE (@)|[c99 cpp98 cpp11]|[<cerrno>]
 ESRCH (@)|[c99 cpp98 cpp11]|[<cerrno>]
 ETIMEDOUT (@)|[c99 cpp98 cpp11]|[<cerrno>]
 EXDEV (@)|[c99 cpp98 cpp11]|[<cerrno>]
-
+#[</cerrno>]
 #[<cfenv>]
 FE_ALL_EXCEPT()Param: ()\t\nDesc: All exceptions (macro)\t\nProto: no-proto\t\n|[c99 cpp11]|[<cfenv> (fenv.h)]
 FE_DFL_ENV()Param: ()\t\nDesc: Default environment (macro)\t\nProto: fenv_t*\t\n|[c99 cpp11]|[<cfenv> (fenv.h)]
@@ -97,7 +97,7 @@ fesetround(int rdir)Param: (One of the values defined as rounding direction mode
 fetestexcept(int excepts)Param: (Bitmask value: A combination (with bitwise OR) of any number of floating-point exception values supported by the implementation.)\t\nDesc: Test for floating-point exceptions (function)\t\nProto: int fetestexcept (int excepts);\t\n|[c99 cpp11]|[<cfenv> (fenv.h)]
 feupdateenv(const fenv_t* envp)Param: (Either a pointer to a fenv_t value (filled by a previous call to fegetenv or feholdexcept), or one of the floating-point environment macro values.)\t\nDesc: Update floating-point environment (function)\t\nProto: int feupdateenv (const fenv_t* envp);\t\n|[c99 cpp11]|[<cfenv> (fenv.h)]
 fexcept_t()Param: ()\t\nDesc: Floating-point exceptions type (type)\t\nProto: no-proto\t\n|[c99 cpp11]|[<cfenv> (fenv.h)]
-
+#[</cfenv>]
 #[<cfloat>]
 DBL_DIG (@)|[c99 cpp98 cpp11]|[<cfloat>]
 DBL_EPSILON (@)|[c99 cpp98 cpp11]|[<cfloat>]
@@ -130,7 +130,7 @@ LDBL_MAX_EXP (@)|[c99 cpp98 cpp11]|[<cfloat>]
 LDBL_MIN (@)|[c99 cpp98 cpp11]|[<cfloat>]
 LDBL_MIN_10_EXP (@)|[c99 cpp98 cpp11]|[<cfloat>]
 LDBL_MIN_EXP (@)|[c99 cpp98 cpp11]|[<cfloat>]
-
+#[</cfloat>]
 #<cinttypes>]
 PRId16 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 PRId32 (@)|[c99 cpp98 cpp11]|[<cinttypes>]
@@ -286,7 +286,7 @@ SCNXMAX (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 SCNxMAX (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 SCNXPTR (@)|[c99 cpp98 cpp11]|[<cinttypes>]
 SCNxPTR (@)|[c99 cpp98 cpp11]|[<cinttypes>]
-
+#</cinttypes>]
 #[<ciso646>]
 and (@)|[c99 cpp98 cpp11]|[<ciso646>]
 and_eq (@)|[c99 cpp98 cpp11]|[<ciso646>]
@@ -299,7 +299,7 @@ or (@)|[c99 cpp98 cpp11]|[<ciso646>]
 or_eq (@)|[c99 cpp98 cpp11]|[<ciso646>]
 xor (x)|[c99 cpp98 cpp11]|[<ciso646>]
 xor_eq (x)|[c99 cpp98 cpp11]|[<ciso646>]
-
+#[</ciso646>]
 #[<clocale>]
 localeconv(void)Param: ()\t\nDesc: Get locale formatting parameters for quantities (function)\t\nProto: struct lconv* localeconv (void);\t\n|[c90 c99 arm cpp98 cpp11]|[<clocale> (locale.h)]
 NULL()Param: ()\t\nDesc: no-Description\t\nProto: no-proto\t\n|[c90 c99 arm cpp98 cpp11]|[<clocale> (locale.h)]
@@ -312,7 +312,7 @@ LC_MESSAGES (@)|[c99 cpp98 cpp11]|[<clocale>]
 LC_MONETARY (@)|[c99 cpp98 cpp11]|[<clocale>]
 LC_NUMERC (@)|[c99 cpp98 cpp11]|[<clocale>]
 LC_TIME (@)|[c99 cpp98 cpp11]|[<clocale>]
-
+#[</clocale>]
 #[<cmath>]	
 abs(double x)Param: (Value whose absolute value is returned.)\t\nDesc: Compute absolute value (function)\t\nProto: double abs (double x); float abs (float x);\t\nProto: long double abs (long double x);\t\n|[c90 c99 arm cpp98 cpp11]|[<cmath> (math.h)]
 acos(double x)Param: (Value whose arc cosine is computed, in the interval [-1,+1].)\t\nDesc: Compute arc cosine (function)\t\nProto: double acos (double x);\t\n|[c90 c99 arm cpp98 cpp11]|[<cmath> (math.h)]
@@ -381,12 +381,12 @@ signbit(x)Param: (A floating-point value.)\t\nDesc: Sign bit (macro/function)\t\
 sqrt(double x)Param: (Value whose square root is computed.)\t\nDesc: Compute square root (function)\t\nProto: double sqrt (double x);\t\n|[c90 c99 arm cpp98 cpp11]|[<cmath> (math.h)]
 tgamma(double x)Param: (Parameter for the gamma function.)\t\nDesc: Compute gamma function (function)\t\nProto: double tgamma (double x); float tgammaf ( float x);\t\nProto: long double tgammal (long double x);\t\n|[c99 cpp11]|[<cmath> (math.h)]
 trunc(double x)Param: (Value to truncate.)\t\nDesc: Truncate value (function)\t\nProto: double trunc (double x); float truncf ( float x);\t\nProto: long double truncl (long double x);\t\n|[c99 cpp11]|[<cmath> (math.h)]
-
-[<csetjmp>]	
+#[</cmath>]
+#[<csetjmp>]	
 jmp_buf()Param: ()\t\nDesc: Type to hold information to restore calling environment (type)\t\nProto: no-proto\t\n|[c90 c99 arm cpp98 cpp11]|[<csetjmp> (setjmp.h)]
 longjmp(jmp_buf env, int val)Param: (Object of type jmp_buf filled by a previous call to setjmp that contains information to restore the environment to that point.)\t\nDesc: Long jump (function)\t\nProto: void longjmp (jmp_buf env, int val);\t\n|[c90 c99 arm cpp98 cpp11]|[<csetjmp> (setjmp.h)]
 setjmp(jmp_buf env)Param: (Object of type jmp_buf where the environment information is stored.)\t\nDesc: Save calling environment for long jump (macro)\t\nProto: int setjmp (jmp_buf env);\t\n|[c90 c99 arm cpp98 cpp11]|[<csetjmp> (setjmp.h)]
-
+#[</csetjmp>]	
 #[<csignal>]	
 signal( void * ptr, size_t size, size_t count, FILE * stream )Param: (The signal value to which a handling function is set.)\t\nDesc: Set function to handle signal (function)\t\nProto: void (*signal(int sig, void (*func)(int)))(int);\t\n|[c90 c99 arm cpp98 cpp11]|[<csignal> (signal.h)]
 SIG_DFL (@)|[c99 cpp98 cpp11]|[<csignal>]
@@ -398,24 +398,24 @@ SIGILL (@)|[c99 cpp98 cpp11]|[<csignal>]
 SIGINT (@)|[c99 cpp98 cpp11]|[<csignal>]
 SIGSEGV (@)|[c99 cpp98 cpp11]|[<csignal>]
 SIGTERM (@)|[c99 cpp98 cpp11]|[<csignal>]
-
+#[</csignal>]	
 #[<cstdarg>]	
 va_arg(va_list ap, type)Param: (Object of type va_list carrying information about the current retrieval state of a variable argument list.)\t\nDesc: Retrieve next argument (macro)\t\nProto: type va_arg (va_list ap, type)\t\n|[c90 c99 arm cpp98 cpp11]|[<cstdarg> (stdarg.h)]
 va_copy(va_list dest, va_list src)Param: (Uninitialized object of type va_list.)\t\nDesc: Copy variable argument list (macro)\t\nProto: void va_copy (va_list dest, va_list src);\t\n|[c99 cpp11]|[<cstdarg> (stdarg.h)]
 va_end(va_list ap)Param: (va_list object previously initialized by va_start or va_copy.)\t\nDesc: End using variable argument list (macro)\t\nProto: void va_end (va_list ap);\t\n|[c90 c99 arm cpp98 cpp11]|[<cstdarg> (stdarg.h)]
 va_list()Param: ()\t\nDesc: Type to hold information about variable arguments (type)\t\nProto: no-proto\t\n|[c90 c99 arm cpp98 cpp11]|[<cstdarg> (stdarg.h)]
 va_start(va_list ap, paramN)Param: (Uninitialized object of type va_list.)\t\nDesc: Initialize a variable argument list (macro)\t\nProto: void va_start (va_list ap, paramN);\t\n|[c90 c99 arm cpp98 cpp11]|[<cstdarg> (stdarg.h)]
-
+#[</cstdarg>]
 #[<cstdbool>]	
 bool (@)|[c99 cpp98 cpp11]|[<cstdbool>]
 false (@)|[c99 cpp98 cpp11]|[<cstdbool>]
 true (@)|[c99 cpp98 cpp11]|[<cstdbool>]
-
+#[</cstdbool>]	
 #[<cstddef>]	
 offsetof(type,member)Param: (A type in which member is a valid member designator.)\t\nDesc: Return member offset (macro)\t\nProto: offsetof (type,member)\t\n|[c90 c99 arm cpp98 cpp11]|[<cstddef> (stddef.h)]
 ptrdiff_t()Param: ()\t\nDesc: Result of pointer subtraction (type)\t\nProto: no-proto\t\n|[c90 c99 arm cpp98 cpp11]|[<cstddef> (stddef.h)]
 size_t(@)Param: ()\t\nDesc: Unsigned integral type (type)\t\nProto: no-proto\t\n|[c90 c99 arm cpp98 cpp11]|[<cstddef> (stddef.h)]
-
+#[</cstddef>]	
 #[<cstdint>]
 INT16_C (@)|[c99 cpp98 cpp11]|[<cstdint>]
 INT16_MAX (@)|[c99 cpp98 cpp11]|[<cstdint>]
@@ -504,7 +504,7 @@ UINTPTR_MAX (@)|[c99 cpp98 cpp11]|[<cstdint>]
 uintptr_t (@)|[c99 cpp98 cpp11]|[<cstdint>]
 WINT_MAX (@)|[c99 cpp98 cpp11]|[<cstdint>]
 WINT_MIN (@)|[c99 cpp98 cpp11]|[<cstdint>]
-
+#[</cstdint>]
 #[<cstdio>]	
 BUFSIZ()Param: ()\t\nDesc: Buffer size (constant)\t\nProto: no-proto\t\n|[c90 c99 arm cpp98 cpp11]|[<cstdio> (stdio.h)]
 clearerr( FILE * stream )Param: (Pointer to a FILE object that identifies the stream.)\t\nDesc: Clear error indicators (function)\t\nProto: void clearerr ( FILE * stream );\t\n|[c90 c99 arm cpp98 cpp11]|[<cstdio> (stdio.h)]
@@ -564,7 +564,7 @@ NULL (@)|[c99 cpp98 cpp11]|[<cstdio>]
 SEEK_CUR (@)|[c99 cpp98 cpp11]|[<cstdio>]
 SEEK_END (@)|[c99 cpp98 cpp11]|[<cstdio>]
 SEEK_SET (@)|[c99 cpp98 cpp11]|[<cstdio>]
-
+#[</cstdio>]
 #[<cstdlib>]	
 abort(void)Param: ()\t\nDesc: Abort current process (function)\t\nProto: void abort (void);\t\n|[c90 c99 arm cpp98 cpp11]|[<cstdlib> (stdlib.h)]
 atexit(void *func void)Param: (Function to be called.)\t\nDesc: Set function to be executed on exit (function)\t\nProto: int atexit (void (*func)(void));\t\n|[c90 c99 arm cpp98 cpp11]|[<cstdlib> (stdlib.h)]
@@ -608,7 +608,7 @@ wctomb(char* pmb, wchar_t wc)Param: ()\t\nDesc: Convert wide character to multib
 itoa( int value, char * str, int base )Param: (Value to be converted to a string.)\t\nDesc: no-Description\t\nProto: char * itoa ( int value, char * str, int base );\t\n|[arm]|[<cstdlib> (stdlib.h)]
 #[C11] 
 at_quick_exit(void *func void)Param: (Function to be called.)\t\nDesc: Set function to be executed on quick exit (function)\t\nProto: int at_quick_exit (void (*func)(void));\t\n|[c11 cpp11]|[<cstdlib> (stdlib.h)]
-
+#[</cstdlib>]
 #[<cstring>]
 memchr( const void * ptr, int value, size_t num )Param: (Pointer to the block of memory where the search is performed.)\t\nDesc: Locate character in block of memory (function)\t\nProto: const void * memchr ( const void * ptr, int value, size_t num );void * memchr ( void * ptr, int value, size_t num );\t\n|[c90 c99 arm cpp98 cpp11]|[<cstring> (string.h)]
 memcmp( const void * ptr1, const void * ptr2, size_t num )Param: (Pointer to block of memory.)\t\nDesc: Compare two blocks of memory (function)\t\nProto: int memcmp ( const void * ptr1, const void * ptr2, size_t num );\t\n|[c90 c99 arm cpp98 cpp11]|[<cstring> (string.h)]
@@ -632,7 +632,7 @@ strspn( const char * str1, const char * str2 )Param: (C string to be scanned.)\t
 strstr( const char * str1, const char * str2 )Param: (C string to be scanned.)\t\nDesc: Locate substring (function)\t\nProto: const char * strstr ( const char * str1, const char * str2 );\t\nProto: char * strstr ( char * str1, const char * str2 );\t\n|[c90 c99 arm cpp98 cpp11]|[<cstring> (string.h)]
 strtok( char * str, const char * delimiters )Param: (C string to truncate.)\t\nDesc: Split string into tokens (function)\t\nProto: char * strtok ( char * str, const char * delimiters );\t\n|[c90 c99 arm cpp98 cpp11]|[<cstring> (string.h)]
 strxfrm( char * destination, const char * source, size_t num )Param: (Pointer to the destination array where the content is to be copied.)\t\nDesc: Transform string using locale (function)\t\nProto: size_t strxfrm ( char * destination, const char * source, size_t num );\t\n|[c90 c99 arm cpp98 cpp11]|[<cstring> (string.h)]
-
+#[</cstring>]
 #[<ctime>]
 asctime(const struct tm * timeptr)Param: (Pointer to a tm structure that contains a calendar time broken down into its components (see struct tm).)\t\nDesc: Convert tm structure to string (function)\t\nProto: char* asctime (const struct tm * timeptr);\t\n|[c90 c99 arm cpp98 cpp11]|[<ctime> (time.h)]
 clock(void)Param: ()\t\nDesc: Clock program (function)\t\nProto: clock_t clock (void);\t\n|[c90 c99 arm cpp98 cpp11]|[<ctime> (time.h)]
@@ -645,7 +645,7 @@ mktime(struct tm * timeptr)Param: (Pointer to a tm structure that contains a cal
 strftime(char* ptr, size_t maxsize, const char* format,const struct tm* timeptr )Param: (Pointer to the destination array where the resulting C string is copied.)\t\nDesc: Format time as string (function)\t\nProto: size_t strftime (char* ptr, size_t maxsize, const char* format,const struct tm* timeptr );\t\n|[c90 c99 arm cpp98 cpp11]|[<ctime> (time.h)]
 struct tm()Param: ()\t\nDesc: Time structure (type)\t\nProto: no-proto\t\n|[c90 c99 arm cpp98 cpp11]|[<ctime> (time.h)]
 time_t()Param: ()\t\nDesc: Time type (type)\t\nProto: no-proto\t\n|[c90 c99 arm cpp98 cpp11]|[<ctime> (time.h)]
-
+#[</ctime>]
 #[<cwchar>]
 fgetwc(FILE * stream)Param: (Pointer to a FILE object that identifies an input stream.)\t\nDesc: Get wide character from stream (function)\t\nProto: wint_t fgetwc (FILE * stream);\t\n|[c90 c99 arm cpp98 cpp11]|[<cwchar> (wchar.h)]
 fgetws(wchar_t* ws, int num, FILE* stream)Param: (Pointer to an array of wchar_t where the wide string read is copied.)\t\nDesc: Get wide string from stream (function)\t\nProto: wchar_t* fgetws (wchar_t* ws, int num, FILE* stream);\t\n|[c90 c99 arm cpp98 cpp11]|[<cwchar> (wchar.h)]
@@ -707,7 +707,7 @@ wmemcmp(const wchar_t* ptr1, const wchar_t* ptr2, size_t num)Param: (Pointer to 
 wmemcpy(wchar_t* destination, const wchar_t* source, size_t num)Param: (Pointer to the destination array where the content is to be copied.)\t\nDesc: Copy block of wide characters (function)\t\nProto: wchar_t* wmemcpy (wchar_t* destination, const wchar_t* source, size_t num);\t\n|[c90 c99 arm cpp98 cpp11]|[<cwchar> (wchar.h)]
 wmemmove(wchar_t* destination, const wchar_t* source, size_t num)Param: (Pointer to the destination array where the content is to be copied.)\t\nDesc: Move block of wide characters (function)\t\nProto: wchar_t* wmemmove (wchar_t* destination, const wchar_t* source, size_t num);\t\n|[c90 c99 arm cpp98 cpp11]|[<cwchar> (wchar.h)]
 wmemset(wchar_t* ptr, wchar_t wc, size_t num)Param: (Pointer to the array to fill.)\t\nDesc: Fill array of wide characters (function)\t\nProto: wchar_t* wmemset (wchar_t* ptr, wchar_t wc, size_t num);\t\n|[c90 c99 arm cpp98 cpp11]|[<cwchar> (wchar.h)]
-
+#[</cwchar>]
 #[<cwctype>]
 iswalnum(wint_t c)Param: (Wide character to be checked, casted to a wint_t, or WEOF.)\t\nDesc: Check if wide character is alphanumeric (function)\t\nProto: int iswalnum (wint_t c);\t\n|[c90 c99 arm cpp98 cpp11]|[<cwctype> (wctype.h)]
 iswalpha(wint_t c)Param: (Wide character to be checked, casted to a wint_t, or WEOF.)\t\nDesc: Check if wide character is alphabetic (function)\t\nProto: int iswalpha (wint_t c);\t\n|[c90 c99 arm cpp98 cpp11]|[<cwctype> (wctype.h)]
@@ -728,7 +728,7 @@ towupper(wint_t c)Param: (Wide character to be converted, casted to a wint_t val
 wctrans_t()Param: ()\t\nDesc: Wide character transformation (type)\t\nProto: no-proto\t\n|[c90 c99 arm cpp98 cpp11]|[<cwctype> (wctype.h)]
 wctype_t()Param: ()\t\nDesc: Wide character type (type)\t\nProto: no-proto\t\n|[c90 c99 arm cpp98 cpp11]|[<cwctype> (wctype.h)]
 CHAR_BIT(@)|[c99 cpp98 cpp11]|[<limits>]
-
+#[</cwctype>]
 #[<limits>]	
 CHAR_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
 CHAR_MIN(@)Minimum finite value.|[c99 cpp98 cpp11]|[<limits>]
@@ -801,16 +801,33 @@ ULONG_MAX (@)|[c99 cpp98 cpp11]|[<limits>]
 ULONG_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
 USHRT_MAX (@)|[c99 cpp98 cpp11]|[<limits>]
 USHRT_MAX(@)Maximum finite value.|[c99 cpp98 cpp11]|[<limits>]
-
+#[</limits>]
 #[<cuchar>]
 c16rtomb( char * pmb, char16_t c16, mbstate_t * ps )Param: (Pointer to an array large enough to hold a multibyte sequence.)\t\nDesc: Convert 16-bit character to multibyte sequence (function)\t\nProto: size_t c16rtomb ( char * pmb, char16_t c16, mbstate_t * ps );\t\n|[c11 cpp11]|[<cuchar> (uchar.h)]
 c32rtomb( char * pmb, char32_t c32, mbstate_t * ps )Param: (Pointer to an array large enough to hold a multibyte sequence.)\t\nDesc: Convert 32-bit character to multibyte sequence (function)\t\nProto: size_t c32rtomb ( char * pmb, char32_t c32, mbstate_t * ps );\t\n|[c11 cpp11]|[<cuchar> (uchar.h)]
 mbrtoc16( char16_t * pc16, const char * pmb, size_t max, mbstate_t * ps)Param: (Pointer to an object of type char16_t.)\t\nDesc: Convert multibyte sequence to 16-bit character (function)\t\nProto: size_t mbrtoc16 ( char16_t * pc16, const char * pmb, size_t max, mbstate_t * ps);\t\n|[c11 cpp11]|[<cuchar> (uchar.h)]
 mbrtoc32( char32_t * pc32, const char * pmb, size_t max, mbstate_t * ps)Param: (Pointer to an object of type char32_t.)\t\nDesc: Convert multibyte sequence to 32-bit character (function)\t\nProto: size_t mbrtoc32 ( char32_t * pc32, const char * pmb, size_t max, mbstate_t * ps);\t\n|[c11 cpp11]|[<cuchar> (uchar.h)]
-
+#[</cuchar>]
 #[<future>]
 async(policy)Param: ()\t\nDesc: Call function asynchronously (function template)\t\nProto: long-proto\t\n|[]|[<future>]
-
+#[</future>]
+#[<baseTypes>]
+signed
+unsigned 
+short
+void
+float
+char
+double
+int
+long 
+short
+signed
+wchar_t
+char16_t
+char32_t
+#[</baseTypes>]
+##################
 #Todo
 sizeof(type)Desc:Returns size in bytes of the object representation of type. [c89 c99 c11][]
 cos(double x):double #Returns the cosine of a radian angle x
@@ -832,19 +849,3 @@ sinh(double x):double #Returns the hyperbolic sine of x
 tan(double x):double #Returns the tangent of a radian angle x
 tanh(double x):double #Returns the hyperbolic tangent of x
 time(time_t *timer):time_t #Calculates the current calender time and encodes it into time_t format
-
-#[baseTypes]
-signed
-unsigned 
-short
-void
-float
-char
-double
-int
-long 
-short
-signed
-wchar_t
-char16_t
-char32_t
