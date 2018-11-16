@@ -727,13 +727,13 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 			}
 			for (int subStyle=0; subStyle<subStyleIdentifiers; subStyle++) {
 				// substylewords.11.1.$(file.patterns.cpp)=CharacterSet LexAccessor SString WordList
-				std::string ssWordsKey = "substylewords.";
-				ssWordsKey += StdStringFromInteger(subStyleBases[baseStyle]);
-				ssWordsKey += ".";
-				ssWordsKey += StdStringFromInteger(subStyle + 1);
-				ssWordsKey += ".";
-				std::string ssWords = props.GetNewExpandString(ssWordsKey.c_str(), fileNameForExtension.c_str());
-				wEditor.CallString(SCI_SETIDENTIFIERS, subStyleIdentifiersStart + subStyle, ssWords.c_str());
+				std::string subStyleWordsKey = "substylewords.";
+				subStyleWordsKey += StdStringFromInteger(subStyleBases[baseStyle]);
+				subStyleWordsKey += ".";
+				subStyleWordsKey += StdStringFromInteger(subStyle + 1);
+				subStyleWordsKey += ".";
+				std::string subStyleWords = props.GetNewExpandString(subStyleWordsKey.c_str(), fileNameForExtension.c_str());
+				wEditor.CallString(SCI_SETIDENTIFIERS, subStyleIdentifiersStart + subStyle, subStyleWords.c_str());
 			}
 		}
 	}

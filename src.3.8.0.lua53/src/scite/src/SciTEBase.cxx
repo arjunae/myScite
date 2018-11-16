@@ -15,7 +15,6 @@
 #include <stdarg.h>
 #include <sys/stat.h>
 #include <time.h>
-
 #include <iostream>
 
 #include <string>
