@@ -218,13 +218,15 @@ static unsigned int ColouriseMakeLine(
 
 		/// Lets signal a warning on unclosed Braces.
 		if (state==SCE_MAKE_DEFAULT && strchr("})", (int)chCurr)!=NULL) { 
+			ColourHere(styler, currentPos-1, state);
 			line.s.bWarnBrace=false;
 		} else if (state==SCE_MAKE_DEFAULT && strchr("{(", (int)chCurr)!=NULL) {
+			ColourHere(styler, currentPos-1, state_prev);
 			line.s.bWarnBrace=true;
 		}
 
 		/// Style single quoted Strings	( But skip escaped)
-		if (state==SCE_MAKE_IDENTIFIER && chCurr=='\''&& chPrev!='\'' ) {
+		if (line.s.bWarnSqStr && chCurr=='\''&& chPrev!='\'' ) {
 			if (iLog) std::clog<< "[/SQString] " << "\n";
 			ColourHere(styler, currentPos-1, state);
 			state=SCE_MAKE_DEFAULT;
@@ -254,7 +256,7 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
 			line.s.bWarnDqStr=true;
 		}
-		line.s.iWarnEOL=line.s.bWarnBrace ||line.s.bWarnDqStr ||line.s.bWarnSqStr;
+		line.s.iWarnEOL=line.s.bWarnBrace || line.s.bWarnDqStr || line.s.bWarnSqStr;
 
 		if (iLog>0) {
 			std::clog << i << "	" << chCurr<<"	"; 
@@ -414,7 +416,7 @@ static unsigned int ColouriseMakeLine(
 		state=SCE_MAKE_DEFAULT;
 	}
 
-	ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
+	ColourHere(styler, endPos, state);
 	return(state);
 }
 

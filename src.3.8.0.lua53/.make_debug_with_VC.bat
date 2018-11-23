@@ -39,6 +39,7 @@ echo ~~~~~ Copying Files to release...
 move ..\bin\SciTE.exe ..\..\..\release
 move ..\bin\SciLexer.dll ..\..\..\release
 
+
 goto end
 
 :error

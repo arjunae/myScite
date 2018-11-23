@@ -54,6 +54,7 @@ LDFLAGS=$(LDFLAGS) $(NOLOGO)
 CXXFLAGS=$(CXXFLAGS) $(CXXDEBUG)
 CCFLAGS=$(CCFLAGS) $(CXXDEBUG)
 LDFLAGS=$(LDDEBUG) $(LDFLAGS)
+PDBS= $(DIR_BIN)\SciLexer.pdb
 !ELSE
 CXXFLAGS=$(CXXFLAGS) $(CXXNDEBUG)
 CCFLAGS=$(CCFLAGS) $(CXXNDEBUG)
@@ -212,7 +213,7 @@ CXXFLAGS=$(CXXFLAGS) -DNO_LUA
 CXXFLAGS=$(CXXFLAGS) $(INCLUDEDIRS)
 CCFLAGS=$(CCFLAGS) $(INCLUDEDIRS)
 
-ALL: $(PROG)  $(DLLS) $(PROPS)
+ALL: $(PROG)  $(DLLS) $(PDBS) $(PROPS)
 #$(PROGSTATIC)
 
 clean:
@@ -224,6 +225,9 @@ $(DIR_BIN)\Scintilla.dll: ..\..\scintilla\bin\Scintilla.dll
 $(DIR_BIN)\SciLexer.dll: ..\..\scintilla\bin\SciLexer.dll
 	copy ..\..\scintilla\bin\SciLexer.dll $@
 
+$(DIR_BIN)\SciLexer.pdb: ..\..\scintilla\bin\SciLexer.pdb
+	copy ..\..\scintilla\bin\SciLexer.pdb $@
+		
 $(DIR_BIN)\SciTEGlobal.properties: ..\src\SciTEGlobal.properties
 	copy ..\src\SciTEGlobal.properties $@
 
