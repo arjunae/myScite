@@ -1064,6 +1064,7 @@ INT_PTR CALLBACK SciTEWin::ReplaceDlg(HWND hDlg, UINT message, WPARAM wParam, LP
 }
 
 void SciTEWin::UIClosed() {
+	wEditor.Call (SCI_SETCARETLINEVISIBLEALWAYS,false);
 	SciTEBase::UIClosed();
 	props.Set("Replacements", "");
 	if (!searchStrip.visible)
@@ -1095,6 +1096,8 @@ void SciTEWin::FindIncrement() {
 }
 
 void SciTEWin::Find() {
+	// Ensure Caret Line will be visible during focus change.
+	wEditor.Call (SCI_SETCARETLINEVISIBLEALWAYS,true);
 	if (wFindReplace.Created()) {
 		if (!replacing) {
 			SelectionIntoFind();
@@ -1371,6 +1374,7 @@ void SciTEWin::FindReplace(bool replace) {
 
 void SciTEWin::DestroyFindReplace() {
 	if (wFindReplace.Created()) {
+		wEditor.Call (SCI_SETCARETLINEVISIBLEALWAYS,false);
 		::EndDialog(HwndOf(wFindReplace), IDCANCEL);
 		wFindReplace.Destroy();
 	}
