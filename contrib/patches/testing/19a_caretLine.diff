@@ -1,0 +1,37 @@
+diff -Nurw scite/win32/SciTEWinDlg.cxx scite_mod/win32/SciTEWinDlg.cxx
+--- scite/win32/SciTEWinDlg.cxx	2017-05-26 00:25:03.000000000 +0200
++++ scite_mod/win32/SciTEWinDlg.cxx	2018-11-26 17:00:38.317977500 +0100
+@@ -1059,6 +1059,7 @@
+ }
+ 
+ void SciTEWin::UIClosed() {
++	wEditor.Call (SCI_SETCARETLINEVISIBLEALWAYS,false);
+ 	SciTEBase::UIClosed();
+ 	props.Set("Replacements", "");
+ 	if (!searchStrip.visible)
+@@ -1090,6 +1091,8 @@
+ }
+ 
+ void SciTEWin::Find() {
++	// Ensure Caret Line will be visible during focus change.
++	wEditor.Call (SCI_SETCARETLINEVISIBLEALWAYS,true);
+ 	if (wFindReplace.Created()) {
+ 		if (!replacing) {
+ 			SelectionIntoFind();
+@@ -1321,6 +1324,8 @@
+ 
+ void SciTEWin::Replace() {
+ 	if (wFindReplace.Created()) {
++		// Ensure Caret Line will be visible during focus change.
++		wEditor.Call (SCI_SETCARETLINEVISIBLEALWAYS,true);
+ 		if (replacing) {
+ 			SelectionIntoFind(false);
+ 			HWND hDlg = HwndOf(wFindReplace);
+@@ -1361,6 +1366,7 @@
+ 
+ void SciTEWin::DestroyFindReplace() {
+ 	if (wFindReplace.Created()) {
++		wEditor.Call (SCI_SETCARETLINEVISIBLEALWAYS,false);
+ 		::EndDialog(HwndOf(wFindReplace), IDCANCEL);
+ 		wFindReplace.Destroy();
+ 	}

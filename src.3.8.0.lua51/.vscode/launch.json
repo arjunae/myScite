@@ -1,0 +1,66 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(Windows) Launch",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}\\release\\SciTE.exe",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}\\release",
+            "environment": [],
+            "externalConsole": true
+        },
+        {
+            "name": "GDB Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceRoot}",
+            "environment": [],
+            "externalConsole": true,
+            "miDebuggerPath": "D:\\apps\\msys64\\mingw32\\bin\\gdb.exe",
+            "program": "${workspaceRoot}\\Release\\SciTE.exe",
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ]
+        },
+        {
+            "name": "GDB Attach",
+            "miDebuggerPath": "D:\\apps\\msys64\\mingw32\\bin\\gdb.exe",
+            "type": "cppdbg",
+            "request": "attach",
+            "program": "${workspaceRoot}/a.exe",
+            "processId": "${command:pickProcess}",
+            "linux": {
+                "MIMode": "gdb",
+                "program": "${workspaceRoot}/a.out",
+                "setupCommands": [
+                    {
+                        "description": "Enable pretty-printing for gdb",
+                        "text": "-enable-pretty-printing",
+                        "ignoreFailures": true
+                    }
+                ]
+            },
+            "windows": {
+                "MIMode": "gdb",
+                "miDebuggerPath": "D:\\apps\\msys64\\mingw32\\bin\\gdb.exe",
+                "setupCommands": [
+                    {
+                        "description": "Enable pretty-printing for gdb",
+                        "text": "-enable-pretty-printing",
+                        "ignoreFailures": true
+                    }
+                ]
+            }
+        }
+        ]
+    }

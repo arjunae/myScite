@@ -2056,6 +2056,22 @@ bool LuaExtension::OnStyle(unsigned int startPos, int lengthDoc, int initStyle, 
 	return handled;
 }
 
+bool LuaExtension::OnClick(int modifiers) {
+	bool handled = false;
+	if (luaState) {
+		lua_getglobal(luaState, "OnClick");
+		if (lua_isfunction(luaState, -1)) {
+			lua_pushboolean(luaState, (SCMOD_SHIFT & modifiers) != 0 ? 1 : 0); // shift/lock
+			lua_pushboolean(luaState, (SCMOD_CTRL  & modifiers) != 0 ? 1 : 0); // control
+			lua_pushboolean(luaState, (SCMOD_ALT   & modifiers) != 0 ? 1 : 0); // alt
+			handled = call_function(luaState, 3);
+		} else {
+			lua_pop(luaState, 1);
+		}
+ 	}
+ 	return handled;
+}
+		
 bool LuaExtension::OnDoubleClick() {
 	return CallNamedFunction("OnDoubleClick");
 }
