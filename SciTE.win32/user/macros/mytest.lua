@@ -1,4 +1,4 @@
---go@ dofile $(FilePath)
+-- go@ dofile $(FilePath)
 -- ^^tell Scite to use its internal Lua interpreter.
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local defaultHome= props["SciteDefaultHome"]
@@ -104,3 +104,4 @@ end
 
 test_gui()
 --_ALERT('> test sciteLua')
+

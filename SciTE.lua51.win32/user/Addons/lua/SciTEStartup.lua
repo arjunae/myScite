@@ -22,7 +22,7 @@ math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 --~~~~~~~~~~~~~
-
+ 
 -- track the amount of lua allocated memory
 _G.session_used_memory=collectgarbage("count")*1024
 	

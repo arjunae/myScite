@@ -74,11 +74,29 @@ local enclosure = {
 }
 
 ---
+--check if the given brace is balanced within line
+ckBraceBalanced=function(line, chBrace)
+    local startPos = editor:PositionFromLine(line) 
+    local endPos = editor.LineEndPosition[line] 
+    local content = editor:textrange(startPos, endPos)
+    local braces=0
+    for charCnt=1,content:len() do
+      char=content:sub(charCnt,charCnt)
+      if char==chBrace then braces=braces+1 end
+      if char==char_matches[chBrace] then braces=braces-1 end
+    end
+    return braces == 0
+end
+
+---
 -- SciTE Lua OnChar extension function.
 -- Matches characters specified in char_matches if the editor pane has focus.
+-- Only insert the closing brace when its count wasnt balanced before.
 function _G.OnChar(c)
   if char_matches[c] and editor.Focus then
-    editor:InsertText( -1, char_matches[c] )
+    if not ckBraceBalanced(editor:LineFromPosition(editor.CurrentPos),c) then
+      editor:InsertText( -1, char_matches[c] )
+    end
   end
 end
 

@@ -139,7 +139,7 @@ local function OpenTag(tag)
 
   if path  then fileNamePath= tag.file end
   if props["project.path"]~="" then fileNamePath = path..dirSep..tag.file end --Project relative Path
-  set_mark()
+  push(gMarkStack,{file=props['FilePath'],pos=editor.CurrentPos})
   scite.Open(fileNamePath)
   -- depending on what kind of tag, either search for the pattern,
   -- or go to the line.
