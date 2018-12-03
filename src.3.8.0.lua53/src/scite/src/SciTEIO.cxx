@@ -1,4 +1,4 @@
-// SciTE - Scintilla based Text Editor
+ // SciTE - Scintilla based Text Editor
 /** @file SciTEIO.cxx
  ** Manage input and output with the system.
  **/

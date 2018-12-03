@@ -69,7 +69,7 @@ local function open_file(file,line,was_pos)
   end
 end
 
-function set_mark()
+local function set_mark()
   push(gMarkStack,{file=props['FilePath'],pos=editor.CurrentPos})
 end
 
@@ -127,6 +127,35 @@ local function ReadTagFile(file)
   return tags
 end
 
+local function parseTagEntry(foundTags)
+	local ptTagName="([^\t]*).*" -- [linestart TAB] , tag_name ,  TAB
+	local ptFileName="\t([.a-zA-z0-9\\/ ]*)[ \t]*" --  TAB, file_name, [SPACE TAB]
+	local ptLineNum="([0-9]*);.*"
+	local ptTagPatt=".*^(.*)$.*" -- any, wordstart, funcDef, $
+	local ptTagProp=".*;\"\t(.)" -- any, [;\"TAB], tag_prop
+	local ptTagClass=";\"\t.\t(.*\t.*)$" -- pt_tagProp, TAB, tagClass	
+	local s1,s2,file_name = find(foundTags, ptFileName)
+	local s1,s2,line_num = find(foundTags, ptLineNum)
+	local s1,s2,tag_pattern = find(foundTags, ptTagPatt)
+	local s1,s2,tag_prop = find(foundTags, ptTagProp)
+	local s1,s2,tag_class =find(foundTags, ptTagClass)
+	local s1,s2,tag_name = find(foundTags, ptTagName)
+	
+  --logging=true
+   if(logging) then
+		print(s1)
+		print(s2)
+		print(tag_name)
+		print(file_name)
+		print(line_num)
+		print(tag_pattern)
+		print(tag_prop)
+		print(tag_class)
+   end
+  
+  return s1,s2,tag_name,file_name,line_num,tag_pattern,tag_prop,tag_class
+end
+
 local gTagFile
 local tags
 
@@ -139,7 +168,7 @@ local function OpenTag(tag)
 
   if path  then fileNamePath= tag.file end
   if props["project.path"]~="" then fileNamePath = path..dirSep..tag.file end --Project relative Path
-  push(gMarkStack,{file=props['FilePath'],pos=editor.CurrentPos})
+  set_mark()
   scite.Open(fileNamePath)
   -- depending on what kind of tag, either search for the pattern,
   -- or go to the line.
@@ -158,40 +187,23 @@ local function OpenTag(tag)
   end
 end
 
-local function locate_tags(dir)
-
-    local filefound = nil
-    local slash, f
-    _,_,slash = string.find(dir,"([/\\])")
-    while dir do
-        file = dir .. slash .. "tags"
-        --print ( "---" .. file)
-        f = io.open(file)
-        if f then
-            filefound = file
-            break
-        end
-        _,_,dir = string.find(dir,"(.+)[/\\][^/\\]+$")
-        --print(dir)
-    end
-    return filefound
-end
-
 local function find_ctag(f,partial)
   -- search for tags files first
   local result
   result = props['project.path'] ..dirSep.. props['project.ctags.filename']
   if not result then result = locate_tags(props['FileDir']) end
   if not result then
-    print("No tags found!")
+    print("tag file ".. result.." not found!")
     return
   end
 
+  -- tagFile found
   if result ~= gTagFile then
- --   print("Reloading tag from:"..result)
+    --print("About to read tags from:"..result)
     gTagFile = result
     tags = ReadTagFile(gTagFile)
   end
+  -- search tagName, append if neccecary
   if tags == nil then return end
   if partial then
     result = ''
@@ -204,22 +216,38 @@ local function find_ctag(f,partial)
     result = tags[f]
   end
 
-  if not result then return end  -- not found
+  if not result then 
+   -- print("No tags found" )
+    return
+  else
+  -- print("Tag(s) found:\n"..result)  
+  end 
+  
   local matches = {}
   local k = 0;
+  
+  -- parse concatenated TagEntries 
   for line in string.gfind(result,'([^@]+)@') do
-    k = k + 1
-    local s1,s2,tag_name,file_name,tag_pattern,tag_property = find(line,'([^\t]*)\t([^\t]*)\t/^(.*)$/;\"\t(.*)')
-    if s1 ~= nil then
-        tag_pattern = tag_pattern:gsub('\\/','/')
-        matches[k] = {tag=f,file=file_name,pattern=tag_pattern,property=tag_property}
-    end
+		k = k + 1
+		-- factored to parseTagEntry to ease debugging. 
+		local s1,s2,tag_name,file_name,line_num,tag_pattern,tag_prop,tag_class=parseTagEntry(line)
+		--local s1,s2,tag_name,file_name,tag_pattern,tag_property = find(line,'([^\t]*)\t([^\t]*)\t/^(.*)$/;\"\t(.*)')
+
+		if line_num ~= "" then --option: Only show the tag_name within the selectBox
+			tag_pattern=tag_name
+		end
+		
+		if s1 ~= nil then
+		  tag_pattern = tag_pattern:gsub('\\/','/')
+		  matches[k] = {tag=f,file=file_name,pattern=tag_pattern,property=tag_property}
+		end
   end
 
+  -- early exit, if loops pattern failed
   if k == 0 then return end
 
-  
-  if k > 1  or props["project.ctags.list_one"]=="1"  then -- multiple tags found
+  -- show a listbox if  only one/multiple entries has been found.
+  if k > 1  or props["project.ctags.list_one"]=="1"  then 
     local list = {}
     for i,t in ipairs(matches) do
       table.insert(list,i..' '..t.file..':'..t.pattern)
@@ -277,7 +305,9 @@ local function wordAtPosition()
     startPos=startPos-1
   end
   tmp=editor:textrange(startPos+1,endPos-1)
-  return string.match(tmp,"[%w_-]+") -- just be sure. only return the keyword
+  tmp=string.match(tmp,"[%w_-]+") -- just be sure. only return the keyword
+ -- print("searching for:"..tmp)
+  return tmp
 end
 
 --
