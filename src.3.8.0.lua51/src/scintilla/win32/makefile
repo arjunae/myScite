@@ -211,4 +211,3 @@ ScintillaWinL.o:
 
 ScintRes.o:	ScintRes.rc
 	$(WINDRES) ScintRes.rc $@
-
