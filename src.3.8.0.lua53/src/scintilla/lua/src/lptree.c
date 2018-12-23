@@ -54,7 +54,7 @@ static void fixonecall (lua_State *L, int postable, TTree *g, TTree *t) {
   int n;
   lua_rawgeti(L, -1, t->key);  /* get rule's name */
   lua_gettable(L, postable);  /* query name in position table */
-  n = lua_tonumber(L, -1);  /* get (absolute) position */
+  n = (int)lua_tonumber(L, -1);  /* get (absolute) position */
   lua_pop(L, 1);  /* remove position */
   if (n == 0) {  /* no position? */
     lua_rawgeti(L, -1, t->key);  /* get rule's name again */
@@ -288,7 +288,7 @@ static TTree *getpatt (lua_State *L, int idx, int *len) {
       break;
     }
     case LUA_TNUMBER: {
-      int n = lua_tointeger(L, idx);
+      int n = (int)lua_tointeger(L, idx);
       tree = numtree(L, n);
       break;
     }
@@ -696,7 +696,7 @@ static int lp_divcapture (lua_State *L) {
     case LUA_TTABLE: return capture_aux(L, Cquery, 2);
     case LUA_TSTRING: return capture_aux(L, Cstring, 2);
     case LUA_TNUMBER: {
-      int n = lua_tointeger(L, 2);
+      int n = (int)lua_tointeger(L, 2);
       TTree *tree = newroot1sib(L, TCapture);
       luaL_argcheck(L, 0 <= n && n <= SHRT_MAX, 1, "invalid number");
       tree->cap = Cnum;

@@ -121,18 +121,18 @@ Push system env on propsPlatform. Format Key=value
 void SciTEBase::ReadEnvironment() {
 #if defined(__unix__)
 	extern char **environ;
-	char **env = environ;
+	char **pEnv= environ;
 #else
-	char **env = _environ;
+	char **pEnv= _environ;
 #endif
-	for (; env && *env; env++) {
+	for (; pEnv&& *pEnv; pEnv++) {
 		char key[1024];
-		char *me = *env; 
-		char *value = strchr(me, '=');
-		if (value && (static_cast<int>(value - me) < static_cast<int>(sizeof(key)))) {
-			memcpy(key, me, value - me);
-			key[value - me] = '\0';
-			propsPlatform.Set(key, value + 1);
+		char *pMe= *pEnv; // Varname's start position 
+		char *pValue = strchr(pMe, '='); // Values start position
+		if (pValue && ((int)(pValue - pMe) < (int)(sizeof(key)))) { // Validate length 
+			memcpy(key, pMe, pValue - pMe);
+			key[pValue - pMe] = '\0';
+			propsPlatform.Set(key, pValue + 1);
 		}
 	}
 }
@@ -725,15 +725,14 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 				if (subStyleIdentifiersStart < 0)
 					subStyleIdentifiers = 0;
 			}
-			
 			for (int subStyle=0; subStyle<subStyleIdentifiers; subStyle++) {
 				// substylewords.11.1.$(file.patterns.cpp)=CharacterSet LexAccessor SString WordList
-				std::string SBStyleWordKey = "substylewords.";
-				SBStyleWordKey += StdStringFromInteger(subStyleBases[baseStyle]);
-				SBStyleWordKey += ".";
-				SBStyleWordKey += StdStringFromInteger(subStyle + 1);
-				SBStyleWordKey += ".";
-				std::string subStyleWords = props.GetNewExpandString(SBStyleWordKey.c_str(), fileNameForExtension.c_str());
+				std::string ssWordsKey = "substylewords.";
+				ssWordsKey += StdStringFromInteger(subStyleBases[baseStyle]);
+				ssWordsKey += ".";
+				ssWordsKey += StdStringFromInteger(subStyle + 1);
+				ssWordsKey += ".";
+				std::string subStyleWords = props.GetNewExpandString(ssWordsKey.c_str(), fileNameForExtension.c_str());
 				wEditor.CallString(SCI_SETIDENTIFIERS, subStyleIdentifiersStart + subStyle, subStyleWords.c_str());
 			}
 		}

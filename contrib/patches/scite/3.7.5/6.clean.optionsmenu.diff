@@ -109,40 +109,7 @@ diff -Nurw scintilla-scite/src/SciTEProps.cxx scite/src/SciTEProps.cxx
  			}
  		}
  	}
-@@ -106,21 +116,24 @@
- const GUI::gui_char propLocalFileName[] = GUI_TEXT("SciTE.properties");
- const GUI::gui_char propDirectoryFileName[] = GUI_TEXT("SciTEDirectory.properties");
- 
-+/** 
-+Push system env on propsPlatform. Format Key=value
-+*/
- void SciTEBase::ReadEnvironment() {
- #if defined(__unix__)
- 	extern char **environ;
--	char **e = environ;
-+	char **env = environ;
- #else
--	char **e = _environ;
-+	char **env = _environ;
- #endif
--	for (; e && *e; e++) {
-+	for (; env && *env; env++) {
- 		char key[1024];
--		char *k = *e;
--		char *v = strchr(k, '=');
--		if (v && (static_cast<size_t>(v - k) < sizeof(key))) {
--			memcpy(key, k, v - k);
--			key[v - k] = '\0';
--			propsPlatform.Set(key, v + 1);
-+		char *me = *env; 
-+		char *value = strchr(me, '=');
-+		if (value && (static_cast<int>(value - me) < static_cast<int>(sizeof(key)))) {
-+			memcpy(key, me, value - me);
-+			key[value - me] = '\0';
-+			propsPlatform.Set(key, value + 1);
- 		}
- 	}
- }
+
 diff -Nurw scite/win32/makefile scintilla-scite/win32/makefile
 --- scite/win32/makefile	2017-05-26 00:25:04.000000000 +0200
 +++ scintilla-scite/win32/makefile	2017-11-05 13:22:46.000000000 +0100

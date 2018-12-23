@@ -303,7 +303,7 @@ $(LIBSCI): $(SCILEXOBJS) $(DIR_O)\ScintillaWinS.obj
 
 # Define how to build all the objects and what they depend on
 {../lua/src}.c{$(DIR_O)}.obj::
-	$(CC)  $(CCFLAGS)  /DWIN32 /D_WINDOWS /D_MBCS -DLUA_BUILD_AS_DLL -c $(NAME)$(DIR_O)\ $<
+	$(CC)  $(CCFLAGS)  /DWIN32 -D_WINDOWS /D_MBCS /DLUA_BUILD_AS_DLL /DLUA_COMPAT_5_1 /DLUA_COMPAT_BITLIB -c $(NAME)$(DIR_O)\ $<
 {..\src}.cxx{$(DIR_O)}.obj::
 	$(CXX) $(CXXFLAGS) -c $(NAME)$(DIR_O)\ $<
 {..\lexlib}.cxx{$(DIR_O)}.obj::

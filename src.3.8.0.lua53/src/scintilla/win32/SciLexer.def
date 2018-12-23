@@ -28,13 +28,11 @@ EXPORTS
 	luaL_loadstring
 	luaL_newmetatable
 	luaL_newstate
-	luaL_openlib
 	luaL_openlibs
 	luaL_optinteger
 	luaL_optlstring
 	luaL_optnumber
 	luaL_prepbuffsize
-	luaL_pushmodule
 	luaL_pushresult
 	luaL_pushresultsize
 	luaL_ref

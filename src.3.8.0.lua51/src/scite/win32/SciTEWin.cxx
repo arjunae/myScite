@@ -1417,7 +1417,7 @@ void SciTEWin::CreateUI() {
 		RestorePosition();
 	// ensure a minimum initial value.
 	if (props.GetInt("window.transparency")>89) {
-		SetLayeredWindowAttributes(HwndOf(wSciTE), 0, (255 *  (props.GetInt("window.transparency"))) / 100, LWA_ALPHA);
+		SetLayeredWindowAttributes(HwndOf(wSciTE), 0, (255 * (BYTE)(props.GetInt("window.transparency"))) / 100, LWA_ALPHA);
 	} else {
 		SetLayeredWindowAttributes(HwndOf(wSciTE), 0, (255 * 100) / 100, LWA_ALPHA);
 	}
