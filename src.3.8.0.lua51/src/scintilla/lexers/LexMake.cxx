@@ -110,6 +110,7 @@ Sci_PositionU stylerPos; // Keep a Reference to the last styled Position.
 
 static inline unsigned int ColourHere(Accessor &styler, Sci_PositionU pos, unsigned int style1) {
 	if (pos<stylerPos) return stylerPos;
+	if (pos==(size_t)-1) return stylerPos;	
 	styler.ColourTo(pos, style1);
 	stylerPos=pos;
 	return (pos);
@@ -117,6 +118,7 @@ static inline unsigned int ColourHere(Accessor &styler, Sci_PositionU pos, unsig
 
 static inline unsigned int ColourHere(Accessor &styler, Sci_PositionU pos, unsigned int style1, unsigned int style2) {
 	if (pos<stylerPos) return stylerPos;
+	if (pos==(size_t)-1) return stylerPos;
 	styler.ColourTo(pos, style1);
 	styler.ColourTo(pos, style2);
 	stylerPos=pos;
@@ -151,7 +153,7 @@ static unsigned int ColouriseMakeLine(
 	bool bInCommand=false;		// set when a line begins with a tab (command)	
 	bool bInBashVar=false;
 	std::string sInUserVar="";		// close contained UserVars at the correct brace.
-
+	stylerPos=startLine;
 	int iLog=0;
 	if (iLog>0) std::clog << "[Pos]	[Char]	[WarnEOLState]\n";	
 		
@@ -226,7 +228,7 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Style single quoted Strings	( But skip escaped)
-		if (line.s.bWarnSqStr && chCurr=='\''&& chPrev!='\'' ) {
+		if (state!=SCE_MAKE_STRING && line.s.bWarnSqStr && chCurr=='\''&& chPrev!='\'' ) {
 			if (iLog) std::clog<< "[/SQString] " << "\n";
 			ColourHere(styler, currentPos-1, state);
 			state=SCE_MAKE_DEFAULT;
@@ -685,7 +687,6 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 			slineBuffer.clear();
 			lineStart = at+1;
 			linePos=0;
-			stylerPos=0;
 			}
 	}
 	if (linePos>0){ // handle the (continuated) line
