@@ -139,3 +139,26 @@ tostring (e) convert to string, returns string
 type (v) returns type of v as a string
 unpack (list) returns all elements from list
 xpcall (f, err) pcall function f with new error handler err
+
+#Lua5.1 resesrved Words
+and
+break
+do
+else
+elseif
+end
+false
+for
+function
+if
+in
+local
+nil
+not
+or
+repeat
+return
+then
+true
+until
+while

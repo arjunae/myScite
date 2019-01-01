@@ -4,6 +4,7 @@
 --~~~~~~~~~~~~~
 
 -- Windows requires this for us to immediately see all lua output.
+
 io.stdout:setvbuf("no")
 
 myHome = props["SciteUserHome"].."/user"
@@ -170,17 +171,17 @@ function myScite_OpenSwitch()
 	end
 scite.ApplyProperties()
 end
-
+		
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+	
 function OnInit() 
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
-	
+
 	-- chainload eventmanager / extman remake used by some lua mods
 	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
-	
+
 	-- Show Sidebar
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
@@ -193,7 +194,12 @@ function OnInit()
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-ctags\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
 
+	-- check SciLexer once per session and inform the User if its a nonStock Version.
+	SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
+	if SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
+	
 	-- Event Handlers
+	scite_OnKey( function()  props["CurrentPos"]=editor.CurrentPos end ) -- keep Track of current Bytes Offset (for Statusbar)
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
 	scite_OnSave(CTagsRecreate)
 	scite_OnOpenSwitch(myScite_OpenSwitch)

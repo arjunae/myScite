@@ -2929,9 +2929,9 @@ LINK_LEXER	scintilla\src\Catalogue.cxx	69;"	d	file:
 LL	scintilla\lua\src\lobject.c	478;"	d	file:
 LMAGENTA	scintilla\curses\ScintillaCurses.cxx	/^static ColourDesired LMAGENTA(0xFF, 0, 0xFF);$/;"	v	file:
 LMMinder	scintilla\src\ExternalLexer.h	/^class LMMinder {$/;"	c	namespace:Scintilla
-LOAD_LIBRARY_SEARCH_APPLICATION_DIR	scite\win32\SciTEWin.cxx	2239;"	d	file:
+LOAD_LIBRARY_SEARCH_APPLICATION_DIR	scite\win32\SciTEWin.cxx	2238;"	d	file:
 LOAD_LIBRARY_SEARCH_SYSTEM32	scintilla\win32\PlatWin.cxx	57;"	d	file:
-LOAD_LIBRARY_SEARCH_SYSTEM32	scite\win32\SciTEWin.cxx	2242;"	d	file:
+LOAD_LIBRARY_SEARCH_SYSTEM32	scite\win32\SciTEWin.cxx	2241;"	d	file:
 LRED	scintilla\curses\ScintillaCurses.cxx	/^static ColourDesired LRED(0xFF, 0, 0);$/;"	v	file:
 LStream	scintilla\lua\src\liolib.c	/^typedef luaL_Stream LStream;$/;"	t	file:
 LTintfloat	scintilla\lua\src\lvm.c	/^static int LTintfloat (lua_Integer i, lua_Number f) {$/;"	f	file:	signature:(lua_Integer i, lua_Number f)

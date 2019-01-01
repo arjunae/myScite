@@ -43,13 +43,13 @@ Version 1.29.0
 	 sidebar.style.*.255=fore:#808080,back:#FEFEFE
 --]]--------------------------------------------------
 
-local lpeg
-if lpeg==nil then err,lpeg = pcall( require,"lpeg")  end
-require 'gui'
-
+--local lpeg
+--if lpeg==nil then err,lpeg = pcall( require,"lpeg")  end
+require "gui"
+----------------------------------------------------------
 
 -- �se scite.gettranslation ?
--- local _DEBUG = true --включает вывод отладочной информации
+local _DEBUG = false --включает вывод отладочной информации
 
 -- you can choose to make SideBar a stand-alone window
 local win = tonumber(props['sidebar.win']) == 1
@@ -194,7 +194,7 @@ function string.pattern( s )
   return (s:gsub(lua_patt_chars,'%%%0'))-- ���������� ������������� ��������� �������� �������� %
 end
 
-function GetCurrentWord()
+local function GetCurrentWord()
   local current_pos = editor.CurrentPos
   return editor:textrange(editor:WordStartPosition(current_pos, true),
               editor:WordEndPosition(current_pos, true))
@@ -221,6 +221,10 @@ local function ShowCompactedLine(line_num)
 		line_num = x - 1
 	end
 end
+
+-- =================================
+-- End Common functions -Sidebar specific -
+-- =================================
 
 if _DEBUG then
 local nametotime = {} -- maps names to starttimes
@@ -250,10 +254,6 @@ else
 	_DEBUG.timer, _DEBUG.timerstart, _DEBUG.timerstop = empty, empty, empty
 end
 
-
--- =================================
--- End Common functions -Sidebar specific -
--- =================================
 
 ----------------------------------------------------------
 -- Create panels
@@ -1521,7 +1521,7 @@ end)
 ----------------------------------------------------------
 local line_count
 
-local function OnSwitch()
+function OnSwitch()
 	_DEBUG.timerstart('OnSwitch')
 	line_count = editor.LineCount
 	if tab0:bounds() then -- visible FileMan
@@ -1539,6 +1539,7 @@ local function OnSwitch()
 	_DEBUG.timerstop('OnSwitch')
 	gui.pass_focus()
 end
+
 AddEventHandler("OnSwitchFile", OnSwitch)
 AddEventHandler("OnOpen", OnSwitch)
 AddEventHandler("OnSave", OnSwitch)
@@ -1719,7 +1720,7 @@ local function SetRGBColour(colour)
 	end
 end
 
-AddEventHandler("OnDwellStart", function(pos, cur_word)
+scite_OnDwellStart(function(pos, cur_word)
 	if pos ~= 0 then
 		local cur_text = editor:GetSelText()
 		if (cur_text == '') then
@@ -1732,7 +1733,7 @@ end)
 props["dwell.period"] = 50
 
 local cur_word_old = ""
-AddEventHandler("OnKey", function()
+scite_OnKey( function()
 	if editor.Focus then
 		local cur_word = GetCurrentWord() -- слово, на котором стояла каретка ДО ТОГО КАК ЕЁ ПЕРЕМЕСТИЛИ
 		if cur_word ~= cur_word_old then
@@ -1741,7 +1742,6 @@ AddEventHandler("OnKey", function()
 		end
 	end
 end)
-
 
 --========================================================
 -- now show SideBar:
