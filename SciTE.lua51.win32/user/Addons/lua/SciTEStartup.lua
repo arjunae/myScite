@@ -33,13 +33,13 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 -- chainload eventmanager / extman remake used by some lua mods
 dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
--- Load mod-mitchell
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
-		
 -- Load Sidebar
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
+
+-- Load mod-mitchell
+package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
+dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 
 -- Load cTags Browser
 dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
@@ -192,11 +192,20 @@ function OnInit()
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 
+	-- check SciLexer once per session and inform the User if its a nonStock Version.
+	local SLHash
+	if not SLHash then 
+		SLHash=fileHash("SciLexer.dll")  
+		if SLHash and SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
+	end
+	
+	
 	-- Event Handlers
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
 	scite_OnSave(CTagsRecreate)
 	scite_OnOpenSwitch(myScite_OpenSwitch)
-	
+	checkUpdates() -- update local scite version Information from githubs readme.md
+		
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
 --print("startupScript_reload")
@@ -205,3 +214,4 @@ function OnInit()
 
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+

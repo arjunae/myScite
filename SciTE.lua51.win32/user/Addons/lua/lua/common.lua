@@ -92,15 +92,6 @@ function fileHash(fileName)
 	return CRChash
 end
 
--- check SciLexer once per session and inform the User if its a nonStock Version.
-
-local SLHash
-if not SLHash then SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
-	if SLHash and SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
-	-- Check for Updates on Scite Close 
-	--scite_OnClose(testHTTP)
-end
-
 --------------------------
 -- returns the size of a given file.
 --------------------------
@@ -121,6 +112,58 @@ function file_size (filePath)
 	return size or 0
 end
 
+--------------------------
+-- ensure creation of homeDir/tmpDir
+--------------------------
+function init_scite_dir()
+	local home
+	if lfs==nil then err,lfs = pcall(require,"lfs")  end
+	if type(lfs) ~= "table" then return false end
+	if props["PLAT_WIN"]=="1" then
+		home=props["USERPROFILE"]
+	else
+		home=props["HOME"]
+	end	
+	res= lfs.mkdir(home.."\\SciTE")
+	res= lfs.attributes(home.."\\SciTE")
+	if res==nil then return false end	
+	res= lfs.mkdir(props["TMP"].."\\SciTE")
+	res= lfs.attributes(props["TMP"].."\\SciTE")
+	if res==nil then return false end
+	return true	
+end
+
+--
+-- compare SciLexerHash and Release Info with githubs readme.
+-- signal when theres a new Version available.
+--
+function checkUpdates()
+local curVersion
+local checkInterval=3
+local lastChecked=0
+	init_scite_dir()
+	lastChanged= lfs.attributes(props["TMP"].."\\SciTE","change")
+		if lastChanged ~= nil then
+			-- create a calculateable datestring like 20190104
+			timeStamp=os.date('%Y%m%d', os.time())
+			lastChanged=os.date('%Y%m%d', lastChanged)
+			lastChecked=timeStamp -lastChanged
+		else
+			lastChecked=checkInterval
+		end
+		if lastChecked>=checkInterval then
+			-- download version Info from githubs readme.md
+			local pipe=scite_Popen("cscript.exe "..props["SciteUserHome"].."\\Installer\\scite_getVersionInfo.vbs" )
+			local tmp= pipe:read('*a') -- synchronous -waits for the Command to complete
+			if tmp:match("STATUS:OK") then print("Version Information has been fetched from github.") end
+			for line in io.lines(props["TMP"].."\\SciTE\\scite_versions.txt") do
+				if line:match(props["SciLexerHash"]) then curVersion=line end
+				if line:match(props["Release"]) then curVersion=line end
+			end
+			if curVersion~=nil then print("Current Versions identification: "..curVersion) end
+			pipe=nil
+		end
+end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 --line information functions --
@@ -297,6 +340,19 @@ end
 -- os_copy
 ------------------------------------------
 function os_copy(source_path,dest_path)
+	local function unwind_protect(thunk,cleanup)
+		local ok,res = pcall(thunk)
+		if cleanup then cleanup() end
+		if not ok then error(res,0) else return res end
+	end
+	local function with_open_file(name,mode)
+		return function(body)
+		local f, err = io.open(name,mode)
+		if err then return end
+		return unwind_protect(function()return body(f) end,
+			function()return f and f:close() end)
+		end
+	end
 	return with_open_file(source_path,"rb") (function(source)
 		return with_open_file(dest_path,"wb") (function(dest)
 			assert(dest:write(assert(source:read("*a"))))

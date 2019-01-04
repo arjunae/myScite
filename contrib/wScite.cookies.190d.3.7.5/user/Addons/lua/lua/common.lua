@@ -5,127 +5,52 @@ local append = table.insert
 local find = string.find
 if lpeg==nil then err,lpeg = pcall( require,"lpeg")  end
 
-------------------------------------------
--- Custom Common Functions --
-------------------------------------------
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+-- File and Path related functions, used in debugger.lua
 
---------------------------
--- check if current Docs charset is Unicode using lpeg regexp 
--- if found, switches Current docs mode to (UTF-8) 
---------------------------
-function CheckUTF8()
-	if lpeg==nil then return end
-	local text = editor:GetText()
-	local cont = lpeg.R("\128\191")   -- continuation byte
-	local utf8 = lpeg.R("\0\127")^1
-			+ (lpeg.R("\194\223") * cont)^1
-			+ (lpeg.R("\224\239") * cont * cont)^1
-			+ (lpeg.R("\240\244") * cont * cont * cont)^1
-	local latin = lpeg.R("\0\127")^1
-	local searchpatt = latin^0 * utf8 ^1 * -1
-	if searchpatt:match(text) then
-		props["encoding"]="(UTF8)"
-		scite.MenuCommand(IDM_ENCODING_UCOOKIE)
+-- returns i characters at position s as a string
+local function at (s,i)
+    return s:sub(i,i)
+end
+
+--- note: for finding the last occurance of a character, it's actualy
+--- easier to do it in an explicit loop rather than use patterns.
+--- (These are not time-critcal functions)
+local function split_last (s,ch)
+    local i = #s
+    while i > 0 do
+        if at(s,i) == ch then
+            return s:sub(i+1),i
+        end
+        i = i - 1
+    end
+end
+
+function basename(s)
+    local res = split_last(s,dirsep)
+    if res then return res else return s end
+end
+
+function path_of (s)
+	local basename,idx = split_last(s,dirsep)
+	if idx then
+		return s:sub(1,idx-1)
 	else
-		props["encoding"]=""
+		return ''
 	end
 end
 
-----------------------------------
--- Enables above UTF-8 checking via property 
-----------------------------------
-function DetectUTF8()
-	if props["editor.detect.utf8"] == "1" then
-		if editor.CodePage ~= SC_CP_UTF8 then
-			CheckUTF8()
-		end
-	end
+function extension_of (s)
+    return split_last(s,'.')
 end
 
------------------------
--- retrieve a HTTP URL
--- write to var httpResponse
------------------------
-function testHTTP(sURL)
-	
-	if props["httpResponse"]~="" then return end
-	-- load the http module
-	local socket = require "socket"
-	local io = require("io")
-	local ltn12 = require("ltn12")
-	local http = require("socket.http")
-
-	if not sURL then sURL="http://www.google.de/search?q=myScite&oq=myScite" end
-	content, status, auth = http.request(sURL)
-	--print("response:", content) -- response
-	--print("response code:", status) -- status code
-	props["httpResponse"]=content
-end
-
---------------------------
--- quickCheck a files CRC32 Hash 
---------------------------
-if C32==nil then err,C32 = pcall( require,"crc32")  end
-function fileHash(fileName)
-	if type(C32)~="table" then return end
-	local CRChash=""
-	if fileName~="" then
-	
-		local crc32=C32.crc32
-		local crccalc = C32.newcrc32()
-		local crccalc_mt = getmetatable(crccalc)
-
-		-- crc32 was made for eating strings...:)
-		local file,err = assert(io.open (fileName, "r"))
-		if err then return end
-		while true do
-			local bytes = file:read(8192)
-			if not bytes then break end
-			crccalc:update(bytes)
-		end	
-		file:close()
-		CRChash=crccalc:tohex()
-		crccalc.reset(crccalc)-- reset to zero
-		file=nil crccalc_mt=nil crccalc=nil crc32=nil C32=nil
-	end
-
-	return CRChash
-end
-
--- check SciLexer once per session and inform the User if its a nonStock Version.
-
-local SLHash
-if not SLHash then SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
-	if SLHash and SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
-	-- Check for Updates on Scite Close 
-	-- scite_OnClose(testHTTP)
-end
-
--- keep Track of current Bytes Offset (for Statusbar)
-scite_OnKey( function()  props["CurrentPos"]=editor.CurrentPos end )
-
---------------------------
--- returns the size of a given file.
---------------------------
-function file_size (filePath)
-	if filePath ==""  then return end
-	local attr=nil size=nil
-
-	if lfs==nil then err,lfs = pcall( require,"lfs")  end
-	if type(lfs) == "table" then attr,err=lfs.attributes (filePath)  end
-	if type(attr) == "table" then size= attr.size return size end
-
-	local myFile,err=io.open(filePath,"r")
-	if not err then -- todo handle filePath containing Unicode chars 
-		size = myFile:seek("end")  
-		myFile:close() 
-	end
-
-	return size or 0
+function filename(path)
+    local fname = basename(path)
+    local _,idx = split_last(fname,'.')
+    if idx then return fname:sub(1,idx-1) else return fname end
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 --line information functions --
 
 --
@@ -162,8 +87,7 @@ function start_line_position(line)
 	return editor.LineEndPosition[line]
 end
 
--- what is the word directly behind the cursor?
--- returns the word and its position.
+-- returns the word and its position directly behind the cursor.
 function word_at_cursor()
 	local pos = editor.CurrentPos
 	local line_start = start_line_position()
@@ -183,17 +107,19 @@ function center_line(line)
 	editor:LineScroll(0,line - middle)
 end
 
+-- Trims space chars from a strings end
+function rtrim(s)
+    return string.gsub(s,'%s*$','')
+end
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--colour information functions --
 
 -- allows you to use standard HTML '#RRGGBB' colours;
 function colour_parse(str)
 	-- Wo for nil value
 	if str == nil then str ="#AAFFAA" end
 	return tonumber(sub(str,6,7)..sub(str,4,5)..sub(str,2,4),16)
-end
-
-
-function rtrim(s)
-    return string.gsub(s,'%s*$','')
 end
 
 --------------------------
@@ -300,6 +226,19 @@ end
 -- os_copy
 ------------------------------------------
 function os_copy(source_path,dest_path)
+	local function unwind_protect(thunk,cleanup)
+		local ok,res = pcall(thunk)
+		if cleanup then cleanup() end
+		if not ok then error(res,0) else return res end
+	end
+	local function with_open_file(name,mode)
+		return function(body)
+		local f, err = io.open(name,mode)
+		if err then return end
+		return unwind_protect(function()return body(f) end,
+			function()return f and f:close() end)
+		end
+	end
 	return with_open_file(source_path,"rb") (function(source)
 		return with_open_file(dest_path,"wb") (function(dest)
 			assert(dest:write(assert(source:read("*a"))))
@@ -370,4 +309,164 @@ function ParseMarkStyle(prop_string)
 		ret_number = mark_number
 	end
 	return ret_number
+end
+
+------------------------------------------
+-- Custom Common Functions --
+------------------------------------------
+
+--------------------------
+-- check if current Docs charset is Unicode using lpeg regexp 
+-- if found, switches Current docs mode to (UTF-8) 
+--------------------------
+function CheckUTF8()
+	if lpeg==nil then return end
+	local text = editor:GetText()
+	local cont = lpeg.R("\128\191")   -- continuation byte
+	local utf8 = lpeg.R("\0\127")^1
+			+ (lpeg.R("\194\223") * cont)^1
+			+ (lpeg.R("\224\239") * cont * cont)^1
+			+ (lpeg.R("\240\244") * cont * cont * cont)^1
+	local latin = lpeg.R("\0\127")^1
+	local searchpatt = latin^0 * utf8 ^1 * -1
+	if searchpatt:match(text) then
+		props["encoding"]="(UTF8)"
+		scite.MenuCommand(IDM_ENCODING_UCOOKIE)
+	else
+		props["encoding"]=""
+	end
+end
+
+----------------------------------
+-- Enables above UTF-8 checking via property 
+----------------------------------
+function DetectUTF8()
+	if props["editor.detect.utf8"] == "1" then
+		if editor.CodePage ~= SC_CP_UTF8 then
+			CheckUTF8()
+		end
+	end
+end
+
+-----------------------
+-- retrieve a HTTP URL
+-- write to var httpResponse
+-----------------------
+function testHTTP(sURL)
+	
+	if props["httpResponse"]~="" then return end
+	-- load the http module
+	local socket = require "socket"
+	local io = require("io")
+	local ltn12 = require("ltn12")
+	local http = require("socket.http")
+
+	if not sURL then sURL="http://www.google.de/search?q=myScite&oq=myScite" end
+	content, status, auth = http.request(sURL)
+	--print("response:", content) -- response
+	--print("response code:", status) -- status code
+	props["httpResponse"]=content
+end
+
+--------------------------
+-- quickCheck a files CRC32 Hash 
+--------------------------
+if C32==nil then err,C32 = pcall( require,"crc32")  end
+function fileHash(fileName)
+	if type(C32)~="table" then return end
+	local CRChash=""
+	if fileName~="" then
+	
+		local crc32=C32.crc32
+		local crccalc = C32.newcrc32()
+		local crccalc_mt = getmetatable(crccalc)
+
+		-- crc32 was made for eating strings...:)
+		local file,err = assert(io.open (fileName, "r"))
+		if err then return end
+		while true do
+			local bytes = file:read(8192)
+			if not bytes then break end
+			crccalc:update(bytes)
+		end	
+		file:close()
+		CRChash=crccalc:tohex()
+		crccalc.reset(crccalc)-- reset to zero
+		file=nil crccalc_mt=nil crccalc=nil crc32=nil C32=nil
+	end
+
+	return CRChash
+end
+
+--------------------------
+-- returns the size of a given file.
+--------------------------
+function file_size (filePath)
+	if filePath ==""  then return end
+	local attr=nil size=nil
+
+	if lfs==nil then err,lfs = pcall(require,"lfs")  end
+	if type(lfs) == "table" then attr,err=lfs.attributes (filePath)  end
+	if type(attr) == "table" then size= attr.size return size end
+
+	local myFile,err=io.open(filePath,"r")
+	if not err then -- todo handle filePath containing Unicode chars 
+		size = myFile:seek("end")  
+		myFile:close() 
+	end
+
+	return size or 0
+end
+
+--------------------------
+-- ensure creation of homeDir/tmpDir
+--------------------------
+function init_scite_dir()
+	local home
+	if lfs==nil then err,lfs = pcall(require,"lfs")  end
+	if type(lfs) ~= "table" then return false end
+	if props["PLAT_WIN"]=="1" then
+		home=props["USERPROFILE"]
+	else
+		home=props["HOME"]
+	end	
+	res= lfs.mkdir(home.."\\scite")
+	res= lfs.attributes(home.."\\scite")
+	if res==nil then return false end	
+	res= lfs.mkdir(props["TMP"].."\\scite")
+	res= lfs.attributes(props["TMP"].."\\scite")
+	if res==nil then return false end
+	return true	
+end
+
+--
+-- compare SciLexerHash and Release Info with githubs readme.
+-- signal when theres a new Version available.
+--
+function checkUpdates()
+local curVersion
+local checkInterval=3
+local lastChecked=0
+	init_scite_dir()
+	lastChanged= lfs.attributes(props["TMP"].."\\SciTE","change")
+		if lastChanged ~= nil then
+			-- create a calculateable datestring like 20190104
+			timeStamp=os.date('%Y%m%d', os.time())
+			lastChanged=os.date('%Y%m%d', lastChanged)
+			lastChecked=timeStamp -lastChanged
+		else
+			lastChecked=checkInterval
+		end
+		if lastChecked>=checkInterval then
+			-- download version Info from githubs readme.md
+			local pipe=scite_Popen("cscript.exe "..props["SciteUserHome"].."\\Installer\\scite_getVersionInfo.vbs" )
+			local tmp= pipe:read('*a') -- synchronous -waits for the Command to complete
+			if tmp:match("STATUS:OK") then print("Version Information has been fetched from github.") end
+			for line in io.lines(props["TMP"].."\\SciTE\\scite_versions.txt") do
+				if line:match(props["SciLexerHash"]) then curVersion=line end
+				if line:match(props["Release"]) then curVersion=line end
+			end
+			if curVersion~=nil then print("Current Versions identification: "..curVersion) end
+			pipe=nil
+		end
 end

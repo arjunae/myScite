@@ -15,6 +15,8 @@ setlocal enabledelayedexpansion enableextensions
 set DataFile=scite_filetypes.txt
 set file_name=scite.exe
 set scite_dir=empty
+set tmp_dir=%TEMP%\SciTE
+IF NOT EXIST %tmp_dir% mkdir %tmp_dir%
 pushd %~dp0%
 IF EXIST %DataFile% (SET Have_Data=true)
 
@@ -57,13 +59,13 @@ if %ERRORLEVEL% == 2 goto ende
 if [%Have_Data%] equ [true] (popd && goto MAIN)
  echo  .. Creating %DataFile%
  :: collect file.patterns from all properties, ( prefixed with properties filename)
- FINDSTR /SI "^file.patterns." *.properties > filetypes1.raw
+ FINDSTR /SI "^file.patterns." *.properties > %tmp_dir\%filetypes1.raw
 
  :: Now filter unusable dupe entries (variable references) from above tmpfile. 
- FINDSTR /SIV "$(" filetypes1.raw > filetypes2.raw
+ FINDSTR /SIV "$(" %tmp_dir\filetypes1.raw > %tmp_dir\filetypes2.raw
 
  :: Finally, strip the file names, but keep the fileexts information. 
- for /F "delims=: eol=# tokens=3" %%E in (filetypes2.raw) do (
+ for /F "delims=: eol=# tokens=3" %%E in (%tmp_dir\filetypes2.raw) do (
   echo %%E>>%DataFile%
   if ["%1"] neq ["/quite"] echo %%E
  ) 

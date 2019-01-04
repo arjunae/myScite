@@ -21,7 +21,7 @@ if not exist %dataFile% (
 	echo  ......Please, first create %DataFile% with scite_filetypes.cmd install
 	goto ende
 )
-	
+
 echo.
 echo  .. Parsing Filetypes in %DataFile% ..
 cscript /NOLOGO scite_filetypes.vbs uninstall 

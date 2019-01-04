@@ -33,6 +33,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  if [%1]==[1] set FIX_REACTOS=1
  set file_name=SciTE.exe
  set scite_filepath=empty
+ set tmp_dir=%TEMP%\SciTE
 
  :: -- Check for and write path of %file_name% in scite_filepath (search up to 10Dirs up)
  :loop
@@ -46,6 +47,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
    goto loop 
  :end_loop
  popd
+ IF NOT EXIST %tmp_dir% mkdir %tmp_dir%
  IF NOT EXIST %scite_filepath% ( call :sub_fail_cmd ) else ( call :sub_create_file ) 
 
  REM  -- Code Continues here --
@@ -93,6 +95,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  
  :: -- Clean up --
  del /Q %tmp%\scite.tmp 2>NUL
+ move /Y %tmp%\scite* %tmp_dir% 2>NUL
  goto :freunde
 :end_sub_main
  
@@ -117,7 +120,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  set scite_path_cwd=%str%
 
  REM -- Define usable comand line options for SciTE here
- set RegFile=%tmp%\scite_install.reg
+ set RegFile=%tmp_dir%\scite_install.reg
  set scite_cmd_cwd=-CWD:%scite_path_cwd%
  set scite_cmd_open=-open new.txt
  set file_namepath=\"%scite_path%\\%file_name%\"  
