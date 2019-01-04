@@ -148,12 +148,12 @@
 - Add; Code Linter (with gcc) and Beautify Tools (Uncrustify)
 
 #BeginVersions
-#Version: 2017_12_09, 6ae5f442, mySciTE_180_Artie_win32
-#Version: 2017_12_09, 657db4c7, mySciTE_180_Artie_win64
-#Version: 2017_12_09, f5da9245, mySciTE_190_MartyMcFly_lua51_win32
-#Version: 2017_12_09, f5da9245, mySciTE_190_MartyMcFly_lua51_win32
-#Version: 2018_07_13, 6dc538c0, mySciTE_190_MartyMcFly_lua53_win64
-#Version: 2018_07_13, dc789340, mySciTE_190_MartyMcFly_lua53_win32
-#Version: 2018_10_09, 68970227, mySciTE_190_MartyMcFly_lua53_win64
-#Version: 2018_10_15, 1d9a9ac6, mySciTE_190_MartyMcFly_lua53_win32
+#Version: 2017_12_09, 6ae5f442, mySciTE_180_Artie_win32,1
+#Version: 2017_12_09, 657db4c7, mySciTE_180_Artie_win64,1
+#Version: 2017_12_09, f5da9245, mySciTE_190_MartyMcFly_lua51_win32,0
+#Version: 2017_12_09, f5da9245, mySciTE_190_MartyMcFly_lua51_win32,0
+#Version: 2018_07_13, 6dc538c0, mySciTE_190_MartyMcFly_lua53_win64,0
+#Version: 2018_07_13, dc789340, mySciTE_190_MartyMcFly_lua53_win32,0
+#Version: 2018_10_09, 68970227, mySciTE_190_MartyMcFly_lua53_win64,0
+#Version: 2018_10_15, 1d9a9ac6, mySciTE_190_MartyMcFly_lua53_win32,0
 #EndVersions

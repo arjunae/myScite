@@ -142,7 +142,7 @@ local curVersion
 local checkInterval=3
 local lastChecked=0
 	init_scite_dir()
-	lastChanged= lfs.attributes(props["TMP"].."\\SciTE","change")
+	lastChanged= lfs.attributes(props["TMP"].."\\SciTE\\scite_versions.txt","change")
 		if lastChanged ~= nil then
 			-- create a calculateable datestring like 20190104
 			timeStamp=os.date('%Y%m%d', os.time())
