@@ -13716,7 +13716,7 @@ parent	scintilla\win32\PlatWin.cxx	/^	Window *parent;$/;"	m	class:Scintilla::Lis
 parentClass	scintilla\gtk\ScintillaGTK.h	/^	GtkWidgetClass *parentClass;$/;"	m	class:Scintilla::ScintillaGTK	access:private
 parent_class	scintilla\include\ScintillaWidget.h	/^	GtkContainerClass parent_class;$/;"	m	struct:_ScintillaClass	access:public
 parlist	scintilla\lua\src\lparser.c	/^static void parlist (LexState *ls) {$/;"	f	file:	signature:(LexState *ls)
-parseFunctionDefinition	scite\src\SciTEBase.cxx	/^unsigned int SciTEBase::parseFunctionDefinition(std::string text, unsigned int partNo) {$/;"	f	class:SciTEBase	signature:(std::string text, unsigned int partNo)
+parseFunctionDefinition	scite\src\SciTEBase.cxx	/^unsigned int SciTEBase::parseFunctionDefinition(std::string text, size_t partNo) {$/;"	f	class:SciTEBase	signature:(std::string text, size_t partNo)
 part1Length	scintilla\src\SplitVector.h	/^	ptrdiff_t part1Length;$/;"	m	class:Scintilla::SplitVector	access:protected
 partition	scintilla\lua\src\ltablib.c	/^static IdxT partition (lua_State *L, IdxT lo, IdxT up) {$/;"	f	file:	signature:(lua_State *L, IdxT lo, IdxT up)
 pasteLine	scintilla\src\Editor.h	/^	enum PasteShape { pasteStream=0, pasteRectangular = 1, pasteLine = 2 };$/;"	e	enum:Scintilla::Editor::PasteShape
@@ -15214,7 +15214,7 @@ wrapPending	scintilla\src\Editor.h	/^	WrapPending wrapPending;$/;"	m	class:Scint
 wrapState	scintilla\src\EditView.h	/^	WrapMode wrapState;$/;"	m	struct:Scintilla::PrintParameters	access:public
 wrapState	scintilla\src\ViewStyle.h	/^	WrapMode wrapState;$/;"	m	class:Scintilla::ViewStyle	access:public
 wrapStyle	scite\src\SciTEBase.h	/^	int wrapStyle;$/;"	m	class:SciTEBase	access:protected
-wrapText	scite\src\SciTEBase.cxx	/^std::string SciTEBase::wrapText(std::string text, unsigned per_line) {$/;"	f	class:SciTEBase	signature:(std::string text, unsigned per_line)
+wrapText	scite\src\SciTEBase.cxx	/^std::string SciTEBase::wrapText(std::string text, unsigned int per_line) {$/;"	f	class:SciTEBase	signature:(std::string text, unsigned int per_line)
 wrapVisualFlags	scintilla\src\ViewStyle.h	/^	int wrapVisualFlags;$/;"	m	class:Scintilla::ViewStyle	access:public
 wrapVisualFlagsLocation	scintilla\src\ViewStyle.h	/^	int wrapVisualFlagsLocation;$/;"	m	class:Scintilla::ViewStyle	access:public
 wrapVisualStartIndent	scintilla\src\ViewStyle.h	/^	int wrapVisualStartIndent;$/;"	m	class:Scintilla::ViewStyle	access:public

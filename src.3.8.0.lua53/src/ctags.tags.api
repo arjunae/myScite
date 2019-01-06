@@ -845,6 +845,7 @@ operator(const ByteIterator &other)	bool
 DataObject_EnumDAdvise(DataObject *, IEnumSTATDATA **)STDMETHODIMP 
 SetFind(const char *sFind)void SciTEBase::
 lua_checkstack(lua_State *L, int n)LUA_API int 
+parseFunctionDefinition(std::string text, size_t partNo)unsigned int SciTEBase::
 luaB_tonumber(lua_State *L)static int 
 ResponseButton(const GUI::gui_string &text, int responseID)GtkWidget
 DrawLineMarker(PRectangle &rcWhole, Font &fontForCharacter, int tFold, const void *data)  void 
@@ -1241,6 +1242,7 @@ KeyboardIsKeyDown(int key)static bool
 HasFocus()bool Window::
 NotifyClick(Point pt, bool shift, bool ctrl, bool alt)void Editor::
 MarginSetText(Sci::Line line, const char *text)void Document::
+wrapText(std::string text, unsigned int per_line)std::string SciTEBase::
 AddFuture(int index, Buffer::FutureDo fd)void BufferList::
 UpdateFile(filename, updated)def 
 GetRed()	unsigned int 
@@ -2348,7 +2350,6 @@ DisplayFromPosition(Surface *surface, const EditModel &model, Sci::Position pos,
 OmitXidStart(int character)bool 
 BrushColor(ColourDesired back)void SurfaceGDI::
 createstrobj(lua_State *L, size_t l, int tag, unsigned int h)static TString
-parseFunctionDefinition(std::string text, unsigned int partNo)unsigned int SciTEBase::
 ReadAPI(const std::string &fileNameForExtension)void SciTEBase::
 FindReplaceResponse(int responseID)void SciTEGTK::
 BackAsLong()long StyleDefinition::
@@ -2456,7 +2457,6 @@ Find(int language)const LexerModule
 AboutDialog()void SciTEWin::
 convertFromMime(const QString & , QVariant data, QString )	QList
 dragLeaveEvent(QDragLeaveEvent * )void ScintillaEditBase::
-wrapText(std::string text, unsigned per_line)std::string SciTEBase::
 NextByte()	int 
 luaK_dischargevars(FuncState *fs, expdesc *e)void 
 SetForeBack(const ColourDesired &fore, const ColourDesired &back)void CallTip::

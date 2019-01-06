@@ -10,6 +10,7 @@ LUA_LINK_SCILEXER=1
 
 .SUFFIXES: .cxx .properties
 WINDRES ?= windres
+SUBSYSTEM_OPT = -Xlinker --subsystem -Xlinker windows
 
 ifeq ($(OS),Windows_NT)
 	CC = gcc
@@ -68,7 +69,7 @@ endif
 INCLUDEDIRS=-I ../../scintilla/include -I ../src $(LUA_INCLUDES)
 RCINCLUDEDIRS=--include-dir ../src
 
-CBASEFLAGS = -W -Wall $(INCLUDEDIRS) $(LUA_DEFINES) $(WIDEFLAGS) $(VERSION_DEFINES)
+CBASEFLAGS = -Wall $(INCLUDEDIRS) $(LUA_DEFINES) $(WIDEFLAGS) $(VERSION_DEFINES)
 
 ifdef DEBUG
 CFLAGS=-DDEBUG -g $(CBASEFLAGS)
@@ -198,7 +199,7 @@ endif
 	grep -v -h "^[#]" $(PROPS) >../src/Embedded.properties
 
 $(PROG): $(OBJS)
-	$(CXX) $(STRIPFLAG) -Xlinker --subsystem -Xlinker windows -o  $@ $^ $(LDFLAGS)
+	$(CXX) $(STRIPFLAG) $(SUBSYSTEM_OPT) -o  $@ $^ $(LDFLAGS)
 
 OBJSSTATIC = \
 	$(SHAREDOBJS) \
@@ -209,7 +210,7 @@ OBJSSTATIC = \
 	$(LUA_OBJS)
 
 $(PROGSTATIC): $(OBJSSTATIC)
-	$(CXX) $(STRIPFLAG) -static -Xlinker --subsystem -Xlinker windows -o $@ $^ $(LDFLAGS)
+	$(CXX) $(STRIPFLAG) -static $(SUBSYSTEM_OPT) windows -o $@ $^ $(LDFLAGS)
 
 # Automatically generate dependencies for most files with "make deps"
 include deps.mak

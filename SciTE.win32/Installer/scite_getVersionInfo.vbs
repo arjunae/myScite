@@ -17,6 +17,7 @@ on error resume next
   else
 	 wscript.echo("Download URL: https://raw.githubusercontent.com/arjunae/myScite/master/readme.md")
 	 url ="https://raw.githubusercontent.com/arjunae/myScite/master/readme.md"
+    'url= "https://raw.githubusercontent.com/arjunae/myScite/devel/readme.md"
   end if
 
   ' Synchronous http get githubs readme.md

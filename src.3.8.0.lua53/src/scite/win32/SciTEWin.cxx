@@ -556,7 +556,7 @@ void SciTEWin::ExecuteHelp(const char *cmd) {
 			GUI::gui_string topic = s.substr(0, pos);
 			GUI::gui_string path = s.substr(pos + 1);
 			typedef HWND (WINAPI *HelpFn) (HWND, const wchar_t *, UINT, DWORD_PTR);
-			HelpFn fnHHW = (HelpFn)::GetProcAddress(hHH, "HtmlHelpW");
+			HelpFn fnHHW = reinterpret_cast<HelpFn>(::GetProcAddress(hHH, "HtmlHelpW"));
 			if (fnHHW) {
 				XHH_AKLINK ak;
 				ak.cbStruct = sizeof(ak);

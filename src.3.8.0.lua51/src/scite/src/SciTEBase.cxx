@@ -1500,7 +1500,7 @@ std::string SciTEBase::GetNearestWords(const char *wordStart, size_t searchLen,
 	return words;
 }
 
-unsigned int SciTEBase::parseFunctionDefinition(std::string text, unsigned int partNo) {
+unsigned int SciTEBase::parseFunctionDefinition(std::string text, size_t partNo) {
 /* 
 		Returns positions of parts within an api entry. ( params / funcs Documentation )
 		coops with subfunctions() within the funcs definition.
@@ -1513,10 +1513,10 @@ unsigned int marker=0;
  	
 	// Attributes dont have parameters. 
 	// Lets define @@ as an optional sep between attributes name and Documentation
-	pos=text.find("@@");
-	if ( pos != std::string::npos && partNo==1 ) return pos-1;
-	if ( pos != std::string::npos && partNo==2 ) return pos+1;
-	if ( pos != std::string::npos && partNo==3) return pos+2;
+	pos=text.find("(@@)");
+	if (pos != std::string::npos && partNo==1) return pos-1;
+	if (pos != std::string::npos && partNo==2) return pos+1;
+	if (pos != std::string::npos && partNo==3) return pos+2;
 	pos=0;
 
 	// Otherwise, continue parsing calltipParameters.
@@ -1539,10 +1539,10 @@ unsigned int marker=0;
 
     }
 
-    return(std::string::npos);
+    return(0);
 }
 
-std::string SciTEBase::wrapText(std::string text, unsigned per_line) {
+std::string SciTEBase::wrapText(std::string text, unsigned int per_line) {
 /*	Submitted by Sean Hubbard on https://www.cprogramming.com/snippets/source-code/word-wrap-in-c
 		This function takes a string and an output buffer and a desired width. It then copies 
 		the string to the buffer, inserting a new line character when a certain line
@@ -1608,10 +1608,10 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 			unsigned int maxOneLiner=100; // do not linewrap below that size
 			unsigned int minWrapPos=70; // minimum / maximum linewrap size to use.
 			unsigned int maxWrapPos=callTipMaxWrapPos;
-			unsigned int docSep=parseFunctionDefinition(word,3); // get Function Description
+			size_t docSep=parseFunctionDefinition(word,3); // get Function Description
 			
 			std::string funcDescr = word.substr(0,docSep);
-			std::string funcDocs = (docSep==std::string::npos)?"":word.substr(docSep, std::string::npos);
+			std::string funcDocs = (docSep==0)?"":word.substr(docSep, std::string::npos);
 			functionDefinition=funcDescr;
 			
 			// User choice: Show/Omit Function Documentation ?
@@ -1621,7 +1621,7 @@ void SciTEBase::FillFunctionDefinition(int pos /*= -1*/) {
 			if (callTipUseEscapes && !callTipUseManualEscapes) {
 					// replace fixed position line ends 
 					funcDocs=UnSlashString(funcDocs.c_str());
-					for (unsigned int cnt = funcDocs.find("\t\n") ; cnt != std::string::npos ; cnt = funcDocs.find("\t\n"))
+					for (size_t cnt = funcDocs.find("\t\n") ; cnt != std::string::npos ; cnt = funcDocs.find("\t\n"))
 						funcDocs.erase(cnt, 2);
 						
 					// does the text fit within the first line ?

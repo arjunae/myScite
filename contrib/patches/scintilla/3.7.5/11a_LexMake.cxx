@@ -112,6 +112,7 @@ Sci_PositionU stylerPos; // Keep a Reference to the last styled Position.
 
 static inline unsigned int ColourHere(Accessor &styler, Sci_PositionU pos, unsigned int style1) {
 	if (pos<stylerPos) return stylerPos;
+	if (pos==(size_t)-1) return stylerPos;	
 	styler.ColourTo(pos, style1);
 	stylerPos=pos;
 	return (pos);
@@ -119,6 +120,7 @@ static inline unsigned int ColourHere(Accessor &styler, Sci_PositionU pos, unsig
 
 static inline unsigned int ColourHere(Accessor &styler, Sci_PositionU pos, unsigned int style1, unsigned int style2) {
 	if (pos<stylerPos) return stylerPos;
+	if (pos==(size_t)-1) return stylerPos;
 	styler.ColourTo(pos, style1);
 	styler.ColourTo(pos, style2);
 	stylerPos=pos;
@@ -153,7 +155,7 @@ static unsigned int ColouriseMakeLine(
 	bool bInCommand=false;		// set when a line begins with a tab (command)	
 	bool bInBashVar=false;
 	std::string sInUserVar="";		// close contained UserVars at the correct brace.
-
+	stylerPos=startLine;
 	int iLog=0;
 	if (iLog>0) std::clog << "[Pos]	[Char]	[WarnEOLState]\n";	
 		
@@ -202,7 +204,7 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Style Target lines
-		// Find a good position for a style stopper.
+		// Find a good position for a style stopper. Directly use Scintillas Text buffer, so we can catch a newLine. 
 		if (currentPos>=theStart && IsGraphic(chNext) 
 		&& (strchr(" \t \"\' \\ \n /#!?&|+{}()[]<>;=,", (int)chCurr) != NULL)) {
 			styleBreak=currentPos;
@@ -220,13 +222,15 @@ static unsigned int ColouriseMakeLine(
 
 		/// Lets signal a warning on unclosed Braces.
 		if (state==SCE_MAKE_DEFAULT && strchr("})", (int)chCurr)!=NULL) { 
+			ColourHere(styler, currentPos-1, state);
 			line.s.bWarnBrace=false;
 		} else if (state==SCE_MAKE_DEFAULT && strchr("{(", (int)chCurr)!=NULL) {
+			ColourHere(styler, currentPos-1, state_prev);
 			line.s.bWarnBrace=true;
 		}
 
 		/// Style single quoted Strings	( But skip escaped)
-		if (state==SCE_MAKE_IDENTIFIER && chCurr=='\''&& chPrev!='\'' ) {
+		if (state!=SCE_MAKE_STRING && line.s.bWarnSqStr && chCurr=='\''&& chPrev!='\'' ) {
 			if (iLog) std::clog<< "[/SQString] " << "\n";
 			ColourHere(styler, currentPos-1, state);
 			state=SCE_MAKE_DEFAULT;
@@ -256,7 +260,7 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
 			line.s.bWarnDqStr=true;
 		}
-		line.s.iWarnEOL=line.s.bWarnBrace ||line.s.bWarnDqStr ||line.s.bWarnSqStr;
+		line.s.iWarnEOL=line.s.bWarnBrace || line.s.bWarnDqStr || line.s.bWarnSqStr;
 
 		if (iLog>0) {
 			std::clog << i << "	" << chCurr<<"	"; 
@@ -416,7 +420,7 @@ static unsigned int ColouriseMakeLine(
 		state=SCE_MAKE_DEFAULT;
 	}
 
-	ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
+	ColourHere(styler, endPos, state);
 	return(state);
 }
 
@@ -685,7 +689,6 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 			slineBuffer.clear();
 			lineStart = at+1;
 			linePos=0;
-			stylerPos=0;
 			}
 	}
 	if (linePos>0){ // handle the (continuated) line

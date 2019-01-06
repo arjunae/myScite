@@ -162,7 +162,8 @@ static DWORD GetVersion(LPCTSTR lpszDllName) {
     DWORD dwVersion = 0;
     HINSTANCE hinstDll = ::LoadLibrary(lpszDllName);
     if (hinstDll) {
-        DLLGETVERSIONPROC pDllGetVersion = (DLLGETVERSIONPROC)::GetProcAddress(hinstDll, "DllGetVersion");
+        DLLGETVERSIONPROC pDllGetVersion = reinterpret_cast<DLLGETVERSIONPROC>(
+			::GetProcAddress(hinstDll, "DllGetVersion"));
 
         if (pDllGetVersion) {
             DLLVERSIONINFO dvi;

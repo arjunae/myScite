@@ -461,12 +461,15 @@ local lastChecked=0
 			-- download version Info from githubs readme.md
 			local pipe=scite_Popen("cscript.exe "..props["SciteUserHome"].."\\Installer\\scite_getVersionInfo.vbs" )
 			local tmp= pipe:read('*a') -- synchronous -waits for the Command to complete
-			if tmp:match("STATUS:OK") then print("Version Information has been fetched from github.") end
+			--if tmp:match("STATUS:OK") then print("Version Information has been fetched from github.") end
 			for line in io.lines(props["TMP"].."\\SciTE\\scite_versions.txt") do
 				if line:match(props["SciLexerHash"]) then curVersion=line end
 				if line:match(props["Release"]) then curVersion=line end
 			end
-			if curVersion~=nil then print("Current Versions identification: "..curVersion) end
+			if curVersion~=nil and curVersion:match('.$')=="1" then
+				print("An Update for your Version has been found.")
+				print ("Please see https://sourceforge.net/projects/scite-webdev/files/releases/")
+			end
 			pipe=nil
 		end
 end
