@@ -24,7 +24,7 @@
 #define SCLEX_SQL 7
 #define SCLEX_VB 8
 #define SCLEX_PROPERTIES 9
-#define SCLEX_ERRORLIST 10
+#define SCLEX_OUTPANE 10
 #define SCLEX_MAKEFILE 11
 #define SCLEX_BATCH 12
 #define SCLEX_XCODE 13

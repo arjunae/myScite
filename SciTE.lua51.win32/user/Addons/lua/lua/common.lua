@@ -139,7 +139,7 @@ end
 --
 function checkUpdates()
 local curVersion
-local checkInterval=3
+local checkInterval=4
 local lastChecked=0
 	init_scite_dir()
 	lastChanged= lfs.attributes(props["TMP"].."\\SciTE\\scite_versions.txt","change")
@@ -148,6 +148,7 @@ local lastChecked=0
 			timeStamp=os.date('%Y%m%d', os.time())
 			lastChanged=os.date('%Y%m%d', lastChanged)
 			lastChecked=timeStamp -lastChanged
+			--print(timeStamp.." "..lastChanged.." "..lastChecked)
 		else
 			lastChecked=checkInterval
 		end
@@ -163,6 +164,7 @@ local lastChecked=0
 			if curVersion~=nil and curVersion:match('.$')=="1" then
 				print("An Update for your Version has been found.")
 				print ("Please see https://sourceforge.net/projects/scite-webdev/files/releases/")
+			--else if curVersion:match('.$')=="0" then print("No Updates available.") end
 			end
 			pipe=nil
 		end
@@ -233,7 +235,6 @@ function colour_parse(str)
 	if str == nil then str ="#AAFFAA" end
 	return tonumber(sub(str,6,7)..sub(str,4,5)..sub(str,2,4),16)
 end
-
 
 function rtrim(s)
     return string.gsub(s,'%s*$','')

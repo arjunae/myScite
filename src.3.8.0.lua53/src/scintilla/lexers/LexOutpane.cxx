@@ -175,7 +175,7 @@ static int RecogniseErrorListLine(const char *lineBuffer, Sci_PositionU lengthLi
 					canBeCtags = false;
 				}
 			} else if (state == stGccStart) {	// <filename>:
-				state = Is0To9(ch) ? stGccDigit : stUnrecognized;
+				state = ((ch == '-') || Is0To9(ch)) ? stGccDigit : stUnrecognized;
 			} else if (state == stGccDigit) {	// <filename>:<line>
 				if (ch == ':') {
 					state = stGccColumn;	// :9.*: is GCC
@@ -354,7 +354,7 @@ static void ColouriseErrorListLine(
 	}
 }
 
-static void ColouriseErrorListDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler) {
+static void ColouriseOutpaneDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler) {
 	char lineBuffer[10000];
 	styler.StartAt(startPos);
 	styler.StartSegment(startPos);
@@ -390,4 +390,4 @@ static const char *const emptyWordListDesc[] = {
 	0
 };
 
-LexerModule lmErrorList(SCLEX_ERRORLIST, ColouriseErrorListDoc, "errorlist", 0, emptyWordListDesc);
+LexerModule lmErrorList(SCLEX_OUTPANE, ColouriseOutpaneDoc, "outpane", 0, emptyWordListDesc);

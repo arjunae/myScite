@@ -19,6 +19,19 @@ echo ::..::..:::..::..::.:.::
 echo ::    SciTE Prod      ::
 echo ::..::..:::..::..::.:.::
 echo.
+where mingw32-make 1>NUL 2>NUL
+if %ERRORLEVEL%==1 (
+ echo Error: MSYS2/MinGW Installation was not found or its not in your systems path.
+ echo.
+ echo Within MSYS2, utilize 
+ echo pacman -Sy mingw-w64-i686-toolchain
+ echo pacman -Sy mingw-w64-x86_64-toolchain
+ echo and add msys2/win32 or msys2/win64 to your systems path.
+ echo.
+ pause
+exit
+)
+
 echo ~~~~Build: Scintilla
 cd src\scintilla\win32
 mingw32-make  -j %NUMBER_OF_PROCESSORS%

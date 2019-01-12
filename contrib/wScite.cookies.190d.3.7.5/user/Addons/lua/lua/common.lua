@@ -439,13 +439,13 @@ function init_scite_dir()
 	return true	
 end
 
---
--- compare SciLexerHash and Release Info with githubs readme.
+----
+-- compare SciLexerHash and Release Info with github Repositories readme.
 -- signal when theres a new Version available.
 --
 function checkUpdates()
 local curVersion
-local checkInterval=3
+local checkInterval=4
 local lastChecked=0
 	init_scite_dir()
 	lastChanged= lfs.attributes(props["TMP"].."\\SciTE\\scite_versions.txt","change")
@@ -454,6 +454,7 @@ local lastChecked=0
 			timeStamp=os.date('%Y%m%d', os.time())
 			lastChanged=os.date('%Y%m%d', lastChanged)
 			lastChecked=timeStamp -lastChanged
+			--print(timeStamp.." "..lastChanged.." "..lastChecked)
 		else
 			lastChecked=checkInterval
 		end
@@ -461,12 +462,16 @@ local lastChecked=0
 			-- download version Info from githubs readme.md
 			local pipe=scite_Popen("cscript.exe "..props["SciteUserHome"].."\\Installer\\scite_getVersionInfo.vbs" )
 			local tmp= pipe:read('*a') -- synchronous -waits for the Command to complete
-			if tmp:match("STATUS:OK") then print("Version Information has been fetched from github.") end
+			--if tmp:match("STATUS:OK") then print("Version Information has been fetched from github.") end
 			for line in io.lines(props["TMP"].."\\SciTE\\scite_versions.txt") do
 				if line:match(props["SciLexerHash"]) then curVersion=line end
 				if line:match(props["Release"]) then curVersion=line end
 			end
-			if curVersion~=nil then print("Current Versions identification: "..curVersion) end
+			if curVersion~=nil and curVersion:match('.$')=="1" then
+				print("An Update for your Version has been found.")
+				print ("Please see https://sourceforge.net/projects/scite-webdev/files/releases/")
+			--else if curVersion:match('.$')=="0" then print("No Updates available.") end
+			end
 			pipe=nil
 		end
 end

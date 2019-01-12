@@ -7407,7 +7407,6 @@ SCLEX_EDIFACT	scintilla\include\SciLexer.h	136;"	d
 SCLEX_EIFFEL	scintilla\include\SciLexer.h	40;"	d
 SCLEX_EIFFELKW	scintilla\include\SciLexer.h	41;"	d
 SCLEX_ERLANG	scintilla\include\SciLexer.h	68;"	d
-SCLEX_ERRORLIST	scintilla\include\SciLexer.h	27;"	d
 SCLEX_ESCRIPT	scintilla\include\SciLexer.h	56;"	d
 SCLEX_F77	scintilla\include\SciLexer.h	52;"	d
 SCLEX_FLAGSHIP	scintilla\include\SciLexer.h	88;"	d
@@ -7448,6 +7447,7 @@ SCLEX_NULL	scintilla\include\SciLexer.h	18;"	d
 SCLEX_OCTAVE	scintilla\include\SciLexer.h	69;"	d
 SCLEX_OPAL	scintilla\include\SciLexer.h	92;"	d
 SCLEX_OSCRIPT	scintilla\include\SciLexer.h	121;"	d
+SCLEX_OUTPANE	scintilla\include\SciLexer.h	27;"	d
 SCLEX_PASCAL	scintilla\include\SciLexer.h	35;"	d
 SCLEX_PERL	scintilla\include\SciLexer.h	23;"	d
 SCLEX_PHPSCRIPT	scintilla\include\SciLexer.h	84;"	d

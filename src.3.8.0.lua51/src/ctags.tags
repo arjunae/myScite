@@ -367,7 +367,7 @@ CREATE_ABC	scintilla\lua\src\lopcodes.h	104;"	d
 CREATE_ABx	scintilla\lua\src\lopcodes.h	109;"	d
 CRectContains	scintilla\gtk\ScintillaGTK.cxx	/^static bool CRectContains(const cairo_rectangle_t &crcContainer, const cairo_rectangle_t &crcTest) {$/;"	f	file:	signature:(const cairo_rectangle_t &crcContainer, const cairo_rectangle_t &crcTest)
 CRectListContains	scintilla\gtk\ScintillaGTK.cxx	/^static bool CRectListContains(const cairo_rectangle_list_t *crcListContainer, const cairo_rectangle_t &crcTest) {$/;"	f	file:	signature:(const cairo_rectangle_list_t *crcListContainer, const cairo_rectangle_t &crcTest)
-CSI	scite\src\SciTEBuffers.cxx	1855;"	d	file:
+CSI	scite\src\SciTEBuffers.cxx	1856;"	d	file:
 CTWndProc	scintilla\win32\ScintillaWin.cxx	/^LRESULT PASCAL ScintillaWin::CTWndProc($/;"	f	class:ScintillaWin	signature:( HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 CYAN	scintilla\curses\ScintillaCurses.cxx	/^static ColourDesired CYAN(0, 0x80, 0x80);$/;"	v	file:
 CalcLargestMarkerHeight	scintilla\src\ViewStyle.cxx	/^void ViewStyle::CalcLargestMarkerHeight() {$/;"	f	class:ViewStyle	signature:()
@@ -7188,7 +7188,6 @@ SCLEX_EDIFACT	scintilla\include\SciLexer.h	136;"	d
 SCLEX_EIFFEL	scintilla\include\SciLexer.h	40;"	d
 SCLEX_EIFFELKW	scintilla\include\SciLexer.h	41;"	d
 SCLEX_ERLANG	scintilla\include\SciLexer.h	68;"	d
-SCLEX_ERRORLIST	scintilla\include\SciLexer.h	27;"	d
 SCLEX_ESCRIPT	scintilla\include\SciLexer.h	56;"	d
 SCLEX_F77	scintilla\include\SciLexer.h	52;"	d
 SCLEX_FLAGSHIP	scintilla\include\SciLexer.h	88;"	d
@@ -7229,6 +7228,7 @@ SCLEX_NULL	scintilla\include\SciLexer.h	18;"	d
 SCLEX_OCTAVE	scintilla\include\SciLexer.h	69;"	d
 SCLEX_OPAL	scintilla\include\SciLexer.h	92;"	d
 SCLEX_OSCRIPT	scintilla\include\SciLexer.h	121;"	d
+SCLEX_OUTPANE	scintilla\include\SciLexer.h	27;"	d
 SCLEX_PASCAL	scintilla\include\SciLexer.h	35;"	d
 SCLEX_PERL	scintilla\include\SciLexer.h	23;"	d
 SCLEX_PHPSCRIPT	scintilla\include\SciLexer.h	84;"	d
@@ -13107,7 +13107,7 @@ parent	scintilla\win32\PlatWin.cxx	/^	Window *parent;$/;"	m	class:Scintilla::Lis
 parentClass	scintilla\gtk\ScintillaGTK.h	/^	GtkWidgetClass *parentClass;$/;"	m	class:Scintilla::ScintillaGTK	access:private
 parent_class	scintilla\include\ScintillaWidget.h	/^	GtkContainerClass parent_class;$/;"	m	struct:_ScintillaClass	access:public
 parlist	scintilla\lua\src\lparser.c	/^static void parlist (LexState *ls) {$/;"	f	file:	signature:(LexState *ls)
-parseFunctionDefinition	scite\src\SciTEBase.cxx	/^unsigned int SciTEBase::parseFunctionDefinition(std::string text, unsigned int partNo) {$/;"	f	class:SciTEBase	signature:(std::string text, unsigned int partNo)
+parseFunctionDefinition	scite\src\SciTEBase.cxx	/^unsigned int SciTEBase::parseFunctionDefinition(std::string text, size_t partNo) {$/;"	f	class:SciTEBase	signature:(std::string text, size_t partNo)
 part1Length	scintilla\src\SplitVector.h	/^	ptrdiff_t part1Length;$/;"	m	class:Scintilla::SplitVector	access:protected
 pasteLine	scintilla\src\Editor.h	/^	enum PasteShape { pasteStream=0, pasteRectangular = 1, pasteLine = 2 };$/;"	e	enum:Scintilla::Editor::PasteShape
 pasteRectangular	scintilla\src\Editor.h	/^	enum PasteShape { pasteStream=0, pasteRectangular = 1, pasteLine = 2 };$/;"	e	enum:Scintilla::Editor::PasteShape
@@ -14519,7 +14519,7 @@ wrapPending	scintilla\src\Editor.h	/^	WrapPending wrapPending;$/;"	m	class:Scint
 wrapState	scintilla\src\EditView.h	/^	WrapMode wrapState;$/;"	m	struct:Scintilla::PrintParameters	access:public
 wrapState	scintilla\src\ViewStyle.h	/^	WrapMode wrapState;$/;"	m	class:Scintilla::ViewStyle	access:public
 wrapStyle	scite\src\SciTEBase.h	/^	int wrapStyle;$/;"	m	class:SciTEBase	access:protected
-wrapText	scite\src\SciTEBase.cxx	/^std::string SciTEBase::wrapText(std::string text, unsigned per_line) {$/;"	f	class:SciTEBase	signature:(std::string text, unsigned per_line)
+wrapText	scite\src\SciTEBase.cxx	/^std::string SciTEBase::wrapText(std::string text, unsigned int per_line) {$/;"	f	class:SciTEBase	signature:(std::string text, unsigned int per_line)
 wrapVisualFlags	scintilla\src\ViewStyle.h	/^	int wrapVisualFlags;$/;"	m	class:Scintilla::ViewStyle	access:public
 wrapVisualFlagsLocation	scintilla\src\ViewStyle.h	/^	int wrapVisualFlagsLocation;$/;"	m	class:Scintilla::ViewStyle	access:public
 wrapVisualStartIndent	scintilla\src\ViewStyle.h	/^	int wrapVisualStartIndent;$/;"	m	class:Scintilla::ViewStyle	access:public

@@ -15,18 +15,22 @@ on error resume next
 	 url= WScript.Arguments.Item(0)
 	 if err.number >0 then errHndlr()
   else
-	 wscript.echo("Download URL: https://raw.githubusercontent.com/arjunae/myScite/master/readme.md")
-	 url ="https://raw.githubusercontent.com/arjunae/myScite/master/readme.md"
-    'url= "https://raw.githubusercontent.com/arjunae/myScite/devel/readme.md"
+	 'url ="https://raw.githubusercontent.com/arjunae/myScite/master/readme.md"
+    url= "https://raw.githubusercontent.com/arjunae/myScite/devel/readme.md"
+    wscript.echo("Download URL: " & url)
   end if
 
   ' Synchronous http get githubs readme.md
-  set  http = CreateObject("WinHttp.WinHttpRequest.5.1")
+  set  http = CreateObject("MSXML2.ServerXMLHTTP")
   http.SetTimeouts 30000,30000,30000,30000
   http.Open "GET", URL, false
   if err.number >0 then errHndlr()
   http.Send
   if err.number >0 then errHndlr()
+  if http.Status <> 200 Then 
+    errHndlr() 
+    exit function
+  end if
 on error goto 0
 
   'write Version specific Lines to userstmpdir/scite_versions.txt
@@ -53,42 +57,28 @@ function writeTmpFile(filename,arrContent)
   if oFso.FileExists(tmpDir & "\SciTE\" & fileName) then  oFso.DeleteFile(tmpDir& "\SciTE\" & fileName)
   set oFileOut = oFso.OpenTextFile(tmpDir & "\SciTE" & fileName,2, 1) ' forWrite, createFlag
   for each str in arrContent
-	 if str<>"" then oFileOut.write(str & vbcrlf)
+	 if str<>"" then oFileOut.write(str)
   next
   oFileOut.close()
   set oFso=Nothing
 end function
 
 ' 
-' iterate through, split all lines by lf
+' iterate through, split all lines by lf, filter in version specific content
+' Version: 2017_12_09, #6ae5f442, 180, Artie, win32"	
 '	
 function iterateFile(content)
   dim versions
   redim versions(0)
   ' Handle all lines / by LF
-	arr_lines=Split(content,chr(10))		
+	arr_lines=Split(content,chr(10))
 	for each str in arr_lines
-		entry= collectVersions(str)
-		if entry <>"" then
+   	if Left(str,9) ="#Version:" then
 		  redim  preserve versions(ubound(versions)+1)
-		  versions(ubound(versions)) = entry
+		  versions(ubound(versions)) = trim(str)  & vbCrLf
 		end if
 		iterateFile=versions
 	 next
-	 
-end function
-
-'
-' detect and cleanse Version specific lines
-' Version: 2017_12_09, #6ae5f442, 180, Artie, win32"	
-'
-function collectVersions(str)
-	if Left(str,9) ="#Version:" then
-		strEntry=mid(str,9,(len(str)-8))
-		collectVersions=trim(strEntry)
-	 else
-		collectVersions=""
-	end if
 end function
 
 function errHndlr()
@@ -99,11 +89,11 @@ end function
 
 '  scilexer.dll
 '  'date , CRC32 Hash , VersionNumber , VersionString , Platform
-'"#Version: 2017_12_09, #6ae5f442, 180, Artie, win32" 
-'"#Version: 2017_12_09, #657db4c7, 180, Artie, win64"
-'"#Version: 2017_12_09, #f5da9245, 190, MartyMcFly_lua51, win32"
-'"#Version: 2018_07_13, #6dc538c0, 190, MartyMcFly_lua53, win64"
-'"#Version: 2018_07_13, dc789340, 190, MartyMcFly_lua53, win32"
+'#Version: 2017_12_09, 6ae5f442, 180, Artie, win32
+'#Version: 2017_12_09, 657db4c7, 180, Artie, win64
+'#Version: 2017_12_09, f5da9245, 190, MartyMcFly_lua51, win32
+'#Version: 2018_07_13, 6dc538c0, 190, MartyMcFly_lua53, win64
+'#Version: 2018_07_13, dc789340, 190, MartyMcFly_lua53, win32
 '#EndVersions
 
 

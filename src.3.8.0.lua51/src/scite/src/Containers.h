@@ -493,7 +493,7 @@ protected:
 	}
 	unsigned int HashKey(ARG_KEY key) {
 		// default identity hash - works for most primitive values
-		return (static_cast<size_t>(key)) >> 4;
+		return (key) >> 4;
 	}
 };
 
