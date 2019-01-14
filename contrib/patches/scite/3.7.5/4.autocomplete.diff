@@ -60,22 +60,3 @@ diff -Nurw scite/src/SciTEProps.cxx scite_mod/src/SciTEProps.cxx
  		}
  	}
  }
-@@ -701,12 +704,12 @@
- 
- 		for (int baseStyle=0;baseStyle<lenSSB;baseStyle++) {
- 			//substyles.cpp.11=2
--			std::string ssSubStylesKey = "substyles.";
--			ssSubStylesKey += language;
--			ssSubStylesKey += ".";
--			ssSubStylesKey += StdStringFromInteger(subStyleBases[baseStyle]);
--			std::string ssNumber = props.GetNewExpandString(ssSubStylesKey.c_str());
--			int subStyleIdentifiers = atoi(ssNumber.c_str());
-+			std::string SubStylesKey = "substyles.";
-+			SubStylesKey += language;
-+			SubStylesKey += ".";
-+			SubStylesKey += StdStringFromInteger(subStyleBases[baseStyle]);
-+			std::string SBStyleNumber = props.GetNewExpandString(SubStylesKey.c_str());
-+			int subStyleIdentifiers = atoi(SBStyleNumber.c_str());
- 
- 			int subStyleIdentifiersStart = 0;
- 			if (subStyleIdentifiers) {

@@ -1167,6 +1167,9 @@ class ListBoxX : public ListBox {
 	int desiredVisibleRows;
 	unsigned int maxItemCharacters;
 	unsigned int aveCharWidth;
+	long colourBG;
+	long colourFG;
+	bool useThickFrame;
 #if GTK_CHECK_VERSION(3,0,0)
 	GtkCssProvider *cssProvider;
 #endif
@@ -1174,9 +1177,7 @@ public:
 	IListBoxDelegate *delegate;
 
 	ListBoxX() : widCached(0), frame(0), list(0), scroller(0), pixhash(NULL), pixbuf_renderer(0),
-		renderer(0),
-		desiredVisibleRows(5), maxItemCharacters(0),
-		aveCharWidth(1),
+		renderer(0), desiredVisibleRows(5), maxItemCharacters(0), aveCharWidth(1), 
 #if GTK_CHECK_VERSION(3,0,0)
 		cssProvider(NULL),
 #endif
@@ -1198,8 +1199,9 @@ public:
 		}
 #endif
 	}
+	void SetForeBack(ColourDesired fore, ColourDesired back);
 	void SetFont(Font &font) override;
-	void Create(Window &parent, int ctrlID, Point location_, int lineHeight_, bool unicodeMode_, int technology_) override;
+	void Create(Window &parent, int ctrlID, Point location_, int lineHeight_, bool unicodeMode_, int technology_, bool useThickFrame) override;
 	void SetAverageCharWidth(int width) override;
 	void SetVisibleRows(int rows) override;
 	int GetVisibleRows() const override;
@@ -1384,7 +1386,13 @@ static void StyleSet(GtkWidget *w, GtkStyle*, void*) {
 #endif
 }
 
-void ListBoxX::Create(Window &parent, int, Point, int, bool, int) {
+void ListBoxX::SetForeBack( ColourDesired fore, ColourDesired back) {
+	// todo: Implement
+	// colourBG=RGB(back.GetRed(), back.GetGreen(), back.GetBlue());
+	// colourFG=RGB(fore.GetRed(), fore.GetGreen(), fore.GetBlue());
+}
+
+void ListBoxX::Create(Window &parent, int, Point, int, bool, int,bool) {
 	if (widCached != 0) {
 		wid = widCached;
 		return;

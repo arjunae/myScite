@@ -688,7 +688,7 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 	props.Set("Language", language.c_str());
 	lexLanguage = wEditor.Call(SCI_GETLEXER);
 	
-	wOutput.Call(SCI_SETLEXER, SCLEX_OUTPANE);	
+	wOutput.Call(SCI_SETLEXER, SCLEX_ERRORLIST);	
 	
 	const std::string kw0 = props.GetNewExpandString("keywords.", fileNameForExtension.c_str());
 	wEditor.CallString(SCI_SETKEYWORDS, 0, kw0.c_str());

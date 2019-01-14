@@ -49,7 +49,7 @@ public:
 
 	/// Display the auto completion list positioned to be near a character position
 	void Start(Window &parent, int ctrlID, Sci::Position position, Point location,
-		Sci::Position startLen_, int lineHeight, bool unicodeMode, int technology);
+		Sci::Position startLen_, int lineHeight, bool unicodeMode, int technology, bool useThickFrame);
 
 	/// The stop chars are characters which, when typed, cause the auto completion list to disappear
 	void SetStopChars(const char *stopChars_);
@@ -84,6 +84,8 @@ public:
 
 	/// Select a list element that starts with word as the current element
 	void Select(const char *word);
+	
+	void SetForeBack(ColourDesired fore, ColourDesired back);
 };
 
 }

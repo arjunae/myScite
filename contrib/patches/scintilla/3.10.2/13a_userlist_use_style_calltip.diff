@@ -1,7 +1,8 @@
-diff -Nurw scintilla/gtk/PlatGTK.cxx scintilla_m/gtk/PlatGTK.cxx
---- scintilla/gtk/PlatGTK.cxx	2017-05-26 00:25:00.000000000 +0200
-+++ scintilla_m/gtk/PlatGTK.cxx	2017-12-07 20:09:06.000000000 +0100
-@@ -1225,6 +1225,9 @@
+Binary files scintilla/bin/libscintilla.a and scintilla_mod/bin/libscintilla.a differ
+diff -Nurw scintilla/gtk/PlatGTK.cxx scintilla_mod/gtk/PlatGTK.cxx
+--- scintilla/gtk/PlatGTK.cxx	2019-01-12 20:37:06.000000000 +0100
++++ scintilla_mod/gtk/PlatGTK.cxx	2019-01-13 19:01:50.762847100 +0100
+@@ -1167,6 +1167,9 @@
  	int desiredVisibleRows;
  	unsigned int maxItemCharacters;
  	unsigned int aveCharWidth;
@@ -11,8 +12,8 @@ diff -Nurw scintilla/gtk/PlatGTK.cxx scintilla_m/gtk/PlatGTK.cxx
  #if GTK_CHECK_VERSION(3,0,0)
  	GtkCssProvider *cssProvider;
  #endif
-@@ -1233,9 +1236,7 @@
- 	void *doubleClickActionData;
+@@ -1174,9 +1177,7 @@
+ 	IListBoxDelegate *delegate;
  
  	ListBoxX() : widCached(0), frame(0), list(0), scroller(0), pixhash(NULL), pixbuf_renderer(0),
 -		renderer(0),
@@ -22,7 +23,7 @@ diff -Nurw scintilla/gtk/PlatGTK.cxx scintilla_m/gtk/PlatGTK.cxx
  #if GTK_CHECK_VERSION(3,0,0)
  		cssProvider(NULL),
  #endif
-@@ -1257,8 +1258,9 @@
+@@ -1198,8 +1199,9 @@
  		}
  #endif
  	}
@@ -33,7 +34,7 @@ diff -Nurw scintilla/gtk/PlatGTK.cxx scintilla_m/gtk/PlatGTK.cxx
  	void SetAverageCharWidth(int width) override;
  	void SetVisibleRows(int rows) override;
  	int GetVisibleRows() const override;
-@@ -1431,7 +1433,13 @@
+@@ -1384,7 +1386,13 @@
  #endif
  }
  
@@ -48,10 +49,10 @@ diff -Nurw scintilla/gtk/PlatGTK.cxx scintilla_m/gtk/PlatGTK.cxx
  	if (widCached != 0) {
  		wid = widCached;
  		return;
-diff -Nurw scintilla/include/Platform.h scintilla_m/include/Platform.h
---- scintilla/include/Platform.h	2017-05-26 00:25:00.000000000 +0200
-+++ scintilla_m/include/Platform.h	2017-12-07 14:32:56.000000000 +0100
-@@ -404,7 +404,7 @@
+diff -Nurw scintilla/include/Platform.h scintilla_mod/include/Platform.h
+--- scintilla/include/Platform.h	2019-01-12 20:37:06.000000000 +0100
++++ scintilla_mod/include/Platform.h	2019-01-13 19:01:50.778472900 +0100
+@@ -410,7 +410,7 @@
  	static ListBox *Allocate();
  
  	virtual void SetFont(Font &font)=0;
@@ -60,18 +61,76 @@ diff -Nurw scintilla/include/Platform.h scintilla_m/include/Platform.h
  	virtual void SetAverageCharWidth(int width)=0;
  	virtual void SetVisibleRows(int rows)=0;
  	virtual int GetVisibleRows() const=0;
-@@ -422,6 +422,7 @@
+@@ -428,6 +428,7 @@
  	virtual void ClearRegisteredImages()=0;
- 	virtual void SetDoubleClickAction(CallBackAction, void *)=0;
+ 	virtual void SetDelegate(IListBoxDelegate *lbDelegate)=0;
  	virtual void SetList(const char* list, char separator, char typesep)=0;
 +	virtual void SetForeBack(ColourDesired fore, ColourDesired back)=0;
  };
  
  /**
-diff -Nurw scintilla/src/ScintillaBase.cxx scintilla_m/src/ScintillaBase.cxx
---- scintilla/src/ScintillaBase.cxx	2017-05-26 00:25:02.000000000 +0200
-+++ scintilla_m/src/ScintillaBase.cxx	2017-12-24 11:33:04.000000000 +0100
-@@ -254,8 +254,12 @@
+diff -Nurw scintilla/src/AutoComplete.cxx scintilla_mod/src/AutoComplete.cxx
+--- scintilla/src/AutoComplete.cxx	2019-01-12 20:37:06.000000000 +0100
++++ scintilla_mod/src/AutoComplete.cxx	2019-01-13 19:01:50.794095900 +0100
+@@ -55,11 +55,11 @@
+ 
+ void AutoComplete::Start(Window &parent, int ctrlID,
+ 	Sci::Position position, Point location, Sci::Position startLen_,
+-	int lineHeight, bool unicodeMode, int technology) {
++	int lineHeight, bool unicodeMode, int technology, bool useThickFrame) {
+ 	if (active) {
+ 		Cancel();
+ 	}
+-	lb->Create(parent, ctrlID, location, lineHeight, unicodeMode, technology);
++	lb->Create(parent, ctrlID, location, lineHeight, unicodeMode, technology, useThickFrame);
+ 	lb->Clear();
+ 	active = true;
+ 	startLen = startLen_;
+@@ -290,3 +290,6 @@
+ 	}
+ }
+ 
++void AutoComplete::SetForeBack( ColourDesired fore, ColourDesired back) {
++	lb->SetForeBack(fore, back);
++}
+\ No newline at end of file
+diff -Nurw scintilla/src/AutoComplete.h scintilla_mod/src/AutoComplete.h
+--- scintilla/src/AutoComplete.h	2019-01-12 20:37:06.000000000 +0100
++++ scintilla_mod/src/AutoComplete.h	2019-01-13 19:01:50.794095900 +0100
+@@ -49,7 +49,7 @@
+ 
+ 	/// Display the auto completion list positioned to be near a character position
+ 	void Start(Window &parent, int ctrlID, Sci::Position position, Point location,
+-		Sci::Position startLen_, int lineHeight, bool unicodeMode, int technology);
++		Sci::Position startLen_, int lineHeight, bool unicodeMode, int technology, bool useThickFrame);
+ 
+ 	/// The stop chars are characters which, when typed, cause the auto completion list to disappear
+ 	void SetStopChars(const char *stopChars_);
+@@ -84,6 +84,8 @@
+ 
+ 	/// Select a list element that starts with word as the current element
+ 	void Select(const char *word);
++	
++	void SetForeBack(ColourDesired fore, ColourDesired back);
+ };
+ 
+ }
+diff -Nurw scintilla/src/RESearch.cxx scintilla_mod/src/RESearch.cxx
+--- scintilla/src/RESearch.cxx	2019-01-12 20:37:06.000000000 +0100
++++ scintilla_mod/src/RESearch.cxx	2019-01-13 19:01:50.825347000 +0100
+@@ -128,7 +128,7 @@
+  *                      by user setting. The word must also be preceded and/or
+  *                      followed by any character outside those mentioned.
+  *
+- *      [11]    \l      a backslash followed by d, D, s, S, w or W,
++ *      [11]    \\l   a double backslash followed by d, D, s, S, w or W,
+  *                      becomes a character class (both inside and
+  *                      outside sets []).
+  *                        d: decimal digits
+diff -Nurw scintilla/src/ScintillaBase.cxx scintilla_mod/src/ScintillaBase.cxx
+--- scintilla/src/ScintillaBase.cxx	2019-01-12 20:37:06.000000000 +0100
++++ scintilla_mod/src/ScintillaBase.cxx	2019-01-14 15:49:53.066791500 +0100
+@@ -258,8 +258,12 @@
  			return;
  		}
  	}
@@ -83,33 +142,32 @@ diff -Nurw scintilla/src/ScintillaBase.cxx scintilla_m/src/ScintillaBase.cxx
 -				lenEntered, vs.lineHeight, IsUnicodeMode(), technology);
 +				lenEntered, vs.HeightFromStyle(vs.styles[acStyle]), IsUnicodeMode(), technology, useThickFrame);
  
- 	PRectangle rcClient = GetClientRectangle();
+ 	const PRectangle rcClient = GetClientRectangle();
  	Point pt = LocationFromPosition(sel.MainCaret() - lenEntered);
-@@ -290,8 +294,10 @@
+@@ -294,8 +298,10 @@
  	rcac.right = rcac.left + widthLB;
  	rcac.bottom = static_cast<XYPOSITION>(std::min(static_cast<int>(rcac.top) + heightLB, static_cast<int>(rcPopupBounds.bottom)));
  	ac.lb->SetPositionRelative(rcac, wMain);
 -	ac.lb->SetFont(vs.styles[STYLE_DEFAULT].font);
--	unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[STYLE_DEFAULT].aveCharWidth);
+-	const unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[STYLE_DEFAULT].aveCharWidth);
 +	ac.lb->SetFont(vs.styles[acStyle].font);
 +
 +
 +	unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[acStyle].aveCharWidth);
  	ac.lb->SetAverageCharWidth(aveCharWidth);
- 	ac.lb->SetDoubleClickAction(AutoCompleteDoubleClick, this);
+ 	ac.lb->SetDelegate(this);
  
-@@ -447,7 +453,7 @@
- 		vs.lineHeight,
+@@ -471,6 +477,7 @@
  		defn,
  		vs.styles[ctStyle].fontName,
--		vs.styles[ctStyle].sizeZoomed,
-+		vs.HeightFromStyle(vs.styles[ctStyle]),
+ 		vs.styles[ctStyle].sizeZoomed,
++		// vs.HeightFromStyle(vs.styles[ctStyle]), //xxx
  		CodePage(),
  		vs.styles[ctStyle].characterSet,
  		vs.technology,
-diff -Nurw scintilla/src/SciTE.properties scintilla_m/src/SciTE.properties
---- scintilla/src/SciTE.properties	2017-05-26 00:25:02.000000000 +0200
-+++ scintilla_m/src/SciTE.properties	2017-12-10 18:42:34.000000000 +0100
+diff -Nurw scintilla/src/SciTE.properties scintilla_mod/src/SciTE.properties
+--- scintilla/src/SciTE.properties	2019-01-12 20:37:06.000000000 +0100
++++ scintilla_mod/src/SciTE.properties	2019-01-13 19:01:50.856593400 +0100
 @@ -1,6 +1,6 @@
  # SciTE.properties is the per directory local options file and can be used to override
  # settings made in SciTEGlobal.properties
@@ -121,16 +179,16 @@ diff -Nurw scintilla/src/SciTE.properties scintilla_m/src/SciTE.properties
 +#command.build.directory.*.h=..\win32
 +#command.build.*.cxx=nmake -f scintilla.mak QUIET=1
 +#command.build.*.h=nmake -f scintilla.mak QUIET=1
-diff -Nurw scintilla/src/ViewStyle.cxx scintilla_m/src/ViewStyle.cxx
---- scintilla/src/ViewStyle.cxx	2017-05-26 00:25:02.000000000 +0200
-+++ scintilla_m/src/ViewStyle.cxx	2017-12-11 10:27:34.000000000 +0100
-@@ -612,3 +612,16 @@
+diff -Nurw scintilla/src/ViewStyle.cxx scintilla_mod/src/ViewStyle.cxx
+--- scintilla/src/ViewStyle.cxx	2019-01-12 20:37:06.000000000 +0100
++++ scintilla_mod/src/ViewStyle.cxx	2019-01-13 19:01:50.872221200 +0100
+@@ -610,3 +610,16 @@
  			maxDescent = it->second->descent;
  	}
  }
 +
 +/// Used for defining lineHeight in Calltips and Userlists 
-+int ViewStyle::HeightFromStyle(const FontSpecification &fs) {e
++int ViewStyle::HeightFromStyle(const FontSpecification &fs) {
 +	FontMap::iterator it = fonts.find(fs);
 +	if ( !fs.fontName) return 0;
 +	unsigned int fontHeight= it->second->ascent;
@@ -141,10 +199,10 @@ diff -Nurw scintilla/src/ViewStyle.cxx scintilla_m/src/ViewStyle.cxx
 +}
 +
 +
-diff -Nurw scintilla/src/ViewStyle.h scintilla_m/src/ViewStyle.h
---- scintilla/src/ViewStyle.h	2017-05-26 00:25:02.000000000 +0200
-+++ scintilla_m/src/ViewStyle.h	2017-12-11 02:00:26.000000000 +0100
-@@ -207,6 +207,7 @@
+diff -Nurw scintilla/src/ViewStyle.h scintilla_mod/src/ViewStyle.h
+--- scintilla/src/ViewStyle.h	2019-01-12 20:37:06.000000000 +0100
++++ scintilla_mod/src/ViewStyle.h	2019-01-13 19:01:50.887845800 +0100
+@@ -205,6 +205,7 @@
  	bool SetWrapIndentMode(int wrapIndentMode_);
  
  	bool WhiteSpaceVisible(bool inIndent) const;
@@ -152,10 +210,10 @@ diff -Nurw scintilla/src/ViewStyle.h scintilla_m/src/ViewStyle.h
  
  private:
  	void AllocStyles(size_t sizeNew);
-diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
---- scintilla/win32/PlatWin.cxx	2017-05-26 00:25:02.000000000 +0200
-+++ scintilla_m/win32/PlatWin.cxx	2017-12-11 13:29:02.000000000 +0100
-@@ -2046,6 +2046,10 @@
+diff -Nurw scintilla/win32/PlatWin.cxx scintilla_mod/win32/PlatWin.cxx
+--- scintilla/win32/PlatWin.cxx	2019-01-12 20:37:06.000000000 +0100
++++ scintilla_mod/win32/PlatWin.cxx	2019-01-13 19:01:50.919099700 +0100
+@@ -2023,6 +2023,10 @@
  	Point dragOffset;
  	Point location;	// Caret location at which the list is opened
  	int wheelDelta; // mouse wheel residue
@@ -166,20 +224,16 @@ diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
  
  	HWND GetHWND() const;
  	void AppendListItem(const char *text, const char *numword);
-@@ -2070,19 +2074,22 @@
- 	static const Point ImageInset;	// Padding around image
- 
- public:
--	ListBoxX() : lineHeight(10), fontCopy(0), technology(0), lb(0), unicodeMode(false),
-+	ListBoxX() : lineHeight(9), fontCopy(0), technology(0), lb(0), unicodeMode(false),
+@@ -2052,16 +2056,19 @@
  		desiredVisibleRows(9), maxItemCharacters(0), aveCharWidth(8),
- 		parent(NULL), ctrlID(0), doubleClickAction(NULL), doubleClickActionData(NULL),
+ 		parent(NULL), ctrlID(0),
+ 		delegate(nullptr),
 -		widestItem(NULL), maxCharWidth(1), resizeHit(0), wheelDelta(0) {
-+		widestItem(NULL), maxCharWidth(1), resizeHit(0), wheelDelta(0), 
++		widestItem(NULL), maxCharWidth(1), resizeHit(0), wheelDelta(0),
 +		colourBG(RGB(215,215,215)), colourFG(RGB(0,0,0)), useThickFrame(1) {
  	}
  	~ListBoxX() override {
-+	if (hBrushBack) ::DeleteObject(hBrushBack);
++		if (hBrushBack) ::DeleteObject(hBrushBack);
  		if (fontCopy) {
  			::DeleteObject(fontCopy);
  			fontCopy = 0;
@@ -188,11 +242,11 @@ diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
 +	void SetForeBack(ColourDesired fore, ColourDesired back);
  	void SetFont(Font &font) override;
 -	void Create(Window &parent_, int ctrlID_, Point location_, int lineHeight_, bool unicodeMode_, int technology_) override;
-+	void Create(Window &parent_, int ctrlID_, Point location_, int lineHeight_, bool unicodeMode_, int technology_, bool useThickFrame_) override;
++	void Create(Window &parent_, int ctrlID_, Point location_, int lineHeight_, bool unicodeMode_, int technology_, bool useThickFrame_);
  	void SetAverageCharWidth(int width) override;
  	void SetVisibleRows(int rows) override;
  	int GetVisibleRows() const override;
-@@ -2109,15 +2116,17 @@
+@@ -2085,15 +2092,17 @@
  };
  
  const Point ListBoxX::ItemInset(0, 0);
@@ -213,7 +267,7 @@ diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
  	parent = &parent_;
  	ctrlID = ctrlID_;
  	location = location_;
-@@ -2126,10 +2135,17 @@
+@@ -2102,10 +2111,17 @@
  	technology = technology_;
  	HWND hwndParent = static_cast<HWND>(parent->GetID());
  	HINSTANCE hinstanceParent = GetWindowInstance(hwndParent);
@@ -232,7 +286,7 @@ diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
  		100,100, 150,80, hwndParent,
  		NULL,
  		hinstanceParent,
-@@ -2140,6 +2156,12 @@
+@@ -2116,6 +2132,12 @@
  	location = Point::FromInts(locationw.x, locationw.y);
  }
  
@@ -245,7 +299,7 @@ diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
  void ListBoxX::SetFont(Font &font) {
  	if (font.GetID()) {
  		if (fontCopy) {
-@@ -2273,22 +2295,23 @@
+@@ -2250,22 +2272,23 @@
  	images.Clear();
  }
  
@@ -276,7 +330,7 @@ diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
  		}
  
  		const ListItemData item = lti.Get(pDrawItem->itemID);
-@@ -2410,7 +2433,7 @@
+@@ -2391,7 +2414,7 @@
  
  void ListBoxX::AdjustWindowRect(PRectangle *rc) {
  	RECT rcw = RectFromPRectangle(*rc);
@@ -285,7 +339,7 @@ diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
  	*rc = PRectangle::FromInts(rcw.left, rcw.top, rcw.right, rcw.bottom);
  }
  
-@@ -2640,7 +2663,9 @@
+@@ -2628,7 +2651,9 @@
  	// unpainted area when at the end of a non-integrally sized list with a
  	// vertical scroll bar
  	RECT rc = { 0, 0, extent.x, extent.y };
@@ -296,15 +350,3 @@ diff -Nurw scintilla/win32/PlatWin.cxx scintilla_m/win32/PlatWin.cxx
  	// Paint the entire client area and vertical scrollbar
  	::SendMessage(lb, WM_PRINT, reinterpret_cast<WPARAM>(bitmapDC), PRF_CLIENT|PRF_NONCLIENT);
  	::BitBlt(hDC, 0, 0, extent.x, extent.y, bitmapDC, 0, 0, SRCCOPY);
-diff -Nurw scintilla/src/RESearch.cxx scintilla_m/src/RESearch.cxx
---- scintilla/src/RESearch.cxx	2017-05-26 00:25:02.000000000 +0200
-+++ scintilla_m/src/RESearch.cxx	2017-11-24 22:05:46.000000000 +0100
-@@ -128,7 +128,7 @@
-  *                      by user setting. The word must also be preceded and/or
-  *                      followed by any character outside those mentioned.
-  *
-- *      [11]    \l      a backslash followed by d, D, s, S, w or W,
-+ *      [11]    \\l   a double backslash followed by d, D, s, S, w or W,
-  *                      becomes a character class (both inside and
-  *                      outside sets []).
-  *                        d: decimal digits

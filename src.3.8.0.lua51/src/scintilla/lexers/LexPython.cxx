@@ -15,6 +15,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <algorithm>
 
 #include "ILexer.h"
 #include "Scintilla.h"
@@ -346,7 +347,7 @@ public:
 		DefaultLexer(lexicalClasses, ELEMENTS(lexicalClasses)),
 		subStyles(styleSubable, 0x80, 0x40, 0) {
 	}
-	virtual ~LexerPython() {
+	~LexerPython() override {
 	}
 	void SCI_METHOD Release() override {
 		delete this;
@@ -683,7 +684,7 @@ void SCI_METHOD LexerPython::Lex(Sci_PositionU startPos, Sci_Position length, in
 		} else if ((sc.state == SCE_P_TRIPLE) || (sc.state == SCE_P_FTRIPLE)) {
 			if (sc.ch == '\\') {
 				sc.Forward();
-			} else if (sc.Match("\'\'\'")) {
+			} else if (sc.Match(R"(''')")) {
 				sc.Forward();
 				sc.Forward();
 				sc.ForwardSetState(SCE_P_DEFAULT);
@@ -692,7 +693,7 @@ void SCI_METHOD LexerPython::Lex(Sci_PositionU startPos, Sci_Position length, in
 		} else if ((sc.state == SCE_P_TRIPLEDOUBLE) || (sc.state == SCE_P_FTRIPLEDOUBLE)) {
 			if (sc.ch == '\\') {
 				sc.Forward();
-			} else if (sc.Match("\"\"\"")) {
+			} else if (sc.Match(R"(""")")) {
 				sc.Forward();
 				sc.Forward();
 				sc.ForwardSetState(SCE_P_DEFAULT);
@@ -723,7 +724,7 @@ void SCI_METHOD LexerPython::Lex(Sci_PositionU startPos, Sci_Position length, in
 				if (sc.ch == quote) {
 					if (IsPySingleQuoteStringState(stack_state)) {
 						matching_stack_i = stack_i;
-					} else if (quote == '"' ? sc.Match("\"\"\"") : sc.Match("'''")) {
+					} else if (quote == '"' ? sc.Match(R"(""")") : sc.Match("'''")) {
 						matching_stack_i = stack_i;
 					}
 				}
@@ -929,7 +930,7 @@ void SCI_METHOD LexerPython::Fold(Sci_PositionU startPos, Sci_Position length, i
 		}
 
 		const int levelAfterComments = ((lineNext < docLines) ? indentNext & SC_FOLDLEVELNUMBERMASK : minCommentLevel);
-		const int levelBeforeComments = Maximum(indentCurrentLevel, levelAfterComments);
+		const int levelBeforeComments = std::max(indentCurrentLevel, levelAfterComments);
 
 		// Now set all the indent levels on the lines we skipped
 		// Do this from end to start.  Once we encounter one line

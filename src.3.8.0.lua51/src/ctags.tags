@@ -338,9 +338,9 @@ CHR	scintilla\src\RESearch.cxx	219;"	d	file:
 CHRBIT	scintilla\src\RESearch.h	19;"	d
 CHRSKIP	scintilla\src\RESearch.cxx	846;"	d	file:
 CLANG_ANALYZER_NORETURN	scintilla\include\Platform.h	/^	static void Assert(const char *c, const char *file, int line) CLANG_ANALYZER_NORETURN;$/;"	m	class:Scintilla::Platform	access:public
-CLANG_ANALYZER_NORETURN	scintilla\include\Platform.h	473;"	d
-CLANG_ANALYZER_NORETURN	scintilla\include\Platform.h	475;"	d
-CLANG_ANALYZER_NORETURN	scintilla\include\Platform.h	478;"	d
+CLANG_ANALYZER_NORETURN	scintilla\include\Platform.h	474;"	d
+CLANG_ANALYZER_NORETURN	scintilla\include\Platform.h	476;"	d
+CLANG_ANALYZER_NORETURN	scintilla\include\Platform.h	479;"	d
 CLEARTYPE_QUALITY	scintilla\win32\PlatWin.cxx	233;"	d	file:
 CLO	scintilla\src\RESearch.cxx	229;"	d	file:
 CLQ	scintilla\src\RESearch.cxx	230;"	d	file:
@@ -821,13 +821,13 @@ Cquery	scintilla\lua\src\lpcap.h	/^  Cquery, Cstring, Cnum, Csubst, Cfold, Crunt
 Create	scintilla\curses\ScintillaCurses.cxx	/^  void Create(Window &parent, int ctrlID, Point location_, int lineHeight_,$/;"	f	class:ListBoxImpl	access:public	signature:(Window &parent, int ctrlID, Point location_, int lineHeight_, bool unicodeMode_, int technology_)
 Create	scintilla\curses\ScintillaCurses.cxx	/^void Font::Create(const FontParameters &fp) {$/;"	f	class:Font	signature:(const FontParameters &fp)
 Create	scintilla\gtk\PlatGTK.cxx	/^void Font::Create(const FontParameters &fp) {$/;"	f	class:Font	signature:(const FontParameters &fp)
-Create	scintilla\gtk\PlatGTK.cxx	/^void ListBoxX::Create(Window &parent, int, Point, int, bool, int) {$/;"	f	class:ListBoxX	signature:(Window &parent, int, Point, int, bool, int)
+Create	scintilla\gtk\PlatGTK.cxx	/^void ListBoxX::Create(Window &parent, int, Point, int, bool, int,bool) {$/;"	f	class:ListBoxX	signature:(Window &parent, int, Point, int, bool, int,bool)
 Create	scintilla\lexlib\LexerModule.cxx	/^ILexer *LexerModule::Create() const {$/;"	f	class:LexerModule	signature:() const
 Create	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^void Font::Create(const FontParameters &fp)$/;"	f	class:Scintilla::Font	signature:(const FontParameters &fp)
 Create	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^void ListBoxImpl::Create(Window &parent,$/;"	f	class:Scintilla::ListBoxImpl	signature:(Window &parent, int , Point location, int , bool unicodeMode_, int)
 Create	scintilla\src\Decoration.cxx	/^Decoration *DecorationList::Create(int indicator, Sci::Position length) {$/;"	f	class:DecorationList	signature:(int indicator, Sci::Position length)
 Create	scintilla\win32\PlatWin.cxx	/^void Font::Create(const FontParameters &fp) {$/;"	f	class:Scintilla::Font	signature:(const FontParameters &fp)
-Create	scintilla\win32\PlatWin.cxx	/^void ListBoxX::Create(Window &parent_, int ctrlID_, Point location_, int lineHeight_, bool unicodeMode_, int technology_) {$/;"	f	class:Scintilla::ListBoxX	signature:(Window &parent_, int ctrlID_, Point location_, int lineHeight_, bool unicodeMode_, int technology_)
+Create	scintilla\win32\PlatWin.cxx	/^void ListBoxX::Create(Window &parent_, int ctrlID_, Point location_, int lineHeight_, bool unicodeMode_, int technology_, bool useThickFrame_) {$/;"	f	class:Scintilla::ListBoxX	signature:(Window &parent_, int ctrlID_, Point location_, int lineHeight_, bool unicodeMode_, int technology_, bool useThickFrame_)
 Create	scite\gtk\GTKMutex.cxx	/^Mutex *Mutex::Create() {$/;"	f	class:Mutex	signature:()
 Create	scite\gtk\Widget.cxx	/^void Dialog::Create(const GUI::gui_string &title) {$/;"	f	class:Dialog	signature:(const GUI::gui_string &title)
 Create	scite\gtk\Widget.cxx	/^void WButton::Create(GUI::gui_string text) {$/;"	f	class:WButton	signature:(GUI::gui_string text)
@@ -2159,6 +2159,7 @@ Height	scintilla\win32\PlatWin.cxx	/^XYPOSITION SurfaceD2D::Height(Font &font_) 
 Height	scintilla\win32\PlatWin.cxx	/^XYPOSITION SurfaceGDI::Height(Font &font_) {$/;"	f	class:Scintilla::SurfaceGDI	signature:(Font &font_)
 Height	scite\src\GUI.h	/^	int Height() const { return bottom - top; }$/;"	f	class:GUI::Rectangle	access:public	signature:() const
 Height	scite\win32\Strips.h	/^	virtual int Height() {$/;"	f	class:Strip	access:public	signature:()
+HeightFromStyle	scintilla\src\ViewStyle.cxx	/^int ViewStyle::HeightFromStyle(const FontSpecification &fs) {$/;"	f	class:ViewStyle	signature:(const FontSpecification &fs)
 HexStringFromInteger	scite\win32\GUIWin.cxx	/^gui_string HexStringFromInteger(long i) {$/;"	f	namespace:GUI	signature:(long i)
 HiWord	scintilla\win32\ScintillaWin.cxx	/^static WORD HiWord(uptr_t l) {$/;"	f	file:	signature:(uptr_t l)
 HiddenLines	scintilla\src\ContractionState.cxx	/^bool ContractionState::HiddenLines() const {$/;"	f	class:ContractionState	signature:() const
@@ -2532,7 +2533,7 @@ IdlerID	scintilla\include\Platform.h	/^typedef void *IdlerID;$/;"	t	namespace:Sc
 IdlerTick	scite\gtk\SciTEGTK.cxx	/^gboolean SciTEGTK::IdlerTick(gpointer pSciTE) {$/;"	f	class:SciTEGTK	signature:(gpointer pSciTE)
 ImageByteSwapped	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^static std::vector<unsigned char> ImageByteSwapped(int width, int height, const unsigned char *pixelsImage)$/;"	f	namespace:Scintilla	signature:(int width, int height, const unsigned char *pixelsImage)
 ImageInset	scintilla\win32\PlatWin.cxx	/^	static const Point ImageInset;	\/\/ Padding around image$/;"	m	class:Scintilla::ListBoxX	file:	access:private
-ImageInset	scintilla\win32\PlatWin.cxx	/^const Point ListBoxX::ImageInset(1, 0);$/;"	m	class:Scintilla::ListBoxX	file:
+ImageInset	scintilla\win32\PlatWin.cxx	/^const Point ListBoxX::ImageInset(1, 1);$/;"	m	class:Scintilla::ListBoxX	file:
 ImageMap	scintilla\gtk\PlatGTK.cxx	/^typedef std::map<int, RGBAImage*> ImageMap;$/;"	t	file:
 ImageMap	scintilla\src\XPM.h	/^	typedef std::map<int, std::unique_ptr<RGBAImage>> ImageMap;$/;"	t	class:Scintilla::RGBAImageSet	access:private
 ImeEndComposition	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::ImeEndComposition() {$/;"	f	class:ScintillaWin	signature:()
@@ -4070,8 +4071,8 @@ PI	scintilla\lua\src\lmathlib.c	20;"	d	file:
 PI	scintilla\lua\src\lmathlib.c	21;"	d	file:
 PIXBUF_COLUMN	scintilla\gtk\PlatGTK.cxx	/^	PIXBUF_COLUMN,$/;"	e	enum:__anon2	file:
 PLATCOCOA_H	scintilla\cocoa\PlatCocoa.h	8;"	d
-PLATFORM_ASSERT	scintilla\include\Platform.h	510;"	d
-PLATFORM_ASSERT	scintilla\include\Platform.h	512;"	d
+PLATFORM_ASSERT	scintilla\include\Platform.h	511;"	d
+PLATFORM_ASSERT	scintilla\include\Platform.h	513;"	d
 PLATFORM_H	scintilla\include\Platform.h	10;"	d
 PLATQT_H	scintilla\qt\ScintillaEditBase\PlatQt.h	12;"	d
 PLATWIN_H	scintilla\win32\PlatWin.h	9;"	d
@@ -7188,6 +7189,7 @@ SCLEX_EDIFACT	scintilla\include\SciLexer.h	136;"	d
 SCLEX_EIFFEL	scintilla\include\SciLexer.h	40;"	d
 SCLEX_EIFFELKW	scintilla\include\SciLexer.h	41;"	d
 SCLEX_ERLANG	scintilla\include\SciLexer.h	68;"	d
+SCLEX_ERRORLIST	scintilla\include\SciLexer.h	27;"	d
 SCLEX_ESCRIPT	scintilla\include\SciLexer.h	56;"	d
 SCLEX_F77	scintilla\include\SciLexer.h	52;"	d
 SCLEX_FLAGSHIP	scintilla\include\SciLexer.h	88;"	d
@@ -7228,7 +7230,6 @@ SCLEX_NULL	scintilla\include\SciLexer.h	18;"	d
 SCLEX_OCTAVE	scintilla\include\SciLexer.h	69;"	d
 SCLEX_OPAL	scintilla\include\SciLexer.h	92;"	d
 SCLEX_OSCRIPT	scintilla\include\SciLexer.h	121;"	d
-SCLEX_OUTPANE	scintilla\include\SciLexer.h	27;"	d
 SCLEX_PASCAL	scintilla\include\SciLexer.h	35;"	d
 SCLEX_PERL	scintilla\include\SciLexer.h	23;"	d
 SCLEX_PHPSCRIPT	scintilla\include\SciLexer.h	84;"	d
@@ -7589,7 +7590,7 @@ SIZE_B	scintilla\lua\src\lopcodes.h	38;"	d
 SIZE_Bx	scintilla\lua\src\lopcodes.h	39;"	d
 SIZE_C	scintilla\lua\src\lopcodes.h	37;"	d
 SIZE_OP	scintilla\lua\src\lopcodes.h	42;"	d
-SPACING	scintilla\gtk\PlatGTK.cxx	1644;"	d	file:
+SPACING	scintilla\gtk\PlatGTK.cxx	1652;"	d	file:
 SPARSESTATE_H	scintilla\lexlib\SparseState.h	11;"	d
 SPARSEVECTOR_H	scintilla\src\SparseVector.h	9;"	d
 SPECIALS	scintilla\lua\src\lstrlib.c	183;"	d	file:
@@ -8034,7 +8035,10 @@ SetFont	scintilla\win32\PlatWin.cxx	/^void SurfaceD2D::SetFont(Font &font_) {$/;
 SetFont	scintilla\win32\PlatWin.cxx	/^void SurfaceGDI::SetFont(Font &font_) {$/;"	f	class:Scintilla::SurfaceGDI	signature:(Font &font_)
 SetFont	scintilla\win32\PlatWin.cxx	/^void Window::SetFont(Font &font) {$/;"	f	class:Scintilla::Window	signature:(Font &font)
 SetFontHandle	scite\win32\Strips.cxx	/^static void SetFontHandle(const GUI::Window &w, HFONT hfont) {$/;"	f	file:	signature:(const GUI::Window &w, HFONT hfont)
+SetForeBack	scintilla\gtk\PlatGTK.cxx	/^void ListBoxX::SetForeBack( ColourDesired fore, ColourDesired back) {$/;"	f	class:ListBoxX	signature:( ColourDesired fore, ColourDesired back)
+SetForeBack	scintilla\src\AutoComplete.cxx	/^void AutoComplete::SetForeBack( ColourDesired fore, ColourDesired back) {$/;"	f	class:AutoComplete	signature:( ColourDesired fore, ColourDesired back)
 SetForeBack	scintilla\src\CallTip.cxx	/^void CallTip::SetForeBack(const ColourDesired &fore, const ColourDesired &back) {$/;"	f	class:CallTip	signature:(const ColourDesired &fore, const ColourDesired &back)
+SetForeBack	scintilla\win32\PlatWin.cxx	/^void ListBoxX::SetForeBack( ColourDesired fore, ColourDesired back) {$/;"	f	class:Scintilla::ListBoxX	signature:( ColourDesired fore, ColourDesired back)
 SetFromListText	scite\src\StringList.cxx	/^void StringList::SetFromListText() {$/;"	f	class:StringList	signature:()
 SetGrowSize	scintilla\src\SplitVector.h	/^	void SetGrowSize(ptrdiff_t growSize_) {$/;"	f	class:Scintilla::SplitVector	access:public	signature:(ptrdiff_t growSize_)
 SetHeight	scintilla\src\ContractionState.cxx	/^bool ContractionState::SetHeight(Sci::Line lineDoc, int height) {$/;"	f	class:ContractionState	signature:(Sci::Line lineDoc, int height)
@@ -8353,7 +8357,7 @@ StackPrev	scite\src\SciTEBuffers.cxx	/^int BufferList::StackPrev() {$/;"	f	class
 StandardASCII	scintilla\src\CaseFolder.cxx	/^void CaseFolderTable::StandardASCII() {$/;"	f	class:CaseFolderTable	signature:()
 Start	scintilla\lexlib\SubStyles.h	/^	int Start() const {$/;"	f	class:Scintilla::WordClassifier	access:public	signature:() const
 Start	scintilla\lexlib\SubStyles.h	/^	int Start(int styleBase) {$/;"	f	class:Scintilla::SubStyles	access:public	signature:(int styleBase)
-Start	scintilla\src\AutoComplete.cxx	/^void AutoComplete::Start(Window &parent, int ctrlID,$/;"	f	class:AutoComplete	signature:(Window &parent, int ctrlID, Sci::Position position, Point location, Sci::Position startLen_, int lineHeight, bool unicodeMode, int technology)
+Start	scintilla\src\AutoComplete.cxx	/^void AutoComplete::Start(Window &parent, int ctrlID,$/;"	f	class:AutoComplete	signature:(Window &parent, int ctrlID, Sci::Position position, Point location, Sci::Position startLen_, int lineHeight, bool unicodeMode, int technology, bool useThickFrame)
 Start	scintilla\src\Decoration.cxx	/^Sci::Position DecorationList::Start(int indicator, Sci::Position position) {$/;"	f	class:DecorationList	signature:(int indicator, Sci::Position position)
 Start	scintilla\src\Selection.cxx	/^SelectionPosition Selection::Start() const {$/;"	f	class:Selection	signature:() const
 Start	scintilla\src\Selection.h	/^	SelectionPosition Start() const {$/;"	f	struct:Scintilla::SelectionRange	access:public	signature:() const
@@ -8658,7 +8662,7 @@ Text	scite\gtk\Widget.cxx	/^const GUI::gui_char *WEntry::Text() {$/;"	f	class:WE
 Text	scite\src\SciTEProps.cxx	/^GUI::gui_string Localization::Text(const char *s, bool retainIfNotFound) {$/;"	f	class:Localization	signature:(const char *s, bool retainIfNotFound)
 TextBackground	scintilla\src\EditView.cxx	/^static ColourDesired TextBackground(const EditModel &model, const ViewStyle &vsDraw, const LineLayout *ll,$/;"	f	file:	signature:(const EditModel &model, const ViewStyle &vsDraw, const LineLayout *ll, ColourOptional background, int inSelection, bool inHotspot, int styleMain, Sci::Position i)
 TextInset	scintilla\win32\PlatWin.cxx	/^	static const Point TextInset;	\/\/ Padding around text$/;"	m	class:Scintilla::ListBoxX	file:	access:private
-TextInset	scintilla\win32\PlatWin.cxx	/^const Point ListBoxX::TextInset(2, 0);$/;"	m	class:Scintilla::ListBoxX	file:
+TextInset	scintilla\win32\PlatWin.cxx	/^const Point ListBoxX::TextInset(2, 2); \/\/ .y gets multiplied in ItemHeight$/;"	m	class:Scintilla::ListBoxX	file:
 TextOfWindow	scite\win32\Strips.cxx	/^GUI::gui_string TextOfWindow(HWND hWnd) {$/;"	f	signature:(HWND hWnd)
 TextOffset	scintilla\win32\PlatWin.cxx	/^int ListBoxX::TextOffset() const {$/;"	f	class:Scintilla::ListBoxX	signature:() const
 TextPositions	scintilla\win32\PlatWin.cxx	/^typedef VarBuffer<XYPOSITION, stackBufferLength> TextPositions;$/;"	t	namespace:Scintilla	file:
@@ -9725,8 +9729,12 @@ collectrules	scintilla\lua\src\lptree.c	/^static int collectrules (lua_State *L,
 collectvalidlines	scintilla\lua\src\ldebug.c	/^static void collectvalidlines (lua_State *L, Closure *f) {$/;"	f	file:	signature:(lua_State *L, Closure *f)
 colour	scintilla\src\ViewStyle.h	/^	ColourDesired colour;$/;"	m	struct:Scintilla::EdgeProperties	access:public
 colour	scite\src\StyleDefinition.h	/^	long colour;$/;"	m	struct:IndicatorDefinition	access:public
+colourBG	scintilla\gtk\PlatGTK.cxx	/^	long colourBG;$/;"	m	class:ListBoxX	file:	access:private
 colourBG	scintilla\src\CallTip.h	/^	ColourDesired colourBG;$/;"	m	class:Scintilla::CallTip	access:public
+colourBG	scintilla\win32\PlatWin.cxx	/^	COLORREF colourBG;$/;"	m	class:Scintilla::ListBoxX	file:	access:private
 colourCodeTable	scintilla\src\XPM.h	/^	ColourDesired colourCodeTable[256];$/;"	m	class:Scintilla::XPM	access:private
+colourFG	scintilla\gtk\PlatGTK.cxx	/^	long colourFG;$/;"	m	class:ListBoxX	file:	access:private
+colourFG	scintilla\win32\PlatWin.cxx	/^	COLORREF colourFG;$/;"	m	class:Scintilla::ListBoxX	file:	access:private
 colourLight	scintilla\src\CallTip.h	/^	ColourDesired colourLight;$/;"	m	class:Scintilla::CallTip	access:public
 colourMode	scintilla\src\EditView.h	/^	int colourMode;$/;"	m	struct:Scintilla::PrintParameters	access:public
 colourNoMatch	scite\win32\Strips.cxx	/^static const COLORREF colourNoMatch = RGB(0xff,0x66,0x66);$/;"	v	file:
@@ -10560,6 +10568,7 @@ h	scintilla\lua\src\lparser.h	/^  Table *h;  \/* table to find (and reuse) eleme
 h	scintilla\lua\src\lstate.h	/^  struct Table h;$/;"	m	union:GCObject	typeref:struct:GCObject::Table	access:public
 h	scintilla\win32\PlatWin.cxx	/^	HMODULE h;$/;"	m	class:Scintilla::DynamicLibraryImpl	file:	access:protected
 hAccTable	scite\win32\SciteWin.h	/^	HACCEL hAccTable;$/;"	m	class:SciTEWin	access:protected
+hBrushBack	scintilla\win32\PlatWin.cxx	/^	HBRUSH hBrushBack;$/;"	m	class:Scintilla::ListBoxX	file:	access:private
 hDLLD2D	scintilla\win32\PlatWin.cxx	/^static HMODULE hDLLD2D = NULL;$/;"	m	namespace:Scintilla	file:
 hDLLDWrite	scintilla\win32\PlatWin.cxx	/^static HMODULE hDLLDWrite = NULL;$/;"	m	namespace:Scintilla	file:
 hDevMode	scite\win32\SciteWin.h	/^	HGLOBAL hDevMode;$/;"	m	class:SciTEWin	access:protected
@@ -12454,7 +12463,7 @@ override	scintilla\gtk\PlatGTK.cxx	/^	void Append(char *s, int type = -1) overri
 override	scintilla\gtk\PlatGTK.cxx	/^	void Clear() override;$/;"	m	class:ListBoxX	file:	access:public
 override	scintilla\gtk\PlatGTK.cxx	/^	void ClearRegisteredImages() override;$/;"	m	class:ListBoxX	file:	access:public
 override	scintilla\gtk\PlatGTK.cxx	/^	void Copy(PRectangle rc, Point from, Surface &surfaceSource) override;$/;"	m	class:Scintilla::SurfaceImpl	file:	access:public
-override	scintilla\gtk\PlatGTK.cxx	/^	void Create(Window &parent, int ctrlID, Point location_, int lineHeight_, bool unicodeMode_, int technology_) override;$/;"	m	class:ListBoxX	file:	access:public
+override	scintilla\gtk\PlatGTK.cxx	/^	void Create(Window &parent, int ctrlID, Point location_, int lineHeight_, bool unicodeMode_, int technology_, bool useThickFrame) override;$/;"	m	class:ListBoxX	file:	access:public
 override	scintilla\gtk\PlatGTK.cxx	/^	void DrawRGBAImage(PRectangle rc, int width, int height, const unsigned char *pixelsImage) override;$/;"	m	class:Scintilla::SurfaceImpl	file:	access:public
 override	scintilla\gtk\PlatGTK.cxx	/^	void DrawTextClipped(PRectangle rc, Font &font_, XYPOSITION ybase, const char *s, int len, ColourDesired fore, ColourDesired back) override;$/;"	m	class:Scintilla::SurfaceImpl	file:	access:public
 override	scintilla\gtk\PlatGTK.cxx	/^	void DrawTextNoClip(PRectangle rc, Font &font_, XYPOSITION ybase, const char *s, int len, ColourDesired fore, ColourDesired back) override;$/;"	m	class:Scintilla::SurfaceImpl	file:	access:public
@@ -12750,7 +12759,6 @@ override	scintilla\win32\PlatWin.cxx	/^	void Clear() override;$/;"	m	class:Scint
 override	scintilla\win32\PlatWin.cxx	/^	void ClearRegisteredImages() override;$/;"	m	class:Scintilla::ListBoxX	file:	access:public
 override	scintilla\win32\PlatWin.cxx	/^	void Copy(PRectangle rc, Point from, Surface &surfaceSource) override;$/;"	m	class:Scintilla::SurfaceD2D	file:	access:public
 override	scintilla\win32\PlatWin.cxx	/^	void Copy(PRectangle rc, Point from, Surface &surfaceSource) override;$/;"	m	class:Scintilla::SurfaceGDI	file:	access:public
-override	scintilla\win32\PlatWin.cxx	/^	void Create(Window &parent_, int ctrlID_, Point location_, int lineHeight_, bool unicodeMode_, int technology_) override;$/;"	m	class:Scintilla::ListBoxX	file:	access:public
 override	scintilla\win32\PlatWin.cxx	/^	void DrawRGBAImage(PRectangle rc, int width, int height, const unsigned char *pixelsImage) override;$/;"	m	class:Scintilla::SurfaceD2D	file:	access:public
 override	scintilla\win32\PlatWin.cxx	/^	void DrawRGBAImage(PRectangle rc, int width, int height, const unsigned char *pixelsImage) override;$/;"	m	class:Scintilla::SurfaceGDI	file:	access:public
 override	scintilla\win32\PlatWin.cxx	/^	void DrawTextClipped(PRectangle rc, Font &font_, XYPOSITION ybase, const char *s, int len, ColourDesired fore, ColourDesired back) override;$/;"	m	class:Scintilla::SurfaceD2D	file:	access:public
@@ -14275,6 +14283,8 @@ usePerformanceCounter	scintilla\win32\PlatWin.cxx	/^static bool usePerformanceCo
 usePerformanceCounter	scite\win32\GUIWin.cxx	/^static bool usePerformanceCounter = false;$/;"	m	namespace:GUI	file:
 useStyleCallTip	scintilla\src\CallTip.h	/^	bool useStyleCallTip;   \/\/ if true, STYLE_CALLTIP should be used$/;"	m	class:Scintilla::CallTip	access:private
 useTabs	scintilla\src\Document.h	/^	bool useTabs;$/;"	m	class:Scintilla::Document	access:public
+useThickFrame	scintilla\gtk\PlatGTK.cxx	/^	bool useThickFrame;$/;"	m	class:ListBoxX	file:	access:private
+useThickFrame	scintilla\win32\PlatWin.cxx	/^	bool useThickFrame;$/;"	m	class:Scintilla::ListBoxX	file:	access:private
 user	scite\gtk\Widget.h	/^	void *user;$/;"	m	class:WCheckDraw	access:private
 userData	scintilla\src\Document.h	/^		void *userData;$/;"	m	struct:Scintilla::Document::WatcherWithUserData	access:public
 userStrip	scite\gtk\SciTEGTK.cxx	/^	UserStrip userStrip;$/;"	m	class:SciTEGTK	file:	access:protected
@@ -14487,6 +14497,7 @@ winMode	scite\scripts\tags2api.py	/^winMode = 1$/;"	v
 winPlace	scite\win32\SciteWin.h	/^	WINDOWPLACEMENT winPlace;$/;"	m	class:SciTEWin	access:protected
 window	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^QWidget *window(WindowID wid)$/;"	f	namespace:Scintilla::__anon36	signature:(WindowID wid)
 windowName	scite\src\SciTEBase.h	/^	GUI::gui_string windowName;$/;"	m	class:SciTEBase	access:protected
+windowOpts	scintilla\win32\PlatWin.cxx	/^long windowOpts=WS_POPUP;$/;"	m	namespace:Scintilla	file:
 with_statement	scintilla\scripts\FileGenerator.py	/^from __future__ import with_statement$/;"	i
 with_statement	scintilla\scripts\ScintillaData.py	/^from __future__ import with_statement$/;"	i
 with_statement	scite\scripts\commandsdoc.py	/^from __future__ import with_statement$/;"	i

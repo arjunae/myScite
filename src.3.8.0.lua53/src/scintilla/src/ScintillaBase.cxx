@@ -258,8 +258,12 @@ void ScintillaBase::AutoCompleteStart(Sci::Position lenEntered, const char *list
 			return;
 		}
 	}
+	
+	bool useThickFrame=false; // change to test  .todo: Make user settable 
+	int acStyle = ( vs.styles[STYLE_CALLTIP].size > 0) ? STYLE_CALLTIP : STYLE_DEFAULT;
+	ac.SetForeBack(vs.styles[acStyle].fore, vs.styles[acStyle].back);
 	ac.Start(wMain, idAutoComplete, sel.MainCaret(), PointMainCaret(),
-				lenEntered, vs.lineHeight, IsUnicodeMode(), technology);
+				lenEntered, vs.HeightFromStyle(vs.styles[acStyle]), IsUnicodeMode(), technology, useThickFrame);
 
 	const PRectangle rcClient = GetClientRectangle();
 	Point pt = LocationFromPosition(sel.MainCaret() - lenEntered);
@@ -294,8 +298,10 @@ void ScintillaBase::AutoCompleteStart(Sci::Position lenEntered, const char *list
 	rcac.right = rcac.left + widthLB;
 	rcac.bottom = static_cast<XYPOSITION>(std::min(static_cast<int>(rcac.top) + heightLB, static_cast<int>(rcPopupBounds.bottom)));
 	ac.lb->SetPositionRelative(rcac, wMain);
-	ac.lb->SetFont(vs.styles[STYLE_DEFAULT].font);
-	const unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[STYLE_DEFAULT].aveCharWidth);
+	ac.lb->SetFont(vs.styles[acStyle].font);
+
+
+	unsigned int aveCharWidth = static_cast<unsigned int>(vs.styles[acStyle].aveCharWidth);
 	ac.lb->SetAverageCharWidth(aveCharWidth);
 	ac.lb->SetDelegate(this);
 
@@ -471,6 +477,7 @@ void ScintillaBase::CallTipShow(Point pt, const char *defn) {
 		defn,
 		vs.styles[ctStyle].fontName,
 		vs.styles[ctStyle].sizeZoomed,
+		// vs.HeightFromStyle(vs.styles[ctStyle]), //xxx
 		CodePage(),
 		vs.styles[ctStyle].characterSet,
 		vs.technology,

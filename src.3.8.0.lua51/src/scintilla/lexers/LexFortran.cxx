@@ -443,7 +443,7 @@ static int classifyFoldPointFortran(const char* s, const char* prevWord, const c
 	        || strcmp(s, "endsubroutine") == 0 || strcmp(s, "endtype") == 0
 	        || strcmp(s, "endwhere") == 0 || strcmp(s, "endcritical") == 0
 		|| (strcmp(prevWord, "module") == 0 && strcmp(s, "procedure") == 0)  // Take care of the "module procedure" statement
-		|| strcmp(s, "endsubmodule") == 0) {
+		|| strcmp(s, "endsubmodule") == 0 || strcmp(s, "endteam") == 0) {
 		lev = -1;
 	} else if (strcmp(prevWord, "end") == 0 && strcmp(s, "if") == 0){ // end if
 		lev = 0;
@@ -452,6 +452,8 @@ static int classifyFoldPointFortran(const char* s, const char* prevWord, const c
 	} else if ((strcmp(prevWord, "end") == 0 && strcmp(s, "procedure") == 0)
 			   || strcmp(s, "endprocedure") == 0) {
 			lev = 1; // level back to 0, because no folding support for "module procedure" in submodule
+	} else if (strcmp(prevWord, "change") == 0 && strcmp(s, "team") == 0){ // change team
+		lev = 1;
 	}
 	return lev;
 }
@@ -479,11 +481,11 @@ static void FoldFortranDoc(Sci_PositionU startPos, Sci_Position length, int init
 	int levelDeltaNext = 0;
 
 	const unsigned int nComL = 3; // defines how many comment lines should be before they are folded
-	Sci_Position nComColB[nComL];
+	Sci_Position nComColB[nComL] = {};
 	Sci_Position nComColF[nComL] = {};
-	Sci_Position nComCur;
-	bool comLineB[nComL];
-	bool comLineF[nComL];
+	Sci_Position nComCur = 0;
+	bool comLineB[nComL] = {};
+	bool comLineF[nComL] = {};
 	bool comLineCur;
 	Sci_Position nLineTotal = styler.GetLine(styler.Length()-1) + 1;
 	if (foldComment) {

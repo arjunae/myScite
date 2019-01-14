@@ -1,0 +1,109 @@
+diff -Nurw scintilla_orig/include/Scintilla.h scintilla/include/Scintilla.h
+--- scintilla_orig/include/Scintilla.h	2019-01-12 15:20:03.000000000 +0100
++++ scintilla/include/Scintilla.h	2019-01-13 17:15:29.013824500 +0100
+@@ -1019,6 +1019,7 @@
+ #define SCI_NAMEOFSTYLE 4030
+ #define SCI_TAGSOFSTYLE 4031
+ #define SCI_DESCRIPTIONOFSTYLE 4032
++#define SCI_SETMOUSECAPTURE 4061
+ #define SC_MOD_INSERTTEXT 0x1
+ #define SC_MOD_DELETETEXT 0x2
+ #define SC_MOD_CHANGESTYLE 0x4
+@@ -1113,6 +1114,7 @@
+ #define SCN_MARGINRIGHTCLICK 2031
+ #define SCN_AUTOCSELECTIONCHANGE 2032
+ #ifndef SCI_DISABLE_PROVISIONAL
++#define SCN_CLICK 2061
+ #define SC_LINECHARACTERINDEX_NONE 0
+ #define SC_LINECHARACTERINDEX_UTF32 1
+ #define SC_LINECHARACTERINDEX_UTF16 2
+diff -Nurw scintilla_orig/include/Scintilla.iface scintilla/include/Scintilla.iface
+--- scintilla_orig/include/Scintilla.iface	2019-01-12 15:20:03.000000000 +0100
++++ scintilla/include/Scintilla.iface	2019-01-13 17:17:15.214984200 +0100
+@@ -4988,6 +4988,8 @@
+ # Retrieve the position measured in index units at the start of a document line.
+ fun position IndexPositionFromLine=2714(int line, int lineCharacterIndex)
+ 
++evt void Click=2061(int modifiers)
++set void SetMouseCapture=4061(bool on,)
+ cat Deprecated
+ 
+ # Divide each styling byte into lexical class bits (default: 5) and indicator
+diff -Nurw scintilla_orig/src/Editor.cxx scintilla/src/Editor.cxx
+--- scintilla_orig/src/Editor.cxx	2019-01-12 15:20:04.000000000 +0100
++++ scintilla/src/Editor.cxx	2019-01-13 17:13:32.350460400 +0100
+@@ -2353,6 +2353,19 @@
+ 	NotifyParent(scn);
+ }
+ 
++void Editor::NotifyClick(Point pt, int modifiers) {
++	SCNotification scn = {};
++	scn.nmhdr.code = SCN_CLICK;
++	scn.line = LineFromLocation(pt);
++	scn.position = PositionFromLocation(pt, true);
++	scn.modifiers = modifiers;
++	NotifyParent(scn);
++}
++
++void Editor::NotifyClick(Point pt, bool shift, bool ctrl, bool alt) {
++	NotifyClick(pt, ModifierFlags(shift, ctrl, alt));
++}
++
+ void Editor::NotifyDoubleClick(Point pt, int modifiers) {
+ 	SCNotification scn = {};
+ 	scn.nmhdr.code = SCN_DOUBLECLICK;
+@@ -4479,7 +4496,7 @@
+ 
+ void Editor::ButtonDownWithModifiers(Point pt, unsigned int curTime, int modifiers) {
+ 	SetHoverIndicatorPoint(pt);
+-	//Platform::DebugPrintf("ButtonDown %d %d = %d alt=%d %d\n", curTime, lastClickTime, curTime - lastClickTime, alt, inDragDrop);
++	//Platform::DebugPrintf("ButtonDown %d %d = %d %d\n", curTime, lastClickTime, curTime - lastClickTime, inDragDrop);
+ 	ptMouseLast = pt;
+ 	const bool ctrl = (modifiers & SCI_CTRL) != 0;
+ 	const bool shift = (modifiers & SCI_SHIFT) != 0;
+@@ -4490,6 +4507,7 @@
+ 	newCharPos = MovePositionOutsideChar(newCharPos, -1);
+ 	inDragDrop = ddNone;
+ 	sel.SetMoveExtends(false);
++	bool notifyClick = false;
+ 
+ 	if (NotifyMarginClick(pt, modifiers))
+ 		return;
+@@ -4649,12 +4667,14 @@
+ 				sel.Rectangular() = SelectionRange(newPos, anchorCurrent);
+ 				SetRectangularRange();
+ 			}
++			notifyClick = true;
+ 		}
+ 	}
+ 	lastClickTime = curTime;
+ 	lastClick = pt;
+ 	lastXChosen = static_cast<int>(pt.x) + xOffset;
+ 	ShowCaretAtCurrentPosition();
++	if (notifyClick) NotifyClick(pt, shift, ctrl, alt);
+ }
+ 
+ void Editor::RightButtonDownWithModifiers(Point pt, unsigned int, int modifiers) {
+@@ -8207,6 +8227,10 @@
+ 		pdoc->ChangeLexerState(static_cast<Sci::Position>(wParam), lParam);
+ 		break;
+ 
++	case SCI_SETMOUSECAPTURE:
++		SetMouseCapture(wParam != 0);
++		break;
++		
+ 	case SCI_SETIDENTIFIER:
+ 		SetCtrlID(static_cast<int>(wParam));
+ 		break;
+diff -Nurw scintilla_orig/src/Editor.h scintilla/src/Editor.h
+--- scintilla_orig/src/Editor.h	2019-01-12 15:20:04.000000000 +0100
++++ scintilla/src/Editor.h	2019-01-13 17:13:32.381704800 +0100
+@@ -424,6 +424,8 @@
+ 	void NotifyChar(int ch);
+ 	void NotifySavePoint(bool isSavePoint);
+ 	void NotifyModifyAttempt();
++	virtual void NotifyClick(Point pt, int modifiers);	
++	virtual void NotifyClick(Point pt, bool shift, bool ctrl, bool alt);
+ 	virtual void NotifyDoubleClick(Point pt, int modifiers);
+ 	void NotifyHotSpotClicked(Sci::Position position, int modifiers);
+ 	void NotifyHotSpotDoubleClicked(Sci::Position position, int modifiers);

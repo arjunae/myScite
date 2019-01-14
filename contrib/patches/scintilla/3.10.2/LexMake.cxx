@@ -49,9 +49,7 @@
 #define LEXMAKE_MAX_LINELEN LEX_MAX_LINELEN
 #endif
 
-#ifdef SCI_NAMESPACE
 using namespace Scintilla;
-#endif
 
 // Holds LEXMAKE_MAX_LINELEN or property "max.style.linelength" if it has been defined.
 Sci_PositionU maxStyleLineLength;

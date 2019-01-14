@@ -688,7 +688,7 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 	props.Set("Language", language.c_str());
 	lexLanguage = wEditor.Call(SCI_GETLEXER);
 	
-	wOutput.Call(SCI_SETLEXER, SCLEX_OUTPANE);	
+	wOutput.Call(SCI_SETLEXER, SCLEX_ERRORLIST);	
 	
 	const std::string kw0 = props.GetNewExpandString("keywords.", fileNameForExtension.c_str());
 	wEditor.CallString(SCI_SETKEYWORDS, 0, kw0.c_str());
@@ -716,8 +716,8 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 			SubStylesKey += language;
 			SubStylesKey += ".";
 			SubStylesKey += StdStringFromInteger(subStyleBases[baseStyle]);
-			std::string SBStyleNumber = props.GetNewExpandString(SubStylesKey.c_str());
-			int subStyleIdentifiers = atoi(SBStyleNumber.c_str());
+			std::string ssNumber = props.GetNewExpandString(SubStylesKey.c_str());
+			int subStyleIdentifiers = atoi(ssNumber.c_str());
 
 			int subStyleIdentifiersStart = 0;
 			if (subStyleIdentifiers) {
@@ -727,12 +727,12 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 			}			
 			for (int subStyle=0; subStyle<subStyleIdentifiers; subStyle++) {
 				// substylewords.11.1.$(file.patterns.cpp)=CharacterSet LexAccessor SString WordList
-				std::string sSWordsKey = "substylewords.";
-				sSWordsKey += StdStringFromInteger(subStyleBases[baseStyle]);
-				sSWordsKey += ".";
-				sSWordsKey += StdStringFromInteger(subStyle + 1);
-				sSWordsKey += ".";
-				std::string subStyleWords = props.GetNewExpandString(sSWordsKey.c_str(), fileNameForExtension.c_str());
+				std::string ssWordsKey = "substylewords.";
+				ssWordsKey += StdStringFromInteger(subStyleBases[baseStyle]);
+				ssWordsKey += ".";
+				ssWordsKey += StdStringFromInteger(subStyle + 1);
+				ssWordsKey += ".";
+				std::string subStyleWords = props.GetNewExpandString(ssWordsKey.c_str(), fileNameForExtension.c_str());
 				wEditor.CallString(SCI_SETIDENTIFIERS, subStyleIdentifiersStart + subStyle, subStyleWords.c_str());
 			}
 		}

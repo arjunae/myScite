@@ -1,13 +1,14 @@
 # ~ mySciTE.webdev ~
 
-[xx.10.2018] mySciTE.200.Development
-- scintilla: Use foicica.com's cpp11 backport. (3.8.0)
-- lexer: lexmake - support EolWarns on Multiline Continuations.
-- lexer: lexmake - style qMake Vars, added logging.
-- lexer: lexbatch has been replaced by a lua based lexer.
-- UnInstaller: Version 1.0 with Backup / logging / ReactOS support.
-- Build System: enable compiling on Linux and VC again.
-- Themeing: Major CleanUp
+[xx.01.2018] mySciTE.190.02 MartyMcFly (Lua5.1 & Lua5.3)
+  =Maintenance Release=
+- Upd: scintilla: Update c based lexers to those in current scintilla (3.1.3)
+- Upd: lexer: batchfiles are lexed by a luaLpeg based lexer now.
+- Fix: Build System: enable compiling on Linux and VC again.
+- Upd: properties: redone php (7.2) and c api files. 
+- Add: tools: added a simple update checker.
+- Upd: userlists can be styled with style calltip (38)
+- Upd: Themeing: Major CleanUp
 
 [13.07.2018] myScite.190.01 MartyMcFly (Lua5.1 & Lua5.3)
   =Maintenance Release=
@@ -148,12 +149,11 @@
 - Add; Code Linter (with gcc) and Beautify Tools (Uncrustify)
 
 #BeginVersions
+#Version: 2018_10_09, c0d5e2e7, mySciTE_190_01_MartyMcFly_lua53_win32,0
+#Version: 2018_10_09, 6dc538c0, mySciTE_190_01_MartyMcFly_lua53_win64,0
+#Version: 2018_10_09, f5da9245, mySciTE_190_01_MartyMcFly_lua51_win32,0
+#Version: 2018_07_13, dc789340, mySciTE_190_MartyMcFly_lua53_win32,1
+#Version: 2018_07_13, 68970227, mySciTE_190_MartyMcFly_lua53_win64,1
 #Version: 2017_12_09, 6ae5f442, mySciTE_180_Artie_win32,1
 #Version: 2017_12_09, 657db4c7, mySciTE_180_Artie_win64,1
-#Version: 2017_12_09, f5da9245, mySciTE_190_MartyMcFly_lua51_win32,0
-#Version: 2017_12_09, f5da9245, mySciTE_190_MartyMcFly_lua51_win32,0
-#Version: 2018_07_13, 6dc538c0, mySciTE_190_MartyMcFly_lua53_win64,0
-#Version: 2018_07_13, dc789340, mySciTE_190_MartyMcFly_lua53_win32,0
-#Version: 2018_10_09, 68970227, mySciTE_190_MartyMcFly_lua53_win64,0
-#Version: 2018_10_15, 1d9a9ac6, mySciTE_190_MartyMcFly_lua53_win32,0
 #EndVersions
