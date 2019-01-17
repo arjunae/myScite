@@ -149,11 +149,11 @@
 - Add; Code Linter (with gcc) and Beautify Tools (Uncrustify)
 
 #BeginVersions
-#Version: 2018_10_09, c0d5e2e7, mySciTE_190_01_MartyMcFly_lua53_win32,0
-#Version: 2018_10_09, 6dc538c0, mySciTE_190_01_MartyMcFly_lua53_win64,0
-#Version: 2018_10_09, f5da9245, mySciTE_190_01_MartyMcFly_lua51_win32,0
-#Version: 2018_07_13, dc789340, mySciTE_190_MartyMcFly_lua53_win32,1
-#Version: 2018_07_13, 68970227, mySciTE_190_MartyMcFly_lua53_win64,1
-#Version: 2017_12_09, 6ae5f442, mySciTE_180_Artie_win32,1
-#Version: 2017_12_09, 657db4c7, mySciTE_180_Artie_win64,1
+#Version: 20180713, c0d5e2e7, mySciTE_190_01_MartyMcFly_lua53_win32,0
+#Version: 20180713, 6dc538c0, mySciTE_190_01_MartyMcFly_lua53_win64,0
+#Version: 20180713, f5da9245, mySciTE_190_01_MartyMcFly_lua51_win32,0
+#Version: 20180119, dc789340, mySciTE_190_MartyMcFly_lua53_win32,1
+#Version: 20180119, 68970227, mySciTE_190_MartyMcFly_lua53_win64,1
+#Version: 20171125, 6ae5f442, mySciTE_180_Artie_win32,1
+#Version: 20171125, 657db4c7, mySciTE_180_Artie_win64,1
 #EndVersions

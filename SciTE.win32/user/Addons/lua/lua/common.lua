@@ -448,7 +448,7 @@ local curVersion
 local checkInterval=4
 local lastChecked=0
 	init_scite_dir()
-	lastChanged= lfs.attributes(props["TMP"].."\\SciTE\\scite_versions.txt","change")
+	lastChanged= lfs.attributes(props["TMP"].."\\SciTE\\scite_versions.txt","modification")
 		if lastChanged ~= nil then
 			-- create a calculateable datestring like 20190104
 			timeStamp=os.date('%Y%m%d', os.time())
@@ -471,6 +471,8 @@ local lastChecked=0
 				print("An Update for your Version has been found.")
 				print ("Please see https://sourceforge.net/projects/scite-webdev/files/releases/")
 			--else if curVersion:match('.$')=="0" then print("No Updates available.") end
+			-- update timestamp, so the next version check will take place at checkInterval.
+				local pipe=scite_Popen("copy /B "..props["TMP"].."\\SciTE\\scite_versions.txt+,," )
 			end
 			pipe=nil
 		end
