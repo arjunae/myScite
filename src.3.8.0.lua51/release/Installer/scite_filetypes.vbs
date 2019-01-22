@@ -44,7 +44,7 @@ Const ERR_OK			= 0
 
 ' Ther's much depreceated Information in the Net, even from MS which still refers to use machine wide HKCR for file Exts.
 ' But modifying that mostly needs root privs when changed and myScite has dropped to be XP Compatible for a while now. 
-' So we rely to use HKCU to reach our goals - and dont require admin privs - since we only touch stuff within our own User profile.
+' So we rely to use HKCU to reach our goals which dont require admin privs.
 
 Const FILE_EXT_PATH	= "Software\Microsoft\Windows\CurrentVersion\Explorer\FileExts\"
 Const FILE_EXT_PATH_CLS	= "Software\Classes\"
@@ -74,7 +74,9 @@ Dim clearCmds, strExtKey ' clearCmd means a prefixed "-" followed by the Registr
 Dim arrAllExts() 'Array containing every installer touched Ext
 Dim app_path ' Fully Qualified Path to Programs executable on the system.
 
-logging LOG_INIT, "Logfile Initialized"
+  strTmp = ofso.GetSpecialFolder(2) ' Temporary Folder
+  if not oFso.FolderExists(strTmp & "\SciTE") then oFso.CreateFolder(strTmp & "\SciTE")
+	logging LOG_INIT, "Logfile Initialized"
 
 	if not bConsole then
 	'	logging LOG_ALERT,"Please dont run directly via GUI. Instead- use .installer.cmd"
@@ -189,11 +191,10 @@ logging LOG_INIT, "Logfile Initialized"
 	wend
 
 	' Merge Data to extRestore.reg	
-	strTmp = ofso.GetSpecialFolder(2) ' Temporary Folder
 	if action = 11 then 
-		on error resume next
+		'on error resume next
 			' Open tmp_backup.reg file
-				set oFile1= oFso.GetFile(strTmp & "\tmp_backup.reg")
+				set oFile1= oFso.GetFile(strTmp & "\SciTE\tmp_backup.reg")
 				if err.Number<>0 then
 					logging LOG_ALERT , "-- Couldnt create the Backup, please Restart using .installer"
 					exit function
@@ -206,7 +207,7 @@ logging LOG_INIT, "Logfile Initialized"
 		strHomeFolder = oShell.ExpandEnvironmentStrings("%USERPROFILE%")
 		timeStamp=Replace(FormatDateTime(date,0),".","-") : timeStamp=timeStamp & "_" & Replace(FormatDateTime(time,0),":","_")
 		regfileName=strHomeFolder & "\" & timeStamp & "_scite_extRestore.reg"
-		if bConsole then logging LOG_ALERT , " ..Creating FileExt Restore File"
+		if bConsole then logging LOG_ALERT , " ..Creating Restore File --{ " & regfileName & " }--"
 		' If we wanted to, we were also able to write it in Unicode. But then the file would have its size doubled.
 		set oFileRestore = oFso.OpenTextFile(regfileName,2, 1) ' forWrite, createFlag	
 		oFileRestore.write(clearCmds)
@@ -216,7 +217,7 @@ logging LOG_INIT, "Logfile Initialized"
 	
 		oFileRestore.close()
 		oFileRegDump.close()
-		oFso.DeleteFile(strTmp & "\tmp_backup.reg")
+		oFso.DeleteFile(strTmp & "\SciTE\tmp_backup.reg")
 	end if
 	
 	logging LOG_APP, "Status: " & cntTyp & " Einträge verarbeitet"
@@ -239,10 +240,10 @@ private function logging(action, strEntry)
 	' ReInit the Log
 	on error resume next
 		If action=LOG_INIT  then 
-			if oFso.FileExists(strTmp & "\" & LOG_FILE_NAME) then oFso.DeleteFile( strTmp & "\" & LOG_FILE_NAME)	
-			oFso.CreateTextFile strTmp & "\" & LOG_FILE_NAME,true,true ' Overwrite, Unicode
+			if oFso.FileExists(strTmp & "\SciTE\" & LOG_FILE_NAME) then oFso.DeleteFile( strTmp & "\SciTE\" & LOG_FILE_NAME)	
+			oFso.CreateTextFile strTmp & "\SciTE\" & LOG_FILE_NAME,true,true ' Overwrite, Unicode
 		end if		
-		set oFile3= oFso.GetFile(strTmp & "\" & LOG_FILE_NAME)
+		set oFile3= oFso.GetFile(strTmp & "\SciTE\" & LOG_FILE_NAME)
 		set oFileLog = oFile3.OpenAsTextStream(8, -1) ' forAppend ( hö ? 8 because of a Mirrored 3 ?), ForceUnicode
 		if err.Number<>0 then
 			wscript.echo("-- Couldnt Create / Append to " & LOG_FILE_NAME  & ERROR_DETAILS())
@@ -290,11 +291,11 @@ private function createRegDump()
 Const TMP_REGFILE="tmp_backup.reg"
 strTmp = ofso.GetSpecialFolder(2) ' Temporary Folder
 
-		if oFso.FileExists(strTmp & "\" & TMP_REGFILE) then oFso.DeleteFile(strTmp & "\" & TMP_REGFILE)	
+		if oFso.FileExists(strTmp & "\SciTE\" & TMP_REGFILE) then oFso.DeleteFile(strTmp & "\SciTE\" & TMP_REGFILE)	
 	
 		set objShell = CreateObject("WScript.Shell")	
 		strRootExt="HKEY_CURRENT_USER\" & FILE_EXT_PATH
-		set oExec=objShell.exec("cmd /c REG.EXE EXPORT " & strRootExt & " " & strTmp & "\" &TMP_REGFILE)
+		set oExec=objShell.exec("cmd /c REG.EXE EXPORT " & strRootExt & " " & strTmp & "\SciTE\" &TMP_REGFILE)
 		
 		' poll asynchronous exec object for its return status 
 		Do While oExec.Status = 0
@@ -303,8 +304,8 @@ strTmp = ofso.GetSpecialFolder(2) ' Temporary Folder
 		Loop
 
 		on error resume next
-			logging LOG_ALERT , " ..Initing the FileExt Backup File.. Please Wait.."
-			set oFile1= oFso.GetFile(strTmp & "\" & TMP_REGFILE)
+			logging LOG_ALERT , " .. Initing the FileExt Backup File.. Please Wait.."
+			set oFile1= oFso.GetFile(strTmp & "\SciTE\" & TMP_REGFILE)
 			if err.number<>0 then 
 				logging LOG_ALERT , " ..Error invocating reg.exe, please restart (No Modifications done.)"
 				createRegDump=ERR_FATAL

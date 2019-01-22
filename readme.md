@@ -1,6 +1,6 @@
 # ~ mySciTE.webdev ~
 
-[xx.01.2018] mySciTE.190.02 MartyMcFly (Lua5.1 & Lua5.3)
+[22.01.2018] mySciTE.190.02 MartyMcFly (Lua5.1 & Lua5.3)
   =Maintenance Release=
 - Upd: scintilla: Update c based lexers to those in current scintilla (4.1.3)
 - Upd: lexer: batchfiles are lexed by a luaLpeg based lexer now.
@@ -151,7 +151,7 @@
 #BeginVersions
 #Version: 20180713, c0d5e2e7, mySciTE_190_01_MartyMcFly_lua53_win32,0
 #Version: 20180713, 6dc538c0, mySciTE_190_01_MartyMcFly_lua53_win64,0
-#Version: 20180713, f5da9245, mySciTE_190_01_MartyMcFly_lua51_win32,0
+#Version: 20180713, 4be341d1, mySciTE_190_01_MartyMcFly_lua51_win32,0
 #Version: 20180119, dc789340, mySciTE_190_MartyMcFly_lua53_win32,1
 #Version: 20180119, 68970227, mySciTE_190_MartyMcFly_lua53_win64,1
 #Version: 20171125, 6ae5f442, mySciTE_180_Artie_win32,1
