@@ -129,7 +129,7 @@ void SciTEBase::ReadEnvironment() {
 		char key[1024];
 		char *pMe= *pEnv; // Varname's start position 
 		char *pValue = strchr(pMe, '='); // Values start position
-		if (pValue && ((int)(pValue - pMe) < (int)(sizeof(key)))) { // Validate length 
+		if (pValue && (static_cast<int>(pValue - pMe) < static_cast<int>(sizeof(key)))) { // Validate length 
 			memcpy(key, pMe, pValue - pMe);
 			key[pValue - pMe] = '\0';
 			propsPlatform.Set(key, pValue + 1);

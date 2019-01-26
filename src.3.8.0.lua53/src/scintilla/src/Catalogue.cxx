@@ -101,7 +101,7 @@ int Scintilla_LinkLexers() {
 	LINK_LEXER(lmD);
 	LINK_LEXER(lmDiff);
 	LINK_LEXER(lmDMAP);
-//	LINK_LEXER(lmDMIS);
+	LINK_LEXER(lmDMIS);
 	LINK_LEXER(lmECL);
 	LINK_LEXER(lmEDIFACT);
 	LINK_LEXER(lmEiffel);
@@ -125,7 +125,7 @@ int Scintilla_LinkLexers() {
 	LINK_LEXER(lmKix);
 	LINK_LEXER(lmKVIrc);
 	LINK_LEXER(lmLatex);
-//	LINK_LEXER(lmLISP);
+	LINK_LEXER(lmLISP);
 	LINK_LEXER(lmLiterateHaskell);
 	LINK_LEXER(lmLot);
 	LINK_LEXER(lmLout);
@@ -143,7 +143,7 @@ int Scintilla_LinkLexers() {
 	LINK_LEXER(lmMySQL);
 	LINK_LEXER(lmNimrod);
 	LINK_LEXER(lmNncrontab);
-//	LINK_LEXER(lmNsis);
+	LINK_LEXER(lmNsis);
 	LINK_LEXER(lmNull);
 	LINK_LEXER(lmOctave);
 	LINK_LEXER(lmOpal);
