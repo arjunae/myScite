@@ -17,8 +17,6 @@ package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
 dirSep, GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
 
-props['style.comment']='fore:#5980A5,font:Verdana,size:8.7,back:#050505'
-
 -- Load extman.lua
 -- This will automatically run any lua script located in \User\Addons\lua\lua
 dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')

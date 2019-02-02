@@ -266,7 +266,7 @@ foundation: .title
 	@echo -e "    > $(.BOLD)Downloading Onion$(.CLEAR)"
 	@curl -LO --progress-bar https://github.com/c9s/Onion/raw/master/onion > ${FOUNDATION_HOME}/onion;chmod +x ${FOUNDATION_HOME}/onion
 	@make -f $(THIS) -s .needs-file file="${FOUNDATION_HOME}/onion" text='Onion Could not be installed'
-	@[[ -x ${FOUNDATION_HOME}/onion ]] || make -f $(THIS) -s bbbbbb .exit text="${FOUNDATION_HOME} not executable, run chmod +x to fix it";
+	@[[ -x ${FOUNDATION_HOME}/onion ]] || make -f $(THIS) -s .exit text="${FOUNDATION_HOME} not executable, run chmod +x to fix it";
 
 .foundation-backup-makefile:
 	@echo -e "    > $(.BOLD)Backing up current Makefile$(.CLEAR)"
