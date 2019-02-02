@@ -716,8 +716,8 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 			SubStylesKey += language;
 			SubStylesKey += ".";
 			SubStylesKey += StdStringFromInteger(subStyleBases[baseStyle]);
-			std::string SBStyleNumber = props.GetNewExpandString(SubStylesKey.c_str());
-			int subStyleIdentifiers = atoi(SBStyleNumber.c_str());
+			std::string SSNumber = props.GetNewExpandString(SubStylesKey.c_str());
+			int subStyleIdentifiers = atoi(SSNumber.c_str());
 
 			int subStyleIdentifiersStart = 0;
 			if (subStyleIdentifiers) {

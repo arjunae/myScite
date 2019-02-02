@@ -394,7 +394,7 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler,currentPos, state);
 		} else if ( state==SCE_MAKE_FLAGS && strchr(" \r\n$;\\\"\'", (int)chCurr) != NULL) {
 			ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
-			state = SCE_MAKE_DEFAULT;
+			state = state_prev;
 			if (iLog) std::clog<< "[/Flags] " << "\n";
 		}
 
@@ -696,9 +696,9 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 }
 
 static const char *const makefileWordListDesc[] = {
-	"generica",
-	"functions",
-	"kwExtCmd",
+	"Make Directive Keywords",
+	"Make Function Keywords",
+	"External Command Keywords",
 	0
 };
 

@@ -3,6 +3,8 @@
 local l =  require('lexer')
 local property = require('lexer').property
 
+props['style.comment']= props['colour.keyword'] ..","..props['colour.background']
+property['style.comment']= props['colour.keyword'] ..","..props['colour.background']
 property['style.type']= props['colour.keyword6'] ..","..props['colour.background']
 
 --[[

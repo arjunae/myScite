@@ -1,18 +1,20 @@
 /**
- * Copyright 2006-2018 Mitchell mitchell.att.foicica.com. See License.txt.
+ * Copyright 2006-2017 Mitchell mitchell.att.foicica.com.
+ * This file is distributed under Scintilla's license.
  *
- * Lua-powered dynamic language lexer for Scintilla.
+ * Lua-powered dynamic language lexer for Scintillua.
+ * http://foicica.com/scintillua
  *
- * For documentation on writing lexers, see *../doc/LPegLexer.html*.
+ * For documentation on writing lexers, see *lexers/lexer.lua*.
  */
 
-#if LPEG_LEXER
+#if LPEG_LEXER || LPEG_LEXER_EXTERNAL
 
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
 #include <assert.h>
 #include <ctype.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #if CURSES
 #include <curses.h>
 #endif
@@ -38,6 +40,7 @@ LUALIB_API int luaopen_lpeg(lua_State *L);
 #define streq(s1, s2) (strcasecmp((s1), (s2)) == 0)
 
 using namespace Scintilla;
+
 
 #define l_setmetatable(l, k, mtf) \
 	if (luaL_newmetatable(l, k)) { \
@@ -93,6 +96,8 @@ class LexerLPeg : public ILexer {
 	 * The set of properties for the lexer.
 	 * The `lexer.name`, `lexer.lpeg.home`, and `lexer.lpeg.color.theme`
 	 * properties must be defined before running the lexer.
+	 * For use with SciTE, all of the style property strings generated for the
+	 * current lexer are placed in here.
 	 */
 	PropSetSimple props;
 	/** The function to send Scintilla messages with. */
@@ -126,9 +131,7 @@ class LexerLPeg : public ILexer {
 		lua_getfield(L, LUA_REGISTRYINDEX, "sci_props");
 		PropSetSimple *props = static_cast<PropSetSimple *>(lua_touserdata(L, -1));
 		lua_pop(L, 1); // props
-		const char *key = "lexer.lpeg.error";
-		const char *value = str ? str : lua_tostring(L, -1);
-		props->Set(key, value, strlen(key), strlen(value));
+		props->Set("lexer.lpeg.error", str ? str : lua_tostring(L, -1));
 		fprintf(stderr, "Lua Error: %s.\n", str ? str : lua_tostring(L, -1));
 		lua_settop(L, 0);
 	}
@@ -179,8 +182,7 @@ class LexerLPeg : public ILexer {
 			else if (!newindex)
 				lua_pushstring(L, props->Get(luaL_checkstring(L, 2)));
 			else
-				props->Set(luaL_checkstring(L, 2), luaL_checkstring(L, 3),
-				           lua_rawlen(L, 2), lua_rawlen(L, 3));
+				props->Set(luaL_checkstring(L, 2), luaL_checkstring(L, 3));
 		} else if (strcmp(key, "property_int") == 0) {
 			luaL_argcheck(L, !newindex, 3, "read-only property");
 			if (is_lexer)
@@ -256,8 +258,8 @@ class LexerLPeg : public ILexer {
 					weight = atoi(p);
 				SS(sci, SCI_STYLESETWEIGHT, num, weight);
 #else
-				// Scintilla curses requires font attributes to be stored in the "font
-				// weight" style attribute.
+				// Scinterm requires font attributes to be stored in the "font weight"
+				// style attribute.
 				// First, clear any existing SC_WEIGHT_NORMAL, SC_WEIGHT_SEMIBOLD, or
 				// SC_WEIGHT_BOLD values stored in the lower 16 bits. Then set the
 				// appropriate curses attr.
@@ -273,8 +275,8 @@ class LexerLPeg : public ILexer {
 #if !CURSES
 				SS(sci, SCI_STYLESETUNDERLINE, num, *option == 'u');
 #else
-				// Scintilla curses requires font attributes to be stored in the "font
-				// weight" style attribute.
+				// Scinterm requires font attributes to be stored in the "font weight"
+				// style attribute.
 				// First, clear any existing SC_WEIGHT_NORMAL, SC_WEIGHT_SEMIBOLD, or
 				// SC_WEIGHT_BOLD values stored in the lower 16 bits. Then set the
 				// appropriate curses attr.
@@ -313,7 +315,8 @@ class LexerLPeg : public ILexer {
 
 	/**
 	 * Iterates through the lexer's `_TOKENSTYLES`, setting the style properties
-	 * for all defined styles.
+	 * for all defined styles, or for SciTE, generates the set of style properties
+	 * instead of directly setting style properties.
 	 */
 	bool SetStyles() {
 		// If the lexer defines additional styles, set their properties first (if
@@ -324,8 +327,7 @@ class LexerLPeg : public ILexer {
 			if (lua_isstring(L, -2) && lua_isstring(L, -1)) {
 				lua_pushstring(L, "style."), lua_pushvalue(L, -3), lua_concat(L, 2);
 				if (!*props.Get(lua_tostring(L, -1)))
-					props.Set(lua_tostring(L, -1), lua_tostring(L, -2), lua_rawlen(L, -1),
-					          lua_rawlen(L, -2));
+					props.Set(lua_tostring(L, -1), lua_tostring(L, -2));
 				lua_pop(L, 1); // style name
 			}
 			lua_pop(L, 1); // value
@@ -333,6 +335,7 @@ class LexerLPeg : public ILexer {
 		lua_pop(L, 1); // _EXTRASTYLES
 
 		l_getlexerfield(L, "_TOKENSTYLES");
+#if NO_SCITE
 		if (!SS || !sci) {
 			lua_pop(L, 1); // _TOKENSTYLES
 			// Skip, but do not report an error since `reinit` would remain `false`
@@ -355,6 +358,21 @@ class LexerLPeg : public ILexer {
 			}
 			lua_pop(L, 1); // value
 		}
+#else
+		char prop_name[32];
+		lua_pushnil(L);
+		while (lua_next(L, -2)) {
+			if (lua_isstring(L, -2) && lua_isnumber(L, -1)) {
+				sprintf(prop_name, "style.lpeg.%0d",
+				        static_cast<int>(lua_tointeger(L, -1)));
+				lua_pushstring(L, "style."), lua_pushvalue(L, -3), lua_concat(L, 2);
+				lL_getexpanded(L, -1), lua_replace(L, -2);
+				props.Set(prop_name, lua_tostring(L, -1));
+				lua_pop(L, 1); // style
+			}
+			lua_pop(L, 1); // value
+		}
+#endif
 		lua_pop(L, 1); // _TOKENSTYLES
 		return true;
 	}
@@ -429,7 +447,7 @@ class LexerLPeg : public ILexer {
 
 			// Restore `package.path`.
 			lua_getglobal(L, "package");
-			lua_getfield(L, -1, "path"), lua_setfield(L, -3, "path"); // lexer.path =
+			lua_getfield(L, -1, "path"), lua_setfield(L, -3, "LEXERPATH");
 			lua_rawgeti(L, LUA_REGISTRYINDEX, orig_path), lua_setfield(L, -2, "path");
 			luaL_unref(L, LUA_REGISTRYINDEX, orig_path), lua_pop(L, 1); // package
 		} else lua_remove(L, -2); // _LOADED
@@ -463,7 +481,7 @@ class LexerLPeg : public ILexer {
 		lua_pop(L, 2); // _CHILDREN and lexer object
 
 		reinit = false;
-		props.Set("lexer.lpeg.error", "", strlen("lexer.lpeg.error"), 0);
+		props.Set("lexer.lpeg.error", "");
 		return true;
 	}
 
@@ -623,7 +641,7 @@ public:
 	 * @param buffer The document interface.
 	 */
 	virtual void SCI_METHOD Fold(Sci_PositionU startPos, Sci_Position lengthDoc,
-	                             int, IDocument *buffer) {
+	                             int initStyle, IDocument *buffer) {
 		if ((reinit && !Init()) || !L) return;
 		lua_pushlightuserdata(L, reinterpret_cast<void *>(&props));
 		lua_setfield(L, LUA_REGISTRYINDEX, "sci_props");
@@ -652,14 +670,14 @@ public:
 		} else l_error(L, "'lexer.fold' function not found");
 	}
 
-	/** This lexer implements the original lexer interface. */
-	virtual int SCI_METHOD Version() const { return lvOriginal; }
+	/** Returning the version of the lexer is not implemented. */
+	virtual int SCI_METHOD Version() const { return 0; }
 	/** Returning property names is not implemented. */
 	virtual const char * SCI_METHOD PropertyNames() { return ""; }
 	/** Returning property types is not implemented. */
-	virtual int SCI_METHOD PropertyType(const char *) { return 0; }
+	virtual int SCI_METHOD PropertyType(const char *name) { return 0; }
 	/** Returning property descriptions is not implemented. */
-	virtual const char * SCI_METHOD DescribeProperty(const char *) {
+	virtual const char * SCI_METHOD DescribeProperty(const char *name) {
 		return "";
 	}
 
@@ -671,32 +689,25 @@ public:
 	 */
 	virtual Sci_Position SCI_METHOD PropertySet(const char *key,
 	                                            const char *value) {
-		props.Set(key, value, strlen(key), strlen(value));
-		if (reinit)
-			Init();
+		props.Set(key, *value ? value : " "); // ensure property is cleared
+		if (reinit) Init();
+#if NO_SCITE
 		else if (L && SS && sci && strncmp(key, "style.", 6) == 0) {
-			lua_pushlightuserdata(L, reinterpret_cast<void *>(&props));
-			lua_setfield(L, LUA_REGISTRYINDEX, "sci_props");
 			l_getlexerfield(L, "_TOKENSTYLES");
 			lua_pushstring(L, key + 6), lua_rawget(L, -2);
 			lua_pushstring(L, key), lL_getexpanded(L, -1), lua_replace(L, -2);
-			if (lua_isnumber(L, -2)) {
-				int style_num = lua_tointeger(L, -2);
-				SetStyle(style_num, lua_tostring(L, -1));
-				if (style_num == STYLE_DEFAULT)
-					// Assume a theme change, with the default style being set first.
-					// Subsequent style settings will be based on the default.
-					SS(sci, SCI_STYLECLEARALL, 0, 0);
-			}
+			if (lua_isnumber(L, -2))
+				SetStyle(lua_tointeger(L, -2), lua_tostring(L, -1));
 			lua_pop(L, 3); // style, style number, _TOKENSTYLES
 		}
+#endif
 		return -1; // no need to re-lex
 	}
 
 	/** Returning keyword list descriptions is not implemented. */
 	virtual const char * SCI_METHOD DescribeWordListSets() { return ""; }
 	/** Setting keyword lists is not applicable. */
-	virtual Sci_Position SCI_METHOD WordListSet(int, const char *) {
+	virtual Sci_Position SCI_METHOD WordListSet(int n, const char *wl) {
 		return -1;
 	}
 
@@ -732,7 +743,7 @@ public:
 			props.GetExpanded("lexer.name", lexer_name);
 			if (strcmp(lexer_name, reinterpret_cast<const char *>(arg)) != 0) {
 				reinit = true;
-				props.Set("lexer.lpeg.error", "", strlen("lexer.lpeg.error"), 0);
+				props.Set("lexer.lpeg.error", "");
 				PropertySet("lexer.name", reinterpret_cast<const char *>(arg));
 			} else if (L)
 				own_lua ? SetStyles() : Init();
@@ -761,7 +772,15 @@ public:
 		case SCI_GETSTATUS:
 			return StringResult(lParam, props.Get("lexer.lpeg.error"));
 		default: // style-related
-			if (code >= 0 && code <= STYLE_MAX) { // retrieve style names
+			if (code >= -STYLE_MAX && code < 0) { // retrieve SciTE style strings
+#if !NO_SCITE
+				char prop_name[32];
+				sprintf(prop_name, "style.lpeg.%0d", code + STYLE_MAX);
+				return StringResult(lParam, props.Get(prop_name));
+#else
+				return NULL;
+#endif
+			} else if (code <= STYLE_MAX) { // retrieve style names
 				val = GetStyleName(code);
 				return StringResult(lParam, val ? val : "Not Available");
 			} else return NULL;
@@ -772,28 +791,45 @@ public:
 	static ILexer *LexerFactoryLPeg() { return new LexerLPeg(); }
 };
 
-LexerModule lmLPeg(SCLEX_LPEG, LexerLPeg::LexerFactoryLPeg, "lpeg");
-
+#if LPEG_LEXER_EXTERNAL
+#if _WIN32
+#define EXT_LEXER_DECL __declspec( dllexport ) __stdcall
 #else
-
-#include <stdlib.h>
-#include <assert.h>
-
-#include "ILexer.h"
-#include "Scintilla.h"
-#include "SciLexer.h"
-
-#include "WordList.h"
-#include "LexAccessor.h"
-#include "Accessor.h"
-#include "LexerModule.h"
-
-using namespace Scintilla;
-
-static void LPegLex(Sci_PositionU, Sci_Position, int, WordList*[], Accessor&) {
-	return;
+#define EXT_LEXER_DECL
+#endif // _WIN32
+extern "C" {
+/** Returns 1, the number of lexers defined in this file. */
+int EXT_LEXER_DECL GetLexerCount() { return 1; }
+/**
+ * Copies the name of the lexer into buffer *name* of size *len*.
+ * @param index 0, the lexer number to get the name of.
+ * @param name The buffer to copy the name of the lexer into.
+ * @param len The size of *name*.
+ */
+void EXT_LEXER_DECL GetLexerName(unsigned int index, char *name, int len) {
+	*name = '\0';
+	if ((index == 0) && (len > static_cast<int>(strlen("lpeg"))))
+		strcpy(name, "lpeg");
 }
+/**
+ * Returns the function that creates a new instance of the lexer.
+ * @param index 0, the number of the lexer to create a new instance of.
+ * @return factory function
+ */
+LexerFactoryFunction EXT_LEXER_DECL GetLexerFactory(unsigned int index) {
+	return (index == 0) ? LexerLPeg::LexerFactoryLPeg : 0;
+}
+}
+/*
+Forward the following properties from SciTE.
+GetProperty "lexer.lpeg.home"
+GetProperty "lexer.lpeg.color.theme"
+GetProperty "fold.by.indentation"
+GetProperty "fold.line.comments"
+GetProperty "fold.on.zero.sum.lines"
+*/
+#else
+LexerModule lmLPeg(SCLEX_AUTOMATIC - 1, LexerLPeg::LexerFactoryLPeg, "lpeg");
+#endif // LPEG_LEXER_EXTERNAL
 
-LexerModule lmLPeg(SCLEX_LPEG, LPegLex, "lpeg");
-
-#endif // LPEG_LEXER
+#endif // LPEG_LEXER || LPEG_LEXER_EXTERNAL

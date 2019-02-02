@@ -11,7 +11,7 @@ WScript.Echo( ScriptEngineMajorVersion() + "." +
 // jscript Chacra 11 {16d51579-a30b-4c8b-a276-0ff4dc41e755}
 	
 // Check syntax Highlitening and multiline calltips.
-var MyVeryLongVar = MyVeryLongVar + 20 - 0xA + 2;
+var MyVar = MyVar + 20 - 0xA + 2;
 var str = "asdf".replace (/ ^['"]/, "");
 
 // Underscore Library

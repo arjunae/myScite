@@ -29,4 +29,5 @@ style.preprocessor=props['colour.preproc']
 style.variable=props['colour.keyword3']
 style.identifier=props['colour.identifier']
 style.action=props['colour.globalclass']
-]]
+--]]
+
