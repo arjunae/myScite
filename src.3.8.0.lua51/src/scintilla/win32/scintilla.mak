@@ -75,11 +75,13 @@ clean:
 LUA_OBJ=\
 	$(DIR_O)\lapi.obj \
 	$(DIR_O)\lcode.obj \
+	$(DIR_O)\lctype.obj \
 	$(DIR_O)\ldebug.obj \
 	$(DIR_O)\ldo.obj \
 	$(DIR_O)\ldump.obj \
 	$(DIR_O)\lfunc.obj \
 	$(DIR_O)\lgc.obj \
+	$(DIR_O)\linit.obj \
 	$(DIR_O)\llex.obj \
 	$(DIR_O)\lmem.obj \
 	$(DIR_O)\lobject.obj \
@@ -94,20 +96,22 @@ LUA_OBJ=\
 	$(DIR_O)\lzio.obj \
 	$(DIR_O)\lauxlib.obj \
 	$(DIR_O)\lbaselib.obj \
+	$(DIR_O)\lbitlib.obj \
+	$(DIR_O)\lcorolib.obj \
 	$(DIR_O)\ldblib.obj \
 	$(DIR_O)\liolib.obj \
 	$(DIR_O)\lmathlib.obj \
-	$(DIR_O)\ltablib.obj \
-	$(DIR_O)\lstrlib.obj \
 	$(DIR_O)\loadlib.obj \
 	$(DIR_O)\loslib.obj \
-	$(DIR_O)\linit.obj \
+	$(DIR_O)\lstrlib.obj \
+	$(DIR_O)\ltablib.obj \
+	$(DIR_O)\lutf8lib.obj \
 	$(DIR_O)\lpcap.obj \
 	$(DIR_O)\lpcode.obj \
 	$(DIR_O)\lpprint.obj \
 	$(DIR_O)\lptree.obj \
-	$(DIR_O)\lpvm.obj
-	
+	$(DIR_O)\lpvm.obj 
+
 # Required for base Scintilla
 BASEOBJS=\
 	$(DIR_O)\AutoComplete.obj \
@@ -162,6 +166,7 @@ LEXOBJS=\
 	$(DIR_O)\LexAVS.obj \
 	$(DIR_O)\LexBaan.obj \
 	$(DIR_O)\LexBash.obj \
+	$(DIR_O)\LexBatch.obj \
 	$(DIR_O)\LexBasic.obj \
 	$(DIR_O)\LexBibTeX.obj \
 	$(DIR_O)\LexBullant.obj \
@@ -178,7 +183,6 @@ LEXOBJS=\
 	$(DIR_O)\LexD.obj \
 	$(DIR_O)\LexDiff.obj \
 	$(DIR_O)\LexDMAP.obj \
-	$(DIR_O)\LexDMIS.obj \
 	$(DIR_O)\LexECL.obj \
 	$(DIR_O)\LexEDIFACT.obj \
 	$(DIR_O)\LexEiffel.obj \
@@ -193,13 +197,11 @@ LEXOBJS=\
 	$(DIR_O)\LexHaskell.obj \
 	$(DIR_O)\LexHex.obj \
 	$(DIR_O)\LexHTML.obj \
-	$(DIR_O)\LexIndent.obj \
 	$(DIR_O)\LexInno.obj \
 	$(DIR_O)\LexJSON.obj \
 	$(DIR_O)\LexKix.obj \
 	$(DIR_O)\LexKVIrc.obj \
 	$(DIR_O)\LexLaTeX.obj \
-	$(DIR_O)\LexLisp.obj \
 	$(DIR_O)\LexLout.obj \
 	$(DIR_O)\LexLua.obj \
 	$(DIR_O)\LexMagik.obj \
@@ -214,7 +216,6 @@ LEXOBJS=\
 	$(DIR_O)\LexMSSQL.obj \
 	$(DIR_O)\LexMySQL.obj \
 	$(DIR_O)\LexNimrod.obj \
-	$(DIR_O)\LexNsis.obj \
 	$(DIR_O)\LexNull.obj \
 	$(DIR_O)\LexOpal.obj \
 	$(DIR_O)\LexOScript.obj \
@@ -232,7 +233,6 @@ LEXOBJS=\
 	$(DIR_O)\LexPython.obj \
 	$(DIR_O)\LexR.obj \
 	$(DIR_O)\LexRebol.obj \
-	$(DIR_O)\LexRegistry.obj \
 	$(DIR_O)\LexRuby.obj \
 	$(DIR_O)\LexRust.obj \
 	$(DIR_O)\LexScriptol.obj \
@@ -251,9 +251,7 @@ LEXOBJS=\
 	$(DIR_O)\LexTeX.obj \
 	$(DIR_O)\LexTxt2tags.obj \
 	$(DIR_O)\LexVB.obj \
-	$(DIR_O)\LexVerilog.obj \
 	$(DIR_O)\LexVHDL.obj \
-	$(DIR_O)\LexVisualProlog.obj \
 	$(DIR_O)\LexYAML.obj \
 	$(DIR_O)\LexLPeg.obj 
 
@@ -299,7 +297,7 @@ $(LIBSCI): $(SCILEXOBJS) $(DIR_O)\ScintillaWinS.obj
 
 # Define how to build all the objects and what they depend on
 {../lua/src}.c{$(DIR_O)}.obj::
-	$(CC)  $(CCFLAGS)  /DWIN32 /D_WINDOWS /D_MBCS -DLUA_BUILD_AS_DLL -DLUA_COMPAT_5_1 -DLUA_COMPAT_BITLIB  -c $(NAME)$(DIR_O)\ $<
+	$(CC)  $(CCFLAGS)  /DWIN32 -D_WINDOWS /D_MBCS /DLUA_BUILD_AS_DLL /DLUA_COMPAT_5_1 /DLUA_COMPAT_BITLIB -c $(NAME)$(DIR_O)\ $<
 {..\src}.cxx{$(DIR_O)}.obj::
 	$(CXX) $(CXXFLAGS) -c $(NAME)$(DIR_O)\ $<
 {..\lexlib}.cxx{$(DIR_O)}.obj::
@@ -1153,69 +1151,72 @@ $(DIR_O)\HanjaDic.obj: \
 	../src/UniConversion.h \
 	HanjaDic.h
 
-$(DIR_O)\lapi.o: ../lua/src/lapi.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lapi.h ../lua/src/lobject.h ../lua/src/llimits.h ../lua/src/ldebug.h \
- ../lua/src/lstate.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h ../lua/src/lfunc.h ../lua/src/lgc.h ../lua/src/lstring.h ../lua/src/ltable.h \
- ../lua/src/lundump.h ../lua/src/lvm.h
-$(DIR_O)\lauxlib.o: ../lua/src/lauxlib.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h
-$(DIR_O)\lbaselib.o: ../lua/src/lbaselib.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
-$(DIR_O)\lcode.o: ../lua/src/lcode.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lcode.h ../lua/src/llex.h ../lua/src/lobject.h ../lua/src/llimits.h \
- ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/lopcodes.h ../lua/src/lparser.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/ltm.h ../lua/src/ldo.h ../lua/src/lgc.h \
- ../lua/src/ltable.h
-$(DIR_O)\ldblib.o: ../lua/src/ldblib.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
-$(DIR_O)\ldebug.o: ../lua/src/ldebug.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lapi.h ../lua/src/lobject.h ../lua/src/llimits.h ../lua/src/lcode.h \
- ../lua/src/llex.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/lopcodes.h ../lua/src/lparser.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/ltm.h ../lua/src/ldo.h \
- ../lua/src/lfunc.h ../lua/src/lstring.h ../lua/src/lgc.h ../lua/src/ltable.h ../lua/src/lvm.h
-$(DIR_O)\ldo.o: ../lua/src/ldo.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/lobject.h ../lua/src/llimits.h ../lua/src/ltm.h \
- ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h ../lua/src/lfunc.h ../lua/src/lgc.h ../lua/src/lopcodes.h ../lua/src/lparser.h ../lua/src/lstring.h \
+$(DIR_O)\lapi.obj: ../lua/src/lapi.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lapi.h ../lua/src/llimits.h ../lua/src/lstate.h \
+ ../lua/src/lobject.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldebug.h ../lua/src/ldo.h ../lua/src/lfunc.h ../lua/src/lgc.h ../lua/src/lstring.h \
  ../lua/src/ltable.h ../lua/src/lundump.h ../lua/src/lvm.h
-$(DIR_O)\ldump.o: ../lua/src/ldump.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lobject.h ../lua/src/llimits.h ../lua/src/lstate.h ../lua/src/ltm.h \
- ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/lundump.h
-$(DIR_O)\lfunc.o: ../lua/src/lfunc.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lfunc.h ../lua/src/lobject.h ../lua/src/llimits.h ../lua/src/lgc.h ../lua/src/lmem.h \
- ../lua/src/lstate.h ../lua/src/ltm.h ../lua/src/lzio.h
-$(DIR_O)\lgc.o: ../lua/src/lgc.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/lobject.h ../lua/src/llimits.h ../lua/src/ltm.h \
- ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h ../lua/src/lfunc.h ../lua/src/lgc.h ../lua/src/lstring.h ../lua/src/ltable.h
-$(DIR_O)\linit.o: ../lua/src/linit.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lualib.h ../lua/src/lauxlib.h
-$(DIR_O)\liolib.o: ../lua/src/liolib.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
-$(DIR_O)\llex.o: ../lua/src/llex.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/ldo.h ../lua/src/lobject.h ../lua/src/llimits.h ../lua/src/lstate.h ../lua/src/ltm.h \
- ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/llex.h ../lua/src/lparser.h ../lua/src/lstring.h ../lua/src/lgc.h ../lua/src/ltable.h
-$(DIR_O)\lmathlib.o: ../lua/src/lmathlib.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
-$(DIR_O)\lmem.o: ../lua/src/lmem.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/lobject.h ../lua/src/llimits.h \
- ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h
-$(DIR_O)\loadlib.o: ../lua/src/loadlib.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
-$(DIR_O)\lobject.o: ../lua/src/lobject.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/ldo.h ../lua/src/lobject.h ../lua/src/llimits.h ../lua/src/lstate.h \
- ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/lstring.h ../lua/src/lgc.h ../lua/src/lvm.h
-$(DIR_O)\lopcodes.o: ../lua/src/lopcodes.c ../lua/src/lopcodes.h ../lua/src/llimits.h ../lua/src/lua.h ../lua/src/luaconf.h
-$(DIR_O)\loslib.o: ../lua/src/loslib.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
-$(DIR_O)\lparser.o: ../lua/src/lparser.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lcode.h ../lua/src/llex.h ../lua/src/lobject.h ../lua/src/llimits.h \
- ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/lopcodes.h ../lua/src/lparser.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/ltm.h ../lua/src/ldo.h \
- ../lua/src/lfunc.h ../lua/src/lstring.h ../lua/src/lgc.h ../lua/src/ltable.h
-$(DIR_O)\lstate.o: ../lua/src/lstate.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/lobject.h ../lua/src/llimits.h \
- ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h ../lua/src/lfunc.h ../lua/src/lgc.h ../lua/src/llex.h ../lua/src/lstring.h ../lua/src/ltable.h
-$(DIR_O)\lstring.o: ../lua/src/lstring.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lmem.h ../lua/src/llimits.h ../lua/src/lobject.h ../lua/src/lstate.h \
- ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lstring.h ../lua/src/lgc.h
-$(DIR_O)\lstrlib.o: ../lua/src/lstrlib.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
-$(DIR_O)\ltable.o: ../lua/src/ltable.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/lobject.h ../lua/src/llimits.h \
- ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h ../lua/src/lgc.h ../lua/src/ltable.h
-$(DIR_O)\ltablib.o: ../lua/src/ltablib.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
-$(DIR_O)\ltm.o: ../lua/src/ltm.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lobject.h ../lua/src/llimits.h ../lua/src/lstate.h ../lua/src/ltm.h ../lua/src/lzio.h \
- ../lua/src/lmem.h ../lua/src/lstring.h ../lua/src/lgc.h ../lua/src/ltable.h
-$(DIR_O)\lua.o: ../lua/src/lua.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
-$(DIR_O)\luac.o: ../lua/src/luac.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/ldo.h ../lua/src/lobject.h ../lua/src/llimits.h \
- ../lua/src/lstate.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/lfunc.h ../lua/src/lopcodes.h ../lua/src/lstring.h ../lua/src/lgc.h \
+$(DIR_O)\lauxlib.obj: ../lua/src/lauxlib.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h
+$(DIR_O)\lbaselib.obj: ../lua/src/lbaselib.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
+$(DIR_O)\lbitlib.obj: ../lua/src/lbitlib.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
+$(DIR_O)\lcode.obj: ../lua/src/lcode.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lcode.h ../lua/src/llex.h ../lua/src/lobject.h \
+ ../lua/src/llimits.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/lopcodes.h ../lua/src/lparser.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/ltm.h \
+ ../lua/src/ldo.h ../lua/src/lgc.h ../lua/src/lstring.h ../lua/src/ltable.h ../lua/src/lvm.h
+$(DIR_O)\lcorolib.obj: ../lua/src/lcorolib.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
+$(DIR_O)\lctype.obj: ../lua/src/lctype.c ../lua/src/lprefix.h ../lua/src/lctype.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/llimits.h
+$(DIR_O)\ldblib.obj: ../lua/src/ldblib.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
+$(DIR_O)\ldebug.obj: ../lua/src/ldebug.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lapi.h ../lua/src/llimits.h ../lua/src/lstate.h \
+ ../lua/src/lobject.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/lcode.h ../lua/src/llex.h ../lua/src/lopcodes.h ../lua/src/lparser.h \
+ ../lua/src/ldebug.h ../lua/src/ldo.h ../lua/src/lfunc.h ../lua/src/lstring.h ../lua/src/lgc.h ../lua/src/ltable.h ../lua/src/lvm.h
+$(DIR_O)\ldo.obj: ../lua/src/ldo.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lapi.h ../lua/src/llimits.h ../lua/src/lstate.h \
+ ../lua/src/lobject.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldebug.h ../lua/src/ldo.h ../lua/src/lfunc.h ../lua/src/lgc.h ../lua/src/lopcodes.h \
+ ../lua/src/lparser.h ../lua/src/lstring.h ../lua/src/ltable.h ../lua/src/lundump.h ../lua/src/lvm.h
+$(DIR_O)\ldump.obj: ../lua/src/ldump.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lobject.h ../lua/src/llimits.h ../lua/src/lstate.h \
+ ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/lundump.h
+$(DIR_O)\lfunc.obj: ../lua/src/lfunc.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lfunc.h ../lua/src/lobject.h ../lua/src/llimits.h \
+ ../lua/src/lgc.h ../lua/src/lstate.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h
+$(DIR_O)\lgc.obj: ../lua/src/lgc.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/lobject.h \
+ ../lua/src/llimits.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h ../lua/src/lfunc.h ../lua/src/lgc.h ../lua/src/lstring.h ../lua/src/ltable.h
+$(DIR_O)\linit.obj: ../lua/src/linit.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lualib.h ../lua/src/lauxlib.h
+$(DIR_O)\liolib.obj: ../lua/src/liolib.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
+$(DIR_O)\llex.obj: ../lua/src/llex.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lctype.h ../lua/src/llimits.h ../lua/src/ldebug.h \
+ ../lua/src/lstate.h ../lua/src/lobject.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h ../lua/src/lgc.h ../lua/src/llex.h ../lua/src/lparser.h \
+ ../lua/src/lstring.h ../lua/src/ltable.h
+$(DIR_O)\lmathlib.obj: ../lua/src/lmathlib.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
+$(DIR_O)\lmem.obj: ../lua/src/lmem.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/lobject.h \
+ ../lua/src/llimits.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h ../lua/src/lgc.h
+$(DIR_O)\loadlib.obj: ../lua/src/loadlib.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
+$(DIR_O)\lobject.obj: ../lua/src/lobject.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lctype.h ../lua/src/llimits.h \
+ ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/lobject.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h ../lua/src/lstring.h ../lua/src/lgc.h \
+ ../lua/src/lvm.h
+$(DIR_O)\lopcodes.obj: ../lua/src/lopcodes.c ../lua/src/lprefix.h ../lua/src/lopcodes.h ../lua/src/llimits.h ../lua/src/lua.h ../lua/src/luaconf.h
+$(DIR_O)\loslib.obj: ../lua/src/loslib.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
+$(DIR_O)\lparser.obj: ../lua/src/lparser.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lcode.h ../lua/src/llex.h ../lua/src/lobject.h \
+ ../lua/src/llimits.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/lopcodes.h ../lua/src/lparser.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/ltm.h \
+ ../lua/src/ldo.h ../lua/src/lfunc.h ../lua/src/lstring.h ../lua/src/lgc.h ../lua/src/ltable.h
+$(DIR_O)\lstate.obj: ../lua/src/lstate.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lapi.h ../lua/src/llimits.h ../lua/src/lstate.h \
+ ../lua/src/lobject.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldebug.h ../lua/src/ldo.h ../lua/src/lfunc.h ../lua/src/lgc.h ../lua/src/llex.h \
+ ../lua/src/lstring.h ../lua/src/ltable.h
+$(DIR_O)\lstring.obj: ../lua/src/lstring.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/ldebug.h ../lua/src/lstate.h \
+ ../lua/src/lobject.h ../lua/src/llimits.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h ../lua/src/lstring.h ../lua/src/lgc.h
+$(DIR_O)\lstrlib.obj: ../lua/src/lstrlib.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
+$(DIR_O)\ltable.obj: ../lua/src/ltable.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/lobject.h \
+ ../lua/src/llimits.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h ../lua/src/lgc.h ../lua/src/lstring.h ../lua/src/ltable.h ../lua/src/lvm.h
+$(DIR_O)\ltablib.obj: ../lua/src/ltablib.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
+$(DIR_O)\ltm.obj: ../lua/src/ltm.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/lobject.h \
+ ../lua/src/llimits.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h ../lua/src/lstring.h ../lua/src/lgc.h ../lua/src/ltable.h ../lua/src/lvm.h
+$(DIR_O)\lua.obj: ../lua/src/lua.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
+$(DIR_O)\luac.obj: ../lua/src/luac.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lobject.h ../lua/src/llimits.h \
+ ../lua/src/lstate.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/lundump.h ../lua/src/ldebug.h ../lua/src/lopcodes.h
+$(DIR_O)\lundump.obj: ../lua/src/lundump.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/ldebug.h ../lua/src/lstate.h \
+ ../lua/src/lobject.h ../lua/src/llimits.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h ../lua/src/lfunc.h ../lua/src/lstring.h ../lua/src/lgc.h \
  ../lua/src/lundump.h
-$(DIR_O)\lundump.o: ../lua/src/lundump.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/lobject.h \
- ../lua/src/llimits.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h ../lua/src/lfunc.h ../lua/src/lstring.h ../lua/src/lgc.h ../lua/src/lundump.h
-$(DIR_O)\lvm.o: ../lua/src/lvm.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/lobject.h ../lua/src/llimits.h ../lua/src/ltm.h \
- ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h ../lua/src/lfunc.h ../lua/src/lgc.h ../lua/src/lopcodes.h ../lua/src/lstring.h ../lua/src/ltable.h ../lua/src/lvm.h
-$(DIR_O)\lzio.o: ../lua/src/lzio.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/llimits.h ../lua/src/lmem.h ../lua/src/lstate.h ../lua/src/lobject.h ../lua/src/ltm.h \
- ../lua/src/lzio.h
-$(DIR_O)\print.o: ../lua/src/print.c ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lobject.h ../lua/src/llimits.h \
- ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/lopcodes.h ../lua/src/lundump.h
+$(DIR_O)\lutf8lib.obj: ../lua/src/lutf8lib.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
+$(DIR_O)\lvm.obj: ../lua/src/lvm.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/ldebug.h ../lua/src/lstate.h ../lua/src/lobject.h \
+ ../lua/src/llimits.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/ldo.h ../lua/src/lfunc.h ../lua/src/lgc.h ../lua/src/lopcodes.h ../lua/src/lstring.h \
+ ../lua/src/ltable.h ../lua/src/lvm.h
+$(DIR_O)\lzio.obj: ../lua/src/lzio.c ../lua/src/lprefix.h ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/llimits.h ../lua/src/lmem.h ../lua/src/lstate.h \
+ ../lua/src/lobject.h ../lua/src/ltm.h ../lua/src/lzio.h
 $(DIR_O)\lpcap.obj: ../lua/src/lpcap.c ../lua/src/lpcap.h ../lua/src/lptypes.h ../lua/src/lua.h ../lua/src/lauxlib.h
 $(DIR_O)\lpcode.obj: ../lua/src/lpcode.c ../lua/src/lpcode.h ../lua/src/lptypes.h ../lua/src/lua.h ../lua/src/lauxlib.h
 $(DIR_O)\lpprint.obj: ../lua/src/lpprint.c ../lua/src/lpprint.h ../lua/src/lptypes.h ../lua/src/lua.h ../lua/src/lauxlib.h
 $(DIR_O)\lptree.obj: ../lua/src/lptree.c ../lua/src/lptree.h ../lua/src/lptypes.h ../lua/src/lua.h ../lua/src/lauxlib.h
 $(DIR_O)\lpvm.obj: ../lua/src/lpvm.c ../lua/src/lpvm.h ../lua/src/lptypes.h ../lua/src/lua.h ../lua/src/lauxlib.h
-$(DIR_O)\lua.obj: ../lua/src/lua.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lualib.h
-$(DIR_O)\luac.obj: ../lua/src/luac.c ../lua/src/lua.h ../lua/src/luaconf.h ../lua/src/lauxlib.h ../lua/src/lobject.h ../lua/src/llimits.h  \
-../lua/src/lstate.h ../lua/src/ltm.h ../lua/src/lzio.h ../lua/src/lmem.h ../lua/src/lundump.h ../lua/src/ldebug.h ../lua/src/lopcodes.h

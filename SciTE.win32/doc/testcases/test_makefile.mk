@@ -51,7 +51,7 @@ Makefile: ;              # skip prerequisite discovery
 	@make -v|grep -qi GNU || echo -e "\nWARNING: Foundation Makefile was developed for use with GNU Make\
 	using other flavoured binaries may have unwanted consequences.\n"
 	@make -v|grep -q 'built for .*apple' && echo -e "\nWARNING: The apple built edition of GNU Make have several\
-	known quirks and is not recommended. For best results, install make with homebrew and link it in out of\
+	known quirks and is not recommended. For best results, install make with homebrew and link it in out of \
 	"keg only" or create an alias to the non apple distributed version of GNU Make instead.\n" || true
 	
 	@[[ -d $(FOUNDATION_HOME) ]] ||\

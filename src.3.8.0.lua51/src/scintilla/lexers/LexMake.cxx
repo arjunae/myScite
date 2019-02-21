@@ -8,9 +8,10 @@
  * - Automatic Variables $[@%<?^+*] , Flags "-" and Keywords for externalCommands
  * - Warns on more unclosed Brackets or doublequoted Strings.
  * - Handles multiLine Continuations & inlineComments and styles Strings and Numbers.
- * @brief 20.11.17 | Thorsten Kani | fixEOF && cleanUp | Folding from cMake.
- * @brief 06.04.18 | Thorsten Kani | fixErrEOL && Make and bash Style UserVars 
- * @brief 07.05.18 | Thorsten Kani | VC Flags, Convoluted UserVars , Code cleanUP && logging
+ * @brief 20.11.17 | fixEOF && cleanUp | Folding from cMake.
+ * @brief 06.04.18 | fixErrEOL && Make and bash Style UserVars 
+ * @brief 07.05.18 | VC Flags, Convoluted UserVars , Code cleanUP && logging
+ * @brief 20.02.18 | No need to backstep styler's Position on non multilined content. 
  * @brief todos
  * : Wrap within a Class. 
  * @brief Copyright 1998-20?? by Neil Hodgson <neilh@scintilla.org>
@@ -139,7 +140,7 @@ static unsigned int ColouriseMakeLine(
 	Sci_PositionU strLen = 0; // Keyword candidate length.
 	Sci_PositionU startMark = 0;	 // Keyword candidates startPos. >0 while searching for a Keyword	
 	unsigned int state = SCE_MAKE_DEFAULT;
-	unsigned int state_prev = startStyle;
+	unsigned int state_prev =  startStyle;
 
 	union { 
 			struct { // remove that one- and have fun drinkin "Coffee".......
@@ -418,7 +419,7 @@ static unsigned int ColouriseMakeLine(
 		state=SCE_MAKE_DEFAULT;
 	}
 
-	ColourHere(styler, endPos, state);
+	ColourHere(styler, endPos-1, state);
 	return(state);
 }
 
@@ -646,20 +647,24 @@ static void FoldMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordLi
 		styler.SetLevel(lineCurrent, lev);
 }
 
-static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
-	
-	int startStyle=SCE_MAKE_DEFAULT;
+static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int startStyle, WordList *keywords[], Accessor &styler) {
 	std::string slineBuffer;
-
+	Sci_PositionU o_startPos;
 	styler.Flush();
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
-	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:
-	// find a MultiLines start
-	Sci_PositionU o_startPos=GetMLineStart(styler, startPos);
+	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:	
+	// find a MultiLines start, reset styler Position 
+	o_startPos=GetMLineStart(styler, startPos);
+	if (o_startPos!=startPos){
 		styler.StartSegment(o_startPos);
 		styler.StartAt(o_startPos);
 		length=length+(startPos-o_startPos);
 		startPos=o_startPos;
+	} else {
+		styler.StartSegment(startPos);
+		styler.StartAt(startPos);
+	}
+
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
 	
@@ -691,7 +696,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 	}
 	if (linePos>0){ // handle the (continuated) line
 		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length-1, keywords, styler, startStyle);
-		styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
+	//	styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
 	}
 }
 

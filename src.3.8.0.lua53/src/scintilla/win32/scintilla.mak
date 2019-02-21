@@ -166,6 +166,7 @@ LEXOBJS=\
 	$(DIR_O)\LexAVS.obj \
 	$(DIR_O)\LexBaan.obj \
 	$(DIR_O)\LexBash.obj \
+	$(DIR_O)\LexBatch.obj \
 	$(DIR_O)\LexBasic.obj \
 	$(DIR_O)\LexBibTeX.obj \
 	$(DIR_O)\LexBullant.obj \
@@ -182,7 +183,6 @@ LEXOBJS=\
 	$(DIR_O)\LexD.obj \
 	$(DIR_O)\LexDiff.obj \
 	$(DIR_O)\LexDMAP.obj \
-	$(DIR_O)\LexDMIS.obj \
 	$(DIR_O)\LexECL.obj \
 	$(DIR_O)\LexEDIFACT.obj \
 	$(DIR_O)\LexEiffel.obj \
@@ -197,13 +197,11 @@ LEXOBJS=\
 	$(DIR_O)\LexHaskell.obj \
 	$(DIR_O)\LexHex.obj \
 	$(DIR_O)\LexHTML.obj \
-	$(DIR_O)\LexIndent.obj \
 	$(DIR_O)\LexInno.obj \
 	$(DIR_O)\LexJSON.obj \
 	$(DIR_O)\LexKix.obj \
 	$(DIR_O)\LexKVIrc.obj \
 	$(DIR_O)\LexLaTeX.obj \
-	$(DIR_O)\LexLisp.obj \
 	$(DIR_O)\LexLout.obj \
 	$(DIR_O)\LexLua.obj \
 	$(DIR_O)\LexMagik.obj \
@@ -218,7 +216,6 @@ LEXOBJS=\
 	$(DIR_O)\LexMSSQL.obj \
 	$(DIR_O)\LexMySQL.obj \
 	$(DIR_O)\LexNimrod.obj \
-	$(DIR_O)\LexNsis.obj \
 	$(DIR_O)\LexNull.obj \
 	$(DIR_O)\LexOpal.obj \
 	$(DIR_O)\LexOScript.obj \
@@ -236,7 +233,6 @@ LEXOBJS=\
 	$(DIR_O)\LexPython.obj \
 	$(DIR_O)\LexR.obj \
 	$(DIR_O)\LexRebol.obj \
-	$(DIR_O)\LexRegistry.obj \
 	$(DIR_O)\LexRuby.obj \
 	$(DIR_O)\LexRust.obj \
 	$(DIR_O)\LexScriptol.obj \
@@ -255,9 +251,7 @@ LEXOBJS=\
 	$(DIR_O)\LexTeX.obj \
 	$(DIR_O)\LexTxt2tags.obj \
 	$(DIR_O)\LexVB.obj \
-	$(DIR_O)\LexVerilog.obj \
 	$(DIR_O)\LexVHDL.obj \
-	$(DIR_O)\LexVisualProlog.obj \
 	$(DIR_O)\LexYAML.obj \
 	$(DIR_O)\LexLPeg.obj 
 
