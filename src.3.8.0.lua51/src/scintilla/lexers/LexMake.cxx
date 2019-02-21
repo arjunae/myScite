@@ -140,7 +140,7 @@ static unsigned int ColouriseMakeLine(
 	Sci_PositionU strLen = 0; // Keyword candidate length.
 	Sci_PositionU startMark = 0;	 // Keyword candidates startPos. >0 while searching for a Keyword	
 	unsigned int state = SCE_MAKE_DEFAULT;
-	unsigned int state_prev =  startStyle;
+	unsigned int state_prev = startStyle;
 
 	union { 
 			struct { // remove that one- and have fun drinkin "Coffee".......
@@ -419,7 +419,7 @@ static unsigned int ColouriseMakeLine(
 		state=SCE_MAKE_DEFAULT;
 	}
 
-	ColourHere(styler, endPos-1, state);
+	ColourHere(styler, endPos, state);
 	return(state);
 }
 
