@@ -3,8 +3,8 @@
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local defaultHome= props["SciteDefaultHome"]
 print("Hello from scitelua!")
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ####### LuaCrc32 ######
 -- ## crc32 Hash Library
 -- ##################

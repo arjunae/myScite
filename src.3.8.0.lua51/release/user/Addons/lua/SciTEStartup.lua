@@ -43,5 +43,3 @@ function OnInit()
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
 	scite_OnSave(CTagsRecreate)
 end
-
-
