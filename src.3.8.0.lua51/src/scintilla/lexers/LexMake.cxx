@@ -12,6 +12,7 @@
  * @brief 06.04.18 | fixErrEOL && Make and bash Style UserVars 
  * @brief 07.05.18 | VC Flags, Convoluted UserVars , Code cleanUP && logging
  * @brief 20.02.18 | No need to backstep styler's Position on non multilined content. 
+ * @brief 04.03.18 | Fix doubleReferenced User vars $$()
  * @brief todos
  * : Wrap within a Class. 
  * @brief Copyright 1998-20?? by Neil Hodgson <neilh@scintilla.org>
@@ -343,15 +344,19 @@ static unsigned int ColouriseMakeLine(
 			strSearch.clear();
 		}
 
-		/// ... Style User Variables Rule: $(...) , store chNext to close the correct brace later.
-		if ( !line.s.bWarnDqStr && chCurr == '$' && (strchr("{([", (int)chNext)!=NULL)) {			
-			sInUserVar.append(opposite(chNext));
+		// ... Style User Variables Rule: $(...) and doubleReferences $$(())
+		if (state==SCE_MAKE_USER_VARIABLE && chCurr!='$' ) {
+				sInUserVar.append(opposite(chCurr));
+		}
+
+		/// ... Store chNext to close the correct brace later.
+		if ( !line.s.bWarnDqStr && (chCurr == '$' && (strchr("{([", (int)chNext)!=NULL || chNext=='$' ))) {
 			if (iLog) std::clog<< "[UserVar: '" << sInUserVar << "']\n";
-			stylerPos =ColourHere(styler, currentPos-1, state);
+			stylerPos=ColourHere(styler, currentPos-1, state);
 			state_prev=state;
 			state=SCE_MAKE_USER_VARIABLE;
 			stylerPos =ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
-		} else if (!line.s.bWarnDqStr && state==SCE_MAKE_USER_VARIABLE && sInUserVar.back()==chNext) {
+		} else if (sInUserVar.size() && sInUserVar.back()==chNext){
 			if (iLog) std::clog<< "[/UserVar: '" << sInUserVar << "']\n";
 			if (sInUserVar.size()>0) sInUserVar.resize(sInUserVar.size()-1);
 			if (sInUserVar.size()==0) state_prev = SCE_MAKE_DEFAULT;		
@@ -664,7 +669,6 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 		styler.StartSegment(startPos);
 		styler.StartAt(startPos);
 	}
-
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
 	
