@@ -11,8 +11,8 @@
  * @brief 20.11.17 | fixEOF && cleanUp | Folding from cMake.
  * @brief 06.04.18 | fixErrEOL && Make and bash Style UserVars 
  * @brief 07.05.18 | VC Flags, Convoluted UserVars , Code cleanUP && logging
- * @brief 20.02.18 | No need to backstep styler's Position on non multilined content. 
- * @brief 04.03.18 | Fix doubleReferenced User vars $$()
+ * @brief 20.02.19 | No need to backstep styler's Position on non multilined content. 
+ * @brief 04.03.19 | Fix doubleReferenced User vars $$(), Improve logging.
  * @brief todos
  * : Wrap within a Class. 
  * @brief Copyright 1998-20?? by Neil Hodgson <neilh@scintilla.org>
@@ -134,7 +134,8 @@ static unsigned int ColouriseMakeLine(
 	Sci_PositionU endPos,
 	WordList *keywordlists[],
 	Accessor &styler,
-	int startStyle) {
+	int startStyle,
+	int iLog) {
 
 	Sci_PositionU i = 0; // primary line position counter
 	Sci_PositionU styleBreak = 0;
@@ -156,7 +157,6 @@ static unsigned int ColouriseMakeLine(
 	bool bInBashVar=false;
 	std::string sInUserVar="";		// close contained UserVars at the correct brace.
 	stylerPos=startLine;
-	int iLog=0;
 	if (iLog>0) std::clog << "[Pos]	[Char]	[WarnEOLState]\n";	
 		
 	/// Keywords
@@ -655,6 +655,8 @@ static void FoldMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordLi
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int startStyle, WordList *keywords[], Accessor &styler) {
 	std::string slineBuffer;
 	Sci_PositionU o_startPos;
+	int iLog= 0; // choose to enable Verbosity
+	
 	styler.Flush();
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
 	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:	
@@ -673,8 +675,8 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 	Sci_PositionU lineStart = startPos;
 	
 	maxStyleLineLength=styler.GetPropertyInt("max.style.linelength");
-	maxStyleLineLength = ( maxStyleLineLength > 0) ? maxStyleLineLength : LEXMAKE_MAX_LINELEN;
-			
+	maxStyleLineLength = (maxStyleLineLength > 0) ? maxStyleLineLength : LEXMAKE_MAX_LINELEN;
+	
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
 		// use a seond buffer for keyword matching.
 		slineBuffer.resize(slineBuffer.size()+1);
@@ -692,16 +694,16 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 					slineBuffer[posi]=styler[at++];
 				}
 			at=lineStart+lineLength-1;
-			startStyle = ColouriseMakeLine(slineBuffer, lineLength, lineStart, at, keywords, styler, startStyle);
+			startStyle = ColouriseMakeLine(slineBuffer, lineLength, lineStart, at, keywords, styler, startStyle, iLog);
 			slineBuffer.clear();
 			lineStart = at+1;
 			linePos=0;
 			}
 	}
 	if (linePos>0){ // handle the (continuated) line
-		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length-1, keywords, styler, startStyle);
-	//	styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
+		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length-1, keywords, styler, startStyle, iLog);
 	}
+	if (iLog)  std::clog.flush();
 }
 
 static const char *const makefileWordListDesc[] = {

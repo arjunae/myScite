@@ -4,13 +4,19 @@
 
 @echo off
 setlocal enabledelayedexpansion enableextensions
+set PLAT=""
+set PLAT_TARGET=""
+
+::set PLAT_TARGET=..\bin\SciTE.exe
+::call :find_platform
+::If [%PLAT%]==[WIN32] ()
 
 :: MinGW Path has to be set, otherwise please define here:
 ::set PATH=E:\MinGW\bin;%PATH%;
 
 :: ... use customized CMD Terminal
 if "%1"=="" (
- rem reg import ..\contrib\TinyTonCMD\TinyTonCMD.reg
+  reg import ..\contrib\TinyTonCMD\TinyTonCMD.reg
   start "TinyTonCMD" %~nx0 %1 tiny
   EXIT
 )
@@ -46,30 +52,21 @@ echo :--------------------------------------------------
 echo .... done ....
 echo :--------------------------------------------------
 
-::
-::--------------------------------------------------
-:: Now use this littl hack to look for a platform PE Signature at offset 120+
-:: Should work compiler independent for uncompressed binaries.
-set PLAT=""
-set off32=""
-set off64=""
-
-for /f "delims=:" %%A in ('findstr /o "^.*PE..L." ..\bin\SciTE.exe') do ( set off32=%%A ) 
-if %off32%==120 set PLAT=WIN32
-
-for /f "delims=:" %%A in ('findstr /o "^.*PE..d." ..\bin\SciTE.exe') do ( set off64=%%A ) 
-if %off64%==120 set PLAT=WIN64
-
+REM Find and display currents build targets Platform
+set PLAT_TARGET=..\bin\SciTE.exe
+call :find_platform
 echo .... Targets platform [%PLAT%] ......
 echo ~~~~~ Copying Files to release...
 If [%PLAT%]==[WIN32] (
 echo .... move to SciTE.win32 ......
+if not exist ..\..\..\release md ..\..\..\release
 copy ..\bin\SciTE.exe ..\..\..\release
 copy ..\bin\SciLexer.dll ..\..\..\release
 )
 
 If [%PLAT%]==[WIN64] (
 echo ... move to SciTE.win64
+if not exist ..\..\..\release md ..\..\..\release
 copy ..\bin\SciTE.exe ..\..\..\release
 copy ..\bin\SciLexer.dll ..\..\..\release
 )
@@ -83,3 +80,20 @@ pause
 cd ..\..
 PAUSE
 EXIT
+
+::--------------------------------------------------
+:: Now use this littl hack to look for a platform PE Signature at offset 120+
+:: Should work compiler independent for uncompressed binaries.
+:: Takes: PLAT_TARGET Value: Executable to be checked
+:: Returns: PLAT Value: Either WIN32 or WIN64 
+:find_platform
+set off32=""
+set off64=""
+
+for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %PLAT_TARGET%') do ( set off32=%%A ) 
+if %off32%==120 set PLAT=WIN32
+
+for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %PLAT_TARGET%') do ( set off64=%%A ) 
+if %off64%==120 set PLAT=WIN64
+exit /b 0
+:end_sub

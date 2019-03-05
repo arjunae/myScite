@@ -8,9 +8,11 @@
  * - Automatic Variables $[@%<?^+*] , Flags "-" and Keywords for externalCommands
  * - Warns on more unclosed Brackets or doublequoted Strings.
  * - Handles multiLine Continuations & inlineComments and styles Strings and Numbers.
- * @brief 20.11.17 | Thorsten Kani | fixEOF && cleanUp | Folding from cMake.
- * @brief 06.04.18 | Thorsten Kani | fixErrEOL && Make and bash Style UserVars 
- * @brief 07.05.18 | Thorsten Kani | VC Flags, Convoluted UserVars , Code cleanUP && logging
+ * @brief 20.11.17 | fixEOF && cleanUp | Folding from cMake.
+ * @brief 06.04.18 | fixErrEOL && Make and bash Style UserVars 
+ * @brief 07.05.18 | VC Flags, Convoluted UserVars , Code cleanUP && logging
+ * @brief 20.02.19 | No need to backstep styler's Position on non multilined content. 
+ * @brief 04.03.19 | Fix doubleReferenced User vars $$(), Improve logging.
  * @brief todos
  * : Wrap within a Class. 
  * @brief Copyright 1998-20?? by Neil Hodgson <neilh@scintilla.org>
@@ -132,7 +134,8 @@ static unsigned int ColouriseMakeLine(
 	Sci_PositionU endPos,
 	WordList *keywordlists[],
 	Accessor &styler,
-	int startStyle) {
+	int startStyle,
+	int iLog) {
 
 	Sci_PositionU i = 0; // primary line position counter
 	Sci_PositionU styleBreak = 0;
@@ -154,7 +157,6 @@ static unsigned int ColouriseMakeLine(
 	bool bInBashVar=false;
 	std::string sInUserVar="";		// close contained UserVars at the correct brace.
 	stylerPos=startLine;
-	int iLog=0;
 	if (iLog>0) std::clog << "[Pos]	[Char]	[WarnEOLState]\n";	
 		
 	/// Keywords
@@ -342,15 +344,19 @@ static unsigned int ColouriseMakeLine(
 			strSearch.clear();
 		}
 
-		/// ... Style User Variables Rule: $(...) , store chNext to close the correct brace later.
-		if ( !line.s.bWarnDqStr && chCurr == '$' && (strchr("{([", (int)chNext)!=NULL)) {			
-			sInUserVar.append(opposite(chNext));
+		// ... Style User Variables Rule: $(...) and doubleReferences $$(())
+		if (state==SCE_MAKE_USER_VARIABLE && chCurr!='$' ) {
+				sInUserVar.append(opposite(chCurr));
+		}
+
+		/// ... Store chNext to close the correct brace later.
+		if ( !line.s.bWarnDqStr && (chCurr == '$' && (strchr("{([", (int)chNext)!=NULL || chNext=='$' ))) {
 			if (iLog) std::clog<< "[UserVar: '" << sInUserVar << "']\n";
-			stylerPos =ColourHere(styler, currentPos-1, state);
+			stylerPos=ColourHere(styler, currentPos-1, state);
 			state_prev=state;
 			state=SCE_MAKE_USER_VARIABLE;
 			stylerPos =ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
-		} else if (!line.s.bWarnDqStr && state==SCE_MAKE_USER_VARIABLE && sInUserVar.back()==chNext) {
+		} else if (sInUserVar.size() && sInUserVar.back()==chNext){
 			if (iLog) std::clog<< "[/UserVar: '" << sInUserVar << "']\n";
 			if (sInUserVar.size()>0) sInUserVar.resize(sInUserVar.size()-1);
 			if (sInUserVar.size()==0) state_prev = SCE_MAKE_DEFAULT;		
@@ -646,26 +652,31 @@ static void FoldMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordLi
 		styler.SetLevel(lineCurrent, lev);
 }
 
-static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *keywords[], Accessor &styler) {
-	
-	int startStyle=SCE_MAKE_DEFAULT;
+static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int startStyle, WordList *keywords[], Accessor &styler) {
 	std::string slineBuffer;
-
+	Sci_PositionU o_startPos;
+	int iLog= 0; // choose to enable Verbosity
+	
 	styler.Flush();
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
-	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:
-	// find a MultiLines start
-	Sci_PositionU o_startPos=GetMLineStart(styler, startPos);
+	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:	
+	// find a MultiLines start, reset styler Position 
+	o_startPos=GetMLineStart(styler, startPos);
+	if (o_startPos!=startPos){
 		styler.StartSegment(o_startPos);
 		styler.StartAt(o_startPos);
 		length=length+(startPos-o_startPos);
 		startPos=o_startPos;
+	} else {
+		styler.StartSegment(startPos);
+		styler.StartAt(startPos);
+	}
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
 	
 	maxStyleLineLength=styler.GetPropertyInt("max.style.linelength");
-	maxStyleLineLength = ( maxStyleLineLength > 0) ? maxStyleLineLength : LEXMAKE_MAX_LINELEN;
-			
+	maxStyleLineLength = (maxStyleLineLength > 0) ? maxStyleLineLength : LEXMAKE_MAX_LINELEN;
+	
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
 		// use a seond buffer for keyword matching.
 		slineBuffer.resize(slineBuffer.size()+1);
@@ -683,16 +694,16 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int, W
 					slineBuffer[posi]=styler[at++];
 				}
 			at=lineStart+lineLength-1;
-			startStyle = ColouriseMakeLine(slineBuffer, lineLength, lineStart, at, keywords, styler, startStyle);
+			startStyle = ColouriseMakeLine(slineBuffer, lineLength, lineStart, at, keywords, styler, startStyle, iLog);
 			slineBuffer.clear();
 			lineStart = at+1;
 			linePos=0;
 			}
 	}
 	if (linePos>0){ // handle the (continuated) line
-		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length-1, keywords, styler, startStyle);
-		styler.ChangeLexerState(startPos, startPos+length); // Fini -> Request Screen redraw.
+		startStyle=ColouriseMakeLine(slineBuffer, linePos, lineStart, startPos+length-1, keywords, styler, startStyle, iLog);
 	}
+	if (iLog)  std::clog.flush();
 }
 
 static const char *const makefileWordListDesc[] = {

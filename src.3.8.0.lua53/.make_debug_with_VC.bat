@@ -36,6 +36,7 @@ echo .... done ....
 echo :--------------------------------------------------
 echo.
 echo ~~~~~ Copying Files to release...
+if not exist ..\..\..\release md ..\..\..\release
 move ..\bin\SciTE.exe ..\..\..\release
 move ..\bin\SciLexer.dll ..\..\..\release
 

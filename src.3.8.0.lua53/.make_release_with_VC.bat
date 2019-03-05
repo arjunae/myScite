@@ -59,11 +59,13 @@ echo .... Targets platform [%PLAT%] ......
 echo.
 echo ~~~~~ Copying Files to release...
 If [%PLAT%]==[WIN32] (
+if not exist ..\..\..\release md ..\..\..\release
 move ..\bin\SciTE.exe ..\..\..\release
 move ..\bin\SciLexer.dll ..\..\..\release
 )
 
 If [%PLAT%]==[WIN64] (
+if not exist ..\..\..\release md ..\..\..\release
 move ..\bin\SciTE.exe ..\..\..\release
 move ..\bin\SciLexer.dll ..\..\..\release
 )
