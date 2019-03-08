@@ -157,7 +157,6 @@ static unsigned int ColouriseMakeLine(
 	bool bInBashVar=false;
 	std::string sInUserVar="";		// close contained UserVars at the correct brace.
 	stylerPos=startLine;
-	if (iLog>0) std::clog << "[Pos]	[Char]	[WarnEOLState]\n";	
 		
 	/// Keywords
 	WordList &kwGeneric = *keywordlists[0]; // Makefile->Directives
@@ -656,7 +655,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 	std::string slineBuffer;
 	Sci_PositionU o_startPos;
 	int iLog= 0; // choose to enable Verbosity
-	
+	if (iLog>0) std::clog << "---------\n"<<"[Pos]	[Char]	[WarnEOLState]\n";	
 	styler.Flush();
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
 	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:	

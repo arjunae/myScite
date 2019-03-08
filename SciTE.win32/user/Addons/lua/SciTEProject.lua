@@ -176,7 +176,7 @@ end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- 
 -- ProjectOnDwell()
--- Performs actions when the "project.ctgs.fin" file has been found.
+-- Performs actions when the "project.ctags.fin" file has been found.
 -- (created when a cTag run has been completed)
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~

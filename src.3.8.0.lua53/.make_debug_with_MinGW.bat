@@ -23,7 +23,7 @@ if "%1"=="" (
 )
 
 echo ::..::..:::..::..::.:.::
-echo ::    SciTE Prod      ::
+echo ::    SciTE Debug     ::
 echo ::..::..:::..::..::.:.::
 echo.
 where mingw32-make 1>NUL 2>NUL

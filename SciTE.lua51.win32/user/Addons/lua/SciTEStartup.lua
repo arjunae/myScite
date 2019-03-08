@@ -183,7 +183,6 @@ function myScite_OpenSwitch()
 			props["status.msg.words_found"]=""
 		end
 	end
-scite.ApplyProperties()
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 

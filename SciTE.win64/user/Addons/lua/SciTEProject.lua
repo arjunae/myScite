@@ -62,8 +62,7 @@ function ProjectSetEnv(init)
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1
 	end
 	
-	if init then dofile(myHome..dirSep..'macros'..dirSep..'.AutoComplete.lua') end
-
+	if init then dofile(myHome..dirSep..'macros'..dirSep..'AutoComplete.lua') end
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -80,7 +79,7 @@ function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 	-- just return the cached Version if not forced to do otherwise
 	if (not cTagList) or string.find(YodaNamePath,"append.") then theForceMightBeWithYou=true end
 
-	-- Propagate the Data, appends if required
+	-- Propagate SDK Data, appends if required
 	if  (theForceMightBeWithYou==true) then
 		for entry in io.lines(YodaNamePath) do
 			prop,names=entry:match("([%w_.]+)%s?=(.*)") 
@@ -115,7 +114,8 @@ function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 		props["substylewords.11.13."..projectEXT] = props["sdk.tags.cTagENUMs"]
 		props["substylewords.11.14."..projectEXT] = props["sdk.tags.cTagClasses"]		
 	end
-	--print(props["substylewords.11.14."..projectEXT] )
+--	print(props["substylewords.11.14."..projectEXT] )
+--	print(props["sdk.path"])
 	
 	return cTagList
 end
@@ -137,7 +137,7 @@ function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 
 	-- Attach a project platform API if it had been specified
 	if (props["project.sdk.api"]~="") then sdkApiPath=props["project.sdk.api"] end
-	if not sdkApiPath then sdkApiPath="" end
+	if not sdkApiPath then sdkApiPath="" end	
 	-- Update SciTEs Filetypes APIlist. 
 	-- Change SDKApi if requested by a SciTE.properties file.
 	if not projectApiPath or not projectApiPath:match(props["project.sdk.api"]) then
