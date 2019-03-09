@@ -1643,12 +1643,6 @@ bool LuaExtension::OnExecute(const char *s) {
 }
 
 bool LuaExtension::OnOpen(const char *filename) {
-// Signal SciTEs first startup 
-	static bool IsFirstCall = true;
-	if(IsFirstCall) {
-		CallNamedFunction("OnInit", 0, 0);
-		IsFirstCall = false;
-	}
 	return CallNamedFunction("OnOpen", filename);
 }
 
@@ -2072,6 +2066,12 @@ bool LuaExtension::OnDoubleClick() {
 }
 
 bool LuaExtension::OnUpdateUI() {
+// Signal SciTEs first startup 
+	static bool IsFirstCall = true;
+	if(IsFirstCall) {
+		CallNamedFunction("OnInit", 0, 0);
+		IsFirstCall = false;
+	}
 	return CallNamedFunction("OnUpdateUI");
 }
 

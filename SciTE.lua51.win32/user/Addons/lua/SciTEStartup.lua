@@ -193,7 +193,7 @@ function OnInit()
 
 	-- check SciLexer once per session and inform the User if its a nonStock Version.
 	local SLHash
-	if not SLHash then 
+	if not SLHash then
 	SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
 		if SLHash and SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
 	end
@@ -203,7 +203,8 @@ function OnInit()
 	scite_OnSave(CTagsRecreate)
 	scite_OnOpenSwitch(myScite_OpenSwitch)
 	checkUpdates() -- update local scite version Information from githubs readme.md
-		
+	if tonumber(props['sidebar.show'])==1 then gui.pass_focus() end
+	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
 --print("startupScript_reload")

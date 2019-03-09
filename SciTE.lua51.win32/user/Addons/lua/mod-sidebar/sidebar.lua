@@ -1751,9 +1751,8 @@ AddEventHandler("OnKey", function()
 	end
 end)
 
-
 --========================================================
--- now show SideBar:
+-- now show SideBar:	
 if tonumber(props['sidebar.show'])==1 then
 		gui.set_panel(win_parent, sidebar_position)
 end
