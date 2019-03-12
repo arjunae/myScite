@@ -12,7 +12,7 @@
  * @brief 06.04.18 | fixErrEOL && Make and bash Style UserVars 
  * @brief 07.05.18 | VC Flags, Convoluted UserVars , Code cleanUP && logging
  * @brief 20.02.19 | No need to backstep styler's Position on non multilined content. 
- * @brief 04.03.19 | Fix doubleReferenced User vars $$(), Improve logging.
+ * @brief 10.03.19 | Fix doubleReferenced User vars $$() and automatic Vars, Improve logging.
  * @brief todos
  * : Wrap within a Class. 
  * @brief Copyright 1998-20?? by Neil Hodgson <neilh@scintilla.org>
@@ -104,7 +104,6 @@ static inline std::string opposite(const char ch) {
 	if (ch == '(') ret= ')';
 	if (ch == '[') ret= ']';
 	if (ch == '{') ret= '}';
-	if (ch == '<') ret= '>';
 	return ret;
 }
 
@@ -154,7 +153,6 @@ static unsigned int ColouriseMakeLine(
 	} line;line.s.iWarnEOL=0;line.s.bWarnBrace=0;line.s.bWarnDqStr=0;line.s.bWarnSqStr=0;line.s.bWarnBrace=0;
 		
 	bool bInCommand=false;		// set when a line begins with a tab (command)	
-	bool bInBashVar=false;
 	std::string sInUserVar="";		// close contained UserVars at the correct brace.
 	stylerPos=startLine;
 		
@@ -179,7 +177,11 @@ static unsigned int ColouriseMakeLine(
 		char chCurr=styler.SafeGetCharAt(currentPos); 
 		char chNext=styler.SafeGetCharAt(currentPos+1);	
 
-		/// Handle (very) long Lines. 
+		/// Handle Character Escape Sequence
+		if ((line.s.bWarnSqStr || line.s.bWarnDqStr) && chPrev=='\\') chCurr=' ';
+		if ((line.s.bWarnSqStr || line.s.bWarnDqStr) && chCurr=='\\') chNext=' ';
+			 
+		/// Handle (really) long Lines. 
 		if (i>=maxStyleLineLength) {
 			state=SCE_MAKE_DEFAULT;
 			styler.ColourTo(endPos, state);
@@ -220,7 +222,7 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Lets signal a warning on unclosed Braces.
-		if (state==SCE_MAKE_DEFAULT && strchr("})", (int)chCurr)!=NULL) { 
+		if (line.s.bWarnBrace && strchr("})", (int)chCurr)!=NULL) { 
 			ColourHere(styler, currentPos-1, state);
 			line.s.bWarnBrace=false;
 		} else if (state==SCE_MAKE_DEFAULT && strchr("{(", (int)chCurr)!=NULL) {
@@ -229,13 +231,13 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Style single quoted Strings	( But skip escaped)
-		if (state!=SCE_MAKE_STRING && line.s.bWarnSqStr && chCurr=='\''&& chPrev!='\'' ) {
+		if (state!=SCE_MAKE_STRING && line.s.bWarnSqStr && chCurr=='\'') {
 			if (iLog) std::clog<< "[/SQString] " << "\n";
 			ColourHere(styler, currentPos-1, state);
-			state=SCE_MAKE_DEFAULT;
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
-			line.s.bWarnSqStr=false;
-		} else if (state!=SCE_MAKE_STRING && chCurr=='\'' && chPrev!='\'' ) {
+			state=state_prev;
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT,state);
+			line.s.bWarnSqStr = false;
+		} else if (state!=SCE_MAKE_STRING && chCurr=='\'') {
 			if (iLog) std::clog<< "[SQString] " << "\n";
 			state_prev = state;
 			state = SCE_MAKE_IDENTIFIER;
@@ -245,13 +247,13 @@ static unsigned int ColouriseMakeLine(
 		} 
 
 		/// Style double quoted Strings (But skip escaped)
-		if (state==SCE_MAKE_STRING && chCurr=='\"' && chPrev !='\\') {
+		if (state==SCE_MAKE_STRING && chCurr=='\"' ) {
 			if (iLog) std::clog<< "[/DQString] " << "\n";
 			ColourHere(styler, currentPos-1, state);
 			state=state_prev;
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT, state);
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT,state);
 			line.s.bWarnDqStr = false;
-		} else if ((state!=SCE_MAKE_STRING ) && chCurr=='\"' && chPrev!='\\') {
+		} else if ((state!=SCE_MAKE_STRING ) && chCurr=='\"') {
 			if (iLog) std::clog<< "[DQString] " << "\n";
 			state_prev = state;
 			state = SCE_MAKE_STRING;
@@ -344,35 +346,31 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		// ... Style User Variables Rule: $(...) and doubleReferences $$(())
-		if (state==SCE_MAKE_USER_VARIABLE && chCurr!='$' ) {
-				sInUserVar.append(opposite(chCurr));
+		if (chCurr== '$' && strchr("{([", (int)chNext)==NULL ) {
+		} else if ((chCurr == '$' && (strchr("{([", (int)chNext)!=NULL || chNext=='$'))) {
+			if (iLog) std::clog<< "[UserVar: '" << sInUserVar << "']\n";
+			stylerPos=ColourHere(styler, currentPos-1, state);
+			if(state!=SCE_MAKE_USER_VARIABLE) state_prev=state;
+			state=SCE_MAKE_USER_VARIABLE;
+			stylerPos =ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
+		} else if ((sInUserVar.size() && sInUserVar.back()==chCurr)) {
+			if (iLog) std::clog<< "[/UserVar: '" << sInUserVar << "']\n";
+			if (sInUserVar.size()>0) sInUserVar.resize(sInUserVar.size()-1);
+			state=state_prev;
+			if (state==SCE_MAKE_STRING) state_prev=SCE_MAKE_DEFAULT;
+			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE, state);
 		}
 
 		/// ... Store chNext to close the correct brace later.
-		if ( !line.s.bWarnDqStr && (chCurr == '$' && (strchr("{([", (int)chNext)!=NULL || chNext=='$' ))) {
-			if (iLog) std::clog<< "[UserVar: '" << sInUserVar << "']\n";
-			stylerPos=ColourHere(styler, currentPos-1, state);
-			state_prev=state;
-			state=SCE_MAKE_USER_VARIABLE;
-			stylerPos =ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
-		} else if (sInUserVar.size() && sInUserVar.back()==chNext){
-			if (iLog) std::clog<< "[/UserVar: '" << sInUserVar << "']\n";
-			if (sInUserVar.size()>0) sInUserVar.resize(sInUserVar.size()-1);
-			if (sInUserVar.size()==0) state_prev = SCE_MAKE_DEFAULT;		
-			state=state_prev;
-			ColourHere(styler, currentPos+1, SCE_MAKE_USER_VARIABLE, state);				
+		if (state==SCE_MAKE_USER_VARIABLE && chCurr!='$' && chPrev=='$' ) {
+				sInUserVar.append(opposite(chCurr));
 		}
 
 		/// ... Style bash Vars Rule: $$
-		if (state!=SCE_MAKE_STRING && ( chCurr == '$' && chNext=='$')) {
+		if (state!=SCE_MAKE_STRING && ( chPrev= '$' && chCurr == '$' && strchr(" \t\r\n \"\'\\#!?&|+[]<>;=,", (int)chNext) != NULL )) {
 			if (iLog) std::clog<< "[BashVar_VCFLag] " << "\n";
-			bInBashVar=true;
-			stylerPos =ColourHere(styler, currentPos-1, state);			
-			stylerPos =ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
-		} else if (bInBashVar && strchr(" \t\r\n \"\'\\#!?&|+{}()[]<>;=,", (int)chCurr) != NULL) {
-			bInBashVar=false;
-			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE, state);
-			if (iLog) std::clog<< "[/BashVar_VCFLag] " << "\n";
+			stylerPos =ColourHere(styler, currentPos-1 , SCE_MAKE_USER_VARIABLE);
+			ColourHere(styler, currentPos+1, SCE_MAKE_USER_VARIABLE,SCE_MAKE_DEFAULT);
 		}
 
 		/// ... $ prefixed or DF suffixed automatic Variables. FluxCompensators orders: ($)@%<^+'D'||'F'
@@ -380,13 +378,13 @@ static unsigned int ColouriseMakeLine(
 		|| ( strchr("@%<?^+*", (int)chCurr) >0 &&	strchr("DF", (int)chNext)!=NULL))) {
 			if (iLog) std::clog<< "[AutomaticVar] " << "\n";
 			ColourHere(styler, currentPos-1, state);
-			state_prev=state;
 			state = SCE_MAKE_EXTCMD;
-		} else if (state == SCE_MAKE_EXTCMD && (strchr("@%<^+DF", (int)chCurr) == NULL)) {
-			ColourHere(styler, currentPos-1, state, state_prev);
-			state = SCE_MAKE_DEFAULT;
+			ColourHere(styler, currentPos, state);
+		} else if (state == SCE_MAKE_EXTCMD && (strchr("@%<^+DF", (int)chCurr) != NULL)) {
+			ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			if (iLog) std::clog<< "[/AutomaticVar] " << "\n";
 		}
+
 
 		/// Capture the Flags. Start match: ( '-' ) or (linestart + "-") Endmatch: (whitespace || EOL || "$/;\'")
 		if (state!=SCE_MAKE_STRING && strchr("&|\t\r\n \":;, '({=", (int)chPrev) != NULL 

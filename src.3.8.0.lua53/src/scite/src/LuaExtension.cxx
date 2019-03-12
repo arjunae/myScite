@@ -2108,7 +2108,7 @@ bool LuaExtension::OnDoubleClick() {
 }
 
 bool LuaExtension::OnUpdateUI() {
-	// Signal SciTEs first startup 
+// Signal SciTEs first startup 
 	static bool IsFirstCall = true;
 	if(IsFirstCall) {
 		CallNamedFunction("OnInit");
