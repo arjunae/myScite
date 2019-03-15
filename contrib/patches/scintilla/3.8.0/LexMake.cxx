@@ -387,27 +387,7 @@ static unsigned int ColouriseMakeLine(
 				sInUserVar.append(opposite(chCurr));
 		}
 
-		/// Style Bash Vars {([ or $STRING / $$String
-		if (chCurr == '$' && chNext!='$' && strchr("{([", (int)chNext)==NULL) {
-			// Style the prefix
-			if (iLog) std::clog<< "[BashVar] " << "\n";
-			if(state!=SCE_MAKE_USER_VARIABLE) state_prev=state;
-			int offset = (chPrev=='$')?1:0;
-			stylerPos=ColourHere(styler, currentPos-1-offset, state);
-			stylerPos=ColourHere(styler, currentPos+offset, SCE_MAKE_USER_VARIABLE);
-			bInBashVar=true;
-		} else if (bInBashVar && (strchr(" \t\'\"", (int)chNext)!=NULL)) {
-			ColourHere(styler, currentPos, state);
-			ColourHere(styler, currentPos+1, state_prev);
-			state=state_prev;
-			if (line.s.iWarnEOL) state_prev=SCE_MAKE_DEFAULT; // Exception for Quotes
-			bInBashVar=false;
-			if (iLog) std::clog<< "[/BashVar] " << "\n";
-		} else if (bInBashVar) {
-			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
-		}
-
-	/// ... $ prefixed or DF suffixed automatic Variables. FluxCompensators orders: ($)@%<^+'D'||'F'
+		/// ... $ prefixed or DF suffixed automatic Variables. FluxCompensators orders: ($)@%<^+'D'||'F'
 		if (state != SCE_MAKE_STRING && ((chCurr=='$' && strchr("@%<?^+*", (int)chNext) >0) 
 		|| ( strchr("@%<?^+*", (int)chCurr) >0 && strchr("DF", (int)chNext)!=NULL))) {
 			if (iLog) std::clog<< "[AutomaticVar] " << "\n";
@@ -417,6 +397,26 @@ static unsigned int ColouriseMakeLine(
 		} else if (state == SCE_MAKE_EXTCMD && (strchr("@%<^+DF", (int)chCurr) != NULL)) {
 			ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			if (iLog) std::clog<< "[/AutomaticVar] " << "\n";
+		}
+
+		/// Style Bash Vars {([ or $STRING / $$String
+		if (chCurr == '$' && chNext!='$' && strchr("{([@%<?^+* \t\'\"", (int)chNext)==NULL) {
+			// Style the prefix
+			if (iLog) std::clog<< "[BashVar] " << "\n";
+			if(state!=SCE_MAKE_USER_VARIABLE) state_prev=state;
+			int offset = (chPrev=='$')?1:0;
+			stylerPos=ColourHere(styler, currentPos-1-offset, state);
+			stylerPos=ColourHere(styler, currentPos+offset, SCE_MAKE_USER_VARIABLE);
+			bInBashVar=true;
+		} else if (bInBashVar && (strchr(" \t\'\"\\#!?&|+;,", (int)chNext)!=NULL)) {
+			ColourHere(styler, currentPos, state);
+			ColourHere(styler, currentPos+1, state_prev);
+			state=state_prev;
+			if (line.s.iWarnEOL) state_prev=SCE_MAKE_DEFAULT; // Exception for Quotes
+			bInBashVar=false;
+			if (iLog) std::clog<< "[/BashVar] " << "\n";
+		} else if (bInBashVar) {
+			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
 		}
 
 		/// Capture the Flags. Start match: ( '-' ) or (linestart + "-") Endmatch: (whitespace || EOL || "$/;\'")
