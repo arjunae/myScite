@@ -158,7 +158,9 @@ static unsigned int ColouriseMakeLine(
 		
 	bool bInCommand=false;		// set when a line begins with a tab (command)
 	bool bInBashVar=false;		// set to differenciate between User and Bash vars.
-	std::string sInUserVar="";		// close contained UserVars at the correct brace.
+	std::string sInUserVar="";		// close convoluted User Variables at the correct brace.
+	std::string sInBraces="";		// close open Braces at the matching counterpart.
+
 	stylerPos=startLine;
 	styleEnd=endPos;		// Another sanity check -just to make sure...
 
@@ -236,16 +238,20 @@ static unsigned int ColouriseMakeLine(
 			}	
 		}
 
-		/// Lets signal a warning on unclosed Braces.
-		if (line.s.bWarnBrace && strchr("})", (int)chCurr)!=NULL) { 
+		/// Lets signal a warning on unclosed Braces. Check for the matching one.
+		if ((sInBraces.size() && sInBraces.back()==chCurr)) {
+			if (iLog) std::clog<< "[/NormalBrace] " << "\n"; 
 			ColourHere(styler, currentPos-1, state);
-			line.s.bWarnBrace=false;
+			if (sInBraces.size()>0) sInBraces.resize(sInBraces.size()-1);
+			if (sInBraces.size()==0) line.s.bWarnBrace=false;
 		} else if (state==SCE_MAKE_DEFAULT && strchr("{(", (int)chCurr)!=NULL) {
+			if (iLog) std::clog<< "[NormalBrace] " << "\n"; 
 			ColourHere(styler, currentPos-1, state_prev);
+			sInBraces.append(opposite(chCurr));
 			line.s.bWarnBrace=true;
 		}
 
-		/// Style single quoted Strings	( But skip escaped)
+		/// Style single quoted Strings.
 		if (state!=SCE_MAKE_STRING && line.s.bWarnSqStr && chCurr=='\'') {
 			if (iLog) std::clog<< "[/SQString] " << "\n";
 			ColourHere(styler, currentPos-1, state);
@@ -261,7 +267,7 @@ static unsigned int ColouriseMakeLine(
 			line.s.bWarnSqStr=true;
 		} 
 
-		/// Style double quoted Strings (But skip escaped)
+		/// Style double quoted Strings.
 		if (line.s.bWarnDqStr && chCurr=='\"' ) {
 			if (iLog) std::clog<< "[/DQString] " << "\n";
 			ColourHere(styler, currentPos-1, state);
@@ -368,12 +374,13 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		// ... Style User Variables Rule: $(...) and doubleReferences $$(())
-		if (!bInBashVar && chCurr == '$' && (strchr("{([", (int)chNext)!=NULL || chNext=='$' )) {
+		if (!bInBashVar && (chPrev=='$' || chCurr == '$') && strchr("{([", (int)chNext)!=NULL ) {
 			if (iLog) std::clog<< "[UserVar: '" << sInUserVar << "']\n";
-			stylerPos=ColourHere(styler, currentPos-1, state);
+			int offset = (chPrev=='$')?1:0;
+			ColourHere(styler, currentPos-1-offset, state);
 			if(state!=SCE_MAKE_USER_VARIABLE) state_prev=state;
 			state=SCE_MAKE_USER_VARIABLE;
-			stylerPos =ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
+			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
 		} else if ((sInUserVar.size() && sInUserVar.back()==chCurr)) {
 			if (iLog) std::clog<< "[/UserVar: '" << sInUserVar << "']\n";
 			if (sInUserVar.size()>0) sInUserVar.resize(sInUserVar.size()-1);

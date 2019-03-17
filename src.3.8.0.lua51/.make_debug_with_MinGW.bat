@@ -8,10 +8,6 @@ set DEBUG=1
 set PLAT=""
 set PLAT_TARGET=""
 
-::set PLAT_TARGET=..\bin\SciTE.exe
-::call :find_platform
-::If [%PLAT%]==[WIN32] ()
-
 :: MinGW Path has to be set, otherwise please define here:
 ::set PATH=E:\MinGW\bin;%PATH%;
 
@@ -20,6 +16,14 @@ if "%1"=="" (
   reg import ..\contrib\TinyTonCMD\TinyTonCMD.reg
   start "TinyTonCMD" %~nx0 %1 tiny
   EXIT
+)
+
+if exist src\mingw.*.release.build choice /C YN /M "A MinGW Release Build has been found. Rebuild as Debug? "
+if [%ERRORLEVEL%]==[2] (
+  exit
+) else if [%ERRORLEVEL%]==[1] (
+  del src\mingw.*.release.build 1>NUL 2>NUL
+  cd src & del /S /Q *.dll *.exe *.lib .obj  *.pdb .res *.orig *.rej 1>NUL 2>NUL & cd ..
 )
 
 echo ::..::..:::..::..::.:.::
@@ -58,27 +62,27 @@ set PLAT_TARGET=..\bin\SciTE.exe
 call :find_platform
 echo .... Targets platform [%PLAT%] ......
 echo ~~~~~ Copying Files to release...
-If [%PLAT%]==[WIN32] (
+If [%PLAT%]==[win32] (
 echo .... move to SciTE.win32 ......
 if not exist ..\..\..\release md ..\..\..\release
 copy ..\bin\SciTE.exe ..\..\..\release
 copy ..\bin\SciLexer.dll ..\..\..\release
 )
 
-If [%PLAT%]==[WIN64] (
+If [%PLAT%]==[win64] (
 echo ... move to SciTE.win64
 if not exist ..\..\..\release md ..\..\..\release
 copy ..\bin\SciTE.exe ..\..\..\release
 copy ..\bin\SciLexer.dll ..\..\..\release
 )
-
+cd ..\..\..
+echo > src\mingw.%PLAT%.debug.build
 goto end
 
 :error
 pause
 
 :end
-cd ..\..
 PAUSE
 EXIT
 
@@ -92,9 +96,9 @@ set off32=""
 set off64=""
 
 for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %PLAT_TARGET%') do ( set off32=%%A ) 
-if %off32%==120 set PLAT=WIN32
+if %off32%==120 set PLAT=win32
 
 for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %PLAT_TARGET%') do ( set off64=%%A ) 
-if %off64%==120 set PLAT=WIN64
+if %off64%==120 set PLAT=win64
 exit /b 0
 :end_sub

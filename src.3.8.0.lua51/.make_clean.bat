@@ -12,7 +12,7 @@ if "%1"=="" (
 )
 mode 130,18
 cd src
-del /S /Q *.dll *.exe *.lib *.aps *.bsc  *.dsw *.idb *.ilc *.ild *.ilf *.ilk *.ils *.map *.ncb *.obj *.o *.opt *.pdb *.plg *.res *.sbr *.tds *.exp *.pyc *.orig *.rej 2>NUL
+del /S /Q *.dll *.exe *.lib *.aps *.bsc  *.dsw *.idb *.ilc *.ild *.ilf *.ilk *.ils *.map *.ncb *.obj *.o *.opt *.pdb *.plg *.res *.sbr *.tds *.exp *.pyc *.orig *.rej *.build 2>NUL
 echo :--------------------------------------------------
 echo .... done ....
 echo :--------------------------------------------------

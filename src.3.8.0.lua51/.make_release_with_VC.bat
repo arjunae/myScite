@@ -1,5 +1,14 @@
 @echo off
 REM for a debug build use:  make_with_VC.bat DEBUG
+setlocal enabledelayedexpansion enableextensions
+
+if exist src\vc.*.debug.build choice /C YN /M "A VC Debug Build has been found. Rebuild as Debug? "
+if [%ERRORLEVEL%]==[2] (
+  exit
+) else if [%ERRORLEVEL%]==[1] (
+  del src\vc.*.debug.build 1>NUL 2>NUL
+  cd src & del /S /Q *.dll *.exe *.lib .obj  *.pdb .res *.orig *.rej 1>NUL 2>NUL & cd ..
+)
 
 :: Try to acquire a VisualStudio 14 Context
 :: If that fails, use systems highest available Version as defined via env var VS[xxx]COMNTOOLS
@@ -69,13 +78,13 @@ if not exist ..\..\..\release md ..\..\..\release
 move ..\bin\SciTE.exe ..\..\..\release
 move ..\bin\SciLexer.dll ..\..\..\release
 )
-
+cd ..\..\..
+echo > src\vc.%arch%.release.build
 goto end
 
 :error
 pause
 
 :end
-cd ..\..
 PAUSE
 EXIT

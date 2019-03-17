@@ -158,7 +158,7 @@ LEXPROPS=\
 
 PROPS=../bin/SciTEGlobal.properties ../bin/abbrev.properties $(LEXPROPS)
 
-ALL:	$(PROG) $(DLLS) $(PROPS) $(LUA_SCRIPTS)
+ALL:	$(DLLS) $(PROG) $(PROPS) $(LUA_SCRIPTS)
 #$(PROGSTATIC)
 clean:
 	$(DEL) *.exe *.o *.obj *.dll *.res *.map *.plist
