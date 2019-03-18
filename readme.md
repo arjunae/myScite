@@ -8,7 +8,8 @@
 - Upd: properties: redone php (7.2) and c api files. 
 - Add: tools: added a simple update checker.
 - Upd: userlists can be styled with style calltip (38)
-- Upd: Themeing: Major CleanUp
+- Upd: Themeing: Major CleanUp.
+-> (18.03.2019) Fix a rarely occuring assertion in LexMake.
 
 [13.07.2018] myScite.190.01 MartyMcFly (Lua5.1 & Lua5.3)
   =Maintenance Release=
@@ -16,6 +17,7 @@
 - Upd: Enhanced LexMake (support qMake &  EolWarns on Multiline Continuations)
 - Upd: Tuned lua Script load order
 - Add: Added Installer (Win32/Win64)
+-> (18.03.2019) Fix a rarely occuring assertion in LexMake.
 
 [19.01.2018] mySciTE.190.MartyMcFly (Lua5.1 & Lua5.3)
 - Add: SciTE Project Support. Settings for scite sources included.
@@ -149,9 +151,9 @@
 - Add; Code Linter (with gcc) and Beautify Tools (Uncrustify)
 
 #BeginVersions
-#Version: 20180713, c0d5e2e7, mySciTE_190_01_MartyMcFly_lua53_win32,0
-#Version: 20180713, 6dc538c0, mySciTE_190_01_MartyMcFly_lua53_win64,0
-#Version: 20180713, 4be341d1, mySciTE_190_01_MartyMcFly_lua51_win32,0
+#Version: 20180713, 12d22953, mySciTE_190_01_MartyMcFly_lua53_win32,0
+#Version: 20180713, a87e480a, mySciTE_190_01_MartyMcFly_lua53_win64,0
+#Version: 20180713, ef3c428a, mySciTE_190_01_MartyMcFly_lua51_win32,0
 #Version: 20180119, dc789340, mySciTE_190_MartyMcFly_lua53_win32,1
 #Version: 20180119, 68970227, mySciTE_190_MartyMcFly_lua53_win64,1
 #Version: 20171125, 6ae5f442, mySciTE_180_Artie_win32,1

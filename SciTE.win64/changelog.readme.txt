@@ -7,16 +7,18 @@
 # Fix: Build System: enable compiling on Linux and VC again.
 # Upd: properties: redone php (7.2) and c api files. 
 # Add: tools: added a simple update checker.
-# Upd: userlists can be styled with style calltip (38)
-# Upd: Themeing: Major CleanUp
+# Upd: userlists can be styled with style calltip (38).
+# Upd: Themeing: Major CleanUp.
+-> (18.03.2019) Fix a rarely occuring assertion in LexMake.
 
-[13.07.2018] myScite.190a.MartyMcFly (Lua5.1 & Lua5.3)
+[13.07.2018] myScite.190.01MartyMcFly (Lua5.1 & Lua5.3)
   =Maintenance Release=
-# Fix: Fixes for Language Support and Themeing
-# Upd: Enhanced LexMake (support qMake &  EolWarns on Multiline Continuations)
-# Upd: Tuned lua Script load order
+# Fix: Fixes for Language Support and Themeing.
+# Upd: Enhanced LexMake (support qMake &  EolWarns on Multiline Continuations).
+# Upd: Tuned lua Script load order.
 # Add: Added Installer (Win32/Win64)
-# Upd: Based on Foicica's Scintilla (3.8.0) cpp11 backport and SciTE Mainline (3.7.5)
+# Upd: Based on Foicica's Scintilla (3.8.0) cpp11 backport and SciTE Mainline (3.7.5).
+-> (18.03.2019) Fix a rarely occuring assertion in LexMake.
  
 [12.01.2018] myScite.190.MartyMcFly (Lua5.1 & Lua5.3)
 # Add: SciTE Project Support. Settings for scite sources included.
