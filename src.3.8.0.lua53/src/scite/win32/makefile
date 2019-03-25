@@ -52,7 +52,7 @@ LUA_LIB_OBJS =	lauxlib.o lbaselib.o lbitlib.o lcorolib.o ldblib.o liolib.o lmath
 LUA_OBJS = LuaExtension.o 
 
 ifeq '$(LUA_LINK_SCILEXER)' '1'
-LUA_LDFLAGS = -Wl,-Bstatic -static ../bin/SciLexer.dll
+LUA_LDFLAGS = -Wl,-Bstatic -static ../../scintilla/bin/SciLexer.dll
 else 
 LUA_OBS+= $(LUA_CORE_OBJS) $(LUA_LIB_OBJS)
 endif

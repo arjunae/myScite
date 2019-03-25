@@ -21,8 +21,10 @@ if exist src\mingw.*.debug.build choice /C YN /M "A MinGW Debug Build has been f
 if [%ERRORLEVEL%]==[2] (
   exit
 ) else if [%ERRORLEVEL%]==[1] (
-  del src\mingw.*.debug.build 1>NUL 2>NUL
-  cd src & del /S /Q *.dll *.exe *.lib .obj  *.pdb .res *.orig *.rej 1>NUL 2>NUL & cd ..
+  cd src
+  del mingw.*.debug.build 1>NUL 2>NUL
+  del /S /Q *.dll *.exe *.pdb *.res *.orig *.rej 1>NUL 2>NUL
+  cd ..
 )
 
 echo ::..::..:::..::..::.:.::
@@ -79,6 +81,7 @@ echo > src\mingw.%PLAT%.release.build
 goto end
 
 :error
+echo Stop: An Error occured during the build.
 pause
 
 :end
@@ -94,10 +97,14 @@ EXIT
 set off32=""
 set off64=""
 
-for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %PLAT_TARGET%') do ( set off32=%%A ) 
-if %off32%==120 set PLAT=win32
+for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %PLAT_TARGET%') do (
+  if [%%A] LEQ [200] SET PLAT=WIN32
+  if [%%A] LEQ [200] SET OFFSET=%%A
+)
 
-for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %PLAT_TARGET%') do ( set off64=%%A ) 
-if %off64%==120 set PLAT=win64
+for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %PLAT_TARGET%') do (
+  if [%%A] LEQ [200] SET PLAT=WIN64
+  if [%%A] LEQ [200] SET OFFSET=%%A
+)
 exit /b 0
 :end_sub

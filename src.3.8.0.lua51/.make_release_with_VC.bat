@@ -1,15 +1,16 @@
 @echo off
-REM for a debug build use:  make_with_VC.bat DEBUG
+REM for a debug build use:  make_debug_with_VC.bat
 setlocal enabledelayedexpansion enableextensions
 
-if exist src\vc.*.debug.build choice /C YN /M "A VC Debug Build has been found. Rebuild as Debug? "
+if exist src\vc.*.debug.build choice /C YN /M "A VC Debug Build has been found. Rebuild as Release? "
 if [%ERRORLEVEL%]==[2] (
   exit
 ) else if [%ERRORLEVEL%]==[1] (
-  del src\vc.*.debug.build 1>NUL 2>NUL
-  cd src & del /S /Q *.dll *.exe *.lib .obj  *.pdb .res *.orig *.rej 1>NUL 2>NUL & cd ..
+  cd src
+  del vc.*.debug.build 1>NUL 2>NUL
+  del /S /Q *.res *.orig *.rej *.dll *.exe 1>NUL 2>NUL
+  cd ..
 )
-
 :: Try to acquire a VisualStudio 14 Context
 :: If that fails, use systems highest available Version as defined via env var VS[xxx]COMNTOOLS
 
@@ -46,24 +47,9 @@ echo :--------------------------------------------------
 echo .... done ....
 echo :--------------------------------------------------
 
-REM This littl hack looks for a platform PE Signature at offset 120+
-REM Should work compiler independent for uncompressed binaries.
-REM Offsets MSVC/MINGW==120 BORLAND==131 PaCKERS >xxx
-REM -1 suggests that a binary is compressed
-
-set PLAT=""
-set file=..\bin\SciTE.exe
-
-for /f "delims=:" %%A in ('findstr /o "^.*PE..L." "%file%"') do ( 
-  if %%A LEQ 200 (SET PLAT=WIN32) ELSE (SET PLAT=NIL) 
-  if %%A LEQ 200 (SET OFFSET=%%A) ELSE (SET OFFSET=-1)
-)
-
-for /f "delims=:" %%B in ('findstr /o "^.*PE..d." "%file%"') do (
-  if %%B LEQ 200 (SET PLAT=WIN64) ELSE (SET PLAT=NIL)
-  if %%B LEQ 200 (SET OFFSET=%%B) ELSE (SET OFFSET=-1)
-)
-
+REM Find and display currents build targets Platform
+set PLAT_TARGET=..\bin\SciTE.exe
+call :find_platform
 echo .... Targets platform [%PLAT%] ......
 echo.
 echo ~~~~~ Copying Files to release...
@@ -83,8 +69,29 @@ echo > src\vc.%arch%.release.build
 goto end
 
 :error
+echo Stop: An Error occured during the build.
 pause
 
 :end
 PAUSE
 EXIT
+
+REM This littl hack looks for a platform PE Signature at offset 120+
+REM Should work compiler independent for uncompressed binaries.
+REM Offsets MSVC/MINGW==120 BORLAND==131 PaCKERS >xxx
+REM -1 suggests that a binary is compressed
+:find_platform
+set PLAT=""
+set PLAT_TARGET=..\bin\SciTE.exe
+
+for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %PLAT_TARGET%') do (
+  if [%%A] LEQ [200] SET PLAT=WIN32
+  if [%%A] LEQ [200] SET OFFSET=%%A
+)
+
+for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %PLAT_TARGET%') do (
+  if [%%A] LEQ [200] SET PLAT=WIN64
+  if [%%A] LEQ [200] SET OFFSET=%%A
+)
+exit /b 0
+:end_sub
