@@ -1,5 +1,5 @@
 ::...::..:::...::..::.:.::
-::    SciTE Prod   ::  
+::    SciTE Debug   ::  
 ::...::..:::...::..::.:.::
 
 @echo off
@@ -82,7 +82,7 @@ echo > src\mingw.%PLAT%.debug.build
 goto end
 
 :error
-echo Stop: An Error occured during the build.
+echo Stop: An Error %ERRORLEVEL% occured during the build.
 pause
 
 :end

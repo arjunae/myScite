@@ -8,7 +8,7 @@ if [%ERRORLEVEL%]==[2] (
 ) else if [%ERRORLEVEL%]==[1] (
   cd src
   del vc.*.debug.build 1>NUL 2>NUL
-  del /S /Q *.res *.orig *.rej *.dll *.exe 1>NUL 2>NUL
+  del /S /Q *.obj *.pdb *.a *.res *.orig *.rej *.dll *.exe 1>NUL 2>NUL
   cd ..
 )
 :: Try to acquire a VisualStudio 14 Context
@@ -69,7 +69,7 @@ echo > src\vc.%arch%.release.build
 goto end
 
 :error
-echo Stop: An Error occured during the build.
+echo Stop: An Error %ERRORLEVEL% occured during the build.
 pause
 
 :end

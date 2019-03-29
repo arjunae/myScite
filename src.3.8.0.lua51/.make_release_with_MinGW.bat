@@ -81,7 +81,7 @@ echo > src\mingw.%PLAT%.release.build
 goto end
 
 :error
-echo Stop: An Error occured during the build.
+echo Stop: An Error %ERRORLEVEL% occured during the build. 
 pause
 
 :end
@@ -98,12 +98,12 @@ set off32=""
 set off64=""
 
 for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %PLAT_TARGET%') do (
-  if [%%A] LEQ [200] SET PLAT=WIN32
+  if [%%A] LEQ [200] SET PLAT=win32
   if [%%A] LEQ [200] SET OFFSET=%%A
 )
 
 for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %PLAT_TARGET%') do (
-  if [%%A] LEQ [200] SET PLAT=WIN64
+  if [%%A] LEQ [200] SET PLAT=win64
   if [%%A] LEQ [200] SET OFFSET=%%A
 )
 exit /b 0

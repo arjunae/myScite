@@ -8,7 +8,7 @@ if [%ERRORLEVEL%]==[2] (
 ) else if [%ERRORLEVEL%]==[1] (
   cd src
   del vc.*.release.build 1>NUL 2>NUL
-  del /S /Q *.lib *.res *.orig *.rej *.dll *.exe 1>NUL 2>NUL
+  del /S /Q *.obj *.pdb *.lib *.res *.orig *.rej *.dll *.exe 1>NUL 2>NUL
   cd ..
 )
 
@@ -70,7 +70,7 @@ echo > src\vc.%arch%.debug.build
 goto end
 
 :error
-echo Stop: An Error occured during the build.
+echo Stop: An Error %ERRORLEVEL% occured during the build.
 pause
 
 :end
