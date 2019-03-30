@@ -9,7 +9,7 @@
 # Add: tools: added a simple update checker.
 # Upd: userlists can be styled with style calltip (38).
 # Upd: Themeing: Major CleanUp.
--> (18.03.2019) Fix a rarely occuring assertion in LexMake.
+-> (30.03.2019) LexMake: CleanUp Code / Fix a rarely occuring assertion.
 
 [13.07.2018] myScite.190.01MartyMcFly (Lua5.1 & Lua5.3)
   =Maintenance Release=
