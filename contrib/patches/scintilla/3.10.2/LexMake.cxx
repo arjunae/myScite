@@ -197,8 +197,10 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Handle Character Escape Sequence - Except Hexadecimal Value or Path Representations.
-		if (chCurr=='\\' && chNext!='x' && strchr(" \t \"\' \\ \n /#!?&|+{}()[]<>;=,", (int)chNext)!= NULL ) chNext=' ';
-
+		if (chPrev=='\\' && chCurr!='x' && strchr(" \t \"\' \\ \n /#!?&|+{}()[]<>;=,", (int)chCurr)!= NULL ){
+		  chCurr=' '; chNext=' ';
+		}
+		
 		/// Handle (really) long Lines. 
 		if (i>=maxStyleLineLength) {
 			state=SCE_MAKE_DEFAULT;
@@ -317,7 +319,7 @@ static unsigned int ColouriseMakeLine(
 
 		// Ok, now we have some materia within our char buffer, so check whats in.
 		// Do not match in Strings and the next char has to be either whitespace or ctrl. 
-		if (state!=SCE_MAKE_STRING && strSearch.size()>0 && !iscntrl(chNext)) {
+		if (state!=SCE_MAKE_STRING && strSearch.size()>0 && IsAlpha(chNext) == 0) {
 			//Sci_PositionU wordLen=(Sci_PositionU)strSearch.size();
 
 			// check if we get a match with Keywordlist externalCommands
@@ -446,15 +448,15 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Numbers and simple Versioning using '.' || '-'
-		if(state==SCE_MAKE_DEFAULT && startMark==0 && IsNum(chCurr) && AtStartChar(chPrev)) {
+		if(state==SCE_MAKE_DEFAULT && startMark==0 && IsNum(chCurr)) {
 			if (stylerPos < currentPos) ColourHere(styler, currentPos-1, state);
 			state_prev=state;
 			state=SCE_MAKE_NUMBER;
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
-		} else if (state==SCE_MAKE_NUMBER && (AtStartChar(chNext) || IsAlpha(chNext)) ) {
-			ColourHere(styler, currentPos, SCE_MAKE_NUMBER);
+		} else if (state==SCE_MAKE_NUMBER && (AtStartChar(chCurr) || isalpha(chCurr)) ) {
+			ColourHere(styler, currentPos-1, SCE_MAKE_NUMBER);
 			state=state_prev;
-		} else if (state==SCE_MAKE_NUMBER) {
+		} else if (state==SCE_MAKE_NUMBER && (IsNum(chCurr) || chCurr=='.' || chCurr=='-' )) {
 			ColourHere(styler, currentPos, state);
 		}
 

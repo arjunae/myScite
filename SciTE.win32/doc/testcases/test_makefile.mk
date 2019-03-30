@@ -219,7 +219,7 @@ menu-deploy: .title
 	@echo ""
 
 .exit:
-	@(echo -e "$(.ERROR) $(text)";exit 1)
+	@(echo -e "$(.ERROR) $(text)";exit 1 )
 
 .warn: 
 	@(echo -e "$(.WARN) $(text)";exit 1)
