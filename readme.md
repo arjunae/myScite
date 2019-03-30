@@ -151,9 +151,9 @@
 - Add; Code Linter (with gcc) and Beautify Tools (Uncrustify)
 
 #BeginVersions
-#Version: 20180713, 12d22953, mySciTE_190_01_MartyMcFly_lua53_win32,0
-#Version: 20180713, a87e480a, mySciTE_190_01_MartyMcFly_lua53_win64,0
-#Version: 20180713, ef3c428a, mySciTE_190_01_MartyMcFly_lua51_win32,0
+#Version: 20180713, 3698fb0c, mySciTE_190_01_MartyMcFly_lua53_win32,0
+#Version: 20180713, 40e87fce, mySciTE_190_01_MartyMcFly_lua53_win64,0
+#Version: 20180713, a2bcc80a, mySciTE_190_01_MartyMcFly_lua51_win32,0
 #Version: 20180119, dc789340, mySciTE_190_MartyMcFly_lua53_win32,1
 #Version: 20180119, 68970227, mySciTE_190_MartyMcFly_lua53_win64,1
 #Version: 20171125, 6ae5f442, mySciTE_180_Artie_win32,1
