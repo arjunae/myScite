@@ -36,12 +36,12 @@ echo.
 echo ~~~~Build: Scintilla
 cd src\scintilla\win32
 nmake %parameter1% -f scintilla.mak
-if errorlevel 1 goto :error
+if [%errorlevel%] NEQ [0] goto :error
 
 echo ~~~~Build: SciTE
 cd ..\..\scite\win32
 nmake %parameter1% -f scite.mak
-if errorlevel 1 goto :error
+if [%errorlevel%] NEQ [0] goto :error
 echo.
 echo :--------------------------------------------------
 echo .... done ....

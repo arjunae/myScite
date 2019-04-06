@@ -15,6 +15,7 @@
  * @brief 10.03.19 | Fix doubleReferenced User vars $$() and automatic Vars, Improve logging.
  * @brief 14.03.19 | Style Variable Assignments denoted by = as identifiers. Prevent some possible Assertions.
  * @brief 26.03.19 | Allow multichar Automatic vars, only escape ControlChars in a Character Escape Sequence. Style Numbers better. 
+ * @brief 06.04.19 | Readability: Style Identifiers within Uservars.
  * @brief todos
  * : Wrap within a Class. 
  * @brief Copyright 1998-20?? by Neil Hodgson <neilh@scintilla.org>
@@ -159,6 +160,7 @@ static unsigned int ColouriseMakeLine(
 		
 	bool bInCommand=false;		// set when a line begins with a tab (command)
 	bool bInBashVar=false;		// set to differenciate between User and Bash vars.
+	bool bStyleAsIdentifier=false;	// differenciate Identifiers from UserVars.
 	std::string sInUserVar="";		// close convoluted User Variables at the correct brace.
 	std::string sInBraces="";		// close open Braces at the matching counterpart.
 
@@ -322,21 +324,11 @@ static unsigned int ColouriseMakeLine(
 		if (state!=SCE_MAKE_STRING && strSearch.size()>0 && IsAlpha(chNext) == 0) {
 			//Sci_PositionU wordLen=(Sci_PositionU)strSearch.size();
 
-			// check if we get a match with Keywordlist externalCommands
-			// Rule: preceeded by line start and AtStartChar() Ends on eol, whitespace or ;
-			if (kwExtCmd.InList(strSearch.c_str())
-			&& strchr("\t\r\n ; \\)", (int)chNext) !=NULL 
-			&& AtStartChar(styler.SafeGetCharAt(startMark-1))) {
-				if (iLog) std::clog<< "[/extCMD] " << strSearch << "\n";
-				if (startMark > startLine) ColourHere(styler, startMark-1, state);
-				ColourHere(styler, currentPos, SCE_MAKE_EXTCMD);
-			}
-
 			// we now search for the word within the Directives Space.
 			// Rule: preceeded by line start or .'='. Ends on eol, whitespace or ;
 			if (kwGeneric.InList(strSearch.c_str())
 			&& (strchr("\t\r\n ;)", (int)chNext) !=NULL) 
-			&& (startMark==theStart || styler.SafeGetCharAt(startMark-1) == '=')) {
+			&& AtStartChar(styler.SafeGetCharAt(startMark-1))) {
 				if (iLog) std::clog<< "[/Directive] " << strSearch << "\n";
 				if (startMark > startLine) ColourHere(styler, startMark-1, state);	
 				ColourHere(styler, currentPos, SCE_MAKE_DIRECTIVE);
@@ -350,6 +342,16 @@ static unsigned int ColouriseMakeLine(
 				if (startMark > startLine) ColourHere(styler, startMark-1, state);
 				ColourHere(styler, currentPos, SCE_MAKE_FUNCTION);
 			} 
+			
+		   // check if we get a match with Keywordlist externalCommands
+			// Rule: preceeded by line start and AtStartChar() Ends on eol, whitespace or ;
+			if (kwExtCmd.InList(strSearch.c_str())
+			&& strchr("\t\r\n ; \\)", (int)chNext) !=NULL 
+			&& AtStartChar(styler.SafeGetCharAt(startMark-1))) {
+				if (iLog) std::clog<< "[/extCMD] " << strSearch << "\n";
+				if (startMark > startLine) ColourHere(styler, startMark-1, state);
+				ColourHere(styler, currentPos, SCE_MAKE_EXTCMD);
+			}
 
 			// Colour Strings which end with a Number
 			if (state==SCE_MAKE_DEFAULT && IsNum(chCurr) && startMark >= stylerPos) {
@@ -387,21 +389,29 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
 		}
 
-
-		// ... Style User Variables Rule: $(...) and doubleReferences $$(())
+		// ... Style User Variables Rule: $(...) and doubleReferences $$(())	
 		if (!bInBashVar && (chPrev=='$' || chCurr == '$') && strchr("{([", (int)chNext)!=NULL ) {
 			if (iLog) std::clog<< "[UserVar: '" << sInUserVar << "']\n";
+			bStyleAsIdentifier=false;
+			// Style the prefix '$('
 			int offset = (chPrev=='$')?1:0;
 			ColourHere(styler, currentPos-1-offset, state);
+			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
+			ColourHere(styler, currentPos+1, SCE_MAKE_USER_VARIABLE);
 			if(state!=SCE_MAKE_USER_VARIABLE) state_prev=state;
 			state=SCE_MAKE_USER_VARIABLE;
-			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
+		} else if(sInUserVar.size() && strchr(" \t /#!?&|+;,", (int)chCurr)!=NULL){
+			// Readability Exception: Default Style for Identifiers in UserVars.
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);
+			bStyleAsIdentifier=true;
 		} else if ((sInUserVar.size() && sInUserVar.back()==chCurr)) {
 			if (iLog) std::clog<< "[/UserVar: '" << sInUserVar << "']\n";
 			if (sInUserVar.size()>0) sInUserVar.resize(sInUserVar.size()-1);
 			state=state_prev;
 			if (line.s.iWarnEOL) state_prev=SCE_MAKE_DEFAULT;
+			if (bStyleAsIdentifier) ColourHere(styler, currentPos-1, SCE_MAKE_DEFAULT);
 			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE, state);
+			bStyleAsIdentifier=false;
 		}
 
 		/// ... Store chNext to close the correct brace later.

@@ -47,12 +47,12 @@ exit
 echo ~~~~Build: Scintilla
 cd src\scintilla\win32
 mingw32-make  -j %NUMBER_OF_PROCESSORS%
-if errorlevel 1 goto :error
+if [%errorlevel%] NEQ [0] goto :error
 echo.
 echo ~~~~Build: SciTE
 cd ..\..\scite\win32
 mingw32-make  -j %NUMBER_OF_PROCESSORS%
-::if errorlevel 1 goto :error
+if [%errorlevel%] NEQ [0] goto :error
 echo.
 echo :--------------------------------------------------
 echo .... done ....

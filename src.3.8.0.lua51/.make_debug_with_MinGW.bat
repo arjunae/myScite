@@ -24,7 +24,7 @@ if [%ERRORLEVEL%]==[2] (
 ) else if [%ERRORLEVEL%]==[1] (
   cd src
   del mingw.*.release.build 1>NUL 2>NUL
-  del /S /Q *.dll *.exe *.pdb *.res *.orig *.rej 1>NUL 2>NUL
+  del /S /Q *.dll *.exe *.res *.orig *.rej 1>NUL 2>NUL
   cd ..
 )
 
@@ -48,12 +48,12 @@ exit
 echo ~~~~Build: Scintilla
 cd src\scintilla\win32
 mingw32-make  -j %NUMBER_OF_PROCESSORS%
-if errorlevel 1 goto :error
+if [%errorlevel%] NEQ [0] goto :error
 echo.
 echo ~~~~Build: SciTE
 cd ..\..\scite\win32
 mingw32-make  -j %NUMBER_OF_PROCESSORS%
-::if errorlevel 1 goto :error
+if [%errorlevel%] NEQ [0] goto :error
 echo.
 echo :--------------------------------------------------
 echo .... done ....

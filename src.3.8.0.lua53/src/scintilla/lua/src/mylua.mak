@@ -34,7 +34,7 @@ RUNTIME = /MT
 OPTIM   = /Od
 
 CFLAGS  = /GS $(WARN) $(RUNTIME) $(OPTIM) /DWIN32 /D_WINDOWS /D_MBCS \
-          /DNDEBUG /DLUA_COMPAT_5_1 /DLUA_BUILD_AS_DLL
+           /DLUA_COMPAT_5_1 /DLUA_BUILD_AS_DLL
 
 # ----------------------------------------------------------------------
 

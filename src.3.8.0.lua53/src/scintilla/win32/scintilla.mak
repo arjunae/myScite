@@ -278,15 +278,15 @@ SCILEXOBJS=\
 	$(DIR_O)\ScintillaBaseL.obj
 
 $(LUADLL): $(LUA_OBJ)
-	$(LD)   /OUT:lua.dll /DLL $**
+	$(LD) /OUT:lua.dll /DLL $**
 
 $(LUALIB): $(LUA_OBJ)
-	LIB  /out:lua.lib $**
+	LIB /out:lua.lib $**
 	
 $(DIR_O)\ScintRes.res : ScintRes.rc
 	$(RC) -fo$@ $**
 
-$(COMPONENT):  $(SOBJS) $(DIR_O)\ScintRes.res
+$(COMPONENT): $(SOBJS) $(DIR_O)\ScintRes.res
 	$(LD) $(LDFLAGS) -DEF:Scintilla.def -DLL -OUT:$@ $** $(LIBS)
 
 $(LEXCOMPONENT):  $(LUA_OBJ) $(SCILEXOBJS) $(DIR_O)\ScintillaWinL.obj $(DIR_O)\ScintRes.res
