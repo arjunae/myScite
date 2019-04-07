@@ -29,4 +29,5 @@ clidebug.cmd
 *.orig
 
 #- vscode Project files
-#.vsCode/
+.vsCode/
+*.ipch
