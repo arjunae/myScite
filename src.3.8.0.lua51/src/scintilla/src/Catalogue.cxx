@@ -143,7 +143,7 @@ int Scintilla_LinkLexers() {
 	LINK_LEXER(lmMySQL);
 	LINK_LEXER(lmNimrod);
 	LINK_LEXER(lmNncrontab);
-//	LINK_LEXER(lmNsis);
+	LINK_LEXER(lmNsis);
 	LINK_LEXER(lmNull);
 	LINK_LEXER(lmOctave);
 	LINK_LEXER(lmOpal);
@@ -164,7 +164,7 @@ int Scintilla_LinkLexers() {
 	LINK_LEXER(lmPython);
 	LINK_LEXER(lmR);
 	LINK_LEXER(lmREBOL);
-//	LINK_LEXER(lmRegistry);
+	LINK_LEXER(lmRegistry);
 	LINK_LEXER(lmRuby);
 	LINK_LEXER(lmRust);
 	LINK_LEXER(lmScriptol);

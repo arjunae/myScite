@@ -56,7 +56,7 @@
 
 using namespace Scintilla;
 
-// Holds LEXMAKE_MAX_LINELEN or property "max.style.linelength" if it has been defined.
+// Holds LEXMAKE_MAX_LINELEN or property "lexer.makefile.line.chars.max" if it has been defined.
 Sci_PositionU maxStyleLineLength;
 
 static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
@@ -141,14 +141,7 @@ static unsigned int ColouriseMakeLine(
 	Accessor &styler,
 	int startStyle,
 	int iLog) {
-
-	Sci_PositionU i = 0; // primary line position counter
-	Sci_PositionU styleBreak = 0;
-	Sci_PositionU strLen = 0; // Keyword candidate length.
-	Sci_PositionU startMark = 0;	 // Keyword candidates startPos. >0 while searching for a Keyword	
-	unsigned int state = SCE_MAKE_DEFAULT;
-	unsigned int state_prev = startStyle;
-
+	
 	union { 
 			struct { // remove that one- and have fun drinkin "Coffee".......
 				int iWarnEOL;		// unclosed string / braces flag.
@@ -157,13 +150,19 @@ static unsigned int ColouriseMakeLine(
 				bool bWarnBrace;	// unclosed brace flag.
 			} s;
 	} line;line.s.iWarnEOL=0;line.s.bWarnBrace=0;line.s.bWarnDqStr=0;line.s.bWarnSqStr=0;line.s.bWarnBrace=0;
-		
+	
+	Sci_PositionU i = 0; // primary line position counter
+	Sci_PositionU styleBreak = 0;
+	Sci_PositionU strLen = 0; // Keyword candidate length.
+	Sci_PositionU startMark = 0;	 // Keyword candidates startPos. >0 while searching for a Keyword	
+	unsigned int state = startStyle;
+	unsigned int state_prev = SCE_MAKE_DEFAULT;
+
 	bool bInCommand=false;		// set when a line begins with a tab (command)
 	bool bInBashVar=false;		// set to differenciate between User and Bash vars.
 	bool bStyleAsIdentifier=false;	// differenciate Identifiers from UserVars.
 	std::string sInUserVar="";		// close convoluted User Variables at the correct brace.
 	std::string sInBraces="";		// close open Braces at the matching counterpart.
-
 	stylerPos=startLine;
 	styleEnd=endPos;		// Another sanity check -just to make sure...
 
@@ -473,13 +472,12 @@ static unsigned int ColouriseMakeLine(
 		i++;
 	}
 
-	if (line.s.iWarnEOL>0) {
-		state=SCE_MAKE_IDEOL;
-	} else if (line.s.iWarnEOL<1) {
-		state=SCE_MAKE_DEFAULT;
+	if(line.s.iWarnEOL<1) {
+		ColourHere(styler, endPos, SCE_MAKE_DEFAULT);	
+	} else if (line.s.iWarnEOL>0) {
+		ColourHere(styler, endPos, SCE_MAKE_IDEOL);	
 	}
 
-	ColourHere(styler, endPos, state);
 	return(state);
 }
 
@@ -710,6 +708,7 @@ static void FoldMakeDoc(Sci_PositionU startPos, Sci_Position length, int, WordLi
 static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int startStyle, WordList *keywords[], Accessor &styler) {
 	std::string slineBuffer;
 	Sci_PositionU o_startPos;
+
 	int iLog=0; // choose to enable Verbosity requires a bash shell on windows.
 	if (iLog>0) std::clog << "---------\n"<<"[Pos]	[Char]	[WarnEOLState]\n";	
 	styler.Flush();
@@ -729,11 +728,11 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
 	
-	maxStyleLineLength=styler.GetPropertyInt("max.style.linelength");
+	maxStyleLineLength=styler.GetPropertyInt("lexer.makefile.line.chars.max");
 	maxStyleLineLength = (maxStyleLineLength > 0) ? maxStyleLineLength : LEXMAKE_MAX_LINELEN;
 	
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
-		// use a seond buffer for keyword matching.
+		// Use a second buffer for keyword matching.
 		slineBuffer.resize(slineBuffer.size()+1);
 		slineBuffer[linePos++] = styler[at];
 
@@ -760,7 +759,6 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 	}
 	if (iLog)  std::clog.flush();
 }
-
 static const char *const makefileWordListDesc[] = {
 	"Make Directive Keywords",
 	"Make Function Keywords",
