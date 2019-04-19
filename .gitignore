@@ -4,6 +4,9 @@
 # Hint: When changing entries, remember using git rm -r *.* --cached
 #
 
+#- vscode Project patch files
+ipch/
+
 #- temporary linker files, objects and archives, anywhere in the tree.
 *.tmp
 *.o
@@ -27,7 +30,3 @@ clidebug.cmd
 
 #- patch and aStyle backups
 *.orig
-
-#- vscode Project files
-.vsCode/
-*.ipch
