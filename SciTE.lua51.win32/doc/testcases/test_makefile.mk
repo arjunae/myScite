@@ -7,7 +7,7 @@
 #
 
 # General Configuration
-VERSION         = 5.1.13
+VERSION         = 0.1.13
 FOUNDATION_HOME = $(shell pwd)/.foundation
 CONFIG_TOOL     = ${FOUNDATION_HOME}/repo/bin/project-config.php
 GENERATE_TOOL   = ${FOUNDATION_HOME}/repo/bin/project-generate.php
@@ -418,8 +418,7 @@ phantomjs-inject phantomjs-inject-verbose: .check-foundation
 	fi;\
 
 phantomjs-snapshot: .check-foundation .check-phantomjs
-
- [[ -z "$(url)" ]] && echo -e "Usage: make phantomjs-snapshot url=<site-url>\n" && exit 11 || true
+	[[ -z "$(url)" ]] && echo -e "Usage: make phantomjs-snapshot url=<site-url>\n" && exit 11 || true
 	mkdir -p `$(CONFIG_TOOL) sandbox-folder `/snapshots
 	mv -f $(shell echo -e $(shell phantomjs ${FOUNDATION_HOME}/repo/bin/snapshot.phantom.js "$(url)")) `$(CONFIG_TOOL) sandbox-folder `/snapshots/.
 	@echo -e "$(.WARN) Wait for the browser to close..."
@@ -438,9 +437,6 @@ project-init: .check-foundation
 	  fi; \
 	fi; \
 	make -s -f $(THIS) .project-init
-
-sdfsdf\
-echo
 
 .project-init: git-init project-folders phpunit-xml bootstrap-php package git-add-all
 	sleep 2
@@ -462,7 +458,7 @@ project-authors-reduce: .check-foundation
 	@git filter-branch -f --env-filter ' \
 	    while read author; do \
 	        if [ "$$GIT_COMMITTER_NAME <$$GIT_COMMITTER_EMAIL>" = "$${author}" ]; then \
-	            export GIT_COMMITTER_NAME
+	            export GIT_COMMITTER_NAME \
 							"$${GIT_NEW_NAME}"; \
 	            export GIT_COMMITTER_EMAIL="$${GIT_NEW_EMAIL}"; \
 	        fi; \
@@ -470,7 +466,7 @@ project-authors-reduce: .check-foundation
 	            export GIT_AUTHOR_NAME="$${GIT_NEW_NAME}"; \
 	            export GIT_AUTHOR_EMAIL="$${GIT_NEW_EMAIL}"; \
 	        fi; \
-	    done < "${auths}"; \
+	    done < "${auths}'"; \
 	';
 
 info-git-extras:

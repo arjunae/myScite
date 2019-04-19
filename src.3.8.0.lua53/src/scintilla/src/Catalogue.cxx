@@ -143,7 +143,7 @@ int Scintilla_LinkLexers() {
 	LINK_LEXER(lmMySQL);
 	LINK_LEXER(lmNimrod);
 	LINK_LEXER(lmNncrontab);
-	LINK_LEXER(lmNsis);
+//	LINK_LEXER(lmNsis);
 	LINK_LEXER(lmNull);
 	LINK_LEXER(lmOctave);
 	LINK_LEXER(lmOpal);

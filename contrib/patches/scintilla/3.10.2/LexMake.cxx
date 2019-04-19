@@ -15,7 +15,7 @@
  * @brief 10.03.19 | Fix doubleReferenced User vars $$() and automatic Vars, Improve logging.
  * @brief 14.03.19 | Style Variable Assignments denoted by = as identifiers. Prevent some possible Assertions.
  * @brief 26.03.19 | Allow multichar Automatic vars, only escape ControlChars in a Character Escape Sequence. Style Numbers better. 
- * @brief 06.04.19 | Readability: Style Identifiers within Uservars.
+ * @brief 19.04.19 | Readability: Style Identifiers within Uservars. Allow spaces beyond a '\', improve code Docs. 
  * @brief todos
  * : Wrap within a Class. 
  * @brief Copyright 1998-20?? by Neil Hodgson <neilh@scintilla.org>
@@ -155,7 +155,8 @@ static unsigned int ColouriseMakeLine(
 	Sci_PositionU styleBreak = 0;
 	Sci_PositionU strLen = 0; // Keyword candidate length.
 	Sci_PositionU startMark = 0;	 // Keyword candidates startPos. >0 while searching for a Keyword	
-	unsigned int state = startStyle;
+
+	unsigned int state=(startStyle!=SCE_MAKE_IDEOL)?startStyle:SCE_MAKE_DEFAULT;
 	unsigned int state_prev = SCE_MAKE_DEFAULT;
 
 	bool bInCommand=false;		// set when a line begins with a tab (command)
@@ -178,9 +179,10 @@ static unsigned int ColouriseMakeLine(
 	unsigned int theStart=startLine+i; // One Byte ought (not) to be enough for everyone....?
 	
 	// check for a tab character in column 0 indicating a command
-	if ( styler.SafeGetCharAt(theStart-1) == '\t' )
+	if ( styler.SafeGetCharAt(theStart-1) == '\t' ){
 		bInCommand = true;
-	
+	}
+		
 	while ( i < lengthLine ) {
 		Sci_PositionU currentPos=startLine+i;
 		char chPrev=styler.SafeGetCharAt(currentPos-1);	
@@ -213,6 +215,7 @@ static unsigned int ColouriseMakeLine(
 		if (currentPos==theStart && chCurr == '!') {
 			state=SCE_MAKE_PREPROCESSOR;
 			styler.ColourTo(endPos, state);
+			state=SCE_MAKE_DEFAULT;
 			return(state);
 		}
 
@@ -221,7 +224,8 @@ static unsigned int ColouriseMakeLine(
 			state_prev=state;
 			state=SCE_MAKE_COMMENT;
 			ColourHere(styler, currentPos-1, state_prev);
-			ColourHere(styler, endPos, state, SCE_MAKE_DEFAULT);
+			ColourHere(styler, endPos-1, state, SCE_MAKE_DEFAULT);
+			state=SCE_MAKE_DEFAULT;
 			return(state);
 		}
 
@@ -236,7 +240,7 @@ static unsigned int ColouriseMakeLine(
 		if (!bInCommand && state==SCE_MAKE_DEFAULT) {			
 			if (chCurr == ':' && chNext != '=') { // its a ':' so style as a target
 				if(styleBreak>0 && styleBreak<currentPos && styleBreak>stylerPos)
-					ColourHere(styler, styleBreak, SCE_MAKE_DEFAULT, state);
+					ColourHere(styler, styleBreak, SCE_MAKE_DEFAULT);
 				ColourHere(styler, currentPos-1, SCE_MAKE_TARGET, state);
 			}	
 		}
@@ -253,12 +257,12 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Style single quoted Strings.
-		if (state!=SCE_MAKE_STRING && line.s.bWarnSqStr && chCurr=='\'') {
+		if (!line.s.bWarnDqStr && line.s.bWarnSqStr && chCurr=='\'') {
 			if (iLog) std::clog<< "[/SQString] " << "\n";
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state_prev);
 			state=state_prev;
 			line.s.bWarnSqStr = false;
-		} else if (state!=SCE_MAKE_STRING && chCurr=='\'') {
+		} else if (!line.s.bWarnDqStr && chCurr=='\'') {
 			if (iLog) std::clog<< "[SQString] " << "\n";
 			state_prev = state;
 			state = SCE_MAKE_IDENTIFIER;
@@ -270,7 +274,7 @@ static unsigned int ColouriseMakeLine(
 		/// Style double quoted Strings.
 		if (line.s.bWarnDqStr && chCurr=='\"' ) {
 			if (iLog) std::clog<< "[/DQString] " << "\n";
-			ColourHere(styler, currentPos, SCE_MAKE_STRING, state_prev);
+			ColourHere(styler, currentPos, SCE_MAKE_STRING,state_prev);
 			state=state_prev;
 			line.s.bWarnDqStr = false;
 		} else if ((state!=SCE_MAKE_STRING ) && chCurr=='\"') {
@@ -342,7 +346,7 @@ static unsigned int ColouriseMakeLine(
 				ColourHere(styler, currentPos, SCE_MAKE_FUNCTION);
 			} 
 			
-		   // check if we get a match with Keywordlist externalCommands
+			// check if we get a match with Keywordlist externalCommands
 			// Rule: preceeded by line start and AtStartChar() Ends on eol, whitespace or ;
 			if (kwExtCmd.InList(strSearch.c_str())
 			&& strchr("\t\r\n ; \\)", (int)chNext) !=NULL 
@@ -361,7 +365,7 @@ static unsigned int ColouriseMakeLine(
 			// Colour Variable Assignments which end with a =
 			if (state==SCE_MAKE_DEFAULT && chNext=='=' && startMark >= stylerPos) {
 				ColourHere(styler, startMark-1, state);
-				ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, SCE_MAKE_DEFAULT);
+				ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER);
 			}
 
 			startMark=0;
@@ -369,7 +373,7 @@ static unsigned int ColouriseMakeLine(
 			strSearch.clear();
 		}
 
-		/// Style Bash Vars $STRING / $$String
+		/// Style Bash Vars $STRING / $$String. Automatic vars will be styled separately. 
 		if (chCurr == '$' && chNext!='$' && strchr("{([@%<?^+|* \t\'\"", (int)chNext)==NULL) {
 			// Style the prefix
 			if (iLog) std::clog<< "[BashVar] " << "\n";
@@ -405,12 +409,16 @@ static unsigned int ColouriseMakeLine(
 			bStyleAsIdentifier=true;
 		} else if ((sInUserVar.size() && sInUserVar.back()==chCurr)) {
 			if (iLog) std::clog<< "[/UserVar: '" << sInUserVar << "']\n";
-			if (sInUserVar.size()>0) sInUserVar.resize(sInUserVar.size()-1);
-			state=state_prev;
-			if (line.s.iWarnEOL) state_prev=SCE_MAKE_DEFAULT;
-			if (bStyleAsIdentifier) ColourHere(styler, currentPos-1, SCE_MAKE_DEFAULT);
-			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE, state);
-			bStyleAsIdentifier=false;
+			if (sInUserVar.size()>0) {
+				sInUserVar.resize(sInUserVar.size()-1);
+				ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE, state);
+			} // Final Brace - Close User Var.
+			if (sInUserVar.size()==0) {
+				state=SCE_MAKE_DEFAULT;
+				if (line.s.iWarnEOL) state_prev=SCE_MAKE_DEFAULT;
+				if (bStyleAsIdentifier) ColourHere(styler, currentPos-1, SCE_MAKE_DEFAULT);
+				bStyleAsIdentifier=false;
+			}
 		}
 
 		/// ... Store chNext to close the correct brace later.
@@ -472,12 +480,10 @@ static unsigned int ColouriseMakeLine(
 		i++;
 	}
 
-	if(line.s.iWarnEOL<1) {
-		ColourHere(styler, endPos, SCE_MAKE_DEFAULT);	
-	} else if (line.s.iWarnEOL>0) {
-		ColourHere(styler, endPos, SCE_MAKE_IDEOL);	
-	}
-
+ 	if (line.s.iWarnEOL>0) 
+		state=SCE_MAKE_IDEOL;	
+ 
+	ColourHere(styler, endPos, state);
 	return(state);
 }
 
@@ -503,7 +509,6 @@ static int GetMLineStart(Accessor &styler, Sci_Position offset) {
 	} else {
 		status=1;
 		finalMLSegment=offset;
-		//return(finalMLSegment); // No MultiLine
 	}
 
 	// check for continuation segments start
@@ -538,52 +543,62 @@ static int GetMLineStart(Accessor &styler, Sci_Position offset) {
 **/
 static int GetLineLen(Accessor &styler, Sci_Position offset) {
 	Sci_PositionU length=0;
-	Sci_Position ywo=offset;
+	Sci_Position posi=offset;
 
-	// check last visible char for beeing a continuation
-	while (ywo>0 && IsNewline(styler[ywo--])) {
-		if (styler[ywo]=='\n') return (offset-ywo); // empty Line
+	// Check for an empty Line.
+	while (posi>0 && IsNewline(styler[--posi])) {
+		if (styler[posi]=='\n') return (offset-posi); // empty Line
+	}
+	
+	// Skip any space chars before the newlines.
+	if(IsASpaceOrTab(styler[posi])){
+		while (IsASpaceOrTab(styler[posi--]));
+		posi++;
 	}
 
-	if (styler[ywo+1]=='\\') {
+	// check that next char for beeing a continuation
+	if (styler[posi]=='\\') {
 		// ..begin at current lines startpos
-		while (ywo>=0 && !IsNewline(styler[--ywo]));
+		while (!IsNewline(styler[--posi]) && posi>=0);
 
 		// ...get continued lines length
 		while (true) {
-
-			//..get Segments lineEnd
-			while (styler[ywo++]) {
+			//..forward to Segments lineEnd
+			while (styler[posi++]) {
 				length++;
-				if (styler[ywo]=='\n' || styler[ywo]=='\0') break;
+				if (styler[posi]=='\n' || styler[posi]=='\0') break;
 			}
 
-			// ...Final continuation==Fini
-			// cope with unix and windows style line ends.
-			if (styler[ywo-1] !='\\' && styler[ywo-2] !='\\' && styler[ywo]=='\n') {
-				return (length); // Continuation end reached.
-				break;
-			} else if (styler[ywo]=='\0') {
-				return (length-1);	// handle continuated lines without an EOL mark.
+			// Handle Line Continuations
+			// cope with unix and windows style line ends and spaces.
+			if (styler[posi]=='\n') {
+				posi=(styler[posi-1]=='\r')?posi-2:posi-1; // rewind newlines
+				while (IsASpaceOrTab(styler[posi])) posi--; // rewind spaces
+				if (!(styler[posi]=='\\')) { 
+					return (length); // Continuation end reached. 
+					break;
+				} else {
+					while (!(styler[posi]=='\n')) posi++; // Continuation.
+				}
+			} else if (styler[posi]=='\0') {
+				return (length-1); // handle continuated lines without an EOL mark.
 				break;
 			}
 		}
 	} else {
-		// Handle non-contigous lines
-		if (styler[ywo]!='\n')
-			while (ywo>=0 && styler[--ywo]!='\n');
+		// Handle lines without an EOL Marker.
+		if (styler[posi]!='\n')
+			while (posi>=0 && styler[--posi]!='\n');
 
-		return (offset-ywo);
+		return (offset-posi);
 	}
 
-	return (offset-ywo);
+	return (offset-posi);
 }
-
 
 //
 // Folding code from cMake, with small changes for bash scripts. 
 //
-
 static int calculateFoldMake(Sci_PositionU start, Sci_PositionU end, int foldlevel, Accessor &styler)
 {
 	// If the word is >"= Chars, it's not what we are looking for.
@@ -710,8 +725,8 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 	Sci_PositionU o_startPos;
 
 	int iLog=0; // choose to enable Verbosity requires a bash shell on windows.
-	if (iLog>0) std::clog << "---------\n"<<"[Pos]	[Char]	[WarnEOLState]\n";	
-	styler.Flush();
+	if (iLog>1) std::clog << "---------\n"<<"[Pos]	[Char]	[WarnEOLState]\n";	
+	//styler.Flush();
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
 	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:	
 	// find a MultiLines start, reset styler Position 
@@ -721,6 +736,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 		styler.StartAt(o_startPos);
 		length=length+(startPos-o_startPos);
 		startPos=o_startPos;
+		startStyle=styler.StyleAt(startPos-1);
 	} else {
 		styler.StartSegment(startPos);
 		styler.StartAt(startPos);
@@ -759,6 +775,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 	}
 	if (iLog)  std::clog.flush();
 }
+
 static const char *const makefileWordListDesc[] = {
 	"Make Directive Keywords",
 	"Make Function Keywords",

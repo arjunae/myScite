@@ -56,8 +56,8 @@ cairo_image_surface_get_format ( CairoImageSurface $surface ):int
 cairo_image_surface_get_height ( CairoImageSurface $surface ):int
 cairo_image_surface_get_stride ( CairoImageSurface $surface ):int
 cairo_image_surface_get_width ( CairoImageSurface $surface ):int
-cairo_matrix_create_scale(->) function is an alias of: CairoMatrix::initScale(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. The use of this function is not recommended, as it may be removed from PHP in the future. 
-cairo_matrix_create_translate(->) function is an alias of: CairoMatrix::initTranslate(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. The use of this function is not recommended, as it may be removed from PHP in the future. 
+cairo_matrix_create_scale(->) function is an alias of: CairoMatrix::initScale(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. 
+cairo_matrix_create_translate(->) function is an alias of: CairoMatrix::initTranslate(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. 
 cairo_matrix_invert ( CairoMatrix $matrix ):void
 cairo_matrix_multiply ( $matrix1 , $matrix2 ):CairoMatrix
 cairo_matrix_transform_distance ( CairoMatrix $matrix , float $dx , float $dy ):array
@@ -137,57 +137,57 @@ crack_closedict ([ resource $dictionary ] ):bool
 crack_getlastmessage ( void ):string
 crack_opendict ( string $dictionary ):resource
 cubrid_bind ( resource $req_identifier , int $bind_index , mixed $bind_value [, string $bind_value_type ] ):bool
-cubrid_close_prepare(->) cubrid_close_prepare ( resource $req_identifier ):bool | The cubrid_close_prepare() function closes the request handle given by the req_identifier argument, and releases the memory region related to the handle. It is an alias of cubrid_close_request(). 
-cubrid_close_request(->) cubrid_close_request ( resource $req_identifier ):bool | The cubrid_close_request() function closes the request handle given by the req_identifier argument, and releases the memory region related to the handle. It is an alias of cubrid_close_prepare(). 
-cubrid_col_get ( resource $conn_identifier , string $oid , string $attr_name ):array | The cubrid_col_get() function is used to get contents of the elements of the collection type (set, multiset, sequence) attribute you requested as an array. 
-cubrid_col_size ( resource $conn_identifier , string $oid , string $attr_name ):int | The cubrid_col_size() function is used to get the number of elements in a collection type (set, multiset, sequence) attribute. 
-cubrid_column_names ( resource $req_identifier ):array | The cubrid_column_names() function is used to get the column names of the query result by using req_identifier. 
-cubrid_column_types ( resource $req_identifier ):array | The cubrid_column_types() function gets column types of query results by using req_identifier. 
+cubrid_close_prepare(->) cubrid_close_prepare ( resource $req_identifier ):bool | closes the request handle given by the req_identifier argument, and releases the memory region related to the handle. It is an alias of cubrid_close_request(). 
+cubrid_close_request(->) cubrid_close_request ( resource $req_identifier ):bool | closes the request handle given by the req_identifier argument, and releases the memory region related to the handle. It is an alias of cubrid_close_prepare(). 
+cubrid_col_get ( resource $conn_identifier , string $oid , string $attr_name ):array | used to get contents of the elements of the collection type (set, multiset, sequence) attribute you requested as an array. 
+cubrid_col_size ( resource $conn_identifier , string $oid , string $attr_name ):int | used to get the number of elements in a collection type (set, multiset, sequence) attribute. 
+cubrid_column_names ( resource $req_identifier ):array | used to get the column names of the query result by using req_identifier. 
+cubrid_column_types ( resource $req_identifier ):array | gets column types of query results by using req_identifier. 
 cubrid_commit ( resource $conn_identifier ):bool
 cubrid_connect_with_url ( string $conn_url [, string $userid [, string $passwd [, bool $new_link = FALSE ]]] ):resource
-cubrid_connect ( string $host , int $port , string $dbname [, string $userid [, string $passwd [, bool $new_link = FALSE ]]] ):resource | The cubrid_connect() function is used to establish the environment for connecting to your server by using your server address, port number, database name, user name, and password. If the user name and password is not given, then the "PUBLIC" connection will be made by default. 
-cubrid_current_oid ( resource $req_identifier ):string | The cubrid_current_oid() function is used to get the oid of the current cursor location from the query result. To use cubrid_current_oid(), the query executed must be a updatable query, and the CUBRID_INCLUDE_OID option must be included during the query execution. 
-cubrid_disconnect ([ resource $conn_identifier ] ):bool | The cubrid_disconnect() function closes the connection handle and disconnects from server. If any request handle is not closed at this point, it will be closed. It is similar to the CUBRID MySQL compatible function cubrid_close(). 
-cubrid_drop ( resource $conn_identifier , string $oid ):bool | The cubrid_drop() function is used to delete an instance from database by using the oid of the instance. 
-cubrid_error_code_facility ( void ):int | The cubrid_error_code_facility() function is used to get the facility code (level in which the error occurred) from the error code of the error that occurred during the API execution. Usually, you can get the error code when API returns false as its return value. 
-cubrid_error_code ( void ):int | The cubrid_error_code() function is used to get the error code of the error that occurred during the API execution. Usually, it gets the error code when API returns false as its return value. 
-cubrid_error_msg ( void ):string | The cubrid_error_msg() function is used to get the error message that occurred during the use of CUBRID API. Usually, it gets error message when API returns false as its return value. 
+cubrid_connect ( string $host , int $port , string $dbname [, string $userid [, string $passwd [, bool $new_link = FALSE ]]] ):resource | used to establish the environment for connecting to your server by using your server address, port number, database name, user name, and password. If the user name and password is not given, then the "PUBLIC" connection will be made by default. 
+cubrid_current_oid ( resource $req_identifier ):string | used to get the oid of the current cursor location from the query result. To use cubrid_current_oid(), the query executed must be a updatable query, and the CUBRID_INCLUDE_OID option must be included during the query execution. 
+cubrid_disconnect ([ resource $conn_identifier ] ):bool | closes the connection handle and disconnects from server. If any request handle is not closed at this point, it will be closed. It is similar to the CUBRID MySQL compatible function cubrid_close(). 
+cubrid_drop ( resource $conn_identifier , string $oid ):bool | used to delete an instance from database by using the oid of the instance. 
+cubrid_error_code_facility ( void ):int | used to get the facility code (level in which the error occurred) from the error code of the error that occurred during the API execution. Usually, you can get the error code when API returns false as its return value. 
+cubrid_error_code ( void ):int | used to get the error code of the error that occurred during the API execution. Usually, it gets the error code when API returns false as its return value. 
+cubrid_error_msg ( void ):string | used to get the error message that occurred during the use of CUBRID API. Usually, it gets error message when API returns false as its return value. 
 cubrid_execute ( $conn_identifier , string $sql [, int $option = 0 ] ):resource
-cubrid_fetch ( resource $result [, int $type = CUBRID_BOTH ] ):mixed | The cubrid_fetch() function is used to get a single row from the query result. The cursor automatically moves to the next row after getting the result. 
+cubrid_fetch ( resource $result [, int $type = CUBRID_BOTH ] ):mixed | used to get a single row from the query result. The cursor automatically moves to the next row after getting the result. 
 cubrid_free_result ( resource $req_identifier ):bool | This function frees the memory occupied by the result data. It returns TRUE on success or FALSE on failure. Note that it can only frees the client fetch buffer now, and if you want free all memory, use function cubrid_close_request(). 
 cubrid_get_autocommit ( resource $conn_identifier ):bool
 cubrid_get_charset ( resource $conn_identifier ):string | This function returns the current CUBRID connection charset and is similar to the CUBRID MySQL compatible function cubrid_client_encoding(). 
-cubrid_get_class_name ( resource $conn_identifier , $oid ):string | The cubrid_get_class_name() function is used to get the class name from oid. It doesn't work when selecting data from the system tables, for example db_class. 
+cubrid_get_class_name ( resource $conn_identifier , $oid ):string | used to get the class name from oid. It doesn't work when selecting data from the system tables, for example db_class. 
 cubrid_get_client_info ( void ):string | This function returns a string that represents the client library version. 
 cubrid_get_db_parameter ( resource $conn_identifier ):array
-cubrid_get_query_timeout ( resource $req_identifier ):int | The cubrid_get_query_timeout() function is used to get the query timeout of the request. 
+cubrid_get_query_timeout ( resource $req_identifier ):int | used to get the query timeout of the request. 
 cubrid_get_server_info ( resource $conn_identifier ):string | This function returns a string that represents the CUBRID server version. 
-cubrid_get ( resource $conn_identifier , string $oid [, $attr ] ):mixed | The cubrid_get() function is used to get the attribute of the instance of the given oid. You can get single attribute by using string data type for the attr argument, or many attributes by using array data type for the attr argument. 
+cubrid_get ( resource $conn_identifier , string $oid [, $attr ] ):mixed | used to get the attribute of the instance of the given oid. You can get single attribute by using string data type for the attr argument, or many attributes by using array data type for the attr argument. 
 cubrid_insert_id ([ resource $conn_identifier ] ):string
-cubrid_is_instance ( resource $conn_identifier , string $oid ):int | The cubrid_is_instance() function is used to check whether the instance pointed by the given oid exists or not. 
-cubrid_lob_close ( array $lob_identifier_array ):bool | cubrid_lob_close() is used to close all BLOB/CLOB returned from cubrid_lob_get(). 
-cubrid_lob_export ( resource $conn_identifier , resource $lob_identifier , string $path_name ):bool | cubrid_lob_export() is used to get BLOB/CLOB data from CUBRID database, and saves its contents to a file. To use this function, you must use cubrid_lob_get() first to get BLOB/CLOB info from CUBRID. 
+cubrid_is_instance ( resource $conn_identifier , string $oid ):int | used to check whether the instance pointed by the given oid exists or not. 
+cubrid_lob_close ( array $lob_identifier_array ):bool | used to close all BLOB/CLOB returned from cubrid_lob_get(). 
+cubrid_lob_export ( resource $conn_identifier , resource $lob_identifier , string $path_name ):bool | used to get BLOB/CLOB data from CUBRID database, and saves its contents to a file. To use this function, you must use cubrid_lob_get() first to get BLOB/CLOB info from CUBRID. 
 cubrid_lob_get ( resource $conn_identifier , string $sql ):array
-cubrid_lob_send ( resource $conn_identifier , resource $lob_identifier ):bool | cubrid_lob_send() reads BLOB/CLOB data and passes it straight through to the browser. To use this function, you must use cubrid_lob_get() first to get BLOB/CLOB info from CUBRID. 
-cubrid_lob_size ( resource $lob_identifier ):string | cubrid_lob_size() is used to get BLOB/CLOB data size. 
+cubrid_lob_send ( resource $conn_identifier , resource $lob_identifier ):bool | reads BLOB/CLOB data and passes it straight through to the browser. To use this function, you must use cubrid_lob_get() first to get BLOB/CLOB info from CUBRID. 
+cubrid_lob_size ( resource $lob_identifier ):string | used to get BLOB/CLOB data size. 
 cubrid_lob2_bind ( resource $req_identifier , int $bind_index , mixed $bind_value [, string $bind_value_type ] ):bool | bind BLOB/CLOB datas to a corresponding question mark placeholder in the SQL statement that was passed to cubrid_prepare(). If bind_value_type is not given, string will be "BLOB" as the default. 
-cubrid_lob2_close ( resource $lob_identifier ):bool | The cubrid_lob2_close() function is used to close LOB object returned from cubrid_lob2_new() or got from the result set. 
-cubrid_lob2_export ( resource $lob_identifier , string $file_name ):bool | The cubrid_lob2_export() function is used to save the contents of BLOB/CLOB data to a file. To use this function, you must use cubrid_lob2_new() or fetch a lob object from CUBRID database first. If the file already exists, the operation will fail. This function will not influence the cursor position of the lob object. It operates the entire lob object. 
-cubrid_lob2_import ( resource $lob_identifier , string $file_name ):bool | The cubrid_lob2_import() function is used to save the contents of BLOB/CLOB data from a file. To use this function, you must use cubrid_lob2_new() or fetch a lob object from CUBRID database first. If the file already exists, the operation will fail. This function will not influence the cursor position of the lob object. It operates the entire lob object. 
-cubrid_lob2_new ([ $conn_identifier [, string $type = "BLOB" ]] ):resource | The cubrid_lob2_new() function is used to create a lob object (both BLOB and CLOB). This function should be used before you bind a lob object. 
-cubrid_lob2_read ( resource $lob_identifier , int $len ):string | The cubrid_lob2_read() function reads len bytes from the LOB data and returns the bytes read. 
+cubrid_lob2_close ( resource $lob_identifier ):bool | used to close LOB object returned from cubrid_lob2_new() or got from the result set. 
+cubrid_lob2_export ( resource $lob_identifier , string $file_name ):bool | used to save the contents of BLOB/CLOB data to a file. To use this function, you must use cubrid_lob2_new() or fetch a lob object from CUBRID database first. If the file already exists, the operation will fail. This function will not influence the cursor position of the lob object. It operates the entire lob object. 
+cubrid_lob2_import ( resource $lob_identifier , string $file_name ):bool | used to save the contents of BLOB/CLOB data from a file. To use this function, you must use cubrid_lob2_new() or fetch a lob object from CUBRID database first. If the file already exists, the operation will fail. This function will not influence the cursor position of the lob object. It operates the entire lob object. 
+cubrid_lob2_new ([ $conn_identifier [, string $type = "BLOB" ]] ):resource |  used to create a lob object (both BLOB and CLOB). This function should be used before you bind a lob object. 
+cubrid_lob2_read ( resource $lob_identifier , int $len ):string | reads len bytes from the LOB data and returns the bytes read. 
 cubrid_lob2_seek64 ( resource $lob_identifier , string $offset [, int $origin = CUBRID_CURSOR_CURRENT ] ):bool
 cubrid_lob2_seek ( resource $lob_identifier , int $offset [, int $origin = CUBRID_CURSOR_CURRENT ] ):bool
-cubrid_lob2_size64 ( resource $lob_identifier ):string | The cubrid_lob2_size64() function is used to get the size of a lob object. If the size of a lob object is larger than an integer data can be stored, you can use this function and it will return the size as a string. 
-cubrid_lob2_size ( resource $lob_identifier ):int | The cubrid_lob2_size() function is used to get the size of a lob object. 
-cubrid_lob2_tell64 ( resource $lob_identifier ):string | The cubrid_lob2_tell64() function is used to tell the cursor position of the LOB object. If the size of a lob object is larger than an integer data can be stored, you can use this function and it will return the position information as a string. 
-cubrid_lob2_tell ( resource $lob_identifier ):int | The cubrid_lob2_tell() function is used to tell the cursor position of the LOB object. 
-cubrid_lob2_write ( resource $lob_identifier , string $buf ):bool | The cubrid_lob2_write() function reads as much as data from buf and stores it to the LOB object. Note that this function can only append characters now. 
-cubrid_lock_read ( resource $conn_identifier , string $oid ):bool | The cubrid_lock_read() function is used to put read lock on the instance pointed by given oid. 
-cubrid_lock_write ( resource $conn_identifier , string $oid ):bool | The cubrid_lock_write() function is used to put write lock on the instance pointed by the given oid. 
+cubrid_lob2_size64 ( resource $lob_identifier ):string | used to get the size of a lob object. If the size of a lob object is larger than an integer data can be stored, you can use this function and it will return the size as a string. 
+cubrid_lob2_size ( resource $lob_identifier ):int | used to get the size of a lob object. 
+cubrid_lob2_tell64 ( resource $lob_identifier ):string | used to tell the cursor position of the LOB object. If the size of a lob object is larger than an integer data can be stored, you can use this function and it will return the position information as a string. 
+cubrid_lob2_tell ( resource $lob_identifier ):int | used to tell the cursor position of the LOB object. 
+cubrid_lob2_write ( resource $lob_identifier , string $buf ):bool | reads as much as data from buf and stores it to the LOB object. Note that this function can only append characters now. 
+cubrid_lock_read ( resource $conn_identifier , string $oid ):bool |  used to put read lock on the instance pointed by given oid. 
+cubrid_lock_write ( resource $conn_identifier , string $oid ):bool | used to put write lock on the instance pointed by the given oid. 
 cubrid_move_cursor ( resource $req_identifier , int $offset [, int $origin = CUBRID_CURSOR_CURRENT ] ):bool
-cubrid_next_result ( resource $result ):bool | The cubrid_next_result() function is used to get results of next query if multiple SQL statements are executed and CUBRID_EXEC_QUERY_ALL flag is set upon cubrid_execute(). 
-cubrid_num_cols ( resource $result ):int | The cubrid_num_cols() function is used to get the number of columns from the query result. It can only be used when the query executed is a select statement. 
+cubrid_next_result ( resource $result ):bool | used to get results of next query if multiple SQL statements are executed and CUBRID_EXEC_QUERY_ALL flag is set upon cubrid_execute(). 
+cubrid_num_cols ( resource $result ):int | used to get the number of columns from the query result. It can only be used when the query executed is a select statement. 
 cubrid_num_rows ( resource $result ):int
 cubrid_pconnect_with_url ( string $conn_url [, string $userid [, string $passwd ]] ):resource
 cubrid_pconnect ( string $host , int $port , string $dbname [, string $userid [, string $passwd ]] ):resource
@@ -195,15 +195,15 @@ cubrid_prepare ( $conn_identifier , string $prepare_stmt [, int $option = 0 ] ):
 cubrid_put ( resource $conn_identifier , string $oid [, string $attr ], mixed $value ):bool
 cubrid_rollback ( resource $conn_identifier ):bool
 cubrid_schema ( resource $conn_identifier , int $schema_type [, string $class_name [, string $attr_name ]] ):array
-cubrid_seq_drop ( resource $conn_identifier , string $oid , string $attr_name , int $index ):bool | The cubrid_seq_drop() function is used to delete an element you request from the given sequence type attribute in the database. 
-cubrid_seq_insert ( resource $conn_identifier , string $oid , string $attr_name , int $index , string $seq_element ):bool | The cubrid_col_insert() function is used to insert an element to a sequence type attribute in a requested location. 
-cubrid_seq_put ( resource $conn_identifier , string $oid , string $attr_name , int $index , string $seq_element ):bool | The cubrid_seq_put() function is used to update the content of the requested element in a sequent type attribute using OID. 
-cubrid_set_add ( resource $conn_identifier , string $oid , string $attr_name , string $set_element ):bool | The cubrid_set_add() function is used to insert a single element to a set type attribute (set, multiset, sequence) you requested. 
+cubrid_seq_drop ( resource $conn_identifier , string $oid , string $attr_name , int $index ):bool | used to delete an element you request from the given sequence type attribute in the database. 
+cubrid_seq_insert ( resource $conn_identifier , string $oid , string $attr_name , int $index , string $seq_element ):bool | used to insert an element to a sequence type attribute in a requested location. 
+cubrid_seq_put ( resource $conn_identifier , string $oid , string $attr_name , int $index , string $seq_element ):bool | used to update the content of the requested element in a sequent type attribute using OID. 
+cubrid_set_add ( resource $conn_identifier , string $oid , string $attr_name , string $set_element ):bool | used to insert a single element to a set type attribute (set, multiset, sequence) you requested. 
 cubrid_set_autocommit ( resource $conn_identifier , $mode ):bool
 cubrid_set_db_parameter ( resource $conn_identifier , int $param_type , int $param_value ):bool
-cubrid_set_drop ( resource $conn_identifier , string $oid , string $attr_name , string $set_element ):bool | The cubrid_set_drop() function is used to delete an element that you request from the given set type (set, multiset) attribute of the database. 
-cubrid_set_query_timeout ( resource $req_identifier , int $timeout ):bool | The cubrid_set_query_timeout() function is used to set the timeout time of query execution. 
-cubrid_version ( void ):string | The cubrid_version() function is used to get the CUBRID PHP module's version. 
+cubrid_set_drop ( resource $conn_identifier , string $oid , string $attr_name , string $set_element ):bool | used to delete an element that you request from the given set type (set, multiset) attribute of the database. 
+cubrid_set_query_timeout ( resource $req_identifier , int $timeout ):bool | used to set the timeout time of query execution. 
+cubrid_version ( void ):string | used to get the CUBRID PHP module's version. 
 cyrus_authenticate ( resource $connection [, string $mechlist [, string $service [, string $user [, int $minssf [, int $maxssf [, string $authname [, string $password ]]]]]]] ):void
 cyrus_bind ( resource $connection , array $callbacks ):bool | Binds callbacks to a Cyrus IMAP connection. 
 cyrus_close ( resource $connection ):bool | Closes the connection to a Cyrus IMAP server. 
@@ -233,15 +233,15 @@ dbplus_open ( string $name ):resource | Opens the given relation file.
 dbplus_prev ( resource $relation , array &$tuple ):int | Reads the data for the previous tuple for the given relation, makes it the current tuple and will pass it back as an associative array in tuple. 
 dbplus_rchperm ( resource $relation , $mask , string $user , string $group ):int | Changes access permissions as specified by mask, user and group. The values for these are operating system specific. 
 dbplus_rcreate ( string $name , mixed $domlist [, bool $overwrite ] ):resource | Creates a new relation. Any existing relation sharing the same name will be overwritten if the relation is currently not in use and overwrite is set to TRUE. 
-dbplus_rcrtexact ( string $name , resource $relation [, bool $overwrite ] ):mixed | dbplus_rcrtexact() will create an exact but empty copy of the given relation under a new name. 
-dbplus_rcrtlike ( string $name , resource $relation [, int $overwrite ] ):mixed | dbplus_rcrtexact() will create an empty copy of the given relation under a new name, but with default indices. 
-dbplus_resolve ( string $relation_name ):array | dbplus_resolve() will try to resolve the given relation_name and find out internal server id, real hostname and the database path on this host. 
+dbplus_rcrtexact ( string $name , resource $relation [, bool $overwrite ] ):mixed | will create an exact but empty copy of the given relation under a new name. 
+dbplus_rcrtlike ( string $name , resource $relation [, int $overwrite ] ):mixed | will create an empty copy of the given relation under a new name, but with default indices. 
+dbplus_resolve ( string $relation_name ):array | will try to resolve the given relation_name and find out internal server id, real hostname and the database path on this host. 
 dbplus_restorepos ( resource $relation , array $tuple ):int
-dbplus_rkeys ( resource $relation , $domlist ):mixed | dbplus_rkeys() will replace the current primary key for relation with the combination of domains specified by domlist. 
-dbplus_ropen ( string $name ):resource | dbplus_ropen() will open the relation file locally for quick access without any client/server overhead. Access is read only and only dbplus_curr() and dbplus_next() may be applied to the returned relation. 
-dbplus_rquery ( string $query [, string $dbpath ] ):resource | dbplus_rquery() performs a local (raw) AQL query using an AQL interpreter embedded into the db++ client library. dbplus_rquery() is faster than dbplus_aql() but will work on local data only. 
-dbplus_rrename ( resource $relation , string $name ):int | dbplus_rrename() will change the name of relation to name. 
-dbplus_rsecindex ( resource $relation , $domlist , int $type ):mixed | dbplus_rsecindex() will create a new secondary index for relation with consists of the domains specified by domlist and is of type type 
+dbplus_rkeys ( resource $relation , $domlist ):mixed | will replace the current primary key for relation with the combination of domains specified by domlist. 
+dbplus_ropen ( string $name ):resource | will open the relation file locally for quick access without any client/server overhead. Access is read only and only dbplus_curr() and dbplus_next() may be applied to the returned relation. 
+dbplus_rquery ( string $query [, string $dbpath ] ):resource | performs a local (raw) AQL query using an AQL interpreter embedded into the db++ client library. dbplus_rquery() is faster than dbplus_aql() but will work on local data only. 
+dbplus_rrename ( resource $relation , string $name ):int | will change the name of relation to name. 
+dbplus_rsecindex ( resource $relation , $domlist , int $type ):mixed | will create a new secondary index for relation with consists of the domains specified by domlist and is of type type 
 dbplus_runlink ( resource $relation ):int | dbplus_runlink() will close and remove the relation. 
 dbplus_rzap ( resource $relation ):int | dbplus_rzap() will remove all tuples from relation. 
 dbplus_savepos ( resource $relation ):int
@@ -249,90 +249,90 @@ dbplus_setindex ( resource $relation , string $idx_name ):int
 dbplus_setindexbynumber ( resource $relation , $idx_number ):int
 dbplus_sql ( string $query [, string $server [, string $dbpath ]] ):resource
 dbplus_tcl ( int $sid , $script ):string
-dbplus_tremove ( resource $relation , array $tuple [, array &$current ] ):int | dbplus_tremove() removes tuple from relation if it perfectly matches a tuple within the relation. current, if given, will contain the data of the new current tuple after calling dbplus_tremove(). 
+dbplus_tremove ( resource $relation , array $tuple [, array &$current ] ):int | removes tuple from relation if it perfectly matches a tuple within the relation. current, if given, will contain the data of the new current tuple after calling dbplus_tremove(). 
 dbplus_undo ( resource $relation ):int
 dbplus_undoprepare ( resource $relation ):int
 dbplus_unlockrel ( resource $relation ):int | Release a write lock previously obtained by dbplus_lockrel(). 
-dbplus_unselect ( resource $relation ):int | Calling dbplus_unselect() will remove a constraint previously set by dbplus_find() on relation. 
-dbplus_update ( resource $relation , array $old , array $new ):int | dbplus_update() replaces the old tuple with the data from the new one, only if the old completely matches a tuple within relation. 
+dbplus_unselect ( resource $relation ):int | will remove a constraint previously set by dbplus_find() on relation. 
+dbplus_update ( resource $relation , array $old , array $new ):int | replaces the old tuple with the data from the new one, only if the old completely matches a tuple within relation. 
 dbplus_xlockrel ( resource $relation ):int | Request an exclusive lock on relation preventing even read access from other clients. 
 dbplus_xunlockrel ( resource $relation ):int | Releases an exclusive lock previously obtained by dbplus_xlockrel(). 
 dbx_close ( object $link_identifier ):int |  Returns success or failure
-dbx_compare ( array $row_a , array $row_b , string $column_key [, $flags = DBX_CMP_ASC | DBX_CMP_NATIVE ] ):int | dbx_compare() is a helper function for dbx_sort() to ease the make and use of the custom sorting function. 
+dbx_compare ( array $row_a , array $row_b , string $column_key [, $flags = DBX_CMP_ASC | DBX_CMP_NATIVE ] ):int | a helper function for dbx_sort() to ease the make and use of the custom sorting function. 
 dbx_connect ( mixed $module , string $host , string $database , string $username , string $password [, int $persistent ] ):object | Opens a connection to a database. 
-dbx_error ( object $link_identifier ):string | dbx_error() returns the last error message. 
+dbx_error ( object $link_identifier ):string | returns the last error message. 
 dbx_escape_( object $link_identifier , $text ):string | Escape the given string so that it can safely be used in an sql-statement. 
 dbx_fetch_row ( object $result_identifier ):mixed |  Returns a row (index and assoc based on query) on success and returns 0 on failure or no more rows
 dbx_query ( object $link_identifier , string $sql_statement [, int $flags ] ):mixed | Sends a query and fetch all results. 
 dbx_sort ( object $result , string $user_compare_function ):bool | Sort a result from a dbx_query() call with a custom sort function. 
 dio_close ( resource $fd ):void | The function dio_close() closes the file descriptor fd. 
-dio_fcntl ( resource $fd , int $cmd [, $args ] ):mixed | The dio_fcntl() function performs the operation specified by cmd on the file descriptor fd. Some commands require additional arguments args to be supplied. 
-dio_open ( string $filename , int $flags [, int $mode = 0 ] ):resource | dio_open() opens a file and returns a new file descriptor for it. 
-dio_read ( resource $fd [, int $len = 1024 ] ):string | The function dio_read() reads and returns len bytes from file with descriptor fd. 
-dio_seek ( resource $fd , $pos [, $whence = SEEK_SET ] ):int | The function dio_seek() is used to change the file position of the given file descriptor. 
-dio_stat ( resource $fd ):array | dio_stat() returns information about the given file descriptor. 
-dio_tcsetattr ( resource $fd , array $options ):bool | dio_tcsetattr() sets the terminal attributes and baud rate of the open fd. 
+dio_fcntl ( resource $fd , int $cmd [, $args ] ):mixed | performs the operation specified by cmd on the file descriptor fd. Some commands require additional arguments args to be supplied. 
+dio_open ( string $filename , int $flags [, int $mode = 0 ] ):resource | opens a file and returns a new file descriptor for it. 
+dio_read ( resource $fd [, int $len = 1024 ] ):string | The function reads and returns len bytes from file with descriptor fd. 
+dio_seek ( resource $fd , $pos [, $whence = SEEK_SET ] ):int | The function is used to change the file position of the given file descriptor. 
+dio_stat ( resource $fd ):array | returns information about the given file descriptor. 
+dio_tcsetattr ( resource $fd , array $options ):bool | sets the terminal attributes and baud rate of the open fd. 
 dio_truncate ( resource $fd , int $offset ):bool |  Truncate file descriptor fd to offset bytes
-dio_write ( resource $fd , string $data [, $len = 0 ] ):int | dio_write() writes up to len bytes from data to file fd. 
-eio_busy ( int $delay [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | eio_busy() artificially increases load taking delay seconds to execute. May be used for debugging, or benchmarking. 
-eio_cancel ( resource $req ):void | eio_cancel() cancels a request specified by req 
-eio_chmod ( string $path , int $mode [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | eio_chmod() changes file, or direcrory permissions. The new permissions are specified by mode. 
+dio_write ( resource $fd , string $data [, $len = 0 ] ):int | writes up to len bytes from data to file fd. 
+eio_busy ( int $delay [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | artificially increases load taking delay seconds to execute. May be used for debugging, or benchmarking. 
+eio_cancel ( resource $req ):void | cancels a request specified by req 
+eio_chmod ( string $path , int $mode [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | changes file, or direcrory permissions. The new permissions are specified by mode. 
 eio_chown ( string $path , int $uid [, int $gid = -1 [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]]] ):resource | Changes file, or directory permissions. 
-eio_close ( mixed $fd [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | eio_close() closes file specified by fd. 
-eio_custom ( callable $execute , int $pri , callable $callback [, mixed $data = NULL ] ):resource | eio_custom() executes custom function specified by execute processing it just like any other eio_* call. 
-eio_dup2 ( mixed $fd , mixed $fd2 [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | eio_dup2() duplicates file descriptor. 
-eio_event_loop ( void ):bool | eio_event_loop() polls libeio until all requests proceeded. 
+eio_close ( mixed $fd [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | closes file specified by fd. 
+eio_custom ( callable $execute , int $pri , callable $callback [, mixed $data = NULL ] ):resource | executes custom function specified by execute processing it just like any other eio_* call. 
+eio_dup2 ( mixed $fd , mixed $fd2 [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | duplicates file descriptor. 
+eio_event_loop ( void ):bool | polls libeio until all requests proceeded. 
 eio_fallocate ( mixed $fd , int $mode , int $offset , int $length [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource
-eio_fchmod ( mixed $fd , int $mode [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | eio_fchmod() changes permissions for the file specified by fd file descriptor. 
-eio_fchown ( mixed $fd , int $uid [, int $gid = -1 [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]]] ):resource | eio_fchown() changes ownership of the file specified by fd file descriptor. 
-eio_fdatasync ( mixed $fd [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | eio_fdatasync() synchronizes a file's in-core state with storage device. 
-eio_fstat ( mixed $fd , int $pri , callable $callback [, mixed $data ] ):resource | eio_fstat() returns file status information in result argument of callback 
-eio_fstatvfs ( mixed $fd , int $pri , callable $callback [, mixed $data ] ):resource | eio_fstatvfs() returns file system statistics in result of callback. 
+eio_fchmod ( mixed $fd , int $mode [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | changes permissions for the file specified by fd file descriptor. 
+eio_fchown ( mixed $fd , int $uid [, int $gid = -1 [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]]] ):resource | changes ownership of the file specified by fd file descriptor. 
+eio_fdatasync ( mixed $fd [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | synchronizes a file's in-core state with storage device. 
+eio_fstat ( mixed $fd , int $pri , callable $callback [, mixed $data ] ):resource | returns file status information in result argument of callback 
+eio_fstatvfs ( mixed $fd , int $pri , callable $callback [, mixed $data ] ):resource | returns file system statistics in result of callback. 
 eio_fsync ( mixed $fd [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | Synchronize a file's in-core state with storage device 
-eio_ftruncate ( mixed $fd [, int $offset = 0 [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]]] ):resource | eio_ftruncate() causes a regular file referenced by fd file descriptor to be truncated to precisely length bytes. 
-eio_futime ( mixed $fd , float $atime , float $mtime [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | eio_futime() changes file last access and modification times. 
-eio_get_event_stream ( void ):mixed | eio_get_event_stream() acquires stream representing a variable used in internal communications with libeio. Could be used to bind with some event loop provided by other PECL extension, for example libevent. 
-eio_get_last_error ( resource $req ):string | eio_get_last_error() returns string describing the last error associated with req. 
-eio_grp_add ( resource $grp , resource $req ):void | eio_grp_add() adds a request to the request group. 
-eio_grp_cancel ( resource $grp ):void | eio_grp_cancel() cancels a group request specified by grp request group resource. 
+eio_ftruncate ( mixed $fd [, int $offset = 0 [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]]] ):resource | causes a regular file referenced by fd file descriptor to be truncated to precisely length bytes. 
+eio_futime ( mixed $fd , float $atime , float $mtime [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | changes file last access and modification times. 
+eio_get_event_stream ( void ):mixed | acquires stream representing a variable used in internal communications with libeio. Could be used to bind with some event loop provided by other PECL extension, for example libevent. 
+eio_get_last_error ( resource $req ):string | returns string describing the last error associated with req. 
+eio_grp_add ( resource $grp , resource $req ):void | adds a request to the request group. 
+eio_grp_cancel ( resource $grp ):void | cancels a group request specified by grp request group resource. 
 eio_grp_limit ( resource $grp , int $limit ):void | Limit number of requests in the request group. 
-eio_grp ( callable $callback [, string $data = NULL ] ):resource | eio_grp() creates a request group. 
+eio_grp ( callable $callback [, string $data = NULL ] ):resource | creates a request group. 
 eio_init(->) eio_init ( ):void
-eio_link ( string $path , string $new_path [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | eio_link() creates a hardlink new_path for a file specified by path. 
-eio_lstat ( string $path , int $pri , callable $callback [, mixed $data = NULL ] ):resource | eio_lstat() returns file status information in result argument of callback 
-eio_mkdir ( string $path , int $mode [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | eio_mkdir() creates directory with specified access mode. 
+eio_link ( string $path , string $new_path [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | creates a hardlink new_path for a file specified by path. 
+eio_lstat ( string $path , int $pri , callable $callback [, mixed $data = NULL ] ):resource | returns file status information in result argument of callback 
+eio_mkdir ( string $path , int $mode [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | creates directory with specified access mode. 
 eio_mknod ( string $path , int $mode , int $dev [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource
-eio_nop ([ int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | eio_nop() does nothing, except go through the whole request cycle. Could be useful in debugging. 
-eio_npending ( void ):int | eio_npending() returns number of finished, but unhandled requests 
+eio_nop ([ int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | does nothing, except go through the whole request cycle. Could be useful in debugging. 
+eio_npending ( void ):int | returns number of finished, but unhandled requests 
 eio_nready ( void ):int
-eio_nreqs ( void ):int | eio_nreqs() could be called in a custom loop calling eio_poll(). 
+eio_nreqs ( void ):int | could be called in a custom loop calling eio_poll(). 
 eio_nthreads ( void ):int
-eio_open ( string $path , int $flags , int $mode , int $pri , callable $callback [, mixed $data = NULL ] ):resource | eio_open() opens file specified by path in access mode mode with 
+eio_open ( string $path , int $flags , int $mode , int $pri , callable $callback [, mixed $data = NULL ] ):resource | opens file specified by path in access mode mode with 
 eio_poll ( void ):int
-eio_read ( mixed $fd , int $length , int $offset , int $pri , callable $callback [, mixed $data = NULL ] ):resource | eio_read() reads up to length bytes from fd file descriptor at offset. The read bytes are stored in result argument of callback. 
-eio_readahead ( mixed $fd , int $offset , int $length [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | eio_readahead() populates the page cache with data from a file so that subsequent reads from that file will not block on disk I/O. See READAHEAD(2) man page for details. 
+eio_read ( mixed $fd , int $length , int $offset , int $pri , callable $callback [, mixed $data = NULL ] ):resource | reads up to length bytes from fd file descriptor at offset. The read bytes are stored in result argument of callback. 
+eio_readahead ( mixed $fd , int $offset , int $length [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | populates the page cache with data from a file so that subsequent reads from that file will not block on disk I/O. See READAHEAD(2) man page for details. 
 eio_readdir ( string $path , int $flags , int $pri , callable $callback [, string $data = NULL ] ):resource | Reads through a whole directory(via the opendir, readdir and closedir system calls) and returns either the names or an array in result argument of callback function, depending on the flags argument. 
 eio_readlink ( string $path , int $pri , callable $callback [, string $data = NULL ] ):resource
-eio_realpath ( string $path , int $pri , callable $callback [, string $data = NULL ] ):resource | eio_realpath() returns the canonicalized absolute pathname in result argument of callback function. 
-eio_rename ( string $path , string $new_path [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | eio_rename() renames or moves a file to new location. 
-eio_rmdir ( string $path [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | eio_rmdir() removes a directory. 
+eio_realpath ( string $path , int $pri , callable $callback [, string $data = NULL ] ):resource | returns the canonicalized absolute pathname in result argument of callback function. 
+eio_rename ( string $path , string $new_path [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | renames or moves a file to new location. 
+eio_rmdir ( string $path [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | removes a directory. 
 eio_seek ( mixed $fd , int $offset , int $whence [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource
-eio_sendfile ( mixed $out_fd , mixed $in_fd , int $offset , int $length [, int $pri [, callable $callback [, string $data ]]] ):resource | eio_sendfile() copies data between one file descriptor and another. See SENDFILE(2) man page for details. 
+eio_sendfile ( mixed $out_fd , mixed $in_fd , int $offset , int $length [, int $pri [, callable $callback [, string $data ]]] ):resource | copies data between one file descriptor and another. See SENDFILE(2) man page for details. 
 eio_set_max_idle ( int $nthreads ):void
 eio_set_max_parallel ( int $nthreads ):void
 eio_set_max_poll_reqs ( int $nreqs ):void
 eio_set_max_poll_time ( float $nseconds ):void | Polling stops, if poll took longer than nseconds seconds. 
 eio_set_min_parallel ( string $nthreads ):void
-eio_stat ( string $path , int $pri , callable $callback [, mixed $data = NULL ] ):resource | eio_stat() returns file status information in result argument of callback 
-eio_statvfs ( string $path , int $pri , callable $callback [, mixed $data ] ):resource | eio_statvfs() returns file system statistics information in result argument of callback 
-eio_symlink ( string $path , string $new_path [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | eio_symlink() creates a symbolic link new_path to path. 
-eio_sync_file_range ( mixed $fd , int $offset , int $nbytes , int $flags [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | eio_sync_file_range() permits fine control when synchronizing the open file referred to by the file descriptor fd with disk. 
+eio_stat ( string $path , int $pri , callable $callback [, mixed $data = NULL ] ):resource | returns file status information in result argument of callback 
+eio_statvfs ( string $path , int $pri , callable $callback [, mixed $data ] ):resource | returns file system statistics information in result argument of callback 
+eio_symlink ( string $path , string $new_path [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | creates a symbolic link new_path to path. 
+eio_sync_file_range ( mixed $fd , int $offset , int $nbytes , int $flags [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | permits fine control when synchronizing the open file referred to by the file descriptor fd with disk. 
 eio_sync ([ int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource
 eio_syncfs ( mixed $fd [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource
-eio_truncate ( string $path [, int $offset = 0 [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]]] ):resource | eio_truncate() causes the regular file named by path to be truncated to a size of precisely length bytes 
-eio_unlink ( string $path [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | eio_unlink() deletes a name from the file system. 
+eio_truncate ( string $path [, int $offset = 0 [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]]] ):resource | causes the regular file named by path to be truncated to a size of precisely length bytes 
+eio_unlink ( string $path [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource | deletes a name from the file system. 
 eio_utime ( string $path , float $atime , float $mtime [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]] ):resource
-eio_write ( mixed $fd , string $str [, int $length = 0 [, int $offset = 0 [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]]]] ):resource | eio_write() writes up to length bytes from str at offset offset from the beginning of the file. 
+eio_write ( mixed $fd , string $str [, int $length = 0 [, int $offset = 0 [, int $pri = EIO_PRI_DEFAULT [, callable $callback = NULL [, mixed $data = NULL ]]]]] ):resource | writes up to length bytes from str at offset offset from the beginning of the file. 
 expect_expectl ( resource $expect , array $cases [, array &$match ] ):int
 expect_popen ( string $command ):resource | Execute command via Bourne shell, and open the PTY stream to the process. 
 fam_cancel_monitor ( resource $fam , resource $fam_monitor ):bool |  Terminate monitoring
@@ -388,11 +388,11 @@ filepro_retrieve ( int $row_number , int $field_number ):string |  Retrieves dat
 filepro_rowcount ( void ):int |  Find out how many rows are in a filePro database
 filepro ( string $directory ):bool |  Read and verify the map file
 fribidi_log2vis ( $str , $direction , int $charset ):string | Converts a logical string to a visual one. 
-geoip_asnum_by_name ( $hostname ):string | The geoip_asnum_by_name() function will return the Autonomous System Numbers (ASN) associated with an IP address. 
-geoip_continent_code_by_name ( $hostname ):string | The geoip_continent_code_by_name() function will return the two letter continent code corresponding to a hostname or an IP address. 
-geoip_country_code_by_name ( $hostname ):string | The geoip_country_code_by_name() function will return the two letter country code corresponding to a hostname or an IP address. 
-geoip_country_code3_by_name ( $hostname ):string | The geoip_country_code3_by_name() function will return the three letter country code corresponding to a hostname or an IP address. 
-geoip_country_name_by_name ( $hostname ):string | The geoip_country_name_by_name() function will return the full country name corresponding to a hostname or an IP address. 
+geoip_asnum_by_name ( $hostname ):string | The function will return the Autonomous System Numbers (ASN) associated with an IP address. 
+geoip_continent_code_by_name ( $hostname ):string | The function will return the two letter continent code corresponding to a hostname or an IP address. 
+geoip_country_code_by_name ( $hostname ):string | The function will return the two letter country code corresponding to a hostname or an IP address. 
+geoip_country_code3_by_name ( $hostname ):string | The function will return the three letter country code corresponding to a hostname or an IP address. 
+geoip_country_name_by_name ( $hostname ):string | The function will return the full country name corresponding to a hostname or an IP address. 
 geoip_database_info ([ int $database = GEOIP_COUNTRY_EDITION ] ):string
 geoip_db_avail ( int $database ):bool
 geoip_db_filename ( int $database ):string
@@ -405,7 +405,7 @@ geoip_org_by_name ( $hostname ):string
 geoip_record_by_name ( string $hostname ):array
 geoip_region_by_name ( string $hostname ):array
 geoip_region_name_by_code ( $country_code , $region_code ):string
-geoip_setup_custom_directory ( string $path ):void | The geoip_setup_custom_directory() function will change the default directory of the GeoIP database. This is equivalent to changing geoip.custom_directory. 
+geoip_setup_custom_directory ( string $path ):void | The function will change the default directory of the GeoIP database. This is equivalent to changing geoip.custom_directory. 
 geoip_time_zone_by_country_and_region ( $country_code [, $region_code ] ):string
 gnupg_adddecryptkey ( resource $identifier , string $fingerprint , string $passphrase ):bool
 gnupg_addencryptkey ( resource $identifier , string $fingerprint ):bool
@@ -473,7 +473,7 @@ db2_client_info ( resource $connection ):object
 db2_close ( resource $connection ):bool
 db2_column_privileges ( $connection [, string $qualifier [, string $schema [, string $table-name [, string $column-name ]]]] ):resource | Returns a result set listing the columns and associated privileges for a table. 
 db2_columns ( $connection [, string $qualifier [, string $schema [, string $table-name [, string $column-name ]]]] ):resource | Returns a result set listing the columns and associated metadata for a table. 
-db2_commit ( resource $connection ):bool | Commits an in-progress transaction on the specified connection resource and begins a new transaction. PHP applications normally default to AUTOCOMMIT mode, so db2_commit() is not necessary unless AUTOCOMMIT has been turned off for the connection resource. 
+db2_commit ( resource $connection ):bool | Commits an in-progress transaction on the specified connection resource and begins a new transaction.
 db2_conn_error ([ resource $connection ] ):string
 db2_conn_errormsg ([ resource $connection ] ):string
 db2_connect ( string $database , string $username , string $password [, array $options ] ):resource | Creates a new connection to an IBM DB2 Universal Database, IBM Cloudscape, or Apache Derby database. 
@@ -498,8 +498,8 @@ db2_free_result ( resource $stmt ):bool | Frees the system and database resource
 db2_free_stmt ( resource $stmt ):bool | Frees the system and database resources that are associated with a statement resource. These resources are freed implicitly when a script finishes, but you can call db2_free_stmt() to explicitly free the statement resources before the end of the script. 
 db2_get_option ( resource $resource , $option ):string | Retrieves the value of a specified option value for a statement resource or a connection resource. 
 db2_last_insert_id ( resource $resource ):string
-db2_lob_read ( resource $stmt , int $colnum , int $length ):string | Use db2_lob_read() to iterate through a specified column of a result set and retrieve a user defined size of LOB data. 
-db2_next_result ( $stmt ):resource | A stored procedure can return zero or more result sets. While you handle the first result set in exactly the same way you would handle the results returned by a simple SELECT statement, to fetch the second and subsequent result sets from a stored procedure you must call the db2_next_result() function and return the result to a uniquely named PHP variable. 
+db2_lob_read ( resource $stmt , int $colnum , int $length ):string | Use to iterate through a specified column of a result set and retrieve a user defined size of LOB data. 
+db2_next_result ( $stmt ):resource | stored procedures: must be called for subsequent resultsets and return the result to a uniquely named PHP variable. 
 db2_num_fields ( resource $stmt ):int | Returns the number of fields contained in a result set. This is most useful for handling the result sets returned by dynamically generated queries, or for result sets returned by stored procedures, where your application cannot otherwise know how to retrieve and use the results. 
 db2_num_rows ( resource $stmt ):int
 db2_pclose ( resource $resource ):bool
@@ -508,7 +508,7 @@ db2_prepare ( $connection , string $statement [, array $options ] ):resource
 db2_primary_keys ( $connection , string $qualifier , string $schema , string $table-name ):resource | Returns a result set listing the primary keys for a table. 
 db2_procedure_columns ( $connection , string $qualifier , string $schema , string $procedure , string $parameter ):resource | Returns a result set listing the parameters for one or more stored procedures. 
 db2_procedures ( $connection , string $qualifier , string $schema , string $procedure ):resource | Returns a result set listing the stored procedures registered in a database. 
-db2_result ( resource $stmt , $column ):mixed | Use db2_result() to return the value of a specified column in the current row of a result set. You must call db2_fetch_row() before calling db2_result() to set the location of the result set pointer. 
+db2_result ( resource $stmt , $column ):mixed | Used to return the value of a specified column in the current row of a result set. You must call db2_fetch_row() before calling db2_result() to set the location of the result set pointer. 
 db2_rollback ( resource $connection ):bool | Rolls back an in-progress transaction on the specified connection resource and begins a new transaction. PHP applications normally default to AUTOCOMMIT mode, so db2_rollback() normally has no effect unless AUTOCOMMIT has been turned off for the connection resource. 
 db2_server_info ( resource $connection ):object
 db2_set_option ( resource $resource , array $options , int $type ):bool | Sets options for a statement resource or a connection resource. You cannot set options for result set resources. 
@@ -518,20 +518,20 @@ db2_stmt_error ([ resource $stmt ] ):string
 db2_stmt_errormsg ([ resource $stmt ] ):string
 db2_table_privileges ( $connection [, string $qualifier [, string $schema [, string $table_name ]]] ):resource | Returns a result set listing the tables and associated privileges in a database. 
 db2_tables ( $connection [, string $qualifier [, string $schema [, string $table-name [, string $table-type ]]]] ):resource | Returns a result set listing the tables and associated metadata in a database. 
-id3_get_frame_long_name ( $frameId ):string | id3_get_frame_long_name() returns the long name for an ID3v2 frame. 
-id3_get_frame_short_name ( $frameId ):string | id3_get_frame_short_name() returns the short name for an ID3v2 frame. 
-id3_get_genre_id ( string $genre ):int | id3_get_genre_id() returns the id for a genre. 
+id3_get_frame_long_name ( $frameId ):string | returns the long name for an ID3v2 frame. 
+id3_get_frame_short_name ( $frameId ):string | returns the short name for an ID3v2 frame. 
+id3_get_genre_id ( string $genre ):int | returns the id for a genre. 
 id3_get_genre_list ( void ):array
-id3_get_genre_name ( int $genre_id ):string | id3_get_genre_name() returns the name for a genre id. 
-id3_get_tag ( string $filename [, int $version = ID3_BEST ] ):array | id3_get_tag() is used to get all information stored in the id3 tag of the specified file. 
+id3_get_genre_name ( int $genre_id ):string | returns the name for a genre id. 
+id3_get_tag ( string $filename [, int $version = ID3_BEST ] ):array | used to get all information stored in the id3 tag of the specified file. 
 id3_get_version ( string $filename ):int
-id3_remove_tag ( string $filename [, int $version = ID3_V1_0 ] ):bool | id3_remove_tag() is used to remove the information stored of an ID3 tag. 
-id3_set_tag ( string $filename , array $tag [, int $version = ID3_V1_0 ] ):bool | id3_set_tag() is used to change the information stored of an ID3 tag. If no tag has been present, it will be added to the file. 
+id3_remove_tag ( string $filename [, int $version = ID3_V1_0 ] ):bool | used to remove the information stored of an ID3 tag. 
+id3_set_tag ( string $filename , array $tag [, int $version = ID3_V1_0 ] ):bool | used to change the information stored of an ID3 tag. If no tag has been present, it will be added to the file. 
 iis_add_server ( string $path , string $comment , string $server_ip , $port , string $host_name , $rights , $start_server ):int
 iis_get_dir_security ( $server_instance , string $virtual_path ):int
 iis_get_script_map ( int $server_instance , $virtual_path , $script_extension ):string
 iis_get_server_by_comment ( string $comment ):int
-iis_get_server_by_path ( string $path ):int | Each virtual server in IIS is associated with an instance number. iis_get_server_by_path() finds the instance number from the actual path to the root directory. 
+iis_get_server_by_path ( string $path ):int | finds the virtual server instance number from the actual path to the root directory. 
 iis_get_server_rights ( $server_instance , string $virtual_path ):int
 iis_get_service_state ( string $service_id ):int
 iis_remove_server ( $server_instance ):int
@@ -544,7 +544,7 @@ iis_start_service ( string $service_id ):int
 iis_stop_server ( $server_instance ):int
 iis_stop_service ( string $service_id ):int
 inclued_get_data ( void ):array | Get the inclued data. 
-ingres_autocommit_state ( resource $link ):bool | ingres_autocommit_state() is called to determine whether the current link has autocommit enabled or not. 
+ingres_autocommit_state ( resource $link ):bool | called to determine whether the current link has autocommit enabled or not. 
 ingres_autocommit ( resource $link ):bool |  Switch autocommit on or off
 ingres_charset ( resource $link ):string
 ingres_close ( resource $link ):bool |  Close an Ingres II database connection
@@ -554,7 +554,7 @@ ingres_cursor ( resource $result ):string | Returns a string with the active cur
 ingres_errno ([ resource $link ] ):int
 ingres_error ([ resource $link ] ):string
 ingres_errsqlstate ([ resource $link ] ):string
-ingres_escape_( resource $link , $source_):string | ingres_escape_string() is used to escape certain characters within a string before it is sent to the database server. 
+ingres_escape_( resource $link , $source_):string | used to escape certain characters within a string before it is sent to the database server. 
 ingres_execute ( resource $result [, array $params [, string $types ]] ):bool
 ingres_fetch_( resource $result [, int $result_type ] ):array |  Fetch a row of result into an array result_type can be II_NUM for enumerated array, II_ASSOC for associative array, or II_BOTH (default)
 ingres_fetch_assoc ( resource $result ):array
@@ -569,33 +569,33 @@ ingres_field_scale ( resource $result , $index ):int |  Return the scale of a fi
 ingres_field_type ( resource $result , int $index ):string |  Return the type of a field in a query result index must be >0 and <= ingres_num_fields()
 ingres_free_result ( resource $result ):bool
 ingres_next_error ([ resource $link ] ):bool | Get the next Ingres error for the last executed query. Each call to ingres_next_error() can be followed by a call to ingres_errno(), ingres_error() or ingres_errsqlstate() to get the respective error number, error text, or SQL STATE. While ingres_next_error() returns TRUE, there are more errors to fetch. 
-ingres_num_fields ( resource $result ):int | ingres_num_fields() returns the number of fields in the results returned by the Ingres server after a call to ingres_query(). 
+ingres_num_fields ( resource $result ):int |  returns the number of fields in the results returned by the Ingres server after a call to ingres_query(). 
 ingres_num_rows ( resource $result ):int |  Return the number of rows affected/returned by the last query
 ingres_pconnect ([ string $database [, string $username [, string $password [, array $options ]]]] ):resource |  Open a persistent connection to an Ingres II database the syntax of database is [node_id::]dbname[/svr_class]
 ingres_prepare ( resource $link , string $query ):mixed
 ingres_query ( resource $link , string $query [, array $params [, string $types ]] ):mixed |  Send a SQL query to Ingres II
 ingres_result_seek ( resource $result , int $position ):bool
 ingres_rollback ( resource $link ):bool |  Roll back a transaction
-ingres_set_environment ( resource $link , array $options ):bool | ingres_set_environment() is called to set environmental options that affect the output of certain values from Ingres, such as the timezone, date format, decimal character separator, and float precision. 
+ingres_set_environment ( resource $link , array $options ):bool | called to set environmental options that affect the output of certain values from Ingres, such as the timezone, date format, decimal character separator, and float precision. 
 ingres_unbuffered_query ( resource $link , string $query [, array $params [, string $types ]] ):mixed
 inotify_add_watch ( resource $inotify_instance , string $pathname , $mask ):int
 inotify_init ( void ):resource | Initialize an inotify instance for use with inotify_add_watch() 
 inotify_queue_len ( resource $inotify_instance ):int | This function allows to know if inotify_read() will block or not. If a number upper than zero is returned, there are pending events and inotify_read() will not block. 
 inotify_read ( resource $inotify_instance ):array | Read inotify events from an inotify instance. 
-inotify_rm_watch ( resource $inotify_instance , int $watch_descriptor ):bool | inotify_rm_watch() removes the watch watch_descriptor from the inotify instance inotify_instance. 
-judy_type ( Judy $array ):int | judy_type() return an integer corresponding to the Judy type of the specified Judy array. 
+inotify_rm_watch ( resource $inotify_instance , int $watch_descriptor ):bool | removes the watch watch_descriptor from the inotify instance inotify_instance. 
+judy_type ( Judy $array ):int | return an integer corresponding to the Judy type of the specified Judy array. 
 judy_version ( void ):string | Return a string of the PHP Judy version. If the return value is not used, the string will be printed. 
-kadm5_chpass_principal ( resource $handle , string $principal , string $password ):bool | kadm5_chpass_principal() sets the new password password for the principal. 
+kadm5_chpass_principal ( resource $handle , string $principal , string $password ):bool | sets the new password password for the principal. 
 kadm5_create_principal ( resource $handle , string $principal [, string $password [, array $options ]] ):bool | Creates a principal with the given password. 
 kadm5_delete_principal ( resource $handle , string $principal ):bool | Removes the principal from the Kerberos database. 
 kadm5_destroy ( resource $handle ):bool | Closes the connection to the admin server and releases all related resources. 
 kadm5_flush ( resource $handle ):bool | Flush all changes to the Kerberos database, leaving the connection to the Kerberos admin server open. 
 kadm5_get_policies ( resource $handle ):array | Gets an array containing the policies's names. 
 kadm5_get_principal ( resource $handle , string $principal ):array | Gets the principal's entries from the Kerberos database. 
-kadm5_get_principals ( resource $handle ):array | kadm5_get_principals() returns an array containing the principals's names. 
+kadm5_get_principals ( resource $handle ):array | returns an array containing the principals's names. 
 kadm5_init_with_password ( string $admin_server , string $realm , string $principal , string $password ):resource | Opens a connection with the KADM5 library using the principal and the given password to obtain initial credentials from the admin_server. 
 kadm5_modify_principal ( resource $handle , string $principal , array $options ):bool | Modifies a principal according to the given options. 
-event_add ( resource $event [, int $timeout = -1 ] ):bool | event_add() schedules the execution of the event when the event specified in event_set() occurs or in at least the time specified by the timeout argument. If timeout was not specified, not timeout is set. The event must be already initalized by event_set() and event_base_set() functions. If the event already has a timeout set, it is replaced by the new one. 
+event_add ( resource $event [, int $timeout = -1 ] ):bool | schedules the execution of the event when the event specified in event_set() occurs or in at least the time specified by the timeout argument. If timeout was not specified, not timeout is set. The event must be already initalized by event_set() and event_base_set() functions. If the event already has a timeout set, it is replaced by the new one. 
 event_base_free ( resource $event_base ):void | Destroys the specified event_base and frees all the resources associated. Note that it's not possible to destroy an event base with events attached to it. 
 event_base_loop ( resource $event_base [, $flags = 0 ] ):int | Starts event loop for the specified event base. 
 event_base_loopbreak ( resource $event_base ):bool | Abort the active event loop immediately. The behaviour is similar to break statement. 
@@ -625,8 +625,8 @@ event_timer_add(->) function is an alias of: event_add(). :This
 event_timer_del(->) function is an alias of: event_del(). :This
 event_timer_new(->) function is an alias of: event_new(). :This
 event_timer_set ( resource $event , callable $callback [, mixed $arg ] ):bool
-lzf_compress ( $data ):string | lzf_compress() compresses the given data string using LZF encoding. 
-lzf_decompress ( $data ):string | lzf_compress() decompresses the given data string containing lzf encoded data. 
+lzf_compress ( $data ):string | compresses the given data string using LZF encoding. 
+lzf_decompress ( $data ):string | decompresses the given data string containing lzf encoded data. 
 lzf_optimized_for ( void ):int | Determines what was LZF extension optimized for during compilation. 
 mailparse_determine_best_xfer_encoding ( resource $fp ):string | Figures out the best way of encoding the content read from the given file pointer. 
 mailparse_msg_create ( void ):resource | Create a MIME mail resource. 
@@ -644,16 +644,16 @@ mailparse_stream_encode ( resource $sourcefp , resource $destfp , string $encodi
 mailparse_uudecode_all ( resource $fp ):array | Scans the data from the given file pointer and extract each embedded uuencoded file into a temporary file. 
 maxdb_affected_rows ( resource $link ):int
 maxdb_autocommit ( resource $link , $mode ):bool
-maxdb_bind_param(->) function is an alias of: maxdb_stmt_bind_param() :This | This function alias is deprecated and only exists for backwards compatibility reasons. The use of this function is not recommended, as it may be removed from PHP in the future. 
-maxdb_bind_result(->) function is an alias of: maxdb_stmt_bind_result(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. The use of this function is not recommended, as it may be removed from PHP in the future. 
+maxdb_bind_param(->) function is an alias of: maxdb_stmt_bind_param() :This | This function alias is deprecated and only exists for backwards compatibility reasons. 
+maxdb_bind_result(->) function is an alias of: maxdb_stmt_bind_result(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. 
 maxdb_change_user ( resource $link , string $user , string $password , string $database ):bool
 maxdb_character_set_name ( resource $link ):string
-maxdb_client_encoding(->) function is an alias of: maxdb_character_set_name(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. The use of this function is not recommended, as it may be removed from PHP in the future. 
-maxdb::close_long_data(->) function is an alias of: maxdb_stmt_close_long_data(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. The use of this function is not recommended, as it may be removed from PHP in the future. 
+maxdb_client_encoding(->) function is an alias of: maxdb_character_set_name(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. 
+maxdb::close_long_data(->) function is an alias of: maxdb_stmt_close_long_data(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. 
 maxdb_close ( resource $link ):bool
 maxdb_commit ( resource $link ):bool
-maxdb_connect_errno ( void ):int | The maxdb_connect_errno() function will return the last error code number for last call to maxdb_connect(). If no errors have occurred, this function will return zero. 
-maxdb_connect_error ( void ):string | The maxdb_connect_error() function is identical to the corresponding maxdb_connect_errno() function in every way, except instead of returning an integer error code the maxdb_connect_error() function will return a string representation of the last error to occur for the last maxdb_connect() call. If no error has occurred, this function will return an empty string. 
+maxdb_connect_errno ( void ):int | The function will return the last error code number for last call to maxdb_connect(). If no errors have occurred, this function will return zero. 
+maxdb_connect_error ( void ):string | like maxdb_connect_errno() function in every way, but will return a string representation of the last error to occur for the last maxdb_connect() call. 
 maxdb_connect ([ string $host [, string $username [, string $passwd [, string $dbname [, int $port = 0 [, string $socket ]]]]]] ):resource
 maxdb_data_seek ( resource $result , int $offset ):bool
 maxdb_debug ( string $debug ):void
@@ -666,7 +666,7 @@ maxdb_enable_rpl_parse ( resource $link ):bool
 maxdb_errno ( resource $link ):int
 maxdb_error ( resource $link ):string
 maxdb_escape_string(->) function is an alias of: maxdb_real_escape_string(). :This
-maxdb_execute(->) function is an alias of: maxdb_stmt_execute(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. The use of this function is not recommended, as it may be removed from PHP in the future. 
+maxdb_execute(->) function is an alias of: maxdb_stmt_execute(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. 
 maxdb_fetch_array ( resource $result [, int $resulttype ] ):mixed
 maxdb_fetch_assoc ( resource $result ):array
 maxdb_fetch_field_direct ( resource $result , int $fieldnr ):mixed
@@ -675,15 +675,15 @@ maxdb_fetch_fields ( resource $result ):mixed
 maxdb_fetch_lengths ( resource $result ):array
 maxdb_fetch_( $result ):object
 maxdb_fetch_row ( resource $result ):mixed
-maxdb_fetch(->) function is an alias of: maxdb_stmt_fetch(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. The use of this function is not recommended, as it may be removed from PHP in the future. 
+maxdb_fetch(->) function is an alias of: maxdb_stmt_fetch(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. 
 maxdb_field_count ( resource $link ):int
 maxdb_field_seek ( resource $result , int $fieldnr ):bool
 maxdb_field_tell ( resource $result ):int
 maxdb_free_result ( resource $result ):void
-maxdb_get_client_info ( void ):string | The maxdb_get_client_info() function is used to return a string representing the client version being used in the MaxDB extension. 
+maxdb_get_client_info ( void ):string | The function is used to return a string representing the client version being used in the MaxDB extension. 
 maxdb_get_client_version ( void ):int | Returns client version number as an integer. 
 maxdb_get_host_info ( resource $link ):string
-maxdb_get_metadata(->) function is an alias of: maxdb_stmt_result_metadata(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. The use of this function is not recommended, as it may be removed from PHP in the future. 
+maxdb_get_metadata(->) function is an alias of: maxdb_stmt_result_metadata(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. 
 maxdb_get_proto_info ( resource $link ):int
 maxdb_get_server_info ( resource $link ):string
 maxdb_get_server_version ( resource $link ):int
@@ -692,13 +692,13 @@ maxdb_init ( void ):resource
 maxdb_insert_id ( resource $link ):mixed
 maxdb_kill ( resource $link , int $processid ):bool
 maxdb_master_query ( resource $link , string $query ):bool
-maxdb_more_results ( resource $link ):bool | maxdb_more_results() indicates if one or more result sets are available from a previous call to maxdb_multi_query(). 
+maxdb_more_results ( resource $link ):bool | indicates if one or more result sets are available from a previous call to maxdb_multi_query(). 
 maxdb_multi_query ( resource $link , string $query ):bool
 maxdb_next_result ( resource $link ):bool | Since multiple queries are not yet supported, maxdb_next_result() returns always FALSE. 
 maxdb_num_fields ( resource $result ):int
 maxdb_num_rows ( resource $result ):int
 maxdb_options ( resource $link , int $option , mixed $value ):bool
-maxdb_param_count(->) function is an alias of: maxdb_stmt_param_count(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. The use of this function is not recommended, as it may be removed from PHP in the future. 
+maxdb_param_count(->) function is an alias of: maxdb_stmt_param_count(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. 
 maxdb_ping ( resource $link ):bool
 maxdb_prepare ( $link , string $query ):resource
 maxdb_query ( resource $link , string $query [, int $resultmode ] ):mixed
@@ -711,7 +711,7 @@ maxdb_rpl_parse_enabled ( resource $link ):int
 maxdb_rpl_probe ( resource $link ):bool
 maxdb_rpl_query_type ( resource $link ):int
 maxdb_select_db ( resource $link , string $dbname ):bool
-maxdb_send_long_data(->) function is an alias of: maxdb_stmt_send_long_data(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. The use of this function is not recommended, as it may be removed from PHP in the future. 
+maxdb_send_long_data(->) function is an alias of: maxdb_stmt_send_long_data(). :This | This function alias is deprecated and only exists for backwards compatibility reasons. 
 maxdb_send_query ( resource $link , string $query ):bool
 maxdb_server_end ( ):void
 maxdb_server_init ([ array $server [, array $groups ]] ):bool
@@ -741,7 +741,7 @@ maxdb_stmt_sqlstate ( resource $stmt ):string
 maxdb_stmt_store_result ( resource $stmt ):bool
 maxdb_store_result ( $link ):resource
 maxdb_thread_id ( resource $link ):int
-maxdb_thread_safe ( void ):bool | maxdb_thread_safe() indicates whether the client library is compiled as thread-safe. 
+maxdb_thread_safe ( void ):bool | indicates whether the client library is compiled as thread-safe. 
 maxdb_use_result ( $link ):resource
 maxdb_warning_count ( resource $link ):int
 m_checkstatus ( resource $conn , $identifier ):int
@@ -790,14 +790,14 @@ ming_setscale ( float $scale ):void | Sets the scale of the output SWF. Inside t
 ming_setswfcompression ( int $level ):void | Sets the SWF output compression level. 
 ming_useconstants ( int $use ):void |  Use constant pool (?)
 ming_useswfversion ( int $version ):void | Sets the SWF version to be used in the movie. This affect the bahaviour of Action Script. 
-udm_add_search_limit ( resource $agent , int $var , string $val ):bool | udm_add_search_limit() adds search restrictions. 
-udm_alloc_agent_array ( array $databases ):resource | udm_alloc_agent_array() will create an agent with multiple database connections. 
+udm_add_search_limit ( resource $agent , int $var , string $val ):bool | adds search restrictions. 
+udm_alloc_agent_array ( array $databases ):resource | will create an agent with multiple database connections. 
 udm_alloc_agent ( string $dbaddr [, string $dbmode ] ):resource | Allocate a mnoGoSearch session. 
 udm_api_version ( void ):int |  Get mnoGoSearch API version
 udm_cat_list ( resource $agent , string $category ):array |  Get mnoGoSearch categories list with the same root
 udm_cat_path ( resource $agent , string $category ):array | Returns an array describing the path in the categories tree from the tree root to the current one, specified by category. 
 udm_check_charset ( resource $agent , string $charset ):bool |  Check if the given charset is known to mnogosearch
-udm_clear_search_limits ( resource $agent ):bool | udm_clear_search_limits() resets defined search limitations. 
+udm_clear_search_limits ( resource $agent ):bool | resets defined search limitations. 
 udm_crc32 ( resource $agent , string $str ):int |  Return CRC32 checksum of gived string
 udm_errno ( resource $agent ):int | Receiving numeric agent error code. 
 udm_error ( resource $agent ):string | Gets the agent error message. 
@@ -805,28 +805,28 @@ udm_find ( $agent , string $query ):resource |  Perform search
 udm_free_agent ( resource $agent ):int | Freeing up memory allocated for agent session. 
 udm_free_ispell_data ( int $agent ):bool | Frees the memory allocated for ispell data. 
 udm_free_res ( resource $res ):bool | Freeing up memory allocated for results. 
-udm_get_doc_count ( resource $agent ):int | udm_get_doc_count() returns the number of documents in the database. 
+udm_get_doc_count ( resource $agent ):int | returns the number of documents in the database. 
 udm_get_res_field ( resource $res , int $row , int $field ):string | Fetch a mnoGoSearch result field. 
 udm_get_res_param ( resource $res , int $param ):string | Gets the mnoGoSearch result parameters. 
-udm_hash32 ( resource $agent , string $str ):int | udm_hash32() will take a string str and return a quite unique 32-bit hash number from it. 
+udm_hash32 ( resource $agent , string $str ):int | will take a string str and return a quite unique 32-bit hash number from it. 
 udm_load_ispell_data ( resource $agent , int $var , string $val1 , string $val2 , int $flag ):bool |  Load ispell data
 udm_set_agent_param ( resource $agent , int $var , string $val ):bool | Defines mnoGoSearch session parameters. 
-bson_decode ( string $bson ):array | This function is very beta and entirely useless for 99% of users. It is only useful if you're doing something weird, such as writing your own driver on top of the PHP driver. 
-bson_encode ( mixed $anything ):string | This function is very beta and entirely useless for 99% of users. It is only useful if you're doing something weird, such as writing your own driver on top of the PHP driver. 
+bson_decode ( string $bson ):array | beta - It is only useful if you're doing something weird, such as writing your own driver on top of the PHP driver. 
+bson_encode ( mixed $anything ):string | beta - It is only useful if you're doing something weird, such as writing your own driver on top of the PHP driver. 
 mqseries_back ( resource $hconn , resource &$compCode , resource &$reason ):void
 mqseries_begin ( resource $hconn , array $beginOptions , resource &$compCode , resource &$reason ):void
-mqseries_close ( resource $hconn , resource $hobj , int $options , resource &$compCode , resource &$reason ):void | The mqseries_close() (MQCLOSE) call relinquishes access to an object, and is the inverse of the mqseries_open() (MQOPEN) call. 
+mqseries_close ( resource $hconn , resource $hobj , int $options , resource &$compCode , resource &$reason ):void | The (MQCLOSE) call relinquishes access to an object, and is the inverse of the mqseries_open() (MQOPEN) call. 
 mqseries_cmit ( resource $hconn , resource &$compCode , resource &$reason ):void | indicates to the queue manager that the application has reached a syncpoint, and that all of the message gets and puts that have occurred since the last syncpoint are to be made permanent.
-mqseries_conn ( string $qManagerName , resource &$hconn , resource &$compCode , resource &$reason ):void | The mqseries_conn() (MQCONN) call connects an application program to a queue manager. It provides a queue manager connection handle, which is used by the application on subsequent message queuing calls. 
+mqseries_conn ( string $qManagerName , resource &$hconn , resource &$compCode , resource &$reason ):void | The (MQCONN) call connects an application program to a queue manager. returns a queue manager connection handle. 
 mqseries_connx ( string $qManagerName , array &$connOptions , resource &$hconn , resource &$compCode , resource &$reason ):void
-mqseries_disc ( resource $hconn , resource &$compCode , resource &$reason ):void | The mqseries_disc() (MQDISC) call breaks the connection between the queue manager and the application program, and is the inverse of the mqseries_conn() (MQCONN) or mqseries_connx() (MQCONNX) call. 
-mqseries_get ( resource $hConn , resource $hObj , array &$md , array &$gmo , int &$bufferLength , string &$msg , int &$data_length , resource &$compCode , resource &$reason ):void | The mqseries_get() (MQGET) call retrieves a message from a local queue that has been opened using the mqseries_open() (MQOPEN) call 
-mqseries_inq ( resource $hconn , resource $hobj , int $selectorCount , array $selectors , int $intAttrCount , resource &$intAttr , int $charAttrLength , resource &$charAttr , resource &$compCode , resource &$reason ):void | The mqseries_inq() (MQINQ) call returns an array of integers and a set of character strings containing the attributes of an object. 
-mqseries_open ( resource $hconn , array &$objDesc , int $option , resource &$hobj , resource &$compCode , resource &$reason ):void | The mqseries_open() (MQOPEN) call establishes access to an object. 
+mqseries_disc ( resource $hconn , resource &$compCode , resource &$reason ):void | The (MQDISC) call breaks the connection between the queue manager and the application program, and is the inverse of the mqseries_conn() (MQCONN) or mqseries_connx() (MQCONNX) call. 
+mqseries_get ( resource $hConn , resource $hObj , array &$md , array &$gmo , int &$bufferLength , string &$msg , int &$data_length , resource &$compCode , resource &$reason ):void | The (MQGET) call retrieves a message from a local queue that has been opened using the mqseries_open() (MQOPEN) call 
+mqseries_inq ( resource $hconn , resource $hobj , int $selectorCount , array $selectors , int $intAttrCount , resource &$intAttr , int $charAttrLength , resource &$charAttr , resource &$compCode , resource &$reason ):void | The (MQINQ) call returns an array of integers and a set of character strings containing the attributes of an object. 
+mqseries_open ( resource $hconn , array &$objDesc , int $option , resource &$hobj , resource &$compCode , resource &$reason ):void | The (MQOPEN) call establishes access to an object. 
 mqseries_put1 ( resource $hconn , resource &$objDesc , resource &$msgDesc , resource &$pmo , string $buffer , resource &$compCode , resource &$reason ):void
-mqseries_put ( resource $hConn , resource $hObj , array &$md , array &$pmo , string $message , resource &$compCode , resource &$reason ):void | The mqseries_put() (MQPUT) call puts a message on a queue or distribution list. The queue or distribution list must already be open. 
-mqseries_set ( resource $hConn , resource $hObj , int $selectorCount , array $selectors , int $intAttrCount , array $intAttrs , int $charAttrLength , array $charAttrs , resource &$compCode , resource &$reason ):void | The mqseries_set() (MQSET) call is used to change the attributes of an object represented by a handle. The object must be a queue. 
-mqseries_strerror ( int $reason ):string | mqseries_strerror() returns the message that correspond to the reason result code. 
+mqseries_put ( resource $hConn , resource $hObj , array &$md , array &$pmo , string $message , resource &$compCode , resource &$reason ):void | The (MQPUT) call puts a message on a queue or distribution list. The queue or distribution list must already be open. 
+mqseries_set ( resource $hConn , resource $hObj , int $selectorCount , array $selectors , int $intAttrCount , array $intAttrs , int $charAttrLength , array $charAttrs , resource &$compCode , resource &$reason ):void | The (MQSET) call is used to change the attributes of an object represented by a handle. The object must be a queue. 
+mqseries_strerror ( int $reason ):string | returns the message that correspond to the reason result code. 
 msession_connect ( string $host , string $port ):bool |  Connect to msession sever
 msession_count ( void ):int |  Get session count
 msession_create ( string $session [, string $classname [, string $data ]] ):bool |  Create a session
@@ -848,7 +848,7 @@ msession_set ( string $session , string $name , string $value ):bool |  Set valu
 msession_timeout ( string $session [, $param ] ):int |  Set/get session timeout
 msession_uniq ( int $param [, $classname [, $data ]] ):string |  Get uniq id
 msession_unlock ( string $session , $key ):int |  Unlock a session
-mysqlnd_memcache_get_config ( mixed $connection ):array | This function returns an array of all mysqlnd_memcache related configuration information that is attached to the MySQL connection. This includes MySQL, the Memcache object provided via mysqlnd_memcache_set(), and the table mapping configuration that was automatically collected from the MySQL Server. 
+mysqlnd_memcache_get_config ( mixed $connection ):array | This function returns an array of all mysqlnd_memcache related configuration information that is attached to the MySQL connection. 
 mysqlnd_memcache_set ( mixed $mysql_connection [, Memcached $memcache_connection [, string $pattern [, callback $callback ]]] ):bool
 mysqlnd_ms_dump_servers ( mixed $connection ):array | Returns a list of currently configured servers. 
 mysqlnd_ms_fabric_select_global ( mixed $connection , mixed $table_name ):array
@@ -872,7 +872,7 @@ mysqlnd_qc_get_normalized_query_trace_log ( void ):array
 mysqlnd_qc_get_query_trace_log ( void ):array
 mysqlnd_qc_set_cache_condition ( int $condition_type , mixed $condition , mixed $condition_option ):bool | Sets a condition for automatic caching of statements which do not contain the necessary SQL hints to enable caching of them. 
 mysqlnd_qc_set_is_select ( string $callback ):mixed
-mysqlnd_qc_set_storage_handler ( string $handler ):bool | Sets the storage handler used by the query cache. A list of available storage handler can be obtained from mysqlnd_qc_get_available_handlers(). Which storage are available depends on the compile time configuration of the query cache plugin. The default storage handler is always available. All other storage handler must be enabled explicitly when building the extension. 
+mysqlnd_qc_set_storage_handler ( string $handler ):bool | Sets the storage handler used by the query cache. A list of available storage handler can be obtained from mysqlnd_qc_get_available_handlers().
 mysqlnd_qc_set_user_handlers ( string $get_hash , string $find_query_in_cache , string $return_to_cache , string $add_query_to_cache_if_not_exists , string $query_is_select , string $update_query_run_time_stats , string $get_stats , string $clear_cache ):bool | Sets the callback functions for a user-defined procedural storage handler. 
 mysqlnd_uh_convert_to_mysqlnd ( mysqli &$mysql_connection ):resource
 mysqlnd_uh_set_connection_proxy ( MysqlndUhConnection &$connection_proxy [, mysqli &$mysqli_connection ] ):bool
@@ -1078,7 +1078,7 @@ newt_finished ( void ):int | Uninitializes newt interface. This function be call
 newt_form_add_component ( resource $form , resource $component ):void | Adds a single component to the form. 
 newt_form_add_components ( resource $form , array $components ):void | Adds several components to the form. 
 newt_form_add_hot_key ( resource $form , int $key ):void
-newt_form_destroy ( resource $form ):void | This function frees the memory resources used by the form and all of the components which have been added to the form (including those components which are on subforms). Once a form has been destroyed, none of the form's components can be used. 
+newt_form_destroy ( resource $form ):void | This function frees the memory resources used by the form and all of the components which have been added to the form.
 newt_form_get_current ( $form ):resource
 newt_form_run ( resource $form , array &$exit_struct ):void | This function runs the form passed to it. 
 newt_form_set_background ( resource $from , int $background ):void
@@ -1191,20 +1191,20 @@ openal_source_stop ( resource $source ):bool
 openal_stream ( $source , int $format , int $rate ):resource
 px_close ( resource $pxdoc ):bool | Closes the paradox database. This function will not close the file. You will have to call fclose() afterwards. 
 px_create_fp ( resource $pxdoc , resource $file , array $fielddesc ):bool
-px_date2( resource $pxdoc , int $value , $format ):string | Turns a date as it stored in the paradox file into human readable format. Paradox dates are the number of days since 1.1.0000. This function is just for convenience. It can be easily replaced by some math and the calendar functions as demonstrated in the example below. 
+px_date2( resource $pxdoc , int $value , $format ):string | Turns a date as it stored in the paradox file into human readable format. Paradox dates are the number of days since 1.1.0000.
 px_delete_record ( resource $pxdoc , int $num ):bool
 px_delete ( resource $pxdoc ):bool | Deletes the resource of the paradox file and frees all memory. 
 px_get_field ( resource $pxdoc , int $fieldno ):array
 px_get_info ( resource $pxdoc ):array
 px_get_parameter ( resource $pxdoc , $name ):string | Gets various parameters. 
 px_get_record ( resource $pxdoc , int $num [, int $mode = 0 ] ):array
-px_get_schema ( resource $pxdoc [, int $mode = 0 ] ):array | px_get_schema() returns the database schema. 
+px_get_schema ( resource $pxdoc [, int $mode = 0 ] ):array | returns the database schema. 
 px_get_value ( resource $pxdoc , string $name ):float | Gets various values. 
 px_insert_record ( resource $pxdoc , array $data ):int
 px_new ( void ):resource | Create a new paradox object. You will have to call this function before any further functions. px_new() does not create any file on the disk, it just creates an instance of a paradox object. This function must not be called if the object oriented interface is used. Use new paradox_db() instead. 
 px_numfields ( resource $pxdoc ):int | Get the number of fields in a database file. 
 px_numrecords ( resource $pxdoc ):int | Get the number of records in a database file. 
-px_open_fp ( resource $pxdoc , resource $file ):bool | Open an existing paradox database file. The actual file has to be opened before with fopen(). This function can also be used to open primary index files and tread them like a paradox database. This is supported for those who would like to investigate a primary index. It cannot be used to accelerate access to a database file. 
+px_open_fp ( resource $pxdoc , resource $file ):bool | Open an existing paradox database file. The actual file has to be opened before with fopen(). This function can also be used to open primary index files and tread them like a paradox database.
 px_put_record ( resource $pxdoc , array $record [, int $recpos = -1 ] ):bool | Stores a record into a paradox database. The record is always added at the end of the database, regardless of any free slots. Use px_insert_record() to add a new record into the first free slot found in the database. 
 px_retrieve_record ( resource $pxdoc , int $num [, int $mode = 0 ] ):array
 px_set_blob_file ( resource $pxdoc , string $filename ):bool
@@ -1212,7 +1212,7 @@ px_set_parameter ( resource $pxdoc , string $name , string $value ):bool | Sets 
 px_set_tablename(->) px_set_tablename ( resource $pxdoc , string $name ):void | Sets the table name of a paradox database, which was created with px_create_fp(). This function is deprecated use px_set_parameter() instead. 
 px_set_targetencoding(->) px_set_targetencoding ( resource $pxdoc , string $encoding ):bool
 px_set_value ( resource $pxdoc , string $name , float $value ):bool | Sets various values. 
-px_timestamp2( resource $pxdoc , float $value , $format ):string | Turns a timestamp as it stored in the paradox file into human readable format. Paradox timestamps are the number of miliseconds since 0001-01-02. This function is just for convenience. It can be easily replaced by some math and the calendar functions as demonstrated in the following example. 
+px_timestamp2( resource $pxdoc , float $value , $format ):string | Turns a timestamp as it stored in the paradox file into human readable format. Paradox timestamps are the number of miliseconds since 0001-01-02.
 px_update_record ( resource $pxdoc , array $data , int $num ):bool
 parsekit_compile_file ( string $filename [, &$errors [, int $options = PARSEKIT_QUIET ]] ):array
 parsekit_compile_string ( string $phpcode [, &$errors [, int $options = PARSEKIT_QUIET ]] ):array
@@ -1416,7 +1416,7 @@ ps_close ( resource $psdoc ):bool
 ps_closepath_stroke ( resource $psdoc ):bool | Connects the last point with first point of a path and draws the resulting closed line. 
 ps_closepath ( resource $psdoc ):bool | Connects the last point with the first point of a path. The resulting path can be used for stroking, filling, clipping, etc.. 
 ps_continue_text ( resource $psdoc , string $text ):bool | Output a text one line below the last line. The line spacing is taken from the value "leading" which must be set with ps_set_value(). The actual position of the text is determined by the values "textx" and "texty" which can be requested with ps_get_value() 
-ps_curveto ( resource $psdoc , float $x1 , float $y1 , float $x2 , float $y2 , float $x3 , float $y3 ):bool | Add a section of a cubic Bézier curve described by the three given control points to the current path. 
+ps_curveto ( resource $psdoc , float $x1 , float $y1 , float $x2 , float $y2 , float $x3 , float $y3 ):bool | Add a section of a cubic Bezier curve described by the three given control points to the current path. 
 ps_delete ( resource $psdoc ):bool | Mainly frees memory used by the document. Also closes a file, if it was not closed before with ps_close(). You should in any case close the file with ps_close() before, because ps_close() not just closes the file but also outputs a trailor containing PostScript comments like the number of pages in the document and adding the bookmark hierarchy. 
 ps_end_page ( resource $psdoc ):bool | Ends a page which was started with ps_begin_page(). Ending a page will leave the current drawing context, which e.g. requires to reload fonts if they were loading within the page, and to set many other drawing parameters like the line width, or color.. 
 ps_end_pattern ( resource $psdoc ):bool | Ends a pattern which was started with ps_begin_pattern(). Once a pattern has been ended, it can be used like a color to fill areas. 
@@ -1469,7 +1469,7 @@ ps_show_xy2 ( resource $psdoc , string $text , int $len , float $xcoor , float $
 ps_show_xy ( resource $psdoc , string $text , float $x , float $y ):bool | Output a text at the given text position. 
 ps_show2 ( resource $psdoc , string $text , int $len ):bool | Output text at the current position. Do not print more than len characters. 
 ps_show ( resource $psdoc , string $text ):bool
-ps_string_geometry ( resource $psdoc , string $text [, int $fontid = 0 [, float $size = 0.0 ]] ):array | This function is similar to ps_stringwidth() but returns an array of dimensions containing the width, ascender, and descender of the text. 
+ps_string_geometry ( resource $psdoc , string $text [, int $fontid = 0 [, float $size = 0.0 ]] ):array | like ps_stringwidth() but returns an array of dimensions containing the width, ascender, and descender of the text. 
 ps_stringwidth ( resource $psdoc , string $text [, int $fontid = 0 [, $size = 0.0 ]] ):float | Calculates the width of a string in points if it was output in the given font and font size. This function needs an Adobe font metrics file to calculate the precise width. If kerning is turned on, it will be taken into account. 
 ps_stroke ( resource $psdoc ):bool | Draws the path constructed with previously called drawing functions like ps_lineto(). 
 ps_symbol_name ( resource $psdoc , int $ord [, int $fontid = 0 ] ):string | This function needs an Adobe font metrics file to know which glyphs are available. 
@@ -1496,7 +1496,7 @@ sqlite_current ( resource $result [, int $result_type = SQLITE_BOTH [, bool $dec
 sqlite_error_( int $error_code ):string | Returns a human readable description of the error_code returned from sqlite_last_error(). 
 sqlite_escape_( $item ):string |  Escapes a string for use as a query parameter.
 sqlite_exec ( resource $dbhandle , string $query [, string &$error_msg ] ):bool
-sqlite_factory ( string $filename [, int $mode = 0666 [, string &$error_message ]] ):SQLiteDatabase | sqlite_factory() behaves similarly to sqlite_open() in that it opens an SQLite database or attempts to create it if it does not exist. However, a SQLiteDatabase object is returned rather than a resource. Please see the sqlite_open() reference page for further usage and caveats. 
+sqlite_factory ( string $filename [, int $mode = 0666 [, string &$error_message ]] ):SQLiteDatabase | behaves similarly to sqlite_open() in that it opens an SQLite database or attempts to create it if it does not exist. However, a SQLiteDatabase object is returned rather than a resource. Please see the sqlite_open() reference page for further usage and caveats. 
 sqlite_fetch_all ( resource $result [, int $result_type = SQLITE_BOTH [, bool $decode_binary = TRUE ]] ):array
 sqlite_fetch_( resource $result [, int $result_type = SQLITE_BOTH [, bool $decode_binary = TRUE ]] ):array
 sqlite_fetch_column_types ( string $table_name , resource $dbhandle [, int $result_type = SQLITE_ASSOC ] ):array
@@ -1544,16 +1544,16 @@ sqlsrv_get_field ( resource $stmt , int $fieldIndex [, int $getAsType ] ):mixed 
 sqlsrv_has_rows ( resource $stmt ):bool | Indicates whether the specified statement has rows. 
 sqlsrv_next_result ( resource $stmt ):mixed | Makes the next result of the specified statement active. Results include result sets, row counts, and output parameters. 
 sqlsrv_num_fields ( resource $stmt ):mixed | Retrieves the number of fields (columns) on a statement. 
-sqlsrv_num_rows ( resource $stmt ):mixed | Retrieves the number of rows in a result set. This function requires that the statment resource be created with a static or keyset cursor. For more information, see sqlsrv_query(), sqlsrv_prepare(), or » Specifying a Cursor Type and Selecting Rows in the Microsoft SQLSRV documentation. 
+sqlsrv_num_rows ( resource $stmt ):mixed | Retrieves the number of rows in a result set. This function requires that the statment resource be created with a static or keyset cursor. For more information, see sqlsrv_query(), sqlsrv_prepare(), or Specifying a Cursor Type and Selecting Rows in the Microsoft SQLSRV documentation. 
 sqlsrv_prepare ( resource $conn , string $sql [, array $params [, array $options ]] ):mixed | Prepares a query for execution. This function is ideal for preparing a query that will be executed multiple times with different parameter values. 
 sqlsrv_query ( resource $conn , string $sql [, array $params [, array $options ]] ):mixed | Prepares and executes a query. 
 sqlsrv_rollback ( resource $conn ):bool | Rolls back a transaction that was begun with sqlsrv_begin_transaction() and returns the connection to auto-commit mode. 
 sqlsrv_rows_affected ( resource $stmt ):int | Returns the number of rows modified by the last INSERT, UPDATE, or DELETE query executed. For information about the number of rows returned by a SELECT query, see sqlsrv_num_rows(). 
 sqlsrv_send_stream_data ( resource $stmt ):bool | Send data from parameter streams to the server. Up to 8 KB of data is sent with each call. 
 sqlsrv_server_info ( resource $conn ):array | Returns information about the server. 
-ssdeep_fuzzy_compare ( string $signature1 , string $signature2 ):int | Calculates the match score between signature1 and signature2 using » | context-triggered piecewise hashing, and returns the match score. 
-ssdeep_fuzzy_hash_filename ( $file_name ):string | ssdeep_fuzzy_hash_filename() calculates the hash of the file specified by file_name using » context-triggered piecewise hashing, and returns that hash. 
-ssdeep_fuzzy_hash ( $to_hash ):string | ssdeep_fuzzy_hash() calculates the hash of to_hash using » | context-triggered piecewise hashing, and returns that hash. 
+ssdeep_fuzzy_compare ( string $signature1 , string $signature2 ):int | Calculates the match score between signature1 and signature2 using context-triggered piecewise hashing, and returns the match score. 
+ssdeep_fuzzy_hash_filename ( $file_name ):string |  calculates the hash of the file specified by file_name using context-triggered piecewise hashing, and returns that hash. 
+ssdeep_fuzzy_hash ( $to_hash ):string | calculates the hash of to_hash using context-triggered piecewise hashing, and returns that hash. 
 ssh2_auth_agent ( resource $session , string $username ):bool
 ssh2_auth_hostbased_file ( resource $session , string $username , string $hostname , string $pubkeyfile , string $privkeyfile [, string $passphrase [, string $local_username ]] ):bool | Authenticate using a public hostkey read from a file. 
 ssh2_auth_none ( resource $session , string $username ):mixed | Attempt "none" authentication which usually will (and should) fail. As part of the failure, this function will return an array of accepted authentication methods. 
@@ -1691,7 +1691,7 @@ svn_fs_revision_root ( $fs , int $revnum ):resource
 svn_fs_txn_root ( $txn ):resource
 svn_fs_youngest_rev ( resource $fs ):int
 svn_import ( string $path , string $url , $nonrecursive ):bool | Commits unversioned path into repository at url. If path is a directory and nonrecursive is FALSE, the directory will be imported recursively. 
-svn_log ( string $repos_url [, int $start_revision [, int $end_revision [, int $limit = 0 [, int $flags = SVN_DISCOVER_CHANGED_PATHS | SVN_STOP_ON_COPY ]]]] ):array | svn_log() returns the complete history of the item at the repository URL repos_url, or the history of a specific revision if start_revision is set. This function is equivalent to svn log --verbose -r $start_revision $repos_url. 
+svn_log ( string $repos_url [, int $start_revision [, int $end_revision [, int $limit = 0 [, int $flags = SVN_DISCOVER_CHANGED_PATHS | SVN_STOP_ON_COPY ]]]] ):array | returns the complete history of the item at the repository URL repos_url, or the history of a specific revision if start_revision is set. This function is equivalent to svn log --verbose -r $start_revision $repos_url. 
 svn_ls ( string $repos_url [, int $revision_no = SVN_REVISION_HEAD [, bool $recurse = FALSE [, bool $peg = FALSE ]]] ):array
 svn_mkdir ( string $path [, string $log_message ] ):bool | Creates a directory in a working copy or repository. 
 svn_repos_create ( string $path [, array $config [, array $fsconfig ]] ):resource
@@ -1963,16 +1963,16 @@ yaz_connect ( string $zurl [, $options ] ):mixed |  Create target with given zur
 yaz_database ( resource $id , string $databases ):bool | This function allows you to change databases within a session by specifying one or more databases to be used in search, retrieval, etc. - overriding databases specified in call to yaz_connect(). 
 yaz_element ( resource $id , string $elementset ):bool |  Set Element-Set-Name for retrieval
 yaz_errno ( resource $id ):int |  Return last error number (>0 for bib-1 diagnostic, <0 for other error, 0 for no error
-yaz_error ( resource $id ):string | yaz_error() returns an English text message corresponding to the last error number as returned by yaz_errno(). 
+yaz_error ( resource $id ):string | returns an English text message corresponding to the last error number as returned by yaz_errno(). 
 yaz_es_result ( resource $id ):array | This function inspects the last returned Extended Service result from a server. An Extended Service is initiated by either yaz_item_order() or yaz_es(). 
 yaz_es ( resource $id , string $type , array $args ):void |  Sends Extended Services Request
 yaz_get_option ( resource $id , $name ):string | Returns the value of the option specified with name. 
-yaz_hits ( resource $id [, array &$searchresult ] ):int | yaz_hits() returns the number of hits for the last search. 
+yaz_hits ( resource $id [, array &$searchresult ] ):int | returns the number of hits for the last search. 
 yaz_itemorder ( resource $id , array $args ):void | This function prepares for an Extended Services request using the Profile for the Use of Z39.50 Item Order Extended Service to Transport ILL (Profile/1). See » this and the » specification. 
 yaz_present ( resource $id ):bool |  Retrieve records
 yaz_range ( resource $id , int $start , int $number ):void |  Set result set start point and number of records to request
-yaz_record ( resource $id , int $pos , $type ):string | The yaz_record() function inspects a record in the current result set at the position specified by parameter pos. 
-yaz_scan_result ( resource $id [, &$result ] ):array | yaz_scan_result() returns terms and associated information as received from the server in the last performed yaz_scan(). 
+yaz_record ( resource $id , int $pos , $type ):string | The function inspects a record in the current result set at the position specified by parameter pos. 
+yaz_scan_result ( resource $id [, &$result ] ):array |  returns terms and associated information as received from the server in the last performed yaz_scan(). 
 yaz_scan ( resource $id , string $type , string $startterm [, array $flags ] ):void |  Sends Scan Request
 yaz_schema ( resource $id , string $schema ):void |  Set Schema for retrieval
 yaz_search ( resource $id , string $type , string $query ):bool |  Specify query of type for search - returns true if successful
