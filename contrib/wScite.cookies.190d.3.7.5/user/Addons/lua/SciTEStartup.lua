@@ -54,7 +54,7 @@ local function SetProjectEnv(init)
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1
 	end
 	
-	if init then dofile(myHome..'\\macros\\AutoComplete.lua') end
+	if init then dofile(myHome..'\\macros\\.AutoComplete.lua') end
 end
 SetProjectEnv(true)
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

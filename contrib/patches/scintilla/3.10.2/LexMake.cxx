@@ -156,7 +156,8 @@ static unsigned int ColouriseMakeLine(
 	Sci_PositionU strLen = 0; // Keyword candidate length.
 	Sci_PositionU startMark = 0;	 // Keyword candidates startPos. >0 while searching for a Keyword	
 
-	unsigned int state=(startStyle!=SCE_MAKE_IDEOL)?startStyle:SCE_MAKE_DEFAULT;
+	//unsigned int state=(startStyle!=SCE_MAKE_IDEOL)?startStyle:SCE_MAKE_DEFAULT;
+	unsigned int state=SCE_MAKE_DEFAULT;
 	unsigned int state_prev = SCE_MAKE_DEFAULT;
 
 	bool bInCommand=false;		// set when a line begins with a tab (command)
@@ -359,7 +360,7 @@ static unsigned int ColouriseMakeLine(
 			// Colour Strings which end with a Number
 			if (state==SCE_MAKE_DEFAULT && IsNum(chCurr) && startMark >= stylerPos) {
 				ColourHere(styler, startMark-1, state);
-				ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
+				ColourHere(styler, currentPos, SCE_MAKE_NUMBER);
 			}
 
 			// Colour Variable Assignments which end with a =
@@ -367,7 +368,7 @@ static unsigned int ColouriseMakeLine(
 				ColourHere(styler, startMark-1, state);
 				ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER);
 			}
-
+			
 			startMark=0;
 			strLen=0;
 			strSearch.clear();
@@ -491,7 +492,7 @@ static unsigned int ColouriseMakeLine(
 // @brief returns a multilines startPosition or current position
 // if the Offset does not belong to a Multiline Segment.
 **/
-static int GetMLineStart(Accessor &styler, Sci_Position offset) {
+static int GetMLineStart(Accessor &styler, Sci_Position start) {
 
 	int status=0; // 1=cont_end 2=cont_middle/start
 	Sci_Position currMLSegment=0;
@@ -499,28 +500,28 @@ static int GetMLineStart(Accessor &styler, Sci_Position offset) {
 	Sci_Position finalMLSegment=0;
 
 	// check if current lines last visible char is a continuation
-	Sci_Position pos=offset;
+	Sci_Position position=start;
 	// moves to last visible char
-	while (styler[pos++]!='\n');
-	while (IsGraphic(styler.SafeGetCharAt(--pos)==0)) ;
-	pos--;
-	if (styler[pos]=='\\') {
+	while (styler[position++]!='\n');
+	while (IsGraphic(styler.SafeGetCharAt(--position)==0)) ;
+	position--;
+	if (styler[position]=='\\') {
 		status=2;
 	} else {
 		status=1;
-		finalMLSegment=offset;
+		finalMLSegment=start;
 	}
 
 	// check for continuation segments start
-	pos = styler.LineStart(styler.GetLine(pos)-1);
-	while (pos != currMLSegment) {
-		currMLSegment=pos;
-		while (styler[++pos]!='\n');
-		if ((status==2) && (styler[pos+1]=='\r' || styler[pos+1]=='\n'))
+	position = styler.LineStart(styler.GetLine(position)-1);
+	while (position != currMLSegment) {
+		currMLSegment=position;
+		while (styler[++position]!='\n');
+		if ((status==2) && (styler[position+1]=='\r' || styler[position+1]=='\n'))
 			break; // empty line reached
-		while (iscntrl(styler.SafeGetCharAt(--pos)));
-		pos--;
-		if (styler[pos]!='\\' && styler[pos+1]!='\\') {
+		while (iscntrl(styler.SafeGetCharAt(--position)));
+		position--;
+		if (styler[position]!='\\' && styler[position+1]!='\\') {
 			if (status==1) {
 				currMLSegment=finalMLSegment;
 				break; // no MultiLine
@@ -529,8 +530,8 @@ static int GetMLineStart(Accessor &styler, Sci_Position offset) {
 				break; // firstSegment reached.
 			}
 		} else { // continue search
-			prevMLSegment=styler.LineStart(styler.GetLine(pos));
-			pos = styler.LineStart(styler.GetLine(pos)-1);
+			prevMLSegment=styler.LineStart(styler.GetLine(position));
+			position = styler.LineStart(styler.GetLine(position)-1);
 			status=2;
 		}
 	}
@@ -541,59 +542,59 @@ static int GetMLineStart(Accessor &styler, Sci_Position offset) {
 // @brief returns a multilines length or current lines length
 // if the Position does not belong to a Multiline Segment.
 **/
-static int GetLineLen(Accessor &styler, Sci_Position offset) {
+static int GetLineLen(Accessor &styler, Sci_Position start) {
 	Sci_PositionU length=0;
-	Sci_Position posi=offset;
+	Sci_Position counter=start;
 
 	// Check for an empty Line.
-	while (posi>0 && IsNewline(styler[--posi])) {
-		if (styler[posi]=='\n') return (offset-posi); // empty Line
+	while (counter>0 && IsNewline(styler[--counter])) {
+		if (styler[counter]=='\n') return (start-counter); // empty Line
 	}
 	
 	// Skip any space chars before the newlines.
-	if(IsASpaceOrTab(styler[posi])){
-		while (IsASpaceOrTab(styler[posi--]));
-		posi++;
+	if(IsASpaceOrTab(styler[counter])){
+		while (IsASpaceOrTab(styler[counter--]));
+		counter++;
 	}
 
 	// check that next char for beeing a continuation
-	if (styler[posi]=='\\') {
+	if (styler[counter]=='\\') {
 		// ..begin at current lines startpos
-		while (!IsNewline(styler[--posi]) && posi>=0);
+		while (!IsNewline(styler[--counter]));
 
 		// ...get continued lines length
 		while (true) {
 			//..forward to Segments lineEnd
-			while (styler[posi++]) {
+			while (styler[counter++]) {
 				length++;
-				if (styler[posi]=='\n' || styler[posi]=='\0') break;
+				if (styler[counter]=='\n' || styler[counter]=='\0') break;
 			}
 
 			// Handle Line Continuations
 			// cope with unix and windows style line ends and spaces.
-			if (styler[posi]=='\n') {
-				posi=(styler[posi-1]=='\r')?posi-2:posi-1; // rewind newlines
-				while (IsASpaceOrTab(styler[posi])) posi--; // rewind spaces
-				if (!(styler[posi]=='\\')) { 
+			if (styler[counter]=='\n') {
+				counter=(styler[counter-1]=='\r')?counter-2:counter-1; // rewind newlines
+				while (IsASpaceOrTab(styler[counter])) counter--; // rewind spaces
+				if (!(styler[counter]=='\\')) { 
 					return (length); // Continuation end reached. 
 					break;
 				} else {
-					while (!(styler[posi]=='\n')) posi++; // Continuation.
+					while (!(styler[counter]=='\n')) counter++; // Continuation.
 				}
-			} else if (styler[posi]=='\0') {
+			} else if (styler[counter]=='\0') {
 				return (length-1); // handle continuated lines without an EOL mark.
 				break;
 			}
 		}
 	} else {
 		// Handle lines without an EOL Marker.
-		if (styler[posi]!='\n')
-			while (posi>=0 && styler[--posi]!='\n');
+		if (styler[counter]!='\n')
+			while (counter>=0 && styler[--counter]!='\n');
 
-		return (offset-posi);
+		return (start-counter);
 	}
 
-	return (offset-posi);
+	return (start-counter);
 }
 
 //
@@ -741,6 +742,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 		styler.StartSegment(startPos);
 		styler.StartAt(startPos);
 	}
+
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
 	

@@ -71,10 +71,10 @@ set COPYFLAG=0
 if [%DEST_PLAT%] EQU [win32] set COPYFLAG=1
 if [%DEST_PLAT%] EQU [win64] set COPYFLAG=1
 if %COPYFLAG% EQU 1 (
-echo ~~~~~ Copying Files to release...
-if not exist ..\..\..\release md ..\..\..\release
-copy ..\bin\SciTE.exe ..\..\..\release
-copy ..\bin\SciLexer.dll ..\..\..\release
+echo ~~~~~ Copying Files to build...
+if not exist ..\..\..\build md ..\..\..\build
+copy ..\bin\SciTE.exe ..\..\..\build
+copy ..\bin\SciLexer.dll ..\..\..\build
 echo .... Targets platform: %DEST_PLAT% ......
 ) else (
 echo  %DEST_TARGET% Platform: %DEST_PLAT%

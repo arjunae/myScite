@@ -49,22 +49,21 @@ echo .... done ....
 echo :--------------------------------------------------
 
 REM Find and display currents build targets Platform
-set PLAT_TARGET=..\bin\SciTE.exe
+set DEST_TARGET=..\bin\SciTE.exe
 call :find_platform
-echo .... Targets platform [%PLAT%] ......
-echo.
-echo ~~~~~ Copying Files to release...
-If [%PLAT%]==[WIN32] (
-if not exist ..\..\..\release md ..\..\..\release
-move ..\bin\SciTE.exe ..\..\..\release
-move ..\bin\SciLexer.dll ..\..\..\release
+set COPYFLAG=0
+if [%DEST_PLAT%] EQU [win32] set COPYFLAG=1
+if [%DEST_PLAT%] EQU [win64] set COPYFLAG=1
+if %COPYFLAG% EQU 1 (
+echo ~~~~~ Copying Files to build...
+if not exist ..\..\..\build md ..\..\..\build
+copy ..\bin\SciTE.exe ..\..\..\build
+copy ..\bin\SciLexer.dll ..\..\..\build
+echo .... Targets platform: %DEST_PLAT% ......
+) else (
+echo  %DEST_TARGET% Platform: %DEST_PLAT%
 )
 
-If [%PLAT%]==[WIN64] (
-if not exist ..\..\..\release md ..\..\..\release
-move ..\bin\SciTE.exe ..\..\..\release
-move ..\bin\SciLexer.dll ..\..\..\release
-)
 cd ..\..\..
 echo > src\vc.%arch%.debug.build
 goto end
@@ -77,21 +76,23 @@ pause
 PAUSE
 EXIT
 
-REM This littl hack looks for a platform PE Signature at offset 120+
+REM --------------------------------------------------
+REM Now use this littl hack to look for a platform PE Signature at offset 120+
 REM Should work compiler independent for uncompressed binaries.
-REM Offsets MSVC/MINGW==120 BORLAND==131 PaCKERS >xxx
-REM -1 suggests that a binary is compressed
+REM Takes: DEST_TARGET Value: Executable to be checked
+REM Returns: PLAT Value: Either WIN32 or WIN64 
 :find_platform
-set PLAT=""
-set PLAT_TARGET=..\bin\SciTE.exe
+set off32=""
+set off64=""
 
-for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %PLAT_TARGET%') do (
-  if [%%A] LEQ [200] SET PLAT=WIN32
+for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %DEST_TARGET%') do (
+  if [%%A] LEQ [200] SET DEST_PLAT=win32
   if [%%A] LEQ [200] SET OFFSET=%%A
 )
 
-for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %PLAT_TARGET%') do (
-  if [%%A] LEQ [200] SET PLAT=WIN64
+for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %DEST_TARGET%') do (
+  if [%%A] LEQ [200] SET DEST_PLAT=win64
   if [%%A] LEQ [200] SET OFFSET=%%A
 )
+exit /b 0
 :end_sub

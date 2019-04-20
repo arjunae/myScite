@@ -68,11 +68,12 @@ print(gui.to_utf8("UTF"))
 	-- fill the scond one with the contents of guis globalScope
 	local serpent = require("serpent") -- object serializer and pretty printer
 	globalScope=serpent.block(gui,{compact=true}) -- multi-line indented, no self-ref section
-	sciLexerHash = HashFileCrc32(defaultHome.."\\".."SciLexer.dll")
+	--sciLexerHash = HashFileCrc32(defaultHome.."\\".."SciLexer.dll")
 	
 	local tab1= gui.panel(panel_width)
 	local memo1=gui.memo()
-	memo1:set_text(globalScope.."\nSciLexer Hash: "..sciLexerHash)
+	memo1:set_text(globalScope)
+	--memo1:set_text(globalScope.."\nSciLexer Hash: "..sciLexerHash)
 	tab1:add(memo1, "top",panel_height)
 
 	-- And add them to our main window
