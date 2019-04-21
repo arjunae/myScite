@@ -156,8 +156,7 @@ static unsigned int ColouriseMakeLine(
 	Sci_PositionU strLen = 0; // Keyword candidate length.
 	Sci_PositionU startMark = 0;	 // Keyword candidates startPos. >0 while searching for a Keyword	
 
-	//unsigned int state=(startStyle!=SCE_MAKE_IDEOL)?startStyle:SCE_MAKE_DEFAULT;
-	unsigned int state=SCE_MAKE_DEFAULT;
+	unsigned int state=(startStyle!=SCE_MAKE_IDEOL)?startStyle:SCE_MAKE_DEFAULT;
 	unsigned int state_prev = SCE_MAKE_DEFAULT;
 
 	bool bInCommand=false;		// set when a line begins with a tab (command)
@@ -215,7 +214,8 @@ static unsigned int ColouriseMakeLine(
 		/// style GNUMake Preproc
 		if (currentPos==theStart && chCurr == '!') {
 			state=SCE_MAKE_PREPROCESSOR;
-			styler.ColourTo(endPos, state);
+			styler.ColourTo(endPos-1, state);
+			ColourHere(styler, endPos, SCE_MAKE_DEFAULT);
 			state=SCE_MAKE_DEFAULT;
 			return(state);
 		}
@@ -225,7 +225,8 @@ static unsigned int ColouriseMakeLine(
 			state_prev=state;
 			state=SCE_MAKE_COMMENT;
 			ColourHere(styler, currentPos-1, state_prev);
-			ColourHere(styler, endPos-1, state, SCE_MAKE_DEFAULT);
+			ColourHere(styler, endPos-1, state);
+			ColourHere(styler, endPos, SCE_MAKE_DEFAULT);
 			state=SCE_MAKE_DEFAULT;
 			return(state);
 		}
@@ -239,9 +240,8 @@ static unsigned int ColouriseMakeLine(
 		
 		/// Skip identifier and target styling if this is a command line
 		if (!bInCommand && state==SCE_MAKE_DEFAULT) {			
-			if (chCurr == ':' && chNext != '=') { // its a ':' so style as a target
-				if(styleBreak>0 && styleBreak<currentPos && styleBreak>stylerPos)
-					ColourHere(styler, styleBreak, SCE_MAKE_DEFAULT);
+			if (chCurr == ':' && chNext != '=') { // its a ':' so style as a target	
+				if (styleBreak>0) ColourHere(styler, styleBreak, SCE_MAKE_DEFAULT);
 				ColourHere(styler, currentPos-1, SCE_MAKE_TARGET, state);
 			}	
 		}
@@ -364,9 +364,10 @@ static unsigned int ColouriseMakeLine(
 			}
 
 			// Colour Variable Assignments which end with a =
-			if (state==SCE_MAKE_DEFAULT && chNext=='=' && startMark >= stylerPos) {
-				ColourHere(styler, startMark-1, state);
+			if ((state==SCE_MAKE_DEFAULT) && chNext=='=' && startMark >= stylerPos) {
+				ColourHere(styler, startMark-1, SCE_MAKE_DEFAULT);
 				ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER);
+				state=SCE_MAKE_DEFAULT;
 			}
 			
 			startMark=0;
@@ -408,7 +409,7 @@ static unsigned int ColouriseMakeLine(
 			// Readability Exception: Default Style for Identifiers in UserVars.
 			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);
 			bStyleAsIdentifier=true;
-		} else if ((sInUserVar.size() && sInUserVar.back()==chCurr)) {
+		} else if (sInUserVar.size() && (sInUserVar.back()==chCurr || currentPos==endPos)) {
 			if (iLog) std::clog<< "[/UserVar: '" << sInUserVar << "']\n";
 			if (sInUserVar.size()>0) {
 				sInUserVar.resize(sInUserVar.size()-1);
@@ -419,6 +420,10 @@ static unsigned int ColouriseMakeLine(
 				if (line.s.iWarnEOL) state_prev=SCE_MAKE_DEFAULT;
 				if (bStyleAsIdentifier) ColourHere(styler, currentPos-1, SCE_MAKE_DEFAULT);
 				bStyleAsIdentifier=false;
+			}
+			if(currentPos==endPos){
+				state=SCE_MAKE_DEFAULT;
+				ColourHere(styler, currentPos, state);
 			}
 		}
 
@@ -467,7 +472,7 @@ static unsigned int ColouriseMakeLine(
 
 		/// Numbers and simple Versioning using '.' || '-'
 		if(state==SCE_MAKE_DEFAULT && startMark==0 && IsNum(chCurr)) {
-			if (stylerPos < currentPos) ColourHere(styler, currentPos-1, state);
+			ColourHere(styler, currentPos-1, state);
 			state_prev=state;
 			state=SCE_MAKE_NUMBER;
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
@@ -482,7 +487,9 @@ static unsigned int ColouriseMakeLine(
 	}
 
  	if (line.s.iWarnEOL>0) 
-		state=SCE_MAKE_IDEOL;	
+		state=SCE_MAKE_IDEOL;
+	else if(state==SCE_MAKE_IDEOL && line.s.iWarnEOL==0)
+		state=SCE_MAKE_DEFAULT;
  
 	ColourHere(styler, endPos, state);
 	return(state);
@@ -559,8 +566,8 @@ static int GetLineLen(Accessor &styler, Sci_Position start) {
 
 	// check that next char for beeing a continuation
 	if (styler[counter]=='\\') {
-		// ..begin at current lines startpos
-		while (!IsNewline(styler[--counter]));
+		// ..rewind further to current lines startpos
+		while (counter>=0 && !IsNewline(styler[--counter]));
 
 		// ...get continued lines length
 		while (true) {
@@ -725,8 +732,8 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 	std::string slineBuffer;
 	Sci_PositionU o_startPos;
 
-	int iLog=0; // choose to enable Verbosity requires a bash shell on windows.
-	if (iLog>1) std::clog << "---------\n"<<"[Pos]	[Char]	[WarnEOLState]\n";	
+	int iLog=1; // choose to enable Verbosity requires a bash shell on windows.
+	if (iLog>0) std::clog << "---------\n"<<"[Pos]	[Char]	[WarnEOLState]\n";	
 	//styler.Flush();
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
 	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:	
@@ -742,7 +749,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 		styler.StartSegment(startPos);
 		styler.StartAt(startPos);
 	}
-
+		startStyle=styler.StyleAt(startPos-1);
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
 	
