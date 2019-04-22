@@ -65,7 +65,7 @@ static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 }
 
 static inline bool AtStartChar(const int ch) {
-	if (strchr("$&|@\t\r\n \":;, '({=", ch))
+	if (strchr("$&|@\t\r\n \":;, '({})=", ch))
 		return (1);
 	
 	return(0);
@@ -158,10 +158,11 @@ static unsigned int ColouriseMakeLine(
 
 	unsigned int state=(startStyle!=SCE_MAKE_IDEOL)?startStyle:SCE_MAKE_DEFAULT;
 	unsigned int state_prev = SCE_MAKE_DEFAULT;
-
-	bool bInCommand=false;		// set when a line begins with a tab (command)
-	bool bInBashVar=false;		// set to differenciate between User and Bash vars.
-	bool bStyleAsIdentifier=false;	// differenciate Identifiers from UserVars.
+	
+	bool bInCommand=false;		// true when a line begins with a tab (command)
+	bool bInBashVar=false;		// true when in a Bash var.
+	bool bStyleAsIdentifier=false;	// Style Identifiers in UserVars.
+	
 	std::string sInUserVar="";		// close convoluted User Variables at the correct brace.
 	std::string sInBraces="";		// close open Braces at the matching counterpart.
 	stylerPos=startLine;
@@ -247,7 +248,7 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Lets signal a warning on unclosed Braces. Check for the matching one.
-		if ((sInBraces.size() && sInBraces.back()==chCurr)) {
+		if ((state==SCE_MAKE_DEFAULT && sInBraces.size() && sInBraces.back()==chCurr)) {
 			if (iLog) std::clog<< "[/NormalBrace] " << "\n"; 
 			if (sInBraces.size()>0) sInBraces.resize(sInBraces.size()-1);
 			if (sInBraces.size()==0) line.s.bWarnBrace=false;
@@ -257,13 +258,13 @@ static unsigned int ColouriseMakeLine(
 			line.s.bWarnBrace=true;
 		}
 
-		/// Style single quoted Strings.
+		/// Style single quoted Strings, exept word Hypens as "don't"
 		if (!line.s.bWarnDqStr && line.s.bWarnSqStr && chCurr=='\'') {
 			if (iLog) std::clog<< "[/SQString] " << "\n";
-			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER, state_prev);
+			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER);
 			state=state_prev;
 			line.s.bWarnSqStr = false;
-		} else if (!line.s.bWarnDqStr && chCurr=='\'') {
+		} else if (state!=SCE_MAKE_STRING && chCurr=='\'') {
 			if (iLog) std::clog<< "[SQString] " << "\n";
 			state_prev = state;
 			state = SCE_MAKE_IDENTIFIER;
@@ -275,10 +276,10 @@ static unsigned int ColouriseMakeLine(
 		/// Style double quoted Strings.
 		if (line.s.bWarnDqStr && chCurr=='\"' ) {
 			if (iLog) std::clog<< "[/DQString] " << "\n";
-			ColourHere(styler, currentPos, SCE_MAKE_STRING,state_prev);
+			ColourHere(styler, currentPos, SCE_MAKE_STRING);
 			state=state_prev;
 			line.s.bWarnDqStr = false;
-		} else if ((state!=SCE_MAKE_STRING ) && chCurr=='\"') {
+		} else if ((!line.s.bWarnDqStr ) && chCurr=='\"') {
 			if (iLog) std::clog<< "[DQString] " << "\n";
 			state_prev = state;
 			state = SCE_MAKE_STRING;
@@ -327,7 +328,7 @@ static unsigned int ColouriseMakeLine(
 		// Do not match in Strings and the next char has to be either whitespace or ctrl. 
 		if (state!=SCE_MAKE_STRING && strSearch.size()>0 && IsAlpha(chNext) == 0) {
 			//Sci_PositionU wordLen=(Sci_PositionU)strSearch.size();
-
+			
 			// we now search for the word within the Directives Space.
 			// Rule: preceeded by line start or .'='. Ends on eol, whitespace or ;
 			if (kwGeneric.InList(strSearch.c_str())
@@ -405,20 +406,19 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos+1, SCE_MAKE_USER_VARIABLE);
 			if(state!=SCE_MAKE_USER_VARIABLE) state_prev=state;
 			state=SCE_MAKE_USER_VARIABLE;
-		} else if(sInUserVar.size() && strchr(" \t /#!?&|+;,", (int)chCurr)!=NULL){
-			// Readability Exception: Default Style for Identifiers in UserVars.
-			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);
-			bStyleAsIdentifier=true;
+		} else if(sInUserVar.size() && sInUserVar.back()!=chCurr){
+			if (strchr("${([", (int)chCurr)!=NULL) ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
+			// Readability Exception: Style Identifiers and SingleQuotes in UserVars.
+		 	if (strchr(" \t /#!?&|+;,", (int)chCurr)!=NULL) bStyleAsIdentifier=true;
+			if (bStyleAsIdentifier && !line.s.bWarnSqStr) 
+				ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);		
 		} else if (sInUserVar.size() && (sInUserVar.back()==chCurr || currentPos==endPos)) {
 			if (iLog) std::clog<< "[/UserVar: '" << sInUserVar << "']\n";
-			if (sInUserVar.size()>0) {
-				sInUserVar.resize(sInUserVar.size()-1);
-				ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE, state);
-			} // Final Brace - Close User Var.
-			if (sInUserVar.size()==0) {
+			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
+			if (sInUserVar.size()>0) sInUserVar.resize(sInUserVar.size()-1);
+			if (sInUserVar.size()==0 || currentPos==endPos) { // Final Brace - Close User Var.
 				state=SCE_MAKE_DEFAULT;
 				if (line.s.iWarnEOL) state_prev=SCE_MAKE_DEFAULT;
-				if (bStyleAsIdentifier) ColourHere(styler, currentPos-1, SCE_MAKE_DEFAULT);
 				bStyleAsIdentifier=false;
 			}
 			if(currentPos==endPos){
@@ -473,12 +473,12 @@ static unsigned int ColouriseMakeLine(
 		/// Numbers and simple Versioning using '.' || '-'
 		if(state==SCE_MAKE_DEFAULT && startMark==0 && IsNum(chCurr)) {
 			ColourHere(styler, currentPos-1, state);
-			state_prev=state;
 			state=SCE_MAKE_NUMBER;
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
-		} else if (state==SCE_MAKE_NUMBER && (AtStartChar(chCurr) || isalpha(chCurr)) ) {
-			ColourHere(styler, currentPos-1, SCE_MAKE_NUMBER);
-			state=state_prev;
+		}
+		if (state==SCE_MAKE_NUMBER && (AtStartChar(chNext) || IsAlpha(chNext)) ) {
+			ColourHere(styler, currentPos, SCE_MAKE_NUMBER);
+			state=SCE_MAKE_DEFAULT;
 		} else if (state==SCE_MAKE_NUMBER && (IsNum(chCurr) || chCurr=='.' || chCurr=='-' )) {
 			ColourHere(styler, currentPos, state);
 		}
@@ -732,7 +732,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 	std::string slineBuffer;
 	Sci_PositionU o_startPos;
 
-	int iLog=1; // choose to enable Verbosity requires a bash shell on windows.
+	int iLog=0; // choose to enable Verbosity requires a bash shell on windows.
 	if (iLog>0) std::clog << "---------\n"<<"[Pos]	[Char]	[WarnEOLState]\n";	
 	//styler.Flush();
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
