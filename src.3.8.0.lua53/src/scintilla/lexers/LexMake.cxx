@@ -67,7 +67,7 @@ static inline bool AtEOL(Accessor &styler, Sci_PositionU i) {
 static inline bool AtStartChar(const int ch) {
 	if (strchr("$&|@\t\r\n \":;, '({})=", ch))
 		return (1);
-	
+
 	return(0);
 }
 
@@ -141,7 +141,7 @@ static unsigned int ColouriseMakeLine(
 	Accessor &styler,
 	int startStyle,
 	int iLog) {
-	
+
 	union { 
 			struct { // remove that one- and have fun drinkin "Coffee".......
 				int iWarnEOL;		// unclosed string / braces flag.
@@ -150,19 +150,19 @@ static unsigned int ColouriseMakeLine(
 				bool bWarnBrace;	// unclosed brace flag.
 			} s;
 	} line;line.s.iWarnEOL=0;line.s.bWarnBrace=0;line.s.bWarnDqStr=0;line.s.bWarnSqStr=0;line.s.bWarnBrace=0;
-	
+
 	Sci_PositionU i = 0; // primary line position counter
-	Sci_PositionU styleBreak = 0;
+	Sci_PositionU styleBreak = 0; // Last control chars position.
 	Sci_PositionU strLen = 0; // Keyword candidate length.
-	Sci_PositionU startMark = 0;	 // Keyword candidates startPos. >0 while searching for a Keyword	
+	Sci_PositionU startMark = 0; // Keyword candidates startPos. >0 while searching for a Keyword
+	Sci_PositionU wordPrev = 0; // Last Words start position
 
 	unsigned int state=(startStyle!=SCE_MAKE_IDEOL)?startStyle:SCE_MAKE_DEFAULT;
 	unsigned int state_prev = SCE_MAKE_DEFAULT;
-	
 	bool bInCommand=false;		// true when a line begins with a tab (command)
 	bool bInBashVar=false;		// true when in a Bash var.
 	bool bStyleAsIdentifier=false;	// Style Identifiers in UserVars.
-	
+
 	std::string sInUserVar="";		// close convoluted User Variables at the correct brace.
 	std::string sInBraces="";		// close open Braces at the matching counterpart.
 	stylerPos=startLine;
@@ -178,12 +178,12 @@ static unsigned int ColouriseMakeLine(
 		i++;
 
 	unsigned int theStart=startLine+i; // One Byte ought (not) to be enough for everyone....?
-	
+
 	// check for a tab character in column 0 indicating a command
 	if ( styler.SafeGetCharAt(theStart-1) == '\t' ){
 		bInCommand = true;
 	}
-		
+
 	while ( i < lengthLine ) {
 		Sci_PositionU currentPos=startLine+i;
 		char chPrev=styler.SafeGetCharAt(currentPos-1);	
@@ -235,10 +235,10 @@ static unsigned int ColouriseMakeLine(
 		/// Style Target lines
 		// Find a good position for a style stopper. Directly use Scintillas Text buffer, so we can catch a newLine. 
 		if (currentPos>=theStart && IsGraphic(chNext) 
-		&& (strchr(" \t \"\' \\ \n /#!?&|+{}()[]<>;=,", (int)chCurr) != NULL)) {
+		&& (strchr(" \t \"\'\n #!?&|+{}()[]<>;=,", (int)chCurr) != NULL)) {
 			styleBreak=currentPos;
 		} 
-		
+
 		/// Skip identifier and target styling if this is a command line
 		if (!bInCommand && state==SCE_MAKE_DEFAULT) {			
 			if (chCurr == ':' && chNext != '=') { // its a ':' so style as a target	
@@ -259,7 +259,7 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Style single quoted Strings, exept word Hypens as "don't"
-		if (!line.s.bWarnDqStr && line.s.bWarnSqStr && chCurr=='\'') {
+		if (state!=SCE_MAKE_STRING && line.s.bWarnSqStr && chCurr=='\'') {
 			if (iLog) std::clog<< "[/SQString] " << "\n";
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER);
 			state=state_prev;
@@ -277,9 +277,10 @@ static unsigned int ColouriseMakeLine(
 		if (line.s.bWarnDqStr && chCurr=='\"' ) {
 			if (iLog) std::clog<< "[/DQString] " << "\n";
 			ColourHere(styler, currentPos, SCE_MAKE_STRING);
+			if(line.s.bWarnSqStr) state_prev=SCE_MAKE_DEFAULT;
 			state=state_prev;
 			line.s.bWarnDqStr = false;
-		} else if ((!line.s.bWarnDqStr ) && chCurr=='\"') {
+		} else if ((!line.s.bWarnDqStr) && chCurr=='\"') {
 			if (iLog) std::clog<< "[DQString] " << "\n";
 			state_prev = state;
 			state = SCE_MAKE_STRING;
@@ -320,13 +321,14 @@ static unsigned int ColouriseMakeLine(
 		// got the other End, copy the word:
 		if ((IsAlphaNum(chNext) == 0 && strchr("-_", (int)chNext) == NULL ) && strLen > 0) {
 			strSearch=slineBuffer.substr(startMark, strLen);
+			wordPrev=startLine+startMark;
 			startMark=currentPos-strLen+1; // words absolute position (styler)
 			strLen=0;
 		}
 
 		// Ok, now we have some materia within our char buffer, so check whats in.
 		// Do not match in Strings and the next char has to be either whitespace or ctrl. 
-		if (state!=SCE_MAKE_STRING && strSearch.size()>0 && IsAlpha(chNext) == 0) {
+		if (state!=SCE_MAKE_STRING && strSearch.size()>0 && IsAlpha(chNext)==0) {
 			//Sci_PositionU wordLen=(Sci_PositionU)strSearch.size();
 			
 			// we now search for the word within the Directives Space.
@@ -335,7 +337,7 @@ static unsigned int ColouriseMakeLine(
 			&& (strchr("\t\r\n ;)", (int)chNext) !=NULL) 
 			&& AtStartChar(styler.SafeGetCharAt(startMark-1))) {
 				if (iLog) std::clog<< "[/Directive] " << strSearch << "\n";
-				if (startMark > startLine) ColourHere(styler, startMark-1, state);	
+				if (startMark > startLine) ColourHere(styler, startMark-1, state);
 				ColourHere(styler, currentPos, SCE_MAKE_DIRECTIVE);
 			} 
 
@@ -347,7 +349,7 @@ static unsigned int ColouriseMakeLine(
 				if (startMark > startLine) ColourHere(styler, startMark-1, state);
 				ColourHere(styler, currentPos, SCE_MAKE_FUNCTION);
 			} 
-			
+
 			// check if we get a match with Keywordlist externalCommands
 			// Rule: preceeded by line start and AtStartChar() Ends on eol, whitespace or ;
 			if (kwExtCmd.InList(strSearch.c_str())
@@ -364,16 +366,16 @@ static unsigned int ColouriseMakeLine(
 				ColourHere(styler, currentPos, SCE_MAKE_NUMBER);
 			}
 
-			// Colour Variable Assignments which end with a =
-			if ((state==SCE_MAKE_DEFAULT) && chNext=='=' && startMark >= stylerPos) {
-				ColourHere(styler, startMark-1, SCE_MAKE_DEFAULT);
-				ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER);
-				state=SCE_MAKE_DEFAULT;
-			}
-			
 			startMark=0;
 			strLen=0;
 			strSearch.clear();
+		}
+
+		/// Colour Variable Assignments which end with a =
+		if ((state==SCE_MAKE_DEFAULT) && chNext=='=') {
+			ColourHere(styler, wordPrev-1, SCE_MAKE_DEFAULT);
+			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER);
+			state=SCE_MAKE_DEFAULT;
 		}
 
 		/// Style Bash Vars $STRING / $$String. Automatic vars will be styled separately. 
@@ -395,11 +397,28 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
 		}
 
-		// ... Style User Variables Rule: $(...) and doubleReferences $$(())	
+		/// ... $ prefixed or DF suffixed automatic Variables. FluxCompensators orders: ($)@%<^+|*'D'||'F'
+		if (((chCurr=='$' && strchr("@%<?^+|*", (int)chNext) >0)
+		|| ( strchr("@%<?^+*", (int)chCurr) >0 && strchr("DF", (int)chNext)!=NULL))) {
+			if (iLog) std::clog<< "[AutomaticVar] " << "\n";
+			ColourHere(styler, currentPos-1, state);
+			state_prev=state;
+			state=SCE_MAKE_EXTCMD;
+			ColourHere(styler, currentPos, state);
+		} else if (state == SCE_MAKE_EXTCMD && (strchr("@%<^+|*DF", (int)chNext) == NULL)) {
+			ColourHere(styler, currentPos, SCE_MAKE_EXTCMD, SCE_MAKE_DEFAULT);
+			if (line.s.iWarnEOL || sInUserVar.size()) state_prev=SCE_MAKE_DEFAULT; // Exception for Quotes
+			state=state_prev;
+			if (iLog) std::clog<< "[/AutomaticVar] " << "\n";
+		} else if (state == SCE_MAKE_EXTCMD && (strchr("@%<^+|*DF", (int)chCurr) != NULL)) {
+			ColourHere(styler, currentPos, state);
+		}
+
+		/// ... Style User Variables Rule: $(...) and doubleReferences $$(())
 		if (!bInBashVar && (chPrev=='$' || chCurr == '$') && strchr("{([", (int)chNext)!=NULL ) {
 			if (iLog) std::clog<< "[UserVar: '" << sInUserVar << "']\n";
 			bStyleAsIdentifier=false;
-			// Style the prefix '$('
+			// Opening Brace -Style the prefix '$('
 			int offset = (chPrev=='$')?1:0;
 			ColourHere(styler, currentPos-1-offset, state);
 			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
@@ -410,15 +429,19 @@ static unsigned int ColouriseMakeLine(
 			if (strchr("${([", (int)chCurr)!=NULL) ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
 			// Readability Exception: Style Identifiers and SingleQuotes in UserVars.
 		 	if (strchr(" \t /#!?&|+;,", (int)chCurr)!=NULL) bStyleAsIdentifier=true;
-			if (bStyleAsIdentifier && !line.s.bWarnSqStr) 
-				ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);		
+			if (bStyleAsIdentifier && !line.s.bWarnSqStr) ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);
 		} else if (sInUserVar.size() && (sInUserVar.back()==chCurr || currentPos==endPos)) {
+			// Closing Brace found
 			if (iLog) std::clog<< "[/UserVar: '" << sInUserVar << "']\n";
 			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
 			if (sInUserVar.size()>0) sInUserVar.resize(sInUserVar.size()-1);
-			if (sInUserVar.size()==0 || currentPos==endPos) { // Final Brace - Close User Var.
+			if (sInUserVar.size()==0 || currentPos==endPos) { 
+			// Final Brace - Close User Var.
 				state=SCE_MAKE_DEFAULT;
-				if (line.s.iWarnEOL) state_prev=SCE_MAKE_DEFAULT;
+				if (line.s.bWarnDqStr) { // Workaround for UserVars in Strings.
+					state=SCE_MAKE_STRING;
+					state_prev=SCE_MAKE_DEFAULT;
+					}
 				bStyleAsIdentifier=false;
 			}
 			if(currentPos==endPos){
@@ -432,23 +455,6 @@ static unsigned int ColouriseMakeLine(
 				sInUserVar.append(opposite(chCurr));
 		}
 
-		/// ... $ prefixed or DF suffixed automatic Variables. FluxCompensators orders: ($)@%<^+|*'D'||'F'
-		if (((chCurr=='$' && strchr("@%<?^+|*", (int)chNext) >0) 
-		|| ( strchr("@%<?^+*", (int)chCurr) >0 && strchr("DF", (int)chNext)!=NULL))) {
-			if (iLog) std::clog<< "[AutomaticVar] " << "\n";
-			ColourHere(styler, currentPos-1, state);
-			state_prev=state;
-			state=SCE_MAKE_EXTCMD;
-			ColourHere(styler, currentPos, state);
-		} else if (state == SCE_MAKE_EXTCMD && (strchr("@%<^+|*DF", (int)chNext) == NULL)) {
-			ColourHere(styler, currentPos, SCE_MAKE_EXTCMD, SCE_MAKE_DEFAULT);
-			if (line.s.iWarnEOL || sInUserVar.size()) state_prev=SCE_MAKE_DEFAULT; // Exception for Quotes
-			state=state_prev;
-			if (iLog) std::clog<< "[/AutomaticVar] " << "\n";			
-		} else if (state == SCE_MAKE_EXTCMD && (strchr("@%<^+|*DF", (int)chCurr) != NULL)) {
-			ColourHere(styler, currentPos, state);
-		}
-
 		/// Capture the Flags. Start match: ( '-' ) or (linestart + "-") Endmatch: (whitespace || EOL || "$/;\'")
 		if (state==SCE_MAKE_DEFAULT && strchr("&|\t\r\n \":;, '({=", (int)chPrev) != NULL 
 		&& (((chCurr=='-') || (currentPos == theStart && chNext == '-')) 
@@ -458,8 +464,9 @@ static unsigned int ColouriseMakeLine(
 			state_prev=state;
 			state = SCE_MAKE_FLAGS;
 			ColourHere(styler,currentPos, state);
-		} else if (state==SCE_MAKE_FLAGS && strchr(" \r\n$;\\\"\'", (int)chCurr) != NULL) {
-			ColourHere(styler, currentPos-1, state, SCE_MAKE_DEFAULT);
+		}
+		if (state==SCE_MAKE_FLAGS && strchr(" \r\n$;\\\"\'", (int)chNext) != NULL) {
+			ColourHere(styler, currentPos, state, SCE_MAKE_DEFAULT);
 			state = state_prev;
 			if (iLog) std::clog<< "[/Flags] " << "\n";
 		}
@@ -490,7 +497,7 @@ static unsigned int ColouriseMakeLine(
 		state=SCE_MAKE_IDEOL;
 	else if(state==SCE_MAKE_IDEOL && line.s.iWarnEOL==0)
 		state=SCE_MAKE_DEFAULT;
- 
+
 	ColourHere(styler, endPos, state);
 	return(state);
 }
@@ -510,7 +517,7 @@ static int GetMLineStart(Accessor &styler, Sci_Position start) {
 	Sci_Position position=start;
 	// moves to last visible char
 	while (styler[position++]!='\n');
-	while (IsGraphic(styler.SafeGetCharAt(--position)==0)) ;
+	while (IsGraphic(styler.SafeGetCharAt(--position)==0));
 	position--;
 	if (styler[position]=='\\') {
 		status=2;
@@ -749,13 +756,13 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 		styler.StartSegment(startPos);
 		styler.StartAt(startPos);
 	}
-		startStyle=styler.StyleAt(startPos-1);
+	startStyle=styler.StyleAt(startPos-1);
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
-	
+
 	maxStyleLineLength=styler.GetPropertyInt("lexer.makefile.line.chars.max");
 	maxStyleLineLength = (maxStyleLineLength > 0) ? maxStyleLineLength : LEXMAKE_MAX_LINELEN;
-	
+
 	for (Sci_PositionU at = startPos; at < startPos + length; at++) {
 		// Use a second buffer for keyword matching.
 		slineBuffer.resize(slineBuffer.size()+1);
