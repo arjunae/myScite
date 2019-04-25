@@ -186,13 +186,13 @@ static unsigned int ColouriseMakeLine(
 
 	while ( i < lengthLine ) {
 		Sci_PositionU currentPos=startLine+i;
-		char chPrev=styler.SafeGetCharAt(currentPos-1);	
-		char chCurr=styler.SafeGetCharAt(currentPos); 
-		char chNext=styler.SafeGetCharAt(currentPos+1);	
+		char chPrev=styler.SafeGetCharAt(currentPos-1);
+		char chCurr=styler.SafeGetCharAt(currentPos);
+		char chNext=styler.SafeGetCharAt(currentPos+1);
 
 		/// Handle special Escaped Case \$$	
 		std::string snippet;
-		snippet+=styler.SafeGetCharAt(currentPos-2);	
+		snippet+=styler.SafeGetCharAt(currentPos-2);
 		snippet+=chPrev;
 		snippet+=chCurr;
 		snippet+=chNext;
@@ -233,11 +233,11 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		/// Style Target lines
-		// Find a good position for a style stopper. Directly use Scintillas Text buffer, so we can catch a newLine. 
+		// Find a good position for a style stopper. Directly use Scintillas Text buffer, so we can catch a newLine.
 		if (currentPos>=theStart && IsGraphic(chNext) 
 		&& (strchr(" \t \"\'\n #!?&|+{}()[]<>;=,", (int)chCurr) != NULL)) {
 			styleBreak=currentPos;
-		} 
+		}
 
 		/// Skip identifier and target styling if this is a command line
 		if (!bInCommand && state==SCE_MAKE_DEFAULT) {			
@@ -291,7 +291,7 @@ static unsigned int ColouriseMakeLine(
 		line.s.iWarnEOL=line.s.bWarnBrace || line.s.bWarnDqStr || line.s.bWarnSqStr;
 
 		if (iLog>0) {
-			std::clog << i << "	" << chCurr<<"	"; 
+			std::clog << i << "	" << chCurr<<"	";
 			std::clog << (line.s.iWarnEOL); 
 			std::clog << (line.s.bWarnBrace);
 			std::clog << (line.s.bWarnDqStr);
@@ -327,14 +327,14 @@ static unsigned int ColouriseMakeLine(
 		}
 
 		// Ok, now we have some materia within our char buffer, so check whats in.
-		// Do not match in Strings and the next char has to be either whitespace or ctrl. 
+		// Do not match in Strings and the next char has to be either whitespace or ctrl.
 		if (state!=SCE_MAKE_STRING && strSearch.size()>0 && IsAlpha(chNext)==0) {
 			//Sci_PositionU wordLen=(Sci_PositionU)strSearch.size();
 
 			// we now search for the word within the Directives Space.
-			// Rule: preceeded by line start or '='. Ends on eol, whitespace or ;
-			if (kwGeneric.InList(strSearch.c_str()) && 
-			(theStart==startMark || styler.SafeGetCharAt(startMark -1 ) == '=' )
+			// Rule: preceeded by line start or '=' || '.' Ends on eol, whitespace or ;
+			if (kwGeneric.InList(strSearch.c_str()) &&
+			(theStart==startMark || strchr(".=",(int)styler.SafeGetCharAt(startMark -1))!=NULL)
 			&& (strchr("\t\r\n ;)", (int)chNext) !=NULL)) {
 				if (iLog) std::clog<< "[/Directive] " << strSearch << "\n";
 				if (startMark > startLine) ColourHere(styler, startMark-1, state);
@@ -342,7 +342,7 @@ static unsigned int ColouriseMakeLine(
 			}
 
 			// ....and within functions $(sort,subst...) / used to style internal Variables too.
-			// Rule: have to be prefixed by '(' and preceedet by whitespace or ;)
+			// Rule: have to be prefixed by '$('
 			if (kwFunctions.InList(strSearch.c_str())
 			&& styler.SafeGetCharAt( startMark -2 ) == '$' && styler.SafeGetCharAt(startMark -1 ) == '(') {
 				if (iLog) std::clog<< "[/Function] " << strSearch << "\n";
@@ -393,7 +393,7 @@ static unsigned int ColouriseMakeLine(
 			if (iLog) std::clog<< "[/Flags] " << "\n";
 		}
 
-		/// Style Bash Vars $STRING / $$String. Automatic vars will be styled separately. 
+		/// Style Bash Vars $STRING / $$String. Automatic vars will be styled separately.
 		if (chCurr == '$' && chNext!='$' && strchr("{([@%<?^+|* \t\'\"", (int)chNext)==NULL) {
 			// Style the prefix
 			if (iLog) std::clog<< "[BashVar] " << "\n";
@@ -451,7 +451,7 @@ static unsigned int ColouriseMakeLine(
 			if (iLog) std::clog<< "[/UserVar: '" << sInUserVar << "']\n";
 			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
 			if (sInUserVar.size()>0) sInUserVar.resize(sInUserVar.size()-1);
-			if (sInUserVar.size()==0 || currentPos==endPos) { 
+			if (sInUserVar.size()==0 || currentPos==endPos) {
 			// Final Brace - Close User Var.
 				state=SCE_MAKE_DEFAULT;
 				if (line.s.bWarnDqStr) { // Workaround for UserVars in Strings.
@@ -627,8 +627,8 @@ static int calculateFoldMake(Sci_PositionU start, Sci_PositionU end, int foldlev
 		s[i + 1] = '\0';
  }
 
-	if ( CompareCaseInsensitive(s, "IF") == 0 || CompareCaseInsensitive(s, "IFEQ") == 0 || CompareCaseInsensitive(s, "IFNEQ") == 0 
-	|| CompareCaseInsensitive(s, "IFNDEF") == 0 || CompareCaseInsensitive(s, "WHILE") == 0 || CompareCaseInsensitive(s, "MACRO") == 0	
+	if ( CompareCaseInsensitive(s, "IF") == 0 || CompareCaseInsensitive(s, "IFEQ") == 0 || CompareCaseInsensitive(s, "IFNEQ") == 0
+	|| CompareCaseInsensitive(s, "IFNDEF") == 0 || CompareCaseInsensitive(s, "WHILE") == 0 || CompareCaseInsensitive(s, "MACRO") == 0
 	|| CompareCaseInsensitive(s, "FOREACH") == 0 || CompareCaseInsensitive(s, "FOR") == 0)
 		newFoldlevel++;
 	else if ( CompareCaseInsensitive(s, "ENDIF") == 0 || CompareCaseInsensitive(s, "ENDWHILE") == 0
@@ -740,11 +740,11 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 	Sci_PositionU o_startPos;
 
 	int iLog=0; // choose to enable Verbosity requires a bash shell on windows.
-	if (iLog>0) std::clog << "---------\n"<<"[Pos]	[Char]	[WarnEOLState]\n";	
+	if (iLog>0) std::clog << "---------\n"<<"[Pos]	[Char]	[WarnEOLState]\n";
 	//styler.Flush();
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
-	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:	
-	// find a MultiLines start, reset styler Position 
+	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:
+	// find a MultiLines start, reset styler Position
 	o_startPos=GetMLineStart(styler, startPos);
 	if (o_startPos!=startPos){
 		styler.StartSegment(o_startPos);
@@ -759,7 +759,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 		startStyle=styler.StyleAt(startPos-1);
 	Sci_PositionU linePos = 0;
 	Sci_PositionU lineStart = startPos;
-	
+
 	maxStyleLineLength=styler.GetPropertyInt("lexer.makefile.line.chars.max");
 	maxStyleLineLength = (maxStyleLineLength > 0) ? maxStyleLineLength : LEXMAKE_MAX_LINELEN;
 	

@@ -43,8 +43,8 @@ function test_gui()
 require 'gui'
 
 -- testcases for lib GUI
-print(gui.to_utf8("UTF"))
-
+	print("[Test: gui.to_utf8] "..gui.to_utf8("UTF"))
+	print("[Test: gui window]")
 	-- First, we need a main window.
 	local wnd= gui.window "test-gui"
 	wnd:position(200, 200)
@@ -65,10 +65,12 @@ print(gui.to_utf8("UTF"))
 	tab0:add(memo0, "top", panel_height)
 	]]
 	
-	-- fill the scond one with the contents of guis globalScope
-	local serpent = require("serpent") -- object serializer and pretty printer
-	globalScope=serpent.block(gui,{compact=true}) -- multi-line indented, no self-ref section
+	-- fill with the contents of guis globalScope
+	local inspect = require("inspect")
+	globalScope=inspect(gui);
+	print("[Test inspect.lua] (gui function table in tab1)")
 	sciLexerHash = HashFileCrc32(defaultHome.."\\".."SciLexer.dll")
+	print("[Test crc32] sciLexer's Hash="..sciLexerHash)
 	
 	local tab1= gui.panel(panel_width)
 	local memo1=gui.memo()
@@ -106,47 +108,10 @@ local socket = require "socket"
 -- socket.udp: "udp.close", "udp.getpeername", "udp.getsockname", "udp.receive", "udp.receivefrom", "udp.send", "udp.sendto", "udp.setpeername", "udp.setsockname", "udp.setoption", "udp.settimeout" 
 -- socket.lua layer provides "connect4", "connect6", "bind"
     
-print("Hello from " .. socket._VERSION .."!")
-print ("Test - DNS_Query -> www.sourceforge.net")
-local addresses = assert(socket.dns.getaddrinfo("www.sourceforge.net"))
-local ipv4mask = "^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$"
-
-for i, alt in ipairs(addresses) do
-  if alt.family == 'inet' then
-    assert(type(alt.addr) == 'string')
-    assert(alt.addr:find(ipv4mask))
-    --assert(alt.addr == '127.0.0.1')
-	 print (alt.family,alt.addr)
-  end
-end
-print("done!")
-
-print("HTTP-Test:")
--- load the http module
-local io = require("io")
-local http = require("socket.http")
-local ltn12 = require("ltn12")
-
--- connect to server "www.example.com" and tries to retrieve
--- "/private/index.html". Fails because authentication is needed.
-sURL="http://www.google.de/search?q=myScite&oq=myScite"
-
-print ("connecting to " .. sURL)
-content, status, auth = http.request(sURL)
-print("response code:", status) -- status code
---print("response:", content) -- response
---[[
-if content ~= nil then
-print ("retrieving content from " .. sURL)
-  print("Authentication Info:")
-  for k, v in pairs( auth ) do
-    print(k, v)
-  end
-end
-]]
+--print("Hello from " .. socket._VERSION .."!")
 
 --[[
-print("UDP/TCP Socket-Test:")
+print ("[Test LuaSocket] (UDP/TCP)"
 print("Test -  UDP socket 5088")
 local u = socket.udp() assert(u:setsockname("*", 5088)) u:close()
 local u = socket.udp() assert(u:setsockname("*", 0)) u:close()
@@ -156,16 +121,38 @@ local t = socket.tcp() assert(t:bind("*", 0)) t:close()
 print("done!")
 ]]
 
-print("done!")
+print ("[Test LuaSocket] (DNS):")
+local addresses = assert(socket.dns.getaddrinfo("www.sourceforge.net"))
+local ipv4mask = "^%d%d?%d?%.%d%d?%d?%.%d%d?%d?%.%d%d?%d?$"
+for i, alt in ipairs(addresses) do
+  if alt.family == 'inet' then
+    assert(type(alt.addr) == 'string')
+    assert(alt.addr:find(ipv4mask))
+    --assert(alt.addr == '127.0.0.1')
+	 print ("www.sourceforge.net: ".. alt.family,alt.addr)
+  end
+end
+
+print("[Test httpclient] (GET):")
+local inspect = require("inspect")
+hc=require("httpclient").new()
+local params = {q = "mySciTE"}
+local opts = {params = params}
+local res = hc:get("http://www.google.de/search",opts)
+print("response code:", res.code) -- status code
+print(inspect(res.body))
+
+--]]
 end
 
 -- ##### Run Test ######
 --[[
+-- print globalScope
 for n,v in pairs(_G) do
 			 print (n,v)
 end
 ]]
 
-_ALERT('> test sciteLua')
+_ALERT('> Test SciTE Lua Modules')
 test_gui()
 test_socket()
