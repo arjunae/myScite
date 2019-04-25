@@ -133,7 +133,7 @@ for i, alt in ipairs(addresses) do
   end
 end
 
-print("[Test httpclient] (GET):")
+--[[print("[Test httpclient] (GET):")
 local inspect = require("inspect")
 hc=require("httpclient").new()
 local params = {q = "mySciTE"}
