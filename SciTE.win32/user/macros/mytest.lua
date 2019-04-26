@@ -133,6 +133,16 @@ for i, alt in ipairs(addresses) do
   end
 end
 
+-- Using ssl.dll directly 
+print("[Test socket+SSL]")
+require("socket")
+local https = require("https")
+local body, code, headers, status= https.request("https://www.google.com/search?q=myscite")
+print("https://www.google.com/search?q=myscite ["..status.."]")
+--print(body)
+
+--[[
+-- Using httpclient.lua from https://github.com/lusis/lua-httpclient
 print("[Test httpclient] (GET):")
 local inspect = require("inspect")
 hc=require("httpclient").new()
@@ -141,8 +151,8 @@ local opts = {params = params}
 local res = hc:get("http://www.google.de/search",opts)
 print("response code:", res.code) -- status code
 print(inspect(res.body))
-
 --]]
+
 end
 
 -- ##### Run Test ######
@@ -154,5 +164,5 @@ end
 ]]
 
 _ALERT('> Test SciTE Lua Modules')
-test_gui()
+--test_gui()
 test_socket()

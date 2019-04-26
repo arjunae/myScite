@@ -454,10 +454,9 @@ static unsigned int ColouriseMakeLine(
 			if (sInUserVar.size()==0 || currentPos==endPos) {
 			// Final Brace - Close User Var.
 				state=SCE_MAKE_DEFAULT;
-				if (line.s.bWarnDqStr) { // Workaround for UserVars in Strings.
-					state=SCE_MAKE_STRING;
-					state_prev=SCE_MAKE_DEFAULT;
-					}
+				// Workaround for UserVars in Strings.	
+				if (line.s.bWarnDqStr) state=SCE_MAKE_STRING;
+				if (line.s.bWarnDqStr || line.s.bWarnSqStr ) state_prev=SCE_MAKE_DEFAULT;
 				bStyleAsIdentifier=false;
 			}
 			if(currentPos==endPos){
@@ -739,7 +738,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 	std::string slineBuffer;
 	Sci_PositionU o_startPos;
 	
-	int iLog=0; // choose to enable Verbosity requires a bash shell on windows.
+	int iLog=0; // choose to enable Verbosity. Requires a bash shell on windows.
 	if (iLog>0) std::clog << "---------\n"<<"[Pos]	[Char]	[WarnEOLState]\n";
 	//styler.Flush();
 	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.

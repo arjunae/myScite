@@ -9,18 +9,16 @@ set BUILD_TYPE=Debug
 :: MinGW Path has to be set, otherwise please define here:
 :: set PATH=E:\MinGW\bin;%PATH%;
 
-REM Sanity- Ensure MSys/MinGW availability / Determinate Architecture into %MAKE_ARCH%.
+REM Sanity- Ensure MSys-MinGW availability / Determinate Architecture into %MAKE_ARCH%.
 set MAKE_ARCH=""
 where mingw32-make 1>NUL 2>NUL
-if %ERRORLEVEL%==1 (
-  goto :err_mingw 
-) else if [%ERRORLEVEL%]==[0] (
-  mingw32-make --version | findstr /M x86_64 1>NUL 2>NUL
-  if [%ERRORLEVEL%]==[0] ( SET MAKE_ARCH=win64 )
-  mingw32-make --version | findstr /M i686 1>NUL 2>NUL
-  if [%ERRORLEVEL%]==[0] ( SET MAKE_ARCH=win32 )
-)
+if %ERRORLEVEL%==1 ( goto :err_mingw )
+mingw32-make --version | findstr /M i686 1>NUL 2>NUL
+if [%ERRORLEVEL%]==[0] ( SET MAKE_ARCH=win32 && goto :ok_mingw) 
+mingw32-make --version | findstr /M x86_64 1>NUL 2>NUL
+if [%ERRORLEVEL%]==[0] ( SET MAKE_ARCH=win64 && goto :ok_mingw)
 if %MAKE_ARCH% EQU "" goto :err_mingw
+:ok_mingw
 
 :: ... use customized CMD Terminal
 if "%1"=="" (
