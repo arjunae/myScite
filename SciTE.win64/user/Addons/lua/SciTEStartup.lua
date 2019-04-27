@@ -184,7 +184,7 @@ function OnInit()
 	-- Show Sidebar
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
-	
+
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 	--dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')

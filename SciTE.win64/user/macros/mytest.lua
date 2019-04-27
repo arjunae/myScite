@@ -133,18 +133,16 @@ for i, alt in ipairs(addresses) do
   end
 end
 
--- Using ssl.dll directly
---[[
-print("[Test https] (GET):")
+-- Using ssl.dll directly 
+print("[Test socket+SSL]")
 require("socket")
 local https = require("https")
 local body, code, headers, status= https.request("https://www.google.com/search?q=myscite")
-print(status)
-print(body)
---]]
+print("https://www.google.com/search?q=myscite ["..status.."]")
+--print(body)
 
--- Using httpclient.lua from https://github.com/lusis/lua-httpclient
 --[[
+-- Using httpclient.lua from https://github.com/lusis/lua-httpclient
 print("[Test httpclient] (GET):")
 local inspect = require("inspect")
 hc=require("httpclient").new()

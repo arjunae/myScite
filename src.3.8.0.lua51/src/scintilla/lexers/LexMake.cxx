@@ -277,8 +277,8 @@ static unsigned int ColouriseMakeLine(
 		if (line.s.bWarnDqStr && chCurr=='\"' ) {
 			if (iLog) std::clog<< "[/DQString] " << "\n";
 			ColourHere(styler, currentPos, SCE_MAKE_STRING);
-			if(line.s.bWarnSqStr) state_prev=SCE_MAKE_DEFAULT;
 			state=state_prev;
+			if(line.s.bWarnSqStr) state_prev=SCE_MAKE_DEFAULT;
 			line.s.bWarnDqStr = false;
 		} else if ((!line.s.bWarnDqStr) && chCurr=='\"') {
 			if (iLog) std::clog<< "[DQString] " << "\n";

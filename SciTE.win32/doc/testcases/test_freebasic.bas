@@ -44,7 +44,7 @@ Sub Convert(byval sInputFile as string, byval sOutputFile as string)
   Dim sApi As String
   Dim i As Integer
   Dim iPos As Integer
-
+  
   Open sInputFile For Input As #1
   Open sOutputFile For Output As #2
   Do While Not EOF(1)

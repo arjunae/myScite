@@ -116,7 +116,7 @@ Math()The following table lists the VBScript math functions.
 Conversion()The following table lists the conversion functions in VBScript.
 
 #~---- properties
-arguments @@sets the arguments for a shortcut, or identifies a shortcuts arguments.
+arguments @@sets the arguments for a shortcut, or identifies a shortcut's arguments.
 atendofline @@returns a boolean value indicating whether the end of a line in an input stream has been reached.
 atendofstream @@returns a boolean value indicating whether the end of an input stream has been reached.
 buildversion @@returns the windows script host build version number.
@@ -138,7 +138,7 @@ line @@identifies the line in a script that contains an error.
 name @@returns the name of the wscript object (the host executable file).
 named @@returns the wshnamed object (a collection of named arguments).
 number @@reports the error number representing a script error.
-path @@returns the name of the directory containing the host executable (cscript).
+path @@returns the name of the directory containing the host executable (cscript.
 processid @@the process id (pid) for a process started with the wshscriptexec object.
 relativepath @@assigns a relative path to a shortcut, or identifies the relative path of a shortcut.
 scriptfullname @@returns the full path of the currently running script.

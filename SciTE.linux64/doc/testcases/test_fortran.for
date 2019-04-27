@@ -20,4 +20,4 @@ PROGRAM MAIN
         PRINT *, 'x = ', X
         CALL DUMSUB(X,DUMSUB)
       END IF
-			END
+      END
