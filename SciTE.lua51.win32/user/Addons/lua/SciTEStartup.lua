@@ -206,7 +206,7 @@ function OnInit()
 	scite_OnSave(CTagsRecreate)
 	scite_OnOpenSwitch(myScite_OpenSwitch)
 	checkUpdates() -- update local scite version Information from githubs readme.md
-	if tonumber(props['sidebar.show'])==1 then gui.pass_focus() end
+	--if tonumber(props['sidebar.show'])==1 then gui.pass_focus() end
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	

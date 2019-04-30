@@ -16,7 +16,7 @@ if [%ERRORLEVEL%]==[2] (
 
 SET buildContext=14.0
 SET arch=x86
-SET arch=x64
+REM SET arch=x64
 
 :: #############
 
