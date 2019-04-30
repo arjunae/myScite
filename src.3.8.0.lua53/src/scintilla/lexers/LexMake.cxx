@@ -482,7 +482,7 @@ static unsigned int ColouriseMakeLine(
 			state=SCE_MAKE_NUMBER;
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER, SCE_MAKE_DEFAULT);
 		}
-		if (state==SCE_MAKE_NUMBER && (AtStartChar(chNext) || IsAlpha(chNext)) ) {
+		if (state==SCE_MAKE_NUMBER && (strchr("\t\r\n \\/<>\"\'{([;:=", (int)chNext) != NULL || IsAlpha(chNext))) {
 			ColourHere(styler, currentPos, SCE_MAKE_NUMBER);
 			state=SCE_MAKE_DEFAULT;
 		} else if (state==SCE_MAKE_NUMBER && (IsNum(chCurr) || chCurr=='.' || chCurr=='-' )) {

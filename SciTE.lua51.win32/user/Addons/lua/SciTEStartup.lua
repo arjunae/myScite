@@ -34,8 +34,8 @@ dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
 -- Load Sidebar
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
+--package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
+--dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
 
 -- Load mod-mitchell
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
@@ -198,6 +198,9 @@ function OnInit()
 		if SLHash and SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
 	end
 
+	-- check if scite was started with a filename belonging to a project. 
+	CTagsUpdateProps(false,"")
+	
 	-- Event Handlers
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
 	scite_OnSave(CTagsRecreate)

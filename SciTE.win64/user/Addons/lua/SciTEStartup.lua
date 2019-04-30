@@ -182,8 +182,8 @@ function OnInit()
 	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 
 	-- Show Sidebar
-	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
+--	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
+--	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
 
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
@@ -196,6 +196,9 @@ function OnInit()
 	-- check SciLexer once per session and inform the User if its a nonStock Version.
 	SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
 	if SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
+	
+	-- check if scite was started with a filename belonging to a project. 
+	CTagsUpdateProps(false,"")
 	
 	-- Event Handlers
 	scite_OnKey( function()  props["CurrentPos"]=editor.CurrentPos end ) -- keep Track of current Bytes Offset (for Statusbar)
