@@ -9,14 +9,16 @@ ipch/
 
 #- temporary linker files, objects and archives, anywhere in the tree.
 *.tmp
-*.o
-*.obj
 *.pyd
-*.a
-*.lib
 *.class
 *.res
 *.exp
+**/c/*.o
+**/c/*.obj
+**/gtk/*.o
+**/gtk/*.obj
+**/win32/*.o
+**/win32/*.obj
 
 #- Debugging symbols
 *.pdb
@@ -30,3 +32,8 @@ clidebug.cmd
 
 #- patch and aStyle backups
 *.orig
+
+# allow static scite and openssl libs
+!**scite_lua5.1/**
+!**scite_lua5.3/**
+!**openssl/**
