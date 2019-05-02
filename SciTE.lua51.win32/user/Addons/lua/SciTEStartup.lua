@@ -205,8 +205,10 @@ function OnInit()
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
 	scite_OnSave(CTagsRecreate)
 	scite_OnOpenSwitch(myScite_OpenSwitch)
-	checkUpdates() -- update local scite version Information from githubs readme.md
-	--if tonumber(props['sidebar.show'])==1 then gui.pass_focus() end
+	
+	checkUpdates() -- check for a new version using githubs readme.md
+	CTagsUpdateProps(false,"") 	-- check if the filename belongs to a project. 
+	myScite_OpenSwitch() -- apply Indicators
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	

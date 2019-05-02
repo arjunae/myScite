@@ -1,0 +1,1856 @@
+/// @author Thorsten Kani, Allow for using wildcards on windows
+diff -Nurw ctags-5.8/fnmatch.c ctags-5.8_m/fnmatch.c
+--- ctags-5.8/fnmatch.c	1970-01-01 01:00:00.000000000 +0100
++++ ctags-5.8_m/fnmatch.c	2017-12-09 12:11:26.000000000 +0100
+@@ -0,0 +1,470 @@
++/* Copyright (C) 1991,1992,1993,1996,1997,1998,1999,2000,2001,2002,2003,2007,2010,2011
++	Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#if HAVE_CONFIG_H
++# include <config.h>
++#endif
++
++/* Enable GNU extensions in fnmatch.h.  */
++#ifndef _GNU_SOURCE
++# define _GNU_SOURCE	1
++#endif
++
++#include <assert.h>
++#include <errno.h>
++#include "fnmatch.h"
++#include <ctype.h>
++
++#if HAVE_STRING_H || defined _LIBC
++# include <string.h>
++#else
++# include <strings.h>
++#endif
++
++#if defined STDC_HEADERS || defined _LIBC
++# include <stdlib.h>
++#endif
++# include <stdlib.h>
++
++#ifdef _LIBC
++# include <alloca.h>
++#else
++# define alloca_account(size, var) alloca (size)
++#endif
++
++/* For platform which support the ISO C amendement 1 functionality we
++   support user defined character classes.  */
++#if defined _LIBC || (defined HAVE_WCTYPE_H && defined HAVE_WCHAR_H)
++/* Solaris 2.5 has a bug: <wchar.h> must be included before <wctype.h>.  */
++# include <wchar.h>
++# include <wctype.h>
++#endif
++
++/* We need some of the locale data (the collation sequence information)
++   but there is no interface to get this information in general.  Therefore
++   we support a correct implementation only in glibc.  */
++#ifdef _LIBC
++# include "../locale/localeinfo.h"
++# include "../locale/elem-hash.h"
++# include "../locale/coll-lookup.h"
++# include <shlib-compat.h>
++
++# define CONCAT(a,b) __CONCAT(a,b)
++# define mbsrtowcs __mbsrtowcs
++# define fnmatch __fnmatch
++extern int fnmatch (const char *pattern, const char *string, int flags);
++#endif
++
++/* We often have to test for FNM_FILE_NAME and FNM_PERIOD being both set.  */
++#define NO_LEADING_PERIOD(flags) \
++  ((flags & (FNM_FILE_NAME | FNM_PERIOD)) == (FNM_FILE_NAME | FNM_PERIOD))
++
++/* Comment out all this code if we are using the GNU C Library, and are not
++   actually compiling the library itself.  This code is part of the GNU C
++   Library, but also included in many other GNU distributions.  Compiling
++   and linking in this code is a waste when using the GNU C library
++   (especially if it is a shared library).  Rather than having every GNU
++   program understand `configure --with-gnu-libc' and omit the object files,
++   it is simpler to just do this in the source for each such file.  */
++
++#if defined _LIBC || !defined __GNU_LIBRARY__
++
++
++# if defined STDC_HEADERS || !defined isascii
++#  define ISASCII(c) 1
++# else
++#  define ISASCII(c) isascii(c)
++# endif
++
++# ifdef isblank
++#  define ISBLANK(c) (ISASCII (c) && isblank (c))
++# else
++#  define ISBLANK(c) ((c) == ' ' || (c) == '\t')
++# endif
++# ifdef isgraph
++#  define ISGRAPH(c) (ISASCII (c) && isgraph (c))
++# else
++#  define ISGRAPH(c) (ISASCII (c) && isprint (c) && !isspace (c))
++# endif
++
++# define ISPRINT(c) (ISASCII (c) && isprint (c))
++# define ISDIGIT(c) (ISASCII (c) && isdigit (c))
++# define ISALNUM(c) (ISASCII (c) && isalnum (c))
++# define ISALPHA(c) (ISASCII (c) && isalpha (c))
++# define ISCNTRL(c) (ISASCII (c) && iscntrl (c))
++# define ISLOWER(c) (ISASCII (c) && islower (c))
++# define ISPUNCT(c) (ISASCII (c) && ispunct (c))
++# define ISSPACE(c) (ISASCII (c) && isspace (c))
++# define ISUPPER(c) (ISASCII (c) && isupper (c))
++# define ISXDIGIT(c) (ISASCII (c) && isxdigit (c))
++
++# define STREQ(s1, s2) ((strcmp (s1, s2) == 0))
++
++# if defined _LIBC || (defined HAVE_WCTYPE_H && defined HAVE_WCHAR_H)
++/* The GNU C library provides support for user-defined character classes
++   and the functions from ISO C amendement 1.  */
++#  ifdef CHARCLASS_NAME_MAX
++#   define CHAR_CLASS_MAX_LENGTH CHARCLASS_NAME_MAX
++#  else
++/* This shouldn't happen but some implementation might still have this
++   problem.  Use a reasonable default value.  */
++#   define CHAR_CLASS_MAX_LENGTH 256
++#  endif
++
++#  ifdef _LIBC
++#   define IS_CHAR_CLASS(string) __wctype (string)
++#  else
++#   define IS_CHAR_CLASS(string) wctype (string)
++#  endif
++
++#  ifdef _LIBC
++#   define ISWCTYPE(WC, WT)	__iswctype (WC, WT)
++#  else
++#   define ISWCTYPE(WC, WT)	iswctype (WC, WT)
++#  endif
++
++#  if (HAVE_MBSTATE_T && HAVE_MBSRTOWCS) || _LIBC
++/* In this case we are implementing the multibyte character handling.  */
++#   define HANDLE_MULTIBYTE	1
++#  endif
++
++# else
++#  define CHAR_CLASS_MAX_LENGTH  6 /* Namely, `xdigit'.  */
++
++#  define IS_CHAR_CLASS(string)						      \
++   (STREQ (string, "alpha") || STREQ (string, "upper")			      \
++    || STREQ (string, "lower") || STREQ (string, "digit")		      \
++    || STREQ (string, "alnum") || STREQ (string, "xdigit")		      \
++    || STREQ (string, "space") || STREQ (string, "print")		      \
++    || STREQ (string, "punct") || STREQ (string, "graph")		      \
++    || STREQ (string, "cntrl") || STREQ (string, "blank"))
++# endif
++
++/* Avoid depending on library functions or files
++   whose names are inconsistent.  */
++
++# if !defined _LIBC && !defined getenv
++extern char *getenv ();
++# endif
++
++# ifndef errno
++extern int errno;
++# endif
++
++/* Global variable.  */
++static int posixly_correct;
++
++/* This function doesn't exist on most systems.  */
++
++# if !defined HAVE___STRCHRNUL && !defined _LIBC
++static char *
++__strchrnul (s, c)
++     const char *s;
++     int c;
++{
++  char *result = strchr (s, c);
++  if (result == NULL)
++    result = strchr (s, '\0');
++  return result;
++}
++# endif
++
++# if HANDLE_MULTIBYTE && !defined HAVE___STRCHRNUL && !defined _LIBC
++static wchar_t *
++__wcschrnul (s, c)
++     const wchar_t *s;
++     wint_t c;
++{
++  wchar_t *result = wcschr (s, c);
++  if (result == NULL)
++    result = wcschr (s, '\0');
++  return result;
++}
++# endif
++
++# ifndef internal_function
++/* Inside GNU libc we mark some function in a special way.  In other
++   environments simply ignore the marking.  */
++#  define internal_function
++# endif
++
++/* Note that this evaluates C many times.  */
++# ifdef _LIBC
++#  define FOLD(c) ((flags & FNM_CASEFOLD) ? tolower (c) : (c))
++# else
++#  define FOLD(c) ((flags & FNM_CASEFOLD) && ISUPPER (c) ? tolower (c) : (c))
++# endif
++# define CHAR	char
++# define UCHAR	unsigned char
++# define INT	int
++# define FCT	internal_fnmatch
++# define EXT	ext_match
++# define END	end_pattern
++# define STRUCT	fnmatch_struct
++# define L(CS)	CS
++# ifdef _LIBC
++#  define BTOWC(C)	__btowc (C)
++# else
++#  define BTOWC(C)	btowc (C)
++# endif
++# define STRLEN(S) strlen (S)
++# define STRCAT(D, S) strcat (D, S)
++# define MEMPCPY(D, S, N) mempcpy (D, S, N)
++# define MEMCHR(S, C, N) memchr (S, C, N)
++# define STRCOLL(S1, S2) strcoll (S1, S2)
++# include "fnmatch_loop.c"
++
++
++# if HANDLE_MULTIBYTE
++/* Note that this evaluates C many times.  */
++#  ifdef _LIBC
++#   define FOLD(c) ((flags & FNM_CASEFOLD) ? towlower (c) : (c))
++#  else
++#   define FOLD(c) ((flags & FNM_CASEFOLD) && ISUPPER (c) ? towlower (c) : (c))
++#  endif
++#  define CHAR	wchar_t
++#  define UCHAR	wint_t
++#  define INT	wint_t
++#  define FCT	internal_fnwmatch
++#  define EXT	ext_wmatch
++#  define END	end_wpattern
++#  define STRUCT fnwmatch_struct
++#  define L(CS)	L##CS
++#  define BTOWC(C)	(C)
++#  define STRLEN(S) __wcslen (S)
++#  define STRCAT(D, S) __wcscat (D, S)
++#  define MEMPCPY(D, S, N) __wmempcpy (D, S, N)
++#  define MEMCHR(S, C, N) wmemchr (S, C, N)
++#  define STRCOLL(S1, S2) wcscoll (S1, S2)
++#  define WIDE_CHAR_VERSION 1
++
++#  undef IS_CHAR_CLASS
++/* We have to convert the wide character string in a multibyte string.  But
++   we know that the character class names consist of alphanumeric characters
++   from the portable character set, and since the wide character encoding
++   for a member of the portable character set is the same code point as
++   its single-byte encoding, we can use a simplified method to convert the
++   string to a multibyte character string.  */
++static wctype_t
++is_char_class (const wchar_t *wcs)
++{
++  char s[CHAR_CLASS_MAX_LENGTH + 1];
++  char *cp = s;
++
++  do
++    {
++      /* Test for a printable character from the portable character set.  */
++#  ifdef _LIBC
++      if (*wcs < 0x20 || *wcs > 0x7e
++	  || *wcs == 0x24 || *wcs == 0x40 || *wcs == 0x60)
++	return (wctype_t) 0;
++#  else
++      switch (*wcs)
++	{
++	case L' ': case L'!': case L'"': case L'#': case L'%':
++	case L'&': case L'\'': case L'(': case L')': case L'*':
++	case L'+': case L',': case L'-': case L'.': case L'/':
++	case L'0': case L'1': case L'2': case L'3': case L'4':
++	case L'5': case L'6': case L'7': case L'8': case L'9':
++	case L':': case L';': case L'<': case L'=': case L'>':
++	case L'?':
++	case L'A': case L'B': case L'C': case L'D': case L'E':
++	case L'F': case L'G': case L'H': case L'I': case L'J':
++	case L'K': case L'L': case L'M': case L'N': case L'O':
++	case L'P': case L'Q': case L'R': case L'S': case L'T':
++	case L'U': case L'V': case L'W': case L'X': case L'Y':
++	case L'Z':
++	case L'[': case L'\\': case L']': case L'^': case L'_':
++	case L'a': case L'b': case L'c': case L'd': case L'e':
++	case L'f': case L'g': case L'h': case L'i': case L'j':
++	case L'k': case L'l': case L'm': case L'n': case L'o':
++	case L'p': case L'q': case L'r': case L's': case L't':
++	case L'u': case L'v': case L'w': case L'x': case L'y':
++	case L'z': case L'{': case L'|': case L'}': case L'~':
++	  break;
++	default:
++	  return (wctype_t) 0;
++	}
++#  endif
++
++      /* Avoid overrunning the buffer.  */
++      if (cp == s + CHAR_CLASS_MAX_LENGTH)
++	return (wctype_t) 0;
++
++      *cp++ = (char) *wcs++;
++    }
++  while (*wcs != L'\0');
++
++  *cp = '\0';
++
++#  ifdef _LIBC
++  return __wctype (s);
++#  else
++  return wctype (s);
++#  endif
++}
++#  define IS_CHAR_CLASS(string) is_char_class (string)
++
++#  include "fnmatch_loop.c"
++# endif
++
++
++int
++fnmatch (pattern, string, flags)
++     const char *pattern;
++     const char *string;
++     int flags;
++{
++# if HANDLE_MULTIBYTE
++  if (__builtin_expect (MB_CUR_MAX, 1) != 1)
++    {
++      mbstate_t ps;
++      size_t n;
++      const char *p;
++      wchar_t *wpattern_malloc = NULL;
++      wchar_t *wpattern;
++      wchar_t *wstring_malloc = NULL;
++      wchar_t *wstring;
++      size_t alloca_used = 0;
++
++      /* Convert the strings into wide characters.  */
++      memset (&ps, '\0', sizeof (ps));
++      p = pattern;
++#ifdef _LIBC
++      n = strnlen (pattern, 1024);
++#else
++      n = strlen (pattern);
++#endif
++      if (__builtin_expect (n < 1024, 1))
++	{
++	  wpattern = (wchar_t *) alloca_account ((n + 1) * sizeof (wchar_t),
++						 alloca_used);
++	  n = mbsrtowcs (wpattern, &p, n + 1, &ps);
++	  if (__builtin_expect (n == (size_t) -1, 0))
++	    /* Something wrong.
++	       XXX Do we have to set `errno' to something which mbsrtows hasn't
++	       already done?  */
++	    return -1;
++	  if (p)
++	    {
++	      memset (&ps, '\0', sizeof (ps));
++	      goto prepare_wpattern;
++	    }
++	}
++      else
++	{
++	prepare_wpattern:
++	  n = mbsrtowcs (NULL, &pattern, 0, &ps);
++	  if (__builtin_expect (n == (size_t) -1, 0))
++	    /* Something wrong.
++	       XXX Do we have to set `errno' to something which mbsrtows hasn't
++	       already done?  */
++	    return -1;
++	  if (__builtin_expect (n >= (size_t) -1 / sizeof (wchar_t), 0))
++	    {
++	      __set_errno (ENOMEM);
++	      return -2;
++	    }
++	  wpattern_malloc = wpattern
++	    = (wchar_t *) malloc ((n + 1) * sizeof (wchar_t));
++	  assert (mbsinit (&ps));
++	  if (wpattern == NULL)
++	    return -2;
++	  (void) mbsrtowcs (wpattern, &pattern, n + 1, &ps);
++	}
++
++      assert (mbsinit (&ps));
++#ifdef _LIBC
++      n = strnlen (string, 1024);
++#else
++      n = strlen (string);
++#endif
++      p = string;
++      if (__builtin_expect (n < 1024, 1))
++	{
++	  wstring = (wchar_t *) alloca_account ((n + 1) * sizeof (wchar_t),
++						alloca_used);
++	  n = mbsrtowcs (wstring, &p, n + 1, &ps);
++	  if (__builtin_expect (n == (size_t) -1, 0))
++	    {
++	      /* Something wrong.
++		 XXX Do we have to set `errno' to something which
++		 mbsrtows hasn't already done?  */
++	    free_return:
++	      free (wpattern_malloc);
++	      return -1;
++	    }
++	  if (p)
++	    {
++	      memset (&ps, '\0', sizeof (ps));
++	      goto prepare_wstring;
++	    }
++	}
++      else
++	{
++	prepare_wstring:
++	  n = mbsrtowcs (NULL, &string, 0, &ps);
++	  if (__builtin_expect (n == (size_t) -1, 0))
++	    /* Something wrong.
++	       XXX Do we have to set `errno' to something which mbsrtows hasn't
++	       already done?  */
++	    goto free_return;
++	  if (__builtin_expect (n >= (size_t) -1 / sizeof (wchar_t), 0))
++	    {
++	      free (wpattern_malloc);
++	      __set_errno (ENOMEM);
++	      return -2;
++	    }
++
++	  wstring_malloc = wstring
++	    = (wchar_t *) malloc ((n + 1) * sizeof (wchar_t));
++	  if (wstring == NULL)
++	    {
++	      free (wpattern_malloc);
++	      return -2;
++	    }
++	  assert (mbsinit (&ps));
++	  (void) mbsrtowcs (wstring, &string, n + 1, &ps);
++	}
++
++      int res = internal_fnwmatch (wpattern, wstring, wstring + n,
++				   flags & FNM_PERIOD, flags, NULL,
++				   alloca_used);
++
++      free (wstring_malloc);
++      free (wpattern_malloc);
++
++      return res;
++    }
++# endif  /* mbstate_t and mbsrtowcs or _LIBC.  */
++
++  return internal_fnmatch (pattern, string, string + strlen (string),
++			   flags & FNM_PERIOD, flags, NULL, 0);
++}
++
++# ifdef _LIBC
++#  undef fnmatch
++versioned_symbol (libc, __fnmatch, fnmatch, GLIBC_2_2_3);
++#  if SHLIB_COMPAT(libc, GLIBC_2_0, GLIBC_2_2_3)
++strong_alias (__fnmatch, __fnmatch_old)
++compat_symbol (libc, __fnmatch_old, fnmatch, GLIBC_2_0);
++#  endif
++libc_hidden_ver (__fnmatch, fnmatch)
++# endif
++
++#endif	/* _LIBC or not __GNU_LIBRARY__.  */
+diff -Nurw ctags-5.8/fnmatch.h ctags-5.8_m/fnmatch.h
+--- ctags-5.8/fnmatch.h	1970-01-01 01:00:00.000000000 +0100
++++ ctags-5.8_m/fnmatch.h	2017-12-09 11:49:02.000000000 +0100
+@@ -0,0 +1,63 @@
++/* Copyright (C) 1991-93,1996-1999,2001,2004,2012
++   Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++#ifndef	_FNMATCH_H
++#define	_FNMATCH_H	1
++
++#ifdef	__cplusplus
++extern "C" {
++#endif
++
++/* We #undef these before defining them because some losing systems
++   (HP-UX A.08.07 for example) define these in <unistd.h>.  */
++#undef	FNM_PATHNAME
++#undef	FNM_NOESCAPE
++#undef	FNM_PERIOD
++
++/* Bits set in the FLAGS argument to `fnmatch'.  */
++#define	FNM_PATHNAME	(1 << 0) /* No wildcard can ever match `/'.  */
++#define	FNM_NOESCAPE	(1 << 1) /* Backslashes don't quote special chars.  */
++#define	FNM_PERIOD	(1 << 2) /* Leading `.' is matched only explicitly.  */
++
++#if !defined _POSIX_C_SOURCE || _POSIX_C_SOURCE < 2 || defined _GNU_SOURCE
++# define FNM_FILE_NAME	 FNM_PATHNAME	/* Preferred GNU name.  */
++# define FNM_LEADING_DIR (1 << 3)	/* Ignore `/...' after a match.  */
++# define FNM_CASEFOLD	 (1 << 4)	/* Compare without regard to case.  */
++# define FNM_EXTMATCH	 (1 << 5)	/* Use ksh-like extended matching. */
++#endif
++
++/* Value returned by `fnmatch' if STRING does not match PATTERN.  */
++#define	FNM_NOMATCH	1
++
++/* This value is returned if the implementation does not support
++   `fnmatch'.  Since this is not the case here it will never be
++   returned but the conformance test suites still require the symbol
++   to be defined.  */
++#ifdef _XOPEN_SOURCE
++# define FNM_NOSYS	(-1)
++#endif
++
++/* Match NAME against the filename pattern PATTERN,
++   returning zero if it matches, FNM_NOMATCH if not.  */
++extern int fnmatch (const char *__pattern, const char *__name, int __flags);
++
++#ifdef	__cplusplus
++}
++#endif
++
++#endif /* fnmatch.h */
+Binary files ctags-5.8/fnmatch.o and ctags-5.8_m/fnmatch.o differ
+diff -Nurw ctags-5.8/fnmatch_loop.c ctags-5.8_m/fnmatch_loop.c
+--- ctags-5.8/fnmatch_loop.c	1970-01-01 01:00:00.000000000 +0100
++++ ctags-5.8_m/fnmatch_loop.c	2017-12-09 11:57:26.000000000 +0100
+@@ -0,0 +1,1284 @@
++/* Copyright (C) 1991-1993,1996-2001,2003-2005,2007,2010,2011
++   Free Software Foundation, Inc.
++   This file is part of the GNU C Library.
++
++   The GNU C Library is free software; you can redistribute it and/or
++   modify it under the terms of the GNU Lesser General Public
++   License as published by the Free Software Foundation; either
++   version 2.1 of the License, or (at your option) any later version.
++
++   The GNU C Library is distributed in the hope that it will be useful,
++   but WITHOUT ANY WARRANTY; without even the implied warranty of
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++   Lesser General Public License for more details.
++
++   You should have received a copy of the GNU Lesser General Public
++   License along with the GNU C Library; if not, see
++   <http://www.gnu.org/licenses/>.  */
++
++struct STRUCT
++{
++  const CHAR *pattern;
++  const CHAR *string;
++  int no_leading_period;
++};
++
++/* Match STRING against the filename pattern PATTERN, returning zero if
++   it matches, nonzero if not.  */
++static int FCT (const CHAR *pattern, const CHAR *string,
++		const CHAR *string_end, int no_leading_period, int flags,
++		struct STRUCT *ends, size_t alloca_used)
++     internal_function;
++static int EXT (INT opt, const CHAR *pattern, const CHAR *string,
++		const CHAR *string_end, int no_leading_period, int flags,
++		size_t alloca_used)
++     internal_function;
++static const CHAR *END (const CHAR *patternp) internal_function;
++
++static int
++internal_function
++FCT (pattern, string, string_end, no_leading_period, flags, ends, alloca_used)
++     const CHAR *pattern;
++     const CHAR *string;
++     const CHAR *string_end;
++     int no_leading_period;
++     int flags;
++     struct STRUCT *ends;
++     size_t alloca_used;
++{
++  register const CHAR *p = pattern, *n = string;
++  register UCHAR c;
++#ifdef _LIBC
++# if WIDE_CHAR_VERSION
++  const char *collseq = (const char *)
++    _NL_CURRENT(LC_COLLATE, _NL_COLLATE_COLLSEQWC);
++# else
++  const UCHAR *collseq = (const UCHAR *)
++    _NL_CURRENT(LC_COLLATE, _NL_COLLATE_COLLSEQMB);
++# endif
++#endif
++
++  while ((c = *p++) != L('\0'))
++    {
++      int new_no_leading_period = 0;
++      c = FOLD (c);
++
++      switch (c)
++	{
++	case L('?'):
++	  if (__builtin_expect (flags & FNM_EXTMATCH, 0) && *p == '(')
++	    {
++	      int res = EXT (c, p, n, string_end, no_leading_period,
++			     flags, alloca_used);
++	      if (res != -1)
++		return res;
++	    }
++
++	  if (n == string_end)
++	    return FNM_NOMATCH;
++	  else if (*n == L('/') && (flags & FNM_FILE_NAME))
++	    return FNM_NOMATCH;
++	  else if (*n == L('.') && no_leading_period)
++	    return FNM_NOMATCH;
++	  break;
++
++	case L('\\'):
++	  if (!(flags & FNM_NOESCAPE))
++	    {
++	      c = *p++;
++	      if (c == L('\0'))
++		/* Trailing \ loses.  */
++		return FNM_NOMATCH;
++	      c = FOLD (c);
++	    }
++	  if (n == string_end || FOLD ((UCHAR) *n) != c)
++	    return FNM_NOMATCH;
++	  break;
++
++	case L('*'):
++	  if (__builtin_expect (flags & FNM_EXTMATCH, 0) && *p == '(')
++	    {
++	      int res = EXT (c, p, n, string_end, no_leading_period,
++			     flags, alloca_used);
++	      if (res != -1)
++		return res;
++	    }
++	  else if (ends != NULL)
++	    {
++	      ends->pattern = p - 1;
++	      ends->string = n;
++	      ends->no_leading_period = no_leading_period;
++	      return 0;
++	    }
++
++	  if (n != string_end && *n == L('.') && no_leading_period)
++	    return FNM_NOMATCH;
++
++	  for (c = *p++; c == L('?') || c == L('*'); c = *p++)
++	    {
++	      if (*p == L('(') && (flags & FNM_EXTMATCH) != 0)
++		{
++		  const CHAR *endp = END (p);
++		  if (endp != p)
++		    {
++		      /* This is a pattern.  Skip over it.  */
++		      p = endp;
++		      continue;
++		    }
++		}
++
++	      if (c == L('?'))
++		{
++		  /* A ? needs to match one character.  */
++		  if (n == string_end)
++		    /* There isn't another character; no match.  */
++		    return FNM_NOMATCH;
++		  else if (*n == L('/')
++			   && __builtin_expect (flags & FNM_FILE_NAME, 0))
++		    /* A slash does not match a wildcard under
++		       FNM_FILE_NAME.  */
++		    return FNM_NOMATCH;
++		  else
++		    /* One character of the string is consumed in matching
++		       this ? wildcard, so *??? won't match if there are
++		       less than three characters.  */
++		    ++n;
++		}
++	    }
++
++	  if (c == L('\0'))
++	    /* The wildcard(s) is/are the last element of the pattern.
++	       If the name is a file name and contains another slash
++	       this means it cannot match, unless the FNM_LEADING_DIR
++	       flag is set.  */
++	    {
++	      int result = (flags & FNM_FILE_NAME) == 0 ? 0 : FNM_NOMATCH;
++
++	      if (flags & FNM_FILE_NAME)
++		{
++		  if (flags & FNM_LEADING_DIR)
++		    result = 0;
++		  else
++		    {
++		      if (MEMCHR (n, L('/'), string_end - n) == NULL)
++			result = 0;
++		    }
++		}
++
++	      return result;
++	    }
++	  else
++	    {
++	      const CHAR *endp;
++	      struct STRUCT end;
++
++	      end.pattern = NULL;
++	      endp = MEMCHR (n, (flags & FNM_FILE_NAME) ? L('/') : L('\0'),
++			     string_end - n);
++	      if (endp == NULL)
++		endp = string_end;
++
++	      if (c == L('[')
++		  || (__builtin_expect (flags & FNM_EXTMATCH, 0) != 0
++		      && (c == L('@') || c == L('+') || c == L('!'))
++		      && *p == L('(')))
++		{
++		  int flags2 = ((flags & FNM_FILE_NAME)
++				? flags : (flags & ~FNM_PERIOD));
++
++		  for (--p; n < endp; ++n, no_leading_period = 0)
++		    if (FCT (p, n, string_end, no_leading_period, flags2,
++			     &end, alloca_used) == 0)
++		      goto found;
++		}
++	      else if (c == L('/') && (flags & FNM_FILE_NAME))
++		{
++		  while (n < string_end && *n != L('/'))
++		    ++n;
++		  if (n < string_end && *n == L('/')
++		      && (FCT (p, n + 1, string_end, flags & FNM_PERIOD, flags,
++			       NULL, alloca_used) == 0))
++		    return 0;
++		}
++	      else
++		{
++		  int flags2 = ((flags & FNM_FILE_NAME)
++				? flags : (flags & ~FNM_PERIOD));
++
++		  if (c == L('\\') && !(flags & FNM_NOESCAPE))
++		    c = *p;
++		  c = FOLD (c);
++		  for (--p; n < endp; ++n, no_leading_period = 0)
++		    if (FOLD ((UCHAR) *n) == c
++			&& (FCT (p, n, string_end, no_leading_period, flags2,
++				 &end, alloca_used) == 0))
++		      {
++		      found:
++			if (end.pattern == NULL)
++			  return 0;
++			break;
++		      }
++		  if (end.pattern != NULL)
++		    {
++		      p = end.pattern;
++		      n = end.string;
++		      no_leading_period = end.no_leading_period;
++		      continue;
++		    }
++		}
++	    }
++
++	  /* If we come here no match is possible with the wildcard.  */
++	  return FNM_NOMATCH;
++
++	case L('['):
++	  {
++	    /* Nonzero if the sense of the character class is inverted.  */
++	    const CHAR *p_init = p;
++	    const CHAR *n_init = n;
++	    register int not;
++	    CHAR cold;
++	    UCHAR fn;
++
++	    if (posixly_correct == 0)
++	      posixly_correct = getenv ("POSIXLY_CORRECT") != NULL ? 1 : -1;
++
++	    if (n == string_end)
++	      return FNM_NOMATCH;
++
++	    if (*n == L('.') && no_leading_period)
++	      return FNM_NOMATCH;
++
++	    if (*n == L('/') && (flags & FNM_FILE_NAME))
++	      /* `/' cannot be matched.  */
++	      return FNM_NOMATCH;
++
++	    not = (*p == L('!') || (posixly_correct < 0 && *p == L('^')));
++	    if (not)
++	      ++p;
++
++	    fn = FOLD ((UCHAR) *n);
++
++	    c = *p++;
++	    for (;;)
++	      {
++		if (!(flags & FNM_NOESCAPE) && c == L('\\'))
++		  {
++		    if (*p == L('\0'))
++		      return FNM_NOMATCH;
++		    c = FOLD ((UCHAR) *p);
++		    ++p;
++
++		    goto normal_bracket;
++		  }
++		else if (c == L('[') && *p == L(':'))
++		  {
++		    /* Leave room for the null.  */
++		    CHAR str[CHAR_CLASS_MAX_LENGTH + 1];
++		    size_t c1 = 0;
++#if defined _LIBC || (defined HAVE_WCTYPE_H && defined HAVE_WCHAR_H)
++		    wctype_t wt;
++#endif
++		    const CHAR *startp = p;
++
++		    for (;;)
++		      {
++			if (c1 == CHAR_CLASS_MAX_LENGTH)
++			  /* The name is too long and therefore the pattern
++			     is ill-formed.  */
++			  return FNM_NOMATCH;
++
++			c = *++p;
++			if (c == L(':') && p[1] == L(']'))
++			  {
++			    p += 2;
++			    break;
++			  }
++			if (c < L('a') || c >= L('z'))
++			  {
++			    /* This cannot possibly be a character class name.
++			       Match it as a normal range.  */
++			    p = startp;
++			    c = L('[');
++			    goto normal_bracket;
++			  }
++			str[c1++] = c;
++		      }
++		    str[c1] = L('\0');
++
++#if defined _LIBC || (defined HAVE_WCTYPE_H && defined HAVE_WCHAR_H)
++		    wt = IS_CHAR_CLASS (str);
++		    if (wt == 0)
++		      /* Invalid character class name.  */
++		      return FNM_NOMATCH;
++
++# if defined _LIBC && ! WIDE_CHAR_VERSION
++		    /* The following code is glibc specific but does
++		       there a good job in speeding up the code since
++		       we can avoid the btowc() call.  */
++		    if (_ISCTYPE ((UCHAR) *n, wt))
++		      goto matched;
++# else
++		    if (ISWCTYPE (BTOWC ((UCHAR) *n), wt))
++		      goto matched;
++# endif
++#else
++		    if ((STREQ (str, L("alnum")) && ISALNUM ((UCHAR) *n))
++			|| (STREQ (str, L("alpha")) && ISALPHA ((UCHAR) *n))
++			|| (STREQ (str, L("blank")) && ISBLANK ((UCHAR) *n))
++			|| (STREQ (str, L("cntrl")) && ISCNTRL ((UCHAR) *n))
++			|| (STREQ (str, L("digit")) && ISDIGIT ((UCHAR) *n))
++			|| (STREQ (str, L("graph")) && ISGRAPH ((UCHAR) *n))
++			|| (STREQ (str, L("lower")) && ISLOWER ((UCHAR) *n))
++			|| (STREQ (str, L("print")) && ISPRINT ((UCHAR) *n))
++			|| (STREQ (str, L("punct")) && ISPUNCT ((UCHAR) *n))
++			|| (STREQ (str, L("space")) && ISSPACE ((UCHAR) *n))
++			|| (STREQ (str, L("upper")) && ISUPPER ((UCHAR) *n))
++			|| (STREQ (str, L("xdigit")) && ISXDIGIT ((UCHAR) *n)))
++		      goto matched;
++#endif
++		    c = *p++;
++		  }
++#ifdef _LIBC
++		else if (c == L('[') && *p == L('='))
++		  {
++		    UCHAR str[1];
++		    uint32_t nrules =
++		      _NL_CURRENT_WORD (LC_COLLATE, _NL_COLLATE_NRULES);
++		    const CHAR *startp = p;
++
++		    c = *++p;
++		    if (c == L('\0'))
++		      {
++			p = startp;
++			c = L('[');
++			goto normal_bracket;
++		      }
++		    str[0] = c;
++
++		    c = *++p;
++		    if (c != L('=') || p[1] != L(']'))
++		      {
++			p = startp;
++			c = L('[');
++			goto normal_bracket;
++		      }
++		    p += 2;
++
++		    if (nrules == 0)
++		      {
++			if ((UCHAR) *n == str[0])
++			  goto matched;
++		      }
++		    else
++		      {
++			const int32_t *table;
++# if WIDE_CHAR_VERSION
++			const int32_t *weights;
++			const int32_t *extra;
++# else
++			const unsigned char *weights;
++			const unsigned char *extra;
++# endif
++			const int32_t *indirect;
++			int32_t idx;
++			const UCHAR *cp = (const UCHAR *) str;
++
++			/* This #include defines a local function!  */
++# if WIDE_CHAR_VERSION
++#  include <locale/weightwc.h>
++# else
++#  include <locale/weight.h>
++# endif
++
++# if WIDE_CHAR_VERSION
++			table = (const int32_t *)
++			  _NL_CURRENT (LC_COLLATE, _NL_COLLATE_TABLEWC);
++			weights = (const int32_t *)
++			  _NL_CURRENT (LC_COLLATE, _NL_COLLATE_WEIGHTWC);
++			extra = (const int32_t *)
++			  _NL_CURRENT (LC_COLLATE, _NL_COLLATE_EXTRAWC);
++			indirect = (const int32_t *)
++			  _NL_CURRENT (LC_COLLATE, _NL_COLLATE_INDIRECTWC);
++# else
++			table = (const int32_t *)
++			  _NL_CURRENT (LC_COLLATE, _NL_COLLATE_TABLEMB);
++			weights = (const unsigned char *)
++			  _NL_CURRENT (LC_COLLATE, _NL_COLLATE_WEIGHTMB);
++			extra = (const unsigned char *)
++			  _NL_CURRENT (LC_COLLATE, _NL_COLLATE_EXTRAMB);
++			indirect = (const int32_t *)
++			  _NL_CURRENT (LC_COLLATE, _NL_COLLATE_INDIRECTMB);
++# endif
++
++			idx = findidx (&cp, 1);
++			if (idx != 0)
++			  {
++			    /* We found a table entry.  Now see whether the
++			       character we are currently at has the same
++			       equivalance class value.  */
++			    int len = weights[idx & 0xffffff];
++			    int32_t idx2;
++			    const UCHAR *np = (const UCHAR *) n;
++
++			    idx2 = findidx (&np, string_end - n);
++			    if (idx2 != 0
++				&& (idx >> 24) == (idx2 >> 24)
++				&& len == weights[idx2 & 0xffffff])
++			      {
++				int cnt = 0;
++
++				idx &= 0xffffff;
++				idx2 &= 0xffffff;
++
++				while (cnt < len
++				       && (weights[idx + 1 + cnt]
++					   == weights[idx2 + 1 + cnt]))
++				  ++cnt;
++
++				if (cnt == len)
++				  goto matched;
++			      }
++			  }
++		      }
++
++		    c = *p++;
++		  }
++#endif
++		else if (c == L('\0'))
++		  {
++		    /* [ unterminated, treat as normal character.  */
++		    p = p_init;
++		    n = n_init;
++		    c = L('[');
++		    goto normal_match;
++		  }
++		else
++		  {
++		    int is_range = 0;
++
++#ifdef _LIBC
++		    int is_seqval = 0;
++
++		    if (c == L('[') && *p == L('.'))
++		      {
++			uint32_t nrules =
++			  _NL_CURRENT_WORD (LC_COLLATE, _NL_COLLATE_NRULES);
++			const CHAR *startp = p;
++			size_t c1 = 0;
++
++			while (1)
++			  {
++			    c = *++p;
++			    if (c == L('.') && p[1] == L(']'))
++			      {
++				p += 2;
++				break;
++			      }
++			    if (c == '\0')
++			      return FNM_NOMATCH;
++			    ++c1;
++			  }
++
++			/* We have to handling the symbols differently in
++			   ranges since then the collation sequence is
++			   important.  */
++			is_range = *p == L('-') && p[1] != L('\0');
++
++			if (nrules == 0)
++			  {
++			    /* There are no names defined in the collation
++			       data.  Therefore we only accept the trivial
++			       names consisting of the character itself.  */
++			    if (c1 != 1)
++			      return FNM_NOMATCH;
++
++			    if (!is_range && *n == startp[1])
++			      goto matched;
++
++			    cold = startp[1];
++			    c = *p++;
++			  }
++			else
++			  {
++			    int32_t table_size;
++			    const int32_t *symb_table;
++# ifdef WIDE_CHAR_VERSION
++			    char str[c1];
++			    unsigned int strcnt;
++# else
++#  define str (startp + 1)
++# endif
++			    const unsigned char *extra;
++			    int32_t idx;
++			    int32_t elem;
++			    int32_t second;
++			    int32_t hash;
++
++# ifdef WIDE_CHAR_VERSION
++			    /* We have to convert the name to a single-byte
++			       string.  This is possible since the names
++			       consist of ASCII characters and the internal
++			       representation is UCS4.  */
++			    for (strcnt = 0; strcnt < c1; ++strcnt)
++			      str[strcnt] = startp[1 + strcnt];
++#endif
++
++			    table_size =
++			      _NL_CURRENT_WORD (LC_COLLATE,
++						_NL_COLLATE_SYMB_HASH_SIZEMB);
++			    symb_table = (const int32_t *)
++			      _NL_CURRENT (LC_COLLATE,
++					   _NL_COLLATE_SYMB_TABLEMB);
++			    extra = (const unsigned char *)
++			      _NL_CURRENT (LC_COLLATE,
++					   _NL_COLLATE_SYMB_EXTRAMB);
++
++			    /* Locate the character in the hashing table.  */
++			    hash = elem_hash (str, c1);
++
++			    idx = 0;
++			    elem = hash % table_size;
++			    if (symb_table[2 * elem] != 0)
++			      {
++				second = hash % (table_size - 2) + 1;
++
++				do
++				  {
++				    /* First compare the hashing value.  */
++				    if (symb_table[2 * elem] == hash
++					&& (c1
++					    == extra[symb_table[2 * elem + 1]])
++					&& memcmp (str,
++						   &extra[symb_table[2 * elem
++								     + 1]
++							  + 1], c1) == 0)
++				      {
++					/* Yep, this is the entry.  */
++					idx = symb_table[2 * elem + 1];
++					idx += 1 + extra[idx];
++					break;
++				      }
++
++				    /* Next entry.  */
++				    elem += second;
++				  }
++				while (symb_table[2 * elem] != 0);
++			      }
++
++			    if (symb_table[2 * elem] != 0)
++			      {
++				/* Compare the byte sequence but only if
++				   this is not part of a range.  */
++# ifdef WIDE_CHAR_VERSION
++				int32_t *wextra;
++
++				idx += 1 + extra[idx];
++				/* Adjust for the alignment.  */
++				idx = (idx + 3) & ~3;
++
++				wextra = (int32_t *) &extra[idx + 4];
++# endif
++
++				if (! is_range)
++				  {
++# ifdef WIDE_CHAR_VERSION
++				    for (c1 = 0;
++					 (int32_t) c1 < wextra[idx];
++					 ++c1)
++				      if (n[c1] != wextra[1 + c1])
++					break;
++
++				    if ((int32_t) c1 == wextra[idx])
++				      goto matched;
++# else
++				    for (c1 = 0; c1 < extra[idx]; ++c1)
++				      if (n[c1] != extra[1 + c1])
++					break;
++
++				    if (c1 == extra[idx])
++				      goto matched;
++# endif
++				  }
++
++				/* Get the collation sequence value.  */
++				is_seqval = 1;
++# ifdef WIDE_CHAR_VERSION
++				cold = wextra[1 + wextra[idx]];
++# else
++				/* Adjust for the alignment.  */
++				idx += 1 + extra[idx];
++				idx = (idx + 3) & ~4;
++				cold = *((int32_t *) &extra[idx]);
++# endif
++
++				c = *p++;
++			      }
++			    else if (c1 == 1)
++			      {
++				/* No valid character.  Match it as a
++				   single byte.  */
++				if (!is_range && *n == str[0])
++				  goto matched;
++
++				cold = str[0];
++				c = *p++;
++			      }
++			    else
++			      return FNM_NOMATCH;
++			  }
++		      }
++		    else
++# undef str
++#endif
++		      {
++			c = FOLD (c);
++		      normal_bracket:
++
++			/* We have to handling the symbols differently in
++			   ranges since then the collation sequence is
++			   important.  */
++			is_range = (*p == L('-') && p[1] != L('\0')
++				    && p[1] != L(']'));
++
++			if (!is_range && c == fn)
++			  goto matched;
++
++			/* This is needed if we goto normal_bracket; from
++			   outside of is_seqval's scope.  */
++		int	is_seqval = 0;
++			cold = c;
++			c = *p++;
++		      }
++
++		    if (c == L('-') && *p != L(']'))
++		      {
++#if _LIBC
++			/* We have to find the collation sequence
++			   value for C.  Collation sequence is nothing
++			   we can regularly access.  The sequence
++			   value is defined by the order in which the
++			   definitions of the collation values for the
++			   various characters appear in the source
++			   file.  A strange concept, nowhere
++			   documented.  */
++			uint32_t fcollseq;
++			uint32_t lcollseq;
++			UCHAR cend = *p++;
++
++# ifdef WIDE_CHAR_VERSION
++			/* Search in the `names' array for the characters.  */
++			fcollseq = __collseq_table_lookup (collseq, fn);
++			if (fcollseq == ~((uint32_t) 0))
++			  /* XXX We don't know anything about the character
++			     we are supposed to match.  This means we are
++			     failing.  */
++			  goto range_not_matched;
++
++			if (is_seqval)
++			  lcollseq = cold;
++			else
++			  lcollseq = __collseq_table_lookup (collseq, cold);
++# else
++			fcollseq = collseq[fn];
++			lcollseq = is_seqval ? cold : collseq[(UCHAR) cold];
++# endif
++
++			is_seqval = 0;
++			if (cend == L('[') && *p == L('.'))
++			  {
++			    uint32_t nrules =
++			      _NL_CURRENT_WORD (LC_COLLATE,
++						_NL_COLLATE_NRULES);
++			    const CHAR *startp = p;
++			    size_t c1 = 0;
++
++			    while (1)
++			      {
++				c = *++p;
++				if (c == L('.') && p[1] == L(']'))
++				  {
++				    p += 2;
++				    break;
++				  }
++				if (c == '\0')
++				  return FNM_NOMATCH;
++				++c1;
++			      }
++
++			    if (nrules == 0)
++			      {
++				/* There are no names defined in the
++				   collation data.  Therefore we only
++				   accept the trivial names consisting
++				   of the character itself.  */
++				if (c1 != 1)
++				  return FNM_NOMATCH;
++
++				cend = startp[1];
++			      }
++			    else
++			      {
++				int32_t table_size;
++				const int32_t *symb_table;
++# ifdef WIDE_CHAR_VERSION
++				char str[c1];
++				unsigned int strcnt;
++# else
++#  define str (startp + 1)
++# endif
++				const unsigned char *extra;
++				int32_t idx;
++				int32_t elem;
++				int32_t second;
++				int32_t hash;
++
++# ifdef WIDE_CHAR_VERSION
++				/* We have to convert the name to a single-byte
++				   string.  This is possible since the names
++				   consist of ASCII characters and the internal
++				   representation is UCS4.  */
++				for (strcnt = 0; strcnt < c1; ++strcnt)
++				  str[strcnt] = startp[1 + strcnt];
++# endif
++
++				table_size =
++				  _NL_CURRENT_WORD (LC_COLLATE,
++						    _NL_COLLATE_SYMB_HASH_SIZEMB);
++				symb_table = (const int32_t *)
++				  _NL_CURRENT (LC_COLLATE,
++					       _NL_COLLATE_SYMB_TABLEMB);
++				extra = (const unsigned char *)
++				  _NL_CURRENT (LC_COLLATE,
++					       _NL_COLLATE_SYMB_EXTRAMB);
++
++				/* Locate the character in the hashing
++				   table.  */
++				hash = elem_hash (str, c1);
++
++				idx = 0;
++				elem = hash % table_size;
++				if (symb_table[2 * elem] != 0)
++				  {
++				    second = hash % (table_size - 2) + 1;
++
++				    do
++				      {
++					/* First compare the hashing value.  */
++					if (symb_table[2 * elem] == hash
++					    && (c1
++						== extra[symb_table[2 * elem + 1]])
++					    && memcmp (str,
++						       &extra[symb_table[2 * elem + 1]
++							      + 1], c1) == 0)
++					  {
++					    /* Yep, this is the entry.  */
++					    idx = symb_table[2 * elem + 1];
++					    idx += 1 + extra[idx];
++					    break;
++					  }
++
++					/* Next entry.  */
++					elem += second;
++				      }
++				    while (symb_table[2 * elem] != 0);
++				  }
++
++				if (symb_table[2 * elem] != 0)
++				  {
++				    /* Compare the byte sequence but only if
++				       this is not part of a range.  */
++# ifdef WIDE_CHAR_VERSION
++				    int32_t *wextra;
++
++				    idx += 1 + extra[idx];
++				    /* Adjust for the alignment.  */
++				    idx = (idx + 3) & ~4;
++
++				    wextra = (int32_t *) &extra[idx + 4];
++# endif
++				    /* Get the collation sequence value.  */
++				    is_seqval = 1;
++# ifdef WIDE_CHAR_VERSION
++				    cend = wextra[1 + wextra[idx]];
++# else
++				    /* Adjust for the alignment.  */
++				    idx += 1 + extra[idx];
++				    idx = (idx + 3) & ~4;
++				    cend = *((int32_t *) &extra[idx]);
++# endif
++				  }
++				else if (symb_table[2 * elem] != 0 && c1 == 1)
++				  {
++				    cend = str[0];
++				    c = *p++;
++				  }
++				else
++				  return FNM_NOMATCH;
++			      }
++# undef str
++			  }
++			else
++			  {
++			    if (!(flags & FNM_NOESCAPE) && cend == L('\\'))
++			      cend = *p++;
++			    if (cend == L('\0'))
++			      return FNM_NOMATCH;
++			    cend = FOLD (cend);
++			  }
++
++			/* XXX It is not entirely clear to me how to handle
++			   characters which are not mentioned in the
++			   collation specification.  */
++			if (
++# ifdef WIDE_CHAR_VERSION
++			    lcollseq == 0xffffffff ||
++# endif
++			    lcollseq <= fcollseq)
++			  {
++			    /* We have to look at the upper bound.  */
++			    uint32_t hcollseq;
++
++			    if (is_seqval)
++			      hcollseq = cend;
++			    else
++			      {
++# ifdef WIDE_CHAR_VERSION
++				hcollseq =
++				  __collseq_table_lookup (collseq, cend);
++				if (hcollseq == ~((uint32_t) 0))
++				  {
++				    /* Hum, no information about the upper
++				       bound.  The matching succeeds if the
++				       lower bound is matched exactly.  */
++				    if (lcollseq != fcollseq)
++				      goto range_not_matched;
++
++				    goto matched;
++				  }
++# else
++				hcollseq = collseq[cend];
++# endif
++			      }
++
++			    if (lcollseq <= hcollseq && fcollseq <= hcollseq)
++			      goto matched;
++			  }
++# ifdef WIDE_CHAR_VERSION
++		      range_not_matched:
++# endif
++#else
++			/* We use a boring value comparison of the character
++			   values.  This is better than comparing using
++			   `strcoll' since the latter would have surprising
++			   and sometimes fatal consequences.  */
++			UCHAR cend = *p++;
++
++			if (!(flags & FNM_NOESCAPE) && cend == L('\\'))
++			  cend = *p++;
++			if (cend == L('\0'))
++			  return FNM_NOMATCH;
++
++			/* It is a range.  */
++			if (cold <= fn && fn <= cend)
++			  goto matched;
++#endif
++
++			c = *p++;
++		      }
++		  }
++
++		if (c == L(']'))
++		  break;
++	      }
++
++	    if (!not)
++	      return FNM_NOMATCH;
++	    break;
++
++	  matched:
++	    /* Skip the rest of the [...] that already matched.  */
++	    do
++	      {
++	      ignore_next:
++		c = *p++;
++
++		if (c == L('\0'))
++		  /* [... (unterminated) loses.  */
++		  return FNM_NOMATCH;
++
++		if (!(flags & FNM_NOESCAPE) && c == L('\\'))
++		  {
++		    if (*p == L('\0'))
++		      return FNM_NOMATCH;
++		    /* XXX 1003.2d11 is unclear if this is right.  */
++		    ++p;
++		  }
++		else if (c == L('[') && *p == L(':'))
++		  {
++		    int c1 = 0;
++		    const CHAR *startp = p;
++
++		    while (1)
++		      {
++			c = *++p;
++			if (++c1 == CHAR_CLASS_MAX_LENGTH)
++			  return FNM_NOMATCH;
++
++			if (*p == L(':') && p[1] == L(']'))
++			  break;
++
++			if (c < L('a') || c >= L('z'))
++			  {
++			    p = startp;
++			    goto ignore_next;
++			  }
++		      }
++		    p += 2;
++		    c = *p++;
++		  }
++		else if (c == L('[') && *p == L('='))
++		  {
++		    c = *++p;
++		    if (c == L('\0'))
++		      return FNM_NOMATCH;
++		    c = *++p;
++		    if (c != L('=') || p[1] != L(']'))
++		      return FNM_NOMATCH;
++		    p += 2;
++		    c = *p++;
++		  }
++		else if (c == L('[') && *p == L('.'))
++		  {
++		    ++p;
++		    while (1)
++		      {
++			c = *++p;
++			if (c == '\0')
++			  return FNM_NOMATCH;
++
++			if (*p == L('.') && p[1] == L(']'))
++			  break;
++		      }
++		    p += 2;
++		    c = *p++;
++		  }
++	      }
++	    while (c != L(']'));
++	    if (not)
++	      return FNM_NOMATCH;
++	  }
++	  break;
++
++	case L('+'):
++	case L('@'):
++	case L('!'):
++	  if (__builtin_expect (flags & FNM_EXTMATCH, 0) && *p == '(')
++	    {
++	      int res = EXT (c, p, n, string_end, no_leading_period, flags,
++			     alloca_used);
++	      if (res != -1)
++		return res;
++	    }
++	  goto normal_match;
++
++	case L('/'):
++	  if (NO_LEADING_PERIOD (flags))
++	    {
++	      if (n == string_end || c != (UCHAR) *n)
++		return FNM_NOMATCH;
++
++	      new_no_leading_period = 1;
++	      break;
++	    }
++	  /* FALLTHROUGH */
++	default:
++	normal_match:
++	  if (n == string_end || c != FOLD ((UCHAR) *n))
++	    return FNM_NOMATCH;
++	}
++
++      no_leading_period = new_no_leading_period;
++      ++n;
++    }
++
++  if (n == string_end)
++    return 0;
++
++  if ((flags & FNM_LEADING_DIR) && n != string_end && *n == L('/'))
++    /* The FNM_LEADING_DIR flag says that "foo*" matches "foobar/frobozz".  */
++    return 0;
++
++  return FNM_NOMATCH;
++}
++
++
++static const CHAR *
++internal_function
++END (const CHAR *pattern)
++{
++  const CHAR *p = pattern;
++
++  while (1)
++    if (*++p == L('\0'))
++      /* This is an invalid pattern.  */
++      return pattern;
++    else if (*p == L('['))
++      {
++	/* Handle brackets special.  */
++	if (posixly_correct == 0)
++	  posixly_correct = getenv ("POSIXLY_CORRECT") != NULL ? 1 : -1;
++
++	/* Skip the not sign.  We have to recognize it because of a possibly
++	   following ']'.  */
++	if (*++p == L('!') || (posixly_correct < 0 && *p == L('^')))
++	  ++p;
++	/* A leading ']' is recognized as such.  */
++	if (*p == L(']'))
++	  ++p;
++	/* Skip over all characters of the list.  */
++	while (*p != L(']'))
++	  if (*p++ == L('\0'))
++	    /* This is no valid pattern.  */
++	    return pattern;
++      }
++    else if ((*p == L('?') || *p == L('*') || *p == L('+') || *p == L('@')
++	      || *p == L('!')) && p[1] == L('('))
++      p = END (p + 1);
++    else if (*p == L(')'))
++      break;
++
++  return p + 1;
++}
++
++
++static int
++internal_function
++EXT (INT opt, const CHAR *pattern, const CHAR *string, const CHAR *string_end,
++     int no_leading_period, int flags, size_t alloca_used)
++{
++  const CHAR *startp;
++  int level;
++  struct patternlist
++  {
++    struct patternlist *next;
++    CHAR malloced;
++    CHAR str[0];
++  } *list = NULL;
++  struct patternlist **lastp = &list;
++  size_t pattern_len = STRLEN (pattern);
++  int any_malloced = 0;
++  const CHAR *p;
++  const CHAR *rs;
++  int retval = 0;
++
++  /* Parse the pattern.  Store the individual parts in the list.  */
++  level = 0;
++  for (startp = p = pattern + 1; level >= 0; ++p)
++    if (*p == L('\0'))
++      {
++	/* This is an invalid pattern.  */
++	retval = -1;
++	goto out;
++      }
++    else if (*p == L('['))
++      {
++	/* Handle brackets special.  */
++	if (posixly_correct == 0)
++	  posixly_correct = getenv ("POSIXLY_CORRECT") != NULL ? 1 : -1;
++
++	/* Skip the not sign.  We have to recognize it because of a possibly
++	   following ']'.  */
++	if (*++p == L('!') || (posixly_correct < 0 && *p == L('^')))
++	  ++p;
++	/* A leading ']' is recognized as such.  */
++	if (*p == L(']'))
++	  ++p;
++	/* Skip over all characters of the list.  */
++	while (*p != L(']'))
++	  if (*p++ == L('\0'))
++	    {
++	      /* This is no valid pattern.  */
++	      retval = -1;
++	      goto out;
++	    }
++      }
++    else if ((*p == L('?') || *p == L('*') || *p == L('+') || *p == L('@')
++	      || *p == L('!')) && p[1] == L('('))
++      /* Remember the nesting level.  */
++      ++level;
++    else if (*p == L(')'))
++      {
++	if (level-- == 0)
++	  {
++	    /* This means we found the end of the pattern.  */
++#define NEW_PATTERN \
++	    struct patternlist *newp;					      \
++	    size_t slen = (opt == L('?') || opt == L('@')		      \
++			   ? pattern_len : (p - startp + 1));		      \
++	    slen = sizeof (struct patternlist) + (slen * sizeof (CHAR));      \
++	    int malloced = (alloca_used + slen);	      \
++	    if (__builtin_expect (malloced, 0))				      \
++	      {								      \
++		newp = malloc (slen);					      \
++		if (newp == NULL)					      \
++		  {							      \
++		    retval = -2;					      \
++		    goto out;						      \
++		  }							      \
++		any_malloced = 1;					      \
++	      }								      \
++	    else							      \
++	      newp = alloca_account (slen, alloca_used);		      \
++	    newp->next = NULL;						      \
++	    newp->malloced = malloced;					      \
++	    *((CHAR *) MEMPCPY (newp->str, startp, p - startp)) = L('\0');    \
++	    *lastp = newp;						      \
++	    lastp = &newp->next
++	    NEW_PATTERN;
++	  }
++      }
++    else if (*p == L('|'))
++      {
++	if (level == 0)
++	  {
++	    NEW_PATTERN;
++	    startp = p + 1;
++	  }
++      }
++  assert (list != NULL);
++  assert (p[-1] == L(')'));
++#undef NEW_PATTERN
++
++  switch (opt)
++    {
++    case L('*'):
++      if (FCT (p, string, string_end, no_leading_period, flags, NULL,
++	       alloca_used) == 0)
++	goto success;
++      /* FALLTHROUGH */
++
++    case L('+'):
++      do
++	{
++	  for (rs = string; rs <= string_end; ++rs)
++	    /* First match the prefix with the current pattern with the
++	       current pattern.  */
++	    if (FCT (list->str, string, rs, no_leading_period,
++		     flags & FNM_FILE_NAME ? flags : flags & ~FNM_PERIOD,
++		     NULL, alloca_used) == 0
++		/* This was successful.  Now match the rest with the rest
++		   of the pattern.  */
++		&& (FCT (p, rs, string_end,
++			 rs == string
++			 ? no_leading_period
++			 : rs[-1] == '/' && NO_LEADING_PERIOD (flags) ? 1 : 0,
++			 flags & FNM_FILE_NAME
++			 ? flags : flags & ~FNM_PERIOD, NULL, alloca_used) == 0
++		    /* This didn't work.  Try the whole pattern.  */
++		    || (rs != string
++			&& FCT (pattern - 1, rs, string_end,
++				rs == string
++				? no_leading_period
++				: (rs[-1] == '/' && NO_LEADING_PERIOD (flags)
++				   ? 1 : 0),
++				flags & FNM_FILE_NAME
++				? flags : flags & ~FNM_PERIOD, NULL,
++				alloca_used) == 0)))
++	      /* It worked.  Signal success.  */
++	      goto success;
++	}
++      while ((list = list->next) != NULL);
++
++      /* None of the patterns lead to a match.  */
++      retval = FNM_NOMATCH;
++      break;
++
++    case L('?'):
++      if (FCT (p, string, string_end, no_leading_period, flags, NULL,
++	       alloca_used) == 0)
++	goto success;
++      /* FALLTHROUGH */
++
++    case L('@'):
++      do
++	/* I cannot believe it but `strcat' is actually acceptable
++	   here.  Match the entire string with the prefix from the
++	   pattern list and the rest of the pattern following the
++	   pattern list.  */
++	if (FCT (STRCAT (list->str, p), string, string_end,
++		 no_leading_period,
++		 flags & FNM_FILE_NAME ? flags : flags & ~FNM_PERIOD,
++		 NULL, alloca_used) == 0)
++	  /* It worked.  Signal success.  */
++	  goto success;
++      while ((list = list->next) != NULL);
++
++      /* None of the patterns lead to a match.  */
++      retval = FNM_NOMATCH;
++      break;
++
++    case L('!'):
++      for (rs = string; rs <= string_end; ++rs)
++	{
++	  struct patternlist *runp;
++
++	  for (runp = list; runp != NULL; runp = runp->next)
++	    if (FCT (runp->str, string, rs,  no_leading_period,
++		     flags & FNM_FILE_NAME ? flags : flags & ~FNM_PERIOD,
++		     NULL, alloca_used) == 0)
++	      break;
++
++	  /* If none of the patterns matched see whether the rest does.  */
++	  if (runp == NULL
++	      && (FCT (p, rs, string_end,
++		       rs == string
++		       ? no_leading_period
++		       : rs[-1] == '/' && NO_LEADING_PERIOD (flags) ? 1 : 0,
++		       flags & FNM_FILE_NAME ? flags : flags & ~FNM_PERIOD,
++		       NULL, alloca_used) == 0))
++	    /* This is successful.  */
++	    goto success;
++	}
++
++      /* None of the patterns together with the rest of the pattern
++	 lead to a match.  */
++      retval = FNM_NOMATCH;
++      break;
++
++    default:
++      assert (! "Invalid extended matching operator");
++      retval = -1;
++      break;
++    }
++
++ success:
++ out:
++  if (any_malloced)
++    while (list != NULL)
++      {
++	struct patternlist *old = list;
++	list = list->next;
++	if (old->malloced)
++	  free (old);
++      }
++
++  return retval;
++}
++
++
++#undef FOLD
++#undef CHAR
++#undef UCHAR
++#undef INT
++#undef FCT
++#undef EXT
++#undef END
++#undef STRUCT
++#undef MEMPCPY
++#undef MEMCHR
++#undef STRCOLL
++#undef STRLEN
++#undef STRCAT
++#undef L
++#undef BTOWC
+diff -Nurw ctags-5.8/mk_mingw.mak ctags-5.8_m/mk_mingw.mak
+--- ctags-5.8/mk_mingw.mak	2009-07-09 22:53:20.000000000 +0200
++++ ctags-5.8_m/mk_mingw.mak	2017-12-09 12:14:36.000000000 +0100
+@@ -5,7 +5,7 @@
+ 
+ include source.mak
+ 
+-REGEX_DEFINES = -DHAVE_REGCOMP -D__USE_GNU -Dbool=int -Dfalse=0 -Dtrue=1 -Dstrcasecmp=stricmp
++REGEX_DEFINES = -DHAVE_REGCOMP -DHAVE_FNMATCH -D__USE_GNU -Dbool=int -Dfalse=0 -Dtrue=1 -Dstrcasecmp=stricmp
+ 
+ CFLAGS = -Wall
+ DEFINES = -DWIN32 $(REGEX_DEFINES)
+diff -Nurw ctags-5.8/source.mak ctags-5.8_m/source.mak
+--- ctags-5.8/source.mak	2009-07-07 05:55:24.000000000 +0200
++++ ctags-5.8_m/source.mak	2017-12-09 12:09:26.000000000 +0100
+@@ -57,7 +57,8 @@
+ 	vhdl.c \
+ 	vim.c \
+ 	yacc.c \
+-	vstring.c
++	vstring.c \
++	fnmatch.c
+ 
+ ENVIRONMENT_HEADERS = \
+     e_amiga.h e_djgpp.h e_mac.h e_msoft.h e_os2.h e_qdos.h e_riscos.h e_vms.h

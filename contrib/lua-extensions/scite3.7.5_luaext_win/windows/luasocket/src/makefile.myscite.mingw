@@ -1,0 +1,89 @@
+#------
+# myScite Compiler and linker settings for MingW
+#------
+
+LUA_INC = ../../lua/$(LUA_PLAT)/src
+
+DEBUG=NODEBUG
+
+O = o
+
+# Decide to link with libscite or liblua here
+#LIB_LUA = -L..\..\clib -lscite
+#LIB_LUA = -L..\..\clib -llua5.3
+LIB_LUA = -L..\..\clib\scite_lua$(LUA_PLAT)\ $(LUA_LIB)
+
+#------
+# Modules belonging mime-core
+#
+
+MIME_OBJS= mime.$(O) compat.$(O)
+
+#------
+# Modules belonging socket-core windows
+#
+SOCKET_CORE = auxiliar.$(O) buffer.$(O) compat.$(O) except.$(O) io.$(O) luasocket.$(O) options.$(O) select.$(O) tcp.$(O) timeout.$(O) udp.$(O) inet.$(O) wsocket.$(O)
+
+#------
+# Modules belonging mime-core
+#
+MIME_CORE = mime.$(O) compat.$(O)
+
+#------
+# Modules belonging to serial (device streams)
+#
+SERIAL_OBJS = buffer.$(O) auxiliar.$(O) options.$(O) timeout.$(O) io.$(O) usocket.$(O) serial.$(O)
+
+#------
+# Modules belonging unix (local domain sockets)
+#
+UNIX_OBJS = buffer.$(O) auxiliar.$(O) options.$(O) timeout.$(O) io.$(O) usocket.$(O) unixstream.$(O) unixdgram.$(O) compat.$(O) unix.$(O)
+
+#-DLUASOCKET_INET_PTON
+DEF_mingw =  -DLUASOCKET_$(DEBUG) 
+	-DWINVER=0x0501 -DLUASOCKET_API='__declspec(dllexport)' 
+	-DMIME_API='__declspec(dllexport)' 
+
+CFLAGS = -shared -Wall -O2 -fno-common -fvisibility=hidden $(DEF_mingw) -O2 -I $(LUA_INC) -I ./ 
+LDFLAGS = -Wl,-s -lws2_32 $(LIB_LUA) -static-libgcc -static-libstdc++ 
+OUTFILE_SOCKET =socket.dll
+OUTFILE_MIME =mime.dll
+CC = gcc
+
+$(OUTFILE_SOCKET): $(SOCKET_CORE) $(SERIAL_OBJ)
+	echo $(LUA)
+	$(CC) $(CFLAGS) $(SOCKET_CORE) $(SERIAL_OBJ) -o $(OUTFILE_SOCKET) $(LDFLAGS) $(DEF_FILE)
+
+$(OUTFILE_MIME): $(MIME_CORE) 
+	$(CC) $(CFLAGS) $(MIME_CORE) -o $(OUTFILE_MIME) $(LDFLAGS)
+
+libluasocket.a: $(SOCKET_CORE) $(SERIAL_OBJ)
+	ar rcu $@ $(SOCKET_CORE) $(SERIAL_OBJ)
+	ranlib $@
+
+clean:
+	IF EXIST *.o del *.o
+	IF EXIST *.dll del *.dll
+ 
+$(FILES): makefile.myscite
+
+#------
+# List of dependencies
+#
+compat.$(O): compat.c compat.h
+auxiliar.$(O): auxiliar.c auxiliar.h
+buffer.$(O): buffer.c buffer.h io.h timeout.h
+except.$(O): except.c except.h
+inet.$(O): inet.c inet.h socket.h io.h timeout.h usocket.h
+io.$(O): io.c io.h timeout.h
+luasocket.$(O): luasocket.c luasocket.h auxiliar.h except.h timeout.h buffer.h io.h inet.h socket.h usocket.h tcp.h udp.h select.h
+mime.$(O): mime.c mime.h
+options.$(O): options.c auxiliar.h options.h socket.h io.h timeout.h usocket.h inet.h
+select.$(O): select.c socket.h io.h timeout.h usocket.h select.h
+serial.$(O): serial.c auxiliar.h socket.h io.h timeout.h usocket.h options.h unix.h buffer.h
+tcp.$(O): tcp.c auxiliar.h socket.h io.h timeout.h usocket.h inet.h options.h tcp.h buffer.h
+timeout.$(O): timeout.c auxiliar.h timeout.h
+udp.$(O): udp.c auxiliar.h socket.h io.h timeout.h usocket.h inet.h options.h udp.h
+unix.$(O): unix.c auxiliar.h socket.h io.h timeout.h usocket.h options.h unix.h buffer.h
+usocket.$(O): usocket.c socket.h io.h timeout.h usocket.h
+wsocket.$(O): wsocket.c socket.h io.h timeout.h usocket.h

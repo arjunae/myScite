@@ -1,0 +1,48 @@
+
+MIME_CORE=mime.obj compat.obj
+SOCKET_CORE=auxiliar.obj buffer.obj compat.obj except.obj inet.obj io.obj luasocket.obj options.obj select.obj tcp.obj timeout.obj udp.obj wsocket.obj
+SERIAL_OBJS=buffer.obj auxiliar.obj options.obj timeout.obj io.obj usocket.obj serial.obj 
+UNIX_OBJS=buffer.obj auxiliar.obj options.obj timeout.obj io.obj usocket.obj unixstream.obj unixdgram.obj compat.obj unix.obj
+
+DEBUG=NODEBUG
+WARNS= -W3 -D_WINSOCK_DEPRECATED_NO_WARNINGS -D_CRT_SECURE_NO_WARNINGS
+DEFS_WIN= -DWIN32 -DNDEBUG -D_WINDOWS -D_WINDLL -D_USRDLL
+DEFS=$(DEFS_WIN) -DLUASOCKET_$(DEBUG) -DLUASOCKET_API=__declspec(dllexport)  -DMIME_API=__declspec(dllexport)
+#
+#  $(LIBDIR)vclua5.1.lib 
+CFLAGS = -nologo -c  -O2 -Ot -MD $(DEFS) $(WARNS)
+LFLAGS = -NOLOGO -DLL -INCREMENTAL:NO	-SUBSYSTEM:WINDOWS -OPT:REF -OPT:ICF -DYNAMICBASE:NO -MACHINE:X86
+
+LUA_INCLUDE = ../../lua/$(LUA_PLAT)/src/
+LIBDIR	= ../../clib/scite_lua$(LUA_PLAT)/
+LIBS		=  $(LUA_LIB) ws2_32.lib
+
+socket.dll: $(SOCKET_CORE)
+	link $(LFLAGS) -OUT:socket.dll $(SOCKET_CORE) $(LIBS) 
+
+mime.dll: $(MIME_CORE)
+	link $(LFLAGS) -OUT:mime.dll $(MIME_CORE)  $(LIBS)
+
+clean:
+	-del /S *.obj *.lib *.dll *.exp 1>NUL
+
+.c.obj:
+	cl $(CFLAGS) -I$(LUA_INCLUDE) -I$(VS_INCLUDE) -c $< -Fo"$@"
+
+auxiliar.obj: auxiliar.c auxiliar.h
+buffer.obj: buffer.c buffer.h io.h timeout.h
+except.obj: except.c except.h
+inet.obj: inet.c inet.h socket.h io.h timeout.h usocket.h
+io.obj: io.c io.h timeout.h
+luasocket.obj: luasocket.c luasocket.h auxiliar.h except.h timeout.h buffer.h io.h inet.h socket.h usocket.h tcp.h udp.h select.h
+options.obj: options.c auxiliar.h options.h socket.h io.h timeout.h usocket.h inet.h
+select.obj: select.c socket.h io.h timeout.h usocket.h select.h
+serial.obj: serial.c auxiliar.h socket.h io.h timeout.h usocket.h options.h unix.h buffer.h
+tcp.obj: tcp.c auxiliar.h socket.h io.h timeout.h usocket.h inet.h options.h tcp.h buffer.h
+timeout.obj: timeout.c auxiliar.h timeout.h
+udp.obj: udp.c auxiliar.h socket.h io.h timeout.h usocket.h inet.h options.h udp.h
+unix.obj: unix.c auxiliar.h socket.h io.h timeout.h usocket.h options.h unix.h buffer.h
+usocket.obj: usocket.c socket.h io.h timeout.h usocket.h
+wsocket.obj: wsocket.c socket.h io.h timeout.h usocket.h
+mime.obj: mime.c mime.h
+compat.obj: compat.c compat.h

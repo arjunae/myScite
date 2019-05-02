@@ -1,0 +1,612 @@
+/// @author: Yasuhiro Matsumoto; Add !_TAG_FILE_ENCODING 
+diff --git a/configure.ac ctags-5.8/configure.ac
+index 719634b..ddda091 100644
+--- a/configure.ac
++++ ctags-5.8/configure.ac
+@@ -59,6 +59,8 @@ AH_VERBATIM([EXTERNAL_SORT], [
+ # undef EXTERNAL_SORT
+ #endif
+ ])
++AH_TEMPLATE([HAVE_ICONV],
++	[Define this value if support multibyte character encoding.])
+ AH_TEMPLATE([TMPDIR],
+ 	[If you wish to change the directory in which temporary files are stored,
+ 	define this label to the directory desired.])
+@@ -161,6 +163,10 @@ AC_ARG_ENABLE(extended-format,
+ AC_ARG_ENABLE(external-sort,
+ [  --disable-external-sort use internal sort algorithm instead of sort program])
+ 
++AC_ARG_ENABLE(iconv,
++[  --enable-iconv
++                          support multibyte character encoding])
++
+ AC_ARG_ENABLE(custom-config,
+ [  --enable-custom-config=FILE
+                           enable custom config file for site-wide defaults])
+@@ -218,6 +224,21 @@ if test "$enable_macro_patterns" = yes ; then
+ 	AC_MSG_RESULT(tag file will use patterns for macros by default)
+ fi
+ 
++if test "$enable_iconv" = yes ; then
++	AC_CHECK_LIB([c], [iconv_open], [LDFLAGS="$LDFLAGS -lc" HAVE_ICONV=1], [])
++	if test "x$HAVE_ICONV" = "x"; then
++		dnl But it's possible this implementation of libiconv doesn't have a libiconv_* define
++		AC_CHECK_LIB([iconv], [iconv_open], [LDFLAGS="$LDFLAGS -liconv" HAVE_ICONV=1], [])
++	fi
++	if test "x$HAVE_ICONV" = "x"; then
++		dnl No iconv library was found; issue a warning to the console
++		AC_MSG_ERROR([Could not find libiconv. Please install libiconv and libiconv-devel.])
++	fi
++	if test "x$HAVE_ICONV" != "x"; then
++		AC_DEFINE([HAVE_ICONV],[],[])
++	fi
++fi
++
+ # Checks for programs
+ # -------------------
+ 
+@@ -325,7 +346,7 @@ fi
+ # -----------------------
+ 
+ AC_CHECK_HEADERS_ONCE([dirent.h fcntl.h fnmatch.h stat.h stdlib.h string.h])
+-AC_CHECK_HEADERS_ONCE([time.h types.h unistd.h])
++AC_CHECK_HEADERS_ONCE([time.h types.h unistd.h locale.h])
+ AC_CHECK_HEADERS_ONCE([sys/dir.h sys/stat.h sys/times.h sys/types.h])
+ 
+ 
+@@ -482,6 +503,7 @@ fi
+ # 	fi
+ # fi
+ 
++AC_CHECK_FUNCS([mblen], [], [HAVE_MBLEN=1], [])
+ 
+ # Checks for missing prototypes
+ # -----------------------------
+diff --git a/entry.c ctags-5.8/entry.c
+index aad0067..a477830 100644
+--- a/entry.c
++++ ctags-5.8/entry.c
+@@ -163,6 +163,10 @@ static void addPseudoTags (void)
+ 		writePseudoTag ("TAG_PROGRAM_NAME",    PROGRAM_NAME, "");
+ 		writePseudoTag ("TAG_PROGRAM_URL",     PROGRAM_URL,  "official site");
+ 		writePseudoTag ("TAG_PROGRAM_VERSION", PROGRAM_VERSION, "");
++#ifdef HAVE_ICONV
++		if (Option.encoding)
++			writePseudoTag ("TAG_FILE_ENCODING", "utf-8", "");
++#endif
+ 	}
+ }
+ 
+diff --git a/main.c ctags-5.8/main.c
+index ffd45ac..f0cc789 100644
+--- a/main.c
++++ ctags-5.8/main.c
+@@ -571,6 +571,9 @@ extern int main (int __unused__ argc, char **argv)
+ 	freeOptionResources ();
+ 	freeParserResources ();
+ 	freeRegexResources ();
++#ifdef HAVE_ICONV
++	freeEncodingResources ();
++#endif
+ 
+ 	exit (0);
+ 	return 0;
+diff --git a/mbcs.c ctags-5.8/mbcs.c
+new file mode 100644
+index 0000000..4411b85
+--- /dev/null
++++ ctags-5.8/mbcs.c
+@@ -0,0 +1,94 @@
++/*
++*   $Id$
++*
++*   Copyright (c) 1996-2003, Darren Hiebert
++*
++*   This source code is released for free distribution under the terms of the
++*   GNU General Public License.
++*
++*   This module contains functions for checking multibyte character set.
++*/
++
++/*
++*   INCLUDE FILES
++*/
++#define __USE_GNU
++#include "general.h"  /* must always come first */
++
++#ifdef HAVE_ICONV
++
++#include <stdio.h>
++#include <string.h>
++#include <iconv.h>
++#include <errno.h>
++#include "options.h"
++#include "mbcs.h"
++#include "routines.h"
++
++static iconv_t iconv_fd = (iconv_t) -1;
++
++extern boolean openConverter (char* encoding)
++{
++	if (!encoding)
++		return FALSE;
++	iconv_fd = iconv_open("UTF-8", encoding);
++	return iconv_fd != (iconv_t) -1;
++}
++
++extern boolean isConverting ()
++{
++	return iconv_fd != (iconv_t) -1;
++}
++
++extern boolean convertString (vString *const string)
++{
++	size_t utf8_len = 0, mbcs_len, utf8_size;
++	char *utf8, *mbcs, *utf8ptr;
++	if (iconv_fd == (iconv_t) -1)
++		return FALSE;
++	mbcs_len = vStringLength (string);
++	utf8_len = mbcs_len * 4;
++	utf8ptr = utf8 = xCalloc (utf8_len, char);
++	if (!utf8)
++		return FALSE;
++	mbcs = vStringValue (string);
++retry:
++	if (iconv (iconv_fd, &mbcs, &mbcs_len, &utf8ptr, &utf8_len) == (size_t) -1)
++	{
++		eFree (utf8);
++		return FALSE;
++	}
++	if (errno == EILSEQ)
++	{
++		*utf8ptr++ = '?';
++		utf8_len--;
++		mbcs++;
++		mbcs_len--;
++		verbose ("  Encoding: %s\n", strerror(errno));
++		goto retry;
++	}
++
++	utf8_size = utf8ptr - utf8;
++
++	vStringClear (string);
++	while (vStringSize (string) <= utf8_size + 1)
++		vStringAutoResize (string);
++	memcpy (vStringValue (string), utf8, utf8_size + 1);
++	vStringLength (string) = utf8_size;
++	eFree (utf8);
++
++	iconv (iconv_fd, (void*)0, (void*)0, &utf8ptr, &utf8_len);
++
++	return TRUE;
++}
++
++extern void closeConverter ()
++{
++	if (iconv_fd != (iconv_t) -1)
++	{
++		iconv_close(iconv_fd);
++		iconv_fd = (iconv_t) -1;
++	}
++}
++
++#endif	/* HAVE_ICONV */
+diff --git a/mbcs.h ctags-5.8/mbcs.h
+new file mode 100644
+index 0000000..5fb16cc
+--- /dev/null
++++ ctags-5.8/mbcs.h
+@@ -0,0 +1,22 @@
++/*
++*   $Id$
++*
++*   Copyright (c) 1996-2003, Darren Hiebert
++*
++*   This source code is released for free distribution under the terms of the
++*   GNU General Public License.
++*
++*   This module contains functions for checking multibyte character set.
++*/
++
++#include "general.h"  /* must always come first */
++#include "vstring.h"
++
++#ifdef HAVE_ICONV
++
++extern boolean isConverting ();
++extern boolean openConverter (char*);
++extern boolean convertString (vString *const);
++extern void closeConverter ();
++
++#endif /* HAVE_ICONV */
+diff --git a/mk_bc5.mak ctags-5.8/mk_bc5.mak
+index 6012ccd..a8fdf42 100644
+--- a/mk_bc5.mak
++++ ctags-5.8/mk_bc5.mak
+@@ -5,7 +5,8 @@
+ !include source.mak
+ 
+ REGEX_DEFINE = -DHAVE_REGCOMP -DREGEX_MALLOC -DSTDC_HEADERS=1
+-DEFINES = -DWIN32 $(REGEX_DEFINE)
++##DEFINES = -DWIN32 $(REGEX_DEFINE)
++DEFINES = -DWIN32 $(REGEX_DEFINE) -DHAVE_ICONV
+ INCLUDES = -I. -Ignu_regex
+ WARNINGS = -w-aus -w-par -w-pia -w-pro -w-sus
+ CFLAGS = -d -DSTRICT -lTpe -lap
+diff --git a/mk_mingw.mak ctags-5.8/mk_mingw.mak
+index 4102595..3d44540 100644
+--- a/mk_mingw.mak
++++ ctags-5.8/mk_mingw.mak
+@@ -8,19 +8,27 @@ include source.mak
+ REGEX_DEFINES = -DHAVE_REGCOMP -D__USE_GNU -Dbool=int -Dfalse=0 -Dtrue=1 -Dstrcasecmp=stricmp
+ 
+ CFLAGS = -Wall
+-DEFINES = -DWIN32 $(REGEX_DEFINES)
++##DEFINES = -DWIN32 $(REGEX_DEFINES)
++DEFINES = -DWIN32 $(REGEX_DEFINES) -DHAVE_ICONV
+ INCLUDES = -I. -Ignu_regex
+ CC = gcc
++OBJEXT = o
++LDFLAGS = -liconv.dll
+ 
+ ctags.exe: OPT = -O4
+ dctags.exe: OPT = -g
+ dctags.exe: DEBUG = -DDEBUG
+ dctags.exe: SOURCES += debug.c
+ 
++.SUFFIXES: .c.o
++
++.c.o:
++	$(CC) -c $(OPT) $(CFLAGS) $(DEFINES) $(INCLUDES) -o $@ $<
++
+ ctags: ctags.exe
+ 
+-ctags.exe dctags.exe: $(SOURCES) $(REGEX_SOURCES) $(HEADERS) $(REGEX_HEADERS)
+-	$(CC) $(OPT) $(CFLAGS) $(DEFINES) $(INCLUDES) -o $@ $(SOURCES) $(REGEX_SOURCES)
++ctags.exe dctags.exe: $(OBJECTS) $(HEADERS) $(REGEX_HEADERS) $(REGEX_SOURCES:%.c=%.o)
++	$(CC) $(OPT) $(CFLAGS) $(DEFINES) $(INCLUDES) -o $@ $(OBJECTS) $(REGEX_SOURCES:%.c=%.o) $(LDFLAGS)
+ 
+ readtags.exe: readtags.c
+ 	$(CC) $(OPT) $(CFLAGS) -DREADTAGS_MAIN $(DEFINES) $(INCLUDES) -o $@ $<
+@@ -29,3 +37,4 @@ clean:
+ 	- rm -f ctags.exe
+ 	- rm -f dctags.exe
+ 	- rm -f tags
++	- rm -f *.o
+diff --git a/mk_mvc.mak ctags-5.8/mk_mvc.mak
+index 097399e..61230ed 100644
+--- a/mk_mvc.mak
++++ ctags-5.8/mk_mvc.mak
+@@ -5,7 +5,8 @@
+ include source.mak
+ 
+ REGEX_DEFINES = -DHAVE_REGCOMP -D__USE_GNU -Dbool=int -Dfalse=0 -Dtrue=1 -Dstrcasecmp=stricmp
+-DEFINES = -DWIN32 $(REGEX_DEFINES)
++##DEFINES = -DWIN32 $(REGEX_DEFINES)
++DEFINES = -DWIN32 $(REGEX_DEFINES) -DHAVE_ICONV
+ INCLUDES = -I. -Ignu_regex
+ OPT = /O2
+ 
+diff --git a/options.c ctags-5.8/options.c
+index e0d874f..bf87cee 100644
+--- a/options.c
++++ ctags-5.8/options.c
+@@ -140,6 +140,9 @@ optionValues Option = {
+ 	NULL,       /* --etags-include */
+ 	DEFAULT_FILE_FORMAT,/* --format */
+ 	FALSE,      /* --if0 */
++#ifdef HAVE_ICONV
++	NULL,
++#endif
+ 	FALSE,      /* --kind-long */
+ 	LANG_AUTO,  /* --lang */
+ 	TRUE,       /* --links */
+@@ -228,6 +231,10 @@ static optionDescription LongOptionDescription [] = {
+  {1,"       Print this option summary."},
+  {1,"  --if0=[yes|no]"},
+  {1,"       Should C code within #if 0 conditional branches be parsed [no]?"},
++#ifdef HAVE_ICONV
++ {1,"  --encoding=utf8"},
++ {1,"       Specify source encoding."},
++#endif
+  {1,"  --<LANG>-kinds=[+|-]kinds"},
+  {1,"       Enable/disable tag kinds for language <LANG>."},
+  {1,"  --langdef=name"},
+@@ -331,6 +338,9 @@ static const char *const Features [] = {
+ #if (defined (MSDOS) || defined (WIN32) || defined (OS2)) && defined (UNIX_PATH_SEPARATOR)
+ 	"unix-path-separator",
+ #endif
++#ifdef HAVE_ICONV
++    "multibyte",
++#endif
+ #ifdef DEBUG
+ 	"debug",
+ #endif
+@@ -886,6 +896,16 @@ static void processFormatOption (
+ 		error (FATAL, "Unsupported value for \"%s\" option", option);
+ }
+ 
++#ifdef HAVE_ICONV
++static void processEncodingOption(const char *const option,
++				const char *const parameter)
++{
++	if (Option.encoding)
++		eFree (Option.encoding);
++	Option.encoding = eStrdup(parameter);
++}
++#endif
++
+ static void printInvocationDescription (void)
+ {
+ 	printf (INVOCATION, getExecutableName ());
+@@ -1378,6 +1398,9 @@ static parametricOption ParametricOptions [] = {
+ 	{ "filter-terminator",      processFilterTerminatorOption,  TRUE    },
+ 	{ "format",                 processFormatOption,            TRUE    },
+ 	{ "help",                   processHelpOption,              TRUE    },
++#ifdef HAVE_ICONV
++	{ "encoding",               processEncodingOption,          FALSE   },
++#endif
+ 	{ "lang",                   processLanguageForceOption,     FALSE   },
+ 	{ "language",               processLanguageForceOption,     FALSE   },
+ 	{ "language-force",         processLanguageForceOption,     FALSE   },
+@@ -1496,6 +1519,10 @@ static void processLongOption (
+ 		;
+ 	else if (processRegexOption (option, parameter))
+ 		;
++#ifdef HAVE_ICONV
++	else if (processLanguageEncodingOption (option, parameter))
++		;
++#endif
+ #ifndef RECURSE_SUPPORTED
+ 	else if (strcmp (option, "recurse") == 0)
+ 		error (WARNING, "%s option not supported on this host", option);
+diff --git a/options.h ctags-5.8/options.h
+index e2467f5..6cffa62 100644
+--- a/options.h
++++ ctags-5.8/options.h
+@@ -100,6 +100,9 @@ typedef struct sOptionValues {
+ 	stringList* etagsInclude;/* --etags-include  list of TAGS files to include*/
+ 	unsigned int tagFileFormat;/* --format  tag file format (level) */
+ 	boolean if0;            /* --if0  examine code within "#if 0" branch */
++#ifdef HAVE_ICONV
++    char *encoding;
++#endif
+ 	boolean kindLong;       /* --kind-long */
+ 	langType language;      /* --lang specified language override */
+ 	boolean followLinks;    /* --link  follow symbolic links? */
+@@ -148,6 +151,9 @@ extern void previewFirstOption (cookedArgs* const cargs);
+ extern void readOptionConfiguration (void);
+ extern void initOptions (void);
+ extern void freeOptionResources (void);
++#ifdef HAVE_ICONV
++extern void freeEncodingResources (void);
++#endif
+ 
+ #endif  /* _OPTIONS_H */
+ 
+diff --git a/parse.c ctags-5.8/parse.c
+index d51a8a2..9e49385 100644
+--- a/parse.c
++++ ctags-5.8/parse.c
+@@ -26,6 +26,9 @@
+ #include "read.h"
+ #include "routines.h"
+ #include "vstring.h"
++#ifdef HAVE_ICONV
++# include "mbcs.h"
++#endif
+ 
+ /*
+ *   DATA DEFINITIONS
+@@ -647,6 +650,61 @@ static boolean createTagsWithFallback (
+ 	return tagFileResized;
+ }
+ 
++#ifdef HAVE_ICONV
++static char **EncodingMap;
++static unsigned int EncodingMapMax;
++
++static void addLanguageEncoding (const langType language,
++									const char *const encoding __unused__)
++{
++	if (language > EncodingMapMax)
++	{
++		int i;
++		EncodingMap = xRealloc (EncodingMap, (language + 1), char*);
++		for (i = EncodingMapMax + 1  ;  i <= language  ;  ++i)
++		{
++			EncodingMap [i] = NULL;
++		}
++		EncodingMapMax = language;
++	}
++	if (EncodingMap [language])
++		eFree (EncodingMap [language]);
++	EncodingMap [language] = eStrdup(encoding);
++}
++
++extern boolean processLanguageEncodingOption (const char *const option,
++									const char *const parameter __unused__)
++{
++	langType language;
++	const char* const dash = strchr (option, '-');
++	if (dash == NULL  ||  strncmp (option, "encoding", dash - option) != 0)
++		return FALSE;
++
++	language = getNamedLanguage (dash + 1);
++	if (language == LANG_IGNORE)
++		return FALSE;
++
++	addLanguageEncoding (language, parameter);
++	return TRUE;
++}
++
++extern void freeEncodingResources (void)
++{
++	if (EncodingMap)
++	{
++		int i;
++		for (i = 0  ;  i < EncodingMapMax  ; ++i)
++		{
++			if (EncodingMap [i])
++				eFree (EncodingMap [i]);
++		}
++		free(EncodingMap);
++	}
++	if (Option.encoding)
++		eFree (Option.encoding);
++}
++#endif
++
+ extern boolean parseFile (const char *const fileName)
+ {
+ 	boolean tagFileResized = FALSE;
+@@ -663,12 +721,21 @@ extern boolean parseFile (const char *const fileName)
+ 		if (Option.filter)
+ 			openTagFile ();
+ 
++#ifdef HAVE_ICONV
++		openConverter (language <= EncodingMapMax ?
++				EncodingMap [language] : Option.encoding);
++#endif
++
+ 		tagFileResized = createTagsWithFallback (fileName, language);
+ 
+ 		if (Option.filter)
+ 			closeTagFile (tagFileResized);
+ 		addTotals (1, 0L, 0L);
+ 
++#ifdef HAVE_ICONV
++		closeConverter ();
++#endif
++
+ 		return tagFileResized;
+ 	}
+ 	return tagFileResized;
+diff --git a/parse.h ctags-5.8/parse.h
+index eba553b..b094603 100644
+--- a/parse.h
++++ ctags-5.8/parse.h
+@@ -109,6 +109,12 @@ extern void printLanguageKinds (const langType language);
+ extern void printLanguageList (void);
+ extern boolean parseFile (const char *const fileName);
+ 
++#ifdef HAVE_ICONV
++extern boolean processLanguageEncodingOption (const char *const option,
++								   const char *const parameter __unused__);
++extern void freeEncodingResources (void);
++#endif
++
+ /* Regex interface */
+ #ifdef HAVE_REGEX
+ extern void findRegexTags (void);
+diff --git a/read.c ctags-5.8/read.c
+index 874a4e2..b89a3be 100644
+--- a/read.c
++++ ctags-5.8/read.c
+@@ -25,6 +25,9 @@
+ #include "main.h"
+ #include "routines.h"
+ #include "options.h"
++#ifdef HAVE_ICONV
++# include "mbcs.h"
++#endif
+ 
+ /*
+ *   DATA DEFINITIONS
+@@ -535,6 +538,11 @@ extern char *readLine (vString *const vLine, FILE *const fp)
+ 				}
+ 			}
+ 		} while (reReadLine);
++
++#ifdef HAVE_ICONV
++		if (isConverting ())
++			convertString (vLine);
++#endif
+ 	}
+ 	return result;
+ }
+diff --git a/routines.c ctags-5.8/routines.c
+index 7ea714b..acda52d 100644
+--- a/routines.c
++++ ctags-5.8/routines.c
+@@ -30,6 +30,13 @@
+ # include <unistd.h>  /* to declare mkstemp () */
+ #endif
+ 
++#ifdef HAVE_LIMITS_H
++# include <limits.h>  /* to declare MB_LEN_MAX */
++#endif
++#ifndef MB_LEN_MAX
++# define MB_LEN_MAX 6
++#endif
++
+ /*  To declare "struct stat" and stat ().
+  */
+ #if defined (HAVE_SYS_TYPES_H)
+@@ -61,6 +68,9 @@
+ #endif
+ #include "debug.h"
+ #include "routines.h"
++#ifdef HAVE_ICONV
++# include "mbcs.h"
++#endif
+ 
+ /*
+ *   MACROS
+@@ -574,10 +584,24 @@ extern const char *baseFilename (const char *const filePath)
+ 	 */
+ 	for (i = 0  ;  i < strlen (PathDelimiters)  ;  ++i)
+ 	{
++#ifdef HAVE_MBLEN
++		const char *p;
++		int ml;
++
++		for (p = filePath  ;  *p != '\0'  ;  ++p)
++		{
++			ml = mblen(p, MB_LEN_MAX);
++			if (ml > 1)
++				p += ml - 1;
++			else if (*p == PathDelimiters [i] && p > tail)
++				tail = p;
++		}
++#else
+ 		const char *sep = strrchr (filePath, PathDelimiters [i]);
+ 
+ 		if (sep > tail)
+ 			tail = sep;
++#endif
+ 	}
+ #else
+ 	const char *tail = strrchr (filePath, PATH_SEPARATOR);
+diff --git a/source.mak ctags-5.8/source.mak
+index 559246f..84810a3 100644
+--- a/source.mak
++++ ctags-5.8/source.mak
+@@ -5,7 +5,7 @@
+ HEADERS = \
+ 	args.h ctags.h debug.h entry.h general.h get.h keyword.h \
+ 	main.h options.h parse.h parsers.h read.h routines.h sort.h \
+-	strlist.h vstring.h
++	strlist.h vstring.h mbcs.h
+ 
+ SOURCES = \
+ 	args.c \
+@@ -58,7 +58,8 @@ SOURCES = \
+ 	vhdl.c \
+ 	vim.c \
+ 	yacc.c \
+	vstring.c \
+- fnmatch.c  
++	fnmatch.c \
++	mbcs.c
+ 
+ ENVIRONMENT_HEADERS = \
+     e_amiga.h e_djgpp.h e_mac.h e_msoft.h e_os2.h e_qdos.h e_riscos.h e_vms.h
+@@ -121,4 +122,5 @@ OBJECTS = \
+ 	vhdl.$(OBJEXT) \
+ 	vim.$(OBJEXT) \
+ 	yacc.$(OBJEXT) \
+	vstring.c \
+- fnmatch.c
++	fnmatch.c \
++	mbcs.$(OBJEXT)

@@ -205,8 +205,11 @@ function OnInit()
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
 	scite_OnSave(CTagsRecreate)
 	scite_OnOpenSwitch(myScite_OpenSwitch)
+	
 	checkUpdates() -- check for a new version using githubs readme.md
-
+	CTagsUpdateProps(false,"") 	-- check if the filename belongs to a project. 
+	myScite_OpenSwitch() -- apply Indicators
+	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- print("startupScript_reload")
 

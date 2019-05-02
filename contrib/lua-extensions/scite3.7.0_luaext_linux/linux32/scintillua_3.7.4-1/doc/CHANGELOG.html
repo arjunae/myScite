@@ -1,0 +1,1394 @@
+  <!doctype html>
+  <html>
+    <head>
+      <title>CHANGELOG - Scintillua</title>
+      <link rel="stylesheet" href="style.css" type="text/css" />
+      <link rel="icon" href="icon.png" type="image/png" />
+      <meta charset="utf-8" />
+    </head>
+    <body>
+      <div id="content">
+        <div id="header">
+          <h1><img src="images/icon.png" alt="" /> Scintillua</h1>
+
+<ul>
+<li><a href="README.html">Home</a> |</li>
+<li><a href="http://foicica.com/scintillua/download">Download</a> |</li>
+<li><a href="manual.html">Manual</a> |</li>
+<li><a href="api.html">API</a> |</li>
+<li><a href="http://foicica.com/hg/scintillua">Source</a> |</li>
+<li><a href="http://foicica.com/stats.html#Scintillua">Stats</a> |</li>
+<li><a href="http://foicica.com/lists">Mailing List</a></li>
+</ul>
+
+
+        </div>
+        <div id="main">
+          <a name="Changelog"></a>
+<h1>Changelog</h1>
+
+<p><a href="feed">Atom Feed</a> | <a href="https://foicica.com/foicica.pgp">PGP Public Key</a></p>
+
+<a name="L3.7.4-1..30.Apr.2017."></a>
+<h2>3.7.4-1 (30 Apr 2017)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.7.4-1.zip">Scintillua 3.7.4-1</a> | <a href="download/scintillua_3.7.4-1.zip.asc">PGP &ndash; 3.7.4-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Allow nested <code>{}</code> in Shell lexer variables.</li>
+<li>Fixed accidental editing of cached lexers.</li>
+<li>Fixed Moonscript file association.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added rc, StandardML, and Logtalk lexers.</li>
+<li>Improved Scheme, ANSI C, Prolog, and Moonscript lexers.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.7.4.</li>
+</ul>
+
+
+<a name="L3.7.3-1..22.Feb.2017."></a>
+<h2>3.7.3-1 (22 Feb 2017)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.7.3-1.zip">Scintillua 3.7.3-1</a> | <a href="download/scintillua_3.7.3-1.zip.asc">PGP &ndash; 3.7.3-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed child fold symbols not being copied to parent.</li>
+<li>Fixed detection of <code>&lt;/script&gt;</code> even within a JavaScript comment.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Updated the JavaScript lexer.</li>
+<li>Applications can <a href="api.html#SCI_GETSTATUS">query for lexer errors</a>.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.7.3.</li>
+</ul>
+
+
+<a name="L3.7.1-1..05.Dec.2016."></a>
+<h2>3.7.1-1 (05 Dec 2016)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.7.1-1.zip">Scintillua 3.7.1-1</a> | <a href="download/scintillua_3.7.1-1.zip.asc">PGP &ndash; 3.7.1-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>None.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added <a href="api.html#lexer.STYLE_FOLDDISPLAYTEXT"><code>lexer.STYLE_FOLDDISPLAYTEXT</code></a> style (<code>style.folddisplaytext</code> in
+themes) for fold display text.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.7.1.</li>
+</ul>
+
+
+<a name="L3.7.0-1..19.Oct.2016."></a>
+<h2>3.7.0-1 (19 Oct 2016)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.7.0-1.zip">Scintillua 3.7.0-1</a> | <a href="download/scintillua_3.7.0-1.zip.asc">PGP &ndash; 3.7.0-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Throw an error if a lexer cannot be loaded or has errors.</li>
+<li>Improved <a href="api.html#lexer.float"><code>lexer.float</code></a> pattern.</li>
+<li>Handle lexers with no rules/grammars gracefully.</li>
+<li>Fixed bug in <a href="api.html#lexer.property_int"><code>lexer.property_int</code></a> not returning a number in all cases.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added <code>_foldsymbols._case_insensitive</code> option.</li>
+<li>Added Protobuf and Crystal lexers.</li>
+<li>Updated PKGBUILD lexer.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.7.0.</li>
+</ul>
+
+
+<a name="L3.6.7-1..15.Sep.2016."></a>
+<h2>3.6.7-1 (15 Sep 2016)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.6.7-1.zip">Scintillua 3.6.7-1</a> | <a href="download/scintillua_3.6.7-1.zip.asc">PGP &ndash; 3.6.7-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed some compiler warnings.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added TaskPaper lexer.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.6.7.</li>
+</ul>
+
+
+<a name="L3.6.5-1..26.Apr.2016."></a>
+<h2>3.6.5-1 (26 Apr 2016)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.6.5-1.zip">Scintillua 3.6.5-1</a> | <a href="download/scintillua_3.6.5-1.zip.asc">PGP &ndash; 3.6.5-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>None.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Updated some documentation for clarity.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.6.5.</li>
+</ul>
+
+
+<a name="L3.6.4-2..04.Apr.2016."></a>
+<h2>3.6.4-2 (04 Apr 2016)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.6.4-2.zip">Scintillua 3.6.4-2</a> | <a href="download/scintillua_3.6.4-2.zip.asc">PGP &ndash; 3.6.4-2</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed bug with loading default themes in 3.6.4-1.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Themes must <code>require('lexer')</code> now (if they are not already), and cannot rely
+on <code>lexer</code> to be globally defined. <strong>This is a breaking change.</strong></li>
+</ul>
+
+
+<a name="L3.6.4-1..19.Mar.2016."></a>
+<h2>3.6.4-1 (19 Mar 2016)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.6.4-1.zip">Scintillua 3.6.4-1</a> | <a href="download/scintillua_3.6.4-1.zip.asc">PGP &ndash; 3.6.4-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed potential crash with malformed styles.</li>
+<li>Fixed string highlighting in Rexx.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Recognize <code>weight</code> <a href="api.html#lexer.Styles.and.Styling">style property</a>.</li>
+<li>Added <a href="api.html#lexer.line_state"><code>lexer.line_state</code></a> and <a href="api.html#lexer.line_from_position"><code>lexer.line_from_position()</code></a> for
+<a href="api.html#lexer.Lexers.with.Complex.State">stateful lexers</a>.</li>
+<li>Updated Elixir and JavaScript lexers.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.6.4.</li>
+</ul>
+
+
+<a name="L3.6.3-1..23.Jan.2016."></a>
+<h2>3.6.3-1 (23 Jan 2016)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.6.3-1.zip">Scintillua 3.6.3-1</a> | <a href="download/scintillua_3.6.3-1.zip.asc">PGP &ndash; 3.6.3-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed bug in Rexx lexer with identifiers.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added SNOBOL4, Icon, AutoIt, APL, Faust, Ledger, man/roff, Pure, Dockerfile,
+MoonScript, and PICO-8 lexers.</li>
+<li>Updated Elixir lexer.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.6.3.</li>
+</ul>
+
+
+<a name="L3.6.2-1..07.Nov.2015."></a>
+<h2>3.6.2-1 (07 Nov 2015)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.6.2-1.zip">Scintillua 3.6.2-1</a> | <a href="download/scintillua_3.6.2-1.zip.asc">PGP &ndash; 3.6.2-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>None.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added Gherkin lexer.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.6.2.</li>
+<li>Updated to <a href="http://www.inf.puc-rio.br/~roberto/lpeg/lpeg.html">LPeg</a> 1.0.0.</li>
+</ul>
+
+
+<a name="L3.6.1-1..15.Sep.2015."></a>
+<h2>3.6.1-1 (15 Sep 2015)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.6.1-1.zip">Scintillua 3.6.1-1</a> | <a href="download/scintillua_3.6.1-1.zip.asc">PGP &ndash; 3.6.1-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed Markdown lexer bugs and corner-cases.</li>
+<li>Fixed multiple key highlighting on a single YAML line.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.6.1.</li>
+</ul>
+
+
+<a name="L3.6.0-1..03.Aug.2015."></a>
+<h2>3.6.0-1 (03 Aug 2015)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.6.0-1.zip">Scintillua 3.6.0-1</a> | <a href="download/scintillua_3.6.0-1.zip.asc">PGP &ndash; 3.6.0-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>None.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Improved performance in some scripting-language lexers.</li>
+<li>Updated Python lexer.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.6.0.</li>
+</ul>
+
+
+<a name="L3.5.7-1..23.Jun.2015."></a>
+<h2>3.5.7-1 (23 Jun 2015)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.5.7-1.zip">Scintillua 3.5.7-1</a> | <a href="download/scintillua_3.5.7-1.zip.asc">PGP &ndash; 3.5.7-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>None.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added Windows Script File lexer.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.5.7.</li>
+</ul>
+
+
+<a name="L3.5.6-1..26.May.2015."></a>
+<h2>3.5.6-1 (26 May 2015)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.5.6-1.zip">Scintillua 3.5.6-1</a> | <a href="download/scintillua_3.5.6-1.zip.asc">PGP &ndash; 3.5.6-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed ASP, Applescript, and Perl lexers.</li>
+<li>Fixed segfault in parsing some instances of style definitions.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added Elixir lexer.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.5.6.</li>
+</ul>
+
+
+<a name="L3.5.5-1..18.Apr.2015."></a>
+<h2>3.5.5-1 (18 Apr 2015)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.5.5-1.zip">Scintillua 3.5.5-1</a> | <a href="download/scintillua_3.5.5-1.zip.asc">PGP &ndash; 3.5.5-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed Perl lexer corner-case.</li>
+<li>VB lexer keywords are case-insensitive now.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Renamed Nimrod lexer to Nim.</li>
+<li>Added Rust lexer.</li>
+<li>Added TOML lexer.</li>
+<li>Lexers that fold by indentation should make use of <a href="api.html#lexer.Fold.by.Indentation"><code>_FOLDBYINDENTATION</code></a>
+field now.</li>
+<li>Added PowerShell lexer.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.5.5.</li>
+</ul>
+
+
+<a name="L3.5.4-1..09.Mar.2015."></a>
+<h2>3.5.4-1 (09 Mar 2015)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.5.4-1.zip">Scintillua 3.5.4-1</a> | <a href="download/scintillua_3.5.4-1.zip.asc">PGP &ndash; 3.5.4-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Improved <code>fold.by.indentation</code>.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Updated PHP and Python lexers.</li>
+<li>Added Fish lexer.</li>
+<li>Removed extinct B lexer.</li>
+<li>Updated to <a href="http://www.inf.puc-rio.br/~roberto/lpeg/lpeg.html">LPeg</a> 0.12.2.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.5.4.</li>
+</ul>
+
+
+<a name="L3.5.3-1..20.Jan.2015."></a>
+<h2>3.5.3-1 (20 Jan 2015)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.5.3-1.zip">Scintillua 3.5.3-1</a> | <a href="download/scintillua_3.5.3-1.zip.asc">PGP &ndash; 3.5.3-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed bug in overwriting fold levels set by custom fold functions.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added vCard and Texinfo lexers.</li>
+<li>Updates to allow Scintillua to be compiled against Lua 5.3.</li>
+<li>Updated Lua lexer for Lua 5.3.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.5.3.</li>
+</ul>
+
+
+<a name="L3.5.2-1..10.Dec.2014."></a>
+<h2>3.5.2-1 (10 Dec 2014)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.5.2-1.zip">Scintillua 3.5.2-1</a> | <a href="download/scintillua_3.5.2-1.zip.asc">PGP &ndash; 3.5.2-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Improved folding by indentation.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Updated Tcl lexer.</li>
+<li>Added <code>fold.on.zero.sum.line</code> property for folding on <code>} else {</code>-style lines.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.5.2.</li>
+</ul>
+
+
+<a name="L3.5.1-1..01.Oct.2014."></a>
+<h2>3.5.1-1 (01 Oct 2014)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.5.1-1.zip">Scintillua 3.5.1-1</a> | <a href="download/scintillua_3.5.1-1.zip.asc">PGP &ndash; 3.5.1-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>None.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added Xtend lexer.</li>
+<li>Improved performance for lexers with no grammars and no fold rules.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.5.1.</li>
+</ul>
+
+
+<a name="L3.5.0-1..01.Sep.2014."></a>
+<h2>3.5.0-1 (01 Sep 2014)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.5.0-1.zip">Scintillua 3.5.0-1</a> | <a href="download/scintillua_3.5.0-1.zip.asc">PGP &ndash; 3.5.0-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>None.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Updated to <a href="http://www.inf.puc-rio.br/~roberto/lpeg/lpeg.html">LPeg</a> 0.12.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.5.0.</li>
+</ul>
+
+
+<a name="L3.4.4-1..04.Jul.2014."></a>
+<h2>3.4.4-1 (04 Jul 2014)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua_3.4.4-1.zip">Scintillua 3.4.4-1</a> | <a href="download/scintillua_3.4.4-1.zip.asc">PGP &ndash; 3.4.4-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed cases of incorrect Markdown header highlighting.</li>
+<li>Fixed some folding by indentation edge cases.</li>
+<li>Fixed <code>#RRGGBB</code> color interpretation for styles.</li>
+<li>Fixed Bash heredoc highlighting.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added reST and YAML lexers.</li>
+<li>Updated D lexer.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 3.4.4.</li>
+</ul>
+
+
+<a name="L3.3.9-1..05.Feb.2014."></a>
+<h2>3.3.9-1 (05 Feb 2014)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua3.3.9-1.zip">Scintillua 3.3.9-1</a> | <a href="download/scintillua3.3.9-1.zip.asc">PGP &ndash; 3.3.9-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>None.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Updated HTML, LaTeX, and Go lexers.</li>
+<li>Enable Scintillua to be used as a stand-alone <a href="manual.html#Using.Scintillua.as.a.Lua.Library">Lua library</a>.</li>
+<li>Scintillua can accept and use <a href="api.html#SCI_CHANGELEXERSTATE">external Lua states</a>.</li>
+</ul>
+
+
+<a name="L3.3.7-1..21.Dec.2013."></a>
+<h2>3.3.7-1 (21 Dec 2013)</h2>
+
+<p>Scintillua 3.3.7-1 is a major change from 3.3.2-1. It has a completely new
+<a href="api.html#lexer.Styles.and.Styling">theme implementation</a> and many lexer structure and API changes. Custom lexers
+and themes will need to be updated.</p>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua3.3.7-1.zip">Scintillua 3.3.7-1</a> | <a href="download/scintillua3.3.7-1.zip.asc">PGP &ndash; 3.3.7-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Ensure the default style is not considered a whitespace style in
+multi-language lexers.</li>
+<li>Fixed occasional crash when getting the lexer name in a multi-language lexer.</li>
+<li>Disable folding when <code>fold</code> property is <code>0</code>.</li>
+<li>HTML and XML lexers maintain their states better.</li>
+<li>Fixed slowdown in processing long lines for folding.</li>
+<li>Fixed slowdown with large HTML files.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Completely new <a href="api.html#lexer.Styles.and.Styling">theme implementation</a>; removed <code>lexer.style()</code> and
+<code>lexer.color()</code> functions.</li>
+<li>Changed <a href="api.html#lexer.Token.Styles"><code>lexer._tokenstyles</code></a> to be a map instead of a list.</li>
+<li>Changed <code>lexer.get_fold_level()</code>, <code>lexer.get_indent_amount()</code>,
+<code>lexer.get_property()</code>, and <code>lexer.get_style_at()</code> functions to be
+<a href="api.html#lexer.fold_level"><code>lexer.fold_level</code></a>, <a href="api.html#lexer.indent_amount"><code>lexer.indent_amount</code></a>, <a href="api.html#lexer.property"><code>lexer.property</code></a>, and
+<a href="api.html#lexer.style_at"><code>lexer.style_at</code></a> tables, respectively.</li>
+<li>Added <a href="api.html#lexer.property_int"><code>lexer.property_int</code></a> and <a href="api.html#lexer.property_expanded"><code>lexer.property_expanded</code></a> tables.</li>
+<li>Changed API for <a href="api.html#lexer.delimited_range"><code>lexer.delimited_range()</code></a> and <a href="api.html#lexer.nested_pair"><code>lexer.nested_pair()</code></a>.</li>
+<li>Only enable <code>fold.by.indentation</code> property by default in
+whitespace-significant languages.</li>
+<li>Updated D lexer.</li>
+<li>Added Nimrod lexer.</li>
+<li>Added additional parameter to <a href="api.html#lexer.load"><code>lexer.load()</code></a> to allow child lexers to be
+embedded multiple times with different start/end tokens.</li>
+<li>Lexers do not need an &ldquo;any_char&rdquo; <a href="api.html#lexer.Rules">rule</a> anymore; it is included by default.</li>
+<li><a href="api.html#lexer.Child.Lexer">Child lexers</a> do not need an explicit <code>M._lexer = parent</code> declaration
+anymore; it is done automatically.</li>
+<li>Added NASM Assembly lexer.</li>
+<li>Separated C/C++ lexer into ANSI C and C++ lexers.</li>
+<li>Added Dart lexer.</li>
+<li>Renamed &ldquo;hypertext&rdquo; and &ldquo;Io&rdquo; lexers to &ldquo;html&rdquo; and &ldquo;io_lang&rdquo; internally.</li>
+</ul>
+
+
+<a name="L3.3.2-1..25.May.2013."></a>
+<h2>3.3.2-1 (25 May 2013)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua3.3.2-1.zip">Scintillua 3.3.2-1</a> | <a href="download/scintillua3.3.2-1.zip.asc">PGP &ndash; 3.3.2-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>None.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>No need for &lsquo;!&rsquo; in front of font faces in GTK anymore.</li>
+<li>Scintillua supports multiple curses platforms, not just ncurses.</li>
+<li><a href="api.html#SCI_GETLEXERLANGUAGE">SCI_GETLEXERLANGUAGE</a> returns &ldquo;lexer/current&rdquo; for multi-lang lexers.</li>
+<li>Updated D lexer.</li>
+</ul>
+
+
+<a name="L3.3.0-1..31.Mar.2013."></a>
+<h2>3.3.0-1 (31 Mar 2013)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua3.3.0-1.zip">Scintillua 3.3.0-1</a> | <a href="download/scintillua3.3.0-1.zip.asc">PGP &ndash; 3.3.0-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed crash when attempting to load a non-existant lexer.</li>
+<li>Fixed CSS preprocessor styling.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added Less, Literal Coffeescript, and Sass lexers.</li>
+</ul>
+
+
+<a name="L3.2.4-1..18.Jan.2013."></a>
+<h2>3.2.4-1 (18 Jan 2013)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua3.2.4-1.zip">Scintillua 3.2.4-1</a> | <a href="download/scintillua3.2.4-1.zip.asc">PGP &ndash; 3.2.4-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed some operators in Bash lexer.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Rewrote Makefile lexer.</li>
+<li>Rewrote documentation.</li>
+<li>Improved speed and memory usage of lexers.</li>
+</ul>
+
+
+<a name="L3.2.3-1..22.Oct.2012."></a>
+<h2>3.2.3-1 (22 Oct 2012)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua3.2.3-1.zip">Scintillua 3.2.3-1</a> | <a href="download/scintillua3.2.3-1.zip.asc">PGP &ndash; 3.2.3-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Include <code>_</code> as identifier char in Desktop lexer.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Copied <code>container</code> lexer to a new <code>text</code> lexer for containers that prefer to
+use the latter.</li>
+<li>Added SciTE usage note on themes.</li>
+</ul>
+
+
+<a name="L3.2.2-1..31.Aug.2012."></a>
+<h2>3.2.2-1 (31 Aug 2012)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua3.2.2-1.zip">Scintillua 3.2.2-1</a> | <a href="download/scintillua3.2.2-1.zip.asc">PGP &ndash; 3.2.2-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed bug with <code>$$</code> variables in Perl lexer.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added support for ncurses via <a href="http://foicica.com/scinterm">scinterm</a>.</li>
+<li>Added <code>__DATA__</code> and <code>__END__</code> markers to Perl lexer.</li>
+<li>Added new <a href="api.html#lexer.last_char_includes"><code>lexer.last_char_includes()</code></a> function for better regex
+detection.</li>
+<li>Updated AWK lexer.</li>
+</ul>
+
+
+<a name="L3.2.1-1..15.Jul.2012."></a>
+<h2>3.2.1-1 (15 Jul 2012)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua3.2.1-1.zip">Scintillua 3.2.1-1</a> | <a href="download/scintillua3.2.1-1.zip.asc">PGP &ndash; 3.2.1-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>None.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Updated AWK lexer.</li>
+<li>Updated HTML lexer to recognize HTML5 &lsquo;script&rsquo; and &lsquo;style&rsquo; tags.</li>
+</ul>
+
+
+<a name="L3.2.0-1..01.Jun.2012."></a>
+<h2>3.2.0-1 (01 Jun 2012)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua3.2.0-1.zip">Scintillua 3.2.0-1</a> | <a href="download/scintillua3.2.0-1.zip.asc">PGP &ndash; 3.2.0-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed bug with SciTE italic and underlined style properties.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Identify more file extensions.</li>
+<li>Updated Batch lexer.</li>
+</ul>
+
+
+<a name="L3.1.0-1..23.Apr.2012."></a>
+<h2>3.1.0-1 (23 Apr 2012)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua3.1.0-1.zip">Scintillua 3.1.0-1</a> | <a href="download/scintillua3.1.0-1.zip.asc">PGP &ndash; 3.1.0-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed bug with Python lexer identification in SciTE.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Improved the speed of simple code folding.</li>
+<li>Check for lexer grammar before lexing.</li>
+</ul>
+
+
+<a name="L3.0.4-1..11.Mar.2012."></a>
+<h2>3.0.4-1 (11 Mar 2012)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua3.0.4-1.zip">Scintillua 3.0.4-1</a> | <a href="download/scintillua3.0.4-1.zip.asc">PGP &ndash; 3.0.4-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>None.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Allow container styling.</li>
+<li>Updated VB and VBScript lexers.</li>
+<li>All new documentation in the <code>doc/</code> directory.</li>
+</ul>
+
+
+<a name="L3.0.3-1..28.Jan.2012."></a>
+<h2>3.0.3-1 (28 Jan 2012)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua3.0.3-1.zip">Scintillua 3.0.3-1</a> | <a href="download/scintillua3.0.3-1.zip.asc">PGP &ndash; 3.0.3-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed bug in Matlab lexer for operators.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Removed unused Apache conf lexer.</li>
+<li>Updated D lexer.</li>
+<li>Added ChucK lexer.</li>
+</ul>
+
+
+<a name="L3.0.2-1..08.Dec.2011."></a>
+<h2>3.0.2-1 (08 Dec 2011)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua3.0.2-1.zip">Scintillua 3.0.2-1</a> | <a href="download/scintillua3.0.2-1.zip.asc">PGP &ndash; 3.0.2-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Detect and use Scala lexer.</li>
+<li>Fixed bug with folding line comments.</li>
+<li>Fixed multi-line delimited and token strings in D lexer.</li>
+<li>Detect and use XML lexer.</li>
+<li>Fixed highlighting of variables in Bash.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added <code>l.REGEX</code> and <code>l.LABEL</code> <a href="api.html#lexer.Tokens">tokens</a>.</li>
+<li>All lexer <code>_tokenstyles</code> tables use standard styles.</li>
+<li>Removed <code>l.style_char</code> style.</li>
+<li>All new light and dark themes.</li>
+<li>Added Lua libraries and library functions to Lua lexer.</li>
+<li>Updated lexers and <a href="api.html#lexer">API documentation</a> to <a href="http://www.lua.org/manual/5.2/">Lua 5.2</a>.</li>
+</ul>
+
+
+<a name="L3.0.0-1..01.Nov.2011."></a>
+<h2>3.0.0-1 (01 Nov 2011)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua3.0.0-1.zip">Scintillua 3.0.0-1</a> | <a href="download/scintillua3.0.0-1.zip.asc">PGP &ndash; 3.0.0-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>None.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>None.</li>
+</ul>
+
+
+<a name="L2.29-1..19.Sep.2011."></a>
+<h2>2.29-1 (19 Sep 2011)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua229-1.zip">Scintillua 2.29-1</a> | <a href="download/scintillua229-1.zip.asc">PGP &ndash; 2.29-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed Lua long comment folding bug.</li>
+<li>Fixed a segfault when <code>props</code> is <code>null</code> (C++ containers).</li>
+<li>Fixed Markdown lexer styles.</li>
+<li>Fixed bug in folding single HTML/XML tags.</li>
+<li>Fixed some general bugs in folding.</li>
+<li>Fixed Scala symbol highlighting.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Updated Coffeescript lexer.</li>
+<li>Added HTML5 data attributes to HTML lexer.</li>
+<li>Multiple single-line comments can be folded with the <code>fold.line.comments</code>
+property set to 1.</li>
+<li>Added ConTeXt lexer.</li>
+<li>Updated LaTeX and TeX lexers.</li>
+<li>Added <code>l.style_embedded</code> to <code>themes/scite.lua</code> theme.</li>
+</ul>
+
+
+<a name="L2.27-1..20.Jun.2011."></a>
+<h2>2.27-1 (20 Jun 2011)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua227-1.zip">Scintillua 2.27-1</a> | <a href="download/scintillua227-1.zip.asc">PGP &ndash; 2.27-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Colors are now styled correctly in the Properties lexer.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added Scala lexer.</li>
+</ul>
+
+
+<a name="L2.26-1..10.Jun.2011."></a>
+<h2>2.26-1 (10 Jun 2011)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua226-1.zip">Scintillua 2.26-1</a> | <a href="download/scintillua226-1.zip.asc">PGP &ndash; 2.26-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed bug in <code>fold.by.indentation</code>.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li><a href="api.html#lexer.style_at"><code>get_style_at()</code></a> returns a string, not an integer.</li>
+<li>Added regex support for Coffeescript lexer.</li>
+<li>Embed Coffeescript lexer in HTML lexer.</li>
+<li>Writing custom folding for lexers is much <a href="api.html#lexer.Code.Folding">easier</a> now.</li>
+<li>Added native folding for more than 60% of existing lexers. The rest still use
+folding by indentation by default.</li>
+</ul>
+
+
+<a name="L2.25-1..20.Mar.2011."></a>
+<h2>2.25-1 (20 Mar 2011)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua225-1.zip">Scintillua 2.25-1</a> | <a href="download/scintillua225-1.zip.asc">PGP &ndash; 2.25-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>LPeg lexer restores properly for SciTE.</li>
+<li>Fixed bug with nested embedded lexers.</li>
+<li>Re-init immediately upon setting <code>lexer.name</code> property.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added primitive classes as types in Java lexer.</li>
+<li>Updated BibTeX lexer.</li>
+<li>Added Ruby on Rails lexer, use it instead of Ruby lexer in RHTML lexer.</li>
+<li>Updated <code>lpeg.properties</code> file with SciTE changes.</li>
+</ul>
+
+
+<a name="L2.24-1..03.Feb.2011."></a>
+<h2>2.24-1 (03 Feb 2011)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua224-1.zip">Scintillua 2.24-1</a> | <a href="download/scintillua224-1.zip.asc">PGP &ndash; 2.24-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed comment bug in CAML lexer.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added Markdown, BibTeX, CMake, CUDA, Desktop Entry, F#, GLSL, and Nemerle
+lexers.</li>
+<li>HTML lexer is more flexible.</li>
+<li>Update Lua functions and constants to Lua 5.1.</li>
+</ul>
+
+
+<a name="L2.23-1..07.Dec.2010."></a>
+<h2>2.23-1 (07 Dec 2010)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua223-1.zip">Scintillua 2.23-1</a> | <a href="download/scintillua223-1.zip.asc">PGP &ndash; 2.23-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed bug in Tcl lexer with comments.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Renamed <code>MAC</code> flag to <code>OSX</code>.</li>
+<li>Removed unused Errorlist and Maxima lexers.</li>
+</ul>
+
+
+<a name="L2.22-1..27.Oct.2010."></a>
+<h2>2.22-1 (27 Oct 2010)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua222-1.zip">Scintillua 2.22-1</a> | <a href="download/scintillua222-1.zip.asc">PGP &ndash; 2.22-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Comments do not need to begin the line in Properties lexer.</li>
+<li>Fixed bug caused by not properly resetting styles.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added coffeescript lexer.</li>
+<li>Updated D and Java lexers.</li>
+<li>Multi-language lexers are as fast as single language lexers.</li>
+<li>Added JSP lexer.</li>
+<li>Updated XML lexer.</li>
+<li>Scintillua can be dropped into a <a href="http://scintilla.org/SciTE.html">SciTE</a> install.</li>
+</ul>
+
+
+<a name="L2.22-pre-1..13.Sep.2010."></a>
+<h2>2.22-pre-1 (13 Sep 2010)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua222-pre-1.zip">Scintillua 2.22-pre-1</a> | <a href="download/scintillua222-pre-1.zip.asc">PGP &ndash; 2.22-pre-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Do not crash if LexLPeg properties are not set correctly.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>No need to modify parent <code>_RULES</code> from child lexer.</li>
+<li>Renamed <code>lexers/ocaml.lua</code> to <code>lexers/caml.lua</code> and <code>lexers/postscript.lua</code> to
+<code>lexers/ps.lua</code> to conform to Scintilla names.</li>
+</ul>
+
+
+<a name="L2.21-1..01.Sep.2010."></a>
+<h2>2.21-1 (01 Sep 2010)</h2>
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Handle strings properly in Groovy and Vala lexers.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li><code>LexLPeg.cxx</code> can be compiled as an external lexer.</li>
+</ul>
+
+
+<a name="L2.20-1..17.Aug.2010."></a>
+<h2>2.20-1 (17 Aug 2010)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua220-1.zip">Scintillua 2.20-1</a> | <a href="download/scintillua220-1.zip.asc">PGP &ndash; 2.20-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed bug with child&rsquo;s main lexer not having a <code>_tokenstyles</code> table.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added Gtkrc, Prolog, and Go lexers.</li>
+<li>CSS lexer is more flexible.</li>
+<li>Diff lexer is more accurate.</li>
+<li>Updated TeX lexer.</li>
+<li>Only highlight C/C++ preprocessor words, not the whole line.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 2.20.</li>
+</ul>
+
+
+<a name="L2.12-1..15.Jun.2010."></a>
+<h2>2.12-1 (15 Jun 2010)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua212-1.zip">Scintillua 2.12-1</a> | <a href="download/scintillua212-1.zip.asc">PGP &ndash; 2.12-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Differentiate between division and regex in Javascript lexer.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Added <code>enum</code> keyword to Java lexer.</li>
+<li>Updated D lexer.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 2.12.</li>
+</ul>
+
+
+<a name="L2.11-1..30.Apr.2010."></a>
+<h2>2.11-1 (30 Apr 2010)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua211-1.zip">Scintillua 2.11-1</a> | <a href="download/scintillua211-1.zip.asc">PGP &ndash; 2.11-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Fixed bug in multi-language lexer detection.</li>
+<li>Close <code>lua_State</code> on lexer load error.</li>
+<li>Fixed bug with style metatables.</li>
+<li>Fixed bug with XML namespaces.</li>
+<li>Added Java annotations to Java lexer.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Updated Haskell lexer.</li>
+<li>Added Matlab/Octave lexer.</li>
+<li>Improve speed by using <code>SCI_GETCHARACTERPOINTER</code> instead of copying strings.</li>
+<li>Updated D lexer.</li>
+<li>Renamed <code>lexers/b.lua</code> to <code>lexers/b_lang.lua</code>and <code>lexers/r.lua</code> to
+<code>lexers/rstats.lua</code>.</li>
+<li>Allow multiple character escape sequences.</li>
+<li>Added Inform lexer.</li>
+<li>Added Lilypond and NSIS lexers.</li>
+<li>Updated LaTeX lexer.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 2.11.</li>
+</ul>
+
+
+<a name="L2.03-1..22.Feb.2010."></a>
+<h2>2.03-1 (22 Feb 2010)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua203-1.zip">Scintillua 2.03-1</a> | <a href="download/scintillua203-1.zip.asc">PGP &ndash; 2.03-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>Various bugfixes.</li>
+<li>Fixed bug with fonts for files open on command line.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 2.03.</li>
+</ul>
+
+
+<a name="L2.02-1..26.Jan.2010."></a>
+<h2>2.02-1 (26 Jan 2010)</h2>
+
+<p>Download:</p>
+
+<ul>
+<li><a href="download/scintillua202-1.zip">Scintillua 2.02-1</a> | <a href="download/scintillua202-1.zip.asc">PGP &ndash; 2.02-1</a></li>
+</ul>
+
+
+<p>Bugfixes:</p>
+
+<ul>
+<li>None.</li>
+</ul>
+
+
+<p>Changes:</p>
+
+<ul>
+<li>Renamed <code>lexers/io.lua</code> to <code>lexers/Io.lua</code>.</li>
+<li>Rearranged tokens in various lexers for speed.</li>
+<li>Allow for <a href="http://mingw.org">MinGW</a> compilation on Windows.</li>
+<li>Call <code>ruby.LoadStyles()</code> from RHTML lexer.</li>
+<li>Updated to <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 2.02.</li>
+</ul>
+
+
+<a name="L2.01-1..13.Jan.2010."></a>
+<h2>2.01-1 (13 Jan 2010)</h2>
+
+<ul>
+<li>Initial release for <a href="http://scintilla.org">Scintilla</a>/<a href="http://scintilla.org/SciTE.html">SciTE</a> 2.01.</li>
+</ul>
+
+
+        </div>
+        <div id="footer">
+          <p style="text-align:center;"> &copy; 2006-2017 <a href="http://foicica.com">Mitchell</a> mitchell.att.foicica.com</p>
+
+        </div>
+      </div>
+    </body>
+  </html>

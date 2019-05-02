@@ -196,17 +196,17 @@ function OnInit()
 	-- check SciLexer once per session and inform the User if its a nonStock Version.
 	SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
 	if SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
-	
-	-- check if scite was started with a filename belonging to a project. 
-	CTagsUpdateProps(false,"")
-	
+
 	-- Event Handlers
 	scite_OnKey( function()  props["CurrentPos"]=editor.CurrentPos end ) -- keep Track of current Bytes Offset (for Statusbar)
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
 	scite_OnSave(CTagsRecreate)
 	scite_OnOpenSwitch(myScite_OpenSwitch)
-	checkUpdates() -- check for a new version using githubs readme.md
 	
+	checkUpdates() -- check for a new version using githubs readme.md
+	CTagsUpdateProps(false,"") 	-- check if the filename belongs to a project. 
+	myScite_OpenSwitch() -- apply Indicators
+		
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- print("startupScript_reload")
 

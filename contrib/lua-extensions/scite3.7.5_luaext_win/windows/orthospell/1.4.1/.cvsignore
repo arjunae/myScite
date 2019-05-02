@@ -1,0 +1,9 @@
+Makefile
+autom4te.cache
+config.h
+config.log
+config.status
+hunspell.pc
+libtool
+stamp-h1
+hunspell-*.tar.gz

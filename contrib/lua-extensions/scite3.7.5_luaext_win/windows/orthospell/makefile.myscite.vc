@@ -1,0 +1,34 @@
+
+LIBSPELL=.\libparser.lib .\libhunspell.lib
+
+# #-W4 <-specifies level 4 of warning and disable insignificant warnings as follows.
+# C4100: 'identifier' : unreferenced formal parameter
+# C4189: 'identifier' : local variable is initialized but not referenced
+# C4505: 'function'   : unreferenced local function has been removed
+WARNS  = -wd4100 -wd4189 -wd4505
+
+DEFS   = -D_WINDOWS -DUNICODE -D_USRDLL -DHUNSPELL_STATIC -DLUA_COMPAT_5_1
+LUA_INCLUDE = ../lua/$(LUA_PLAT)/src/
+LIBDIR      = ../clib/scite_lua$(LUA_PLAT)/
+
+!IFDEF DEBUG
+LIBLUA=$(LIBDIR)$(LUA_LIB)
+CFLAGS = -nologo -c -Zl -TP -Od -MD -EHsc -DDDEBUG /std:c++14 $(DEFS) $(WARNS)
+LFLAGS = -NOLOGO -DLL -DEBUG -OPT:REF
+!ELSE
+LIBLUA=$(LIBDIR)$(LUA_LIB)
+#  $(LIBDIR)vclua5.1.lib 
+CFLAGS = -nologo -c -O2 -MD -EHsc -DNDEBUG /std:c++14 $(DEFS) $(WARNS)
+LFLAGS = -NOLOGO -DLL -RELEASE -OPT:REF
+!ENDIF
+
+LIBS   =  $(LIBLUA) $(LIBSPELL)
+
+hunspell.dll: orthospell.obj 
+	link $(LFLAGS) $(LIBS) orthospell.obj -OUT:hunspell.dll /DEF:libhunspell.def
+
+clean:
+	-del /S *.obj *.lib *.exp 1>NUL
+
+orthospell.obj: hunspell.cpp
+	cl $(CFLAGS) -I$(LUA_INCLUDE) -I 1.4.1/src/win_api -Fo"orthospell.obj" hunspell.cpp

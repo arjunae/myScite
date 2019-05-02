@@ -1,0 +1,2529 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Welcome">
+		<param name="Local" value="../readme.html">
+		<param name="ImageNumber" value="11">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Contents">
+		<param name="Local" value="../contents.html">
+		<param name="ImageNumber" value="11">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Reference Manual">
+		<param name="Local" value="../manual.html">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="1 - Introduction">
+			<param name="Local" value="../manual.html">
+			<param name="ImageNumber" value="11">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="2 - Basic Concepts">
+			<param name="Local" value="../manual.html#2">
+			<param name="ImageNumber" value="6">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="2.1 - Values and Types">
+				<param name="Local" value="../manual.html#2.1">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="2.2 - Environments and the Global Environment">
+				<param name="Local" value="../manual.html#2.2">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="2.3 - Error Handling">
+				<param name="Local" value="../manual.html#2.3">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="2.4 - Metatables and Metamethods">
+				<param name="Local" value="../manual.html#2.4">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="2.5 - Garbage Collection">
+				<param name="Local" value="../manual.html#2.5">
+				<param name="ImageNumber" value="6">
+				</OBJECT>
+			<UL>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="2.5.1 - Garbage-Collection Metamethods">
+					<param name="Local" value="../manual.html#2.5.1">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="2.5.2 - Weak Tables">
+					<param name="Local" value="../manual.html#2.5.2">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+			</UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="2.6 - Coroutines">
+				<param name="Local" value="../manual.html#2.6">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+		</UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="3 - The Language">
+			<param name="Local" value="../manual.html#3">
+			<param name="ImageNumber" value="6">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="3.1 - Lexical Conventions">
+				<param name="Local" value="../manual.html#3.1">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="3.2 - Variables">
+				<param name="Local" value="../manual.html#3.2">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="3.3 - Statements">
+				<param name="Local" value="../manual.html">
+				<param name="ImageNumber" value="6">
+				</OBJECT>
+			<UL>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.3.1 - Blocks">
+					<param name="Local" value="../manual.html#3.3.1">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.3.2 - Chunks">
+					<param name="Local" value="../manual.html#3.3.2">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.3.3 - Assignment">
+					<param name="Local" value="../manual.html#3.3.3">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.3.4 - Control Structures">
+					<param name="Local" value="../manual.html#3.3.4">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.3.5 - For Statement">
+					<param name="Local" value="../manual.html#3.3.5">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.3.6 - Function Calls as Statements">
+					<param name="Local" value="../manual.html#3.3.6">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.3.7 - Local Declarations">
+					<param name="Local" value="../manual.html#3.3.7">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+			</UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="3.4 - Expressions">
+				<param name="Local" value="../manual.html#3.4">
+				<param name="ImageNumber" value="6">
+				</OBJECT>
+			<UL>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.4.1 - Arithmetic Operators">
+					<param name="Local" value="../manual.html#3.4.1">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.4.2 - Bitwise Operators">
+					<param name="Local" value="../manual.html#3.4.2">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.4.3 - Coercion and Conversions">
+					<param name="Local" value="../manual.html#3.4.3">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.4.4 - Relational Operators">
+					<param name="Local" value="../manual.html#3.4.4">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.4.5 - Logical Operators">
+					<param name="Local" value="../manual.html#3.4.5">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.4.6 - Concatenation">
+					<param name="Local" value="../manual.html#3.4.6">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.4.7 - The Length Operator">
+					<param name="Local" value="../manual.html#3.4.7">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.4.8 - Precedence">
+					<param name="Local" value="../manual.html#3.4.8">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.4.9 - Table Constructors">
+					<param name="Local" value="../manual.html#3.4.9">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.4.10 - Function Calls">
+					<param name="Local" value="../manual.html#3.4.10">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="3.4.11 - Function Definitions">
+					<param name="Local" value="../manual.html#3.4.11">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+			</UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="3.5 - Visibility Rules">
+				<param name="Local" value="../manual.html#3.5">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+		</UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="4 - The Application Program Interface">
+			<param name="Local" value="../manual.html#4">
+			<param name="ImageNumber" value="6">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="4.1 - The Stack">
+				<param name="Local" value="../manual.html#4.1">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="4.2 - Stack Size">
+				<param name="Local" value="../manual.html#4.2">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="4.3 - Valid and Acceptable Indices">
+				<param name="Local" value="../manual.html#4.3">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="4.4 - C Closures">
+				<param name="Local" value="../manual.html#4.4">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="4.5 - Registry">
+				<param name="Local" value="../manual.html#4.5">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="4.6 - Error Handling in C">
+				<param name="Local" value="../manual.html#4.6">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="4.7 - Handling Yields in C">
+				<param name="Local" value="../manual.html#4.7">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="4.8 - Functions and Types">
+				<param name="Local" value="../manual.html#4.8">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="4.9 - The Debug Interface">
+				<param name="Local" value="../manual.html#4.9">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+		</UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="5 - The Auxiliary Library">
+			<param name="Local" value="../manual.html#5">
+			<param name="ImageNumber" value="6">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="5.1 - Functions and Types">
+				<param name="Local" value="../manual.html#5.1">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+		</UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="6 - Standard Libraries">
+			<param name="Local" value="../manual.html#6">
+			<param name="ImageNumber" value="6">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="6.1 - Basic Functions">
+				<param name="Local" value="../manual.html#6.1">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="6.2 - Coroutine Manipulation">
+				<param name="Local" value="../manual.html#6.2">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="6.3 - Modules">
+				<param name="Local" value="../manual.html#6.3">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="6.4 - String Manipulation">
+				<param name="Local" value="../manual.html#6.4">
+				<param name="ImageNumber" value="6">
+				</OBJECT>
+			<UL>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="6.4.1 - Patterns">
+					<param name="Local" value="../manual.html#6.4.1">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+				<LI> <OBJECT type="text/sitemap">
+					<param name="Name" value="6.4.2 - Format Strings for Pack and Unpack">
+					<param name="Local" value="../manual.html#6.4.2">
+					<param name="ImageNumber" value="11">
+					</OBJECT>
+			</UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="6.5 - UTF-8 Support">
+				<param name="Local" value="../manual.html#6.5">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="6.6 - Table Manipulation">
+				<param name="Local" value="../manual.html#6.6">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="6.7 - Mathematical Functions">
+				<param name="Local" value="../manual.html#6.7">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="6.8 - Input and Output Facilities">
+				<param name="Local" value="../manual.html#6.8">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="6.9 - Operating System Facilities">
+				<param name="Local" value="../manual.html#6.9">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="6.10 - The Debug Library">
+				<param name="Local" value="../manual.html#6.10">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+		</UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="7 - Lua Standalone">
+			<param name="Local" value="../manual.html#7">
+			<param name="ImageNumber" value="11">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="8 - Incompatibilities with the Previous Version">
+			<param name="Local" value="../manual.html#8">
+			<param name="ImageNumber" value="6">
+			</OBJECT>
+		<UL>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="8.1 - Changes in the Language">
+				<param name="Local" value="../manual.html#8.1">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="8.2 - Changes in the Libraries">
+				<param name="Local" value="../manual.html#8.2">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="8.3 - Changes in the API">
+				<param name="Local" value="../manual.html#8.3">
+				<param name="ImageNumber" value="11">
+				</OBJECT>
+		</UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="9 - The Complete Syntax of Lua">
+			<param name="Local" value="../manual.html#9">
+			<param name="ImageNumber" value="11">
+			</OBJECT>
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Index">
+		<param name="ImageNumber" value="1">
+		</OBJECT>
+	<UL>
+  
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Lua Functions">
+			<param name="ImageNumber" value="6">
+			</OBJECT>
+		<UL>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#6.1">
+	<param name="Name" value="basic">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-_G">
+	<param name="Name" value="_G">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-_VERSION">
+	<param name="Name" value="_VERSION">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-assert">
+	<param name="Name" value="assert">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-collectgarbage">
+	<param name="Name" value="collectgarbage">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-dofile">
+	<param name="Name" value="dofile">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-error">
+	<param name="Name" value="error">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-getmetatable">
+	<param name="Name" value="getmetatable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-ipairs">
+	<param name="Name" value="ipairs">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-load">
+	<param name="Name" value="load">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-loadfile">
+	<param name="Name" value="loadfile">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-next">
+	<param name="Name" value="next">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-pairs">
+	<param name="Name" value="pairs">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-pcall">
+	<param name="Name" value="pcall">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-print">
+	<param name="Name" value="print">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-rawequal">
+	<param name="Name" value="rawequal">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-rawget">
+	<param name="Name" value="rawget">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-rawlen">
+	<param name="Name" value="rawlen">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-rawset">
+	<param name="Name" value="rawset">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-require">
+	<param name="Name" value="require">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-select">
+	<param name="Name" value="select">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-setmetatable">
+	<param name="Name" value="setmetatable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-tonumber">
+	<param name="Name" value="tonumber">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-tostring">
+	<param name="Name" value="tostring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-type">
+	<param name="Name" value="type">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-xpcall">
+	<param name="Name" value="xpcall">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#6.2">
+	<param name="Name" value="coroutine">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-coroutine.create">
+	<param name="Name" value="coroutine.create">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-coroutine.isyieldable">
+	<param name="Name" value="coroutine.isyieldable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-coroutine.resume">
+	<param name="Name" value="coroutine.resume">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-coroutine.running">
+	<param name="Name" value="coroutine.running">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-coroutine.status">
+	<param name="Name" value="coroutine.status">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-coroutine.wrap">
+	<param name="Name" value="coroutine.wrap">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-coroutine.yield">
+	<param name="Name" value="coroutine.yield">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#6.10">
+	<param name="Name" value="debug">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-debug.debug">
+	<param name="Name" value="debug.debug">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-debug.gethook">
+	<param name="Name" value="debug.gethook">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-debug.getinfo">
+	<param name="Name" value="debug.getinfo">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-debug.getlocal">
+	<param name="Name" value="debug.getlocal">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-debug.getmetatable">
+	<param name="Name" value="debug.getmetatable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-debug.getregistry">
+	<param name="Name" value="debug.getregistry">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-debug.getupvalue">
+	<param name="Name" value="debug.getupvalue">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-debug.getuservalue">
+	<param name="Name" value="debug.getuservalue">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-debug.sethook">
+	<param name="Name" value="debug.sethook">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-debug.setlocal">
+	<param name="Name" value="debug.setlocal">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-debug.setmetatable">
+	<param name="Name" value="debug.setmetatable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-debug.setupvalue">
+	<param name="Name" value="debug.setupvalue">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-debug.setuservalue">
+	<param name="Name" value="debug.setuservalue">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-debug.traceback">
+	<param name="Name" value="debug.traceback">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-debug.upvalueid">
+	<param name="Name" value="debug.upvalueid">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-debug.upvaluejoin">
+	<param name="Name" value="debug.upvaluejoin">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#6.8">
+	<param name="Name" value="io">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-io.close">
+	<param name="Name" value="io.close">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-io.flush">
+	<param name="Name" value="io.flush">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-io.input">
+	<param name="Name" value="io.input">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-io.lines">
+	<param name="Name" value="io.lines">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-io.open">
+	<param name="Name" value="io.open">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-io.output">
+	<param name="Name" value="io.output">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-io.popen">
+	<param name="Name" value="io.popen">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-io.read">
+	<param name="Name" value="io.read">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-io.stderr">
+	<param name="Name" value="io.stderr">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-io.stdin">
+	<param name="Name" value="io.stdin">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-io.stdout">
+	<param name="Name" value="io.stdout">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-io.tmpfile">
+	<param name="Name" value="io.tmpfile">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-io.type">
+	<param name="Name" value="io.type">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-io.write">
+	<param name="Name" value="io.write">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-file:close">
+	<param name="Name" value="file:close">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-file:flush">
+	<param name="Name" value="file:flush">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-file:lines">
+	<param name="Name" value="file:lines">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-file:read">
+	<param name="Name" value="file:read">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-file:seek">
+	<param name="Name" value="file:seek">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-file:setvbuf">
+	<param name="Name" value="file:setvbuf">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-file:write">
+	<param name="Name" value="file:write">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#6.7">
+	<param name="Name" value="math">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.abs">
+	<param name="Name" value="math.abs">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.acos">
+	<param name="Name" value="math.acos">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.asin">
+	<param name="Name" value="math.asin">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.atan">
+	<param name="Name" value="math.atan">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.ceil">
+	<param name="Name" value="math.ceil">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.cos">
+	<param name="Name" value="math.cos">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.deg">
+	<param name="Name" value="math.deg">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.exp">
+	<param name="Name" value="math.exp">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.floor">
+	<param name="Name" value="math.floor">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.fmod">
+	<param name="Name" value="math.fmod">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.huge">
+	<param name="Name" value="math.huge">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.log">
+	<param name="Name" value="math.log">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.max">
+	<param name="Name" value="math.max">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.maxinteger">
+	<param name="Name" value="math.maxinteger">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.min">
+	<param name="Name" value="math.min">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.mininteger">
+	<param name="Name" value="math.mininteger">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.modf">
+	<param name="Name" value="math.modf">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.pi">
+	<param name="Name" value="math.pi">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.rad">
+	<param name="Name" value="math.rad">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.random">
+	<param name="Name" value="math.random">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.randomseed">
+	<param name="Name" value="math.randomseed">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.sin">
+	<param name="Name" value="math.sin">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.sqrt">
+	<param name="Name" value="math.sqrt">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.tan">
+	<param name="Name" value="math.tan">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.tointeger">
+	<param name="Name" value="math.tointeger">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.type">
+	<param name="Name" value="math.type">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-math.ult">
+	<param name="Name" value="math.ult">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#6.9">
+	<param name="Name" value="os">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-os.clock">
+	<param name="Name" value="os.clock">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-os.date">
+	<param name="Name" value="os.date">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-os.difftime">
+	<param name="Name" value="os.difftime">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-os.execute">
+	<param name="Name" value="os.execute">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-os.exit">
+	<param name="Name" value="os.exit">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-os.getenv">
+	<param name="Name" value="os.getenv">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-os.remove">
+	<param name="Name" value="os.remove">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-os.rename">
+	<param name="Name" value="os.rename">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-os.setlocale">
+	<param name="Name" value="os.setlocale">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-os.time">
+	<param name="Name" value="os.time">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-os.tmpname">
+	<param name="Name" value="os.tmpname">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#6.3">
+	<param name="Name" value="package">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-package.config">
+	<param name="Name" value="package.config">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-package.cpath">
+	<param name="Name" value="package.cpath">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-package.loaded">
+	<param name="Name" value="package.loaded">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-package.loadlib">
+	<param name="Name" value="package.loadlib">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-package.path">
+	<param name="Name" value="package.path">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-package.preload">
+	<param name="Name" value="package.preload">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-package.searchers">
+	<param name="Name" value="package.searchers">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-package.searchpath">
+	<param name="Name" value="package.searchpath">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#6.4">
+	<param name="Name" value="string">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.byte">
+	<param name="Name" value="string.byte">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.char">
+	<param name="Name" value="string.char">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.dump">
+	<param name="Name" value="string.dump">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.find">
+	<param name="Name" value="string.find">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.format">
+	<param name="Name" value="string.format">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.gmatch">
+	<param name="Name" value="string.gmatch">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.gsub">
+	<param name="Name" value="string.gsub">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.len">
+	<param name="Name" value="string.len">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.lower">
+	<param name="Name" value="string.lower">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.match">
+	<param name="Name" value="string.match">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.pack">
+	<param name="Name" value="string.pack">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.packsize">
+	<param name="Name" value="string.packsize">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.rep">
+	<param name="Name" value="string.rep">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.reverse">
+	<param name="Name" value="string.reverse">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.sub">
+	<param name="Name" value="string.sub">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.unpack">
+	<param name="Name" value="string.unpack">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-string.upper">
+	<param name="Name" value="string.upper">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#6.6">
+	<param name="Name" value="table">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-table.concat">
+	<param name="Name" value="table.concat">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-table.insert">
+	<param name="Name" value="table.insert">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-table.move">
+	<param name="Name" value="table.move">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-table.pack">
+	<param name="Name" value="table.pack">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-table.remove">
+	<param name="Name" value="table.remove">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-table.sort">
+	<param name="Name" value="table.sort">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-table.unpack">
+	<param name="Name" value="table.unpack">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#6.5">
+	<param name="Name" value="utf8">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-utf8.char">
+	<param name="Name" value="utf8.char">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-utf8.charpattern">
+	<param name="Name" value="utf8.charpattern">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-utf8.codepoint">
+	<param name="Name" value="utf8.codepoint">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-utf8.codes">
+	<param name="Name" value="utf8.codes">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-utf8.len">
+	<param name="Name" value="utf8.len">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-utf8.offset">
+	<param name="Name" value="utf8.offset">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+    </UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="environment variables">
+			<param name="ImageNumber" value="6">
+			</OBJECT>
+		<UL>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_CPATH">
+	<param name="Name" value="LUA_CPATH">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_CPATH_5_3">
+	<param name="Name" value="LUA_CPATH_5_3">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_INIT">
+	<param name="Name" value="LUA_INIT">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_INIT_5_3">
+	<param name="Name" value="LUA_INIT_5_3">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_PATH">
+	<param name="Name" value="LUA_PATH">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_PATH_5_3">
+	<param name="Name" value="LUA_PATH_5_3">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+    </UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="C API">
+			<param name="ImageNumber" value="6">
+			</OBJECT>
+		<UL>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_Alloc">
+	<param name="Name" value="lua_Alloc">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_CFunction">
+	<param name="Name" value="lua_CFunction">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_Debug">
+	<param name="Name" value="lua_Debug">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_Hook">
+	<param name="Name" value="lua_Hook">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_Integer">
+	<param name="Name" value="lua_Integer">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_KContext">
+	<param name="Name" value="lua_KContext">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_KFunction">
+	<param name="Name" value="lua_KFunction">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_Number">
+	<param name="Name" value="lua_Number">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_Reader">
+	<param name="Name" value="lua_Reader">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_State">
+	<param name="Name" value="lua_State">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_Unsigned">
+	<param name="Name" value="lua_Unsigned">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_Writer">
+	<param name="Name" value="lua_Writer">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_absindex">
+	<param name="Name" value="lua_absindex">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_arith">
+	<param name="Name" value="lua_arith">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_atpanic">
+	<param name="Name" value="lua_atpanic">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_call">
+	<param name="Name" value="lua_call">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_callk">
+	<param name="Name" value="lua_callk">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_checkstack">
+	<param name="Name" value="lua_checkstack">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_close">
+	<param name="Name" value="lua_close">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_compare">
+	<param name="Name" value="lua_compare">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_concat">
+	<param name="Name" value="lua_concat">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_copy">
+	<param name="Name" value="lua_copy">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_createtable">
+	<param name="Name" value="lua_createtable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_dump">
+	<param name="Name" value="lua_dump">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_error">
+	<param name="Name" value="lua_error">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_gc">
+	<param name="Name" value="lua_gc">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_getallocf">
+	<param name="Name" value="lua_getallocf">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_getextraspace">
+	<param name="Name" value="lua_getextraspace">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_getfield">
+	<param name="Name" value="lua_getfield">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_getglobal">
+	<param name="Name" value="lua_getglobal">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_gethook">
+	<param name="Name" value="lua_gethook">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_gethookcount">
+	<param name="Name" value="lua_gethookcount">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_gethookmask">
+	<param name="Name" value="lua_gethookmask">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_geti">
+	<param name="Name" value="lua_geti">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_getinfo">
+	<param name="Name" value="lua_getinfo">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_getlocal">
+	<param name="Name" value="lua_getlocal">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_getmetatable">
+	<param name="Name" value="lua_getmetatable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_getstack">
+	<param name="Name" value="lua_getstack">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_gettable">
+	<param name="Name" value="lua_gettable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_gettop">
+	<param name="Name" value="lua_gettop">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_getupvalue">
+	<param name="Name" value="lua_getupvalue">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_getuservalue">
+	<param name="Name" value="lua_getuservalue">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_insert">
+	<param name="Name" value="lua_insert">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_isboolean">
+	<param name="Name" value="lua_isboolean">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_iscfunction">
+	<param name="Name" value="lua_iscfunction">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_isfunction">
+	<param name="Name" value="lua_isfunction">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_isinteger">
+	<param name="Name" value="lua_isinteger">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_islightuserdata">
+	<param name="Name" value="lua_islightuserdata">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_isnil">
+	<param name="Name" value="lua_isnil">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_isnone">
+	<param name="Name" value="lua_isnone">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_isnoneornil">
+	<param name="Name" value="lua_isnoneornil">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_isnumber">
+	<param name="Name" value="lua_isnumber">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_isstring">
+	<param name="Name" value="lua_isstring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_istable">
+	<param name="Name" value="lua_istable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_isthread">
+	<param name="Name" value="lua_isthread">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_isuserdata">
+	<param name="Name" value="lua_isuserdata">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_isyieldable">
+	<param name="Name" value="lua_isyieldable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_len">
+	<param name="Name" value="lua_len">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_load">
+	<param name="Name" value="lua_load">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_newstate">
+	<param name="Name" value="lua_newstate">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_newtable">
+	<param name="Name" value="lua_newtable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_newthread">
+	<param name="Name" value="lua_newthread">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_newuserdata">
+	<param name="Name" value="lua_newuserdata">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_next">
+	<param name="Name" value="lua_next">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_numbertointeger">
+	<param name="Name" value="lua_numbertointeger">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pcall">
+	<param name="Name" value="lua_pcall">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pcallk">
+	<param name="Name" value="lua_pcallk">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pop">
+	<param name="Name" value="lua_pop">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pushboolean">
+	<param name="Name" value="lua_pushboolean">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pushcclosure">
+	<param name="Name" value="lua_pushcclosure">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pushcfunction">
+	<param name="Name" value="lua_pushcfunction">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pushfstring">
+	<param name="Name" value="lua_pushfstring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pushglobaltable">
+	<param name="Name" value="lua_pushglobaltable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pushinteger">
+	<param name="Name" value="lua_pushinteger">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pushlightuserdata">
+	<param name="Name" value="lua_pushlightuserdata">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pushliteral">
+	<param name="Name" value="lua_pushliteral">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pushlstring">
+	<param name="Name" value="lua_pushlstring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pushnil">
+	<param name="Name" value="lua_pushnil">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pushnumber">
+	<param name="Name" value="lua_pushnumber">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pushstring">
+	<param name="Name" value="lua_pushstring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pushthread">
+	<param name="Name" value="lua_pushthread">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pushvalue">
+	<param name="Name" value="lua_pushvalue">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_pushvfstring">
+	<param name="Name" value="lua_pushvfstring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_rawequal">
+	<param name="Name" value="lua_rawequal">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_rawget">
+	<param name="Name" value="lua_rawget">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_rawgeti">
+	<param name="Name" value="lua_rawgeti">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_rawgetp">
+	<param name="Name" value="lua_rawgetp">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_rawlen">
+	<param name="Name" value="lua_rawlen">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_rawset">
+	<param name="Name" value="lua_rawset">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_rawseti">
+	<param name="Name" value="lua_rawseti">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_rawsetp">
+	<param name="Name" value="lua_rawsetp">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_register">
+	<param name="Name" value="lua_register">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_remove">
+	<param name="Name" value="lua_remove">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_replace">
+	<param name="Name" value="lua_replace">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_resume">
+	<param name="Name" value="lua_resume">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_rotate">
+	<param name="Name" value="lua_rotate">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_setallocf">
+	<param name="Name" value="lua_setallocf">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_setfield">
+	<param name="Name" value="lua_setfield">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_setglobal">
+	<param name="Name" value="lua_setglobal">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_sethook">
+	<param name="Name" value="lua_sethook">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_seti">
+	<param name="Name" value="lua_seti">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_setlocal">
+	<param name="Name" value="lua_setlocal">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_setmetatable">
+	<param name="Name" value="lua_setmetatable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_settable">
+	<param name="Name" value="lua_settable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_settop">
+	<param name="Name" value="lua_settop">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_setupvalue">
+	<param name="Name" value="lua_setupvalue">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_setuservalue">
+	<param name="Name" value="lua_setuservalue">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_status">
+	<param name="Name" value="lua_status">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_stringtonumber">
+	<param name="Name" value="lua_stringtonumber">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_toboolean">
+	<param name="Name" value="lua_toboolean">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_tocfunction">
+	<param name="Name" value="lua_tocfunction">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_tointeger">
+	<param name="Name" value="lua_tointeger">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_tointegerx">
+	<param name="Name" value="lua_tointegerx">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_tolstring">
+	<param name="Name" value="lua_tolstring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_tonumber">
+	<param name="Name" value="lua_tonumber">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_tonumberx">
+	<param name="Name" value="lua_tonumberx">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_topointer">
+	<param name="Name" value="lua_topointer">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_tostring">
+	<param name="Name" value="lua_tostring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_tothread">
+	<param name="Name" value="lua_tothread">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_touserdata">
+	<param name="Name" value="lua_touserdata">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_type">
+	<param name="Name" value="lua_type">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_typename">
+	<param name="Name" value="lua_typename">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_upvalueid">
+	<param name="Name" value="lua_upvalueid">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_upvalueindex">
+	<param name="Name" value="lua_upvalueindex">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_upvaluejoin">
+	<param name="Name" value="lua_upvaluejoin">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_version">
+	<param name="Name" value="lua_version">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_xmove">
+	<param name="Name" value="lua_xmove">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_yield">
+	<param name="Name" value="lua_yield">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#lua_yieldk">
+	<param name="Name" value="lua_yieldk">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+    </UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="auxiliary library">
+			<param name="ImageNumber" value="6">
+			</OBJECT>
+		<UL>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_Buffer">
+	<param name="Name" value="luaL_Buffer">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_Reg">
+	<param name="Name" value="luaL_Reg">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_Stream">
+	<param name="Name" value="luaL_Stream">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_addchar">
+	<param name="Name" value="luaL_addchar">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_addlstring">
+	<param name="Name" value="luaL_addlstring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_addsize">
+	<param name="Name" value="luaL_addsize">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_addstring">
+	<param name="Name" value="luaL_addstring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_addvalue">
+	<param name="Name" value="luaL_addvalue">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_argcheck">
+	<param name="Name" value="luaL_argcheck">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_argerror">
+	<param name="Name" value="luaL_argerror">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_buffinit">
+	<param name="Name" value="luaL_buffinit">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_buffinitsize">
+	<param name="Name" value="luaL_buffinitsize">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_callmeta">
+	<param name="Name" value="luaL_callmeta">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_checkany">
+	<param name="Name" value="luaL_checkany">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_checkinteger">
+	<param name="Name" value="luaL_checkinteger">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_checklstring">
+	<param name="Name" value="luaL_checklstring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_checknumber">
+	<param name="Name" value="luaL_checknumber">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_checkoption">
+	<param name="Name" value="luaL_checkoption">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_checkstack">
+	<param name="Name" value="luaL_checkstack">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_checkstring">
+	<param name="Name" value="luaL_checkstring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_checktype">
+	<param name="Name" value="luaL_checktype">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_checkudata">
+	<param name="Name" value="luaL_checkudata">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_checkversion">
+	<param name="Name" value="luaL_checkversion">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_dofile">
+	<param name="Name" value="luaL_dofile">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_dostring">
+	<param name="Name" value="luaL_dostring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_error">
+	<param name="Name" value="luaL_error">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_execresult">
+	<param name="Name" value="luaL_execresult">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_fileresult">
+	<param name="Name" value="luaL_fileresult">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_getmetafield">
+	<param name="Name" value="luaL_getmetafield">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_getmetatable">
+	<param name="Name" value="luaL_getmetatable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_getsubtable">
+	<param name="Name" value="luaL_getsubtable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_gsub">
+	<param name="Name" value="luaL_gsub">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_len">
+	<param name="Name" value="luaL_len">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_loadbuffer">
+	<param name="Name" value="luaL_loadbuffer">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_loadbufferx">
+	<param name="Name" value="luaL_loadbufferx">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_loadfile">
+	<param name="Name" value="luaL_loadfile">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_loadfilex">
+	<param name="Name" value="luaL_loadfilex">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_loadstring">
+	<param name="Name" value="luaL_loadstring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_newlib">
+	<param name="Name" value="luaL_newlib">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_newlibtable">
+	<param name="Name" value="luaL_newlibtable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_newmetatable">
+	<param name="Name" value="luaL_newmetatable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_newstate">
+	<param name="Name" value="luaL_newstate">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_openlibs">
+	<param name="Name" value="luaL_openlibs">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_optinteger">
+	<param name="Name" value="luaL_optinteger">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_optlstring">
+	<param name="Name" value="luaL_optlstring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_optnumber">
+	<param name="Name" value="luaL_optnumber">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_optstring">
+	<param name="Name" value="luaL_optstring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_prepbuffer">
+	<param name="Name" value="luaL_prepbuffer">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_prepbuffsize">
+	<param name="Name" value="luaL_prepbuffsize">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_pushresult">
+	<param name="Name" value="luaL_pushresult">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_pushresultsize">
+	<param name="Name" value="luaL_pushresultsize">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_ref">
+	<param name="Name" value="luaL_ref">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_requiref">
+	<param name="Name" value="luaL_requiref">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_setfuncs">
+	<param name="Name" value="luaL_setfuncs">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_setmetatable">
+	<param name="Name" value="luaL_setmetatable">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_testudata">
+	<param name="Name" value="luaL_testudata">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_tolstring">
+	<param name="Name" value="luaL_tolstring">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_traceback">
+	<param name="Name" value="luaL_traceback">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_typename">
+	<param name="Name" value="luaL_typename">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_unref">
+	<param name="Name" value="luaL_unref">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#luaL_where">
+	<param name="Name" value="luaL_where">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+    </UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="standard library">
+			<param name="ImageNumber" value="6">
+			</OBJECT>
+		<UL>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-luaopen_base">
+	<param name="Name" value="luaopen_base">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-luaopen_coroutine">
+	<param name="Name" value="luaopen_coroutine">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-luaopen_debug">
+	<param name="Name" value="luaopen_debug">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-luaopen_io">
+	<param name="Name" value="luaopen_io">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-luaopen_math">
+	<param name="Name" value="luaopen_math">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-luaopen_os">
+	<param name="Name" value="luaopen_os">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-luaopen_package">
+	<param name="Name" value="luaopen_package">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-luaopen_string">
+	<param name="Name" value="luaopen_string">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-luaopen_table">
+	<param name="Name" value="luaopen_table">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-luaopen_utf8">
+	<param name="Name" value="luaopen_utf8">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+
+    </UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="constants">
+			<param name="ImageNumber" value="6">
+			</OBJECT>
+		<UL>
+
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_ERRERR">
+	<param name="Name" value="LUA_ERRERR">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_ERRFILE">
+	<param name="Name" value="LUA_ERRFILE">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_ERRGCMM">
+	<param name="Name" value="LUA_ERRGCMM">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_ERRMEM">
+	<param name="Name" value="LUA_ERRMEM">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_ERRRUN">
+	<param name="Name" value="LUA_ERRRUN">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_ERRSYNTAX">
+	<param name="Name" value="LUA_ERRSYNTAX">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_HOOKCALL">
+	<param name="Name" value="LUA_HOOKCALL">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_HOOKCOUNT">
+	<param name="Name" value="LUA_HOOKCOUNT">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_HOOKLINE">
+	<param name="Name" value="LUA_HOOKLINE">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_HOOKRET">
+	<param name="Name" value="LUA_HOOKRET">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_HOOKTAILCALL">
+	<param name="Name" value="LUA_HOOKTAILCALL">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_MASKCALL">
+	<param name="Name" value="LUA_MASKCALL">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_MASKCOUNT">
+	<param name="Name" value="LUA_MASKCOUNT">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_MASKLINE">
+	<param name="Name" value="LUA_MASKLINE">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_MASKRET">
+	<param name="Name" value="LUA_MASKRET">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_MAXINTEGER">
+	<param name="Name" value="LUA_MAXINTEGER">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_MININTEGER">
+	<param name="Name" value="LUA_MININTEGER">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_MINSTACK">
+	<param name="Name" value="LUA_MINSTACK">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_MULTRET">
+	<param name="Name" value="LUA_MULTRET">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_NOREF">
+	<param name="Name" value="LUA_NOREF">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OK">
+	<param name="Name" value="LUA_OK">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPADD">
+	<param name="Name" value="LUA_OPADD">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPBAND">
+	<param name="Name" value="LUA_OPBAND">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPBNOT">
+	<param name="Name" value="LUA_OPBNOT">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPBOR">
+	<param name="Name" value="LUA_OPBOR">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPBXOR">
+	<param name="Name" value="LUA_OPBXOR">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPDIV">
+	<param name="Name" value="LUA_OPDIV">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPEQ">
+	<param name="Name" value="LUA_OPEQ">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPIDIV">
+	<param name="Name" value="LUA_OPIDIV">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPLE">
+	<param name="Name" value="LUA_OPLE">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPLT">
+	<param name="Name" value="LUA_OPLT">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPMOD">
+	<param name="Name" value="LUA_OPMOD">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPMUL">
+	<param name="Name" value="LUA_OPMUL">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPPOW">
+	<param name="Name" value="LUA_OPPOW">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPSHL">
+	<param name="Name" value="LUA_OPSHL">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPSHR">
+	<param name="Name" value="LUA_OPSHR">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPSUB">
+	<param name="Name" value="LUA_OPSUB">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_OPUNM">
+	<param name="Name" value="LUA_OPUNM">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_REFNIL">
+	<param name="Name" value="LUA_REFNIL">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_REGISTRYINDEX">
+	<param name="Name" value="LUA_REGISTRYINDEX">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_RIDX_GLOBALS">
+	<param name="Name" value="LUA_RIDX_GLOBALS">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_RIDX_MAINTHREAD">
+	<param name="Name" value="LUA_RIDX_MAINTHREAD">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_TBOOLEAN">
+	<param name="Name" value="LUA_TBOOLEAN">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_TFUNCTION">
+	<param name="Name" value="LUA_TFUNCTION">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_TLIGHTUSERDATA">
+	<param name="Name" value="LUA_TLIGHTUSERDATA">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_TNIL">
+	<param name="Name" value="LUA_TNIL">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_TNONE">
+	<param name="Name" value="LUA_TNONE">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_TNUMBER">
+	<param name="Name" value="LUA_TNUMBER">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_TSTRING">
+	<param name="Name" value="LUA_TSTRING">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_TTABLE">
+	<param name="Name" value="LUA_TTABLE">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_TTHREAD">
+	<param name="Name" value="LUA_TTHREAD">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_TUSERDATA">
+	<param name="Name" value="LUA_TUSERDATA">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_USE_APICHECK">
+	<param name="Name" value="LUA_USE_APICHECK">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUA_YIELD">
+	<param name="Name" value="LUA_YIELD">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+<LI> <OBJECT type="text/sitemap">
+		<param name="Local" value="../manual.html#pdf-LUAL_BUFFERSIZE">
+	<param name="Name" value="LUAL_BUFFERSIZE">
+    <param name="ImageNumber" value="11">
+    </OBJECT>
+    
+	</UL>
+  
+	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="About">
+		<param name="Local" value="README.txt">
+		<param name="ImageNumber" value="11">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="LuaBinaries">
+		<param name="Local" value="LUABINARIES.txt">
+		<param name="ImageNumber" value="11">
+		</OBJECT>
+</UL>
+</BODY></HTML>

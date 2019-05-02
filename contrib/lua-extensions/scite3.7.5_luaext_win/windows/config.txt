@@ -1,0 +1,4 @@
+LUA_PLAT=5.3
+#LUA_PLAT=5.1
+LUA_LIB=-lscilexer
+#LUA_LIB=-lscite

@@ -1,0 +1,86 @@
+#-----------------------
+# LIB GUI - Main Methods
+#-----------------------
+
+gui.window ("title")\n create new top-level windows  /extern lib "gui"/
+gui.panel (width)\n create panel  /extern lib "gui"/
+gui.set_panel (panel_name, "right")\n panel attached to the left or the right side of the editor pane  /extern lib "gui"/
+gui.set_panel ()\n remove the panel and hide it  /extern lib "gui"/
+gui.tabbar (win_name)\n create tabbar control from window or panel  /extern lib "gui"/
+gui.list (true)\n create standard list view (with caption\n true|false)  /extern lib "gui"/
+gui.memo ()\n creates a Windows Rich Text control  /extern lib "gui"/
+gui.pass_focus ()\n pass keyboard focus to editor  /extern lib "gui"/
+gui.toolbar ("title", {"icon1.bmp:item1 caption|func1", "FILEOPEN:Open|IDM_OPEN"}, icons_size, "c:\\Path to icons\\button")
+gui.open_dlg (caption,filter)\n standard Open File Dialog to the user, with the specified caption and filter  /extern lib "gui"/
+gui.save_dlg (caption,filter)\n standard Save File Dialog to the user, with the specified caption and filter  /extern lib "gui"/
+gui.select_dir_dlg (caption)\n stset_andard Open Folder Dialog to the user, with the specified caption  /extern lib "gui"/
+gui.colour_dlg (default_colour)\n open the Windows Colour choser  /extern lib "gui"/
+gui.files (path_with_mask, true)\n list of files (nil/false) or folders (true)  /extern lib "gui"/
+gui.chdir (dir)\n change current dir  /extern lib "gui"/
+gui.message (msg,kind)\n message box with the desired message text  /extern lib "gui"/
+gui.prompt_value (prompt,default)\n ask the user to enter a single string value  /extern lib "gui"/
+gui.run (program_or_document, parameters)\n launch a program or open a document  /extern lib "gui"/
+
+#-----------------------
+# LIB GUI - window Methods
+#-----------------------
+
+#~ win=gui%.window%s*%b()
+win:add(list1, "top", height)\n "top" or "bottom"
+win:add(list1, "left", width)\n "left" or "right"
+win:client(list1)\n list or memo
+win:size(width, height)
+win:position(x, y)
+win:show()
+win:hide()
+win:context_menu {'item1|func1', 'item2|func2'}
+win:bounds()\n return visible, x, y, width, height
+win:count
+win:remove
+win:add_buttons
+win:on_select
+win:on_double_click
+win:on_close
+win:on_show
+win:on_focus
+win:on_key
+	
+#~ pan=gui%.panel%s*%b()
+pan:add(list1, "top", height)\n "top" or "bottom"
+pan:add(list1, "left", width)\n "left" or "right"
+pan:client(list1)\n list or memo
+pan:size(width, height)
+pan:context_menu {'item1|func1', 'item2|func2'}
+pan:bounds()\n return visible, x, y, width, height
+
+#~ tab=gui%.tabbar%b()
+tab:client(list1)\n list or memo
+tab:add_tab("Tab1 heading", list1)
+tab:on_select(function(index) print(index) end)
+
+#~ lst=gui%.list%s*%b()
+lst:size(width, height)\n Note: Changes either height or width (one of parameters is ignored)
+lst:set_list_colour("#FFFFFF", "#000000")\n foreground, background
+lst:set_selected_item(index)
+lst:add_column('Title1', width)\n Note: If gui.list(true)
+lst:add_item ({'Caption1','Caption2'}, {data1, data2})
+lst:delete_item(index)
+lst:insert_item(index, {'Caption1','Caption2'}, {data1, data2})
+lst:count()
+lst:get_item_data(index)
+lst:get_item_text(index)
+lst:get_selected_item()
+lst:bounds()\n return visible, x, y, width, height
+lst:on_select(function(index) print(index) end)
+lst:on_double_click(function(index) print(index) end)
+lst:on_key(function(key) print(key) end)
+
+#~ mem=gui%.memo%s*%b()
+mem:size(width, height)\n Note: Changes either height or width (one of parameters is ignored)
+mem:set_text('{\\rtf{\\fonttbl{\\f0\\fcharset0 Helv;}}\\f0\\fs16'..'sample text'..'}')
+mem:set_memo_colour("#FFFFFF", "#000000")\n foreground, background
+mem:bounds()
+
+also: 
+toolbar
+tree
