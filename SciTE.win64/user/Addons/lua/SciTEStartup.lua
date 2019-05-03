@@ -17,21 +17,24 @@ package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
 dirSep, GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
 
--- Load extman.lua
--- This will automatically run any lua script located in \User\Addons\lua\lua
-dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
-
--- Load Project support functions
-dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
-
--- track the amount of lua allocated memory
-_G.session_used_memory=collectgarbage("count")*1024
-
 --lua >=5.2.x replaced table.getn(x) with #x
 --lua >=5.2.x renamed functions:
 local unpack = table.unpack or unpack
 math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
+
+-- Startup script might be called multiple times, so only run those funcs once.
+if (true) then
+	-- track the amount of lua allocated memory
+	_G.session_used_memory=collectgarbage("count")*1024
+	
+	-- Load extman.lua
+	-- This will automatically run any lua script located in \User\Addons\lua\lua
+	dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
+
+	-- Load Project support functions
+	dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
+end
 	
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -40,7 +43,6 @@ function markLinks()
 --
 -- search for textlinks and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
 -- https://www.test.de/
-
 	local marker_a=10 -- The whole Textlink
 	editor.IndicStyle[marker_a] = INDIC_COMPOSITIONTHIN
 	editor.IndicFore[marker_a] = 0xBE3344
@@ -184,7 +186,7 @@ function OnInit()
 	-- Show Sidebar
 --	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 --	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
-
+	
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 	--dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
@@ -196,10 +198,7 @@ function OnInit()
 	-- check SciLexer once per session and inform the User if its a nonStock Version.
 	SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
 	if SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
-	
-	-- check if scite was started with a filename belonging to a project. 
-	CTagsUpdateProps(false,"")
-	
+
 	-- Event Handlers
 	scite_OnKey( function()  props["CurrentPos"]=editor.CurrentPos end ) -- keep Track of current Bytes Offset (for Statusbar)
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
@@ -209,7 +208,7 @@ function OnInit()
 	checkUpdates() -- check for a new version using githubs readme.md
 	CTagsUpdateProps(false,"") 	-- check if the filename belongs to a project. 
 	myScite_OpenSwitch() -- apply Indicators
-	
+		
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- print("startupScript_reload")
 

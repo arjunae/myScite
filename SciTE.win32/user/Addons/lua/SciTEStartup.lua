@@ -17,21 +17,24 @@ package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
 dirSep, GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
 
--- Load extman.lua
--- This will automatically run any lua script located in \User\Addons\lua\lua
-dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
-
--- Load Project support functions
-dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
-
--- track the amount of lua allocated memory
-_G.session_used_memory=collectgarbage("count")*1024
-
 --lua >=5.2.x replaced table.getn(x) with #x
 --lua >=5.2.x renamed functions:
 local unpack = table.unpack or unpack
 math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
+
+-- Startup script might be called multiple times, so only run those funcs once.
+if (true) then
+	-- track the amount of lua allocated memory
+	_G.session_used_memory=collectgarbage("count")*1024
+	
+	-- Load extman.lua
+	-- This will automatically run any lua script located in \User\Addons\lua\lua
+	dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
+
+	-- Load Project support functions
+	dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
+end
 	
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -40,7 +43,6 @@ function markLinks()
 --
 -- search for textlinks and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
 -- https://www.test.de/
-
 	local marker_a=10 -- The whole Textlink
 	editor.IndicStyle[marker_a] = INDIC_COMPOSITIONTHIN
 	editor.IndicFore[marker_a] = 0xBE3344

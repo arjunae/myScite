@@ -23,14 +23,14 @@ LFLAGS = -NOLOGO -DLL -RELEASE
 !ENDIF
 
 LUA_INCLUDE = ../lua/$(LUA_PLAT)/src/
-LIBDIR      = ../clib/scite_lua$(LUA_PLAT)
+LIBDIR      = ../clib/scite_lua$(LUA_PLAT)/
 LIBS        =  $(LIBLUA) user32.lib gdi32.lib comdlg32.lib comctl32.lib shell32.lib
 
 gui.dll: gui_ext.obj $(YAWL) $(IBOX)
 	link $(LFLAGS) -OUT:gui.dll $(LIBS) gui_ext.obj $(YAWL) $(IBOX)
 
 clean:
-	-del /S *.obj gui.lib
+	-del /S *.obj gui.lib 1>NUL
 
 gui_ext.obj: gui_ext.cpp yawl.h
 	cl $(CFLAGS) -I$(LUA_INCLUDE) -I$(VS_INCLUDE) -Fo"gui_ext.obj" gui_ext.cpp

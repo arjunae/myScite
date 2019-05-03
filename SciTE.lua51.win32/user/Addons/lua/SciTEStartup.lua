@@ -22,20 +22,28 @@ math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 --~~~~~~~~~~~~~
- 
--- track the amount of lua allocated memory
-_G.session_used_memory=collectgarbage("count")*1024
+
+-- Startup script might be called multiple times, so only run those funcs once
+if (true) then 
+
+	-- track the amount of lua allocated memory
+	_G.session_used_memory=collectgarbage("count")*1024
+
+	-- Load extman.lua
+	-- This will automatically run any lua script located in \User\Addons\lua\lua
+	dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
+
+	-- Load Project support functions
+	dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
+		
+	-- track the amount of lua allocated memory
+	_G.session_used_memory=collectgarbage("count")*1024
 	
--- Load extman.lua
--- This will automatically run any lua script located in \User\Addons\lua\lua
-dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
+	-- Load Sidebar
+	--package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
+	--dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
+end
 
--- chainload eventmanager / extman remake used by some lua mods
-dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
-
--- Load Sidebar
---package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
---dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
 
 -- Load mod-mitchell
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
