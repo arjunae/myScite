@@ -1,39 +1,43 @@
 #
 # myScites .gitignore.  
-# Hint: examine ignored files with	git status --ignored
+# Hint: examine ignored files with	git status --ignored[=matching]
 # Hint: When changing entries, remember using git rm -r *.* --cached
 #
 
-#- vscode Project patch files
-ipch/
+# temporary c/cpp linker files and objects within Scintilla, SciTEs build and lualib dirs
+**/c/*.[oa]
+**/c/*.obj
+**/gtk/*.[oa]
+**/gtk/*.obj
+**/win32/*.[oa]
+**/win32/*.obj
 
-#- temporary linker files, objects and archives, anywhere in the tree.
+#- build results within bin dirs. 
+**/scite/bin/*
+**/scintilla/bin/*
+**/src/*.build
+
+#- vscode Project patch files
+**/ipch/
+
+#- java and Python linker files / vc archives anywhere in the tree.
 *.tmp
 *.pyd
 *.class
 *.res
 *.exp
-**/c/*.o
-**/c/*.obj
-**/gtk/*.o
-**/gtk/*.obj
-**/win32/*.o
-**/win32/*.obj
+
+#- patch and aStyle backups
+*.orig
 
 #- Debugging symbols
 *.pdb
-
-#- temporary binaries within scintilla and scites bin dir. 
-**bin
 
 #- local scite session files 
 *.session
 clidebug.cmd
 
-#- patch and aStyle backups
-*.orig
+#- ignore lua libs build cache but allow static scite and openssl libs 
+!**/clib*
+**/clib*/*
 
-# allow static scite and openssl libs
-!**scite_lua5.1/**
-!**scite_lua5.3/**
-!**openssl/**
