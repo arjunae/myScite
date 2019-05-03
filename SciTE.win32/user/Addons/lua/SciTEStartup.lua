@@ -152,7 +152,7 @@ function myScite_OpenSwitch()
 
 	local AC_MAX_SIZE = 262144 --260kB
 	local fSize =0
-
+	
 	if buffer and props["FilePath"]~="" then 
 		buffer.size= file_size(props["FilePath"]) 
 		if buffer.size < AC_MAX_SIZE then 
