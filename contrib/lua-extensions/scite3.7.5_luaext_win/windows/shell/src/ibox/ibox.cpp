@@ -13,6 +13,10 @@ extern "C" {
 #define max(a,b)            (((a) > (b)) ? (a) : (b))
 #endif
 
+#ifndef DWL_MSGRESULT
+#define DWL_MSGRESULT 0
+#endif
+
 //------------------------------------------------------------------------------
 struct Rect : public RECT {
 	Rect() {
@@ -358,7 +362,7 @@ BOOL InputBox::OutText(HDC hdc)
 	if (prev != p)
 		TextOut(hdc, 0, y, prev, p-prev);
 
-	return reinterpret_cast<BOOL>(GetStockObject(NULL_BRUSH));
+	return reinterpret_cast<size_t>(GetStockObject(NULL_BRUSH));
 }
 
 //------------------------------------------------------------------------------
@@ -754,7 +758,7 @@ HWND FindScite()
 int InputBox::ShowModal()
 {
 	int result = DialogBoxParam(GetModuleHandle(L"shell.dll"), L"IBOX_DLG",
-		FindScite(), DlgHandler, reinterpret_cast<LPARAM>(this));
+		FindScite(), reinterpret_cast<DLGPROC>(DlgHandler), reinterpret_cast<LPARAM>(this));
 	if (result == -1) {
 		// Вообще-то, это означает, что произошла какая-то ошибка,
 		// но мы сделаем вид, что всё Ок: будто бы нажата Cancel

@@ -2,6 +2,12 @@
 REM for a debug build use:  make_debug_with_VC.bat
 setlocal enabledelayedexpansion enableextensions
 
+SET buildContext=14.0
+SET arch=x86
+REM SET arch=x64
+
+REM #############
+
 if exist src\vc.*.debug.build choice /C YN /M "A VC Debug Build has been found. Rebuild as Release? "
 if [%ERRORLEVEL%]==[2] (
   exit
@@ -13,12 +19,6 @@ if [%ERRORLEVEL%]==[2] (
 )
 :: Try to acquire a VisualStudio 14 Context
 :: If that fails, use systems highest available Version as defined via env var VS[xxx]COMNTOOLS
-
-SET buildContext=14.0
-SET arch=x86
-REM SET arch=x64
-
-:: #############
 
 echo ~~ About to build using:
 call force_vc_version.cmd %buildContext%

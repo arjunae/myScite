@@ -20,7 +20,7 @@ if exist *.o mingw32-make --makefile makefile.myscite.mingw clean
 
 mingw32-make --makefile makefile.myscite.mingw windows 
 if %errorlevel% gtr 0 goto eof else goto end
-if exist *.dll move *.dll ..\clib\
+if exist *.dll move *.dll ..\..\clib\
 goto end
 
 :eof

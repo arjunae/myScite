@@ -2,8 +2,8 @@
 #LUALIB = -L..\clib\ -lscite
 #LUALIB   = -L..\clib\ -llua5.3
 LUALIB = -L..\..\clib\scite_lua$(LUA_PLAT)\ $(LUA_LIB)
-
-CFLAGS= -s -shared -DLUA_COMPAT_5_1 
+WARNS64=-Wno-pointer-to-int-cast -Wno-int-to-pointer-cast -Wno-incompatible-pointer-types
+CFLAGS= -s -shared -DLUA_COMPAT_5_1 $(WARNS64)
 
 windows: spawner-ex.dll stubby.dll dbgl.dll
 
@@ -13,8 +13,8 @@ clean:
 	IF EXIST *.o del *.o 1>NUL
 
 spawner-ex.dll: win32-spawner-ex.c
-	gcc -shared -DLUA_COMPAT_5_1 -o spawner-ex.dll -I..\\..\\lua\\$(LUA_PLAT)\\src win32-spawner-ex.c --static $(LUALIB)
+	gcc $(CFLAGS) -o spawner-ex.dll -I..\\..\\lua\\$(LUA_PLAT)\\src win32-spawner-ex.c --static $(LUALIB)
 stubby.dll: stubby.c
-	gcc -shared -DLUA_COMPAT_5_1 -o stubby.dll -I..\\..\\lua\\$(LUA_PLAT)\\src stubby.c $(LUALIB)
+	gcc $(CFLAGS) -o stubby.dll -I..\\..\\lua\\$(LUA_PLAT)\\src stubby.c $(LUALIB)
 dbgl.dll: win32-spawner-ex.c	
-	gcc -shared -DLUA_COMPAT_5_1 -o dbgl.dll -I..\\..\\lua\\$(LUA_PLAT)\\src dbgl.c $(LUALIB)
+	gcc $(CFLAGS) -o dbgl.dll -I..\\..\\lua\\$(LUA_PLAT)\\src dbgl.c $(LUALIB)

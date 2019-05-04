@@ -113,7 +113,7 @@ static inline std::string opposite(const char ch) {
 Sci_PositionU stylerPos; // Keep a Reference to the last styled Position.
 Sci_PositionU styleEnd; // Additional sanity checking within ColourHere.
 
-static inline unsigned int ColourHere(Accessor &styler, Sci_PositionU pos, unsigned int style1) {
+static inline Sci_PositionU ColourHere(Accessor &styler, Sci_PositionU pos, unsigned int style1) {
 	if (pos<stylerPos) return stylerPos;
 	if (pos==(size_t)-1) return stylerPos;
 	if (pos>styleEnd) return stylerPos;
@@ -122,7 +122,7 @@ static inline unsigned int ColourHere(Accessor &styler, Sci_PositionU pos, unsig
 	return (pos);
 }
 
-static inline unsigned int ColourHere(Accessor &styler, Sci_PositionU pos, unsigned int style1, unsigned int style2) {
+static inline Sci_PositionU ColourHere(Accessor &styler, Sci_PositionU pos, unsigned int style1, unsigned int style2) {
 	if (pos<stylerPos) return stylerPos;
 	if (pos==(size_t)-1) return stylerPos;
 	if (pos>styleEnd) return stylerPos;
@@ -177,7 +177,7 @@ static unsigned int ColouriseMakeLine(
 	while ((i < lengthLine) && isspacechar(styler.SafeGetCharAt(startLine+i)))
 		i++;
 	
-	unsigned int theStart=startLine+i; // One Byte ought (not) to be enough for everyone....?
+	Sci_PositionU theStart=startLine+i; // One Byte ought (not) to be enough for everyone....?
 	
 	// check for a tab character in column 0 indicating a command
 	if ( styler.SafeGetCharAt(theStart-1) == '\t' ){
@@ -555,7 +555,7 @@ static int GetMLineStart(Accessor &styler, Sci_Position start) {
 // @brief returns a multilines length or current lines length
 // if the Position does not belong to a Multiline Segment.
 **/
-static int GetLineLen(Accessor &styler, Sci_Position start) {
+static Sci_PositionU GetLineLen(Accessor &styler, Sci_Position start) {
 	Sci_PositionU length=0;
 	Sci_Position counter=start;
 
