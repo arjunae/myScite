@@ -1,6 +1,6 @@
 
-BINARY0= ..\clib\scite\SciTE.exe
-BINARY1= ..\clib\scite\SciLexer.dll
+BINARY0= SciTE.exe
+BINARY1= SciLexer.dll
 
 DEFFILE0=SciTE.def
 DEFFILE1=SciLexer.def

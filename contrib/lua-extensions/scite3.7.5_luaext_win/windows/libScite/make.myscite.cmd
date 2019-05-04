@@ -5,8 +5,8 @@ mingw32-make --makefile makefile.myscite libscite.a
 ::mingw32-make lua.dll
 if %errorlevel% gtr 1 goto eof
 POPD
-move *.dll ..\clib\ 2>NUL
-move *.a ..\clib\ 2>NUL
+REM move *.dll ..\clib\ 2>NUL
+REM move *.a ..\clib\ 2>NUL
 mingw32-make --makefile makefile.myscite clean
 
 :eof

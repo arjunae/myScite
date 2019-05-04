@@ -9,6 +9,8 @@ if ["%VCINSTALLDIR%"] equ [""] (
 set VS14="C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\"
 ) else ( set VS14="%VCINSTALLDIR%")
 set PATH=%VS14%;%VS14%\bin;%PATH%
+
+cd src
 PUSHD 1.4.1\src\win_api\
 call make.myscite.vc.bat
 POPD
@@ -19,7 +21,7 @@ if exist *.obj del *.obj
 nmake -nologo -f makefile.myscite.vc
 if errorlevel 1 goto eof
 
-if exist hunspell.dll move hunspell.dll ..\clib\
+if exist hunspell.dll move hunspell.dll ..\..\clib\
 goto end
 
 :eof

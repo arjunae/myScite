@@ -12,11 +12,12 @@ set VS14="C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\"
 set PATH=%VS14%;%VS14%\bin;%PATH%
 PUSHD
 
+cd src
 call vcvarsall.bat %plat%
 if exist *.obj del *.obj
 nmake -nologo -f makefile.myscite.vc
 if %errorlevel% gtr 0 goto eof
-if exist *.dll move *.dll ..\clib\
+if exist *.dll move *.dll ..\..\clib\
 goto end
 
 :eof

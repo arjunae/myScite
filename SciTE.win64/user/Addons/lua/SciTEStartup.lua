@@ -24,6 +24,7 @@ math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 
 -- Startup script might be called multiple times, so only run those funcs once.
+
 if (true) then
 	-- track the amount of lua allocated memory
 	_G.session_used_memory=collectgarbage("count")*1024
@@ -34,6 +35,15 @@ if (true) then
 
 	-- Load Project support functions
 	dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
+	
+	-- chainload eventmanager / extman remake used by some lua mods
+	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
+	
+	-- Load Sidebar
+	-- workaround: loading the sidebar here avoids problems with ext.lua.auto.reload
+	--package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
+	--dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
+	
 end
 	
 -- ##################  Lua Samples #####################
@@ -152,7 +162,7 @@ function myScite_OpenSwitch()
 
 	local AC_MAX_SIZE = 262144 --260kB
 	local fSize =0
-
+	
 	if buffer and props["FilePath"]~="" then 
 		buffer.size= file_size(props["FilePath"]) 
 		if buffer.size < AC_MAX_SIZE then 
@@ -179,14 +189,8 @@ function OnInit()
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
+	if (gui) then gui.pass_focus() end
 
-	-- chainload eventmanager / extman remake used by some lua mods
-	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
-
-	-- Show Sidebar
---	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
---	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
-	
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
 	--dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')

@@ -13,6 +13,8 @@ REM Overidable via params
 if [%1] NEQ [] set LUA_PLAT=%1
 if [%2] NEQ [] set LUA_LIB=%2
 
+cd src
+
 PUSHD 1.4.1\src\win_api\
 call make.myscite.mingw.bat
 POPD
@@ -22,7 +24,7 @@ if exist *.o mingw32-make --makefile makefile.myscite.mingw clean
 mingw32-make --makefile makefile.myscite.mingw
 if %errorlevel% gtr 0 goto eof
 strip hunspell.dll
-if exist *.dll move *.dll ..\clib\
+if exist *.dll move *.dll ..\..\clib\
 goto end
 
 :eof

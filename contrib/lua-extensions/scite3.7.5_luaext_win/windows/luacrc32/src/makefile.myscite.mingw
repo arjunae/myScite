@@ -1,0 +1,19 @@
+LUA_INCLUDE = ../../lua/$(LUA_PLAT)/src/
+CC	= gcc
+STRIP	= strip
+TARGET	= crc32.dll
+OBJS	=  crc32.o wrap.o
+CFLAGS	= -I . -I $(LUA_INCLUDE)  -DLUA_COMPAT_5_1
+LDFLAGS	= -shared -fPIC  
+
+default: $(TARGET)
+
+clean:
+	del $(OBJS) $(TARGET) 1>NUL
+
+$(TARGET): $(OBJS)
+	$(CC) $(LDFLAGS) -o $(TARGET) $(OBJS) -L..\..\clib\scite_lua$(LUA_PLAT)\ $(LUA_LIB)
+	$(STRIP) $(TARGET)
+
+.c.o:
+	$(CC) $(CFLAGS) -c $< -o $@

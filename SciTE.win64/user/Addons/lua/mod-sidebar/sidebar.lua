@@ -43,10 +43,13 @@ Version 1.29.0
 	 sidebar.style.*.255=fore:#808080,back:#FEFEFE
 --]]--------------------------------------------------
 
---local lpeg
---if lpeg==nil then err,lpeg = pcall( require,"lpeg")  end
-require "gui"
-----------------------------------------------------------
+local lpeg
+if lpeg==nil then err,lpeg = pcall( require,"lpeg")  end
+require 'gui'
+
+-- arjunea: removed shell dependency. 
+-- Moved shell.inputbox to gui / Use gui.run and gui.msgbox 
+--require 'shell'
 
 -- ˘se scite.gettranslation ?
 local _DEBUG = false --–≤–∫–ª—é—á–∞–µ—Ç –≤—ã–≤–æ–¥ –æ—Ç–ª–∞–¥–æ—á–Ω–æ–π –∏–Ω—Ñ–æ—Ä–º–∞—Ü–∏–∏
@@ -194,7 +197,7 @@ function string.pattern( s )
   return (s:gsub(lua_patt_chars,'%%%0'))-- Ù‡ÍÚË˜ÂÒÍË ˝Í‡ÌËÓ‚‡ÌËÂ ÒÎÛÊÂ·Ì˚ı ÒËÏ‚ÓÎÓ‚ ÒËÏ‚ÓÎÓÏ %
 end
 
-local function GetCurrentWord()
+function GetCurrentWord()
   local current_pos = editor.CurrentPos
   return editor:textrange(editor:WordStartPosition(current_pos, true),
               editor:WordEndPosition(current_pos, true))
@@ -221,10 +224,6 @@ local function ShowCompactedLine(line_num)
 		line_num = x - 1
 	end
 end
-
--- =================================
--- End Common functions -Sidebar specific -
--- =================================
 
 if _DEBUG then
 local nametotime = {} -- maps names to starttimes
@@ -254,6 +253,10 @@ else
 	_DEBUG.timer, _DEBUG.timerstart, _DEBUG.timerstop = empty, empty, empty
 end
 
+
+-- =================================
+-- End Common functions -Sidebar specific -
+-- =================================
 
 ----------------------------------------------------------
 -- Create panels
@@ -304,8 +307,7 @@ if list_func_height <= 0 then list_func_height = 600 end
 local list_bookmarks = gui.list(true)
 list_bookmarks:add_column("@", 24)
 list_bookmarks:add_column("Bookmarks", 400)
---fix
---tab1:add(list_bookmarks, "bottom", list_func_height)
+tab1:add(list_bookmarks, "bottom", list_func_height)
 if colorback then list_bookmarks:set_list_colour(colorfore,colorback) end
 
 local list_func = gui.list(true)
@@ -353,7 +355,7 @@ local current_path = ''
 local file_mask = '*.*'
 
 local function FileMan_ShowPath()
-		local rtf = [[{\rtf{\fonttbl{\f0\fcharset204 Helv;}}{\colortbl;\red50\green130\blue210;\red80\green0\blue0;}\f0\fs16]]
+	local rtf = [[{\rtf{\fonttbl{\f0\fcharset204 Helv;}}{\colortbl;\red50\green130\blue210;\red80\green0\blue0;}\f0\fs16]]
 	local path = '\\cf1'..current_path:gsub('\\', '\\\\')
 	local mask = '\\cf2'..file_mask..''
 	memo_path:set_text(rtf..path..mask)
@@ -364,7 +366,11 @@ memo_path:on_key(function(key)
 		local new_path = memo_path:get_text()
 		if new_path ~= '' then
 			new_path = new_path:match('[^*]+')..'\\'
-			local is_folder = gui.files(new_path..'*', true)
+			local is_folder 
+			for entry,attrib in gui.dir(new_path) do
+				if attrib==16 then is_folder=true end
+			end
+			
 			if is_folder then
 				current_path = new_path
 			end
@@ -482,7 +488,7 @@ end
 function FileMan_FileRename()
 	local filename = FileMan_GetSelectedItem()
 	if filename == '' or filename == '..' then return end
-	local filename_new = shell.inputbox("Rename", "Enter new file name:", filename, function(name) return not name:match('[\\/:|*?"<>]') end)
+	local filename_new  gui.inputbox("Rename", "Enter new file name:", filename, function(name) return not name:match('[\\/:|*?"<>]') end)
 	if filename_new == nil then return end
 	if filename_new ~= '' and filename_new ~= filename then
 		os.rename(current_path..filename, current_path..filename_new)
@@ -494,8 +500,8 @@ function FileMan_FileDelete()
 	local filename, attr = FileMan_GetSelectedItem()
 	if filename == '' then return end
 	if attr == 'd' then return end
-	if shell.msgbox("Are you sure you want to DELETE this file?\n"..filename, "DELETE", 4+256) == 6 then
-	-- if gui.message("Are you sure you want to DELETE this file?\n"..filename, "query") then
+	--if shell.msgbox("Are you sure you want to DELETE this file?\n"..filename, "DELETE", 4+256) == 6 then
+	if gui.message("Are you sure you want to DELETE this file?\n"..filename, "query") then
 		os.remove(current_path..filename)
 		FileMan_ListFILL()
 	end
@@ -541,7 +547,7 @@ function FileMan_FileExec(params)
 		FileMan_FileExecWithSciTE(CommandBuild('wscript'))
 	-- Other
 	else
-		local ret, descr = shell.exec(current_path..filename..params)
+		local ret, descr = gui.run(filename,params,current_path)
 		if not ret then
 			print (">Exec: "..filename)
 			print ("Error: "..descr)
@@ -681,12 +687,12 @@ function Favorites_AddFile()
 	if fname == '' then return end
 	local fpath = current_path..fname
 	if attr == 'd' then
-		fname = ' ['..fname..']'
+--		fname = ' ['..fname..']'
 --		fpath = fpath:gsub('\\\.\.$', '')..'\\'
 	end
---	list_fav_table[#list_fav_table+1] = {fname, fpath}
---	Favorites_ListFILL()
---	Favorites_SaveList()
+	list_fav_table[#list_fav_table+1] = {fname, fpath}
+	Favorites_ListFILL()
+	Favorites_SaveList()
 end
 
 function Favorites_AddCurrentBuffer()
@@ -1209,10 +1215,9 @@ do -- Fill_Ext2Lang
 		['*.ahk']='autohotkey',
 	}
 	for i,v in pairs(patterns) do
---fix
---		for ext in (i..';'):gfind("%*%.([^;]+);") do
---					Ext2Lang[ext] = v
---		end
+		for ext in (i..';'):gfind("%*%.([^;]+);") do
+			Ext2Lang[ext] = v
+		end
 	end
 end -- Fill_Ext2Lang
 
@@ -1466,7 +1471,10 @@ else
 	end
 end
 
-local scite_InsertAbbreviation = scite_InsertAbbreviation or scite.InsertAbbreviation
+--arjunae: todo: port patch  local scite_InsertAbbreviation = scite_InsertAbbreviation or scite.InsertAbbreviation 
+function scite_InsertAbbreviation(expansion)
+end
+
 local function Abbreviations_InsertExpansion()
 	local sel_item = list_abbrev:get_selected_item()
 	if sel_item == -1 then return end
@@ -1480,8 +1488,8 @@ local function Abbreviations_ShowExpansion()
 	if sel_item == -1 then return end
 	local expansion = list_abbrev:get_item_data(sel_item)
 	expansion = expansion:gsub('\\\\','\4'):gsub('\\r','\r'):gsub('(\\n','\n'):gsub('\\t','\t'):gsub('\4','\\'):gsub('%%%%','%%')
-	local cp = editor:codepage()
-	if cp ~= 65001 then expansion = expansion:from_utf8(cp) end
+--arjunea local cp = editor:codepage()
+--arjunea if cp ~= 65001 then expansion = expansion:from_utf8(cp) end
 
 	local cur_pos = editor.CurrentPos
 	if Abbreviations_USECALLTIPS then
@@ -1521,9 +1529,9 @@ end)
 ----------------------------------------------------------
 local line_count
 
-function OnSwitch()
+local function OnSwitch()
 	_DEBUG.timerstart('OnSwitch')
-	line_count = editor.LineCount
+	if (buffer) then line_count = editor.LineCount else line_count=0 end
 	if tab0:bounds() then -- visible FileMan
 		local path = props['FileDir']
 		if path == '' then return end
@@ -1537,9 +1545,8 @@ function OnSwitch()
 		Abbreviations_ListFILL()
 	end
 	_DEBUG.timerstop('OnSwitch')
-	gui.pass_focus()
+	if (gui) then gui.pass_focus() end
 end
-
 AddEventHandler("OnSwitchFile", OnSwitch)
 AddEventHandler("OnOpen", OnSwitch)
 AddEventHandler("OnSave", OnSwitch)
@@ -1565,7 +1572,7 @@ else
 	SideBar_Show = function()
 		gui.set_panel(win_parent, sidebar_position)
 		props['sidebar.show']=1
-		OnSwitch()
+		if(buffer) then OnSwitch() end
 	end
 	SideBar_Hide = function()
 		gui.set_panel()
@@ -1720,7 +1727,7 @@ local function SetRGBColour(colour)
 	end
 end
 
-scite_OnDwellStart(function(pos, cur_word)
+AddEventHandler("OnDwellStart", function(pos, cur_word)
 	if pos ~= 0 then
 		local cur_text = editor:GetSelText()
 		if (cur_text == '') then
@@ -1733,8 +1740,9 @@ end)
 props["dwell.period"] = 50
 
 local cur_word_old = ""
-scite_OnKey( function()
+AddEventHandler("OnKey", function()
 	if editor.Focus then
+--	print(win_parent:bounds()) --Arjunae debug
 		local cur_word = GetCurrentWord() -- —Å–ª–æ–≤–æ, –Ω–∞ –∫–æ—Ç–æ—Ä–æ–º —Å—Ç–æ—è–ª–∞ –∫–∞—Ä–µ—Ç–∫–∞ –î–û –¢–û–ì–û –ö–ê–ö –ï–Å –ü–ï–†–ï–ú–ï–°–¢–ò–õ–ò
 		if cur_word ~= cur_word_old then
 			SetHexColour(cur_word)
@@ -1744,8 +1752,7 @@ scite_OnKey( function()
 end)
 
 --========================================================
--- now show SideBar:
+-- now show SideBar:	
 if tonumber(props['sidebar.show'])==1 then
 	SideBar_Show()
 end
-gui.pass_focus()

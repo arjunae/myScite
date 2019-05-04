@@ -4,13 +4,19 @@
 # Hint: When changing entries, remember using git rm -r *.* --cached
 #
 
-# temporary c/cpp linker files and objects within Scintilla, SciTEs build and lualib dirs
+#- c/cpp, java and Python object files / vc archives anywhere in the tree.
+*.o
+*.obj
+*.tmp
+*.pyd
+*.class
+*.res
+*.exp
+
+# temporary c/cpp object and linker files within Scintilla, SciTEs build and lualib dirs
 **/c/*.[oa]
-**/c/*.obj
 **/gtk/*.[oa]
-**/gtk/*.obj
 **/win32/*.[oa]
-**/win32/*.obj
 
 #- build results within bin dirs. 
 **/scite/bin/*
@@ -19,13 +25,6 @@
 
 #- vscode Project patch files
 **/ipch/
-
-#- java and Python linker files / vc archives anywhere in the tree.
-*.tmp
-*.pyd
-*.class
-*.res
-*.exp
 
 #- patch and aStyle backups
 *.orig

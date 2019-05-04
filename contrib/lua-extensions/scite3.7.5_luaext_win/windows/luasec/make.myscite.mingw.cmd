@@ -17,13 +17,13 @@ pushd
 cd src\luasocket
 mingw32-make --makefile makefile.myscite.mingw
 if %errorlevel% gtr 0 goto eof
-if exist *.a move *.a ..\..\
+if exist *.a move *.a ..\
 mingw32-make --makefile makefile.myscite.mingw clean
-cd ..\..\
+cd ..\
 mingw32-make --makefile makefile.myscite.mingw windows 
 if %errorlevel% gtr 0 goto eof
 mingw32-make --makefile makefile.myscite.mingw clean
-if exist *.dll move *.dll ..\clib\
+if exist *.dll move *.dll ..\..\clib\
 goto end
 
 :eof

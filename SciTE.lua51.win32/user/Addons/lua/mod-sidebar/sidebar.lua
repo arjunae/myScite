@@ -52,12 +52,12 @@ require 'gui'
 --require 'shell'
 
 -- �se scite.gettranslation ?
--- local _DEBUG = true --включает вывод отладочной информации
+local _DEBUG = false --включает вывод отладочной информации
 
 -- you can choose to make SideBar a stand-alone window
 local win = tonumber(props['sidebar.win']) == 1
 -- Переключатель способа предпросмотра аббревиатур: true = calltip, false = annotation
-local Abbreviations_USECALLTIPS = tonumber(props['sidebar.abbrev.calltip']) == 0
+local Abbreviations_USECALLTIPS = tonumber(props['sidebar.abbrev.calltip']) == 1
 -- отображение флагов/параметров по умолчанию:
 local _show_flags = tonumber(props['sidebar.functions.flags']) == 1
 local _show_params = tonumber(props['sidebar.functions.params']) == 1
@@ -687,8 +687,8 @@ function Favorites_AddFile()
 	if fname == '' then return end
 	local fpath = current_path..fname
 	if attr == 'd' then
-		fname = ' ['..fname..']'
-		fpath = fpath:gsub('\\\.\.$', '')..'\\'
+--		fname = ' ['..fname..']'
+--		fpath = fpath:gsub('\\\.\.$', '')..'\\'
 	end
 	list_fav_table[#list_fav_table+1] = {fname, fpath}
 	Favorites_ListFILL()
@@ -1471,7 +1471,7 @@ else
 	end
 end
 
---arjunea local scite_InsertAbbreviation = scite_InsertAbbreviation or scite.InsertAbbreviation 
+--arjunae: todo: port patch  local scite_InsertAbbreviation = scite_InsertAbbreviation or scite.InsertAbbreviation 
 function scite_InsertAbbreviation(expansion)
 end
 
@@ -1531,7 +1531,7 @@ local line_count
 
 local function OnSwitch()
 	_DEBUG.timerstart('OnSwitch')
-	line_count = editor.LineCount
+	if (buffer) then line_count = editor.LineCount else line_count=0 end
 	if tab0:bounds() then -- visible FileMan
 		local path = props['FileDir']
 		if path == '' then return end
@@ -1545,7 +1545,7 @@ local function OnSwitch()
 		Abbreviations_ListFILL()
 	end
 	_DEBUG.timerstop('OnSwitch')
-	gui.pass_focus()
+	if (gui) then gui.pass_focus() end
 end
 AddEventHandler("OnSwitchFile", OnSwitch)
 AddEventHandler("OnOpen", OnSwitch)
@@ -1572,7 +1572,7 @@ else
 	SideBar_Show = function()
 		gui.set_panel(win_parent, sidebar_position)
 		props['sidebar.show']=1
-		OnSwitch()
+		if(buffer) then OnSwitch() end
 	end
 	SideBar_Hide = function()
 		gui.set_panel()
@@ -1754,5 +1754,5 @@ end)
 --========================================================
 -- now show SideBar:	
 if tonumber(props['sidebar.show'])==1 then
-		gui.set_panel(win_parent, sidebar_position)
+	SideBar_Show()
 end

@@ -14,12 +14,13 @@ if [%1] NEQ [] set LUA_PLAT=%1
 if [%2] NEQ [] set LUA_LIB=%2
 
 PUSHD
+cd src
 :: Clean outdated object Files to ensure we dont link with outdated ones
 if exist *.o mingw32-make --makefile makefile.myscite.mingw clean
 
 ::ECHO ---- Please use VC to make gui.dll on win64
 mingw32-make -j %NUMBER_OF_PROCESSORS% --makefile makefile.myscite.mingw gui.dll
-if exist *.dll move *.dll ..\clib\
+if exist *.dll move *.dll ..\..\clib\
 goto end
 
 :eof

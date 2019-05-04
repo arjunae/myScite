@@ -33,15 +33,17 @@ if (true) then
 	-- This will automatically run any lua script located in \User\Addons\lua\lua
 	dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 
+	-- chainload eventmanager / extman remake used by some lua mods
+	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
+	
 	-- Load Project support functions
 	dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
-		
-	-- track the amount of lua allocated memory
-	_G.session_used_memory=collectgarbage("count")*1024
 	
 	-- Load Sidebar
-	--package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-	--dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
+	-- workaround: loading the sidebar here avoids problems with ext.lua.auto.reload
+	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
+	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
+	
 end
 
 
@@ -198,6 +200,8 @@ function OnInit()
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
+
+	if (gui) then gui.pass_focus() end
 
 	-- check SciLexer once per session and inform the User if its a nonStock Version.
 	local SLHash
