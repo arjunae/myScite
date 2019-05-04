@@ -3,8 +3,7 @@
 --
 --~~~~~~~~~~~~~
 
--- Windows requires this for us to immediately see all lua output.
-
+-- Windows requirement to immediately see all lua output.
 io.stdout:setvbuf("no")
 
 myHome = props["SciteUserHome"].."/user"
@@ -23,8 +22,8 @@ local unpack = table.unpack or unpack
 math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 
--- Startup script might be called multiple times, so only run those funcs once.
-
+-- Startup script might be called multiple times with ext.lua.auto.reload and saving
+-- so ensure running those funcs once.
 if (true) then
 	-- track the amount of lua allocated memory
 	_G.session_used_memory=collectgarbage("count")*1024
@@ -43,7 +42,6 @@ if (true) then
 	-- workaround: loading the sidebar here avoids problems with ext.lua.auto.reload
 	--package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 	--dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
-	
 end
 	
 -- ##################  Lua Samples #####################
@@ -189,7 +187,7 @@ function OnInit()
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
-	if (gui) then gui.pass_focus() end
+	--if (gui) then gui.pass_focus() end
 
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
@@ -214,7 +212,7 @@ function OnInit()
 	myScite_OpenSwitch() -- apply Indicators
 		
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
--- print("startupScript_reload")
+-- print("startupScript_onInit")
 
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

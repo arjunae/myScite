@@ -18,7 +18,7 @@ end
 local cryptSHA1= sha1(c0)
 
 file:close()
-print(cryptSHA1,"~~ Crypto SHA1 Hash :")
+print("~~ Crypto SHA1 Hash: "..cryptSHA1)
 
 print("-> Test CRC32:") 
 --[[

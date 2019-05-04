@@ -3,7 +3,7 @@
 --
 --~~~~~~~~~~~~~
 
--- Windows requires this for us to immediately see all lua output.
+-- Windows requirement to immediately see all lua output.
 io.stdout:setvbuf("no")
 
 myHome = props["SciteUserHome"].."/user"

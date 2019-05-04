@@ -3,13 +3,14 @@
 --
 --~~~~~~~~~~~~~
 
--- Windows requires this for us to immediately see all lua output.
+-- Windows requirement to immediately see all lua output.
 io.stdout:setvbuf("no")
 
 myHome = props["SciteUserHome"].."/user"
 defaultHome = props["SciteDefaultHome"]
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\?.lua" .. ";"..myHome.."\\Addons\\lua\\lua\\?.lua;"
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
+--package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\sha1\\?.lua;"
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
 
@@ -23,7 +24,8 @@ string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(x) with #x
 --~~~~~~~~~~~~~
 
--- Startup script might be called multiple times, so only run those funcs once
+-- Startup script might be called multiple times with ext.lua.auto.reload and saving
+-- so ensure running those funcs once.
 if (true) then 
 
 	-- track the amount of lua allocated memory
@@ -224,7 +226,7 @@ function OnInit()
 	
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
---print("startupScript_reload")
+--print("startupScript_OnInit")
 --print(editor.StyleAt[1])
 --print(props["Path"])
 

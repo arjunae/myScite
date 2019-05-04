@@ -1,308 +1,247 @@
---[[
---like Sha11er from LindseyStirling https://www.youtube.com/watch?v=49tpIMDy9BE
-local sha1 = require 'sha1'
+-- SHA1 Using LUA5.3 Internal Bitshift << 
 
-local hash_as_hex   = sha1(message)            -- returns a hex string
-local hash_as_data  = sha1.binary(message)     -- returns raw bytes
+-- sha1.common BEGIN
+local common = {}
 
-local hmac_as_hex   = sha1.hmac(key, message)        -- hex string
-local hmac_as_data  = sha1.hmac_binary(key, message) -- raw bytes
---]]
+-- Merges four bytes into a uint32 number.
+function common.bytes_to_uint32(a, b, c, d)
+   return a * 0x1000000 + b * 0x10000 + c * 0x100 + d
+end
+
+-- Splits a uint32 number into four bytes.
+function common.uint32_to_bytes(a)
+   local a4 = a % 256
+   a = (a - a4) / 256
+   local a3 = a % 256
+   a = (a - a3) / 256
+   local a2 = a % 256
+   local a1 = (a - a2) / 256
+   return a1, a2, a3, a4
+end
+-- sha1.common END
+
+-- sha1.lua53_ops BEGIN
+local lua53_ops = {}
+
+function lua53_ops.uint32_lrot(a, bits)
+   return ((a << bits) & 0xFFFFFFFF) | (a >> (32 - bits))
+end
+
+function lua53_ops.byte_xor(a, b)
+   return a ~ b
+end
+
+function lua53_ops.uint32_xor_3(a, b, c)
+   return a ~ b ~ c
+end
+
+function lua53_ops.uint32_xor_4(a, b, c, d)
+   return a ~ b ~ c ~ d
+end
+
+function lua53_ops.uint32_ternary(a, b, c)
+   -- c ~ (a & (b ~ c)) has less bitwise operations than (a & b) | (~a & c).
+   return c ~ (a & (b ~ c))
+end
+
+function lua53_ops.uint32_majority(a, b, c)
+   -- (a & (b | c)) | (b & c) has less bitwise operations than (a & b) | (a & c) | (b & c).
+   return (a & (b | c)) | (b & c)
+end
+
+-- sha1.lua53_ops END
 
 local sha1 = {
-  _VERSION     = "sha.lua 0.5.0",
-  _URL         = "https://github.com/kikito/sha.lua",
-  _DESCRIPTION = [[
-   SHA-1 secure hash computation, and HMAC-SHA1 signature computation in Lua (5.1)
-   Based on code originally by Jeffrey Friedl (http://regex.info/blog/lua/sha1)
-   And modified by Eike Decker - (http://cube3d.de/uploads/Main/sha1.txt)
-  ]],
-  _LICENSE = [[
-    MIT LICENSE
+   -- Meta fields retained for compatibility.
+   _VERSION     = "sha.lua 0.6.0",
+   _URL         = "https://github.com/mpeterv/sha1",
+   _DESCRIPTION = [[
+SHA-1 secure hash and HMAC-SHA1 signature computation in Lua,
+using bit and bit32 modules and Lua 5.3 operators when available
+and falling back to a pure Lua implementation on Lua 5.1.
+Based on code orignally by Jeffrey Friedl and modified by
+Eike Decker and Enrique García Cota.]],
+   _LICENSE = [[
+MIT LICENSE
 
-    Copyright (c) 2013 Enrique García Cota + Eike Decker + Jeffrey Friedl
+Copyright (c) 2013 Enrique García Cota, Eike Decker, Jeffrey Friedl
+Copyright (c) 2018 Peter Melnichenko
 
-    Permission is hereby granted, free of charge, to any person obtaining a
-    copy of this software and associated documentation files (the
-    "Software"), to deal in the Software without restriction, including
-    without limitation the rights to use, copy, modify, merge, publish,
-    distribute, sublicense, and/or sell copies of the Software, and to
-    permit persons to whom the Software is furnished to do so, subject to
-    the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
 
-    The above copyright notice and this permission notice shall be included
-    in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
 
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-    OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
-    IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
-    CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
-    TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-    SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  ]]
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.]]
 }
 
------------------------------------------------------------------------------------
+sha1.version = "0.6.0"
 
--- loading this file (takes a while but grants a boost of factor 13)
-local PRELOAD_CACHE = true
-
-local BLOCK_SIZE = 64 -- 512 bits
-
--- local storing of global functions (minor speedup)
-local floor,modf = math.floor,math.modf
-local char,format,rep = string.char,string.format,string.rep
-
--- merge 4 bytes to an 32 bit word
-local function bytes_to_w32(a,b,c,d) return a*0x1000000+b*0x10000+c*0x100+d end
--- split a 32 bit word into four 8 bit numbers
-local function w32_to_bytes(i)
-  return floor(i/0x1000000)%0x100,floor(i/0x10000)%0x100,floor(i/0x100)%0x100,i%0x100
+local function choose_ops()
+   if _VERSION:find("5%.3") then
+      return lua53_ops
+   elseif pcall(require, "bit") then -- lua5.1 bit
+      return bit_ops
+ --  elseif pcall(require, "bit32") then -- lua5.1 bit32
+ --     return "bit32_ops"
+ --  else
+ --     return "pure_lua_ops" -- lua5.1
+   end
 end
 
--- shift the bits of a 32 bit word. Don't use negative values for "bits"
-local function w32_rot(bits,a)
-  local b2 = 2^(32-bits)
-  local a,b = modf(a/b2)
-  return a+b*b2*(2^(bits))
-end
+local ops = choose_ops()
+-- require("sha1." .. choose_ops())
+local uint32_lrot = ops.uint32_lrot
+local byte_xor = ops.byte_xor
+local uint32_xor_3 = ops.uint32_xor_3
+local uint32_xor_4 = ops.uint32_xor_4
+local uint32_ternary = ops.uint32_ternary
+local uint32_majority = ops.uint32_majority
 
--- caching function for functions that accept 2 arguments, both of values between
--- 0 and 255. The function to be cached is passed, all values are calculated
--- during loading and a function is returned that returns the cached values (only)
-local function cache2arg(fn)
-  if not PRELOAD_CACHE then return fn end
-  local lut = {}
-  for i=0,0xffff do
-    local a,b = floor(i/0x100),i%0x100
-    lut[i] = fn(a,b)
-  end
-  return function(a,b)
-    return lut[a*0x100+b]
-  end
-end
+local bytes_to_uint32 = common.bytes_to_uint32
+local uint32_to_bytes = common.uint32_to_bytes
 
--- splits an 8-bit number into 8 bits, returning all 8 bits as booleans
-local function byte_to_bits(b)
-  local b = function(n)
-    local b = floor(b/n)
-    return b%2==1
-  end
-  return b(1),b(2),b(4),b(8),b(16),b(32),b(64),b(128)
-end
-
--- builds an 8bit number from 8 booleans
-local function bits_to_byte(a,b,c,d,e,f,g,h)
-  local function n(b,x) return b and x or 0 end
-  return n(a,1)+n(b,2)+n(c,4)+n(d,8)+n(e,16)+n(f,32)+n(g,64)+n(h,128)
-end
-
--- bitwise "and" function for 2 8bit number
-local band = cache2arg (function(a,b)
-  local A,B,C,D,E,F,G,H = byte_to_bits(b)
-  local a,b,c,d,e,f,g,h = byte_to_bits(a)
-  return bits_to_byte(
-    A and a, B and b, C and c, D and d,
-    E and e, F and f, G and g, H and h)
-end)
-
--- bitwise "or" function for 2 8bit numbers
-local bor = cache2arg(function(a,b)
-  local A,B,C,D,E,F,G,H = byte_to_bits(b)
-  local a,b,c,d,e,f,g,h = byte_to_bits(a)
-  return bits_to_byte(
-    A or a, B or b, C or c, D or d,
-    E or e, F or f, G or g, H or h)
-end)
-
--- bitwise "xor" function for 2 8bit numbers
-local bxor = cache2arg(function(a,b)
-  local A,B,C,D,E,F,G,H = byte_to_bits(b)
-  local a,b,c,d,e,f,g,h = byte_to_bits(a)
-  return bits_to_byte(
-    A ~= a, B ~= b, C ~= c, D ~= d,
-    E ~= e, F ~= f, G ~= g, H ~= h)
-end)
-
--- bitwise complement for one 8bit number
-local function bnot(x)
-  return 255-(x % 256)
-end
-
--- creates a function to combine to 32bit numbers using an 8bit combination function
-local function w32_comb(fn)
-  return function(a,b)
-    local aa,ab,ac,ad = w32_to_bytes(a)
-    local ba,bb,bc,bd = w32_to_bytes(b)
-    return bytes_to_w32(fn(aa,ba),fn(ab,bb),fn(ac,bc),fn(ad,bd))
-  end
-end
-
--- create functions for and, xor and or, all for 2 32bit numbers
-local w32_and = w32_comb(band)
-local w32_xor = w32_comb(bxor)
-local w32_or = w32_comb(bor)
-
--- xor function that may receive a variable number of arguments
-local function w32_xor_n(a,...)
-  local aa,ab,ac,ad = w32_to_bytes(a)
-  for i=1,select('#',...) do
-    local ba,bb,bc,bd = w32_to_bytes(select(i,...))
-    aa,ab,ac,ad = bxor(aa,ba),bxor(ab,bb),bxor(ac,bc),bxor(ad,bd)
-  end
-  return bytes_to_w32(aa,ab,ac,ad)
-end
-
--- combining 3 32bit numbers through binary "or" operation
-local function w32_or3(a,b,c)
-  local aa,ab,ac,ad = w32_to_bytes(a)
-  local ba,bb,bc,bd = w32_to_bytes(b)
-  local ca,cb,cc,cd = w32_to_bytes(c)
-  return bytes_to_w32(
-    bor(aa,bor(ba,ca)), bor(ab,bor(bb,cb)), bor(ac,bor(bc,cc)), bor(ad,bor(bd,cd))
-  )
-end
-
--- binary complement for 32bit numbers
-local function w32_not(a)
-  return 4294967295-(a % 4294967296)
-end
-
--- adding 2 32bit numbers, cutting off the remainder on 33th bit
-local function w32_add(a,b) return (a+b) % 4294967296 end
-
--- adding n 32bit numbers, cutting off the remainder (again)
-local function w32_add_n(a,...)
-  for i=1,select('#',...) do
-    a = (a+select(i,...)) % 4294967296
-  end
-  return a
-end
--- converting the number to a hexadecimal string
-local function w32_to_hexstring(w) return format("%08x",w) end
+local sbyte = string.byte
+local schar = string.char
+local sformat = string.format
+local srep = string.rep
 
 local function hex_to_binary(hex)
-  return hex:gsub('..', function(hexval)
-    return string.char(tonumber(hexval, 16))
-  end)
+   return (hex:gsub("..", function(hexval)
+      return schar(tonumber(hexval, 16))
+   end))
 end
 
--- building the lookuptables ahead of time (instead of littering the source code
--- with precalculated values)
-local xor_with_0x5c = {}
-local xor_with_0x36 = {}
-for i=0,0xff do
-  xor_with_0x5c[char(i)] = char(bxor(i,0x5c))
-  xor_with_0x36[char(i)] = char(bxor(i,0x36))
-end
+-- Calculates SHA1 for a string, returns it encoded as 40 hexadecimal digits.
+function sha1.sha1(str)
+   -- Input preprocessing.
+   -- First, append a `1` bit and seven `0` bits.
+   local first_append = schar(0x80)
 
------------------------------------------------------------------------------
+   -- Next, append some zero bytes to make the length of the final message a multiple of 64.
+   -- Eight more bytes will be added next.
+   local non_zero_message_bytes = #str + 1 + 8
+   local second_append = srep(schar(0), -non_zero_message_bytes % 64)
 
--- calculating the SHA1 for some text
-function sha1.sha1(msg)
-  local H0,H1,H2,H3,H4 = 0x67452301,0xEFCDAB89,0x98BADCFE,0x10325476,0xC3D2E1F0
-  local msg_len_in_bits = #msg * 8
+   -- Finally, append the length of the original message in bits as a 64-bit number.
+   -- Assume that it fits into the lower 32 bits.
+   local third_append = schar(0, 0, 0, 0, uint32_to_bytes(#str * 8))
 
-  local first_append = char(0x80) -- append a '1' bit plus seven '0' bits
+   str = str .. first_append .. second_append .. third_append
+   assert(#str % 64 == 0)
 
-  local non_zero_message_bytes = #msg +1 +8 -- the +1 is the appended bit 1, the +8 are for the final appended length
-  local current_mod = non_zero_message_bytes % 64
-  local second_append = current_mod>0 and rep(char(0), 64 - current_mod) or ""
+   -- Initialize hash value.
+   local h0 = 0x67452301
+   local h1 = 0xEFCDAB89
+   local h2 = 0x98BADCFE
+   local h3 = 0x10325476
+   local h4 = 0xC3D2E1F0
 
-  -- now to append the length as a 64-bit number.
-  local B1, R1 = modf(msg_len_in_bits  / 0x01000000)
-  local B2, R2 = modf( 0x01000000 * R1 / 0x00010000)
-  local B3, R3 = modf( 0x00010000 * R2 / 0x00000100)
-  local B4    = 0x00000100 * R3
+   local w = {}
 
-  local L64 = char( 0) .. char( 0) .. char( 0) .. char( 0) -- high 32 bits
-        .. char(B1) .. char(B2) .. char(B3) .. char(B4) --  low 32 bits
+   -- Process the input in successive 64-byte chunks.
+   for chunk_start = 1, #str, 64 do
+      -- Load the chunk into W[0..15] as uint32 numbers.
+      local uint32_start = chunk_start
 
-  msg = msg .. first_append .. second_append .. L64
-
-  assert(#msg % 64 == 0)
-
-  local chunks = #msg / 64
-
-  local W = { }
-  local start, A, B, C, D, E, f, K, TEMP
-  local chunk = 0
-
-  while chunk < chunks do
-    --
-    -- break chunk up into W[0] through W[15]
-    --
-    start,chunk = chunk * 64 + 1,chunk + 1
-
-    for t = 0, 15 do
-      W[t] = bytes_to_w32(msg:byte(start, start + 3))
-      start = start + 4
-    end
-
-    --
-    -- build W[16] through W[79]
-    --
-    for t = 16, 79 do
-      -- For t = 16 to 79 let Wt = S1(Wt-3 XOR Wt-8 XOR Wt-14 XOR Wt-16).
-      W[t] = w32_rot(1, w32_xor_n(W[t-3], W[t-8], W[t-14], W[t-16]))
-    end
-
-    A,B,C,D,E = H0,H1,H2,H3,H4
-
-    for t = 0, 79 do
-      if t <= 19 then
-        -- (B AND C) OR ((NOT B) AND D)
-        f = w32_or(w32_and(B, C), w32_and(w32_not(B), D))
-        K = 0x5A827999
-      elseif t <= 39 then
-        -- B XOR C XOR D
-        f = w32_xor_n(B, C, D)
-        K = 0x6ED9EBA1
-      elseif t <= 59 then
-        -- (B AND C) OR (B AND D) OR (C AND D
-        f = w32_or3(w32_and(B, C), w32_and(B, D), w32_and(C, D))
-        K = 0x8F1BBCDC
-      else
-        -- B XOR C XOR D
-        f = w32_xor_n(B, C, D)
-        K = 0xCA62C1D6
+      for i = 0, 15 do
+         w[i] = bytes_to_uint32(sbyte(str, uint32_start, uint32_start + 3))
+         uint32_start = uint32_start + 4
       end
 
-      -- TEMP = S5(A) + ft(B,C,D) + E + Wt + Kt;
-      A,B,C,D,E = w32_add_n(w32_rot(5, A), f, E, W[t], K),
-        A, w32_rot(30, B), C, D
-    end
-    -- Let H0 = H0 + A, H1 = H1 + B, H2 = H2 + C, H3 = H3 + D, H4 = H4 + E.
-    H0,H1,H2,H3,H4 = w32_add(H0, A),w32_add(H1, B),w32_add(H2, C),w32_add(H3, D),w32_add(H4, E)
-  end
-  local f = w32_to_hexstring
-  return f(H0) .. f(H1) .. f(H2) .. f(H3) .. f(H4)
+      -- Extend the input vector.
+      for i = 16, 79 do
+         w[i] = uint32_lrot(uint32_xor_4(w[i - 3], w[i - 8], w[i - 14], w[i - 16]), 1)
+      end
+
+      -- Initialize hash value for this chunk.
+      local a = h0
+      local b = h1
+      local c = h2
+      local d = h3
+      local e = h4
+
+      -- Main loop.
+      for i = 0, 79 do
+         local f
+         local k
+
+         if i <= 19 then
+            f = uint32_ternary(b, c, d)
+            k = 0x5A827999
+         elseif i <= 39 then
+            f = uint32_xor_3(b, c, d)
+            k = 0x6ED9EBA1
+         elseif i <= 59 then
+            f = uint32_majority(b, c, d)
+            k = 0x8F1BBCDC
+         else
+            f = uint32_xor_3(b, c, d)
+            k = 0xCA62C1D6
+         end
+
+         local temp = (uint32_lrot(a, 5) + f + e + k + w[i]) % 4294967296
+         e = d
+         d = c
+         c = uint32_lrot(b, 30)
+         b = a
+         a = temp
+      end
+
+      -- Add this chunk's hash to result so far.
+      h0 = (h0 + a) % 4294967296
+      h1 = (h1 + b) % 4294967296
+      h2 = (h2 + c) % 4294967296
+      h3 = (h3 + d) % 4294967296
+      h4 = (h4 + e) % 4294967296
+   end
+
+   return sformat("%08x%08x%08x%08x%08x", h0, h1, h2, h3, h4)
 end
 
-
-function sha1.binary(msg)
-  return hex_to_binary(sha1.sha1(msg))
+function sha1.binary(str)
+   return hex_to_binary(sha1.sha1(str))
 end
+
+-- Precalculate replacement tables.
+local xor_with_0x5c = {}
+local xor_with_0x36 = {}
+
+for i = 0, 0xff do
+   xor_with_0x5c[schar(i)] = schar(byte_xor(0x5c, i))
+   xor_with_0x36[schar(i)] = schar(byte_xor(0x36, i))
+end
+
+-- 512 bits.
+local BLOCK_SIZE = 64
 
 function sha1.hmac(key, text)
-  assert(type(key)  == 'string', "key passed to sha1.hmac should be a string")
-  assert(type(text) == 'string', "text passed to sha1.hmac should be a string")
+   if #key > BLOCK_SIZE then
+      key = sha1.binary(key)
+   end
 
-  if #key > BLOCK_SIZE then
-    key = sha1.binary(key)
-  end
+   local key_xord_with_0x36 = key:gsub('.', xor_with_0x36) .. srep(schar(0x36), BLOCK_SIZE - #key)
+   local key_xord_with_0x5c = key:gsub('.', xor_with_0x5c) .. srep(schar(0x5c), BLOCK_SIZE - #key)
 
-  local key_xord_with_0x36 = key:gsub('.', xor_with_0x36) .. string.rep(string.char(0x36), BLOCK_SIZE - #key)
-  local key_xord_with_0x5c = key:gsub('.', xor_with_0x5c) .. string.rep(string.char(0x5c), BLOCK_SIZE - #key)
-
-  return sha1.sha1(key_xord_with_0x5c .. sha1.binary(key_xord_with_0x36 .. text))
+   return sha1.sha1(key_xord_with_0x5c .. sha1.binary(key_xord_with_0x36 .. text))
 end
 
 function sha1.hmac_binary(key, text)
-  return hex_to_binary(sha1.hmac(key, text))
+   return hex_to_binary(sha1.hmac(key, text))
 end
 
-setmetatable(sha1, {__call = function(_,msg) return sha1.sha1(msg) end })
+setmetatable(sha1, {__call = function(_, str) return sha1.sha1(str) end})
 
 return sha1

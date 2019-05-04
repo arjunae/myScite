@@ -5,7 +5,7 @@
 #
 # Make sure you have GNU Make, and type `make` in this Makefile folder.
 #
-0>
+
 # General Configuration
 VERSION         = 0.1.13
 FOUNDATION_HOME = $(shell pwd)/.foundation

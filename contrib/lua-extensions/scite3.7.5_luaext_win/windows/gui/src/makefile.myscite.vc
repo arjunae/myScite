@@ -30,7 +30,7 @@ gui.dll: gui_ext.obj $(YAWL) $(IBOX)
 	link $(LFLAGS) -OUT:gui.dll $(LIBS) gui_ext.obj $(YAWL) $(IBOX)
 
 clean:
-	-del /S *.obj gui.lib 1>NUL
+	-del /S *.obj *.exp gui.lib 1>NUL
 
 gui_ext.obj: gui_ext.cpp yawl.h
 	cl $(CFLAGS) -I$(LUA_INCLUDE) -I$(VS_INCLUDE) -Fo"gui_ext.obj" gui_ext.cpp
