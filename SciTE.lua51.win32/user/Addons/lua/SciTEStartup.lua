@@ -10,7 +10,6 @@ myHome = props["SciteUserHome"].."/user"
 defaultHome = props["SciteDefaultHome"]
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\?.lua" .. ";"..myHome.."\\Addons\\lua\\lua\\?.lua;"
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
---package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\sha1\\?.lua;"
 package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
 

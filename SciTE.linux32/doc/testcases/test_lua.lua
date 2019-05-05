@@ -2,8 +2,6 @@
 -- ^^tell Scite to use its internal Lua interpreter.
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local defaultHome= props["SciteDefaultHome"]
-
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 print("-> go1 sha1 lol") 
 local sha1 = require "sha1"
 local file,err = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
@@ -18,7 +16,20 @@ end
 local cryptSHA1= sha1(c0)
 
 file:close()
-print(cryptSHA1,"~~ Crypto SHA1 Hash :")
+print("~~ Crypto SHA1 Hash: "..cryptSHA1)
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+local md5 = require 'md5'
+local m = md5.new()
+local file = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
+while true do
+	local bytes = file:read(4096)
+	if not bytes then break end
+	m:update(bytes)
+end	
+	file:close()
+print("SciTEUser.properties MD5 Hash:	", md5.tohex(m:finish()))
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 print("-> Test CRC32:") 
 --[[
@@ -46,7 +57,6 @@ print("SciLexer CRC32 Hash:",crccalc:tohex())
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 print("-> Test SciTE lua wrapper") 
---print_registryidx()
 print ("lua Version String ==",_VERSION)
 -- Test Scite->lua global Variable namespace
 print("Value of IDM_NEXTMSG ==", IDM_NEXTMSG)
