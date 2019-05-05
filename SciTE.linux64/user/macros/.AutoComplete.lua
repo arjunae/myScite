@@ -273,7 +273,7 @@ local function handleChar(char, calledByHotkey)
     local pos = editor.CurrentPos
     local startPos = editor:WordStartPosition(pos, true)
     local len = pos - startPos
-    buffer.dirty=true
+    if (buffer.size) then buffer.dirty=true end
     
     if ipairs==nil then ipairs={} end
     if editor.Lexer==1  then return end

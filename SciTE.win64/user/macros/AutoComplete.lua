@@ -273,7 +273,7 @@ local function handleChar(char, calledByHotkey)
     local pos = editor.CurrentPos
     local startPos = editor:WordStartPosition(pos, true)
     local len = pos - startPos
-    buffer.dirty=true
+    if (buffer.size) then buffer.dirty=true end
     
     if ipairs==nil then ipairs={} end
     if editor.Lexer==1  then return end
@@ -367,7 +367,8 @@ end
 
 local function handleKey(key, shift, ctrl, alt)
     if props["Language"]==""  then  return end
-    if buffer.size and buffer.size > AC_MAX_SIZE then  return end
+    if not buffer then return end -- probably output pane
+    if buffer.size and buffer.size > AC_MAX_SIZE then return end
 
     if key == 0x20 and ctrl and not (shift or alt) then -- ^Space
         handleChar(nil, true)

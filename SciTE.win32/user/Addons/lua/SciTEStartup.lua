@@ -187,7 +187,8 @@ function OnInit()
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
-	--if (gui) then gui.pass_focus() end
+
+	editor:ScrollCaret() -- Send focus to editor
 
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"

@@ -202,7 +202,8 @@ end
 -- vars $var; if none of these, then evaluate as a Lua expression, like
 -- the canonical Lua prompt (= <expr> prints out a value; otherwise any
 -- Lua statement)
-scite_OnOutputLine (function (line)
+
+function handleDebugPrompt(line)
 	local line = strip_prompt(line)
 	local state = dbg_status()
 	local dbg = dbg_obj()    
@@ -231,7 +232,7 @@ scite_OnOutputLine (function (line)
     end
     trace(prompt)
     return true
-end)
+end
 
 local debug_status = scite_GetProp('debug.status',false)
 
@@ -437,6 +438,7 @@ end
 
 function do_run()
 	if status == 'idle' then
+	scite_OnOutputLine (handleDebugPrompt,line)
 	-- Arjunea Fix lua5.3.4
 		if not (props['debug.asktarget']=='' or props['debug.asktarget'] == '0') and (#stripText == 0 ) then
 				scite.StripShow("") -- clear strip
