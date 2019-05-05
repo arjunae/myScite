@@ -9,6 +9,8 @@
 -- scite_OnWord (called when user has entered a word)
 -- scite_OnEditorLine (called when a line is entered into the editor)
 -- scite_OnOutputLine (called when a line is entered into the output pane)
+-- 06.05.19 added remove_OnOutputLine(fn) 
+
 
 -- this is an opportunity for you to make regular Lua packages available to SciTE
 --~ package.path = package.path..';C:\\lang\\lua\\lua\\?.lua'
@@ -390,6 +392,19 @@ end
 
 function scite_OnEditorLine(fn,rem)
   set_line_handler(fn,rem,_LineEd,on_line_editor_char)
+end
+
+--
+-- remove a previously added OnOutputLine handler.
+-- if that was the only one in, also clear on_line_output_char 
+--
+function remove_OnOutputLine(fn)
+        for i,handler in pairs(_LineOut) do
+            if handler==fn then table.remove(_LineOut,i)  end
+        end
+        if (#_LineOut==0) then 
+            scite_OnChar(on_line_output_char,'remove')
+        end    
 end
 
 -- with this scheme, there is a primary handler, and secondary prompt handlers

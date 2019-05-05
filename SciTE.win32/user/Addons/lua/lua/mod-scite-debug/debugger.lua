@@ -224,6 +224,10 @@ function handleDebugPrompt(line)
 				local r = spawner.popen(line:sub(2))
 				trace(r:read('*a'))
 				r:close()
+			elseif (promptHelp==nil) then
+					trace("\t=Debug Prompt=\n\tType in a lua statement\n\tor evaluate Properties by\n\ttyping the $varname / set $varname = val\n")
+					promptHelp=false;
+					set_prompt(lua_prompt)
 			else
 				eval_lua(line)
 			end
@@ -469,6 +473,7 @@ function do_kill()
 		end
 		 closing_process()
 	end
+	remove_OnOutputLine(handleDebugPrompt)
 end
 
 function do_next()
@@ -806,10 +811,10 @@ end
 function closing_process()
     print 'quitting debugger'
 	 stripText=""
-	--spawner_obj:close()
+	 --spawner_obj:close()
     set_status('idle')
     if catdbg ~= nil then print(catdbg); catdbg:close() end
-	scite_LeaveInteractivePrompt()   
+	scite_LeaveInteractivePrompt()
 	RemoveLastMarker(true)
 	os.remove(dbg.cmd_file)
 end

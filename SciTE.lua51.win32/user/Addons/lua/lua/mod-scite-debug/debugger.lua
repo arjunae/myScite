@@ -160,10 +160,10 @@ end
 -- vars $var; if none of these, then evaluate as a Lua expression, like
 -- the canonical Lua prompt (= <expr> prints out a value; otherwise any
 -- Lua statement)
-scite_OnOutputLine (function (line)
+function handleDebugPrompt(line)
 	local line = strip_prompt(line)
 	local state = dbg_status()
-	local dbg = dbg_obj()    
+	local dbg = dbg_obj()
     if state ~= 'idle' then        
         dbg.last_command = '<inter>'
         spawner_command(line)
@@ -181,6 +181,10 @@ scite_OnOutputLine (function (line)
 				local r = spawner.popen(line:sub(2))
 				trace(r:read('*a'))
 				r:close()
+			elseif (promptHelp==nil) then
+					trace("\t=Debug Prompt=\n\tType in a lua statement\n\tor evaluate Properties by\n\ttyping the $varname / set $varname = val\n")
+					promptHelp=false;
+					set_prompt(lua_prompt)
 			else
 				eval_lua(line)
 			end
@@ -189,7 +193,7 @@ scite_OnOutputLine (function (line)
     end
     trace(prompt)
     return true
-end)
+end
 
 local debug_status = scite_GetProp('debug.status',false)
 
@@ -395,6 +399,7 @@ end
 
 function do_run()
 	if status == 'idle' then
+		scite_OnOutputLine (handleDebugPrompt,line)
 	-- Arjunea
 		if not (props['debug.asktarget']=='' or props['debug.asktarget'] == '0') and (#stripText == 0 ) then
 				scite.StripShow("") -- clear strip
@@ -425,6 +430,7 @@ function do_kill()
 		end
 		 closing_process()
 	end
+	remove_OnOutputLine(handleDebugPrompt)
 end
 
 function do_next()

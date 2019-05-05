@@ -762,7 +762,7 @@ function closing_process()
 	--spawner_obj:close()
     set_status('idle')
     if catdbg ~= nil then print(catdbg); catdbg:close() end
-	scite_LeaveInteractivePrompt()   
+	scite_LeaveInteractivePrompt()
 	RemoveLastMarker(true)
 	os.remove(dbg.cmd_file)
 end

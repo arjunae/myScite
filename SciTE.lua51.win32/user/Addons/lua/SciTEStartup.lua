@@ -34,29 +34,25 @@ if (true) then
 	-- This will automatically run any lua script located in \User\Addons\lua\lua
 	dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 
-	-- chainload eventmanager / extman remake used by some lua mods
-	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
-	
 	-- Load Project support functions
 	dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
+
+	-- chainload eventmanager / extman remake used by some lua mods
+	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 	
 	-- Load Sidebar
 	-- workaround: loading the sidebar here avoids problems with ext.lua.auto.reload
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
 	
+	-- Load mod-mitchell
+	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
+	--dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+
+	-- Load cTags Browser
+	dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
+
 end
-
-
--- Load mod-mitchell
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
-dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
-
--- Load cTags Browser
-dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
-
--- Load Project support functions
-dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
