@@ -11,7 +11,6 @@ myHome = props["SciteUserHome"].."/user"
 defaultHome = props["SciteDefaultHome"]
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\?.lua" .. ";"..myHome.."\\Addons\\lua\\lua\\?.lua;"
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
-package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
 
 dirSep, GTK = props['PLAT_GTK']
@@ -31,8 +30,13 @@ if (true) then
 	
 	-- Load extman.lua
 	-- This will automatically run any lua script located in \User\Addons\lua\lua
+	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 
+	-- Load Debugging support
+	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-scite-debug\\?.lua;"
+	dofile(myHome..'\\Addons\\lua\\mod-scite-debug\\debugger.lua')
+	
 	-- Load Project support functions
 	dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
 	
@@ -188,7 +192,7 @@ function OnInit()
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
-	if (gui) then gui.pass_focus() end
+	editor:GrabFocus()  -- Ensure editors focus
 
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"

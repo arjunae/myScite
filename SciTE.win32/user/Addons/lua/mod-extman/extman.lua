@@ -841,7 +841,7 @@ end
 local loaded = {}
 local current_filepath
 
--- this will quietly fail....
+-- this will quietly fail on errors....
 local function silent_dofile(f)
     if scite_FileExists(f) then
         if not loaded[f] then

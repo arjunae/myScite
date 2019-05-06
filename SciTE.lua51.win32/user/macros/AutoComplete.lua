@@ -159,7 +159,7 @@ local function setLexerSpecificStuff()
     end
     if IGNORE_STYLES[iLexer] then
     -- Define a function for calling later:
-        shouldIgnorePos = function(pos)  
+        shouldIgnorePos = function(pos)
             return isInTable(IGNORE_STYLES[iLexer], editor.StyleAt[pos])
         end
     else
@@ -215,7 +215,7 @@ local function buildNames()
 
 --print("build names buffer state:",buffer.dirty)
         
-    if props["Language"]~="" and buffer.dirty==true then 
+    if props["Language"]~="" and buffer.size and buffer.dirty==true then 
     if buffer.size and buffer.size > AC_MAX_SIZE then  return end
     if DEBUG>=1 then  print("ac>buildnames") end
         setLexerSpecificStuff()
@@ -367,7 +367,7 @@ end
 
 local function handleKey(key, shift, ctrl, alt)
     if props["Language"]==""  then  return end
-    if buffer.size and buffer.size > AC_MAX_SIZE then  return end
+    if buffer.size and buffer.size > AC_MAX_SIZE then return end
 
     if key == 0x20 and ctrl and not (shift or alt) then -- ^Space
         handleChar(nil, true)
@@ -433,7 +433,7 @@ local events = {
         names = buffer.namesForAutoComplete
         if not names then
             -- Otherwise, build a new list.
-            buffer.dirty=true
+            if(buffer.size) then buffer.dirty=true end
             buildNames()
         else
             setLexerSpecificStuff()

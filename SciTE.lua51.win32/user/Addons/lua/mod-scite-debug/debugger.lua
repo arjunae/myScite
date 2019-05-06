@@ -5,7 +5,6 @@
 -- (3) first generalized version
 
 if lfs==nil then err,lfs = pcall( require,"lfs")  end --chdir
-scite_require 'marker_indic.lua'
 
 local GTK = scite_GetProp('PLAT_GTK')
 local stripText = ''
@@ -33,6 +32,8 @@ scite_Command {
 --	  'Up|do_up|Alt+U',
 --	  'Down|do_down|Alt+D',
 }
+	
+scite_require 'extlib.lua'
 
 local lua_prompt = '(lua)'
 local prompt
@@ -64,32 +65,6 @@ end
 local function at (s,i)
     return s:sub(i,i)
 end
-
---- note: for finding the last occurance of a character, it's actualy
---- easier to do it in an explicit loop rather than use patterns.
---- (These are not time-critcal functions)
-function split_last (s,ch)
-    local i = #s
-    while i > 0 do
-        if at(s,i) == ch then
-            return s:sub(i+1),i
-        end
-        i = i - 1
-    end
-end
-
-function choose(cond,x,y)
-	if cond then return x else return y end
-end
-
-
-function join(path,part1,part2)
-	local res = path..dirsep..part1
-    if part2 then return res..dirsep..part2 else return res end
-end
-
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 
 function dbg_last_command()
     return dbg.last_command
@@ -173,7 +148,6 @@ function cd(path)
 	end
 end
 
-
 function eval_lua(line)
     if sub(line,1,1) == '=' then
         line = 'pretty_print('..sub(line,2)..')'
@@ -202,11 +176,10 @@ end
 -- vars $var; if none of these, then evaluate as a Lua expression, like
 -- the canonical Lua prompt (= <expr> prints out a value; otherwise any
 -- Lua statement)
-
 function handleDebugPrompt(line)
 	local line = strip_prompt(line)
 	local state = dbg_status()
-	local dbg = dbg_obj()    
+	local dbg = dbg_obj()
     if state ~= 'idle' then        
         dbg.last_command = '<inter>'
         spawner_command(line)
@@ -267,7 +240,7 @@ function Dbg:default_target()
     if ext then
 		-- Ndless SDK: don't use a relative path. Use any ELF file.
       --  local res = props['FileDir']..'\\' --scite_webdev
-         local res = props['FileName'] -- Arjunae
+         local res = props['FileName'] -- c scite_webdev
 		  if ext ~= '' then res = res..'.'..ext end
         return res
     else
@@ -310,7 +283,7 @@ function Dbg:clear_breakpoint(file,line,num)
 end
 
 -- run until the indicated file:line is reached
-function Dbg:gotoL(file,lno)
+function Dbg:goto(file,lno)
 	dbg_command('tbreak',file..':'..lno)
 	dbg_command('continue')
 end
@@ -442,14 +415,14 @@ end
 
 function do_run()
 	if status == 'idle' then
-	scite_OnOutputLine (handleDebugPrompt,line)
-	-- Arjunea Fix lua5.3.4
+		scite_OnOutputLine (handleDebugPrompt,line)
+	-- Arjunea
 		if not (props['debug.asktarget']=='' or props['debug.asktarget'] == '0') and (#stripText == 0 ) then
 				scite.StripShow("") -- clear strip
-				scite.StripShow("!'/todo: rewrite.../ Target name:'["..props['FilePath'].."]((OK))(&Cancel)")
+				scite.StripShow("!'Target name:'["..props['FilePath'].."]((OK))(&Cancel)")
 				return
 		end
-			if lfs then lfs.chdir(props['FileDir']) else os.chdir(props['FileDir'])	end
+		if lfs then lfs.chdir(props['FileDir']) else os.chdir(props['FileDir'])	end
 		if	do_launch() then
 			set_status('running')
 		else
@@ -513,7 +486,7 @@ end
 function do_temp_breakpoint()
 	local lno = current_line() + 1
 	local file = props['FileNameExt']
-	dbg:gotoL(file,lno)
+	dbg:goto(file,lno)
 end
 
 local function char_at(p)
@@ -717,7 +690,7 @@ function do_launch()
 			target = target:sub(4)
 			no_host_symbols = true
 		end
-        ext = split_last(target,'.') --File Ext
+        ext = extension_of(target)
     else
         ext = props['FileExt']
     end
@@ -794,7 +767,7 @@ end
 -- find the Unix/GTK equivalent! It is meant to bring the debugger
 -- SciTE instance to the front.
 function raise_scite()
-	spawner.foreground()
+	--spawner.foreground()
 end
 
 -- output of inspected variables goes here; this mechanism allows us
@@ -811,10 +784,10 @@ end
 function closing_process()
     print 'quitting debugger'
 	 stripText=""
-	 --spawner_obj:close()
+--	spawner_obj:close()
     set_status('idle')
     if catdbg ~= nil then print(catdbg); catdbg:close() end
-	scite_LeaveInteractivePrompt()
+-- scite_LeaveInteractivePrompt()   
 	RemoveLastMarker(true)
 	os.remove(dbg.cmd_file)
 end
@@ -994,3 +967,16 @@ scite_OnDwellStart(function (pos,s)
         return true
     end
 end)
+
+--
+-- Load all debug interface classes
+--
+if (props["debug.path"]=="") then 
+	print("debugger.lua: Error- Please define $(debug.path) ")
+	return false
+end
+
+dbgIntsPath=props["debug.path"]..dirsep.."dbgInterfaces"..dirsep.."*.lua"
+for i,file in pairs(scite_Files(dbgIntsPath)) do
+  dofile(file)
+end
