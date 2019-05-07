@@ -191,7 +191,7 @@ function LGdb:set_breakpoint(file,lno)
     end
 end
 
-function LGdb:goto_file_line(file,line)	
+function LGdb:gotoL_file_line(file,line)	
 	ProcessOutput(gprefix..self.target_dir..'/'..file..":"..line..'\n')
 end
 
