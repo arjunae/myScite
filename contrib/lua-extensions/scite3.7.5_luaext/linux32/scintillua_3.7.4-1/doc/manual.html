@@ -1,0 +1,268 @@
+  <!doctype html>
+  <html>
+    <head>
+      <title>manual - Scintillua</title>
+      <link rel="stylesheet" href="style.css" type="text/css" />
+      <link rel="icon" href="icon.png" type="image/png" />
+      <meta charset="utf-8" />
+    </head>
+    <body>
+      <div id="content">
+        <div id="header">
+          <h1><img src="images/icon.png" alt="" /> Scintillua</h1>
+
+<ul>
+<li><a href="README.html">Home</a> |</li>
+<li><a href="http://foicica.com/scintillua/download">Download</a> |</li>
+<li><a href="manual.html">Manual</a> |</li>
+<li><a href="api.html">API</a> |</li>
+<li><a href="http://foicica.com/hg/scintillua">Source</a> |</li>
+<li><a href="http://foicica.com/stats.html#Scintillua">Stats</a> |</li>
+<li><a href="http://foicica.com/lists">Mailing List</a></li>
+</ul>
+
+
+        </div>
+        <div id="main">
+          <a name="Installation"></a>
+<h1>Installation</h1>
+
+<a name="Drop-in.External.Lexer"></a>
+<h2>Drop-in External Lexer</h2>
+
+<p>The environments of Scintilla-based applications vary greatly, but as long as
+external lexers are supported, Scintillua can be dropped into any existing
+installation.</p>
+
+<a name="Using.Scintillua.with.SciTE"></a>
+<h3>Using Scintillua with SciTE</h3>
+
+<p><a href="http://scintilla.org/SciTE.html">SciTE</a> is the SCIntilla based Text Editor. Scintillua can be easily dropped
+into any SciTE installation of version 2.25 or higher with or without
+administrative privilages.</p>
+
+<a name="Installing.for.All.Users"></a>
+<h4>Installing for All Users</h4>
+
+<p>Installing Scintillua for all users will likely require administrator
+privilages.</p>
+
+<ol>
+<li>Locate your SciTE installation, typically <code>C:\Program Files\SciTE\</code> for
+Windows and <code>/usr/share/scite/</code> for Linux.</li>
+<li>Unpack Scintillua to a temporary directory and move the <code>lexers/</code> directory
+to the root of your SciTE installation.</li>
+<li><p>Add the following to the end of your <code>SciTEGlobal.properties</code>:</p>
+
+<pre><code>import lexers/lpeg
+</code></pre></li>
+</ol>
+
+
+<a name="Installing.for.One.User"></a>
+<h4>Installing for One User</h4>
+
+<p>Installing Scintillua for one user will not require administrator privilages
+provided you have access to the user&rsquo;s home directory. This is always the case
+for the current user.</p>
+
+<ol>
+<li>Locate your home directory, typically <code>C:\Documents and Settings\username\</code>
+for Windows XP, <code>C:\Users\username\</code> for Windows 7, and <code>/home/username/</code> for
+Linux. This is also likely stored in your operating system&rsquo;s <code>HOME</code>
+environment variable.</li>
+<li>Unpack Scintillua to a temporary directory and move the <code>lexers/</code> directory
+to the root of your home directory or any other place you would prefer.</li>
+<li><p>Add the following to the end of your <code>SciTEUser.properties</code> on Windows or
+<code>.SciTEUser.properties</code> on Linux:</p>
+
+<pre><code>import lexers/lpeg
+</code></pre>
+
+<p>but change <code>lexers</code> to the directory you put <code>lexers/</code> if not in the root of
+your home directory.</p></li>
+<li><p>Open Scintillua&rsquo;s <code>lexers/lpeg.properties</code> file for editing and change the
+line:</p>
+
+<pre><code>lexer.lpeg.home=$(SciteDefaultHome)/lexers
+</code></pre>
+
+<p>to</p>
+
+<pre><code>lexer.lpeg.home=$(SciteUserHome)/lexers
+</code></pre>
+
+<p>or to wherever you preferred to put Scintillua&rsquo;s <code>lexers/</code> directory.</p></li>
+<li>If you are running a 64-bit Linux operating system, you will have to rename
+<code>lexers/liblexlpeg.x86_64.so</code> to <code>lexers/liblexlpeg.so</code> so the 64-bit
+external lexer will be loaded.</li>
+</ol>
+
+
+<a name="Usage.Notes"></a>
+<h4>Usage Notes</h4>
+
+<p>By default, SciTE will use LPeg lexers whenever possible, as indicated in
+<code>lexers/lpeg.properties</code>, and fall back onto Scintilla&rsquo;s lexers when necessary.
+If an LPeg lexer is loaded but you prefer to use the Scintilla lexer instead,
+edit <code>lexers/lpeg.properties</code> by commenting out the desired lexer&rsquo;s
+<code>file.pattern.lexer</code> and <code>lexer.$(file.pattern.lexer)</code> property lines.</p>
+
+<p>Themes are located in the <code>lexers/themes/</code> folder and set in
+<code>lexers/lpeg.properties</code>. You can define the overall fonts and styles used by
+LPeg lexers using themes.</p>
+
+<a name="Troubleshooting"></a>
+<h4>Troubleshooting</h4>
+
+<p>If you get incorrect or no syntax highlighting, please check the following:</p>
+
+<ol>
+<li>Does the language in question have a Lua LPeg lexer in Scintillua&rsquo;s <code>lexers/</code>
+directory? If not, you will have to <a href="api.html#lexer">write one</a>.</li>
+<li>Does Scintillua&rsquo;s <code>lexers/lpeg.properties</code> have your language&rsquo;s file
+extension defined? If not, add it to the <code>file.patterns.lexer</code> property.</li>
+<li>Does the file extension recognized in Scintillua&rsquo;s <code>lexers/lpeg.properties</code>
+correspond to the language in question? If not, add or re-assign it to the
+appropriate Lua LPeg lexer.</li>
+</ol>
+
+
+<p>Please note file extensions are not an exact science so <code>lexers/lpeg.properties</code>
+may not have the most up to date or appropriate extensions defined. Feel free
+to <a href="README.html#Contact">submit</a> corrections or additions.</p>
+
+<p>Any Scintilla lexer-specific features in SciTE do not work in LPeg lexers. These
+include, but are not limited to:</p>
+
+<ul>
+<li>Style, keyword, and folding properties in <code>*.properties</code> files.</li>
+<li>Python colon matching.</li>
+<li>HTML/XML tag auto-completion.</li>
+</ul>
+
+
+<a name="Using.Scintillua.with.Other.Apps"></a>
+<h3>Using Scintillua with Other Apps</h3>
+
+<p>In order to use Scintillua with an instance of Scintilla, the following
+<a href="http://scintilla.org/ScintillaDoc.html#SCI_SETPROPERTY">Scintilla properties</a> <em>must</em> be set for the external lexer after
+initialization:</p>
+
+<ul>
+<li><p><code>lexer.lpeg.home</code></p>
+
+<p>The directory containing the Lua LPeg lexers. For application developers, this
+is the path of where you included Scintillua&rsquo;s <code>lexers/</code> directory in your
+application&rsquo;s installation location. For end-users, this is where you chose to
+put Scintillua&rsquo;s <code>lexers/</code> folder. Please see the SciTE examples above for
+more information.</p></li>
+</ul>
+
+
+<p>The following properties are optional and may or may not be set:</p>
+
+<ul>
+<li><p><code>lexer.lpeg.color.theme</code></p>
+
+<p>The color theme to use. Color themes are located in the <code>lexers/themes/</code>
+directory. Currently supported themes are <code>light</code>, <code>dark</code>, and <code>scite</code>. Your
+application can define colors and styles manually through Scintilla
+properties. The theme files have examples.</p></li>
+<li><p><code>fold</code></p>
+
+<p>For LPeg lexers that have a folder, folding is turned on if <code>fold</code> is set to
+<code>1</code>. The default is <code>0</code>.</p></li>
+<li><p><code>fold.by.indentation</code></p>
+
+<p>For LPeg lexers that do not have a folder, if <code>fold.by.indentation</code> is set to
+<code>1</code>, folding is done based on indentation level (like Python). The default is
+<code>0</code>.</p></li>
+<li><p><code>fold.line.comments</code></p>
+
+<p>If <code>fold.line.comments</code> is set to <code>1</code>, multiple, consecutive, line comments
+are folded and only the top-level comment is shown. There is a small
+performance penalty for large source files when this option and folding are
+enabled. The default is <code>0</code>.</p></li>
+<li><p><code>fold.on.zero.sum.lines</code></p>
+
+<p>If <code>fold.on.zero.sum.lines</code> is set to <code>1</code>, lines that contain both an ending
+and starting fold point are marked as fold points. For example, the C line
+<code>} else {</code> would be marked as a fold point. The default is <code>0</code>.</p></li>
+</ul>
+
+
+<a name="Using.Scintillua.as.a.Lua.Library"></a>
+<h3>Using Scintillua as a Lua Library</h3>
+
+<p>In order to use Scintillua as a Lua library, simply place the <code>lexers/</code>
+directory in your Lua path (or modify Lua&rsquo;s <code>package.path</code> accordingly),
+<code>require()</code> the library and <a href="api.html#lexer.load"><code>load()</code></a> a lexer, and call that lexer&rsquo;s
+<a href="api.html#lexer.lex"><code>lex()</code></a> function. Here is an example interactive Lua session doing this:</p>
+
+<pre><code>$&gt; lua
+Lua 5.1.4  Copyright (C) 1994-2008 Lua.org, PUC-Rio
+&gt; lexer_path = '/home/mitchell/code/scintillua/lexers/?.lua'
+&gt; package.path = package.path..';'..lexer_path
+&gt; c = require('lexer').load('ansi_c')
+&gt; tokens = c:lex('int void main() { return 0; }')
+&gt; for i = 1, #tokens, 2 do print(tokens[i], tokens[i+1]) end
+type    4
+ansi_c_whitespace   5
+type    9
+ansi_c_whitespace   10
+identifier  14
+operator    15
+operator    16
+ansi_c_whitespace   17
+operator    18
+ansi_c_whitespace   19
+keyword 25
+ansi_c_whitespace   26
+number  27
+operator    28
+ansi_c_whitespace   29
+operator    30
+</code></pre>
+
+<a name="Compiling.Scintillua.with.Scintilla"></a>
+<h2>Compiling Scintillua with Scintilla</h2>
+
+<p>For native LPeg support, developers can add the included <code>LexLPeg.cxx</code> Scintilla
+lexer and download and include <a href="http://lua.org">Lua</a> and <a href="http://www.inf.puc-rio.br/~roberto/lpeg/lpeg.html">LPeg</a> sources files to their
+toolchains for compiling Scintilla. Scintillua supports Lua 5.1, 5.2, and 5.3.
+A sample portion of a <code>Makefile</code> with Lua 5.3 is shown below.</p>
+
+<pre><code># Sample Makefile portion for compiling Scintillua with Scintilla
+
+# ...
+
+SCIFLAGS = [flags used to compile Scintilla]
+SCINTILLUA_LEXER = LexLPeg.o
+SCINTILLUA_SRC = LexLPeg.cxx
+LUAFLAGS = -Iscintillua/lua/src
+LUA_OBJS = lapi.o lcode.o lctype.o ldebug.o ldo.o ldump.o lfunc.o lgc.o \
+           linit.o llex.o lmem.o lobject.o lopcodes.o lparser.o lstate.o \
+           lstring.o ltable.o ltm.o lundump.o lvm.o lzio.o \
+           lauxlib.o lbaselib.o lbitlib.o lcorolib.o ldblib.o liolib.o \
+           lmathlib.o loadlib.o loslib.o lstrlib.o ltablib.o lutf8lib.o \
+           lpcap.o lpcode.o lpprint.o lptree.o lpvm.o
+LUA_SRCS = scintillua/lua/src/*.c scintillua/lua/src/lib/*.c
+$(SCINTILLUA_LEXER): $(SCINTILLUA_SRC)
+    g++ $(SCIFLAGS) $(LUAFLAGS) -DLPEG_LEXER -c $&lt; -o $@
+$(LUA_OBJS): $(LUA_SRCS)
+    gcc $(LUAFLAGS) $(INCLUDEDIRS) -c $^
+
+# ...
+
+[your app]: [your dependencies] $(SCINTILLUA_LEXER) $(LUA_OBJS)
+</code></pre>
+
+        </div>
+        <div id="footer">
+          <p style="text-align:center;"> &copy; 2006-2017 <a href="http://foicica.com">Mitchell</a> mitchell.att.foicica.com</p>
+
+        </div>
+      </div>
+    </body>
+  </html>

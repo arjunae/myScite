@@ -1,0 +1,47 @@
+#
+# myscite makefile for gui.dll
+#
+LUA_INCLUDE=../../lua/$(LUA_PLAT)/src
+
+LIBDIR= -L ../../clib/scite_lua$(LUA_PLAT)/
+
+LIBS=-lgdi32 -lcomdlg32 -lcomctl32 -lshell32 $(LUA_LIB)
+
+DEFS=-D_WINDOWS -D_USRDLL -DUNICODE -DLUA_COMPAT_5_1
+
+CFLAGS=-O2 -DLUA_COMPAT_5_1  --std=gnu++14 --static $(DEFS)
+
+IBOX=luaargs.o utf.o ibox.o
+
+YAWL=twl.o twl_cntrls.o twl_data.o twl_dialogs.o twl_ini.o twl_layout.o twl_menu.o twl_modal.o twl_splitter.o twl_toolbar.o
+
+gui.dll: gui_ext.o $(YAWL) 
+	g++ $(CFLAGS) -s -shared -o gui.dll gui_ext.o $(YAWL) $(IBOX) $(LIBDIR) $(LIBS)
+
+gui_ext.o: gui_ext.cpp yawl.h $(IBOX)
+	g++  $(CFLAGS) -c -I$(LUA_INCLUDE) gui_ext.cpp
+
+clean:
+	IF EXIST *.o del /s *.o 1>NUL
+	
+vpath twl%.cpp yawl
+
+.cpp.o:
+	g++ $(CFLAGS) -I$(LUA_INCLUDE)  -c $< -o $@
+
+twl.o: yawl/twl.cpp
+twl_ini.o: yawl/twl_ini.cpp
+twl_cntrls.o: yawl/twl_cntrls.cpp
+twl_data.o: yawl/twl_data.cpp
+twl_dialogs.o: yawl/twl_dialogs.cpp
+twl_layout.o: yawl/twl_layout.cpp
+twl_menu.o: yawl/twl_menu.cpp
+twl_modal.o: yawl/twl_modal.cpp
+twl_splitter.o: yawl/twl_splitter.cpp
+twl_toolbar.o: yawl/twl_toolbar.cpp
+
+vpath %.cpp ibox
+
+ibox.o: ibox/ibox.cpp
+utf.o: ibox/utf.cpp
+luaargs.o: ibox/luaargs.cpp

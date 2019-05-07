@@ -1755,4 +1755,5 @@ end)
 -- now show SideBar:	
 if tonumber(props['sidebar.show'])==1 then
 	SideBar_Show()
+	if (buffer) then gui.pass_focus() end
 end

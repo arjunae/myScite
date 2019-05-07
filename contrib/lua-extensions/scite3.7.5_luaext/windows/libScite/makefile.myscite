@@ -1,0 +1,24 @@
+
+BINARY0= SciTE.exe
+BINARY1= SciLexer.dll
+
+DEFFILE0=SciTE.def
+DEFFILE1=SciLexer.def
+LUAVER=lua5.3
+
+libscite.a:$(BINARY1)
+#	pexports $(BINARY0) > $(DEFFILE0)
+	pexports $(BINARY1) > $(DEFFILE1)
+#	dlltool.exe -d $(DEFFILE0) -l libscite.a
+	dlltool.exe -d $(DEFFILE1) -l libscilexer.a
+	
+lua.o:libscite.a
+#	dlltool --input-def $(DEFFILE1) --output-exp lua.o
+
+lua.dll:lua.o
+#	ld.exe -shared -o $(LUAVER).dll  lua.o -L . -lscite
+	
+clean:
+#	-del $(DEFFILE) 2>NUL
+	-del *.o 2>NUL
+	-del .s* 2>NUL

@@ -51,14 +51,15 @@ end
 function Clidebug:init(root)
 	self.prompt = 'DBG' --'[DEBUG]>'
     self.no_target_ext = false
-	self.cmd_file = join(root,'clidebug.cmd')
+	self.cmd_file = os.getenv('TMP')..dirSep..'clidebug.data'
+	print("cmd_file "..self.cmd_file)
     -- this is added to the package.path of the Lua program
     self.clidebug_path = scite_GetProp('clidebug.path',join(extman_Path(),'lua_clidebugger'))
+	 print(self.clidebug_path)
 	self.clidebug_debugger = join(self.clidebug_path,'debugger.lua')
 	if not GTK then 
 		self.clidebug_debugger = self.clidebug_debugger:lower() -- the lower here is a Windows peculiarity...
 	end
-	print('clidebug',self.clidebug_debugger)
     self.no_quit_confirm = true
 	self.skip_system_extension = ".lua"	
 --~ 	local drive = '';
@@ -77,11 +78,29 @@ local function slashify(s)
 	return s:gsub('\\','\\\\')
 end
 
+-- returns i characters at position s as a string
+local function at (s,i)
+    return s:sub(i,i)
+end
+
+--- note: for finding the last occurance of a character, it's actualy
+--- easier to do it in an explicit loop rather than use patterns.
+--- (These are not time-critcal functions)
+local function split_last (s,ch)
+    local i = #s
+    while i > 0 do
+        if at(s,i) == ch then
+            return s:sub(i+1),i
+        end
+        i = i - 1
+    end
+end
+
 function Clidebug:command_line(target)
 	-- find out where the Lua executable is; you can use the debug.lua property if it isn't the same
 	-- as your lua executable specified in lua.properties.
 	self.lua = scite_GetProp("debug.lua")
-	local ext = extension_of(target)
+	local ext = split_last(target,".") --FileExt
 	if not self.lua then		
 		self.lua = scite_GetProp('command.go.*.lua'):match('^(%S+)')
 	end
@@ -89,11 +108,11 @@ function Clidebug:command_line(target)
 	self.target_dir = props['FileDir']
 	-- Arjunea: Include Scite package paths
 	local ppath = slashify(join(self.clidebug_path,'?.lua;'))
-	local ppath = ppath..slashify(join(scite_GetProp("ext.lua.directory"),'?.lua;'))
-	local pcpath = slashify(join(scite_GetProp("ext.luamodules.directory"),'?.dll;'))
-	local pcpath = pcpath..slashify(join(scite_GetProp("ext.luamodules.directory"),'?.so;'))
-	local startupFile = "startup"
-	local res = 'cmd /c ' ..self.lua..' '..self.target..' '..self:parameter_string()	
+--	local ppath = ppath..slashify(join(scite_GetProp("ext.lua.directory"),'?.lua;'))
+--	local pcpath = slashify(join(scite_GetProp("ext.luamodules.directory"),'?.dll;'))
+--	local pcpath = pcpath..slashify(join(scite_GetProp("ext.luamodules.directory"),'?.so;'))
+--	local startupFile = "startup"
+local res=self.lua..' -e "package.path=\''..ppath..'\'..package.path" -lclidebug '..self.target..' '..self:parameter_string()
 	if ext == 'wlua' then
 		res = 'cmd /c '..res
 	end
@@ -110,7 +129,7 @@ end
 function Clidebug:run_program(out,parms)
 	self.target_dir = canonical(props['FileDir'])
 	out:write('rootpath '..self.target_dir..'\n')
-    if scite_GetPropBool('debug.run.automatically',false) then out:write('run\n') end
+  --  if scite_GetPropBool('debug.run.automatically',false) then out:write('run\n') end
 end
 
 function Clidebug:step()
@@ -142,7 +161,7 @@ function Clidebug:set_breakpoint(file,lno)
 	dbg_command('setb',lno..' '..fpath(file))
 end
 
-function Clidebug:goto(file,lno)
+function Clidebug:gotoL(file,lno)
 	dbg_command('tb',lno..' '..fpath(file))
 	self:continue()
 end
@@ -176,7 +195,7 @@ function Clidebug:detect_program_end(line)
 	return find(line,'^Program finished')
 end
 
-function Clidebug:goto_file_line(file,line)	
+function Clidebug:gotoL_file_line(file,line)	
 	ProcessOutput("Paused at file "..self.target_dir..'/'..file.." line "..line..'\n')
 end
 
@@ -212,7 +231,7 @@ function Clidebug:detect_frame(line)
 	local _,_,frame,file,line = find(line,'%[(%d+)%]%s+%w+ in (%S+):(%d+)')
 	if _ then
 		self:frame(frame)
-		self:goto_file_line(file,line)
+		self:gotoL_file_line(file,line)
 	end
 end
 

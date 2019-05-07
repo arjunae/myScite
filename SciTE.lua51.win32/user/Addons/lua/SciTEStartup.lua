@@ -23,7 +23,7 @@ string.gfind = string.gmatch or string.gfind
 --~~~~~~~~~~~~~
 
 -- Startup script might be called multiple times with ext.lua.auto.reload and saving
--- so ensure running those funcs once.
+-- so ensure to load those LuaMods only once.
 if (true) then 
 
 	-- track the amount of lua allocated memory
@@ -55,7 +55,7 @@ if (true) then
 
 	-- Load cTags Browser
 	dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
-
+	
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -201,9 +201,8 @@ function OnInit()
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
-
 	editor:GrabFocus()  -- Ensure editors focus
-
+	
 	-- check SciLexer once per session and inform the User if its a nonStock Version.
 	local SLHash
 	if not SLHash then

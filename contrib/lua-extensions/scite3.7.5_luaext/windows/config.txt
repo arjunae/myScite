@@ -1,0 +1,9 @@
+# ==
+# Both options within config.txt are passed on to the respective makefiles called by make_all_mingw.bat.
+# LUA_PLAT will bee used within the Include statement and LUA_LIB beeing appended to LD Libs. 
+#
+#LUA_PLAT=5.3
+LUA_PLAT=5.1
+#LUA_LIB=-lscite
+#LUA_LIB=-llua51
+LUA_LIB=-lscilexer

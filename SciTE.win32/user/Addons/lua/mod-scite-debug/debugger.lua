@@ -648,7 +648,7 @@ end
 
 function create_existing_breakpoints()
 	os.remove(dbg.cmd_file)
-	local out = io.open(dbg.cmd_file,"w")
+	local out = io.open(slashify(dbg.cmd_file),"w")
 	dbg:special_debugger_setup(out)
 	dbg:dump_breakpoints(out)
     local parms = dbg:parameter_string()

@@ -1,0 +1,21 @@
+OBJS= io.obj buffer.obj timeout.obj wsocket.obj
+
+#-DLUASEC_INET_NTOP	
+DEFS=	-D_CRT_SECURE_NO_WARNINGS -D_WINSOCK_DEPRECATED_NO_WARNINGS -DLUASOCKET_NODEBUG -DWIN32 -DWINVER=0x0501
+WARNS  = -W3
+LUA_INCLUDE = ../../../lua/$(LUA_PLAT)/src/
+CFLAGS = -nologo -c  -Os -MT $(DEFS) $(WARNS)
+
+socket.lib: $(OBJS)
+	lib -OUT:socket.lib $(OBJS) 
+
+clean:
+	-del /S *.obj *.lib *.dll 1>NUL
+	
+.c.obj:
+	cl $(CFLAGS) -I. -I$(LUA_INCLUDE) -c $< -Fo"$@"
+
+buffer.obj: buffer.c buffer.h io.h timeout.h
+io.obj: io.c io.h timeout.h
+timeout.obj: timeout.c timeout.h
+wsocket.obj: wsocket.c socket.h io.h timeout.h wsocket.h

@@ -1088,7 +1088,7 @@ local function debugger_loop(ev, vars, file, line, idx_watch)
       eval_env, breakfile, breakline = report(coroutine.yield('cont'))
       --}}}
 
-    elseif command == "goto" then
+    elseif command == "gotoL" then
       --{{{  step until reach line
       local N = tonumber(args)
       if N then
@@ -1442,7 +1442,7 @@ function pause(x)
     step_into  = true
   else
     --SJD: see if we can open clidebug.cmd
-    local f = io.open(os.getenv('TMP')..'\\clidebug.cmd')
+    local f = io.open(os.getenv('TMP')..'\\clidebug.data')
     if f then
       for line in f:lines() do
         tinsert(initial_commands,line)

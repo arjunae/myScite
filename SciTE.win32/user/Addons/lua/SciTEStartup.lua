@@ -11,7 +11,7 @@ defaultHome = props["SciteDefaultHome"]
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\?.lua" .. ";"..myHome.."\\Addons\\lua\\lua\\?.lua;"
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\socket\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
-
+	
 dirSep, GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
 
@@ -22,16 +22,20 @@ math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
 
 -- Startup script might be called multiple times with ext.lua.auto.reload and saving
--- so ensure running those funcs once.
+-- so ensure to load those LuaMods only once.
 if (true) then
+
 	-- track the amount of lua allocated memory
 	_G.session_used_memory=collectgarbage("count")*1024
-	
+
 	-- Load extman.lua
 	-- This will automatically run any lua script located in \User\Addons\lua\lua
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 
+	-- chainload eventmanager / extman remake used by some lua mods
+	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
+	
 	-- Load Debugging support
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-scite-debug\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-scite-debug\\debugger.lua')
@@ -39,15 +43,21 @@ if (true) then
 	-- Load Project support functions
 	dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
 	
-	-- chainload eventmanager / extman remake used by some lua mods
-	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
-	
 	-- Load Sidebar
 	-- workaround: loading the sidebar here avoids problems with ext.lua.auto.reload
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
-end
 	
+	-- Load mod-mitchell
+	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
+	--dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
+
+	-- Load cTags Browser
+	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-ctags\\?.lua;"
+	dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')	
+
+end
+
 -- ##################  Lua Samples #####################
 --   ##############################################
 
@@ -191,17 +201,8 @@ function OnInit()
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
-
 	editor:GrabFocus()  -- Ensure editors focus
-
-	-- Load mod-mitchell
-	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
-	--dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
-
-	-- Load cTags Browser
-	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-ctags\\?.lua;"
-	dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
-
+	
 	-- check SciLexer once per session and inform the User if its a nonStock Version.
 	SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
 	if SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end

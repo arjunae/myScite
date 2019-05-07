@@ -1,9 +1,0 @@
-x64
-sudo aptitude install binutils-mingw-w64-x86-64
-x86_64-w64-mingw32-dlltool -d scite.def -l libscite.a
-
-x32
-i686-w64-mingw32-dlltool -d scite.def -l libscite.a
-
-
-
