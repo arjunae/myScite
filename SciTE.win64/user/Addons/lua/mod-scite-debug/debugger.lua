@@ -65,6 +65,10 @@ local function at (s,i)
     return s:sub(i,i)
 end
 
+function slashify(s)
+	return s:gsub('\\','\\\\')
+end
+
 --- note: for finding the last occurance of a character, it's actualy
 --- easier to do it in an explicit loop rather than use patterns.
 --- (These are not time-critcal functions)
@@ -648,7 +652,7 @@ end
 
 function create_existing_breakpoints()
 	os.remove(dbg.cmd_file)
-	local out = io.open(dbg.cmd_file,"w")
+	local out = io.open(slashify(dbg.cmd_file),"w")
 	dbg:special_debugger_setup(out)
 	dbg:dump_breakpoints(out)
     local parms = dbg:parameter_string()

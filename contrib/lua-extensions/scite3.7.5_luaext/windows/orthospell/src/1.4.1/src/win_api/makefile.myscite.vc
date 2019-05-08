@@ -33,7 +33,7 @@ CXXFLAGS = -nologo -c -TP -MD -O2 -EHsc -DNDEBUG /std:c++14 $(DEFS) $(WARNS)
 LDFLAGS = -NOLOGO -DLL -RELEASE -OPT:REF -INCREMENTAL:NO 
 
 SPELL_INCLUDE =  -I.
-LIBDIR      = ../../clib/
+LIBDIR      = ../../../clib/
 LIBS        =  user32.lib
 
 all: libhunspell.lib

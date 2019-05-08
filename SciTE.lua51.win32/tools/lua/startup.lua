@@ -1,3 +1,4 @@
+
 -- track the amount of allocated memory 
 session_used_memory=collectgarbage("count")*1024
 
@@ -5,10 +6,22 @@ session_used_memory=collectgarbage("count")*1024
 io.stdout:setvbuf("no")
 --print("startupScript loaded")
 
-myHome="../../"
-package.path = package.path ..";"..myHome.."\\User\\Addons\\lua\\lua\\?.lua;".. ";"..myHome.."\\User\\Addons\\lua\\lua\\socket\\?.lua;"
-package.path = package.path .. ";"..myHome.."\\User\\Addons\\lua\\mod-extman\\?.lua;"
-package.cpath = package.cpath .. ";"..myHome.."\\User\\Addons\\lua\\c\\?.dll;"
+-- Path to current Files Dir- Ends with a trailing slash 
+local luaHome=""
+--local s,e,filePath=string.find( arg[0], "(.+[/\\]).-" )
+local filePath=debug.getinfo(1).source:match("@(.*[\\/]).+$") 
+if(filePath) then 
+	luaHome=filePath.."..\\.." -- fully qualified Path
+else
+	luaHome="..\\.."
+end
+
+--print("luaHome: "..luaHome)
+package.path = package.path .. ";"..luaHome.."\\User\\Addons\\lua\\lua\\?.lua;"
+package.path = package.path .. ";"..luaHome.."\\User\\Addons\\lua\\lua\\socket\\?.lua;"
+package.path = package.path .. ";"..luaHome.."\\User\\Addons\\lua\\mod-scite-debug\\?.lua;"
+package.cpath = package.cpath .. ";"..luaHome.."\\User\\Addons\\lua\\c\\?.dll"
+package.cpath = package.cpath .. ";?.dll;"
 
 --lua >=5.2.x renamed functions: 
 local unpack = table.unpack or unpack

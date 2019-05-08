@@ -6,7 +6,10 @@
 set toolFolder=lua
 set toolName=%toolFolder%
 set toolExt=.exe
-set toolParam=%*
+
+REM Use myScites Lualibs from anywhere in the system.
+set path=%~dp0..\;%PATH%
+set toolParam=-l startup %*
 
 :: A value of 1 will force the wrapper to restrict PATH for toolName (useful for eg tdm/mingw buidChains) 
 set sandbox=0

@@ -8,8 +8,8 @@ LIBSPELL=.\libparser.lib .\libhunspell.lib
 WARNS  = -wd4100 -wd4189 -wd4505
 
 DEFS   = -D_WINDOWS -DUNICODE -D_USRDLL -DHUNSPELL_STATIC -DLUA_COMPAT_5_1
-LUA_INCLUDE = ../lua/$(LUA_PLAT)/src/
-LIBDIR      = ../clib/scite_lua$(LUA_PLAT)/
+LUA_INCLUDE = ../../lua/$(LUA_PLAT)/src/
+LIBDIR      = ../../clib/scite_lua$(LUA_PLAT)/
 
 !IFDEF DEBUG
 LIBLUA=$(LIBDIR)$(LUA_LIB)
@@ -25,7 +25,7 @@ LFLAGS = -NOLOGO -DLL -RELEASE -OPT:REF
 LIBS   =  $(LIBLUA) $(LIBSPELL)
 
 hunspell.dll: orthospell.obj 
-	link $(LFLAGS) $(LIBS) orthospell.obj -OUT:hunspell.dll /DEF:libhunspell.def
+	link $(LFLAGS) $(LIBS)  orthospell.obj -OUT:hunspell.dll /DEF:libhunspell.def
 
 clean:
 	-del /S *.obj *.lib *.exp 1>NUL

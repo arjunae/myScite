@@ -1,6 +1,7 @@
 @echo off
 set LUA_PLAT=5.3
-set LUA_LIB=-lscilexer
+set LUA_LIB=scilexer.lib
+set PLAT=x86
 if [%1] NEQ [] set LUA_PLAT=%1
 if [%2] NEQ [] set LUA_LIB=%2
 
@@ -15,9 +16,8 @@ PUSHD 1.4.1\src\win_api\
 call make.myscite.vc.bat
 POPD
 
-call vcvarsall.bat x86
 if exist *.obj del *.obj
-
+call vcvarsall.bat %PLAT%
 nmake -nologo -f makefile.myscite.vc
 if errorlevel 1 goto eof
 

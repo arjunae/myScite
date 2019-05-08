@@ -39,7 +39,7 @@ if (true) then
 	-- Load Debugging support
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-scite-debug\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-scite-debug\\debugger.lua')
-	
+		
 	-- Load Project support functions
 	dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
 	
@@ -216,7 +216,7 @@ function OnInit()
 	checkUpdates() -- check for a new version using githubs readme.md
 	CTagsUpdateProps(false,"") 	-- check if the filename belongs to a project. 
 	myScite_OpenSwitch() -- apply Indicators
-		
+
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- print("startupScript_onInit")
 
