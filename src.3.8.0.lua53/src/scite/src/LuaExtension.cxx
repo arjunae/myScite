@@ -747,7 +747,6 @@ static int cf_global_dostring(lua_State *L) {
 	int nargs = lua_gettop(L);
 	const char *code = luaL_checkstring(L, 1);
 	const char *name = luaL_optstring(L, 2, code);
-	//if (0 == luaL_loadbuffer(L, code, lua_rawlen(L, 1), name)) {
 	if (0 ==luaL_loadstring(L,code)) {
 		lua_call(L, 0, LUA_MULTRET);
 		return lua_gettop(L) - nargs;

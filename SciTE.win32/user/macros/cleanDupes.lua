@@ -54,35 +54,36 @@ end
 -- add their start and endpos to words_tbl
 --
 function findDupesSel(words_arr, startPos, endPos)
-	local words_tbl = {} -- { [index], {"word","start",end"}}
-	
+	local dupes_tbl = {} -- { [index], {"word","start",end"}}
+	local singles_arr = {}
 	-- Create a new Selection
 	-- Search from buffers start till the beginning of the initial Selection.
 	editor:SetSel (startPos, endPos)
 	editor.SearchFlags=SCFIND_WHOLEWORD | SCFIND_MATCHCASE
 	
 	for s_word,flag in pairs(words_arr) do
-		editor:TargetFromSelection()	
+		editor:TargetFromSelection()
 		wordStart=editor:SearchInTarget(s_word)
 		if wordStart ~=-1  then
 			--print("keep: "..s_word)
 			wordEnd=editor:WordEndPosition(wordStart)
-			words_tbl[#words_tbl+1]={["word"]=s_word,["start"]=wordStart,["end"]=wordEnd}	
+			dupes_tbl[#dupes_tbl+1]={["word"]=s_word,["start"]=wordStart,["end"]=wordEnd}	
 		else
 			--print("remove: "..s_word)
-			words_tbl[#words_tbl+1]=nil
+			dupes_tbl[#dupes_tbl+1]=nil
+			singles_arr[#singles_arr+1]=s_word
 		end
 	end
 	
-	if (#words_tbl==0) then 
+	if (#dupes_tbl==0) then 
 		print ("(STATUS) No dupes found within Selection")
 		return false
 	end
 	
-	dupeList=printDupes(words_tbl)
+	dupeLst,singlesLst=printDupes(dupes_tbl,singles_arr)
 	if  (#stripText == 0 ) then
 		scite.StripShow("") -- clear strip
-		scite.StripShow("!'Remove Dupes from Selection?'["..dupeList.."]((OK))(&Cancel)")
+		scite.StripShow("!'Remove Dupes from Selection?'["..dupeLst.."]((OK))(&Cancel)")
 	end
 	return true
 	
@@ -91,13 +92,18 @@ end
 --
 -- Print all dupes (start >-1)
 -- 
-function printDupes(words_tbl)
-	local dupesMsg=""
+function printDupes(words_tbl,singles_arr)
+	local dupes=""
 	for index, s_word in pairs(words_tbl) do 
-		dupesMsg=dupesMsg..s_word["word"].." "
-			--print(s_word["word"].." [s:"..s_word["start"].." e:"..s_word["end"].."]")
+		dupes=dupes..s_word["word"].." "
+		--print(s_word["word"].." [s:"..s_word["start"].." e:"..s_word["end"].."]")
 	end
-	return(dupesMsg)
+	local singles=table.concat(singles_arr," ")
+	
+	print ("(Status) Words found in Selection:\n>\t"..dupes.."\t")
+	print ("(Status) Words _not_ found in Selection:\n>\t"..singles.."\t")
+			
+	return dupes, singles
 end
 
 -- todo write a function to clear dupes
@@ -110,7 +116,6 @@ function OnStrip(control, change)
 	if control == 2 and change == 1 then -- OK clicked
 		scite.StripShow("") 
 		stripText = scite.StripValue(1)
-		print ("(Status) Dupes found in Selection:\n>\t"..stripText)
 		-- editor:SetSel(endPos,endPos) -- DeSelect Range
 	end	
 	if control == 3 and change == 1 then -- Cancel clicked
