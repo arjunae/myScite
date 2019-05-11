@@ -24,7 +24,7 @@ public:
 	 bool InitBuffer(int);
 	 bool ActivateBuffer(int);
 	 bool RemoveBuffer(int);
-
+	 
 	 bool OnOpen(const char *filename);
 	 bool OnSwitchFile(const char *filename);
 	 bool OnBeforeSave(const char *filename);

@@ -1102,6 +1102,7 @@ DistanceToSecondaryStyles	scintilla\lexlib\SubStyles.h	/^	int DistanceToSecondar
 DistanceToSecondaryStyles	scintilla\src\ScintillaBase.cxx	/^int LexState::DistanceToSecondaryStyles() {$/;"	f	class:LexState	signature:()
 DllMain	scintilla\win32\ScintillaWin.cxx	/^extern "C" int APIENTRY DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID lpvReserved) {$/;"	f	signature:(HINSTANCE hInstance, DWORD dwReason, LPVOID lpvReserved)
 DoDialog	scite\win32\SciTEWinDlg.cxx	/^int SciTEWin::DoDialog(const TCHAR *resName, DLGPROC lpProc) {$/;"	f	class:SciTEWin	signature:(const TCHAR *resName, DLGPROC lpProc)
+DoEvents	scite\src\LuaExtension.cxx	/^static bool DoEvents() {$/;"	f	file:	signature:()
 DoMenuCommand	scite\src\SciTEBase.cxx	/^void SciTEBase::DoMenuCommand(int cmdID) {$/;"	f	class:SciTEBase	signature:(int cmdID)
 DoReplaceAll	scite\src\SciTEBase.cxx	/^int SciTEBase::DoReplaceAll(bool inSelection) {$/;"	f	class:SciTEBase	signature:(bool inSelection)
 DocFromDisplay	scintilla\src\ContractionState.cxx	/^Sci::Line ContractionState::DocFromDisplay(Sci::Line lineDisplay) const {$/;"	f	class:ContractionState	signature:(Sci::Line lineDisplay) const
@@ -3116,7 +3117,7 @@ LUA_GCSTEP	scintilla\lua\src\lua.h	307;"	d
 LUA_GCSTEP	scite\lua\src\lua.h	307;"	d
 LUA_GCSTOP	scintilla\lua\src\lua.h	302;"	d
 LUA_GCSTOP	scite\lua\src\lua.h	302;"	d
-LUA_GLOBALSINDEX	scite\src\LuaExtension.cxx	36;"	d	file:
+LUA_GLOBALSINDEX	scite\src\LuaExtension.cxx	39;"	d	file:
 LUA_HOOKCALL	scintilla\lua\src\lua.h	402;"	d
 LUA_HOOKCALL	scite\lua\src\lua.h	402;"	d
 LUA_HOOKCOUNT	scintilla\lua\src\lua.h	405;"	d
@@ -12330,7 +12331,7 @@ lua_pushcfunction	scite\lua\src\lua.h	350;"	d
 lua_pushfstring	scintilla\lua\src\lapi.c	/^LUA_API const char *lua_pushfstring (lua_State *L, const char *fmt, ...) {$/;"	f	signature:(lua_State *L, const char *fmt, ...)
 lua_pushglobaltable	scintilla\lua\src\lua.h	363;"	d
 lua_pushglobaltable	scite\lua\src\lua.h	363;"	d
-lua_pushglobaltable	scite\src\LuaExtension.cxx	34;"	d	file:
+lua_pushglobaltable	scite\src\LuaExtension.cxx	37;"	d	file:
 lua_pushinteger	scintilla\lua\src\lapi.c	/^LUA_API void lua_pushinteger (lua_State *L, lua_Integer n) {$/;"	f	signature:(lua_State *L, lua_Integer n)
 lua_pushlightuserdata	scintilla\lua\src\lapi.c	/^LUA_API void lua_pushlightuserdata (lua_State *L, void *p) {$/;"	f	signature:(lua_State *L, void *p)
 lua_pushliteral	scintilla\lua\src\lua.h	361;"	d

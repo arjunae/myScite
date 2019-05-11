@@ -24,11 +24,14 @@
 #include "IFaceTable.h"
 #include "SciTEKeys.h"
 
+#include <windows.h>
+
 extern "C" {
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"
 }
+
 
 #if (LUA_VERSION_NUM < 502)
 #define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
@@ -211,6 +214,17 @@ static void *checkudata(lua_State *L, int ud, const char *tname) {
 	return NULL;
 }
 
+static bool DoEvents() {
+	// Keep Scite's windows responsive while calling extension Api in longer lua loops.
+	MSG msg; 
+		if (::PeekMessage(&msg, NULL, 0, 0, PM_NOREMOVE|PM_QS_PAINT|PM_QS_POSTMESSAGE)) 
+		{ 
+			  ::TranslateMessage(&msg); 
+			  ::DispatchMessage(&msg); 
+		}
+	return true;
+}
+
 static int cf_scite_send(lua_State *L) {
 	// This is reinstated as a replacement for the old <pane>:send, which was removed
 	// due to safety concerns.  Is now exposed as scite.SendEditor / scite.SendOutput.
@@ -230,6 +244,7 @@ static int cf_scite_send(lua_State *L) {
 			func = IFaceTable::functions[funcIdx];
 			break;
 		}
+	DoEvents();	
 	}
 
 	if (func.value == 0) {
@@ -286,18 +301,21 @@ static int cf_scite_menu_command(lua_State *L) {
 	if (cmdID) {
 		host->DoMenuCommand(cmdID);
 	}
+	DoEvents();
 	return 0;
 }
 
 static int cf_scite_update_status_bar(lua_State *L) {
 	bool bUpdateSlowData = (lua_gettop(L) > 0 ? lua_toboolean(L, 1) : false) != 0;
 	host->UpdateStatusBar(bUpdateSlowData);
+	DoEvents();
 	return 0;
 }
 
 static int cf_scite_apply_properties(lua_State *L) {
 	if(!L) return(0);
 	host->ReadProperties(false);
+	DoEvents();
 	return 0;
 }
 
@@ -387,29 +405,6 @@ static int cf_pane_textrange(lua_State *L) {
 	return 0;
 }
 
-static int cf_pane_insert(lua_State *L) {
-	ExtensionAPI::Pane p = check_pane_object(L, 1);
-	int pos = luaL_checkinteger(L, 2);
-	const char *s = luaL_checkstring(L, 3);
-	host->Insert(p, pos, s);
-	return 0;
-}
-
-static int cf_pane_remove(lua_State *L) {
-	ExtensionAPI::Pane p = check_pane_object(L, 1);
-	int cpMin = static_cast<int>(luaL_checknumber(L, 2));
-	int cpMax = static_cast<int>(luaL_checknumber(L, 3));
-	host->Remove(p, cpMin, cpMax);
-	return 0;
-}
-
-static int cf_pane_append(lua_State *L) {
-	ExtensionAPI::Pane p = check_pane_object(L, 1);
-	const char *s = luaL_checkstring(L, 2);
-	host->Insert(p, static_cast<int>(host->Send(p, SCI_GETLENGTH, 0, 0)), s);
-	return 0;
-}
-
 static int cf_pane_findtext(lua_State *L) {
 	ExtensionAPI::Pane p = check_pane_object(L, 1);
 
@@ -458,7 +453,7 @@ static int cf_pane_findtext(lua_State *L) {
 	if (hasError) {
 		raise_error(L, "Invalid arguments for <pane>:findtext");
 	}
-
+	DoEvents();
 	return 0;
 }
 
@@ -496,6 +491,7 @@ static int cf_match_replace(lua_State *L) {
 	host->Send(pmo->pane, SCI_SETTARGETEND, pmo->endPos, 0);
 	host->Send(pmo->pane, SCI_REPLACETARGET, lua_rawlen(L, 2), SptrFromString(replacement));
 	pmo->endPos = static_cast<int>(host->Send(pmo->pane, SCI_GETTARGETEND, 0, 0));
+	DoEvents();
 	return 0;
 }
 
@@ -611,6 +607,7 @@ static int cf_pane_match(lua_State *L) {
 		raise_error(L, "Internal error: could not create match object.");
 		return 0;
 	}
+	DoEvents();
 }
 
 static int cf_pane_match_generator(lua_State *L) {
@@ -731,8 +728,8 @@ static int cf_global_print(lua_State *L) {
 			lua_settop(L, nargs + 1);
 		}
 	}
-
 	host->Trace("\n");
+	DoEvents();
 	return 0;
 }
 
@@ -742,6 +739,7 @@ static int cf_global_trace(lua_State *L) {
 	if (s) {
 		host->Trace(s);
 	}
+	DoEvents();
 	return 0;
 }
 
@@ -749,13 +747,14 @@ static int cf_global_dostring(lua_State *L) {
 	int nargs = lua_gettop(L);
 	const char *code = luaL_checkstring(L, 1);
 	const char *name = luaL_optstring(L, 2, code);
-	if (0 == luaL_loadbuffer(L, code, lua_rawlen(L, 1), name)) {
+	//if (0 == luaL_loadbuffer(L, code, lua_rawlen(L, 1), name)) {
+	if (0 ==luaL_loadstring(L,code)) {
 		lua_call(L, 0, LUA_MULTRET);
 		return lua_gettop(L) - nargs;
 	} else {
 		raise_error(L);
-	}
 	return 0;
+	}
 }
 
 static bool call_function(lua_State *L, int nargs, bool ignoreFunctionReturnValue=false) {
@@ -865,6 +864,36 @@ static bool CallNamedFunction(const char *name, int numberArg, int numberArg2) {
 		}
 	}
 	return handled;
+}
+
+static int cf_pane_insert(lua_State *L) {
+	ExtensionAPI::Pane p = check_pane_object(L, 1);
+	int pos = luaL_checkinteger(L, 2);
+	const char *s = luaL_checkstring(L, 3);
+	// Signal an Event to lua. If it returns false, dont append the string.
+	bool result=CallNamedFunction("OnPaneInsert",p,s);
+	if(!result) host->Insert(p, pos, s);
+	DoEvents();
+	return 0;
+}
+
+static int cf_pane_append(lua_State *L) {
+	ExtensionAPI::Pane p = check_pane_object(L, 1);
+	const char *s = luaL_checkstring(L, 2);
+	// Signal an Event to lua. If it returns false, dont append the string.
+	bool result=CallNamedFunction("OnPaneAppend",p,s);
+	if(!result) host->Insert(p, static_cast<int>(host->Send(p, SCI_GETLENGTH, 0, 0)), s);
+	DoEvents();
+	return 0;
+}
+
+static int cf_pane_remove(lua_State *L) {
+	ExtensionAPI::Pane p = check_pane_object(L, 1);
+	int cpMin = static_cast<int>(luaL_checknumber(L, 2));
+	int cpMax = static_cast<int>(luaL_checknumber(L, 3));
+	host->Remove(p, cpMin, cpMax);
+	DoEvents();
+	return 0;
 }
 
 static int iface_function_helper(lua_State *L, const IFaceFunction &func) {
@@ -1453,11 +1482,8 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 
 		FilePath fpTest(GUI::StringFromUTF8(startupScript));
 		if (fpTest.Exists()) {
-			if (0 == luaL_loadfile(luaState, startupScript.c_str())) {
-				if (!call_function(luaState, 0, true)) {
-					host->Trace(">Lua: error occurred while running startup script\n");
-				}
-			} else {
+			int result= luaL_dofile(luaState, startupScript.c_str());
+			if (result!=0) {
 				host->Trace(lua_tostring(luaState, -1));
 				host->Trace("\n>Lua: error occured while loading startup script\n");
 			}
@@ -1541,8 +1567,8 @@ bool LuaExtension::Load(const char *filename) {
 		if (sl >= 4 && strcmp(filename+sl-4, ".lua")==0) {
 			if (luaState || InitGlobalScope(false)) {
 				extensionScript = filename;
-				luaL_loadfile(luaState, filename);
-				if (!call_function(luaState, 0, true)) {
+				int result=luaL_dofile(luaState, filename);
+				if (result) {
 					host->Trace(">Lua: error occurred while loading extension script\n");
 				}
 				loaded = true;
