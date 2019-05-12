@@ -23,6 +23,7 @@ LUALIB      = liblua$(LUAV).lib
 LUADLLBASE  = lua$(LUAV)
 LUADLL      = $(LUADLLBASE).dll
 LUAEXE      = $(LUADLLBASE).exe
+LUASCILEXER = $(LUADLLBASE)_scilexer.exe
 LUADLLLIB   = $(LUADLLBASE).lib
 LUADLLEXP   = $(LUADLLBASE).exp
 
@@ -46,6 +47,7 @@ all: lib dll
 lib: $(LUALIB)
 dll: $(LUADLL)
 exe: $(LUAEXE)
+exescilexer: $(LUASCILEXER)
 
 $(LUALIB): $(OBJS)
 	lib.exe /OUT:$@ $(OBJS)
@@ -56,8 +58,11 @@ $(LUADLL): $(OBJS)
 $(LUAEXE): lua.o
  link.exe /OUT:$@ -nologo lua.o $(LUADLLLIB)
 
+$(LUASCILEXER): lua.o
+ link.exe /OUT:$@ -nologo lua.o ..\..\..\clib\scite_lua5.3\SciLexer.lib
+ 
 clean:
-	del *.o 1>NUL
+	del *.o *.exp  1>NUL 2>NUL
 
 .c.o:
 	$(CC) $(CFLAGS) /Fo$@ /c $<

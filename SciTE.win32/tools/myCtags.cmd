@@ -8,8 +8,9 @@ set toolName=%toolFolder%
 set toolExt=.exe
 set toolParam=%*
 set postProc=mylua.cmd %~dp0%ctags\parseCTags.lua
+::set optPath=%~dp0%..\
 
-:: A value of 1 will force the wrapper to restrict PATH for toolName (useful for eg tdm/mingw buidChains) 
+:: A value of 1 will instruct the wrapper to restrict PATH to toolNames Directory. 
 set sandbox=0
 
 :: -------- No need to edit below here ---------- ::
@@ -18,13 +19,13 @@ set sandbox=0
 set toolPath=%~dp0%toolFolder%
 
 :: temporarly prefix local Path with toolPath 
-set path=%toolPath%;%path%;
-if [%sandbox%]==[1] ( set path=%toolPath%;%~dp0%)
+set path=%toolPath%;%optPath%;%path%;
+if [%sandbox%]==[1] ( set path=%toolPath%;%optPath%;%~dp0%)
 if [%sandbox%]==[1] ( set mode=[Sandboxed]) else ( set mode= )
 
 :: first try if a user had installed a local package
 if exist %toolPath%\%toolName%%toolExt% (
-echo ~ wrapper ~ %mode% %toolFolder%\%toolName%%toolExt% %toolParam% >&2
+echo ~ wrapper ~ %mode% [%~dp0%toolFolder%] %toolName%%toolExt% %toolParam% >&2
 %toolPath%\%toolName%%toolExt% %toolParam%
 %postProc% %2
 goto :freude

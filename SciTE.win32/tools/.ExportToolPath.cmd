@@ -1,18 +1,14 @@
 @echo off
 :: -------- Batch Wrapper for SciTE ----------
-:: Can be used to avoid Chaos. Provides a way to use version specifc Language binaries.
+:: Provides a way to use customized Language packages in parallel to already installed ones.
 ::
-:: Permanently appends the tools in the current directory to the current Users search PATH. 
+:: Permanently appends the current directory to current Users PATH Environment. 
 :: Any prior installed Programs keep precedence, even when they dont use the Systemwide Path.
 :: - ensures that a Path wont be added again if it was found to be already in.
 
 echo.
-echo                           = Register Helpers =
-echo : Appends the current directory to the current Users search PATH.
-echo : Any prior installed Programs keep precedence.
-echo : Any Key to continue.
+echo ::...:: Register Helpers ::...::
 echo.
-pause >NUL
 setlocal enabledelayedexpansion enableextensions
 set contrib_path=%CD%
 :: or %~dp0
@@ -22,7 +18,7 @@ for /F "tokens=1,2* delims= " %%a in ('reg query HKCU\Environment /v Path') do (
 Set cur_path=%%c
 )
 
-echo Current localUsers Path:
+echo Current userprofiles Path (%userprofile%):
 echo.
 :: Check if path was already appended
 set str=%cur_path%
@@ -48,7 +44,7 @@ setx PATH %cur_path% 2>NUL 1>NUL
 ::RUNDLL32.EXE USER32.DLL,UpdatePerUserSystemParameters ,1 ,True
 
 echo  .... %contrib_path%
-echo  ....  has been appended to your localusers Path :)
+echo  ....  has been exported to your local user profiles Path :)
 goto :freude
 
 :searchPath
@@ -68,7 +64,7 @@ exit /b
 :end_sub
 
 :freude
-endlocal
+ENDLOCAL
 echo.
 echo ----------------------- Fin ----------------------------------.
 ::echo waiting some time... (10sek)

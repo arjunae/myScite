@@ -5,17 +5,22 @@ session_used_memory=collectgarbage("count")*1024
 io.stdout:setvbuf("no")
 --print("startupScript loaded")
 
--- Path to current Files Dir- Ends with a trailing slash 
-local luaHome=""
-local s,e,filePath=string.find( arg[0], "(.+[/\\]).-" )
---local filePath=debug.getinfo(1).source:match("@(.*[\\/]).+$") 
-if(filePath) then 
-	luaHome=filePath.."..\\.." -- fully qualified Path
+-- fully qualified Path to our Lua Interpreter. No trailing Slash
+local luaHome=os.getenv('myLuaHome')
+
+-- Path to current Files Dir with a trailing slash. 
+local filePath=debug.getinfo(1).source:match("@(.*[\\/]).+$") 
+
+if(luaHome) then 
+	filePath=filePath or luaHome.."\\"
+	luaHome=luaHome.."\\..\\.."  
 else
-	luaHome="..\\.."
+	print("Please fix: Need OS Env var 'myLuaHome'")
+	luaHome=""
 end
 
---print("luaHome: "..luaHome)
+package.path = package.path .. ";?.lua;"
+package.path = package.path .. ";"..filePath.."\\?.lua;"
 package.path = package.path .. ";"..luaHome.."\\User\\Addons\\lua\\lua\\?.lua;"
 package.path = package.path .. ";"..luaHome.."\\User\\Addons\\lua\\lua\\socket\\?.lua;"
 package.path = package.path .. ";"..luaHome.."\\User\\Addons\\lua\\mod-scite-debug\\?.lua;"

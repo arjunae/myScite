@@ -33,7 +33,7 @@ mofcomp more mount mountvol move mrinfo msav msbackup mscdex msd msg msiexec mui
 net net1 netcfg netsh netstat nfsadmin nlsfunc nltest nslookup ntbackup ntsd ocsetup openfiles path
 pathping pause pentnt ping pkgmgr pnpunattend pnputil popd power powercfg print prompt pushd pwlauncher
 qappsrv qbasic qprocess query quser qwinsta rasautou rasdial rcp rd rdpsign reagentc recimg recover
-reg regini register-cimprovide regsvr32 relog rem ren rename repair-bde replace reset restore rexec
+reg regini register-cimprovide regsvr32 relog ren rename repair-bde replace reset restore rexec
 rmdir robocopy route rpcinfo rpcping rsh rsm runas rwinsta sc scandisk scanreg schtasks sdbinst secedit
 set setlocal setspn setver setx sfc shadow share shift showmount shutdown smartdrv sort start subst sxstrace
 sys systeminfo takeown taskkill tasklist tcmsetup telnet tftp time timeout title tlntadmn tpmvscmgr tracerpt
@@ -42,14 +42,13 @@ ver verify vol vsafe vssadmin w32tm waitfor wbadmin wecutil wevtutil where whoam
 wmic wscript wsmanhttpconfig xcopy xwizard
 ]], true)))
 
--- Predefined Env.
+-- Predefined Env. Source: windows10 1803
 lex:add_rule('constants', token(lexer.CONSTANT, '%' * word_match([[
-  allusersprofile appdata clientname cmdcmdline cmdextversion comspec 
-  commonprogramfiles computername errorlevel homedrive homepath
-  localappdatalogonserver number_of_processors os path pathext
-  processor_architecture processor_identifier processor_level processor_revision
-  programfiles random sessionname systemdrive systemroottemp tmp userdnsdomain 
-  userdomain username userprofile windir
+allusersprofile appdata clientname cmdcmdline cmdextversion commonprogramfiles commonprogramfiles(x86)
+commonprogramw6432 computername comspec errorlevel homedrive homepath localappdata logonserver number_of_processors
+os path pathext processor_architecture processor_identifier processor_level processor_revision programdata
+programfiles programfiles(x86) programw6432 prompt psmodulepath public sessionname systemdrive systemroot
+temp tmp userdnsdomain userdomain userdomain_roamingprofile username userprofile windir 
 ]], true)*'%'))
 
 -- Comments.

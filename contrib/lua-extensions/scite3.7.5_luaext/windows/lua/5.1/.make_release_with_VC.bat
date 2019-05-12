@@ -21,7 +21,7 @@ call "%VCINSTALLDIR%\vcvarsall.bat"  %arch%
 if "%1"=="DEBUG" set parameter1=DEBUG=1
 REM set parameter1=DEBUG=1
 cd src
-nmake  /f mylua.mak dll
+nmake  /f mylua.mak exeSciLexer
 nmake  /f mylua.mak clean
 move *.lib  ..\ 1>NUL 2>NUL
 move *.dll ..\ 1>NUL 2>NUL

@@ -23,13 +23,12 @@ REM set parameter1=DEBUG=1
 cd src
 nmake  /f mylua.mak dll
 nmake  /f mylua.mak clean
-del /f *.exp
-pause
-move *.lib ..\
-move *.dll ..\
-
+move *.lib  ..\ 1>NUL 2>NUL
+move *.dll ..\ 1>NUL 2>NUL
+move *.exe ..\ 1>NUL 2>NUL
 cd ..
 
 echo :--------------------------------------------------
 echo .... done ....
 echo :--------------------------------------------------
+pause
