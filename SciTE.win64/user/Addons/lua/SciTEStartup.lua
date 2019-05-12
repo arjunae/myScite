@@ -15,15 +15,16 @@ package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;"
 dirSep, GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
 
---lua >=5.2.x replaced table.getn(x) with #x
---lua >=5.2.x renamed functions:
-local unpack = table.unpack or unpack
-math.mod = math.fmod or math.mod
-string.gfind = string.gmatch or string.gfind
-
 -- Startup script might be called multiple times with ext.lua.auto.reload and saving
 -- so ensure to load those LuaMods only once.
 if (true) then
+	--lua >=5.2.x replaced table.getn(x) with #x
+	--lua >=5.2.x renamed functions:
+	local unpack = table.unpack or unpack
+	math.mod = math.fmod or math.mod
+	string.gfind = string.gmatch or string.gfind
+	os.exit= function(code) code=code or 0 trace("Catched os.exit("..code..") from quitting SciTE.\n") end
+	
 	-- track the amount of lua allocated memory
 	_G.session_used_memory=collectgarbage("count")*1024
 	

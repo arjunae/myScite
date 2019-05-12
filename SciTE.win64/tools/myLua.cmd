@@ -1,6 +1,6 @@
 @echo off 
 :: -------- Containery for SciTE ----------
-:: can be used to avoid Chaos. Provides version specifc Language Distbins within respective Directories. 
+:: Provides customized Language Packs within respective Directories. 
 :: ---------------------------------------
 
 set toolFolder=lua
@@ -14,8 +14,8 @@ set toolParam=-l startup %*
 REM lua.exe needs to find scilexer.dll
 set optPath=%~dp0%..\
 
-:: A value of 1 will instruct the wrapper to restrict PATH to toolNames Directory. 
-set sandbox=1
+:: A value of 1 will instruct the wrapper to initially limit %PATH% to toolNames Directory. 
+set sandbox=0
 
 :: -------- No need to edit below here ---------- ::
 

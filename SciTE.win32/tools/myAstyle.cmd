@@ -1,6 +1,6 @@
 @echo off 
 :: -------- Containery for SciTE ----------
-:: can be used to avoid Chaos. Provides version specifc Language Distbins within respective Directories. 
+:: Provides customized Language Packs within respective Directories. 
 :: ---------------------------------------
 
 set toolFolder=beautifier\astyle
@@ -9,7 +9,7 @@ set toolExt=.exe
 set toolParam=--style=attach --indent=force-tab=8 --keep-one-line-blocks --pad-header --unpad-paren --pad-comma --indent-cases --align-pointer=name %*
 ::set optPath=%~dp0%..\
 
-:: A value of 1 will instruct the wrapper to restrict PATH to toolNames Directory. 
+:: A value of 1 will instruct the wrapper to initially limit %PATH% to toolNames Directory. 
 set sandbox=0
 
 :: -------- No need to edit below here ---------- ::

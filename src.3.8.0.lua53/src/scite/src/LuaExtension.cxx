@@ -244,7 +244,6 @@ static int cf_scite_send(lua_State *L) {
 			func = IFaceTable::functions[funcIdx];
 			break;
 		}
-	DoEvents();	
 	}
 
 	if (func.value == 0) {
@@ -308,14 +307,12 @@ static int cf_scite_menu_command(lua_State *L) {
 static int cf_scite_update_status_bar(lua_State *L) {
 	bool bUpdateSlowData = (lua_gettop(L) > 0 ? lua_toboolean(L, 1) : false) != 0;
 	host->UpdateStatusBar(bUpdateSlowData);
-	DoEvents();
 	return 0;
 }
 
 static int cf_scite_apply_properties(lua_State *L) {
 	if(!L) return(0);
 	host->ReadProperties(false);
-	DoEvents();
 	return 0;
 }
 
@@ -453,7 +450,6 @@ static int cf_pane_findtext(lua_State *L) {
 	if (hasError) {
 		raise_error(L, "Invalid arguments for <pane>:findtext");
 	}
-	DoEvents();
 	return 0;
 }
 
@@ -491,7 +487,6 @@ static int cf_match_replace(lua_State *L) {
 	host->Send(pmo->pane, SCI_SETTARGETEND, pmo->endPos, 0);
 	host->Send(pmo->pane, SCI_REPLACETARGET, lua_rawlen(L, 2), SptrFromString(replacement));
 	pmo->endPos = static_cast<int>(host->Send(pmo->pane, SCI_GETTARGETEND, 0, 0));
-	DoEvents();
 	return 0;
 }
 
@@ -607,7 +602,6 @@ static int cf_pane_match(lua_State *L) {
 		raise_error(L, "Internal error: could not create match object.");
 		return 0;
 	}
-	DoEvents();
 }
 
 static int cf_pane_match_generator(lua_State *L) {

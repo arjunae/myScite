@@ -249,11 +249,12 @@ static unsigned int ColouriseMakeLine(
 		
 		/// Lets signal a warning on unclosed Braces. Check for the matching one.
 		if ((state==SCE_MAKE_DEFAULT && sInBraces.size() && sInBraces.back()==chCurr)) {
-			if (iLog) std::clog<< "[/NormalBrace] " << "\n"; 
+			if (iLog) std::clog<< "[/NormalBrace] " << "\n";
 			if (sInBraces.size()>0) sInBraces.resize(sInBraces.size()-1);
 			if (sInBraces.size()==0) line.s.bWarnBrace=false;
 		} else if (state==SCE_MAKE_DEFAULT && strchr("{(", (int)chCurr)!=NULL) {
-			if (iLog) std::clog<< "[NormalBrace] " << "\n"; 
+			if (iLog) std::clog<< "[NormalBrace] " << "\n";
+			ColourHere(styler, currentPos-1, state);
 			sInBraces.append(opposite(chCurr));
 			line.s.bWarnBrace=true;
 		}
@@ -421,7 +422,8 @@ static unsigned int ColouriseMakeLine(
 			state=SCE_MAKE_EXTCMD;
 			ColourHere(styler, currentPos, state);
 		} else if (state == SCE_MAKE_EXTCMD && (strchr("@%<^+|*DF", (int)chNext) == NULL)) {
-			ColourHere(styler, currentPos, SCE_MAKE_EXTCMD, SCE_MAKE_DEFAULT);
+			ColourHere(styler, currentPos-1, SCE_MAKE_EXTCMD);
+			ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);
 			if (line.s.iWarnEOL || sInUserVar.size()) state_prev=SCE_MAKE_DEFAULT; // Exception for Quotes
 			state=state_prev;
 			if (iLog) std::clog<< "[/AutomaticVar] " << "\n";
@@ -440,13 +442,16 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos+1, SCE_MAKE_USER_VARIABLE);
 			if(state!=SCE_MAKE_USER_VARIABLE) state_prev=state;
 			state=SCE_MAKE_USER_VARIABLE;
+		} else if(sInUserVar.size() && currentPos==endPos-1) {
+			// Unclosed Brace
+			line.s.bWarnBrace=true;
 		} else if(sInUserVar.size() && sInUserVar.back()!=chCurr) {
 			if (strchr("${([", (int)chCurr)!=NULL) ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
-			// Readability Exception: Style Identifier, SingleQuotes, Keywords and Flags in UserVars.
+			// Within Brace. Readability Exception: Style Identifier, SingleQuotes, Keywords and Flags in UserVars.
 		 	if (strchr(" \t /#!?&|+;,", (int)chCurr)!=NULL) bStyleAsIdentifier=true;
 			if (bStyleAsIdentifier && !line.s.bWarnSqStr && startMark==0 && state!=SCE_MAKE_FLAGS)
 				ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);
-		} else if (sInUserVar.size() && (sInUserVar.back()==chCurr || currentPos==endPos)) {
+		} else if (sInUserVar.size() && sInUserVar.back()==chCurr) {
 			// Closing Brace found
 			if (iLog) std::clog<< "[/UserVar: '" << sInUserVar << "']\n";
 			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
@@ -459,12 +464,8 @@ static unsigned int ColouriseMakeLine(
 				if (line.s.bWarnDqStr || line.s.bWarnSqStr ) state_prev=SCE_MAKE_DEFAULT;
 				bStyleAsIdentifier=false;
 			}
-			if(currentPos==endPos){
-				state=SCE_MAKE_DEFAULT;
-				ColourHere(styler, currentPos, state);
-			}
 		}
-		
+			
 		/// ... Store chNext to close the correct brace later.
 		if (!bInBashVar && state==SCE_MAKE_USER_VARIABLE && chCurr!='$' ) {
 				sInUserVar.append(opposite(chCurr));
