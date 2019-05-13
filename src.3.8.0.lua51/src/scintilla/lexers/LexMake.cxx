@@ -442,19 +442,17 @@ static unsigned int ColouriseMakeLine(
 			ColourHere(styler, currentPos+1, SCE_MAKE_USER_VARIABLE);
 			if(state!=SCE_MAKE_USER_VARIABLE) state_prev=state;
 			state=SCE_MAKE_USER_VARIABLE;
-		} else if(sInUserVar.size() && currentPos==endPos-1) {
-			// Unclosed Brace
-			line.s.bWarnBrace=true;
 		} else if(sInUserVar.size() && sInUserVar.back()!=chCurr) {
 			if (strchr("${([", (int)chCurr)!=NULL) ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
 			// Within Brace. Readability Exception: Style Identifier, SingleQuotes, Keywords and Flags in UserVars.
 		 	if (strchr(" \t /#!?&|+;,", (int)chCurr)!=NULL) bStyleAsIdentifier=true;
 			if (bStyleAsIdentifier && !line.s.bWarnSqStr && startMark==0 && state!=SCE_MAKE_FLAGS)
 				ColourHere(styler, currentPos, SCE_MAKE_DEFAULT);
-		} else if (sInUserVar.size() && sInUserVar.back()==chCurr) {
+		} else if(sInUserVar.size() && sInUserVar.back()==chCurr) {
 			// Closing Brace found
 			if (iLog) std::clog<< "[/UserVar: '" << sInUserVar << "']\n";
 			ColourHere(styler, currentPos, SCE_MAKE_USER_VARIABLE);
+			line.s.bWarnBrace=false;
 			if (sInUserVar.size()>0) sInUserVar.resize(sInUserVar.size()-1);
 			if (sInUserVar.size()==0 || currentPos==endPos) {
 			// Final Brace - Close User Var.
@@ -467,8 +465,9 @@ static unsigned int ColouriseMakeLine(
 		}
 			
 		/// ... Store chNext to close the correct brace later.
-		if (!bInBashVar && state==SCE_MAKE_USER_VARIABLE && chCurr!='$' ) {
+		if (!bInBashVar && state==SCE_MAKE_USER_VARIABLE &&  strchr("{([", (int)chCurr)!=NULL ) {
 				sInUserVar.append(opposite(chCurr));
+				line.s.bWarnBrace=true;
 		}
 		
 		/// Operators..

@@ -268,7 +268,8 @@ local menuItems
 
 local function handleChar(char, calledByHotkey)
     if props["Language"]==""  then  return end
-    if buffer.size and buffer.size > AC_MAX_SIZE then  return end
+    if buffer.size and buffer.size > AC_MAX_SIZE then return end
+    if not names then buildNames() end
     
     local pos = editor.CurrentPos
     local startPos = editor:WordStartPosition(pos, true)
