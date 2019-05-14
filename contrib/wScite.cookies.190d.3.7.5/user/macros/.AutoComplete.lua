@@ -215,7 +215,7 @@ local function buildNames()
 
 --print("build names buffer state:",buffer.dirty)
         
-    if props["Language"]~="" and buffer.size and buffer.dirty==true then 
+    if buffer.size and buffer.dirty==true and props["Language"]~=""  then 
     if buffer.size and buffer.size > AC_MAX_SIZE then  return end
     if DEBUG>=1 then  print("ac>buildnames") end
         setLexerSpecificStuff()

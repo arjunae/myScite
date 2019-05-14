@@ -1,0 +1,4 @@
+LIBRARY des56.dll
+VERSION 1.3
+EXPORTS
+luaopen_des56

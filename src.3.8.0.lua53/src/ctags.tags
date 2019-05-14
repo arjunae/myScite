@@ -2947,12 +2947,12 @@ LUAI_BITSINT	scintilla\lua\src\luaconf.h	94;"	d
 LUAI_BITSINT	scintilla\lua\src\luaconf.h	97;"	d
 LUAI_BITSINT	scite\lua\src\luaconf.h	90;"	d
 LUAI_BITSINT	scite\lua\src\luaconf.h	93;"	d
-LUAI_DDEC	scintilla\lua\src\luaconf.h	288;"	d
+LUAI_DDEC	scintilla\lua\src\luaconf.h	290;"	d
 LUAI_DDEC	scite\lua\src\luaconf.h	290;"	d
-LUAI_DDEF	scintilla\lua\src\luaconf.h	289;"	d
+LUAI_DDEF	scintilla\lua\src\luaconf.h	291;"	d
 LUAI_DDEF	scite\lua\src\luaconf.h	291;"	d
-LUAI_FUNC	scintilla\lua\src\luaconf.h	283;"	d
 LUAI_FUNC	scintilla\lua\src\luaconf.h	285;"	d
+LUAI_FUNC	scintilla\lua\src\luaconf.h	287;"	d
 LUAI_FUNC	scite\lua\src\luaconf.h	285;"	d
 LUAI_FUNC	scite\lua\src\luaconf.h	287;"	d
 LUAI_GCMUL	scintilla\lua\src\lstate.c	36;"	d	file:
@@ -2960,8 +2960,8 @@ LUAI_GCPAUSE	scintilla\lua\src\lstate.c	32;"	d	file:
 LUAI_HASHLIMIT	scintilla\lua\src\lstring.c	33;"	d	file:
 LUAI_MAXCCALLS	scintilla\lua\src\llimits.h	153;"	d
 LUAI_MAXSHORTLEN	scintilla\lua\src\llimits.h	177;"	d
-LUAI_MAXSTACK	scintilla\lua\src\luaconf.h	725;"	d
 LUAI_MAXSTACK	scintilla\lua\src\luaconf.h	727;"	d
+LUAI_MAXSTACK	scintilla\lua\src\luaconf.h	729;"	d
 LUAI_MAXSTACK	scite\lua\src\luaconf.h	727;"	d
 LUAI_MAXSTACK	scite\lua\src\luaconf.h	729;"	d
 LUAI_THROW	scintilla\lua\src\ldo.c	58;"	d	file:
@@ -2970,26 +2970,26 @@ LUAI_THROW	scintilla\lua\src\ldo.c	73;"	d	file:
 LUAI_TRY	scintilla\lua\src\ldo.c	59;"	d	file:
 LUAI_TRY	scintilla\lua\src\ldo.c	67;"	d	file:
 LUAI_TRY	scintilla\lua\src\ldo.c	74;"	d	file:
-LUAI_UACINT	scintilla\lua\src\luaconf.h	531;"	d
+LUAI_UACINT	scintilla\lua\src\luaconf.h	533;"	d
 LUAI_UACINT	scite\lua\src\luaconf.h	533;"	d
-LUAI_UACNUMBER	scintilla\lua\src\luaconf.h	464;"	d
-LUAI_UACNUMBER	scintilla\lua\src\luaconf.h	480;"	d
-LUAI_UACNUMBER	scintilla\lua\src\luaconf.h	495;"	d
+LUAI_UACNUMBER	scintilla\lua\src\luaconf.h	466;"	d
+LUAI_UACNUMBER	scintilla\lua\src\luaconf.h	482;"	d
+LUAI_UACNUMBER	scintilla\lua\src\luaconf.h	497;"	d
 LUAI_UACNUMBER	scite\lua\src\luaconf.h	466;"	d
 LUAI_UACNUMBER	scite\lua\src\luaconf.h	482;"	d
 LUAI_UACNUMBER	scite\lua\src\luaconf.h	497;"	d
-LUALIB_API	scintilla\lua\src\luaconf.h	263;"	d
+LUALIB_API	scintilla\lua\src\luaconf.h	265;"	d
 LUALIB_API	scite\lua\src\luaconf.h	265;"	d
-LUAL_BUFFERSIZE	scintilla\lua\src\luaconf.h	755;"	d
 LUAL_BUFFERSIZE	scintilla\lua\src\luaconf.h	757;"	d
+LUAL_BUFFERSIZE	scintilla\lua\src\luaconf.h	759;"	d
 LUAL_BUFFERSIZE	scite\lua\src\luaconf.h	757;"	d
 LUAL_BUFFERSIZE	scite\lua\src\luaconf.h	759;"	d
 LUAL_NUMSIZES	scintilla\lua\src\lauxlib.h	37;"	d
 LUAL_NUMSIZES	scite\lua\src\lauxlib.h	37;"	d
 LUAL_PACKPADBYTE	scintilla\lua\src\lstrlib.c	1107;"	d	file:
-LUAMOD_API	scintilla\lua\src\luaconf.h	264;"	d
+LUAMOD_API	scintilla\lua\src\luaconf.h	266;"	d
 LUAMOD_API	scite\lua\src\luaconf.h	266;"	d
-LUA_API	scintilla\lua\src\luaconf.h	261;"	d
+LUA_API	scintilla\lua\src\luaconf.h	263;"	d
 LUA_API	scite\lua\src\luaconf.h	246;"	d
 LUA_API	scite\lua\src\luaconf.h	248;"	d
 LUA_API	scite\lua\src\luaconf.h	261;"	d
@@ -3000,34 +3000,34 @@ LUA_BITLIBNAME	scite\lua\src\lualib.h	38;"	d
 LUA_C89_NUMBERS	scintilla\lua\src\luaconf.h	84;"	d
 LUA_C89_NUMBERS	scite\lua\src\luaconf.h	80;"	d
 LUA_CDIR	scintilla\lua\src\luaconf.h	192;"	d
-LUA_CDIR	scintilla\lua\src\luaconf.h	208;"	d
+LUA_CDIR	scintilla\lua\src\luaconf.h	210;"	d
 LUA_CDIR	scite\lua\src\luaconf.h	188;"	d
 LUA_CDIR	scite\lua\src\luaconf.h	204;"	d
 LUA_COLIBNAME	scintilla\lua\src\lualib.h	20;"	d
 LUA_COLIBNAME	scite\lua\src\lualib.h	20;"	d
-LUA_COMPAT_APIINTCASTS	scintilla\lua\src\luaconf.h	329;"	d
-LUA_COMPAT_APIINTCASTS	scintilla\lua\src\luaconf.h	338;"	d
+LUA_COMPAT_APIINTCASTS	scintilla\lua\src\luaconf.h	331;"	d
+LUA_COMPAT_APIINTCASTS	scintilla\lua\src\luaconf.h	340;"	d
 LUA_COMPAT_APIINTCASTS	scite\lua\src\luaconf.h	331;"	d
 LUA_COMPAT_APIINTCASTS	scite\lua\src\luaconf.h	340;"	d
-LUA_COMPAT_BITLIB	scintilla\lua\src\luaconf.h	317;"	d
+LUA_COMPAT_BITLIB	scintilla\lua\src\luaconf.h	319;"	d
 LUA_COMPAT_BITLIB	scite\lua\src\luaconf.h	319;"	d
-LUA_COMPAT_IPAIRS	scintilla\lua\src\luaconf.h	322;"	d
+LUA_COMPAT_IPAIRS	scintilla\lua\src\luaconf.h	324;"	d
 LUA_COMPAT_IPAIRS	scite\lua\src\luaconf.h	324;"	d
-LUA_COMPAT_LOADERS	scintilla\lua\src\luaconf.h	350;"	d
+LUA_COMPAT_LOADERS	scintilla\lua\src\luaconf.h	352;"	d
 LUA_COMPAT_LOADERS	scite\lua\src\luaconf.h	352;"	d
-LUA_COMPAT_LOADSTRING	scintilla\lua\src\luaconf.h	372;"	d
+LUA_COMPAT_LOADSTRING	scintilla\lua\src\luaconf.h	374;"	d
 LUA_COMPAT_LOADSTRING	scite\lua\src\luaconf.h	374;"	d
-LUA_COMPAT_LOG10	scintilla\lua\src\luaconf.h	366;"	d
+LUA_COMPAT_LOG10	scintilla\lua\src\luaconf.h	368;"	d
 LUA_COMPAT_LOG10	scite\lua\src\luaconf.h	368;"	d
-LUA_COMPAT_MATHLIB	scintilla\lua\src\luaconf.h	312;"	d
-LUA_COMPAT_MATHLIB	scintilla\lua\src\luaconf.h	337;"	d
+LUA_COMPAT_MATHLIB	scintilla\lua\src\luaconf.h	314;"	d
+LUA_COMPAT_MATHLIB	scintilla\lua\src\luaconf.h	339;"	d
 LUA_COMPAT_MATHLIB	scite\lua\src\luaconf.h	314;"	d
 LUA_COMPAT_MATHLIB	scite\lua\src\luaconf.h	339;"	d
-LUA_COMPAT_MAXN	scintilla\lua\src\luaconf.h	377;"	d
+LUA_COMPAT_MAXN	scintilla\lua\src\luaconf.h	379;"	d
 LUA_COMPAT_MAXN	scite\lua\src\luaconf.h	379;"	d
-LUA_COMPAT_MODULE	scintilla\lua\src\luaconf.h	395;"	d
+LUA_COMPAT_MODULE	scintilla\lua\src\luaconf.h	397;"	d
 LUA_COMPAT_MODULE	scite\lua\src\luaconf.h	397;"	d
-LUA_COMPAT_UNPACK	scintilla\lua\src\luaconf.h	344;"	d
+LUA_COMPAT_UNPACK	scintilla\lua\src\luaconf.h	346;"	d
 LUA_COMPAT_UNPACK	scite\lua\src\luaconf.h	346;"	d
 LUA_COPYRIGHT	scintilla\lua\src\lua.h	26;"	d
 LUA_COPYRIGHT	scite\lua\src\lua.h	26;"	d
@@ -3053,16 +3053,16 @@ LUA_CORE	scintilla\lua\src\luac.c	8;"	d	file:
 LUA_CORE	scintilla\lua\src\lundump.c	8;"	d	file:
 LUA_CORE	scintilla\lua\src\lvm.c	8;"	d	file:
 LUA_CORE	scintilla\lua\src\lzio.c	8;"	d	file:
-LUA_CPATH_DEFAULT	scintilla\lua\src\luaconf.h	199;"	d
-LUA_CPATH_DEFAULT	scintilla\lua\src\luaconf.h	213;"	d
+LUA_CPATH_DEFAULT	scintilla\lua\src\luaconf.h	201;"	d
+LUA_CPATH_DEFAULT	scintilla\lua\src\luaconf.h	215;"	d
 LUA_CPATH_DEFAULT	scite\lua\src\luaconf.h	195;"	d
 LUA_CPATH_DEFAULT	scite\lua\src\luaconf.h	209;"	d
 LUA_CPATH_VAR	scintilla\lua\src\loadlib.c	268;"	d	file:
 LUA_CSUBSEP	scintilla\lua\src\loadlib.c	43;"	d	file:
 LUA_DBLIBNAME	scintilla\lua\src\lualib.h	44;"	d
 LUA_DBLIBNAME	scite\lua\src\lualib.h	44;"	d
-LUA_DIRSEP	scintilla\lua\src\luaconf.h	224;"	d
 LUA_DIRSEP	scintilla\lua\src\luaconf.h	226;"	d
+LUA_DIRSEP	scintilla\lua\src\luaconf.h	228;"	d
 LUA_DIRSEP	scite\lua\src\luaconf.h	220;"	d
 LUA_DIRSEP	scite\lua\src\luaconf.h	222;"	d
 LUA_DL_DLL	scintilla\lua\src\luaconf.h	59;"	d
@@ -3082,7 +3082,7 @@ LUA_ERRSYNTAX	scintilla\lua\src\lua.h	50;"	d
 LUA_ERRSYNTAX	scite\lua\src\lua.h	50;"	d
 LUA_EXEC_DIR	scintilla\lua\src\luaconf.h	173;"	d
 LUA_EXEC_DIR	scite\lua\src\luaconf.h	169;"	d
-LUA_EXTRASPACE	scintilla\lua\src\luaconf.h	736;"	d
+LUA_EXTRASPACE	scintilla\lua\src\luaconf.h	738;"	d
 LUA_EXTRASPACE	scite\lua\src\luaconf.h	738;"	d
 LUA_FILEHANDLE	scintilla\lua\src\lauxlib.h	190;"	d
 LUA_FILEHANDLE	scite\lua\src\lauxlib.h	190;"	d
@@ -3128,25 +3128,25 @@ LUA_HOOKRET	scintilla\lua\src\lua.h	403;"	d
 LUA_HOOKRET	scite\lua\src\lua.h	403;"	d
 LUA_HOOKTAILCALL	scintilla\lua\src\lua.h	406;"	d
 LUA_HOOKTAILCALL	scite\lua\src\lua.h	406;"	d
-LUA_IDSIZE	scintilla\lua\src\luaconf.h	744;"	d
+LUA_IDSIZE	scintilla\lua\src\luaconf.h	746;"	d
 LUA_IDSIZE	scite\lua\src\luaconf.h	746;"	d
 LUA_IGMARK	scintilla\lua\src\loadlib.c	32;"	d	file:
 LUA_INITVARVERSION	scintilla\lua\src\lua.c	41;"	d	file:
 LUA_INIT_VAR	scintilla\lua\src\lua.c	38;"	d	file:
-LUA_INTEGER	scintilla\lua\src\luaconf.h	547;"	d
-LUA_INTEGER	scintilla\lua\src\luaconf.h	555;"	d
-LUA_INTEGER	scintilla\lua\src\luaconf.h	567;"	d
-LUA_INTEGER	scintilla\lua\src\luaconf.h	576;"	d
+LUA_INTEGER	scintilla\lua\src\luaconf.h	549;"	d
+LUA_INTEGER	scintilla\lua\src\luaconf.h	557;"	d
+LUA_INTEGER	scintilla\lua\src\luaconf.h	569;"	d
+LUA_INTEGER	scintilla\lua\src\luaconf.h	578;"	d
 LUA_INTEGER	scite\lua\src\luaconf.h	549;"	d
 LUA_INTEGER	scite\lua\src\luaconf.h	557;"	d
 LUA_INTEGER	scite\lua\src\luaconf.h	569;"	d
 LUA_INTEGER	scite\lua\src\luaconf.h	578;"	d
-LUA_INTEGER_FMT	scintilla\lua\src\luaconf.h	529;"	d
+LUA_INTEGER_FMT	scintilla\lua\src\luaconf.h	531;"	d
 LUA_INTEGER_FMT	scite\lua\src\luaconf.h	531;"	d
-LUA_INTEGER_FRMLEN	scintilla\lua\src\luaconf.h	548;"	d
-LUA_INTEGER_FRMLEN	scintilla\lua\src\luaconf.h	556;"	d
-LUA_INTEGER_FRMLEN	scintilla\lua\src\luaconf.h	568;"	d
-LUA_INTEGER_FRMLEN	scintilla\lua\src\luaconf.h	577;"	d
+LUA_INTEGER_FRMLEN	scintilla\lua\src\luaconf.h	550;"	d
+LUA_INTEGER_FRMLEN	scintilla\lua\src\luaconf.h	558;"	d
+LUA_INTEGER_FRMLEN	scintilla\lua\src\luaconf.h	570;"	d
+LUA_INTEGER_FRMLEN	scintilla\lua\src\luaconf.h	579;"	d
 LUA_INTEGER_FRMLEN	scite\lua\src\luaconf.h	550;"	d
 LUA_INTEGER_FRMLEN	scite\lua\src\luaconf.h	558;"	d
 LUA_INTEGER_FRMLEN	scite\lua\src\luaconf.h	570;"	d
@@ -3167,14 +3167,14 @@ LUA_INT_TYPE	scite\lua\src\luaconf.h	132;"	d
 LUA_INT_TYPE	scite\lua\src\luaconf.h	142;"	d
 LUA_IOLIBNAME	scintilla\lua\src\lualib.h	26;"	d
 LUA_IOLIBNAME	scite\lua\src\lualib.h	26;"	d
-LUA_KCONTEXT	scintilla\lua\src\luaconf.h	658;"	d
-LUA_KCONTEXT	scintilla\lua\src\luaconf.h	664;"	d
-LUA_KCONTEXT	scintilla\lua\src\luaconf.h	665;"	d
+LUA_KCONTEXT	scintilla\lua\src\luaconf.h	660;"	d
+LUA_KCONTEXT	scintilla\lua\src\luaconf.h	666;"	d
+LUA_KCONTEXT	scintilla\lua\src\luaconf.h	667;"	d
 LUA_KCONTEXT	scite\lua\src\luaconf.h	660;"	d
 LUA_KCONTEXT	scite\lua\src\luaconf.h	666;"	d
 LUA_KCONTEXT	scite\lua\src\luaconf.h	667;"	d
 LUA_LDIR	scintilla\lua\src\luaconf.h	191;"	d
-LUA_LDIR	scintilla\lua\src\luaconf.h	207;"	d
+LUA_LDIR	scintilla\lua\src\luaconf.h	209;"	d
 LUA_LDIR	scite\lua\src\luaconf.h	187;"	d
 LUA_LDIR	scite\lua\src\luaconf.h	203;"	d
 LUA_LIB	scintilla\lua\src\lauxlib.c	8;"	d	file:
@@ -3208,19 +3208,19 @@ LUA_MATHLIBNAME	scintilla\lua\src\lualib.h	41;"	d
 LUA_MATHLIBNAME	scite\lua\src\lualib.h	41;"	d
 LUA_MAXCAPTURES	scintilla\lua\src\lstrlib.c	34;"	d	file:
 LUA_MAXINPUT	scintilla\lua\src\lua.c	34;"	d	file:
-LUA_MAXINTEGER	scintilla\lua\src\luaconf.h	550;"	d
-LUA_MAXINTEGER	scintilla\lua\src\luaconf.h	558;"	d
-LUA_MAXINTEGER	scintilla\lua\src\luaconf.h	570;"	d
-LUA_MAXINTEGER	scintilla\lua\src\luaconf.h	579;"	d
+LUA_MAXINTEGER	scintilla\lua\src\luaconf.h	552;"	d
+LUA_MAXINTEGER	scintilla\lua\src\luaconf.h	560;"	d
+LUA_MAXINTEGER	scintilla\lua\src\luaconf.h	572;"	d
+LUA_MAXINTEGER	scintilla\lua\src\luaconf.h	581;"	d
 LUA_MAXINTEGER	scite\lua\src\luaconf.h	552;"	d
 LUA_MAXINTEGER	scite\lua\src\luaconf.h	560;"	d
 LUA_MAXINTEGER	scite\lua\src\luaconf.h	572;"	d
 LUA_MAXINTEGER	scite\lua\src\luaconf.h	581;"	d
 LUA_MINBUFFER	scintilla\lua\src\llimits.h	205;"	d
-LUA_MININTEGER	scintilla\lua\src\luaconf.h	551;"	d
-LUA_MININTEGER	scintilla\lua\src\luaconf.h	559;"	d
-LUA_MININTEGER	scintilla\lua\src\luaconf.h	571;"	d
-LUA_MININTEGER	scintilla\lua\src\luaconf.h	580;"	d
+LUA_MININTEGER	scintilla\lua\src\luaconf.h	553;"	d
+LUA_MININTEGER	scintilla\lua\src\luaconf.h	561;"	d
+LUA_MININTEGER	scintilla\lua\src\luaconf.h	573;"	d
+LUA_MININTEGER	scintilla\lua\src\luaconf.h	582;"	d
 LUA_MININTEGER	scite\lua\src\luaconf.h	553;"	d
 LUA_MININTEGER	scite\lua\src\luaconf.h	561;"	d
 LUA_MININTEGER	scite\lua\src\luaconf.h	573;"	d
@@ -3232,21 +3232,21 @@ LUA_MULTRET	scite\lua\src\lua.h	34;"	d
 LUA_NBITS	scintilla\lua\src\lbitlib.c	28;"	d	file:
 LUA_NOREF	scintilla\lua\src\lauxlib.h	77;"	d
 LUA_NOREF	scite\lua\src\lauxlib.h	77;"	d
-LUA_NUMBER	scintilla\lua\src\luaconf.h	460;"	d
-LUA_NUMBER	scintilla\lua\src\luaconf.h	476;"	d
-LUA_NUMBER	scintilla\lua\src\luaconf.h	491;"	d
+LUA_NUMBER	scintilla\lua\src\luaconf.h	462;"	d
+LUA_NUMBER	scintilla\lua\src\luaconf.h	478;"	d
+LUA_NUMBER	scintilla\lua\src\luaconf.h	493;"	d
 LUA_NUMBER	scite\lua\src\luaconf.h	462;"	d
 LUA_NUMBER	scite\lua\src\luaconf.h	478;"	d
 LUA_NUMBER	scite\lua\src\luaconf.h	493;"	d
-LUA_NUMBER_FMT	scintilla\lua\src\luaconf.h	467;"	d
-LUA_NUMBER_FMT	scintilla\lua\src\luaconf.h	483;"	d
-LUA_NUMBER_FMT	scintilla\lua\src\luaconf.h	498;"	d
+LUA_NUMBER_FMT	scintilla\lua\src\luaconf.h	469;"	d
+LUA_NUMBER_FMT	scintilla\lua\src\luaconf.h	485;"	d
+LUA_NUMBER_FMT	scintilla\lua\src\luaconf.h	500;"	d
 LUA_NUMBER_FMT	scite\lua\src\luaconf.h	469;"	d
 LUA_NUMBER_FMT	scite\lua\src\luaconf.h	485;"	d
 LUA_NUMBER_FMT	scite\lua\src\luaconf.h	500;"	d
-LUA_NUMBER_FRMLEN	scintilla\lua\src\luaconf.h	466;"	d
-LUA_NUMBER_FRMLEN	scintilla\lua\src\luaconf.h	482;"	d
-LUA_NUMBER_FRMLEN	scintilla\lua\src\luaconf.h	497;"	d
+LUA_NUMBER_FRMLEN	scintilla\lua\src\luaconf.h	468;"	d
+LUA_NUMBER_FRMLEN	scintilla\lua\src\luaconf.h	484;"	d
+LUA_NUMBER_FRMLEN	scintilla\lua\src\luaconf.h	499;"	d
 LUA_NUMBER_FRMLEN	scite\lua\src\luaconf.h	468;"	d
 LUA_NUMBER_FRMLEN	scite\lua\src\luaconf.h	484;"	d
 LUA_NUMBER_FRMLEN	scite\lua\src\luaconf.h	499;"	d
@@ -3292,7 +3292,7 @@ LUA_OPUNM	scite\lua\src\lua.h	208;"	d
 LUA_OSLIBNAME	scintilla\lua\src\lualib.h	29;"	d
 LUA_OSLIBNAME	scite\lua\src\lualib.h	29;"	d
 LUA_PATH_DEFAULT	scintilla\lua\src\luaconf.h	194;"	d
-LUA_PATH_DEFAULT	scintilla\lua\src\luaconf.h	209;"	d
+LUA_PATH_DEFAULT	scintilla\lua\src\luaconf.h	211;"	d
 LUA_PATH_DEFAULT	scite\lua\src\luaconf.h	190;"	d
 LUA_PATH_DEFAULT	scite\lua\src\luaconf.h	205;"	d
 LUA_PATH_MARK	scintilla\lua\src\luaconf.h	172;"	d
@@ -3306,9 +3306,9 @@ LUA_PRELOAD_TABLE	scite\lua\src\lauxlib.h	28;"	d
 LUA_PROGNAME	scintilla\lua\src\lua.c	30;"	d	file:
 LUA_PROMPT	scintilla\lua\src\lua.c	25;"	d	file:
 LUA_PROMPT2	scintilla\lua\src\lua.c	26;"	d	file:
-LUA_QL	scintilla\lua\src\luaconf.h	768;"	d
+LUA_QL	scintilla\lua\src\luaconf.h	770;"	d
 LUA_QL	scite\lua\src\luaconf.h	770;"	d
-LUA_QS	scintilla\lua\src\luaconf.h	769;"	d
+LUA_QS	scintilla\lua\src\luaconf.h	771;"	d
 LUA_QS	scite\lua\src\luaconf.h	771;"	d
 LUA_REFNIL	scintilla\lua\src\lauxlib.h	78;"	d
 LUA_REFNIL	scite\lua\src\lauxlib.h	78;"	d
@@ -3322,7 +3322,7 @@ LUA_RIDX_LAST	scintilla\lua\src\lua.h	85;"	d
 LUA_RIDX_LAST	scite\lua\src\lua.h	85;"	d
 LUA_RIDX_MAINTHREAD	scintilla\lua\src\lua.h	83;"	d
 LUA_RIDX_MAINTHREAD	scite\lua\src\lua.h	83;"	d
-LUA_ROOT	scintilla\lua\src\luaconf.h	206;"	d
+LUA_ROOT	scintilla\lua\src\luaconf.h	208;"	d
 LUA_ROOT	scite\lua\src\luaconf.h	202;"	d
 LUA_SHRDIR	scintilla\lua\src\luaconf.h	193;"	d
 LUA_SHRDIR	scite\lua\src\luaconf.h	189;"	d
@@ -3368,7 +3368,7 @@ LUA_TTHREAD	scintilla\lua\src\lua.h	72;"	d
 LUA_TTHREAD	scite\lua\src\lua.h	72;"	d
 LUA_TUSERDATA	scintilla\lua\src\lua.h	71;"	d
 LUA_TUSERDATA	scite\lua\src\lua.h	71;"	d
-LUA_UNSIGNED	scintilla\lua\src\luaconf.h	540;"	d
+LUA_UNSIGNED	scintilla\lua\src\luaconf.h	542;"	d
 LUA_UNSIGNED	scite\lua\src\luaconf.h	542;"	d
 LUA_USE_C89	scintilla\lua\src\luaconf.h	60;"	d
 LUA_USE_C89	scite\lua\src\luaconf.h	56;"	d
@@ -11436,7 +11436,7 @@ l_castS2U	scintilla\lua\src\llimits.h	122;"	d
 l_castU2S	scintilla\lua\src\llimits.h	131;"	d
 l_checkmode	scintilla\lua\src\liolib.c	/^static int l_checkmode (const char *mode) {$/;"	f	file:	signature:(const char *mode)
 l_checktime	scintilla\lua\src\loslib.c	/^static time_t l_checktime (lua_State *L, int arg) {$/;"	f	file:	signature:(lua_State *L, int arg)
-l_floor	scintilla\lua\src\luaconf.h	437;"	d
+l_floor	scintilla\lua\src\luaconf.h	439;"	d
 l_floor	scite\lua\src\luaconf.h	439;"	d
 l_fseek	scintilla\lua\src\liolib.c	110;"	d	file:
 l_fseek	scintilla\lua\src\liolib.c	118;"	d	file:
@@ -11457,17 +11457,17 @@ l_localtime	scintilla\lua\src\loslib.c	87;"	d	file:
 l_localtime	scintilla\lua\src\loslib.c	93;"	d	file:
 l_lockfile	scintilla\lua\src\liolib.c	87;"	d	file:
 l_lockfile	scintilla\lua\src\liolib.c	91;"	d	file:
-l_mathlim	scintilla\lua\src\luaconf.h	462;"	d
-l_mathlim	scintilla\lua\src\luaconf.h	478;"	d
-l_mathlim	scintilla\lua\src\luaconf.h	493;"	d
+l_mathlim	scintilla\lua\src\luaconf.h	464;"	d
+l_mathlim	scintilla\lua\src\luaconf.h	480;"	d
+l_mathlim	scintilla\lua\src\luaconf.h	495;"	d
 l_mathlim	scite\lua\src\luaconf.h	464;"	d
 l_mathlim	scite\lua\src\luaconf.h	480;"	d
 l_mathlim	scite\lua\src\luaconf.h	495;"	d
-l_mathop	scintilla\lua\src\luaconf.h	469;"	d
-l_mathop	scintilla\lua\src\luaconf.h	485;"	d
-l_mathop	scintilla\lua\src\luaconf.h	500;"	d
-l_mathop	scintilla\lua\src\luaconf.h	645;"	d
+l_mathop	scintilla\lua\src\luaconf.h	471;"	d
+l_mathop	scintilla\lua\src\luaconf.h	487;"	d
+l_mathop	scintilla\lua\src\luaconf.h	502;"	d
 l_mathop	scintilla\lua\src\luaconf.h	647;"	d
+l_mathop	scintilla\lua\src\luaconf.h	649;"	d
 l_mathop	scite\lua\src\luaconf.h	471;"	d
 l_mathop	scite\lua\src\luaconf.h	487;"	d
 l_mathop	scite\lua\src\luaconf.h	502;"	d
@@ -11497,8 +11497,8 @@ l_seeknum	scintilla\lua\src\liolib.c	120;"	d	file:
 l_seeknum	scintilla\lua\src\liolib.c	127;"	d	file:
 l_setbit	scintilla\lua\src\lgc.h	72;"	d
 l_signalT	scintilla\lua\src\lstate.h	42;"	d
-l_sprintf	scintilla\lua\src\luaconf.h	609;"	d
 l_sprintf	scintilla\lua\src\luaconf.h	611;"	d
+l_sprintf	scintilla\lua\src\luaconf.h	613;"	d
 l_sprintf	scite\lua\src\luaconf.h	611;"	d
 l_sprintf	scite\lua\src\luaconf.h	613;"	d
 l_srand	scintilla\lua\src\lmathlib.c	29;"	d	file:
@@ -12231,13 +12231,13 @@ lua_close	scintilla\lua\src\lstate.c	/^LUA_API void lua_close (lua_State *L) {$/
 lua_compare	scintilla\lua\src\lapi.c	/^LUA_API int lua_compare (lua_State *L, int index1, int index2, int op) {$/;"	f	signature:(lua_State *L, int index1, int index2, int op)
 lua_concat	scintilla\lua\src\lapi.c	/^LUA_API void lua_concat (lua_State *L, int n) {$/;"	f	signature:(lua_State *L, int n)
 lua_copy	scintilla\lua\src\lapi.c	/^LUA_API void lua_copy (lua_State *L, int fromidx, int toidx) {$/;"	f	signature:(lua_State *L, int fromidx, int toidx)
-lua_cpcall	scintilla\lua\src\luaconf.h	356;"	d
+lua_cpcall	scintilla\lua\src\luaconf.h	358;"	d
 lua_cpcall	scite\lua\src\luaconf.h	358;"	d
 lua_createtable	scintilla\lua\src\lapi.c	/^LUA_API void lua_createtable (lua_State *L, int narray, int nrec) {$/;"	f	signature:(lua_State *L, int narray, int nrec)
 lua_dump	scintilla\lua\src\lapi.c	/^LUA_API int lua_dump (lua_State *L, lua_Writer writer, void *data, int strip) {$/;"	f	signature:(lua_State *L, lua_Writer writer, void *data, int strip)
 lua_equal	scintilla\lua\src\lptypes.h	34;"	d
 lua_equal	scintilla\lua\src\lptypes.h	35;"	d
-lua_equal	scintilla\lua\src\luaconf.h	388;"	d
+lua_equal	scintilla\lua\src\luaconf.h	390;"	d
 lua_equal	scite\lua\src\luaconf.h	390;"	d
 lua_error	scintilla\lua\src\lapi.c	/^LUA_API int lua_error (lua_State *L) {$/;"	f	signature:(lua_State *L)
 lua_freeline	scintilla\lua\src\lua.c	86;"	d	file:
@@ -12257,7 +12257,7 @@ lua_gethookmask	scintilla\lua\src\ldebug.c	/^LUA_API int lua_gethookmask (lua_St
 lua_geti	scintilla\lua\src\lapi.c	/^LUA_API int lua_geti (lua_State *L, int idx, lua_Integer n) {$/;"	f	signature:(lua_State *L, int idx, lua_Integer n)
 lua_getinfo	scintilla\lua\src\ldebug.c	/^LUA_API int lua_getinfo (lua_State *L, const char *what, lua_Debug *ar) {$/;"	f	signature:(lua_State *L, const char *what, lua_Debug *ar)
 lua_getlocal	scintilla\lua\src\ldebug.c	/^LUA_API const char *lua_getlocal (lua_State *L, const lua_Debug *ar, int n) {$/;"	f	signature:(lua_State *L, const lua_Debug *ar, int n)
-lua_getlocaledecpoint	scintilla\lua\src\luaconf.h	676;"	d
+lua_getlocaledecpoint	scintilla\lua\src\luaconf.h	678;"	d
 lua_getlocaledecpoint	scite\lua\src\luaconf.h	678;"	d
 lua_getmetatable	scintilla\lua\src\lapi.c	/^LUA_API int lua_getmetatable (lua_State *L, int objindex) {$/;"	f	signature:(lua_State *L, int objindex)
 lua_getstack	scintilla\lua\src\ldebug.c	/^LUA_API int lua_getstack (lua_State *L, int level, lua_Debug *ar) {$/;"	f	signature:(lua_State *L, int level, lua_Debug *ar)
@@ -12270,7 +12270,7 @@ lua_h	scite\lua\src\lua.h	10;"	d
 lua_ident	scintilla\lua\src\lapi.c	/^const char lua_ident[] =$/;"	v
 lua_insert	scintilla\lua\src\lua.h	369;"	d
 lua_insert	scite\lua\src\lua.h	369;"	d
-lua_integer2str	scintilla\lua\src\luaconf.h	533;"	d
+lua_integer2str	scintilla\lua\src\luaconf.h	535;"	d
 lua_integer2str	scite\lua\src\luaconf.h	535;"	d
 lua_isboolean	scintilla\lua\src\lua.h	356;"	d
 lua_isboolean	scite\lua\src\lua.h	356;"	d
@@ -12295,7 +12295,7 @@ lua_isthread	scite\lua\src\lua.h	357;"	d
 lua_isuserdata	scintilla\lua\src\lapi.c	/^LUA_API int lua_isuserdata (lua_State *L, int idx) {$/;"	f	signature:(lua_State *L, int idx)
 lua_isyieldable	scintilla\lua\src\ldo.c	/^LUA_API int lua_isyieldable (lua_State *L) {$/;"	f	signature:(lua_State *L)
 lua_len	scintilla\lua\src\lapi.c	/^LUA_API void lua_len (lua_State *L, int idx) {$/;"	f	signature:(lua_State *L, int idx)
-lua_lessthan	scintilla\lua\src\luaconf.h	389;"	d
+lua_lessthan	scintilla\lua\src\luaconf.h	391;"	d
 lua_lessthan	scite\lua\src\luaconf.h	391;"	d
 lua_load	scintilla\lua\src\lapi.c	/^LUA_API int lua_load (lua_State *L, lua_Reader reader, void *data,$/;"	f	signature:(lua_State *L, lua_Reader reader, void *data, const char *chunkname, const char *mode)
 lua_lock	scintilla\lua\src\llimits.h	214;"	d
@@ -12308,16 +12308,16 @@ lua_newtable	scite\lua\src\lua.h	346;"	d
 lua_newthread	scintilla\lua\src\lstate.c	/^LUA_API lua_State *lua_newthread (lua_State *L) {$/;"	f	signature:(lua_State *L)
 lua_newuserdata	scintilla\lua\src\lapi.c	/^LUA_API void *lua_newuserdata (lua_State *L, size_t size) {$/;"	f	signature:(lua_State *L, size_t size)
 lua_next	scintilla\lua\src\lapi.c	/^LUA_API int lua_next (lua_State *L, int idx) {$/;"	f	signature:(lua_State *L, int idx)
-lua_number2str	scintilla\lua\src\luaconf.h	439;"	d
+lua_number2str	scintilla\lua\src\luaconf.h	441;"	d
 lua_number2str	scite\lua\src\luaconf.h	441;"	d
 lua_number2strx	scintilla\lua\src\lstrlib.c	/^static int lua_number2strx (lua_State *L, char *buff, int sz,$/;"	f	file:	signature:(lua_State *L, char *buff, int sz, const char *fmt, lua_Number x)
-lua_number2strx	scintilla\lua\src\luaconf.h	633;"	d
+lua_number2strx	scintilla\lua\src\luaconf.h	635;"	d
 lua_number2strx	scite\lua\src\luaconf.h	635;"	d
-lua_numbertointeger	scintilla\lua\src\luaconf.h	450;"	d
+lua_numbertointeger	scintilla\lua\src\luaconf.h	452;"	d
 lua_numbertointeger	scite\lua\src\luaconf.h	452;"	d
 lua_objlen	scintilla\lua\src\lptypes.h	42;"	d
 lua_objlen	scintilla\lua\src\lptypes.h	43;"	d
-lua_objlen	scintilla\lua\src\luaconf.h	386;"	d
+lua_objlen	scintilla\lua\src\luaconf.h	388;"	d
 lua_objlen	scite\lua\src\luaconf.h	388;"	d
 lua_pcall	scintilla\lua\src\lua.h	278;"	d
 lua_pcall	scite\lua\src\lua.h	278;"	d
@@ -12383,21 +12383,21 @@ lua_status	scintilla\lua\src\lapi.c	/^LUA_API int lua_status (lua_State *L) {$/;
 lua_stdin_is_tty	scintilla\lua\src\lua.c	53;"	d	file:
 lua_stdin_is_tty	scintilla\lua\src\lua.c	60;"	d	file:
 lua_stdin_is_tty	scintilla\lua\src\lua.c	65;"	d	file:
-lua_str2number	scintilla\lua\src\luaconf.h	471;"	d
-lua_str2number	scintilla\lua\src\luaconf.h	487;"	d
-lua_str2number	scintilla\lua\src\luaconf.h	502;"	d
-lua_str2number	scintilla\lua\src\luaconf.h	646;"	d
+lua_str2number	scintilla\lua\src\luaconf.h	473;"	d
+lua_str2number	scintilla\lua\src\luaconf.h	489;"	d
+lua_str2number	scintilla\lua\src\luaconf.h	504;"	d
 lua_str2number	scintilla\lua\src\luaconf.h	648;"	d
+lua_str2number	scintilla\lua\src\luaconf.h	650;"	d
 lua_str2number	scite\lua\src\luaconf.h	473;"	d
 lua_str2number	scite\lua\src\luaconf.h	489;"	d
 lua_str2number	scite\lua\src\luaconf.h	504;"	d
 lua_str2number	scite\lua\src\luaconf.h	648;"	d
 lua_str2number	scite\lua\src\luaconf.h	650;"	d
 lua_stringtonumber	scintilla\lua\src\lapi.c	/^LUA_API size_t lua_stringtonumber (lua_State *L, const char *s) {$/;"	f	signature:(lua_State *L, const char *s)
-lua_strlen	scintilla\lua\src\luaconf.h	384;"	d
+lua_strlen	scintilla\lua\src\luaconf.h	386;"	d
 lua_strlen	scite\lua\src\luaconf.h	386;"	d
 lua_strx2number	scintilla\lua\src\lobject.c	/^static lua_Number lua_strx2number (const char *s, char **endptr) {$/;"	f	file:	signature:(const char *s, char **endptr)
-lua_strx2number	scintilla\lua\src\luaconf.h	622;"	d
+lua_strx2number	scintilla\lua\src\luaconf.h	624;"	d
 lua_strx2number	scite\lua\src\luaconf.h	624;"	d
 lua_tmpnam	scintilla\lua\src\loslib.c	121;"	d	file:
 lua_tmpnam	scintilla\lua\src\loslib.c	131;"	d	file:
@@ -12442,7 +12442,7 @@ luac_c	scintilla\lua\src\luac.c	7;"	d	file:
 luaconf_h	scintilla\lua\src\luaconf.h	9;"	d
 luaconf_h	scite\lua\src\luaconf.h	9;"	d
 luai_apicheck	scintilla\lua\src\llimits.h	98;"	d
-luai_apicheck	scintilla\lua\src\luaconf.h	704;"	d
+luai_apicheck	scintilla\lua\src\luaconf.h	706;"	d
 luai_apicheck	scite\lua\src\luaconf.h	706;"	d
 luai_ctype_	scintilla\lua\src\lctype.c	/^LUAI_DDEF const lu_byte luai_ctype_[UCHAR_MAX + 2] = {$/;"	v
 luai_ctype_	scintilla\lua\src\lctype.h	/^LUAI_DDEC const lu_byte luai_ctype_[UCHAR_MAX + 2];$/;"	v

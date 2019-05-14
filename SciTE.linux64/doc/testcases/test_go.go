@@ -11,6 +11,8 @@ import (
 	"github.com/mattn/go-colorable"
 	"github.com/mattn/go-isatty"
 )
+sadasd
+
 
 var (
 	// NoColor defines if the output is colorized or not. It's dynamically set to

@@ -29,7 +29,7 @@ if [%sandbox%]==[1] ( set mode=[Sandboxed]) else ( set mode= )
 
 :: first try if a user had installed a local package
 if exist %toolPath%\%toolName%%toolExt% (
-echo ~ wrapper ~ %mode% [%~dp0%toolFolder%] %toolName%%toolExt% %toolParam% >&2
+echo ~ wrapper ~ %mode% [%~dp0%toolFolder%\] %toolName%%toolExt% %toolParam% >&2
 %toolPath%\%toolName%%toolExt% %toolParam%
 goto :freude
 ) 

@@ -8,11 +8,10 @@ io.stdout:setvbuf("no")
 
 myHome = props["SciteUserHome"].."/user"
 defaultHome = props["SciteDefaultHome"]
+LUA_PATH=myHome.."\\Addons\\lua\\lua\\" -- lua rocks related lua scripts
 package.path = package.path ..";"..myHome.."\\Addons\\lua\\?.lua" .. ";"..myHome.."\\Addons\\lua\\lua-scite\\?.lua;"	-- scite related lua scripts
-package.path = package.path ..";"..myHome.."\\Addons\\lua\\lua\\?.lua;" -- lua rocks related lua scripts
 package.cpath = package.cpath .. ";"..myHome.."\\Addons\\lua\\c\\?.dll;" -- common lua c libs
 
-dirSep, GTK = props['PLAT_GTK']
 dirSep, GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\'; dirsep=dirSep end
 
