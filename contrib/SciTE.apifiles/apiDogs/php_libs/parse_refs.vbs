@@ -1,4 +1,4 @@
-' (Veery Bitschyy) function parser '
+' (not so Bitschyy) function parser '
 '  alpha 07 - does not depend on ie. / doesnt crash.
 '  alpha 0.8 - move retType behind params / search reference.txt for function descriptions
 ' inFile -> File generated with simple.phpm containing Hrfefs to parse

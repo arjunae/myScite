@@ -202,7 +202,7 @@ static unsigned int ColouriseMakeLine(
 		
 		/// Handle Character Escape Sequence - Except Hexadecimal Value or Path Representations.
 		if (chPrev=='\\' && chCurr!='x' && strchr("\t\r\n \"\' \\ /#!?&|+{}()[]<>;=,", (int)chCurr)!= NULL ){
-		  chCurr=' '; chNext=' ';
+		 if (i<lengthLine-3) {chCurr=' '; chNext=' ';} // special case quoted pathsep at line end.
 		}
 		
 		/// Handle (really) long Lines. 

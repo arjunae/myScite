@@ -27,7 +27,7 @@ if (true) then
 	_G.os.exit= function() error("Catched os.exit from quitting SciTE.\n") end
 	-- track the amount of lua allocated memory
 	_G.session_used_memory=collectgarbage("count")*1024
-	
+
 	-- Load extman.lua
 	-- This will automatically run any lua script located in \User\Addons\lua\lua-scite
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
@@ -35,18 +35,18 @@ if (true) then
 
 	-- chainload eventmanager / extman remake used by some lua mods
 	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
-	
+		
 	-- Load Debugging support
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-scite-debug\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-scite-debug\\debugger.lua')
-	
+		
 	-- Load Project support functions
 	dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
 	
 	-- Load Sidebar
 	-- workaround: loading the sidebar here avoids problems with ext.lua.auto.reload
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
+	--dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
 	
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
@@ -55,7 +55,8 @@ if (true) then
 	-- Load cTags Browser
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-ctags\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')	
-	
+
+
 end
 
 -- ##################  Lua Samples #####################
@@ -173,10 +174,12 @@ end
 function myScite_OpenSwitch()
 
 	local AC_MAX_SIZE = 262144 --260kB
+	local USE_IDLE_STYLE=10242878 --10MB
 	local fSize =0
 	
 	if buffer and props["FilePath"]~="" then 
-		buffer.size= file_size(props["FilePath"]) 
+		buffer.size= file_size(props["FilePath"])
+		if buffer.size >	USE_IDLE_STYLE then props["idle.styling"]=2 end
 		if buffer.size < AC_MAX_SIZE then 
 			markLinks()
 			markeMail()
@@ -216,7 +219,7 @@ function OnInit()
 	checkUpdates() -- check for a new version using githubs readme.md
 	CTagsUpdateProps(false,"") 	-- check if the filename belongs to a project. 
 	myScite_OpenSwitch() -- apply Indicators
-		
+
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
 -- print("startupScript_onInit")
 

@@ -1,6 +1,5 @@
 @chcp 65001 1>NUL
 @echo off
-
 :: MinGW Path has to be set, otherwise please define here:
 :: set PATH=E:\MinGW\bin;%PATH%;
 
@@ -15,6 +14,8 @@ if [%ERRORLEVEL%]==[0] ( SET MAKE_ARCH=win64 && goto ok_mingw)
 if %MAKE_ARCH% EQU "" goto err_mingw
 :ok_mingw
 
+echo  mingw build platform %MAKE_ARCH%
+
 REM Start Clean
 del /f clib\*.dll 1>NUL
 
@@ -28,13 +29,15 @@ FOR /f "tokens=1,2 delims==" %%G in (config.txt) do (
 	if %%G==LUA_LIB set LUA_LIB=%%H
 )
 
-REM Iterate through all SubDirs containing mingw make batches
+REM Iterate through all SubDirs containing mingw or vc make batches
 for /R  %%A in (.) Do (
 	pushd %%A
 	if exist *mingw.cmd (
-		echo [%%A]
-		call make.myscite.mingw.cmd %LUA_PLAT% %LUA_LIB%
+		echo [OK]	[%%A]
+	 	call make.myscite.mingw.cmd %LUA_PLAT% %LUA_LIB%
 		if %errorlevel% gtr 0 goto end
+	) else (
+		if exist *vc.cmd call make.myscite.vc.cmd %LUA_PLAT% %LUA_LIB% %MAKE_ARCH%
 	)
 	popd
 )

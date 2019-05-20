@@ -1,4 +1,4 @@
-' very simple php apilinks fetcher
+' A simple php apilinks fetcher
 ' -Fix: Unicode content
 '
 ' InFile Format:

@@ -3,13 +3,15 @@
 		- iterate through and notify about any dupes found within the inital selection.
 		- write collected words to word_arr.
 		- iterate through word_arr and search for dupes found above the initial selection.
-		- Show a dialog with dupes found / ask to remove them / todo: optionally remove them
+		- Show a dialog with dupes found / ask to remove them.
+		todo; ask for removing dupes within the initial selection too.
+		todo: actually remove dupes.
 --]]
 
 
 local inspect= require("inspect")
 local stripText="" -- User choosen Dupes edited in a UserStrip
-
+local onlyPrintDupes=true
 --
 -- Collect all Words within the initial Selection
 --
@@ -81,7 +83,7 @@ function findDupesSel(words_arr, startPos, endPos)
 	end
 	
 	dupeLst,singlesLst=printDupes(dupes_tbl,singles_arr)
-	if  (#stripText == 0 ) then
+	if  (#stripText == 0 and ~onlyPrintDupes) then
 		scite.StripShow("") -- clear strip
 		scite.StripShow("!'Remove Dupes from Selection?'["..dupeLst.."]((OK))(&Cancel)")
 	end

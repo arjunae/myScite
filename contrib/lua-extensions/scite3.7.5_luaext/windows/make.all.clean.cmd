@@ -1,3 +1,1 @@
-@echo off
-del /S /Q *.o *.obj  *.exp
-pause
+del /s /q *.o *.obj *.exp *.dll
