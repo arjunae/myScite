@@ -12,34 +12,34 @@ lex:add_rule('whitespace', token(lexer.WHITESPACE, lexer.space^1))
 
 -- Internal Keywords.
 lex:add_rule('intCMD', token(lexer.KEYWORD, word_match([[
-  break cd chdir date time md mkdir cls for if echo echo. move copy rd ren rename rmdir 
-  del dir erase ftype set call exit ver type title setlocal shift endlocal pause 
-  defined exist errorlevel else in do NUL AUX CON PRN not goto pushd popd 
-  eol equ geqgtrleq neqskip tokens usebakq delims @ on off
+  break call cd chdir date time md mkdir cls for if echo echo. move copy rd ren rename rmdir 
+  del dir erase ftype set exit ver type title setlocal shift endlocal pause pushd popd
+  defined exist errorlevel else in do NUL AUX CON PRN not goto eol equ geqgtrleq neqskip tokens usebakq verify delims @ on off
 ]], true)))
 
--- External Keywords https://www.lifewire.com/list-of-command-prompt-commands-4092302
+
+-- External Keywords 
+-- XP: https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-xp/bb490890(v=technet.10)
+-- WinServer/Win10: https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/windows-commands
 lex:add_rule('extCMD', token(lexer.FUNCTION, word_match([[
-command append arp assoc at atmadm attrib auditpol bcdboot bcdedit bdehdcfg bitsadmin bootcfg bootsect break
-cacls call cd certreq certutil change chcp chdir checknetisolation chglogon chgport chgusr chkdsk chkntfs choice
-cipher clip cls cmd cmdkey cmstp color command comp compact convert copy cscript ctty date dblspace debug
-defrag del deltree diantz dir diskcomp diskcopy diskpart diskperf diskraid dism dispdiag djoin doskey dosshell
-dosx driverquery drvspace echo edit edlin emm386 endlocal erase esentutl eventcreate eventtriggers exe2bin exit
-expand extrac32 extract fasthelp fastopen fc fdisk find findstr finger fltmc fondue for forcedos forfiles format
-fsutil ftp ftype getmac goto gpresult gpupdate graftabl graphics help hostname hwrcomp hwrreg icacls ift
-interlnk intersvr ipconfig ipxroute irftp iscsicli kb16 keyb klist ksetup ktmutil label lh licensingdiag loadfix
-loadhigh lock lodctr logman logoff lpq lpr makecab manage-bde md mem memmaker mkdir mklink mode
-mofcomp more mount mountvol move mrinfo msav msbackup mscdex msd msg msiexec muiunattend nbtstat
-net net1 netcfg netsh netstat nfsadmin nlsfunc nltest nslookup ntbackup ntsd ocsetup openfiles path
-pathping pause pentnt ping pkgmgr pnpunattend pnputil popd power powercfg print prompt pushd pwlauncher
-qappsrv qbasic qprocess query quser qwinsta rasautou rasdial rcp rd rdpsign reagentc recimg recover
-reg regini register-cimprovide regsvr32 relog ren rename repair-bde replace reset restore rexec
-rmdir robocopy route rpcinfo rpcping rsh rsm runas rwinsta sc scandisk scanreg schtasks sdbinst secedit
-set setlocal setspn setver setx sfc shadow share shift showmount shutdown smartdrv sort start subst sxstrace
-sys systeminfo takeown taskkill tasklist tcmsetup telnet tftp time timeout title tlntadmn tpmvscmgr tracerpt
-tracert tree tscon tsdiscon tskill tsshutdn type typeperf tzutil umount undelete unformat unlock unlodctr vaultcmd
-ver verify vol vsafe vssadmin w32tm waitfor wbadmin wecutil wevtutil where whoami winmgmt winrm winrs winsat
-wmic wscript wsmanhttpconfig xcopy xwizard
+arp assoc at atmadm attrib batchfiles bootcfg cacls change chcp chkdsk chkntfs cipher cmd cmstp
+color comp compact convert copy cprofile cscript date defrag del dir diskcomp diskcopy diskpart doskey driverquery
+eventcreate eventquery eventtriggers evntcmd exit expand fc find findstr finger flattemp for format
+fsutil ftp ftype getmac goto gpresult gpupdate graftabl help helpctr hostname ipconfig ipseccmd ipxroute irftp label
+lodctr logman lpq lpr macfile mmc mode more mountvol move msiexec msinfo32 nbtstat net netsh netstat nslookup ntbackup
+ntcmdprompt ntsd openfiles pagefileconfig path pathping pbadmin pentnt perfmon ping print prncnfg prndrvr
+prnjobs prnmngr prnport prnqctl prompt query rasdial rcp recover redirectionoperators reg regsvr32 relog
+replace resetsession rexec route rsh rsm runas sc schtasks secedit shift shutdown sort start subst
+systeminfo sfc taskkill tasklist tcmsetup telnet tftp time title tracerpt tracert tree type typeperf unlodctr
+vol vssadmin w32tm winnt32 wmic xcopy 
+append auditpol autochk autoconv autofmtbcdboot bcdedit bdehdcfg bitsadminbootcfg breakcacls certreq certutil chglogon chgport
+chgusr choice clip cmdkey cscriptdate dcgpofix dfsrmig diantz diskperf diskraid diskshadow dispdiag dnscmd driverqueryecho edit
+extract fondue forfiles freedisk fveupdategetmac gettype gpfixup icacls inuse irftpjetpack klist ksetup ktmutil ktpass logoff makecab
+manage-bde mapadmin mklink mount mqbkup mqsvc mqtgsvc msdt msg mstsc netcfg netprint nfsadmin nfsshare nfsstat nlbmgr
+nsysocmgr ntfrsutl pnpunattend pnputil powershell powershell_ise pubprn pushprinterconnections qappsrv qprocess quser qwinsta
+rdpsign regini rem repair-bde risetup robocopy route_ws2008 rpcinfo rpcping rundll32 rwinsta scwcmd serverceipoptin servermanagercmd
+serverweroptin setx shadow showmount sxstrace takeown tapicfg timeout tlntadmn tpmvscmgr tscon tsdiscon tsecimp tskill tsprof tzutil
+unlodctrver verifier vssadmin- waitfor wbadmin wdsutil wecutil wevtutil where whoami winnt winpop winrs wlbs wscript 
 ]], true)))
 
 -- Predefined Env. Source: windows10 1803

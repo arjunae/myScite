@@ -1,50 +1,100 @@
 --[[
 		cleanDupes.lua
 		- iterate through and notify about any dupes found within the inital selection.
+		- Also Mark dupes found.
 		- write collected words to word_arr.
-		- iterate through word_arr and search for dupes found above the initial selection.
+		- now iterate through word_arr. Search for its words above the initial selection.
 		- Show a dialog with dupes found / ask to remove them.
-		todo; ask for removing dupes within the initial selection too.
 		todo: actually remove dupes.
 --]]
 
-
 local inspect= require("inspect")
-local stripText="" -- User choosen Dupes edited in a UserStrip
+-- Define a Marker for highlighting Duplicates
+local marker_dupesA=20
+editor.IndicStyle[marker_dupesA] = INDIC_TT
+editor.IndicFore[marker_dupesA] = 0x956585
 local onlyPrintDupes=true
+-- UserStrips Return Value
+local stripText="" 
+
 --
--- Collect all Words within the initial Selection
+-- convert to str_words from either table format
+-- 
+function wordsFromTable(tbl,arr)
+	local str_tbl=""
+	local str_arr=""
+	if tbl then
+		for index, s_word in pairs(tbl) do 
+			str_tbl=str_tbl..s_word["word"].." "
+			--print(s_word["word"].." [s:"..s_word["start"].." e:"..s_word["end"].."]")
+		end
+		return str_tbl
+	end	
+	if arr then
+		local str_arr=table.concat(arr," ")
+		return str_arr
+	end
+end
+
 --
-function collectSelWords()
-	local sel_text = editor:GetSelText()
-	local sel_start = editor.SelectionStart
-	local sel_end = editor.SelectionEnd
-	local words_arr= {} -- {"word"=nil|count} -- Detect dupes within source Selection
-	local dupe_lst="" -- collected dupes for printOut
-	local words_cnt=0
-	local dupe_cnt=0
-	if sel_text == '' then  print("(Error) Please define a selection first"); return end
+-- Mark dupes
+--
+function markDupes(dupes_tbl)
+	for idx,wordDef in pairs(dupes_tbl) do
+		local wStart=wordDef["start"]
+		local wLength=tonumber(wordDef["end"])+1-tonumber(wStart)
+		if (wStart and wLength) then
+			EditorMarkText(wStart, wLength, marker_dupesA) -- common.lua
+		end
+	end
+end
+
+function clearList(lst,pStart,pEnd)
+
+end
+
+--
+-- Collect all Words within either a given initial Selection or a range
+--
+function collectSelWords(pStart,pEnd)
+	local words_cnt=0	
+	local words_arr={} -- {"word"=nil|count} -- Detect dupes within source Selection
+	local dupes_tbl={} -- { [index], {"word","start",end"}}
+	local word_start, word_end
 	
-	-- Collect words, filter dupes
+	if (pStart and pEnd) then editor:SetSel (pStart, pEnd) end
+	local sel_text = editor:GetSelText()
+	if sel_text == '' then  print("(Error) Please define a selection first"); return end
+	local pStart=editor.SelectionStart-1
+	local pEnd=editor.SelectionEnd	
+	-- Collect words (words_arr) and append their dupe count
 	for word in sel_text:gmatch('[%a%d-_]+') do
 		words_cnt=words_cnt+1
 		if (words_arr[word]==nil) then 
 			words_arr[word]=0;
 		elseif words_arr[word]>=0 then
-			dupe_lst=dupe_lst..word.." "
-			dupe_cnt=dupe_cnt+1
 			words_arr[word]=words_arr[word]+1
 		end
 	end
-
+	-- Create dupes_tbl from words_arr
+	for word,word_count in pairs(words_arr) do
+		if word_count>0 then
+			word_start, word_end=string.find(sel_text,word)		
+			if (word_start and word_end) then
+				dupes_tbl[#dupes_tbl+1]={["word"]=word,["start"]=pStart+word_start,["end"]=pStart+word_end}
+			end
+		end	
+	end
+	--  Mark any dupes found within the source Selection
+	if #dupes_tbl>0 then
+			print ("(Note) Mark "..#dupes_tbl.." Dupes within the source selection:")
+			print("> "..wordsFromTable(dupes_tbl))
+			markDupes(dupes_tbl)
+	end
 	if words_cnt> 0 then
-		print("(Note) Collected ".. words_cnt.." words for dupe search. (Pattern used: [%a%d-_]+)")
-		if dupe_cnt>0 then
-			print ("(Note) Skipping "..dupe_cnt.." Dupes within the source selection:")
-			print (">\t"..dupe_lst)
-		end
-		print("(Status) ...Searching for Dupes...")	
-		findDupesSel(words_arr, 0, sel_start)
+		print("(Note) Collected "..words_cnt.." words for dupe search. (Pattern used: [%a%d-_]+)")
+		print("(Status) ...Now searching for Dupes above...")	
+		findDupesSel(words_arr, 0, editor.SelectionStart)
 		return true
 	end
 	
@@ -62,7 +112,6 @@ function findDupesSel(words_arr, startPos, endPos)
 	-- Search from buffers start till the beginning of the initial Selection.
 	editor:SetSel (startPos, endPos)
 	editor.SearchFlags=SCFIND_WHOLEWORD | SCFIND_MATCHCASE
-	
 	for s_word,flag in pairs(words_arr) do
 		editor:TargetFromSelection()
 		wordStart=editor:SearchInTarget(s_word)
@@ -76,43 +125,24 @@ function findDupesSel(words_arr, startPos, endPos)
 			singles_arr[#singles_arr+1]=s_word
 		end
 	end
-	
 	if (#dupes_tbl==0) then 
 		print ("(STATUS) No dupes found within Selection")
 		return false
 	end
-	
-	dupeLst,singlesLst=printDupes(dupes_tbl,singles_arr)
-	if  (#stripText == 0 and ~onlyPrintDupes) then
+	-- Print Dupes and Uniques
+	dupeLst=wordsFromTable(dupes_tbl)
+	singlesLst=wordsFromTable(nil,singles_arr)
+	print("dupes>\n"..dupeLst)
+	print("uniques>\n"..singlesLst)
+	-- Show strip 
+	if (#stripText == 0 and not onlyPrintDupes) then
 		scite.StripShow("") -- clear strip
 		scite.StripShow("!'Remove Dupes from Selection?'["..dupeLst.."]((OK))(&Cancel)")
 	end
+	
 	return true
-	
 end
 
---
--- Print all dupes (start >-1)
--- 
-function printDupes(words_tbl,singles_arr)
-	local dupes=""
-	for index, s_word in pairs(words_tbl) do 
-		dupes=dupes..s_word["word"].." "
-		--print(s_word["word"].." [s:"..s_word["start"].." e:"..s_word["end"].."]")
-	end
-	local singles=table.concat(singles_arr," ")
-	
-	print ("(Status) Words found in Selection:\n>\t"..dupes.."\t")
-	print ("(Status) Words _not_ found in Selection:\n>\t"..singles.."\t")
-			
-	return dupes, singles
-end
-
--- todo write a function to clear dupes
-collectSelWords()
-
-
--- Arjunea
 function OnStrip(control, change)
 	--  ask to clear dupes within the selection
 	if control == 2 and change == 1 then -- OK clicked
@@ -124,3 +154,7 @@ function OnStrip(control, change)
 		scite.StripShow("") 
 	end
 end
+
+collectSelWords()
+-- todo write a function to clear a wordlist
+EditorClearMarks(marker_dupesA) -- common.lua	
