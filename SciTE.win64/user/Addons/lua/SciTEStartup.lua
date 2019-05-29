@@ -46,7 +46,7 @@ if (true) then
 	-- Load Sidebar
 	-- workaround: loading the sidebar here avoids problems with ext.lua.auto.reload
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-	--dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
+	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
 	
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"
@@ -174,12 +174,10 @@ end
 function myScite_OpenSwitch()
 
 	local AC_MAX_SIZE = 262144 --260kB
-	local USE_IDLE_STYLE=10242878 --10MB
 	local fSize =0
 	
 	if buffer and props["FilePath"]~="" then 
 		buffer.size= file_size(props["FilePath"])
-		if buffer.size >	USE_IDLE_STYLE then props["idle.styling"]=2 end
 		if buffer.size < AC_MAX_SIZE then 
 			markLinks()
 			markeMail()

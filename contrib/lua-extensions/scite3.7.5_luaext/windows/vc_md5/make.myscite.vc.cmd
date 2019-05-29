@@ -1,5 +1,5 @@
 @echo off
-set LUA_PLAT=5.3
+set LUA_PLAT=5.1
 set LUA_LIB=scilexer.lib
 set PLATFORM=x86
 

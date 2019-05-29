@@ -14,9 +14,9 @@ lex:add_rule('whitespace', token(lexer.WHITESPACE, lexer.space^1))
 lex:add_rule('intCMD', token(lexer.KEYWORD, word_match([[
   break call cd chdir date time md mkdir cls for if echo echo. move copy rd ren rename rmdir 
   del dir erase ftype set exit ver type title setlocal shift endlocal pause pushd popd
-  defined exist errorlevel else in do NUL AUX CON PRN not goto eol equ geqgtrleq neqskip tokens usebakq verify delims @ on off
+  defined delims exist errorlevel else in do NUL AUX CON PRN not goto eol equ neq geq gtr leq lss
+  neq skip tokens usebakq verify delims @ on off
 ]], true)))
-
 
 -- External Keywords 
 -- XP: https://docs.microsoft.com/en-us/previous-versions/windows/it-pro/windows-xp/bb490890(v=technet.10)
@@ -25,7 +25,7 @@ lex:add_rule('extCMD', token(lexer.FUNCTION, word_match([[
 arp assoc at atmadm attrib batchfiles bootcfg cacls change chcp chkdsk chkntfs cipher cmd cmstp
 color comp compact convert copy cprofile cscript date defrag del dir diskcomp diskcopy diskpart doskey driverquery
 eventcreate eventquery eventtriggers evntcmd exit expand fc find findstr finger flattemp for format
-fsutil ftp ftype getmac goto gpresult gpupdate graftabl help helpctr hostname ipconfig ipseccmd ipxroute irftp label
+fsutil ftp ftype getmac gpresult gpupdate graftabl help helpctr hostname ipconfig ipseccmd ipxroute irftp label
 lodctr logman lpq lpr macfile mmc mode more mountvol move msiexec msinfo32 nbtstat net netsh netstat nslookup ntbackup
 ntcmdprompt ntsd openfiles pagefileconfig path pathping pbadmin pentnt perfmon ping print prncnfg prndrvr
 prnjobs prnmngr prnport prnqctl prompt query rasdial rcp recover redirectionoperators reg regsvr32 relog

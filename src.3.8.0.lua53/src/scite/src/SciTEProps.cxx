@@ -121,13 +121,13 @@ Push system env on propsPlatform. Format Key=value
 void SciTEBase::ReadEnvironment() {
 #if defined(__unix__)
 	extern char **environ;
-	char **pEnv= environ;
+	char **env= environ;
 #else
-	char **pEnv= _environ;
+	char **env= _environ;
 #endif
-	for (; pEnv&& *pEnv; pEnv++) {
+	for (; env&& *env; env++) {
 		char key[1024];
-		char *pMe= *pEnv; // Varname's start position 
+		char *pMe= *env; // Varname's start position 
 		char *pValue = strchr(pMe, '='); // Values start position
 		if (pValue && ((int)(pValue - pMe) < (int)(sizeof(key)))) { // Validate length 
 			memcpy(key, pMe, pValue - pMe);

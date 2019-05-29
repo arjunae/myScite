@@ -181,7 +181,12 @@ end
 function MarkerType:for_file(fname)
 	if not fname then fname = scite_CurrentFile() end
 	local i = 0
-    local n = #self.markers --fix lua5.3.4
+	local n = 0
+	 if _VERSION:find("5%.1") then
+		local n = table.getn(self.markers)
+	 else
+		local n = #self.markers
+	 end
 	local t = self.markers
 --~ 	print(n,t)
     return function ()
@@ -266,7 +271,7 @@ function OpenAtPos(fname,lineno,how)
 		last_marker = nil
 	end
 	if last_marker then
-		last_marker:gotoL()
+		last_marker:gotoLn()
 	else
 		editor:GotoLine(lineno-1)
 	end
