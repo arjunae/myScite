@@ -11,7 +11,6 @@
 -- scite_OnOutputLine (called when a line is entered into the output pane)
 -- 06.05.19 added remove_OnOutputLine(fn) 
 
-
 -- this is an opportunity for you to make regular Lua packages available to SciTE
 --~ package.path = package.path..';C:\\lang\\lua\\lua\\?.lua'
 --~ package.cpath = package.cpath..';c:\\lang\\lua\\?.dll'
@@ -164,7 +163,6 @@ end
 function OnClick(shft,ctrl,alt)
     return Dispatch4(_Click,shft,ctrl,alt)
 end
-
 
 -- may optionally ask that this handler be immediately
 -- removed after it's called
@@ -394,6 +392,11 @@ function scite_OnEditorLine(fn,rem)
   set_line_handler(fn,rem,_LineEd,on_line_editor_char)
 end
 
+-- with this scheme, there is a primary handler, and secondary prompt handlers
+-- can temporarily take charge of input. There is only one prompt in charge
+-- at any particular time, however.
+local primary_handler
+
 --
 -- remove a previously added OnOutputLine handler.
 -- if that was the only one in, also clear on_line_output_char 
@@ -406,11 +409,6 @@ function remove_OnOutputLine(fn)
             scite_OnChar(on_line_output_char,'remove')
         end    
 end
-
--- with this scheme, there is a primary handler, and secondary prompt handlers
--- can temporarily take charge of input. There is only one prompt in charge
--- at any particular time, however.
-local primary_handler
 
 function scite_OnOutputLine(fn,rem)
     if not rem then
@@ -843,7 +841,7 @@ end
 local loaded = {}
 local current_filepath
 
--- this will quietly fail....
+-- this will quietly fail on errors....
 local function silent_dofile(f)
     if scite_FileExists(f) then
         if not loaded[f] then

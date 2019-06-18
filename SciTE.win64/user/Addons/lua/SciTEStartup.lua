@@ -46,7 +46,7 @@ if (true) then
 	-- Load Sidebar
 	-- workaround: loading the sidebar here avoids problems with ext.lua.auto.reload
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-sidebar\\?.lua;"
-	dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
+	--dofile(myHome..'\\Addons\\lua\\mod-sidebar\\sidebar.lua')
 	
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-mitchell\\?.lua;"

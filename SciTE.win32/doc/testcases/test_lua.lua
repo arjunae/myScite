@@ -14,7 +14,6 @@ while ckTho==true do
 	c0=c0..GoGo
 end	
 local cryptSHA1= sha1(c0)
-
 file:close()
 print("~~ SciTEUser.properties SHA1 Hash: "..cryptSHA1)
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~

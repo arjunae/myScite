@@ -69,7 +69,7 @@ INCLUDEDIRS=-I ../../scintilla/include -I ../src $(LUA_INCLUDES)
 RCINCLUDEDIRS=--include-dir ../src
 
 CBASEFLAGS =  $(INCLUDEDIRS) $(LUA_DEFINES) $(WIDEFLAGS) $(VERSION_DEFINES)
-#-Wall
+
 ifdef DEBUG
 CFLAGS=-DDEBUG -g $(CBASEFLAGS)
 else

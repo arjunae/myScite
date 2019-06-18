@@ -1,5 +1,5 @@
--- SHA1 Using LUA5.3 Internal Bitshift << 
-
+-- SHA1 Using LUA Bitshift 
+-- requires http://bitop.luajit.org/ with Lua5.1
 -- sha1.common BEGIN
 local common = {}
 

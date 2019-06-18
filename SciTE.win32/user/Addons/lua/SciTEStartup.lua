@@ -183,12 +183,10 @@ function myScite_OpenSwitch()
 			markeMail()
 			markGUID()
 			DetectUTF8()
-			props["eol.auto"]=0
 			props["find.strip.incremental"]=2
 			props["highlight.current.word"]=1	
 			props["status.msg.words_found"]="| Words Found: $(highlight.current.word.counter)"			
 		else
-			props["eol.auto"]=0
 			props["highlight.current.word"]=0
 			props["find.strip.incremental"]=1
 			props["status.msg.words_found"]=""
@@ -205,9 +203,12 @@ function OnInit()
 	editor:GrabFocus()  -- Ensure editors focus
 	
 	-- check SciLexer once per session and inform the User if its a nonStock Version.
+	local SLHash
+	if not SLHash then
 	SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
-	if SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
-
+		if SLHash and SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
+	end
+	
 	-- Event Handlers
 	scite_OnKey( function()  props["CurrentPos"]=editor.CurrentPos end ) -- keep Track of current Bytes Offset (for Statusbar)
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
