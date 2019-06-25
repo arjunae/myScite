@@ -12,6 +12,7 @@ property['style.identifier']= props['colour.identifier'] ..","..props['colour.ba
 property['style.label']= props['colour.identifier'] ..","..props['colour.accent.back']
 property['style.variable']= props['colour.preproc'] ..","..props['colour.accent.back']
 property['style.constant']= props['colour.keyword6'] ..","..props['colour.accent.back']
+property['style.preprocessor']= props['colour.preproc'] ..","..props['colour.accent.back']
 
 --[[
 style.default=props['colour.default']
@@ -25,10 +26,10 @@ style.error=props['colour.error']
 style.function=props['style.*.5']
 style.number=props['colour.number']
 style.operator=props['colour.operator']
---style.regex=$(style.*.15)
+style.regex=$(style.*.15)
 style.string=props['colour.string']
 style.preprocessor=props['colour.preproc']
---style.tag=$(style.*.15)
+style.tag=$(style.*.15)
 style.variable=props['colour.keyword3']
 style.action=props['colour.globalclass']
 ]]

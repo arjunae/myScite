@@ -1,5 +1,5 @@
---SHA1 Lua5.1 using luarocks BitOps Module--
-
+-- SHA1 Using LUA Bitshift 
+-- requires http://bitop.luajit.org/ with Lua5.1
 -- sha1.common BEGIN
 local common = {}
 
@@ -20,30 +20,36 @@ function common.uint32_to_bytes(a)
 end
 -- sha1.common END
 
--- sha1.bit_ops BEGIN
-local bit = require "bit"
+-- sha1.lua53_ops BEGIN
+local lua53_ops = {}
 
-local bit_ops = {}
+function lua53_ops.uint32_lrot(a, bits)
+   return ((a << bits) & 0xFFFFFFFF) | (a >> (32 - bits))
+end
 
-local band = bit.band
-local bor = bit.bor
-local bxor = bit.bxor
+function lua53_ops.byte_xor(a, b)
+   return a ~ b
+end
 
-bit_ops.uint32_lrot = bit.rol
-bit_ops.byte_xor = bxor
-bit_ops.uint32_xor_3 = bxor
-bit_ops.uint32_xor_4 = bxor
+function lua53_ops.uint32_xor_3(a, b, c)
+   return a ~ b ~ c
+end
 
-function bit_ops.uint32_ternary(a, b, c)
+function lua53_ops.uint32_xor_4(a, b, c, d)
+   return a ~ b ~ c ~ d
+end
+
+function lua53_ops.uint32_ternary(a, b, c)
    -- c ~ (a & (b ~ c)) has less bitwise operations than (a & b) | (~a & c).
-   return bxor(c, band(a, bxor(b, c)))
+   return c ~ (a & (b ~ c))
 end
 
-function bit_ops.uint32_majority(a, b, c)
+function lua53_ops.uint32_majority(a, b, c)
    -- (a & (b | c)) | (b & c) has less bitwise operations than (a & b) | (a & c) | (b & c).
-   return bor(band(a, bor(b, c)), band(b, c))
+   return (a & (b | c)) | (b & c)
 end
--- sha1.bit_ops END
+
+-- sha1.lua53_ops END
 
 local sha1 = {
    -- Meta fields retained for compatibility.
@@ -88,15 +94,15 @@ local function choose_ops()
       return lua53_ops
    elseif pcall(require, "bit") then -- lua5.1 bit
       return bit_ops
-   elseif pcall(require, "bit32") then -- lua5.1 bit32
-      return "bit32_ops"
-   else
-      return "pure_lua_ops" -- lua5.1
+ --  elseif pcall(require, "bit32") then -- lua5.1 bit32
+ --     return "bit32_ops"
+ --  else
+ --     return "pure_lua_ops" -- lua5.1
    end
 end
 
---require("sha1." .. choose_ops())
-local ops=bit_ops
+local ops = choose_ops()
+-- require("sha1." .. choose_ops())
 local uint32_lrot = ops.uint32_lrot
 local byte_xor = ops.byte_xor
 local uint32_xor_3 = ops.uint32_xor_3

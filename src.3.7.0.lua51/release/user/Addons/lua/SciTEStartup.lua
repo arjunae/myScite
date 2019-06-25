@@ -1,5 +1,5 @@
 --
--- mySciTE's Lua Startup Script 2017 Marcedo@HabMalNeFrage.de
+-- mySciTE's Lua Startup Script 2018 Marcedo@HabMalNeFrage.de
 --
 --~~~~~~~~~~~~~
 
@@ -33,15 +33,15 @@ if (true) then
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
 
+	-- chainload eventmanager / extman remake used by some lua mods
+	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
+		
 	-- Load Debugging support
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-scite-debug\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-scite-debug\\debugger.lua')
-	
+		
 	-- Load Project support functions
 	dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
-
-	-- chainload eventmanager / extman remake used by some lua mods
-	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 	
 	-- Load Sidebar
 	-- workaround: loading the sidebar here avoids problems with ext.lua.auto.reload
@@ -53,11 +53,11 @@ if (true) then
 	--dofile(myHome..'\\Addons\\lua\\mod-mitchell\\scite.lua')
 
 	-- Load cTags Browser
-	dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')
-	
-end
+	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-ctags\\?.lua;"
+	dofile(myHome..'\\Addons\\lua\\mod-ctags\\ctagsd.lua')	
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+end
 
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -66,7 +66,6 @@ function markLinks()
 --
 -- search for textlinks and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
 -- https://www.test.de/
-
 	local marker_a=10 -- The whole Textlink
 	editor.IndicStyle[marker_a] = INDIC_COMPOSITIONTHIN
 	editor.IndicFore[marker_a] = 0xBE3344
@@ -85,7 +84,7 @@ function markLinks()
 	end
 
 --	
--- Now mark any params and their Values - based in above text URLS
+-- Now mark any params and their Values - based ob above found text URL's
 -- http://www.test.de/?key1=test&key2=a12
 
 	-- Keys 
@@ -114,8 +113,8 @@ function markLinks()
 		local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)
 		while sB do
 			if editor:IndicatorValueAt(marker_a,sB)==1 then
-				EditorMarkText(sB+1, (eB-sB)-1, marker_c)
-			end -- common.lua
+				EditorMarkText(sB+1, (eB-sB)-1, marker_c) -- common.lua
+			end 
 			sB,eB = editor:findtext( mask_c, SCFIND_REGEXP, sB+1)
 		end
 	end
@@ -176,9 +175,9 @@ function myScite_OpenSwitch()
 
 	local AC_MAX_SIZE = 262144 --260kB
 	local fSize =0
-
+	
 	if buffer and props["FilePath"]~="" then 
-		buffer.size= file_size(props["FilePath"]) 
+		buffer.size= file_size(props["FilePath"])
 		if buffer.size < AC_MAX_SIZE then 
 			markLinks()
 			markeMail()
@@ -194,8 +193,9 @@ function myScite_OpenSwitch()
 		end
 	end
 end
+		
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+	
 function OnInit() 
 --
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
@@ -208,11 +208,9 @@ function OnInit()
 	SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
 		if SLHash and SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
 	end
-
-	-- check if scite was started with a filename belonging to a project. 
-	CTagsUpdateProps(false,"")
 	
 	-- Event Handlers
+	scite_OnKey( function()  props["CurrentPos"]=editor.CurrentPos end ) -- keep Track of current Bytes Offset (for Statusbar)
 	scite_OnOpenSwitch(CTagsUpdateProps,false,"")
 	scite_OnSave(CTagsRecreate)
 	scite_OnOpenSwitch(myScite_OpenSwitch)
@@ -220,12 +218,9 @@ function OnInit()
 	checkUpdates() -- check for a new version using githubs readme.md
 	CTagsUpdateProps(false,"") 	-- check if the filename belongs to a project. 
 	myScite_OpenSwitch() -- apply Indicators
-	
+
 -- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
--- scite.MenuCommand(IDM_MONOFONT) -- force Monospace	
---print("startupScript_OnInit")
---print(editor.StyleAt[1])
---print(props["Path"])
+-- print("startupScript_onInit")
 
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

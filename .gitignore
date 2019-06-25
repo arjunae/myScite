@@ -4,6 +4,11 @@
 # Hint: When changing entries, remember using git rm -r *.* --cached
 #
 
+#- ignore lua libs build cache but allow static scite and openssl libs 
+!**/clib*
+**/clib*/*.dll
+**/clib*/*.so
+
 #- c/cpp, java and Python object files / vc archives anywhere in the tree.
 *.o
 *.obj
@@ -35,8 +40,4 @@
 #- local scite session files 
 *.session
 clidebug.cmd
-
-#- ignore lua libs build cache but allow static scite and openssl libs 
-!**/clib*
-**/clib*/*
 
