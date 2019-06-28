@@ -21,7 +21,7 @@ if (true) then
 
 	--lua >=5.2.x replaced table.getn(x) with #x
 	--lua >=5.2.x renamed functions:
-	local unpack = table.unpack or unpack
+	_G.unpack = table.unpack or unpack
 	_G.math.mod = math.fmod or math.mod
 	_G.string.gfind = string.gmatch or string.gfind
 	_G.os.exit= function() error("Catched os.exit from quitting SciTE.\n") end
