@@ -1,4 +1,0 @@
-LIBRARY SciLexer.dll
-EXPORTS
-Scintilla_DirectFunction
-Scintilla_DirectFunction@16

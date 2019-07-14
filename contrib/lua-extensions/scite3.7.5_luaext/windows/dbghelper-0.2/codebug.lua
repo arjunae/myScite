@@ -4,15 +4,14 @@
 --[[
 	Debugging lua Scripts ran within Scites Lua Subsystem required a second instance and a helper script like RemDebug.
 	The attached "Solution" uses a lua clib called dbghelper to debug scite lua scripts using the same Scite instance.
-	Status:  Test prototype using debugger.lua from S.Lembcke 
+	Status:  Test prototype utilizing code from debugger.lua, which was written by Scott Lembcke. 
 	Needs: A debuggee named dbge.lua
-	
 	Reference:	
 		http://tset.de/dbghelper/index.html 
 		https://github.com/slembcke/debugger.lua
 ]]
 
-package.path = package.path .. ";../?.lua"
+package.path = package.path .. ";./?.lua"
 require "dbghelper"
 local coPrompt="coDebug> "
 local status, info
@@ -198,7 +197,7 @@ local function cmd_go()
 	--tbd
 end
 
-local function attach()
+local function cmd_attach()
 	status="up"
 	--tdb
 end
@@ -228,7 +227,7 @@ local ok
 		if cmd=='q' then ok=-1 end
 		if cmd=='.' then eval_lua(param) end
 		if cmd=='h' then writehelp() end
-		if cmd=='A' then attach(param) end
+		if cmd=='A' then cmd_attach(param) end
 		
 		if cmd=='s' then 	
 			ok=cr_step(cr,"crl")

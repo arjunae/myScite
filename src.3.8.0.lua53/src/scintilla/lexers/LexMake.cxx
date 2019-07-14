@@ -162,7 +162,8 @@ static unsigned int ColouriseMakeLine(
 	bool bInCommand=false;		// true when a line begins with a tab (command)
 	bool bInBashVar=false;		// true when in a Bash var.
 	bool bStyleAsIdentifier=false;	// Style Identifiers in UserVars.
-	
+	int braceDepth=0;			// Identify wether current lines braces are balanced.
+
 	std::string sInUserVar="";		// close convoluted User Variables at the correct brace.
 	std::string sInBraces="";		// close open Braces at the matching counterpart.
 	stylerPos=startLine;
@@ -248,18 +249,26 @@ static unsigned int ColouriseMakeLine(
 		}
 		
 		/// Lets signal a warning on unclosed Braces. Check for the matching one.
-		if ((state==SCE_MAKE_DEFAULT && sInBraces.size() && sInBraces.back()==chCurr)) {
-			if (iLog) std::clog<< "[/NormalBrace] " << "\n";
-			if (sInBraces.size()>0) sInBraces.resize(sInBraces.size()-1);
-			if (sInBraces.size()==0) line.s.bWarnBrace=false;
+		if (state==SCE_MAKE_DEFAULT && strchr("})", (int)chCurr)!=NULL) {
+			if(braceDepth>=0) {
+				braceDepth--;
+				if (iLog) std::clog<< "[/NormalBrace] " << "Depth" << braceDepth << "\n";
+				if (sInBraces.size()>0 && sInBraces.back()==chCurr) sInBraces.resize(sInBraces.size()-1);
+			}	else {
+				if (iLog) std::clog<< "[/StrayBrace] " << "\n";
+				line.s.bWarnBrace=true;
+			}		
 		} else if (state==SCE_MAKE_DEFAULT && strchr("{(", (int)chCurr)!=NULL) {
+			braceDepth++;
 			if (iLog) std::clog<< "[NormalBrace] " << "\n";
 			ColourHere(styler, currentPos-1, state);
 			sInBraces.append(opposite(chCurr));
 			line.s.bWarnBrace=true;
-		}
-		
-		/// Style single quoted Strings, exept word Hypens as "don't"
+		} 
+		if (i==lengthLine-1 && braceDepth==0 && sInBraces.size()==0) 
+			line.s.bWarnBrace=false;	
+
+		/// Style single quoted Strings, exept word Hyphens as "don't"
 		if (state!=SCE_MAKE_STRING && line.s.bWarnSqStr && chCurr=='\'') {
 			if (iLog) std::clog<< "[/SQString] " << "\n";
 			ColourHere(styler, currentPos, SCE_MAKE_IDENTIFIER);
@@ -491,7 +500,7 @@ static unsigned int ColouriseMakeLine(
 		
 		i++;
 	}
-	
+
  	if (line.s.iWarnEOL>0) 
 		state=SCE_MAKE_IDEOL;
 	else if(state==SCE_MAKE_IDEOL && line.s.iWarnEOL==0)

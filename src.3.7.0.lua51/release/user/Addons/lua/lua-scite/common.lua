@@ -409,21 +409,19 @@ function DetectUTF8()
 end
 --
 -- retrieve a HTTP URL
--- write to var httpResponse
+-- write result to envVar
 --
-function testHTTP(sURL)
+function fetchHTTP(sURL)
 	if props["httpResponse"]~="" then return end
-	-- load the http module
+	-- load the https module
 	local socket = require "socket"
-	local io = require("io")
-	local ltn12 = require("ltn12")
-	local http = require("socket.http")
-
+	local https = require("https")
 	if not sURL then sURL="http://www.google.de/search?q=myScite&oq=myScite" end
-	content, status, auth = http.request(sURL)
-	--print("response:", content) -- response
-	--print("response code:", status) -- status code
-	props["httpResponse"]=content
+	local body, code, status= https.request(sURL)
+	props["fetchHTTP.code"]=code
+	props["fetchHTTP.status"]=status
+	props["fetchHTTP.body"]=body
+	return body
 end
 --
 -- quickCheck a files CRC32 Hash 

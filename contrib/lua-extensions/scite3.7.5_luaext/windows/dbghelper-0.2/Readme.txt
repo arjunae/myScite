@@ -5,8 +5,8 @@
     First: Its running in the same Thread. So its not possible to continously loop without blocking scite.
     Second: Currently scite has no equivalent to either io.read() or os.exit()
     How: A clib called dbghelper injects a lua yield call within Luas internal debug table.
-         That way, the debuggee will be yielded (on count events) such releasing control back to the steering lua script.
-           (Gunnar Zötl <gz@tset.de>) (http://tset.de/dbghelper/index.html)
+         That way, the debuggee will be yielded on debug events such releasing control back to the steering lua script.
+         dbghelper: (http://tset.de/dbghelper/index.html) (Gunnar Zötl <gz@tset.de>)
            
    Status: Test Prototype - 
    Commands available:
