@@ -202,6 +202,7 @@ LEXOBJS=\
 	$(DIR_O)\LexKix.obj \
 	$(DIR_O)\LexKVIrc.obj \
 	$(DIR_O)\LexLaTeX.obj \
+	$(DIR_O)\LexLisp.obj \
 	$(DIR_O)\LexLout.obj \
 	$(DIR_O)\LexLua.obj \
 	$(DIR_O)\LexMagik.obj \

@@ -750,7 +750,7 @@ static void ColouriseMakeDoc(Sci_PositionU startPos, Sci_Position length, int st
 	int iLog=0; // choose to enable Verbosity. Requires a bash shell on windows.
 	if (iLog>0) std::clog << "---------\n"<<"[Pos]	[Char]	[WarnEOLState]\n";
 	//styler.Flush();
-	// For efficiency reasons, scintilla calls the lexer with the cursors current position and a reasonable length.
+	// For efficiency reasons, scintilla calls the lexer with the cursors current lines start position and a reasonable length.
 	// If that Position is within a continued Multiline, we notify the start position of that Line to Scintilla here:
 	// find a MultiLines start, reset styler Position
 	o_startPos=GetMLineStart(styler, startPos);

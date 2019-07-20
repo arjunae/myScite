@@ -21,8 +21,8 @@ diff -Nurw scite/src/SciTEBase.cxx scite_mod/src/SciTEBase.cxx
 +	// Lets define @@ as an optional sep between attributes name and Documentation
 +	pos=text.find("@@");
 +	if ( pos != std::string::npos && partNo==1 ) return pos-1;
-+	if ( pos != std::string::npos && partNo==2 ) return pos+1;
-+	if ( pos != std::string::npos && partNo==3) return pos+2;
++	if ( pos != std::string::npos && partNo==2 ) return pos+2;
++	if ( pos != std::string::npos && partNo==3) return pos+3;
 +	pos=0;
 +
 +	// Otherwise, continue parsing calltipParameters.

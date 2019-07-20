@@ -69,7 +69,7 @@ void SciTEBase::SetImportMenu() {
 				if (sFile.find(GUI_TEXT("theme")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ettings")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ools")) != GUI::gui_string::npos) {
 					SetMenuItemNew(menuOptions, 0, IMPORT_START+stackPos, itemID, sFile.c_str());
 				} else {
-					SetMenuItemNew(menuOptions, 4, stackPos, itemID, sFile.c_str());
+					SetMenuItemNew(menuOptions, 3, stackPos, itemID, sFile.c_str());
 				}
 
 			}

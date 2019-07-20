@@ -1513,10 +1513,10 @@ unsigned int marker=0;
  	
 	// Attributes dont have parameters. 
 	// Lets define @@ as an optional sep between attributes name and Documentation
-	pos=text.find("(@@)");
+	pos=text.find("@@");
 	if (pos != std::string::npos && partNo==1) return pos-1;
-	if (pos != std::string::npos && partNo==2) return pos+1;
-	if (pos != std::string::npos && partNo==3) return pos+2;
+	if (pos != std::string::npos && partNo==2) return pos+2;
+	if (pos != std::string::npos && partNo==3) return pos+3;
 	pos=0;
 
 	// Otherwise, continue parsing calltipParameters.
@@ -3872,7 +3872,6 @@ void SciTEBase::MenuCommand(int cmdID, int source) {
 		} else if (cmdID >= IDM_LANGUAGE && cmdID < IDM_LANGUAGE + 100) {
 			SetOverrideLanguage(cmdID - IDM_LANGUAGE);
 		} else if (cmdID >= SCI_START) {
-			// CallFocused(cmdID);
  		}
 		break;
 	}
@@ -4199,7 +4198,8 @@ void SciTEBase::Notify(SCNotification *notification) {
 		break;
 
 	case SCN_MODIFIED:
-		if (notification->nmhdr.idFrom == IDM_SRCWIN)
+		if ((notification->nmhdr.idFrom == IDM_SRCWIN) && 
+			(notification->modificationType & (SC_MOD_INSERTTEXT | SC_MOD_DELETETEXT)))
 			CurrentBuffer()->DocumentModified();
 		if (notification->modificationType & SC_LASTSTEPINUNDOREDO) {
 			//when the user hits undo or redo, several normal insert/delete

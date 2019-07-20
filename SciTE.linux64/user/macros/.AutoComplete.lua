@@ -189,6 +189,7 @@ if DEBUG>=1 then print("ac>getApiNames", apiFiles) end
     for name in io.lines(apiFile) do
         name = name:gsub("[(, ].*", "") -- Discard parameters/comments.
             if string.len(name) > 0 then
+               -- print (name)
                 apiNames[name] = true
             end
         end
