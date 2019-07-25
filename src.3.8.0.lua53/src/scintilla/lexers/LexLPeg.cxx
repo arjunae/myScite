@@ -503,7 +503,8 @@ public:
 	/** Constructor. */
 	LexerLPeg() : own_lua(true), reinit(true), multilang(false) {
 		// Initialize the Lua state, load libraries, and set platform variables.
-		if ((L = luaL_newstate())) {
+		L = luaL_newstate();
+		if (L) {
 			l_openlib(luaopen_base, LUA_BASELIBNAME);
 			l_openlib(luaopen_table, LUA_TABLIBNAME);
 			l_openlib(luaopen_string, LUA_STRLIBNAME);

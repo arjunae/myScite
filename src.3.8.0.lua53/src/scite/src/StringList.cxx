@@ -55,7 +55,6 @@ static std::vector<char *> ArrayFromStringList(char *stringList, bool onlyLineEn
 	bool wordSeparator[256] = {};
 	wordSeparator[static_cast<unsigned int>('\r')] = true;
 	wordSeparator[static_cast<unsigned int>('\n')] = true;
-	//wordSeparator[static_cast<unsigned int>('@')] = true;
 	if (!onlyLineEnds) {
 		wordSeparator[static_cast<unsigned int>(' ')] = true;
 		wordSeparator[static_cast<unsigned int>('\t')] = true;
