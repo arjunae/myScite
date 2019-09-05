@@ -1,4 +1,4 @@
-// go@ cmd /c g++ -g -O0  *.cpp -o $(FileName).exe &&  $(FileName).exe
+// go@ cmd /c g++ -g -O0  *.cpp -o $(FileName).exe &&  $(FileName).exe 
 
 /**
  *   ---== cpp lexer sample ==---

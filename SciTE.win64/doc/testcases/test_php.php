@@ -164,7 +164,7 @@
 		
     $spw= gen_password(8);
     fwrite ($STDOUT, "md5_pw   ---> " .$spw ."\n..........\n") ;
-?> 
+    ?> 
 <script type="text/javascript">
     counter++;
     alert("Counter:" + counter);

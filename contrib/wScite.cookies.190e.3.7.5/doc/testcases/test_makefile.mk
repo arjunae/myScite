@@ -51,7 +51,7 @@ Makefile: ;              # skip prerequisite discovery
 	@make -v|grep -qi GNU || echo -e "\nWARNING: Foundation Makefile was developed for use with GNU Make\
 	using other flavoured binaries may have unwanted consequences.\n"
 	@make -v|grep -q 'built for .*apple' && echo -e "\nWARNING: The apple built edition of GNU Make have several\
-	known quirks and is not recommended. For best results, install make with homebrew and link it in out of \
+	known quirks and is not recommended. For best results, install make with homebrew and link it in out of\
 	"keg only" or create an alias to the non apple distributed version of GNU Make instead.\n" || true
 	
 	@[[ -d $(FOUNDATION_HOME) ]] ||\
@@ -163,6 +163,7 @@ menu-package: .title
 	@make -s .menu-item tgt="info-composer" desc="Show information about your composer"
 	@make -s .menu-item tgt="install-composer" desc="Download and install composer"
 	@echo ""
+
 
 
 menu-dev: .title
@@ -917,7 +918,7 @@ clean-all-whitespace: .check-foundation
 clean-remove-eof-php-tag:
 	@printf "."
 	@if test "$(file)"; then \
-	  awk '{c=c $$0 "\n"};END{sub(/\n$$/,"",c); sub(/[[:space:]]*\n\?\>[[:space:]]*$$/,"\n",c); print c}' "$(file)" > "$(file).tmp" && cp -f "$(file).tmp" "$(file)"; rm -f "$(file).tmp"; \
+	  awk '{c=c "\n"};END{sub(/\n$$/,"",c); sub(/[[:space:]]*\n\?\>[[:space:]]*$$/,"\n",c); print c}' "$(file)" > "$(file).tmp" && cp -f "$(file).tmp" "$(file)"; rm -f "$(file).tmp"; \
 	else \
 	        find . -type f -name "*.php" -exec make -s -f $(THIS) clean-remove-eof-php-tag file="{}" \;; \
 	        echo; echo -e "    > $(.BOLD) Done removing php closing tags ?> at end of file.$(.CLEAR)"; \

@@ -11,7 +11,7 @@ public class test_java {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Read SciTEUser.properties" + " and " + "write the bytestream to Folder data.");
 		try {
-			System.out.println("Type YES to proceed\n");
+			System.out.println("Type YES to proceed: ");
 			String input = scanner.nextLine();
 			if (!"YES".equals(input))
 				return;

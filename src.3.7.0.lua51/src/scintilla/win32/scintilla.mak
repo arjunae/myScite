@@ -199,7 +199,6 @@ LEXOBJS=\
 	$(DIR_O)\LexKix.obj \
 	$(DIR_O)\LexKVIrc.obj \
 	$(DIR_O)\LexLaTeX.obj \
-	$(DIR_O)\LexLisp.obj \
 	$(DIR_O)\LexLout.obj \
 	$(DIR_O)\LexLua.obj \
 	$(DIR_O)\LexMagik.obj \
@@ -660,8 +659,6 @@ $(DIR_O)\LexKix.obj: ..\lexers\LexKix.cxx $(LEX_HEADERS)
 $(DIR_O)\LexKVIrc.obj: ..\lexers\LexKVIrc.cxx $(LEX_HEADERS)
 
 $(DIR_O)\LexLaTeX.obj: ..\lexers\LexLaTeX.cxx $(LEX_HEADERS)
-
-$(DIR_O)\LexLisp.obj: ..\lexers\LexLisp.cxx $(LEX_HEADERS)
 
 $(DIR_O)\LexLout.obj: ..\lexers\LexLout.cxx $(LEX_HEADERS)
 

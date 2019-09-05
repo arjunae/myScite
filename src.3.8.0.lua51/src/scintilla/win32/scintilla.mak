@@ -249,6 +249,7 @@ LEXOBJS=\
 	$(DIR_O)\LexTeX.obj \
 	$(DIR_O)\LexTxt2tags.obj \
 	$(DIR_O)\LexVB.obj \
+	$(DIR_O)\LexVisualProlog.obj \
 	$(DIR_O)\LexVHDL.obj \
 	$(DIR_O)\LexYAML.obj \
 	$(DIR_O)\LexLPeg.obj 
@@ -657,7 +658,7 @@ $(DIR_O)\LexKVIrc.obj: ..\lexers\LexKVIrc.cxx $(LEX_HEADERS)
 
 $(DIR_O)\LexLaTeX.obj: ..\lexers\LexLaTeX.cxx $(LEX_HEADERS)
 
-$(DIR_O)\LexLisp.obj: ..\lexers\LexLisp.cxx $(LEX_HEADERS)
+#$(DIR_O)\LexLisp.obj: ..\lexers\LexLisp.cxx $(LEX_HEADERS)
 
 $(DIR_O)\LexLout.obj: ..\lexers\LexLout.cxx $(LEX_HEADERS)
 

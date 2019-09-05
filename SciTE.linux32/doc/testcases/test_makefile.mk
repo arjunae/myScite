@@ -918,7 +918,7 @@ clean-all-whitespace: .check-foundation
 clean-remove-eof-php-tag:
 	@printf "."
 	@if test "$(file)"; then \
-	  awk '{c=c $$0 "\n"};END{sub(/\n$$/,"",c); sub(/[[:space:]]*\n\?\>[[:space:]]*$$/,"\n",c); print c}' "$(file)" > "$(file).tmp" && cp -f "$(file).tmp" "$(file)"; rm -f "$(file).tmp"; \
+	  awk '{c=c "\n"};END{sub(/\n$$/,"",c); sub(/[[:space:]]*\n\?\>[[:space:]]*$$/,"\n",c); print c}' "$(file)" > "$(file).tmp" && cp -f "$(file).tmp" "$(file)"; rm -f "$(file).tmp"; \
 	else \
 	        find . -type f -name "*.php" -exec make -s -f $(THIS) clean-remove-eof-php-tag file="{}" \;; \
 	        echo; echo -e "    > $(.BOLD) Done removing php closing tags ?> at end of file.$(.CLEAR)"; \

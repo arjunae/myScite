@@ -22,7 +22,7 @@ on error resume next
 
   ' Synchronous http get githubs readme.md
   set  http = CreateObject("MSXML2.ServerXMLHTTP")
-  http.SetTimeouts 30000,30000,30000,30000
+  http.SetTimeouts 40000,40000,40000,40000
   http.Open "GET", URL, false
   if err.number >0 then errHndlr()
   http.Send

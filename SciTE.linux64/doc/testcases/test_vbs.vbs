@@ -9,7 +9,6 @@ sURL="https://de.wikiquote.org/wiki/Deutsche_Sprichw%C3%B6rter"
 
 sText = "Messungen der Sonnenstrahlung offenbaren eine rote Zone die bis nach Deutschland reicht. Was geht dort vor sich? "
 sLang = "German"
-
 'sText = "As of March 2017, Wikipedia has about forty thousand high-quality articles known as Featured Articles and Good Articles that cover vital topics."
 'sLang = "English"
 
@@ -27,7 +26,7 @@ Dim oIE
   oIE.Visible = 1   ' Keep visible. 
   
   wscript.echo("stdOut - Please close IE now....")
-   
+  
   do ' -- wait for Events to be recieved
     wscript.sleep(2000) :
     if bconsole=true then wscript.stdOut.write("-=-")
@@ -51,7 +50,6 @@ Sub IE_onQuit()
   bonQuit=true
   oTTS.speak "OK"
 End Sub
-'======================================'
 
 function test_TextToSpeech(sText, sLang)
 ' 

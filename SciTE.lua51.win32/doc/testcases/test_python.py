@@ -1,18 +1,27 @@
 #!/usr/bin/env python
+#
+# Make beautifier
+#
+# Author   : Philippe Fremy <pfremy@kde.org>
+# 			 contributions from Adrian Thurston <adriant@ragel.ca>
+# Version  : 1.3
+# License  : Do whatever you want with this program!
+# Warranty : None. Me and my program are not responsible for anything in the
+# 			 world and more particularly on your computer.
+#
+# Usage : try --help
+
 from string import *
 import getopt
 import sys
 import os
 
-COMPILER_NAME = ["cc", "gcc", "g++", "cpp", "c++", "gcc3", "ccache", "ccdist" ]
+import tempfile
 
-def guessScreenWidth():
-	fname = tempfile.mktemp()
-	os.system("resize > " + fname + " 2> /dev/null" )
-	f = open(fname, "r")
-	setColumn( f.readlines() )
-	f.close()
-	os.remove(fname)
+#MAKEPROG = "make"
+# Comment the previous line and uncomment the next line if you name your pretty-make.py 
+# program 'make', to avoid recursion
+MAKEPROG = "/usr/bin/make"
 
 ### Default values for command-line options:
 SCREENWIDTH = 80 	# Fallback value, current value is deduced from resize
@@ -27,6 +36,8 @@ USE_STDIN = 0
 USE_COLOR = 1
 DEBUG_MAKE = 0
 
+### Add more if I miss some!
+COMPILER_NAME = ["cc", "gcc", "g++", "cpp", "c++", "gcc3", "ccache", "ccdist" ]
 
 ### Color codes:
 #
