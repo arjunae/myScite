@@ -49,8 +49,8 @@ function markDupes(dupes_tbl)
 	end
 end
 
--- todo write a function to clear words specified by a list
-function clearList(lst,pStart,pEnd)
+-- todo write a function to clear duplicates of words specified by the first argument
+function clearList(dupeLst,pStart,pEnd)
 
 end
 

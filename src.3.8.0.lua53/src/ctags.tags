@@ -121,6 +121,8 @@ AddUndoAction	scintilla\src\Document.h	/^	void AddUndoAction(Sci::Position token
 AddWString	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::AddWString(std::wstring wcs) {$/;"	f	class:ScintillaWin	signature:(std::wstring wcs)
 AddWatcher	scintilla\src\Document.cxx	/^bool Document::AddWatcher(DocWatcher *watcher, void *userData) {$/;"	f	class:Document	signature:(DocWatcher *watcher, void *userData)
 AdjustWindowRect	scintilla\win32\PlatWin.cxx	/^void ListBoxX::AdjustWindowRect(PRectangle *rc) {$/;"	f	class:Scintilla::ListBoxX	signature:(PRectangle *rc)
+After	scintilla\lexers\LexVisualProlog.cxx	/^    After(Sci_Position line_) : line(line_) {}$/;"	f	struct:After	access:public	signature:(Sci_Position line_)
+After	scintilla\lexers\LexVisualProlog.cxx	/^struct After {$/;"	s	file:
 AfterName	scite\src\SciTEBase.cxx	/^static GUI::gui_char AfterName(const GUI::gui_char *s) {$/;"	f	file:	signature:(const GUI::gui_char *s)
 AllFour	scintilla\win32\PlatWin.cxx	/^static void AllFour(DWORD *pixels, int width, int height, int x, int y, DWORD val) {$/;"	f	namespace:Scintilla	signature:(DWORD *pixels, int width, int height, int x, int y, DWORD val)
 AllOf	scintilla\test\unit\catch.hpp	/^            AllOf( AllOf const& other ) : m_matchers( other.m_matchers ) {}$/;"	f	class:Catch::Matchers::Impl::Generic::AllOf	access:public	signature:( AllOf const& other )
@@ -1009,7 +1011,6 @@ ColouriseInnoDoc	scintilla\lexers\LexInno.cxx	/^static void ColouriseInnoDoc(Sci
 ColouriseKVIrcDoc	scintilla\lexers\LexKVIrc.cxx	/^static void ColouriseKVIrcDoc(Sci_PositionU startPos, Sci_Position length,$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int initStyle, WordList *keywordlists[], Accessor &styler)
 ColouriseKixDoc	scintilla\lexers\LexKix.cxx	/^static void ColouriseKixDoc(Sci_PositionU startPos, Sci_Position length, int initStyle,$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int initStyle, WordList *keywordlists[], Accessor &styler)
 ColouriseLabel	scintilla\lexers\LexAda.cxx	/^static void ColouriseLabel(StyleContext& sc, WordList& keywords, bool& apostropheStartsAttribute) {$/;"	f	file:	signature:(StyleContext& sc, WordList& keywords, bool& apostropheStartsAttribute)
-ColouriseLispDoc	scintilla\lexers\LexLisp.cxx	/^static void ColouriseLispDoc(Sci_PositionU startPos, Sci_Position length, int initStyle, WordList *keywordlists[],$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int initStyle, WordList *keywordlists[], Accessor &styler)
 ColouriseLoutDoc	scintilla\lexers\LexLout.cxx	/^static void ColouriseLoutDoc(Sci_PositionU startPos, Sci_Position length, int initStyle,$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int initStyle, WordList *keywordlists[], Accessor &styler)
 ColouriseLuaDoc	scintilla\lexers\LexLua.cxx	/^static void ColouriseLuaDoc($/;"	f	file:	signature:( Sci_PositionU startPos, Sci_Position length, int initStyle, WordList *keywordlists[], Accessor &styler)
 ColouriseMETAPOSTDoc	scintilla\lexers\LexMetapost.cxx	/^static void ColouriseMETAPOSTDoc($/;"	f	file:	signature:( Sci_PositionU startPos, Sci_Position length, int, WordList *keywordlists[], Accessor &styler)
@@ -2219,6 +2220,7 @@ Fold	scintilla\lexers\LexPython.cxx	/^void SCI_METHOD LexerPython::Fold(Sci_Posi
 Fold	scintilla\lexers\LexRegistry.cxx	/^void SCI_METHOD LexerRegistry::Fold(Sci_PositionU startPos,$/;"	f	class:LexerRegistry	signature:(Sci_PositionU startPos, Sci_Position length, int, IDocument *pAccess)
 Fold	scintilla\lexers\LexRust.cxx	/^void SCI_METHOD LexerRust::Fold(Sci_PositionU startPos, Sci_Position length, int initStyle, IDocument *pAccess) {$/;"	f	class:LexerRust	signature:(Sci_PositionU startPos, Sci_Position length, int initStyle, IDocument *pAccess)
 Fold	scintilla\lexers\LexSQL.cxx	/^void SCI_METHOD LexerSQL::Fold(Sci_PositionU startPos, Sci_Position length, int initStyle, IDocument *pAccess) {$/;"	f	class:LexerSQL	signature:(Sci_PositionU startPos, Sci_Position length, int initStyle, IDocument *pAccess)
+Fold	scintilla\lexers\LexVisualProlog.cxx	/^void SCI_METHOD LexerVisualProlog::Fold(Sci_PositionU startPos, Sci_Position length, int initStyle, IDocument *pAccess) {$/;"	f	class:LexerVisualProlog	signature:(Sci_PositionU startPos, Sci_Position length, int initStyle, IDocument *pAccess)
 Fold	scintilla\lexlib\DefaultLexer.cxx	/^void SCI_METHOD DefaultLexer::Fold(Sci_PositionU, Sci_Position, int, IDocument *) {$/;"	f	class:DefaultLexer	signature:(Sci_PositionU, Sci_Position, int, IDocument *)
 Fold	scintilla\lexlib\LexerModule.cxx	/^void LexerModule::Fold(Sci_PositionU startPos, Sci_Position lengthDoc, int initStyle,$/;"	f	class:LexerModule	signature:(Sci_PositionU startPos, Sci_Position lengthDoc, int initStyle, WordList *keywordlists[], Accessor &styler) const
 Fold	scintilla\lexlib\LexerNoExceptions.cxx	/^void SCI_METHOD LexerNoExceptions::Fold(Sci_PositionU startPos, Sci_Position lengthDoc, int initStyle, IDocument *pAccess) {$/;"	f	class:LexerNoExceptions	signature:(Sci_PositionU startPos, Sci_Position lengthDoc, int initStyle, IDocument *pAccess)
@@ -2262,7 +2264,6 @@ FoldIHexDoc	scintilla\lexers\LexHex.cxx	/^static void FoldIHexDoc(Sci_PositionU 
 FoldInnoDoc	scintilla\lexers\LexInno.cxx	/^static void FoldInnoDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler) {$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler)
 FoldKVIrcDoc	scintilla\lexers\LexKVIrc.cxx	/^static void FoldKVIrcDoc(Sci_PositionU startPos, Sci_Position length, int \/*initStyle - unused*\/,$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int , WordList *[], Accessor &styler)
 FoldLine	scintilla\src\Editor.cxx	/^void Editor::FoldLine(Sci::Line line, int action) {$/;"	f	class:Editor	signature:(Sci::Line line, int action)
-FoldLispDoc	scintilla\lexers\LexLisp.cxx	/^static void FoldLispDoc(Sci_PositionU startPos, Sci_Position length, int \/* initStyle *\/, WordList *[],$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int , WordList *[], Accessor &styler)
 FoldLotDoc	scintilla\lexers\LexMPT.cxx	/^static void FoldLotDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler) {$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler)
 FoldLoutDoc	scintilla\lexers\LexLout.cxx	/^static void FoldLoutDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[],$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler)
 FoldLuaDoc	scintilla\lexers\LexLua.cxx	/^static void FoldLuaDoc(Sci_PositionU startPos, Sci_Position length, int \/* initStyle *\/, WordList *[],$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int , WordList *[], Accessor &styler)
@@ -4673,6 +4674,7 @@ Lex	scintilla\lexers\LexPython.cxx	/^void SCI_METHOD LexerPython::Lex(Sci_Positi
 Lex	scintilla\lexers\LexRegistry.cxx	/^void SCI_METHOD LexerRegistry::Lex(Sci_PositionU startPos,$/;"	f	class:LexerRegistry	signature:(Sci_PositionU startPos, Sci_Position length, int initStyle, IDocument *pAccess)
 Lex	scintilla\lexers\LexRust.cxx	/^void SCI_METHOD LexerRust::Lex(Sci_PositionU startPos, Sci_Position length, int initStyle, IDocument *pAccess) {$/;"	f	class:LexerRust	signature:(Sci_PositionU startPos, Sci_Position length, int initStyle, IDocument *pAccess)
 Lex	scintilla\lexers\LexSQL.cxx	/^void SCI_METHOD LexerSQL::Lex(Sci_PositionU startPos, Sci_Position length, int initStyle, IDocument *pAccess) {$/;"	f	class:LexerSQL	signature:(Sci_PositionU startPos, Sci_Position length, int initStyle, IDocument *pAccess)
+Lex	scintilla\lexers\LexVisualProlog.cxx	/^void SCI_METHOD LexerVisualProlog::Lex(Sci_PositionU startPos, Sci_Position length, int initStyle, IDocument *pAccess) {$/;"	f	class:LexerVisualProlog	signature:(Sci_PositionU startPos, Sci_Position length, int initStyle, IDocument *pAccess)
 Lex	scintilla\lexlib\LexerModule.cxx	/^void LexerModule::Lex(Sci_PositionU startPos, Sci_Position lengthDoc, int initStyle,$/;"	f	class:LexerModule	signature:(Sci_PositionU startPos, Sci_Position lengthDoc, int initStyle, WordList *keywordlists[], Accessor &styler) const
 Lex	scintilla\lexlib\LexerNoExceptions.cxx	/^void SCI_METHOD LexerNoExceptions::Lex(Sci_PositionU startPos, Sci_Position lengthDoc, int initStyle, IDocument *pAccess) {$/;"	f	class:LexerNoExceptions	signature:(Sci_PositionU startPos, Sci_Position lengthDoc, int initStyle, IDocument *pAccess)
 Lex	scintilla\lexlib\LexerSimple.cxx	/^void SCI_METHOD LexerSimple::Lex(Sci_PositionU startPos, Sci_Position lengthDoc, int initStyle, IDocument *pAccess) {$/;"	f	class:LexerSimple	signature:(Sci_PositionU startPos, Sci_Position lengthDoc, int initStyle, IDocument *pAccess)
@@ -4733,6 +4735,7 @@ LexerFactoryPython	scintilla\lexers\LexPython.cxx	/^	static ILexer *LexerFactory
 LexerFactoryRegistry	scintilla\lexers\LexRegistry.cxx	/^	static ILexer *LexerFactoryRegistry() {$/;"	f	class:LexerRegistry	access:public	signature:()
 LexerFactoryRust	scintilla\lexers\LexRust.cxx	/^	static ILexer *LexerFactoryRust() {$/;"	f	class:LexerRust	access:public	signature:()
 LexerFactorySQL	scintilla\lexers\LexSQL.cxx	/^	static ILexer *LexerFactorySQL() {$/;"	f	class:LexerSQL	access:public	signature:()
+LexerFactoryVisualProlog	scintilla\lexers\LexVisualProlog.cxx	/^    static ILexer *LexerFactoryVisualProlog() {$/;"	f	class:LexerVisualProlog	access:public	signature:()
 LexerFactoryXML	scintilla\lexers\LexHTML.cxx	/^	static ILexer *LexerFactoryXML() {$/;"	f	class:LexerHTML	access:public	signature:()
 LexerFunction	scintilla\lexlib\LexerModule.h	/^typedef void (*LexerFunction)(Sci_PositionU startPos, Sci_Position lengthDoc, int initStyle,$/;"	t	namespace:Scintilla
 LexerHTML	scintilla\lexers\LexHTML.cxx	/^	explicit LexerHTML(bool isXml_, bool isPHPScript_) :$/;"	f	class:LexerHTML	access:public	signature:(bool isXml_, bool isPHPScript_)
@@ -4766,6 +4769,8 @@ LexerSQL	scintilla\lexers\LexSQL.cxx	/^	LexerSQL() {}$/;"	f	class:LexerSQL	acces
 LexerSQL	scintilla\lexers\LexSQL.cxx	/^class LexerSQL : public DefaultLexer {$/;"	c	file:	inherits:DefaultLexer
 LexerSimple	scintilla\lexlib\LexerSimple.cxx	/^LexerSimple::LexerSimple(const LexerModule *module_) :$/;"	f	class:LexerSimple	signature:(const LexerModule *module_)
 LexerSimple	scintilla\lexlib\LexerSimple.h	/^class LexerSimple : public LexerBase {$/;"	c	namespace:Scintilla	inherits:LexerBase
+LexerVisualProlog	scintilla\lexers\LexVisualProlog.cxx	/^    LexerVisualProlog() {$/;"	f	class:LexerVisualProlog	access:public	signature:()
+LexerVisualProlog	scintilla\lexers\LexVisualProlog.cxx	/^class LexerVisualProlog : public DefaultLexer {$/;"	c	file:	inherits:DefaultLexer
 LexicalClass	scintilla\lexlib\LexAccessor.h	/^struct LexicalClass {$/;"	s	namespace:Scintilla
 LightGrey	scintilla\test\unit\catch.hpp	/^            LightGrey = Bright | Grey,$/;"	e	enum:Catch::Colour::Code
 Limits	scintilla\src\Selection.cxx	/^SelectionSegment Selection::Limits() const {$/;"	f	class:Selection	signature:() const
@@ -5693,6 +5698,8 @@ OptionSetRust	scintilla\lexers\LexRust.cxx	/^	OptionSetRust() {$/;"	f	struct:Opt
 OptionSetRust	scintilla\lexers\LexRust.cxx	/^struct OptionSetRust : public OptionSet<OptionsRust> {$/;"	s	file:	inherits:OptionSet
 OptionSetSQL	scintilla\lexers\LexSQL.cxx	/^	OptionSetSQL() {$/;"	f	struct:OptionSetSQL	access:public	signature:()
 OptionSetSQL	scintilla\lexers\LexSQL.cxx	/^struct OptionSetSQL : public OptionSet<OptionsSQL> {$/;"	s	file:	inherits:OptionSet
+OptionSetVisualProlog	scintilla\lexers\LexVisualProlog.cxx	/^    OptionSetVisualProlog() {$/;"	f	struct:OptionSetVisualProlog	access:public	signature:()
+OptionSetVisualProlog	scintilla\lexers\LexVisualProlog.cxx	/^struct OptionSetVisualProlog : public OptionSet<OptionsVisualProlog> {$/;"	s	file:	inherits:OptionSet
 OptionsABL	scintilla\lexers\LexProgress.cxx	/^      OptionsABL() {$/;"	f	struct:__anon27::OptionsABL	access:public	signature:()
 OptionsABL	scintilla\lexers\LexProgress.cxx	/^   struct OptionsABL {$/;"	s	namespace:__anon27	file:
 OptionsAsm	scintilla\lexers\LexAsm.cxx	/^	OptionsAsm() {$/;"	f	struct:OptionsAsm	access:public	signature:()
@@ -5724,6 +5731,8 @@ OptionsRust	scintilla\lexers\LexRust.cxx	/^	OptionsRust() {$/;"	f	struct:Options
 OptionsRust	scintilla\lexers\LexRust.cxx	/^struct OptionsRust {$/;"	s	file:
 OptionsSQL	scintilla\lexers\LexSQL.cxx	/^	OptionsSQL() {$/;"	f	struct:OptionsSQL	access:public	signature:()
 OptionsSQL	scintilla\lexers\LexSQL.cxx	/^struct OptionsSQL {$/;"	s	file:
+OptionsVisualProlog	scintilla\lexers\LexVisualProlog.cxx	/^    OptionsVisualProlog() {$/;"	f	struct:OptionsVisualProlog	access:public	signature:()
+OptionsVisualProlog	scintilla\lexers\LexVisualProlog.cxx	/^struct OptionsVisualProlog {$/;"	s	file:
 OrNot	scintilla\test\unit\catch.hpp	/^    struct ShowDurations { enum OrNot {$/;"	g	struct:Catch::ShowDurations	access:public
 Original	scite\src\SciTEIO.cxx	/^	const char *Original() const {$/;"	f	class:FileReader	access:public	signature:() const
 OriginalExpression	scintilla\test\unit\catch.hpp	/^            OriginalExpression = Cyan,$/;"	e	enum:Catch::Colour::Code
@@ -6072,6 +6081,7 @@ PropertySet	scintilla\lexers\LexPerl.cxx	/^Sci_Position SCI_METHOD LexerPerl::Pr
 PropertySet	scintilla\lexers\LexProgress.cxx	/^Sci_Position SCI_METHOD LexerABL::PropertySet(const char *key, const char *val) {$/;"	f	class:LexerABL	signature:(const char *key, const char *val)
 PropertySet	scintilla\lexers\LexPython.cxx	/^Sci_Position SCI_METHOD LexerPython::PropertySet(const char *key, const char *val) {$/;"	f	class:LexerPython	signature:(const char *key, const char *val)
 PropertySet	scintilla\lexers\LexRust.cxx	/^Sci_Position SCI_METHOD LexerRust::PropertySet(const char *key, const char *val) {$/;"	f	class:LexerRust	signature:(const char *key, const char *val)
+PropertySet	scintilla\lexers\LexVisualProlog.cxx	/^Sci_Position SCI_METHOD LexerVisualProlog::PropertySet(const char *key, const char *val) {$/;"	f	class:LexerVisualProlog	signature:(const char *key, const char *val)
 PropertySet	scintilla\lexlib\DefaultLexer.cxx	/^Sci_Position SCI_METHOD DefaultLexer::PropertySet(const char *, const char *) {$/;"	f	class:DefaultLexer	signature:(const char *, const char *)
 PropertySet	scintilla\lexlib\LexerBase.cxx	/^Sci_Position SCI_METHOD LexerBase::PropertySet(const char *key, const char *val) {$/;"	f	class:LexerBase	signature:(const char *key, const char *val)
 PropertySet	scintilla\lexlib\LexerNoExceptions.cxx	/^Sci_Position SCI_METHOD LexerNoExceptions::PropertySet(const char *key, const char *val) {$/;"	f	class:LexerNoExceptions	signature:(const char *key, const char *val)
@@ -7315,14 +7325,11 @@ SCE_KVIRC_STRING_FUNCTION	scintilla\include\SciLexer.h	1730;"	d
 SCE_KVIRC_STRING_VARIABLE	scintilla\include\SciLexer.h	1731;"	d
 SCE_KVIRC_VARIABLE	scintilla\include\SciLexer.h	1727;"	d
 SCE_KVIRC_WORD	scintilla\include\SciLexer.h	1723;"	d
-SCE_LISP_CHARACTER	scintilla\lexers\LexLisp.cxx	29;"	d	file:
 SCE_LISP_COMMENT	scintilla\include\SciLexer.h	639;"	d
 SCE_LISP_DEFAULT	scintilla\include\SciLexer.h	638;"	d
 SCE_LISP_IDENTIFIER	scintilla\include\SciLexer.h	646;"	d
 SCE_LISP_KEYWORD	scintilla\include\SciLexer.h	641;"	d
 SCE_LISP_KEYWORD_KW	scintilla\include\SciLexer.h	642;"	d
-SCE_LISP_MACRO	scintilla\lexers\LexLisp.cxx	30;"	d	file:
-SCE_LISP_MACRO_DISPATCH	scintilla\lexers\LexLisp.cxx	31;"	d	file:
 SCE_LISP_MULTI_COMMENT	scintilla\include\SciLexer.h	649;"	d
 SCE_LISP_NUMBER	scintilla\include\SciLexer.h	640;"	d
 SCE_LISP_OPERATOR	scintilla\include\SciLexer.h	647;"	d
@@ -11328,6 +11335,7 @@ WordListSet	scintilla\lexers\LexProgress.cxx	/^Sci_Position SCI_METHOD LexerABL:
 WordListSet	scintilla\lexers\LexPython.cxx	/^Sci_Position SCI_METHOD LexerPython::WordListSet(int n, const char *wl) {$/;"	f	class:LexerPython	signature:(int n, const char *wl)
 WordListSet	scintilla\lexers\LexRust.cxx	/^Sci_Position SCI_METHOD LexerRust::WordListSet(int n, const char *wl) {$/;"	f	class:LexerRust	signature:(int n, const char *wl)
 WordListSet	scintilla\lexers\LexSQL.cxx	/^Sci_Position SCI_METHOD LexerSQL::WordListSet(int n, const char *wl) {$/;"	f	class:LexerSQL	signature:(int n, const char *wl)
+WordListSet	scintilla\lexers\LexVisualProlog.cxx	/^Sci_Position SCI_METHOD LexerVisualProlog::WordListSet(int n, const char *wl) {$/;"	f	class:LexerVisualProlog	signature:(int n, const char *wl)
 WordListSet	scintilla\lexlib\DefaultLexer.cxx	/^Sci_Position SCI_METHOD DefaultLexer::WordListSet(int, const char *) {$/;"	f	class:DefaultLexer	signature:(int, const char *)
 WordListSet	scintilla\lexlib\LexerBase.cxx	/^Sci_Position SCI_METHOD LexerBase::WordListSet(int n, const char *wl) {$/;"	f	class:LexerBase	signature:(int n, const char *wl)
 WordListSet	scintilla\lexlib\LexerNoExceptions.cxx	/^Sci_Position SCI_METHOD LexerNoExceptions::WordListSet(int n, const char *wl) {$/;"	f	class:LexerNoExceptions	signature:(int n, const char *wl)
@@ -12151,7 +12159,6 @@ classifyWordHTJS	scintilla\lexers\LexHTML.cxx	/^void classifyWordHTJS(Sci_Positi
 classifyWordHTPHP	scintilla\lexers\LexHTML.cxx	/^void classifyWordHTPHP(Sci_PositionU start, Sci_PositionU end, const WordList &keywords, Accessor &styler) {$/;"	f	namespace:__anon22	signature:(Sci_PositionU start, Sci_PositionU end, const WordList &keywords, Accessor &styler)
 classifyWordHTPy	scintilla\lexers\LexHTML.cxx	/^void classifyWordHTPy(Sci_PositionU start, Sci_PositionU end, const WordList &keywords, Accessor &styler, std::string &prevWord, script_mode inScriptType, bool isMako) {$/;"	f	namespace:__anon22	signature:(Sci_PositionU start, Sci_PositionU end, const WordList &keywords, Accessor &styler, std::string &prevWord, script_mode inScriptType, bool isMako)
 classifyWordHTVB	scintilla\lexers\LexHTML.cxx	/^int classifyWordHTVB(Sci_PositionU start, Sci_PositionU end, const WordList &keywords, Accessor &styler, script_mode inScriptType) {$/;"	f	namespace:__anon22	signature:(Sci_PositionU start, Sci_PositionU end, const WordList &keywords, Accessor &styler, script_mode inScriptType)
-classifyWordLisp	scintilla\lexers\LexLisp.cxx	/^static void classifyWordLisp(Sci_PositionU start, Sci_PositionU end, WordList &keywords, WordList &keywords_kw, Accessor &styler) {$/;"	f	file:	signature:(Sci_PositionU start, Sci_PositionU end, WordList &keywords, WordList &keywords_kw, Accessor &styler)
 classifyWordSQL	scintilla\lexers\LexMSSQL.cxx	/^static char classifyWordSQL(Sci_PositionU start,$/;"	f	file:	signature:(Sci_PositionU start, Sci_PositionU end, WordList *keywordlists[], Accessor &styler, unsigned int actualState, unsigned int prevState)
 classifyWordTACL	scintilla\lexers\LexTACL.cxx	/^static int classifyWordTACL(Sci_PositionU start, Sci_PositionU end, \/*WordList &keywords*\/WordList *keywordlists[], Accessor &styler, bool bInAsm) {$/;"	f	file:	signature:(Sci_PositionU start, Sci_PositionU end, WordList *keywordlists[], Accessor &styler, bool bInAsm)
 classifyWordTAL	scintilla\lexers\LexTAL.cxx	/^static int classifyWordTAL(Sci_PositionU start, Sci_PositionU end, \/*WordList &keywords*\/WordList *keywordlists[], Accessor &styler, bool bInAsm) {$/;"	f	file:	signature:(Sci_PositionU start, Sci_PositionU end, WordList *keywordlists[], Accessor &styler, bool bInAsm)
@@ -12608,6 +12615,7 @@ digitsLeft	scintilla\lexers\LexJSON.cxx	/^	int digitsLeft;$/;"	m	struct:EscapeSe
 dirNameAtExecute	scite\src\SciTEBase.h	/^	FilePath dirNameAtExecute;$/;"	m	class:SciTEBase	access:protected
 dirNameForExecute	scite\src\SciTEBase.h	/^	FilePath dirNameForExecute;$/;"	m	class:SciTEBase	access:protected
 directive	scintilla\lexers\LexAsm.cxx	/^	WordList directive;$/;"	m	class:LexerAsm	file:	access:private
+directiveKeywords	scintilla\lexers\LexVisualProlog.cxx	/^    WordList directiveKeywords;$/;"	m	class:LexerVisualProlog	file:	access:private
 directiveOperand	scintilla\lexers\LexAsm.cxx	/^	WordList directiveOperand;$/;"	m	class:LexerAsm	file:	access:private
 directives4foldend	scintilla\lexers\LexAsm.cxx	/^	WordList directives4foldend;$/;"	m	class:LexerAsm	file:	access:private
 directives4foldstart	scintilla\lexers\LexAsm.cxx	/^	WordList directives4foldstart;$/;"	m	class:LexerAsm	file:	access:private
@@ -12639,6 +12647,7 @@ doc	scite\src\SciTEBase.h	/^	sptr_t doc;$/;"	m	class:Buffer	access:public
 docFile	scite\scripts\CheckPropsDoc.py	/^docFile = open(docFileName, "rt")$/;"	v
 docFileName	scite\scripts\CheckMentioned.py	/^docFileName = srcRoot + "\/scintilla\/doc\/ScintillaDoc.html"$/;"	v
 docFileName	scite\scripts\CheckPropsDoc.py	/^docFileName = os.path.join(srcRoot, "doc", "SciTEDoc.html")$/;"	v
+docKeywords	scintilla\lexers\LexVisualProlog.cxx	/^    WordList docKeywords;$/;"	m	class:LexerVisualProlog	file:	access:private
 docWatcher	scintilla\qt\ScintillaEdit\ScintillaDocument.h	/^    WatcherHelper *docWatcher;$/;"	m	class:ScintillaDocument	access:private
 docall	scintilla\lua\src\lua.c	/^static int docall (lua_State *L, int narg, int nres) {$/;"	f	file:	signature:(lua_State *L, int narg, int nres)
 dochunk	scintilla\lua\src\lua.c	/^static int dochunk (lua_State *L, int status) {$/;"	f	file:	signature:(lua_State *L, int status)
@@ -12782,6 +12791,7 @@ endExpression	scintilla\test\unit\catch.hpp	/^    ExpressionResultBuilder& endEx
 endFoldBlock	scintilla\src\Document.h	/^	Sci::Line endFoldBlock;	\/\/ End of current fold block$/;"	m	class:Scintilla::HighlightDelimiter	access:public
 endHighlight	scintilla\src\CallTip.h	/^	int endHighlight;      \/\/ ...end of highlighted text$/;"	m	class:Scintilla::CallTip	access:private
 endImpl	scite\scripts\tags2api.py	/^						endImpl = curDef.find("}")$/;"	v
+endLookAhead	scintilla\lexers\LexVisualProlog.cxx	/^static void endLookAhead(char s[], LexAccessor &styler, Sci_Position start) {$/;"	f	file:	signature:(char s[], LexAccessor &styler, Sci_Position start)
 endOfLine	scintilla\lexers\LexMetapost.cxx	/^static inline bool endOfLine(Accessor &styler, Sci_PositionU i) {$/;"	f	file:	signature:(Accessor &styler, Sci_PositionU i)
 endOfLine	scintilla\lexers\LexTeX.cxx	/^static inline bool endOfLine(Accessor &styler, Sci_PositionU i) {$/;"	f	file:	signature:(Accessor &styler, Sci_PositionU i)
 endPos	scintilla\lexlib\LexAccessor.h	/^	Sci_Position endPos;$/;"	m	class:Scintilla::LexAccessor	access:private
@@ -13191,6 +13201,7 @@ formats	scintilla\win32\ScintillaWin.cxx	/^	std::vector<CLIPFORMAT> formats;$/;"
 fornum	scintilla\lua\src\lparser.c	/^static void fornum (LexState *ls, TString *varname, int line) {$/;"	f	file:	signature:(LexState *ls, TString *varname, int line)
 forstat	scintilla\lua\src\lparser.c	/^static void forstat (LexState *ls, int line) {$/;"	f	file:	signature:(LexState *ls, int line)
 forthWordLists	scintilla\lexers\LexForth.cxx	/^static const char * const forthWordLists[] = {$/;"	v	file:
+forwardEscapeLiteral	scintilla\lexers\LexVisualProlog.cxx	/^static void forwardEscapeLiteral(StyleContext &sc, int EscapeState) {$/;"	f	file:	signature:(StyleContext &sc, int EscapeState)
 foundInvalidChar	scintilla\lexers\LexJSON.cxx	/^	bool foundInvalidChar;$/;"	m	struct:CompactIRI	file:	access:public
 fp	scite\src\FileWorker.h	/^	FILE *fp;$/;"	m	struct:FileWorker	access:public
 fp	scite\src\SciTEIO.cxx	/^	FILE *fp;$/;"	m	class:BufferedFile	file:	access:private
@@ -13834,6 +13845,7 @@ io_write	scintilla\lua\src\liolib.c	/^static int io_write (lua_State *L) {$/;"	f
 iolib	scintilla\lua\src\liolib.c	/^static const luaL_Reg iolib[] = {$/;"	v	file:
 ipairsaux	scintilla\lua\src\lbaselib.c	/^static int ipairsaux (lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 isASYidentifier	scintilla\lexers\LexASY.cxx	/^static inline bool isASYidentifier(int ch) {$/;"	f	file:	signature:(int ch)
+isAlphaNum	scintilla\lexers\LexVisualProlog.cxx	/^static bool isAlphaNum(int ch){$/;"	f	file:	signature:(int ch)
 isAlphaNumeric	scintilla\lexers\LexSmalltalk.cxx	/^static inline bool isAlphaNumeric(int ch) {$/;"	f	file:	signature:(int ch)
 isAsn1Char	scintilla\lexers\LexAsn1.cxx	/^static bool isAsn1Char(int ch)$/;"	f	file:	signature:(int ch)
 isAsn1Letter	scintilla\lexers\LexAsn1.cxx	/^static bool isAsn1Letter(int ch)$/;"	f	file:	signature:(int ch)
@@ -13872,14 +13884,14 @@ isGCOperator	scintilla\lexers\LexGui4Cli.cxx	/^inline bool isGCOperator(int ch)$
 isHidden	scintilla\test\unit\catch.hpp	/^        bool isHidden;$/;"	m	struct:Catch::TestCaseInfo	access:public
 isHidden	scintilla\test\unit\catch.hpp	/^    bool TestCase::isHidden() const {$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::TestCase	signature:() const
 isHighBitChar	scintilla\lexers\LexRuby.cxx	35;"	d	file:
+isIdChar	scintilla\lexers\LexVisualProlog.cxx	/^static bool isIdChar(int ch){$/;"	f	file:	signature:(int ch)
 isInvalidChar	scintilla\lexers\LexJSON.cxx	/^	bool isInvalidChar(int currChar) const {$/;"	f	struct:EscapeSequence	access:public	signature:(int currChar) const
 isJustInfo	scintilla\test\unit\catch.hpp	/^    inline bool isJustInfo( int flags ) {$/;"	f	namespace:Catch	signature:( int flags )
 isKeyWordStart	scite\src\SciTEBase.h	/^    isKeyWordStart	\/\/ Keywords that cause indentation$/;"	e	enum:IndentationStatus
 isLetter	scintilla\lexers\LexSmalltalk.cxx	/^static inline bool isLetter(int ch) {return (ch > 0) && (ch < 0x80) && ((ClassificationTable[ch] & 2) != 0);}$/;"	f	file:	signature:(int ch)
 isLfunction	scintilla\lua\src\lobject.h	466;"	d
 isLineEnd	scintilla\lexers\LexHTML.cxx	/^bool isLineEnd(int ch) {$/;"	f	namespace:__anon22	signature:(int ch)
-isLispoperator	scintilla\lexers\LexLisp.cxx	/^static inline bool isLispoperator(char ch) {$/;"	f	file:	signature:(char ch)
-isLispwordstart	scintilla\lexers\LexLisp.cxx	/^static inline bool isLispwordstart(char ch) {$/;"	f	file:	signature:(char ch)
+isLowerLetter	scintilla\lexers\LexVisualProlog.cxx	/^static bool isLowerLetter(int ch){$/;"	f	file:	signature:(int ch)
 isLua	scintilla\lua\src\lstate.h	109;"	d
 isMETAPOSTcolon	scintilla\lexers\LexMetapost.cxx	/^static inline bool isMETAPOSTcolon(int ch) {$/;"	f	file:	signature:(int ch)
 isMETAPOSTcomment	scintilla\lexers\LexMetapost.cxx	/^static inline bool isMETAPOSTcomment(int ch) {$/;"	f	file:	signature:(int ch)
@@ -13902,6 +13914,7 @@ isNumber	scintilla\lexers\LexTeX.cxx	/^static inline bool isNumber(int ch) {$/;"
 isOk	scintilla\test\unit\catch.hpp	/^    bool AssertionResult::isOk() const {$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::AssertionResult	signature:() const
 isOk	scintilla\test\unit\catch.hpp	/^    inline bool isOk( ResultWas::OfType resultType ) {$/;"	f	namespace:Catch	signature:( ResultWas::OfType resultType )
 isOnlyWithSameStyle	scite\src\SciTEBase.h	/^	bool isOnlyWithSameStyle;$/;"	m	struct:CurrentWordHighlight	access:public
+isOpenStringVerbatim	scintilla\lexers\LexVisualProlog.cxx	/^static bool isOpenStringVerbatim(int next, int &closingQuote){$/;"	f	file:	signature:(int next, int &closingQuote)
 isOwned	scintilla\test\unit\catch.hpp	/^        bool isOwned;$/;"	m	class:Catch::Stream	access:private
 isPHPScript	scintilla\lexers\LexHTML.cxx	/^	bool isPHPScript;$/;"	m	class:LexerHTML	file:	access:private
 isPHPStringState	scintilla\lexers\LexHTML.cxx	/^bool isPHPStringState(int state) {$/;"	f	namespace:__anon22	signature:(int state)
@@ -13923,6 +13936,7 @@ isSpaceOrNL	scintilla\lexers\LexGui4Cli.cxx	64;"	d	file:
 isSpecial	scintilla\lexers\LexSmalltalk.cxx	/^static inline bool isSpecial(int ch) {return (ch > 0) && (ch < 0x80) && ((ClassificationTable[ch] & 4) != 0);}$/;"	f	file:	signature:(int ch)
 isSpecialTag	scintilla\test\unit\catch.hpp	/^    inline bool isSpecialTag( std::string const& tag ) {$/;"	f	namespace:Catch::ExceptionTranslatorRegistry::Catch	signature:( std::string const& tag )
 isStringState	scintilla\lexers\LexHTML.cxx	/^inline bool isStringState(int state) {$/;"	f	namespace:__anon22	signature:(int state)
+isStringVerbatimOpenClose	scintilla\lexers\LexVisualProlog.cxx	/^static bool isStringVerbatimOpenClose(int ch){$/;"	f	file:	signature:(int ch)
 isTACLoperator	scintilla\lexers\LexTACL.cxx	/^inline bool isTACLoperator(char ch)$/;"	f	signature:(char ch)
 isTACLwordchar	scintilla\lexers\LexTACL.cxx	/^inline bool isTACLwordchar(char ch)$/;"	f	signature:(char ch)
 isTACLwordstart	scintilla\lexers\LexTACL.cxx	/^inline bool isTACLwordstart(char ch)$/;"	f	signature:(char ch)
@@ -13940,6 +13954,7 @@ isTeXzero	scintilla\lexers\LexTeX.cxx	/^static inline bool isTeXzero(int ch) {$/
 isTrue	scintilla\test\unit\catch.hpp	/^    inline bool isTrue( bool value ){ return value; }$/;"	f	namespace:Catch	signature:( bool value )
 isUndef	scintilla\lexers\LexCPP.cxx	/^	bool isUndef;$/;"	m	struct:__anon17::PPDefinition	file:	access:public
 isUpper	scintilla\lexers\LexSmalltalk.cxx	/^static inline bool isUpper(int ch) {return (ch > 0) && (ch < 0x80) && ((ClassificationTable[ch] & 8) != 0);}$/;"	f	file:	signature:(int ch)
+isUpperLetter	scintilla\lexers\LexVisualProlog.cxx	/^static bool isUpperLetter(int ch){$/;"	f	file:	signature:(int ch)
 isWordCdata	scintilla\lexers\LexHTML.cxx	/^bool isWordCdata(Sci_PositionU start, Sci_PositionU end, Accessor &styler) {$/;"	f	namespace:__anon22	signature:(Sci_PositionU start, Sci_PositionU end, Accessor &styler)
 isWordChar	scintilla\lexers\LexTeX.cxx	/^static inline bool isWordChar(int ch) {$/;"	f	file:	signature:(int ch)
 isWordHSGML	scintilla\lexers\LexHTML.cxx	/^bool isWordHSGML(Sci_PositionU start, Sci_PositionU end, const WordList &keywords, Accessor &styler) {$/;"	f	namespace:__anon22	signature:(Sci_PositionU start, Sci_PositionU end, const WordList &keywords, Accessor &styler)
@@ -14400,6 +14415,7 @@ libsize	scintilla\lua\src\lauxlib.c	/^static int libsize (const luaL_Reg *l) {$/
 lifeState	scite\src\SciTEBase.h	/^	enum { empty, reading, readAll, open } lifeState;$/;"	m	class:Buffer	typeref:enum:Buffer::__anon117	access:public
 line	scintilla\include\Scintilla.h	/^	Sci_Position line;		\/* SCN_MODIFIED *\/$/;"	m	struct:SCNotification	access:public
 line	scintilla\lexers\LexCPP.cxx	/^	Sci_Position line;$/;"	m	struct:__anon17::PPDefinition	file:	access:public
+line	scintilla\lexers\LexVisualProlog.cxx	/^    Sci_Position line;$/;"	m	struct:After	file:	access:public
 line	scintilla\lua\src\lparser.h	/^  int line;  \/* line where it appeared *\/$/;"	m	struct:Labeldesc	access:public
 line	scintilla\src\Document.h	/^	Sci::Line line;$/;"	m	class:Scintilla::DocModification	access:public
 line	scintilla\test\unit\catch.hpp	/^        std::size_t line;$/;"	m	struct:Catch::SourceLineInfo	access:public
@@ -14475,7 +14491,6 @@ lislalnum	scintilla\lua\src\lctype.h	58;"	d
 lislalnum	scintilla\lua\src\lctype.h	84;"	d
 lislalpha	scintilla\lua\src\lctype.h	57;"	d
 lislalpha	scintilla\lua\src\lctype.h	83;"	d
-lispWordListDesc	scintilla\lexers\LexLisp.cxx	/^static const char * const lispWordListDesc[] = {$/;"	v	file:
 lisprint	scintilla\lua\src\lctype.h	61;"	d
 lisprint	scintilla\lua\src\lctype.h	87;"	d
 lisspace	scintilla\lua\src\lctype.h	60;"	d
@@ -15509,6 +15524,7 @@ mainRange	scintilla\src\Selection.h	/^	size_t mainRange;$/;"	m	class:Scintilla::
 mainfunc	scintilla\lua\src\lparser.c	/^static void mainfunc (LexState *ls, FuncState *fs) {$/;"	f	file:	signature:(LexState *ls, FuncState *fs)
 mainposition	scintilla\lua\src\ltable.c	/^static Node *mainposition (const Table *t, const TValue *key) {$/;"	f	file:	signature:(const Table *t, const TValue *key)
 mainthread	scintilla\lua\src\lstate.h	/^  struct lua_State *mainthread;$/;"	m	struct:global_State	typeref:struct:global_State::lua_State	access:public
+majorKeywords	scintilla\lexers\LexVisualProlog.cxx	/^    WordList majorKeywords;$/;"	m	class:LexerVisualProlog	file:	access:private
 majorVersion	scintilla\test\unit\catch.hpp	/^        unsigned int const majorVersion;$/;"	m	struct:Catch::Version	access:public
 make	scintilla\qt\ScintillaEditPy\sepbuild.py	/^	def make(self):$/;"	m	class:SepBuilder	access:public
 makeCommandLineParser	scintilla\test\unit\catch.hpp	/^    inline Clara::CommandLine<ConfigData> makeCommandLineParser() {$/;"	f	namespace:Catch	signature:()
@@ -15703,6 +15719,7 @@ mid	scite\src\GUI.h	/^	MenuID mid;$/;"	m	class:GUI::Menu	access:private
 mimeFor	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^	QString mimeFor(QString flav) {$/;"	f	class:ScintillaRectangularMime	access:public	signature:(QString flav)
 min_expand	scintilla\lua\src\lstrlib.c	/^static const char *min_expand (MatchState *ms, const char *s,$/;"	f	file:	signature:(MatchState *ms, const char *s, const char *p, const char *ep)
 minder	scintilla\src\ExternalLexer.cxx	/^LMMinder minder;$/;"	v
+minorKeywords	scintilla\lexers\LexVisualProlog.cxx	/^    WordList minorKeywords;$/;"	m	class:LexerVisualProlog	file:	access:private
 minorVersion	scintilla\test\unit\catch.hpp	/^        unsigned int const minorVersion;$/;"	m	struct:Catch::Version	access:public
 missing	scite\src\SciTEBase.h	/^	std::string missing;$/;"	m	class:Localization	access:private
 missingAssertions	scintilla\test\unit\catch.hpp	/^        bool missingAssertions;$/;"	m	struct:Catch::SectionStats	access:public
@@ -16125,6 +16142,7 @@ options	scintilla\lexers\LexPython.cxx	/^	OptionsPython options;$/;"	m	class:Lex
 options	scintilla\lexers\LexRegistry.cxx	/^	OptionsRegistry options;$/;"	m	class:LexerRegistry	file:	access:private
 options	scintilla\lexers\LexRust.cxx	/^	OptionsRust options;$/;"	m	class:LexerRust	file:	access:private
 options	scintilla\lexers\LexSQL.cxx	/^	OptionsSQL options;$/;"	m	class:LexerSQL	file:	access:private
+options	scintilla\lexers\LexVisualProlog.cxx	/^    OptionsVisualProlog options;$/;"	m	class:LexerVisualProlog	file:	access:private
 originalAnchorPos	scintilla\src\Editor.h	/^	Sci::Position originalAnchorPos;$/;"	m	class:Scintilla::Editor	access:protected
 originalAttributes	scintilla\test\unit\catch.hpp	/^        WORD originalAttributes;$/;"	m	class:Catch::ExceptionTranslatorRegistry::Catch::__anon99::Win32ColourImpl	access:private
 originalEnd	scite\gtk\SciTEGTK.cxx	/^	int originalEnd;$/;"	m	class:SciTEGTK	file:	access:protected
@@ -16162,6 +16180,7 @@ osPerl	scintilla\lexers\LexPerl.cxx	/^	OptionSetPerl osPerl;$/;"	m	class:LexerPe
 osPython	scintilla\lexers\LexPython.cxx	/^	OptionSetPython osPython;$/;"	m	class:LexerPython	file:	access:private
 osRust	scintilla\lexers\LexRust.cxx	/^	OptionSetRust osRust;$/;"	m	class:LexerRust	file:	access:private
 osSQL	scintilla\lexers\LexSQL.cxx	/^	OptionSetSQL osSQL;$/;"	m	class:LexerSQL	file:	access:private
+osVisualProlog	scintilla\lexers\LexVisualProlog.cxx	/^    OptionSetVisualProlog osVisualProlog;$/;"	m	class:LexerVisualProlog	file:	access:private
 os_clock	scintilla\lua\src\loslib.c	/^static int os_clock (lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 os_date	scintilla\lua\src\loslib.c	/^static int os_date (lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
 os_difftime	scintilla\lua\src\loslib.c	/^static int os_difftime (lua_State *L) {$/;"	f	file:	signature:(lua_State *L)
@@ -16411,6 +16430,10 @@ override	scintilla\lexers\LexRust.cxx	/^	void SCI_METHOD Lex(Sci_PositionU start
 override	scintilla\lexers\LexSQL.cxx	/^	Sci_Position SCI_METHOD WordListSet(int n, const char *wl) override;$/;"	m	class:LexerSQL	file:	access:public
 override	scintilla\lexers\LexSQL.cxx	/^	void SCI_METHOD Fold(Sci_PositionU startPos, Sci_Position lengthDoc, int initStyle, IDocument *pAccess) override;$/;"	m	class:LexerSQL	file:	access:public
 override	scintilla\lexers\LexSQL.cxx	/^	void SCI_METHOD Lex(Sci_PositionU startPos, Sci_Position lengthDoc, int initStyle, IDocument *pAccess) override;$/;"	m	class:LexerSQL	file:	access:public
+override	scintilla\lexers\LexVisualProlog.cxx	/^    Sci_Position SCI_METHOD PropertySet(const char *key, const char *val) override;$/;"	m	class:LexerVisualProlog	file:	access:public
+override	scintilla\lexers\LexVisualProlog.cxx	/^    Sci_Position SCI_METHOD WordListSet(int n, const char *wl) override;$/;"	m	class:LexerVisualProlog	file:	access:public
+override	scintilla\lexers\LexVisualProlog.cxx	/^    void SCI_METHOD Fold(Sci_PositionU startPos, Sci_Position length, int initStyle, IDocument *pAccess) override;$/;"	m	class:LexerVisualProlog	file:	access:public
+override	scintilla\lexers\LexVisualProlog.cxx	/^    void SCI_METHOD Lex(Sci_PositionU startPos, Sci_Position length, int initStyle, IDocument *pAccess) override;$/;"	m	class:LexerVisualProlog	file:	access:public
 override	scintilla\lexlib\DefaultLexer.h	/^	Sci_Position SCI_METHOD PropertySet(const char *key, const char *val) override;$/;"	m	class:Scintilla::DefaultLexer	access:public
 override	scintilla\lexlib\DefaultLexer.h	/^	Sci_Position SCI_METHOD WordListSet(int n, const char *wl) override;$/;"	m	class:Scintilla::DefaultLexer	access:public
 override	scintilla\lexlib\DefaultLexer.h	/^	const char * SCI_METHOD DescribeProperty(const char *name) override;$/;"	m	class:Scintilla::DefaultLexer	access:public
@@ -19027,6 +19050,7 @@ visibleProgress	scite\src\FileWorker.h	/^	bool visibleProgress;$/;"	m	class:File
 visibleRows	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^	int visibleRows;$/;"	m	class:Scintilla::ListBoxImpl	file:	access:private
 visibleSlop	scintilla\src\Editor.h	/^	int visibleSlop;$/;"	m	class:Scintilla::Editor	access:protected
 visitChar	scintilla\test\unit\catch.hpp	/^        void visitChar( char c ) {$/;"	f	class:Catch::TestSpecParser	access:private	signature:( char c )
+visualPrologWordLists	scintilla\lexers\LexVisualProlog.cxx	/^static const char *const visualPrologWordLists[] = {$/;"	v	file:
 vkisinreg	scintilla\lua\src\lparser.h	52;"	d
 vkisvar	scintilla\lua\src\lparser.h	51;"	d
 vlls	scintilla\lexers\LexCPP.cxx	/^	PPStates vlls;$/;"	m	class:LexerCPP	file:	access:private
@@ -19379,6 +19403,7 @@ zoomLevel	scintilla\src\ViewStyle.h	/^	int zoomLevel;$/;"	m	class:Scintilla::Vie
 ~LexerRegistry	scintilla\lexers\LexRegistry.cxx	/^	virtual ~LexerRegistry() {}$/;"	f	class:LexerRegistry	access:public	signature:()
 ~LexerRust	scintilla\lexers\LexRust.cxx	/^	virtual ~LexerRust() {$/;"	f	class:LexerRust	access:public	signature:()
 ~LexerSQL	scintilla\lexers\LexSQL.cxx	/^	virtual ~LexerSQL() {}$/;"	f	class:LexerSQL	access:public	signature:()
+~LexerVisualProlog	scintilla\lexers\LexVisualProlog.cxx	/^    virtual ~LexerVisualProlog() {$/;"	f	class:LexerVisualProlog	access:public	signature:()
 ~LineAnnotation	scintilla\src\PerLine.cxx	/^LineAnnotation::~LineAnnotation() {$/;"	f	class:LineAnnotation	signature:()
 ~LineLayout	scintilla\src\PositionCache.cxx	/^LineLayout::~LineLayout() {$/;"	f	class:LineLayout	signature:()
 ~LineLayoutCache	scintilla\src\PositionCache.cxx	/^LineLayoutCache::~LineLayoutCache() {$/;"	f	class:LineLayoutCache	signature:()

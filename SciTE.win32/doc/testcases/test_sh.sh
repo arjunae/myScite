@@ -79,9 +79,9 @@ done
 }
 #
 # Search tdbs to get full qualified package names 
-# -takes shorthand names defined in QUEUE
-# -sorts them into # delimited pseudo arrays 
-# -returns INSTALL_PKG
+# -fetch the filename for each shorthand name defined in QUEUE
+# -sorts them into dynamically created pseudo arrays (TASK_REPO_XX#Filename) 
+# -return them in INSTALL_PKG (',' delimited )
 #
 find_pkg() {
 printf " -====== Searching packages ==========- \n"

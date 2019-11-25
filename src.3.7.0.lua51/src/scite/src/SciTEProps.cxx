@@ -66,10 +66,10 @@ void SciTEBase::SetImportMenu() {
 				sFile= sFile.substr(sFile.rfind(GUI_TEXT("/"))+1,GUI::gui_string::npos);
 				sFile=localiser.Text("Open") + GUI_TEXT(" ") + sFile;
 				//  Depends on names to display properties sorted.
-				if (sFile.find(GUI_TEXT("theme")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ettings")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ools")) != GUI::gui_string::npos) {
-					SetMenuItemNew(menuOptions, 0, IMPORT_START+stackPos, itemID, sFile.c_str());
+				if (sFile.find(GUI_TEXT("theme")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ettings")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ools")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("oolbar")) != GUI::gui_string::npos) {
+					SetMenuItemNew(menuOptions, 3, IMPORT_START+stackPos, itemID, sFile.c_str());
 				} else {
-					SetMenuItemNew(menuOptions, 3, stackPos, itemID, sFile.c_str());
+					SetMenuItemNew(menuOptions, 0, 5+stackPos, itemID, sFile.c_str());
 				}
 
 			}
@@ -125,11 +125,11 @@ void SciTEBase::ReadEnvironment() {
 #endif
 	for (; env && *env; env++) {
 		char key[1024];
-		char *bym = *env; 
-		char *htg = strchr(bym, '=');
-		if (htg && (static_cast<int>(htg - bym) < static_cast<int>(sizeof(key)))) {
-			memcpy(key, bym, htg - bym);
-			key[htg - bym] = '\0';
+		char *bymu = *env; 
+		char *htg = strchr(bymu, '=');
+		if (htg && (static_cast<int>(htg - bymu) < static_cast<int>(sizeof(key)))) {
+			memcpy(key, bymu, htg - bymu);
+			key[htg - bymu] = '\0';
 			propsPlatform.Set(key, htg + 1);
 		}
 	}

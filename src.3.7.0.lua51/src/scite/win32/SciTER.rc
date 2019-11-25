@@ -154,18 +154,15 @@ BEGIN
 	MENUITEM "Change Inden&tation Settings...\tCtrl+Shift+I",	IDM_TABSIZE
 	MENUITEM "Use &Monospaced Font\tCtrl+F11",	IDM_MONOFONT
 	END
-	POPUP "Languages"
+	POPUP "Config Files"
 	BEGIN
-	MENUITEM SEPARATOR
-	// Content: All Language Specific Properties
-	END
-	MENUITEM SEPARATOR
 	MENUITEM "Open Local Options File",		IDM_OPENLOCALPROPERTIES
 	MENUITEM "Open &User Options File",		IDM_OPENUSERPROPERTIES
 	MENUITEM "Open &Global Options File",		IDM_OPENGLOBALPROPERTIES
 	MENUITEM "Open Directory Options File",		IDM_OPENDIRECTORYPROPERTIES
 	MENUITEM "Open Lua Startup Scr&ipt", 		IDM_OPENLUAEXTERNALFILE
-
+	END
+	// Content: All Language Specific Properties
 END // used: abcghilmprstux
 
 POPUP "&Language"

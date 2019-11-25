@@ -48,6 +48,9 @@
  * NOTES:
  * - you need access to lua's source tree, especially lstate.h, to compile
  *   this.
+ *
+ * 2019-10-25 Tested with lua 5.3 were succesful, added an elif directive
+ *
  */
 
 #include <stdlib.h>
@@ -59,10 +62,13 @@
 
 #define REGIDX "*dbghelper*"
 
-/* both lua 5.1 and 5.2 can only yield under certain circumstances. */
+/* both lua 5.1, 5.2 and 5.3 can only yield under certain circumstances. */
 #if LUA_VERSION_NUM == 501
 	#define LUA51
 	#define YIELDCOND (L->nCcalls <= L->baseCcalls)
+#elif LUA_VERSION_NUM == 502
+	#define LUA52
+	#define YIELDCOND (L->nny == 0)
 #elif LUA_VERSION_NUM == 503
 	#define LUA52
 	#define YIELDCOND (L->nny == 0)

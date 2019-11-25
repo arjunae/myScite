@@ -21,7 +21,7 @@ LIB_DIRS=$(LUA_LIB_DIR)
 # Defaults
 CC = gcc
 DEBUG= #-g -lefence
-CFLAGS=-O2 -fPIC $(DEBUG)
+CFLAGS=-Og -fPIC $(DEBUG)
 INCDIRS=-I$(LUAROOT)/include
 LIBDIRS=-L$(LUAROOT)/lib
 LDFLAGS=-shared $(DEBUG)

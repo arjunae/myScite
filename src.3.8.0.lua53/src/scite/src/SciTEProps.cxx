@@ -66,10 +66,9 @@ void SciTEBase::SetImportMenu() {
 				GUI::gui_string sFile= sEntry.substr(sEntry.rfind(GUI_TEXT("/"))+1, GUI::gui_string::npos);
 				sFile= sFile.substr(sFile.rfind(GUI_TEXT("/"))+1,GUI::gui_string::npos);
 				sFile=localiser.Text("Open") + GUI_TEXT(" ") + sFile;
-
 				//  Depends on names to display properties sorted.
 				if (sFile.find(GUI_TEXT("theme")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ettings")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ools")) != GUI::gui_string::npos) {
-					SetMenuItemNew(menuOptions, 2, IMPORT_START+stackPos, itemID, sFile.c_str());
+					SetMenuItemNew(menuOptions, 0, IMPORT_START+stackPos, itemID, sFile.c_str());
 				} else {
 					SetMenuItemNew(menuOptions, 3, stackPos, itemID, sFile.c_str());
 				}
@@ -78,7 +77,6 @@ void SciTEBase::SetImportMenu() {
 		}
 	}
 }
-
 void SciTEBase::ImportMenu(int pos) {
 	if (pos >= 0) {
 		if (importFiles[pos].IsSet()) {

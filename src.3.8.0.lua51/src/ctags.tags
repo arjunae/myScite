@@ -1004,7 +1004,6 @@ ColouriseInnoDoc	scintilla\lexers\LexInno.cxx	/^static void ColouriseInnoDoc(Sci
 ColouriseKVIrcDoc	scintilla\lexers\LexKVIrc.cxx	/^static void ColouriseKVIrcDoc(Sci_PositionU startPos, Sci_Position length,$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int initStyle, WordList *keywordlists[], Accessor &styler)
 ColouriseKixDoc	scintilla\lexers\LexKix.cxx	/^static void ColouriseKixDoc(Sci_PositionU startPos, Sci_Position length, int initStyle,$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int initStyle, WordList *keywordlists[], Accessor &styler)
 ColouriseLabel	scintilla\lexers\LexAda.cxx	/^static void ColouriseLabel(StyleContext& sc, WordList& keywords, bool& apostropheStartsAttribute) {$/;"	f	file:	signature:(StyleContext& sc, WordList& keywords, bool& apostropheStartsAttribute)
-ColouriseLispDoc	scintilla\lexers\LexLisp.cxx	/^static void ColouriseLispDoc(Sci_PositionU startPos, Sci_Position length, int initStyle, WordList *keywordlists[],$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int initStyle, WordList *keywordlists[], Accessor &styler)
 ColouriseLoutDoc	scintilla\lexers\LexLout.cxx	/^static void ColouriseLoutDoc(Sci_PositionU startPos, Sci_Position length, int initStyle,$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int initStyle, WordList *keywordlists[], Accessor &styler)
 ColouriseLuaDoc	scintilla\lexers\LexLua.cxx	/^static void ColouriseLuaDoc($/;"	f	file:	signature:( Sci_PositionU startPos, Sci_Position length, int initStyle, WordList *keywordlists[], Accessor &styler)
 ColouriseMETAPOSTDoc	scintilla\lexers\LexMetapost.cxx	/^static void ColouriseMETAPOSTDoc($/;"	f	file:	signature:( Sci_PositionU startPos, Sci_Position length, int, WordList *keywordlists[], Accessor &styler)
@@ -2251,7 +2250,6 @@ FoldIHexDoc	scintilla\lexers\LexHex.cxx	/^static void FoldIHexDoc(Sci_PositionU 
 FoldInnoDoc	scintilla\lexers\LexInno.cxx	/^static void FoldInnoDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler) {$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler)
 FoldKVIrcDoc	scintilla\lexers\LexKVIrc.cxx	/^static void FoldKVIrcDoc(Sci_PositionU startPos, Sci_Position length, int \/*initStyle - unused*\/,$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int , WordList *[], Accessor &styler)
 FoldLine	scintilla\src\Editor.cxx	/^void Editor::FoldLine(Sci::Line line, int action) {$/;"	f	class:Editor	signature:(Sci::Line line, int action)
-FoldLispDoc	scintilla\lexers\LexLisp.cxx	/^static void FoldLispDoc(Sci_PositionU startPos, Sci_Position length, int \/* initStyle *\/, WordList *[],$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int , WordList *[], Accessor &styler)
 FoldLotDoc	scintilla\lexers\LexMPT.cxx	/^static void FoldLotDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler) {$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler)
 FoldLoutDoc	scintilla\lexers\LexLout.cxx	/^static void FoldLoutDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[],$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int, WordList *[], Accessor &styler)
 FoldLuaDoc	scintilla\lexers\LexLua.cxx	/^static void FoldLuaDoc(Sci_PositionU startPos, Sci_Position length, int \/* initStyle *\/, WordList *[],$/;"	f	file:	signature:(Sci_PositionU startPos, Sci_Position length, int , WordList *[], Accessor &styler)
@@ -7107,14 +7105,11 @@ SCE_KVIRC_STRING_FUNCTION	scintilla\include\SciLexer.h	1730;"	d
 SCE_KVIRC_STRING_VARIABLE	scintilla\include\SciLexer.h	1731;"	d
 SCE_KVIRC_VARIABLE	scintilla\include\SciLexer.h	1727;"	d
 SCE_KVIRC_WORD	scintilla\include\SciLexer.h	1723;"	d
-SCE_LISP_CHARACTER	scintilla\lexers\LexLisp.cxx	29;"	d	file:
 SCE_LISP_COMMENT	scintilla\include\SciLexer.h	639;"	d
 SCE_LISP_DEFAULT	scintilla\include\SciLexer.h	638;"	d
 SCE_LISP_IDENTIFIER	scintilla\include\SciLexer.h	646;"	d
 SCE_LISP_KEYWORD	scintilla\include\SciLexer.h	641;"	d
 SCE_LISP_KEYWORD_KW	scintilla\include\SciLexer.h	642;"	d
-SCE_LISP_MACRO	scintilla\lexers\LexLisp.cxx	30;"	d	file:
-SCE_LISP_MACRO_DISPATCH	scintilla\lexers\LexLisp.cxx	31;"	d	file:
 SCE_LISP_MULTI_COMMENT	scintilla\include\SciLexer.h	649;"	d
 SCE_LISP_NUMBER	scintilla\include\SciLexer.h	640;"	d
 SCE_LISP_OPERATOR	scintilla\include\SciLexer.h	647;"	d
@@ -11869,7 +11864,6 @@ classifyWordHTJS	scintilla\lexers\LexHTML.cxx	/^void classifyWordHTJS(Sci_Positi
 classifyWordHTPHP	scintilla\lexers\LexHTML.cxx	/^void classifyWordHTPHP(Sci_PositionU start, Sci_PositionU end, const WordList &keywords, Accessor &styler) {$/;"	f	namespace:__anon22	signature:(Sci_PositionU start, Sci_PositionU end, const WordList &keywords, Accessor &styler)
 classifyWordHTPy	scintilla\lexers\LexHTML.cxx	/^void classifyWordHTPy(Sci_PositionU start, Sci_PositionU end, const WordList &keywords, Accessor &styler, std::string &prevWord, script_mode inScriptType, bool isMako) {$/;"	f	namespace:__anon22	signature:(Sci_PositionU start, Sci_PositionU end, const WordList &keywords, Accessor &styler, std::string &prevWord, script_mode inScriptType, bool isMako)
 classifyWordHTVB	scintilla\lexers\LexHTML.cxx	/^int classifyWordHTVB(Sci_PositionU start, Sci_PositionU end, const WordList &keywords, Accessor &styler, script_mode inScriptType) {$/;"	f	namespace:__anon22	signature:(Sci_PositionU start, Sci_PositionU end, const WordList &keywords, Accessor &styler, script_mode inScriptType)
-classifyWordLisp	scintilla\lexers\LexLisp.cxx	/^static void classifyWordLisp(Sci_PositionU start, Sci_PositionU end, WordList &keywords, WordList &keywords_kw, Accessor &styler) {$/;"	f	file:	signature:(Sci_PositionU start, Sci_PositionU end, WordList &keywords, WordList &keywords_kw, Accessor &styler)
 classifyWordSQL	scintilla\lexers\LexMSSQL.cxx	/^static char classifyWordSQL(Sci_PositionU start,$/;"	f	file:	signature:(Sci_PositionU start, Sci_PositionU end, WordList *keywordlists[], Accessor &styler, unsigned int actualState, unsigned int prevState)
 classifyWordTACL	scintilla\lexers\LexTACL.cxx	/^static int classifyWordTACL(Sci_PositionU start, Sci_PositionU end, \/*WordList &keywords*\/WordList *keywordlists[], Accessor &styler, bool bInAsm) {$/;"	f	file:	signature:(Sci_PositionU start, Sci_PositionU end, WordList *keywordlists[], Accessor &styler, bool bInAsm)
 classifyWordTAL	scintilla\lexers\LexTAL.cxx	/^static int classifyWordTAL(Sci_PositionU start, Sci_PositionU end, \/*WordList &keywords*\/WordList *keywordlists[], Accessor &styler, bool bInAsm) {$/;"	f	file:	signature:(Sci_PositionU start, Sci_PositionU end, WordList *keywordlists[], Accessor &styler, bool bInAsm)
@@ -13510,8 +13504,6 @@ isKeyWordStart	scite\src\SciTEBase.h	/^    isKeyWordStart	\/\/ Keywords that cau
 isLetter	scintilla\lexers\LexSmalltalk.cxx	/^static inline bool isLetter(int ch) {return (ch > 0) && (ch < 0x80) && ((ClassificationTable[ch] & 2) != 0);}$/;"	f	file:	signature:(int ch)
 isLfunction	scintilla\lua\src\lobject.h	316;"	d
 isLineEnd	scintilla\lexers\LexHTML.cxx	/^bool isLineEnd(int ch) {$/;"	f	namespace:__anon22	signature:(int ch)
-isLispoperator	scintilla\lexers\LexLisp.cxx	/^static inline bool isLispoperator(char ch) {$/;"	f	file:	signature:(char ch)
-isLispwordstart	scintilla\lexers\LexLisp.cxx	/^static inline bool isLispwordstart(char ch) {$/;"	f	file:	signature:(char ch)
 isLowerLetter	scintilla\lexers\LexVisualProlog.cxx	/^static bool isLowerLetter(int ch){$/;"	f	file:	signature:(int ch)
 isLua	scintilla\lua\src\lstate.h	62;"	d
 isMETAPOSTcolon	scintilla\lexers\LexMetapost.cxx	/^static inline bool isMETAPOSTcolon(int ch) {$/;"	f	file:	signature:(int ch)
@@ -14009,7 +14001,6 @@ linit_c	scintilla\lua\src\linit.c	8;"	d	file:
 link	scintilla\lexlib\PropSetSimple.cxx	/^	const VarChain *link;$/;"	m	struct:VarChain	file:	access:public
 link	scite\src\PropSetFile.cxx	/^	const VarChain *link;$/;"	m	struct:VarChain	file:	access:public
 liolib_c	scintilla\lua\src\liolib.c	13;"	d	file:
-lispWordListDesc	scintilla\lexers\LexLisp.cxx	/^static const char * const lispWordListDesc[] = {$/;"	v	file:
 list	scintilla\curses\ScintillaCurses.cxx	/^  std::vector<std::string> list;$/;"	m	class:ListBoxImpl	file:	access:private
 list	scintilla\gtk\PlatGTK.cxx	/^	WindowID list;$/;"	m	class:ListBoxX	file:	access:private
 list	scintilla\lexlib\WordList.h	/^	char *list;$/;"	m	class:Scintilla::WordList	access:private

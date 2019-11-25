@@ -6,7 +6,7 @@ LIBS = -L..\..\clib\scite_lua$(LUA_PLAT)\ $(LUA_LIB)
 #LIBS = -L..\clib\ -lscilexer
 
 DEFINES   = -DNDEBUG -DLUA_COMPAT_5_1
-CFLAGS    = -O2 $(DEFINES) $(INCLUDES)
+CFLAGS    = -Og $(DEFINES) $(INCLUDES)
 LDFLAGS   = -s -shared 
 
 CC        = gcc
