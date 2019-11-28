@@ -108,6 +108,7 @@ AddTextIntAttribute	scintilla\gtk\ScintillaGTKAccessible.cxx	/^static AtkAttribu
 AddToPopUp	scintilla\curses\ScintillaCurses.cxx	/^  void AddToPopUp(const char *label, int cmd=0, bool enabled=true) {}$/;"	f	class:ScintillaCurses	access:public	signature:(const char *label, int cmd=0, bool enabled=true)
 AddToPopUp	scintilla\gtk\ScintillaGTK.cxx	/^void ScintillaGTK::AddToPopUp(const char *label, int cmd, bool enabled) {$/;"	f	class:ScintillaGTK	signature:(const char *label, int cmd, bool enabled)
 AddToPopUp	scintilla\qt\ScintillaEditBase\ScintillaQt.cpp	/^void ScintillaQt::AddToPopUp(const char *label,$/;"	f	class:ScintillaQt	signature:(const char *label, int cmd, bool enabled)
+AddToPopUp	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::AddToPopUp(const char *label, int cmd, bool enabled) {$/;"	f	cla	access:public	signature:()
 AddToPopUp	scintilla\win32\ScintillaWin.cxx	/^void ScintillaWin::AddToPopUp(const char *label, int cmd, bool enabled) {$/;"	f	class:ScintillaWin	signature:(const char *label, int cmd, bool enabled)
 AddToPopUp	scite\gtk\SciTEGTK.cxx	/^void SciTEGTK::AddToPopUp(const char *label, int cmd, bool enabled) {$/;"	f	class:SciTEGTK	signature:(const char *label, int cmd, bool enabled)
 AddToPopUp	scite\gtk\Widget.cxx	/^void Strip::AddToPopUp(GUI::Menu &popup, const char *label, int cmd, bool checked) {$/;"	f	class:Strip	signature:(GUI::Menu &popup, const char *label, int cmd, bool checked)
@@ -310,8 +311,6 @@ BITBLK	scintilla\src\RESearch.h	20;"	d
 BITIND	scintilla\src\RESearch.cxx	240;"	d	file:
 BITRK	scintilla\lua\src\lopcodes.h	134;"	d
 BITSPERCHAR	scintilla\lua\src\lptypes.h	87;"	d
-BITS_PER_COMPONENT	scintilla\cocoa\PlatCocoa.h	/^  static const int BITS_PER_COMPONENT = 8;$/;"	m	class:Scintilla::SurfaceImpl	access:private
-BITS_PER_PIXEL	scintilla\cocoa\PlatCocoa.h	/^  static const int BITS_PER_PIXEL = BITS_PER_COMPONENT * 4;$/;"	m	class:Scintilla::SurfaceImpl	access:private
 BIT_ISCOLLECTABLE	scintilla\lua\src\lobject.h	63;"	d
 BLACK	scintilla\curses\ScintillaCurses.cxx	/^static ColourDesired BLACK(0, 0, 0);$/;"	v	file:
 BLACKBIT	scintilla\lua\src\lgc.h	80;"	d
@@ -321,7 +320,6 @@ BOL	scintilla\src\RESearch.cxx	222;"	d	file:
 BOT	scintilla\src\RESearch.cxx	224;"	d	file:
 BOW	scintilla\src\RESearch.cxx	226;"	d	file:
 BUFFSIZE	scintilla\lexers\LexGui4Cli.cxx	65;"	d	file:
-BYTES_PER_PIXEL	scintilla\cocoa\PlatCocoa.h	/^  static const int BYTES_PER_PIXEL = BITS_PER_PIXEL \/ 8;$/;"	m	class:Scintilla::SurfaceImpl	access:private
 BackAsLong	scite\src\StyleDefinition.cxx	/^long StyleDefinition::BackAsLong() const {$/;"	f	class:StyleDefinition	signature:() const
 BackStep	scintilla\src\Partitioning.h	/^	void BackStep(T partitionDownTo) {$/;"	f	class:Scintilla::Partitioning	access:private	signature:(T partitionDownTo)
 Background	scintilla\src\ViewStyle.cxx	/^ColourOptional ViewStyle::Background(int marksOfLine, bool caretActive, bool lineContainsCaret) const {$/;"	f	class:ViewStyle	signature:(int marksOfLine, bool caretActive, bool lineContainsCaret) const
@@ -2532,7 +2530,6 @@ GetClosingBrace	scintilla\lexers\LexBibTeX.cxx	/^	char GetClosingBrace(char open
 GetColumn	scintilla\src\Document.cxx	/^Sci::Position Document::GetColumn(Sci::Position pos) {$/;"	f	class:Document	signature:(Sci::Position pos)
 GetCompositionString	scintilla\win32\ScintillaWin.cxx	/^	std::wstring GetCompositionString(DWORD dwIndex) {$/;"	f	class:__anon103::IMContext	access:public	signature:(DWORD dwIndex)
 GetConstantName	scite\src\IFaceTable.cxx	/^int IFaceTable::GetConstantName(int value, char *nameOut, unsigned nameBufferLen, const char *prefix) {$/;"	f	class:IFaceTable	signature:(int value, char *nameOut, unsigned nameBufferLen, const char *prefix)
-GetContext	scintilla\cocoa\PlatCocoa.h	/^  CGContextRef GetContext() { return gc; }$/;"	f	class:Scintilla::SurfaceImpl	access:public	signature:()
 GetContinuedPos	scintilla\lexers\LexFortran.cxx	/^static Sci_PositionU GetContinuedPos(Sci_PositionU pos, Accessor &styler) {$/;"	f	file:	signature:(Sci_PositionU pos, Accessor &styler)
 GetCount	scite\src\Containers.h	/^	int GetCount() const {$/;"	f	class:TList	access:public	signature:() const
 GetCount	scite\src\Containers.h	/^	int GetCount() const {$/;"	f	class:TMap	access:public	signature:() const
@@ -5132,7 +5129,6 @@ Maximum	scite\src\SciTEBase.h	/^inline int Maximum(int a, int b) {$/;"	f	signatu
 Mbuffer	scintilla\lua\src\lzio.h	/^typedef struct Mbuffer {$/;"	s
 Mbuffer	scintilla\lua\src\lzio.h	/^} Mbuffer;$/;"	t	typeref:struct:Mbuffer
 MeasureLength	scintilla\src\XPM.cxx	/^static size_t MeasureLength(const char *s) {$/;"	f	file:	signature:(const char *s)
-MeasureStringWidth	scintilla\cocoa\QuartzTextLayout.h	/^	float MeasureStringWidth()$/;"	f	class:QuartzTextLayout	access:public	signature:()
 MeasureWidths	scintilla\curses\ScintillaCurses.cxx	/^  void MeasureWidths(Font &font_, const char *s, int len,$/;"	f	class:SurfaceImpl	access:public	signature:(Font &font_, const char *s, int len, XYPOSITION *positions)
 MeasureWidths	scintilla\gtk\PlatGTK.cxx	/^void SurfaceImpl::MeasureWidths(Font &font_, const char *s, int len, XYPOSITION *positions) {$/;"	f	class:SurfaceImpl	signature:(Font &font_, const char *s, int len, XYPOSITION *positions)
 MeasureWidths	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^void SurfaceImpl::MeasureWidths(Font &font,$/;"	f	class:Scintilla::SurfaceImpl	signature:(Font &font, const char *s, int len, XYPOSITION *positions)
@@ -5264,8 +5260,6 @@ NSRulerView	scintilla\cocoa\ScintillaView.h	/^@interface SCIMarginView : NSRuler
 NSStringMatchers	scintilla\test\unit\catch.hpp	/^        namespace NSStringMatchers {$/;"	n	namespace:Catch::Matchers::Impl
 NSView	scintilla\cocoa\ScintillaView.h	/^@interface SCIContentView : NSView <$/;"	v
 NSView	scintilla\cocoa\ScintillaView.h	/^@interface ScintillaView : NSView <InfoBarCommunicator, ScintillaNotificationProtocol>;$/;"	v
-NS_ENUM	scintilla\cocoa\InfoBarCommunicator.h	/^typedef NS_ENUM(NSInteger, NotificationType) {$/;"	f	signature:(NSInteger, NotificationType)
-NS_OPTIONS	scintilla\cocoa\InfoBarCommunicator.h	/^typedef NS_OPTIONS(NSUInteger, IBDisplay) {$/;"	f	signature:(NSUInteger, IBDisplay)
 NUMERAL_BASE_VALUE	scintilla\lexers\LexErlang.cxx	/^	NUMERAL_BASE_VALUE,$/;"	e	enum:__anon20	file:
 NUMERAL_EXPONENT	scintilla\lexers\LexErlang.cxx	/^	NUMERAL_EXPONENT,$/;"	e	enum:__anon20	file:
 NUMERAL_FLOAT	scintilla\lexers\LexErlang.cxx	/^	NUMERAL_FLOAT,$/;"	e	enum:__anon20	file:
@@ -5782,7 +5776,6 @@ PFont	scintilla\gtk\PlatGTK.cxx	/^static FontHandle *PFont(Font &f) {$/;"	f	file
 PI	scintilla\lua\src\lmathlib.c	22;"	d	file:
 PI	scintilla\lua\src\lmathlib.c	23;"	d	file:
 PIXBUF_COLUMN	scintilla\gtk\PlatGTK.cxx	/^	PIXBUF_COLUMN,$/;"	e	enum:__anon2	file:
-PLATCOCOA_H	scintilla\cocoa\PlatCocoa.h	8;"	d
 PLATFORM_ASSERT	scintilla\include\Platform.h	511;"	d
 PLATFORM_ASSERT	scintilla\include\Platform.h	513;"	d
 PLATFORM_H	scintilla\include\Platform.h	10;"	d
@@ -6108,13 +6101,6 @@ QRectFFromPRect	scintilla\qt\ScintillaEditBase\PlatQt.h	/^inline QRectF QRectFFr
 QRectFromPRect	scintilla\qt\ScintillaEditBase\PlatQt.h	/^inline QRect QRectFromPRect(PRectangle pr)$/;"	f	namespace:Scintilla	signature:(PRectangle pr)
 Q_WS_MAC	scintilla\qt\ScintillaEditBase\ScintillaEditBase.cpp	35;"	d	file:
 Q_WS_X11	scintilla\qt\ScintillaEditBase\ScintillaEditBase.cpp	39;"	d	file:
-QuartzFont	scintilla\cocoa\QuartzTextStyleAttribute.h	/^	QuartzFont( const char* name, size_t length, float size, int weight, bool italic )$/;"	f	class:QuartzFont	access:public	signature:( const char* name, size_t length, float size, int weight, bool italic )
-QuartzFont	scintilla\cocoa\QuartzTextStyleAttribute.h	/^class QuartzFont$/;"	c
-QuartzTextLayout	scintilla\cocoa\QuartzTextLayout.h	/^    explicit QuartzTextLayout( CGContextRef context )$/;"	f	class:QuartzTextLayout	access:public	signature:( CGContextRef context )
-QuartzTextLayout	scintilla\cocoa\QuartzTextLayout.h	/^class QuartzTextLayout$/;"	c
-QuartzTextStyle	scintilla\cocoa\QuartzTextStyle.h	/^	QuartzTextStyle()$/;"	f	class:QuartzTextStyle	access:public	signature:()
-QuartzTextStyle	scintilla\cocoa\QuartzTextStyle.h	/^	QuartzTextStyle(const QuartzTextStyle &other)$/;"	f	class:QuartzTextStyle	access:public	signature:(const QuartzTextStyle &other)
-QuartzTextStyle	scintilla\cocoa\QuartzTextStyle.h	/^class QuartzTextStyle$/;"	c
 QueryInterface	scintilla\win32\ScintillaWin.cxx	/^STDMETHODIMP ScintillaWin::QueryInterface(REFIID riid, PVOID *ppv) {$/;"	f	class:ScintillaWin	signature:(REFIID riid, PVOID *ppv)
 QueryLuaState	scite\src\LuaExtension.cxx	/^intptr_t  LuaExtension::QueryLuaState(){$/;"	f	class:LuaExtension	signature:()
 QueryLuaState	scite\src\MultiplexExtension.cxx	/^intptr_t MultiplexExtension::QueryLuaState() {$/;"	f	class:MultiplexExtension	signature:()
@@ -9622,7 +9608,6 @@ Sci_Rectangle	scintilla\include\Scintilla.h	/^struct Sci_Rectangle {$/;"	s
 Sci_SurfaceID	scintilla\include\Scintilla.h	/^typedef void *Sci_SurfaceID;$/;"	t
 Sci_TextRange	scintilla\include\Scintilla.h	/^struct Sci_TextRange {$/;"	s
 Sci_TextToFind	scintilla\include\Scintilla.h	/^struct Sci_TextToFind {$/;"	s
-Scintilla	scintilla\cocoa\PlatCocoa.h	/^namespace Scintilla {$/;"	n
 Scintilla	scintilla\cocoa\ScintillaCocoa.h	/^namespace Scintilla {$/;"	n
 Scintilla	scintilla\curses\jinx\jinx.c	/^typedef void Scintilla;$/;"	t	file:
 Scintilla	scintilla\gtk\Converter.h	/^namespace Scintilla {$/;"	n
@@ -10517,7 +10502,6 @@ SurfaceD2D	scintilla\win32\PlatWin.cxx	/^class SurfaceD2D : public Surface {$/;"
 SurfaceGDI	scintilla\win32\PlatWin.cxx	/^SurfaceGDI::SurfaceGDI() :$/;"	f	class:Scintilla::SurfaceGDI	signature:()
 SurfaceGDI	scintilla\win32\PlatWin.cxx	/^class SurfaceGDI : public Surface {$/;"	c	namespace:Scintilla	file:	inherits:Surface
 SurfaceID	scintilla\include\Platform.h	/^typedef void *SurfaceID;$/;"	t	namespace:Scintilla
-SurfaceImpl	scintilla\cocoa\PlatCocoa.h	/^class SurfaceImpl : public Surface$/;"	c	namespace:Scintilla	inherits:Surface
 SurfaceImpl	scintilla\curses\ScintillaCurses.cxx	/^  SurfaceImpl() : win(0) {}$/;"	f	class:SurfaceImpl	access:public	signature:()
 SurfaceImpl	scintilla\curses\ScintillaCurses.cxx	/^class SurfaceImpl : public Surface {$/;"	c	file:	inherits:Surface
 SurfaceImpl	scintilla\gtk\PlatGTK.cxx	/^SurfaceImpl::SurfaceImpl() : et(singleByte),$/;"	f	class:SurfaceImpl	signature:()
@@ -11408,9 +11392,6 @@ _	scintilla\test\unit\catch.hpp	/^    UnpositionalTag _;$/;"	m	namespace:Clara
 _CRT_SECURE_NO_WARNINGS	scintilla\lua\src\lprefix.h	39;"	d
 _FILE_OFFSET_BITS	scintilla\lua\src\lprefix.h	27;"	d
 _LARGEFILE_SOURCE	scintilla\lua\src\lprefix.h	26;"	d
-_QUARTZ_TEXT_LAYOUT_H	scintilla\cocoa\QuartzTextLayout.h	12;"	d
-_QUARTZ_TEXT_STYLE_ATTRIBUTE_H	scintilla\cocoa\QuartzTextStyleAttribute.h	13;"	d
-_QUARTZ_TEXT_STYLE_H	scintilla\cocoa\QuartzTextStyle.h	9;"	d
 _ScintillaClass	scintilla\include\ScintillaWidget.h	/^struct _ScintillaClass {$/;"	s
 _ScintillaObject	scintilla\include\ScintillaWidget.h	/^struct _ScintillaObject {$/;"	s
 _SetQtIncludeBase	scintilla\qt\ScintillaEditPy\sepbuild.py	/^	def _SetQtIncludeBase(self, base):$/;"	m	class:SepBuilder	access:public
@@ -11750,10 +11731,7 @@ bit2mask	scintilla\lua\src\lgc.h	71;"	d
 bitarr	scintilla\src\RESearch.cxx	/^static const char bitarr[] = { 1, 2, 4, 8, 16, 32, 64, '\\200' };$/;"	v	file:
 bitlib	scintilla\lua\src\lbitlib.c	/^static const luaL_Reg bitlib[] = {$/;"	v	file:
 bitmap	scintilla\win32\PlatWin.cxx	/^	HBITMAP bitmap;$/;"	m	class:Scintilla::SurfaceGDI	file:	access:private
-bitmapData	scintilla\cocoa\PlatCocoa.h	/^  std::unique_ptr<uint8_t[]> bitmapData;$/;"	m	class:Scintilla::SurfaceImpl	access:private
-bitmapHeight	scintilla\cocoa\PlatCocoa.h	/^  int bitmapHeight;$/;"	m	class:Scintilla::SurfaceImpl	access:private
 bitmapOld	scintilla\win32\PlatWin.cxx	/^	HBITMAP bitmapOld;$/;"	m	class:Scintilla::SurfaceGDI	file:	access:private
-bitmapWidth	scintilla\cocoa\PlatCocoa.h	/^  int bitmapWidth;$/;"	m	class:Scintilla::SurfaceImpl	access:private
 bitmask	scintilla\lua\src\lgc.h	70;"	d
 bittab	scintilla\src\RESearch.h	/^	unsigned char bittab[BITBLK]; \/* bit table for CCL pre-set bits *\/$/;"	m	class:Scintilla::RESearch	access:private
 bl	scintilla\lua\src\lparser.h	/^  struct BlockCnt *bl;  \/* chain of current blocks *\/$/;"	m	struct:FuncState	typeref:struct:FuncState::BlockCnt	access:public
@@ -12045,7 +12023,6 @@ charSet	scintilla\gtk\ScintillaGTK.cxx	/^	const char *charSet;$/;"	m	class:CaseF
 character	scintilla\src\CaseConvert.cxx	/^		int character;$/;"	m	struct:__anon65::CaseConverter::CharacterConversion	file:	access:public
 character	scintilla\src\Document.h	/^		unsigned int character;$/;"	m	struct:Scintilla::Document::CharacterExtracted	access:public
 characterIndex	scintilla\src\Document.cxx	/^	size_t characterIndex;$/;"	m	class:__anon68::UTF8Iterator	file:	access:private
-characterSet	scintilla\cocoa\QuartzTextStyle.h	/^	int characterSet;$/;"	m	class:QuartzTextStyle	access:private
 characterSet	scintilla\gtk\PlatGTK.cxx	/^	int characterSet;$/;"	m	class:FontHandle	file:	access:public
 characterSet	scintilla\gtk\PlatGTK.cxx	/^	int characterSet;$/;"	m	class:Scintilla::SurfaceImpl	file:	access:private
 characterSet	scintilla\include\Platform.h	/^	int characterSet;$/;"	m	struct:Scintilla::FontParameters	access:public
@@ -12217,7 +12194,6 @@ code	scintilla\include\Scintilla.h	/^	unsigned int code;$/;"	m	struct:Sci_Notify
 code	scintilla\lua\src\lobject.h	/^  Instruction *code;  \/* opcodes *\/$/;"	m	struct:Proto	access:public
 code	scintilla\lua\src\lptree.h	/^  union Instruction *code;$/;"	m	struct:Pattern	typeref:union:Pattern::Instruction	access:public
 code	scintilla\lua\src\lpvm.h	/^    byte code;$/;"	m	struct:Instruction::Inst	access:public
-codePage	scintilla\cocoa\PlatCocoa.h	/^  int codePage;$/;"	m	class:Scintilla::SurfaceImpl	access:private
 codePage	scintilla\lexlib\LexAccessor.h	/^	int codePage;$/;"	m	class:Scintilla::LexAccessor	access:private
 codePage	scintilla\qt\ScintillaEditBase\PlatQt.h	/^	int codePage;$/;"	m	class:Scintilla::SurfaceImpl	access:private
 codePage	scintilla\src\CallTip.h	/^	int codePage;$/;"	m	class:Scintilla::CallTip	access:public
@@ -12680,7 +12656,6 @@ dragWasDropped	scintilla\gtk\ScintillaGTK.h	/^	bool dragWasDropped;$/;"	m	class:
 dragWasDropped	scintilla\qt\ScintillaEditBase\ScintillaQt.h	/^	bool dragWasDropped;$/;"	m	class:Scintilla::ScintillaQt	access:private
 draggingHScrollBar	scintilla\curses\ScintillaCurses.cxx	/^  bool draggingVScrollBar, draggingHScrollBar; \/\/ a scrollbar is being dragged$/;"	m	class:ScintillaCurses	file:	access:private
 draggingVScrollBar	scintilla\curses\ScintillaCurses.cxx	/^  bool draggingVScrollBar, draggingHScrollBar; \/\/ a scrollbar is being dragged$/;"	m	class:ScintillaCurses	file:	access:private
-draw	scintilla\cocoa\QuartzTextLayout.h	/^    void draw( float x, float y )$/;"	f	class:QuartzTextLayout	access:public	signature:( float x, float y )
 drawAll	scintilla\src\EditView.h	/^	drawAll = 0x1FF$/;"	e	enum:Scintilla::DrawPhase
 drawBack	scintilla\src\EditView.h	/^	drawBack = 0x1,$/;"	e	enum:Scintilla::DrawPhase
 drawCarets	scintilla\src\EditView.h	/^	drawCarets = 0x100,$/;"	e	enum:Scintilla::DrawPhase
@@ -13181,7 +13156,6 @@ fontCopy	scintilla\win32\PlatWin.cxx	/^	FontID fontCopy;$/;"	m	class:Scintilla::
 fontName	scintilla\src\Style.h	/^	const char *fontName;$/;"	m	struct:Scintilla::FontSpecification	access:public
 fontNames	scintilla\src\ViewStyle.h	/^	FontNames fontNames;$/;"	m	class:Scintilla::ViewStyle	access:private
 fontOld	scintilla\win32\PlatWin.cxx	/^	HFONT fontOld;$/;"	m	class:Scintilla::SurfaceGDI	file:	access:private
-fontRef	scintilla\cocoa\QuartzTextStyle.h	/^	CTFontRef fontRef;$/;"	m	class:QuartzTextStyle	access:private
 fontTabs	scite\win32\SciteWin.h	/^	HFONT fontTabs;$/;"	m	class:SciTEWin	access:protected
 fontText	scite\win32\Strips.h	/^	HFONT fontText;$/;"	m	class:Strip	access:protected
 fontid	scintilla\cocoa\QuartzTextStyleAttribute.h	/^	CTFontRef fontid;$/;"	m	class:QuartzFont	access:private
@@ -13294,8 +13268,6 @@ g_marshal_value_peek_variant	scintilla\gtk\scintilla-marshal.c	46;"	d	file:
 g_read	scintilla\lua\src\liolib.c	/^static int g_read (lua_State *L, FILE *f, int first) {$/;"	f	file:	signature:(lua_State *L, FILE *f, int first)
 g_write	scintilla\lua\src\liolib.c	/^static int g_write (lua_State *L, FILE *f, int arg) {$/;"	f	file:	signature:(lua_State *L, FILE *f, int arg)
 gapLength	scintilla\src\SplitVector.h	/^	ptrdiff_t gapLength;	\/\/\/ invariant: gapLength == body.size() - lengthBody$/;"	m	class:Scintilla::SplitVector	access:protected
-gc	scintilla\cocoa\PlatCocoa.h	/^  CGContextRef gc;$/;"	m	class:Scintilla::SurfaceImpl	access:private
-gc	scintilla\cocoa\QuartzTextLayout.h	/^    CGContextRef gc;$/;"	m	class:QuartzTextLayout	access:private
 gc	scintilla\lua\src\lobject.h	/^  GCObject *gc;    \/* collectable objects *\/$/;"	m	union:Value	access:public
 gc	scintilla\lua\src\lstate.h	/^  GCObject gc;  \/* common header *\/$/;"	m	union:GCUnion	access:public
 gcfinnum	scintilla\lua\src\lstate.h	/^  unsigned int gcfinnum;  \/* number of finalizers to call in each GC step *\/$/;"	m	struct:global_State	access:public
@@ -13327,20 +13299,15 @@ get	scite\src\Utf8_16.h	/^	utf8 get() const {$/;"	f	class:Utf16_Iter	access:publ
 getAllNonHiddenTests	scintilla\test\unit\catch.hpp	/^        virtual std::vector<TestCase> const& getAllNonHiddenTests() const {$/;"	f	class:Catch::TestRegistry::std	access:public	signature:() const
 getAllTests	scintilla\test\unit\catch.hpp	/^        virtual std::vector<TestCase> const& getAllTests() const {$/;"	f	class:Catch::TestRegistry::std	access:public	signature:() const
 getAnnotation	scintilla\test\unit\catch.hpp	/^        inline std::string getAnnotation(   Class cls,$/;"	f	namespace:Catch::Detail	signature:( Class cls, std::string const& annotationName, std::string const& testCaseName )
-getAscent	scintilla\cocoa\QuartzTextStyle.h	/^	float getAscent() const$/;"	f	class:QuartzTextStyle	access:public	signature:() const
 getBMode	scintilla\lua\src\lopcodes.h	284;"	d
 getBashNumberBase	scintilla\lexers\LexBash.cxx	/^inline int getBashNumberBase(char *s) {$/;"	f	namespace:__anon11	signature:(char *s)
 getCMode	scintilla\lua\src\lopcodes.h	285;"	d
-getCTLine	scintilla\cocoa\QuartzTextLayout.h	/^    CTLineRef getCTLine() {$/;"	f	class:QuartzTextLayout	access:public	signature:()
-getCTStyle	scintilla\cocoa\QuartzTextStyle.h	/^	CFMutableDictionaryRef getCTStyle() const$/;"	f	class:QuartzTextStyle	access:public	signature:() const
-getCharacterSet	scintilla\cocoa\QuartzTextStyle.h	/^	int getCharacterSet()$/;"	f	class:QuartzTextStyle	access:public	signature:()
 getConfig	scintilla\test\unit\catch.hpp	/^        virtual Ptr<IConfig const> getConfig() const {$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::Context	access:public	signature:() const
 getCurrentContext	scintilla\test\unit\catch.hpp	/^    IContext& getCurrentContext() {$/;"	f	namespace:Catch::ExceptionTranslatorRegistry::Catch	signature:()
 getCurrentIndex	scintilla\test\unit\catch.hpp	/^        std::size_t getCurrentIndex() const {$/;"	f	struct:Catch::ExceptionTranslatorRegistry::Catch::GeneratorInfo	access:public	signature:() const
 getCurrentMutableContext	scintilla\test\unit\catch.hpp	/^    IMutableContext& getCurrentMutableContext() {$/;"	f	namespace:Catch::ExceptionTranslatorRegistry::Catch	signature:()
 getCurrentTestName	scintilla\test\unit\catch.hpp	/^        virtual std::string getCurrentTestName() const {$/;"	f	class:Catch::RunContext	access:private	signature:() const
 getCurrentTicks	scintilla\test\unit\catch.hpp	/^        uint64_t getCurrentTicks() {$/;"	f	namespace:Catch::ExceptionTranslatorRegistry::Catch::__anon101	signature:()
-getDescent	scintilla\cocoa\QuartzTextStyle.h	/^	float getDescent() const$/;"	f	class:QuartzTextStyle	access:public	signature:() const
 getDescription	scintilla\test\unit\catch.hpp	/^            virtual std::string getDescription() const {$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::LegacyReporterRegistrar::ReporterFactory	access:private	signature:() const
 getDescription	scintilla\test\unit\catch.hpp	/^            virtual std::string getDescription() const {$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::ReporterRegistrar::ReporterFactory	access:private	signature:() const
 getDescription	scintilla\test\unit\catch.hpp	/^        static std::string getDescription() {$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::JunitReporter	access:public	signature:()
@@ -13357,13 +13324,10 @@ getF	scintilla\lua\src\lauxlib.c	/^static const char *getF (lua_State *L, void *
 getFactories	scintilla\test\unit\catch.hpp	/^        FactoryMap const& getFactories() const {$/;"	f	class:Catch::ReporterRegistry	access:public	signature:() const
 getFilename	scintilla\test\unit\catch.hpp	/^        std::string const& getFilename() const {$/;"	f	class:Catch::Config::std	access:public	signature:() const
 getFilteredTests	scintilla\test\unit\catch.hpp	/^        virtual void getFilteredTests( TestSpec const& testSpec, IConfig const& config, std::vector<TestCase>& matchingTestCases ) const {$/;"	f	class:Catch::TestRegistry	access:public	signature:( TestSpec const& testSpec, IConfig const& config, std::vector<TestCase>& matchingTestCases ) const
-getFontID	scintilla\cocoa\QuartzTextStyleAttribute.h	/^	CTFontRef getFontID()$/;"	f	class:QuartzFont	access:public	signature:()
-getFontRef	scintilla\cocoa\QuartzTextStyle.h	/^	CTFontRef getFontRef()$/;"	f	class:QuartzTextStyle	access:public	signature:()
 getGeneratorIndex	scintilla\test\unit\catch.hpp	/^        virtual size_t getGeneratorIndex( std::string const& fileInfo, size_t totalSize ) {$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::Context	access:public	signature:( std::string const& fileInfo, size_t totalSize )
 getGeneratorInfo	scintilla\test\unit\catch.hpp	/^        IGeneratorInfo& getGeneratorInfo( std::string const& fileInfo, std::size_t size ) {$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::GeneratorsForTest	access:public	signature:( std::string const& fileInfo, std::size_t size )
 getGeneratorsForCurrentTest	scintilla\test\unit\catch.hpp	/^        IGeneratorsForTest& getGeneratorsForCurrentTest() {$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::Context	access:private	signature:()
 getLastResult	scintilla\test\unit\catch.hpp	/^        virtual const AssertionResult* getLastResult() const {$/;"	f	class:Catch::RunContext	access:private	signature:() const
-getLeading	scintilla\cocoa\QuartzTextStyle.h	/^	float getLeading() const$/;"	f	class:QuartzTextStyle	access:public	signature:() const
 getMessage	scintilla\test\unit\catch.hpp	/^    std::string AssertionResult::getMessage() const {$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::AssertionResult	signature:() const
 getMode	scintilla\lexers\LexLaTeX.cxx	/^	int getMode(Sci_Position line) {$/;"	f	class:LexerLaTeX	file:	access:private	signature:(Sci_Position line)
 getMutableRegistryHub	scintilla\test\unit\catch.hpp	/^    IMutableRegistryHub& getMutableRegistryHub() {$/;"	f	namespace:Catch::ExceptionTranslatorRegistry::Catch	signature:()
@@ -13398,7 +13362,6 @@ getRunner	scintilla\test\unit\catch.hpp	/^        virtual IRunner* getRunner() {
 getS	scintilla\lua\src\lauxlib.c	/^static const char *getS (lua_State *L, void *ud, size_t *size) {$/;"	f	file:	signature:(lua_State *L, void *ud, size_t *size)
 getSave	scintilla\lexers\LexLaTeX.cxx	/^	void getSave(Sci_Position line, latexFoldSave &save) {$/;"	f	class:LexerLaTeX	file:	access:private	signature:(Sci_Position line, latexFoldSave &save)
 getSourceInfo	scintilla\test\unit\catch.hpp	/^    SourceLineInfo AssertionResult::getSourceInfo() const {$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::AssertionResult	signature:() const
-getStringLength	scintilla\cocoa\QuartzTextLayout.h	/^    CFIndex getStringLength() {$/;"	f	class:QuartzTextLayout	access:public	signature:()
 getTestCaseInfo	scintilla\test\unit\catch.hpp	/^    TestCaseInfo const& TestCase::getTestCaseInfo() const$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::TestCase	signature:() const
 getTestCaseRegistry	scintilla\test\unit\catch.hpp	/^            virtual ITestCaseRegistry const& getTestCaseRegistry() const {$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::__anon97::RegistryHub	access:public	signature:() const
 getTestMacroName	scintilla\test\unit\catch.hpp	/^    std::string AssertionResult::getTestMacroName() const {$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::AssertionResult	signature:() const
@@ -15314,10 +15277,8 @@ lzio_c	scintilla\lua\src\lzio.c	7;"	d	file:
 lzio_h	scintilla\lua\src\lzio.h	9;"	d
 m	scintilla\gtk\PlatGTK.cxx	/^	GModule* m;$/;"	m	class:DynamicLibraryImpl	file:	access:protected
 m	scite\gtk\GTKMutex.cxx	/^	GMutex m;$/;"	m	class:GTKMutex	file:	access:private
-mLine	scintilla\cocoa\QuartzTextLayout.h	/^	CTLineRef mLine;$/;"	m	class:QuartzTextLayout	access:private
 mSC	scite\gtk\SciTEGTK.cxx	/^    mSC = GDK_SHIFT_MASK | GDK_CONTROL_MASK$/;"	e	enum:__anon109	file:
 mS_	scite\gtk\SciTEGTK.cxx	/^    mS_ = GDK_SHIFT_MASK,$/;"	e	enum:__anon109	file:
-mString	scintilla\cocoa\QuartzTextLayout.h	/^	CFAttributedStringRef mString;$/;"	m	class:QuartzTextLayout	access:private
 m_ArrayData	scite\src\Containers.h	/^	TList<TYPE, ARG_TYPE> m_ArrayData;$/;"	m	class:TArray	access:protected
 m_C	scite\gtk\SciTEGTK.cxx	/^    m_C = GDK_CONTROL_MASK,$/;"	e	enum:__anon109	file:
 m_Iter16	scite\src\Utf8_16.h	/^	Utf16_Iter m_Iter16;$/;"	m	class:Utf8_16_Read	access:private
@@ -16201,41 +16162,6 @@ output	scite\win32\SciteWin.h	/^	std::string output;$/;"	m	class:CommandWorker	a
 outputFilename	scintilla\test\unit\catch.hpp	/^        std::string outputFilename;$/;"	m	struct:Catch::ConfigData	access:public
 outputScroll	scite\win32\SciteWin.h	/^	int outputScroll;$/;"	m	class:CommandWorker	access:public
 overflow	scintilla\test\unit\catch.hpp	/^        int overflow( int c ) {$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::StreamBufImpl	access:private	signature:( int c )
-override	scintilla\cocoa\PlatCocoa.h	/^                      ColourDesired back) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^                     ColourDesired back) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^                     ColourDesired outline, int alphaOutline, int flags) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  XYPOSITION Ascent(Font &font_) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  XYPOSITION AverageCharWidth(Font &font_) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  XYPOSITION Descent(Font &font_) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  XYPOSITION Height(Font &font_) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  XYPOSITION InternalLeading(Font &font_) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  XYPOSITION WidthChar(Font &font_, char ch) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  XYPOSITION WidthText(Font &font_, const char *s, int len) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  bool Initialised() override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  int DeviceHeightFont(int points) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  int LogPixelsY() override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void Copy(PRectangle rc, Scintilla::Point from, Surface &surfaceSource) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void DrawRGBAImage(PRectangle rc, int width, int height, const unsigned char *pixelsImage) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void DrawTextTransparent(PRectangle rc, Font &font_, XYPOSITION ybase, const char *s, int len, ColourDesired fore) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void Ellipse(PRectangle rc, ColourDesired fore, ColourDesired back) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void FillRectangle(PRectangle rc, ColourDesired back) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void FillRectangle(PRectangle rc, Surface &surfacePattern) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void FlushCachedState() override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void Init(SurfaceID sid, WindowID wid) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void Init(WindowID wid) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void InitPixMap(int width, int height, Surface *surface_, WindowID wid) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void LineTo(int x_, int y_) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void MeasureWidths(Font &font_, const char *s, int len, XYPOSITION *positions) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void MoveTo(int x_, int y_) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void PenColour(ColourDesired fore) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void Polygon(Scintilla::Point *pts, int npts, ColourDesired fore, ColourDesired back) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void RectangleDraw(PRectangle rc, ColourDesired fore, ColourDesired back) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void Release() override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void RoundedRectangle(PRectangle rc, ColourDesired fore, ColourDesired back) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void SetClip(PRectangle rc) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void SetDBCSMode(int codePage_) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  void SetUnicodeMode(bool unicodeMode_) override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
-override	scintilla\cocoa\PlatCocoa.h	/^  ~SurfaceImpl() override;$/;"	m	class:Scintilla::SurfaceImpl	access:public
 override	scintilla\cocoa\ScintillaCocoa.h	/^  CaseFolder *CaseFolderForEncoding() override;$/;"	m	class:Scintilla::ScintillaCocoa	access:protected
 override	scintilla\cocoa\ScintillaCocoa.h	/^  PRectangle GetClientDrawingRectangle() override;$/;"	m	class:Scintilla::ScintillaCocoa	access:protected
 override	scintilla\cocoa\ScintillaCocoa.h	/^  PRectangle GetClientRectangle() const override;$/;"	m	class:Scintilla::ScintillaCocoa	access:protected
@@ -17717,10 +17643,8 @@ setAlpha	scintilla\lexlib\CharacterSet.h	/^		setAlpha=setLower|setUpper,$/;"	e	e
 setAlphaNum	scintilla\lexlib\CharacterSet.h	/^		setAlphaNum=setAlpha|setDigits$/;"	e	enum:Scintilla::CharacterSet::setBase
 setArithmethicOp	scintilla\lexers\LexProgress.cxx	/^   CharacterSet setArithmethicOp;$/;"	m	class:LexerABL	file:	access:private
 setBase	scintilla\lexlib\CharacterSet.h	/^	enum setBase {$/;"	g	class:Scintilla::CharacterSet	access:public
-setCTStyleColor	scintilla\cocoa\QuartzTextStyle.h	/^	void setCTStyleColor(CGColor *inColor)$/;"	f	class:QuartzTextStyle	access:public	signature:(CGColor *inColor)
 setCompactIRI	scintilla\lexers\LexJSON.cxx	/^	CharacterSet setCompactIRI;$/;"	m	struct:CompactIRI	file:	access:public
 setConfig	scintilla\test\unit\catch.hpp	/^        virtual void setConfig( Ptr<IConfig const> const& config ) {$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::Context	access:public	signature:( Ptr<IConfig const> const& config )
-setContext	scintilla\cocoa\QuartzTextLayout.h	/^    inline void setContext (CGContextRef context)$/;"	f	class:QuartzTextLayout	access:public	signature:(CGContextRef context)
 setControlVar	scintilla\lexers\LexPerl.cxx	/^	CharacterSet setControlVar;$/;"	m	class:LexerPerl	file:	access:private
 setDelegate	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^void ListWidget::setDelegate(IListBoxDelegate *lbDelegate)$/;"	f	class:Scintilla::ListWidget	signature:(IListBoxDelegate *lbDelegate)
 setDigits	scintilla\lexlib\CharacterSet.h	/^		setDigits=4,$/;"	e	enum:Scintilla::CharacterSet::setBase
@@ -17735,7 +17659,6 @@ setFlag	scintilla\test\unit\catch.hpp	/^            virtual void setFlag( C& p )
 setFlag	scintilla\test\unit\catch.hpp	/^            virtual void setFlag( C& p ) const {$/;"	f	struct:Clara::Detail::BoundUnaryFunction	access:public	signature:( C& p ) const
 setFlag	scintilla\test\unit\catch.hpp	/^            virtual void setFlag( C& p ) const {$/;"	f	struct:Clara::Detail::BoundUnaryMethod	access:public	signature:( C& p ) const
 setFlag	scintilla\test\unit\catch.hpp	/^            void setFlag( ConfigT& config ) const {$/;"	f	class:Clara::Detail::BoundArgFunction	access:public	signature:( ConfigT& config ) const
-setFontRef	scintilla\cocoa\QuartzTextStyle.h	/^	void setFontRef(CTFontRef inRef, int characterSet_)$/;"	f	class:QuartzTextStyle	access:public	signature:(CTFontRef inRef, int characterSet_)
 setHexDigits	scintilla\lexers\LexCPP.cxx	/^	CharacterSet setHexDigits;$/;"	m	struct:__anon17::EscapeSequence	file:	access:public
 setHexDigits	scintilla\lexers\LexJSON.cxx	/^	CharacterSet setHexDigits;$/;"	m	struct:EscapeSequence	file:	access:public
 setIndent	scintilla\test\unit\catch.hpp	/^        TextAttributes& setIndent( std::size_t _value )         { indent = _value; return *this; }$/;"	f	struct:CLICHE_TBC_TEXT_FORMAT_OUTER_NAMESPACE::Tbc::TextAttributes	access:public	signature:( std::size_t _value )
@@ -17772,7 +17695,6 @@ setStream	scintilla\test\unit\catch.hpp	/^        void setStream( std::ostream& 
 setStreamBuf	scintilla\test\unit\catch.hpp	/^        void setStreamBuf( std::streambuf* buf ) {$/;"	f	class:Catch::Config	access:public	signature:( std::streambuf* buf )
 setTabChar	scintilla\test\unit\catch.hpp	/^        TextAttributes& setTabChar( char _value )               { tabChar = _value; return *this; }$/;"	f	struct:CLICHE_TBC_TEXT_FORMAT_OUTER_NAMESPACE::Tbc::TextAttributes	access:public	signature:( char _value )
 setTabChar	scintilla\test\unit\catch.hpp	/^        TextAttributes& setTabChar( char _value )               { tabChar = _value; return *this; }$/;"	f	struct:STITCH_TBC_TEXT_FORMAT_OUTER_NAMESPACE::Tbc::TextAttributes	access:public	signature:( char _value )
-setText	scintilla\cocoa\QuartzTextLayout.h	/^    inline void setText( const UInt8* buffer, size_t byteLength, CFStringEncoding encoding, const QuartzTextStyle& r )$/;"	f	class:QuartzTextLayout	access:public	signature:( const UInt8* buffer, size_t byteLength, CFStringEncoding encoding, const QuartzTextStyle& r )
 setTextAttribute	scintilla\test\unit\catch.hpp	/^        void setTextAttribute( WORD _textAttribute ) {$/;"	f	class:Catch::ExceptionTranslatorRegistry::Catch::__anon99::Win32ColourImpl	access:private	signature:( WORD _textAttribute )
 setThrowOnUnrecognisedTokens	scintilla\test\unit\catch.hpp	/^        CommandLine& setThrowOnUnrecognisedTokens( bool shouldThrow = true ) {$/;"	f	class:Clara::CommandLine	access:public	signature:( bool shouldThrow = true )
 setURL	scintilla\lexers\LexJSON.cxx	/^	CharacterSet setURL;$/;"	m	class:LexerJSON	file:	access:private
@@ -18169,7 +18091,6 @@ string	scintilla\test\performanceTests.py	/^import os, string, sys, time, unitte
 string	scintilla\test\simpleTests.py	/^		import string$/;"	i
 string	scite\scripts\CheckMentioned.py	/^import re, string, sys$/;"	i
 string	scite\scripts\CheckPropsDoc.py	/^import string$/;"	i
-stringLength	scintilla\cocoa\QuartzTextLayout.h	/^	CFIndex stringLength;$/;"	m	class:QuartzTextLayout	access:private
 stringRep	scintilla\src\PositionCache.h	/^	std::string stringRep;$/;"	m	class:Scintilla::Representation	access:public
 stringcap	scintilla\lua\src\lpcap.c	/^static void stringcap (luaL_Buffer *b, CapState *cs) {$/;"	f	file:	signature:(luaL_Buffer *b, CapState *cs)
 stringsB	scintilla\lexers\LexPython.cxx	/^	bool stringsB;$/;"	m	struct:__anon28::OptionsPython	file:	access:public
@@ -18201,7 +18122,6 @@ styleCheckIdentifier	scintilla\lexers\LexPerl.cxx	/^static int styleCheckIdentif
 styleCheckSubPrototype	scintilla\lexers\LexPerl.cxx	/^static bool styleCheckSubPrototype(LexAccessor &styler, Sci_PositionU bk) {$/;"	f	file:	signature:(LexAccessor &styler, Sci_PositionU bk)
 styleClock	scintilla\src\Document.h	/^	int styleClock;$/;"	m	class:Scintilla::Document	access:private
 styleClock	scintilla\src\PositionCache.h	/^	int styleClock;$/;"	m	class:Scintilla::LineLayoutCache	access:private
-styleDict	scintilla\cocoa\QuartzTextStyle.h	/^	CFMutableDictionaryRef styleDict;$/;"	m	class:QuartzTextStyle	access:private
 styleEnd	scintilla\lexers\LexMake.cxx	/^Sci_PositionU styleEnd; \/\/ Additional sanity checking within ColourHere.$/;"	v
 styleFirst	scintilla\lexlib\SubStyles.h	/^	int styleFirst;$/;"	m	class:Scintilla::SubStyles	access:private
 styleIdleID	scintilla\gtk\ScintillaGTK.h	/^	guint styleIdleID;$/;"	m	class:Scintilla::ScintillaGTK	access:private
@@ -18608,7 +18528,6 @@ textFromRun	scintilla\qt\ScintillaEditPy\sepbuild.py	/^def textFromRun(args):$/;
 textHasChanged	scite\src\SciTEBase.h	/^	bool textHasChanged;$/;"	m	struct:CurrentWordHighlight	access:public
 textInSelection	scite\gtk\SciTEGTK.cxx	/^static const char *textInSelection = "In _Selection";$/;"	v	file:
 textInSelection	scite\win32\Strips.cxx	/^static const char *textInSelection = "In &Selection";$/;"	v	file:
-textLayout	scintilla\cocoa\PlatCocoa.h	/^  std::unique_ptr<QuartzTextLayout> textLayout;$/;"	m	class:Scintilla::SurfaceImpl	access:private
 textMarkAll	scite\gtk\SciTEGTK.cxx	/^static const char *textMarkAll = "_Mark All";$/;"	v	file:
 textMarkAll	scite\win32\Strips.cxx	/^static const char *textMarkAll = "&Mark All";$/;"	v	file:
 textMatch	scite\src\MatchMarker.h	/^	std::string textMatch;$/;"	m	class:MatchMarker	access:private
@@ -18876,7 +18795,6 @@ uniStr	scintilla\gtk\ScintillaGTK.cxx	/^	gunichar *uniStr;$/;"	m	class:__anon6::
 uniStrLen	scintilla\gtk\ScintillaGTK.cxx	/^	glong uniStrLen;$/;"	m	class:__anon6::PreEditString	file:	access:public
 uniUTF8	scite\src\Cookie.h	/^    uni8Bit = 0, uni16BE = 1, uni16LE = 2, uniUTF8 = 3,$/;"	e	enum:UniMode
 unicodeIdentifiers	scintilla\lexers\LexPython.cxx	/^	bool unicodeIdentifiers;$/;"	m	struct:__anon28::OptionsPython	file:	access:public
-unicodeMode	scintilla\cocoa\PlatCocoa.h	/^  bool unicodeMode;$/;"	m	class:Scintilla::SurfaceImpl	access:private
 unicodeMode	scintilla\qt\ScintillaEditBase\PlatQt.cpp	/^	bool unicodeMode;$/;"	m	class:Scintilla::ListBoxImpl	file:	access:private
 unicodeMode	scintilla\qt\ScintillaEditBase\PlatQt.h	/^	bool unicodeMode;$/;"	m	class:Scintilla::SurfaceImpl	access:private
 unicodeMode	scintilla\win32\PlatWin.cxx	/^	bool unicodeMode;$/;"	m	class:Scintilla::ListBoxX	file:	access:private
@@ -19024,7 +18942,6 @@ verifygrammar	scintilla\lua\src\lptree.c	/^static void verifygrammar (lua_State 
 verifyrule	scintilla\lua\src\lptree.c	/^static int verifyrule (lua_State *L, TTree *tree, int *passed, int npassed,$/;"	f	file:	signature:(lua_State *L, TTree *tree, int *passed, int npassed, int nullable)
 vers	scite\scripts\makerpms.py	/^vers = open(verFileName)$/;"	v
 version	scintilla\lua\src\lstate.h	/^  const lua_Number *version;  \/* pointer to version number *\/$/;"	m	struct:global_State	access:public
-verticalDeviceResolution	scintilla\cocoa\PlatCocoa.h	/^  int verticalDeviceResolution;$/;"	m	class:Scintilla::SurfaceImpl	access:private
 verticalOffset	scintilla\src\CallTip.h	/^	int verticalOffset; \/\/ pixel offset up or down of the calltip with respect to the line$/;"	m	class:Scintilla::CallTip	access:public
 verticalScrollBarVisible	scintilla\src\Editor.h	/^	bool verticalScrollBarVisible;$/;"	m	class:Scintilla::Editor	access:protected
 verticalScrollBarWidth	scintilla\gtk\ScintillaGTK.h	/^	int verticalScrollBarWidth;$/;"	m	class:Scintilla::ScintillaGTK	access:private
@@ -19280,7 +19197,6 @@ wsVisible	scintilla\src\Editor.h	/^	enum class WrapScope {wsAll, wsVisible, wsId
 wsVisibleAfterIndent	scintilla\src\ViewStyle.h	/^enum WhiteSpaceVisibility {wsInvisible=0, wsVisibleAlways=1, wsVisibleAfterIndent=2, wsVisibleOnlyInIndent=3};$/;"	e	enum:Scintilla::WhiteSpaceVisibility
 wsVisibleAlways	scintilla\src\ViewStyle.h	/^enum WhiteSpaceVisibility {wsInvisible=0, wsVisibleAlways=1, wsVisibleAfterIndent=2, wsVisibleOnlyInIndent=3};$/;"	e	enum:Scintilla::WhiteSpaceVisibility
 wsVisibleOnlyInIndent	scintilla\src\ViewStyle.h	/^enum WhiteSpaceVisibility {wsInvisible=0, wsVisibleAlways=1, wsVisibleAfterIndent=2, wsVisibleOnlyInIndent=3};$/;"	e	enum:Scintilla::WhiteSpaceVisibility
-x	scintilla\cocoa\PlatCocoa.h	/^  float x;$/;"	m	class:Scintilla::SurfaceImpl	access:private
 x	scintilla\gtk\PlatGTK.cxx	/^	int x;$/;"	m	class:Scintilla::SurfaceImpl	file:	access:private
 x	scintilla\include\Platform.h	/^	XYPOSITION x;$/;"	m	class:Scintilla::Point	access:public
 x	scintilla\include\Scintilla.h	/^	int x;			\/* SCN_DWELLSTART, SCN_DWELLEND *\/$/;"	m	struct:SCNotification	access:public
@@ -19300,7 +19216,6 @@ xysDefault	scintilla\src\Editor.h	/^		xysDefault=xysUseMargin|xysVertical|xysHor
 xysHorizontal	scintilla\src\Editor.h	/^		xysHorizontal=0x4,$/;"	e	enum:Scintilla::Editor::XYScrollOptions
 xysUseMargin	scintilla\src\Editor.h	/^		xysUseMargin=0x1,$/;"	e	enum:Scintilla::Editor::XYScrollOptions
 xysVertical	scintilla\src\Editor.h	/^		xysVertical=0x2,$/;"	e	enum:Scintilla::Editor::XYScrollOptions
-y	scintilla\cocoa\PlatCocoa.h	/^  float y;$/;"	m	class:Scintilla::SurfaceImpl	access:private
 y	scintilla\gtk\PlatGTK.cxx	/^	int y;$/;"	m	class:Scintilla::SurfaceImpl	file:	access:private
 y	scintilla\include\Platform.h	/^	XYPOSITION y;$/;"	m	class:Scintilla::Point	access:public
 y	scintilla\include\Scintilla.h	/^	int y;		\/* SCN_DWELLSTART, SCN_DWELLEND *\/$/;"	m	struct:SCNotification	access:public
@@ -19443,8 +19358,6 @@ zoomLevel	scintilla\src\ViewStyle.h	/^	int zoomLevel;$/;"	m	class:Scintilla::Vie
 ~PropSetFile	scite\src\PropSetFile.cxx	/^PropSetFile::~PropSetFile() {$/;"	f	class:PropSetFile	signature:()
 ~PropSetSimple	scintilla\lexlib\PropSetSimple.cxx	/^PropSetSimple::~PropSetSimple() {$/;"	f	class:PropSetSimple	signature:()
 ~Ptr	scintilla\test\unit\catch.hpp	/^        ~Ptr(){$/;"	f	class:Catch::Ptr	access:public	signature:()
-~QuartzTextLayout	scintilla\cocoa\QuartzTextLayout.h	/^    ~QuartzTextLayout()$/;"	f	class:QuartzTextLayout	access:public	signature:()
-~QuartzTextStyle	scintilla\cocoa\QuartzTextStyle.h	/^	~QuartzTextStyle()$/;"	f	class:QuartzTextStyle	access:public	signature:()
 ~RESearch	scintilla\src\RESearch.cxx	/^RESearch::~RESearch() {$/;"	f	class:RESearch	signature:()
 ~RGBAImage	scintilla\src\XPM.cxx	/^RGBAImage::~RGBAImage() {$/;"	f	class:RGBAImage	signature:()
 ~RGBAImageSet	scintilla\src\XPM.cxx	/^RGBAImageSet::~RGBAImageSet() {$/;"	f	class:RGBAImageSet	signature:()

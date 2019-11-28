@@ -1,5 +1,20 @@
 # ~ mySciTE.webdev ~
 
+[28.11.2019] mySciTE.190.xx MartyMcFly (Lua5.1 & Lua5.3)
+  =Maintenance Update=
+- lua: allow using lua "stdlib" extensions within "addons/lua" folder
+- lua: make interpreter callable via os shell "mylua.bat"
+- lua: update libs to current versions
+- lua: add inspect/ luasec (https support) / bk_trees
+- lua: refactor files for SciteDebug / fix debuggerPrompt on sessionEnd
+- lua: Add experimental OnPaneInsert/OnPaneAppend Events
+- lexlpeg: add batch keywords
+- lexmake: fix stray whitespace issues, singleQuotes in UserVars
+- src: Unify sources and dependencies where appropiate within myscite 190.x
+- src: Lua libs build system contrib/lua-extensions
+- themes: finish rebalancing colours for better contrast. 
+
+
 [22.01.2019] mySciTE.190.02 MartyMcFly (Lua5.1 & Lua5.3)
   =Maintenance Release=
 - Upd: scintilla: Update c based lexers to those in current scintilla (4.1.3)

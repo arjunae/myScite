@@ -1,6 +1,6 @@
 ~# mySciTE.webdev -~
 
-[25.11.2019] mySciTE.190.xx MartyMcFly (Lua5.1 & Lua5.3)
+[28.11.2019] mySciTE.190.xx MartyMcFly (Lua5.1 & Lua5.3)
   =Maintenance Update=
 lua: allow using lua "stdlib" extensions within "addons/lua" folder
 lua: make interpreter callable via os shell "mylua.bat"
