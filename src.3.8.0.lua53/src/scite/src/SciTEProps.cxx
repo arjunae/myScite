@@ -125,11 +125,11 @@ void SciTEBase::ReadEnvironment() {
 #endif
 	for (; env&& *env; env++) {
 		char key[1024];
-		char *vx= *env; // Varname's start position 
-		char *vt = strchr(vx, '='); // Values start position
-		if (vt && ((int)(vt - vx) < (int)(sizeof(key)))) { // Validate length 
-			memcpy(key, vx, vt - vx);
-			key[vt - vx] = '\0';
+		char *iz= *env; // Varname's start position 
+		char *vt = strchr(iz, '='); // Values start position
+		if (vt && ((int)(vt - iz) < (int)(sizeof(key)))) { // Validate length 
+			memcpy(key, iz, vt - iz);
+			key[vt - iz] = '\0';
 			propsPlatform.Set(key, vt + 1);
 		}
 	}

@@ -2,8 +2,8 @@
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- AutoComplete by Lexikos. Updates 2017 by Marcedo
 -- Version: 0.9
--- 12.07.17 - Sanity checks for SciTE.
--- 29.11.17 - Documentation, Performance Tweaks
+-- - Sanity checks for SciTE.
+-- - Documentation, Performance Tweaks
 
 --[[
 Tested on SciTE4AutoHotkey 3.0.06.01; may also work on SciTE 3.1.0 or later.

@@ -126,11 +126,11 @@ void SciTEBase::ReadEnvironment() {
 #endif
 	for (; env && *env; env++) {
 		char key[1024];
-		char *vr = *env; 
-		char *vl = strchr(vr, '=');
-		if (vl && (static_cast<int>(vl - vr) < static_cast<int>(sizeof(key)))) {
-			memcpy(key, vr, vl - vr);
-			key[vl - vr] = '\0';
+		char *br = *env; 
+		char *vl = strchr(br, '=');
+		if (vl && (static_cast<int>(vl - br) < static_cast<int>(sizeof(key)))) {
+			memcpy(key, br, vl - br);
+			key[vl - br] = '\0';
 			propsPlatform.Set(key, vl + 1);
 		}
 	}
