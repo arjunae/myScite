@@ -410,17 +410,22 @@ PropSetFile::ReadLineState PropSetFile::ReadLine(const char *lineBuffer, ReadLin
 		rls = (GetInt(expr) != 0) ? rlActive : rlConditionFalse;
 	} else if (isprefix(lineBuffer, "import ") && directoryForImports.IsSet()) {
 		std::string importName(lineBuffer + strlen("import") + 1);
-		if (importName == "*") {
+		size_t starPos=importName.rfind("*");
+		if (std::string::npos!=starPos) { // allow wildcard import from relative pathes
+			importName.erase(starPos,1);
+			importName = Expand(importName.c_str());
+			if (importName[0]==pathSepChar)
+			importName=importName.substr(1,std::string::npos);
+			FilePath importPath(directoryForImports, FilePath(GUI::StringFromUTF8(importName)));
 			// Import all .properties files in this directory except for system properties
 			FilePathSet directories;
 			FilePathSet files;
-			directoryForImports.List(directories, files);
+			importPath.List(directories, files);
 			for (const FilePath &fpFile : files) {
 				if (IsPropertiesFile(fpFile) &&
 					!GenericPropertiesFile(fpFile) &&
 					filter.IsValid(fpFile.BaseName().AsUTF8())) {
-					FilePath importPath(directoryForImports, fpFile);
-					Import(importPath, directoryForImports, filter, imports, depth+1);
+					Import(FilePath(directoryForImports, fpFile), directoryForImports, filter, imports, depth+1);
 				}
 			}
 		} else if (filter.IsValid(importName)) {

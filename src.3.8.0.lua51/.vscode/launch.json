@@ -5,10 +5,10 @@
             "name": "(Windows) Launch",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\release\\SciTE.exe",
+            "program": "${workspaceFolder}\\build\\SciTE.exe",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}\\release",
+            "cwd": "${workspaceFolder}\\build",
             "environment": [],
             "externalConsole": true
         },
@@ -22,7 +22,7 @@
             "environment": [],
             "externalConsole": true,
             "miDebuggerPath": "D:\\apps\\msys64\\mingw32\\bin\\gdb.exe",
-            "program": "${workspaceRoot}\\Release\\SciTE.exe",
+            "program": "${workspaceRoot}\\build\\SciTE.exe",
             "MIMode": "gdb",
             "setupCommands": [
                 {

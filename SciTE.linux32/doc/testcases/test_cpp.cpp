@@ -25,19 +25,15 @@ int main() {
 	char *file_name_plain = (char *)file_name.c_str();
 	char *msg_plain = (char *)msg.c_str();
 	char *test2 = (char *)"--------Test-------";
-
 // out a greeting
-	printf(msg_plain);
-	
+	printf(msg_plain);	
 // check for a file
 	int exists = access((char *)file_name.c_str(), F_OK);
-
 // out result
 	if (exists != -1)
 		printf(" .. found - okay..");
 	else
 		printf(" .. not found - not okay..");
-
 // hmm ..	finally...  lets do some -= ascii_art =- Tetris...
 	mySay((char *)"\n	  ::: \n	::...::  \n");
 }

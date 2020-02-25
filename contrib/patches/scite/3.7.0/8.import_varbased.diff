@@ -1,21 +1,8 @@
 ///@brief Enables: $(var) based import statement. ( import $(var)/sample )
-diff -Nurw scintilla-scite/src/PropSetFile.cxx scite/src/PropSetFile.cxx
---- scintilla-scite/src/PropSetFile.cxx	2017-05-26 00:25:04.000000000 +0200
-+++ scite/src/PropSetFile.cxx	2017-11-08 03:45:32.000000000 +0100
-@@ -424,6 +424,9 @@
- 				}
- 			}
- 		} else if (filter.IsValid(importName)) {
-+				importName = Expand(importName.c_str()); /// Allow using $() Variables
-+				if (importName[0]==pathSepChar)
-+				importName=importName.substr(1,std::string::npos);
- 			importName += ".properties";
- 			FilePath importPath(directoryForImports, FilePath(GUI::StringFromUTF8(importName)));
- 			Import(importPath, directoryForImports, filter, imports, depth+1);
 diff -Nurw scite_orig/src/PropSetFile.cxx scite/src/PropSetFile.cxx
---- scite_orig/src/PropSetFile.cxx	2018-10-10 08:41:21.910964600 +0200
-+++ scite/src/PropSetFile.cxx	2020-02-25 16:28:02.745273200 +0100
-@@ -410,17 +410,22 @@
+--- scite_orig/src/PropSetFile.cxx	2020-02-25 16:43:20.955244900 +0100
++++ scite/src/PropSetFile.cxx	2020-02-25 16:49:39.375693500 +0100
+@@ -394,21 +394,28 @@
  		rls = (GetInt(expr) != 0) ? rlActive : rlConditionFalse;
  	} else if (isprefix(lineBuffer, "import ") && directoryForImports.IsSet()) {
  		std::string importName(lineBuffer + strlen("import") + 1);
@@ -31,8 +18,10 @@ diff -Nurw scite_orig/src/PropSetFile.cxx scite/src/PropSetFile.cxx
  			FilePathSet directories;
  			FilePathSet files;
 -			directoryForImports.List(directories, files);
+-			for (size_t i = 0; i < files.size(); i ++) {
+-				FilePath fpFile = files[i];
 +			importPath.List(directories, files);
- 			for (const FilePath &fpFile : files) {
++			for (const FilePath &fpFile : files) {
  				if (IsPropertiesFile(fpFile) &&
  					!GenericPropertiesFile(fpFile) &&
  					filter.IsValid(fpFile.BaseName().AsUTF8())) {
@@ -42,3 +31,9 @@ diff -Nurw scite_orig/src/PropSetFile.cxx scite/src/PropSetFile.cxx
  				}
  			}
  		} else if (filter.IsValid(importName)) {
++			importName = Expand(importName.c_str());
++			if (importName[0]==pathSepChar)
++			importName=importName.substr(1,std::string::npos);
+ 			importName += ".properties";
+ 			FilePath importPath(directoryForImports, FilePath(GUI::StringFromUTF8(importName)));
+ 			Import(importPath, directoryForImports, filter, imports, depth+1);
