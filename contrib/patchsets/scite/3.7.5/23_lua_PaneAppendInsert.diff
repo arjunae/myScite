@@ -1,0 +1,226 @@
+// choose if a line (eg posted by a script) should be posted on a pane  
+diff -Nurw scite_o/src/LuaExtension.cxx scite/src/LuaExtension.cxx
+--- scite_o/src/LuaExtension.cxx	2020-03-09 09:44:31.461726500 +0100
++++ scite/src/LuaExtension.cxx	2020-03-09 09:47:56.238152600 +0100
+@@ -378,108 +378,6 @@
+ 	return ExtensionAPI::paneOutput; // this line never reached
+ }
+ 
+-static int cf_pane_textrange(lua_State *L) {
+-	const ExtensionAPI::Pane p = check_pane_object(L, 1);
+-
+-	if (lua_gettop(L) >= 3) {
+-		const int cpMin = static_cast<int>(luaL_checknumber(L, 2));
+-		const int cpMax = static_cast<int>(luaL_checknumber(L, 3));
+-
+-		if (cpMax >= 0) {
+-			char *range = host->Range(p, cpMin, cpMax);
+-			if (range) {
+-				lua_pushstring(L, range);
+-				delete []range;
+-				return 1;
+-			}
+-		} else {
+-			raise_error(L, "Invalid argument 2 for <pane>:textrange.  Positive number or zero expected.");
+-		}
+-	} else {
+-		raise_error(L, "Not enough arguments for <pane>:textrange");
+-	}
+-
+-	return 0;
+-}
+-
+-static int cf_pane_insert(lua_State *L) {
+-	const ExtensionAPI::Pane p = check_pane_object(L, 1);
+-	const int pos = luaL_checkint(L, 2);
+-	const char *s = luaL_checkstring(L, 3);
+-	host->Insert(p, pos, s);
+-	DoEvents();
+-	return 0;
+-}
+-
+-static int cf_pane_remove(lua_State *L) {
+-	const ExtensionAPI::Pane p = check_pane_object(L, 1);
+-	const int cpMin = static_cast<int>(luaL_checknumber(L, 2));
+-	const int cpMax = static_cast<int>(luaL_checknumber(L, 3));
+-	host->Remove(p, cpMin, cpMax);
+-	DoEvents();
+-	return 0;
+-}
+-
+-static int cf_pane_append(lua_State *L) {
+-	const ExtensionAPI::Pane p = check_pane_object(L, 1);
+-	const char *s = luaL_checkstring(L, 2);
+-	host->Insert(p, static_cast<int>(host->Send(p, SCI_GETLENGTH, 0, 0)), s);
+-	DoEvents();
+-	return 0;
+-}
+-
+-static int cf_pane_findtext(lua_State *L) {
+-	const ExtensionAPI::Pane p = check_pane_object(L, 1);
+-
+-	const int nArgs = lua_gettop(L);
+-
+-	const char *t = luaL_checkstring(L, 2);
+-	bool hasError = (!t);
+-
+-	if (!hasError) {
+-		Sci_TextToFind ft = {{0, 0}, 0, {0, 0}};
+-
+-		ft.lpstrText = t;
+-
+-		const int flags = (nArgs > 2) ? luaL_checkint(L, 3) : 0;
+-		hasError = (flags == 0 && lua_gettop(L) > nArgs);
+-
+-		if (!hasError) {
+-			if (nArgs > 3) {
+-				ft.chrg.cpMin = static_cast<int>(luaL_checkint(L, 4));
+-				hasError = (lua_gettop(L) > nArgs);
+-			}
+-		}
+-
+-		if (!hasError) {
+-			if (nArgs > 4) {
+-				ft.chrg.cpMax = static_cast<int>(luaL_checkint(L, 5));
+-				hasError = (lua_gettop(L) > nArgs);
+-			} else {
+-				ft.chrg.cpMax = static_cast<long>(host->Send(p, SCI_GETLENGTH, 0, 0));
+-			}
+-		}
+-
+-		if (!hasError) {
+-			const sptr_t result = host->Send(p, SCI_FINDTEXT, static_cast<uptr_t>(flags), SptrFromPointer(&ft));
+-			if (result >= 0) {
+-				lua_pushinteger(L, static_cast<int>(ft.chrgText.cpMin));
+-				lua_pushinteger(L, static_cast<int>(ft.chrgText.cpMax));
+-				return 2;
+-			} else {
+-				lua_pushnil(L);
+-				return 1;
+-			}
+-		}
+-	}
+-
+-	if (hasError) {
+-		raise_error(L, "Invalid arguments for <pane>:findtext");
+-	}
+-
+-	return 0;
+-}
+-
+ // Pane match generator.  This was prototyped in about 30 lines of Lua.
+ // I hope the C++ version is more robust at least, e.g. prevents infinite
+ // loops and is more tamper-resistant.
+@@ -887,6 +785,113 @@
+ 	return handled;
+ }
+ 
++static int cf_pane_textrange(lua_State *L) {
++	const ExtensionAPI::Pane p = check_pane_object(L, 1);
++
++	if (lua_gettop(L) >= 3) {
++		const int cpMin = static_cast<int>(luaL_checknumber(L, 2));
++		const int cpMax = static_cast<int>(luaL_checknumber(L, 3));
++
++		if (cpMax >= 0) {
++			char *range = host->Range(p, cpMin, cpMax);
++			if (range) {
++				lua_pushstring(L, range);
++				delete []range;
++				return 1;
++			}
++		} else {
++			raise_error(L, "Invalid argument 2 for <pane>:textrange.  Positive number or zero expected.");
++		}
++	} else {
++		raise_error(L, "Not enough arguments for <pane>:textrange");
++	}
++
++	return 0;
++}
++
++static int cf_pane_insert(lua_State *L) {
++	const ExtensionAPI::Pane p = check_pane_object(L, 1);
++	const int pos = luaL_checkint(L, 2);
++	const char *s = luaL_checkstring(L, 3);
++	// Signal an Event to lua. If it returns false, dont append the string.
++	bool result=CallNamedFunction("OnPaneInsert",p,s);
++	if(!result) host->Insert(p, pos, s);
++	host->Insert(p, pos, s);
++	DoEvents();
++	return 0;
++}
++
++static int cf_pane_remove(lua_State *L) {
++	const ExtensionAPI::Pane p = check_pane_object(L, 1);
++	const int cpMin = static_cast<int>(luaL_checknumber(L, 2));
++	const int cpMax = static_cast<int>(luaL_checknumber(L, 3));
++	host->Remove(p, cpMin, cpMax);
++	DoEvents();
++	return 0;
++}
++
++static int cf_pane_append(lua_State *L) {
++	const ExtensionAPI::Pane p = check_pane_object(L, 1);
++	const char *s = luaL_checkstring(L, 2);
++	// Signal an Event to lua. If it returns false, dont append the string.
++	bool result=CallNamedFunction("OnPaneAppend",p,s);
++	if(!result) host->Insert(p, static_cast<int>(host->Send(p, SCI_GETLENGTH, 0, 0)), s);
++	DoEvents();
++	return 0;
++}
++
++static int cf_pane_findtext(lua_State *L) {
++	const ExtensionAPI::Pane p = check_pane_object(L, 1);
++
++	const int nArgs = lua_gettop(L);
++
++	const char *t = luaL_checkstring(L, 2);
++	bool hasError = (!t);
++
++	if (!hasError) {
++		Sci_TextToFind ft = {{0, 0}, 0, {0, 0}};
++
++		ft.lpstrText = t;
++
++		const int flags = (nArgs > 2) ? luaL_checkint(L, 3) : 0;
++		hasError = (flags == 0 && lua_gettop(L) > nArgs);
++
++		if (!hasError) {
++			if (nArgs > 3) {
++				ft.chrg.cpMin = static_cast<int>(luaL_checkint(L, 4));
++				hasError = (lua_gettop(L) > nArgs);
++			}
++		}
++
++		if (!hasError) {
++			if (nArgs > 4) {
++				ft.chrg.cpMax = static_cast<int>(luaL_checkint(L, 5));
++				hasError = (lua_gettop(L) > nArgs);
++			} else {
++				ft.chrg.cpMax = static_cast<long>(host->Send(p, SCI_GETLENGTH, 0, 0));
++			}
++		}
++
++		if (!hasError) {
++			const sptr_t result = host->Send(p, SCI_FINDTEXT, static_cast<uptr_t>(flags), SptrFromPointer(&ft));
++			if (result >= 0) {
++				lua_pushinteger(L, static_cast<int>(ft.chrgText.cpMin));
++				lua_pushinteger(L, static_cast<int>(ft.chrgText.cpMax));
++				return 2;
++			} else {
++				lua_pushnil(L);
++				return 1;
++			}
++		}
++	}
++
++	if (hasError) {
++		raise_error(L, "Invalid arguments for <pane>:findtext");
++	}
++
++	return 0;
++}
++
+ static int iface_function_helper(lua_State *L, const IFaceFunction &func) {
+ 	const ExtensionAPI::Pane p = check_pane_object(L, 1);

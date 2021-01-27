@@ -1,0 +1,13 @@
+// Avoid crash when quiting from script. Backported from http://hg.code.sf.net/p/scintilla/scite/rev/d52b46c804b9
+diff -Nurw scite_orig/win32/SciTEWinBar.cxx scite/win32/SciTEWinBar.cxx
+--- scite_orig/win32/SciTEWinBar.cxx	2019-11-29 11:22:00.232962800 +0100
++++ scite/win32/SciTEWinBar.cxx	2020-03-02 09:51:34.430636200 +0100
+@@ -770,6 +770,8 @@
+ }
+ 
+ void SciTEWin::CheckMenus() {
++    if (!MainHWND())
++		return;
+ // check user toolbar buttons status
+ 	if (props.GetInt("toolbar.visible") != 0) {
+ 		std::string fileNameForExtension = ExtensionFileName();

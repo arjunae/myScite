@@ -7,19 +7,21 @@ setlocal enabledelayedexpansion enableextensions
 set BUILD_TYPE=Release
 
 :: MinGW Path has to be set, otherwise please define here:
-:: set PATH=E:\MinGW\bin;%PATH%;
-
+:: set PATH=E:\apps\msys64\mingw32\bin;%PATH%;
 REM Sanity- Ensure MSys-MinGW availability / Determinate Architecture into %MAKE_ARCH%.
 set MAKE_ARCH=""
-where mingw32-make 1>NUL 2>NUL
+where gcc 1>NUL 2>NUL
 if %ERRORLEVEL%==1 ( goto :err_mingw )
-mingw32-make --version | findstr /M i686 1>NUL 2>NUL
+gcc -dumpmachine | findstr /M i686 1>NUL 2>NUL
 if [%ERRORLEVEL%]==[0] ( SET MAKE_ARCH=win32 && goto :ok_mingw) 
-mingw32-make --version | findstr /M x86_64 1>NUL 2>NUL
+gcc -dumpmachine | findstr /M x86_64 1>NUL 2>NUL
 if [%ERRORLEVEL%]==[0] ( SET MAKE_ARCH=win64 && goto :ok_mingw)
+REM Otherwise, try to deduct make arch from gccs Pathname
+if %MAKE_ARCH% EQU "" ( for /F "tokens=1,2* delims= " %%a in ('where gcc') do ( Set gcc_path=%%a && set instr=!gcc_path:mingw32=! )
+if not !instr!==!gcc_path! ( SET MAKE_ARCH=win32) else ( SET MAKE_ARCH=win64) && goto :ok_mingw)
 if %MAKE_ARCH% EQU "" goto :err_mingw
-:ok_mingw
 
+:ok_mingw
 :: ... use customized CMD Terminal
 if "%1"=="" (
   reg import ..\contrib\TinyTonCMD\TinyTonCMD.reg

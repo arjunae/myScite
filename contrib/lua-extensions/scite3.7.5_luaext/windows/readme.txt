@@ -9,5 +9,5 @@ Usage:
 	-	Its also possible to build a specific lib by starting the make batch within its folder. 
 
 Notes:
-	Rename the clib64 folder to clib for 64Bit builds with Msys2-64
+	Rename the clib64 folder to clib for 64Bit builds with Msys2-64 and put you msys/mingw64 into path instead.	
 	Not perfect, but does the trick.

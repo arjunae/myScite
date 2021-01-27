@@ -1,4 +1,6 @@
 // build@ gcc -g -shared dbgl.c -o dbgl.so
+// 24.01.2021 use luaL_setfuncs instead of luaL_openlib for >=LUA52 following https://github.com/TheLinx/lao/issues/2
+// 25.01.2021 use size_t for len declaration
 #include "lua.h"
 #include "lauxlib.h"
 #include "lualib.h"
@@ -20,11 +22,8 @@ static int c_addr (lua_State *L)
     for (ci = L->ci - 1; ci > L->base_ci; ci--) {
       if (! f_isLua(ci)) {  // C function!
 #else
-    for (ci = L->ci - 1; ci > L->base_ci; ci--) {
-      if (! f_isLua(ci)) {  // C function!
-//     
-//    for (ci = L->ci; ci != NULL; ci = ci->previous) {
-//     if (! isLua(ci)) {  // C function!
+    for (ci = L->ci; ci != NULL; ci = ci->previous) {
+      if (! isLua(ci)) {  // C function!
 #endif
         cl = clvalue(ci->func);	
       	break;
@@ -44,7 +43,8 @@ static int c_addr (lua_State *L)
 void debug_lua_stack(lua_State *L)
 {
     int nstack = lua_gettop(L);
-    int idx,ltype,len;
+    int idx,ltype;
+    size_t len;
     const char* str;
     printf("nstack = %d\n",nstack);
     for (idx = 1; idx <= nstack; idx++) {
@@ -90,6 +90,13 @@ static const struct luaL_Reg dbgl[] = {
 };
 
 int luaopen_dbgl (lua_State *L) {
+#if LUA_VERSION_NUM >= 502
+    lua_newtable(L);
+    luaL_setfuncs(L, dbgl, 0);
+    lua_pushvalue(L, -1);
+    lua_setglobal(L, "dbgl");
+#else
 	luaL_openlib (L, "dbgl", dbgl, 0);
+#endif
 	return 1;
 }

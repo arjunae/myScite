@@ -1,0 +1,45 @@
+/// Override properties set lexer (and so also default ext) for file sizes greater then the given one.
+/// Introduces writeable property max.style.size
+/// Needs 11.scite.ApplyProperties.diff
+diff -Nurw scite/src/SciTEIO.cxx scite_m/src/SciTEIO.cxx
+--- scite/src/SciTEIO.cxx	2018-05-26 00:25:04.000000000 +0200
++++ scite_m/src/SciTEIO.cxx	2019-01-08 14:08:30.000000000 +0100
+@@ -358,21 +358,34 @@
+ void SciTEBase::CompleteOpen(OpenCompletion oc) {
+ 	wEditor.Call(SCI_SETREADONLY, CurrentBuffer()->isReadOnly);
+ 
+-	if (oc != ocSynchronous) {
+-		ReadProperties();
++	// Not quite sure - But at least the place seems to be an adequate one.
++	// Magically switch to the Null Lexer if files Size exeeds a given maximum. 
++	std::string languageOverride;
++	const GUI::gui_string gsFilePath=GUI::StringFromUTF8(props.GetString("FilePath").c_str());
++	FilePath absPath=FilePath(gsFilePath);
++	const long long fileSize = absPath.IsUntitled() ? 0 : absPath.GetFileLength();	
++	const int forceLexNullSize=props.GetInt("max.style.size",10000000);
++	if (fileSize>forceLexNullSize){
++		language="";
++		languageOverride ="x.";
++		wEditor.Call(SCI_SETLEXER, 1);
++		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
++	} else {
++		languageOverride = DiscoverLanguage();
+ 	}
+ 
+ 	if (language == "") {
+-		std::string languageOverride = DiscoverLanguage();
+ 		if (languageOverride.length()) {
+ 			CurrentBuffer()->overrideExtension = languageOverride;
+ 			CurrentBuffer()->lifeState = Buffer::open;
+-			ReadProperties();
++			ReadProperties(true);
+ 			SetIndentSettings();
+ 		}
+ 	}
+ 
++	
+ 	if (oc != ocSynchronous) {
++		ReadProperties(true);
+ 		SetIndentSettings();
+ 		SetEol();
+ 		UpdateBuffersCurrent();

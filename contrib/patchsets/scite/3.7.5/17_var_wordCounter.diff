@@ -1,0 +1,50 @@
+diff -Nurw scite_o/src/MatchMarker.cxx scite/src/MatchMarker.cxx
+--- scite_o/src/MatchMarker.cxx	2017-05-26 00:25:03.000000000 +0200
++++ scite/src/MatchMarker.cxx	2020-03-09 10:55:39.275451400 +0100
+@@ -37,7 +37,7 @@
+ }
+ 
+ MatchMarker::MatchMarker() : 
+-	pSci(0), styleMatch(-1), flagsMatch(0), indicator(0), bookMark(-1) {
++	pSci(0), styleMatch(-1), flagsMatch(0), indicator(0), bookMark(-1),  matchCnt(0) {
+ }
+ 
+ MatchMarker::~MatchMarker() {
+@@ -53,6 +53,7 @@
+ 	styleMatch = styleMatch_;
+ 	indicator = indicator_;
+ 	bookMark = bookMark_;
++	matchCnt=0;
+ 	lineRanges = LinesBreak(pSci);
+ 	// Perform the initial marking immediately to avoid flashing
+ 	Continue();
+@@ -102,6 +104,7 @@
+ 				pSci->Call(SCI_MARKERADD,
+ 					pSci->Call(SCI_LINEFROMPOSITION, posFound), bookMark);
+ 			}
++			matchCnt++;
+ 		}
+ 		if (posEndFound == posFound) {
+ 			// Empty matches are possible for regex
+diff -Nurw scite_o/src/MatchMarker.h scite/src/MatchMarker.h
+--- scite_o/src/MatchMarker.h	2017-05-26 00:25:03.000000000 +0200
++++ scite/src/MatchMarker.h	2020-03-09 10:24:46.756924900 +0100
+@@ -27,6 +27,7 @@
+ 	void StartMatch(GUI::ScintillaWindow *pSci_,
+ 		const std::string &textMatch_, int flagsMatch_, int styleMatch_,
+ 		int indicator_, int bookMark_);
++	int matchCnt; 	
+ 	bool Complete() const;
+ 	void Continue();
+ 	void Stop();
+diff -Nurw scite_o/src/SciTEBase.cxx scite/src/SciTEBase.cxx
+--- scite_o/src/SciTEBase.cxx	2017-05-26 00:25:03.000000000 +0200
++++ scite/src/SciTEBase.cxx	2020-03-09 11:00:35.119857200 +0100
+@@ -759,6 +759,7 @@
+ 		SCFIND_MATCHCASE | SCFIND_WHOLEWORD, selectedStyle,
+ 		indicatorHighlightCurrentWord, -1);
+ 	SetIdler(true);
++	props.SetInteger("highlight.current.word.counter",  matchMarker.matchCnt);
+ }
+ 
+ std::string SciTEBase::GetRangeString(GUI::ScintillaWindow &win, int selStart, int selEnd) {

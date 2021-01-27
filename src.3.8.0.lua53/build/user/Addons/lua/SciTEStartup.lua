@@ -24,8 +24,9 @@ end
 
 myScripts=myHome..dirSep.."Addons"..dirSep.."lua"
 -- Load extman.lua
--- This will automatically run any lua script located in \User\Addons\lua\lua
+-- This will automatically run any lua script located in \User\Addons\lua\lua-scite
 dofile(myScripts..dirSep.."mod-extman"..dirSep.."extman.lua")
+dofile(myScripts..dirSep.."mod-extman"..dirSep.."eventmanager.lua")
 -- Load cTags Browser
 dofile(myScripts..dirSep.."mod-ctags"..dirSep.."ctagsd.lua")
 -- Initialize Project support

@@ -770,6 +770,8 @@ void SciTEWin::EnableAMenuItem(int wIDCheckItem, bool val) {
 }
 
 void SciTEWin::CheckMenus() {
+    if (!MainHWND())
+		return;
 // check user toolbar buttons status
 	if (props.GetInt("toolbar.visible") != 0) {
 		std::string fileNameForExtension = ExtensionFileName();

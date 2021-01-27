@@ -1,0 +1,23 @@
+/// allow using luaRocks and lua.exe
+diff -Nurw scintilla_o/lua/src/luaconf.h scintilla/lua/src/luaconf.h
+--- scintilla_o/lua/src/luaconf.h	2019-01-26 12:00:49.489066500 +0100
++++ scintilla/lua/src/luaconf.h	2020-03-07 13:03:01.379116300 +0100
+@@ -188,14 +188,16 @@
+ ** In Windows, any exclamation mark ('!') in the path is replaced by the
+ ** path of the directory of the executable file of the current process.
+ */
+-#define LUA_LDIR	"!\\lua\\"
++#define LUA_LDIR	"!\\user\\addons\\lua\\lua\\" // luaRocks Dir
+ #define LUA_CDIR	"!\\"
+ #define LUA_SHRDIR	"!\\..\\share\\lua\\" LUA_VDIR "\\"
+ #define LUA_PATH_DEFAULT  \
+ 		LUA_LDIR"?.lua;"  LUA_LDIR"?\\init.lua;" \
+ 		LUA_CDIR"?.lua;"  LUA_CDIR"?\\init.lua;" \
+ 		LUA_SHRDIR"?.lua;" LUA_SHRDIR"?\\init.lua;" \
+-		".\\?.lua;" ".\\?\\init.lua"
++		".\\?.lua;" ".\\?\\init.lua"\
++		"!\\..\\..\\user\\addons\\lua\\lua\\?.lua;" \
++		"!\\..\\..\\user\\addons\\lua\\lua\\?\\init.lua;" // lua.exe linked with scilexer.dll
+ #define LUA_CPATH_DEFAULT \
+ 		LUA_CDIR"?.dll;" \
+ 		LUA_CDIR"..\\lib\\lua\\" LUA_VDIR "\\?.dll;" \

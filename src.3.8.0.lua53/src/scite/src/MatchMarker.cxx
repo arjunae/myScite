@@ -88,10 +88,9 @@ void MatchMarker::Continue() {
 	int posFound = pSci->CallString(
 		SCI_SEARCHINTARGET, textMatch.length(), textMatch.c_str());
 	while (posFound != INVALID_POSITION) {
-		// Limit the search duration to 150 ms. Avoid to freeze editor for huge lines.
-		// testwise adapted, because of generally raised Systems speeds.
+		// Limit the search duration to 140 ms. Avoid to freeze editor for huge lines.
 		// Should make that a configureble Option...
-		if (searchElapsedTime.Duration() > 0.15) { 
+		if (searchElapsedTime.Duration() > 0.14) { 
 			// Clear all indicators because timer has expired.
 			pSci->Call(SCI_INDICATORCLEARRANGE, 0, pSci->Call(SCI_GETLENGTH));
 			lineRanges.clear();

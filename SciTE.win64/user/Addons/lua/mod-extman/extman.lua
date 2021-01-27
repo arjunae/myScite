@@ -9,8 +9,9 @@
 -- scite_OnWord (called when user has entered a word)
 -- scite_OnEditorLine (called when a line is entered into the editor)
 -- scite_OnOutputLine (called when a line is entered into the output pane)
--- 06.05.19 added remove_OnOutputLine(fn) 
 
+-- 09.01.2020 Add Force Parameter to scite_OnOutputLine
+-- If defined, it will remove fn even if it was defined as a "primary_handler"
 
 -- this is an opportunity for you to make regular Lua packages available to SciTE
 --~ package.path = package.path..';C:\\lang\\lua\\lua\\?.lua'
@@ -164,7 +165,6 @@ end
 function OnClick(shft,ctrl,alt)
     return Dispatch4(_Click,shft,ctrl,alt)
 end
-
 
 -- may optionally ask that this handler be immediately
 -- removed after it's called
@@ -394,33 +394,25 @@ function scite_OnEditorLine(fn,rem)
   set_line_handler(fn,rem,_LineEd,on_line_editor_char)
 end
 
---
--- remove a previously added OnOutputLine handler.
--- if that was the only one in, also clear on_line_output_char 
---
-function remove_OnOutputLine(fn)
-        for i,handler in pairs(_LineOut) do
-            if handler==fn then table.remove(_LineOut,i)  end
-        end
-        if (#_LineOut==0) then 
-            scite_OnChar(on_line_output_char,'remove')
-        end    
-end
-
 -- with this scheme, there is a primary handler, and secondary prompt handlers
 -- can temporarily take charge of input. There is only one prompt in charge
 -- at any particular time, however.
 local primary_handler
 
-function scite_OnOutputLine(fn,rem)
+-- 09.01.2020 Add Force Parameter.
+-- If defined, it will remove fn even if it was defined as a "primary_handler"
+function scite_OnOutputLine(fn,rem,force)
     if not rem then
         if not primary_handler then primary_handler = fn end
     end
     _LineOut = {}
     set_line_handler(fn,rem,_LineOut,on_line_output_char)
-    if rem and fn ~= primary_handler then
+    if rem and force then
+       set_line_handler(fn,rem,_LineEd,on_line_output_char)
+    elseif rem and fn ~= primary_handler then
         set_line_handler(primary_handler,false,_LineOut,on_line_output_char)
     end
+
 end
 
 local path_pattern
@@ -469,7 +461,7 @@ end
 if fn then
     fn() -- register spawner
 else
-    --DISABLED: print('cannot load spawner '..err)
+    print('cannot load spawner '..err)
 end
 
 -- a general popen function that uses the spawner library if found; otherwise falls back
@@ -843,7 +835,7 @@ end
 local loaded = {}
 local current_filepath
 
--- this will quietly fail....
+-- this will quietly fail on errors....
 local function silent_dofile(f)
     if scite_FileExists(f) then
         if not loaded[f] then

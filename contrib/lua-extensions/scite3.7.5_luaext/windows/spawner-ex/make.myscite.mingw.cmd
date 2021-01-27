@@ -2,6 +2,7 @@
 REM Init Vars
 set LUA_PLAT=5.1
 set LUA_LIB=-lscilexer
+REM set DEBUG=1
 
 REM Defined here via config.txt 
 FOR /f "tokens=1,2 delims==" %%G in (..\config.txt) do (

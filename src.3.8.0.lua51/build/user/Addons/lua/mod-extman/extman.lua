@@ -10,6 +10,9 @@
 -- scite_OnEditorLine (called when a line is entered into the editor)
 -- scite_OnOutputLine (called when a line is entered into the output pane)
 
+-- 09.01.2020 Add Force Parameter to scite_OnOutputLine
+-- If defined, it will remove fn even if it was defined as a "primary_handler"
+
 -- this is an opportunity for you to make regular Lua packages available to SciTE
 --~ package.path = package.path..';C:\\lang\\lua\\lua\\?.lua'
 --~ package.cpath = package.cpath..';c:\\lang\\lua\\?.dll'
@@ -162,7 +165,6 @@ end
 function OnClick(shft,ctrl,alt)
     return Dispatch4(_Click,shft,ctrl,alt)
 end
-
 
 -- may optionally ask that this handler be immediately
 -- removed after it's called
@@ -397,15 +399,20 @@ end
 -- at any particular time, however.
 local primary_handler
 
-function scite_OnOutputLine(fn,rem)
+-- 09.01.2020 Add Force Parameter.
+-- If defined, it will remove fn even if it was defined as a "primary_handler"
+function scite_OnOutputLine(fn,rem,force)
     if not rem then
         if not primary_handler then primary_handler = fn end
     end
     _LineOut = {}
     set_line_handler(fn,rem,_LineOut,on_line_output_char)
-    if rem and fn ~= primary_handler then
+    if rem and force then
+       set_line_handler(fn,rem,_LineEd,on_line_output_char)
+    elseif rem and fn ~= primary_handler then
         set_line_handler(primary_handler,false,_LineOut,on_line_output_char)
     end
+
 end
 
 local path_pattern
@@ -454,13 +461,15 @@ end
 if fn then
     fn() -- register spawner
 else
-    --DISABLED: print('cannot load spawner '..err)
+    print('cannot load spawner '..err)
 end
 
 -- a general popen function that uses the spawner library if found; otherwise falls back
 -- on os.execute
 function scite_Popen(cmd)
     if spawner then
+        spawner.verbose(scite_GetPropBool('debug.spawner.verbose',true))
+        spawner.fulllines(1)
         return spawner.popen(cmd)
     else
         cmd = cmd..' > '..tempfile
@@ -826,7 +835,7 @@ end
 local loaded = {}
 local current_filepath
 
--- this will quietly fail....
+-- this will quietly fail on errors....
 local function silent_dofile(f)
     if scite_FileExists(f) then
         if not loaded[f] then

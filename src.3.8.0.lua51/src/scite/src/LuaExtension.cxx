@@ -1309,6 +1309,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 		// Don't replace global scope using new_table, because then startup script is
 		// bound to a different copy of the globals than the extension script.
 		clear_table(luaState, LUA_GLOBALSINDEX, true);
+		lua_pop(luaState, 1);
 
 		// Lua 5.1: _LOADED is in LUA_REGISTRYINDEX, so it must be cleared before
 		// loading libraries or they will not load because Lua's package system
@@ -1429,6 +1430,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 			} else {
 				host->Trace(lua_tostring(luaState, -1));
 				host->Trace("\n>Lua: error occured while loading startup script\n");
+				lua_pop(luaState, 1);
 			}
 		}
 	}

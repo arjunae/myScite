@@ -38,9 +38,18 @@ if props["colour.project.enums"]=="" then props["colour.project.enums"]="fore:#3
 -- returns if a given fileNamePath exists
 --
 --~~~~~~~~~~~~~~~~~~~
+--[[
 local function file_exists(name)
    local f=io.open(name,"r")
    if f~=nil then io.close(f) return true else return false end
+end
+]]
+local function file_exists(filename)            -- Tests for file or directory
+    if type(filename)~="string" then
+	    return false
+    end
+    return os.rename(filename,filename) and true or false
+    -- Source: http://stackoverflow.com/questions/4990990/lua-check-if-a-file-exists
 end
 
 --~~~~~~~~~~~~~~~~~~~

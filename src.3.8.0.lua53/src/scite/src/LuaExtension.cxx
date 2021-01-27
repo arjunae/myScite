@@ -35,6 +35,8 @@ extern "C" {
 
 #if (LUA_VERSION_NUM < 502)
 #define lua_pushglobaltable(L) lua_pushvalue(L, LUA_GLOBALSINDEX)
+#undef  lua_getglobal
+#define lua_getglobal(L,s) (lua_getfield(L, LUA_GLOBALSINDEX, s), lua_type(L, -1))
 #else
 #define LUA_GLOBALSINDEX LUA_RIDX_GLOBALS
 #endif
@@ -1273,7 +1275,7 @@ static void PublishGlobalBufferData() {
 // release 1.62
 // A Lua table called 'buffer' is associated with each buffer
 // and can be used to maintain buffer-specific state.
-	lua_pushliteral(luaState, "buffer");
+//	lua_pushliteral(luaState, "buffer");
 	if (curBufferIndex >= 0) {
 		lua_pushliteral(luaState, "SciTE_BufferData_Array");
 		lua_rawget(luaState, LUA_REGISTRYINDEX);
@@ -1359,7 +1361,8 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 
 		lua_pushglobaltable(luaState);
 		clear_table(luaState, -1, true);
-
+		lua_pop(luaState, 1);
+		
 		// Lua 5.1: _LOADED is in LUA_REGISTRYINDEX, so it must be cleared before
 		// loading libraries or they will not load because Lua's package system
 		// thinks they are already loaded
@@ -1479,6 +1482,7 @@ static bool InitGlobalScope(bool checkProperties, bool forceReload = false) {
 			if (result!=0) {
 				host->Trace(lua_tostring(luaState, -1));
 				host->Trace("\n>Lua: error occured while loading startup script\n");
+				lua_pop(luaState, 1);
 			}
 		}
 	}

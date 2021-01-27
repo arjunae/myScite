@@ -7,9 +7,8 @@ scite.SendEditor(SCI_constant, ...) sends a message to the editor pane
 scite.SendOutput(SCI_constant, ...) sends a message to the output pane
 scite.ConstantName(number) returns the symbolic name of a Scintilla / SciTE constant
 scite.MenuCommand(number) executes a SciTE menu command
-scite.UpdateStatusBar(bool=false) updates SciTE statusbar; bool is bUpdateSlowData
-scite.ShowParametersDialog(text)Desc: show parametrs dialog with message (txt) and return result action (only SciTE-Ru)
-scite.UpdateStatusBar([bUpdateSlowData])Desc: perform update status bar
+scite.UpdateStatusBar(bUpdateSlowData) updates SciTE statusbar
+scite.ShowParametersDialog(text)Desc: show parameters dialog with message (txt) and return result action (only SciTE-Ru)
 scite.ReloadStartupScript()Desc: reload startup script
 
 #~-- Methods & Functions
