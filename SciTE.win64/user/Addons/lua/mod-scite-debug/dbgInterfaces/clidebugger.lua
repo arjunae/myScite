@@ -108,11 +108,7 @@ function Clidebug:command_line(target)
 	self.target_dir = props['FileDir']
 	-- Arjunea: Include Scite package paths
 	local ppath = slashify(join(self.clidebug_path,'?.lua;'))
---	local ppath = ppath..slashify(join(scite_GetProp("ext.lua.directory"),'?.lua;'))
---	local pcpath = slashify(join(scite_GetProp("ext.luamodules.directory"),'?.dll;'))
---	local pcpath = pcpath..slashify(join(scite_GetProp("ext.luamodules.directory"),'?.so;'))
---	local startupFile = "startup"
-local res=self.lua..' -e "package.path=\''..ppath..'\'..package.path" -lclidebug '..self.target..' '..self:parameter_string()
+	local res=self.lua..' -e "package.path=\''..ppath..'\'..package.path" -lclidebug '..self.target..' '..self:parameter_string()
 	if ext == 'wlua' then
 		res = 'cmd /c '..res
 	end
@@ -149,7 +145,7 @@ function Clidebug:continue()
 end
 
 function Clidebug:quit()
-	dbg_command('os.exit(0)')
+--	dbg_command('os.exit(0)')
 end
 
 function Clidebug:inspect(word)

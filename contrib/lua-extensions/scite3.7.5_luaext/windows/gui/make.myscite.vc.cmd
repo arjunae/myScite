@@ -1,6 +1,6 @@
 @echo off
 set LUA_PLAT=5.3
-set LUA_LIB=scilexer.lib
+set LUA_LIB=scite.lib
 
 REM set plat=x86
 set plat=x64

@@ -2,7 +2,7 @@
 #LUALIB = -L..\clib\ -lscite
 #LUALIB   = -L..\clib\ -llua5.3
 LUALIB = -L..\..\clib\scite_lua$(LUA_PLAT)\ $(LUA_LIB)
-WARNS32= -Wno-incompatible-pointer-types
+WARNS32= -Wno-incompatible-pointer-types 
 CBASEFLAGS= -s -shared -DLUA_COMPAT_5_1 $(WARNS32)
 
 ifdef DEBUG

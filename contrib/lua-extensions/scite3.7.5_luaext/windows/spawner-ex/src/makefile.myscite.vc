@@ -2,10 +2,9 @@
 # C4100: 'identifier' : unreferenced formal parameter
 # C4189: 'identifier' : local variable is initialized but not referenced
 # C4505: 'function'   : unreferenced local function has been removed
-WARNS  = -wd4100 -wd4189 -wd4505
+#WARNS  = -wd4100 -wd4189 -wd4505
 
-DEFS   = -DLUA_COMPAT_5_1 -D_WINDOWS -DUNICODE -D_USRDLL\
-         -D_CRT_SECURE_NO_DEPRECATE=1 -D_SCL_SECURE_NO_DEPRECATE=1 -D_CRT_NONSTDC_NO_DEPRECATE=1
+DEFS   = -DLUA_COMPAT_5_1 -D_WINDOWS -W0
 !IFDEF DEBUG
 LIBLUA=$(LIBDIR)$(LUA_LIB)
 CFLAGS = -nologo -c -Od  -DDDEBUG /std:c++14 $(DEFS) $(WARNS)
@@ -13,7 +12,7 @@ LFLAGS = -NOLOGO -DLL -DEBUG
 !ELSE
 LIBLUA=$(LIBDIR)$(LUA_LIB)
 #  $(LIBDIR)vclua5.1.lib 
-CFLAGS = -nologo -c  -Os -DNDEBUG /std:c++14 $(DEFS) $(WARNS)
+CFLAGS = -nologo -c -Os -DNDEBUG /std:c++14 $(DEFS) $(WARNS)
 LFLAGS = -NOLOGO -DLL -RELEASE 
 !ENDIF
 
@@ -21,11 +20,25 @@ LUA_INCLUDE = ../../lua/$(LUA_PLAT)/src/
 LIBDIR      = ../../clib/scite_lua$(LUA_PLAT)/
 LIBS        =  $(LIBLUA) advapi32.lib user32.lib
 
+all: spawner-ex.dll dbgl.dll stubby.dll
+
+stubby.dll: stubby.obj
+	link $(LFLAGS) -OUT:stubby.dll $(LIBS) stubby.obj
+
+stubby.obj: stubby.c
+	cl $(CFLAGS) -I$(LUA_INCLUDE) -I$(VS_INCLUDE) -Fo"stubby.obj" stubby.c
+
+dbgl.dll: dbgl.obj
+	link $(LFLAGS) -OUT:dbgl.dll $(LIBS) dbgl.obj
+
+dbgl.obj: win-spawner-ex.c
+	cl $(CFLAGS) -I$(LUA_INCLUDE) -I$(VS_INCLUDE) -Fo"dbgl.obj" dbgl.c
+
 spawner-ex.dll: win-spawner-ex.obj
 	link $(LFLAGS) -OUT:spawner-ex.dll $(LIBS) win-spawner-ex.obj
 
-clean:
-	-del /S *.obj *.exp *.lib 1>NUL
-
 win-spawner-ex.obj: win-spawner-ex.c
 	cl $(CFLAGS) -I$(LUA_INCLUDE) -I$(VS_INCLUDE) -Fo"win-spawner-ex.obj" win-spawner-ex.c
+
+clean:
+	-del /S *.obj *.exp *.lib 1>NUL

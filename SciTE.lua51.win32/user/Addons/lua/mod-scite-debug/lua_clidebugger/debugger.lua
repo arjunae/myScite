@@ -50,7 +50,7 @@
 
 --}}}
 
-local IsWindows = string.find(string.lower(os.getenv('OS') or ''),'^windows')
+local PlatWindows = string.find(string.lower(os.getenv('OS') or ''),'^windows')
 
 local coro_debugger
 local events = { BREAK = 1, WATCH = 2, STEP = 3, SET = 4 }
@@ -715,7 +715,7 @@ end
 local function show(breakfile,breakline,file,line,before,after)
 
   local function basename(filename)
-    return IsWindows
+    return PlatWindows
       and string.gsub(filename, '[^\\]*\\', '')
       or  string.gsub(filename, '[^/]*/', '')
   end
@@ -900,7 +900,7 @@ local function has_breakpoint(file, line)
       if isZero[file] == 1 then isZero[file] = nil end
       return true
     end
-    if IsWindows then
+    if PlatWindows then
       file = string.match(file,"[:/\\](.+)$")
     else
       file = string.match(file,"[:/](.+)$")
@@ -915,7 +915,7 @@ local function has_breakpoint(file, line)
       if isZero[noext] == 1 then isZero[noext] = nil end
       return true
     end
-    if IsWindows then
+    if PlatWindows then
       noext = string.match(noext,"[:/\\](.+)$")
     else
       noext = string.match(noext,"[:/](.+)$")
@@ -983,7 +983,7 @@ local function capture_vars(ref,level,line)
   if string.find(file, "@") == 1 then
     file = string.sub(file, 2)
   end
-  if IsWindows then file = string.lower(file) end
+  if PlatWindows then file = string.lower(file) end
 
   if not line then
     line = getinfo(lvl, "currentline")

@@ -1,6 +1,6 @@
---GDB = true
---{{{  history
 
+--{{{  history
+-- home: https://github.com/stormc/lua-clidebugger
 --15/03/06 DCN Created based on RemDebug
 --28/04/06 DCN Update for Lua 5.1
 --01/06/06 DCN Fix command argument parsing
@@ -20,12 +20,23 @@
 --03/01/07 DCN Add pause on/off facility
 --19/06/07 DCN Allow for duff commands being typed in the debugger (thanks to Michael.Bringmann@lsi.com)
 --             Allow for case sensitive file systems               (thanks to Michael.Bringmann@lsi.com)
+--04/08/09 DCN Add optional line count param to pause
+--05/08/09 DCN Reset the debug hook in Pause() even if we think we're started
+--30/09/09 DCN Re-jig to not use co-routines (makes debugging co-routines awkward)
+--01/10/09 DCN Add ability to break on reaching any line in a file
+--24/07/13 TWW Added code for emulating setfenv/getfenv in Lua 5.2 as per
+--             http://lua-users.org/lists/lua-l/2010-06/msg00313.html
+--25/07/13 TWW Copied Alex Parrill's fix for errors when tracing back across a C frame
+--             (https://github.com/ColonelThirtyTwo/clidebugger, 26/01/12)
+--25/07/13 DCN Allow for windows and unix file name conventions in has_breakpoint
+--26/07/13 DCN Allow for \ being interpreted as an escape inside a [] pattern in 5.2
+--10/02/14 CS  Readline support
 
 --}}}
 --{{{  description
 
 --A simple command line debug system for Lua written by Dave Nichols of
---Match-IT Limited. Its public domain software. Do with it as you wish.
+--Match-IT Limited. It's public domain software. Do with it as you wish.
 
 --This debugger was inspired by:
 -- RemDebug 1.0 Beta
@@ -39,27 +50,7 @@
 
 --}}}
 
-local tinsert = table.insert
-local strfind = string.find
-local strsub = string.sub
-local strlower = string.lower
-local gsub  = string.gsub
-local write = io.write
-local esc = string.char(26)
-local gprefix = esc..esc
-local bpattern
-
-print(GDB,WIN)
-if GDB then
-    require 'dbgl'
-    if WIN then
-      bpattern = '([a-z]:[^:]+):(%d+)'
-    else
-      bpattern = '([^:]+):(%d+)'
-    end
-end
-
-local IsWindows = strfind(strlower(os.getenv('OS') or ''),'^windows')
+local PlatWindows = string.find(string.lower(os.getenv('OS') or ''),'^windows')
 
 local coro_debugger
 local events = { BREAK = 1, WATCH = 2, STEP = 3, SET = 4 }
@@ -71,8 +62,6 @@ local step_lines  = 0
 local step_level  = {main=0}
 local stack_level = {main=0}
 local trace_level = {main=0}
-local step
-local tracing = false
 local trace_calls = false
 local trace_returns = false
 local trace_lines = false
@@ -83,116 +72,550 @@ local pause_off = false
 local _g      = _G
 local cocreate, cowrap = coroutine.create, coroutine.wrap
 local pausemsg = 'pause'
+local unpack = table.unpack or unpack
 
-
-local start_t,msg_t
-
-local function start_timer (msg)
-    start_t = os.clock()
-    msg_t = msg
-end
-
-local ferr = io.stderr
-
-local function errf (fmt,...)
-    ferr:write(fmt:format(...))
-end
-
-local function end_timer ()
-   -- errf("%s: took %7.2f sec\n",msg_t,os.clock()-start_t)
-end
-
-local hints = { }
-
--- Some 'pretty printing' code. In particular, it will try to expand tables, up to
--- a specified number of elements.
--- (Based on ilua)
-local pretty_print_limit = 20
-local max_depth = 7
-local jstack = {}
-local push = tinsert
-local pop = table.remove
-local getn = table.getn
-
-local function is_map_like(tbl)
-	for k,v in pairs(tbl) do
-		if type(k) ~= 'number' then
-			return true
-		end
-	end
-	return false
-end
-
-local function join(tbl,delim,limit,depth)
-    if not limit then limit = pretty_print_limit end
-    if not depth then depth = max_depth end
-    local n = getn(tbl)
-    local res = ''
-    local k = 0
-    -- very important to avoid disgracing ourselves with circular references or
-	-- excessively nested tables...
-    if getn(jstack) > depth then
-        return "..."
+-- readline support if libclidebugger.so is available,
+-- color support if running in a terminal, and
+-- command shortcut support if the terminal is supported
+local libreadline, readline, saveline, rlbinds = {}
+local prompt = ">> "
+local color = {
+        ["black"] = '',
+        ["white"] = '',
+        ["green"] = '',
+        ["blue" ] = '',
+        ["red"  ] = '',
+        ["reset"] = ''
+      }
+if pcall(function() libreadline = require('libclidebugger') end) then
+  readline = libreadline.readline
+  saveline = libreadline.add_history
+  if libreadline.isatty(io.stdout) then
+    color = {
+      ["black"] = '\27[1;30m',
+      ["white"] = '\27[1;37m',
+      ["green"] = '\27[1;32m',
+      ["blue" ] = '\27[1;34m',
+      ["red"  ] = '\27[1;31m',
+      ["reset"] = '\27[0m'
+    }
+    prompt = libreadline.rlpsi .. color.blue .. libreadline.rlpei ..
+             prompt ..
+             libreadline.rlpsi .. color.reset .. libreadline.rlpei ..
+             '\0'
+    libreadline.setprompt(prompt)
+    if string.find(os.getenv("TERM"), "^[u]?rxvt") then
+      rlbinds = {
+        ["help" ] = {["key"]="F1",       ["rlbinding"]='"\\e[11~": "help\\n"'},
+        ["step" ] = {["key"]="F7",       ["rlbinding"]='"\\e[18~": "step\\n"'},
+        ["dump" ] = {["key"]="ALT+F7",   ["rlbinding"]='"\\e\\e[18~": "dump \\t"'},
+        ["over" ] = {["key"]="F8",       ["rlbinding"]='"\\e[19~": "over\\n"'},
+        ["out"  ] = {["key"]="SHIFT+F8", ["rlbinding"]='"\\e[32~": "out\\n"'},
+        ["eval" ] = {["key"]="ALT+F8",   ["rlbinding"]='"\\e\\e[19~": "eval \\t"'},
+        ["listb"] = {["key"]="CTRL+F8",  ["rlbinding"]='"\\e[19^": "listb\\n"'},
+        ["run"  ] = {["key"]="F9",       ["rlbinding"]='"\\e[20~": "run\\n"'},
+        ["show" ] = {["key"]="CTRL+RET", ["rlbinding"]='"\\eQ1;32~": "show\\n"'}
+      }
+      for _, v in pairs(rlbinds) do
+        libreadline.bindkey(v["rlbinding"])
+      end
     end
-    for i,t in ipairs(jstack) do
-        if tbl == t then
-            return "<self>"
+  end
+else
+  readline = function(prompt)
+    -- arjunae -- removed for compatibility with scite_debugs MI
+    --io.write(prompt)
+    return io.read("*line")
+  end
+  saveline = function(s) end
+end
+
+--{{{  make Lua 5.2 compatible
+
+if not setfenv then -- Lua 5.2
+  --[[
+  As far as I can see, the only missing detail of these functions (except
+  for occasional bugs) to achieve 100% compatibility is the case of
+  'getfenv' over a function that does not have an _ENV variable (that is,
+  it uses no globals).
+
+  We could use a weak table to keep the environments of these functions
+  when set by setfenv, but that still misses the case of a function
+  without _ENV that was not subjected to setfenv.
+
+  -- Roberto
+  ]]--
+
+  setfenv = setfenv or function(f, t)
+    f = (type(f) == 'function' and f or debug.getinfo(f + 1, 'f').func)
+    local name
+    local up = 0
+    repeat
+      up = up + 1
+      name = debug.getupvalue(f, up)
+    until name == '_ENV' or name == nil
+    if name then
+      debug.upvaluejoin(f, up, function() return name end, 1) -- use unique upvalue
+      debug.setupvalue(f, up, t)
+    end
+  end
+
+  getfenv = getfenv or function(f)
+    f = (type(f) == 'function' and f or debug.getinfo(f + 1, 'f').func)
+    local name, val
+    local up = 0
+    repeat
+      up = up + 1
+      name, val = debug.getupvalue(f, up)
+    until name == '_ENV' or name == nil
+    return val
+  end
+
+end
+
+--}}}
+
+--{{{  local hints -- command help
+--The format in here is name=summary|description
+local hints = {
+
+pause =   [[
+pause(msg[,lines][,force]) -- start/resume a debugger session|
+
+This can only be used in your code or from the console as a means to
+start/resume a debug session.
+If msg is given that is shown when the session starts/resumes. Useful to
+give a context if you've instrumented your code with pause() statements.
+
+If lines is given, the script pauses after that many lines, else it pauses
+immediately.
+
+If force is true, the pause function is honoured even if poff has been used.
+This is useful when in an interactive console session to regain debugger
+control.
+]],
+
+poff =    [[
+poff                -- turn off pause() command|
+
+This causes all pause() commands to be ignored. This is useful if you have
+instrumented your code in a busy loop and want to continue normal execution
+with no further interruption.
+]],
+
+pon =     [[
+pon                 -- turn on pause() command|
+
+This re-instates honouring the pause() commands you may have instrumented
+your code with.
+]],
+
+setb =    [[
+setb [line file]    -- set a breakpoint to line/file|, line 0 means 'any'
+
+If file is omitted or is "-" the breakpoint is set at the file for the
+currently set level (see "set"). Execution pauses when this line is about
+to be executed and the debugger session is re-activated.
+
+The file can be given as the fully qualified name, partially qualified or
+just the file name. E.g. if file is set as "myfile.lua", then whenever
+execution reaches any file that ends with "myfile.lua" it will pause. If
+no extension is given, any extension will do.
+
+If the line is given as 0, then reaching any line in the file will do.
+]],
+
+delb =    [[
+delb [line file]    -- removes a breakpoint|
+
+If file is omitted or is "-" the breakpoint is removed for the file of the
+currently set level (see "set").
+]],
+
+delallb = [[
+delallb             -- removes all breakpoints|
+]],
+
+setw =    [[
+setw <exp>          -- adds a new watch expression|
+
+The expression is evaluated before each line is executed. If the expression
+yields true then execution is paused and the debugger session re-activated.
+The expression is executed in the context of the line about to be executed.
+]],
+
+delw =    [[
+delw <index>        -- removes the watch expression at index|
+
+The index is that returned when the watch expression was set by setw.
+]],
+
+delallw = [[
+delallw             -- removes all watch expressions|
+]],
+
+run     = [[
+run                 -- run until next breakpoint or watch expression|
+]],
+
+step    = [[
+step [N]            -- run next N lines, stepping into function calls|
+
+If N is omitted, use 1.
+]],
+
+over    = [[
+over [N]            -- run next N lines, stepping over function calls|
+
+If N is omitted, use 1.
+]],
+
+out     = [[
+out [N]             -- run until stepped out of N functions|
+
+If N is omitted, use 1.
+If you are inside a function, using "out 1" will run until you return
+from that function to the caller.
+]],
+
+gotoo   = [[
+gotoo [line file]   -- step to line in file|
+
+This is equivalent to 'setb line file', followed by 'run', followed
+by 'delb line file'.
+]],
+
+listb   = [[
+listb               -- lists breakpoints|
+]],
+
+listw   = [[
+listw               -- lists watch expressions|
+]],
+
+set     = [[
+set [level]         -- set context to stack level, omitted=show|
+
+If level is omitted it just prints the current level set.
+This sets the current context to the level given. This affects the
+context used for several other functions (e.g. vars). The possible
+levels are those shown by trace.
+]],
+
+vars    = [[
+vars [depth]        -- list context locals to depth, omitted=1|
+
+If depth is omitted then uses 1.
+Use a depth of 0 for the maximum.
+Lists all non-nil local variables and all non-nil upvalues in the
+currently set context. For variables that are tables, lists all fields
+to the given depth.
+]],
+
+fenv    = [[
+fenv [depth]        -- list context function env to depth, omitted=1|
+
+If depth is omitted then uses 1.
+Use a depth of 0 for the maximum.
+Lists all function environment variables in the currently set context.
+For variables that are tables, lists all fields to the given depth.
+]],
+
+glob    = [[
+glob [depth]        -- list globals to depth, omitted=1|
+
+If depth is omitted then uses 1.
+Use a depth of 0 for the maximum.
+Lists all global variables.
+For variables that are tables, lists all fields to the given depth.
+]],
+
+ups     = [[
+ups                 -- list all the upvalue names|
+
+These names will also be in the "vars" list unless their value is nil.
+This provides a means to identify which vars are upvalues and which are
+locals. If a name is both an upvalue and a local, the local value takes
+precedance.
+]],
+
+locs    = [[
+locs                -- list all the locals names|
+
+These names will also be in the "vars" list unless their value is nil.
+This provides a means to identify which vars are upvalues and which are
+locals. If a name is both an upvalue and a local, the local value takes
+precedance.
+]],
+
+dump    = [[
+dump <var> [depth]  -- dump all fields of variable to depth|
+
+If depth is omitted then uses 1.
+Use a depth of 0 for the maximum.
+Prints the value of <var> in the currently set context level. If <var>
+is a table, lists all fields to the given depth. <var> can be just a
+name, or name.field or name.# to any depth, e.g. t.1.f accesses field
+'f' in array element 1 in table 't'.
+
+Can also be called from a script as dump(var,depth). Therefore it is
+a global function and thus visible with 'glob'.
+]],
+
+tron    = [[
+tron [crl]          -- turn trace on for (c)alls, (r)eturns, (l)ines|
+
+If no parameter is given then tracing is turned off.
+When tracing is turned on a line is printed to the console for each
+debug 'event' selected. c=function calls, r=function returns, l=lines.
+]],
+
+trace   = [[
+trace               -- dumps a stack trace|
+
+Format is [level] = file,line,name
+The level is a candidate for use by the 'set' command.
+]],
+
+info    = [[
+info                -- dumps the complete debug info captured|
+
+Only useful as a diagnostic aid for the debugger itself. This information
+can be HUGE as it dumps all variables to the maximum depth, so be careful.
+]],
+
+show    = [[
+show line file X Y  -- show X lines before and Y after line in file|
+
+If line is omitted or is '-' then the current set context line is used.
+If file is omitted or is '-' then the current set context file is used.
+If file is not fully qualified and cannot be opened as specified, then
+a search for the file in the package[path] is performed using the usual
+"require" searching rules. If no file extension is given, .lua is used.
+Prints the lines from the source file around the given line.
+]],
+
+exit    = [[
+exit                -- exits debugger, re-start it using pause()|
+]],
+
+help    = [[
+help [command]      -- show this list or help for command|
+]],
+
+eval    = [[
+eval <statement>    -- execute a statement in the current context|
+
+The statement can be anything that is legal in the context, including
+assignments. Such assignments affect the context and will be in force
+immediately. Any results returned are printed. Use '=' as a short-hand
+for 'return', e.g. "=func(arg)" will call 'func' with 'arg' and print
+the results, and "=var" will just print the value of 'var'.
+]],
+
+what    = [[
+what <func>         -- show where <func> is defined (if known)|
+]],
+
+}
+--}}}
+
+-- This function is called back by libclidebugger's do_completion() which is
+-- itself called back by the readline library in order to complete input.
+if package.loaded.libclidebugger then
+  libreadline._set(
+    function (word, line, startpos, endpos)
+      local matches = {}
+
+      -- Helper function registering possible completion words, verifying matches
+      local function add(value)
+        value = tostring(value)
+        if value:match("^" .. word) then matches[#matches + 1] = value end
+      end
+
+      -- Append type-indicating character to an identifier
+      local function postfix(value)
+        local t = type(value)
+        if t == 'function' or (getmetatable(value) or {}).__call then return '('
+        elseif t == 'table' and #value > 0 then return '['
+        elseif t == 'table' then return '.'
+        else return ' '
         end
-    end
-    push(jstack,tbl)
-    -- a table may have a 'list-like' part if it has a non-zero size
-	-- and may have have a 'map-like' part if it has non-numerical keys
-    local is_list,is_map
-	is_list = getn(tbl) > 0
-	is_map = is_map_like(tbl)
-    if is_list then
-        for i,v in ipairs(tbl) do
-            res = res..delim..val2str(v)
-            k = k + 1
-            if k > limit then
-                res = res.." ... "
-                break
+      end
+
+      -- Add completions for debugger commands
+      local function add_command_list(str)
+        for c, _ in pairs(hints) do add(c .. ' ') end
+      end
+
+      -- Add completions for the execution environment's entries
+      local function add_eval_env(what)
+        local eval_env = __getevalenv__()
+        for k in pairs(eval_env.__LOCALS__) do
+          -- The type of locals cannot be easily inferred here, so no postfix() call.
+          -- Alike, local functions will not become completion candidates for the 'what' command.
+          -- In order to do so, __LOCALS__ must be enriched with type information.
+          -- Another option is to find and use the respective local's "stackframe", see, e.g., the 'set' command.
+          if what ~= "funconly" then
+            add(eval_env.__LOCALS__[k])
+          end
+        end
+        for k in pairs(eval_env.__UPVALUES__) do
+          if what == "funconly" then
+            if type(eval_env.__UPVALUES__[k]) == 'function' or (getmetatable(eval_env.__UPVALUES__[k]) or {}).__call then
+              add(eval_env.__UPVALUES__[k])
             end
+          else
+            if eval_env.__UPVALUES__[k] == "_ENV" then add("_ENV.")
+            else add(eval_env.__UPVALUES__[k] .. postfix(_ENV[eval_env.__UPVALUES__[k]])) end
+          end
         end
-    end
-	if is_map then
-        for key,v in pairs(tbl) do
-			local num = type(key) == 'number'
-			key = tostring(key)
-			if not num or (num and not is_list) then
-				if num then
-					key = '['..key..']'
-				end
-				res = res..delim..key..'='..val2str(v)
-				k = k + 1
-				if k > limit then
-					res = res.." ... "
-					break
-				end
-			end
+        for k in pairs(eval_env.__GLOBALS__) do
+          if k ~= "__getevalenv__" and k ~= "__gettraceinfo__" then
+            if what == "funconly" then
+              if type(eval_env.__GLOBALS__[k]) == 'function' or (getmetatable(eval_env.__GLOBALS__[k]) or {}).__call then
+                add(k)
+              end
+            else
+              add(k .. postfix(eval_env.__GLOBALS__[k]))
+            end
+          end
         end
-    end
-    pop(jstack)
-    return strsub(res,2)
-end
+      end
 
-function val2str(val)
-    local tp = type(val)
-    if tp == 'function' then
-        return tostring(val)
-    elseif tp == 'table' then
-        if val.__tostring  then
-            return tostring(val)
-        else
-            return '{'..join(val,',')..'}'
+      -- Add completions for the stack level used in 'set' command
+      local function add_stack_level()
+        io.write('\n')
+        for level, ar in ipairs(__gettraceinfo__()) do
+          io.write('['..level..']\t'..(ar.name or ar.what)..' in '..ar.short_src..':'..ar.currentline..'\n')
+          add(level)
         end
-    elseif tp == 'string' then
-        return "'"..val.."'"
-    elseif tp == 'number' then
-		return tostring(val)
-    else
-        return tostring(val)
+        if #matches < 2 then libreadline.redisplay() end
+      end
+
+      -- Add completions for the list of watches
+      local function add_watch_index()
+        io.write('\n')
+        for i, v in pairs(watches) do
+          io.write("Watch exp. " .. i .. ": " .. v.exp..'\n')
+          add(i)
+        end
+        if #matches < 2 then libreadline.redisplay() end
+      end
+
+      -- Simplify the input line, by removing
+      --   literal strings,
+      --   full table constructors, and
+      --   balanced groups of parentheses.
+      -- Returns
+      --   the sub-expression preceding the word,
+      --   the separator item ( '.', ':', '[', '(' ), and
+      --   the current string in case of an unfinished string literal.
+      local function simplify_expression(expr)
+        -- Replace annoying sequences \' and \" inside literal strings
+        expr = expr:gsub("\\(['\"])", function (c)
+                                        return string.format("\\%03d", string.byte(c))
+                                      end)
+        local curstring
+        -- Remove (finished and unfinished) literal strings
+        while true do
+          local idx1, _, equals = expr:find("%[(=*)%[")
+          local idx2, _, sign = expr:find("(['\"])")
+          if idx1 == nil and idx2 == nil then
+            break
+          end
+          local idx, startpat, endpat
+          if (idx1 or math.huge) < (idx2 or math.huge) then
+            idx, startpat, endpat = idx1, "%[" .. equals .. "%[", "%]" .. equals .. "%]"
+          else
+            idx, startpat, endpat = idx2, sign, sign
+          end
+          if expr:sub(idx):find("^" .. startpat .. ".-" .. endpat) then
+            expr = expr:gsub(startpat .. "(.-)" .. endpat, " STRING ")
+          else
+            expr = expr:gsub(startpat .. "(.*)", function (str)
+                                                   curstring = str
+                                                   return "(CURSTRING "
+                                                 end)
+          end
+        end
+        expr = expr:gsub("%b()"," PAREN ") -- Remove groups of parentheses
+        expr = expr:gsub("%b{}"," TABLE ") -- Remove table constructors
+        -- Avoid two consecutive words without operator
+        expr = expr:gsub("(%w)%s+(%w)","%1|%2")
+        expr = expr:gsub("%s+", "") -- Remove now useless spaces
+        -- This main regular expression looks for table indexes and function calls.
+        return curstring, expr:match("([%.%w%[%]_]-)([:%.%[%(])" .. word .. "$")
+      end
+
+      -- Main completion dispatcher function
+      local function complete_command(linetoken, currentwordnr, dbgcommand)
+        if dbgcommand == nil then
+          add_command_list()
+        else          
+          if dbgcommand == "delb" then
+            for i, v in pairs(breakpoints) do
+              for ii, vv in pairs(v) do
+                add(i..' '..ii)
+              end
+            end
+          elseif dbgcommand == "setb" or dbgcommand == "gotoo" then
+            if currentwordnr == 2 then matches = {"0", "1", "2", "..."}
+            elseif currentwordnr > 2 then libreadline.filecompl() end
+          elseif dbgcommand == "setw" or dbgcommand == "eval" or dbgcommand == "dump" then
+            str, expr, sep = simplify_expression(line:sub(6, endpos))
+            if expr and expr ~= "" then
+              local token = loadstring("return " .. expr)
+              if token then
+                token = token()
+                local ttoken = type(token)
+                if ttoken == 'table' and (sep == '.' or sep == ':') then
+                  for k, v in pairs(token) do
+                    if type(k) == 'string' and (sep ~= ':' or type(v) == "function") then
+                      add(k..postfix(v))
+                    end
+                  end
+                elseif sep == '[' and ttoken == 'table' then
+                  for k in pairs(token) do
+                    if type(k) == 'number' then
+                      add(k .. "]")
+                    end
+                  end
+                  if word ~= "" then add_eval_env() end
+                end
+              end
+            end
+            if #matches == 0 then add_eval_env() end
+          elseif dbgcommand == "set" then
+            if currentwordnr == 2 then add_stack_level() end
+          elseif dbgcommand == "delw" then
+            if currentwordnr == 2 then add_watch_index() end
+          elseif dbgcommand == "tron" then
+            if currentwordnr == 2 then matches = {'c', 'r', 'l'} end
+          elseif dbgcommand == "show" then
+            if currentwordnr == 2 then matches = {'0', '1', '2', '3', '-'}
+            elseif currentwordnr > 2 then libreadline.filecompl() end
+          elseif dbgcommand == "help" then
+            if currentwordnr == 2 then add_command_list() end
+          elseif dbgcommand == "what" then
+            if currentwordnr == 2 then add_eval_env("funconly") end
+          end
+        end
+      end
+
+      libreadline.luacompl()
+
+      local dbgcommand = nil
+      local linetoken = {}
+      line = line:find('^%s*$') and '' or line:match('^%s*(.*%S)')
+      for token in line:gmatch('%S+') do
+        linetoken[#linetoken+1] = token
+        if dbgcommand == nil and hints[token] then dbgcommand = token end
+      end
+      complete_command(linetoken, (#word == 0 and #linetoken+1 or #linetoken), dbgcommand)
+      return matches
     end
+  )
 end
 
 --{{{  local function getinfo(level,field)
@@ -223,13 +646,11 @@ local function getinfo(level,field)
   if ar then return ar[field] else return nil end
 end
 
-
-
 --}}}
 --{{{  local function indented( level, ... )
 
 local function indented( level, ... )
-  write( string.rep('  ',level), table.concat({...}), '\n' )
+  io.write( string.rep('  ',level), table.concat({...}), '\n' )
 end
 
 --}}}
@@ -245,7 +666,7 @@ local function dumpval( level, name, value, limit )
      and (name == '__VARSLEVEL__' or name == '__ENVIRONMENT__' or name == '__GLOBALS__' or name == '__UPVALUES__' or name == '__LOCALS__') then
     --ignore these, they are debugger generated
     return
-  elseif type(name) == 'string' and strfind(name,'^[_%a][_.%w]*$') then
+  elseif type(name) == 'string' and string.find(name,'^[_%a][_.%w]*$') then
     index = name ..' = '
   else
     index = string.format('[%q] = ',tostring(name))
@@ -287,52 +708,61 @@ local function dumpvar( value, limit, name )
 end
 
 --}}}
---{{{  local function show(file,line,before,after)
+--{{{  local function show(breakfile,breakline,file,line,before,after)
 
---show +/-N lines of a file around line M
+-- show +/-N lines of a file around line M highlighting the current breakpoint line if any
 
-local function show(file,line,before,after)
+local function show(breakfile,breakline,file,line,before,after)
 
-  line   = tonumber(line   or 1)
-  before = tonumber(before or 10)
-  after  = tonumber(after  or before)
+  local function basename(filename)
+    return PlatWindows
+      and string.gsub(filename, '[^\\]*\\', '')
+      or  string.gsub(filename, '[^/]*/', '')
+  end
 
+  line      = tonumber(line   or 1)
+  before    = tonumber(before or 10)
+  after     = tonumber(after  or before)
+  breakfile = basename(breakfile)
 
-  -- SJD: if a qualified module name is given, then we can use that....
-  if not strfind(file,'%.') then file = file..'.lua' end
+  if not string.find(file, '%.') then file = file..'.lua' end
 
-  local f = io.open(file,'r')
+  local f = io.open(file, 'r')
   if not f then
-    --{{{  try to find the file in the path
-
-    --
-    -- looks for a file in the package path
-    --
+    -- look for a matching file in the package path
     local path = package.path or LUA_PATH or ''
-    for c in string.gmatch (path, "[^;]+") do
-      local c = gsub (c, "%?%.lua", file)
-      f = io.open (c,'r')
+    for c in string.gmatch(path, "[^;]+") do
+      local c = string.gsub(c, "%?%.lua", file)
+      f = io.open(c, 'r')
       if f then
+        file = c
         break
       end
     end
-
-    --}}}
     if not f then
-      write('Cannot find '..file..'\n')
+      io.write('Cannot find '..file..'\n')
       return
     end
   end
+
+  local _, _, code = f:read(0)
+  if code == 21 then
+    io.write(file..' is a directory!\n')
+    f:close()
+    return
+  end
+
+  file = basename(file)
 
   local i = 0
   for l in f:lines() do
     i = i + 1
     if i >= (line-before) then
       if i > (line+after) then break end
-      if i == line then
-        write(i..'***\t'..l..'\n')
+      if i == breakline and file == breakfile then
+        io.write(color.black..i..color.green..'***\t'..color.reset..l..'\n')
       else
-        write(i..'\t'..l..'\n')
+        io.write(color.black..i..color.reset..'\t'..l..'\n')
       end
     end
   end
@@ -356,41 +786,46 @@ local function gu( func, k )
   return function() k=k+1 return debug.getupvalue( func, k ) end
 end
 
-local  traceinfo
+local traceinfo
 
-local function tracestack(l,tracing)
+-- return the local traceinfo to use it in readline completion
+function __gettraceinfo__()
+  return traceinfo
+end
+
+local function tracestack(l)
   local l = l + 1                        --NB: +1 to get level relative to caller
   traceinfo = {}
   traceinfo.pausemsg = pausemsg
   for ar,i in gi(l) do
-    tinsert( traceinfo, ar )
-    if tracing then
-        local names  = {}
-        local values = {}
-        for n,v in gl(i,0) do
-          if strsub(n,1,1) ~= '(' then   --ignore internal control variables
-            tinsert( names, n )
-            tinsert( values, v )
-          end
+    table.insert( traceinfo, ar )
+    if ar.what ~= 'C' then
+      local names  = {}
+      local values = {}
+      for n,v in gl(i,0) do
+        if string.sub(n,1,1) ~= '(' then   --ignore internal control variables
+          table.insert( names, n )
+          table.insert( values, v )
         end
-        if #names > 0 then
-          ar.lnames  = names
-          ar.lvalues = values
+      end
+      if #names > 0 then
+        ar.lnames  = names
+        ar.lvalues = values
+      end
+    end
+    if ar.func then
+      local names  = {}
+      local values = {}
+      for n,v in gu(ar.func,0) do
+        if string.sub(n,1,1) ~= '(' then   --ignore internal control variables
+          table.insert( names, n )
+          table.insert( values, v )
         end
-        if ar.func then
-          local names  = {}
-          local values = {}
-          for n,v in gu(ar.func,0) do
-            if strsub(n,1,1) ~= '(' then   --ignore internal control variables
-              tinsert( names, n )
-              tinsert( values, v )
-            end
-          end
-          if #names > 0 then
-            ar.unames  = names
-            ar.uvalues = values
-          end
-        end
+      end
+      if #names > 0 then
+        ar.unames  = names
+        ar.uvalues = values
+      end
     end
   end
 end
@@ -400,19 +835,13 @@ end
 
 local function trace(set)
   local mark
-  if not traceinfo then return end
   for level,ar in ipairs(traceinfo) do
-    local description = (ar.name or ar.what)..' in '..ar.short_src..':'..ar.currentline
-    if GDB then
-        write('#',level,' ',description)
+    if level == set then
+      mark = color.green..'***'..color.reset
     else
-        if level == set then
-          mark = '***'
-        else
-          mark = ''
-        end
-        write('['..level..']\t'..description..' '..mark..'\n')
+      mark = ''
     end
+    io.write('['..level..']'..mark..'\t'..(ar.name or ar.what)..' in '..ar.short_src..':'..ar.currentline..'\n')
   end
 end
 
@@ -423,16 +852,17 @@ local function info() dumpvar( traceinfo, 0, 'traceinfo' ) end
 
 --}}}
 
--- this value distinguishes temporary from persistent breakpoints
-local TEMPORARY = 1
+--{{{  local function set_breakpoint(file, line, once)
 
---{{{  local function set_breakpoint(file, line)
-
-local function set_breakpoint(file, line, value)
+local function set_breakpoint(file, line, once)
   if not breakpoints[line] then
     breakpoints[line] = {}
   end
-  breakpoints[line][file] = value
+  if once then
+    breakpoints[line][file] = 1
+  else
+    breakpoints[line][file] = true
+  end
 end
 
 --}}}
@@ -447,11 +877,51 @@ end
 --}}}
 --{{{  local function has_breakpoint(file, line)
 
-local function has_breakpoint(file,line)
-	local bpl = breakpoints[line]
-	if bpl then
-		return breakpoints[line][file]
-	end
+--allow for 'sloppy' file names
+--search for file and all variations walking up its directory hierachy
+--ditto for the file with no extension
+--a breakpoint can be permenant or once only, if once only its removed
+--after detection here, these are used for temporary breakpoints in the
+--debugger loop when executing the 'gotoo' command
+--a breakpoint on line 0 of a file means any line in that file
+
+local function has_breakpoint(file, line)
+  local isLine = breakpoints[line]
+  local isZero = breakpoints[0]
+  if not isLine and not isZero then return false end
+  local noext = string.gsub(file,"(%..-)$",'',1)
+  if noext == file then noext = nil end
+  while file do
+    if isLine and isLine[file] then
+      if isLine[file] == 1 then isLine[file] = nil end
+      return true
+    end
+    if isZero and isZero[file] then
+      if isZero[file] == 1 then isZero[file] = nil end
+      return true
+    end
+    if PlatWindows then
+      file = string.match(file,"[:/\\](.+)$")
+    else
+      file = string.match(file,"[:/](.+)$")
+    end
+  end
+  while noext do
+    if isLine and isLine[noext] then
+      if isLine[noext] == 1 then isLine[noext] = nil end
+      return true
+    end
+    if isZero and isZero[noext] then
+      if isZero[noext] == 1 then isZero[noext] = nil end
+      return true
+    end
+    if PlatWindows then
+      noext = string.match(noext,"[:/\\](.+)$")
+    else
+      noext = string.match(noext,"[:/](.+)$")
+    end
+  end
+  return false
 end
 
 --}}}
@@ -476,7 +946,7 @@ local function capture_vars(ref,level,line)
     while true do
       local name, value = debug.getupvalue(func, i)
       if not name then break end
-      if strsub(name,1,1) ~= '(' then  --NB: ignoring internal control variables
+      if string.sub(name,1,1) ~= '(' then  --NB: ignoring internal control variables
         vars[name] = value
         vars.__UPVALUES__[i] = name
       end
@@ -491,7 +961,7 @@ local function capture_vars(ref,level,line)
   while true do
     local name, value = debug.getlocal(lvl, i)
     if not name then break end
-    if strsub(name,1,1) ~= '(' then    --NB: ignoring internal control variables
+    if string.sub(name,1,1) ~= '(' then    --NB: ignoring internal control variables
       vars[name] = value
       vars.__LOCALS__[i] = name
     end
@@ -510,10 +980,10 @@ local function capture_vars(ref,level,line)
   --}}}
 
   local file = getinfo(lvl, "source")
-  if strfind(file, "@") == 1 then
-    file = strsub(file, 2)
+  if string.find(file, "@") == 1 then
+    file = string.sub(file, 2)
   end
-  if IsWindows then file = string.lower(file) end
+  if PlatWindows then file = string.lower(file) end
 
   if not line then
     line = getinfo(lvl, "currentline")
@@ -542,7 +1012,7 @@ local function restore_vars(ref,vars)
   while true do
     local name, value = debug.getlocal(level, i)
     if not name then break end
-    if vars[name] and strsub(name,1,1) ~= '(' then     --NB: ignoring internal control variables
+    if vars[name] and string.sub(name,1,1) ~= '(' then     --NB: ignoring internal control variables
       debug.setlocal(level, i, vars[name])
       written_vars[name] = true
     end
@@ -559,7 +1029,7 @@ local function restore_vars(ref,vars)
     while true do
       local name, value = debug.getupvalue(func, i)
       if not name then break end
-      if vars[name] and strsub(name,1,1) ~= '(' then   --NB: ignoring internal control variables
+      if vars[name] and string.sub(name,1,1) ~= '(' then   --NB: ignoring internal control variables
         if not written_vars[name] then
           debug.setupvalue(func, i, vars[name])
         end
@@ -587,7 +1057,7 @@ local function print_trace(level,depth,event,file,line,name)
   local prefix = ''
   if current_thread ~= 'main' then prefix = '['..tostring(current_thread)..'] ' end
 
-  write(prefix..
+  io.write(prefix..
            string.format('%08.2f:%02i.',os.clock(),depth)..
            string.rep('.',depth%32)..
            (file or '')..' ('..(line or '')..') '..
@@ -628,265 +1098,51 @@ local function trace_event(event, line, level)
 end
 
 --}}}
---{{{  local function debug_hook(event, line, level, thread)
-
-local curfile,thisfile,project_root_path,dirsep,stepping_out
-local addresses = {}
-
-if IsWindows then
-    dirsep = '\\'
-else
-    dirsep = '/'
-end
-
-local function set_debug_break ()
-    local addr = dbgl.c_addr()
-    if addr and not addresses[addr] then
-        write('//@// '..addr..'\n')
-        stepping_out = true
-        --addresses[addr] = true
-        dbgl.debug_break()
-    end
-end
-
-local file_cache = {}
-
-local function exists (path)
-    if file_cache[path] ~= nil then
-        return file_cache[path]
-    end
-    local f = io.open(path,'r')
-    local ret
---~     print('checked',path)
-    if f then
-        f:close()
-        ret = true
-    else
-        ret = false
-    end
-    file_cache[path] = ret
-    return ret
-end
-
-
--- *SJD* optimizations:
--- capture_vars() is expensive; now it's only called if:
---  - we have active watches
---  - if we actually break execution
-
-local in_debugger
-
-local function get_canonical_filename (file)
-    if strfind(file,"@") == 1 then
-        file = strsub(file,2)
-		if strfind(file,".",1,true) == 1 then file = strsub(file,3) end
-        if step_into and project_root_path and not exists(file) then
-            step_into = false
-            step_over = true
-        end
-    end
-	local abspath = strsub(file,1,1) == '/' or strsub(file,2,2) == ':'
-	if not abspath and project_root_path then -- relative path
-		file = project_root_path..dirsep..file
-	end
-	if IsWindows then
-		file = strlower(file)
-		file = file:gsub('/','\\') -- canonical for Win32!
-		file = file:gsub(' ','%%')
-	end
-    return file
-end
-
-
-local function debug_hook(event, line, level, thread)
-  local vars,file
-  if not started then debug.sethook() return end
-  current_thread = thread or 'main'
-  --print(event,line,step_into,step_lines)
-  local level = level or 2
-  if tracing then trace_event(event,line,level) end
-  if event == "call" then
-    if step_into and GDB then -- this might be a C function, prepare to step into it...
-      local ar = debug.getinfo(level,"S")
-      if ar.what == 'C' and not in_debugger then
-        set_debug_break ()
-      end
-    end
-    stack_level[current_thread] = stack_level[current_thread] + 1
-  elseif event == "return" or event == "tail return" then
-	local sl = stack_level[current_thread] - 1
-    stack_level[current_thread] = sl
-    if sl < 0 then stack_level[current_thread] = 0 end
-          if stepping_out then
-            stepping_out = false
-          end
-  else
-    local ar = debug.getinfo(level,"S")
-    local rawfile = ar.source
-    if not line then
-        line = debug.getinfo(level,"l").currentline
-    end
-
---    local vars,file,line = capture_vars(level,1,line)
-	--SJD the idea here is to keep track of the _absolute_ filename
-	--we are told up front what the project path is; anything which is relative will be relative to this path.
-	if rawfile ~= curfile then
-        file = rawfile
-		curfile = rawfile
-        file = get_canonical_filename(file)
---~ 		print('rawfile',rawfile,line)
-		thisfile = file
-	end
-    local stop, ev, idx = false, events.STEP, 0
-    while true do
-      if #watches > 0 then -- only capture vars if we're tracing
-         vars = capture_vars(level,1,line)
-          for index, value in pairs(watches) do
-            setfenv(value.func, vars)
-            local status, res = pcall(value.func)
-            if status and res then
-              ev, idx = events.WATCH, index
-              stop = true
-              break
-            end
-          end
-          if stop then break end
-      end
-      if (step_into)
-      or (step_over and (stack_level[current_thread] <= step_level[current_thread] or stack_level[current_thread] == 0)) then
-        step_lines = step_lines - 1
-        if step_lines < 1 then
-          vars = capture_vars(level,1,line)
-          ev, idx = events.STEP, 0
-          break
-        end
-      end
-	  --print(thisfile,line)
-	  local bkval = has_breakpoint(thisfile, line)
-      if bkval then
-        vars = capture_vars(level,1,line)
-        ev, idx = events.BREAK, 0
-		if bkval == TEMPORARY then remove_breakpoint(thisfile,line) end
-        break
-      end
-      return
-    end
-    tracestack(level,tracing)
-    local last_next = 1
-    local err, next = assert(coroutine.resume(coro_debugger, ev, vars, thisfile, line, idx))
-    while true do
-      if next == 'cont' then
-        return
-      elseif next == 'stop' then
-        started = false
-        write("Program finished\n")
-        debug.sethook()
-        return
-      elseif tonumber(next) then --get vars for given level or last level
-        next = tonumber(next)
-        if next == 0 then next = last_next end
-        last_next = next
-        restore_vars(level,vars)
-        vars, file, line = capture_vars(level,next)
-        err, next = assert(coroutine.resume(coro_debugger, events.SET, vars, file, line, idx))
-      else
-        write('Unknown command from debugger_loop: '..tostring(next)..'\n')
-        write('Stopping debugger\n')
-        next = 'stop'
-      end
-    end
-  end
-end
-
-
---}}}
-
-local display_exprs = {}
-
-local function eval(env,line)
---~   print('eval "'..line..'"')
-  local ok, func = pcall(loadstring,line)
-  if func == nil or not ok then
-    return nil
-  else
-    setfenv(func, env)
-    return pcall(func)
-  end
-end
-
-local function dump_display(env)
-  for i,disp in ipairs(display_exprs) do
-    local res,value = eval(env,'return '..disp)
-    if res then
-      write('<'..disp..'> = '..val2str(value)..'\n')
-    end
-  end
-end
-
 --{{{  local function report(ev, vars, file, line, idx_watch)
 
 local function report(ev, vars, file, line, idx_watch)
   local vars = vars or {}
   local file = file or '?'
   local line = line or 0
-  local postfix = ''
-  --SJD put the message out first, so we know if it's a crash!
-  write '\n'
-  if ev ~= events.SET then
-
-    if pausemsg and pausemsg ~= '' and pausemsg ~= 'debug' then
-        if not pausemsg:find('(%S+):(%d+)') then
-            -- the message did not have an explicit file:line,
-            -- so let's try to find a valid Lua frame which called this frame
-            local level = 3
-            while level <= #traceinfo and traceinfo[level].currentline == -1 do
-                level = level + 1
-            end
-            local ar = traceinfo[level]
-            pausemsg = get_canonical_filename(ar.source)..':'..ar.currentline..' '..pausemsg
-        end
-        write('Message: '..pausemsg..'\n') end
-        pausemsg = ''
-  end
-  if GDB then
-    if ev == events.STEP or ev == events.BREAK or ev == events.WATCH then
-        write(gprefix..file..':'..line..'\n')
-    end
+  local prefix = ''
+  if current_thread ~= 'main' then prefix = '['..tostring(current_thread)..'] ' end
+  if ev == events.STEP then
+    io.write(prefix.."Paused at file "..file.." line "..line..' ('..stack_level[current_thread]..')\n')
+  elseif ev == events.BREAK then
+    io.write(prefix.."Paused at file "..file.." line "..line..' ('..stack_level[current_thread]..') (breakpoint)\n')
+  elseif ev == events.WATCH then
+    io.write(prefix.."Paused at file "..file.." line "..line..' ('..stack_level[current_thread]..')'.." (watch expression "..idx_watch.. ": ["..watches[idx_watch].exp.."])\n")
+  elseif ev == events.SET then
+    --do nothing
   else
-      if current_thread ~= 'main' then postfix = '['..tostring(current_thread)..'] ' end
-      if ev == events.STEP then
-        write("Paused at file "..file.." line "..line..' ('..stack_level[current_thread]..') '..postfix..'\n')
-        dump_display(vars)
-      elseif ev == events.BREAK then
-        write("Paused at file "..file.." line "..line..' ('..stack_level[current_thread]..') (breakpoint) '..postfix..'\n')
-        end_timer()
-        dump_display(vars)
-      elseif ev == events.WATCH then
-        write("Paused at file "..file.." line "..line..' ('..stack_level[current_thread]..')'.." (watch expression "..idx_watch.. ": ["..watches[idx_watch].exp.."])"..postfix.."\n")
-        dump_display(vars)
-      elseif ev == events.SET then
-        --do nothing
-      else
-        write("Error in application: "..file.." line "..line.." "..postfix.."\n")
-      end
+    io.write(prefix.."Error in application: "..file.." line "..line.."\n")
+  end
+  if ev ~= events.SET then
+    if pausemsg and pausemsg ~= '' then io.write('Message: '..pausemsg..'\n') end
+    pausemsg = ''
   end
   return vars, file, line
 end
 
 --}}}
 
+--{{{  local function debugger_loop(ev, vars, file, line, idx_watch)
+
+-- eval_env is local outside the local function debugger_loop() so that
+-- readline completion can use its information via __getevalenv__()
+local eval_env = {}
+
+-- return the local eval_env to use it in readline completion
+function __getevalenv__()
+  return eval_env
+end
+
 local initial_commands = {}
-local kount = 1
-
---{{{  local function debugger_loop(server)
-
-local prompt
-if GDB then prompt = '(GDB)\n' else prompt = '(DBG)\n' end
-
 local function debugger_loop(ev, vars, file, line, idx_watch)
 
-  write("Lua Debugger\n")
-  local eval_env, breakfile, breakline = report(ev, vars, file, line, idx_watch)
+  eval_env = vars or {}
+  local breakfile = file or '?'
+  local breakline = line or 0
 
   local command, args
 
@@ -906,30 +1162,30 @@ local function debugger_loop(ev, vars, file, line, idx_watch)
     local char,arg
     local ptr=1
     for i=1,string.len(spec) do
-      char = strsub(spec,i,i)
+      char = string.sub(spec,i,i)
       if     char == 'F' then
-        _,ptr,arg = strfind(args..' ',"%s*([%w%p]*)%s*",ptr)
+        _,ptr,arg = string.find(args..' ',"%s*([%w%p]*)%s*",ptr)
         if not arg or arg == '' then arg = '-' end
         if arg == '-' then arg = breakfile end
       elseif char == 'L' then
-        _,ptr,arg = strfind(args..' ',"%s*([%w%p]*)%s*",ptr)
+        _,ptr,arg = string.find(args..' ',"%s*([%w%p]*)%s*",ptr)
         if not arg or arg == '' then arg = '-' end
         if arg == '-' then arg = breakline end
         arg = tonumber(arg) or 0
       elseif char == 'N' then
-        _,ptr,arg = strfind(args..' ',"%s*([%w%p]*)%s*",ptr)
+        _,ptr,arg = string.find(args..' ',"%s*([%w%p]*)%s*",ptr)
         if not arg or arg == '' then arg = '0' end
         arg = tonumber(arg) or 0
       elseif char == 'V' then
-        _,ptr,arg = strfind(args..' ',"%s*([%w%p]*)%s*",ptr)
+        _,ptr,arg = string.find(args..' ',"%s*([%w%p]*)%s*",ptr)
         if not arg or arg == '' then arg = '' end
       elseif char == 'S' then
-        _,ptr,arg = strfind(args..' ',"%s*([%w%p]*)%s*",ptr)
+        _,ptr,arg = string.find(args..' ',"%s*([%w%p]*)%s*",ptr)
         if not arg or arg == '' then arg = '' end
       else
         arg = ''
       end
-      tinsert(res,arg or '')
+      table.insert(res,arg or '')
     end
     return unpack(res)
   end
@@ -937,77 +1193,60 @@ local function debugger_loop(ev, vars, file, line, idx_watch)
   --}}}
 
   while true do
-    write(prompt) --SJD temporary
-    local line
+  local line
     if initial_commands and #initial_commands > 0 then
-      line = table.remove(initial_commands,1)
+        line = table.remove(initial_commands,1)
     else
-      initial_commands = nil
-      line  = io.read("*line")
+        initial_commands = nil
+        line = readline(prompt)
     end
-    if line == nil then write('\n'); line = 'exit' end
+    if line == nil then io.write('\n'); line = 'exit' end
+    saveline(line)
 
-    if strfind(line, "^[a-z]+") then
-      command = strsub(line, strfind(line, "^[a-z]+"))
-      args    = gsub(line,"^[a-z]+%s*",'',1)            --strip command off line
+    if string.find(line, "^[a-z]+") then
+      command = string.sub(line, string.find(line, "^[a-z]+"))
+      args    = string.gsub(line,"^[a-z]+%s*",'',1)            --strip command off line
     else
       command = ''
     end
 
-    if command == "setb" or command == 'break' or command == 'tb' then
+    if command == "setb" then
       --{{{  set breakpoint
-      local line, filename
-      if command ~= 'break' then
-        line,filename = getargs('LF')
+
+      local line, filename  = getargs('LF')
+      if filename ~= '' and line ~= '' then
+        set_breakpoint(filename,line)
+        io.write("Breakpoint set in file "..filename..' line '..line..'\n')
       else
-        filename,line = args:match(bpattern)
-        line = tonumber(line)
-      end
-      if filename ~= '' and line ~= '' and line ~= nil then
-		local val = true
-		if command == 'tb' then val = TEMPORARY end
-        set_breakpoint(filename,line,val)
-        write("Breakpoint set in file "..filename..' line '..line..'\n')
-      else
-        write("Bad request\n")
+        io.write("Bad request\n")
       end
 
       --}}}
 
-    elseif command == "delb" or command == 'clear' then
+    elseif command == "delb" then
       --{{{  delete breakpoint
 
-      local line, filename
-      if command == 'delb' then
-        line, filename = getargs('LF')
-      else
-        filename,line = args:match('([^:]+):(%d+)')
-        line = tonumber(line)
-      end
+      local line, filename = getargs('LF')
       if filename ~= '' and line ~= '' then
         remove_breakpoint(filename, line)
-        write("Breakpoint deleted from file "..filename..' line '..line.."\n")
+        io.write("Breakpoint deleted from file "..filename..' line '..line.."\n")
       else
-        write("Bad request\n")
+        io.write("Bad request\n")
       end
 
       --}}}
 
-    elseif command == "debugbreak" then
-        if GDB then
-            dbgl.debug_break()
-        end
     elseif command == "delallb" then
       --{{{  delete all breakpoints
       breakpoints = {}
-      write('All breakpoints deleted\n')
+      io.write('All breakpoints deleted\n')
       --}}}
 
     elseif command == "listb" then
       --{{{  list breakpoints
       for i, v in pairs(breakpoints) do
         for ii, vv in pairs(v) do
-          write("Break at: "..i..' in '..ii..'\n')
+          io.write("Break at: "..i..' in '..ii..'\n')
         end
       end
       --}}}
@@ -1019,9 +1258,9 @@ local function debugger_loop(ev, vars, file, line, idx_watch)
         local func = loadstring("return(" .. args .. ")")
         local newidx = #watches + 1
         watches[newidx] = {func = func, exp = args}
-        write("Set watch exp no. " .. newidx..'\n')
+        io.write("Set watch exp no. " .. newidx..'\n')
       else
-        write("Bad request\n")
+        io.write("Bad request\n")
       end
 
       --}}}
@@ -1032,9 +1271,9 @@ local function debugger_loop(ev, vars, file, line, idx_watch)
       local index = tonumber(args)
       if index then
         watches[index] = nil
-        write("Watch expression deleted\n")
+        io.write("Watch expression deleted\n")
       else
-        write("Bad request\n")
+        io.write("Bad request\n")
       end
 
       --}}}
@@ -1042,21 +1281,21 @@ local function debugger_loop(ev, vars, file, line, idx_watch)
     elseif command == "delallw" then
       --{{{  delete all watch expressions
       watches = {}
-      write('All watch expressions deleted\n')
+      io.write('All watch expressions deleted\n')
       --}}}
 
     elseif command == "listw" then
       --{{{  list watch expressions
       for i, v in pairs(watches) do
-        write("Watch exp. " .. i .. ": " .. v.exp..'\n')
+        io.write("Watch exp. " .. i .. ": " .. v.exp..'\n')
       end
       --}}}
 
-    elseif command == "run" or command == 'cont' then
+    elseif command == "run" then
       --{{{  run until breakpoint
       step_into = false
       step_over = false
-      eval_env, breakfile, breakline = report(coroutine.yield('cont'))
+      return 'cont'
       --}}}
 
     elseif command == "step" then
@@ -1065,65 +1304,51 @@ local function debugger_loop(ev, vars, file, line, idx_watch)
       step_over  = false
       step_into  = true
       step_lines = tonumber(N or 1)
-      eval_env, breakfile, breakline = report(coroutine.yield('cont'))
+      return 'cont'
       --}}}
 
-    elseif command == "over" or command == 'next' then
+    elseif command == "over" then
       --{{{  step N lines (over functions)
       local N = tonumber(args) or 1
       step_into  = false
       step_over  = true
       step_lines = tonumber(N or 1)
       step_level[current_thread] = stack_level[current_thread]
-      eval_env, breakfile, breakline = report(coroutine.yield('cont'))
+      return 'cont'
       --}}}
 
-    elseif command == "out" or command == 'finish' then
+    elseif command == "out" then
       --{{{  step N lines (out of functions)
       local N = tonumber(args) or 1
       step_into  = false
       step_over  = true
       step_lines = 1
       step_level[current_thread] = stack_level[current_thread] - tonumber(N or 1)
-      eval_env, breakfile, breakline = report(coroutine.yield('cont'))
+      return 'cont'
       --}}}
 
-    elseif command == "gotoL" then
+    elseif command == "gotoo" then
       --{{{  step until reach line
-      local N = tonumber(args)
-      if N then
+      local line, filename = getargs('LF')
+      if line ~= '' then
         step_over  = false
         step_into  = false
-        if has_breakpoint(breakfile,N) then
-          eval_env, breakfile, breakline = report(coroutine.yield('cont'))
+        if has_breakpoint(filename,line) then
+          return 'cont'
         else
-          local bf = breakfile
-          set_breakpoint(breakfile,N,true)
-          eval_env, breakfile, breakline = report(coroutine.yield('cont'))
-          if breakfile == bf and breakline == N then remove_breakpoint(breakfile,N) end
+          set_breakpoint(filename,line,true)
+          return 'cont'
         end
       else
-        write("Bad request\n")
+        io.write("Bad request\n")
       end
       --}}}
 
-    elseif command == "set" or command == 'frame' then
+    elseif command == "set" then
       --{{{  set/show context level
-      local level = tonumber(args)
+      local level = args
       if level and level == '' then level = nil end
-      -- find the first valid Lua frame that called this frame!
-      while level <= #traceinfo and traceinfo[level].currentline == -1 do
-         level = level + 1
-      end
-      if level then
-        eval_env, breakfile, breakline = report(coroutine.yield(level))
-      end
-
---~       if eval_env.__VARSLEVEL__ then
---~         write('Level: '..eval_env.__VARSLEVEL__..'\n')
---~       else
---~         write('No level set\n')
---~       end
+      if level then return level end
       --}}}
 
     elseif command == "vars" then
@@ -1166,22 +1391,22 @@ local function debugger_loop(ev, vars, file, line, idx_watch)
         local v = eval_env
         local n = nil
         for w in string.gmatch(args,"[%w_]+") do
-          v = v[w]
+          if type(v) == 'table' then v = v[w] end
           if n then n = n..'.'..w else n = w end
           if not v then break end
         end
         if type(v) == 'function' then
           local def = debug.getinfo(v,'S')
           if def then
-            write(def.what..' in '..def.short_src..' '..def.linedefined..'..'..def.lastlinedefined..'\n')
+            io.write(def.what..' in '..def.short_src..' '..def.linedefined..'..'..def.lastlinedefined..'\n')
           else
-            write('Cannot get info for '..v..'\n')
+            io.write('Cannot get info for '..v..'\n')
           end
         else
-          write(v..' is not a function\n')
+          io.write(tostring(n)..' ('..tostring(v)..') is not a function\n')
         end
       else
-        write("Bad request\n")
+        io.write("Bad request\n")
       end
       --}}}
 
@@ -1197,14 +1422,14 @@ local function debugger_loop(ev, vars, file, line, idx_watch)
           if tonumber(w) then
             v = v[tonumber(w)]
           else
-            v = v[w]
+            if type(v) == 'table' then v = v[w] end
           end
           if n then n = n..'.'..w else n = w end
           if not v then break end
         end
         dumpvar(v,depth+1,n)
       else
-        write("Bad request\n")
+        io.write("Bad request\n")
       end
       --}}}
 
@@ -1216,9 +1441,9 @@ local function debugger_loop(ev, vars, file, line, idx_watch)
       if after  == 0 then after  = before end
 
       if file ~= '' and file ~= "=stdin" then
-        show(file,line,before,after)
+        show(breakfile,breakline,file,line,before,after)
       else
-        write('Nothing to show\n')
+        io.write('Nothing to show\n')
       end
 
       --}}}
@@ -1239,10 +1464,9 @@ local function debugger_loop(ev, vars, file, line, idx_watch)
       trace_calls   = false
       trace_returns = false
       trace_lines   = false
-      tracing = false
-      if strfind(option,'c') then trace_calls   = true; tracing = true end
-      if strfind(option,'r') then trace_returns = true; tracing = true end
-      if strfind(option,'l') then trace_lines   = true; tracing = true end
+      if string.find(option,'c') then trace_calls   = true end
+      if string.find(option,'r') then trace_returns = true end
+      if string.find(option,'l') then trace_lines   = true end
       --}}}
 
     elseif command == "trace" then
@@ -1252,117 +1476,169 @@ local function debugger_loop(ev, vars, file, line, idx_watch)
 
     elseif command == "info" then
       --{{{  dump all debug info captured
-      write('info?\n')
       info()
       --}}}
 
     elseif command == "pause" then
       --{{{  not allowed in here
-      write('pause() should only be used in the script you are debugging\n')
+      io.write('pause() should only be used in the script you are debugging\n')
       --}}}
 
     elseif command == "help" then
       --{{{  help
       local command = getargs('S')
       if command ~= '' and hints[command] then
-        write(hints[command]..'\n')
+        local _,_,description = string.find(hints[command],"|(.+)")
+        io.write(string.match(hints[command],"(.+)|")..description..'\n')
       else
         for _,v in pairs(hints) do
-          local _,_,h = strfind(v,"(.+)|")
-          write(h..'\n')
+          local _,_,summary = string.find(v,"(.+)|")
+          local dbgcmd = tostring(string.match(tostring(summary), "^%a+"))
+          if rlbinds ~= nil and rlbinds[dbgcmd] ~= nil then
+            io.write(summary..color.black..' ['..rlbinds[dbgcmd]["key"]..']'..color.reset..'\n')
+          else
+            io.write(summary..'\n')
+          end
         end
       end
       --}}}
-
-    elseif command == "display" then
-    --{{{ Add a variable to the display list
-      local expr = getargs('S')
-      if expr == "" then
-        for i,d in ipairs(display_exprs) do
-          write(d,'\n')
-        end
-      else
-        tinsert(display_exprs,expr)
-      end
-    --}}}
-    elseif command == "undisplay" then
-    --{{{ clear the display list
-      display_exprs = {}
-    --}}}
-    elseif command == "up" or command == "down" then
-		local level = eval_env.__VARSLEVEL__
-		if command == "up" and level >= 1 then
-			level = level + 1
-		else
-			level = level - 1
-		end
-		eval_env, breakfile, breakline = report(coroutine.yield(level))
-		if eval_env.__VARSLEVEL__ then
-            if GDB then breakfile =  project_root_path..dirsep..breakfile end
-			report(events.BREAK,eval_env,breakfile,breakline)
-		end
-	elseif command == "rootpath" then  --SJD scite-debug integration
-		project_root_path = getargs('S')
+      elseif command == "rootpath" then  --SJD scite-debug integration
+         --{{{ 
+        project_root_path = getargs('S')
         curfile = nil -- force renormalization of current filename
-        write('rootpath '..project_root_path..'\n')
-    elseif command == "exit" or command == 'quit' then
+        io.write('rootpath '..project_root_path..'\n')
+        --}}}
+    elseif command == "exit" then
       --{{{  exit debugger
       return 'stop'
       --}}}
 
-    elseif line ~= '' then
-      --{{{  just execute whatever it is in the current context
+    elseif command == "eval" then
+      --{{{  execute whatever it is in the current context
+      line = string.sub(line, 6, -1)
 
       --map line starting with "=..." to "return ..."
-      -- SJD: also 'eval ' and 'print ', which has a special meaning to scite-debug
-      local scite_debug_print
-      local scite_debug_eval = line:find('^eval ')
-      if GDB then scite_debug_print = line:find('^print ') end
-      if scite_debug_eval then
-        line = line:gsub('eval ','return ',1)
-      elseif scite_debug_print then
-        line = line:gsub('print ','return ',1)
-      elseif line:sub(1,1) == '=' then
-        line = line:gsub('=','return ',1)
-      end
-	 write('expr ',line,'\n')
+      if string.sub(line,1,1) == '=' then line = string.gsub(line,'=','return ',1) end
 
       local ok, func = pcall(loadstring,line)
       if func == nil then                             --Michael.Bringmann@lsi.com
-        write("Compile error: "..line..'\n')
+        io.write("Compile error: "..line..'\n')
       elseif not ok then
-        write("Compile error: "..func..'\n')
+        io.write("Compile error: "..func..'\n')
       else
         setfenv(func, eval_env)
         local res = {pcall(func)}
         if res[1] then
           if res[2] then
             table.remove(res,1)
-            if scite_debug_eval then --SJD give scite-debug a clear marker
-              write('= '..val2str(res[1]),'\n')
-            elseif scite_debug_print then -- GDB-style results!
-              write('$'..kount..' = '..val2str(res[1])..'\n')
-              kount = kount + 1
-            else
-              for _,v in ipairs(res) do
-                write(tostring(v))
-                write('\t')
-              end
-              write('\n')
+            for _,v in ipairs(res) do
+              io.write(tostring(v))
+              io.write('\t')
             end
+            io.write('\n')
           end
           --update in the context
-          eval_env, breakfile, breakline = report(coroutine.yield(0))
+          return 0
         else
-          write("Run error: "..res[2]..'\n')
+          io.write("Run error: "..res[2]..'\n')
         end
       end
       --}}}
-     in_debugger = false
+
+    else
+      if command ~= '' then
+        io.write(color.red.."not a valid debugger command '"..command.."'\n"..color.reset)
+      end
     end
   end
-end_timer()
 
+end
+
+--}}}
+--{{{  local function debug_hook(event, line, level, thread)
+
+local function debug_hook(event, line, level, thread)
+  if not started then debug.sethook(); coro_debugger = nil; return end
+  current_thread = thread or 'main'
+  local level = level or 2
+  trace_event(event,line,level)
+  if event == "call" then
+    stack_level[current_thread] = stack_level[current_thread] + 1
+  elseif event == "return" then
+    stack_level[current_thread] = stack_level[current_thread] - 1
+    if stack_level[current_thread] < 0 then stack_level[current_thread] = 0 end
+  else
+    local vars,file,line = capture_vars(level,1,line)
+    local stop, ev, idx = false, events.STEP, 0
+    while true do
+      for index, value in pairs(watches) do
+        setfenv(value.func, vars)
+        local status, res = pcall(value.func)
+        if status and res then
+          ev, idx = events.WATCH, index
+          stop = true
+          break
+        end
+      end
+      if stop then break end
+      if (step_into)
+      or (step_over and (stack_level[current_thread] <= step_level[current_thread] or stack_level[current_thread] == 0)) then
+        step_lines = step_lines - 1
+        if step_lines < 1 then
+          ev, idx = events.STEP, 0
+          break
+        end
+      end
+      if has_breakpoint(file, line) then
+        ev, idx = events.BREAK, 0
+        break
+      end
+      return
+    end
+    if not coro_debugger then
+      io.write("Lua Debugger\n")
+      vars, file, line = report(ev, vars, file, line, idx)
+      io.write("Type 'help' for commands\n")
+      coro_debugger = true
+    else
+      vars, file, line = report(ev, vars, file, line, idx)
+    end
+    tracestack(level)
+    local last_next = 1
+    local next = 'ask'
+    local silent = false
+    while true do
+      if next == 'ask' then
+        next = debugger_loop(ev, vars, file, line, idx)
+      elseif next == 'cont' then
+        return
+      elseif next == 'stop' then
+        started = false
+        debug.sethook()
+        coro_debugger = nil
+        return
+      elseif tonumber(next) then --get vars for given level or last level
+        next = tonumber(next)
+        if next == 0 then silent = true; next = last_next else silent = false end
+        last_next = next
+        restore_vars(level,vars)
+        vars, file, line = capture_vars(level,next)
+        if not silent then
+          if vars and vars.__VARSLEVEL__ then
+            io.write('Level: '..vars.__VARSLEVEL__..'\n')
+          else
+            io.write('No level set\n')
+          end
+        end
+        ev = events.SET
+        next = 'ask'
+      else
+        io.write('Unknown command from debugger_loop: '..tostring(next)..'\n')
+        io.write('Stopping debugger\n')
+        next = 'stop'
+      end
+    end
+  end
 end
 
 --}}}
@@ -1420,18 +1696,20 @@ end
 
 --}}}
 
---{{{  function pause()
+--{{{  function pause(x,l,f)
 
 --
 -- Starts/resumes a debug session
 --
 
-function pause(x)
-  if pause_off then return end               --being told to ignore pauses
+function pause(x,l,f)
+  if not f and pause_off then return end       --being told to ignore pauses
   pausemsg = x or 'pause'
   local lines
   local src = getinfo(2,'short_src')
-  if src == "stdin" then
+  if l then
+    lines = l   --being told when to stop
+  elseif src == "stdin" then
     lines = 1   --if in a console session, stop now
   else
     lines = 2   --if in a script, stop when get out of pause()
@@ -1440,19 +1718,19 @@ function pause(x)
     --we'll stop now 'cos the existing debug hook will grab us
     step_lines = lines
     step_into  = true
+    debug.sethook(debug_hook, "crl")         --reset it in case some external agent fiddled with it
   else
-    --SJD: see if we can open clidebug.cmd
-    local f = io.open(os.getenv('TMP')..'\\clidebug.cmd')
+  --SJD: see if we can open clidebug.cmd
+    local f = io.open(os.getenv('TMP')..'\\clidebug.data')
     if f then
       for line in f:lines() do
-        tinsert(initial_commands,line)
+        --io.write("[InitCmd] "..line.." ")
+        table.insert(initial_commands,line)
       end
       f:close()
     else
-      write('no command file found\n')
+      io.write('no command file found\n')
     end
-    start_timer 'BREAK'
-    coro_debugger = cocreate(debugger_loop)  --NB: Use original coroutune.create
     --set to stop when get out of pause()
     trace_level[current_thread] = 0
     step_level [current_thread] = 0
@@ -1465,7 +1743,7 @@ function pause(x)
 end
 
 --}}}
---{{{  function dump()
+--{{{  function dump(v,depth)
 
 --shows the value of the given variable, only really useful
 --when the variable is a table
@@ -1481,31 +1759,13 @@ end
 local _traceback = debug.traceback       --note original function
 
 --override standard function
-debug.traceback = function(...)
-  local args = {...}
-  local message = ""
-  if #args == 0 then -- "",2
-    args = {"",2}
-  elseif #args == 1 then -- message,2
-    args[1] = args[1] or ""
-    message = args[1]
-    table.insert(args,2)
-  elseif #args == 2 then -- message,level+1
-    args[1] = args[1] or ""
-    message = args[1]
-    args[2] = args[2]+1
-  elseif #args == 3 then -- thread,message,level+1
-    message = args[2]
-    args[3] = args[3]+1
-  end
-  local assertmsg = _traceback(unpack(args))        --do original function
-  if not DEBUG_TRACEBACK_NO_PAUSE then
-    pause(message)                               --let user have a look at stuff
-  end
+debug.traceback = function(x)
+  local assertmsg = _traceback(x)        --do original function
+  pause(x)                               --let user have a look at stuff
   return assertmsg                       --carry on
 end
 
 _TRACEBACK = debug.traceback             --Lua 5.0 function
 
 --}}}
-
+-- vim: ts=2 sw=2 sts=2

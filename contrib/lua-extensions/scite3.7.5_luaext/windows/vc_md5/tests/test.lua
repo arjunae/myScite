@@ -1,3 +1,5 @@
+-- go@ dofile $(FilePath)
+-- ^^tell Scite to use its internal Lua interpreter.
 #!/usr/local/bin/lua50
 
 -- Testing MD5

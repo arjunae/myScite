@@ -1,7 +1,7 @@
-//build@ gcc -D LUA_COMPAT_5_1 win32-spawner-ex.c -DLUA_COMPAT_5_1 -I..\lua\5.3\src -L ../clib/ -lscite
+//build@ gcc -D LUA_COMPAT_5_1 win-spawner-ex.c -DLUA_COMPAT_5_1 -I..\lua\5.3\src -L ../clib/scite_lua5.3/ -lscite
 // 24.01.2021 Use luaL_setfuncs instead of luaL_Register for >=LUA52 following https://github.com/TheLinx/lao/issues/2
-// 25.01.2021 Use luaL_prepbuffsize instead of luaL_prepbuffer as SciTE 4.46 doesnt export that symbol.
-//      "     Use correct casts
+// 25.01.2021 Use luaL_prepbuffsize instead of luaL_prepbuffer and symlink lua_strlen to lua_rawlen
+// 30.01.2021 Fix some warns
 #define LUA_NUMBER_SCAN         "%lf"
 
 #include <windows.h>
@@ -18,6 +18,9 @@
 #include <lauxlib.h>
 #include <lualib.h>
 
+#if LUA_VERSION_NUM >= 502
+#define lua_strlen(L,i)     lua_rawlen(L, (i))
+#endif
 static char buffer[16384]; // buffer for reading from a process
 static char linebuf[512];  // line buffer
 static char outbuf[16384]; // buffer for constructing messages to SciTE
@@ -50,7 +53,7 @@ BOOL CALLBACK EnumWindowsProc(HWND  hwnd, LPARAM  lParam)
     HWND* results = (HWND*)lParam;
     int idx = size_of_array(results);	
     char buff[256];
-    GetClassName(hwnd,(LPSTR)buff,sizeof(buff));	
+    GetClassName(hwnd,(LPWSTR)buff,sizeof(buff));	
     if (strcmp(buff,"DirectorExtension") == 0) {
         if (GetWindowLongPtr(hwnd,GWLP_USERDATA) == (intptr_t)hSciTE) {
             hSelf = hwnd;     
@@ -97,7 +100,8 @@ static int do_verbose(lua_State* L)
 
 static int do_fulllines(lua_State* L)
 {
-    //fulllines = luaL_checkboolean(L,1);
+    if(lua_isboolean(L, 1))
+        fulllines = lua_toboolean(L, 1);
     return 0;
 }
 
@@ -143,7 +147,7 @@ void create_thread_window(void)
 {
     LONG_PTR subclassedProc;
     hwndDispatcher = CreateWindow(
-        (LPCSTR)L"STATIC", (LPCSTR)L"SciTE_Spawner_Dispatcher",
+        "STATIC", "SciTE_Spawner_Dispatcher",
         0, 0, 0, 0, 0, 0, 0, GetModuleHandle(NULL), 0
     );
     subclassedProc = SetWindowLongPtr(hwndDispatcher, GWLP_WNDPROC, (LONG_PTR)WndProc);
@@ -170,7 +174,7 @@ typedef struct {
 
 static BOOL start_process(Spawner* p)
 {
-    wchar_t* prog = (wchar_t*)p->command_line;
+    const char* prog = p->command_line;
     SECURITY_ATTRIBUTES sa = {sizeof(SECURITY_ATTRIBUTES), 0, 0};
     SECURITY_DESCRIPTOR sd;
     STARTUPINFO si = {
@@ -210,7 +214,7 @@ static BOOL start_process(Spawner* p)
 
     p->running = CreateProcess(
               NULL,
-              (LPSTR)prog,
+              (LPWSTR)(char*)prog,
               NULL, NULL,
               TRUE, CREATE_NEW_PROCESS_GROUP,
               NULL,
@@ -250,7 +254,7 @@ static void run_process(Spawner* p)
     BOOL bTest;
     DWORD exitcode;	
     //* FILE* reader = fdopen(p->hPipeRead,"r");
-    Sleep(50);
+    Sleep(100); // any better way ?
     
     while (p->running) {
         *buffer = '\0';
@@ -353,14 +357,14 @@ static int spawner_run(lua_State* L)
         lua_pushboolean(L,FALSE);
         return 1;
     }
-    //_beginthread(monitor_process,0,spp);
+    _beginthread(monitor_process,0,spp);
     if (spp->output != NULL) {
-        _beginthread((_beginthread_proc_type)run_process, 1024 * 1024,spp);
+        _beginthread((void *)run_process, 1024 * 1024,spp);
     } else {
         int fd;
         fd = _open_osfhandle((intptr_t)spp->hPipeRead, _O_BINARY);
         spp->inf = _fdopen(fd,"r");
-        //Sleep(50);
+        Sleep(100); // any better way ?
     }
     lua_pushboolean(L,TRUE);
     return 1;
@@ -382,7 +386,7 @@ static Spawner* start_popen(lua_State* L)
         lua_pushboolean(L,FALSE);
         return NULL;
     }
-    //_beginthread(monitor_process,0,spp);
+    _beginthread(monitor_process,0,spp);
     return spp;
 }
 
@@ -497,7 +501,6 @@ static int test_eof (lua_State *L, FILE *f) {
   return (c != EOF);
 }
 
-
 static int read_line (lua_State *L, FILE *f) {
   luaL_Buffer b;
   luaL_buffinit(L, &b);
@@ -544,7 +547,6 @@ static int read_chars (lua_State *L, FILE *f, size_t n) {
   luaL_pushresult(&b);  /* close buffer */
   return (n == 0 || lua_strlen(L, -1) > 0);
 }
-
 
 static int f_read (lua_State *L) {
   FILE *f = tofile(L);
@@ -656,10 +658,12 @@ static void createmeta (lua_State *L) {
   luaL_newmetatable(L, PIPE_FILEHANDLE);  /* create metatable for file handles */
   lua_pushvalue(L, -1);  /* push metatable */
   lua_setfield(L, -2, "__index");  /* metatable.__index = metatable */
-#if LUA_VERSION_NUM >= 502
-    luaL_setfuncs(L, file_methods, 0);
-#else
-  luaL_register(L, NULL, file_methods);  /* file methods */
+#if LUA_VERSION_NUM == 501
+  luaL_openlib (L, NULL, file_methods, 0);
+#elif LUA_VERSION_NUM == 502
+  lua_register(L, NULL, file_methods); 
+#elif LUA_VERSION_NUM >= 503
+  luaL_setfuncs(L, file_methods,0);
 #endif
 }
 
@@ -667,25 +671,29 @@ __declspec(dllexport)
 int luaopen_spawner(lua_State *L)
 {
     hSciTE = GetForegroundWindow();
-    hInstance = (void *) (intptr_t) GetWindowLong(hSciTE,-6);
+    hInstance =(void *) (intptr_t)GetWindowLong(hSciTE,-6);
     create_thread_window();
     createmeta(L);
-#if LUA_VERSION_NUM >= 502
+
+#if LUA_VERSION_NUM == 501
+   luaL_openlib (L, "spawner", spawner, 0);
+#elif LUA_VERSION_NUM == 502
+    lua_register(L, "spawner", spawner); 	
+#elif LUA_VERSION_NUM >= 503
     lua_newtable(L);
     luaL_setfuncs(L, spawner, 0);
     lua_pushvalue(L, -1);
     lua_setglobal(L, "spawner");
-#else
-    luaL_register (L, "spawner", spawner  );
 #endif
     luaL_newmetatable(L, SPAWNER);  // create metatable for spawner objects
     lua_pushvalue(L, -1);  // push metatable
     lua_setfield(L, -2, "__index");  // metatable.__index = metatable
-#if LUA_VERSION_NUM >= 502
-    lua_newtable(L);
-    luaL_setfuncs(L, spawner_methods, 0);
-#else
-    luaL_register(L, NULL, spawner_methods); 	
+#if LUA_VERSION_NUM == 501
+    lua_register(L, NULL, spawner_methods); 
+#elif LUA_VERSION_NUM == 502
+    lua_register(L, NULL, spawner_methods); 
+#elif LUA_VERSION_NUM >= 503
+   luaL_setfuncs(L, spawner_methods,0);
 #endif
-     return 1;	
+    return 1;	
 }

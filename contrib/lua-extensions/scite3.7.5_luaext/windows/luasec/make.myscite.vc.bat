@@ -2,7 +2,8 @@
 
 set PLAT=x86
 set LUA_PLAT=5.3
-set LUA_LIB=scilexer.lib
+rem set LUA_LIB=scilexer.lib
+set LUA_LIB=scite.lib
 
 REM Ensure to have the compile Chain within Path. Use a default. 
 if ["%VCINSTALLDIR%"] equ [""] (

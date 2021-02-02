@@ -145,7 +145,7 @@ function Clidebug:continue()
 end
 
 function Clidebug:quit()
-	dbg_command('os.exit(0)')
+--	dbg_command('os.exit(0)')
 end
 
 function Clidebug:inspect(word)

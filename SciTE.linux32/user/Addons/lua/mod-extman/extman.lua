@@ -12,6 +12,8 @@
 
 -- 09.01.2020 Add Force Parameter to scite_OnOutputLine
 -- If defined, it will remove fn even if it was defined as a "primary_handler"
+-- 30.01.2020 add error handling to scite_Popen
+
 
 -- this is an opportunity for you to make regular Lua packages available to SciTE
 --~ package.path = package.path..';C:\\lang\\lua\\lua\\?.lua'
@@ -437,6 +439,7 @@ end
 local extman_path = path_of(props['ext.lua.startup.script'])
 local lua_path = scite_GetProp('ext.lua.directory',extman_path..dirsep..'scite_lua')
 
+
 function extman_Path()
     return extman_path
 end
@@ -470,7 +473,13 @@ function scite_Popen(cmd)
     if spawner then
         spawner.verbose(scite_GetPropBool('debug.spawner.verbose',true))
         spawner.fulllines(1)
-        return spawner.popen(cmd)
+        result=spawner.popen(cmd)
+        if not result or not result.lines  then  
+            print("extman: error while calling spawner.popen ("..cmd..")") 
+            return
+        else
+            return result
+        end
     else
         cmd = cmd..' > '..tempfile
         if  GTK then -- io.popen is dodgy; don't use it!
@@ -639,7 +648,7 @@ function scite_Files(mask)
     end
     f = scite_Popen(cmd)
     local files = {}
-    if not f then return files end
+    if not f or not f.lines then return files end
 
     for line in f:lines() do
         if not pat or line:match(pat) then
@@ -663,7 +672,7 @@ function scite_Directories(path,exclude_pat)
     path = path..dirsep
     local f = scite_Popen(cmd)
     local files = {}
-    if not f then return files end
+    if not f or not f.lines then return files end
     for line in f:lines() do
 --        print(line)
         if GTK then
@@ -917,4 +926,3 @@ end
 
 --~ require"remdebug.engine"
 --~ remdebug.engine.start()
-

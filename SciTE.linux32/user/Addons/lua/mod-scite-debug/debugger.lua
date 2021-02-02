@@ -4,7 +4,8 @@
 -- (1) debug.backtrace.depth will configure depth of stack frame dump (default is 20)
 -- (3) first generalized version
 
-require "lfs" --chdir
+if lfs==nil then err,lfs = pcall( require,"lfs")  end --chdir
+scite_require 'marker_indic.lua'
 
 local GTK = scite_GetProp('PLAT_GTK')
 local stripText = ''
@@ -15,25 +16,23 @@ end
 --Fixme calling scite_command from within events.
 
 scite_Command {
- -- 'Run|do_run|*{savebefore:yes}|Alt+R',
- -- 'Breakpoint|do_breakpoint|F9'
+  'Run|do_run|*{savebefore:yes}|Alt+R',
+  'Breakpoint|do_breakpoint|F9'
 }
 
 scite_Command {
---	  'Step|do_step|Alt+C',
---	  'Step Over|do_next|Alt+N',
---	  'Go To|do_temp_breakpoint|Alt+G',  
---	  'Kill|do_kill|Alt+K',
---	  'Inspect|do_inspect|Alt+I',
---	  'Locals|do_locals|Alt+Ctrl+L',
---     'Watch|do_watch|Alt+W',
---	  'Backtrace|do_backtrace|Alt+Ctrl+B',
---      'Step Out|do_finish|Alt+M',
---	  'Up|do_up|Alt+U',
---	  'Down|do_down|Alt+D',
+	  'Step|do_step|Alt+C',
+	  'Step Over|do_next|Alt+N',
+	  'Go To|do_temp_breakpoint|Alt+G',  
+	  'Kill|do_kill|Alt+K',
+	  'Inspect|do_inspect|Alt+I',
+	  'Locals|do_locals|Alt+Ctrl+L',
+     'Watch|do_watch|Alt+W',
+	  'Backtrace|do_backtrace|Alt+Ctrl+B',
+      'Step Out|do_finish|Alt+M',
+	  'Up|do_up|Alt+U',
+	  'Down|do_down|Alt+D',
 }
-	
-scite_require 'extlib.lua'
 
 local lua_prompt = '(lua)'
 local prompt
@@ -48,6 +47,52 @@ local last_breakpoint
 local traced
 local dbg
 local catdbg
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+local GTK = scite_GetProp('PLAT_GTK')
+local dirSep,dirsep
+
+if GTK then
+	dirSep = '/'
+	dirsep = '/'
+else
+	dirSep = '\\'
+	dirsep='\\'
+end
+
+local function at (s,i)
+    return s:sub(i,i)
+end
+
+function slashify(s)
+	return s:gsub('\\','\\\\')
+end
+
+--- note: for finding the last occurance of a character, it's actualy
+--- easier to do it in an explicit loop rather than use patterns.
+--- (These are not time-critcal functions)
+function split_last (s,ch)
+    local i = #s
+    while i > 0 do
+        if at(s,i) == ch then
+            return s:sub(i+1),i
+        end
+        i = i - 1
+    end
+end
+
+function choose(cond,x,y)
+	if cond then return x else return y end
+end
+
+
+function join(path,part1,part2)
+	local res = path..dirsep..part1
+    if part2 then return res..dirsep..part2 else return res end
+end
+
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 function dbg_last_command()
@@ -124,10 +169,14 @@ function edit(f)
 end
 
 
-function cd(path)
- --  os.chdir(path)
- lfs.chdir(path)
+function cd(path) 
+	if lfs then
+		lfs.chdir(path)
+	else
+		os.chdir(path)
+	end
 end
+
 
 function eval_lua(line)
     if sub(line,1,1) == '=' then
@@ -157,7 +206,8 @@ end
 -- vars $var; if none of these, then evaluate as a Lua expression, like
 -- the canonical Lua prompt (= <expr> prints out a value; otherwise any
 -- Lua statement)
-scite_OnOutputLine (function (line)
+
+function handleDebugPrompt(line)
 	local line = strip_prompt(line)
 	local state = dbg_status()
 	local dbg = dbg_obj()    
@@ -178,6 +228,10 @@ scite_OnOutputLine (function (line)
 				local r = spawner.popen(line:sub(2))
 				trace(r:read('*a'))
 				r:close()
+			elseif (promptHelp==nil) then
+					trace("\t=Debug Prompt=\n\tType in a lua statement\n\tor evaluate Properties by\n\ttyping the $varname / set $varname = val\n")
+					promptHelp=false;
+					set_prompt(lua_prompt)
 			else
 				eval_lua(line)
 			end
@@ -186,7 +240,7 @@ scite_OnOutputLine (function (line)
     end
     trace(prompt)
     return true
-end)
+end
 
 local debug_status = scite_GetProp('debug.status',false)
 
@@ -392,13 +446,14 @@ end
 
 function do_run()
 	if status == 'idle' then
-	-- Arjunea
+	scite_OnOutputLine (handleDebugPrompt,line)
+	-- Arjunea Fix lua5.3.4
 		if not (props['debug.asktarget']=='' or props['debug.asktarget'] == '0') and (#stripText == 0 ) then
 				scite.StripShow("") -- clear strip
-				scite.StripShow("!'Target name:'["..props['FilePath'].."]((OK))(&Cancel)")
+				scite.StripShow("!'/todo: rewrite.../ Target name:'["..props['FilePath'].."]((OK))(&Cancel)")
 				return
 		end
-			lfs.chdir(props['FileDir']) 
+			if lfs then lfs.chdir(props['FileDir']) else os.chdir(props['FileDir'])	end
 		if	do_launch() then
 			set_status('running')
 		else
@@ -422,6 +477,7 @@ function do_kill()
 		end
 		 closing_process()
 	end
+	scite_OnOutputLine(handleDebugPrompt,true)
 end
 
 function do_next()
@@ -596,7 +652,7 @@ end
 
 function create_existing_breakpoints()
 	os.remove(dbg.cmd_file)
-	local out = io.open(dbg.cmd_file,"w")
+	local out = io.open(slashify(dbg.cmd_file),"w")
 	dbg:special_debugger_setup(out)
 	dbg:dump_breakpoints(out)
     local parms = dbg:parameter_string()
@@ -665,7 +721,7 @@ function do_launch()
 			target = target:sub(4)
 			no_host_symbols = true
 		end
-        ext = extension_of(target)
+        ext = split_last(target,'.') --File Ext
     else
         ext = props['FileExt']
     end
@@ -729,7 +785,7 @@ function spawner_command(line)
 	spawner_obj:write(line..'\n')
 end
 
---local ferr = io.stderr
+local ferr = io.stderr
 
 function dbg_command(s,argument)
 	dbg.last_command = s
@@ -759,10 +815,10 @@ end
 function closing_process()
     print 'quitting debugger'
 	 stripText=""
-	--spawner_obj:close()
+	 --spawner_obj:close()
     set_status('idle')
     if catdbg ~= nil then print(catdbg); catdbg:close() end
-	scite_LeaveInteractivePrompt()   
+	scite_LeaveInteractivePrompt()
 	RemoveLastMarker(true)
 	os.remove(dbg.cmd_file)
 end
@@ -942,3 +998,16 @@ scite_OnDwellStart(function (pos,s)
         return true
     end
 end)
+
+--
+-- Load all debug interface classes
+--
+if (props["debug.path"]=="") then 
+	print("debugger.lua: Error- Please define $(debug.path) ")
+	return false
+end
+
+dbgIntsPath=props["debug.path"]..dirsep.."dbgInterfaces"..dirsep.."*.lua"
+for i,file in pairs(scite_Files(dbgIntsPath)) do
+  dofile(file)
+end

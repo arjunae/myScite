@@ -216,10 +216,13 @@ local function buildNames()
 -- use a user settable maximum size for AutoComplete to be active
 --print("build names buffer state:",buffer.dirty)
     names={}
-
-    --Handling "BigData" can be time intensive, so only do that when its neccesary.
-    if buffer.size == nil then buffer.size=0 end
-    if buffer.size > AC_MAX_SIZE then return end
+    --handle corner cases when luaext didnt init its buffer table 
+    if type(buffer)=="table" then
+        buffer.size= buffer.size or 0
+        --Handling "BigData" can be time intensive, so only do that when its neccesary.
+        if buffer.size > AC_MAX_SIZE then return end
+        if buffer.size and (buffer.dirty==false or props["Language"]=="") then return end 
+    end
     
     if DEBUG>=1 then print("ac>buildnames") end
         setLexerSpecificStuff()
@@ -253,8 +256,10 @@ local function buildNames()
         end
         for _,name in pairs(unique) do table.insert(names, name) end     
         table.sort(names, function(a,b) return normalize(a) < normalize(b) end) 
-        buffer.namesForAutoComplete = names  -- Cache it for OnSwitchFile.
-        buffer.dirty=false
+        if type(buffer)=="table" then
+            buffer.namesForAutoComplete = names  -- Cache it for OnSwitchFile.
+            buffer.dirty=false
+        end
         --print ("ac>buildNames:  ...Created a new keywordlist")
 end
 
@@ -364,7 +369,8 @@ end
 local function handleKey(key, shift, ctrl, alt)
     if props["Language"]==""  then  return end
     if buffer.size and buffer.size > AC_MAX_SIZE then return end
-
+    if key == 0xD then buildNames() return -- also update keywords on enter
+    end
     if key == 0x20 and ctrl and not (shift or alt) then -- ^Space
         handleChar(nil, true)
         return true

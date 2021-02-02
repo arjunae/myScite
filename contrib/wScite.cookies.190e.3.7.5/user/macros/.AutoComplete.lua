@@ -1,9 +1,10 @@
 --go@ dofile $(FilePath)
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- AutoComplete by Lexikos. Updates 2017 by Marcedo
--- Version: 0.9
+-- AutoComplete by Lexikos. Update 20210124 by Marcedo
+-- Version: 1.0
 -- - Sanity checks for SciTE.
 -- - Documentation, Performance Tweaks
+-- - fix Crash with switching buffers to a code in a fresh, unnamed buffer 
 
 --[[
 Tested on SciTE4AutoHotkey 3.0.06.01; may also work on SciTE 3.1.0 or later.
@@ -213,28 +214,28 @@ local function buildNames()
 -- Disable Ac for the Null Lexer
 -- only rebuild list when the buffer was modified
 -- use a user settable maximum size for AutoComplete to be active
-
 --print("build names buffer state:",buffer.dirty)
-        
-    if buffer.size and buffer.dirty==true and props["Language"]~=""  then 
-    if buffer.size and buffer.size > AC_MAX_SIZE then  return end
-    if DEBUG>=1 then  print("ac>buildnames") end
+    names={}
+    --handle corner cases when luaext didnt init its buffer table 
+    if type(buffer)=="table" then
+        buffer.size= buffer.size or 0
+        --Handling "BigData" can be time intensive, so only do that when its neccesary.
+        if buffer.size > AC_MAX_SIZE then return end
+        if buffer.size and (buffer.dirty==false or props["Language"]=="") then return end 
+    end
+    
+    if DEBUG>=1 then print("ac>buildnames") end
         setLexerSpecificStuff()
         -- Reset our array of names.
         names = {}
         -- Collect all words matching the given patterns.
         local unique = {}
-
         -- Initialisation: Build an ordered array from the Api files entries 
         if #unique==0 then
             for name in pairs(getApiNames()) do
                 unique[normalize(name)] = name
             end
         end
-        
-        --Handling "BigData" can be time intensive, so only do that when its neccesary.
-        if not buffer.size then return end
- 
         for i, pattern in ipairs(IDENTIFIER_PATTERNS) do
             local startPos, endPos
             endPos = 0
@@ -253,14 +254,13 @@ local function buildNames()
                 end
             end
         end
-
         for _,name in pairs(unique) do table.insert(names, name) end     
         table.sort(names, function(a,b) return normalize(a) < normalize(b) end) 
-        buffer.namesForAutoComplete = names  -- Cache it for OnSwitchFile.
-        buffer.dirty=false
- 
-        --print ("ac>buildNames:  ...Created a new keywordlist")   
-    end
+        if type(buffer)=="table" then
+            buffer.namesForAutoComplete = names  -- Cache it for OnSwitchFile.
+            buffer.dirty=false
+        end
+        --print ("ac>buildNames:  ...Created a new keywordlist")
 end
 
 
@@ -271,7 +271,6 @@ local function handleChar(char, calledByHotkey)
     if props["Language"]==""  then  return end
     if buffer.size and buffer.size > AC_MAX_SIZE then return end
     if not names then buildNames() end
-    
     local pos = editor.CurrentPos
     local startPos = editor:WordStartPosition(pos, true)
     local len = pos - startPos
@@ -316,7 +315,7 @@ local function handleChar(char, calledByHotkey)
         prefix= string.gsub(prefix,"%$","")
         len=len -1
     end
-    
+
     menuItems = {}
     for i, name in ipairs(names) do
         local s = normalize(string.sub(name, 1, len))
@@ -370,7 +369,8 @@ end
 local function handleKey(key, shift, ctrl, alt)
     if props["Language"]==""  then  return end
     if buffer.size and buffer.size > AC_MAX_SIZE then return end
-
+    if key == 0xD then buildNames() return -- also update keywords on enter
+    end
     if key == 0x20 and ctrl and not (shift or alt) then -- ^Space
         handleChar(nil, true)
         return true
@@ -435,7 +435,9 @@ local events = {
         names = buffer.namesForAutoComplete
         if not names then
             -- Otherwise, build a new list.
-            if(buffer.size) then buffer.dirty=true end
+            buffer.dirty=true
+            editor:Colourise(0, editor.Length)
+            if props["project.ctags.update"]=="" then props["project.ctags.update"]="1" end
             buildNames()
         else
             setLexerSpecificStuff()
@@ -452,7 +454,6 @@ local events = {
         buffer.dirty=true
         if props["project.ctags.update"]==""  then props["project.ctags.update"]="1" end
         buildNames()
-
     end
 }
 -- Add event handlers in a cooperative fashion:
