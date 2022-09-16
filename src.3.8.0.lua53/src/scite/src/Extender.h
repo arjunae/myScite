@@ -42,7 +42,7 @@ public:
 	virtual void Perform(const char *actions)=0;
 	virtual void DoMenuCommand(int cmdID)=0;
 	virtual void UpdateStatusBar(bool bUpdateSlowData)=0;
-	virtual void ReadProperties(bool reloadScripts)=0;
+	virtual void ReadProperties()=0;
 	virtual void UserStripShow(const char *description)=0;
 	virtual void UserStripSet(int control, const char *value)=0;
 	virtual void UserStripSetList(int control, const char *value)=0;

@@ -25,7 +25,7 @@ else
 LDMINGW = -Wl,--enable-runtime-pseudo-reloc-v2 -Wl,--add-stdcall-alias
 LIBSMINGW = -static
 STRIPOPTION = -s
-CXXSTD = gnu++0x
+CXXSTD = gnu++14
 endif
 
 ifeq ($(OS),Windows_NT)
@@ -150,6 +150,7 @@ SCILEXOBJS=\
 	$(LEXOBJS) \
 	$(LUAOBJS) \
 	ScintillaBaseL.o
+	
 
 $(COMPONENT): $(SOBJS) Scintilla.def
 	$(CXX) $(LDFLAGS) -o $@ $(STRIPFLAG) $(SOBJS) $(CXXFLAGS) $(LIBS)

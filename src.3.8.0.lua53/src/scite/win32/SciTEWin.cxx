@@ -450,7 +450,7 @@ void SciTEWin::ReadPropertiesInitial() {
 
 
 void SciTEWin::ReadProperties() {
-	SciTEBase::ReadProperties(true);
+	SciTEBase::ReadProperties();
 	
 	if (contents.flatUI) {
 		if (foldColour.empty() && foldHiliteColour.empty()) {

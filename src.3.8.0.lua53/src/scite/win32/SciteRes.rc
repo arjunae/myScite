@@ -1,9 +1,10 @@
 // Resource file for SciTE
 // Copyright 1998-2010 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
+// Adds a Window Submenu to the option menu
 
 #include <windows.h>
- 
+
 #include "SciTE.h"
 
 SciTE ICON SciBall.ico
@@ -12,7 +13,7 @@ SciTE ICON SciBall.ico
 
 SciTE MENU
 BEGIN
- 
+
 POPUP "&File"
 BEGIN
 	MENUITEM "&New\tCtrl+N",		IDM_NEW
@@ -75,7 +76,6 @@ BEGIN
 	MENUITEM "Stream Comme&nt\tCtrl+Shift+Q",	IDM_STREAM_COMMENT
 	MENUITEM "Make &Selection Uppercase\tCtrl+Shift+U",	IDM_UPRCASE
 	MENUITEM "Make Selection &Lowercase\tCtrl+U",	IDM_LWRCASE
-	MENUITEM "Reverse Selected Lines",	IDM_LINEREVERSE
 	POPUP "Para&graph"
 	BEGIN
 		MENUITEM "&Join",						IDM_JOIN
@@ -99,7 +99,6 @@ BEGIN
 	MENUITEM "Pre&vious Bookmark\tShift+F2",	IDM_BOOKMARK_PREV
 	MENUITEM "Toggle Bookmar&k\tCtrl+F2",		IDM_BOOKMARK_TOGGLE
 	MENUITEM "&Clear All Bookmarks",			IDM_BOOKMARK_CLEARALL
-	MENUITEM "Select All &Bookmarks",		IDM_BOOKMARK_SELECT_ALL
 END
 
 POPUP "&View"
@@ -138,35 +137,32 @@ END
 
 POPUP "&Options"
 BEGIN
-	MENUITEM "Open Files &Here",		IDM_OPENFILESHERE
-	MENUITEM "&Read-Only",				IDM_READONLY
 	POPUP "Editor" 
 	BEGIN
+	MENUITEM "&Read-Only",				IDM_READONLY
 	MENUITEM "&Always On Top",			IDM_ONTOP
+	MENUITEM "Open Files &Here",		IDM_OPENFILESHERE
 	MENUITEM "Vertical &Split",			IDM_SPLITVERTICAL
 	MENUITEM "&Wrap",			IDM_WRAP
 	MENUITEM "Wrap Out&put",			IDM_WRAPOUTPUT
 	POPUP "&Line End Characters"
 	BEGIN
-	MENUITEM "CR &+ LF",	IDM_EOL_CRLF
-	MENUITEM "&CR",		IDM_EOL_CR
-	MENUITEM "&LF",		IDM_EOL_LF
+		MENUITEM "CR &+ LF",	IDM_EOL_CRLF
+		MENUITEM "&CR",		IDM_EOL_CR
+		MENUITEM "&LF",		IDM_EOL_LF
 	END
 	MENUITEM "&Convert Line End Characters",	IDM_EOL_CONVERT
 	MENUITEM "Change Inden&tation Settings...\tCtrl+Shift+I",	IDM_TABSIZE
 	MENUITEM "Use &Monospaced Font\tCtrl+F11",	IDM_MONOFONT
-	END
-	POPUP "Languages"
-	BEGIN
 	MENUITEM SEPARATOR
-	// Content: All Language Specific Properties
 	END
-	MENUITEM SEPARATOR
 	MENUITEM "Open Local Options File",		IDM_OPENLOCALPROPERTIES
 	MENUITEM "Open &User Options File",		IDM_OPENUSERPROPERTIES
 	MENUITEM "Open &Global Options File",		IDM_OPENGLOBALPROPERTIES
 	MENUITEM "Open Directory Options File",		IDM_OPENDIRECTORYPROPERTIES
+//	MENUITEM "Open A&bbreviations File",		IDM_OPENABBREVPROPERTIES
 	MENUITEM "Open Lua Startup Scr&ipt", 		IDM_OPENLUAEXTERNALFILE
+	MENUITEM SEPARATOR
 
 END // used: abcghilmprstux
 
@@ -595,7 +591,7 @@ END
 IDR_CLOSEFILE BITMAP "closefile.bmp"
 IDR_CLOSEFILE24 BITMAP "closefile24.bmp"
 IDR_BUTTONS BITMAP "buttons.bmp"	//[user.toolbar]
- 
+
 IDBM_WORD BITMAP "word.bmp"
 IDBM_CASE BITMAP "case.bmp"
 IDBM_REGEX BITMAP "regex.bmp"

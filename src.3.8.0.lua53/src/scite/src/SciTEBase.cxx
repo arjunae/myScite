@@ -306,7 +306,7 @@ void SciTEBase::SetOverrideLanguage(int cmdID) {
 
 	CurrentBuffer()->overrideExtension = "x.";
 	CurrentBuffer()->overrideExtension += languageMenu[cmdID].extension;
-	ReadProperties(true);
+	ReadProperties();
 	SetIndentSettings();
 	wEditor.Call(SCI_COLOURISE, 0, -1);
 	Redraw();
@@ -3127,7 +3127,7 @@ void SciTEBase::MenuCommand(int cmdID, int source) {
 		// an opportunity to abandon the edits made to a file when are.you.sure is turned off.
 		if (CanMakeRoom()) {
 			New();
-			ReadProperties(true);
+			ReadProperties();
 			SetIndentSettings();
 			SetEol();
 			UpdateStatusBar(true);

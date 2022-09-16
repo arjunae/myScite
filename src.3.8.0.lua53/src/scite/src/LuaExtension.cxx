@@ -314,7 +314,7 @@ static int cf_scite_update_status_bar(lua_State *L) {
 
 static int cf_scite_apply_properties(lua_State *L) {
 	if(!L) return(0);
-	host->ReadProperties(false);
+	host->ReadProperties();
 	return 0;
 }
 

@@ -379,14 +379,14 @@ void SciTEBase::CompleteOpen(OpenCompletion oc) {
 		if (languageOverride.length()) {
 			CurrentBuffer()->overrideExtension = languageOverride;
 			CurrentBuffer()->lifeState = Buffer::open;
-			ReadProperties(true);
+			ReadProperties();
 			SetIndentSettings();
 		}
 	}
 	
 	
 	if (oc != ocSynchronous) {
-		ReadProperties(true);
+		ReadProperties();
 		SetIndentSettings();
 		SetEol();
 		UpdateBuffersCurrent();
@@ -586,7 +586,7 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 	}
 	CurrentBuffer()->props = propsDiscovered;
 	CurrentBuffer()->overrideExtension = "";
-	ReadProperties(true);
+	ReadProperties();
 	SetIndentSettings();
 	SetEol();
 	UpdateBuffersCurrent();
@@ -624,7 +624,7 @@ bool SciTEBase::Open(const FilePath &file, OpenFlags of) {
 	UpdateStatusBar(true);
 	if (extender && !asynchronous){
 		extender->OnOpen(filePath.AsUTF8().c_str());
-		ReadProperties(false); //Arjunae: Allow SciTE start-up with extender changed properties.
+		ReadProperties(); //Arjunae: Allow SciTE start-up with extender changed properties.
 		}
 	return true;
 }
@@ -1048,7 +1048,7 @@ void SciTEBase::ReloadProperties() {
 	SetImportMenu();
 	ReadLocalPropFile();
 	ReadAbbrevPropFile();
-	ReadProperties(true);
+	ReadProperties();
 	SetWindowName();
 	BuffersMenu();
 	Redraw();
@@ -1140,7 +1140,7 @@ bool SciTEBase::Save(SaveFlags sf) {
 void SciTEBase::SaveAs(const GUI::gui_char *file, bool fixCase) {
 	SetFileName(file, fixCase);
 	Save();
-	ReadProperties(true);
+	ReadProperties();
 	wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
 	wEditor.Call(SCI_COLOURISE, 0, wEditor.Call(SCI_POSITIONFROMLINE, 1));
 	Redraw();
@@ -1229,7 +1229,7 @@ void SciTEBase::OpenFromStdin(bool UseOutputPane) {
 		wEditor.Call(SCI_CLEARDOCUMENTSTYLE);
 
 		CurrentBuffer()->overrideExtension = "x.txt";
-		ReadProperties(true);
+		ReadProperties();
 		SetIndentSettings();
 		wEditor.Call(SCI_COLOURISE, 0, -1);
 		Redraw();

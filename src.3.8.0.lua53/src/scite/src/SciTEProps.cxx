@@ -53,13 +53,14 @@ const GUI::gui_char menuAccessIndicator[] = GUI_TEXT("&");
 #include "MatchMarker.h"
 #include "SciTEBase.h"
 void SciTEBase::SetImportMenu() {
+
 // Reset Options->configFiles
 	for (int i = 0; i < importMax; i++) {
-     DestroyMenuItem(menuOptions,1300+ i);
+     DestroyMenuItem(menuOptions,importCmdID + i);
 	}
   //importCmdID, FillUp above Menu with property fileNames
 	if (!importFiles.empty()) {
-		for (int stackPos = 0; stackPos < static_cast<int>(importFiles.size()) && stackPos < importMax; stackPos++) {
+		for (int stackPos = 20; stackPos < static_cast<int>(importFiles.size()) && stackPos < importMax; stackPos++) {
 			int itemID = importCmdID + stackPos;
 			if (importFiles[stackPos].IsSet()) {
 				GUI::gui_string sEntry = importFiles[stackPos].Name().AsInternal();
@@ -68,15 +69,17 @@ void SciTEBase::SetImportMenu() {
 				sFile=localiser.Text("Open") + GUI_TEXT(" ") + sFile;
 				//  Depends on names to display properties sorted.
 				if (sFile.find(GUI_TEXT("theme")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ettings")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ools")) != GUI::gui_string::npos) {
-					SetMenuItemNew(menuOptions, 0, IMPORT_START+stackPos, itemID, sFile.c_str());
+					SetMenuItem(menuOptions, IMPORT_START+stackPos, itemID, sFile.c_str());
 				} else {
-					SetMenuItemNew(menuOptions, 3, stackPos, itemID, sFile.c_str());
+					SetMenuItem(menuOptions, stackPos, itemID, sFile.c_str());
 				}
 
 			}
 		}
 	}
 }
+
+
 void SciTEBase::ImportMenu(int pos) {
 	if (pos >= 0) {
 		if (importFiles[pos].IsSet()) {
@@ -125,9 +128,10 @@ void SciTEBase::ReadEnvironment() {
 #endif
 	for (; env&& *env; env++) {
 		char key[1024];
-		char *vk= *env; // Varname's start position 
-		char *vl = strchr(vk, '='); // Values start position
-		if (vl && ((int)(vl - vk) < (int)(sizeof(key)))) { // Validate length 
+		char *vk= *env; // Varname's position
+		char *vl = strchr(vk, '='); // Values position
+
+		if (vl && (static_cast<int>(vl - vk) < static_cast<int>(sizeof(key)))) { // Validate length 
 			memcpy(key, vk, vl - vk);
 			key[vl - vk] = '\0';
 			propsPlatform.Set(key, vl + 1);
@@ -648,9 +652,8 @@ std::string SciTEBase::GetFileNameProperty(const char *name) {
 	}
 }
 
-void SciTEBase::ReadProperties(bool reloadScripts) {
-	if (extender && reloadScripts) 
-		extender->Clear();
+void SciTEBase::ReadProperties() {	
+	extender->Clear();
 	std::string fileNameForExtension = ExtensionFileName();
 	std::string modulePath = props.GetNewExpandString("lexerpath.",
 	    fileNameForExtension.c_str());
@@ -1356,7 +1359,7 @@ void SciTEBase::ReadProperties(bool reloadScripts) {
 		// Check for an extension script
 		GUI::gui_string extensionFile = GUI::StringFromUTF8(
 			props.GetNewExpandString("extension.", fileNameForExtension.c_str()));
-		if (extensionFile.length() && reloadScripts) {
+		if (extensionFile.length()) {
 			// find file in local directory
 			FilePath docDir = filePath.Directory();
 			if (Exists(docDir.AsInternal(), extensionFile.c_str(), &scriptPath)) {
