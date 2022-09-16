@@ -42,9 +42,7 @@ on error goto 0
 end function
 
 
-'-----------
 ' Helpers	
-'-----------
 
 '
 ' Write ArrayData to a given Filename in user/tmp 

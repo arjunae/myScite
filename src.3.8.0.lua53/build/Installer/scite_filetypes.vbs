@@ -60,6 +60,7 @@ End Function
 
 if instr(1,wscript.fullName,"cscript") then  bConsole=true
 
+
 function main()
 
 Const REG_HEADER = "Windows Registry Editor Version 5.00"
@@ -222,7 +223,7 @@ Dim app_path ' Fully Qualified Path to Programs executable on the system.
 	main=cntTyp
 end function
 
-'  Helper Functions
+' Helper Functions
 
 private function logging(action, strEntry)
 '

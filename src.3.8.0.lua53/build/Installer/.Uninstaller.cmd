@@ -3,7 +3,7 @@
 REM  ::--::--::--::--Steampunk--::-::--::--::
 REM
 REM 
-REM   Wrapper for scite_filetypes.vbs uninstall 
+REM  ---- Wrapper for scite_filetypes.vbs uninstall ----
 REM
 REM :: Created April 1 , Marcedo@HabmalneFrage.de
 REM :: License: BSD-3-Clause

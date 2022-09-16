@@ -74,12 +74,14 @@ function ProjectSetEnv(init)
 
 end
 
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 -- CTagsWriteProps() / publish cTag extrapolated Api Data -
 -- reads cTag.properties File and writes them to SciTEs .properties.
 -- prepared for just appending a set of filebased Ctags for speed.
 -- returns cTagList, which contains a List of all Names found in the tagFile
 --
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 
 	if not file_exists(YodaNamePath) or ctagsLock==true or props["project.path"]=="" then return end		
@@ -128,9 +130,11 @@ end
 
 local origApiPath, projectApiPath, sdkApiPath
 
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 --cTagsUpdateProps() 	/ Update filetypes api path.
 --
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 
 	ProjectSetEnv(false)
@@ -177,11 +181,13 @@ function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 	--scite.ApplyProperties(true)
 end
 
+--~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- 
 -- ProjectOnDwell()
 -- Performs actions when the "project.ctgs.fin" file has been found.
 -- (created when a cTag run has been completed)
 --
+--~~~~~~~~~~~~~~~~~~~~~~~~~~
 function ProjectOnDwell()
 	if ctagsLock==false or props["project.path"]=="" then return end	
 	--print("ProjectOnDwell: cTagsLock",ctagsLock,"inProject",inProject)	
@@ -201,10 +207,12 @@ function ProjectOnDwell()
 
 end
 
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 -- RecreateCTags()
 -- Search the File for new CTags and append them.
 --
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function CTagsRecreate()
 	if  ctagsLock==true then return end	
 	if props["project.name"]~="" and props["file.patterns.project"]:match(props["FileExt"])~=nil then
@@ -230,6 +238,7 @@ function CTagsRecreate()
 	end	
 		
 end
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- Registers the Autocomplete event Handlers early.
 ProjectSetEnv(true)

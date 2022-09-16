@@ -41,6 +41,7 @@ on error goto 0
   WScript.echo("STATUS:OK")
 end function
 
+
 ' Helpers	
 
 '

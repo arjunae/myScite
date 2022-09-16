@@ -2,7 +2,7 @@
 chcp 65001 1>NUL
 setlocal enabledelayedexpansion enableextensions
 
-::   Wrapper for scite_filetypes.vbs install 
+:: Wrapper for scite_filetypes.vbs install
 ::
 :: Export property "file.patterns" from all property files
 :: Registers all SciTE known Filetypes.

@@ -1,7 +1,7 @@
 @echo off
 mode 90,20
 chcp 65001 1>NUL
-REM  ::--::--::--::--Steampunk--::-::--::--::
+REM  ::::::::Steampunk::-::::::
 REM
 REM  Add Scite to Explorers Context Menu. (for win7+)
 REM  -> Provides "open with SciTE" and "open SciTE here" 
@@ -20,7 +20,7 @@ REM - Nov16 - reactos fix
 REM - Mai17 - "open Scite Here"
 REM - Mar18 - "ability to register myScites Filetypes"
 REM 
-REM ::--::--::--::--Steampunk--::-::--::--::
+REM ::::::::Steampunk::::::::
 
 REM Normally, the keyword REM identifies a comment line, but we also use the defacto shortform ::
 REM Exception: some Dos parsers dont fully support :: within loops, so definately use REM there.
@@ -35,7 +35,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  set scite_filepath=empty
  set tmp_dir=%TEMP%\SciTE
 
- :: -- Check for and write path of %file_name% in scite_filepath (search up to 10Dirs up)
+ ::  Check for and write path of %file_name% in scite_filepath (search up to 10Dirs up)
  :loop
    set /a dir_count += 1
    if %dir_count% geq 10 (goto end_loop) else (cd ..)
@@ -50,18 +50,18 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  IF NOT EXIST %tmp_dir% mkdir %tmp_dir%
  IF NOT EXIST %scite_filepath% ( call :sub_fail_cmd ) else ( call :sub_create_file ) 
 
- REM  -- Code Continues here --
- echo. --
- echo. -- About to add "open with SciTE" and "open SciTE here" to Explorers Context Menu. 
- echo. --
+ REM   Code Continues here 
+ echo. 
+ echo.  About to add "open with SciTE" and "open SciTE here" to Explorers Context Menu. 
+ echo. 
  echo. 
  
  :: Give the User the option to manually edit/import the generated File.
  :: When "manual Installation" has been chosen, just copy the generated reg import file to currentUsers Desktop.
  
  if [%FIX_REACTOS%] equ [1] Pause && ECHO. && SET ERRORLEVEL=2
- REM if [%FIX_REACTOS%] equ [1] choice /C:AM  -- Press [A] for automatic Install or [M] If you want to do that manually
- if [%FIX_REACTOS%] equ [0] choice /C AM /M " -- Press [A] for automatic Install or [M] If you want to do that manually" 
+ REM if [%FIX_REACTOS%] equ [1] choice /C:AM   Press [A] for automatic Install or [M] If you want to do that manually
+ if [%FIX_REACTOS%] equ [0] choice /C AM /M "  Press [A] for automatic Install or [M] If you want to do that manually" 
  
  if %ERRORLEVEL% == 1 reg import %regfile%
  if %ERRORLEVEL% == 2 (
@@ -72,9 +72,9 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
   copy "%RegFile%" .scite.to.contextMenu.reg>NUL
   move /Y "%regfile%" "%userprofile%\desktop">NUL
   echo.
-  echo   ---------------------------------------------
+  echo   -
   echo. .... copied to %userprofile%\desktop
-  echo   ---------------------------------------------
+  echo   -
   echo.
  )
  if [%FIX_REACTOS%]==[1] goto freunde 
@@ -84,8 +84,8 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  if [%FIX_REACTOS%]==[0] ( 
   echo  .. Register SciTE with understood Filetypes?
   echo  .. (Doesnt overwrite already made associations)  
-  if [%FIX_REACTOS%] equ [1] choice /C:YN -- [Yes/No]
-  if [%FIX_REACTOS%] equ [0] choice /C YN /M " -- [Yes/No]" 
+  if [%FIX_REACTOS%] equ [1] choice /C:YN  [Yes/No]
+  if [%FIX_REACTOS%] equ [0] choice /C YN /M "  [Yes/No]" 
   :: Parses all .properties files and Registers their contained Filetypes 
   if %ERRORLEVEL% == 1 (
     call scite_filetypes /quite %scite_filepath%
@@ -93,7 +93,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
   )
  )
  
- :: -- Clean up --
+ ::  Clean up 
  del /Q %tmp%\scite.tmp 2>NUL
  move /Y %tmp%\scite* %tmp_dir% 2>NUL
  goto :freunde
@@ -101,36 +101,36 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  
 :sub_create_file
 
- :: -- scite_path: remove doublequotes
+ ::  scite_path: remove doublequotes
  set word=
  set str=%scite_path%
  CALL set str=%%str:"=%word%%%
  set scite_path=%str%
 
- :: -- scite_path: Escape Backslashes
+ ::  scite_path: Escape Backslashes
  set word=\\
  set str=%scite_path%
  CALL set str=%%str:\=%word%%%
  set scite_path=%str%
 
- :: -- properly escape two backslashes for Scites -CWD comand"  
+ ::  properly escape two backslashes for Scites -CWD comand"  
  set word=\\\\
  set str=%scite_path%
  CALL set str=%%str:\\=%word%%%
  set scite_path_cwd=%str%
 
- REM -- Define usable comand line options for SciTE here
+ REM  Define usable comand line options for SciTE here
  set RegFile=%tmp_dir%\scite_install.reg
  set scite_cmd_cwd=-CWD:%scite_path_cwd%
  set scite_cmd_open=-open new.txt
  set file_namepath=\"%scite_path%\\%file_name%\"  
  
  REM Short Explanation
- REM -- Finally, write the .reg file, \" escapes double quotes
- REM -- using the safe way here. Windows will automatically update all needed Entries. 
+ REM  Finally, write the .reg file, \" escapes double quotes
+ REM  using the safe way here. Windows will automatically update all needed Entries. 
  echo Windows Registry Editor Version 5.00 > %RegFile%
  echo. >> %RegFile%
- echo ; -- Update ContextMenu "Open With Scite" and "Open Scite Here" >> %RegFile%
+ echo ;  Update ContextMenu "Open With Scite" and "Open Scite Here" >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE\command] >> %RegFile% 
@@ -144,7 +144,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo. >> %RegFile%
  
 :: The following simple mechanism registers Scite to Windows known Applications.
- echo ; -- Update Program Entry >> %RegFile%
+ echo ;  Update Program Entry >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
  echo "FriendlyAppName"="Scintilla based TExteditor" >> %RegFile%
@@ -159,7 +159,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  
 :: Include Scite within the Explorers Context menu "open With" list 
 :: When a System already has some Apps installed, the new SciTE Entry will appear within the ("more Apps") submenu.   
- echo ; -- Update Explorers "open with" list >> %RegFile%
+ echo ;  Update Explorers "open with" list >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open\command] >> %RegFile%
@@ -170,14 +170,14 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  
 :: Register Scite to be known for windows "start" command
 :: https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx
- echo ; -- Register Scite to be known for windows "start" command >> %RegFile%
+ echo ;  Register Scite to be known for windows "start" command >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
  echo @="%file_namepath%" >> %RegFile%
  echo "Path"="%scite_path%" >> %RegFile%
  echo. >> %RegFile%
  
- echo ; -- Uninstall >> %RegFile%
+ echo ;  Uninstall >> %RegFile%
  echo ; [-HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE]  >> %RegFile%
  echo ; [-HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite]>> %RegFile%
  echo ; [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
@@ -205,11 +205,11 @@ exit
 :end_sub_fail_reg
 
 :freunde
- echo   ---------------------------------------------
+ echo   -
  echo   Work Done - I hope you had a nice time !
  echo   A Backup has been stored in: %Userprofile%
  echo.  :) Greetings to you from Deutschland, Darmstadt :) 
- echo   --------------------------------------------
+ echo   
  echo.
  :: wait some time...
  echo Now, please press your favorite key to be Done. HanD! 

@@ -1,7 +1,7 @@
 @echo off
 mode 90,20
 chcp 65001 1>NUL
-REM  ::::::::Steampunk
+REM  ::::::::Steampunk::-::::::
 REM
 REM  Add Scite to Explorers Context Menu. (for win7+)
 REM  -> Provides "open with SciTE" and "open SciTE here" 
@@ -72,8 +72,10 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
   copy "%RegFile%" .scite.to.contextMenu.reg>NUL
   move /Y "%regfile%" "%userprofile%\desktop">NUL
   echo.
+  echo   -
   echo. .... copied to %userprofile%\desktop
-   echo.
+  echo   -
+  echo.
  )
  if [%FIX_REACTOS%]==[1] goto freunde 
  if %ERRORLEVEL% neq 0 goto sub_fail_reg
@@ -99,25 +101,25 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  
 :sub_create_file
 
- :: scite_path: remove doublequotes
+ ::  scite_path: remove doublequotes
  set word=
  set str=%scite_path%
  CALL set str=%%str:"=%word%%%
  set scite_path=%str%
 
- :: scite_path: Escape Backslashes
+ ::  scite_path: Escape Backslashes
  set word=\\
  set str=%scite_path%
  CALL set str=%%str:\=%word%%%
  set scite_path=%str%
 
- :: properly escape two backslashes for Scites -CWD comand"  
+ ::  properly escape two backslashes for Scites -CWD comand"  
  set word=\\\\
  set str=%scite_path%
  CALL set str=%%str:\\=%word%%%
  set scite_path_cwd=%str%
 
- REM Define usable comand line options for SciTE here
+ REM  Define usable comand line options for SciTE here
  set RegFile=%tmp_dir%\scite_install.reg
  set scite_cmd_cwd=-CWD:%scite_path_cwd%
  set scite_cmd_open=-open new.txt
@@ -175,7 +177,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo "Path"="%scite_path%" >> %RegFile%
  echo. >> %RegFile%
  
- echo ; Uninstall >> %RegFile%
+ echo ;  Uninstall >> %RegFile%
  echo ; [-HKEY_CURRENT_USER\SOFTWARE\Classes\*\shell\Open with SciTE]  >> %RegFile%
  echo ; [-HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite]>> %RegFile%
  echo ; [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
@@ -203,9 +205,11 @@ exit
 :end_sub_fail_reg
 
 :freunde
+ echo   -
  echo   Work Done - I hope you had a nice time !
  echo   A Backup has been stored in: %Userprofile%
  echo.  :) Greetings to you from Deutschland, Darmstadt :) 
+ echo   
  echo.
  :: wait some time...
  echo Now, please press your favorite key to be Done. HanD! 
