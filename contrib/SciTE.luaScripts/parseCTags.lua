@@ -59,7 +59,7 @@ else
     if not projectName then projectName=cTagsFileName end
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 --
 --  appendCTags(apiNames,projectFilePath,projectName)
 --  Parse a ctag File, write filtered tagNames to predefined Vars.
@@ -68,7 +68,7 @@ end
 --
 -- Optimized lua version. Gives reasonable Speed even with bigger cTags Files. 
 --
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
     local cTagsFilePath=projectFilePath..cTagsFileName
@@ -196,7 +196,7 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
     return cTagAPI  
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 --
 -- writeProps(projectName, projectFilePath)
 -- publish cTag extrapolated Api Data -
@@ -204,7 +204,7 @@ end
 -- write them to SciTEs properties
 -- probably should return something useful.
 --
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 function writeProps(projectName, projectFilePath)
     
 -- write what we got until here.
@@ -230,11 +230,11 @@ function writeProps(projectName, projectFilePath)
         print("> cTagOthers: ("..string.len(cTagOthers).." bytes)" )
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 --DeDupeAPI() 
 --Removes Dupes by storing entries as TableKeys
 --
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 function DeDupeAPI(APIFilePath)
 nameTable={}
@@ -264,7 +264,6 @@ print("> deDupeing.."..APIFilePath)
    -- os.rename("ResultFile",APIFilePath)
 
 end
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 if odo then
     APIFilePath=projectFilePath..cTagsFileName..".api"

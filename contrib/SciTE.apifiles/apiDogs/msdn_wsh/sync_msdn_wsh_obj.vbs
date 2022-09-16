@@ -1,5 +1,4 @@
 ' build@ cscript.exe /NOLOGO //D $(FilePath)
-'-----------------------------------------------------------------------------
 '   MSDN-Fetcher;  Syncs Content with https://msdn.microsoft.com/
 '   Status:  20151123 Redo Sync, Add oApiDescr. oApiParams, use IE StatusBar
 '   vba.module - works on VbScript too.
@@ -26,7 +25,7 @@ dim bConsole
     obrowser.StatusBar = True
 
 ' URL-Laden
-'--- vbs OBbjects https://msdn.microsoft.com/en-us/library/f51wc7hz(v=vs.84).aspx
+' vbs OBbjects https://msdn.microsoft.com/en-us/library/f51wc7hz(v=vs.84).aspx
   obrowser.Navigate2 ("https://msdn.microsoft.com/en-us/library/f51wc7hz(v=vs.84).aspx")
   sFolder = "wsh.obj"
 	sFileName = "wsh.obj.raw"
@@ -38,8 +37,6 @@ dim bConsole
   MsgBox (" Fini -> Did " & result & " Entries :)")
 
 'End Sub
-
-'---------------------------------------------------------------------
 
 Function fParseResults(obrowser)
 
@@ -55,24 +52,24 @@ Function fParseResults(obrowser)
     'MsgBox( obrowser.Document.body.innerhtml)
   Loop Until htmldoc.body.innerhtml = obrowser.Document.body.innerhtml
   
-'---- prepare Log to textfiles
+' prepare Log to textfiles
 if bconsole then
   Set fso = CreateObject("Scripting.FileSystemObject")
   Set ofile_log = fso.CreateTextFile("sync_msdn.log")
-else '--- prepare Log to stdStream
+else ' prepare Log to stdStream
   ' undocumented: redir log messages to console (start with wscript //X) 
   '  Set myfso = CreateObject ("Scripting.FileSystemObject")
   '  Set ofile_log = myfso.GetStandardStream (1)  
 end if
 
-'----  do some error checking
+'  do some error checking
   If IsObject(htmldoc.getElementById("leftNav")) Then
       Set sidebar = htmldoc.getElementById("tocnav") 
   Else
       Exit Function
   End If
   
-'---- open all Folders (to load all Data into Browser)
+' open all Folders (to load all Data into Browser)
   Set htmldoc = obrowser.Document
 
   For Each oBtn In htmldoc.getElementsByClassName("toc_collapsed")
@@ -98,17 +95,17 @@ end if
 
   MsgBox ("Ready to start parsing. You can stop anytime and resume later, if you need to.")
   
-'----  Nice Catch - goodby redim preserve
+'  Nice Catch - goodby redim preserve
   Set oArrApiDoc = CreateObject("System.Collections.ArrayList")
   ofile_log.Write "Collecting Soap Menuentries: " & vbCrLf
   
-'---- Fetch all previsiously loaded data from browser to above Objects
+' Fetch all previsiously loaded data from browser to above Objects
   For Each oObj In oMyCatList
 
     Dim oApiLink, oApiName, oApiFileName, oApiHref, oApiPos, oApiId
     Dim sReserved, sCharReserved, strPos
     
-  '----Look and collect   freshly arrived Soap Data.
+  'Look and collect   freshly arrived Soap Data.
     ofile_log.Write "."
   
     res = waitforBrowser(obrowser)
@@ -116,20 +113,20 @@ end if
     Set oMyCatList = obrowser.Document.getElementsByClassName("toclevel")
     If iCntlast <> oMyCatList.Length Then ofile_log.Write oMyCatList.Length
   
-  '---- could use a class here, but using sortedList for ExcelVBA Compatibility
+  ' could use a class here, but using sortedList for ExcelVBA Compatibility
       Set oApiLink = CreateObject("System.Collections.SortedList")
       
       oApiName = oObj.all(1).innerText
       icharCnt = InStr(oApiName, " ")
     
-    '---- Strip suffix after first space -
+    ' Strip suffix after first space -
  '   on error resume next
       oApiPos = InStr(1, oApiName, " ")
       oApiName = Left(oApiName, oApiPos)
 '    on error goto 0
       oApiHref = oObj.all(1).href
   
-    ' ---- Get ApiLink from Start till last /
+    '  Get ApiLink from Start till last /
       oApiId = StrReverse(oApiHref)
       oApiPos = InStr(oApiId, "/")
       oApiId = Left(oApiId, oApiPos - 1)
@@ -139,18 +136,18 @@ end if
       sMenuLevel = oObj.getattribute("data-toclevel")
       If sMenuLevel = 1 Then sCurrentCat = oObj.all(1).innerText
       
-    '---- CleanUp and Set Filename
+    ' CleanUp and Set Filename
       oApiFileName = oApiId & "--" & sCurrentCat & "--" & oApiName
   
-    '---- Iterate List of OS Reserved Chars
+    ' Iterate List of OS Reserved Chars
       sReserved = ";<>!|?:=/\*"
   
       For iCharPosReserved = 1 To Len(sReserved)
         sCharReserved = Mid(sReserved, iCharPosReserved, 1)
         strPos = InStr(1, oApiFileName, sCharReserved)
-      '---- clean oApiFileName
+      ' clean oApiFileName
         If strPos > 3 Then
-      '---- try to match a (
+      ' try to match a (
         strTmp = InStr(strPos - 4, oApiFileName, "(")
         If strTmp > 0 Then strPos = strTmp
         
@@ -158,7 +155,7 @@ end if
         End If
     Next
 
-  '---- Create an entry in a SortedList
+  ' Create an entry in a SortedList
     oApiLink.Add "oApiMenuLevel", sMenuLevel
     oApiLink.Add "oApiName", oApiName
     oApiLink.Add "oApiHref", oApiHref
@@ -166,7 +163,7 @@ end if
     oApiLink.Add "oApiId", oApiId
     oApiLink.Add "oApiFileName", oApiFileName
 
-  '---- copy over to ApiList Array  -  works like charm
+  ' copy over to ApiList Array  -  works like charm
     oArrApiDoc.Add oApiLink
     ' Debug.Print oArrApiDoc(0)("oApiHref")
   Next
@@ -180,7 +177,7 @@ end if
   
 End Function
 
-'-----------------------------------------------------------------------------------------------
+'
 
 Sub CreateDocs(sFolder, ofile_log, obrowser, oArrApiDoc)
 
@@ -214,13 +211,13 @@ Sub CreateDocs(sFolder, ofile_log, obrowser, oArrApiDoc)
     sApiPArams = ""
     sApiDesc = ""
        
-'---- check if MSDN ApiId has changed.
+' check if MSDN ApiId has changed.
   If ofs.FileExists(oFldApiDoc & "\" & docEntry("oApiId") & "*.HTML") Then
     ' msgbox "MSDN API IDs Changed. Please clear Folder before you continue"
     ofile_log.Write "MSDN API IDs Changed. Please clear Folder before you continue" & vbCrLf
   End If
     
-'---- check if Apientry is already in our Pocket before fetching.
+' check if Apientry is already in our Pocket before fetching.
   If Not ofs.FileExists(oFldApiDoc & "\" & docEntry("oApiFileName") & ".HTML") Then
   
     result = parseMainWin(obrowser, docEntry)
@@ -236,7 +233,7 @@ Sub CreateDocs(sFolder, ofile_log, obrowser, oArrApiDoc)
 End If
 Next
 
-ofile_log.Write vbCrLf & "_________________________________________________________" & vbCrLf
+ofile_log.Write vbCrLf & "xxxxxxxxxxxxxxxxxxxxxxxxxxxxX" & vbCrLf
 
 ofile_log.Write "Entries parsed: " & oArrApiDoc.Count & vbCrLf
 ofile_log.Write "Already in sync: " & iSyncedCnt & vbCrLf
@@ -253,7 +250,7 @@ Private Function parseMainWin(obrowser, docEntry)
   result = waitforBrowser(obrowser)
   obrowser.StatusText = ".... Parsing ... " & docEntry("oApiName")
  
-' ---- get api Description
+'  get api Description
   sApiDesc = obrowser.Document.getElementById("mainBody").all(1).innerText
   sApiDesc = Replace(sApiDesc, vbCrLf, "")
   sApiDesc = Replace(sApiDesc, ";", ",")
@@ -263,7 +260,7 @@ Private Function parseMainWin(obrowser, docEntry)
   sApiDesc = Replace(sApiDesc, vbCrLf, "\t\n")
   docEntry.Add "oApiDesc", sApiDesc
   
-' ---- get Syntax Sample, if any and - please - choose the matching one :)
+'  get Syntax Sample, if any and - please - choose the matching one :)
   If Not (Nothing Is obrowser.Document.getElementsByTagName("pre")) Then
     For Each oSyntax In obrowser.Document.getElementsByTagName("pre")
       If InStr(oSyntax.innerText, docEntry("oApiName")) Then
@@ -273,12 +270,12 @@ Private Function parseMainWin(obrowser, docEntry)
     Next
   End If
   
-'---- replace crLf on multiline Samples
+' replace crLf on multiline Samples
   sApiSyntax = Replace(sApiSyntax, vbCrLf, "\t\n")
   sApiSyntax = Replace(sApiSyntax, ";", ",")
   docEntry.Add "oApiSyntax", sApiSyntax
       
-' ---- Collect Api parameter
+'  Collect Api parameter
   Set oApiParamsRaw = obrowser.Document.getElementsByTagName("dt")
   sApiPArams = "("
   
@@ -286,13 +283,13 @@ Private Function parseMainWin(obrowser, docEntry)
     sApiPArams = sApiPArams & param.innerText & " "
   Next
   
-' ---- add Parameter separator "," and write to array
+'  add Parameter separator "," and write to array
   sApiPArams = sApiPArams & ")"
   sApiPArams = Replace(sApiPArams, " )", ")")
   If oApiParamsRaw.Length > 1 Then sApiPArams = Replace(sApiPArams, " ", ",")
   docEntry.Add "oApiParams", sApiPArams
 
-  '--- Cook a nice meal "8 Output File-Steaks" for all please.
+  ' Cook a nice meal "8 Output File-Steaks" for all please.
     ofile_links.Write _
     docEntry("oApiMenuLevel") & " ; " _
     & docEntry("oApiId") & " ; " _

@@ -7,11 +7,9 @@
 
 local ctagsLock --true during writing to the projects ctags and properties files 
 
---~~~~~~~~~~~~~~~~~~~
 --
 -- NameCache
 --
---~~~~~~~~~~~~~~~~~~~
 local cTagNames=""
 local cTagClasses=""
 local cTagModules=""
@@ -22,22 +20,17 @@ local cTagOthers=""
 local cTagAllTogether=""
 local cTagList --table
 
---~~~~~~~~~~~~~~~~~~~
 --
 -- Default Values for syntax Highlitening for substyles enabled Lexers
 --
---~~~~~~~~~~~~~~~~~~~
 if props["colour.project.class"]=="" then props["colour.project.class"]="fore:#906690" end 
 if props["colour.project.functions"]=="" then props["colour.project.functions"]="fore:#907090" end 
 if props["colour.project.constants"]=="" then props["colour.project.constants"]="fore:#B07595" end 
 if props["colour.project.modules"]=="" then props["colour.project.modules"]="fore:#9675B0" end 
 if props["colour.project.enums"]=="" then props["colour.project.enums"]="fore:#3645B0" end 
 
---~~~~~~~~~~~~~~~~~~~
---
 -- returns if a given fileNamePath exists
 --
---~~~~~~~~~~~~~~~~~~~
 --[[
 local function file_exists(name)
    local f=io.open(name,"r")
@@ -52,43 +45,38 @@ local function file_exists(filename)            -- Tests for file or directory
     -- Source: http://stackoverflow.com/questions/4990990/lua-check-if-a-file-exists
 end
 
---~~~~~~~~~~~~~~~~~~~
---
 -- handle Project Folders
 -- (ctags, Autocomplete & highlitening)
---
---~~~~~~~~~~~~~~~~~~~
+
 function ProjectSetEnv(init)
 
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		props["project.path"] = props["SciteDirectoryHome"]
 		props["project.ctags.filename"]="ctags.tags"
-		props["project.ctags.apipath"]=props["project.path"]..dirSep..props["project.ctags.filename"]..".api"
+		props["project.ctags.apipath"]=props["project.path"]..dirSep.."ctags"..dirSep..props["project.ctags.filename"]..".api"
 		props["project.ctags.propspath"]=props["project.ctags.apipath"]..".properties"
 		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
-		buffer.projectName= props["project.name"]
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1
 	end
 	
 	if init then dofile(myHome..dirSep..'macros'..dirSep..'AutoComplete.lua') end
+
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 -- CTagsWriteProps() / publish cTag extrapolated Api Data -
--- reads cTag.properties and writes them to SciTEs .api and .properties files.
+-- reads cTag.properties File and writes them to SciTEs .properties.
 -- prepared for just appending a set of filebased Ctags for speed.
 -- returns cTagList, which contains a List of all Names found in the tagFile
 --
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 
 	if not file_exists(YodaNamePath) or ctagsLock==true or props["project.path"]=="" then return end		
 	-- just return the cached Version if not forced to do otherwise
 	if (not cTagList) or string.find(YodaNamePath,"append.") then theForceMightBeWithYou=true end
 
-	-- Propagate SDK Data, appends if required
+	-- Propagate the Data, appends if required
 	if  (theForceMightBeWithYou==true) then
 		for entry in io.lines(YodaNamePath) do
 			prop,names=entry:match("([%w_.]+)%s?=(.*)") 
@@ -123,19 +111,16 @@ function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 		props["substylewords.11.13."..projectEXT] = props["sdk.tags.cTagENUMs"]
 		props["substylewords.11.14."..projectEXT] = props["sdk.tags.cTagClasses"]		
 	end
---	print(props["substylewords.11.14."..projectEXT] )
---	print(props["sdk.path"])
+	--print(props["substylewords.11.14."..projectEXT] )
 	
 	return cTagList
 end
 
 local origApiPath, projectApiPath, sdkApiPath
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 --cTagsUpdateProps() 	/ Update filetypes api path.
 --
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 
 	ProjectSetEnv(false)
@@ -146,7 +131,7 @@ function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 
 	-- Attach a project platform API if it had been specified
 	if (props["project.sdk.api"]~="") then sdkApiPath=props["project.sdk.api"] end
-	if not sdkApiPath then sdkApiPath="" end	
+	if not sdkApiPath then sdkApiPath="" end
 	-- Update SciTEs Filetypes APIlist. 
 	-- Change SDKApi if requested by a SciTE.properties file.
 	if not projectApiPath or not projectApiPath:match(props["project.sdk.api"]) then
@@ -179,16 +164,14 @@ function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 	props["style."..currentLexer..".11.20"]=props["colour.project.class"]
 
 	--apply themeing changes and changed keywords.
-	scite.ApplyProperties()
+	--scite.ApplyProperties(true)
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- 
 -- ProjectOnDwell()
--- Performs actions when the "project.ctags.fin" file has been found.
+-- Performs actions when the "project.ctgs.fin" file has been found.
 -- (created when a cTag run has been completed)
 --
---~~~~~~~~~~~~~~~~~~~~~~~~~~
 function ProjectOnDwell()
 	if ctagsLock==false or props["project.path"]=="" then return end	
 	--print("ProjectOnDwell: cTagsLock",ctagsLock,"inProject",inProject)	
@@ -202,18 +185,16 @@ function ProjectOnDwell()
 		os.remove(finFileNamePath)
 		local fileNamePath= (props["project.ctags.propspath"])
 		CTagsUpdateProps(true,fileNamePath)
-		--print("...generating CTags finished",ctagsLock)		
+		print("...generating CTags finished",ctagsLock)		
 	end
 	finFile=nil
 
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 -- RecreateCTags()
 -- Search the File for new CTags and append them.
 --
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function CTagsRecreate()
 	if  ctagsLock==true then return end	
 	if props["project.name"]~="" and props["file.patterns.project"]:match(props["FileExt"])~=nil then
@@ -239,7 +220,8 @@ function CTagsRecreate()
 	end	
 		
 end
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- Registers the Autocomplete event Handlers early.
 ProjectSetEnv(true)
+scite_OnOpenSwitch(CTagsUpdateProps,false,"")
+scite_OnDwellStart(ProjectOnDwell)

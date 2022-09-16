@@ -11,14 +11,14 @@ dim sFileName
   Set oFile_links = oFso.OpenTextFile("msdn.js.api.raw", 1, True) ' forRead, CreateFlag
   sFileName ="javascript.api.raw"
   
-  ' ---- Start Parsing, fill oEntries
+  '  Start Parsing, fill oEntries
   On Error Resume Next
 
   Set oEntries = CreateObject("System.Collections.ArrayList")
   While Not oFile_links.AtEndOfStream
        
-    ' ---- Format: Each Line contains ";" linked Entries, second Entry is EntryCount, EOL is  CrLF
-    ' ---- valid Entries start with an numeric Identifier between 1-3, describing its Contents type.
+    '  Format: Each Line contains ";" linked Entries, second Entry is EntryCount, EOL is  CrLF
+    '  valid Entries start with an numeric Identifier between 1-3, describing its Contents type.
     
     sChar = oFile_links.Read(1)
     If Not IsNumeric(sChar) Then
@@ -28,13 +28,13 @@ dim sFileName
       ReDim ArrEntry(2)
       iPosArr = 0
     Do
-      ' ---- Entry separator is ";" Line Prefixed  "#" is a comment
+      '  Entry separator is ";" Line Prefixed  "#" is a comment
         strPuzzle = strPuzzle & sChar
         If sChar = ";" Then
         strPuzzle = Replace(strPuzzle, ";", "")
         strPuzzle = Trim(strPuzzle)
       
-      ' ---- Each line has a Lenght Entry describing its number of containing Entries
+      '  Each line has a Lenght Entry describing its number of containing Entries
         If iPosArr = 2 Then
           iLineLen = strPuzzle
           ReDim Preserve ArrEntry(iLineLen)
@@ -87,13 +87,13 @@ Private Function Write_API(oFileLinks, oEntries)
   For Each oEntry In oEntries
   
 
-' --- Store Objects Name (LinkType==1) (is root class like eg "Object" or "Array")
+'  Store Objects Name (LinkType==1) (is root class like eg "Object" or "Array")
     If oEntry("LinkType") = 1 Then
       sParentObject = oEntry("LinkName")
       sApiPrefix = ""
     End If
     
-' --- Add a Dot if none found and objects name isnt already in Apis Name.
+'  Add a Dot if none found and objects name isnt already in Apis Name.
     If oEntry("LinkType") > 1 Then
       If 0 = InStr(1, oEntry("LinkName"), ".") Then sApiPrefix = sParentObject & "."
       If Left(oEntry("LinkName"), Len(sParentObject)) = sParentObject Then sApiPrefix = ""
@@ -101,13 +101,13 @@ Private Function Write_API(oFileLinks, oEntries)
 
 	api_descr =oEntry("LinkDescr")
 	
-      '-------- Insert multiline break to Descriptions > 75 chars
+      ' Insert multiline break to Descriptions > 75 chars
         If Len(api_descr) > 75 Then
           spacepos = 0: dotpos = 0: 
           spacepos = InStr(58, api_descr, " ") ' search for a good place,try to be a bit clever.
           dotpos = InStr(40, api_descr, ".")
 		
-		'------ try to wrap on "." and " "
+		'-- try to wrap on "." and " "
 			If spacepos > 57 And spacepos < Len(api_descr) Then wrappos = spacepos
 			If dotpos > 40 And dotpos < Len(api_descr)-5	Then wrappos = dotpos
 
@@ -119,11 +119,11 @@ Private Function Write_API(oFileLinks, oEntries)
 
     ofile_Api.Write  sApiPrefix & oEntry("LinkName") & oEntry("LinkParams") & " " & api_descr & "\t\n" & oEntry("oApiSyntax") & vbCrLf
  
-  ' --- As we have two outputs, check if we already wrote it.
+  '  As we have two outputs, check if we already wrote it.
     sDupeCheck =  sApiPrefix & oEntry("LinkName")
  
-  ' ---  Now, once again, but lets only store Object functions with a trailing dot
-  ' --- (so ArrayBuffer.slice will get .slice )
+  '   Now, once again, but lets only store Object functions with a trailing dot
+  '  (so ArrayBuffer.slice will get .slice )
 
     sFnPrefix = "."
    ' If oEntry("LinkType") = 1 Then sFnPrefix = ""
@@ -131,7 +131,7 @@ Private Function Write_API(oFileLinks, oEntries)
     
    If Not (sDupeCheck = sFnPrefix & oEntry("LinkName")) Then
       ' vba Debug.Print sFnPrefix & oEntry("LinkName") & oEntry("LinkParams") & " " & oEntry("LinkDescr") & " -->" & sParentObject & "\t\n" & " " & oEntry("oApiSyntax")
-      ' ofile_Api.Write sFnPrefix & oEntry("LinkName") & oEntry("LinkParams") & "\t\n " & "---- \t\n" & api_descr & "----\t\n" & oEntry("oApiSyntax") & vbCrLf
+      ' ofile_Api.Write sFnPrefix & oEntry("LinkName") & oEntry("LinkParams") & "\t\n " & " \t\n" & api_descr & "\t\n" & oEntry("oApiSyntax") & vbCrLf
    End If
     
   Next

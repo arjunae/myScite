@@ -1,5 +1,4 @@
 ' build@ cscript.exe /NOLOGO //D $(FilePath)
-'-------------------------------------------------
 ' jqapi.com Parser - ( http://jqapi.com)
 ' Status: 20151106 - Support parsing  local Source
 ' http://jqapi.com/#download
@@ -13,11 +12,11 @@
  'Sub vba_jqapi()
   Set obrowser = CreateObject("InternetExplorer.Application")
 
-  ' ---- MsHtml objekt:
+  '  MsHtml objekt:
   '  http://msdn.microsoft.com/en-us/library/aa741322%28v=vs.85%29.aspx
-  ' ---- Properties
+  '  Properties
   '  http://msdn.microsoft.com/en-us/library/aa752084%28v=vs.85%29.aspx#properties
-  '---- Methods
+  ' Methods
   ' http://msdn.microsoft.com/en-us/library/aa752084%28v=vs.85%29.aspx#methods
 
   obrowser.Visible = True
@@ -42,7 +41,7 @@
 
 'End Sub
 
-' ---------------------------------------------------------------------
+' -
 
 Function fParseResult(obrowser)
 
@@ -51,7 +50,7 @@ Function fParseResult(obrowser)
  Dim htmldoc 'As MSHTML.HTMLDocument
  Dim sidebar, otblMainCats 'As MSHTML.HTMLDivElement
 
- '---------- prepare textfiles
+ ' prepare textfiles
  Set fso = CreateObject("Scripting.FileSystemObject")
  Set ofile_api = fso.CreateTextFile("jQuery.api.raw")
  Set ofile_keywords = fso.CreateTextFile("jQuery.keywords.raw")
@@ -62,7 +61,7 @@ Function fParseResult(obrowser)
 
 ' htmldoc.onreadystatechange = fSyncBrowser
 
- '----------- Check for Sidebar
+ ' Check for Sidebar
  If IsObject(htmldoc.getElementById("sidebar-content")) Then
    Set sidebar = htmldoc.getElementById("sidebar-content")
    Do: Loop Until Len(sidebar.outerText) > 100
@@ -70,7 +69,7 @@ Function fParseResult(obrowser)
    Exit Function
  End If
 
- '----------- grab  left sidbar
+ ' grab  left sidbar
  Set otblMainCats = sidebar.getElementsByClassName("top-cat")
  'excel_row = 2
 
@@ -78,7 +77,7 @@ Function fParseResult(obrowser)
   Dim oMainCat 'As MSHTML.HTMLDivElement
   Dim active_cat, api_name_short, api_link, api_params, api_descr 'As String
     
- '----------- click entries
+ ' click entries
  For Each oMainCat In otblMainCats
   
   oMainCat.Children(0).Click
@@ -93,35 +92,35 @@ Function fParseResult(obrowser)
     oListEntry.Click
     result = fSyncBrowser
 
-  '---------- Fetch api data from Main window
+  '-- Fetch api data from Main window
     Set oApiEntry = htmldoc.getElementById("signatures-nav").getElementsByTagName("span")
     
     For Each oApiParams In oApiEntry
     result = fSyncBrowser
     
-  '----------- grab  left sidbar
+  ' grab  left sidbar
     Set otblMainCats = sidebar.getElementsByClassName("top-cat")
     'excel_row = 2
                   
-      '------------------  Output...
+      '--  Output...
         api_active_cat = active_category
         api_link = htmldoc.Location.href
         api_params = oApiParams.innerText
 
-      ' ------- Handle Operator Style Selectors
-      ' --- aka "Attribute Contains Word Selector [name~="value"]"
+      '  Handle Operator Style Selectors
+      '  aka "Attribute Contains Word Selector [name~="value"]"
         If InStr(1, api_name_short, "Selector [") Or InStr(1, api_name_short, "Selector (") Then
-          api_name_short = "" '----- skip for keywords.properties
+          api_name_short = "" '- skip for keywords.properties
           api_params = "..() " & api_params
         End If
   
-      '------- Special Handling for Selectors
+      ' Special Handling for Selectors
         If InStr(1, api_name_short, ":") Then
-        '---- remove suffix
+        ' remove suffix
           clean_pos = InStr(1, api_name_short, "Selector")
           api_name_short = Left(api_name_short, clean_pos - 1) & " "
   
-        '-------- Insert a bogus (no_param)
+        ' Insert a bogus (no_param)
           If Not InStr(1, api_name_short, ")") Then
            first_space = InStr(1, api_params, " ")
            api_params = Left(api_params, first_space) & "(no_param) " & Right(api_params, Len(api_params) - first_space)
@@ -130,14 +129,14 @@ Function fParseResult(obrowser)
         
         api_descr = obrowser.Document.getElementById("entry-header").all(1).innerText
         
-      '-------- Insert multiline break to Descriptions > 79 chars
+      ' Insert multiline break to Descriptions > 79 chars
         If Len(api_descr) > 79 Then
           spacepos = 0: dotpos = 0: commapps = 0
           spacepos = InStr(65, api_descr, " ") ' search for a good place,try to be a bit clever.
           dotpos = InStr(40, api_descr, ".")
           commapos = InStr(40, api_descr, ",")
   
-      '------ try to wrap on "." and ","
+      '-- try to wrap on "." and ","
         If spacepos > 1 Then wrappos = spacepos
         If dotpos > 1 And dotpos < 70 Then wrappos = dotpos
         If commapos > 1 And commapos < 70 Then wrappos = commapos
@@ -145,7 +144,7 @@ Function fParseResult(obrowser)
             api_descr = api_descr_multiline & Right(api_descr, Len(api_descr) - wrappos)
         End If
   
-      '------- fix obious dupes and write to files
+      ' fix obious dupes and write to files
         If 0 = InStr(1, all_keywords, api_name_short) Then
           all_keywords = all_keywords & api_name_short & " "
           ofile_keywords.Write (api_name_short) & " "
@@ -162,7 +161,7 @@ Function fParseResult(obrowser)
         'Cells(excel_row, 2).Value = api_params
         'Cells(excel_row, 3).Value = api_descr
         'rownr = rownr + 1
-        '----------------------
+        '--
       Next
 
     Next

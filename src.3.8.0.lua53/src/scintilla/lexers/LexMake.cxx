@@ -3,23 +3,6 @@ Scintilla source code edit control
   @file LexMake.cxx
   @author Neil Hodgson
   @author Thorsten Kani(marcedo@HabMalneFrage.de)
-  @brief Lexer for make files
-  - Styles GNUMake Directives, internal function Keywords $(sort subst..) ,
-  - Automatic Variables $[@%<?^+*] , Flags "-" and Keywords for externalCommands
-  - Warns on unclosed Braces or doublequoted Strings.
-  - Handles multiLine Continuations & inlineComments and styles Strings and Numbers.
-  @brief fixEOF && cleanUp | Folding from cMake.
-  @brief fixErrEOL && Make and bash Style UserVars
-  @brief VC Flags, Convoluted UserVars, Code cleanUP && logging
-  @brief No need to backstep styler's Position on non multilined content.
-  @brief Fix doubleReferenced User vars $$() and automatic Vars, Improve logging.
-  @brief Style Variable Assignments denoted by = as identifiers. Prevent some possible Assertions.
-  @brief Allow multichar Automatic vars, only escape ControlChars in a Character Escape Sequence. Style Numbers better.
-  @brief Style other Stuff within Uservars, Improve line Continuations, Targets and code Docs.
-  @brief todos Wrap within a Class. 
-  @brief Copyright 1998-20?? by Neil Hodgson <neilh@scintilla.org>
-  The License.txt file describes the conditions under which this software may
-  be distributed.
  */
 
 #include <stdlib.h>

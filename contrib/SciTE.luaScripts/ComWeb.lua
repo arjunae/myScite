@@ -1,5 +1,4 @@
 --go@ dofile $(FilePath)
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- ######### LuaCom ########
 -- ## WIN Common Object Model Support for lua 

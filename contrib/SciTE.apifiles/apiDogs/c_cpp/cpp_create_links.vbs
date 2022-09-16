@@ -1,5 +1,4 @@
 ' build@ cscript.exe /NOLOGO //D $(FilePath)
-'-------------------------------------------------
 ' cplusplus.com Parser - ( http://cplusplus.com)
 ' Status: 20160221 - Fixup Sync, add timeout / retry /fail
 ' Status: 20160222 - Add simple File logging
@@ -19,14 +18,12 @@ const MAX_TRIES = 3
   
  Phase1()
 
-'------------------------------------------------------
-
 sub phase1()
 
   Set fso = CreateObject("Scripting.FileSystemObject")
   Set myfso = CreateObject("Scripting.FileSystemObject")
  
-'--- undocumented: redir log messages to console (use wscript //X) 
+' undocumented: redir log messages to console (use wscript //X) 
   Set oscreen_log = myfso.GetStandardStream (1)  
   Set ofile_log = fso.CreateTextFile("cpp.keywords.log")
  
@@ -43,12 +40,12 @@ sub phase1()
     If result = 0 Then Exit For Else reset_ie
   Next
 
- '----------- Now, doublecheck for site beein completely loaded.
+ ' Now, doublecheck for site beein completely loaded.
   If IsObject(obrowser.Document.getElementById("I_footer")) Then
     Set footer_check = obrowser.Document.getElementById("I_footer")
     Do: Loop Until (footer_check.Children(1)) = "http://www.cplusplus.com/privacy.do"
   Else
-    debug_log ("--- Problems while loading Site- STOP")
+    debug_log (" Problems while loading Site- STOP")
     obrowser.Quit
     ofile_log.Close
     Set ofile_log = Nothing
@@ -65,8 +62,6 @@ sub phase1()
   oscreen_log.close
 End sub
 
-'------------------------------------------------------------
-
 Function reset_ie()
 ' This one resets IE in case we have occuring a timeout.
 ' called automatically in case of a request timeout.
@@ -74,11 +69,11 @@ Function reset_ie()
 ' In case of a client side browser fail, just call reset_ie manual from debug window.
 ' we could automate that too, but this case happens nearly never, so...
 
-  ' ---- MsHtml objekt:
+  '  MsHtml objekt:
   '  http://msdn.microsoft.com/en-us/library/aa741322%28v=vs.85%29.aspx
-  ' ---- Properties
+  '  Properties
   '  http://msdn.microsoft.com/en-us/library/aa752084%28v=vs.85%29.aspx#properties
-  '---- Methods
+  ' Methods
   ' http://msdn.microsoft.com/en-us/library/aa752084%28v=vs.85%29.aspx#methods
 
   If IsObject(obrowser) Then
@@ -95,16 +90,13 @@ Function reset_ie()
   Do: Loop Until obrowser.ReadyState = 0 ' wait for Object to be initialized
 End Function
 
-' ---------------------------------------------------------------------
 
 Sub obrowser_DocumentComplete(byref obj, byref URL) 'VBS
-'-------------------
 ' Catch IE Controls DocumentComplete Event.
 ' fires on any (even javascript)  loaded URL, so only react on LocationBars URL
 ' Vbs Events work diffrent then vba ones.
 ' eg do:  htmldoc.onreadystatechange = fSyncfunc
 ' or do: obrowser_event(byref...)
-'------------------
 
   If  obrowser.locationURL = URL then
     'msgbox("URL:" & URL)
@@ -114,10 +106,9 @@ Sub obrowser_DocumentComplete(byref obj, byref URL) 'VBS
   
 End sub
 
-' ---------------------------------------------------------------------
 
 Function debug_log(log_str)
-' ---- very simple logger, requires ofile_log to be global and writeable
+' very simple logger, requires ofile_log to be global and writeable
 
   'debug.print log_str
   ofile_log.WriteLine log_str
@@ -125,10 +116,9 @@ Function debug_log(log_str)
   
 End Function
 
-' ---------------------------------------------------------------------
 
 Function fParseResult(obrowser)
-'---- takes a browser object, parses its contents
+' takes a browser object, parses its contents
 
  Dim fso 'As Scripting.FileSystemObject
  Dim oFile_links 'As Scripting.File
@@ -138,11 +128,11 @@ Function fParseResult(obrowser)
 
  Set htmldoc = obrowser.Document
 
- '---- Prepare textfiles
+ ' Prepare textfiles
  Set fso = CreateObject("Scripting.FileSystemObject")
  Set oFile_links = fso.CreateTextFile("cpp.keywords.links.raw")
 
-'  ---- First Step :  iterate the sidebar and store links
+'  First Step :  iterate the sidebar and store links
 
   Set oApiList = CreateObject("System.Collections.arrayList")
 
@@ -163,7 +153,7 @@ Function fParseResult(obrowser)
     Next
   Next
 
-  '---- Next we will open the links in Sidebar
+  ' Next we will open the links in Sidebar
   Set oApiEntries = CreateObject("System.Collections.arrayList")
 
   For Each link In olistEntries
@@ -181,7 +171,7 @@ Function fParseResult(obrowser)
     
   Set oSidebar = obrowser.Document.getElementById("reference_box").getElementsByTagName("ul")
   
-    '---- The Sidebar has two Info Boxes. TopBox contains the MainNav, BottomBox contains detail information
+    ' The Sidebar has two Info Boxes. TopBox contains the MainNav, BottomBox contains detail information
      Set sidebar = obrowser.Document.getElementById("I_nav").getElementsByClassName("C_BoxSort")
 
     If sidebar.Length > 1 Then
@@ -190,7 +180,7 @@ Function fParseResult(obrowser)
 
           Set oApiEntry = CreateObject("System.collections.sortedList")
 
-          '---- Add new api metadata here:
+          ' Add new api metadata here:
 
           If InStr(1, myApiEntry.outerText, "<") = 0 Then
 
@@ -198,7 +188,7 @@ Function fParseResult(obrowser)
             oApiEntry.Add "api_href", myApiEntry.href
             oApiEntry.Add "api_compat", myApiEntry.ParentNode.className
 
-            '---- Join the apis type, by referin the href to main window
+            ' Join the apis type, by referin the href to main window
             Set mainwintags = obrowser.Document.getElementById("I_content").getElementsByTagName("a")
 
             For Each a In mainwintags
@@ -209,7 +199,7 @@ Function fParseResult(obrowser)
               End If
             Next
 
-            '---- Read the class_name and type (header - <cassert> (assert.h))
+            ' Read the class_name and type (header - <cassert> (assert.h))
              class_type = obrowser.Document.getElementById("I_type").outerText
              class_name = obrowser.Document.getElementById("I_content").getElementsByTagName("h1")(0).outerText
              class_descr = obrowser.Document.getElementById("I_description").outerText
@@ -221,7 +211,7 @@ Function fParseResult(obrowser)
             If oApiEntry("api_descr_short") = "" Then oApiEntry.Add "api_descr_short", "no-Description (other)"
               debug_log (myApiEntry.outerText & "|" & myApiEntry.href & "|" & oApiEntry("api_descr_short"))
               obrowser.StatusText = "Parse ... " & myApiEntry.href
-            ' ----  Write to api_links file. First entry is entries_count
+            '   Write to api_links file. First entry is entries_count
             If InStr(1, dupecheck, myApiEntry.href) = 0 Then
             ' Fix lround been in llround case by comparing href
               dupecheck = dupecheck & ";" & myApiEntry.href
@@ -249,13 +239,13 @@ Function fParseResult(obrowser)
 
 End Function
 
-'------------------------------------------------------
+'--
 
 Private Function fSyncBrowser() 'As Integer
-'-------------
+'-
 ' waits for IE to signal Ready.
 ' Signal Ok 0 and requests timeout 1
-'------------
+'
 
 fSyncBrowser = 1
 start_time = timevalue(time)
