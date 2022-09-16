@@ -1,4 +1,4 @@
--- Extman is a Lua script manager for SciTE. (Update: 2017)
+-- Extman is a Lua script manager for SciTE.
 -- It enables multiple scripts to capture standard events without interfering with each other. 
 -- e.g. scite_OnDoubleClick() will register handlers for scripts that need to know when a double-click event has happened. 
 -- (To know whether it was in the output or editor pane, just test editor.Focus). 

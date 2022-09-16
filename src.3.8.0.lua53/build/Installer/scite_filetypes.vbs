@@ -1,5 +1,4 @@
 ' Objective
-'======================================================
 '
 ' This VBScript is for (re)setting file associations for SciTE
 ' Just writes itself at the end of suggested Apps in the "open File" Dialogue
@@ -24,7 +23,6 @@
 ' Mar2018 / Marcedo@habMalNeFrage.de
 ' License BSD-3-Clause
 ' Version: 1.0
-'=======================================================
 
 Const HKEY_CLASSES_ROOT  = &H80000000
 Const HKEY_CURRENT_USER  = &H80000001
@@ -61,8 +59,6 @@ Public function ERROR_DETAILS()
 End Function
 
 if instr(1,wscript.fullName,"cscript") then  bConsole=true
-
-'~~~~~~~~~~~~~~
 
 function main()
 
@@ -226,7 +222,7 @@ Dim app_path ' Fully Qualified Path to Programs executable on the system.
 	main=cntTyp
 end function
 
-' ~~~~ Helper Functions ~~~~~
+'  Helper Functions
 
 private function logging(action, strEntry)
 '
@@ -259,7 +255,6 @@ private function logging(action, strEntry)
 	
 end function
 
-' ~~~~~~~~~~~~~~~
 
 private function policyFilter(strEntry)
 '
@@ -280,7 +275,6 @@ private function policyFilter(strEntry)
 
 end function
 
-' ~~~~~~~~~~~
 
 private function createRegDump()
 '
@@ -317,8 +311,6 @@ strTmp = ofso.GetSpecialFolder(2) ' Temporary Folder
 
 end function
 
-' ~~~~~~~~~~~
-
 private function DeleteSubkeys(objReg, iRootKey, strRegKey) 
 '
 ' DeleteKey cant handle recursion itself so put a little wrapper around:
@@ -347,7 +339,6 @@ private function DeleteSubkeys(objReg, iRootKey, strRegKey)
 
 End function
 
-' ~~~~~~~~~~~~~~~~~~~~~~
 
 ' VbScript WTF.. If you init that objReg only once for reusal in globalSope, its creating unpredictable entries within the registry...
 ' Took me half the day to get to that "perfectly amusing" Fact. 
@@ -429,7 +420,6 @@ Dim objReg ' Initialize WMI service and connect to the class StdRegProv
 	set objReg=Nothing
 end function
 
-'~~~~~~~~~~~~
 
 private function uninstall_program(app_path, strFileExt)
 '
@@ -502,8 +492,7 @@ Dim arrKey,arrTypes, autoFileExt, bRemove
 
 	set objReg=Nothing
 end function
-
-' ~~~~~~~~	
+	
 'result = assoc_ext_with_program(".lua")
 'wscript.echo("result Code : " & result)
 '
