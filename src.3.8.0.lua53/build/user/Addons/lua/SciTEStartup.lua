@@ -37,5 +37,4 @@ dofile(myScripts..dirSep.."mod-ctags"..dirSep.."ctagsd.lua")
 function OnInit()
 		scite.MenuCommand(IDM_FOLDMARGIN)
 		scite.SendEditor(SCI_SETVSCROLLBAR)	
-		scite_OnSave(CTagsRecreate)
 end

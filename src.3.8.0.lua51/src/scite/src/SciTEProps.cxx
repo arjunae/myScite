@@ -55,11 +55,11 @@ const GUI::gui_char menuAccessIndicator[] = GUI_TEXT("&");
 void SciTEBase::SetImportMenu() {
 // Reset Options->configFiles
 	for (int i = 0; i < importMax; i++) {
-     DestroyMenuItem(menuOptions,1300+ i);
+     DestroyMenuItem(menuOptions,importCmdID + i);
 	}
   //importCmdID, FillUp above Menu with property fileNames
 	if (!importFiles.empty()) {
-		for (int stackPos = 0; stackPos < static_cast<int>(importFiles.size()) && stackPos < importMax; stackPos++) {
+		for (int stackPos = 20; stackPos < static_cast<int>(importFiles.size()) && stackPos < importMax; stackPos++) {
 			int itemID = importCmdID + stackPos;
 			if (importFiles[stackPos].IsSet()) {
 				GUI::gui_string sEntry = importFiles[stackPos].Name().AsInternal();
@@ -68,15 +68,16 @@ void SciTEBase::SetImportMenu() {
 				sFile=localiser.Text("Open") + GUI_TEXT(" ") + sFile;
 				//  Depends on names to display properties sorted.
 				if (sFile.find(GUI_TEXT("theme")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ettings")) != GUI::gui_string::npos || sFile.find(GUI_TEXT("ools")) != GUI::gui_string::npos) {
-					SetMenuItemNew(menuOptions, 0, IMPORT_START+stackPos, itemID, sFile.c_str());
+					//SetMenuItem(menuOptions, stackPos, itemID, sFile.c_str());
 				} else {
-					SetMenuItemNew(menuOptions, 3, stackPos, itemID, sFile.c_str());
+					SetMenuItem(menuOptions, stackPos, itemID, sFile.c_str());
 				}
 
 			}
 		}
 	}
 }
+
 
 void SciTEBase::ImportMenu(int pos) {
 	if (pos >= 0) {

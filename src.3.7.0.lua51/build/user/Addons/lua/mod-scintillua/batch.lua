@@ -58,9 +58,6 @@ lex:add_rule('comment', token(lexer.COMMENT, (rem + '::') * lexer.nonnewline^0))
 -- Identifiers.
 lex:add_rule('identifier', token(lexer.IDENTIFIER, lexer.word))
 
--- Labels.
-lex:add_rule('preprocessor', token(lexer.PREPROCESSOR, ':' * lexer.word))
-
 -- Strings.
 lex:add_rule('string', token(lexer.STRING, lexer.delimited_range('"', true)))
 
@@ -69,7 +66,8 @@ lex:add_rule('variable', token(lexer.VARIABLE,
                                '%' * (lexer.digit + '%' * lexer.alpha) +
                                lexer.delimited_range('%', true, true)))
 
-
+-- Labels.
+lex:add_rule('label', token(lexer.LABEL, ':' * lexer.word))
 
 -- Operators.
 lex:add_rule('operator', token(lexer.OPERATOR, S('+-|&!<>=()')))

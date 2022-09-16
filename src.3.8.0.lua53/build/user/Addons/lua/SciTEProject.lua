@@ -225,3 +225,4 @@ end
 ProjectSetEnv(true)
 scite_OnOpenSwitch(CTagsUpdateProps,false,"")
 scite_OnDwellStart(ProjectOnDwell)
+scite_OnSave(CTagsRecreate)

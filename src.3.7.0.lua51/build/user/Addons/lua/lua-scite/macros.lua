@@ -2,10 +2,11 @@
 -- PayPal: v.schmidt [a.t] dasdeck [d.o.t] de
 -- Dec2017, Marcedo [a.t] habMalNeFrage [d.o.t] de: handle already loaded lfs lib.
 -- Apr2018, ^^ : OPT_SHOW_HIDDEN
- OPT_SHOW_HIDDEN=false
+OPT_SHOW_HIDDEN=false
 
 if lfs==nil then err,lfs = pcall( require,"lfs")  end
 local AppList = {}
+
 -- load scripts dynamically from scripts folder
 if type(lfs)=="table" then
   for sFile in lfs.dir(props['SciteUserHome'].."/user/macros") do
@@ -15,10 +16,12 @@ if type(lfs)=="table" then
   end
   scite_Command('Macro Scripts|ChooseScript|Ctrl+9') 
 end
+
 -- for global scripts; switch to "SciteUserHome" for per-user scripts
 local function loadscript(scriptfile)  
   dofile(props["SciteUserHome"].."/user/macros/"..scriptfile)
 end
+
 -- run selected scripts, silently fails if no extman
 local function RunSelectedScript(str)
   for i,v in ipairs(AppList) do
@@ -28,6 +31,7 @@ local function RunSelectedScript(str)
     end
   end
 end
+
 -- callback (must be global)
 function ChooseScript()
   local list = {}

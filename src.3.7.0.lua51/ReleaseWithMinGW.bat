@@ -6,7 +6,7 @@ setlocal enabledelayedexpansion enableextensions
 set BUILDTYPE=Release
 
 REM MinGW Path has to be set in System Settings, otherwise please define here:
-#set PATH=E:\apps\msys64\mingw64\bin;%PATH%;
+REM set PATH=E:\apps\msys64\mingw64\bin;%PATH%;
 REM Sanity- Ensure MSys-MinGW availability / Determinate Architecture into %MAKEARCH%.
 set MAKEARCH=""
 where gcc 1>NUL 2>NUL
