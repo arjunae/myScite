@@ -136,25 +136,34 @@ END
 
 POPUP "&Options"
 BEGIN
+//	POPUP "Editor"
+//	BEGIN
 	MENUITEM "&Always On Top",			IDM_ONTOP
 	MENUITEM "Open Files &Here",		IDM_OPENFILESHERE
 	MENUITEM "Vertical &Split",			IDM_SPLITVERTICAL
 	MENUITEM "&Wrap",			IDM_WRAP
 	MENUITEM "Wrap Out&put",			IDM_WRAPOUTPUT
 	MENUITEM "&Read-Only",				IDM_READONLY
+//	POPUP "&Line End Characters"
+//	BEGIN
+//		MENUITEM "CR &+ LF",	IDM_EOL_CRLF
+//		MENUITEM "&CR",		IDM_EOL_CR
+//		MENUITEM "&LF",		IDM_EOL_LF
+//	END
 	MENUITEM "&Convert Line End Characters",	IDM_EOL_CONVERT
-	MENUITEM SEPARATOR
 	MENUITEM "Change Inden&tation Settings...\tCtrl+Shift+I",	IDM_TABSIZE
 	MENUITEM "Use &Monospaced Font\tCtrl+F11",	IDM_MONOFONT
-	MENUITEM SEPARATOR
+//	END
+//	MENUITEM SEPARATOR
 	MENUITEM "Open Local &Options File",		IDM_OPENLOCALPROPERTIES
 	MENUITEM "Open &Directory Options File",		IDM_OPENDIRECTORYPROPERTIES
 	MENUITEM "Open &User Options File",		IDM_OPENUSERPROPERTIES
 	MENUITEM "Open &Global Options File",		IDM_OPENGLOBALPROPERTIES
 	MENUITEM "Open A&bbreviations File",		IDM_OPENABBREVPROPERTIES
 	MENUITEM "Open Lua Startup Scr&ipt", 		IDM_OPENLUAEXTERNALFILE
-	MENUITEM SEPARATOR
-END // used: abcghlmoprstux
+//	MENUITEM SEPARATOR
+END 
+// used: abcghlmoprstux
 
 POPUP "&Language"
 BEGIN

@@ -22,7 +22,7 @@ REM Try to acquire a VisualStudio 14 Context
 REM If that fails, use systems highest available Version as defined via env var VS[xxx]COMNTOOLS
 
 echo ~~ About to build using:
-call force_vc_version.cmd %buildContext%
+call forcevcversion.cmd %buildContext%
 if %errorlevel%==10 (
 echo please build myScite withVisualStudio 2015
 goto end

@@ -128,7 +128,29 @@ void SciTEWin::Notify(SCNotification *notification) {
 			CheckReload();
 		}
 		break;
-
+	
+	case NM_CUSTOMDRAW:
+	 {
+            //LPNMHDR header_ptr = safe_ptr_cast< LPNMHDR >( &lparam );
+            //if ( header_ptr->hwndFrom == m_ptr->get_operation_tab_toolbar_handle( ) )
+            LPNMTBCUSTOMDRAW data_ptr = (LPNMTBCUSTOMDRAW) notification;
+            switch(data_ptr->nmcd.dwDrawStage) 
+            {
+                case CDDS_ITEMPREPAINT:
+                    //SetWindowTheme(m_ptr->get_operation_tab_toolbar_handle(), _T(""), _T(""));
+                    //data_ptr->hbrMonoDither = GetStockBrush(BLACK_BRUSH);
+                    SetBkColor( data_ptr->nmcd.hdc, RGB(0,0,0));
+                    //FillRect( data_ptr->nmcd.hdc, &data_ptr->nmcd.rc, RGB(0,55,0));
+                    //FillRect( data_ptr->nmcd.hdc, &data_ptr->nmcd.rc, GetStockBrush(BLACK_BRUSH));
+            }
+				//return CDRF_NEWFONT;
+               // case CDDS_PREPAINT:
+               // {
+                  //  return CDRF_NOTIFYITEMDRAW;
+               // }
+        }
+	break;
+	
 	case NM_RCLICK:
 		// Right click on a control
 		if (notification->nmhdr.idFrom == IDM_TABWIN) {
@@ -1074,7 +1096,7 @@ void SciTEWin::Creation() {
 	               0,
 	               TOOLBARCLASSNAME,
 	               TEXT(""),
-	               WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS |
+	               WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS |  TBSTYLE_CUSTOMERASE |
 	               TBSTYLE_FLAT | TBSTYLE_TOOLTIPS | CCS_NORESIZE,
 	               0, 0,
 	               100, tbLarge ? heightToolsBig : heightTools,
@@ -1083,7 +1105,7 @@ void SciTEWin::Creation() {
 	               hInstance,
 	               0);
 	wToolBar = hwndToolBar;
-
+	
 	wToolBar.Show();
 
 	INITCOMMONCONTROLSEX icce;

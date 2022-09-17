@@ -121,18 +121,18 @@ Push system env on propsPlatform. Format Key=value
 void SciTEBase::ReadEnvironment() {
 #if defined(__unix__)
 	extern char **environ;
-	char **env = environ;
+	char **e = environ;
 #else
-	char **env = _environ;
+	char **e = _environ;
 #endif
-	for (; env && *env; env++) {
+	for (; e && *e; e++) {
 		char key[1024];
-		char *br = *env; 
-		char *vl = strchr(br, '=');
-		if (vl && (static_cast<int>(vl - br) < static_cast<int>(sizeof(key)))) {
-			memcpy(key, br, vl - br);
-			key[vl - br] = '\0';
-			propsPlatform.Set(key, vl + 1);
+		char *k = *e;
+		char *v = strchr(k, '=');
+		if (v && (static_cast<size_t>(v - k) < sizeof(key))) {
+			memcpy(key, k, v - k);
+			key[v - k] = '\0';
+			propsPlatform.Set(key, v + 1);
 		}
 	}
 }

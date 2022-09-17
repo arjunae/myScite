@@ -18,7 +18,7 @@ SET arch=x86
 REM SET arch=x64
 
 echo About to build using:
-call force_vc_version.cmd %buildContext%
+call forcevcversion.cmd %buildContext%
 if %errorlevel%==10 (
 echo please build myScite withVisualStudio 2015
 goto end
