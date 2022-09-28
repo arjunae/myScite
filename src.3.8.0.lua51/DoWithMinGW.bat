@@ -1,10 +1,9 @@
-@echo off
-
 REM SciTE Prod      
-
+@echo off
 setlocal enabledelayedexpansion enableextensions
 set BUILDTYPE=Release
-
+color f0
+mode 190,30
 REM MinGW Path has to be set in System Settings, otherwise please define here:
 REM set PATH=E:\apps\msys64\mingw64\bin;%PATH%;
 REM Sanity- Ensure MSys-MinGW availability / Determinate Architecture into %MAKEARCH%.
@@ -38,7 +37,7 @@ echo.
 REM Sanity- Ask when trying to change between Debug and Release builds.
 if exist src\mingw.*.debug.build choice /C YN /M "A MinGW Debug Build has been found. Rebuild as %BUILDTYPE%? "
 if [%ERRORLEVEL%]==[2] (
-  goto end
+  goto en
 ) else if [%ERRORLEVEL%]==[1] (
   cd src
   del mingw.*.debug.build 1>NUL 2>NUL
@@ -49,36 +48,32 @@ if [%ERRORLEVEL%]==[2] (
 if /I %BUILDTYPE%==debug set DEBUG=1
 echo Build: Scintilla
 cd src\scintilla\win32
-mingw32-make -j %NUMBER_OF_PROCESSORS%
-if [%errorlevel%] NEQ [0] echo An Error Occured & goto end
+mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\err
+if [%errorlevel%] NEQ [0] echo An Error Occured & goto en
 echo.
 echo Build: SciTE
 cd ..\..\scite\win32
-mingw32-make -j %NUMBER_OF_PROCESSORS%
-if [%errorlevel%] NEQ [0] echo An Error Occured & goto end 
+mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\err
+if [%errorlevel%] NEQ [0] echo An Error Occured & goto en 
 echo.
 echo OK
 echo.
 
 rem Now use this littl hack to look for a platform PE Signature at offset 120+
-rem Should work compiler independent for uncompressed binaries.
+rem Should work compiler indepenent for uncompressed binaries.
 rem Takes: DESTTARGET Value: Executable to be checked
 rem Returns: PLAT Value: Either WIN32 or WIN64 
 set DESTTARGET=..\bin\SciTE.exe
-
 set off32=""
 set off64=""
-
 for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %DESTTARGET%') do (
   if [%%A] LEQ [200] SET DEST_PLAT=win32
   if [%%A] LEQ [200] SET OFFSET=%%A
 )
-
 for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %DESTTARGET%') do (
   if [%%A] LEQ [200] SET DEST_PLAT=win64
   if [%%A] LEQ [200] SET OFFSET=%%A
 )
-
 set COPYFLAG=0
 if [%DEST_PLAT%] EQU [win32] set COPYFLAG=1
 if [%DEST_PLAT%] EQU [win64] set COPYFLAG=1
@@ -94,7 +89,7 @@ echo  %DESTTARGET% Platform: %DEST_PLAT%
 
 cd ..\..\..
 echo > src\mingw.%DEST_PLAT%.%BUILDTYPE%.build
-goto end
+goto en
 
 :errMingw
 echo Error: MSYS2/MinGW Installation was not found or its not in your systems path.
@@ -105,5 +100,7 @@ echo pacman -Sy mingw-w64-x86_64-toolchain
 echo and add msys2/win32 or msys2/win64 to your systems path.
 echo.
 
-:end
+:en
+if exist %tmp%\err type %tmp%\err  & del /f %tmp%\err
 PAUSE
+

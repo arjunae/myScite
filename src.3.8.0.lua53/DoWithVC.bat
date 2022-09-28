@@ -1,10 +1,11 @@
 @echo off
 REM for a debug build use:  make_debug_with_VC.bat
 setlocal enabledelayedexpansion enableextensions
-
+color f0
+mode 190,30
 if exist src\vc.*.debug.build choice /C YN /M "A VC Debug Build has been found. Rebuild as Release? "
 if [%ERRORLEVEL%]==[2] (
-goto end
+goto en
 ) else if [%ERRORLEVEL%]==[1] (
 cd src
 del vc.*.debug.build 1>NUL 2>NUL
@@ -21,7 +22,7 @@ echo About to build using:
 call forcevcversion.cmd %buildContext%
 if %errorlevel%==10 (
 echo please build myScite withVisualStudio 2015
-goto end
+goto en
 )
 echo 
 echo Target Architecture will be: %arch%
@@ -31,12 +32,12 @@ if "%1"=="DEBUG" set parameter1=DEBUG=1
 echo.
 echo Build: Scintilla
 cd src\scintilla\win32
-nmake %parameter1% -f scintilla.mak
-if [%errorlevel%] NEQ [0] echo Stop: An Error %ERRORLEVEL% occured during the build. & goto end
+nmake %parameter1% -f scintilla.mak 2> %tmp%\err
+if [%errorlevel%] NEQ [0] echo Stop: An Error %ERRORLEVEL% occured during the build. & goto en
 echo Build: SciTE 
 cd ..\..\scite\win32
-nmake %parameter1% -f scite.mak
-if [%errorlevel%] NEQ [0] echo Stop: An Error %ERRORLEVEL% occured during the build. & goto end
+nmake %parameter1% -f scite.mak 2> %tmp%\err
+if [%errorlevel%] NEQ [0] echo Stop: An Error %ERRORLEVEL% occured during the build. & goto en
 echo.
 echo. 
 echo OK
@@ -46,7 +47,7 @@ set DEST_TARGET=..\bin\SciTE.exe
 
 REM
 REM Now use this littl hack to look for a platform PE Signature at offset 120+
-REM Should work compiler independent for uncompressed binaries.
+REM Should work compiler indepenent for uncompressed binaries.
 REM Takes: DEST_TARGET Value: Executable to be checked
 REM Returns: PLAT Value: Either WIN32 or WIN64 
 :find_platform
@@ -76,5 +77,6 @@ echo  %DEST_TARGET% Platform: %DEST_PLAT%
 cd ..\..\..
 echo > src\vc.%arch%.release.build
 
-:end
+:en
+if exist %tmp%\err type %tmp%\err  & del /f %tmp%\err
 PAUSE
