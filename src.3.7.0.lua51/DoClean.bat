@@ -7,7 +7,7 @@ REM  start "TinyTonCMD" %~nx0 %1 tiny
 REM  EXIT
 )
 mode 130,18
-cd src
+cd src\scite
 del /S /Q *.dll *.exe *.lib *.a *.aps *.bsc  *.dsw *.idb *.ilc *.ild *.ilf *.ilk *.ils *.map *.ncb *.obj *.o *.opt *.pdb *.plg *.res *.sbr *.tds *.exp *.pyc *.orig *.rej *.build 2>NUL
 cd ..
 echo.

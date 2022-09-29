@@ -2,8 +2,9 @@ REM SciTE Prod
 @echo off
 setlocal enabledelayedexpansion enableextensions
 set BUILDTYPE=Release
-color f0
-mode 190,30
+REM Set Color and ScreenBuffer Size
+color 08
+reg add HKCU\Console\%%SystemRoot%%_system32_cmd.exe\ScreenBufferSize /t REG_DWORD /d 1111111 /f >NUL
 REM MinGW Path has to be set in System Settings, otherwise please define here:
 REM set PATH=E:\apps\msys64\mingw64\bin;%PATH%;
 REM Sanity- Ensure MSys-MinGW availability / Determinate Architecture into %MAKEARCH%.
@@ -23,14 +24,13 @@ if %MAKEARCH% EQU "" goto :errMingw
 REM use customized CMD Terminal
 if "%1"=="" (
 rem  reg import ..\contrib\TinyTonCMD\TinyTonCMD.reg
-rem  start "TinyTonCMD" %~nx0 %1 tiny  
+rem  start "TinyTonC MD" %~nx0 %1 tiny  
 )
 
 echo.
 echo SciTE Prod
 echo. 
 echo.
-
 echo Build Environment: %MAKEARCH% 
 echo.
 
@@ -48,17 +48,12 @@ if [%ERRORLEVEL%]==[2] (
 if /I %BUILDTYPE%==debug set DEBUG=1
 echo Build: Scintilla
 cd src\scintilla\win32
-mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\err
-if [%errorlevel%] NEQ [0] echo An Error Occured & goto en
-echo.
+mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\buildLog
+if [%errorlevel%] NEQ [0] goto err
 echo Build: SciTE
 cd ..\..\scite\win32
-mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\err
-if [%errorlevel%] NEQ [0] echo An Error Occured & goto en 
-echo.
-echo OK
-echo.
-
+mingw32-make -j %NUMBER_OF_PROCESSORS% 2>> %tmp%\buildLog
+if [%errorlevel%] NEQ [0]  goto err
 rem Now use this littl hack to look for a platform PE Signature at offset 120+
 rem Should work compiler indepenent for uncompressed binaries.
 rem Takes: DESTTARGET Value: Executable to be checked
@@ -100,7 +95,18 @@ echo pacman -Sy mingw-w64-x86_64-toolchain
 echo and add msys2/win32 or msys2/win64 to your systems path.
 echo.
 
+:err
+echo.
+echo Stop: An Error %ERRORLEVEL% occured during the build
+echo.
+type %tmp%\buildLog  & echo.>%tmp%\buildLog
 :en
-if exist %tmp%\err type %tmp%\err  & del /f %tmp%\err
-PAUSE
-
+echo.
+echo OK
+echo.
+REM If the logfile still contains messages here, they are just warns
+FOR /F "usebackq" %%A IN ('%tmp%\buildLog') DO set size=%%~zA 
+if %size% equ set size=0 
+if %size% gtr 1 (echo OK:There were warnings & type %tmp%\buildLog  & del /f %tmp%\buildLog)
+del %tmp%\buildLog
+pause

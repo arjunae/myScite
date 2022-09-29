@@ -29,6 +29,7 @@ dofile(myScripts..dirSep.."mod-extman"..dirSep.."extman.lua")
 dofile(myScripts..dirSep.."mod-ctags"..dirSep.."ctagsd.lua")
 -- Initialize Project support
 	dofile(myHome..'\\Addons\\lua\\SciTEProject.lua')
+
 	
 --  Lua Samples
 -- OnInit()

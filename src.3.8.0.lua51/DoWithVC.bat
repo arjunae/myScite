@@ -32,12 +32,12 @@ if "%1"=="DEBUG" set parameter1=DEBUG=1
 echo.
 echo Build: Scintilla
 cd src\scintilla\win32
-nmake %parameter1% -f scintilla.mak 2> %tmp%\err
-if [%errorlevel%] NEQ [0] echo Stop: An Error %ERRORLEVEL% occured during the build. & goto en
+nmake %parameter1% -f scintilla.mak 2> %tmp%\buildLog
+if [%errorlevel%] NEQ [0] goto err
 echo Build: SciTE 
 cd ..\..\scite\win32
-nmake %parameter1% -f scite.mak 2> %tmp%\err
-if [%errorlevel%] NEQ [0] echo Stop: An Error %ERRORLEVEL% occured during the build. & goto en
+nmake %parameter1% -f scite.mak 2> %tmp%\buildLog
+if [%errorlevel%] NEQ [0] goto err
 echo.
 echo. 
 echo OK
@@ -77,6 +77,18 @@ echo  %DEST_TARGET% Platform: %DEST_PLAT%
 cd ..\..\..
 echo > src\vc.%arch%.release.build
 
+:err
+echo.
+echo Stop: An Error %ERRORLEVEL% occured during the build
+echo.
+type %tmp%\buildLog  & echo.>%tmp%\buildLog
 :en
-if exist %tmp%\err type %tmp%\err  & del /f %tmp%\err
-PAUSE
+echo.
+echo OK
+echo.
+REM If the logfile still contains messages here, they are just warns
+FOR /F "usebackq" %%A IN ('%tmp%\buildLog') DO set size=%%~zA 
+if %size% equ set size=0 
+if %size% gtr 1 (echo OK:There were warnings & type %tmp%\buildLog  & del /f %tmp%\buildLog)
+del %tmp%\buildLog
+pause

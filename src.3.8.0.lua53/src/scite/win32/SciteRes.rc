@@ -6,7 +6,7 @@
 
 #include "SciTE.h"
 
-SciTE ICON SciBall.ico
+//SciTE ICON SciBall.ico
 
 1 RT_MANIFEST SciTE.exe.manifest
 
@@ -137,22 +137,23 @@ END
 POPUP "&Options"
 BEGIN
 	MENUITEM "Open Files &Here",		IDM_OPENFILESHERE
+	MENUITEM "&ReadOnly",				IDM_READONLY
 	MENUITEM "Vertical &Split",			IDM_SPLITVERTICAL
+	MENUITEM "Use &Monospaced Font",	IDM_MONOFONT
 	MENUITEM "&Wrap",			IDM_WRAP
 	MENUITEM "Wrap Out&put",			IDM_WRAPOUTPUT
-	MENUITEM "&ReadOnly",				IDM_READONLY
+	MENUITEM "Change Inden&tation Settings",	IDM_TABSIZE
 	POPUP "&Line End Characters"
 	BEGIN
 		MENUITEM "CR &+ LF",	IDM_EOL_CRLF
 		MENUITEM "&CR",		IDM_EOL_CR
 		MENUITEM "&LF",		IDM_EOL_LF
 		MENUITEM "&Convert Line End Characters",	IDM_EOL_CONVERT
-		MENUITEM "Change Inden&tation Settings...\tCtrl+Shift+I",	IDM_TABSIZE
-		MENUITEM "Use &Monospaced Font\tCtrl+F11",	IDM_MONOFONT
 	END
 	MENUITEM "Open &User Options File",		IDM_OPENUSERPROPERTIES
 	MENUITEM "Open &Global Options File",		IDM_OPENGLOBALPROPERTIES
 	MENUITEM "Open Lua Startup Scr&ipt", 		IDM_OPENLUAEXTERNALFILE
+	MENUITEM SEPARATOR
 END 
 // used: abcghlmoprstux
 

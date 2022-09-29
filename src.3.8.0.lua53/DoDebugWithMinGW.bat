@@ -2,8 +2,8 @@
 REM SciTE Debug
 setlocal enabledelayedexpansion enableextensions
 set BUILDTYPE=Debug
-color f0
-mode 190,30
+color 08
+mode 195,30
 REM MinGW Path has to be set in System Settings, otherwise please define here:
 REM set PATH=E:\apps\msys64\mingw32\bin;%PATH%;
 REM Sanity- Ensure MSys-MinGW availability / Determinate Architecture into %MAKEARCH%.
@@ -48,17 +48,16 @@ cd ..
 if /I %BUILDTYPE%==debug set DEBUG=1
 echo Build: Scintilla
 cd src\scintilla\win32
-mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\err
-if [%errorlevel%] NEQ [0] echo An Error Occured & goto en
+mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\buildLog
+if [%errorlevel%] NEQ [0] echo An Error Occured & goto err
 echo.
 echo Build: SciTE
 cd ..\..\scite\win32
-mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\err
-if [%errorlevel%] NEQ [0] echo An Error Occured & goto en
+mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\buildLog
+if [%errorlevel%] NEQ [0] echo An Error Occured & goto err
 echo.
 echo OK
 echo.
-
 rem Now use this littl hack to look for a platform PE Signature at offset 120+
 rem Should work compiler indepenent for uncompressed binaries.
 rem Takes: DESTTARGET Value: Executable to be checked
@@ -104,6 +103,18 @@ echo pacman -Sy mingw-w64-x86_64-toolchain
 echo and add msys2/win32 or msys2/win64 to your systems path.
 echo.
 
+:err
+echo.
+echo Stop: An Error %ERRORLEVEL% occured during the build
+echo.
+type %tmp%\buildLog  & echo.>%tmp%\buildLog
 :en
-if exist %tmp%\err type %tmp%\err  & del /f %tmp%\err
-PAUSE
+echo.
+echo OK
+echo.
+REM If the logfile still contains messages here, they are just warns
+FOR /F "usebackq" %%A IN ('%tmp%\buildLog') DO set size=%%~zA 
+if %size% equ set size=0 
+if %size% gtr 1 (echo OK:There were warnings & type %tmp%\buildLog  & del /f %tmp%\buildLog)
+del %tmp%\buildLog
+pause
