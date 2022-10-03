@@ -1,7 +1,7 @@
 // Resource file for SciTE
 // Copyright 1998-2010 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
-//old option Popup
+
 #include <windows.h>
 
 #include "SciTE.h"
@@ -136,27 +136,31 @@ END
 
 POPUP "&Options"
 BEGIN
-	MENUITEM "&Always On Top",			IDM_ONTOP
+	POPUP "Editor"
+	BEGIN
 	MENUITEM "Open Files &Here",		IDM_OPENFILESHERE
 	MENUITEM "Vertical &Split",			IDM_SPLITVERTICAL
 	MENUITEM "&Wrap",			IDM_WRAP
 	MENUITEM "Wrap Out&put",			IDM_WRAPOUTPUT
-	MENUITEM "&Read-Only",				IDM_READONLY
+	MENUITEM "&ReadOnly",				IDM_READONLY
+	MENUITEM "Use &Monospaced Font",	IDM_MONOFONT
+	END
 	POPUP "&Line End Characters"
 	BEGIN
 		MENUITEM "CR &+ LF",	IDM_EOL_CRLF
 		MENUITEM "&CR",		IDM_EOL_CR
 		MENUITEM "&LF",		IDM_EOL_LF
-		MENUITEM "&Convert Line End Characters",	IDM_EOL_CONVERT
 	END
-	MENUITEM "Change Inden&tation Settings...\tCtrl+Shift+I",	IDM_TABSIZE
-	MENUITEM "Use &Monospaced Font\tCtrl+F11",	IDM_MONOFONT
+	MENUITEM "&Convert Line End Characters",	IDM_EOL_CONVERT
+	MENUITEM "Change Inden&tation Settings",	IDM_TABSIZE
 	MENUITEM "Open Local &Options File",		IDM_OPENLOCALPROPERTIES
 	MENUITEM "Open &Directory Options File",		IDM_OPENDIRECTORYPROPERTIES
 	MENUITEM "Open &User Options File",		IDM_OPENUSERPROPERTIES
 	MENUITEM "Open &Global Options File",		IDM_OPENGLOBALPROPERTIES
 	MENUITEM "Open A&bbreviations File",		IDM_OPENABBREVPROPERTIES
 	MENUITEM "Open Lua Startup Scr&ipt", 		IDM_OPENLUAEXTERNALFILE
+	MENUITEM SEPARATOR
+
 END 
 // used: abcghlmoprstux
 

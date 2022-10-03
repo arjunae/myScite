@@ -36,5 +36,5 @@ dofile(myScripts..dirSep.."mod-ctags"..dirSep.."ctagsd.lua")
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 
 function OnInit()
-	scite.MenuCommand(IDM_FOLDMARGIN)
+	--scite.MenuCommand(IDM_FOLDMARGIN)
 end

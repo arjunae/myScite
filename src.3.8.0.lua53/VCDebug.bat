@@ -30,11 +30,11 @@ echo Target Architecture will be: %arch%
 call "%VCINSTALLDIR%\vcvarsall.bat"  %arch%
 set parameter1=DEBUG=1
 echo.
-echo Build: Scintilla
+echo Compiling Scintilla
 cd src\scintilla\win32
 nmake %parameter1% -f scintilla.mak 2>%tmp%\buildLog
 if [%errorlevel%] NEQ [0] goto err
-echo Build: SciTE
+echo Compiling SciTE
 cd ..\..\scite\win32
 nmake %parameter1% -f scite.mak 2>%tmp%\buildLog
 if [%errorlevel%] NEQ [0] goto err
@@ -68,9 +68,9 @@ if [%DEST_PLAT%] EQU [win64] set COPYFLAG=1
 if %COPYFLAG% EQU 1 (
 FOR /F "tokens=* USEBACKQ" %%D IN (`pwd`) DO (set curPath=%D)
 echo Copying Files to %curPath%/build
-if not exist ..\..\..\build md ..\..\..\build
-copy ..\bin\SciTE.exe ..\..\..\build
-copy ..\bin\SciLexer.dll ..\..\..\build
+if not exist ..\..\..\bin md ..\..\..\bin
+copy ..\bin\SciTE.exe ..\..\..\bin
+copy ..\bin\SciLexer.dll ..\..\..\bin
 echo .... Targets platform: %DEST_PLAT% ......
 ) else (
 echo  %DEST_TARGET% Platform: %DEST_PLAT%

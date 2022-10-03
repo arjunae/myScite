@@ -128,7 +128,16 @@ void SciTEWin::Notify(SCNotification *notification) {
 			CheckReload();
 		}
 		break;
-	
+	case WM_PAINT:
+	{
+	//PAINTSTRUCT ps;
+        //Modded  RECT rc;
+        // HDC hdc = BeginPaint(HwndOf(wToolBar)), &ps);
+        // GetClientRect(GetWindowDC(HwndOf(wToolBar)), &rc);
+        // SetBkColor(HwndOf(wToolBar), 0x000000ff); // red
+        // ExtTextOut(HwndOf(wToolBar), 0, 0, ETO_OPAQUE, &rc, 0, 0, 0);
+        // EndPaint(HwndOf(wToolBar), &ps);
+	}
 	case NM_CUSTOMDRAW:
 	 {
             //LPNMHDR header_ptr = safe_ptr_cast< LPNMHDR >( &lparam );
@@ -136,10 +145,10 @@ void SciTEWin::Notify(SCNotification *notification) {
             LPNMTBCUSTOMDRAW data_ptr = (LPNMTBCUSTOMDRAW) notification;
             switch(data_ptr->nmcd.dwDrawStage) 
             {
-                case CDDS_ITEMPREPAINT:
+                //case CDDS_ITEMPREPAINT:
                     //SetWindowTheme(m_ptr->get_operation_tab_toolbar_handle(), _T(""), _T(""));
                     //data_ptr->hbrMonoDither = GetStockBrush(BLACK_BRUSH);
-                    SetBkColor( data_ptr->nmcd.hdc, RGB(0,0,0));
+                    //Modded SetBkColor( data_ptr->nmcd.hdc, RGB(0,0,0));
                     //FillRect( data_ptr->nmcd.hdc, &data_ptr->nmcd.rc, RGB(0,55,0));
                     //FillRect( data_ptr->nmcd.hdc, &data_ptr->nmcd.rc, GetStockBrush(BLACK_BRUSH));
             }
@@ -481,10 +490,13 @@ void SciTEWin::SizeSubWindows() {
 	visHeightEditor = bands[bandContents].height;
 	visHeightStatus = bands[bandStatus].height;
 
+	MENUINFO mi = { 0 }; 
+
 	SizeContentWindows();
-	//::SendMessage(MainHWND(), WM_SETREDRAW, true, 0);
-	//::RedrawWindow(MainHWND(), NULL, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN);
+//	::SendMessage(MainHWND(), WM_SETREDRAW, true, 0);
+//	::RedrawWindow(MainHWND(), NULL, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN);
 }
+
 void SciTEWin::SetMenuItemNew(int menuNumber, int subMenuNumber, int position, int itemID,
                            const GUI::gui_char *text, const GUI::gui_char *mnemonic) {
 	// On Windows the menu items are modified if they already exist or are created
@@ -572,6 +584,7 @@ void SciTEWin::SetToolBar() {
 		SIZE szBitmap = {szIcon.cx*iIconsCount, szIcon.cy};
 		RECT rcBitmap = {0, 0, szBitmap.cx, szBitmap.cy};		
 		// .. Draw Background 
+
 		HBRUSH hBrashBack = ::GetSysColorBrush(COLOR_BTNFACE);
 		HDC hDesktopDC = ::GetDC(NULL);
 		HDC hCompatibleDC = ::CreateCompatibleDC(hDesktopDC);
@@ -740,11 +753,13 @@ void SciTEWin::SetMenuItem(int menuNumber, int position, int itemID,
 		mii.dwItemData = keycode;
 		::SetMenuItemInfo(hmenu, itemID, FALSE, &mii);
 	}
+
+
 }
 
 void SciTEWin::RedrawMenu() {
 	// Make previous change visible.
-	::DrawMenuBar(HwndOf(wSciTE));
+::DrawMenuBar(MainHWND());
 }
 
 void SciTEWin::DestroyMenuItem(int menuNumber, int itemID) {
@@ -856,12 +871,13 @@ void SciTEWin::LocaliseMenu(HMENU hmenu) {
 
 void SciTEWin::LocaliseMenus() {
 LocaliseMenu(::GetMenu(MainHWND()));
-MENUINFO mi = { 0 }; 
+	MENUINFO mi = { 0 }; 
+mi.fMask = MIM_STYLE|MIM_BACKGROUND|MIM_APPLYTOSUBMENUS; 
+mi.dwStyle=MNS_NOCHECK;
 mi.cbSize = sizeof(mi); 
-mi.fMask = MIM_BACKGROUND|MIM_APPLYTOSUBMENUS; 
 mi.hbrBack = CreateSolidBrush(RGB(255,255,255));
-::SetMenuInfo(::GetMenu(MainHWND()), &mi);
-::DrawMenuBar(MainHWND());
+SetMenuInfo(::GetMenu(MainHWND()), &mi);
+DrawMenuBar(MainHWND());
 }
 
 void SciTEWin::LocaliseControl(HWND w) {
@@ -1110,7 +1126,6 @@ void SciTEWin::Creation() {
 	               hInstance,
 	               0);
 	wToolBar = hwndToolBar;
-	
 	wToolBar.Show();
 
 	INITCOMMONCONTROLSEX icce;
@@ -1151,7 +1166,7 @@ void SciTEWin::Creation() {
 		exit(FALSE);
 	fontTabs = ::CreateFontIndirect(&lfIconTitle);
 	SetWindowFont(HwndOf(wTabBar), fontTabs, 0);
-
+	
 	wTabBar.Show();
 
 	HWND hwnd = ::CreateWindowEx(

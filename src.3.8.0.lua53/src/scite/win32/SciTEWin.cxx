@@ -2116,11 +2116,10 @@ LRESULT ContentWin::WndProc(UINT iMessage, WPARAM wParam, LPARAM lParam) {
 
 	case WM_PAINT: {
 			PAINTSTRUCT ps;
-			::BeginPaint(Hwnd(), &ps);
+			BeginPaint(Hwnd(), &ps);
 			GUI::Rectangle rcPaint(ps.rcPaint.left, ps.rcPaint.top, ps.rcPaint.right, ps.rcPaint.bottom);
 			Paint(ps.hdc, rcPaint);
-			::EndPaint(Hwnd(), &ps);
-			return 0;
+			EndPaint(Hwnd(), &ps);
 		}
 
 	case WM_ERASEBKGND: {

@@ -1,5 +1,4 @@
 @echo off
-REM for a debug build use:  make_debug_with_VC.bat
 setlocal enabledelayedexpansion enableextensions
 color f0
 mode 190,30
@@ -30,11 +29,11 @@ call "%VCINSTALLDIR%\vcvarsall.bat"  %arch%
 if "%1"=="DEBUG" set parameter1=DEBUG=1
 
 echo.
-echo Build: Scintilla
+echo Compiling Scintilla
 cd src\scintilla\win32
 nmake %parameter1% -f scintilla.mak 2> %tmp%\buildLog
 if [%errorlevel%] NEQ [0] goto err
-echo Build: SciTE 
+echo Compiling SciTE 
 cd ..\..\scite\win32
 nmake %parameter1% -f scite.mak 2> %tmp%\buildLog
 if [%errorlevel%] NEQ [0] goto err
@@ -67,9 +66,9 @@ if [%DEST_PLAT%] EQU [win32] set COPYFLAG=1
 if [%DEST_PLAT%] EQU [win64] set COPYFLAG=1
 if %COPYFLAG% EQU 1 (
 echo Copying Files to %cd%\build
-if not exist ..\..\..\build md ..\..\..\build
-copy ..\bin\SciTE.exe ..\..\..\build
-copy ..\bin\SciLexer.dll ..\..\..\build
+if not exist ..\..\..\bin md ..\..\..\bin
+copy ..\bin\SciTE.exe ..\..\..\bin
+copy ..\bin\SciLexer.dll ..\..\..\bin
 echo Targets platform: %DEST_PLAT%
 ) else (
 echo  %DEST_TARGET% Platform: %DEST_PLAT%

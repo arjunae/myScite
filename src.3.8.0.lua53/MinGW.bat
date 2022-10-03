@@ -31,7 +31,7 @@ echo.
 echo SciTE Prod
 echo. 
 echo.
-echo Build Environment: %MAKEARCH% 
+echo Environment %MAKEARCH% 
 echo.
 
 REM Sanity- Ask when trying to change between Debug and Release builds.
@@ -46,11 +46,11 @@ if [%ERRORLEVEL%]==[2] (
 )
 
 if /I %BUILDTYPE%==debug set DEBUG=1
-echo Build: Scintilla
+echo Compiling Scintilla
 cd src\scintilla\win32
 mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\buildLog
 if [%errorlevel%] NEQ [0] goto err
-echo Build: SciTE
+echo Compiling SciTE
 cd ..\..\scite\win32
 mingw32-make -j %NUMBER_OF_PROCESSORS% 2>> %tmp%\buildLog
 if [%errorlevel%] NEQ [0]  goto err
@@ -74,9 +74,10 @@ if [%DEST_PLAT%] EQU [win32] set COPYFLAG=1
 if [%DEST_PLAT%] EQU [win64] set COPYFLAG=1
 if %COPYFLAG% EQU 1 (
 echo Copying Files to %cd%\build
-if not exist ..\..\..\build md ..\..\..\build 
-copy ..\bin\SciTE.exe ..\..\..\build
-copy ..\bin\SciLexer.dll ..\..\..\build
+if not exist ..\..\..\bin md ..\..\..\bin
+copy ..\bin\SciTE.exe ..\..\..\bin
+set copyFailed=%ERRORLEVEL%
+copy ..\bin\SciLexer.dll ..\..\..\bin
 echo Targets platform: %DEST_PLAT%
 ) else (
 echo  %DESTTARGET% Platform: %DEST_PLAT%
@@ -87,7 +88,7 @@ echo > src\mingw.%DEST_PLAT%.%BUILDTYPE%.build
 goto en
 
 :errMingw
-echo Error: MSYS2/MinGW Installation was not found or its not in your systems path.
+echo Error: MSYS2 MinGW Installation was not found or its not in your systems path.
 echo.
 echo Within MSYS2, utilize 
 echo pacman -Sy mingw-w64-i686-toolchain

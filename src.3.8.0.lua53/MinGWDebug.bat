@@ -31,7 +31,7 @@ echo SciTE Debug
 echo. 
 echo.
 
-echo Build Environment: %MAKEARCH% 
+echo Environment %MAKEARCH% 
 echo.
 
 REM Sanity- Ask when trying to change between Debug and Release builds.
@@ -46,12 +46,12 @@ cd ..
 )
 
 if /I %BUILDTYPE%==debug set DEBUG=1
-echo Build: Scintilla
+echo Compiling Scintilla
 cd src\scintilla\win32
 mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\buildLog
 if [%errorlevel%] NEQ [0] echo An Error Occured & goto err
 echo.
-echo Build: SciTE
+echo Compiling SciTE
 cd ..\..\scite\win32
 mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\buildLog
 if [%errorlevel%] NEQ [0] echo An Error Occured & goto err
@@ -82,9 +82,9 @@ if [%DEST_PLAT%] EQU [win32] set COPYFLAG=1
 if [%DEST_PLAT%] EQU [win64] set COPYFLAG=1
 if %COPYFLAG% EQU 1 (
 echo Copying Files to %cd%\build
-if not exist ..\..\..\build md ..\..\..\build
-copy ..\bin\SciTE.exe ..\..\..\build
-copy ..\bin\SciLexer.dll ..\..\..\build
+if not exist ..\..\..\bin md ..\..\..\bin
+copy ..\bin\SciTE.exe ..\..\..\bin
+copy ..\bin\SciLexer.dll ..\..\..\bin
 echo Targets platform: %DEST_PLAT%
 ) else (
 echo  %DESTTARGET% Platform: %DEST_PLAT%
