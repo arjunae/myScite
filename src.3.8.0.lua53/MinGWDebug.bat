@@ -35,7 +35,7 @@ echo Environment %MAKEARCH%
 echo.
 
 REM Sanity- Ask when trying to change between Debug and Release builds.
-if exist src\mingw.*.release.build choice /C YN /M "A MinGW Debug Build has been found. Rebuild as %BUILDTYPE%? "
+if exist src\mingw.*.release.build choice /C YN /M "A MinGW Release Build has been found. Rebuild as %BUILDTYPE%? "
 if [%ERRORLEVEL%]==[2] (
 goto en
 ) else if [%ERRORLEVEL%]==[1] (

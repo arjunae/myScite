@@ -9,9 +9,9 @@ local content =""
 ckTho=true
 c0=0
 while ckTho==true do
-	local GoGo = file:read(6615)
-	if not GoGo then break end
-	c0=c0..GoGo
+	local SoSo = file:read(6615)
+	if not SoSo then break end
+	c0=c0..SoSo
 end	
 local cryptSHA1= sha1(c0)
 file:close()
