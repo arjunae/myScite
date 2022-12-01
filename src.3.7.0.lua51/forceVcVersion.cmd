@@ -66,7 +66,7 @@ for /F "tokens=* " %%i in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\Classes\WOW643
 )
 )
 
-REM ~~ Returns 0 on success or 10 if no VC Installation could be found  
+REM Returns 0 on success or 10 if no VC Installation could be found  
 :end
 REM echo %okFlag%
 exit /b %okFlag%

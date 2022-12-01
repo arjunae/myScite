@@ -145,11 +145,12 @@ BEGIN
 	MENUITEM "&ReadOnly",				IDM_READONLY
 	MENUITEM "Use &Monospaced Font",	IDM_MONOFONT
 	END
-	POPUP "&Line End Characters"
+	POPUP "&EOL Style"
 	BEGIN
-		MENUITEM "CR &+ LF",	IDM_EOL_CRLF
-		MENUITEM "&CR",		IDM_EOL_CR
-		MENUITEM "&LF",		IDM_EOL_LF
+		MENUITEM "Carriage/LineFeed",	IDM_EOL_CRLF
+		MENUITEM "Carriage",		IDM_EOL_CR
+		MENUITEM "Linefeed",		IDM_EOL_LF
+		MENUITEM "Convert EO&L",	IDM_EOL_CONVERT
 	END
 	MENUITEM "&Convert Line End Characters",	IDM_EOL_CONVERT
 	MENUITEM "Change Inden&tation Settings",	IDM_TABSIZE

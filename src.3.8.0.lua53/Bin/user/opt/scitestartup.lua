@@ -21,10 +21,13 @@ if not GTK then
 end
 
 myScripts=myHome..dirSep.."opt"..dirSep
---dofile(myScripts.."lua-scite"..dirSep.."eventmanager.lua")
+--dofile(myScripts..dirSep.."eventmanager.lua")
+dofile(myScripts..dirSep.."macros.lua")
+
 -- Loading extman.lua will automatically run any lua script located in \User\opt\lua-scite
 dofile(myScripts..dirSep.."extman.lua")
--- Initialize Project support
+-- Initialize Project support last
+dofile(myScripts..dirSep.."ctags.lua")
 dofile(myScripts..'SciTEProject.lua')
 
 	

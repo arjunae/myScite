@@ -83,7 +83,7 @@ int Scintilla_LinkLexers() {
 	LINK_LEXER(lmAVS);
 	LINK_LEXER(lmBaan);
 	LINK_LEXER(lmBash);
-	LINK_LEXER(lmBatch);
+//	LINK_LEXER(lmBatch);
 	LINK_LEXER(lmBibTeX);
 	LINK_LEXER(lmBlitzBasic);
 	LINK_LEXER(lmBullant);
@@ -101,7 +101,7 @@ int Scintilla_LinkLexers() {
 	LINK_LEXER(lmD);
 	LINK_LEXER(lmDiff);
 	LINK_LEXER(lmDMAP);
-	LINK_LEXER(lmDMIS);
+//	LINK_LEXER(lmDMIS);
 	LINK_LEXER(lmECL);
 	LINK_LEXER(lmEDIFACT);
 	LINK_LEXER(lmEiffel);
@@ -119,7 +119,7 @@ int Scintilla_LinkLexers() {
 	LINK_LEXER(lmHaskell);
 	LINK_LEXER(lmHTML);
 	LINK_LEXER(lmIHex);
-	LINK_LEXER(lmIndent);
+//	LINK_LEXER(lmIndent);
 	LINK_LEXER(lmInno);
 	LINK_LEXER(lmJSON);
 	LINK_LEXER(lmKix);
@@ -142,7 +142,7 @@ int Scintilla_LinkLexers() {
 	LINK_LEXER(lmMySQL);
 	LINK_LEXER(lmNimrod);
 	LINK_LEXER(lmNncrontab);
-	LINK_LEXER(lmNsis);
+//	LINK_LEXER(lmNsis);
 	LINK_LEXER(lmNull);
 	LINK_LEXER(lmOctave);
 	LINK_LEXER(lmOpal);
@@ -185,7 +185,7 @@ int Scintilla_LinkLexers() {
 	LINK_LEXER(lmTxt2tags);
 	LINK_LEXER(lmVB);
 	LINK_LEXER(lmVBScript);
-	LINK_LEXER(lmVerilog);
+//	LINK_LEXER(lmVerilog);
 	LINK_LEXER(lmVHDL);
 	LINK_LEXER(lmVisualProlog);
 	LINK_LEXER(lmXML);

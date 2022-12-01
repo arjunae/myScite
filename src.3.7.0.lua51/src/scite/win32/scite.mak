@@ -202,7 +202,7 @@ CXXFLAGS=$(CXXFLAGS) $(INCLUDEDIRS)
 CCFLAGS=$(CCFLAGS) $(INCLUDEDIRS)
 
 
-ALL: $(PROG) $(PROGSTATIC) $(DLLS) $(PROPS)
+ALL: $(PROG) $(DLLS) $(PROPS)
 
 clean:
 	del /q $(DIR_BIN)\*.exe *.o *.obj $(DIR_BIN)\*.dll *.res *.map $(DIR_BIN)\*.exp $(DIR_BIN)\*.lib $(DIR_BIN)\*.pdb
@@ -232,8 +232,8 @@ $(DIR_BIN)\abbrev.properties: ..\src\abbrev.properties
 	@echo You must run the Scintilla makefile to build $*.obj
 	@exit 255
 
-SciTER.res: SciTER.rc ..\src\SciTE.h SciTE.exe.manifest
-	$(RC) $(INCLUDEDIRS) -fo$@ SciTER.rc
+SciTER.res: SciTERes.rc ..\src\SciTE.h SciTE.exe.manifest
+	$(RC) $(INCLUDEDIRS) -fo$@ SciTERes.rc
 
 Sc1R.res: SciTER.rc ..\src\SciTE.h SciTE.exe.manifest
 	$(RC) $(INCLUDEDIRS) -dSTATIC_BUILD -fo$@ SciTER.rc

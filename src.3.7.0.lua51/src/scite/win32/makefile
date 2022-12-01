@@ -6,7 +6,7 @@
 
 # Up from Scintilla3.8.0 SciLexer.dll optionally includes Lua (defined LPEG_LEXER)
 # If you choosed to do so, decide here if you want SciTE to be dynamically linked to SciLexers Lua. 
-LUA_LINK_SCILEXER=1
+LUA_LINK_SCILEXER=0
 
 .SUFFIXES: .cxx .properties
 WINDRES ?= windres
@@ -124,7 +124,7 @@ SHAREDOBJS=\
 	Utf8_16.o \
 	WinMutex.o
 
-OTHER_OBJS = $(SHAREDOBJS) $(LUA_OBJS) SciTER.o SciTEWin.o
+OTHER_OBJS = $(SHAREDOBJS) $(LUA_OBJS) SciTERes.o SciTEWin.o
 
 OBJS = Credits.o $(OTHER_OBJS)
 
@@ -266,13 +266,13 @@ Sc1.o: SciTEWin.cxx SciTEWin.h SciTE.h PropSetFile.h \
  Scintilla.h Extender.h FilePath.h SciTEBase.h FileWorker.h JobQueue.h
 	$(CXX) $(CXXFLAGS) -D STATIC_BUILD -c $< -o $@
 
-SciTER.o:	SciTER.rc SciTE.h SciTE.exe.manifest
-	$(WINDRES) $(RCINCLUDEDIRS) SciTER.rc $@
+SciTERes.o:	SciTERes.rc SciTE.h SciTE.exe.manifest
+	$(WINDRES) $(RCINCLUDEDIRS) SciTERes.rc $@
 
 # Also depends on ../src/Embedded.properties but may not want to build everywhere
 # so must explicitly ask to build it.
 Sc1Res.o:	SciTERes.rc SciTE.h SciTE.exe.manifest
-	$(WINDRES) $(RCINCLUDEDIRS) SciTER.rc --define STATIC_BUILD $@
+	$(WINDRES) $(RCINCLUDEDIRS) SciTERes.rc --define STATIC_BUILD $@
 
 # Make sure Credits gets rebuilt (so its about box gets a new
 # date stamp) when any of the other objects are updated.

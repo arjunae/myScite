@@ -24,7 +24,7 @@ if %errorlevel%==10 (
 echo please build myScite withVisualStudio 2015
 goto en
 )
-echo 
+echo.
 echo Target Architecture will be: %arch%
 call %VCINSTALLDIR%\vcvarsall.bat  %arch%
 if "%1"=="DEBUG" set parameter1=DEBUG=1
@@ -79,7 +79,6 @@ echo.
 echo Stop: An Error %ERRORLEVEL% occured during the build
 echo.
 type %tmp%\buildLog  & echo.>%tmp%\buildLog
-goto en
 :en
 echo.
 echo OK
@@ -88,6 +87,6 @@ REM If the logfile still contains messages here, they are just warns
 REM VC always writes a 133Bytes copyright Header, so just check for content beyond that size.
 FOR /F "usebackq" %%A IN ('%tmp%\buildLog') DO set size=%%~zA 
 if %size% equ set size=0 
-if %size% gtr 133 (echo OK:There were warnings & type %tmp%\buildLog)
+if %size% gtr 133 (type %tmp%\buildLog)
 del %tmp%\buildLog
 pause

@@ -457,9 +457,9 @@ if package then loadlib = package.loadlib end
 -- by default, the spawner lib sits next to extman.lua
 spawner_path = scite_GetProp('spawner.extension.path',extman_path)
 if GTK then
-    fn,err = loadlib(spawner_path..'/unix-spawner-ex.so','luaopen_spawner')
+    fn,err = loadlib(spawner_path..'/unix-spawner.so','luaopen_spawner')
 else
-    fn,err = loadlib(spawner_path..'\\spawner-ex.dll','luaopen_spawner')
+    fn,err = loadlib(spawner_path..'\\spawner.dll','luaopen_spawner')
 end
 if fn then
     fn() -- register spawner
