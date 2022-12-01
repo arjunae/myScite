@@ -14,7 +14,6 @@
 --     otherwise assume fully qualified Pathes in Tagfile
 
 ]]
-
 local GTK = scite_GetProp('PLAT_GTK')
 if GTK then dirSep="/" else dirSep="\\" end
   

@@ -37,10 +37,7 @@ echo Compiling SciTE
 cd ..\..\scite\win32
 nmake %parameter1% -f scite.mak 2> %tmp%\buildLog
 if [%errorlevel%] NEQ [0] goto err
-echo.
-echo. 
-echo OK
-echo 
+echo Build OK 
 REM Find and display currents build targets Platform
 set DEST_TARGET=..\bin\SciTE.exe
 
@@ -75,19 +72,22 @@ echo  %DEST_TARGET% Platform: %DEST_PLAT%
 )
 cd ..\..\..
 echo > src\vc.%arch%.release.build
+goto en
 
 :err
 echo.
 echo Stop: An Error %ERRORLEVEL% occured during the build
 echo.
 type %tmp%\buildLog  & echo.>%tmp%\buildLog
+goto en
 :en
 echo.
 echo OK
 echo.
 REM If the logfile still contains messages here, they are just warns
+REM VC always writes a 133Bytes copyright Header, so just check for content beyond that size.
 FOR /F "usebackq" %%A IN ('%tmp%\buildLog') DO set size=%%~zA 
 if %size% equ set size=0 
-if %size% gtr 1 (echo OK:There were warnings & type %tmp%\buildLog  & del /f %tmp%\buildLog)
+if %size% gtr 133 (echo OK:There were warnings & type %tmp%\buildLog)
 del %tmp%\buildLog
 pause

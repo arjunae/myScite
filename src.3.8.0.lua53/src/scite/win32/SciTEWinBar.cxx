@@ -128,27 +128,6 @@ void SciTEWin::Notify(SCNotification *notification) {
 			CheckReload();
 		}
 		break;
-		case WM_THEMECHANGED:
-		{
-			UpdateWindow(HwndOf(wToolBar));
-		}
-		break;
-		case WM_PAINT:
-		{
-			UpdateWindow(HwndOf(wToolBar));
-MessageBox(NULL, 0, 0, MB_OK | MB_ICONERROR);
-		}
-		case NM_CUSTOMDRAW:
-	 	{
-	PAINTSTRUCT ps;
-RECT rc;
-BeginPaint(HwndOf(wToolBar), &ps);
-GetClientRect(HwndOf(wToolBar), &rc);
- SetBkColor(ps.hdc, 0x000000ff); // red
- ExtTextOut(ps.hdc, 0, 0, ETO_OPAQUE, &rc, 0, 0, 0);
- EndPaint(HwndOf(wToolBar), &ps);
-	break;
-	}
 	case NM_RCLICK:
 		// Right click on a control
 		if (notification->nmhdr.idFrom == IDM_TABWIN) {

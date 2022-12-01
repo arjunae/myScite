@@ -21,14 +21,11 @@ if not GTK then
 end
 
 myScripts=myHome..dirSep.."opt"..dirSep
--- Load extman.lua
--- This will automatically run any lua script located in \User\lua\lua-scite
-dofile(myScripts.."mod-extman"..dirSep.."eventmanager.lua")
-dofile(myScripts.."mod-extman"..dirSep.."extman.lua")
--- Load cTags Browser
-dofile(myScripts.."mod-ctags"..dirSep.."ctagsd.lua")
+--dofile(myScripts.."lua-scite"..dirSep.."eventmanager.lua")
+-- Loading extman.lua will automatically run any lua script located in \User\opt\lua-scite
+dofile(myScripts..dirSep.."extman.lua")
 -- Initialize Project support
-	dofile(myScripts..'SciTEProject.lua')
+dofile(myScripts..'SciTEProject.lua')
 
 	
 --  Lua Samples

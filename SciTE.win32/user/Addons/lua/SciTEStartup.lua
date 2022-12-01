@@ -28,13 +28,14 @@ if (true) then
 	-- track the amount of lua allocated memory
 	_G.session_used_memory=collectgarbage("count")*1024
 
+
+	-- load eventmanager / extman remake used by some lua mods
+	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
+
 	-- Load extman.lua
 	-- This will automatically run any lua script located in \User\Addons\lua\lua-scite
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-extman\\?.lua;"
 	dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
-
-	-- chainload eventmanager / extman remake used by some lua mods
-	dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
 		
 	-- Load Debugging support
 	package.path = package.path .. ";"..myHome.."\\Addons\\lua\\mod-scite-debug\\?.lua;"
