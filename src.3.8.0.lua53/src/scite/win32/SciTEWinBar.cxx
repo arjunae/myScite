@@ -128,38 +128,27 @@ void SciTEWin::Notify(SCNotification *notification) {
 			CheckReload();
 		}
 		break;
-	case WM_PAINT:
-	{
-	//PAINTSTRUCT ps;
-        //Modded  RECT rc;
-        // HDC hdc = BeginPaint(HwndOf(wToolBar)), &ps);
-        // GetClientRect(GetWindowDC(HwndOf(wToolBar)), &rc);
-        // SetBkColor(HwndOf(wToolBar), 0x000000ff); // red
-        // ExtTextOut(HwndOf(wToolBar), 0, 0, ETO_OPAQUE, &rc, 0, 0, 0);
-        // EndPaint(HwndOf(wToolBar), &ps);
-	}
-	case NM_CUSTOMDRAW:
-	 {
-            //LPNMHDR header_ptr = safe_ptr_cast< LPNMHDR >( &lparam );
-            //if ( header_ptr->hwndFrom == m_ptr->get_operation_tab_toolbar_handle( ) )
-            LPNMTBCUSTOMDRAW data_ptr = (LPNMTBCUSTOMDRAW) notification;
-            switch(data_ptr->nmcd.dwDrawStage) 
-            {
-                //case CDDS_ITEMPREPAINT:
-                    //SetWindowTheme(m_ptr->get_operation_tab_toolbar_handle(), _T(""), _T(""));
-                    //data_ptr->hbrMonoDither = GetStockBrush(BLACK_BRUSH);
-                    //Modded SetBkColor( data_ptr->nmcd.hdc, RGB(0,0,0));
-                    //FillRect( data_ptr->nmcd.hdc, &data_ptr->nmcd.rc, RGB(0,55,0));
-                    //FillRect( data_ptr->nmcd.hdc, &data_ptr->nmcd.rc, GetStockBrush(BLACK_BRUSH));
-            }
-				//return CDRF_NEWFONT;
-               // case CDDS_PREPAINT:
-               // {
-                  //  return CDRF_NOTIFYITEMDRAW;
-               // }
-        }
+		case WM_THEMECHANGED:
+		{
+			UpdateWindow(HwndOf(wToolBar));
+		}
+		break;
+		case WM_PAINT:
+		{
+			UpdateWindow(HwndOf(wToolBar));
+MessageBox(NULL, 0, 0, MB_OK | MB_ICONERROR);
+		}
+		case NM_CUSTOMDRAW:
+	 	{
+	PAINTSTRUCT ps;
+RECT rc;
+BeginPaint(HwndOf(wToolBar), &ps);
+GetClientRect(HwndOf(wToolBar), &rc);
+ SetBkColor(ps.hdc, 0x000000ff); // red
+ ExtTextOut(ps.hdc, 0, 0, ETO_OPAQUE, &rc, 0, 0, 0);
+ EndPaint(HwndOf(wToolBar), &ps);
 	break;
-	
+	}
 	case NM_RCLICK:
 		// Right click on a control
 		if (notification->nmhdr.idFrom == IDM_TABWIN) {
@@ -497,47 +486,6 @@ void SciTEWin::SizeSubWindows() {
 //	::RedrawWindow(MainHWND(), NULL, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN);
 }
 
-void SciTEWin::SetMenuItemNew(int menuNumber, int subMenuNumber, int position, int itemID,
-                           const GUI::gui_char *text, const GUI::gui_char *mnemonic) {
-	// On Windows the menu items are modified if they already exist or are created
-    HMENU hmenu = ::GetSubMenu(::GetMenu(MainHWND()), menuNumber);
- // About to modify a submenu (eg Options-> Config Files)   
-	if(subMenuNumber >0) {
-    HMENU smenu = ::GetSubMenu(hmenu, subMenuNumber);
-    hmenu = smenu;
-  }
-	GUI::gui_string sTextMnemonic = text;
-	long keycode = 0;
-	if (mnemonic && *mnemonic) {
-		keycode = SciTEKeys::ParseKeyCode(GUI::UTF8FromString(mnemonic).c_str());
-		if (keycode) {
-			sTextMnemonic += GUI_TEXT("\t");
-			sTextMnemonic += mnemonic;
-		}
-		// the keycode could be used to make a custom accelerator table
-		// but for now, the menu's item data is used instead for command
-		// tools, and for other menu entries it is just discarded.
-	}
-
-	UINT typeFlags = (text[0]) ? MF_STRING : MF_SEPARATOR;
-	if (::GetMenuState(hmenu, itemID, MF_BYCOMMAND) == (UINT)(-1)) {
-		// Not present so insert
-		::InsertMenuW(hmenu, position, MF_BYPOSITION | typeFlags, itemID, sTextMnemonic.c_str());
-	} else {
-		::ModifyMenuW(hmenu, itemID, MF_BYCOMMAND | typeFlags, itemID, sTextMnemonic.c_str());
-	}
-
-	if (itemID >= IDM_TOOLS && itemID < IDM_TOOLS + toolMax) {
-		// Stow the keycode for later retrieval.
-		// Do this even if 0, in case the menu already existed (e.g. ModifyMenu)
-		MENUITEMINFO mii;
-		mii.cbSize = sizeof(MENUITEMINFO);
-		mii.fMask = MIIM_DATA;
-		mii.dwItemData = keycode;
-		::SetMenuItemInfo(hmenu, itemID, FALSE, &mii);
-	}
-}
-
 
 // Keymod param is interpreted using the same notation (and much the same
 // code) as KeyMatch uses in SciTEWin.cxx.
@@ -717,6 +665,7 @@ void SciTEWin::SetToolBar() {
 	::SendMessage(hwndToolBar, TB_ADDBUTTONS, barbuttons.GetSize(), reinterpret_cast<LPARAM>(tbb));
 	delete []tbb;
 	CheckMenus();
+
 }
 
 void SciTEWin::SetMenuItem(int menuNumber, int position, int itemID,
@@ -873,7 +822,7 @@ void SciTEWin::LocaliseMenus() {
 LocaliseMenu(::GetMenu(MainHWND()));
 	MENUINFO mi = { 0 }; 
 mi.fMask = MIM_STYLE|MIM_BACKGROUND|MIM_APPLYTOSUBMENUS; 
-//mi.dwStyle=MNS_NOCHECK;
+mi.dwStyle=MNS_NOCHECK;
 mi.cbSize = sizeof(mi); 
 mi.hbrBack = CreateSolidBrush(RGB(255,255,255));
 SetMenuInfo(::GetMenu(MainHWND()), &mi);
@@ -1126,6 +1075,16 @@ void SciTEWin::Creation() {
 	               hInstance,
 	               0);
 	wToolBar = hwndToolBar;
+	LOGFONT lfIconTitl;
+	ZeroMemory(&lfIconTitl, sizeof(lfIconTitl));
+	if (::SystemParametersInfo(SPI_GETICONTITLELOGFONT,sizeof(lfIconTitl),&lfIconTitl,FALSE) == 0)
+		exit(FALSE);
+	fontTabs = ::CreateFontIndirect(&lfIconTitl);
+	SetWindowFont(HwndOf(wToolBar), fontTabs, 0);
+
+SetWindowTheme(HwndOf(wToolBar), L"Explorer", NULL);
+SendMessageW(HwndOf(wToolBar), WM_THEMECHANGED, 0, 0);
+
 	wToolBar.Show();
 
 	INITCOMMONCONTROLSEX icce;

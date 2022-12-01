@@ -251,8 +251,6 @@ protected:
 	void ShowOutputOnMainThread() override;
 	void SizeContentWindows() override;
 	void SizeSubWindows() override;
-	virtual void SetMenuItemNew(int menuNumber, int subMenuNumber, int position, int itemID,
-	                         const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0);
 
 	void SetMenuItem(int menuNumber, int position, int itemID,
 	                         const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0) override;

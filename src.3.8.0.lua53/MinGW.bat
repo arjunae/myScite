@@ -7,6 +7,8 @@ color 08
 reg add HKCU\Console\%%SystemRoot%%_system32_cmd.exe\ScreenBufferSize /t REG_DWORD /d 1111111 /f >NUL
 REM MinGW Path has to be set in System Settings, otherwise please define here:
 REM set PATH=E:\apps\msys64\mingw64\bin;%PATH%;
+ set PATH=E:\apps\msys64\mingw32\bin;%PATH%;
+
 REM Sanity- Ensure MSys-MinGW availability / Determinate Architecture into %MAKEARCH%.
 set MAKEARCH=""
 where gcc 1>NUL 2>NUL

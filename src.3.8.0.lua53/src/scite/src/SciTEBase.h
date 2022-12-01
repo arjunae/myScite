@@ -837,9 +837,6 @@ protected:
 	void ToggleOutputVisible();
 	virtual void SizeContentWindows() = 0;
 	virtual void SizeSubWindows() = 0;
-
-	virtual void SetMenuItemNew(int menuNumber, int subMenuNumber, int position, int itemID,
-		const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0) = 0;
 	virtual void SetMenuItem(int menuNumber, int position, int itemID,
 		const GUI::gui_char *text, const GUI::gui_char *mnemonic = 0) = 0;
 	virtual void RedrawMenu() {}
