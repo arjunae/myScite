@@ -115,6 +115,6 @@ echo.
 REM If the logfile still contains messages here, they are just warns
 FOR /F "usebackq" %%A IN ('%tmp%\buildLog') DO set size=%%~zA 
 if %size% equ set size=0 
-if %size% gtr 1 (echo OK:There were warnings & type %tmp%\buildLog)
+if %size% gtr 1 (echo OK:There were warnings & type %tmp%\buildLog  & del /f %tmp%\buildLog)
 del %tmp%\buildLog
 pause

@@ -31,11 +31,11 @@ if "%1"=="DEBUG" set parameter1=DEBUG=1
 echo.
 echo Compiling Scintilla
 cd src\scintilla\win32
-nmake %parameter1% -f scintilla.mak 2> %tmp%\buildLog
+nmake /X %tmp%\buildLog /NOLOGO %parameter1% -f scintilla.mak 
 if [%errorlevel%] NEQ [0] goto err
 echo Compiling SciTE 
 cd ..\..\scite\win32
-nmake %parameter1% -f scite.mak 2> %tmp%\buildLog
+nmake /X %tmp%\buildLog /NOLOGO %parameter1% -f scite.mak
 if [%errorlevel%] NEQ [0] goto err
 echo Build OK 
 REM Find and display currents build targets Platform
@@ -81,12 +81,8 @@ echo.
 type %tmp%\buildLog  & echo.>%tmp%\buildLog
 :en
 echo.
-echo OK
-echo.
-REM If the logfile still contains messages here, they are just warns
-REM VC always writes a 133Bytes copyright Header, so just check for content beyond that size.
-FOR /F "usebackq" %%A IN ('%tmp%\buildLog') DO set size=%%~zA 
-if %size% equ set size=0 
-if %size% gtr 133 (type %tmp%\buildLog)
+REM Show the logfile in case there were Warnings
+findstr warning %tmp%\buildlog >nul
+if %errorlevel% equ 0 (Echo There were Warnings & type %tmp%\buildlog)
 del %tmp%\buildLog
 pause

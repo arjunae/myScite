@@ -2,7 +2,6 @@
 -- SciTEProject.lua, base Module: initialize Project and CTags Support for mySciTE.
 -- @License: BSD3Clause. @Author Thorsten Kani
 -- Version: 0.8
--- todo: test implementation scite.ReadProperties
 --
 
 local ctagsLock --true during writing to the projects ctags and properties files 
