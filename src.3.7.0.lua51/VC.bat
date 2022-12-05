@@ -21,7 +21,7 @@ REM SET arch=x64
 echo About to build using:
 rem call forcevcversion.cmd %buildContext%
 if %errorlevel%==10 (
-echo please build myScite withVisualStudio 2015
+echo please build myScite with VisualStudio Version greater or equal 2015
 goto en
 )
 echo.
@@ -31,11 +31,11 @@ if "%1"=="DEBUG" set parameter1=DEBUG=1
 echo.
 echo Compiling Scintilla
 cd src\scintilla\win32
-nmake /X %tmp%\buildLog /NOLOGO %parameter1% -f scintilla.mak 
+nmake /X%tmp%\scitelog.txt /NOLOGO %parameter1% -f scintilla.mak
 if [%errorlevel%] NEQ [0] goto err
 echo Compiling SciTE 
 cd ..\..\scite\win32
-nmake /X %tmp%\buildLog /NOLOGO %parameter1% -f scite.mak
+nmake /X %tmp%\scitelog.txt /NOLOGO %parameter1% -f scite.mak 
 if [%errorlevel%] NEQ [0] goto err
 echo Build OK 
 REM Find and display currents build targets Platform
@@ -78,11 +78,10 @@ goto en
 echo.
 echo Stop: An Error %ERRORLEVEL% occured during the build
 echo.
-type %tmp%\buildLog  & echo.>%tmp%\buildLog
+type %tmp%\scitelog  & echo.>%tmp%\scitelog
 :en
 echo.
 REM Show the logfile in case there were Warnings
-findstr warning %tmp%\buildlog >nul
-if %errorlevel% equ 0 (Echo There were Warnings & type %tmp%\buildlog)
-del %tmp%\buildLog
+findstr warning %tmp%\scitelog >nul
+if %errorlevel% equ 0 (Echo There were Warnings & type %tmp%\scitelog)
 pause

@@ -48,12 +48,12 @@ cd ..
 if /I %BUILDTYPE%==debug set DEBUG=1
 echo Compiling Scintilla
 cd src\scintilla\win32
-mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\buildLog
+mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\scitelog
 if [%errorlevel%] NEQ [0] echo An Error Occured & goto err
 echo.
 echo Compiling SciTE
 cd ..\..\scite\win32
-mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\buildLog
+mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\scitelog
 if [%errorlevel%] NEQ [0] echo An Error Occured & goto err
 echo.
 echo OK
@@ -107,14 +107,10 @@ echo.
 echo.
 echo Stop: An Error %ERRORLEVEL% occured during the build
 echo.
-type %tmp%\buildLog  & echo.>%tmp%\buildLog
+type %tmp%\scitelog
 :en
 echo.
-echo OK
-echo.
-REM If the logfile still contains messages here, they are just warns
-FOR /F "usebackq" %%A IN ('%tmp%\buildLog') DO set size=%%~zA 
-if %size% equ set size=0 
-if %size% gtr 1 (echo OK:There were warnings & type %tmp%\buildLog  & del /f %tmp%\buildLog)
-del %tmp%\buildLog
+REM Show the logfile in case there were Warnings
+findstr warning %tmp%\scitelog >nul
+if %errorlevel% equ 0 (Echo There were Warnings & type %tmp%\scitelog)
 pause
