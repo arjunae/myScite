@@ -31,11 +31,11 @@ if "%1"=="DEBUG" set parameter1=DEBUG=1
 echo.
 echo Compiling Scintilla
 cd src\scintilla\win32
-nmake /X%tmp%\scitelog.txt /NOLOGO %parameter1% -f scintilla.mak
+nmake /NOLOGO %parameter1% -f scintilla.mak | "../../wtee.exe"  %tmp%\scitelog.txt
 if [%errorlevel%] NEQ [0] goto err
 echo Compiling SciTE 
 cd ..\..\scite\win32
-nmake /X %tmp%\scitelog.txt /NOLOGO %parameter1% -f scite.mak 
+nmake /X - /NOLOGO %parameter1% -f scite.mak | "../../wtee.exe" %tmp%\scitelog.txt
 if [%errorlevel%] NEQ [0] goto err
 echo Build OK 
 REM Find and display currents build targets Platform
@@ -82,6 +82,6 @@ type %tmp%\scitelog  & echo.>%tmp%\scitelog
 :en
 echo.
 REM Show the logfile in case there were Warnings
-findstr warning %tmp%\scitelog >nul
-if %errorlevel% equ 0 (Echo There were Warnings & type %tmp%\scitelog)
+findstr /n /i /c:"warni"   %tmp%\scitelog.txt
+if %errorlevel% equ 0 (Echo There were Warnings)
 pause

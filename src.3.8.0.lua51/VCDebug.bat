@@ -87,6 +87,6 @@ type %tmp%\scitelog  & echo.>%tmp%\scitelog
 :en
 echo.
 REM Show the logfile in case there were Warnings
-findstr warning %tmp%\scitelog >nul
-if %errorlevel% equ 0 (Echo There were Warnings & type %tmp%\scitelog)
+findstr /n /i /c:"warni"   %tmp%\scitelog.txt
+if %errorlevel% equ 0 (Echo There were Warnings)
 pause
