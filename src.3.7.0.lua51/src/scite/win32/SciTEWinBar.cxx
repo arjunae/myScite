@@ -835,8 +835,14 @@ void SciTEWin::LocaliseMenu(HMENU hmenu) {
 }
 
 void SciTEWin::LocaliseMenus() {
-	LocaliseMenu(::GetMenu(MainHWND()));
-	::DrawMenuBar(MainHWND());
+LocaliseMenu(::GetMenu(MainHWND()));
+MENUINFO mi = { 0 }; 
+mi.fMask = MIM_STYLE|MIM_BACKGROUND|MIM_APPLYTOSUBMENUS; 
+mi.dwStyle=MNS_NOCHECK;
+mi.cbSize = sizeof(mi); 
+mi.hbrBack = CreateSolidBrush(RGB(255,255,255));
+SetMenuInfo(::GetMenu(MainHWND()), &mi);
+DrawMenuBar(MainHWND());
 }
 
 void SciTEWin::LocaliseControl(HWND w) {

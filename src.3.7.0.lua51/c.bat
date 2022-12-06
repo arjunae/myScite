@@ -6,7 +6,7 @@ REM  reg import ..\contrib\TinyTonCMD\TinyTonCMD.reg
 REM  start "TinyTonCMD" %~nx0 %1 tiny
 REM  EXIT
 REM )
-mode 130,18
+mode 150,18
 echo Scintilla
 cd src\scintilla\win32
 nmake -f scintilla.mak clean 2>NUL
