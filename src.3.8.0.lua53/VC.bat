@@ -3,6 +3,9 @@ setlocal enabledelayedexpansion enableextensions
 set VCINSTALLDIR="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build"
 rem color f0
 rem mode 190,30
+REM ScreenBuffer Size
+reg add HKCU\Console\%%SystemRoot%%_system32_cmd.exe\ScreenBufferSize /t REG_DWORD /d 1111111 /f >NUL
+echo. > %tmp%\scitelog.txt
 if exist src\vc.*.debug.build choice /C YN /M "A VC Debug Build has been found. Rebuild as Release? "
 if [%ERRORLEVEL%]==[2] (
 goto en
@@ -31,11 +34,11 @@ if "%1"=="DEBUG" set parameter1=DEBUG=1
 echo.
 echo Compiling Scintilla
 cd src\scintilla\win32
-nmake /NOLOGO %parameter1% -f scintilla.mak | "../../wtee.exe"  %tmp%\scitelog.txt
+nmake /NOLOGO %parameter1% -f scintilla.mak | "../../wtee.exe" %tmp%\scitelog.txt
 if [%errorlevel%] NEQ [0] goto err
 echo Compiling SciTE 
 cd ..\..\scite\win32
-nmake /X - /NOLOGO %parameter1% -f scite.mak | "../../wtee.exe" %tmp%\scitelog.txt
+nmake /NOLOGO %parameter1% -f scite.mak | "../../wtee.exe" -a %tmp%\scitelog.txt
 if [%errorlevel%] NEQ [0] goto err
 echo Build OK 
 REM Find and display currents build targets Platform
@@ -72,16 +75,16 @@ echo  %DEST_TARGET% Platform: %DEST_PLAT%
 )
 cd ..\..\..
 echo > src\vc.%arch%.release.build
+echo.
+echo.
 goto en
-
 :err
 echo.
 echo Stop: An Error %ERRORLEVEL% occured during the build
 echo.
 type %tmp%\scitelog  & echo.>%tmp%\scitelog
 :en
-echo.
 REM Show the logfile in case there were Warnings
-findstr /n /i /c:"warni"   %tmp%\scitelog.txt
+findstr /n /c:"warning"   %tmp%\scitelog.txt
 if %errorlevel% equ 0 (Echo There were Warnings)
 pause

@@ -1,0 +1,94 @@
+	rc -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -foSciTER.res SciTERes.rc
+Microsoft (R) Windows (R) Resource Compiler Version 10.0.10011.16384
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+	cl -Zi -TP -MP -W4 -EHsc -Zc:forScope -Zc:wchar_t -D_CRT_SECURE_NO_DEPRECATE=1 -D_CRT_NONSTDC_NO_DEPRECATE /std:c++14 -DUNICODE -D_UNICODE  -O1 -Oi -MT -DNDEBUG -GL -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -c ..\src\Cookie.cxx ..\src\Credits.cxx ..\src\ExportHTML.cxx ..\src\ExportPDF.cxx ..\src\ExportRTF.cxx ..\src\ExportTEX.cxx ..\src\ExportXML.cxx ..\src\FilePath.cxx ..\src\FileWorker.cxx ..\src\IFaceTable.cxx ..\src\JobQueue.cxx ..\src\MatchMarker.cxx ..\src\MultiplexExtension.cxx ..\src\PropSetFile.cxx ..\src\SciTEBase.cxx ..\src\SciTEBuffers.cxx ..\src\SciTEIO.cxx ..\src\SciTEProps.cxx ..\src\StringHelpers.cxx ..\src\StringList.cxx ..\src\StyleDefinition.cxx ..\src\StyleWriter.cxx ..\src\Utf8_16.cxx ..\src\LuaExtension.cxx 
+Cookie.cxx
+Credits.cxx
+ExportHTML.cxx
+ExportPDF.cxx
+ExportRTF.cxx
+ExportTEX.cxx
+ExportXML.cxx
+FilePath.cxx
+FileWorker.cxx
+IFaceTable.cxx
+JobQueue.cxx
+MatchMarker.cxx
+MultiplexExtension.cxx
+PropSetFile.cxx
+SciTEBase.cxx
+SciTEBuffers.cxx
+SciTEIO.cxx
+SciTEProps.cxx
+StringHelpers.cxx
+C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Tools\MSVC\14.33.31629\include\algorithm(2973): warning C4244: "=": Konvertierung von "_Result" in "char", m”glicher Datenverlust
+        with
+        [
+            _Result=int
+        ] (Quelldatei wird kompiliert ..\src\StringHelpers.cxx)
+..\src\StringHelpers.cxx(105): note: Siehe Verweis auf die gerade kompilierte Instanziierung "_OutIt std::transform<std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,std::_String_iterator<std::_String_val<std::_Simple_types<_Elem>>>,std::pointer_to_unary_function<int,int,int (__cdecl *)(int)>>(const _InIt,const _InIt,_OutIt,_Fn)" der Funktions-Vorlage.
+        with
+        [
+            _OutIt=std::_String_iterator<std::_String_val<std::_Simple_types<char>>>,
+            _Elem=char,
+            _InIt=std::_String_iterator<std::_String_val<std::_Simple_types<char>>>,
+            _Fn=std::pointer_to_unary_function<int,int,int (__cdecl *)(int)>
+        ]
+StringList.cxx
+StyleDefinition.cxx
+StyleWriter.cxx
+Utf8_16.cxx
+LuaExtension.cxx
+	cl -Zi -TP -MP -W4 -EHsc -Zc:forScope -Zc:wchar_t -D_CRT_SECURE_NO_DEPRECATE=1 -D_CRT_NONSTDC_NO_DEPRECATE /std:c++14 -DUNICODE -D_UNICODE  -O1 -Oi -MT -DNDEBUG -GL -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -c .\DirectorExtension.cxx .\GUIWin.cxx .\SciTEWinBar.cxx .\SciTEWinDlg.cxx .\Strips.cxx .\UniqueInstance.cxx .\WinMutex.cxx .\SciTEWin.cxx 
+DirectorExtension.cxx
+GUIWin.cxx
+SciTEWinBar.cxx
+SciTEWinDlg.cxx
+Strips.cxx
+UniqueInstance.cxx
+WinMutex.cxx
+SciTEWin.cxx
+.\SciTEWin.cxx(1382): warning C4244: "Argument": Konvertierung von "int" in "BYTE", m”glicher Datenverlust
+	cl -TC -MP -W3 -wd4244 -D_CRT_SECURE_NO_DEPRECATE=1 -DLUA_USER_H=\"scite_lua_win.h\"  -O1 -Oi -MT -DNDEBUG -GL -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -c ..\lua\src\lapi.c ..\lua\src\lcode.c ..\lua\src\ldebug.c ..\lua\src\ldo.c ..\lua\src\ldump.c ..\lua\src\lfunc.c ..\lua\src\lgc.c ..\lua\src\llex.c ..\lua\src\lmem.c ..\lua\src\lobject.c ..\lua\src\lopcodes.c ..\lua\src\lparser.c ..\lua\src\lstate.c ..\lua\src\lstring.c ..\lua\src\ltable.c ..\lua\src\ltm.c ..\lua\src\lundump.c ..\lua\src\lvm.c ..\lua\src\lzio.c 
+lapi.c
+lcode.c
+ldebug.c
+ldo.c
+ldump.c
+lfunc.c
+lgc.c
+llex.c
+lmem.c
+lobject.c
+lopcodes.c
+lparser.c
+lstate.c
+lstring.c
+ltable.c
+ltm.c
+lundump.c
+lvm.c
+lzio.c
+	cl -TC -MP -W3 -wd4244 -D_CRT_SECURE_NO_DEPRECATE=1 -DLUA_USER_H=\"scite_lua_win.h\"  -O1 -Oi -MT -DNDEBUG -GL -I../../scintilla/include -I../../scintilla/win32 -I../src -I../lua/include -c ..\lua\src\lib\lauxlib.c ..\lua\src\lib\lbaselib.c ..\lua\src\lib\ldblib.c ..\lua\src\lib\liolib.c ..\lua\src\lib\lmathlib.c ..\lua\src\lib\ltablib.c ..\lua\src\lib\lstrlib.c ..\lua\src\lib\loadlib.c ..\lua\src\lib\loslib.c ..\lua\src\lib\linit.c 
+lauxlib.c
+lbaselib.c
+ldblib.c
+liolib.c
+lmathlib.c
+ltablib.c
+lstrlib.c
+loadlib.c
+loslib.c
+linit.c
+	link -OPT:REF -LTCG -DEBUG  -OUT:..\bin\SciTE.exe Cookie.obj Credits.obj DirectorExtension.obj ExportHTML.obj ExportPDF.obj ExportRTF.obj ExportTEX.obj ExportXML.obj FilePath.obj FileWorker.obj GUIWin.obj IFaceTable.obj JobQueue.obj MatchMarker.obj MultiplexExtension.obj PropSetFile.obj SciTEBase.obj SciTEBuffers.obj SciTEIO.obj SciTEProps.obj SciTEWinBar.obj SciTEWinDlg.obj StringHelpers.obj StringList.obj Strips.obj StyleDefinition.obj StyleWriter.obj UniqueInstance.obj Utf8_16.obj WinMutex.obj SciTEWin.obj LuaExtension.obj lapi.obj lcode.obj ldebug.obj ldo.obj ldump.obj lfunc.obj lgc.obj llex.obj lmem.obj lobject.obj lopcodes.obj lparser.obj lstate.obj lstring.obj ltable.obj ltm.obj lundump.obj lvm.obj lzio.obj lauxlib.obj lbaselib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj lstrlib.obj loadlib.obj loslib.obj linit.obj SciTER.res KERNEL32.lib USER32.lib GDI32.lib MSIMG32.lib COMDLG32.lib COMCTL32.lib ADVAPI32.lib IMM32.lib SHELL32.LIB OLE32.LIB OLEAUT32.LIB UXTHEME.LIB
+Microsoft (R) Incremental Linker Version 14.33.31630.0
+Copyright (C) Microsoft Corporation.  All rights reserved.
+
+   Bibliothek "..\bin\SciTE.lib" und Objekt "..\bin\SciTE.exp" werden erstellt.
+Code wird generiert.
+Codegenerierung ist abgeschlossen.
+	copy ..\..\scintilla\bin\Scintilla.dll ..\bin\Scintilla.dll
+        1 Datei(en) kopiert.
+	copy ..\..\scintilla\bin\SciLexer.dll ..\bin\SciLexer.dll
+        1 Datei(en) kopiert.

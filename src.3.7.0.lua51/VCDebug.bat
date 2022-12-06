@@ -4,9 +4,11 @@ setlocal enabledelayedexpansion enableextensions
 SET buildContext=14.0
 SET arch=x86
 REM SET arch=x64
-color f0
-mode 190,30
-
+REM color f0
+REM mode 190,30
+REM ScreenBuffer Size
+reg add HKCU\Console\%%SystemRoot%%_system32_cmd.exe\ScreenBufferSize /t REG_DWORD /d 1111111 /f >NUL
+echo. > %tmp%\scitelog.txt
 if exist src\vc.*.release.build choice /C YN /M "A VC Release Build has been found. Rebuild as Debug? "
 if [%ERRORLEVEL%]==[2] (
 goto en
@@ -32,11 +34,11 @@ set parameter1=DEBUG=1
 echo.
 echo Compiling Scintilla
 cd src\scintilla\win32
-nmake /X %tmp%\scitelog /NOLOGO %parameter1% -f scintilla.mak 
+nmake /NOLOGO %parameter1% -f scintilla.mak | "../../wtee.exe" %tmp%\scitelog.txt
 if [%errorlevel%] NEQ [0] goto err
 echo Compiling SciTE 
 cd ..\..\scite\win32
-nmake /X %tmp%\scitelog /NOLOGO %parameter1% -f scite.mak
+nmake /NOLOGO %parameter1% -f scite.mak | "../../wtee.exe" -a %tmp%\scitelog.txt
 if [%errorlevel%] NEQ [0] goto err
 echo.
 echo.
@@ -77,6 +79,8 @@ echo  %DEST_TARGET% Platform: %DEST_PLAT%
 )
 cd ..\..\..
 echo > src\vc.%arch%.debug.build
+echo.
+echo.
 goto en
 
 :err
