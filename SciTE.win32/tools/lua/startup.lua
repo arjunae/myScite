@@ -18,12 +18,13 @@ else
 	print("Please fix: Need OS Env var 'myLuaHome'")
 	luaHome=""
 end
+--print("luahome:"..luahome)
 
 package.path = package.path .. ";?.lua;"..filePath.."\\?.lua;"
 package.path = package.path .. ";"..luaHome.."\\User\\opt\\lua-scite\\?.lua;;"
 package.path = package.path .. ";"..luaHome.."\\User\\opt\\lua\\?.lua;"
 package.path = package.path .. ";"..luaHome.."\\User\\opt\\mod-scite-debug\\?.lua;"
-package.cpath = package.cpath .. ";"..luaHome.."\\User\\opt\\lua-scite\\c\\?.dll"
+package.cpath = package.cpath .. ";"..luaHome.."\\User\\opt\\lua-scite\\?.dll"
 package.cpath = package.cpath .. ";?.dll;"
 
 

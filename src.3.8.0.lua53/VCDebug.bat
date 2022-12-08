@@ -35,11 +35,14 @@ echo.
 echo Compiling Scintilla
 cd src\scintilla\win32
 nmake /NOLOGO %parameter1% -f scintilla.mak | "../../wtee.exe" %tmp%\scitelog.txt
-if [%errorlevel%] NEQ [0] goto err
+findstr /n /c:"error"  %tmp%\scitelog.txt
+if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling Scintilla & goto en
 echo Compiling SciTE 
 cd ..\..\scite\win32
 nmake /NOLOGO %parameter1% -f scite.mak | "../../wtee.exe" -a %tmp%\scitelog.txt
-if [%errorlevel%] NEQ [0] goto err
+findstr /n /c:"error"  %tmp%\scitelog.txt
+if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling SciTe & goto en
+
 echo.
 echo.
 echo OK 
@@ -79,18 +82,8 @@ echo  %DEST_TARGET% Platform: %DEST_PLAT%
 )
 cd ..\..\..
 echo > src\vc.%arch%.debug.build
-echo.
-echo.
-goto en
-
-:err
-echo.
-echo Stop: An Error %ERRORLEVEL% occured during the build
-echo.
-type %tmp%\scitelog  & echo.>%tmp%\scitelog
 :en
-echo.
 REM Show the logfile in case there were Warnings
-findstr /n /i /c:"warni"   %tmp%\scitelog.txt
-if %errorlevel% equ 0 (Echo There were Warnings)
+findstr /n /c:"warning"   %tmp%\scitelog.txt
+if %errorlevel% equ 0 (Echo There were Warnings & findstr /n /c:"warning" %tmp%\scitelog.txt)
 pause
