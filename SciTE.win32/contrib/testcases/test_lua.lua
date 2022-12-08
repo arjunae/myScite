@@ -2,7 +2,7 @@
 -- ^^tell Scite to use its internal Lua interpreter.
 
 local defaultHome= props["SciteDefaultHome"]
-print("-> Test go1 SHA1") 
+print("-> Test1 SHA1") 
 local sha1 = require "sha1"
 local file,err = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
 local content =""

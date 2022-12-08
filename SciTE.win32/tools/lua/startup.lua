@@ -20,10 +20,10 @@ else
 end
 
 package.path = package.path .. ";?.lua;"..filePath.."\\?.lua;"
-package.path = package.path .. ";"..luaHome.."\\User\\Addons\\lua\\lua\\?.lua;;"
-package.path = package.path .. ";"..luaHome.."\\User\\Addons\\lua\\lua-scite\\?.lua;"
-package.path = package.path .. ";"..luaHome.."\\User\\Addons\\lua-scite\\mod-scite-debug\\?.lua;"
-package.cpath = package.cpath .. ";"..luaHome.."\\User\\Addons\\lua\\c\\?.dll"
+package.path = package.path .. ";"..luaHome.."\\User\\opt\\lua-scite\\?.lua;;"
+package.path = package.path .. ";"..luaHome.."\\User\\opt\\lua\\?.lua;"
+package.path = package.path .. ";"..luaHome.."\\User\\opt\\mod-scite-debug\\?.lua;"
+package.cpath = package.cpath .. ";"..luaHome.."\\User\\opt\\lua-scite\\c\\?.dll"
 package.cpath = package.cpath .. ";?.dll;"
 
 

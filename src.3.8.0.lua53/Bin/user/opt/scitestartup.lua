@@ -14,7 +14,7 @@ if GTK then dirSep = '/' else dirSep = '\\' end
 
 myHome = props["SciteDefaultHome"]..dirSep.."user"
 package.path = package.path ..";"..myHome.."/opt/lua/?.lua;"
-package.cpath = package.cpath .. ";"..myHome.."/opt/c/?.dll;"
+package.cpath = package.cpath .. ";"..myHome.."/opt/scite-lua/?.dll;"
 if not GTK then
 	package.path = string.gsub(package.path,"/","\\")
 	package.cpath = string.gsub(package.cpath,"/","\\")
