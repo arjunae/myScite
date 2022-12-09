@@ -10,7 +10,7 @@
 
 # Up from Scintilla3.8.0 SciLexer.dll optionally includes Lua (defined LPEG_LEXER)
 # If you choosed to do so, decide here if you want SciTE to be dynamically linked to SciLexers Lua. 
-LUA_LINK_SCILEXER=1
+LUA_LINK_SCILEXER=0
 
 .SUFFIXES: .cxx .properties
 
@@ -188,10 +188,10 @@ $(DIR_BIN)\verilog.properties $(DIR_BIN)\vhdl.properties \
 PROPS=$(DIR_BIN)\SciTEGlobal.properties $(DIR_BIN)\abbrev.properties $(LEXPROPS)
 
 !IFNDEF NO_LUA
-LUA_CORE_OBJS = lapi.obj lcode.obj ldebug.obj ldo.obj ldump.obj lfunc.obj lgc.obj llex.obj lmem.obj lobject.obj \
-									lopcodes.obj lparser.obj lstate.obj lstring.obj ltable.obj ltm.obj lundump.obj lvm.obj lzio.obj
+LUA_CORE_OBJS = lapi.obj lcode.obj ldebug.obj ldo.obj ldump.obj lfunc.obj lgc.obj llex.obj lmem.obj lobject.obj lopcodes.obj lparser.obj lstate.obj lstring.obj ltable.obj ltm.obj lundump.obj lvm.obj lzio.obj
+LUA_LIB_OBJS =	lauxlib.obj lbaselib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj lstrlib.obj loadlib.obj loslib.obj linit.obj 
+#scintillua print.obj lpcap.obj lpcode.obj lpprint.obj lptree.obj lpvm.obj 
 
-LUA_LIB_OBJS =	lauxlib.obj lbaselib.obj ldblib.obj liolib.obj lmathlib.obj ltablib.obj lstrlib.obj loadlib.obj loslib.obj linit.obj
 LUA_OBJS = LuaExtension.obj
 
 !IFDEF LUA_LINK_SCILEXER

@@ -2,16 +2,16 @@
 -- ^^tell Scite to use its internal Lua interpreter.
 
 local defaultHome= props["SciteDefaultHome"]
-print("-> Test go1 SHA1") 
+print("-> Test SHA1") 
 local sha1 = require "sha1"
 local file,err = assert(io.open (defaultHome.."\\".."SciTEUser.properties", 'rb'))
 local content =""
 ckTho=true
 c0=0
 while ckTho==true do
-	local SoSo = file:read(6615)
-	if not SoSo then break end
-	c0=c0..SoSo
+	local GoGo = file:read(6615)
+	if not GoGo then break end
+	c0=c0..GoGo
 end	
 local cryptSHA1= sha1(c0)
 file:close()

@@ -7,7 +7,8 @@ color 08
 reg add HKCU\Console\%%SystemRoot%%_system32_cmd.exe\ScreenBufferSize /t REG_DWORD /d 1111111 /f >NUL
 REM MinGW Path has to be set in System Settings, otherwise please define here:
 REM set PATH=E:\apps\msys64\mingw64\bin;%PATH%;
- set PATH=E:\apps\msys64\mingw32\bin;%PATH%;
+set PATH=E:\apps\msys64\mingw32\bin;%PATH%;
+echo.>%tmp%\sciteLog
 
 REM Sanity- Ensure MSys-MinGW availability / Determinate Architecture into %MAKEARCH%.
 set MAKEARCH=""
@@ -31,8 +32,6 @@ rem  start "TinyTonC MD" %~nx0 %1 tiny
 
 echo.
 echo SciTE Prod
-echo. 
-echo.
 echo Environment %MAKEARCH% 
 echo.
 
@@ -71,20 +70,21 @@ for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %DESTTARGET%') do (
   if [%%A] LEQ [200] SET DEST_PLAT=win64
   if [%%A] LEQ [200] SET OFFSET=%%A
 )
+echo.
+REM
+REM Copy Files
+REM
 set COPYFLAG=0
 if [%DEST_PLAT%] EQU [win32] set COPYFLAG=1
 if [%DEST_PLAT%] EQU [win64] set COPYFLAG=1
 if %COPYFLAG% EQU 1 (
-echo Copying Files to %cd%\build
+echo Copying Binaries from %cd%\bin
 if not exist ..\..\..\bin md ..\..\..\bin
-copy ..\bin\SciTE.exe ..\..\..\bin
-set copyFailed=%ERRORLEVEL%
-copy ..\bin\SciLexer.dll ..\..\..\bin
-echo Targets platform: %DEST_PLAT%
-) else (
-echo  %DESTTARGET% Platform: %DEST_PLAT%
+if exist ..\bin\SciTE.exe  (copy ..\bin\SciTE.exe ..\..\..\bin >NUL ) else (goto en)
+if exist ..\bin\SciLexer.dll (copy ..\bin\SciLexer.dll ..\..\..\bin >NUL ) else (goto en) 
+echo Platform: %DEST_PLAT%
+ECHO OK
 )
-
 cd ..\..\..
 echo > src\mingw.%DEST_PLAT%.%BUILDTYPE%.build
 goto en
@@ -102,7 +102,7 @@ echo.
 echo.
 echo Stop: An Error %ERRORLEVEL% occured during the build
 echo.
-type %tmp%\buildLog  & echo.>%tmp%\buildLog
+type %tmp%\scitelog
 :en
 echo.
 REM Show the logfile in case there were Warnings

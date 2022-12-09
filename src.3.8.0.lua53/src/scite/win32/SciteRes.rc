@@ -143,7 +143,7 @@ BEGIN
 	MENUITEM "Wrap Out&put",			IDM_WRAPOUTPUT
 	MENUITEM "Change Inden&tation Settings",	IDM_TABSIZE
 	MENUITEM "Use &Monospaced Font",	IDM_MONOFONT
-	MENUITEM "&ReadOnly",				IDM_READONLY´
+	MENUITEM "&ReadOnly",				IDM_READONLY
 	POPUP "&EOL Style"
 	BEGIN
 		MENUITEM "Carriage/LineFeed",	IDM_EOL_CRLF

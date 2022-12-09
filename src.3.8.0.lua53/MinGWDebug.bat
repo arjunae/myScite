@@ -4,6 +4,7 @@ setlocal enabledelayedexpansion enableextensions
 set BUILDTYPE=Debug
 color 08
 mode 195,30
+echo.>%tmp%\sciteLog
 REM MinGW Path has to be set in System Settings, otherwise please define here:
 REM set PATH=E:\apps\msys64\mingw32\bin;%PATH%;
 REM Sanity- Ensure MSys-MinGW availability / Determinate Architecture into %MAKEARCH%.
@@ -28,12 +29,8 @@ rem  start "TinyTonCMD" %~nx0 %1 tiny
 
 echo.
 echo SciTE Debug
-echo. 
-echo.
-
 echo Environment %MAKEARCH% 
 echo.
-
 REM Sanity- Ask when trying to change between Debug and Release builds.
 if exist src\mingw.*.release.build choice /C YN /M "A MinGW Release Build has been found. Rebuild as %BUILDTYPE%? "
 if [%ERRORLEVEL%]==[2] (
@@ -63,33 +60,31 @@ rem Should work compiler indepenent for uncompressed binaries.
 rem Takes: DESTTARGET Value: Executable to be checked
 rem Returns: PLAT Value: Either WIN32 or WIN64 
 set DESTTARGET=..\bin\SciTE.exe
-
 set off32=""
 set off64=""
-
 for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %DESTTARGET%') do (
 if [%%A] LEQ [200] SET DEST_PLAT=win32
 if [%%A] LEQ [200] SET OFFSET=%%A
 )
-
 for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %DESTTARGET%') do (
 if [%%A] LEQ [200] SET DEST_PLAT=win64
 if [%%A] LEQ [200] SET OFFSET=%%A
 )
-
+echo.
+REM
+REM Copy Files
+REM
 set COPYFLAG=0
 if [%DEST_PLAT%] EQU [win32] set COPYFLAG=1
 if [%DEST_PLAT%] EQU [win64] set COPYFLAG=1
 if %COPYFLAG% EQU 1 (
-echo Copying Files to %cd%\build
+echo Copying Binaries from %cd%\bin
 if not exist ..\..\..\bin md ..\..\..\bin
-copy ..\bin\SciTE.exe ..\..\..\bin
-copy ..\bin\SciLexer.dll ..\..\..\bin
-echo Targets platform: %DEST_PLAT%
-) else (
-echo  %DESTTARGET% Platform: %DEST_PLAT%
+if exist ..\bin\SciTE.exe  (copy ..\bin\SciTE.exe ..\..\..\bin >NUL ) else (goto en)
+if exist ..\bin\SciLexer.dll (copy ..\bin\SciLexer.dll ..\..\..\bin >NUL ) else (goto en) 
+echo Platform: %DEST_PLAT%
+ECHO OK
 )
-
 cd ..\..\..
 echo > src\mingw.%DEST_PLAT%.%BUILDTYPE%.build
 goto en

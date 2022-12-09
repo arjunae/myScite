@@ -42,20 +42,17 @@ cd ..\..\scite\win32
 nmake /NOLOGO %parameter1% -f scite.mak | "../../wtee.exe" -a %tmp%\scitelog.txt
 findstr /n /c:"error"  %tmp%\scitelog.txt
 if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling SciTe & goto en
-
-echo.
-echo.
 echo OK 
 echo.
 
 REM Find and display currents build targets Platform
-set DEST_TARGET=..\bin\SciTE.exe
 REM
 REM Now use this littl hack to look for a platform PE Signature at offset 120+
 REM Should work compiler independent for uncompressed binaries.
 REM Takes: DEST_TARGET Value: Executable to be checked
 REM Returns: PLAT Value: Either WIN32 or WIN64 
 :find_platform
+set DEST_TARGET=..\bin\SciTE.exe
 set off32=""
 set off64=""
 for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %DEST_TARGET%') do (
@@ -66,23 +63,26 @@ for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %DEST_TARGET%') do (
 if [%%A] LEQ [200] SET DEST_PLAT=win64
 if [%%A] LEQ [200] SET OFFSET=%%A
 )
-
+REM
+REM Copy Files
+REM
 set COPYFLAG=0
 if [%DEST_PLAT%] EQU [win32] set COPYFLAG=1
 if [%DEST_PLAT%] EQU [win64] set COPYFLAG=1
 if %COPYFLAG% EQU 1 (
-echo Copying Files to %cd%\build
+echo Copying Files from %cd%\bin
 if not exist ..\..\..\bin md ..\..\..\bin
-copy ..\bin\SciTE.exe ..\..\..\bin
-copy ..\bin\SciLexer.dll ..\..\..\bin
-echo Targets platform: %DEST_PLAT%
-) else (
-echo  %DEST_TARGET% Platform: %DEST_PLAT%
+if exist ..\bin\SciTE.exe  (copy ..\bin\SciTE.exe ..\..\..\bin >NUL ) else (goto en)
+if exist ..\bin\SciLexer.dll (copy ..\bin\SciLexer.dll ..\..\..\bin >NUL ) else (goto en) 
+echo Platform: %DEST_PLAT%
+ECHO OK
 )
 cd ..\..\..
 echo > src\vc.%arch%.release.build
-:en
+echo.
+:warn
 REM Show the logfile in case there were Warnings
-findstr /n /c:"warning"   %tmp%\scitelog.txt
+findstr /n /c:"warning"   %tmp%\scitelog.txt >NUL
 if %errorlevel% equ 0 (Echo There were Warnings & findstr /n /c:"warning" %tmp%\scitelog.txt)
+:en
 pause
