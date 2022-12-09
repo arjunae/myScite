@@ -14,6 +14,7 @@ echo Scite
 cd ..\..\scite\win32
 nmake -f scite.mak clean 2>NUL
 cd ..\..\
+del mingw.*.*.build 1>NUL 2>NUL
 echo.
 echo OK
 pause
