@@ -11,11 +11,15 @@
 #include <limits.h>
 #include <stddef.h>
 
+#define lua_getfenv	lua_getuservalue
+#define lua_setfenv	lua_setuservalue
+
 /*
 ** ===================================================================
 ** Search for "@@" to find all configurable definitions.
 ** ===================================================================
 */
+
 
 
 /*
@@ -193,7 +197,8 @@
 		LUA_SHRDIR"?.lua;" LUA_SHRDIR"?\\init.lua;" \
 		".\\?.lua;" ".\\?\\init.lua;" \
 		"!\\..\\..\\user\\opt\\lua\\?.lua;" \
-		"!\\..\\..\\user\\opt\\lua\\?\\init.lua;" #define LUA_CPATH_DEFAULT \
+		"!\\..\\..\\user\\opt\\lua\\?\\init.lua;" 
+#define LUA_CPATH_DEFAULT \
 		LUA_CDIR"?.dll;" \
 		LUA_CDIR"..\\lib\\lua\\" LUA_VDIR "\\?.dll;" \
 		LUA_CDIR"loadall.dll;" ".\\?.dll"
@@ -244,24 +249,18 @@
 #if defined(LUA_BUILD_AS_DLL)	/* { */
 
 #if defined(LUA_CORE) || defined(LUA_LIB)	/* { */
-#define LUA_API __declspec(dllexport)
+//#define LUA_API __declspec(dllexport)
 #else						/* }{ */
-#define LUA_API __declspec(dllimport)
+//#define LUA_API __declspec(dllimport)
 #endif						/* } */
 
 #else				/* }{ */
 
-#if defined(_WIN32)
-
-#else
-
-#endif
+//#define LUA_API		extern
 
 #endif				/* } */
-//#define LUA_API __declspec(dllimport)
-#define LUA_API extern
 
-
+#define LUA_API __declspec(dllexport)
 /* more often than not the libs go together with the core */
 #define LUALIB_API	LUA_API
 #define LUAMOD_API	LUALIB_API
@@ -781,15 +780,9 @@
 ** without modifying the main part of the file.
 */
 
-#ifdef _MSC_VER
-/* Uninteresting "possible loss of data" and "cast truncates constant value" warnings */
-#pragma warning(disable: 4244 4310)
-#endif
 
-#if defined(__clang__)
-#pragma clang diagnostic ignored "-Wconversion"
-#pragma clang diagnostic ignored "-Wcomma"
-#endif
+
+
 
 #endif
 
