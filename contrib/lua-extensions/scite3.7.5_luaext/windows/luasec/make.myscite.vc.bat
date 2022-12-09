@@ -1,17 +1,13 @@
 @ECHO OFF
 
-set PLAT=x86
+set PLAT=x64
 set LUA_PLAT=5.3
 rem set LUA_LIB=scilexer.lib
 set LUA_LIB=scite.lib
 
 REM Ensure to have the compile Chain within Path. Use a default. 
-if ["%VCINSTALLDIR%"] equ [""] (
-set VS14="C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\"
-) else (
-set VS14="%VCINSTALLDIR%"
-)
-set PATH=%VS14%;%VS14%\bin;%PATH%
+if ["%VCINSTALLDIR%"] equ [""] (set VCINSTALLDIR="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build")
+call %VCINSTALLDIR%\vcvarsall.bat  %plat%
 PUSHD
 
 call vcvarsall.bat %PLAT%

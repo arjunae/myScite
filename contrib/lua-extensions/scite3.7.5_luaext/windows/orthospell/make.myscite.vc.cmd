@@ -1,16 +1,12 @@
 @echo off
 set LUA_PLAT=5.3
-set LUA_LIB=scilexer.lib
-set PLAT=x86
+set LUA_LIB=scite.lib
+set PLAT=x64
 if [%1] NEQ [] set LUA_PLAT=%1
 if [%2] NEQ [] set LUA_LIB=%2
 
-REM Ensure to have the compile Chain within Path. Use a default. 
-if ["%VCINSTALLDIR%"] equ [""] (
-set VS14="C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\"
-) else ( set VS14="%VCINSTALLDIR%")
-set PATH=%VS14%;%VS14%\bin;%PATH%
-
+if ["%VCINSTALLDIR%"] equ [""] (set VCINSTALLDIR="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build")
+call %VCINSTALLDIR%\vcvarsall.bat  %plat%
 cd src
 PUSHD 1.4.1\src\win_api\
 call make.myscite.vc.bat

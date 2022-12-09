@@ -12,12 +12,12 @@ set MAKEARCH=""
 where gcc 1>NUL 2>NUL
 if %ERRORLEVEL%==1 (goto :errMingw)
 gcc -dumpmachine | findstr /M i686 1>NUL 2>NUL
-if [%ERRORLEVEL%]==[0] (SET MAKEARCH=win32 && goto :okMingw) 
+if [%ERRORLEVEL%]==[0] (SET MAKEARCH=x32 && goto :okMingw) 
 gcc -dumpmachine | findstr /M x86_64 1>NUL 2>NUL
-if [%ERRORLEVEL%]==[0] (SET MAKEARCH=win64 && goto :okMingw)
+if [%ERRORLEVEL%]==[0] (SET MAKEARCH=x64 && goto :okMingw)
 REM Otherwise, try to deduct make arch from gccs Pathname
 if %MAKEARCH% EQU "" ( for /F "tokens=1,2* delims= " %%a in ('where gcc') do ( Set gcc_path=%%a && set instr=!gcc_path:mingw32=! )
-if not !instr!==!gcc_path! (SET MAKEARCH=win32) else ( SET MAKEARCH=win64) && goto :okMingw)
+if not !instr!==!gcc_path! (SET MAKEARCH=x32) else ( SET MAKEARCH=x64) && goto :okMingw)
 if %MAKEARCH% EQU "" goto :errMingw
 
 :okMingw
@@ -63,22 +63,23 @@ set DESTTARGET=..\bin\SciTE.exe
 set off32=""
 set off64=""
 for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %DESTTARGET%') do (
-if [%%A] LEQ [200] SET DEST_PLAT=win32
+if [%%A] LEQ [200] SET DEST_PLAT=x32
 if [%%A] LEQ [200] SET OFFSET=%%A
 )
 for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %DESTTARGET%') do (
-if [%%A] LEQ [200] SET DEST_PLAT=win64
+if [%%A] LEQ [200] SET DEST_PLAT=x64
 if [%%A] LEQ [200] SET OFFSET=%%A
 )
+if %DEST_PLAT% NEQ %ARCH% echo Platform mismatch found. Desired was %ARCH% and got %DEST_PLAT%. Please clean old objectfiles and rebuild & goto en
 echo.
 REM
 REM Copy Files
 REM
 set COPYFLAG=0
-if [%DEST_PLAT%] EQU [win32] set COPYFLAG=1
-if [%DEST_PLAT%] EQU [win64] set COPYFLAG=1
+if [%DEST_PLAT%] EQU [x32] set COPYFLAG=1
+if [%DEST_PLAT%] EQU [x64] set COPYFLAG=1
 if %COPYFLAG% EQU 1 (
-echo Copying Files from %cd%\bin
+echo Copying Binaries from %cd%\bin
 if not exist ..\..\..\bin md ..\..\..\bin
 if exist ..\bin\SciTE.exe  (copy ..\bin\SciTE.exe ..\..\..\bin >NUL ) else (goto en)
 if exist ..\bin\SciLexer.dll (copy ..\bin\SciLexer.dll ..\..\..\bin >NUL ) else (goto en) 

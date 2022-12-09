@@ -56,19 +56,20 @@ set DEST_TARGET=..\bin\SciTE.exe
 set off32=""
 set off64=""
 for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %DEST_TARGET%') do (
-if [%%A] LEQ [200] SET DEST_PLAT=win32
+if [%%A] LEQ [200] SET DEST_PLAT=x32
 if [%%A] LEQ [200] SET OFFSET=%%A
 )
 for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %DEST_TARGET%') do (
-if [%%A] LEQ [200] SET DEST_PLAT=win64
+if [%%A] LEQ [200] SET DEST_PLAT=x64
 if [%%A] LEQ [200] SET OFFSET=%%A
 )
+if %DEST_PLAT% NEQ %ARCH% echo Platform mismatch found. Desired was %ARCH% and got %DEST_PLAT%. Please clean old objectfiles and rebuild & goto en
 REM
 REM Copy Files
 REM
 set COPYFLAG=0
-if [%DEST_PLAT%] EQU [win32] set COPYFLAG=1
-if [%DEST_PLAT%] EQU [win64] set COPYFLAG=1
+if [%DEST_PLAT%] EQU [x32] set COPYFLAG=1
+if [%DEST_PLAT%] EQU [x64] set COPYFLAG=1
 if %COPYFLAG% EQU 1 (
 echo Copying Binaries from %cd%\bin
 if not exist ..\..\..\bin md ..\..\..\bin

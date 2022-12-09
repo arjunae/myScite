@@ -1,27 +1,34 @@
 @chcp 65001 1>NUL
 @echo off
-:: MinGW Path has to be set, otherwise please define here:
-:: set PATH=E:\MinGW\bin;%PATH%;
+REM  MinGW Path has to be set, otherwise please define here:
+REM set PATH=E:\MinGW\bin;%PATH%;
+rem set PATH=E:\apps\msys64\mingw64\bin;%PATH%;
+REM Sanity- Ensure MSys-MinGW availability / Determinate Architecture into %MAKEARCH%.
+set MAKEARCH=""
+where gcc 1>NUL 2>NUL
+if %ERRORLEVEL%==1 (goto :errMingw)
+gcc -dumpmachine | findstr /M i686 1>NUL 2>NUL
+if [%ERRORLEVEL%]==[0] (SET MAKEARCH=win32 && goto :okMingw) 
+gcc -dumpmachine | findstr /M x86_64 1>NUL 2>NUL
+if [%ERRORLEVEL%]==[0] (SET MAKEARCH=win64 && goto :okMingw)
+REM Otherwise, try to deduct make arch from gccs Pathname
+if %MAKEARCH% EQU "" ( for /F "tokens=1,2* delims= " %%a in ('where gcc') do ( Set gcc_path=%%a && set instr=!gcc_path:mingw32=! )
+if not !instr!==!gcc_path! (SET MAKEARCH=x32) else ( SET MAKEARCH=x64) && goto :okMingw)
+if %MAKEARCH% EQU "" goto :errMingw
 
-REM Sanity- Ensure MSys-MinGW availability / Determinate Architecture into %MAKE_ARCH%.
-set MAKE_ARCH=""
-where mingw32-make 1>NUL 2>NUL
-if %ERRORLEVEL%==1 ( goto err_mingw )
-mingw32-make --version | findstr /M i686 1>NUL 2>NUL
-if [%ERRORLEVEL%]==[0] ( SET MAKE_ARCH=win32 && goto ok_mingw) 
-mingw32-make --version | findstr /M x86_64 1>NUL 2>NUL
-if [%ERRORLEVEL%]==[0] ( SET MAKE_ARCH=win64 && goto ok_mingw)
-if %MAKE_ARCH% EQU "" goto err_mingw
-:ok_mingw
-
-echo  mingw build platform %MAKE_ARCH%
+:okMingw
+REM use customized CMD Terminal
+if "%1"=="" (
+rem  reg import ..\contrib\TinyTonCMD\TinyTonCMD.reg
+rem  start "TinyTonC MD" %~nx0 %1 tiny  
+)
 
 REM Start Clean
-del /f clib\*.dll 1>NUL
+del /f clib\*.dll 1>NUL 2>NUL
 
 REM Init Vars with some defaults
 set LUA_PLAT=5.3
-set LUA_LIB=-lscilexer
+set LUA_LIB=-lscite
 
 REM Define them here 
 FOR /f "tokens=1,2 delims==" %%G in (config.txt) do (

@@ -20,7 +20,7 @@ gcc -dumpmachine | findstr /M x86_64 1>NUL 2>NUL
 if [%ERRORLEVEL%]==[0] (SET MAKEARCH=win64 && goto :okMingw)
 REM Otherwise, try to deduct make arch from gccs Pathname
 if %MAKEARCH% EQU "" ( for /F "tokens=1,2* delims= " %%a in ('where gcc') do ( Set gcc_path=%%a && set instr=!gcc_path:mingw32=! )
-if not !instr!==!gcc_path! (SET MAKEARCH=win32) else ( SET MAKEARCH=win64) && goto :okMingw)
+if not !instr!==!gcc_path! (SET MAKEARCH=x32) else ( SET MAKEARCH=x64) && goto :okMingw)
 if %MAKEARCH% EQU "" goto :errMingw
 
 :okMingw
@@ -70,6 +70,7 @@ for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %DESTTARGET%') do (
   if [%%A] LEQ [200] SET DEST_PLAT=win64
   if [%%A] LEQ [200] SET OFFSET=%%A
 )
+if %DEST_PLAT% NEQ %ARCH% echo Platform mismatch found. Desired was %ARCH% and got %DEST_PLAT%. Please clean old objectfiles and rebuild & goto en
 echo.
 REM
 REM Copy Files

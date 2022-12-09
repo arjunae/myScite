@@ -9,7 +9,7 @@ local AppList = {}
 
 -- load scripts dynamically from scripts folder
 if type(lfs)=="table" then
-  for sFile in lfs.dir(props['SciteUserHome'].."/user/opt/macros") do
+  for sFile in lfs.dir(props['SciteUserHome'].."/user/opt/lua-scite/macros") do
     -- Optionally do list Unix dot prefixed hidden stuff.
    if  sFile ~= "." and sFile ~= ".." and string.sub(sFile,1,1) ~= "." or (OPT_SHOW_HIDDEN==true)  then
   AppList[#AppList+1] = {sFile, sFile, sFile:sub(1,-5)} end

@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion enableextensions
 set VCINSTALLDIR="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build"
 rem color f0
-rem mode 190,30
+rem mode 200,30
 REM ScreenBuffer Size
 reg add HKCU\Console\%%SystemRoot%%_system32_cmd.exe\ScreenBufferSize /t REG_DWORD /d 1111111 /f >NUL
 echo. > %tmp%\scitelog.txt
@@ -19,7 +19,7 @@ REM Try to acquire a VisualStudio 14 Context
 REM If that fails, use systems highest available Version as defined via env var VS[xxx]COMNTOOLS
 SET buildContext=14.0
 SET arch=x86
-REM SET arch=x64
+ SET arch=x64
 
 echo About to build using:
 rem call forcevcversion.cmd %buildContext%
@@ -56,21 +56,22 @@ set DEST_TARGET=..\bin\SciTE.exe
 set off32=""
 set off64=""
 for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %DEST_TARGET%') do (
-if [%%A] LEQ [200] SET DEST_PLAT=win32
+if [%%A] LEQ [200] SET DEST_PLAT=x32
 if [%%A] LEQ [200] SET OFFSET=%%A
 )
 for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %DEST_TARGET%') do (
-if [%%A] LEQ [200] SET DEST_PLAT=win64
+if [%%A] LEQ [200] SET DEST_PLAT=x64
 if [%%A] LEQ [200] SET OFFSET=%%A
 )
+if %DEST_PLAT% NEQ %ARCH% echo Platform mismatch found. Desired was %ARCH% and got %DEST_PLAT%. Please clean old objectfiles and rebuild & goto en
 REM
 REM Copy Files
 REM
 set COPYFLAG=0
-if [%DEST_PLAT%] EQU [win32] set COPYFLAG=1
-if [%DEST_PLAT%] EQU [win64] set COPYFLAG=1
+if [%DEST_PLAT%] EQU [x32] set COPYFLAG=1
+if [%DEST_PLAT%] EQU [x64] set COPYFLAG=1
 if %COPYFLAG% EQU 1 (
-echo Copying Files from %cd%\bin
+echo Copying Binaries from %cd%\bin
 if not exist ..\..\..\bin md ..\..\..\bin
 if exist ..\bin\SciTE.exe  (copy ..\bin\SciTE.exe ..\..\..\bin >NUL ) else (goto en)
 if exist ..\bin\SciLexer.dll (copy ..\bin\SciLexer.dll ..\..\..\bin >NUL ) else (goto en) 

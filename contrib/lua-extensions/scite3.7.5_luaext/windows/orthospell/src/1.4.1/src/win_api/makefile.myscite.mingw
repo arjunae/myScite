@@ -2,7 +2,7 @@
 #CC=gcc 
 #CXX=g++
 CC=gcc -DHUNSPELL_STATIC
-CXX=g++ --std=gnu++11 -DHUNSPELL_STATIC
+CXX=g++ --std=gnu++14 -DHUNSPELL_STATIC
 
 CXXFLAGS=  -O2 -ansi -pedantic -I. -ffunction-sections -fdata-sections
 #CXXFLAGS= -O2 -Wall -ansi -pedantic -I.

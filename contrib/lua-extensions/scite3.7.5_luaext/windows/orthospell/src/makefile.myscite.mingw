@@ -11,7 +11,7 @@ T = hunspell
 LIBNAME	= $(T).dll
 
 CXX =g++
-CFLAGS = -s --std=gnu++11 -ffunction-sections -fdata-sections -DLUA_COMPAT_5_1 -O2 -DHUNSPELL_STATIC libhunspell.def
+CFLAGS = -s --std=gnu++14 -ffunction-sections -fdata-sections -DLUA_COMPAT_5_1 -O2 -DHUNSPELL_STATIC libhunspell.def
 LDFLAGS= -shared -Wl,$(LIB_SPELL) $(LIB_PARSER) $(LIB_LUA) -Wl,--gc-sections -Wl,-e,_DllMain@12 -Wl,--dll -Wl,--enable-auto-image-base
 
 windows: $(LIBNAME)

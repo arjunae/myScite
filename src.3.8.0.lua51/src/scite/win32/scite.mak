@@ -10,7 +10,7 @@
 
 # Up from Scintilla3.8.0 SciLexer.dll optionally includes Lua (defined LPEG_LEXER)
 # If you choosed to do so, decide here if you want SciTE to be dynamically linked to SciLexers Lua. 
-LUA_LINK_SCILEXER=0
+#LUA_LINK_SCILEXER=1
 
 .SUFFIXES: .cxx .properties
 
