@@ -17,4 +17,3 @@ cd ..\..\
 del mingw.*.*.build 1>NUL 2>NUL
 echo.
 echo OK
-pause

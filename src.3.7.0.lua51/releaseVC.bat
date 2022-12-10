@@ -24,14 +24,20 @@ if [%ERRORLEVEL%]==[2] (
 )
 
 REM
-REM Start the Build
+REM Init VisualStudio Environment
 REM
 echo.
 echo SciTE %BUILDTYPE% 
 echo Desired Target Architecture: %arch%
-REM init VS and search for it in case its not in systempath
-where vcvarsall.bat 1>NUL2>NUL
-if %ERRORLEVEL% EQU 1 (FOR /F "tokens=*" %%i IN ('where /r "c:\program files" vcvarsall.bat') DO call "%%i" %arch% ) else ( call vcvarsall.bat %arch% )
+REM init VS, search for it in program files x64 / x86 
+where /Q vcvarsall.bat
+if %ERRORLEVEL%==0 ( call vcvarsall.bat %arch% ) else (FOR /F "tokens=*" %%i IN ('where /r "c:\Program Files" vcvarsall.bat') DO call "%%i" %arch% ) 
+if "%VSINSTALLDIR%" EQU "" (FOR /F  "usebackq tokens=*" %%i IN ('where /r "c:\program files (x86)" vcvarsall.bat') DO call vcvarsall.bat %arch%)
+if "%VSINSTALLDIR%" EQU "" echo Error initing vcvarsall.bat. Please install Visual Studio compile chain and try again. & goto en
+
+REM
+REM Start the Build
+REM
 if "%1"=="DEBUG" set parameter1=DEBUG=1
 echo.
 echo Compiling Scintilla
