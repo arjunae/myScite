@@ -32,14 +32,6 @@ echo Desired Target Architecture: %arch%
 REM init VS and search for it in case its not in systempath
 where vcvarsall.bat 1>NUL2>NUL
 if %ERRORLEVEL% EQU 1 (FOR /F "tokens=*" %%i IN ('where /r "c:\program files" vcvarsall.bat') DO call "%%i" %arch% ) else ( call vcvarsall.bat %arch% )
-REM Try to acquire a VisualStudio 14 Context
-REM If that fails, use systems highest available Version as defined via env var VS[xxx]COMNTOOLS
-REM SET arch=x64
-REM call forcevcversion.cmd %buildContext%
-REM if %errorlevel%==10 (
-REM echo please build myScite with VisualStudio Version greater or equal 2015
-REM goto en
-REM )
 if "%1"=="DEBUG" set parameter1=DEBUG=1
 echo.
 echo Compiling Scintilla
