@@ -1,6 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion enableextensions
-REM set VCINSTALLDIR="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build"
+REM set PATH=%PATH%;"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build"
 SET buildContext=14.0
 SET arch=x86
 set BUILDTYPE=Debug
@@ -31,8 +31,8 @@ echo SciTE %BUILDTYPE%
 echo Desired Target Architecture: %arch%
 REM init VS, search for it in program files x64 / x86 
 where /Q vcvarsall.bat
-if %ERRORLEVEL%==0 ( call vcvarsall.bat %arch% ) else (FOR /F "tokens=*" %%i IN ('where /r "c:\Program Files" vcvarsall.bat') DO call "%%i" %arch% ) 
-if "%VSINSTALLDIR%" EQU "" (FOR /F  "usebackq tokens=*" %%i IN ('where /r "c:\program files (x86)" vcvarsall.bat') DO call vcvarsall.bat %arch%)
+if %ERRORLEVEL%==0 ( call vcvarsall.bat %arch% ) else (FOR /F "tokens=*" %%i IN ('where /q /r "c:\Program Files" vcvarsall.bat') DO call "%%i" %arch% ) 
+if "%VSINSTALLDIR%" EQU "" (FOR /F  "usebackq tokens=*" %%i IN ('where /q /r "c:\program files (x86)" vcvarsall.bat') DO call vcvarsall.bat %arch%)
 if "%VSINSTALLDIR%" EQU "" echo Error initing vcvarsall.bat. Please install Visual Studio compile chain and try again. & goto en
 
 REM
@@ -62,16 +62,11 @@ REM Takes: DEST_TARGET Value: Executable to be checked
 REM Returns: PLAT Value: Either x86 or x64 
 :find_platform
 set DEST_TARGET=..\bin\SciTE.exe
-set off32=""
-set off64=""
+set off32="" & set off64=""
 for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %DEST_TARGET%') do (
-if [%%A] LEQ [200] SET DEST_PLAT=x86
-if [%%A] LEQ [200] SET OFFSET=%%A
-)
+if [%%A] LEQ [200] SET DEST_PLAT=x86 & SET OFFSET=%%A )
 for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %DEST_TARGET%') do (
-if [%%A] LEQ [200] SET DEST_PLAT=x64
-if [%%A] LEQ [200] SET OFFSET=%%A
-) 
+if [%%A] LEQ [200] SET DEST_PLAT=x64 & SET OFFSET=%%A )
 if %DEST_PLAT% NEQ %ARCH% echo Platform mismatch found. Desired was %ARCH% and got %DEST_PLAT%. Please remove old objectfiles and rebuild & goto en
 
 REM
