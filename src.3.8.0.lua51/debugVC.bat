@@ -1,9 +1,8 @@
 @echo off
 setlocal enabledelayedexpansion enableextensions
 REM set PATH=%PATH%;"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build"
-SET buildContext=14.0
 SET arch=x86
-set BUILDTYPE=Debug
+set BUILDTYPE=debug
 rem color f0
 rem mode 200,30
 REM ScreenBuffer Size
@@ -29,25 +28,28 @@ REM
 echo.
 echo SciTE %BUILDTYPE% 
 echo Desired Target Architecture: %arch%
-REM init VS, search for it in program files x64 / x86 
-where /Q vcvarsall.bat
-if %ERRORLEVEL%==0 ( call vcvarsall.bat %arch% ) else (FOR /F "tokens=*" %%i IN ('where /q /r "c:\Program Files" vcvarsall.bat') DO call "%%i" %arch% ) 
-if "%VSINSTALLDIR%" EQU "" (FOR /F  "usebackq tokens=*" %%i IN ('where /q /r "c:\program files (x86)" vcvarsall.bat') DO call vcvarsall.bat %arch%)
-if "%VSINSTALLDIR%" EQU "" echo Error initing vcvarsall.bat. Please install Visual Studio compile chain and try again. & goto en
+REM  check for compiler, optionally search and init VS from %PATH% and program files x64 / x86 
+where /Q cl.exe
+if %ERRORLEVEL% EQU 0 goto initOK
+FOR /F "tokens=*" %%i IN ('where vcvarsall.bat 2^>NUL' ) DO echo %%i & call "%%i" %arch% )
+if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "c:\Program Files" vcvarsall.bat 2^>NUL' ) DO echo %%i & call "%%i" %arch% )
+if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "c:\program files (x86)" vcvarsall.bat 2^>NUL'  ) DO echo %%i & call "%%i" %arch% )
+if "!VSINSTALLDIR!" EQU "" echo Error initing vcvarsall.bat. Please install "Build Tools for VS" and try again. ( https://visualstudio.microsoft.com/de/downloads/ ) & start https://visualstudio.microsoft.com/de/downloads/ & goto en )
+:initOK
 
 REM
 REM Start the Build
 REM
-if "%1"=="DEBUG" set parameter1=DEBUG=1
+if "BUILDTYPE" EQU "debug" set parameter1=DEBUG=1
 echo.
 echo Compiling Scintilla
 cd src\scintilla\win32
-nmake /NOLOGO %parameter1% -f scintilla.mak | "../../wtee.exe" %tmp%\scitelog.txt
+nmake /NOLOGO %parameter1% -f scintilla.mak | "../../../wtee.exe" %tmp%\scitelog.txt
 findstr /n /c:"error"  %tmp%\scitelog.txt
 if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling Scintilla & goto en
 echo Compiling SciTE 
 cd ..\..\scite\win32
-nmake /NOLOGO %parameter1% -f scite.mak | "../../wtee.exe" -a %tmp%\scitelog.txt
+nmake /NOLOGO %parameter1% -f scite.mak | "../../../wtee.exe" -a %tmp%\scitelog.txt
 findstr /n /c:"error"  %tmp%\scitelog.txt
 if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling SciTe & goto en
 echo OK 

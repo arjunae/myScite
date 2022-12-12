@@ -22,13 +22,13 @@ end
 
 myScripts=myHome..dirSep.."opt"..dirSep
 --dofile(myScripts..dirSep.."eventmanager.lua")
-dofile(myScripts..dirSep.."macros.lua")
 
 -- Loading extman.lua will automatically run any lua script located in \User\opt\lua-scite
-dofile(myScripts..dirSep.."extman.lua")
+--dofile(myScripts..dirSep.."extman.lua")
+--dofile(myScripts..dirSep.."macros.lua")
 -- Initialize Project support last
-dofile(myScripts..dirSep.."ctags.lua")
-dofile(myScripts..'SciTEProject.lua')
+--dofile(myScripts..dirSep.."ctags.lua")
+--dofile(myScripts..'SciTEProject.lua')
 
 	
 --  Lua Samples

@@ -1,4 +1,4 @@
---[[-----------------------------------------------------------------
+-------------------------------------------------------------------
 eventmanager.lua
 Authors: Tymur Gubayev
 version: 1.1.0
@@ -9,15 +9,10 @@ version: 1.1.0
 	  * AddEventHandler ( EventName, Handler[, RunOnce] ) => Handler
 	  * RemoveEventHandler ( EventName, Handler )
 	
-	простейший менеджер событий для SciTE
-	экспортирует две функции (см. выше)
-  
-  Подключение:
-	не требуется (загружается из COMMON.lua).
-  Если же по каким-либо причинам необходимо подключение вручную, то:
-    В файл SciTEStartup.lua добавьте строку:
+  simple event manager for SciTE
+  Exports two functions (see above)
+  In the SciTEStartup.lua file, add the following line:
     dofile (props["SciteDefaultHome"].."\\tools\\eventmanager.lua")
-	(перед подключением скриптов, использующих AddEventHandler)
 
 ---------------------------------------------------------------------
 History:
@@ -35,8 +30,7 @@ History:
 local events  = {}
 local _remove = {}
 
---- Удаляет обработчики, намеченные для удаления
--- В конце обнуляет список "к удалению"
+-- At the end, resets the "to delete" list
 local function RemoveAllOutstandingEventHandlers()
 	for i = 1, #_remove do
 		local ename, h_rem = next(_remove[i])
@@ -51,8 +45,8 @@ local function RemoveAllOutstandingEventHandlers()
 	_remove = {} -- clear it
 end
 
---- Запускает обработку события согласно /scite-ru/wiki/SciTE_Events
--- Возвращает всё, что вернул обработчик, а не только первый аргумент (флаг остановки)
+--- Start event handling
+-- Returns whatever the handler returned, not just the first argument (stop flag)
 local function Dispatch (name, ...)
 	RemoveAllOutstandingEventHandlers() -- first remove all from _remove
 	local event = events[name]
@@ -69,9 +63,9 @@ local function Dispatch (name, ...)
 	return res and unpack(res) -- just for the case of error-handling
 end
 
---- Создаёт новый обработчик для вызова ядром редактора
--- В случае, если такая функция уже имеется (т.е. была создана без использования AddEventHandler),
--- то она ставится первой в очередь
+--- Create a new handler to be called by the editor kernel
+-- In case such function already exists (i.e. was created without using AddEventHandler),
+-- then it is put first in the queue
 local function NewDispatcher(EventName)
 	
 	local dispatch = function (...) -- `shortcut`
@@ -87,8 +81,8 @@ local function NewDispatcher(EventName)
 	_G[EventName] = dispatch
 end
 
---- Подключает пользовательский обработчик к событию SciTE (последним по счёту)
--- параметр `RunOnce` опционален, по-умолчанию `false`
+--- Connects a custom handler to a SciTE event (last one)
+-- `RunOnce` parameter is optional, default is `false`
 function AddEventHandler(EventName, Handler, RunOnce)
 	local event = events[EventName]
 	if not event then
@@ -113,8 +107,8 @@ function AddEventHandler(EventName, Handler, RunOnce)
 	return OnceHandler or Handler
 end -- AddEventHandler
 
---- Отключает обработчик от события
--- Если один обработчик подключён к одному событию дважды, то и удалять его надо дважды
+--- Remove event handler
+-- If one handler is connected to the same event twice, then delete it twice
 function RemoveEventHandler(EventName, Handler)
 	_remove[#_remove+1]={[EventName]=Handler}
 end
