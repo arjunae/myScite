@@ -1,5 +1,5 @@
 @echo off
-REM 2022/12 Sanity Checks and automatic recommations and fixes
+REM 2022/12 Sanity Checks, automatic recommendations and fixes
 REM Fix mismatching buildtyes and missing directories, detect missing build chain and recommend download, write and analyse %tmp%/scitelog during build, increase screenbuffer size
 setlocal enabledelayedexpansion enableextensions
 REM set PATH=%PATH%;"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build"
@@ -32,12 +32,14 @@ echo SciTE %BUILDTYPE%
 echo Desired Target Architecture: %arch%
 REM  check for compiler, optionally search and init VS from %PATH% and program files x64 / x86 
 where /Q cl.exe
-if %ERRORLEVEL% EQU 0 goto initOK
+if %ERRORLEVEL% EQU 0 goto clOK
 FOR /F "tokens=*" %%i IN ('where vcvarsall.bat 2^>NUL' ) DO echo %%i & call "%%i" %arch% )
 if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "c:\Program Files" vcvarsall.bat 2^>NUL' ) DO echo %%i & call "%%i" %arch% )
 if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "c:\program files (x86)" vcvarsall.bat 2^>NUL'  ) DO echo %%i & call "%%i" %arch% )
 if "!VSINSTALLDIR!" EQU "" echo Error initing vcvarsall.bat. Please install "Build Tools for VS" and try again. ) & start https://visualstudio.microsoft.com/de/visual-cpp-build-tools/ & goto en )
-:initOK
+:clOK
+for /f "delims=; tokens=1" %%A in ("%include%") do (dir "%%A\cstring"  )
+if "%ERRORLEVEL%" EQU "1" (echo "hmm. Include Headers not found. Please reinstall build Tools" & start https://visualstudio.microsoft.com/de/visual-cpp-build-tools/ & goto en )
 
 REM
 REM Start the Build
