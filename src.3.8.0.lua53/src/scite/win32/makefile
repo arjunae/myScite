@@ -80,7 +80,7 @@ CFLAGS=-DNDEBUG -Os $(CBASEFLAGS)
 STRIPFLAG="-Wl,-s"
 endif
 
-CXXFLAGS = $(CFLAGS) -pedantic --std=gnu++17
+CXXFLAGS = $(CFLAGS) -pedantic --std=gnu++14
 
 .cxx.o:
 	$(CXX) $(CXXFLAGS) -c $< -o $@

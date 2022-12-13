@@ -18,7 +18,7 @@ where /Q nmake.exe
 if %ERRORLEVEL% EQU 1 (
 FOR /F "tokens=*" %%i IN ('where /r "c:\Program Files" vcvarsall.bat 2^>NUL' ) DO echo %%i & call "%%i" %arch% ) 
 if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "c:\program files (x86)" vcvarsall.bat 2^>NUL'  ) DO echo %%i & call "%%i" %arch% )
-if "!VSINSTALLDIR!" EQU "" cd src\ & del /s /q *.exe *.o *.obj *pdb *.dll *.res *.map *.exp *.lib *.plist *.build & goto en
+if "!VSINSTALLDIR!" EQU "" cd src\ & del /s /q *.exe *.o *.obj *pdb *.dll *.res *.map *.exp *.lib *.plist & goto en
 )
 
 echo Scintilla
@@ -28,7 +28,7 @@ echo Scite
 cd ..\..\scite\win32
 nmake -f scite.mak clean 2>NUL
 cd ..\..\
-del mingw.*.*.build 1>NUL 2>NUL
+del *.*.build 1>NUL 2>NUL
 echo.
 :en
 echo OK
