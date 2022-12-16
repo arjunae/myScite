@@ -1,12 +1,24 @@
 @echo off
+REM build Scintilla/Scite, ThorstenKani marcedo@schmusemail.de
 setlocal enabledelayedexpansion enableextensions
-set BUILDTYPE=Release
 REM MinGW Path has to be set in System Settings, otherwise please define here:
  set PATH=E:\apps\msys64\mingw32\bin;%PATH%;
 REM Set Color and ScreenBuffer Size
 reg add HKCU\Console\%%SystemRoot%%_system32_cmd.exe\ScreenBufferSize /t REG_DWORD /d 1111111 /f >NUL
 REM Clear logfile
 echo.>%tmp%\sciteLog
+
+REM
+REM Decide for either a Debug, Release or Clean Build
+REM Type D (Debug) or C (clean) during the start. Default set to R (Release)
+REM
+choice /T 1 /D R /C DRC /M "Create a Debug, a Release or a Clean build ? " >NUL
+if %errorlevel% EQU 1 (SET BUILDTYPE=debug) 
+if %errorlevel% EQU 2 (SET BUILDTYPE=release)
+if %errorlevel% EQU 3  (SET BUILDTYPE=clean)
+)
+if /i %BUILDTYPE% NEQ "Release%" echo Creating !Buildtype! Version
+
 
 REM
 REM Sanity- Ensure MSys-MinGW availability / write currently configured Architecture into %MAKEARCH%.
@@ -23,25 +35,18 @@ if %MAKEARCH% EQU "" ( for /F "tokens=1,2* delims= " %%a in ('where gcc') do ( S
 if not !instr!==!gcc_path! (SET MAKEARCH=x86) else (SET MAKEARCH=x64) && goto :okMingw)
 if %MAKEARCH% EQU "" goto :errMingw
 :okMingw
-REM use customized CMD Terminal
-if "%1"=="" (
-rem  reg import ..\contrib\TinyTonCMD\TinyTonCMD.reg
-rem  start "TinyTonC MD" %~nx0 %1 tiny  
-)
 echo.
 echo SciTE %BUILDTYPE%
 echo Environment %MAKEARCH% 
 echo.
+IF /i "%BUILDTYPE%" EQU "clean" goto cleanStuff
 
 REM
 REM Sanity- Ask when trying to change between Debug and Release builds.
 REM
-if exist src\mingw.*.*.build if not exist src\mingw.*.%BUILDTYPE%.build choice /C YN /M "A different MinGW Build has been found. Rebuild as %BUILDTYPE%? "
-if [%ERRORLEVEL%]==[2] (
-  goto en
-) else if [%ERRORLEVEL%]==[1] (
-  cd src\ & del /s /q *.exe *.o *.obj *pdb *.dll *.res *.map *.exp *.lib *.plist *.build 1>NUL 2>NUL
-  cd ..
+if exist src\mingw.*.*.build if not exist src\mingw.*.%BUILDTYPE%.build (
+   choice /C YN /M "A different MinGW Build has been found. Rebuild as %BUILDTYPE%? "
+   if [%ERRORLEVEL%]==[2] ( goto en ) else if [%ERRORLEVEL%]==[1] ( cd src\ & del /s /q *.exe *.o *.obj *pdb *.dll *.res *.map *.exp *.lib *.plist *.build 1>NUL 2>NUL & cd .. )
 )
 
 REM
@@ -107,6 +112,18 @@ echo.
 echo Stop: An Error %ERRORLEVEL% occured during the build
 echo.
 type %tmp%\scitelog
+goto :en
+
+:cleanStuff
+echo Scintilla
+cd src\scintilla\win32
+mingw32-make clean 2>NUL
+echo Scite
+cd ..\..\scite\win32
+mingw32-make clean 2>NUL
+cd ..\..\
+del *.*.build 1>NUL 2>NUL
+
 :en
 echo.
 REM Show the logfile in case there were Warnings
