@@ -38,15 +38,31 @@ echo.
 echo SciTE %BUILDTYPE% 
 echo Desired Target Architecture: %arch%
 echo > src\vc.%arch%.%buildtype%.build
-REM  check for compiler, optionally search and init VS from %PATH% and program files x64 / x86 
+REM  check for compiler in Path and quickcheck for a valid SDK
 where  cl.exe 2>NUL
 if %ERRORLEVEL% EQU 0 goto clOK
+
+REM experienced really strange situations with missing or defective vs installations, which is really demotivating. please fixUp that mess.
+REM search and init VS from Installers Entries. For loops code based on various www sources
+REM find MS Builds Key and read the line marked with "install" in it, get the installpath from that subkey and extract the Path from the entry.
+:vsregsearch
+for /F %%i in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\  /s /f "Visual Studio Build Tools"^|findstr "install"') DO (set installerPath=%%i ) 
+if "!installerPath!" equ "" goto vsfilesearch
+for /F "delims=" %%j in ('reg query !installerPath! /s /f "InstallLocation"^|findstr "Build"') DO (set rawpath="%%j" )
+if "!rawPath!" equ "" goto vsfilesearch
+SET toolPath=!rawpath:*    InstallLocation    REG_SZ    =!
+REM Echo calling BuildTools from registry entry !InstallerPath!
+if exist %toolPath% call "%toolpath%VC\Auxiliary\Build\vcvarsall.bat" %arch & goto clOK
+
+REM  optionally do a filesearch for vcvarsall.bat in %PATH% and program files x64 / x86. (Most reliable, but slower) and recommend downloadlocation. 
+:vsfilesearch
 FOR /F "tokens=*" %%i IN ('where vcvarsall.bat 2^>NUL' ) DO echo %%i & call "%%i" %arch% )
 if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "c:\Program Files" vcvarsall.bat 2^>NUL' ) DO echo %%i & call "%%i" %arch% )
 if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "c:\program files (x86)" vcvarsall.bat 2^>NUL'  ) DO echo %%i & call "%%i" %arch% )
 if "!VSINSTALLDIR!" EQU "" echo Error initing vcvarsall.bat. Please install "Build Tools for VS" and try again. ) & start https://visualstudio.microsoft.com/de/visual-cpp-build-tools/ & goto en )
 
 :clOK
+REM quickcheck for valid Include variable by looking for a containing std header 
 for /f "delims=; tokens=1" %%A in ("%include%") do (dir "%%A\cstring"  >NUL)
 if "%ERRORLEVEL%" EQU "1" (echo "hmm. Include Headers not found. Please reinstall build Tools" & start https://visualstudio.microsoft.com/de/visual-cpp-build-tools/ & goto en )
 if "%BUILDTYPE%" EQU "clean" goto clean
