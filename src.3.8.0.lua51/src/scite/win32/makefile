@@ -6,7 +6,7 @@
 
 # Up from Scintilla3.8.0 SciLexer.dll optionally includes Lua (defined LPEG_LEXER)
 # If you choosed to do so, decide here if you want SciTE to be dynamically linked to SciLexers Lua. 
-LUA_LINK_SCILEXER==
+LUA_LINK_SCILEXER=0
 
 .SUFFIXES: .cxx .properties
 WINDRES ?= windres
@@ -31,7 +31,7 @@ else
 endif
 endif
 else
-	DEL = rm -f
+	DEL = del /f /q
 	COPY = cp -a
 	UXLIB:=-luxtheme
 endif
@@ -39,6 +39,7 @@ endif
 PROG	= ../bin/SciTE.exe
 PROGSTATIC = ../bin/Sc1.exe
 WIDEFLAGS=-DUNICODE -D_UNICODE
+CXXSTD = gnu++14
 
 vpath %.h ../src ../../scintilla/include
 vpath %.cxx ../src
@@ -46,21 +47,26 @@ vpath %.o ../../scintilla/win32
 vpath %.a ../../scintilla/win32
 
 ifndef NO_LUA
-LUA_CORE_OBJS = lapi.o lcode.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o ltable.o ltm.o lundump.o lvm.o lzio.o
-LUA_LIB_OBJS =	lauxlib.o lbaselib.o ldblib.o liolib.o lmathlib.o ltablib.o lstrlib.o loadlib.o loslib.o linit.o
+LUA_CORE_OBJS = lapi.o lcode.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o \
+		lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o \
+		ltable.o ltm.o lundump.o lvm.o lzio.o
+
+LUA_LIB_OBJS =	lauxlib.o lbaselib.o ldblib.o liolib.o lmathlib.o ltablib.o \
+		lstrlib.o loadlib.o loslib.o linit.o
+
 LUA_OBJS = LuaExtension.o 
 
 ifeq '$(LUA_LINK_SCILEXER)' '1'
-LUA_LDFLAGS = -Wl,-Bstatic -static ../../scintilla/bin/SciLexer.dll
+LUA_LDFLAGS = -Wl,-Bstatic -static ../bin/SciLexer.dll
 else 
-LUA_OBS+= $(LUA_CORE_OBJS) $(LUA_LIB_OBJS)
+LUA_OBJS+= $(LUA_CORE_OBJS) $(LUA_LIB_OBJS)
 endif
 
-vpath %.c ../lua/src  ../lua/src/lib
-LUA_INCLUDES = -I ../lua/src
+vpath %.c ../lua/src ../lua/src/lib
 
+LUA_INCLUDES = -I ../lua/include
 #LUA_SCRIPTS = ..\bin\SciTEExtension.lua ..\bin\SciTEStartup.lua
-LUA_DEFINES = -DLUA_USER_H=\"scite_lua_win.h\"  -DLUA_COMPAT_5_1 -DLUA_COMPAT_BITLIB
+LUA_DEFINES = -DLUA_USER_H=\"scite_lua_win.h\"
 else
 LUA_DEFINES = -DNO_LUA
 endif
@@ -68,7 +74,7 @@ endif
 INCLUDEDIRS=-I ../../scintilla/include -I ../src $(LUA_INCLUDES)
 RCINCLUDEDIRS=--include-dir ../src
 
-CBASEFLAGS =  $(INCLUDEDIRS) $(LUA_DEFINES) $(WIDEFLAGS) $(VERSION_DEFINES)
+CBASEFLAGS = -W $(INCLUDEDIRS) $(LUA_DEFINES) $(WIDEFLAGS) $(VERSION_DEFINES)
 
 ifdef DEBUG
 CFLAGS=-DDEBUG -g $(CBASEFLAGS)
@@ -77,9 +83,9 @@ CFLAGS=-DNDEBUG -Os $(CBASEFLAGS)
 STRIPFLAG="-Wl,-s"
 endif
 
-CXXFLAGS = $(CFLAGS) -pedantic --std=gnu++14
+CXXFLAGS = $(CFLAGS) -pedantic --std=gnu++11
 
-LDFLAGS=-mwindows -lmsimg32 -lcomctl32 -limm32 -lole32 -luuid -loleaut32 $(UXLIB) $(LUA_LDFLAGS) -static
+LDFLAGS=-mwindows -lmsimg32 -lcomctl32 -limm32 -lole32 -luuid -loleaut32 --static $(UXLIB) $(LUA_LDFLAGS)
 
 .cxx.o:
 	$(CXX) $(CXXFLAGS) -c $< -o $@
@@ -118,7 +124,8 @@ SHAREDOBJS=\
 	Utf8_16.o \
 	WinMutex.o
 
-OTHER_OBJS = $(SHAREDOBJS) SciTERes.o SciTEWin.o $(LUA_OBJS) 
+OTHER_OBJS = $(SHAREDOBJS) $(LUA_OBJS) SciTERes.o SciTEWin.o
+
 OBJS = Credits.o $(OTHER_OBJS)
 
 DLLS=../bin/Scintilla.dll ../bin/SciLexer.dll
@@ -157,7 +164,7 @@ LEXPROPS=\
 
 PROPS=../bin/SciTEGlobal.properties ../bin/abbrev.properties $(LEXPROPS)
 
-ALL:	$(PROG) $(DLLS) $(PROPS) $(LUA_SCRIPTS)
+ALL:	$(PROG)  $(DLLS) $(PROPS) $(LUA_SCRIPTS)
 #$(PROGSTATIC)
 clean:
 	$(DEL) *.exe *.o *.obj *.dll *.res *.map *.plist
@@ -166,11 +173,12 @@ analyze:
 	clang --analyze $(CXXFLAGS) *.cxx ../src/*.cxx
 
 deps:
-	$(CXX) -MM $(CXXFLAGS) *.cxx ../src/*.cxx ../lua/src/*.c  >deps.mak
+	$(CXX) -MM $(CXXFLAGS) *.cxx ../src/*.cxx ../lua/src/*.c ../lua/src/lib/*.c >deps.mak
 
 embedded: ../src/Embedded.properties
 
 ../bin/Scintilla.dll:	../../scintilla/bin/Scintilla.dll
+
 ifeq ($(OS),Windows_NT)
 	$(COPY) $(subst /,\, $< $(@D))
 else
@@ -204,8 +212,48 @@ OBJSSTATIC = \
 	$(SHAREDOBJS) \
 	Credits.o \
 	Sc1.o \
-	Sc1Res.o \
-	libscintilla.a \
+	Sc1R.o \
+	Accessor.o \
+	AutoComplete.o \
+	CallTip.o \
+	CaseConvert.o \
+	CaseFolder.o \
+	Catalogue.o \
+	CellBuffer.o \
+	CharacterCategory.o \
+	CharacterSet.o \
+	CharClassify.o \
+	ContractionState.o \
+	Decoration.o \
+	Document.o \
+	EditModel.o \
+	Editor.o \
+	EditView.o \
+	ExternalLexer.o \
+	HanjaDic.o \
+	Indicator.o \
+	KeyMap.o \
+	LexerBase.o \
+	LexerModule.o \
+	LexerSimple.o \
+	LineMarker.o \
+	MarginView.o \
+	PerLine.o \
+	PlatWin.o \
+	PositionCache.o \
+	PropSetSimple.o \
+	RESearch.o \
+	RunStyles.o \
+	ScintillaBaseL.o \
+	ScintillaWinL.o \
+	Selection.o \
+	Style.o \
+	StyleContext.o \
+	UniConversion.o \
+	ViewStyle.o \
+	WordList.o \
+	XPM.o \
+	Lexers.a \
 	$(LUA_OBJS)
 
 $(PROGSTATIC): $(OBJSSTATIC)

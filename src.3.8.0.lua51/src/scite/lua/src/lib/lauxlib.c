@@ -1,5 +1,5 @@
 /*
-** $Id: lauxlib.c,v 1.159.1.3 2008/01/21 13:20:51 roberto Exp $
+** $Id$
 ** Auxiliary functions for building Lua libraries
 ** See Copyright Notice in lua.h
 */
@@ -575,7 +575,7 @@ LUALIB_API int luaL_loadfile (lua_State *L, const char *filename) {
     if (lf.f == NULL) return errfile(L, "reopen", fnameindex);
     /* skip eventual `#!...' */
    while ((c = getc(lf.f)) != EOF && c != LUA_SIGNATURE[0]) ;
-   lf.extraline = 0;
+    lf.extraline = 0;
   }
   ungetc(c, lf.f);
   status = lua_load(L, getF, &lf, lua_tostring(L, -1));
@@ -646,7 +646,7 @@ static int panic (lua_State *L) {
 
 LUALIB_API lua_State *luaL_newstate (void) {
   lua_State *L = lua_newstate(l_alloc, NULL);
-  if (L) lua_atpanic(L, &panic);
+  if (L) lua_atpanic(L, panic);
   return L;
 }
 

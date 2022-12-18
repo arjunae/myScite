@@ -1,5 +1,5 @@
 /*
-** $Id: luaconf.h,v 1.82.1.7 2008/02/11 16:25:08 roberto Exp $
+** $Id$
 ** Configuration file for Lua
 ** See Copyright Notice in lua.h
 */
@@ -85,13 +85,11 @@
 ** In Windows, any exclamation mark ('!') in the path is replaced by the
 ** path of the directory of the executable file of the current process.
 */
-#define LUA_LDIR	"!\\user\\addons\\lua\\lua\\"
+#define LUA_LDIR	"!\\lua\\"
 #define LUA_CDIR	"!\\"
 #define LUA_PATH_DEFAULT  \
 		".\\?.lua;"  LUA_LDIR"?.lua;"  LUA_LDIR"?\\init.lua;" \
-				LUA_CDIR"?.lua;"  LUA_CDIR"?\\init.lua" \
-						"!\\..\\..\\user\\addons\\lua\\lua\\?.lua;" \
-								"!\\..\\..\\user\\addons\\lua\\lua\\?\\init.lua;" 
+		             LUA_CDIR"?.lua;"  LUA_CDIR"?\\init.lua"
 #define LUA_CPATH_DEFAULT \
 	".\\?.dll;"  LUA_CDIR"?.dll;" LUA_CDIR"loadall.dll"
 
@@ -153,24 +151,26 @@
 ** the libraries, you may want to use the following definition (define
 ** LUA_BUILD_AS_DLL to get it).
 */
-#if defined(LUA_BUILD_AS_DLL)	/* { */
+#if defined(LUA_BUILD_AS_DLL)
 
-#if defined(LUA_CORE) || defined(LUA_LIB)	/* { */
-//#define LUA_API __declspec(dllexport)
-#else						/* }{ */
-//#define LUA_API __declspec(dllimport)
-#endif						/* } */
-
-#else				/* }{ */
-
-//#define LUA_API		extern
-
-#endif				/* } */
-
+#if defined(LUA_CORE) || defined(LUA_LIB)
 #define LUA_API __declspec(dllexport)
+#else
+#define LUA_API __declspec(dllimport)
+#endif
+
+#else
+
+#if defined(_WIN32)
+#define LUA_API __declspec(dllexport)
+#else
+#define LUA_API         extern
+#endif
+
+#endif
+
 /* more often than not the libs go together with the core */
 #define LUALIB_API	LUA_API
-#define LUAMOD_API	LUALIB_API
 
 
 /*
@@ -761,6 +761,10 @@ union luai_Cast { double l_d; long l_l; };
 ** without modifying the main part of the file.
 */
 
+#ifdef _MSC_VER
+/* Uninteresting 64-bit warnings with twoto */
+#pragma warning(disable: 4334)
+#endif
 
 
 #endif

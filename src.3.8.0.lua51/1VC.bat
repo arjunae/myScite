@@ -18,7 +18,7 @@ if %errorlevel% EQU 1 (SET BUILDTYPE=debug)
 if %errorlevel% EQU 2 (SET BUILDTYPE=release)
 if %errorlevel% EQU 3  (SET BUILDTYPE=clean)
 )
-if /i %BUILDTYPE% NEQ "Release%" echo Creating !Buildtype! Version
+if /i %BUILDTYPE% NEQ "Release%" echo Creating !Buildtype!
 
 :start
 echo. > %tmp%\scitelog.txt
@@ -71,19 +71,21 @@ REM
 REM Start the Build
 REM
 if "BUILDTYPE" EQU "debug" set parameter1=DEBUG=1
+if exist %tmp%\nmakeErr del /q %tmp%\nmakeErr
 echo.
 echo Compiling Scintilla
 cd src\scintilla\win32
 if not exist ..\bin ( Echo scintilla\bin directory not found. Creating... & md ..\bin )
-nmake /NOLOGO %parameter1% -f scintilla.mak | "../../../uk.exe" %tmp%\scitelog.txt
-findstr /n /c:"error"  %tmp%\scitelog.txt
+REM nmake doesnt write its errlog to stdout, need to parse the /X param
+nmake /X %tmp%\nmakeErr /NOLOGO %parameter1% -f scintilla.mak | "../../../uk.exe" %tmp%\scitelog.txt
+findstr /n /c:"error"  %tmp%\nmakeErr
 if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling Scintilla & goto en
 echo Compiling SciTE 
 cd ..\..\scite\win32
 if not exist ..\bin ( Echo scite\bin directory not found. Creating... & md ..\bin )
-nmake /NOLOGO %parameter1% -f scite.mak | "../../../uk.exe" -a %tmp%\scitelog.txt
-findstr /n /c:"error"  %tmp%\scitelog.txt
-if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling SciTe & goto en
+nmake /X %tmp%\sciterr /NOLOGO %parameter1% -f scite.mak | "../../../uk.exe" -a %tmp%\scitelog.txt
+findstr /n /c:"error"  %tmp%\nmakeErr
+if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling SciTe  & goto en
 echo OK 
 echo.
 
@@ -91,21 +93,27 @@ REM
 REM Find and display currents build targets Platform
 REM
 REM Use this littl hack to look for a platform PE Signature at offset 120+
-REM Should work compiler independent for uncompressed binaries.
+REM Should find it compiler independent for uncompressed binaries.
 REM Takes: DEST_TARGET Value: Executable to be checked
 REM Returns: PLAT Value: Either x86 or x64 
 :find_platform
 set DEST_TARGET=..\bin\SciTE.exe
+set DEST_PLAT=UNDEFINED
+if not exist %DEST_TARGET% (echo Error cant find build binary & goto en)
 set off32="" & set off64=""
-for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %DEST_TARGET%') do (
-if [%%A] LEQ [200] SET DEST_PLAT=x86 & SET OFFSET=%%A )
-for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %DEST_TARGET%') do (
-if [%%A] LEQ [200] SET DEST_PLAT=x64 & SET OFFSET=%%A )
-if %DEST_PLAT% NEQ %ARCH% (
-choice /C YN /M " Platform mismatch found. Desired was %ARCH% and got %DEST_PLAT%. Rebuild ? " (
+for /f "delims=:" %%A in ('findstr /o ".*PE..L." %DEST_TARGET%') do (
+if [%%A] LEQ [200] (SET DEST_PLAT=x86 & SET OFFSET=%%A))
+for /f "delims=:" %%A in ('findstr /o ".*PE..d." %DEST_TARGET%') do (
+if [%%A] LEQ [200] (SET DEST_PLAT=x64 & SET OFFSET=%%A)
+)
+if /i [!DEST_PLAT!] EQU [UNDEFINED] (choice /C YN /M " Cant estimate Platform. Continue?" ) 
+if %ERRORLEVEL% EQU 1 (goto copyFiles) else (goto en)
+if /i [!DEST_PLAT!] NEQ [%ARCH%] (
+choice /C YN /M " Platform mismatch found. Desired was %ARCH% and got %DEST_PLAt%. Rebuild ? " (
 if [%ERRORLEVEL%]==[1] ( del /s /q *.exe *.o *.obj *pdb *.dll *.res *.map *.exp *.lib *.plist *.build & goto :start ) else (goto en )
 )
 
+:copyFiles
 REM
 REM Copy Files
 REM
@@ -117,7 +125,7 @@ echo Platform: %DEST_PLAT%
 ECHO OK
 cd ..\..\..
 echo.
-goto en:
+goto warn
 
 :clean
 echo Scintilla

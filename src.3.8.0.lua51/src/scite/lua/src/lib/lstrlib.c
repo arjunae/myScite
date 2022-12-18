@@ -1,5 +1,5 @@
 /*
-** $Id: lstrlib.c,v 1.132.1.5 2010/05/14 15:34:19 roberto Exp $
+** $Id$
 ** Standard library for string operations and pattern-matching
 ** See Copyright Notice in lua.h
 */
@@ -645,7 +645,7 @@ static int str_gsub (lua_State *L) {
   size_t srcl;
   const char *src = luaL_checklstring(L, 1, &srcl);
   const char *p = luaL_checkstring(L, 2);
-  int  tr = lua_type(L, 3);
+  int tr = lua_type(L, 3);
   int max_s = luaL_optint(L, 4, srcl+1);
   int anchor = (*p == '^') ? (p++, 1) : 0;
   int n = 0;
@@ -754,7 +754,6 @@ static void addintlen (char *form) {
 
 
 static int str_format (lua_State *L) {
-  int top = lua_gettop(L);
   int arg = 1;
   size_t sfl;
   const char *strfrmt = luaL_checklstring(L, arg, &sfl);
@@ -769,8 +768,7 @@ static int str_format (lua_State *L) {
     else { /* format item */
       char form[MAX_FORMAT];  /* to store the format (`%...') */
       char buff[MAX_ITEM];  /* to store the formatted item */
-      if (++arg > top)
-        luaL_argerror(L, arg, "no value");
+      arg++;
       strfrmt = scanformat(L, strfrmt, form);
       switch (*strfrmt++) {
         case 'c': {

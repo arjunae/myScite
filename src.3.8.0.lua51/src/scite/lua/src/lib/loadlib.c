@@ -1,5 +1,5 @@
 /*
-** $Id: loadlib.c,v 1.52.1.4 2009/09/09 13:17:16 roberto Exp $
+** $Id$
 ** Dynamic library loader for Lua
 ** See Copyright Notice in lua.h
 **
@@ -21,6 +21,9 @@
 #include "lauxlib.h"
 #include "lualib.h"
 
+#ifndef _WIN32
+#define LUA_DL_DLOPEN
+#endif
 
 /* prefix for open functions in C libraries */
 #define LUA_POF		"luaopen_"
@@ -73,7 +76,7 @@ static void *ll_load (lua_State *L, const char *path) {
 
 
 static lua_CFunction ll_sym (lua_State *L, void *lib, const char *sym) {
-  lua_CFunction f = (lua_CFunction)dlsym(lib, sym);
+  lua_CFunction f = (lua_CFunction)(long)dlsym(lib, sym);
   if (f == NULL) lua_pushstring(L, dlerror());
   return f;
 }
@@ -502,7 +505,7 @@ static int ll_require (lua_State *L) {
 ** 'module' function
 ** =======================================================
 */
-  
+
 
 static void setfenv (lua_State *L) {
   lua_Debug ar;
@@ -632,14 +635,14 @@ LUALIB_API int luaopen_package (lua_State *L) {
   lua_setfield(L, -2, "__gc");
   /* create `package' table */
   luaL_register(L, LUA_LOADLIBNAME, pk_funcs);
-#if defined(LUA_COMPAT_LOADLIB) 
+#if defined(LUA_COMPAT_LOADLIB)
   lua_getfield(L, -1, "loadlib");
   lua_setfield(L, LUA_GLOBALSINDEX, "loadlib");
 #endif
   lua_pushvalue(L, -1);
   lua_replace(L, LUA_ENVIRONINDEX);
   /* create `loaders' table */
-  lua_createtable(L, sizeof(loaders)/sizeof(loaders[0]) - 1, 0);
+  lua_createtable(L, 0, sizeof(loaders)/sizeof(loaders[0]) - 1);
   /* fill it with pre-defined loaders */
   for (i=0; loaders[i] != NULL; i++) {
     lua_pushcfunction(L, loaders[i]);

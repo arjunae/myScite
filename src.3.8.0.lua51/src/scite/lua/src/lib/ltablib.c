@@ -1,5 +1,5 @@
 /*
-** $Id: ltablib.c,v 1.38.1.3 2008/02/14 16:46:58 roberto Exp $
+** $Id$
 ** Library for Table Manipulation
 ** See Copyright Notice in lua.h
 */
@@ -119,7 +119,7 @@ static int tremove (lua_State *L) {
   int e = aux_getn(L, 1);
   int pos = luaL_optint(L, 2, e);
   if (!(1 <= pos && pos <= e))  /* position is outside bounds? */
-   return 0;  /* nothing to remove */
+    return 0;  /* nothing to remove */
   luaL_setn(L, 1, e - 1);  /* t.n = n-1 */
   lua_rawgeti(L, 1, pos);  /* result = t[pos] */
   for ( ;pos<e; pos++) {
@@ -135,8 +135,9 @@ static int tremove (lua_State *L) {
 static void addfield (lua_State *L, luaL_Buffer *b, int i) {
   lua_rawgeti(L, 1, i);
   if (!lua_isstring(L, -1))
-    luaL_error(L, "invalid value (%s) at index %d in table for " LUA_QL("concat"), luaL_typename(L, -1), i);
-  luaL_addvalue(b);
+    luaL_error(L, "invalid value (%s) at index %d in table for "
+                  LUA_QL("concat"), luaL_typename(L, -1), i);
+    luaL_addvalue(b);
 }
 
 

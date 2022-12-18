@@ -19,7 +19,6 @@ if %errorlevel% EQU 3  (SET BUILDTYPE=clean)
 )
 if /i %BUILDTYPE% NEQ "Release%" echo Creating !Buildtype! Version
 
-
 REM
 REM Sanity- Ensure MSys-MinGW availability / write currently configured Architecture into %MAKEARCH%.
 REM
@@ -68,25 +67,30 @@ REM
 REM Find and display currents build targets Platform
 REM
 REM Use this littl hack to look for a platform PE Signature at offset 120+
-REM Should work compiler independent for uncompressed binaries.
+REM Should find it compiler independent for uncompressed binaries.
 REM Takes: DEST_TARGET Value: Executable to be checked
 REM Returns: PLAT Value: Either x86 or x64 
 :find_platform
 set DEST_TARGET=..\bin\SciTE.exe
+set DEST_PLAT=UNDEFINED
+if not exist %DEST_TARGET% (echo Error cant find build binary & goto en)
 set off32="" & set off64=""
-for /f "delims=:" %%A in ('findstr /o "^.*PE..L." %DEST_TARGET%') do (
-if [%%A] LEQ [200] SET DEST_PLAT=x86 & SET OFFSET=%%A )
-for /f "delims=:" %%A in ('findstr /o "^.*PE..d." %DEST_TARGET%') do (
-if [%%A] LEQ [200] SET DEST_PLAT=x64 & SET OFFSET=%%A )
-if %DEST_PLAT% NEQ %MAKEARCH% (
+for /f "delims=:" %%A in ('findstr /o ".*PE..L." %DEST_TARGET%') do (
+if [%%A] LEQ [200] (SET DEST_PLAT=x86 & SET OFFSET=%%A))
+for /f "delims=:" %%A in ('findstr /o ".*PE..d." %DEST_TARGET%') do (
+if [%%A] LEQ [200] (SET DEST_PLAT=x64 & SET OFFSET=%%A)
+)
+if /i [!DEST_PLAT!] EQU [UNDEFINED] (choice /C YN /M " Cannot estimate Platform. Continue?" ) 
+if %ERRORLEVEL% EQU 1 (goto copyFiles) else (goto en)
+if /i [!DEST_PLAT!] NEQ [!MAKEARCH!] (
 choice /C YN /M " Platform mismatch found. Desired was %MAKEARCH% and got %DEST_PLAT%. Rebuild ? " (
 if [%ERRORLEVEL%]==[1] ( del /s /q *.exe *.o *.obj *pdb *.dll *.res *.map *.exp *.lib *.plist *.build & goto :start ) else (goto en )
 )
-echo.
 
 REM
 REM Copy Files
 REM
+:copyFiles
 echo Copying Binaries from %cd%\bin
 if not exist ..\..\..\bin md ..\..\..\bin
 if exist ..\bin\SciTE.exe  (copy ..\bin\SciTE.exe ..\..\..\bin >NUL ) else (echo Error: cant find build binaries & goto en )

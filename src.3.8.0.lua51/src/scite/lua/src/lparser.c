@@ -1,5 +1,5 @@
 /*
-** $Id: lparser.c,v 2.42.1.4 2011/10/21 19:31:42 roberto Exp $
+** $Id$
 ** Lua Parser
 ** See Copyright Notice in lua.h
 */
@@ -374,9 +374,9 @@ static void close_func (LexState *ls) {
   lua_assert(luaG_checkcode(f));
   lua_assert(fs->bl == NULL);
   ls->fs = fs->prev;
+  L->top -= 2;  /* remove table and prototype from the stack */
   /* last token read was anchored in defunct function; must reanchor it */
   if (fs) anchor_token(ls);
-  L->top -= 2;  /* remove table and prototype from the stack */
 }
 
 
@@ -838,7 +838,7 @@ static BinOpr subexpr (LexState *ls, expdesc *v, unsigned int limit) {
   else simpleexp(ls, v);
   /* expand while operators have priorities higher than `limit' */
   op = getbinopr(ls->t.token);
-  while (op != OPR_NOBINOPR && priority[op].left > limit) {
+  while (op != OPR_NOBINOPR && priority[op].left > (int)limit) {
     expdesc v2;
     BinOpr nextop;
     luaX_next(ls);
