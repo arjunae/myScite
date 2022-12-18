@@ -83,8 +83,8 @@ if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling Scintilla 
 echo Compiling SciTE 
 cd ..\..\scite\win32
 if not exist ..\bin ( Echo scite\bin directory not found. Creating... & md ..\bin )
-nmake /X %tmp%\sciterr /NOLOGO %parameter1% -f scite.mak | "../../../uk.exe" -a %tmp%\scitelog.txt
-findstr /n /c:"error"  %tmp%\nmakeErr
+nmake /X %tmp%\nmakeErr /NOLOGO %parameter1% -f scite.mak | "../../../uk.exe" -a %tmp%\scitelog.txt
+findstr /n /c:"error" %tmp%\nmakeErr
 if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling SciTe  & goto en
 echo OK 
 echo.
@@ -145,5 +145,5 @@ if %errorlevel% equ 0 (
 choice /C YN /M " There where warnings. Display them ? "
 if [%ERRORLEVEL%]==[0] ( findstr /n /c:"warning" %tmp%\scitelog.txt ))
 :en
-del %tmp%\nmakeErr
+if exist %tmp%\nmakeErr del %tmp%\nmakeErr
 pause

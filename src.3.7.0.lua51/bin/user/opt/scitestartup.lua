@@ -12,23 +12,24 @@ string.gfind = string.gmatch or string.gfind
 local dirSep, GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
 
-myHome = props["SciteDefaultHome"]..dirSep.."user"
-package.path = package.path ..";"..myHome.."/opt/lua/?.lua;"
-package.cpath = package.cpath .. ";"..myHome.."/opt/c/?.dll;"
+myHome = props["SciteDefaultHome"]..dirSep.."user"..dirSep
+LUA_PATH=myHome.."\\opt\\lua\\rocks\\" -- lua rocks related lua scripts
+package.path = package.path ..";"..myHome.."opt/lua/?.lua;"..myHome.."opt/lua-scite/?.lua";
+package.cpath = package.cpath .. ";"..myHome.."opt/c/?.dll;"..myHome.."opt/lua-scite/?.dll";
+
 if not GTK then
 	package.path = string.gsub(package.path,"/","\\")
 	package.cpath = string.gsub(package.cpath,"/","\\")
 end
 
-myScripts=myHome..dirSep.."opt"..dirSep
---dofile(myScripts..dirSep.."eventmanager.lua")
+dofile(myHome.."opt"..dirSep.."eventmanager.lua")
 
 -- Loading extman.lua will automatically run any lua script located in \User\opt\lua-scite
---dofile(myScripts..dirSep.."extman.lua")
---dofile(myScripts..dirSep.."macros.lua")
+dofile(myHome.."opt"..dirSep.."extman.lua")
+dofile(myHome.."opt"..dirSep.."macros.lua")
 -- Initialize Project support last
---dofile(myScripts..dirSep.."ctags.lua")
---dofile(myScripts..'SciTEProject.lua')
+dofile(myHome.."opt"..dirSep.."ctags.lua")
+dofile(myHome.."opt"..dirSep..'SciTEProject.lua')
 
 	
 --  Lua Samples

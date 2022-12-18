@@ -17,7 +17,7 @@ if %errorlevel% EQU 1 (SET BUILDTYPE=debug)
 if %errorlevel% EQU 2 (SET BUILDTYPE=release)
 if %errorlevel% EQU 3  (SET BUILDTYPE=clean)
 )
-if /i %BUILDTYPE% NEQ "Release%" echo Creating !Buildtype! Version
+if /i %BUILDTYPE% NEQ "Release%" echo Creating !Buildtype!
 
 REM
 REM Sanity- Ensure MSys-MinGW availability / write currently configured Architecture into %MAKEARCH%.
@@ -35,7 +35,10 @@ if not !instr!==!gcc_path! (SET MAKEARCH=x86) else (SET MAKEARCH=x64) && goto :o
 if %MAKEARCH% EQU "" goto :errMingw
 :okMingw
 echo.
-echo SciTE %BUILDTYPE%
+
+echo ::...::..:::...::..::.:.::
+echo     SciTE %BUILDTYPE%    
+echo ::...::..:::...::..::.:.::
 echo Environment %MAKEARCH% 
 echo.
 IF /i "%BUILDTYPE%" EQU "clean" goto cleanStuff
