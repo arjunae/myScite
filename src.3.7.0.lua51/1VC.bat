@@ -145,4 +145,5 @@ if %errorlevel% equ 0 (
 choice /C YN /M " There where warnings. Display them ? "
 if [%ERRORLEVEL%]==[0] ( findstr /n /c:"warning" %tmp%\scitelog.txt ))
 :en
+del %tmp%\nmakeErr
 pause
