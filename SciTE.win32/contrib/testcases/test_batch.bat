@@ -24,25 +24,26 @@ set /a FileLineCnt=0
 FOR /f "tokens=*" %%b IN ('type %filename%') DO (
 	set /a FileLineCnt+=1
 	if "%%b" neq "" set /a LineBufferCnt+=1 & set LineBufferArray!LineBufferCnt!=%%b
-	if !FileLineCnt! gtr !prevFileLineCnt! (set /a skipLines=!LineBufferCnt! )
+	if !FileLineCnt! equ !prevFileLineCnt! (set /a skipLines=!LineBufferCnt!+1)
 )
 if !FileLineCnt! gtr !prevFileLineCnt! (
 	set /a newLines =!FileLineCnt!-!prevFileLineCnt! 
- 	echo Debug: Recieved !newLines! new lines
+REM 	echo Debug: Recieved !newLines! new lines
 	REM initially print preexisting lines up to the length of the lineBuffer
 	if !LinesBefore! gtr !LineBufferCnt! set /a LinesBefore=!LineBufferCnt!
-	if !LinesBefore! gtr 0 set /a LinesBefore=!LineBufferCnt!-!LinesBefore!+1 & set /a skipLines=!LinesBefore!	
+	if !LinesBefore! gtr 0 set /a LinesBefore=!LineBufferCnt!-!LinesBefore!+1 & set /a skipLines=!LinesBefore!
 	for /L %%a in (!skipLines!,1,%LineBufferCnt%) do (echo !LineBufferArray%%a!)
 	set !LinesBefore!=0
 	set prevFileLineCnt=!FileLineCnt!
 ) else goto wait
-set LineBufferCnt=1
 
 :wait
+set LineBufferCnt=1
 REM play with yourself for some time and return later.
-for /l %%w in (1,1,2000) do (echo.>nul)
-rem ping -n 1 -w 500 localhost > nul
-rem if not exist %tmp%\tail.lck goto :de
+rem for /l %%w in (1,1,2000) do (echo.>nul)
+REM Wait RTT time pinging localhost 
+ping -n 1 localhost > nul
+if not exist %tmp%\tail.lck goto :de
 goto loop
 :usage
 echo Usage: tail Filename
