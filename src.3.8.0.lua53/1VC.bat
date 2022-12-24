@@ -44,18 +44,6 @@ REM  check for compiler in Path and quickcheck for a valid SDK
 where  cl.exe 2>NUL
 if %ERRORLEVEL% EQU 0 goto clOK
 
-REM experienced really strange situations with missing or defective vs installations, which is really demotivating. please fixUp that mess.
-REM search and init VS from Installers Entries. For loops code based on various www sources
-REM find MS Builds Key and read the line marked with "install" in it, get the installpath from that subkey and extract the Path from the entry.
-:vsregsearch
-for /F %%i in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\  /s /f "Visual Studio Build Tools"^|findstr "install"') DO (set installerPath=%%i ) 
-if "!installerPath!" equ "" goto vsfilesearch
-for /F "delims=" %%j in ('reg query !installerPath! /s /f "InstallLocation"^|findstr "Build"') DO (set rawpath="%%j" )
-if "!rawPath!" equ "" goto vsfilesearch
-SET toolPath=!rawpath:*    InstallLocation    REG_SZ    =!
-REM Echo calling BuildTools from registry entry !InstallerPath!
-if exist %toolPath% call "%toolpath%VC\Auxiliary\Build\vcvarsall.bat" %arch & goto clOK
-
 REM Experienced really strange situations with missing or defective vs installations, which is really demotivating. please fixUp that mess.
 REM search and init VS from Installers Entries. For loops code based on various www sources
 REM find MS Builds Key and read the line marked with "install" in it, get the installpath from that subkey and extract the Path from the entry.
@@ -67,6 +55,15 @@ REM retrieve the Path from the registry entries String and check if its valid.
 SET toolPath=!rawString:*    InstallLocation    REG_SZ    =! & cd !toolPath! 
 REM Echo calling BuildTools from registry entry !InstallerPath!
 if %errorlevel% EQU 1 (goto vsfileSearch) else call VC\Auxiliary\Build\vcvarsall.bat %arch%
+if "!VSINSTALLDIR!" NEQ "" goto clOK
+
+REM Optionally do a filesearch for vcvarsall.bat in %PATH% and program files x64 / x86. (More reliable, but slower) and recommend downloadlocation. 
+:vsfilesearch
+Echo Searching vcvarsall.bat in Path, %ProgramFiles% and %ProgramFiles(x86)%
+FOR /F "tokens=*" %%i IN ('where vcvarsall.bat 2^>NUL' ) DO echo %%i & call "%%i" %arch% )
+if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "%ProgramFiles%"\ vcvarsall.bat 2^>NUL' ) DO echo %%i & call "%%i" %arch% )
+if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "%ProgramFiles(x86)%"\ vcvarsall.bat 2^>NUL'  ) DO echo %%i & call "%%i" %arch% )
+if "!VSINSTALLDIR!" EQU "" echo Error initing vcvarsall.bat. Please install "VS Build Tools for C++" and try again. ) & start https://visualstudio.microsoft.com/de/visual-cpp-build-tools/ & goto en )
 
 :clOK
 popd
