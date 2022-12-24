@@ -2,7 +2,7 @@
 @echo off
 REM  MinGW Path has to be set, otherwise please define here:
 REM set PATH=E:\MinGW\bin;%PATH%;
-rem set PATH=E:\apps\msys64\mingw64\bin;%PATH%;
+ set PATH=E:\apps\msys64\mingw32\bin;%PATH%;
 REM Sanity- Ensure MSys-MinGW availability / Determinate Architecture into %MAKEARCH%.
 set MAKEARCH=""
 where gcc 1>NUL 2>NUL

@@ -54,12 +54,13 @@ SET toolPath=!rawpath:*    InstallLocation    REG_SZ    =!
 REM Echo calling BuildTools from registry entry !InstallerPath!
 if exist %toolPath% call "%toolpath%VC\Auxiliary\Build\vcvarsall.bat" %arch & goto clOK
 
-REM  optionally do a filesearch for vcvarsall.bat in %PATH% and program files x64 / x86. (Most reliable, but slower) and recommend downloadlocation. 
+REM Optionally do a filesearch for vcvarsall.bat in %PATH% and program files x64 / x86. (More reliable, but slower) and recommend downloadlocation. 
 :vsfilesearch
+Echo Searching vcvarsall.bat in Path, %ProgramFiles% and %ProgramFiles(x86)%
 FOR /F "tokens=*" %%i IN ('where vcvarsall.bat 2^>NUL' ) DO echo %%i & call "%%i" %arch% )
-if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "c:\Program Files" vcvarsall.bat 2^>NUL' ) DO echo %%i & call "%%i" %arch% )
-if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "c:\program files (x86)" vcvarsall.bat 2^>NUL'  ) DO echo %%i & call "%%i" %arch% )
-if "!VSINSTALLDIR!" EQU "" echo Error initing vcvarsall.bat. Please install "Build Tools for VS" and try again. ) & start https://visualstudio.microsoft.com/de/visual-cpp-build-tools/ & goto en )
+if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "%ProgramFiles%"\ vcvarsall.bat 2^>NUL' ) DO echo %%i & call "%%i" %arch% )
+if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "%ProgramFiles(x86)%"\ vcvarsall.bat 2^>NUL'  ) DO echo %%i & call "%%i" %arch% )
+if "!VSINSTALLDIR!" EQU "" echo Error initing vcvarsall.bat. Please install "VS Build Tools for C++" and try again. ) & start https://visualstudio.microsoft.com/de/visual-cpp-build-tools/ & goto en )
 
 :clOK
 REM quickcheck for valid Include variable by looking for a containing std header 

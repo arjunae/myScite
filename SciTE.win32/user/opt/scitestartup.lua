@@ -6,7 +6,6 @@ io.stdout:setvbuf("no")
 dirSep, GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
 myHome = props["SciteDefaultHome"]..dirSep.."user"
-myScripts=myHome..dirSep.."opt"..dirSep
 LUA_PATH=myHome.."\\Addons\\lua\\lua\\" -- lua rocks related lua scripts
 package.path = package.path ..";"..myHome.."\\opt\\lua\\?.lua;"..myHome.."\\opt\\lua-scite\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."\\opt\\lua-scite\\?.dll;"
@@ -27,28 +26,29 @@ _G.os.exit= function() error("Catched os.exit from quitting SciTE.\n") end
 _G.session_used_memory=collectgarbage("count")*1024 -- track the amount of lua allocated memory
 
 -- load eventmanager / extman remake used by some lua mods
-	dofile(myScripts..'eventmanager.lua')
+	dofile(myHome..'\\opt\\eventmanager.lua')
 	
 	-- Load extman.lua
 	-- This will automatically run any lua script located in \user\opt\lua-scite
-	dofile(myScripts..'extman.lua')
-		
+	dofile(myHome..'\\opt\\extman.lua')
+	--dofile(myHome..'\\opt\\macros.lua')
+	
 	-- Load Debugging support
 	package.path = package.path .. ";"..myHome.."\\opt\\mod-scite-debug\\?.lua;"
-	dofile(myScripts..'mod-scite-debug\\debugger.lua')
+	dofile(myHome..'\\opt\\mod-scite-debug\\debugger.lua')
 	
 	-- Load Sidebar
 	-- workaround: loading the sidebar here avoids problems with ext.lua.auto.reload
 	package.path = package.path .. ";"..myHome.."\\opt\\mod-sidebar\\?.lua;"
-	--dofile(myScripts..'mod-sidebar\\sidebar.lua')
+	--dofile(myHome..'\\opt\\mod-sidebar\\sidebar.lua')
 	
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\opt\\mod-mitchell\\?.lua;"
-	--dofile(myScripts..'opt\\mod-mitchell\\scite.lua')
+	--dofile(myHome..'\\opt\\mod-mitchell\\scite.lua')
 
 	-- Initialize Project support last
-	dofile(myScripts.."ctags.lua")
-	dofile(myScripts..'SciTEProject.lua')
+	dofile(myHome.."\\opt\\ctags.lua")
+	dofile(myHome..'\\opt\\SciTEProject.lua')
 end
 
 -- ##################  Lua Samples #####################

@@ -1,17 +1,13 @@
 @echo off
+setlocal enabledelayedexpansion enableextensions
 set LUA_PLAT=5.3
-set LUA_LIB=scite.lib
-set PLATFORM=x64
-
-REM Overidable via params
-if [%1] NEQ [] set LUA_PLAT=%1
-REM if [%2] NEQ [] set LUA_LIB=%2
-if [%3] NEQ [] set PLATFORM=%3
-if PLATFORM==win32 set plat=x86
-if PLATFORM==win64 set plat=x64
-if ["%VCINSTALLDIR%"] equ [""] (set VCINSTALLDIR="C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build")
-call %VCINSTALLDIR%\vcvarsall.bat %platform%
-PUSHD
+set LUA_LIB=SciTe.lib
+set arch=x86
+rem set arch=x64
+REM SET DEBUG=1
+REM Ensure to have the compile Chain within Path. Use a default. 
+if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "c:\Program Files" vcvarsall.bat 2^>NUL' ) DO echo %%i & call "%%i" %arch% )
+if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "c:\program files (x86)" vcvarsall.bat 2^>NUL'  ) DO echo %%i & call "%%i" %arch% )
 
 REM cd src
 nmake -nologo -f makefile.win clean

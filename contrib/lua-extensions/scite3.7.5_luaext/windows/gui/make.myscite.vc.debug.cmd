@@ -1,12 +1,16 @@
 @echo off
+setlocal enabledelayedexpansion enableextensions
 set LUA_PLAT=5.3
-set LUA_LIB=scite.lib
-
-REM set plat=x86
-set plat=x64
+set LUA_LIB=SciTe.lib
+set arch=x86
+rem set arch=x64
+REM SET DEBUG=1
+REM Ensure to have the compile Chain within Path. Use a default. 
+if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "c:\Program Files" vcvarsall.bat 2^>NUL' ) DO echo %%i & call "%%i" %arch% )
+if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "c:\program files (x86)" vcvarsall.bat 2^>NUL'  ) DO echo %%i & call "%%i" %arch% )
 PUSHD
+cd src
 
-call vcvarsall.bat %plat%
 nmake -nologo -f makefile.myscite.vc DEBUG=1
 if %errorlevel% gtr 0 goto eof
 if exist *.dll move *.dll ..\clib\

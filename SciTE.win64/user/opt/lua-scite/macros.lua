@@ -3,7 +3,6 @@
 -- Dec2017, Marcedo [a.t] habMalNeFrage [d.o.t] de: handle already loaded lfs lib.
 -- Apr2018, ^^ : OPT_SHOW_HIDDEN
 OPT_SHOW_HIDDEN=false
-
 if lfs==nil then err,lfs = pcall( require,"lfs")  end
 local AppList = {}
 
@@ -19,7 +18,7 @@ end
 
 -- for global scripts; switch to "SciteUserHome" for per-user scripts
 local function loadscript(scriptfile)  
-  dofile(props["SciteUserHome"].."/user/macros/"..scriptfile)
+  dofile(props["SciteUserHome"].."/user/opt/macros/"..scriptfile)
 end
 
 -- run selected scripts, silently fails if no extman

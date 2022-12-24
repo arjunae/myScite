@@ -3,13 +3,12 @@
 -- Dec2017, Marcedo [a.t] habMalNeFrage [d.o.t] de: handle already loaded lfs lib.
 -- Apr2018, ^^ : OPT_SHOW_HIDDEN
 OPT_SHOW_HIDDEN=false
-
 if lfs==nil then err,lfs = pcall( require,"lfs")  end
 local AppList = {}
 
 -- load scripts dynamically from scripts folder
 if type(lfs)=="table" then
-  for sFile in lfs.dir(props['SciteUserHome'].."/user/opt/lua-scite/macros") do
+  for sFile in lfs.dir(props['SciteUserHome'].."/user/opt/macros") do
     -- Optionally do list Unix dot prefixed hidden stuff.
    if  sFile ~= "." and sFile ~= ".." and string.sub(sFile,1,1) ~= "." or (OPT_SHOW_HIDDEN==true)  then
   AppList[#AppList+1] = {sFile, sFile, sFile:sub(1,-5)} end
@@ -19,7 +18,7 @@ end
 
 -- for global scripts; switch to "SciteUserHome" for per-user scripts
 local function loadscript(scriptfile)  
-  dofile(props["SciteUserHome"].."/user/macros/"..scriptfile)
+  dofile(props["SciteUserHome"].."/user/opt/macros/"..scriptfile)
 end
 
 -- run selected scripts, silently fails if no extman

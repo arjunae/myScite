@@ -437,7 +437,7 @@ function path_of(s)
 end
 
 local extman_path = path_of(props['ext.lua.startup.script'])
-local lua_path = scite_GetProp('ext.lua.directory',extman_path..dirsep..'scite_lua')
+local lua_path = scite_GetProp('ext.lua.directory',extman_path..dirsep..'lua-scite')
 
 
 function extman_Path()
