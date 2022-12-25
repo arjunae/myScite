@@ -64,7 +64,7 @@ endif
 
 vpath %.c ../lua/src ../lua/src/lib
 
-LUA_INCLUDES = -I ../lua/include
+LUA_INCLUDES = -I ../lua/src
 #LUA_SCRIPTS = ..\bin\SciTEExtension.lua ..\bin\SciTEStartup.lua
 LUA_DEFINES = -DLUA_USER_H=\"scite_lua_win.h\"
 else

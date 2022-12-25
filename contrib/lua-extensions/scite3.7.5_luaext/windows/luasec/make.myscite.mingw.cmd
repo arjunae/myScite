@@ -1,6 +1,6 @@
 @ECHO OFF
 REM Init Vars
-set LUA_PLAT=5.3
+set LUA_PLAT=5.1
 set LUA_LIB=-lscite
 set PATH=E:\apps\msys64\mingw32\bin;%PATH%;
 

@@ -1,6 +1,6 @@
 @echo off
 setlocal enabledelayedexpansion enableextensions
-set LUA_PLAT=5.3
+set LUA_PLAT=5.1
 set LUA_LIB=SciTe.lib
 set arch=x86
 rem set arch=x64

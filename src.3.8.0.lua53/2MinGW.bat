@@ -79,16 +79,17 @@ set DEST_PLAT=UNDEFINED
 if not exist %DEST_TARGET% (echo Error cant find build binary & goto en)
 set off32="" & set off64=""
 for /f "delims=:" %%A in ('findstr /o ".*PE..L." %DEST_TARGET%') do (
-if [%%A] LEQ [200] (SET DEST_PLAT=x86 & SET OFFSET=%%A))
+if [%%A] LEQ [200] (SET DEST_PLAT=x86& SET OFFSET=%%A))
 for /f "delims=:" %%A in ('findstr /o ".*PE..d." %DEST_TARGET%') do (
-if [%%A] LEQ [200] (SET DEST_PLAT=x64 & SET OFFSET=%%A)
+if [%%A] LEQ [200] (SET DEST_PLAT=x64& SET OFFSET=%%A)
 )
 if /i [!DEST_PLAT!] EQU [UNDEFINED] (choice /C YN /M " Cannot estimate Platform. Continue?" ) 
-if %ERRORLEVEL% EQU 1 (goto copyFiles) else (goto en)
+if %ERRORLEVEL% EQU 0 (goto copyFiles) else (goto en)
 if /i [!DEST_PLAT!] NEQ [!MAKEARCH!] (
 choice /C YN /M " Platform mismatch found. Desired was %MAKEARCH% and got %DEST_PLAT%. Rebuild ? " (
 if [%ERRORLEVEL%]==[1] ( del /s /q *.exe *.o *.obj *pdb *.dll *.res *.map *.exp *.lib *.plist *.build & goto :start ) else (goto en )
 )
+
 
 REM
 REM Copy Files
@@ -137,5 +138,5 @@ REM Show the logfile in case there were Warnings
 findstr /n /c:"warning"   %tmp%\scitelog.txt >NUL
 if %errorlevel% equ 0 (
 choice /C YN /M " There where warnings. Display them ? "
-if [%ERRORLEVEL%]==[0] ( findstr /n /c:"warning" %tmp%\scitelog.txt ))
+if [%ERRORLEVEL%]==[1] ( findstr /n /c:"warning" %tmp%\scitelog.txt ))
 pause

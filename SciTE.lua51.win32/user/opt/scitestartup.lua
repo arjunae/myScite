@@ -7,7 +7,7 @@ dirSep, GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
 myHome = props["SciteDefaultHome"]..dirSep.."user"
 myScripts=myHome..dirSep.."opt"..dirSep
-LUA_PATH=myHome.."\\Addons\\lua\\lua\\" -- lua rocks related lua scripts
+LUA_PATH=myHome.."\\opt\\lua\\" -- lua rocks related lua scripts
 package.path = package.path ..";"..myHome.."\\opt\\lua\\?.lua;"..myHome.."\\opt\\lua-scite\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."\\opt\\lua-scite\\?.dll;"
 if not GTK then

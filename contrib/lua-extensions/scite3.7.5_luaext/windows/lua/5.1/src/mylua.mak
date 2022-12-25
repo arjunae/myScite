@@ -17,6 +17,7 @@ LUADLLBASE  = lua$(LUAV)
 LUADLL      = $(LUADLLBASE).dll
 LUAEXE      = $(LUADLLBASE).exe
 LUASCILEXER = $(LUADLLBASE)_scilexer.exe
+LUASCITE = $(LUADLLBASE)_scite.exe
 LUADLLLIB   = $(LUADLLBASE).lib
 LUADLLEXP   = $(LUADLLBASE).exp
 
@@ -28,7 +29,7 @@ WARN    = /W3
 RUNTIME = /MT
 OPTIM   = /Od
 
-CFLAGS  = /GS $(WARN) $(RUNTIME) $(OPTIM) /DWIN32 /D_WINDOWS /D_MBCS /DLUA_COMPAT_5_1 /DLUA_BUILD_AS_DLL
+CFLAGS  = /GS $(WARN) $(RUNTIME) $(OPTIM) /DWIN32 /D_WINDOWS /D_MBCS /DLUA_COMPAT_5_1 
 
 # ----------------------------------------------------------------------
 
@@ -40,6 +41,7 @@ lib: $(LUALIB)
 dll: $(LUADLL)
 exe: $(LUAEXE)
 exescilexer: $(LUASCILEXER)
+exescite: $(LUASCITE)
 
 $(LUALIB): $(OBJS)
 	lib.exe /OUT:$@ $(OBJS)
@@ -51,8 +53,10 @@ $(LUAEXE): $(LUADLL) lua.o
   link.exe /OUT:$@ -nologo lua.o $(LUADLLLIB)
 
 $(LUASCILEXER): lua.o
- link.exe /OUT:$@ -nologo lua.o ..\..\..\clib\scite_lua5.1\SciLexer.lib
+ link.exe /OUT:$@ -nologo lua.o ..\..\..\clib\scite_lua5.1\Scilexer.lib
  
+$(LUASCITE): lua.o
+ link.exe /OUT:$@ -nologo lua.o ..\..\..\clib\scite_lua5.1\Scite.lib
  
 clean:
 	del *.o *.exp 1>NUL 2>NUL
