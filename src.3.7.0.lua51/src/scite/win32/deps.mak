@@ -273,33 +273,33 @@ lzio.o: ../lua/src/lzio.c ../lua/src/lua.h ../lua/src/luaconf.h \
  ../src/scite_lua_win.h ../lua/src/llimits.h ../lua/src/lmem.h \
  ../lua/src/lstate.h ../lua/src/lobject.h ../lua/src/ltm.h \
  ../lua/src/lzio.h
-lauxlib.o: ../lua/src/lib/lauxlib.c ../lua/src/lua.h \
+lauxlib.o: ../lua/src/lauxlib.c ../lua/src/lua.h \
  ../lua/src/luaconf.h ../src/scite_lua_win.h ../lua/src/lauxlib.h \
  ../lua/src/lua.h
-lbaselib.o: ../lua/src/lib/lbaselib.c ../lua/src/lua.h \
+lbaselib.o: ../lua/src/lbaselib.c ../lua/src/lua.h \
  ../lua/src/luaconf.h ../src/scite_lua_win.h ../lua/src/lauxlib.h \
  ../lua/src/lua.h ../lua/src/lualib.h
-ldblib.o: ../lua/src/lib/ldblib.c ../lua/src/lua.h \
+ldblib.o: ../lua/src/ldblib.c ../lua/src/lua.h \
  ../lua/src/luaconf.h ../src/scite_lua_win.h ../lua/src/lauxlib.h \
  ../lua/src/lua.h ../lua/src/lualib.h
-linit.o: ../lua/src/lib/linit.c ../lua/src/lua.h \
+linit.o: ../lua/src/linit.c ../lua/src/lua.h \
  ../lua/src/luaconf.h ../src/scite_lua_win.h ../lua/src/lualib.h \
  ../lua/src/lua.h ../lua/src/lauxlib.h
-liolib.o: ../lua/src/lib/liolib.c ../lua/src/lua.h \
+liolib.o: ../lua/src/liolib.c ../lua/src/lua.h \
  ../lua/src/luaconf.h ../src/scite_lua_win.h ../lua/src/lauxlib.h \
  ../lua/src/lua.h ../lua/src/lualib.h
-lmathlib.o: ../lua/src/lib/lmathlib.c ../lua/src/lua.h \
+lmathlib.o: ../lua/src/lmathlib.c ../lua/src/lua.h \
  ../lua/src/luaconf.h ../src/scite_lua_win.h ../lua/src/lauxlib.h \
  ../lua/src/lua.h ../lua/src/lualib.h
-loadlib.o: ../lua/src/lib/loadlib.c ../lua/src/lua.h \
+loadlib.o: ../lua/src/loadlib.c ../lua/src/lua.h \
  ../lua/src/luaconf.h ../src/scite_lua_win.h ../lua/src/lauxlib.h \
  ../lua/src/lua.h ../lua/src/lualib.h
-loslib.o: ../lua/src/lib/loslib.c ../lua/src/lua.h \
+loslib.o: ../lua/src/loslib.c ../lua/src/lua.h \
  ../lua/src/luaconf.h ../src/scite_lua_win.h ../lua/src/lauxlib.h \
  ../lua/src/lua.h ../lua/src/lualib.h
-lstrlib.o: ../lua/src/lib/lstrlib.c ../lua/src/lua.h \
+lstrlib.o: ../lua/src/lstrlib.c ../lua/src/lua.h \
  ../lua/src/luaconf.h ../src/scite_lua_win.h ../lua/src/lauxlib.h \
  ../lua/src/lua.h ../lua/src/lualib.h
-ltablib.o: ../lua/src/lib/ltablib.c ../lua/src/lua.h \
+ltablib.o: ../lua/src/ltablib.c ../lua/src/lua.h \
  ../lua/src/luaconf.h ../src/scite_lua_win.h ../lua/src/lauxlib.h \
  ../lua/src/lua.h ../lua/src/lualib.h

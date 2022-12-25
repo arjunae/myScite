@@ -5,7 +5,7 @@ REM Tested with usual control operators and line bulks up to 10 Lines at once in
 REM 
 setlocal enabledelayedexpansion enableextensions
 REM Init Behaviour: Set to 0 to only print newly added lines 
-set /a LinesBefore=14
+set /a LinesBefore=140
 
 REM Iterate through and print newly added Lines.
 set LineBufferCnt=0
@@ -32,12 +32,15 @@ REM 	echo Debug: Recieved !newLines! new lines
 	REM initially print preexisting lines up to the length of the lineBuffer
 	if !LinesBefore! gtr !LineBufferCnt! set /a LinesBefore=!LineBufferCnt!
 	if !LinesBefore! gtr 0 set /a LinesBefore=!LineBufferCnt!-!LinesBefore!+1 & set /a skipLines=!LinesBefore!
-	for /L %%a in (!skipLines!,1,%LineBufferCnt%) do (echo !LineBufferArray%%a!)
-	set !LinesBefore!=0
+	for /L %%a in (!skipLines!,1,!LineBufferCnt!) do (echo !LineBufferArray%%a!)
+	set LinesBefore=0
 	set prevFileLineCnt=!FileLineCnt!
 ) else goto wait
 
 :wait
+set prevFileLineCnt=!FileLineCnt!
+
+rem set skipLines=LineBufferCnt
 set LineBufferCnt=1
 REM play with yourself for some time and return later.
 rem for /l %%w in (1,1,2000) do (echo.>nul)

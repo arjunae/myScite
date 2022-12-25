@@ -6,7 +6,7 @@
 
 # Up from Scintilla3.8.0 SciLexer.dll optionally includes Lua (defined LPEG_LEXER)
 # If you choosed to do so, decide here if you want SciTE to be dynamically linked to SciLexers Lua. 
-#LUA_LINK_SCILEXER=0
+LUA_LINK_SCILEXER=0
 
 .SUFFIXES: .cxx .properties
 WINDRES ?= windres
@@ -57,9 +57,9 @@ else
 LUA_OBJS+= $(LUA_CORE_OBJS) $(LUA_LIB_OBJS)
 endif
 
-vpath %.c ../lua/src ../lua/src/lib
+vpath %.c ../lua/src ../lua/src/
 
-LUA_INCLUDES = -I ../lua/src/
+LUA_INCLUDES = -I ../lua/src
 #LUA_SCRIPTS = ..\bin\SciTEExtension.lua ..\bin\SciTEStartup.lua
 LUA_DEFINES = -DLUA_USER_H=\"scite_lua_win.h\"
 else
