@@ -3,6 +3,7 @@ REM build Scintilla/Scite, ThorstenKani marcedo@schmusemail.de
 setlocal enabledelayedexpansion enableextensions
 REM MinGW Path has to be set in System Settings, otherwise please define here:
  set PATH=E:\apps\msys64\mingw32\bin;%PATH%;
+set ReleaseDir="..\..\..\Reg"
 REM Set Color and ScreenBuffer Size
 reg add HKCU\Console\%%SystemRoot%%_system32_cmd.exe\ScreenBufferSize /t REG_DWORD /d 1111111 /f >NUL
 REM Clear logfile
@@ -96,9 +97,9 @@ REM Copy Files
 REM
 :copyFiles
 echo Copying Binaries from %cd%\bin
-if not exist ..\..\..\bin md ..\..\..\bin
-if exist ..\bin\SciTE.exe  (copy ..\bin\SciTE.exe ..\..\..\bin >NUL ) else (echo Error: cant find build binaries & goto en )
-if exist ..\bin\SciLexer.dll (copy ..\bin\SciLexer.dll ..\..\..\bin >NUL ) else (echo Error: cant find build binaries & goto en) 
+if not exist %ReleaseDir% mkdir %ReleaseDir%
+if exist ..\bin\SciTE.exe  (copy ..\bin\SciTE.exe %ReleaseDir% >NUL ) else (echo Error: cant find build binaries & goto en )
+if exist ..\bin\SciLexer.dll (copy ..\bin\SciLexer.dll %ReleaseDir% >NUL ) else (echo Error: cant find build binaries & goto en) 
 echo Platform: %DEST_PLAT%
 ECHO OK
 )

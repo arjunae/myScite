@@ -1,8 +1,9 @@
 @echo off
 REM build Scintilla/Scite, ThorstenKani marcedo@schmusemail.de LIC 3BSDClause
-REM Dec 2022 Sanity Checks, automatic recommendations and fixes
+REM 31.12.2022 Sanity Checks, automatic recommendations and fixes
 REM Fix mismatching buildtyes and missing directories, detect missing build chain and recommend download, write and analyse %tmp%/scitelog during build, increase screenbuffer size, one file for both release and debug builds
 setlocal enabledelayedexpansion enableextensions
+set ReleaseDir="..\..\..\Reg"
 REM set PATH=%PATH%;"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build"
 REM Params for arch (x86 or x64)
 SET arch=x86
@@ -37,40 +38,39 @@ REM
 REM Init VisualStudio Environment
 REM
 echo.
-echo SciTE %BUILDTYPE% 
+echo ::...::..:::...::..::.:.::
+echo     SciTE %BUILDTYPE%    
+echo ::...::..:::...::..::.:.::
 echo Desired Target Architecture: %arch%
 echo > src\vc.%arch%.%buildtype%.build
-REM  check for compiler in Path and quickcheck for a valid SDK
-where  cl.exe 2>NUL
-if %ERRORLEVEL% EQU 0 goto clOK
 
-REM Experienced really strange situations with missing or defective vs installations, which is really demotivating. please fixUp that mess.
-REM search and init VS from Installers Entries. For loops code based on various www sources
+REM Handle situations with missing or defective vs installations.
+REM search and init VS 17+ from Installers Entries. For loops code based on various www sources
 REM find MS Builds Key and read the line marked with "install" in it, get the installpath from that subkey and extract the Path from the entry.
 :vsregsearch
 for /F %%i in ('reg query HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\  /s /f "Visual Studio Build Tools"^|findstr "install"') DO (set installerPath=%%i ) 
 if "!installerPath!" equ "" goto vsfilesearch
 for /F "delims=" %%j in ('reg query !installerPath! /s /f "InstallLocation"^|findstr "Build"') DO (set rawString="%%j" )
 REM retrieve the Path from the registry entries String and check if its valid.
-SET toolPath=!rawString:*    InstallLocation    REG_SZ    =! & cd !toolPath! 
-REM Echo calling BuildTools from registry entry !InstallerPath!
+SET vsPath=!rawString:*    InstallLocation    REG_SZ    =! & cd !vsPath! 
+Echo calling BuildTools from registry entry !vsPath!
 if %errorlevel% EQU 1 (goto vsfileSearch) else call VC\Auxiliary\Build\vcvarsall.bat %arch%
-if "!VSINSTALLDIR!" NEQ "" goto clOK
 
-REM Optionally do a filesearch for vcvarsall.bat in %PATH% and program files x64 / x86. (More reliable, but slower) and recommend downloadlocation. 
+REM Optionally do a filesearch for vcvarsall.bat in %PATH% and program files x64 / x86. (compatible with older versions, but slower) and recommend downloadlocation. 
 :vsfilesearch
 Echo Searching vcvarsall.bat in Path, %ProgramFiles% and %ProgramFiles(x86)%
-FOR /F "tokens=*" %%i IN ('where vcvarsall.bat 2^>NUL' ) DO echo %%i & call "%%i" %arch% )
-if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "%ProgramFiles%"\ vcvarsall.bat 2^>NUL' ) DO echo %%i & call "%%i" %arch% )
-if "!VSINSTALLDIR!" EQU "" (FOR /F "tokens=*" %%i IN ('where /r "%ProgramFiles(x86)%"\ vcvarsall.bat 2^>NUL'  ) DO echo %%i & call "%%i" %arch% )
-if "!VSINSTALLDIR!" EQU "" echo Error initing vcvarsall.bat. Please install "VS Build Tools for C++" and try again. ) & start https://visualstudio.microsoft.com/de/visual-cpp-build-tools/ & goto en )
-
-:clOK
-popd
-REM quickcheck for valid Include variable by looking for a containing std header 
-for /f "delims=; tokens=1" %%A in ("%include%") do (dir "%%A\cstring"  >NUL)
-if "%ERRORLEVEL%" EQU "1" (echo "hmm. Include Headers not found. Please reinstall build Tools" & start https://visualstudio.microsoft.com/de/visual-cpp-build-tools/ & goto en )
+FOR /F "tokens=*" %%i IN ('where vcvarsall.bat 2^>NUL' ) DO echo %%i %arch% & call "%%i" %arch%
+if /i "!WindowsSdkDir!"==""  FOR /F "tokens=*" %%i IN ('where /r "%ProgramFiles%"\ vcvarsall.bat 2^>NUL' ) DO echo %%i %arch% & call "%%i" %arch% 
+if /i "!WindowsSdkDir!"==""  FOR /F "tokens=*" %%i IN ('where /r "%ProgramFiles(x86)%"\ vcvarsall.bat 2^>NUL'  ) DO echo %%i %arch% & call "%%i" %arch% 
+if /i "!WindowsSdkDir!"=="" goto errVc
 if "%BUILDTYPE%" EQU "clean" goto clean
+
+REM check for callable RessourceCompiler and valid stdc++ headers 
+where rc.exe 1>NUL 2>nul
+if %ERRORLEVEL%==1 (echo "hmm. Ressource Compiler (SDK) not in Path.  ." goto errVc)
+for /f "delims=; tokens=1" %%A in ("%include%") do (dir "%%A\cstring" >NUL)
+if "%ERRORLEVEL%" EQU "1" (echo "hmm. Include Headers not found."  goto errVc )
+popd
 
 REM
 REM Start the Build
@@ -80,14 +80,14 @@ if exist %tmp%\nmakeErr del /q %tmp%\nmakeErr
 echo.
 echo Compiling Scintilla
 cd src\scintilla\win32
-if not exist ..\bin ( Echo scintilla\bin directory not found. Creating... & md ..\bin )
+if not exist ..\bin ( Echo scintilla\bin directory not found. Creating... & mkdir ..\bin )
 REM nmake doesnt write its errlog to stdout, need to parse the /X param
 nmake /X %tmp%\nmakeErr /NOLOGO %parameter1% -f scintilla.mak | "../../../uk.exe" %tmp%\scitelog.txt
 findstr /n /c:"error"  %tmp%\nmakeErr
 if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling Scintilla & goto en
 echo Compiling SciTE 
 cd ..\..\scite\win32
-if not exist ..\bin ( Echo scite\bin directory not found. Creating... & md ..\bin )
+if not exist ..\bin ( Echo scite\bin directory not found. Creating... & mkdir ..\bin )
 nmake /X %tmp%\nmakeErr /NOLOGO %parameter1% -f scite.mak | "../../../uk.exe" -a %tmp%\scitelog.txt
 findstr /n /c:"error" %tmp%\nmakeErr
 if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling SciTe  & goto en
@@ -124,13 +124,19 @@ REM Copy Files
 REM
 echo Copying Binaries from %cd%\bin
 if not exist ..\..\..\bin md ..\..\..\bin
-if exist ..\bin\SciTE.exe  (copy ..\bin\SciTE.exe ..\..\..\bin >NUL ) else (echo Error: cant find build binaries & goto en )
-if exist ..\bin\SciLexer.dll (copy ..\bin\SciLexer.dll ..\..\..\bin >NUL ) else (echo Error: cant find build binaries & goto en) 
+if exist ..\bin\SciTE.exe  (copy ..\bin\SciTE.exe %ReleaseDir% >NUL ) else (echo Error: cant find build binaries & goto en )
+if exist ..\bin\SciLexer.dll (copy ..\bin\SciLexer.dll %ReleaseDir% >NUL ) else (echo Error: cant find build binaries & goto en) 
 echo Platform: %DEST_PLAT%
 ECHO OK
 cd ..\..\..
 echo.
-goto warn
+
+REM Show the logfile in case there were Warnings
+findstr /n /c:"warning"   %tmp%\scitelog.txt >NUL
+if %errorlevel% equ 0 (
+choice /C YN /M " Therre where warnings. Display them ? "
+if [%ERRORLEVEL%]==[0] ( findstr /n /c:"warning" %tmp%\scitelog.txt ))
+goto en
 
 :clean
 echo Scintilla
@@ -142,13 +148,11 @@ nmake -f scite.mak clean 2>NUL
 cd ..\..\
 del *.*.build 1>NUL 2>NUL
 echo.
+goto en
 
-:warn
-REM Show the logfile in case there were Warnings
-findstr /n /c:"warning"   %tmp%\scitelog.txt >NUL
-if %errorlevel% equ 0 (
-choice /C YN /M " There where warnings. Display them ? "
-if [%ERRORLEVEL%]==[0] ( findstr /n /c:"warning" %tmp%\scitelog.txt ))
+:errVc
+echo Error initing Vc. Please install "VS Build Tools for C++" and try again.  & start https://my.visualstudio.com/Downloads?q=studio+2015 & goto en )
+
 :en
 if exist %tmp%\nmakeErr del %tmp%\nmakeErr
 pause

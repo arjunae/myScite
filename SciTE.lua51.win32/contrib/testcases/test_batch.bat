@@ -1,11 +1,13 @@
 @echo off
-REM 14.12/2022 Thorsten Kani / arjunae@schmusemail.de A simple Tail in pure batch. 
-REM Update: In an Interview it said "Im more patient and conscientious while following your files now.  :) "
+REM Status: beta  (not final) Free Software (FreeBsd 3Clause)
+REM Thorsten Kani/ arjunae@schmusemail.de A simple Tail in pure batch. 
+REM Update: In an Interview it said "Im more patient and conscientious while following your files now. And i dont use Lockfiles for signalling  :) "
 REM Tested with usual control operators and line bulks up to 10 Lines at once in the pipe.
 REM 
+
 setlocal enabledelayedexpansion enableextensions
 REM Init Behaviour: Set to 0 to only print newly added lines 
-set /a LinesBefore=140
+set /a LinesBefore=501
 
 REM Iterate through and print newly added Lines.
 set LineBufferCnt=0
@@ -15,7 +17,10 @@ rem set filename="%tmp%\scitelog.txt"
 if "%1" equ "-h" goto usage
 if "%1"==""  (set /p filename="File to follow? ")  else (set Filename=%1)
 IF not EXIST %FileName% (echo No, because i can't find File %FileName%) & goto de
-echo.> %tmp%\tail.lck
+REM Check if theres and add a marker needle on the board, so other programs know its running.
+REG query HKCU\Console\ /v tailRuns 1>Nul 2>Nul
+if "%errorlevel%" equ "0" choice /c yn /m "Tail already seems to run. Continue ?"
+if "%errorlevel%" equ "2" (set errorlevel=1 & goto de) else (REG add HKCU\Console\ /v tailRuns /t REG_BINARY /d 00000001 /f)
 
 :loop
 REM for /F "tokens=2 delims=:" %n in ('find /V /C "" "%filename%"') do Set /a FileLines=%n
@@ -39,8 +44,6 @@ REM 	echo Debug: Recieved !newLines! new lines
 
 :wait
 set prevFileLineCnt=!FileLineCnt!
-
-rem set skipLines=LineBufferCnt
 set LineBufferCnt=1
 REM play with yourself for some time and return later.
 rem for /l %%w in (1,1,2000) do (echo.>nul)
@@ -51,7 +54,8 @@ goto loop
 :usage
 echo Usage: tail Filename
 :de
-if exist %tmp%\tail.lck del /q %tmp%\tail.lck
+REM take off the marker needle from the board and put it back where needles are safe and feel warm and comfortable when unused.
+REG delete HKCU\Console\ /v tailRuns /f 1>nul 2>nul
 
-REM play with implementation. try some special Chars
-REM echo ^^xx>de.log & echo ^"x>de.log echo ^(xx >de.log
+REM play with implementation but dont disturb neighbors :>
+for /l %a in (1,1,10) do echo %a >> de.log
