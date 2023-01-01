@@ -123,7 +123,7 @@ REM
 REM Copy Files
 REM
 echo Copying Binaries from %cd%\bin
-if not exist ..\..\..\bin md ..\..\..\bin
+if not exist %ReleaseDir% mkdir %ReleaseDir%
 if exist ..\bin\SciTE.exe  (copy ..\bin\SciTE.exe %ReleaseDir% >NUL ) else (echo Error: cant find build binaries & goto en )
 if exist ..\bin\SciLexer.dll (copy ..\bin\SciLexer.dll %ReleaseDir% >NUL ) else (echo Error: cant find build binaries & goto en) 
 echo Platform: %DEST_PLAT%
@@ -134,7 +134,7 @@ echo.
 REM Show the logfile in case there were Warnings
 findstr /n /c:"warning"   %tmp%\scitelog.txt >NUL
 if %errorlevel% equ 0 (
-choice /C YN /M " Therre where warnings. Display them ? "
+choice /C YN /M " Show warnings ? "
 if [%ERRORLEVEL%]==[0] ( findstr /n /c:"warning" %tmp%\scitelog.txt ))
 goto en
 
