@@ -40,7 +40,7 @@ _G.session_used_memory=collectgarbage("count")*1024 -- track the amount of lua a
 	-- Load Sidebar
 	-- workaround: loading the sidebar here avoids problems with ext.lua.auto.reload
 	package.path = package.path .. ";"..myHome.."\\opt\\mod-sidebar\\?.lua;"
-	--dofile(myScripts..'mod-sidebar\\sidebar.lua')
+dofile(myScripts..'mod-sidebar\\sidebar.lua')
 	
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\opt\\mod-mitchell\\?.lua;"

@@ -1,8 +1,5 @@
 -- mySciTE's Lua Startup Script 2022 Marcedo@HabMalNeFrage.de
 
--- Windows requirement to immediately see all lua output.
-io.stdout:setvbuf("no")
-
 dirSep, GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
 myHome = props["SciteDefaultHome"]..dirSep.."user"
@@ -17,7 +14,7 @@ end
 
 -- Startup script might be called multiple times with ext.lua.auto.reload and saving
 -- so ensure to load those LuaMods only once.
-if (true) then
+
 --lua >=5.2.x renamed functions:
 _G.unpack = table.unpack or unpack
 _G.math.mod = math.fmod or math.mod
@@ -40,7 +37,7 @@ _G.session_used_memory=collectgarbage("count")*1024 -- track the amount of lua a
 	-- Load Sidebar
 	-- workaround: loading the sidebar here avoids problems with ext.lua.auto.reload
 	package.path = package.path .. ";"..myHome.."\\opt\\mod-sidebar\\?.lua;"
-	--dofile(myScripts..'mod-sidebar\\sidebar.lua')
+	dofile(myScripts..'mod-sidebar\\sidebar.lua')
 	
 	-- Load mod-mitchell
 	package.path = package.path .. ";"..myHome.."\\opt\\mod-mitchell\\?.lua;"
@@ -49,7 +46,6 @@ _G.session_used_memory=collectgarbage("count")*1024 -- track the amount of lua a
 	-- Initialize Project support last
 	dofile(myScripts.."ctags.lua")
 	dofile(myScripts..'SciTEProject.lua')
-end
 
 -- ##################  Lua Samples #####################
 --   ##############################################

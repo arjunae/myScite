@@ -1,7 +1,7 @@
 @echo off
 mode 90,20
 chcp 65001 1>NUL
-REM  ::::::::Steampunk::-::::::
+REM  Steampunk
 REM
 REM  Add Scite to Explorers Context Menu. (for win7+)
 REM  -> Provides "open with SciTE" and "open SciTE here" 
@@ -9,21 +9,21 @@ REM  -> Register SciTE to Windows known Applications List
 REM  - Creates a regfile which can either be manually or automagically imported -
 REM  - Parses SciTE understood Filetypes and Registers them with Explorer - 
 REM
-REM :: Created Jul 2016, Marcedo@HabmalneFrage.de
-REM :: URL: https://sourceforge.net/projects/scite-webdev/?source=directory
-REM :: License BSD-3-Clause
-REM :: Application Registering Reference: https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx
+REM  Created Jul 2016, Marcedo@HabmalneFrage.de
+REM  URL: https://sourceforge.net/projects/scite-webdev/?source=directory
+REM  License BSD-3-Clause
+REM  Application Registering Reference: https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx
 REM
-REM - Aug16 - Search for %cmd% in actual and up to 2 parent Directories / Use full qualified path. 
-REM - Okto16 - create / reset Program Entry RegistryKey  
-REM - Nov16 - reactos fix
-REM - Mai17 - "open Scite Here"
-REM - Mar18 - "ability to register myScites Filetypes"
+REM  Search for %cmd% in actual and up to 2 parent Directories / Use full qualified path. 
+REM  create / reset Program Entry RegistryKey  
+REM  reactos fix
+REM  "open Scite Here"
+REM  "ability to register myScites Filetypes"
 REM 
-REM ::::::::Steampunk::::::::
+REM Steampunk
 
-REM Normally, the keyword REM identifies a comment line, but we also use the defacto shortform ::
-REM Exception: some Dos parsers dont fully support :: within loops, so definately use REM there.
+REM Normally, the keyword REM identifies a comment line, but we also use the defacto shortform REM
+REM Exception: some Dos parsers dont fully support REM within loops, so definately use REM there.
 
  pushd %~dp0%
 
@@ -35,7 +35,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  set scite_filepath=empty
  set tmp_dir=%TEMP%\SciTE
 
- ::  Check for and write path of %file_name% in scite_filepath (search up to 10Dirs up)
+ REM  Check for and write path of %file_name% in scite_filepath (search up to 10Dirs up)
  :loop
    set /a dir_count += 1
    if %dir_count% geq 10 (goto end_loop) else (cd ..)
@@ -56,8 +56,8 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo. 
  echo. 
  
- :: Give the User the option to manually edit/import the generated File.
- :: When "manual Installation" has been chosen, just copy the generated reg import file to currentUsers Desktop.
+ REM Give the User the option to manually edit/import the generated File.
+ REM When "manual Installation" has been chosen, just copy the generated reg import file to currentUsers Desktop.
  
  if [%FIX_REACTOS%] equ [1] Pause && ECHO. && SET ERRORLEVEL=2
  REM if [%FIX_REACTOS%] equ [1] choice /C:AM   Press [A] for automatic Install or [M] If you want to do that manually
@@ -80,20 +80,20 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  if [%FIX_REACTOS%]==[1] goto freunde 
  if %ERRORLEVEL% neq 0 goto sub_fail_reg
  
- :: Ask if the User wants FileType Registration
+ REM Ask if the User wants FileType Registration
  if [%FIX_REACTOS%]==[0] ( 
   echo  .. Register SciTE with understood Filetypes?
   echo  .. (Doesnt overwrite already made associations)  
   if [%FIX_REACTOS%] equ [1] choice /C:YN  [Yes/No]
   if [%FIX_REACTOS%] equ [0] choice /C YN /M "  [Yes/No]" 
-  :: Parses all .properties files and Registers their contained Filetypes 
+  REM Parses all .properties files and Registers their contained Filetypes 
   if %ERRORLEVEL% == 1 (
     call scite_filetypes /quite %scite_filepath%
     if %ERRORLEVEL% == 0 goto freunde
   )
  )
  
- ::  Clean up 
+ REM  Clean up 
  del /Q %tmp%\scite.tmp 2>NUL
  move /Y %tmp%\scite* %tmp_dir% 2>NUL
  goto :freunde
@@ -101,19 +101,19 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  
 :sub_create_file
 
- ::  scite_path: remove doublequotes
+ REM  scite_path: remove doublequotes
  set word=
  set str=%scite_path%
  CALL set str=%%str:"=%word%%%
  set scite_path=%str%
 
- ::  scite_path: Escape Backslashes
+ REM  scite_path: Escape Backslashes
  set word=\\
  set str=%scite_path%
  CALL set str=%%str:\=%word%%%
  set scite_path=%str%
 
- ::  properly escape two backslashes for Scites -CWD comand"  
+ REM  properly escape two backslashes for Scites -CWD comand"  
  set word=\\\\
  set str=%scite_path%
  CALL set str=%%str:\\=%word%%%
@@ -143,7 +143,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo @="%file_namepath% %scite_cmd_open%" >> %RegFile%
  echo. >> %RegFile%
  
-:: The following simple mechanism registers Scite to Windows known Applications.
+REM The following simple mechanism registers Scite to Windows known Applications.
  echo ;  Update Program Entry >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe] >> %RegFile%
@@ -157,8 +157,8 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo @="%scite_path%\\%file_name%,0" >> %RegFile%
  echo. >> %RegFile%
  
-:: Include Scite within the Explorers Context menu "open With" list 
-:: When a System already has some Apps installed, the new SciTE Entry will appear within the ("more Apps") submenu.   
+REM Include Scite within the Explorers Context menu "open With" list 
+REM When a System already has some Apps installed, the new SciTE Entry will appear within the ("more Apps") submenu.   
  echo ;  Update Explorers "open with" list >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Classes\Applications\scite.exe\shell\open] >> %RegFile%
@@ -168,8 +168,8 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo ".*"="">> %RegFile%
  echo. >> %RegFile%
  
-:: Register Scite to be known for windows "start" command
-:: https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx
+REM Register Scite to be known for windows "start" command
+REM https://msdn.microsoft.com/en-us/library/windows/desktop/ee872121(v=vs.85).aspx
  echo ;  Register Scite to be known for windows "start" command >> %RegFile%
  echo [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
  echo [HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
@@ -182,7 +182,7 @@ REM Exception: some Dos parsers dont fully support :: within loops, so definatel
  echo ; [-HKEY_CURRENT_USER\SOFTWARE\Classes\Directory\Background\shell\scite]>> %RegFile%
  echo ; [-HKEY_CURRENT_USER\SOFTWARE\Microsoft\Windows\CurrentVersion\App Paths\SciTE.exe] >> %RegFile%
  
- :: echo ..... Finished writing to  %RegFile% ....
+ REM echo ..... Finished writing to  %RegFile% ....
  exit /b 0
 :end_sub_create_file
 
@@ -211,7 +211,7 @@ exit
  echo.  :) Greetings to you from Deutschland, Darmstadt :) 
  echo   
  echo.
- :: wait some time...
+ REM wait some time...
  echo Now, please press your favorite key to be Done. HanD! 
  pause >NUL
 :end_sub_freunde
