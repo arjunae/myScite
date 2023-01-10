@@ -2,10 +2,10 @@
 REM build Scintilla/Scite, ThorstenKani marcedo@schmusemail.de
 setlocal enabledelayedexpansion enableextensions
 REM MinGW Path has to be set in System Settings, otherwise please define here:
- set PATH=E:\apps\msys64\mingw32\bin;%PATH%;
-set ReleaseDir="..\..\..\Reg"
+set PATH=E:\apps\msys64\mingw32\bin;%PATH%;
 REM Set Color and ScreenBuffer Size
 reg add HKCU\Console\%%SystemRoot%%_system32_cmd.exe\ScreenBufferSize /t REG_DWORD /d 1111111 /f >NUL
+set ReleaseDir="..\..\..\Bin"
 REM Clear logfile
 echo.>%tmp%\sciteLog
 
@@ -37,9 +37,6 @@ if %MAKEARCH% EQU "" goto :errMingw
 :okMingw
 echo.
 
-echo ::...::..:::...::..::.:.::
-echo     SciTE %BUILDTYPE%    
-echo ::...::..:::...::..::.:.::
 echo Environment %MAKEARCH% 
 echo.
 IF /i "%BUILDTYPE%" EQU "clean" goto cleanStuff

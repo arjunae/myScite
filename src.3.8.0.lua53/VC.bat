@@ -3,12 +3,12 @@ REM build Scintilla/Scite, ThorstenKani marcedo@schmusemail.de LIC 3BSDClause
 REM 31.12.2022 Sanity Checks, automatic recommendations and fixes
 REM Fix mismatching buildtyes and missing directories, detect missing build chain and recommend download, write and analyse %tmp%/scitelog during build, increase screenbuffer size, one file for both release and debug builds
 setlocal enabledelayedexpansion enableextensions
-set ReleaseDir="..\..\..\Reg"
 REM set PATH=%PATH%;"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build"
 REM Params for arch (x86 or x64)
 SET arch=x86
 REM ScreenBuffer Size
 REG add HKCU\Console\%%SystemRoot%%_system32_cmd.exe\ScreenBufferSize /t REG_DWORD /d 1111111 /f >NUL
+set ReleaseDir="..\..\..\Bin"
 pushd %cd%
 
 REM
@@ -38,9 +38,6 @@ REM
 REM Init VisualStudio Environment
 REM
 echo.
-echo ::...::..:::...::..::.:.::
-echo     SciTE %BUILDTYPE%    
-echo ::...::..:::...::..::.:.::
 echo Desired Target Architecture: %arch%
 echo > src\vc.%arch%.%buildtype%.build
 
