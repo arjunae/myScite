@@ -19,13 +19,13 @@ LIBSCI = $(DIR_BIN)/libscintilla.a
 ifdef CLANG
 # Common location for 32-bit clang on Windows
 CXX = "C:\Program Files (x86)\LLVM\bin\clang++"
-CXXSTD = c++14
+CXXSTD = c++17
 else
 # MinGW GCC
 LDMINGW = -Wl,--enable-runtime-pseudo-reloc-v2 -Wl,--add-stdcall-alias
 LIBSMINGW = -static
 STRIPOPTION = -s
-CXXSTD = gnu++14
+CXXSTD = gnu++17
 endif
 
 ifeq ($(OS),Windows_NT)

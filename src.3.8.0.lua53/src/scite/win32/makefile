@@ -39,7 +39,7 @@ endif
 PROG	= ../bin/SciTE.exe
 PROGSTATIC = ../bin/Sc1.exe
 WIDEFLAGS=-DUNICODE -D_UNICODE
-CXXSTD = gnu++14
+CXXSTD = gnu++17
 
 vpath %.h ../src ../../scintilla/include
 vpath %.cxx ../src

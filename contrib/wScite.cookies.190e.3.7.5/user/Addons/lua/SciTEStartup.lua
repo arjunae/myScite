@@ -147,25 +147,6 @@ function markeMail()
 end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function markGUID()
---
--- search for GUIDS and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
--- {D3A4D768-B42D-4B87-B5C2-8236EA49BA6F}
-
-	local marker_guid=14 -- The whole Textlink
-	editor.IndicStyle[marker_guid] = INDIC_TEXTFORE
-	editor.IndicFore[marker_guid] = 0x577785
--- Scintillas RESearch.cxx doesnt support match counting, so just define the basic guid format:
-	mask = "........-\\w\\w\\w\\w-\\w\\w\\w\\w-\\w\\w\\w\\w-............"
-	if editor.Lexer~=1 then -- Performance: Exclude Null Lexer	
-		EditorClearMarks(marker_guid) -- common.lua
-		local startpos,endpos = editor:findtext( mask, SCFIND_REGEXP, 0)
-		while startpos do
-			EditorMarkText(startpos, endpos-startpos, marker_guid) -- common.lua
-			startpos,endpos =  editor:findtext( mask, SCFIND_REGEXP, startpos+1)
-		end
-	end
-end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 	-- Event Handlers
