@@ -59,7 +59,7 @@ function ProjectSetEnv(init)
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1
 	end
 	
-	if init then dofile(myHome..dirSep..'opt'..dirSep..'AutoComplete.lua') end
+	if init then dofile(UserDir..'AutoComplete.lua') end
 
 end
 

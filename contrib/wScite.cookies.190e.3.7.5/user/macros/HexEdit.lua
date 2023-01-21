@@ -3,7 +3,7 @@
 ------------------------------------------------------------------------
 -- Copyright 2005-2006 by Kein-Hong Man <khman@users.sf.net>
 --
-local VERSION, REVDATE = "0.11", "20061027"     -- version information
+local VERSION, REVDATE = "0.00", "20061027"     -- version information
 --
 -- See SciTEHexEdit.txt for usage instructions.
 -- Development platform: WinXP SciTE 1.71 (Mingw)
@@ -72,7 +72,7 @@ local MSG = {                           -- mostly textual data
 --       Search and replace. Replacement can either be a
 --       literal string (single quotes) or a hex number.
 ------------------------------------------------------------------------
-  Header = [[
+ Header = [[
 . SciTE Hex Editor . ver VERSION . REVDATE .
 ]],
   Footer = [[
@@ -340,29 +340,29 @@ local WIN = {                           -- window has fixed bounds
 
 -- for edit window
 local ColourScheme = {
-  [ 8] = {Fore = "987678", Bold = true},        -- title
-  [16] = {Fore = "800000",},                    -- button bar
-  [17] = {Fore = "456733", Back = "800000"},    -- button text
-  [18] = {Fore = "987678", Bold = true},        -- edit box header
-  [19] = {Fore = "206090"},                     -- position pane
-  [20] = {Fore = "808000",},                    -- information box
-  [21] = {Fore = "808000", Bold = true},        -- save file info
+  [ 8] = {Fore = "587638", Bold = true},        -- title
+  [16] = {Fore = "603000",},                    -- button bar
+  [17] = {Fore = "600000", Back = "FFFFFF"},    -- button text
+  [18] = {Fore = "602222"},      		-- edit box header
+  [19] = {Fore = "206020"},                     -- position pane
+  [20] = {Fore = "108000",},                    -- information box
+  [21] = {Fore = "108000", Bold = true},        -- save file info
   -- data highlighting, unchanged
   [ 1] = {Fore = "DC2300",},                    -- control chars
-  [ 2] = {Fore = "333399",},                    -- symbols
+  [ 2] = {Fore = "339399",},                    -- symbols
   [ 3] = {Fore = "008080",},                    -- numbers
   [ 4] = {Fore = "987678",},                    -- alphabets
   [ 5] = {Fore = "008000",},                    -- extended chars
   [ 6] = {Fore = "C0C0C0",},                    -- past-EOF
   [ 7] = {Fore = "987678",},                    -- ASCII pane
   -- data highlighting, changed
-  [ 9] = {Fore = "DC2300", Back = "FFFF00"},    -- control chars
-  [10] = {Fore = "333399", Back = "FFFF00"},    -- symbols
-  [11] = {Fore = "008080", Back = "FFFF00"},    -- numbers
-  [12] = {Fore = "987678", Back = "FFFF00"},    -- alphabets
-  [13] = {Fore = "008000", Back = "FFFF00"},    -- extended chars
-  [14] = {Fore = "C0C0C0", Back = "FFFF00"},    -- past-EOF
-  [15] = {Fore = "987678", Back = "FFFF00"},    -- ASCII pane
+  [ 9] = {Fore = "DC2300", Back = "FFFFFF"},    -- control chars
+  [10] = {Fore = "333399", Back = "FFFFFF"},    -- symbols
+  [11] = {Fore = "008080", Back = "FFFFFF"},    -- numbers
+  [12] = {Fore = "987678", Back = "FFFFFF"},    -- alphabets
+  [13] = {Fore = "008000", Back = "FFFFFF"},    -- extended chars
+  [14] = {Fore = "C0C0C0", Back = "FFFFFF"},    -- past-EOF
+  [15] = {Fore = "987678", Back = "FFFFFF"},    -- ASCII pane
 }
 
 -- byte value colour coding

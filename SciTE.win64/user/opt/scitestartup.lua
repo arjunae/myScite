@@ -1,58 +1,46 @@
--- mySciTE's Lua Startup Script 2022 Marcedo@HabMalNeFrage.de
-
--- Windows requirement to immediately see all lua output.
-io.stdout:setvbuf("no")
-
+-- mySciTE's Lua Startup Script 2022 t.kani@gmx.net
+--io.stdout:setvbuf("no")
 dirSep, GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
-myHome = props["SciteDefaultHome"]..dirSep.."user"
-myScripts=myHome..dirSep.."opt"..dirSep
-LUA_PATH=myHome.."\\Addons\\lua\\lua\\" -- lua rocks related lua scripts
-package.path = package.path ..";"..myHome.."\\opt\\lua\\?.lua;"..myHome.."\\opt\\lua-scite\\?.lua;"
-package.cpath = package.cpath .. ";"..myHome.."\\opt\\lua-scite\\?.dll;"
+UserDir = props["SciteDefaultHome"]..dirSep.."user"..dirSep.."opt"..dirSep
+LUA_PATH = UserDir.."lua\\" -- official lua related scripts
+package.path = package.path ..";"..UserDir.."lua\\?.lua;"..UserDir.."lua-scite\\?.lua;"
+package.cpath = package.cpath .. ";"..UserDir.."lua-scite\\?.dll;"
 if not GTK then
 	package.path = string.gsub(package.path,"/","\\")
 	package.cpath = string.gsub(package.cpath,"/","\\")
 end
 
--- Startup script might be called multiple times with ext.lua.auto.reload and saving
--- so ensure to load those LuaMods only once.
-if (true) then
 --lua >=5.2.x renamed functions:
 _G.unpack = table.unpack or unpack
 _G.math.mod = math.fmod or math.mod
 _G.string.gfind = string.gmatch or string.gfind
-_G.os.exit= function() error("Catched os.exit from quitting SciTE.\n") end
+--_G.os.exit= function() error("Catched os.exit from quitting SciTE.\n") end
 --lua >=5.2.x replaced table.getn(x) with #x
 _G.session_used_memory=collectgarbage("count")*1024 -- track the amount of lua allocated memory
 
--- load eventmanager / extman remake used by some lua mods
-	dofile(myScripts..'eventmanager.lua')
+-- eventmanager / extman remake used by some lua mods
+	dofile(UserDir..'eventmanager.lua')
 	
-	-- Load extman.lua
+	-- extman.lua
 	-- This will automatically run any lua script located in \user\opt\lua-scite
-	dofile(myScripts..'extman.lua')
-		
-	-- Load Debugging support
-	package.path = package.path .. ";"..myHome.."\\opt\\mod-scite-debug\\?.lua;"
-	dofile(myScripts..'mod-scite-debug\\debugger.lua')
+	dofile(UserDir..'extman.lua')
+
+	-- Debugging support
+	dofile(UserDir..'mod-scite-debug\\debugger.lua')
 	
-	-- Load Sidebar
-	-- workaround: loading the sidebar here avoids problems with ext.lua.auto.reload
-	package.path = package.path .. ";"..myHome.."\\opt\\mod-sidebar\\?.lua;"
-dofile(myScripts..'mod-sidebar\\sidebar.lua')
+	-- Sidebar- loading the sidebar here avoids problems with ext.lua.auto.reload
+	--package.path = package.path .. ";"..UserDir.."\\opt\\mod-sidebar\\?.lua;"
+	--dofile(UserDir..'mod-sidebar\\sidebar.lua')
 	
-	-- Load mod-mitchell
-	package.path = package.path .. ";"..myHome.."\\opt\\mod-mitchell\\?.lua;"
+	-- mod-mitchell
 	--dofile(myScripts..'opt\\mod-mitchell\\scite.lua')
 
 	-- Initialize Project support last
-	dofile(myScripts.."ctags.lua")
-	dofile(myScripts..'SciTEProject.lua')
-end
+	dofile(UserDir.."ctags.lua")
+	dofile(UserDir..'SciTEProject.lua')
 
--- ##################  Lua Samples #####################
---   ##############################################
+-- Lua Samples 
 
 function markLinks()
 --
@@ -98,7 +86,7 @@ function markLinks()
 		-- Values
 		local marker_c=12 -- The URL Params Value
 		editor.IndicStyle[marker_c] = INDIC_TEXTFORE
-		if props["colour.url_param_value"]=="" then props["colour.url_param_value"] = "0x3388B0" end
+		if props["colour.url_param_value"]=="" then props["colour.url_param_value"] = "0x3377B0" end
 		editor.IndicFore[marker_c]  = props["colour.url_param_value"] 
 		mask_c="=[^& <]+[a-zA-Z0-9]?" -- Begin with = ends with Any alphaNum
 
@@ -138,18 +126,16 @@ function markeMail()
 	end
 end
 
+
 function myScite_OpenSwitch()
 
 	local AC_MAX_SIZE = 262144 --260kB
 	local fSize =0
-	
 	if buffer and props["FilePath"]~="" then 
 		buffer.size= file_size(props["FilePath"])
 		if buffer.size < AC_MAX_SIZE then 
 			markLinks()
 			markeMail()
-			markGUID()
-			DetectUTF8()
 			props["find.strip.incremental"]=2
 			props["highlight.current.word"]=1	
 			props["status.msg.words_found"]="| Words Found: $(highlight.current.word.counter)"			

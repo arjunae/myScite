@@ -1,6 +1,7 @@
 @ECHO OFF
 echo --- Creates a lua ressource lib which simply points to SciTE.exe or scilexer.dll ---
 PUSHD
+rem set PATH=E:\apps\msys64\mingw32\bin;%PATH%;
 mingw32-make --makefile makefile.myscite libscite.a
 ::mingw32-make --makefile makefile.myscite libscilexer.a
 ::mingw32-make lua.dll

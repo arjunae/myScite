@@ -1,6 +1,8 @@
 @echo off
-REM build Scintilla/Scite, ThorstenKani marcedo@schmusemail.de
+REM build Scintilla/Scite, ThorstenKani t.kani@gmx.net
 setlocal enabledelayedexpansion enableextensions
+chcp 65001
+Mode 181,51
 REM MinGW Path has to be set in System Settings, otherwise please define here:
 set PATH=E:\apps\msys64\mingw32\bin;%PATH%;
 REM Set Color and ScreenBuffer Size
