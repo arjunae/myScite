@@ -4,7 +4,7 @@ setlocal enabledelayedexpansion enableextensions
 chcp 65001
 Mode 181,51
 REM MinGW Path has to be set in System Settings, otherwise please define here:
-set PATH=E:\apps\msys64\mingw32\bin;%PATH%;
+set PATH=E:\tools\msys64\mingw32\bin;%PATH%;
 REM Set Color and ScreenBuffer Size
 reg add HKCU\Console\%%SystemRoot%%_system32_cmd.exe\ScreenBufferSize /t REG_DWORD /d 1111111 /f >NUL
 set ReleaseDir="..\..\..\Bin"
@@ -135,8 +135,8 @@ del *.*.build 1>NUL 2>NUL
 :en
 echo.
 REM Show the logfile in case there were Warnings
-findstr /n /c:"warning"   %tmp%\scitelog.txt >NUL
+findstr /n /c:"warning" %tmp%\scitelog.txt 1>NUL 2>NUL
 if %errorlevel% equ 0 (
 choice /C YN /M " There where warnings. Display them ? "
-if [%ERRORLEVEL%]==[1] ( findstr /n /c:"warning" %tmp%\scitelog.txt ))
+if [%ERRORLEVEL%]==[1] (findstr /n /c:"warning" %tmp%\scitelog.txt))
 pause

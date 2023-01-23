@@ -1,6 +1,7 @@
 -----------------------------------------------------------------------
--- Tic Tac Toe for SciTE Version 2.2
+-- Tic Tac Toe for SciTE Version 2.3
 -- Kein-Hong Man <khman@users.sf.net> 20060905
+-- Set ForeColour (2023 t.kani@gmx.net)
 -- This program is hereby placed into PUBLIC DOMAIN
 -----------------------------------------------------------------------
 -- This script can be installed to a shortcut using properties:
@@ -21,11 +22,11 @@
 --   at 'O' and 'X', respectively.
 -- * If you play using digit keys, do not change buffer from read-only.
 -----------------------------------------------------------------------
-
 ------------------------------------------------------------------------
 -- constants and primitives
 ------------------------------------------------------------------------
 local string = string
+local ForeColour="490000"
 local O, X = 1, 10
 local STR = {                           -- various strings
   Sig = "SciTE_TicTacToe2",
@@ -162,6 +163,7 @@ end
 ------------------------------------------------------------------------
 local function DrawBoard(t)
   if not t then t = {} end
+  
   local p = function(i)
     if not t[i] then return "   "
     elseif t[i] == O then return " O "
@@ -181,10 +183,12 @@ local function DrawBoard(t)
 end
 
 local function Refresh(t, msg)
+
   local function Underline(s) return string.rep("-", string.len(s)) end
   msg = msg or ""
   editor.ReadOnly = false
   editor:ClearAll()
+
   editor:AddText(MSG.Title.."\n"..Underline(MSG.Title).."\n")
   editor:AddText("Status: "..msg.."\n\n")
   DrawBoard(t)
@@ -300,6 +304,22 @@ local function HandleChar(c) return TicTacClick(c) end
 ------------------------------------------------------------------------
 -- game initialization (opens a new file and set up handlers)
 ------------------------------------------------------------------------
+
+local function ColoriseStyles()
+  scite.MenuCommand(IDM_MONOFONT)
+  editor.Lexer=SCLEX_CONTAINER
+  editor:StyleClearAll()
+  --for i=0,127 do
+  editor["StyleFore"][0]=tonumber(ForeColour, 16)
+--end
+	local segment = editor.Length * 2
+	editor:StartStyling(0, 31)
+	for i = 1, 10 do
+		editor:SetStyling(segment, 1)
+      editor:SetStyling(segment, 2)
+	end
+end
+
 function TicTacToe()
   scite_OnClick(HandleClick)
   scite_OnDoubleClick(HandleClick)
@@ -307,8 +327,13 @@ function TicTacToe()
   scite.Open("")
   buffer[STR.Sig] = true;
   local t = {}
-    scite.MenuCommand(IDM_MONOFONT)
-  Refresh(t, ComputerStart(t))
+ColoriseStyles()
+Refresh(t, ComputerStart(t))
 end
 
+  scite_OnSwitchFile(function()
+    if not buffer[STR.Sig] then return end
+    ColoriseStyles()
+    return true
+  end)
 -- end of script

@@ -32,4 +32,7 @@ dofile(myHome.."opt"..dirSep.."macros.lua")
 -- dofile(myHome.."opt"..dirSep.."SciTEProject.lua")
 
 --  Lua Samples
- 
+-- called after above and only once when Scite starts (SciteStartups DocumentReady)
+function OnInit()
+
+end

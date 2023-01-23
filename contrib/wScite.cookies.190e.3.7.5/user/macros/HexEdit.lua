@@ -471,7 +471,7 @@ local function SetColours(lexer, scheme)
   local monoFont, monoSize = StyleMono.font, StyleMono.size
   editor.Lexer = lexer
   --------------------------------------------------------------------
-  editor:StyleClearAll()
+
   for i = 0, 127 do                             -- force mono first
     editor.StyleFont[i] = monoFont
     editor.StyleSize[i] = monoSize
