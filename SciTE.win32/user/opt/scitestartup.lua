@@ -16,7 +16,7 @@ _G.unpack = table.unpack or unpack
 _G.math.mod = math.fmod or math.mod
 _G.string.gfind = string.gmatch or string.gfind
 --_G.os.exit= function() error("Catched os.exit from quitting SciTE.\n") end
---lua >=5.2.x replaced table.getn(x) with #x
+--lua >=5.2.x replaced table.getn(arr) with #arr
 _G.session_used_memory=collectgarbage("count")*1024 -- track the amount of lua allocated memory
 
 -- load eventmanager / extman remake used by some lua mods

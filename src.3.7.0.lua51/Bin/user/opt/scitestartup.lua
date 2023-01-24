@@ -7,7 +7,7 @@
 unpack = table.unpack or unpack
 math.mod = math.fmod or math.mod
 string.gfind = string.gmatch or string.gfind
---lua >=5.2.x replaced table.getn(x) with #x
+--lua >=5.2.x replaced table.getn(arr) with #arr
 dirSep, GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
 

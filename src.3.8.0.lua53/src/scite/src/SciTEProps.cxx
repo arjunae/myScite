@@ -1293,7 +1293,7 @@ void SciTEBase::ReadProperties() {
 		             colourFoldBack, colourFoldFore, colourFoldBlockHighlight);
 		wEditor.Call(SCI_MARKERENABLEHIGHLIGHT, isHighlightEnabled);
 		break;
-case 4:
+	case 4:
 		// circular headers without the lines
 		DefineMarker(SC_MARKNUM_FOLDEROPEN, SC_MARK_CIRCLEMINUS,
 		             colourFoldBack, colourFoldFore, colourFoldBlockHighlight);

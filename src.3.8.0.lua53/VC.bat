@@ -24,7 +24,7 @@ if /i %BUILDTYPE% NEQ "Release%" echo Creating !Buildtype!
 
 :start
 if exist %tmp%\scitelog.txt del /q %tmp%\scitelog.txt
-echo. > %tmp%\scitelog.txt
+echo. > %tmp%\build.tmp
 
 REM
 REM Sanity- Ask when trying to change between Debug and Release builds.
@@ -79,13 +79,13 @@ echo Compiling Scintilla
 cd src\scintilla\win32
 if not exist ..\bin ( Echo scintilla\bin directory not found. Creating... & mkdir ..\bin )
 REM nmake doesnt write its errlog to stdout, need to parse the /X param
-nmake /X %tmp%\nmakeErr /NOLOGO %parameter1% -f scintilla.mak | "../../../uk.exe" %tmp%\scitelog.txt
+nmake /X %tmp%\nmakeErr /NOLOGO %parameter1% -f scintilla.mak | "../../../uk.exe" %tmp%\build.tmp
 findstr /n /c:"error"  %tmp%\nmakeErr
 if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling Scintilla & goto en
 echo Compiling SciTE 
 cd ..\..\scite\win32
 if not exist ..\bin ( Echo scite\bin directory not found. Creating... & mkdir ..\bin )
-nmake /X %tmp%\nmakeErr /NOLOGO %parameter1% -f scite.mak | "../../../uk.exe" -a %tmp%\scitelog.txt
+nmake /X %tmp%\nmakeErr /NOLOGO %parameter1% -f scite.mak | "../../../uk.exe" -a %tmp%\build.tmp
 findstr /n /c:"error" %tmp%\nmakeErr
 if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling SciTe  & goto en
 echo OK 
@@ -132,7 +132,7 @@ REM Show the logfile in case there were Warnings
 findstr /n /c:"warning"   %tmp%\scitelog.txt >NUL
 if %errorlevel% equ 0 (
 choice /C YN /M " Show warnings ? "
-if [%ERRORLEVEL%]==[0] ( findstr /n /c:"warning" %tmp%\scitelog.txt ))
+if [%ERRORLEVEL%]==[0] ( findstr /n /c:"warning" %tmp%\build.tmp ))
 goto en
 
 :clean

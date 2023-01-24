@@ -1,7 +1,7 @@
 -----------------------------------------------------------------------
 -- Tic Tac Toe for SciTE Version 2.3
 -- Kein-Hong Man <khman@users.sf.net> 20060905
--- Set ForeColour (2023 t.kani@gmx.net)
+-- Set ForeColour und Ubersetzung auf Deutsch (2023 t.kani@gmx.net)
 -- This program is hereby placed into PUBLIC DOMAIN
 -----------------------------------------------------------------------
 -- This script can be installed to a shortcut using properties:
@@ -12,15 +12,13 @@
 -- If you use extman, you can do it in Lua like this:
 --     scite_Command('Tic Tac Toe|TicTacToe|Ctrl+8')
 -----------------------------------------------------------------------
--- * This is a demonstration of a (hopefully) well-behaved Lua-based
---   "application" in SciTE that hooks to handlers, is compatible
---   with extman, and uses mouse doubleclicks as the user interface.
--- * TicTacToe is the main function. It opens a new buffer and the
---   game is played by double-clicking on boxed areas, or by pressing
---   the number keys 1 through 9.
--- * Note that the computer player and the player human are fixed
---   at 'O' and 'X', respectively.
--- * If you play using digit keys, do not change buffer from read-only.
+--  Dies ist eine Demonstration eines hoffentlich gut geschriebenen LUA-basierten
+-- "Anwendung" in Scite, die event handler fur Maus-clicks als Benutzeroberflache verwendet.
+-- Tictactoe ist die Hauptfunktion. Es offnet einen neuen Puffer
+-- Das Spiel wird durch Doppelklicken auf Box-Bereiche oder durch Drucken gespielt
+--  Beachten
+-- bei 'O' bzw. 'X'.
+-- Wenn Sie mit Tastatur spielen, belassen Sie den Puffer bitte auf schreibgeschutzt
 -----------------------------------------------------------------------
 ------------------------------------------------------------------------
 -- constants and primitives
@@ -43,26 +41,25 @@ local STR = {                           -- various strings
 }
 local MSG = {                           -- game messages
   Title = "SciTE Tic Tac Toe",
-  Conflict = "There is an OnDoubleClick conflict, please use extman",
-  BadBoard = "Board not recognized, computer cannot continue",
-  BadPieces = "Something strange on the board, cannot continue",
-  IllegalMove = "Illegal move",
-  Borked = "Evaluator borked",
+  Conflict = "OnDoubleClick konflikt",
+  BadBoard = "Spielfeld nicht erkannt, Stop",
+  BadPieces = "Problem mit dem Spielfeld, Stop",
+  IllegalMove = "Ungultiger Zug",
+  Borked = "borked",
   Key1 = "SciTE: O",
-  Key2 = "Human: X",
-  Start1 = "Human starts",
-  Start2 = "Computer starts",
-  AlreadyEnd = "Game has already ended",
-  NoMoves = "No more moves to make, draw",
-  HumanWin = "Human wins this round",
-  ComputerWin = "Computer wins this round",
+  Key2 = "Mensch: H",
+  Start1 = "Mensch beginnt",
+  Start2 = "Computer vwginnt",
+  AlreadyEnd = "Spiel bereits beendet",
+  NoMoves = "Patt, keine Weiteren Spielzuge moglich.",
+  HumanWin = "Mensch gewinnt diese Runde",
+  ComputerWin = "Computer gewinnt diese Runde",
   Help = [[
-For best results, please use a monospace font (press Ctrl+F11 for
-monospace font mode.) Double-click boxes to play, or press keys
-1 through 9 to make a move. Key positions correspond to the usual
-keypad arrangement. For a new game, you can press the N key or
-double-click the "NewGame" box. To autoplay, you can press [Space]
-or double-click the "Autoplay" box.
+Fur die besten Ergebnisse verwenden Sie bitte eine Monospace Schriftart. (drucken Sie Strg+F11 fur
+Monospace-Schriftmodus) Doppelklicken Sie zum Spielen oder drucken Sie Tasten
+1 bis 9, um einen Spielzug zu machen. Fur ein neues Spiel konnen Sie die N -Taste drucken oder
+Doppelklicken Sie auf daie "NewGame" -Box. Zum Autoplay konnen Sie [Space] drucken.
+Oder doppelklicken Sie auf die Box "Autoplay".
 ]]
 }
 local BUT = {                           -- fixed button set
@@ -305,13 +302,11 @@ local function HandleChar(c) return TicTacClick(c) end
 -- game initialization (opens a new file and set up handlers)
 ------------------------------------------------------------------------
 
-local function ColoriseStyles()
+local function ColorStyles()
   scite.MenuCommand(IDM_MONOFONT)
   editor.Lexer=SCLEX_CONTAINER
   editor:StyleClearAll()
-  --for i=0,127 do
   editor["StyleFore"][0]=tonumber(ForeColour, 16)
---end
 	local segment = editor.Length * 2
 	editor:StartStyling(0, 31)
 	for i = 1, 10 do
@@ -327,13 +322,13 @@ function TicTacToe()
   scite.Open("")
   buffer[STR.Sig] = true;
   local t = {}
-ColoriseStyles()
+ColorStyles()
 Refresh(t, ComputerStart(t))
 end
 
   scite_OnSwitchFile(function()
     if not buffer[STR.Sig] then return end
-    ColoriseStyles()
+    ColorStyles()
     return true
   end)
 -- end of script

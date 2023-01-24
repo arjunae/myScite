@@ -9,7 +9,7 @@ REM Set Color and ScreenBuffer Size
 reg add HKCU\Console\%%SystemRoot%%_system32_cmd.exe\ScreenBufferSize /t REG_DWORD /d 1111111 /f >NUL
 set ReleaseDir="..\..\..\Bin"
 REM Clear logfile
-echo.>%tmp%\sciteLog
+echo.>%tmp%\build.tmp
 
 REM
 REM Decide for either a Debug, Release or Clean Build
@@ -58,12 +58,12 @@ if /I %BUILDTYPE%==debug set DEBUG=1
 echo Compiling Scintilla
 cd src\scintilla\win32
 if not exist ..\bin ( Echo scintilla\bin directory not found. Creating... & md ..\bin )
-mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\SciTeLog
+mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\build.tmp
 if [%errorlevel%] NEQ [0] goto err
 echo Compiling SciTE
 cd ..\..\scite\win32
 if not exist ..\bin ( Echo scintilla\bin directory not found. Creating... & md ..\bin )
-mingw32-make -j %NUMBER_OF_PROCESSORS% 2>> %tmp%\SciteLog
+mingw32-make -j %NUMBER_OF_PROCESSORS% 2>> %tmp%\build.tmp
 if [%errorlevel%] NEQ [0]  goto err
 
 REM
@@ -135,8 +135,8 @@ del *.*.build 1>NUL 2>NUL
 :en
 echo.
 REM Show the logfile in case there were Warnings
-findstr /n /c:"warning" %tmp%\scitelog.txt 1>NUL 2>NUL
+findstr /n /c:"warning" %tmp%\build.tmp 1>NUL 2>NUL
 if %errorlevel% equ 0 (
 choice /C YN /M " There where warnings. Display them ? "
-if [%ERRORLEVEL%]==[1] (findstr /n /c:"warning" %tmp%\scitelog.txt))
+if [%ERRORLEVEL%]==[1] (findstr /n /c:"warning" %tmp%\build.tmp))
 pause
