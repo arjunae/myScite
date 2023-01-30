@@ -19,9 +19,9 @@ if GTK then dirSep="/" else dirSep="\\" end
   
 if scite_Command then
 scite_Command {
---  'Find Tag|find_ctag  $(CurrentWord)|Ctrl+.',
-   'Go to Mark|goto_mark|Alt+.',
-  'Set Mark|set_mark|Ctrl+\'',
+  'Find Tag|find_ctag  $(CurrentWord)|Ctrl+.',
+--   'Go to Mark|goto_mark|Alt+.',
+--  'Set Mark|set_mark|Ctrl+\'',
 --   'Select from Mark|select_mark|Ctrl+/',
 }
 end

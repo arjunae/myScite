@@ -1,6 +1,6 @@
--- mySciTE's Lua Startup Script 2022 t.kani@gmx.net
+-- ### mySciTE's Lua Startup Script 2022 t.kani@gmx.net ####
 --io.stdout:setvbuf("no")
-dirSep, GTK = props['PLAT_GTK']
+GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
 UserDir = props["SciteDefaultHome"]..dirSep.."user"..dirSep.."opt"..dirSep
 LUA_PATH = UserDir.."lua\\" -- official lua related scripts
@@ -10,16 +10,14 @@ if not GTK then
 	package.path = string.gsub(package.path,"/","\\")
 	package.cpath = string.gsub(package.cpath,"/","\\")
 end
-
 --lua >=5.2.x renamed functions:
 _G.unpack = table.unpack or unpack
 _G.math.mod = math.fmod or math.mod
 _G.string.gfind = string.gmatch or string.gfind
 --_G.os.exit= function() error("Catched os.exit from quitting SciTE.\n") end
 --lua >=5.2.x replaced table.getn(arr) with #arr
-_G.session_used_memory=collectgarbage("count")*1024 -- track the amount of lua allocated memory
 
--- eventmanager / extman remake used by some lua mods
+-- load eventmanager / extman remake used by some lua mods
 	dofile(UserDir..'eventmanager.lua')
 	
 	-- extman.lua
@@ -40,69 +38,70 @@ _G.session_used_memory=collectgarbage("count")*1024 -- track the amount of lua a
 	dofile(UserDir.."ctags.lua")
 	dofile(UserDir..'SciTEProject.lua')
 
--- Lua Samples 
+-- ##################  Lua Samples #####################
+--   ##############################################
 
-function markLinks()
+
+function HighlightLinks()
 --
--- search for textlinks and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
--- https://www.test.de/
-	local marker_a=10 -- The whole Textlink
-	editor.IndicStyle[marker_a] = INDIC_COMPOSITIONTHIN
-	editor.IndicFore[marker_a] = 0xBE3344
-
-	if editor.Lexer~=1 then -- Performance: Exclude Null Lexer	
+-- highlight Links See Indicators@http://www.scintilla.org/ScintillaDoc.html
+	local markerA=10 -- The whole URL
+	if editor.Lexer~=1 then -- Performance: no Null Lexer	
+		EditorClearMarks(markerA) -- common.lua 
+		editor.IndicStyle[markerA] = INDIC_TEXTFORE
+		editor.IndicFore[markerA] = 0xBE3333
 		prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
 		body="[a-zA-Z0-9]?." 	-- followed by a word  (eg www or the domain)
 		suffix="[^ \r\n\t\"\'<]+" 	-- ends with space, newline,tab < " or '
-		mask = prefix..body..suffix 
-		EditorClearMarks(marker_a) -- common.lua
-		local s,e = editor:findtext( mask, SCFIND_REGEXP, 0)
-		while s do
-			EditorMarkText(s, e-s, marker_a) -- common.lua
-			s,e =  editor:findtext( mask, SCFIND_REGEXP, s+1)
+		str = prefix..body..suffix 
+		local hPos,ePos = editor:findtext( str, SCFIND_REGEXP, 0)
+		while ePos do
+			EditorMarkText(hPos, ePos-hPos, markerA) -- common.lua
+			hPos,ePos =  editor:findtext( str, SCFIND_REGEXP, hPos+1)
 		end
 	end
 
 --	
--- Now mark any params and their Values - based ob above found text URL's
--- http://www.test.de/?key1=test&key2=a12
+-- Highlight params and their Values - based ob above URL's
+-- http://www.trendsderzukunft.de/?param=o&value2=H12
 
 	-- Keys 
-	local marker_b=11 -- The URL Param
-	editor.IndicStyle[marker_b] = INDIC_TEXTFORE
-	if props["colour.url_param"]=="" then props["colour.url_param"] = "0x05A750" end
-	editor.IndicFore[marker_b]  = props["colour.url_param"] 
+	local markerB=11 -- The URL Param
+	editor.IndicStyle[markerB] = INDIC_TEXTFORE
+	if props["colour.url_param"]=="" then props["colour.url_param"] = "0x05B750" end
+	editor.IndicFore[markerB]  = props["colour.url_param"] 
 	
-	if editor.Lexer~=1 then -- Performance: Exclude Null Lexer	
-		mask_b="[?&].*[=]" --Begin with ?& Any Char/Digit Ends with =
-		local sA,eA = editor:findtext(mask_b, SCFIND_REGEXP, 0)
-		while sA do
-			if editor:IndicatorValueAt(marker_a,sA)==1 then
-				EditorMarkText(sA, (eA-sA), marker_b)
+	if editor.Lexer~=1 then -- No Null Lexer	
+		strB="[?&].*[=]" --Begin with ?& Any Char/Digit Ends with =
+		local hPos,eA = editor:findtext(strB, SCFIND_REGEXP, 0)
+		while hPos do
+			if editor:IndicatorValueAt(markerA,hPos)==1 then
+				EditorMarkText(hPos+1, (eA-hPos)-1, markerB)
 			end -- common.lua
-			sA,eA = editor:findtext( mask_b, SCFIND_REGEXP, sA+1)
+			hPos,eA = editor:findtext( strB, SCFIND_REGEXP, hPos+1)
 		end
 
 		-- Values
-		local marker_c=12 -- The URL Params Value
-		editor.IndicStyle[marker_c] = INDIC_TEXTFORE
+		local markerC=12 -- The URL Params Value
+		editor.IndicStyle[markerC] = INDIC_TEXTFORE
 		if props["colour.url_param_value"]=="" then props["colour.url_param_value"] = "0x3377B0" end
-		editor.IndicFore[marker_c]  = props["colour.url_param_value"] 
-		mask_c="=[^& <]+[a-zA-Z0-9]?" -- Begin with = ends with Any alphaNum
+		editor.IndicFore[markerC]  = props["colour.url_param_value"] 
+		strC="=[^& <]+[a-zA-Z0-9]?" -- Begin with = ends with Any alphaNum
 
-		local sB,eB = editor:findtext(mask_c, SCFIND_REGEXP, 0)
-		while sB do
-			if editor:IndicatorValueAt(marker_a,sB)==1 then
-				EditorMarkText(sB+1, (eB-sB)-1, marker_c) -- common.lua
+		local hPos,eB = editor:findtext(strC, SCFIND_REGEXP, 0)
+		while hPos do
+			if editor:IndicatorValueAt(markerA,hPos)==1 then
+				EditorMarkText(hPos+1, (eB-hPos)-1, markerC) -- common.lua
 			end 
-			sB,eB = editor:findtext( mask_c, SCFIND_REGEXP, sB+1)
+			hPos,eB = editor:findtext( strC, SCFIND_REGEXP, hPos+1)
 		end
+	
 	end
 
 	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :)
 end
 
-function markeMail()
+function HighlightMail()
 -- 
 -- search for eMail Links and highlight them. See Indicators@http://www.scintilla.org/ScintillaDoc.html
 -- d.Name@users.source-server.net
@@ -116,26 +115,23 @@ function markeMail()
 		prefix="[a-zA-Z0-9._-]+@" -- first part till @
 		body="[a-zA-Z0-9]+.*[.]" -- (sub.)domain part
 		suffix="[a-zA-Z]+" -- TLD
-		mask = prefix..body..suffix
+		str = prefix..body..suffix
 		EditorClearMarks(marker_mail) -- common.lua
-		local startpos,endpos = editor:findtext( mask, SCFIND_REGEXP, 0)
+		local startpos,endpos = editor:findtext( str, SCFIND_REGEXP, 0)
 		while startpos do
 			EditorMarkText(startpos, endpos-startpos, marker_mail) -- common.lua
-			startpos,endpos =  editor:findtext( mask, SCFIND_REGEXP, startpos+1)
+			startpos,endpos =  editor:findtext( str, SCFIND_REGEXP, startpos+1)
 		end
 	end
 end
 
 
 function myScite_OpenSwitch()
-
-	local AC_MAX_SIZE = 262144 --260kB
-	local fSize =0
 	if buffer and props["FilePath"]~="" then 
 		buffer.size= file_size(props["FilePath"])
-		if buffer.size < AC_MAX_SIZE then 
-			markLinks()
-			markeMail()
+		if buffer.size < 262144 then 
+			HighlightLinks()
+			--HighlightMail()
 			props["find.strip.incremental"]=2
 			props["highlight.current.word"]=1	
 			props["status.msg.words_found"]="| Words Found: $(highlight.current.word.counter)"			
@@ -163,9 +159,33 @@ function OnInit()
 	-- Event Handlers
 	scite_OnKey( function()  props["CurrentPos"]=editor.CurrentPos end ) -- keep Track of current Bytes Offset (for Statusbar)
 --	checkUpdates() -- check for a new version using githubs readme.md
-	myScite_OpenSwitch() -- apply Indicators
-
--- print("Modules Memory usage:",collectgarbage("count")*1024-_G.session_used_memory)	
--- print("startupScript_onInit")
+	scite_OnOpenSwitch(myScite_OpenSwitch)
 
 end
+
+
+
+
+																																												
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													
+																																													

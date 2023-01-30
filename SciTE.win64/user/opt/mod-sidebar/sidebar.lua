@@ -51,8 +51,7 @@ require 'gui'
 -- Moved shell.inputbox to gui / Use gui.run and gui.msgbox 
 --require 'shell'
 
--- щse scite.gettranslation ?
-local _DEBUG = false --РІРєР»СЋС‡Р°РµС‚ РІС‹РІРѕРґ РѕС‚Р»Р°РґРѕС‡РЅРѕР№ РёРЅС„РѕСЂРјР°С†РёРё
+local _DEBUG = false
 
 -- you can choose to make SideBar a stand-alone window
 local win = tonumber(props['sidebar.win']) == 1
@@ -63,7 +62,7 @@ local _show_flags = tonumber(props['sidebar.functions.flags']) == 1
 local _show_params = tonumber(props['sidebar.functions.params']) == 1
 
 local tab_index = 0
-local panel_width = tonumber(props['sidebar.width']) or 216
+local panel_width = tonumber(props['sidebar.width']) or 240
 local win_height = tonumber(props['position.height']) or 600
 local sidebar_position = props['sidebar.position']=='left' and 'left' or 'right'
 
@@ -126,7 +125,6 @@ function ReadAbbrevFile(file, abbr_table)
 end
 
 --------------------------------------------------------
--- Определение соответствует ли стиль символа стилю комментария
 function IsComment(pos)
   local style = editor.StyleAt[pos]
   local lexer = editor.Lexer
@@ -172,7 +170,6 @@ function IsComment(pos)
     vhdl = {1, 2}
   }
 
-  -- Для лексеров, перечисленных в массиве:
   for l,ts in pairs(comment) do
     if l == lexer then
       for _,s in pairs(ts) do
@@ -183,18 +180,14 @@ function IsComment(pos)
       return false
     end
   end
-  -- Для остальных лексеров:
   -- asn1, ave, blitzbasic, cmake, conf, eiffel, eiffelkw, erlang, euphoria, fortran, f77, freebasic, kix, lisp, lout, octave, matlab, metapost, nncrontab, props, batch, makefile, diff, purebasic, vb, yaml
   if style == 1 then return true end
   return false
 end
 
--- string.to_pattern возращает строку, пригодную для использования
--- в виде паттерна в string.find и т.п.
--- Например: "xx-yy" -> "xx%-yy"
-local lua_patt_chars = "[%(%)%.%+%-%*%?%[%]%^%$%%]" -- управляющие паттернами символов Луа:
+local lua_patt_chars = "[%(%)%.%+%-%*%?%[%]%^%$%%]" -- 
 function string.pattern( s )
-  return (s:gsub(lua_patt_chars,'%%%0'))-- фактически экранирование служебных символов символом %
+  return (s:gsub(lua_patt_chars,'%%%0'))
 end
 
 function GetCurrentWord()
@@ -270,7 +263,7 @@ if colorback then memo_path:set_memo_colour('', colorback) end
 local list_dir_height = win_height/4
 if list_dir_height <= 0 then list_dir_height = 600 end
 local list_favorites = gui.list(true)
-list_favorites:add_column("Favorites", 300)
+list_favorites:add_column("Favorites", 200)
 tab0:add(list_favorites, "bottom", list_dir_height)
 if colorback then list_favorites:set_list_colour(colorfore,colorback) end
 
@@ -306,12 +299,12 @@ local list_func_height = win_height/3
 if list_func_height <= 0 then list_func_height = 600 end
 local list_bookmarks = gui.list(true)
 list_bookmarks:add_column("@", 24)
-list_bookmarks:add_column("Bookmarks", 400)
+list_bookmarks:add_column("Bookmarks", 150)
 tab1:add(list_bookmarks, "bottom", list_func_height)
 if colorback then list_bookmarks:set_list_colour(colorfore,colorback) end
 
 local list_func = gui.list(true)
-list_func:add_column("Functions/Procedures", 600)
+list_func:add_column("Functions/Procedures", 200)
 tab1:client(list_func)
 if colorback then list_func:set_list_colour(colorfore,colorback) end
 
@@ -1751,7 +1744,6 @@ AddEventHandler("OnKey", function()
 	end
 end)
 
---========================================================
 -- now show SideBar:	
 if tonumber(props['sidebar.show'])==1 then
 	SideBar_Show()

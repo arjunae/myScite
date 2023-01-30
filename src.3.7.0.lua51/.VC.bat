@@ -31,7 +31,7 @@ REM Sanity- Ask when trying to change between Debug and Release builds.
 REM
 if exist src\vc.*.*.build if not exist src\vc.*.%BUILDTYPE%.build (
    if "%buildtype%" neq "clean" choice /C YN /M "A different VC Build has been found. Rebuild as %BUILDTYPE%? "
-   if [%ERRORLEVEL%]==[2] ( goto en ) else if [%ERRORLEVEL%]==[1] ( cd src\ & del /s /q *.exe *.o *.obj *pdb *.dll *.res *.map *.exp *.lib *.plist *.build 1>NUL 2>NUL & cd .. )
+   if [%ERRORLEVEL%]==[2] ( goto :eof ) else if [%ERRORLEVEL%]==[1] ( cd src\ & del /s /q *.exe *.o *.obj *pdb *.dll *.res *.map *.exp *.lib *.plist *.build 1>NUL 2>NUL & cd .. )
 )
 
 REM

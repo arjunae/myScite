@@ -44,14 +44,6 @@ echo.
 IF /i "%BUILDTYPE%" EQU "clean" goto cleanStuff
 
 REM
-REM Sanity- Ask when trying to change between Debug and Release builds.
-REM
-if exist src\mingw.*.*.build if not exist src\mingw.*.%BUILDTYPE%.build (
-   choice /C YN /M "A different MinGW Build has been found. Rebuild as %BUILDTYPE%? "
-   if [%ERRORLEVEL%]==[2] ( goto en ) else if [%ERRORLEVEL%]==[1] ( cd src\ & del /s /q *.exe *.o *.obj *pdb *.dll *.res *.map *.exp *.lib *.plist *.build 1>NUL 2>NUL & cd .. )
-)
-
-REM
 REM Start the actual build.
 REM
 if /I %BUILDTYPE%==debug set DEBUG=1
