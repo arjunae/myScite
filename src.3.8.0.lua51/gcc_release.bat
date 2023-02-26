@@ -87,14 +87,15 @@ REM
 :copy_binaries
 echo Copying Binaries from %cd%\bin
 if not exist %ReleaseDir% mkdir %ReleaseDir%
-if exist ..\bin\SciTE.exe  (copy ..\bin\SciTE.exe %ReleaseDir% >NUL ) else (echo Binaries not found & Pause & goto :eof )
-if exist ..\bin\SciLexer.dll (copy ..\bin\SciLexer.dll %ReleaseDir% >NUL ) else (echo Binaries not found & Pause & goto :eof) 
+copy ..\bin\SciTE.exe %ReleaseDir% 2>NUL
+copy ..\bin\SciLexer.dll %ReleaseDir% 2>NUL
 echo Platform: %DEST_ARC%
 ECHO OK
 )
 cd ..\..\..
 del /q src\*.build 2>Nul
 echo. > src\%DEST_ARC%.%BUILDTYPE%.build
+pause
 goto :eof
 
 
