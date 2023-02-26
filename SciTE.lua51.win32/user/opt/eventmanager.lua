@@ -1,6 +1,6 @@
 --[[-----------------------------------------------------------------
 eventmanager.lua
-Authors: Tymur Gubayev
+Authors: T Gubayev
 version: 1.1.0
 ---------------------------------------------------------------------
   Description:
@@ -10,10 +10,6 @@ version: 1.1.0
 	  * RemoveEventHandler ( EventName, Handler )
 	
   simple event manager for SciTE
-  Exports two functions (see above)
-  In the SciTEStartup.lua file, add the following line:
-    dofile (props["SciteDefaultHome"].."\\tools\\eventmanager.lua")
-
 ---------------------------------------------------------------------
 History:
 	* 1.0.0 initial release
@@ -82,7 +78,7 @@ local function NewDispatcher(EventName)
 end
 
 --- Connects a custom handler to a SciTE event (last one)
--- `RunOnce` parameter is optional, default is `false`
+-- RunOnce parameter is optional, default is false
 function AddEventHandler(EventName, Handler, RunOnce)
 	local event = events[EventName]
 	if not event then

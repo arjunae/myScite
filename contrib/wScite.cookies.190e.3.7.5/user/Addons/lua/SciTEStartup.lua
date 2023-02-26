@@ -25,10 +25,6 @@ if GTK then dirSep = '/' else dirSep = '\\' end
 
 -- Load extman.lua 
 dofile(myHome..'\\Addons\\lua\\mod-extman\\extman.lua')
-
--- chainload eventmanager / extman remake used by some lua mods
-dofile(myHome..'\\Addons\\lua\\mod-extman\\eventmanager.lua')
-
 dofile(myHome..'\\Addons\\lua\\SciteProject.lua')
 
 -- Load mod-mitchell 

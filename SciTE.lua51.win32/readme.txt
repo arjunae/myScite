@@ -1,11 +1,37 @@
-~# mySciTE.webdev -~
+~# mySciTE -~
 
-[13.07.2018] myScite.190a.MartyMcFly (Lua5.1 & Lua5.3)
-# =Maintenance Release=
-# Fix: Fixes for Language Support and Themeing
-# Upd: Enhanced LexMake (support qMake &  EolWarns on Multiline Continuations)
-# Upd: Tuned lua Script load order
+[28.11.2019] mySciTE.190.xx MartyMcFly (Lua5.1 & Lua5.3)
+  =Maintenance Update=
+lua: allow using lua "stdlib" extensions within "addons/lua" folder
+lua: make interpreter callable via os shell "mylua.bat"
+lua: update libs to current versions
+lua: add inspect/ luasec (https support) / bk_trees
+lua: refactor files for SciteDebug / fix debuggerPrompt on sessionEnd
+lua: Add experimental OnPaneInsert/OnPaneAppend Events
+lexlpeg: add batch keywords
+lexmake: fix stray whitespace issues, singleQuotes in UserVars
+src: Unify sources and dependencies where appropiate within myscite 190.x
+themes: finish rebalancing colours for better contrast. 
+
+[22.01.2019] mySciTE.190.02 MartyMcFly (Lua5.1 & Lua5.3)
+  =Maintenance Release=
+# Upd: scintilla: Update c based lexers to those in current scintilla (4.1.3)
+# Upd: lexer: batchfiles are lexed by a luaLpeg based lexer now.
+# Fix: Build System: enable compiling on Linux and VC again.
+# Upd: properties: redone php (7.2) and c api files. 
+# Add: tools: added a simple update checker.
+# Upd: userlists can be styled with style calltip (38).
+# Upd: Themeing: Major CleanUp.
+-> (30.03.2019) LexMake: CleanUp Code / Fix a rarely occuring assertion.
+
+[13.07.2018] myScite.190.01MartyMcFly (Lua5.1 & Lua5.3)
+  =Maintenance Release=
+# Fix: Fixes for Language Support and Themeing.
+# Upd: Enhanced LexMake (support qMake &  EolWarns on Multiline Continuations).
+# Upd: Tuned lua Script load order.
 # Add: Added Installer (Win32/Win64)
+# Upd: Based on Foicica's Scintilla (3.8.0) cpp11 backport and SciTE Mainline (3.7.5).
+-> (18.03.2019) Fix a rarely occuring assertion in LexMake.
  
 [12.01.2018] myScite.190.MartyMcFly (Lua5.1 & Lua5.3)
 # Add: SciTE Project Support. Settings for scite sources included.

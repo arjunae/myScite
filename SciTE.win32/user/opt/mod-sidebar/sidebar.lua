@@ -14,6 +14,7 @@ Version 1.29.0
       dofile (props["SciteDefaultHome"].."\\user\\opt\\mod-sidebar\\SideBar.lua")
 
    Set in a file .properties:
+   Set in a file .properties:
     command.checked.17.*=$(sidebar.show)
     command.name.17.*=SideBar
     command.17.*=SideBar_ShowHide
@@ -55,9 +56,8 @@ local _DEBUG = false
 
 -- you can choose to make SideBar a stand-alone window
 local win = tonumber(props['sidebar.win']) == 1
--- Переключатель способа предпросмотра аббревиатур: true = calltip, false = annotation
+-- true = calltip, false = annotation
 local Abbreviations_USECALLTIPS = tonumber(props['sidebar.abbrev.calltip']) == 1
--- отображение флагов/параметров по умолчанию:
 local _show_flags = tonumber(props['sidebar.functions.flags']) == 1
 local _show_params = tonumber(props['sidebar.functions.params']) == 1
 
@@ -78,9 +78,6 @@ local colorfore = style:match('fore:(#%x%x%x%x%x%x)') or '#000000'
 
 function ReadAbbrevFile(file, abbr_table)
 	--[[------------------------------------------
-	Эмулирует чтение файла внутренней функцией редактора
-	Функция предназначена для использования вместо io.lines(filename), а также вместо file:lines()
-	Читает файл по правилам SciTE: при наличии в конце строки символа '\' считается, что текущая строка продолжается в следующей.
 	@usage: for l in scite_io_lines('c:\\some.file') do print(l) end
 	  alternative:
 	f = io.open('s:\\some.file')
@@ -113,7 +110,6 @@ function ReadAbbrevFile(file, abbr_table)
 				abbr_table[#abbr_table+1] = {abbr=_abr, exp=_exp}
 			else
 				local import_file = line:match('^import%s+(.+)')
-				-- если обнаружена запись import, то рекурсивно вызываем эту же функцию
 				if import_file then
 					ReadAbbrevFile(file:match('.+\\')..import_file, abbr_table)
 				end
@@ -316,9 +312,9 @@ list_func:context_menu {
 }
 -------------------------
 local tab2 = gui.panel(panel_width)
-
+local width = props["sidebar.abbrev.list.width"] or 50
 local list_abbrev = gui.list(true)
-list_abbrev:add_column("Abbrev", 60)
+list_abbrev:add_column("Abbrev", width)
 list_abbrev:add_column("Expansion", 600)
 tab2:client(list_abbrev)
 if colorback then list_abbrev:set_list_colour(colorfore,colorback) end
@@ -336,7 +332,7 @@ end
 local tabs = gui.tabbar(win_parent)
 tabs:add_tab("Files/Fav", tab0)
 tabs:add_tab("Func/Bmk", tab1)
-tabs:add_tab("Abbrev", tab2)
+-- tabs:add_tab("Abbrev", tab2)
 win_parent:client(tab2)
 win_parent:client(tab1)
 win_parent:client(tab0)
@@ -753,7 +749,6 @@ local Lang2lpeg = {}
 do
 	local P, V, Cg, Ct, Cc, S, R, C, Carg, Cf, Cb, Cp, Cmt = lpeg.P, lpeg.V, lpeg.Cg, lpeg.Ct, lpeg.Cc, lpeg.S, lpeg.R, lpeg.C, lpeg.Carg, lpeg.Cf, lpeg.Cb, lpeg.Cp, lpeg.Cmt
 
-	--@todo: переписать с использованием lpeg.Cf
 	local function AnyCase(str)
 		local res = P'' --empty pattern to start with
 		local ch, CH
@@ -1022,19 +1017,14 @@ do
 		local I = nokeyword*C(IDENTIFIER)*cl
 
 		local typ = IDENTIFIER*(P'.'*IDENTIFIER)^0
-		-- распознаем tuples в типе возвращаемом методом/функцией
 		local tuple = typ*(SPACE^0*P'*'*SPACE^0*typ)^1
 		local tot = tuple+typ
-		-- распознаем коллекции/словари в возвращаемом типе
 		local ar = typ*SPACE^0*P'['*SPACE^0*((tot*SPACE^0*P','*SPACE^0)^0*(tot*SPACE^0))^0*P']'
 		local arr = typ*SPACE^0*P'['*SPACE^0*(((ar+tot)*SPACE^0*P','*SPACE^0)^0*((ar+tot)*SPACE^0))^0*P']'
 		local type = arr+tot
-		-- распознаем контракт метода
 		local req = (P'requires'+P'ensures')*SPACE*(AZ+SPACE+R'09'+S'.,?!=></[]-+()*&^%$#@')^1
 
-		-- методы/функции
 		local method = nokeyword*Ct((mod*SPACE)^0*I*SPACE^0*par)*(SPACE^0*P':'*SPACE^0*type)^0*SC^0*req^0*(#funcbody)
-		-- декларации методов интерфейсов
 		local ifmethod = nokeyword*Ct((P'new'*SPACE)^0*I*SPACE^0*par)*SPACE^0*P':'*SPACE^0*type*SPACE^0*P';'
 
 		local patt = (method + ifmethod + IGNORED^1 + IDENTIFIER + ANY)^0 * EOF
@@ -1421,17 +1411,17 @@ list_bookmarks:on_key(function(key)
 	end
 end)
 
-AddEventHandler("OnSendEditor", function(id_msg, wp, lp)
-	if id_msg == SCI_MARKERADD then
-		if lp == 1 then Bookmark_Add(wp) Bookmarks_ListFILL() end
-	elseif id_msg == SCI_MARKERDELETE then
-		if lp == 1 then Bookmark_Delete(wp) Bookmarks_ListFILL() end
-	elseif id_msg == SCI_MARKERDELETEALL then
-		if wp == 1 then Bookmark_Delete() Bookmarks_ListFILL() end
-	end
-end)
+--scite_OnSendEditor( function(id_msg, wp, lp)
+--	if id_msg == SCI_MARKERADD then
+--		if lp == 1 then Bookmark_Add(wp) Bookmarks_ListFILL() end
+--	elseif id_msg == SCI_MARKERDELETE then
+--		if lp == 1 then Bookmark_Delete(wp) Bookmarks_ListFILL() end
+--	elseif id_msg == SCI_MARKERDELETEALL then
+--		if wp == 1 then Bookmark_Delete() Bookmarks_ListFILL() end
+--	end
+--end)
 
-AddEventHandler("OnClose", function(file)
+scite_OnClose( function(file)
 	for i = #table_bookmarks, 1, -1 do
 		if table_bookmarks[i].FilePath == file then
 			table.remove(table_bookmarks, i)
@@ -1492,7 +1482,7 @@ local function Abbreviations_ShowExpansion()
 		editor:AnnotationClearAll()
 		editor.AnnotationVisible = ANNOTATION_BOXED
 		local linenr = editor:LineFromPosition(cur_pos)
-		editor.AnnotationStyle[linenr] = 255 -- номер стиля, в котором вы задали параметры для аннотаций
+		editor.AnnotationStyle[linenr] = 255
 		editor.AnnotationText[linenr] = expansion:gsub('\t', '    ')
 	end
 end
@@ -1540,16 +1530,15 @@ local function OnSwitch()
 	_DEBUG.timerstop('OnSwitch')
 	if (gui) then gui.pass_focus() end
 end
-AddEventHandler("OnSwitchFile", OnSwitch)
-AddEventHandler("OnOpen", OnSwitch)
-AddEventHandler("OnSave", OnSwitch)
+scite_OnSwitchFile( OnSwitch)
+scite_OnOpen( OnSwitch)
+scite_OnSave( OnSwitch)
 
 tabs:on_select(function(ind)
 	tab_index=ind
 	OnSwitch()
 end)
 
---- Функции показывающие/прячущие боковую панель
 local SideBar_Show, SideBar_Hide
 if win then
 	SideBar_Show = function()
@@ -1573,7 +1562,6 @@ else
 	end
 end
 
---- Переключает отображение боковой панели
 function SideBar_ShowHide()
 	if tonumber(props['sidebar.show'])==1 then
 		SideBar_Hide()
@@ -1582,8 +1570,7 @@ function SideBar_ShowHide()
 	end
 end
 
--- Обновление списков Functions и Bookmarks при изменении кол-ва строк в активном документе
-AddEventHandler("OnUpdateUI", function()
+scite_OnUpdateUI( function()
 	if (editor.Focus and line_count) then
 		local line_count_new = editor.LineCount
 		local def_line_count = line_count_new - line_count
@@ -1602,13 +1589,12 @@ AddEventHandler("OnUpdateUI", function()
 			line_count = line_count_new
 		end
 	end
-end)
-
+end
+)
 ----------------------------------------------------------
 -- Go to function definition
 ----------------------------------------------------------
 
--- По имени функции находим строку с ее объявлением (инфа берется из table_functions)
 local function Func2Line(funcname)
 	if not next(table_functions) then
 		Functions_GetNames()
@@ -1620,14 +1606,13 @@ local function Func2Line(funcname)
 	end
 end
 
--- Переход на строку с объявлением функции
 local function JumpToFuncDefinition()
 	local funcname = GetCurrentWord()
 	local line = Func2Line(funcname)
 	if line then
 		_backjumppos = editor.CurrentPos
 		editor:GotoLine(line)
-		return true -- обрываем дальнейшую обработку OnDoubleClick (выделение слова и пр.)
+		return true 
 	end
 end
 
@@ -1638,13 +1623,13 @@ local function JumpBack()
 	end
 end
 
-AddEventHandler("OnDoubleClick", function(shift, ctrl, alt)
+scite_OnDoubleClick( function(shift, ctrl, alt)
 	if shift then
 		return JumpToFuncDefinition()
 	end
 end)
 
-AddEventHandler("OnKey", function(key, shift, ctrl, alt, char)
+scite_OnKey( function(key, shift, ctrl, alt, char)
 	if editor.Focus and ctrl then
 		if key == 188 then -- '<'
 			JumpBack()
@@ -1720,7 +1705,7 @@ local function SetRGBColour(colour)
 	end
 end
 
-AddEventHandler("OnDwellStart", function(pos, cur_word)
+scite_OnDwellStart( function(pos, cur_word)
 	if pos ~= 0 then
 		local cur_text = editor:GetSelText()
 		if (cur_text == '') then
@@ -1733,10 +1718,10 @@ end)
 props["dwell.period"] = 50
 
 local cur_word_old = ""
-AddEventHandler("OnKey", function()
+scite_OnKey( function()
 	if editor.Focus then
 --	print(win_parent:bounds()) --Arjunae debug
-		local cur_word = GetCurrentWord() -- слово, на котором стояла каретка ДО ТОГО КАК ЕЁ ПЕРЕМЕСТИЛИ
+		local cur_word = GetCurrentWord()
 		if cur_word ~= cur_word_old then
 			SetHexColour(cur_word)
 			cur_word_old = cur_word

@@ -332,7 +332,7 @@ end
 local tabs = gui.tabbar(win_parent)
 tabs:add_tab("Files/Fav", tab0)
 tabs:add_tab("Func/Bmk", tab1)
--- tabs:add_tab("Abbrev", tab2)
+tabs:add_tab("Abbrev", tab2)
 win_parent:client(tab2)
 win_parent:client(tab1)
 win_parent:client(tab0)

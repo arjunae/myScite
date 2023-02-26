@@ -2,16 +2,13 @@
 -- SciTEProject.lua, base Module: initialize Project and CTags Support for mySciTE.
 -- @License: BSD3Clause. @Author Thorsten Kani
 -- Version: 0.8
--- todo: test implementation scite.ReadProperties
 --
 
 local ctagsLock --true during writing to the projects ctags and properties files 
 
---~~~~~~~~~~~~~~~~~~~
 --
 -- NameCache
 --
---~~~~~~~~~~~~~~~~~~~
 local cTagNames=""
 local cTagClasses=""
 local cTagModules=""
@@ -22,58 +19,56 @@ local cTagOthers=""
 local cTagAllTogether=""
 local cTagList --table
 
---~~~~~~~~~~~~~~~~~~~
 --
 -- Default Values for syntax Highlitening for substyles enabled Lexers
 --
---~~~~~~~~~~~~~~~~~~~
 if props["colour.project.class"]=="" then props["colour.project.class"]="fore:#906690" end 
 if props["colour.project.functions"]=="" then props["colour.project.functions"]="fore:#907090" end 
 if props["colour.project.constants"]=="" then props["colour.project.constants"]="fore:#B07595" end 
 if props["colour.project.modules"]=="" then props["colour.project.modules"]="fore:#9675B0" end 
 if props["colour.project.enums"]=="" then props["colour.project.enums"]="fore:#3645B0" end 
 
---~~~~~~~~~~~~~~~~~~~
---
 -- returns if a given fileNamePath exists
 --
---~~~~~~~~~~~~~~~~~~~
+--[[
 local function file_exists(name)
    local f=io.open(name,"r")
    if f~=nil then io.close(f) return true else return false end
 end
+]]
+local function file_exists(filename)            -- Tests for file or directory
+    if type(filename)~="string" then
+	    return false
+    end
+    return os.rename(filename,filename) and true or false
+    -- Source: http://stackoverflow.com/questions/4990990/lua-check-if-a-file-exists
+end
 
---~~~~~~~~~~~~~~~~~~~
---
 -- handle Project Folders
 -- (ctags, Autocomplete & highlitening)
---
---~~~~~~~~~~~~~~~~~~~
-function ProjectSetEnv(init)
 
+function ProjectSetEnv(init)
+	props["properties.directory.enable"]=1	
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		props["project.path"] = props["SciteDirectoryHome"]
 		props["project.ctags.filename"]="ctags.tags"
-		props["project.ctags.apipath"]=props["project.path"]..dirSep..props["project.ctags.filename"]..".api"
+		props["project.ctags.apipath"]=props["project.path"]..dirSep.."ctags"..dirSep..props["project.ctags.filename"]..".api"
 		props["project.ctags.propspath"]=props["project.ctags.apipath"]..".properties"
 		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
-		--buffer.projectName= props["project.name"]
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1
 	end
 	
-	if init then dofile(myHome..dirSep..'macros'..dirSep..'.AutoComplete.lua') end
-
+	if init then dofile(myHome..dirSep..'opt'..dirSep..'AutoComplete.lua') end
+	--print("ProjectSetEnv ",props["project.ctags.apipath"],init)
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 -- CTagsWriteProps() / publish cTag extrapolated Api Data -
--- reads cTag.properties and writes them to SciTEs .api and .properties files.
+-- reads cTag.properties File and writes them to SciTEs .properties.
 -- prepared for just appending a set of filebased Ctags for speed.
 -- returns cTagList, which contains a List of all Names found in the tagFile
 --
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 
 	if not file_exists(YodaNamePath) or ctagsLock==true or props["project.path"]=="" then return end		
@@ -122,11 +117,9 @@ end
 
 local origApiPath, projectApiPath, sdkApiPath
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 --cTagsUpdateProps() 	/ Update filetypes api path.
 --
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 
 	ProjectSetEnv(false)
@@ -170,19 +163,17 @@ function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 	props["style."..currentLexer..".11.20"]=props["colour.project.class"]
 
 	--apply themeing changes and changed keywords.
-	scite.ApplyProperties()
+	--scite.ApplyProperties(true)
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- 
 -- ProjectOnDwell()
--- Performs actions when the "project.ctags.fin" file has been found.
+-- Performs actions when the "project.ctgs.fin" file has been found.
 -- (created when a cTag run has been completed)
 --
---~~~~~~~~~~~~~~~~~~~~~~~~~~
 function ProjectOnDwell()
-	if ctagsLock==false or props["project.path"]=="" then return end	
-	--print("ProjectOnDwell: cTagsLock",ctagsLock,"inProject",inProject)	
+	--print("ProjectOnDwell:", props["project.path"])	
+	if props["project.path"]=="" then return end	
 	finFileNamePath=os.getenv("tmp")..dirSep.."project.ctags"..".fin"
 	
 	local finFile=io.open(finFileNamePath,"r")
@@ -193,18 +184,16 @@ function ProjectOnDwell()
 		os.remove(finFileNamePath)
 		local fileNamePath= (props["project.ctags.propspath"])
 		CTagsUpdateProps(true,fileNamePath)
-		--print("...generating CTags finished",ctagsLock)		
+		print("...generating CTags finished",ctagsLock)		
 	end
 	finFile=nil
 
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 --
 -- RecreateCTags()
 -- Search the File for new CTags and append them.
 --
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function CTagsRecreate()
 	if  ctagsLock==true then return end	
 	if props["project.name"]~="" and props["file.patterns.project"]:match(props["FileExt"])~=nil then
@@ -230,7 +219,9 @@ function CTagsRecreate()
 	end	
 		
 end
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 -- Registers the Autocomplete event Handlers early.
 ProjectSetEnv(true)
+scite_OnOpenSwitch(CTagsUpdateProps,false,"")
+scite_OnDwellStart(ProjectOnDwell)
+scite_OnSave(CTagsRecreate)

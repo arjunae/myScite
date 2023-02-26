@@ -48,7 +48,7 @@ end
 -- (ctags, Autocomplete & highlitening)
 
 function ProjectSetEnv(init)
-
+	props["properties.directory.enable"]=1	
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then
 		props["project.path"] = props["SciteDirectoryHome"]
 		props["project.ctags.filename"]="ctags.tags"
@@ -60,7 +60,7 @@ function ProjectSetEnv(init)
 	end
 	
 	if init then dofile(myHome..dirSep..'opt'..dirSep..'AutoComplete.lua') end
-
+	--print("ProjectSetEnv ",props["project.ctags.apipath"],init)
 end
 
 --
@@ -172,8 +172,8 @@ end
 -- (created when a cTag run has been completed)
 --
 function ProjectOnDwell()
-	if ctagsLock==false or props["project.path"]=="" then return end	
-	--print("ProjectOnDwell: cTagsLock",ctagsLock,"inProject",inProject)	
+	--print("ProjectOnDwell:", props["project.path"])	
+	if props["project.path"]=="" then return end	
 	finFileNamePath=os.getenv("tmp")..dirSep.."project.ctags"..".fin"
 	
 	local finFile=io.open(finFileNamePath,"r")

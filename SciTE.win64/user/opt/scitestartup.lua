@@ -2,10 +2,10 @@
 --io.stdout:setvbuf("no")
 GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
-UserDir = props["SciteDefaultHome"]..dirSep.."user"..dirSep.."opt"..dirSep
-LUA_PATH = UserDir.."lua\\" -- official lua related scripts
-package.path = package.path ..";"..UserDir.."lua\\?.lua;"..UserDir.."lua-scite\\?.lua;"
-package.cpath = package.cpath .. ";"..UserDir.."lua-scite\\?.dll;"
+myHome = props["SciteDefaultHome"]..dirSep.."user"..dirSep.."opt"..dirSep
+LUA_PATH = myHome.."lua\\" -- official lua related scripts
+package.path = package.path ..";"..myHome.."lua\\?.lua;"..myHome.."lua-scite\\?.lua;"
+package.cpath = package.cpath .. ";"..myHome.."lua-scite\\?.dll;"
 if not GTK then
 	package.path = string.gsub(package.path,"/","\\")
 	package.cpath = string.gsub(package.cpath,"/","\\")
@@ -18,25 +18,25 @@ _G.string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(arr) with #arr
 
 -- load eventmanager / extman remake used by some lua mods
-	dofile(UserDir..'eventmanager.lua')
+	dofile(myHome..'eventmanager.lua')
 	
 	-- extman.lua
 	-- This will automatically run any lua script located in \user\opt\lua-scite
-	dofile(UserDir..'extman.lua')
+	dofile(myHome..'extman.lua')
 
 	-- Debugging support
-	dofile(UserDir..'mod-scite-debug\\debugger.lua')
+	dofile(myHome..'mod-scite-debug\\debugger.lua')
 	
 	-- Sidebar- loading the sidebar here avoids problems with ext.lua.auto.reload
-	--package.path = package.path .. ";"..UserDir.."\\opt\\mod-sidebar\\?.lua;"
-	--dofile(UserDir..'mod-sidebar\\sidebar.lua')
+	--package.path = package.path .. ";"..myHome.."\\opt\\mod-sidebar\\?.lua;"
+	--dofile(myHome..'mod-sidebar\\sidebar.lua')
 	
 	-- mod-mitchell
 	--dofile(myScripts..'opt\\mod-mitchell\\scite.lua')
 
 	-- Initialize Project support last
-	dofile(UserDir.."ctags.lua")
-	dofile(UserDir..'SciTEProject.lua')
+	dofile(myHome.."ctags.lua")
+	dofile(myHome..'SciTEProject.lua')
 
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -49,7 +49,7 @@ function HighlightLinks()
 	if editor.Lexer~=1 then -- Performance: no Null Lexer	
 		EditorClearMarks(markerA) -- common.lua 
 		editor.IndicStyle[markerA] = INDIC_TEXTFORE
-		editor.IndicFore[markerA] = 0xBE3333
+		editor.IndicFore[markerA] = 0x994444
 		prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
 		body="[a-zA-Z0-9]?." 	-- followed by a word  (eg www or the domain)
 		suffix="[^ \r\n\t\"\'<]+" 	-- ends with space, newline,tab < " or '
@@ -63,12 +63,12 @@ function HighlightLinks()
 
 --	
 -- Highlight params and their Values - based ob above URL's
--- http://www.trendsderzukunft.de/?param=o&value2=H12
+-- http://www.trendsderzukunft.de/?param=ok&value2=H12
 
 	-- Keys 
 	local markerB=11 -- The URL Param
 	editor.IndicStyle[markerB] = INDIC_TEXTFORE
-	if props["colour.url_param"]=="" then props["colour.url_param"] = "0x05B750" end
+	if props["colour.url_param"]=="" then props["colour.url_param"] = "0x604050" end
 	editor.IndicFore[markerB]  = props["colour.url_param"] 
 	
 	if editor.Lexer~=1 then -- No Null Lexer	

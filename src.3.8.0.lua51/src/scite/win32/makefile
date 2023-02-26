@@ -39,7 +39,7 @@ endif
 PROG	= ../bin/SciTE.exe
 PROGSTATIC = ../bin/Sc1.exe
 WIDEFLAGS=-DUNICODE -D_UNICODE
-CXXSTD = gnu++14
+CXXSTD = gnu++11
 
 vpath %.h ../src ../../scintilla/include
 vpath %.cxx ../src
@@ -83,7 +83,7 @@ CFLAGS=-DNDEBUG -Os $(CBASEFLAGS)
 STRIPFLAG="-Wl,-s"
 endif
 
-CXXFLAGS = $(CFLAGS) -pedantic --std=gnu++14
+CXXFLAGS = $(CFLAGS) -pedantic --std=gnu++11
 
 LDFLAGS=-mwindows -lmsimg32 -lcomctl32 -limm32 -lole32 -luuid -loleaut32 --static $(UXLIB) $(LUA_LDFLAGS)
 

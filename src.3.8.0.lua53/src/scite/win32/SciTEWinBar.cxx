@@ -458,8 +458,6 @@ void SciTEWin::SizeSubWindows() {
 	visHeightEditor = bands[bandContents].height;
 	visHeightStatus = bands[bandStatus].height;
 
-	MENUINFO mi = { 0 }; 
-
 	SizeContentWindows();
 //	::SendMessage(MainHWND(), WM_SETREDRAW, true, 0);
 //	::RedrawWindow(MainHWND(), NULL, NULL, RDW_INVALIDATE | RDW_ALLCHILDREN);
@@ -799,7 +797,7 @@ void SciTEWin::LocaliseMenu(HMENU hmenu) {
 
 void SciTEWin::LocaliseMenus() {
 LocaliseMenu(::GetMenu(MainHWND()));
-	MENUINFO mi = { 0 }; 
+MENUINFO mi ; 
 mi.fMask = MIM_STYLE|MIM_BACKGROUND|MIM_APPLYTOSUBMENUS; 
 mi.dwStyle=MNS_NOCHECK;
 mi.cbSize = sizeof(mi); 

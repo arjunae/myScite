@@ -1,4 +1,4 @@
-~# mySciTE.webdev -~
+~# mySciTE -~
 
 [28.11.2019] mySciTE.190.xx MartyMcFly (Lua5.1 & Lua5.3)
   =Maintenance Update=
