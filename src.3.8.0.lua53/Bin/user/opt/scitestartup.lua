@@ -32,8 +32,6 @@ dofile(myHome.."opt"..dirSep.."macros.lua")
  dofile(myHome.."opt"..dirSep.."ctags.lua")
  dofile(myHome.."opt"..dirSep.."SciTEProject.lua")
 
---__--__--__--__--__--__--__--__
-
 -- ##################  Lua Samples #####################
 --   ##############################################
 
@@ -65,12 +63,9 @@ function myScite_SwitchFile()
 	end
 end
 
---__--__--__--__--__--__--__--__
-
 
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 function OnInit()
   -- Events for Indicators
   scite_OnOpenSwitch(myScite_SwitchFile)
 end
---__--__--__--__--__--__--__--__

@@ -18,7 +18,7 @@ _G.string.gfind = string.gmatch or string.gfind
 --lua >=5.2.x replaced table.getn(arr) with #arr
 
 -- load eventmanager / extman remake used by some lua mods
-	dofile(myHome..'eventmanager.lua')
+--	dofile(myHome..'eventmanager.lua')
 	
 	-- extman.lua
 	-- This will automatically run any lua script located in \user\opt\lua-scite
