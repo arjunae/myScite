@@ -29,7 +29,7 @@ _G.string.gfind = string.gmatch or string.gfind
 	
 	-- Sidebar- loading the sidebar here avoids problems with ext.lua.auto.reload
 	--package.path = package.path .. ";"..myHome.."\\opt\\mod-sidebar\\?.lua;"
-	dofile(myHome..'mod-sidebar\\sidebar.lua')
+--	dofile(myHome..'mod-sidebar\\sidebar.lua')
 	
 	-- mod-mitchell
 	--dofile(myScripts..'opt\\mod-mitchell\\scite.lua')
