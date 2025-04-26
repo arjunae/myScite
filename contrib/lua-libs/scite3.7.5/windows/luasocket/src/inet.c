@@ -63,7 +63,7 @@ static int inet_gethost(const char *address, struct hostent **hp) {
 static int inet_global_tohostname(lua_State *L) {
     const char *address = luaL_checkstring(L, 1);
     struct hostent *hp = NULL;
-    int err = inet_gethost(address, &hp);
+    int err = inet_gethost(address , &hp);
     if (err != IO_DONE) {
         lua_pushnil(L);
         lua_pushstring(L, socket_hoststrerror(err));

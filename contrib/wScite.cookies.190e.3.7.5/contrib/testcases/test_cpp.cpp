@@ -15,7 +15,6 @@
 void mySay(char *myString) {
 	printf(myString);
 }
-
 /// checks for "test_cpp.cpp" and return result.
 int main() {
 // Define some Vars to see in locals view.

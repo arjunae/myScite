@@ -1,7 +1,7 @@
 ------------------------------------------------------------------------------
--- LuaSec 0.8
+-- LuaSec 1.3.2
 --
--- Copyright (C) 2006-2019 Bruno Silvestre
+-- Copyright (C) 2006-2023 Bruno Silvestre
 --
 ------------------------------------------------------------------------------
 
@@ -201,6 +201,41 @@ local function newcontext(cfg)
       if not succ then return nil, msg end
    end
 
+   -- PSK
+   if config.capabilities.psk and cfg.psk then
+      if cfg.mode == "client" then
+         if type(cfg.psk) ~= "function" then
+            return nil, "invalid PSK configuration"
+         end
+         succ = context.setclientpskcb(ctx, cfg.psk)
+         if not succ then return nil, msg end
+      elseif cfg.mode == "server" then
+         if type(cfg.psk) == "function" then
+            succ, msg = context.setserverpskcb(ctx, cfg.psk)
+            if not succ then return nil, msg end
+         elseif type(cfg.psk) == "table" then
+            if type(cfg.psk.hint) == "string" and type(cfg.psk.callback) == "function" then
+               succ, msg = context.setpskhint(ctx, cfg.psk.hint)
+               if not succ then return succ, msg end
+               succ = context.setserverpskcb(ctx, cfg.psk.callback)
+               if not succ then return succ, msg end
+            else
+               return nil, "invalid PSK configuration"
+            end
+         else
+            return nil, "invalid PSK configuration"
+         end
+      end
+   end
+
+   if config.capabilities.dane and cfg.dane then
+      if type(cfg.dane) == "table" then
+         context.setdane(ctx, unpack(cfg.dane))
+      else
+         context.setdane(ctx)
+      end
+   end
+
    return ctx
 end
 
@@ -267,8 +302,9 @@ core.setmethod("info", info)
 --
 
 local _M = {
-  _VERSION        = "0.8",
+  _VERSION        = "1.3.2",
   _COPYRIGHT      = core.copyright(),
+  config          = config,
   loadcertificate = x509.load,
   newcontext      = newcontext,
   wrap            = wrap,

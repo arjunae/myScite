@@ -1,0 +1,122 @@
+Spawner API - Dokumentation (ohne spawner.new)
+
+Modul: spawner
+
+Laden:
+  local spawner = require("spawner")
+
+-------------------------------------------------
+FUNKTIONEN
+-------------------------------------------------
+
+1. spawner.popen(command) -> file
+
+  Startet ein externes Programm und gibt ein Dateiobjekt zum Lesen von stdout zurueck.
+
+  Parameter:
+    - command (string): Der auszufuehrende Befehl
+
+  Rueckgabe:
+    - Dateiobjekt (PIPE_FILE*)
+
+  Beispiel:
+    local file = spawner.popen("dir")
+    for line in file:lines() do
+      print(line)
+    end
+    file:close()
+
+
+2. spawner.popen2(command) -> file_write, file_read
+
+  Startet ein externes Programm und gibt zwei Dateiobjekte zurueck:
+    - write (zum Schreiben auf stdin)
+    - read (zum Lesen von stdout)
+
+  Parameter:
+    - command (string): Der auszufuehrende Befehl
+
+  Rueckgabe:
+    - Zwei Dateiobjekte (PIPE_FILE*)
+
+  Beispiel:
+    local w, r = spawner.popen2("cmd")
+    w:write("echo Hello")
+    w:write("exit")
+    w:flush()
+    for line in r:lines() do
+      print(line)
+    end
+    w:close()
+    r:close()
+
+
+3. spawner.perform(command, instance_number) -> result | nil, error
+
+  Sendet einen Befehl an eine andere SciTE-Instanz.
+
+  Parameter:
+    - command (string): Befehl
+    - instance_number (integer): 0 = aktuelle Instanz, 1+ = andere Instanz
+
+  Rueckgabe:
+    - true/false oder nil, Fehlermeldung
+
+
+4. spawner.foreground()
+
+  Bringt das SciTE-Fenster in den Vordergrund.
+
+
+5. spawner.fulllines(enabled)
+
+  Legt fest, ob die Prozessausgabe zeilenweise (true) oder fragmentweise (false) verarbeitet wird.
+
+  Parameter:
+    - enabled (boolean)
+
+
+6. spawner.verbose()
+
+  Hat keine Funktion. Platzhalter. Kann ignoriert werden.
+
+-------------------------------------------------
+DATEIOBJEKTE (PIPE_FILE*) - METHODEN
+-------------------------------------------------
+
+1. file:read(...)
+
+  Liest Daten aus der Datei. Moegliche Optionen:
+    - "*l" : eine Zeile
+    - "*n" : eine Zahl
+    - "*a" : den gesamten Inhalt
+    - [Zahl] : bestimmte Anzahl von Zeichen
+
+  Beispiel:
+    local line = file:read("*l")
+
+
+2. file:lines()
+
+  Gibt einen Iterator zurueck, der Zeilen einzeln liefert.
+
+  Beispiel:
+    for line in file:lines() do print(line) end
+
+
+3. file:write(...)
+
+  Schreibt Daten (Text oder Zahl) in die Datei.
+
+  Beispiel:
+    file:write("Hello\n", 42)
+
+
+4. file:flush()
+
+  Leert den Schreibpuffer. Wichtig nach write().
+
+
+5. file:close()
+
+  Schließt die Datei.

@@ -17,7 +17,6 @@ _G.string.gfind = string.gmatch or string.gfind
 --_G.os.exit= function() error("Catched os.exit from quitting SciTE.\n") end
 --lua >=5.2.x replaced table.getn(arr) with #arr
 
-	
 	-- extman.lua
 	-- This will automatically run any lua script located in \user\opt\lua-scite
 	dofile(myHome..'extman.lua')
@@ -125,6 +124,7 @@ end
 
 
 function myScite_OpenSwitch()
+
 	if buffer and props["FilePath"]~="" then 
 		buffer.size= file_size(props["FilePath"])
 		if buffer.size < 262144 then 
@@ -146,7 +146,6 @@ function OnInit()
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 	--editor:GrabFocus()  -- Ensure editors focus
-	
 	-- check SciLexer once per session and inform the User if its a nonStock Version.
 	local SLHash
 	if not SLHash then

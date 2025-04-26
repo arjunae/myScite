@@ -136,7 +136,7 @@ end
 -- Using ssl.dll directly 
 print("[Test socket+SSL]")
 require("socket")
-local https = require("https")
+local https = require("ssl.https")
 local body, code, headers, status= https.request("https://www.google.com/search?q=myscite")
 print("https://www.google.com/search?q=myscite ["..status.."]")
 --print(body)

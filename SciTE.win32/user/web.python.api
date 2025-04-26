@@ -31,7 +31,6 @@ while
 False
 True
 None
-
 abs(number) -> number
 apply(object[, args[, kwargs]]) -> value
 ArithmeticError(??) [doc: Base class for arithmetic errors.]

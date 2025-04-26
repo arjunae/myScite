@@ -15,7 +15,7 @@ function HashFileCrc32(filename)
 	data->  input data to apply to CRC, as a Lua string.
 	returns -> updated CRC. 
 	]]
-
+gu
 	C32 = require 'crc32'
 	crc32=C32.crc32
 	--print ('CyclicRedundancyCheck==', crc32(0, 'CyclicRedundancyCheck')) 
@@ -107,7 +107,7 @@ local socket = require "socket"
 -- socket.tcp: "tcp.accept", "tcp.bind", "tcp.close", "tcp.connect", "tcp.getpeername","tcp.getstats", "tcp.recieve", "tcp.send", "tcp.setoption", "tcp.setstats", "tcp.settimeout", "tcp.shutdown"
 -- socket.udp: "udp.close", "udp.getpeername", "udp.getsockname", "udp.receive", "udp.receivefrom", "udp.send", "udp.sendto", "udp.setpeername", "udp.setsockname", "udp.setoption", "udp.settimeout" 
 -- socket.lua layer provides "connect4", "connect6", "bind"
-    
+	
 --print("Hello from " .. socket._VERSION .."!")
 
 --[[
@@ -136,7 +136,7 @@ end
 -- Using ssl.dll directly 
 print("[Test socket+SSL]")
 require("socket")
-local https = require("https")
+local https = require("ssl.https")
 local body, code, headers, status= https.request("https://www.google.com/search?q=myscite")
 print("https://www.google.com/search?q=myscite ["..status.."]")
 --print(body)

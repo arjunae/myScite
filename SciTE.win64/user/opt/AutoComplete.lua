@@ -1,26 +1,22 @@
---go@ dofile $(FilePath)
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
--- AutoComplete by Lexikos. Update 20210124 by Marcedo
--- Version: 1.0
--- - Sanity checks for SciTE.
--- - Documentation, Performance Tweaks
--- - fix Crash with switching buffers to a code in a fresh, unnamed buffer 
+-- AutoComplete by Lexikos. Update 20250424 by Marcedo
 
 --[[
-Tested on SciTE4AutoHotkey 3.0.06.01; also works on SciTE 3.1.0 or later.
-To use this script with SciTE4AutoHotkey:
   - Place this file in your SciTE user settings folder.
   - Add the following to UserLuaScript.lua:
         dofile(props['SciteUserHome'].."/AutoComplete.lua")
   - Restart SciTE.
 
- @info 2021 Marcedo@habMalNeFrage.de
+ @info 2025 Marcedo@habMalNeFrage.de
  - Performance: exclude NULL Lexer; 
     Use a FileSize maximum; 
     Only regenerate Data on changed File (buffer.dirty)
     Renew Keywords in OnDwell and onKey (enter key) handlers. 
     workaround for a corner case with an uninitialized scite buffer table
+ - Modified to support keyword.:subkeyword style autocompletion
+
 ]]
+
+local IDENTIFIER_PATTERNS = {"[%w_]+%.%w+", "[%w_]+"} -- Unterstützt sowohl foo.bar als auch einfache Begriffe
 
 local DEBUG=0 --1: Trace Mode 2: Verbose Mode
 
@@ -61,7 +57,7 @@ local IGNORE_STYLES = { -- Should include comments, strings and errors.
 -- Names from api files, stored by lexer name.
 local apiCache = {} 
 -- Number of chars to type before the autocomplete list appears:
-local MIN_PREFIX_LEN = 3
+local MIN_PREFIX_LEN = 2
 -- Length of shortest word to add to the autocomplete list:
 local MIN_IDENTIFIER_LEN = 4
 -- List of regex patterns for finding suggestions for the autocomplete menu:
@@ -202,145 +198,119 @@ if DEBUG>=1 then print("ac>getApiNames", apiFiles) end
     if lexer~=nil then
         apiCache[lexer] = apiNames -- Even if it's empty
     end
-        
+
     return apiNames
 end
 
---
--- create AutoCompletes Keyword list
---
+
+
 local function buildNames()
--- Perfomance: 
--- Disable Ac for the Null Lexer
--- only rebuild list when the buffer was modified
--- use a user settable maximum size for AutoComplete to be active
---print("build names buffer state:",buffer.dirty)
-    names={}
-    --handle corner cases when luaext didnt init its buffer table 
-    if type(buffer)=="table" then
-        buffer.size= buffer.size or 0
-        --Handling "BigData" can be time intensive, so only do that when its neccesary.
+    names = {}
+
+    if type(buffer) == "table" then
+        buffer.size = buffer.size or 0
         if buffer.size > AC_MAX_SIZE then return end
-        if buffer.size and (buffer.dirty==false or props["Language"]=="") then return end 
+      --  if buffer.size and (buffer.dirty == false or props["Language"] == "") then return end
     end
 
-    if DEBUG>=1 then print("ac>buildnames") end
-        setLexerSpecificStuff()
-        -- Reset our array of names.
-        names = {}
-        -- Collect all words matching the given patterns.
-        local unique = {}
-        -- Initialisation: Build an ordered array from the Api files entries 
-        if #unique==0 then
-            for name in pairs(getApiNames()) do
-                unique[normalize(name)] = name
-            end
-        end
-        for i, pattern in ipairs(IDENTIFIER_PATTERNS) do
-            local startPos, endPos
-            endPos = 0
-            while true do
-                startPos, endPos = editor:findtext(pattern, SCFIND_REGEXP, endPos + 1)
-                if not startPos then
-                    break
-                end
-                if not shouldIgnorePos(startPos) then
-                    if endPos-startPos+1 >= MIN_IDENTIFIER_LEN then
-                        -- Create one key-value pair per unique word:
-                        local name = editor:textrange(startPos, endPos)
-                            -- This also "case-corrects"; e.g. "gui" -> "Gui"
-                         unique[normalize(name)] = name
-                    end
+    if DEBUG >= 1 then print("ac>buildnames") end
+
+    setLexerSpecificStuff()
+    local unique = {}
+
+    -- API-Dateien einlesen
+    for name in pairs(getApiNames()) do
+        unique[normalize(name)] = name
+        if name:find("%.") then
+            local head = name:match("^([%w_]+)%.")
+            if head then
+                local headWithDot = head .. "."
+                if not unique[normalize(headWithDot)] then
+                    unique[normalize(headWithDot)] = headWithDot
                 end
             end
         end
-        for _,name in pairs(unique) do table.insert(names, name) end     
-        table.sort(names, function(a,b) return normalize(a) < normalize(b) end) 
-        if type(buffer)=="table" then
-            buffer.namesForAutoComplete = names  -- Cache it for OnSwitchFile.
-            buffer.dirty=false
+    end
+
+    -- Begriffe aus dem Text einlesen
+    for i, pattern in ipairs(IDENTIFIER_PATTERNS) do
+        local startPos, endPos
+        endPos = 0
+        while true do
+            startPos, endPos = editor:findtext(pattern, SCFIND_REGEXP, endPos + 1)
+            if not startPos then break end
+            if not shouldIgnorePos(startPos) then
+                if endPos - startPos + 1 >= MIN_IDENTIFIER_LEN then
+                    local name = editor:textrange(startPos, endPos)
+                    unique[normalize(name)] = name
+                    
+                end
+            end
         end
-        --print ("ac>buildNames:  ...Created a new keywordlist")
+    end
+
+    for _, name in pairs(unique) do
+		table.insert(names, name) 
+	 end
+	 
+    table.sort(names, function(a, b) return normalize(a) < normalize(b) end)
+
+    if type(buffer) == "table" then
+        buffer.namesForAutoComplete = names
+        buffer.dirty = false
+    end
 end
 
 
-local lastAutoCItem = 0 -- Used by handleKey().
-local menuItems
-
 local function handleChar(char, calledByHotkey)
-    if props["Language"]==""  then  return end
+
+if DEBUG>=1 then print("ac>handleChar") end
+ 
+   if props["Language"] == "" then return end
     if buffer.size and buffer.size > AC_MAX_SIZE then return end
     if not names then buildNames() end
+
     local pos = editor.CurrentPos
     local startPos = editor:WordStartPosition(pos, true)
     local len = pos - startPos
-    if (buffer.size) then buffer.dirty=true end
-    
-    if ipairs==nil then ipairs={} end
-    if editor.Lexer==1  then return end
-    
-    if not INCREMENTAL and editor:AutoCActive() then
-        -- Nothing to do.
-        return
-    end
+    if buffer.size then buffer.dirty = true end
+    if editor.Lexer == 1 then return end
+   if not INCREMENTAL and editor:AutoCActive() then return end
 
-    if len < MIN_PREFIX_LEN then
-        if editor:AutoCActive() then
-            if len == 0 then
-                -- Happens sometimes after typing ")".
-                editor:AutoCCancel()
-                return
-            end
-            -- Otherwise, autocomplete is already showing so may as well
-            -- keep it updated even though len < MIN_PREFIX_LEN.
-        else
-            if char then
-                -- Not enough text to trigger autocomplete, so return.
-                return
-            end
-            -- Otherwise, we were called explicitly without a param.
-        end
-    end
-
-    if not editor:AutoCActive() and shouldIgnorePos(startPos) and not calledByHotkey or editor:CallTipActive() then
-        -- User is typing in a comment or string, so don't automatically
-        -- pop up the auto-complete window.
-        return
-    end
-
+    if len < MIN_PREFIX_LEN and not char then return end
+    if len < MIN_PREFIX_LEN and not editor:AutoCActive() then return end
+--  if not shouldIgnorePos(startPos) and not calledByHotkey  then return end
+--editor:AutoCActive() and or editor:CallTipActive()
     local prefix = normalize(editor:textrange(startPos, pos))
 
-    -- allow autocompletition for php variables
-    if string.sub(prefix,1,1) =="$" then
-        prefix= string.gsub(prefix,"%$","")
-        len=len -1
-    end
+   menuItems = {}
+if DEBUG>=1 then print("ac>handleChar_start") end
+local seen = {}  -- Set zur Duplikatvermeidung
 
-    menuItems = {}
-    for i, name in ipairs(names) do
-        local s = normalize(string.sub(name, 1, len))
-        if s >= prefix then
-            if s == prefix and #menuItems<=MENUITEMS_MAX then            
-                table.insert(menuItems, name)
-            else
-                break -- There will be no more matches.
-            end
+for _, name in ipairs(names) do
+    local displayName = name:match("^[^.:]+") or name  -- Teil vor Punkt oder Doppelpunkt
+    local normName = normalize(displayName)
+    if normName:find("^" .. prefix) and not seen[normName] then
+        if #menuItems <= MENUITEMS_MAX then
+            table.insert(menuItems, displayName)
+            seen[normName] = true
+        else
+            break
         end
     end
+end
+
     if notempty(menuItems) then
-        -- Show or update the auto-complete list.
         local list = table.concat(menuItems, "\1")
         editor.AutoCIgnoreCase = IGNORE_CASE
-        editor.AutoCCaseInsensitiveBehaviour = 1 -- Do NOT pre-select a case-sensitive match
+        editor.AutoCCaseInsensitiveBehaviour = 1
         editor.AutoCSeparator = 1
         editor.AutoCMaxHeight = 8
         editor:AutoCShow(len, list)
-        -- Check if we should auto-auto-complete.
+
         if normalize(menuItems[1]) == prefix and not calledByHotkey then
-            -- User has completely typed the only item, so cancel.
             if CASE_CORRECT then
                 if CASE_CORRECT_INSTANT or #menuItems == 1 then
-                    -- Make sure the correct item is selected.
                     editor:AutoCShow(len, menuItems[1])
                     editor:AutoCComplete()
                 end
@@ -349,7 +319,7 @@ local function handleChar(char, calledByHotkey)
                 end
             end
             if #menuItems == 1 then
-               editor:AutoCCancel()
+                editor:AutoCCancel()
                 return
             end
         end
@@ -358,13 +328,11 @@ local function handleChar(char, calledByHotkey)
             editor:AutoCComplete()
         end
     else
-        -- No relevant items.
         if editor:AutoCActive() then
-           editor:AutoCCancel()
+            editor:AutoCCancel()
         end
     end
 end
-
 
 local function handleKey(key, shift, ctrl, alt)
     if props["Language"]==""  then  return end

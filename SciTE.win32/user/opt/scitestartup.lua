@@ -60,7 +60,6 @@ function HighlightLinks()
 			hPos,ePos =  editor:findtext( str, SCFIND_REGEXP, hPos+1)
 		end
 	end
-
 --	
 -- Highlight params and their Values - based ob above URL's
 -- http://www.trendsderzukunft.de/?param=ok&value2=H12

@@ -4,7 +4,6 @@ Java Class Sample - showing the use of FileStreams
 import java.io.*;
 import java.util.Scanner;
 public class test_java {
-
 	public static void main(String args[]) throws IOException {
 		FileInputStream inFile  = null;
 		FileOutputStream outFile = null;
