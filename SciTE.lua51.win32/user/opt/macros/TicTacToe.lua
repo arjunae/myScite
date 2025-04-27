@@ -304,7 +304,7 @@ local function HandleChar(c) return TicTacClick(c) end
 
 local function ColorStyles()
   scite.MenuCommand(IDM_MONOFONT)
-  editor.Lexer=SCLEX_CONTAINER
+ -- editor.Lexer=SCLEX_CONTAINER
   editor:StyleClearAll()
   editor["StyleFore"][0]=tonumber(ForeColour, 16)
 	local segment = editor.Length * 2

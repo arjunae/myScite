@@ -16,8 +16,6 @@
 
 ]]
 
-local IDENTIFIER_PATTERNS = {"[%w_]+%.%w+", "[%w_]+"} -- Unterstützt sowohl foo.bar als auch einfache Begriffe
-
 local DEBUG=0 --1: Trace Mode 2: Verbose Mode
 
 -- Maximal filesize that this script should handle
@@ -115,16 +113,20 @@ end
 -- returns the size of a given fileNamePath.
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function file_size (filePath)
-    if  filePath ~=""  and filePath ~= nil then 
-        local myFile,err=io.open(filePath,"r")
-        if err then return 0 end -- todo handle filePath containing Unicode chars 
-        local size = myFile:seek("end")    -- get file size
-        myFile:close()
-        return size
-    else
+function file_size(filePath)
+    -- keine leeren oder nil-Pfade
+    if not filePath or filePath == "" then
         return 0
     end
+    -- Versuche, die Datei im Binarmodus zu offnen.
+    local ok, f = pcall(io.open, filePath, "rb")
+    if not ok or not f then
+        return 0
+    end
+    -- Seek ans Ende, um die Grose zu ermitteln
+    local size = f:seek("end") or 0
+    f:close()
+    return size
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -134,7 +136,7 @@ end
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local function isInTable(table, elem)
-	if table == null then return false end
+	if table == nil then return false end
 	for k,i in ipairs(table) do
       if k == elem or i == elem then
 			return true
@@ -241,7 +243,9 @@ local function buildNames()
             if not startPos then break end
             if not shouldIgnorePos(startPos) then
                 if endPos - startPos + 1 >= MIN_IDENTIFIER_LEN then
+					 -- Create one key-value pair per unique word:
                     local name = editor:textrange(startPos, endPos)
+					-- This also "case-corrects"; e.g. "gui" -> "Gui"
                     unique[normalize(name)] = name
                     
                 end
@@ -256,9 +260,10 @@ local function buildNames()
     table.sort(names, function(a, b) return normalize(a) < normalize(b) end)
 
     if type(buffer) == "table" then
-        buffer.namesForAutoComplete = names
+        buffer.namesForAutoComplete = names -- Cache it for OnSwitchFile.
         buffer.dirty = false
     end
+	 if DEBUG>=1 then print ("ac>buildNames:  ...Created a new keywordlist") end
 end
 
 
@@ -275,13 +280,18 @@ if DEBUG>=1 then print("ac>handleChar") end
     local len = pos - startPos
     if buffer.size then buffer.dirty = true end
     if editor.Lexer == 1 then return end
-   if not INCREMENTAL and editor:AutoCActive() then return end
+   if not INCREMENTAL and editor:AutoCActive() then return end -- Nothing to do.
 
-    if len < MIN_PREFIX_LEN and not char then return end
+    if len < MIN_PREFIX_LEN and not char then return end 
     if len < MIN_PREFIX_LEN and not editor:AutoCActive() then return end
---  if not shouldIgnorePos(startPos) and not calledByHotkey  then return end
---editor:AutoCActive() and or editor:CallTipActive()
+ -- if not shouldIgnorePos(startPos) and not calledByHotkey  then return end -- User is typing in a comment or string,
+  --editor:AutoCActive() and or editor:CallTipActive()
     local prefix = normalize(editor:textrange(startPos, pos))
+   -- allow autocompletition for php variables
+    if string.sub(prefix,1,1) =="$" then
+        prefix= string.gsub(prefix,"%$","")
+        len=len -1
+    end
 
    menuItems = {}
 if DEBUG>=1 then print("ac>handleChar_start") end
@@ -295,22 +305,24 @@ for _, name in ipairs(names) do
             table.insert(menuItems, displayName)
             seen[normName] = true
         else
-            break
+            break  -- There will be no more matches.
         end
     end
 end
 
     if notempty(menuItems) then
+			-- Show or update the auto-complete list.
         local list = table.concat(menuItems, "\1")
         editor.AutoCIgnoreCase = IGNORE_CASE
         editor.AutoCCaseInsensitiveBehaviour = 1
         editor.AutoCSeparator = 1
         editor.AutoCMaxHeight = 8
         editor:AutoCShow(len, list)
-
+			-- Check if we should auto-auto-complete.
         if normalize(menuItems[1]) == prefix and not calledByHotkey then
             if CASE_CORRECT then
                 if CASE_CORRECT_INSTANT or #menuItems == 1 then
+					 -- Make sure the correct item is selected.
                     editor:AutoCShow(len, menuItems[1])
                     editor:AutoCComplete()
                 end
@@ -412,7 +424,6 @@ local events = {
             buildNames()
         else
             setLexerSpecificStuff()
-         --   if updateCTags==nil then writeProps() end
         end
 
     end,

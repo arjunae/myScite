@@ -1,5 +1,15 @@
 -- Wordle für SciTE
--- 25.04.2025 by arjunae@nurfuerspam.de
+-- 25.04.2025 by ThorstenK arjunae@nurfuerspam.de
+-- This script can be installed to a shortcut using properties:
+--     command.name.8.*=wordle
+--     command.subsystem.8.*=3
+--     command.8.*=wordle
+--     command.save.before.8.*=2
+-- If you use extman, you can do it in Lua like this:
+--     scite_Command('wordle|wordle|Ctrl+8')
+
+-- Automatisch nach 5 Buchstaben bestätigen
+local AUTO_CONFIRM = true
 
 local WORDS = {
   "APPLE", "BRAVE", "CRANE", "DREAM", "EAGLE", "FLAME", "GRAPE", "HAPPY", "IDEAL", "JELLY",
@@ -165,6 +175,13 @@ local function OnChar(c)
     end
   elseif c:match("%a") and #currentInput < 5 then
     currentInput = currentInput .. c:upper()
+    if AUTO_CONFIRM and #currentInput == 5 then
+      table.insert(GUESSES, currentInput)
+      currentInput = ""
+      if GUESSES[#GUESSES] == SECRET or #GUESSES >= MAX_TRIES then
+        GAME_OVER = true
+      end
+    end
   elseif c == "\b" then
     currentInput = currentInput:sub(1, -2)
   end
@@ -173,8 +190,12 @@ local function OnChar(c)
   return true
 end
 
--- Initialisierung
-scite_OnChar(OnChar)
-scite.Open("")
-ColorStyles()
-NewGame()
+local function wordle()
+	-- Initialisierung
+	scite_OnChar(OnChar)
+	scite.Open("")
+	ColorStyles()
+	NewGame()
+end
+
+wordle()

@@ -3,10 +3,10 @@
 -- This script can be installed to a shortcut using properties:
 --     command.name.8.*=wordle
 --     command.subsystem.8.*=3
---     command.8.*=wordl
+--     command.8.*=wordle
 --     command.save.before.8.*=2
 -- If you use extman, you can do it in Lua like this:
---     scite_Command('wordle|wordl|Ctrl+8')
+--     scite_Command('wordle|wordle|Ctrl+8')
 
 -- Automatisch nach 5 Buchstaben bestätigen
 local AUTO_CONFIRM = true

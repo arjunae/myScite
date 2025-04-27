@@ -463,8 +463,8 @@ function file_size (filePath)
 	if type(lfs) == "table" then attr,err=lfs.attributes (filePath)  end
 	if type(attr) == "table" then size= attr.size return size end
 
-	local myFile,err=io.open(filePath,"r")
-	if not err then -- todo handle filePath containing Unicode chars 
+	local myFile,err=io.open(filePath,"rb")
+	if not err then 
 		size = myFile:seek("end")  
 		myFile:close() 
 	end

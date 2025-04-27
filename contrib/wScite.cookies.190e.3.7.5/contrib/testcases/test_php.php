@@ -143,7 +143,7 @@
       "wheat"=>array( "red"=>0xF5,  "green"=>0xDE,  "blue"=>0xB3),
       "whitesmoke"=>array( "red"=>0xF5,  "green"=>0xF5,  "blue"=>0xF5),
       "yellowgreen"=>array( "red"=>0x9A,  "green"=>0xCD,  "blue"=>0x32));
-
+	  
   //  GetColor returns an associative array with the rgb values of the desired color
   function GetColor($Colorname)
       {

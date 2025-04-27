@@ -25,7 +25,7 @@ _G.string.gfind = string.gmatch or string.gfind
 	dofile(myHome..'extman.lua')
 
 	-- Debugging support
-	dofile(myHome..'mod-scite-debug\\debugger.lua')
+	--dofile(myHome..'mod-scite-debug\\debugger.lua')
 	
 	-- Sidebar- loading the sidebar here avoids problems with ext.lua.auto.reload
 	--package.path = package.path .. ";"..myHome.."\\opt\\mod-sidebar\\?.lua;"

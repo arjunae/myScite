@@ -16,22 +16,22 @@ end
 --Fixme calling scite_command from within events.
 
 scite_Command {
- -- 'Run|do_run|*{savebefore:yes}|Alt+R',
- -- 'Breakpoint|do_breakpoint|F9'
+  'Run|do_run|*{savebefore:yes}|Alt+R',
+  'Breakpoint|do_breakpoint|F9'
 }
 
 scite_Command {
---	  'Step|do_step|Alt+C',
---	  'Step Over|do_next|Alt+N',
---	  'Go To|do_temp_breakpoint|Alt+G',  
---	  'Kill|do_kill|Alt+K',
---	  'Inspect|do_inspect|Alt+I',
---	  'Locals|do_locals|Alt+Ctrl+L',
---     'Watch|do_watch|Alt+W',
---	  'Backtrace|do_backtrace|Alt+Ctrl+B',
---      'Step Out|do_finish|Alt+M',
---	  'Up|do_up|Alt+U',
---	  'Down|do_down|Alt+D',
+	  'Step|do_step|Alt+C',
+	  'Step Over|do_next|Alt+N',
+	  'Go To|do_temp_breakpoint|Alt+G',  
+	  'Kill|do_kill|Alt+K',
+	  'Inspect|do_inspect|Alt+I',
+	  'Locals|do_locals|Alt+Ctrl+L',
+          'Watch|do_watch|Alt+W',
+	  'Backtrace|do_backtrace|Alt+Ctrl+B',
+          'Step Out|do_finish|Alt+M',
+	  'Up|do_up|Alt+U',
+	  'Down|do_down|Alt+D',
 }
 
 local lua_prompt = '(lua)'
