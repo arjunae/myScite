@@ -165,4 +165,4 @@ end
 
 _ALERT('> Test SciTE Lua Modules')
 --test_gui()
-test_socket()
+--test_socket()

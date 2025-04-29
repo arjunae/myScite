@@ -1,11 +1,12 @@
 --
 -- SciTEProject.lua, base Module: initialize Project and CTags Support for mySciTE.
 -- @License: BSD3Clause. @Author Thorsten Kani
--- Version: 0.8
+-- Version: 1.0 rc1
 --
 
-local ctagsLock --true during writing to the projects ctags and properties files 
 
+local DEBUG=0 --2 verbose Mode
+local ctagsLock --true during writing to the projects ctags and properties. (handles case: multiple saves in a row)   
 --
 -- NameCache
 --
@@ -30,12 +31,7 @@ if props["colour.project.enums"]=="" then props["colour.project.enums"]="fore:#3
 
 -- returns if a given fileNamePath exists
 --
---[[
-local function file_exists(name)
-   local f=io.open(name,"r")
-   if f~=nil then io.close(f) return true else return false end
-end
-]]
+--
 local function file_exists(filename)            -- Tests for file or directory
     if type(filename)~="string" then
 	    return false
@@ -44,23 +40,24 @@ local function file_exists(filename)            -- Tests for file or directory
     -- Source: http://stackoverflow.com/questions/4990990/lua-check-if-a-file-exists
 end
 
--- handle Project Folders
+-- init Project Folders
 -- (ctags, Autocomplete & highlitening)
 
-function ProjectSetEnv(init)
-	props["properties.directory.enable"]=1	
-	if props["SciteDirectoryHome"] ~= props["FileDir"] then
+function ProjectSetEnv()
+	props["properties.directory.enable"]=1
+	if props["SciteDirectoryHome"] ~= props["FileDir"] then --for calltips
 		props["project.path"] = props["SciteDirectoryHome"]
 		props["project.ctags.filename"]="ctags.tags"
 		props["project.ctags.apipath"]=props["project.path"]..dirSep.."ctags"..dirSep..props["project.ctags.filename"]..".api"
-		props["project.ctags.propspath"]=props["project.ctags.apipath"]..".properties"
+		props["session.apipath"]=props["project.path"]..dirSep.."ctags"..dirSep.."scite.session.ctags"..".api"
+		props["project.ctags.propspath"]=props["project.path"]..dirSep.."ctags"..dirSep.."scite.session.ctags"..".properties"
 		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
+		props["project.ctags.bin"]="myctags.cmd" -- invokes parseCTags.lua which creates a lockfile 
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1
 	end
 	
-	if init then dofile(myHome..'AutoComplete.lua') end
-	--print("ProjectSetEnv ",props["project.ctags.apipath"],init)
+
 end
 
 --
@@ -71,7 +68,7 @@ end
 --
 function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 
-	if not file_exists(YodaNamePath) or ctagsLock==true or props["project.path"]=="" then return end		
+	if not file_exists(YodaNamePath) or ctagsLock==true or props["project.path"]=="" then return end	
 	-- just return the cached Version if not forced to do otherwise
 	if (not cTagList) or string.find(YodaNamePath,"append.") then theForceMightBeWithYou=true end
 
@@ -122,11 +119,13 @@ local origApiPath, projectApiPath, sdkApiPath
 --
 function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 
-	ProjectSetEnv(false)
+	ProjectSetEnv()
 
 	if cTagList and origApiPath and sdkApiPath and sdkApiPath==props["project.sdk.api"] then return end --Already done ?
 	if props["project.path"]=="" then return end
 	if not fileNamePath or fileNamePath=="" then fileNamePath=props["project.ctags.propspath"] end
+props["api."..props["file.patterns.project"]] =""
+
 
 	-- Attach a project platform API if it had been specified
 	if (props["project.sdk.api"]~="") then sdkApiPath=props["project.sdk.api"] end
@@ -134,12 +133,14 @@ function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 	-- Update SciTEs Filetypes APIlist. 
 	-- Change SDKApi if requested by a SciTE.properties file.
 	if not projectApiPath or not projectApiPath:match(props["project.sdk.api"]) then
-		if not origApiPath then origApiPath=props["APIPath"] end
-		projectApiPath=props["project.ctags.apipath"]
-		projectApiPath=projectApiPath..";"..sdkApiPath
+		if not origApiPath then origApiPath=props["APIPath"] end --SciteApis
+		--projectApiPath=props["project.ctags.apipath"]..";"..sdkApiPath
+		projectApiPath=props["session.apipath"]..";"..sdkApiPath
+		--..";"..props["dynCTAGSapipath"] --static projects ctags, MingGW Tags, dynTags
 		props["api."..props["file.patterns.project"]] =origApiPath..";"..projectApiPath
 		--print(props["api."..props["file.patterns.project"]])
 	end
+		if DEBUG==1 then print("CTagsUpdateProps APIs written "..projectApiPath) end
 	-- parse projects properties files
 	CTagsWriteProps(theForceMightBeWithYou,fileNamePath)
 
@@ -162,8 +163,6 @@ function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
 	props["style."..currentLexer..".11.19"]=props["colour.project.enums"]
 	props["style."..currentLexer..".11.20"]=props["colour.project.class"]
 
-	--apply themeing changes and changed keywords.
-	--scite.ApplyProperties(true)
 end
 
 -- 
@@ -172,19 +171,19 @@ end
 -- (created when a cTag run has been completed)
 --
 function ProjectOnDwell()
-	--print("ProjectOnDwell:", props["project.path"])	
-	if props["project.path"]=="" then return end	
-	finFileNamePath=os.getenv("tmp")..dirSep.."project.ctags"..".fin"
-	
+
+	if props["project.path"]=="" then return end	--- not in a file contained by the project
+	finFileNamePath=os.getenv("tmp")..dirSep.."project.ctags.fin"	
 	local finFile=io.open(finFileNamePath,"r")
-	
 	if finFile~=nil then 
+	if DEBUG==1 and finFilenamePath then print("ProjectOnDwell, project.path: " , props["project.path"], " updated CTAGS found" ) end
+		io.flush()
 		io.close(finFile)
 		ctagsLock=false
 		os.remove(finFileNamePath)
+		if DEBUG==1 then print("ProjectOnDwell, CTags file was updated. Found ", finFileNamePath) end 	
 		local fileNamePath= (props["project.ctags.propspath"])
 		CTagsUpdateProps(true,fileNamePath)
-		print("...generating CTags finished",ctagsLock)		
 	end
 	finFile=nil
 
@@ -194,34 +193,47 @@ end
 -- RecreateCTags()
 -- Search the File for new CTags and append them.
 --
+
 function CTagsRecreate()
-	if  ctagsLock==true then return end	
+	if  ctagsLock==true then return end
 	if props["project.name"]~="" and props["file.patterns.project"]:match(props["FileExt"])~=nil then
+		toolPath=props["SciteDefaultHome"]..dirSep.."tools"
 		ctagsBin=props["project.ctags.bin"]
-		ctagsOpt=props["project.ctags.opt"]
-		ctagsFP= props["project.ctags.filepath"]
-		ctagsTMP="\""..os.getenv("tmp")..dirSep..props["project.name"]..".session.ctags\""
-
+		ctagsOpt=props["project.ctags.opt"] -- options
+		ctagsFP= props["project.ctags.filepath"] -- sorce trees root
+		ctagsTMP="\""..os.getenv("tmp")..dirSep.."scite.session.ctags\"" -- raw .ctags go here
+		ctagsAPI=props["project.path"].."\\ctags\\ " -- parsed .api goes here
 		os.remove(os.getenv("tmp")..dirSep.."*.session.ctags")
+		
 		if ctagsBin and ctagsOpt and ctagsFP then 
-			ctagsCMD=ctagsBin.." -f "..ctagsTMP.." "..ctagsOpt.." "..props["FilePath"] 
+	--		if props["project.ctags.save_applies"]=="1" then 	-- regenerate CTAGs for all project files
+				ctagsCMD=toolPath..dirSep..ctagsBin.. " -f "..ctagsTMP.." -R " ..props["project.path"] .." "..ctagsOpt
+				if DEBUG==1 then print("CTagsRecreate All, starting " .. props["project.path"] ) end 
+	--		else -- regenerate CTAGs for the current opened files folder
+	--			ctagsCMD=toolPath..dirSep..ctagsBin.." -f "..ctagsFP.." -R " ..props["FileDir"].." "..ctagsOpt
+	--			if DEBUG==1 then print("CTagsRecreate currentFilesDir, starting "..ctagsTMP ) end
+	--		end
+	
 
-			if props["project.ctags.save_applies"]=="1" then
-				-- just do a full refresh to the project file in a background task
-				ctagsCMD=ctagsBin.." -f "..ctagsFP.." "..ctagsOpt
-				local pipe=scite_Popen(ctagsCMD)
-				--local tmp= pipe:read('*a') -- synchronous -waits for the Command to complete
-				-- periodically check if ctags refresh has been finished.
-				scite_OnDwellStart(ProjectOnDwell)
-				ctagsLock=true
+			local pipe=scite_Popen(ctagsCMD)
+			local tmp= pipe:read('*a'); print (tmp)
+			--pipe:close()
+
+			local pipe=scite_Popen(toolPath..dirSep.."mylua.cmd tools\\ctags\\parseCTags.lua "..ctagsAPI.." "..ctagsTMP)
+			if DEBUG==2 then 
+				local tmp= pipe:read('*a') ; print (tmp)  -- synchronous -waits for the Command to complete
 			end
+			--pipe:close()
+
+			scite_OnDwellStart(ProjectOnDwell) -- periodically check if ctags refresh has been finished.
+			ctagsLock=true	
 		end
 	end	
-		
 end
 
--- Registers the Autocomplete event Handlers early.
-ProjectSetEnv(true)
+
+-- Registers the event Handlers early.
+ProjectSetEnv()
 scite_OnOpenSwitch(CTagsUpdateProps,false,"")
 scite_OnDwellStart(ProjectOnDwell)
 scite_OnSave(CTagsRecreate)

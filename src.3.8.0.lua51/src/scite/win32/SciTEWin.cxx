@@ -50,13 +50,15 @@ static GUI::gui_string GetErrorMessage(DWORD nRet) {
 	}
 }
 
+
+
 long SciTEKeys::ParseKeyCode(const char *mnemonic) {
 	int modsInKey = 0;
 	int keyval = -1;
 
 	if (mnemonic && *mnemonic) {
 		std::string sKey = mnemonic;
-
+   
 		if (RemoveStringOnce(sKey, "Ctrl+"))
 			modsInKey |= SCMOD_CTRL;
 		if (RemoveStringOnce(sKey, "Shift+"))
@@ -666,7 +668,7 @@ void SciTEWin::FullScreenToggle() {
 HWND SciTEWin::MainHWND() {
 	return HwndOf(wSciTE);
 }
-
+Sc
 void SciTEWin::Command(WPARAM wParam, LPARAM lParam) {
 	int cmdID = ControlIDOfWParam(wParam);
 	if (wParam & 0x10000) {

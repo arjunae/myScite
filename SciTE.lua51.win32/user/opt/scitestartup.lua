@@ -1,5 +1,5 @@
 -- ### mySciTE's Lua Startup Script 2022 t.kani@gmx.net ####
---io.stdout:setvbuf("no")
+io.stdout:setvbuf("no")
 GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
 myHome = props["SciteDefaultHome"]..dirSep.."user"..dirSep.."opt"..dirSep
@@ -22,18 +22,19 @@ _G.string.gfind = string.gmatch or string.gfind
 	dofile(myHome..'extman.lua')
 
 	-- Debugging support
-	-- dofile(myHome..'mod-scite-debug\\debugger.lua')
+	--dofile(myHome..'mod-scite-debug\\debugger.lua')
 	
 	-- Sidebar- loading the sidebar here avoids problems with ext.lua.auto.reload
 	--package.path = package.path .. ";"..myHome.."\\opt\\mod-sidebar\\?.lua;"
-	--dofile(myHome..'mod-sidebar\\sidebar.lua')
+--	dofile(myHome..'mod-sidebar\\sidebar.lua')
 	
 	-- mod-mitchell
 	--dofile(myScripts..'opt\\mod-mitchell\\scite.lua')
 
-	-- Initialize Project support last
+	-- Initialize Project support 
 	dofile(myHome.."ctags.lua")
 	dofile(myHome..'SciTEProject.lua')
+	 dofile(myHome..'AutoComplete.lua')
 
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -57,7 +58,6 @@ function HighlightLinks()
 			hPos,ePos =  editor:findtext( str, SCFIND_REGEXP, hPos+1)
 		end
 	end
-
 --	
 -- Highlight params and their Values - based ob above URL's
 -- http://www.trendsderzukunft.de/?param=ok&value2=H12
@@ -124,7 +124,6 @@ end
 
 
 function myScite_OpenSwitch()
-
 	if buffer and props["FilePath"]~="" then 
 		buffer.size= file_size(props["FilePath"])
 		if buffer.size < 262144 then 
@@ -146,6 +145,7 @@ function OnInit()
 -- called after above and only once when Scite starts (SciteStartups DocumentReady)
 --
 	--editor:GrabFocus()  -- Ensure editors focus
+	
 	-- check SciLexer once per session and inform the User if its a nonStock Version.
 	local SLHash
 	if not SLHash then
@@ -157,6 +157,7 @@ function OnInit()
 	scite_OnKey( function()  props["CurrentPos"]=editor.CurrentPos end ) -- keep Track of current Bytes Offset (for Statusbar)
 --	checkUpdates() -- check for a new version using githubs readme.md
 	scite_OnOpenSwitch(myScite_OpenSwitch)
+
 
 end
 

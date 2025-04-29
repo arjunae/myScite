@@ -15,7 +15,6 @@
  - Modified to support keyword.:subkeyword style autocompletion
 
 ]]
-
 local DEBUG=0 --1: Trace Mode 2: Verbose Mode
 
 -- Maximal filesize that this script should handle
@@ -92,12 +91,10 @@ end
 -- Deal with different Path Separators o linux/win
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-local function dirSep()
 if props["PLAT_WIN"] then
-    return("\\")
+   local dirSep=("\\")
 else
-    return("/")
-end
+    local dirSep=("/")
 end
 
 --
@@ -106,27 +103,6 @@ end
 local function file_exists(name)
    local f=io.open(name,"r")
    if f~=nil then io.close(f) return true else return false end
-end
-
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
---
--- returns the size of a given fileNamePath.
---
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-function file_size(filePath)
-    -- keine leeren oder nil-Pfade
-    if not filePath or filePath == "" then
-        return 0
-    end
-    -- Versuche, die Datei im Binarmodus zu offnen.
-    local ok, f = pcall(io.open, filePath, "rb")
-    if not ok or not f then
-        return 0
-    end
-    -- Seek ans Ende, um die Grose zu ermitteln
-    local size = f:seek("end") or 0
-    f:close()
-    return size
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -175,28 +151,32 @@ local function getApiNames()
     local lexer = editor.LexerLanguage
     local apiNames = {}
     
-    if apiCache[lexer] then
+    if apiCache[lexer] and (buffer.dirty==false or buffer.dirty==nil) then
         return apiCache[lexer]
     end
     
-    local apiFiles = props["APIPath"] or ""
-    
-if DEBUG>=1 then print("ac>getApiNames", apiFiles) end
- 
-    apiFiles:gsub("[^;]+", function(apiFile) -- For each in ;-delimited list.
-    if not file_exists(apiFile) then print ("ac>ignoring nonExistant apiFile: "..apiFile) return end
-    for name in io.lines(apiFile) do
-        name = name:gsub("[(, ].*", "") -- Discard parameters/comments.
-            if string.len(name) > 0 then
-               -- print (name)
+	if DEBUG>=1 then print("ac>getApiNames") end
+
+	local tmpCTAGS= props["session.apipath"] or "" 
+	local apiFiles= props["APIPath"]..";"..props["project.sdk.api"]..";"..tmpCTAGS  or "" --static files
+	--..props["project.ctags.apipath"]
+
+	apiFiles:gsub("[^;]+", function(apiFile) -- For each in ;-delimited list.
+	if DEBUG==1 then print ("getApiNames: loading names from ".. apiFile)	end
+
+	for name in io.lines(apiFile) do
+         name = name:gsub("[(, ].*", "") -- Discard parameters/comments.
+			if string.len(name) > 0 then
                 apiNames[name] = true
-            end
-        end
+			end
+	end
         return ""
-    end)
-    
+    end) 
+--	print ("ac>ignoring nonExistant apiFile: "..apiFile)
+
+			
     if not apiNames then apiNames={} end
-    
+
     if lexer~=nil then
         apiCache[lexer] = apiNames -- Even if it's empty
     end
@@ -208,7 +188,7 @@ end
 
 local function buildNames()
     names = {}
-
+    local unique = {}
     if type(buffer) == "table" then
         buffer.size = buffer.size or 0
         if buffer.size > AC_MAX_SIZE then return end
@@ -216,24 +196,26 @@ local function buildNames()
     end
 
     if DEBUG >= 1 then print("ac>buildnames") end
+	setLexerSpecificStuff()
+        -- Reset our array of names.
+        names = {}
+        -- Collect all words matching the given patterns.
+        local unique = {}
+-- if  (buffer.dirty==true or buffer.dirty==nil) then --die ctags des ganzen projects nur beim starten auslesen
 
-    setLexerSpecificStuff()
-    local unique = {}
+    
 
-    -- API-Dateien einlesen
-    for name in pairs(getApiNames()) do
-        unique[normalize(name)] = name
-        if name:find("%.") then
-            local head = name:match("^([%w_]+)%.")
-            if head then
-                local headWithDot = head .. "."
-                if not unique[normalize(headWithDot)] then
-                    unique[normalize(headWithDot)] = headWithDot
-                end
+
+
+        -- Initialisation: Build an ordered array from the Api files entries 
+        if #unique==0 then
+            for name in pairs(getApiNames()) do
+                unique[normalize(name)] = name
             end
         end
-    end
-
+--else
+--print("ctags lesen übersprungen")
+--end
     -- Begriffe aus dem Text einlesen
     for i, pattern in ipairs(IDENTIFIER_PATTERNS) do
         local startPos, endPos
@@ -246,7 +228,7 @@ local function buildNames()
 					 -- Create one key-value pair per unique word:
                     local name = editor:textrange(startPos, endPos)
 					-- This also "case-corrects"; e.g. "gui" -> "Gui"
-                    unique[normalize(name)] = name
+                   ------------------------------------------------------- unique[normalize(name)] = name
                     
                 end
             end
@@ -254,6 +236,7 @@ local function buildNames()
     end
 
     for _, name in pairs(unique) do
+	 	----					if string.find(name,"SciTEKeys") then print (name) end
 		table.insert(names, name) 
 	 end
 	 
@@ -264,6 +247,7 @@ local function buildNames()
         buffer.dirty = false
     end
 	 if DEBUG>=1 then print ("ac>buildNames:  ...Created a new keywordlist") end
+
 end
 
 
@@ -278,7 +262,7 @@ if DEBUG>=1 then print("ac>handleChar") end
     local pos = editor.CurrentPos
     local startPos = editor:WordStartPosition(pos, true)
     local len = pos - startPos
-    if buffer.size then buffer.dirty = true end
+  --  if buffer.size then buffer.dirty = true end
     if editor.Lexer == 1 then return end
    if not INCREMENTAL and editor:AutoCActive() then return end -- Nothing to do.
 
@@ -294,25 +278,31 @@ if DEBUG>=1 then print("ac>handleChar") end
     end
 
    menuItems = {}
-if DEBUG>=1 then print("ac>handleChar_start") end
-local seen = {}  -- Set zur Duplikatvermeidung
 
-for _, name in ipairs(names) do
-    local displayName = name:match("^[^.:]+") or name  -- Teil vor Punkt oder Doppelpunkt
-    local normName = normalize(displayName)
-    if normName:find("^" .. prefix) and not seen[normName] then
-        if #menuItems <= MENUITEMS_MAX then
-            table.insert(menuItems, displayName)
-            seen[normName] = true
-        else
-            break  -- There will be no more matches.
-        end
-    end
-end
+	if DEBUG>=1 then print("ac>handleChar_start") end
+	local seen = {}  -- Set zur Duplikatvermeidung
+
+	for _, name in ipairs(names) do
+
+		-- parent keywords wie Klassennamen aka SciTEBase::.
+			local displayName = name:match("^[^.:]+") or name 
+			local normName = normalize(displayName)
+
+		-- werden zusammenfast
+			if not seen[normName] and normName:find("^" .. prefix) then
+				seen[normName] = true
+				table.insert(menuItems, displayName)
+
+				if #menuItems >= MENUITEMS_MAX then
+					break
+				end
+			end
+	end
 
     if notempty(menuItems) then
 			-- Show or update the auto-complete list.
         local list = table.concat(menuItems, "\1")
+		  		--print (list)
         editor.AutoCIgnoreCase = IGNORE_CASE
         editor.AutoCCaseInsensitiveBehaviour = 1
         editor.AutoCSeparator = 1
@@ -323,13 +313,16 @@ end
             if CASE_CORRECT then
                 if CASE_CORRECT_INSTANT or #menuItems == 1 then
 					 -- Make sure the correct item is selected.
+					-- print("ac>"..menuItems[1])
                     editor:AutoCShow(len, menuItems[1])
                     editor:AutoCComplete()
                 end
+
                 if #menuItems > 1 then
                     editor:AutoCShow(len, list)
                 end
             end
+
             if #menuItems == 1 then
                 editor:AutoCCancel()
                 return
@@ -353,7 +346,7 @@ local function handleKey(key, shift, ctrl, alt)
         handleChar(nil, true)
         return true
     end    
-    if key == 0xD or key == 0x20  then buildNames() return end -- also update keywords on enter and space
+    --if key == 0xD or key == 0x20  then buildNames() return end -- also update keywords on enter and space
     
 if alt or not editor:AutoCActive() then return end
     if key == 0x8 then -- VK_BACK
@@ -401,15 +394,16 @@ if alt or not editor:AutoCActive() then return end
     end
 end
 
-
 -- Event handlers
+scite_OnChar(handleChar)
+scite_OnKey(handleKey)
+scite_OnSave=function()
+	buffer.dirty=true
+	buildNames()
 
-local events = {
-    OnChar          = handleChar,
-    OnKey           = handleKey,
-    OnSave          = buildNames,
-    OnDwellStart  = buildNames, -- should be raised on any User Interaction (Mousemove/Keybord Nav...) 
-    OnSwitchFile    = function() 
+end
+scite_OnDwellStart(buildNames)
+scite_OnSwitchFile = function() 
     if DEBUG>=1 then
         print("ac>onSwitchFile") 
         if buffer.namesForAutoComplete then print ("reusing cached entries:", table.maxn(buffer.namesForAutoComplete)) end      
@@ -418,32 +412,22 @@ local events = {
      names = buffer.namesForAutoComplete
         if not names then
             -- Otherwise, build a new list.
-            buffer.dirty=true
+		buffer.dirty=true
             editor:Colourise(0, editor.Length)
             if props["project.ctags.update"]=="" then props["project.ctags.update"]="1" end
             buildNames()
         else
+				buffer.dirty=false
             setLexerSpecificStuff()
         end
-
-    end,
-    OnOpen          = function()
+    end
+scite_OnOpen = function()
     if DEBUG>=1 then print("ac>onOpen") end
-        -- Ensure the document is styled first, so we can filter out
-        -- words in comments and strings.
-        editor:Colourise(0, editor.Length)
-        -- Then do the real work.
-        buffer.dirty=true
-        if props["project.ctags.update"]==""  then props["project.ctags.update"]="1" end
-        buildNames()
-    end
-}
--- Add event handlers in a cooperative fashion:
-for evt, func in pairs(events) do
-    local oldfunc = _G[evt]
-    if oldfunc then
-        _G[evt] = function(...) return func(...) or oldfunc(...) end
-    else
-        _G[evt] = func
-    end
+	  -- Ensure the document is styled first, so we can filter out
+	  -- words in comments and strings.
+	  editor:Colourise(0, editor.Length)
+	  -- Then do the real work.
+	  buffer.dirty=true
+	  if props["project.ctags.update"]==""  then props["project.ctags.update"]="1" end
+	  buildNames()
 end

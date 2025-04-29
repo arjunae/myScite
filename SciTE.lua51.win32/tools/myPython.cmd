@@ -3,11 +3,10 @@ REM -------- Containery for SciTE ----------
 REM Provides customized Language Packs within respective Directories. 
 REM ---------------------------------------
 
-set toolFolder=ctags
+set toolFolder=python
 set toolName=%toolFolder%
 set toolExt=.exe
 set toolParam=%*
-set postProc=
 REM set optPath=%~dp0%..\
 
 REM A value of 1 will instruct the wrapper to initially limit %PATH% to toolNames Directory. 
@@ -27,7 +26,6 @@ REM first try if a user had installed a local package
 if exist %toolPath%\%toolName%%toolExt% (
 echo ~ wrapper ~ %mode% [%~dp0%toolFolder%] %toolName%%toolExt% %toolParam% >&2
 %toolPath%\%toolName%%toolExt% %toolParam%
-rem %postProc% %*
 goto :freude
 ) 
 
@@ -39,8 +37,6 @@ IF %ERRORLEVEL% == 0 (
 REM echo ~ WRapper: %toolPath%\%toolName%%toolExt% %toolParam% >&2
 where %toolName%%toolExt%
 %toolName%%toolExt% %toolParam%
-cd
-%postProc% %2 %6
 goto :freude ) else (  goto :err )
 
 :err

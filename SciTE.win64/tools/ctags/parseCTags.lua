@@ -2,11 +2,12 @@
 -- parseCTags.lua 
 -- takes a ctags file and parse its contents to a respective SciTE .properties and .api file
 -- License: BSD3Clause / Author: Thorsten Kani / eMail:Marcedo@habMalNeFrage.de
--- version: 0.9: Commandline help / progress Indicator
+-- proof of concept version: 28.04.25 
 --
 -- Usage: lua parseCTags.lua ctagsfile.tags [true]
 --
 local DEBUG=0 --1: Trace Mode 2: Verbose Mode
+io.stdout:setvbuf("no")
 
 cTagAPI={} -- projectAPI functions(param)
 local cTagNames=""
@@ -35,9 +36,8 @@ local function file_exists(name)
 end
 
 -- read args
-local cTagsFilePath =arg[1]
-local smallerFile =arg[2]
-local projectName =arg[3]
+local projectFilePath=arg[1]
+local cTagsFilePath =arg[2]
 
 print("> ["..arg[0].."] [Thorsten Kani / Dezember 2017 / eMail:Marcedo@HabMalNeFrage.de]")
 
@@ -48,15 +48,16 @@ else
     odo=true
     if smallerFile=="1" then smallerFile=true end
 
-    -- Think that the file is local when theres no filepath given.
+    -- when theres no pathseperator given, interpret a filename
     if cTagsFilePath:match(dirSep())==nil then 
         cTagsFileName=cTagsFilePath
-        cTagsFilePath="."..dirSep()..cTagsFileName
-    end
+        cTagsFilePath="."..dirSep()..cTagsFileName -- Think that the file is local
+    end	
 
-    print ("> cTagsFilePath: "..tostring(cTagsFilePath).." | smallerFile: "..tostring(smallerFile).." | projectName: "..tostring(projectName))
-    projectFilePath, cTagsFileName =cTagsFilePath:match("(.*[%"..dirSep().."]+)%/?(.*)$")
+    cTagsFileName =cTagsFilePath:match(".*\\%/?(.*)$")
     if not projectName then projectName=cTagsFileName end
+    print ("projectFilePath: "..tostring(projectFilePath).."| cTagsFilePath: "..tostring(cTagsFilePath).."| cTagsFileName: "..tostring(cTagsFileName) )
+
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -71,34 +72,37 @@ end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
-    local cTagsFilePath=projectFilePath..cTagsFileName
+    local cTagsFilePath=os.getenv("tmp")..dirSep().."scite.session.ctags"
     local cTagsAPIPath=projectFilePath..cTagsFileName..".api"
     local cTagItems=""
     -- catches not otherwise matched Stuff for Highlitghtning. Turn on for testing.
     local doFullSync="0"
 
-
     if file_exists(cTagsFilePath) then
     if DEBUG>=1 then print("ac>appendCtags" ,cTagsFilePath,projectName) end     
         io.stdout:write("> parse: "..cTagsFilePath .." ")
         local lastEntry="" -- simple DupeCheck
-        local apiFile= io.open(cTagsAPIPath,"w") -- projects APICalltips file
+        local apiFile= io.open(cTagsAPIPath,"w") --  Output file.api
 
-        cTagsFile=io.input(cTagsFilePath)
+        cTagsFile=io.input(cTagsFilePath) -- Input file.ctags
+	if not cTagsFile then print("no valid handle to ctagsFile") end
         fileSize=cTagsFile:seek("end")
         cTagsFile:seek("set")
         
         -- a poorMans exuberAnt cTag Tokenizer :)) --
         -- Gibt den LemmingAmeisen was sinnvolles zu tun(tm) --
-
+	
+	if DEBUG==2 then print ("\n") end
         for entry in cTagsFile:lines() do
-            
+           -- print(entry)
             filePos=cTagsFile:seek()
             percent_before= percent
-            percent=math.floor(filePos*100/fileSize)
+            percent=math.floor(filePos*100/fileSize) 
             if percent~=percent_before then  
-                io.stdout:write(string.format("%02d",percent).."% ")
+             if DEBUG==0 then
+		io.stdout:write(string.format("%02d",percent).."% ")
                 io.stdout:write('\b'..'\b'..'\b'..'\b')
+	     end
             end
             
             local isFunction=false isClass=false isConst=false isModule=false isENUM=false isOther=false
@@ -122,15 +126,24 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
                 end   
            end     
             -- Mark Functions 
-            name= entry:match("(~?[%w_]+)") or ""
-            patType="%/^([%s%w_:~]+ ?)" -- INTPTR
-            patClass="([%w_]+).*"   -- SciteWin (::)
-            patFunc="(%(.*%))"  -- AbbrevDlg(...)
-            strTyp, strClass, strFunc= entry:match(patType..patClass..patFunc..".*")
-            if strFunc then params=params..strFunc end
-            if strClass and string.len(strClass)==1 then strTyp=strTyp..strClass strClass="" end
-            if strClass then params=params..strClass end
-            if strTyp then strTyp=string.gsub(strTyp,name,"") params=params..strTyp end
+            name= entry:match("(~?[%w_]+)") or "" -- functions Name
+            if not name then name="" end
+	    if string.find(name,"override") then name=""; skipper=true end-- ctags doesnt parse this correctly
+	    patType="%/^([%s%w_:~]+ )" -- INTPTR
+            patClass="([%w_:]+).*"   -- SciteWin (::)
+            patFunc="(%(.*%))"  -- (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)) 
+            strTyp, strClassAndName, strFunc= entry:match(patType..patClass..patFunc..".*")
+
+            if strFunc then params=params..strFunc end --functionbody
+ 	    if strTyp then strTyp=strTyp:gsub("^%s+", ""); params=params..strTyp end --typ hinter funktionsbody schreiben
+
+		if name and DEBUG==2 then
+		if not strTyp then strTyp="" end
+		if not strClassAndName then strClassAndName="" end
+		if not strFunc then strFunc ="" end
+		print (strTyp.. "|".. strClassAndName, "|".. name.. "|".. strFunc)
+		end
+		
             if string.len(params)>0 then skipper=true isFunction=true end
             -- Mark ENUMS, STRUCTs, typedefs and unions (matches "[tab]g/s/t/u/e) 
             if not smallerFile and not skipper then
@@ -159,22 +172,24 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
             end
             -- publish collected Data. (Dupe checked) Prefer the className over the functionName  
              if name and name..params~=lastEntry and not isfunction then  
+		if not strClassAndName then strClassAndName=name end
                 ----  Highlitening use String concatination, because its faster for onSave ( theres no dupe checking.)
-                if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
+                --if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
                 if isFunction then cTagFunctions=cTagFunctions.." "..name  end
                 if isConst then cTagNames=cTagNames.." "..name end
                 if isModule then cTagModules=cTagModules.." "..name end
                 if isClass then cTagClass=cTagClass.." "..name end
-                if isENUM then cTagENUMs=cTagENUMs.." "..name  end
+                if isENUM then cTagENUMs=cTagENUMs.." "..name end
                 if isOther then cTagOthers=cTagOthers.." "..cTagOther end
                 if smallerFile==true then
                   -- if isFunction then cTagItems=cTagItems..","..name.."=true" end -- gets concatenated to table cTagAllTogether
                 else
-                 --  if skipper then cTagItems=cTagItems..name.."=true," end
+                   cTagItems=cTagItems..strClassAndName.."=true," 
                 end   
                 lastname=name
+
                 -- publish Function Descriptors to Project APIFile.(calltips)
-                lastEntry=name..params
+                lastEntry=strClassAndName..params
                 if isFunction and string.len(params)>2 then  -- Optionally Filter internals and COM Objects
                     if  smallerFile and (lastEntry:match("^(_)") or lastEntry:match("_Proxy") or lastEntry:match("_Stub") or lastEntry:match("Vtbl")   ) then
                          entry=""
@@ -187,7 +202,7 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
         ---- AutoComplete List entries
         cTagAllTogether=cTagAllTogether..cTagItems.."}"
         cTagAPI=cTagAllTogether
-        io.close(apiFile)
+	io.close(apiFile)
         writeProps(projectName, projectFilePath) --> Let a Helper apply the generated Data.
         cTagsUpdate="0"
     end
@@ -208,9 +223,9 @@ end
 function writeProps(projectName, projectFilePath)
     
 -- write what we got until here.
-    propFile=io.open(projectFilePath..cTagsFileName..".api.properties","w")
+    propFile=io.open(projectFilePath..cTagsFileName..".properties","w")
     propFile= io.output(propFile)
-    io.output(propFile) 
+    io.output(propFile) --output file.properties
     io.write(projectName..".cTagOthers="..cTagOthers.."\n")
     io.write(projectName..".cTagENUMs="..cTagENUMs.."\n")
     io.write(projectName..".cTagNames="..cTagNames.."\n")
@@ -218,6 +233,7 @@ function writeProps(projectName, projectFilePath)
     io.write(projectName..".cTagModules="..cTagModules.."\n")
     io.write(projectName..".cTagClasses="..cTagClass.."\n")
 --    io.write(projectName..".cTagAllTogether="..cTagAllTogether.."\n") --: Table formatted
+    io.flush()
     io.close(propFile)
     
 -- Show some stats
@@ -242,7 +258,8 @@ outline=""
 print("> deDupeing.."..APIFilePath)
 
     for entry in io.lines(APIFilePath) do
-        name =entry:match("^([%w_]+)")
+
+        name =entry:match("^([%w_:]+)")
         params=entry:match("[%w_]+(%(.*%))")
         retval=entry:match("%)(.*)")
         if not params then params="()" end
@@ -258,7 +275,7 @@ print("> deDupeing.."..APIFilePath)
     for key,val in pairs(nameTable) do
     io.write(key..val.."\n")
     end
-
+    io.flush()
     io.close(ResultFile)
  --   os.remove(APIFilePath)
    -- os.rename("ResultFile",APIFilePath)
@@ -277,6 +294,7 @@ if odo then
     lockFile= io.output(lockFileNamePath)
     io.output(lockFile) 
     io.write(tostring(os.date))
+    io.flush()
     io.close(lockFile)
 
     -- do!
@@ -288,11 +306,12 @@ if odo then
         print("> Error: "..APIFilePath.." was not found")
     end
 
-    -- create the fin file
-    os.remove(lockFileNamePath)
-    finFile=io.open(finFileNamePath,"w")
+
+    os.remove(lockFileNamePath) -- remove lock
+    finFile=io.open(finFileNamePath,"w")     -- create the fin file signalling sciteproject.lua that the output files are ready
     finFile= io.output(finFileNamePath)
     io.output(finFile) 
     io.write(tostring(os.date))
+    io.flush()
     io.close(finFile)
 end

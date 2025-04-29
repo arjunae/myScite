@@ -4571,6 +4571,7 @@ void SciTEBase::PerformOne(char *action) {
 			PropertyFromDirector(arg);
 		} else if (isprefix(action, "reloadproperties:")) {
 			ReloadProperties();
+		
 		} else if (isprefix(action, "quit:")) {
 			QuitProgram();
 		} else if (isprefix(action, "replaceall:") && wEditor.Created()) {

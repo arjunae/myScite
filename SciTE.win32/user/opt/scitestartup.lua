@@ -1,5 +1,5 @@
 -- ### mySciTE's Lua Startup Script 2022 t.kani@gmx.net ####
---io.stdout:setvbuf("no")
+io.stdout:setvbuf("no")
 GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
 myHome = props["SciteDefaultHome"]..dirSep.."user"..dirSep.."opt"..dirSep
@@ -17,9 +17,6 @@ _G.string.gfind = string.gmatch or string.gfind
 --_G.os.exit= function() error("Catched os.exit from quitting SciTE.\n") end
 --lua >=5.2.x replaced table.getn(arr) with #arr
 
--- load eventmanager / extman remake used by some lua mods
---	dofile(myHome..'eventmanager.lua')
-	
 	-- extman.lua
 	-- This will automatically run any lua script located in \user\opt\lua-scite
 	dofile(myHome..'extman.lua')
@@ -34,9 +31,10 @@ _G.string.gfind = string.gmatch or string.gfind
 	-- mod-mitchell
 	--dofile(myScripts..'opt\\mod-mitchell\\scite.lua')
 
-	-- Initialize Project support last
+	-- Initialize Project support 
 	dofile(myHome.."ctags.lua")
 	dofile(myHome..'SciTEProject.lua')
+	 dofile(myHome..'AutoComplete.lua')
 
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -159,6 +157,7 @@ function OnInit()
 	scite_OnKey( function()  props["CurrentPos"]=editor.CurrentPos end ) -- keep Track of current Bytes Offset (for Statusbar)
 --	checkUpdates() -- check for a new version using githubs readme.md
 	scite_OnOpenSwitch(myScite_OpenSwitch)
+
 
 end
 

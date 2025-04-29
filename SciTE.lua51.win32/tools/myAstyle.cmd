@@ -3,12 +3,11 @@ REM -------- Containery for SciTE ----------
 REM Provides customized Language Packs within respective Directories. 
 REM ---------------------------------------
 
-set toolFolder=ctags
-set toolName=%toolFolder%
+set toolFolder=beautifier\astyle
+set toolName=astyle
 set toolExt=.exe
-set toolParam=%*
-set postProc=
-REM set optPath=%~dp0%..\
+set toolParam=--style=attach --indent=force-tab=8 --keep-one-line-blocks --pad-header --unpad-paren --pad-comma --indent-cases --align-pointer=name %*
+REMset optPath=%~dp0%..\
 
 REM A value of 1 will instruct the wrapper to initially limit %PATH% to toolNames Directory. 
 set sandbox=0
@@ -27,7 +26,6 @@ REM first try if a user had installed a local package
 if exist %toolPath%\%toolName%%toolExt% (
 echo ~ wrapper ~ %mode% [%~dp0%toolFolder%] %toolName%%toolExt% %toolParam% >&2
 %toolPath%\%toolName%%toolExt% %toolParam%
-rem %postProc% %*
 goto :freude
 ) 
 
@@ -36,11 +34,9 @@ REM not in restricted Mode ; ok to look for %toolName% within the system
 where /Q %toolName%%toolExt%
 
 IF %ERRORLEVEL% == 0 (
-REM echo ~ WRapper: %toolPath%\%toolName%%toolExt% %toolParam% >&2
+REM  echo ~ WRapper: %toolPath%\%toolName%%toolExt% %toolParam% >&2
 where %toolName%%toolExt%
 %toolName%%toolExt% %toolParam%
-cd
-%postProc% %2 %6
 goto :freude ) else (  goto :err )
 
 :err
