@@ -13,10 +13,9 @@
 -- 09.01.2020 Add Force Parameter to scite_OnOutputLine
 -- If defined, it will remove fn even if it was defined as a "primary_handler"
 -- 30.01.2020 add error handling to scite_Popen
-
-
+ -- 01.05.2025 ensure param arent nil in scite_UserListShow append_unique
 -- this is an opportunity for you to make regular Lua packages available to SciTE
---~ package.path = package.path..';C:\\lang\\lua\\lua\\?.lua'
+--~ package.psath = package.path..';C:\\lang\\lua\\lua\\?.lua'
 --~ package.cpath = package.cpath..';c:\\lang\\lua\\?.dll'
 
 -- useful function for getting a property, or a default if not present.
@@ -171,6 +170,8 @@ end
 -- may optionally ask that this handler be immediately
 -- removed after it's called
 local function append_unique(tbl,fn,rem)
+
+if fn==nil then return  end
   local once_only
   if type(fn) == 'string' then
      once_only = fn == 'once'
@@ -281,6 +282,7 @@ local next_user_id = 13 -- arbitrary
 function scite_UserListShow(list,start,fn)
   local separators = {' ', ';', '@', '?', '~', ':'}
   local separator
+  start = start or 1 -- ensure start isnt nil
   local s = table.concat(list)
   for i, sep in ipairs(separators) do
     if not string.find(s, sep, 1, true) then
@@ -289,18 +291,10 @@ function scite_UserListShow(list,start,fn)
       break
     end
   end
-  -- we could not find a good separator, set it arbitrarily
   if not separator then
     separator = '@'
     s = table.concat(list, separator, start)
   end
-  _UserListSelection = fn
-  local pane = editor
-  if not pane.Focus then pane = output end
-  pane.AutoCSeparator = string.byte(separator)
-  pane:UserListShow(next_user_id,s)
-  pane.AutoCSeparator = string.byte(' ')
-  return true
 end
 
  local word_start,in_word,current_word

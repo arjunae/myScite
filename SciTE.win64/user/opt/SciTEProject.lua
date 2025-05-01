@@ -1,9 +1,12 @@
 --
--- SciTEProject.lua, base Module: initialize Project and CTags Support for mySciTE.
+-- SciTEProject.lua, initialize Project and CTags Support for mySciTE.
+-- see SciTEDirectory.properties props project.name project.path project.ctags.opt project.sdk.api
 -- @License: BSD3Clause. @Author Thorsten Kani
--- Version: 1.0 rc1
+-- uses tools\ctags to write session.ctags to temp
+-- uses tool\ctags\parseCTags to write session.ctags.api to projects root\ctags
+-- imports session.ctags.api and.properties
+-- Version: 1.0 rc1 30.04.25
 --
-
 
 local DEBUG=0 --2 verbose Mode
 local ctagsLock --true during writing to the projects ctags and properties. (handles case: multiple saves in a row)   
@@ -48,8 +51,7 @@ function ProjectSetEnv()
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then --for calltips
 		props["project.path"] = props["SciteDirectoryHome"]
 		props["project.ctags.filename"]="ctags.tags"
-		props["project.ctags.apipath"]=props["project.path"]..dirSep.."ctags"..dirSep..props["project.ctags.filename"]..".api"
-		props["session.apipath"]=props["project.path"]..dirSep.."ctags"..dirSep.."scite.session.ctags"..".api"
+		props["project.session.api"]=props["project.path"]..dirSep.."ctags"..dirSep.."scite.session.ctags"..".api"
 		props["project.ctags.propspath"]=props["project.path"]..dirSep.."ctags"..dirSep.."scite.session.ctags"..".properties"
 		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
 		props["project.ctags.bin"]="myctags.cmd" -- invokes parseCTags.lua which creates a lockfile 
@@ -57,16 +59,15 @@ function ProjectSetEnv()
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1
 	end
 	
-
 end
 
 --
--- CTagsWriteProps() / publish cTag extrapolated Api Data -
--- reads cTag.properties File and writes them to SciTEs .properties.
+-- CTagsImportProps() / publish cTag extrapolated Api Data to scites props -
+-- reads session.cTag.properties File and writes them to SciTEs .properties.
 -- prepared for just appending a set of filebased Ctags for speed.
 -- returns cTagList, which contains a List of all Names found in the tagFile
 --
-function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
+function CTagsImportProps(theForceMightBeWithYou, YodaNamePath)
 
 	if not file_exists(YodaNamePath) or ctagsLock==true or props["project.path"]=="" then return end	
 	-- just return the cached Version if not forced to do otherwise
@@ -108,42 +109,7 @@ function CTagsWriteProps(theForceMightBeWithYou, YodaNamePath)
 		props["substylewords.11.14."..projectEXT] = props["sdk.tags.cTagClasses"]		
 	end
 	--print(props["substylewords.11.14."..projectEXT] )
-	
-	return cTagList
-end
-
-local origApiPath, projectApiPath, sdkApiPath
-
---
---cTagsUpdateProps() 	/ Update filetypes api path.
---
-function CTagsUpdateProps(theForceMightBeWithYou,fileNamePath)
-
-	ProjectSetEnv()
-
-	if cTagList and origApiPath and sdkApiPath and sdkApiPath==props["project.sdk.api"] then return end --Already done ?
-	if props["project.path"]=="" then return end
-	if not fileNamePath or fileNamePath=="" then fileNamePath=props["project.ctags.propspath"] end
-props["api."..props["file.patterns.project"]] =""
-
-
-	-- Attach a project platform API if it had been specified
-	if (props["project.sdk.api"]~="") then sdkApiPath=props["project.sdk.api"] end
-	if not sdkApiPath then sdkApiPath="" end
-	-- Update SciTEs Filetypes APIlist. 
-	-- Change SDKApi if requested by a SciTE.properties file.
-	if not projectApiPath or not projectApiPath:match(props["project.sdk.api"]) then
-		if not origApiPath then origApiPath=props["APIPath"] end --SciteApis
-		--projectApiPath=props["project.ctags.apipath"]..";"..sdkApiPath
-		projectApiPath=props["session.apipath"]..";"..sdkApiPath
-		--..";"..props["dynCTAGSapipath"] --static projects ctags, MingGW Tags, dynTags
-		props["api."..props["file.patterns.project"]] =origApiPath..";"..projectApiPath
-		--print(props["api."..props["file.patterns.project"]])
-	end
-		if DEBUG==1 then print("CTagsUpdateProps APIs written "..projectApiPath) end
-	-- parse projects properties files
-	CTagsWriteProps(theForceMightBeWithYou,fileNamePath)
-
+	if DEBUG==1 then print("CTagsImportAPI Props written ") end
 	-- Do we also want to detect changed Styles and apply them here ?
 	-- Define the Styles for cTag types
 	local currentLexer=props["Language"]
@@ -162,6 +128,36 @@ props["api."..props["file.patterns.project"]] =""
 	props["style."..currentLexer..".11.18"]=props["colour.project.modules"]
 	props["style."..currentLexer..".11.19"]=props["colour.project.enums"]
 	props["style."..currentLexer..".11.20"]=props["colour.project.class"]
+
+	return cTagList
+end
+
+local origApiPath, projectApiPath, sdkApiPath
+
+--
+--CTagsImportAPI()  reads props["project.session.api"] and props["project.sdk.api"]
+--
+function CTagsImportAPI(theForceMightBeWithYou,fileNamePath)
+
+	ProjectSetEnv()
+
+	if cTagList and sdkApiPath and sdkApiPath==props["project.sdk.api"] then return end --Already done ?
+	if props["project.path"]=="" then return end
+	if not fileNamePath or fileNamePath=="" then fileNamePath=props["project.ctags.propspath"] end
+	props["api."..props["file.patterns.project"]] =""
+
+
+	-- Attach a project platform API if it had been specified
+	if (props["project.sdk.api"]~="") then sdkApiPath=props["project.sdk.api"] end
+	if not sdkApiPath then sdkApiPath="" end
+	-- Update SciTEs APIlist property. 
+	-- Change SDKApi if requested by a SciTE.properties file.
+	if not projectApiPath or not projectApiPath:match(props["project.sdk.api"]) then
+		props["api."..props["file.patterns.project"]] =props["project.session.api"]..";"..sdkApiPath
+	end
+		if DEBUG==1 then print("CTagsImportAPI APIs written "..props["api."..props["file.patterns.project"]]) end
+	-- parse projects properties files
+	CTagsImportProps(theForceMightBeWithYou,fileNamePath)
 
 end
 
@@ -183,7 +179,7 @@ function ProjectOnDwell()
 		os.remove(finFileNamePath)
 		if DEBUG==1 then print("ProjectOnDwell, CTags file was updated. Found ", finFileNamePath) end 	
 		local fileNamePath= (props["project.ctags.propspath"])
-		CTagsUpdateProps(true,fileNamePath)
+		CTagsImportAPI(true,fileNamePath)
 	end
 	finFile=nil
 
@@ -200,20 +196,13 @@ function CTagsRecreate()
 		toolPath=props["SciteDefaultHome"]..dirSep.."tools"
 		ctagsBin=props["project.ctags.bin"]
 		ctagsOpt=props["project.ctags.opt"] -- options
-		ctagsFP= props["project.ctags.filepath"] -- sorce trees root
 		ctagsTMP="\""..os.getenv("tmp")..dirSep.."scite.session.ctags\"" -- raw .ctags go here
 		ctagsAPI=props["project.path"].."\\ctags\\ " -- parsed .api goes here
 		os.remove(os.getenv("tmp")..dirSep.."*.session.ctags")
 		
-		if ctagsBin and ctagsOpt and ctagsFP then 
-	--		if props["project.ctags.save_applies"]=="1" then 	-- regenerate CTAGs for all project files
-				ctagsCMD=toolPath..dirSep..ctagsBin.. " -f "..ctagsTMP.." -R " ..props["project.path"] .." "..ctagsOpt
+		if ctagsBin and ctagsOpt then 
+				ctagsCMD=toolPath..dirSep..ctagsBin.." "..ctagsOpt.." -f "..ctagsTMP.." -R " ..props["project.path"] 
 				if DEBUG==1 then print("CTagsRecreate All, starting " .. props["project.path"] ) end 
-	--		else -- regenerate CTAGs for the current opened files folder
-	--			ctagsCMD=toolPath..dirSep..ctagsBin.." -f "..ctagsFP.." -R " ..props["FileDir"].." "..ctagsOpt
-	--			if DEBUG==1 then print("CTagsRecreate currentFilesDir, starting "..ctagsTMP ) end
-	--		end
-	
 
 			local pipe=scite_Popen(ctagsCMD)
 			local tmp= pipe:read('*a'); print (tmp)
@@ -234,6 +223,6 @@ end
 
 -- Registers the event Handlers early.
 ProjectSetEnv()
-scite_OnOpenSwitch(CTagsUpdateProps,false,"")
+scite_OnOpenSwitch(CTagsImportAPI,false,"")
 scite_OnDwellStart(ProjectOnDwell)
 scite_OnSave(CTagsRecreate)

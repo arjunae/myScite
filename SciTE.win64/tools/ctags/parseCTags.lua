@@ -1,11 +1,21 @@
 --
 -- parseCTags.lua 
--- takes a ctags file and parse its contents to a respective SciTE .properties and .api file
--- License: BSD3Clause / Author: Thorsten Kani / eMail:Marcedo@habMalNeFrage.de
--- proof of concept version: 28.04.25 
 --
--- Usage: lua parseCTags.lua ctagsfile.tags [true]
+-- This script processes a ctags output file and generates
+--    .api file for function calltips and autocompletion.
+--    .properties file for symbol highlighting and categorization.
 --
+-- License: BSD-3-Clause
+-- Author: Thorsten Kani
+-- Contact: Marcedo@habMalNeFrage.de
+-- Date: 2025-04-28 (Proof-of-Concept version)
+--
+-- Parameters:
+--   <project_path>       Path where output files will be written.
+--   <ctags_filePath>     the ctags file to process (with or without path).
+--
+--~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 local DEBUG=0 --1: Trace Mode 2: Verbose Mode
 io.stdout:setvbuf("no")
 
@@ -60,7 +70,7 @@ else
 
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 --
 --  appendCTags(apiNames,projectFilePath,projectName)
 --  Parse a ctag File, write filtered tagNames to predefined Vars.

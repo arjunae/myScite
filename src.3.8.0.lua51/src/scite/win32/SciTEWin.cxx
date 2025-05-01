@@ -22,7 +22,6 @@
 
 #endif
 
-
 #ifdef STATIC_BUILD
 const GUI::gui_char appName[] = GUI_TEXT("Sc1");
 #else
@@ -50,15 +49,13 @@ static GUI::gui_string GetErrorMessage(DWORD nRet) {
 	}
 }
 
-
-
 long SciTEKeys::ParseKeyCode(const char *mnemonic) {
 	int modsInKey = 0;
 	int keyval = -1;
 
 	if (mnemonic && *mnemonic) {
 		std::string sKey = mnemonic;
-   
+
 		if (RemoveStringOnce(sKey, "Ctrl+"))
 			modsInKey |= SCMOD_CTRL;
 		if (RemoveStringOnce(sKey, "Shift+"))
@@ -453,7 +450,7 @@ void SciTEWin::ReadPropertiesInitial() {
 
 
 void SciTEWin::ReadProperties() {
-	SciTEBase::ReadProperties(true);
+	SciTEBase::ReadProperties();
 	
 	if (contents.flatUI) {
 		if (foldColour.empty() && foldHiliteColour.empty()) {
@@ -559,7 +556,7 @@ void SciTEWin::ExecuteHelp(const char *cmd) {
 			GUI::gui_string topic = s.substr(0, pos);
 			GUI::gui_string path = s.substr(pos + 1);
 			typedef HWND (WINAPI *HelpFn) (HWND, const wchar_t *, UINT, DWORD_PTR);
-			HelpFn fnHHW = (HelpFn)::GetProcAddress(hHH, "HtmlHelpW");
+			HelpFn fnHHW = reinterpret_cast<HelpFn>(::GetProcAddress(hHH, "HtmlHelpW"));
 			if (fnHHW) {
 				XHH_AKLINK ak;
 				ak.cbStruct = sizeof(ak);
@@ -668,7 +665,7 @@ void SciTEWin::FullScreenToggle() {
 HWND SciTEWin::MainHWND() {
 	return HwndOf(wSciTE);
 }
-Sc
+
 void SciTEWin::Command(WPARAM wParam, LPARAM lParam) {
 	int cmdID = ControlIDOfWParam(wParam);
 	if (wParam & 0x10000) {
@@ -1419,7 +1416,7 @@ void SciTEWin::CreateUI() {
 		RestorePosition();
 	// ensure a minimum initial value.
 	if (props.GetInt("window.transparency")>89) {
-		SetLayeredWindowAttributes(HwndOf(wSciTE), 0, (255 * (BYTE)(props.GetInt("window.transparency"))) / 100, LWA_ALPHA);
+		SetLayeredWindowAttributes(HwndOf(wSciTE), 0, (255 *  (BYTE)(props.GetInt("window.transparency"))) / 100, LWA_ALPHA);
 	} else {
 		SetLayeredWindowAttributes(HwndOf(wSciTE), 0, (255 * 100) / 100, LWA_ALPHA);
 	}
@@ -2119,11 +2116,10 @@ LRESULT ContentWin::WndProc(UINT iMessage, WPARAM wParam, LPARAM lParam) {
 
 	case WM_PAINT: {
 			PAINTSTRUCT ps;
-			::BeginPaint(Hwnd(), &ps);
+			BeginPaint(Hwnd(), &ps);
 			GUI::Rectangle rcPaint(ps.rcPaint.left, ps.rcPaint.top, ps.rcPaint.right, ps.rcPaint.bottom);
 			Paint(ps.hdc, rcPaint);
-			::EndPaint(Hwnd(), &ps);
-			return 0;
+			EndPaint(Hwnd(), &ps);
 		}
 
 	case WM_ERASEBKGND: {
