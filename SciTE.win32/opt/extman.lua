@@ -438,13 +438,6 @@ function extman_Path()
     return extman_path
 end
 
---[[
-fn,err = package.loadlib(extman_path.."/gui.dll","luaopen_gui")
-if fn then fn() else
-  --DISABLED:print(err)
-end
-]]
-
 -- this version of scite-gdb uses the new spawner extension library.
 local fn,err,spawner_path
 if package then loadlib = package.loadlib end

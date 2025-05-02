@@ -166,10 +166,13 @@ local function loadApiNames()
     if DEBUG>=1 then print("ac>loadapinames: reading apiFile"..apiFile ) end
     local f = io.open(apiFile)
     if f then
+	local cnt=1
       for line in f:lines() do
-        local name = line:gsub("[(, ].*", "")
-        if #name > 0 then apiNames[normalize(name)] = name end
-      end
+			-- nicht greedy bis zur ersten klammer, falls fail, dann greedy den ganzen string
+			local name = line:match("^([^)]*%))")	or line:match("^(.*)") or "" 
+			--	cnt=cnt+1 ; if cnt < 50 then print("ac:loadApiname> "..name) end
+			if #name > 0 and name:sub(1,1)~="#" then	 apiNames[normalize(name)] = name end --# Kommentare
+		end
       f:close()
     else
 	print ("ac>ignoring nonExistant apiFile: "..apiFile)
@@ -204,26 +207,45 @@ local function buildNames()
 end
 
 
-function do_autocomplete(mergedNames,prefix,len)
+function do_autocomplete(mergedNames)
+	 local pos = editor.CurrentPos
+    local startPos = editor:WordStartPosition(pos, true)
+    local len = pos - startPos
+	 if not INCREMENTAL and editor:AutoCActive() then return end
+    if len < MIN_PREFIX_LEN and not editor:AutoCActive() then return end
+
+    local prefix = normalize(editor:textrange(startPos, pos))
+    -- PHP variable support
+    if prefix:sub(1,1) == "$" then
+        prefix = prefix:sub(2)
+        len = len - 1
+    end
+	 
     -- keyword.:subkeyword style autocompletion
     local menuItems = {}
     local seen = {}
+	 local dbgcnt=0
+local dbgcnt=1; 
     for _, name in ipairs(mergedNames) do
-        local insertName
+
+	name=name:match("(.*)%(")  or name:match("(.*)") or "" -- no () declarations for autocomplete
+	--if name then dbgcnt=dbgcnt+1 end ; if dbgcnt < 10 then print("ac:do_autocomplete> "..name) end	
+	--if name:find("LUA_") then print (name) end			
+	     local insertName
         local sepPos = name:find("::", 1, true)
         if sepPos then -- understands parent::child APIentries
             local before = name:sub(1, sepPos-1)
             local after  = name:sub(sepPos+2)
-            if normalize(after):find("^" .. prefix) then
-                insertName = after --completes when prefix matches after ::
-            elseif normalize(before):find("^" .. prefix) then
+            if normalize(after):find("^" .. prefix) then --completes when prefix matches after ::
+                insertName = after 
+				elseif normalize(before):find("^" .. prefix) then
                 insertName = before
             end
         else
             if normalize(name):find("^" .. prefix) then
                 insertName = name
             end
-        end
+	end
         if insertName then
             local normName = normalize(insertName)
             if not seen[normName] then
@@ -258,31 +280,49 @@ function do_autocomplete(mergedNames,prefix,len)
     end
 end
 
+function do_calltip(mergedNames)
+    local pos = editor.CurrentPos
+	 local strCalltip=""
+	 local entry
+    if pos < 1 then return end
+
+    -- Suche das Wort direkt vor der Klammer
+    local startPos = editor:WordStartPosition(pos-1, true)
+    local funcName = editor:textrange(startPos, pos-1 )
+	 local tipCount=0
+    
+	 if not funcName or #funcName == 0 then return end
+    funcName = normalize(funcName)
+    for _, entry in ipairs(mergedNames) do
+        if normalize(entry):find(funcName, 1, true) then
+				tipCount=tipCount+1
+				print(entry)	
+				entry=entry:match("%((.*)%)") 
+				if entry then strCalltip=strCalltip..entry end
+				if entry and tipCount>1 then strCalltip="\n"..strCalltip..entry end
+        end
+    end
+	editor:CallTipShow(pos, strCalltip)
+	tipCount=0
+	return
+end
 
 local function handleChar(char, calledByHotkey)
     if props["Language"] == "" or (buffer.size and buffer.size > AC_MAX_SIZE) then return end
-    local pos = editor.CurrentPos
-    local startPos = editor:WordStartPosition(pos, true)
-    local len = pos - startPos
-    if editor.Lexer == 1 then return end
-    if not INCREMENTAL and editor:AutoCActive() then return end
-    if len < MIN_PREFIX_LEN and not editor:AutoCActive() then return end
-
-    local prefix = normalize(editor:textrange(startPos, pos))
-    -- PHP variable support
-    if prefix:sub(1,1) == "$" then
-        prefix = prefix:sub(2)
-        len = len - 1
-    end
+      if editor.Lexer == 1 then return end
 
     -- Merge API and text names
     if not apiCache[editor.LexerLanguage] then loadApiNames() end
     if not textNames then buildNames() end
     local mergedNames = {}
-    for _,n in pairs(apiCache[editor.LexerLanguage]) do table.insert(mergedNames, n) end
+    for _,n in pairs(apiCache[editor.LexerLanguage]) do  table.insert(mergedNames, n) end
     for _,n in ipairs(textNames) do table.insert(mergedNames, n) end
 
-	do_autocomplete(mergedNames,prefix,len)
+   if char == "(" then	
+		do_calltip(mergedNames)
+	else    
+		do_autocomplete(mergedNames)
+	end
 end
 
 local function handleKey(key, shift, ctrl, alt)
@@ -339,7 +379,7 @@ if alt or not editor:AutoCActive() then return end
     end
 end
 
-function handleDwell()
+function handleOnWord()
 	if DEBUG >= 1 then print("ac> onDwell") end
 		buildNames()
 end
@@ -359,7 +399,7 @@ end
 function handleOnSave()
    if DEBUG>=1 then print("ac>onSave") end
 	buffer.dirty=true
-	 ---- loadApiNames()
+	loadApiNames()
   	buildNames()
 end
 
@@ -377,7 +417,8 @@ end
 -- Event handlers
 scite_OnChar(handleChar)
 scite_OnKey(handleKey)
-scite_OnDwellStart(handleDwell)
+scite_OnWord(handleOnWord)
+--scite_OnDwellStart(handleOnWord)
 scite_OnSwitchFile(handleSwitchFile)
 scite_OnSave(handleOnSave)
 scite_OnOpen(handleOpen)

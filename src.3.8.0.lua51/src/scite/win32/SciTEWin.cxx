@@ -11,16 +11,16 @@
 
 #ifndef NO_EXTENSIONS
 #include "MultiplexExtension.h"
-
 #ifndef NO_FILER
 #include "DirectorExtension.h"
 #endif
+SciTEBase::AbandonAutomaticSave
 
 #ifndef NO_LUA
 #include "LuaExtension.h"
 #endif
-
-#endif
+aa
+#endi
 
 #ifdef STATIC_BUILD
 const GUI::gui_char appName[] = GUI_TEXT("Sc1");

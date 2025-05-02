@@ -6,7 +6,6 @@
 // The License.txt file describes the conditions under which this software may be distributed.
 
 #include "SciTEWin.h"
-
 /**
  * Set up properties for FileTime, FileDate, CurrentTime, CurrentDate and FileAttr.
  */

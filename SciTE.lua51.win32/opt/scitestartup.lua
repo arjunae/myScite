@@ -2,7 +2,7 @@
 io.stdout:setvbuf("no")
 GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
-myHome = props["SciteDefaultHome"]..dirSep.."user"..dirSep.."opt"..dirSep
+myHome = props["SciteDefaultHome"]..dirSep.."opt"..dirSep
 LUA_PATH = myHome.."lua\\" -- official lua related scripts
 package.path = package.path ..";"..myHome.."lua\\?.lua;"..myHome.."lua-scite\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."lua-scite\\?.dll;"
