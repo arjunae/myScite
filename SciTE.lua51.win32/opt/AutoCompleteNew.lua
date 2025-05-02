@@ -160,8 +160,12 @@ end
 local function loadApiNames()
   if DEBUG>=1 then print("ac>loadApiNames") end
   local lexer = editor.LexerLanguage
-  local apiNames = {}
-  local paths = props["APIPath"] .. ";" .. props["project.sdk.api"] .. ";" .. props["project.session.api"]
+  local apiNames = {} 
+  local paths = props["APIPath"]..";" .. props["project.sdk.api"] .. ";" .. props["project.session.api"]
+-- maybe somwhen there will be support for a more structured file format APIdir\{lexerLanguage}.api
+  local otherApi=props["APIDir"]..dirSep..lexer..".api"
+  if file_exists(otherApi) then paths=paths..";"..otherApi end
+
   for apiFile in paths:gmatch("[^;]+") do
     if DEBUG>=1 then print("ac>loadapinames: reading apiFile"..apiFile ) end
     local f = io.open(apiFile)
@@ -170,12 +174,12 @@ local function loadApiNames()
       for line in f:lines() do
 			-- nicht greedy bis zur ersten klammer, falls fail, dann greedy den ganzen string
 			local name = line:match("^([^)]*%))")	or line:match("^(.*)") or "" 
-			--	cnt=cnt+1 ; if cnt < 50 then print("ac:loadApiname> "..name) end
+		--	cnt=cnt+1 ; if cnt < 50 then print("ac:loadApiname> "..name) end
 			if #name > 0 and name:sub(1,1)~="#" then	 apiNames[normalize(name)] = name end --# Kommentare
 		end
       f:close()
     else
-	print ("ac>ignoring nonExistant apiFile: "..apiFile)
+		if DEBUG>0 then print ("ac>ignoring nonExistant apiFile: "..apiFile) end
     end
   end
   apiCache[lexer] = apiNames
@@ -297,10 +301,10 @@ function do_calltip(mergedNames)
         if normalize(entry):find(funcName, 1, true) then
 				tipCount=tipCount+1
 				print(entry)	
-				entry=entry:match("%((.*)%)") 
+				entry=entry:match("%((.*)%)")  -- only definition (.*)
 				if entry then strCalltip=strCalltip..entry end
 				if entry and tipCount>1 then strCalltip="\n"..strCalltip..entry end
-        end
+	        end
     end
 	editor:CallTipShow(pos, strCalltip)
 	tipCount=0
@@ -380,7 +384,7 @@ if alt or not editor:AutoCActive() then return end
 end
 
 function handleOnWord()
-	if DEBUG >= 1 then print("ac> onDwell") end
+	if DEBUG >= 1 then print("ac> OnWord") end
 		buildNames()
 end
 
@@ -420,5 +424,5 @@ scite_OnKey(handleKey)
 scite_OnWord(handleOnWord)
 --scite_OnDwellStart(handleOnWord)
 scite_OnSwitchFile(handleSwitchFile)
-scite_OnSave(handleOnSave)
+--scite_OnSave(handleOnSave)
 scite_OnOpen(handleOpen)
