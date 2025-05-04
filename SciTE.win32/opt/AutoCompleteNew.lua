@@ -12,55 +12,58 @@
   - APINames are read onLoad, buffer identifiers are read by onDwellStart and merged dynamically for the suggestion list.
    - a simple trace Mode has been added. DEBUG=1
 ]]
-
-local DEBUG=0 --1: Trace Mode 2: Verbose Mode
+local DEBUG = 0 --1: Trace Mode 2: Verbose Mode
 
 -- Maximal filesize that this script should handle
-local AC_MAX_SIZE =262144 --260k
+local AC_MAX_SIZE = 262144 --260k
 
 -- List of styles per lexer that autocomplete should not occur within.
 local SCLEX_AHK1 = 200
 local SCLEX_AHK2 = 201 --?
 local SCLEX_GENERIC = 1024
 
-local IGNORE_STYLES = { -- Should include comments, strings and errors.
-    [SCLEX_AHK1] = {1,2,6,20},
-    [SCLEX_AHK2] = {1,2,3,5,15},
-    [SCLEX_BATCH] = {1,3},
-    [SCLEX_BASH] = {1,2,5,6,12,13},
-    [SCLEX_CMAKE] = {1,2,3,4,7},
-    [SCLEX_CSS] = {4,9,13,14},
-    [SCLEX_COFFEESCRIPT] = {1,2,3,6,7,12,15,18,22,24},
-    [SCLEX_CPP]  = {1,2,3,6,7,8,12},
-    [SCLEX_FREEBASIC]  = {1,4,9},
-    [SCLEX_HASKELL]  = {4,5,9,13,14,15,16,19},
-    [SCLEX_HTML]  = {1,2,3,6,7,8,12},
-    [SCLEX_LUA]  = {1,2,3,6,7,8,12},
-    [SCLEX_MAKEFILE]  = {1,12},
-    [SCLEX_MARKDOWN]  = {},
-    [SCLEX_PERL]  = {1,2,6,7,22,23,24,25,26,27,44},
-    [SCLEX_PYTHON]  = {1,3,4, 12, 13},
-    [SCLEX_RUBY]  = {1,2,6,7},
-    [SCLEX_RUST]  = {1,2,3,4},
-    [SCLEX_SPICE]  = {8},
-    [SCLEX_PROPERTIES]  = {1},
-    [SCLEX_POWERSHELL]  = {1,2,3,13,16},
-    [SCLEX_VHDL]  = {1,2,4,7,14,15},
-    [SCLEX_GENERIC]  = {1,2,3,6,7,8}
+local IGNORE_STYLES = {
+    -- Should include comments, strings and errors.
+    [SCLEX_AHK1] = {1, 2, 6, 20},
+    [SCLEX_AHK2] = {1, 2, 3, 5, 15},
+    [SCLEX_BATCH] = {1, 3},
+    [SCLEX_BASH] = {1, 2, 5, 6, 12, 13},
+    [SCLEX_CMAKE] = {1, 2, 3, 4, 7},
+    [SCLEX_CSS] = {4, 9, 13, 14},
+    [SCLEX_COFFEESCRIPT] = {1, 2, 3, 6, 7, 12, 15, 18, 22, 24},
+    [SCLEX_CPP] = {1, 2, 3, 6, 7, 8, 12},
+    [SCLEX_FREEBASIC] = {1, 4, 9},
+    [SCLEX_HASKELL] = {4, 5, 9, 13, 14, 15, 16, 19},
+    [SCLEX_HTML] = {1, 2, 3, 6, 7, 8, 12},
+    [SCLEX_LUA] = {1, 2, 3, 6, 7, 8, 12},
+    [SCLEX_MAKEFILE] = {1, 12},
+    [SCLEX_MARKDOWN] = {},
+    [SCLEX_PERL] = {1, 2, 6, 7, 22, 23, 24, 25, 26, 27, 44},
+    [SCLEX_PYTHON] = {1, 3, 4, 12, 13},
+    [SCLEX_RUBY] = {1, 2, 6, 7},
+    [SCLEX_RUST] = {1, 2, 3, 4},
+    [SCLEX_SPICE] = {8},
+    [SCLEX_PROPERTIES] = {1},
+    [SCLEX_POWERSHELL] = {1, 2, 3, 13, 16},
+    [SCLEX_VHDL] = {1, 2, 4, 7, 14, 15},
+    [SCLEX_GENERIC] = {1, 2, 3, 6, 7, 8}
 }
 
 -- Names from api files and editor, stored by lexer name.
-local apiCache = {} 
+local apiCache = {}
 local textNames = {}
+local mergedNames = {}
 
 -- Number of chars to type before the autocomplete list appears:
-local MIN_PREFIX_LEN = 2
+local MIN_PREFIX_LEN = 4
 -- Length of shortest word to add to the autocomplete list:
 local MIN_IDENTIFIER_LEN = 4
 -- List of regex patterns for finding suggestions for the autocomplete menu:
-local IDENTIFIER_PATTERNS = {"[a-z_:.][a-z_0-9]+"}
+local IDENTIFIER_PATTERNS = {"[a-z_][a-z_0-9]+"}
 -- Override settings that interfere with this script:
 props["autocomplete.start.characters"] = ""
+props["autocomplete.fillups"] = ""
+
 -- This feature is very awkward when combined with automatic popups:
 props["autocomplete.choose.single"] = "0"
 
@@ -70,20 +73,23 @@ local CASE_CORRECT = true
 local CASE_CORRECT_INSTANT = false
 local WRAP_ARROW_KEYS = false
 local CHOOSE_SINGLE = props["autocomplete.choose.single"]
-local MENUITEMS_MAX=200 -- Anyone really scrolls further ? 
+local MENUITEMS_MAX = 200 -- Anyone really scrolls further ?
 
 --~~~~~~~~~~~~~~~~~~~~~~~
 
 local names = {}
 
 local notempty = next
-local shouldIgnorePos= function(self) end -- init'd by buildNames().
+local shouldIgnorePos = function(self)
+end -- init'd by buildNames().
 local normalize
 
 if IGNORE_CASE then
     normalize = string.upper
 else
-    normalize = function(word) return word end
+    normalize = function(word)
+        return word
+    end
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -92,17 +98,22 @@ end
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 if props["PLAT_WIN"] then
-   local dirSep=("\\")
+    local dirSep = ("\\")
 else
-    local dirSep=("/")
+    local dirSep = ("/")
 end
 
 --
 -- returns if a given fileNamePath exists
 --
 local function file_exists(name)
-   local f=io.open(name,"r")
-   if f~=nil then io.close(f) return true else return false end
+    local f = io.open(name, "r")
+    if f ~= nil then
+        io.close(f)
+        return true
+    else
+        return false
+    end
 end
 
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -112,44 +123,48 @@ end
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local function isInTable(table, elem)
-	if table == nil then return false end
-	for k,i in ipairs(table) do
-      if k == elem or i == elem then
-			return true
-		end
-	end
-	return false
+    if table == nil then
+        return false
+    end
+    for k, i in ipairs(table) do
+        if k == elem or i == elem then
+            return true
+        end
+    end
+    return false
 end
 
 local function countAPICache(table, elem)
-local lexer = editor.LexerLanguage
-local count = 0
-if apiCache[lexer] then
-  for _ in pairs(apiCache[lexer]) do
-    count = count + 1
-  end
-end
-return count
+    local lexer = editor.LexerLanguage
+    local count = 0
+    if apiCache[lexer] then
+        for _ in pairs(apiCache[lexer]) do
+            count = count + 1
+        end
+    end
+    return count
 end
 --
 -- Disable collection of words in comments, strings, etc.
 -- Also disables autocomplete popups while typing there.
 --
 local function setLexerSpecificStuff()
-    local iLexer=editor.Lexer
+    local iLexer = editor.Lexer
 
-    if type(IGNORE_STYLES[iLexer])=="nil" and editor.Lexer~=1 then -- Performance: Disable Ac for the Null Lexer
-       -- print("ac>Current lexer not supported. Using generic Mode.")
-        iLexer=SCLEX_GENERIC
+    if type(IGNORE_STYLES[iLexer]) == "nil" and editor.Lexer ~= 1 then -- Performance: Disable Ac for the Null Lexer
+    -- print("ac>Current lexer not supported. Using generic Mode.")
+    --iLexer=SCLEX_GENERIC
     end
     if IGNORE_STYLES[iLexer] then
-    -- Define a function for calling later:
+        -- Define a function for calling later:
         shouldIgnorePos = function(pos)
             return isInTable(IGNORE_STYLES[iLexer], editor.StyleAt[pos])
         end
     else
         -- Optional: Disable autocomplete popups for unknown lexers.
-        shouldIgnorePos = function(pos) return true end
+        shouldIgnorePos = function(pos)
+            return true
+        end
     end
 end
 
@@ -158,104 +173,152 @@ end
 --
 -- Load API names into cache for current lexer
 local function loadApiNames()
-  if DEBUG>=1 then print("ac>loadApiNames") end
-  local lexer = editor.LexerLanguage
-  local apiNames = {} 
-  local paths = props["APIPath"]..";" .. props["project.sdk.api"] .. ";" .. props["project.session.api"]
--- maybe somwhen there will be support for a more structured file format APIdir\{lexerLanguage}.api
-  local otherApi=props["APIDir"]..dirSep..lexer..".api"
-  if file_exists(otherApi) then paths=paths..";"..otherApi end
-
-  for apiFile in paths:gmatch("[^;]+") do
-    if DEBUG>=1 then print("ac>loadapinames: reading apiFile"..apiFile ) end
-    local f = io.open(apiFile)
-    if f then
-	local cnt=1
-      for line in f:lines() do
-			-- nicht greedy bis zur ersten klammer, falls fail, dann greedy den ganzen string
-			local name = line:match("^([^)]*%))")	or line:match("^(.*)") or "" 
-		--	cnt=cnt+1 ; if cnt < 50 then print("ac:loadApiname> "..name) end
-			if #name > 0 and name:sub(1,1)~="#" then	 apiNames[normalize(name)] = name end --# Kommentare
-		end
-      f:close()
-    else
-		if DEBUG>0 then print ("ac>ignoring nonExistant apiFile: "..apiFile) end
+    if DEBUG >= 1 then
+        print("ac>loadApiNames")
     end
-  end
-  apiCache[lexer] = apiNames
-end
+    local lexer = editor.LexerLanguage
+    local apiNames = {}
+	 --.. ";" .. props["project.sdk.api"] -- mingw api if you have a fast system
+    local paths = props["APIPath"] .. ";" .. props["project.session.api"]
+    -- maybe somwhen there will be support for a more structured file format APIdir\{lexerLanguage}.api
+    local otherApi = props["APIDir"] .. dirSep .. lexer .. ".api"
+    if file_exists(otherApi) then
+        paths = paths .. ";" .. otherApi
+    end
 
+	--paths=props["project.sdk.api"]
+    for apiFile in paths:gmatch("[^;]+") do
+        if DEBUG >= 1 then
+            print("ac>loadapinames: reading apiFile" .. apiFile)
+        end
+
+        local f = io.open(apiFile)
+        if f then
+            local cnt = 1
+            for line in f:lines() do
+                -- nicht greedy bis zur ersten klammer, falls fail, dann greedy den ganzen string
+                --local name = line:match("^%s*([^)]-%s*%)%s*)")	or line:match("^(.*)") or ""
+                local name = line
+                --if name:find("GetFile") then print(name) end
+                	--cnt=cnt+1 ; if cnt < 20 then print("ac:loadApiname> "..name) end
+                if #name > 0 and name:sub(1, 1) ~= "#" then
+                    apiNames[normalize(name)] = name
+                end --# Kommentare
+            end
+            f:close()
+        else
+            if DEBUG > 0 then
+                print("ac>ignoring nonExistant apiFile: " .. apiFile)
+            end
+        end
+    end
+    apiCache[lexer] = apiNames
+end
 
 -- BuildNames now only gathers buffers text names
 local function buildNames()
- if DEBUG>=1 then print("ac>loadEditorNames") end
----  if type(buffer)=="table" and buffer.size>AC_MAX_SIZE then return end
-  textNames = {}
-  local uniq = {}
- setLexerSpecificStuff()
-  for _,pattern in ipairs(IDENTIFIER_PATTERNS) do
-    local startPos = 0
-    while true do
-      local s,e = editor:findtext(pattern, SCFIND_REGEXP, startPos+1)
-      if not s then break end
-      if not shouldIgnorePos(s) and e-s+1>=MIN_IDENTIFIER_LEN then
-        local word = editor:textrange(s,e)
-        uniq[normalize(word)] = word
-      end
-      startPos = e
+    if DEBUG >= 1 then
+        print("ac>loadEditorNames")
     end
-  end
-  for _,v in pairs(uniq) do table.insert(textNames, v) end
-  table.sort(textNames, function(a,b) return normalize(a)<normalize(b) end)
-  if type(buffer)=="table" then buffer.dirty=false end
+    ---  if type(buffer)=="table" and buffer.size>AC_MAX_SIZE then return end
+    textNames = {}
+    local uniq = {}
+    setLexerSpecificStuff()
+    for _, pattern in ipairs(IDENTIFIER_PATTERNS) do
+        local startPos = 0
+        while true do
+            local s, e = editor:findtext(pattern, SCFIND_REGEXP, startPos + 1)
+            if not s then
+                break
+            end
+            if not shouldIgnorePos(s) and e - s + 1 >= MIN_IDENTIFIER_LEN then
+                local word = editor:textrange(s, e)
+                uniq[normalize(word)] = word
+            end
+            startPos = e
+        end
+    end
+    for _, v in pairs(uniq) do
+        table.insert(textNames, v)
+    end
+    table.sort(
+        textNames,
+        function(a, b)
+            return normalize(a) < normalize(b)
+        end
+    )
+    if type(buffer) == "table" then
+        buffer.dirty = false
+    end
 end
 
-
-function do_autocomplete(mergedNames)
-	 local pos = editor.CurrentPos
+function do_autocomplete(APInames)
+    local pos = editor.CurrentPos
     local startPos = editor:WordStartPosition(pos, true)
     local len = pos - startPos
-	 if not INCREMENTAL and editor:AutoCActive() then return end
-    if len < MIN_PREFIX_LEN and not editor:AutoCActive() then return end
+    if not INCREMENTAL and editor:AutoCActive() then
+        return
+    end
+    if len < MIN_PREFIX_LEN and not editor:AutoCActive() then
+        return
+    end
 
     local prefix = normalize(editor:textrange(startPos, pos))
+
     -- PHP variable support
-    if prefix:sub(1,1) == "$" then
+    if prefix:sub(1, 1) == "$" then
         prefix = prefix:sub(2)
         len = len - 1
     end
-	 
+    -- ::keyword support
+    local match = prefix:match("^:+")
+    if match then
+        prefix = prefix:sub(#match + 1)
+        len = len - #match
+    end
     -- keyword.:subkeyword style autocompletion
     local menuItems = {}
     local seen = {}
-	 local dbgcnt=0
-local dbgcnt=1; 
-    for _, name in ipairs(mergedNames) do
-
-	name=name:match("(.*)%(")  or name:match("(.*)") or "" -- no () declarations for autocomplete
-	--if name then dbgcnt=dbgcnt+1 end ; if dbgcnt < 10 then print("ac:do_autocomplete> "..name) end	
-	--if name:find("LUA_") then print (name) end			
-	     local insertName
+    local dbgcnt = 1
+    for _, name in ipairs(APInames) do
+        name = name:match("([^(]-%s*)[%(|]") or name:match("(.*)") or name -- no () declarations for autocomplete
+        --if name then dbgcnt=dbgcnt+1 end ; if dbgcnt < 10 then print("ac:do_autocomplete> "..name) end
+        --if name:find(prefix) and #prefix>5 then print ("ac>do_autocomplete1: "..name) end
+        local insertName
         local sepPos = name:find("::", 1, true)
-        if sepPos then -- understands parent::child APIentries
-            local before = name:sub(1, sepPos-1)
-            local after  = name:sub(sepPos+2)
+		-- autoc Namespace memberlist
+        if prefix:find(":") and normalize(name):find(prefix) then
+            --if name:find(prefix) and #prefix>5 then print ("ac>do_autocomplete1: "..name) end
+            insertName = name
+		-- autoc Namespace or member without namespace given
+        elseif sepPos then -- understands parent::child APIentries
+            local before = name:sub(1, sepPos - 1)
+            local after = name:sub(sepPos + 2)
+            --if name:find(prefix) and #prefix>5 then print (name, before, after) end
             if normalize(after):find("^" .. prefix) then --completes when prefix matches after ::
-                insertName = after 
-				elseif normalize(before):find("^" .. prefix) then
+                insertName = after
+                if name:find(prefix) and #prefix > 5 then
+                   if DEBUG>0 then print("ac>do_autoc matching: " .. name) end
+                end
+			-- autoc functionName
+            elseif normalize(before):find("^" .. prefix) then
                 insertName = before
             end
         else
             if normalize(name):find("^" .. prefix) then
                 insertName = name
             end
-	end
+        end
+        --  if DEBUG>0 then insertName and m<1 then print("ac:do_autocomplete insertName: "..insertName); m=1 end end
+
         if insertName then
             local normName = normalize(insertName)
             if not seen[normName] then
                 seen[normName] = true
                 table.insert(menuItems, insertName)
-                if #menuItems >= MENUITEMS_MAX then break end
+                if #menuItems >= MENUITEMS_MAX then
+                    break
+                end
             end
         end
     end
@@ -273,70 +336,112 @@ local dbgcnt=1;
                     editor:AutoCShow(len, menuItems[1])
                     editor:AutoCComplete()
                 end
-                if #menuItems > 1 then editor:AutoCShow(len, list) end
+                if #menuItems > 1 then
+                    editor:AutoCShow(len, list)
+                end
             end
-            if #menuItems == 1 then editor:AutoCCancel() return end
+            if #menuItems == 1 then
+                editor:AutoCCancel()
+                return
+            end
         end
         lastAutoCItem = #menuItems - 1
-        if lastAutoCItem == 0 and calledByHotkey and CHOOSE_SINGLE then editor:AutoCComplete() end
+        if lastAutoCItem == 0 and calledByHotkey and CHOOSE_SINGLE then
+            editor:AutoCComplete()
+        end
     else
-        if editor:AutoCActive() then editor:AutoCCancel() end
+        if editor:AutoCActive() then
+            editor:AutoCCancel()
+        end
     end
 end
 
-function do_calltip(mergedNames)
+
+function do_calltip(APInames)
     local pos = editor.CurrentPos
-	 local strCalltip=""
-	 local entry
-    if pos < 1 then return end
+    local strCalltip = ""
+    local entry
+	 local dbgcnt=1
+    if pos < 1 then
+        return
+    end
 
     -- Suche das Wort direkt vor der Klammer
-    local startPos = editor:WordStartPosition(pos-1, true)
-    local funcName = editor:textrange(startPos, pos-1 )
-	 local tipCount=0
-    
-	 if not funcName or #funcName == 0 then return end
-    funcName = normalize(funcName)
-    for _, entry in ipairs(mergedNames) do
-        if normalize(entry):find(funcName, 1, true) then
-				tipCount=tipCount+1
-				print(entry)	
-				entry=entry:match("%((.*)%)")  -- only definition (.*)
-				if entry then strCalltip=strCalltip..entry end
-				if entry and tipCount>1 then strCalltip="\n"..strCalltip..entry end
-	        end
+    local startPos = editor:WordStartPosition(pos - 1, true)
+    local funcName = editor:textrange(startPos, pos - 1)
+    funcName = funcName:match("%((.-)%)") or funcName -- ::keyword support
+	print("ac>calltip searchString "..funcName)
+    local tipCount = 0
+    if not funcName or #funcName == 0 then
+        return
     end
-	editor:CallTipShow(pos, strCalltip)
-	tipCount=0
-	return
+    funcName = normalize(funcName)
+
+    for _, entry in ipairs(APInames) do
+		fullLine=entry
+		--	 if entry:match("PerformOne") then print(fullLine) end
+	   entry=normalize(entry)
+
+		funcName=funcName:gsub("^:+", "")
+		if entry:match("^(.-)%(") == funcName or --Namespace::member 
+		 entry:gsub("^.+:", ""):match("^" .. funcName .. "%f[%A]") then --Namespace member wo Namespace
+		   
+            tipCount = tipCount + 1
+            entry = entry:match("%((.-)%)") or "" -- only definition (.*)
+            if entry and entry ~= "" then
+                strCalltip = strCalltip .. entry
+					print(fullLine)
+            elseif entry and entry ~= "" and tipCount > 1 then
+                strCalltip = "\n" .. strCalltip .. entry
+            end
+        end
+    end
+    if #strCalltip > 0 then
+        editor:CallTipShow(pos, strCalltip)
+    end
+    tipCount = 0
+    return
 end
 
+
 local function handleChar(char, calledByHotkey)
-    if props["Language"] == "" or (buffer.size and buffer.size > AC_MAX_SIZE) then return end
-      if editor.Lexer == 1 then return end
+    if props["Language"] == "" or (buffer.size and buffer.size > AC_MAX_SIZE) then
+        return
+    end
+    if editor.Lexer == 1 then
+        return
+    end
+   local APInames = mergedNames or {}
+local startChars=props["calltip."..editor.LexerLanguage..".parameters.start"]
+if not startChars then startChars="(" end
+local found = false
 
-    -- Merge API and text names
-    if not apiCache[editor.LexerLanguage] then loadApiNames() end
-    if not textNames then buildNames() end
-    local mergedNames = {}
-    for _,n in pairs(apiCache[editor.LexerLanguage]) do  table.insert(mergedNames, n) end
-    for _,n in ipairs(textNames) do table.insert(mergedNames, n) end
-
-   if char == "(" then	
-		do_calltip(mergedNames)
-	else    
-		do_autocomplete(mergedNames)
+	for i = 1, #startChars do
+		 if startChars:sub(i, i) == char then
+			  found = true
+			  break
+		 end
 	end
+ 
+    if found then
+        do_calltip(APInames)
+    else
+        do_autocomplete(APInames)
+    end
 end
 
 local function handleKey(key, shift, ctrl, alt)
--- starte ac bei ctre-space
-	if props["Language"]=="" or (buffer.size and buffer.size>AC_MAX_SIZE) then return end
-	if key == 0x20 and ctrl and not (shift or alt) then -- ^Space
-	  handleChar(nil, true)
-	  return true
-	end    	 
-if alt or not editor:AutoCActive() then return end
+    -- starte ac bei ctre-space
+    if props["Language"] == "" or (buffer.size and buffer.size > AC_MAX_SIZE) then
+        return
+    end
+    if key == 0x20 and ctrl and not (shift or alt) then -- ^Space
+        handleChar(nil, true)
+        return true
+    end
+    if alt or not editor:AutoCActive() then
+        return
+    end
 
     if key == 0x8 then -- VK_BACK
         if not ctrl then
@@ -375,8 +480,8 @@ if alt or not editor:AutoCActive() then return end
                 editor:AutoCSelect(menuItems[1])
                 return true
             end
-            -- Cancel the list and let the caret move down.
-            --editor:AutoCCancel()
+        -- Cancel the list and let the caret move down.
+        --editor:AutoCCancel()
         end
     elseif key == 0x5A and ctrl then -- ^z
         editor:AutoCCancel()
@@ -384,38 +489,60 @@ if alt or not editor:AutoCActive() then return end
 end
 
 function handleOnWord()
-	if DEBUG >= 1 then print("ac> OnWord") end
-		buildNames()
+    if DEBUG >= 1 then
+        print("ac> OnWord")
+    end
+    -- Merge API and text names
+    if not apiCache[editor.LexerLanguage] then
+        loadApiNames()
+    end
+        buildNames()
+    
+    for _, n in pairs(apiCache[editor.LexerLanguage]) do
+        table.insert(mergedNames, n)
+    end
+    for _, n in ipairs(textNames) do
+        table.insert(mergedNames, n)
+    end
 end
 
+function handleSwitchFile()
+    if DEBUG >= 1 then
+        print("ac>onSwitchFile: reusing cached entries:", countAPICache())
+    end
+    setLexerSpecificStuff()
 
-function handleSwitchFile() 
-		if DEBUG>=1 then print("ac>onSwitchFile: reusing cached entries:",countAPICache()) end  
-		setLexerSpecificStuff()
-
-		if editor.LexerLanguage and not apiCache[editor.LexerLanguage]  then loadApiNames()   end 
-		editor:Colourise(0, editor.Length)
-		if props["project.ctags.update"]=="" then props["project.ctags.update"]="1" end
-		buildNames()
-
+    if editor.LexerLanguage and not apiCache[editor.LexerLanguage] then
+        loadApiNames()
+    end
+    editor:Colourise(0, editor.Length)
+    if props["project.ctags.update"] == "" then
+        props["project.ctags.update"] = "1"
+    end
+    buildNames()
 end
 
 function handleOnSave()
-   if DEBUG>=1 then print("ac>onSave") end
-	buffer.dirty=true
-	loadApiNames()
-  	buildNames()
+    if DEBUG >= 1 then
+        print("ac>onSave")
+    end
+    buffer.dirty = true
+    loadApiNames()
+    
 end
 
 function handleOpen()
-    if DEBUG>=1 then print("ac>onOpen") end
-	  -- Ensure the document is styled first, so we can filter out
-	  -- words in comments and strings.
-	  editor:Colourise(0, editor.Length)
-	  -- Then do the real work.
-	  if props["project.ctags.update"]==""  then props["project.ctags.update"]="1" end	
-		if editor.LexerLanguage and not apiCache[editor.LexerLanguage]  then loadApiNames()   end 
- 	 buildNames()
+    if DEBUG >= 1 then
+        print("ac>onOpen")
+    end
+    -- Ensure the document is styled first, so we can filter out
+    -- words in comments and strings.
+    editor:Colourise(0, editor.Length)
+    -- Then do the real work.    
+    if editor.LexerLanguage and not apiCache[editor.LexerLanguage] then
+        loadApiNames()
+    end
+    handleOnWord()
 end
 
 -- Event handlers

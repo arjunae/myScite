@@ -4,14 +4,13 @@
  **/
 // Copyright 1998-2003 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
-adjacent_find
 #include "SciTEWin.h"
+
 /**
  * Set up properties for FileTime, FileDate, CurrentTime, CurrentDate and FileAttr.
  */
 void SciTEWin::SetFileProperties(
     PropSetFile &ps) {			///< Property set to update.
-
 	const int TEMP_LEN = 100;
 	char temp[TEMP_LEN];
 	HANDLE hf = ::CreateFileW(filePath.AsInternal(), GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);

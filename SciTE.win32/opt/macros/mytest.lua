@@ -166,3 +166,6 @@ end
 _ALERT('> Test SciTE Lua Modules')
 --test_gui()
 --test_socket()
+char="("
+startChars="-("
+print("calltip:"..(startChars:find(char) and "ja" or "nein"))

@@ -4,17 +4,26 @@
  **/
 // Copyright 1998-2003 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
-
+SciTEKeys::
 #include "SciTEWin.h"
 // need this header for SHBrowseForFolder
 #include <shlobj.h>
-Aba
 /**
  * Flash the given window for the asked @a duration to visually warn the user.
  */
 static void FlashThisWindow(
     HWND hWnd,    		///< Window to flash handle.
-    int duration) {	///< Duration of the flash state.
+    int duration) {	///< Duration of th
+WorkerThread
+WordClassifier
+WordPartRight
+WordPartLeft
+WordToBinary
+~ wrapper ~   [D:\src\myscite\SciTE.win32\tools\ctags] ctags.exe --tag-relative=yes --fields=+iaS  --languages=c++,c,python --exclude="@D:\src\myscite\src.3.8.0.lua51\src\/ctags\/ctags.excludes"  -f "C:\Users\User\AppData\Local\Temp\scite.session.ctags" -R D:\src\myscite\src.3.8.0.lua51\src 
+
+WorkerCommand
+WorkerThread
+WorkerCommand(int cmd, Worker *pWorker)voie flash state.
 
 	HDC hDC = ::GetDC(hWnd);
 	if (hDC != NULL) {
