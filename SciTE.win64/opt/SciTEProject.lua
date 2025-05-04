@@ -150,12 +150,11 @@ function CTagsImportAPI(theForceMightBeWithYou,fileNamePath)
 	-- Attach a project platform API if it had been specified
 	if (props["project.sdk.api"]~="") then sdkApiPath=props["project.sdk.api"] end
 	if not sdkApiPath then sdkApiPath="" end
-	-- Update SciTEs APIlist property. 
-	-- Change SDKApi if requested by a SciTE.properties file.
+	-- Oprionally Update SciTEs APIlist property. 
 	if not projectApiPath or not projectApiPath:match(props["project.sdk.api"]) then
 		props["api."..props["file.patterns.project"]] =props["project.session.api"]..";"..sdkApiPath
 	end
-		if DEBUG==1 then print("CTagsImportAPI APIs written "..props["api."..props["file.patterns.project"]]) end
+	if DEBUG==1 then print("CTagsImportAPI APIs written "..props["api."..props["file.patterns.project"]]) end
 	-- parse projects properties files
 	CTagsImportProps(theForceMightBeWithYou,fileNamePath)
 

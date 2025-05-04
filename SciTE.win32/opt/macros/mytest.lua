@@ -166,6 +166,60 @@ end
 _ALERT('> Test SciTE Lua Modules')
 --test_gui()
 --test_socket()
-char="("
-startChars="-("
-print("calltip:"..(startChars:find(char) and "ja" or "nein"))
+local list = { "SciTEBase::GetMenuCommandAsInt(std::string commandName)int ", "SciTEBuffers::GetMenuCommandAsInt(std::string commandName)int " }
+
+local  apiCache = {}
+local DEBUG=1
+
+funcName="GetMenuCommandAsInt"
+local tipCount=0
+for _, entry in ipairs(list ) do
+  -- keep the original line around
+  local fullLine = entry
+
+  -- gfuncName(h at the very start (i.e. no namespace)
+  local prefixMatch = entry:match("^(.-)%(")
+  local extractedName
+
+  if prefixMatch == funcName then
+    extractedName = prefixMatch
+  else
+    -- Namespace::Member(c)h
+    extractedName = entry:match("::([%w_]+)%(")
+  end
+
+  -- now check whether what we extracted is our target function
+  if extractedName == funcName then
+    print("? matched:", fullLine)
+    -- extract the argument list inside the parentheses
+    local args = fullLine:match("%((.-)%)") or ""
+    
+  
+       if args ~= "" then
+        tipCount = tipCount + 1
+        if tipCount == 1 then
+          strCalltip = args
+        else
+          strCalltip = strCalltip .. "\n" .. args
+        end
+      end
+    end
+  end  -- Ende der for-Schleife
+
+  -- Calltip nur anzeigen, wenn wir etwas gesammelt haben
+  if tipCount > 0 then
+    editor:CallTipShow(1, strCalltip)
+   else
+  end
+  
+	
+	
+	
+	
+for _, entry in ipairs(list) do
+--print(entry)
+--print(entry:match("::([%w_]+)%("))
+--entry=entry:match("::([%w_]+)%(")
+
+--print(entry:match("^" .. funcName .. "%f[%A]")) --Namespace member wo Namespace end
+	end

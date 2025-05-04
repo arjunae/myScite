@@ -178,15 +178,10 @@ local function loadApiNames()
     end
     local lexer = editor.LexerLanguage
     local apiNames = {}
-	 --.. ";" .. props["project.sdk.api"] -- mingw api if you have a fast system
-    local paths = props["APIPath"] .. ";" .. props["project.session.api"]
+	 --.. ";" .. props["project.sdk.api"] -- mingw api if you have a fast system -- props["APIPath"] .. ";" -- scites APIpath
+    local paths = props["project.session.api"]..";"..props["APIDir"].."/ac_"..lexer..".api" -- ac_cpp.api
     -- maybe somwhen there will be support for a more structured file format APIdir\{lexerLanguage}.api
-    local otherApi = props["APIDir"] .. dirSep .. lexer .. ".api"
-    if file_exists(otherApi) then
-        paths = paths .. ";" .. otherApi
-    end
 
-	--paths=props["project.sdk.api"]
     for apiFile in paths:gmatch("[^;]+") do
         if DEBUG >= 1 then
             print("ac>loadapinames: reading apiFile" .. apiFile)
@@ -356,53 +351,60 @@ function do_autocomplete(APInames)
     end
 end
 
-
 function do_calltip(APInames)
-    local pos = editor.CurrentPos
-    local strCalltip = ""
-    local entry
+	 local pos = editor.CurrentPos
+	 local strCalltip = ""
+	 local entry
+	 local found
 	 local dbgcnt=1
-    if pos < 1 then
-        return
-    end
+	 local tipCount = 0
+	 if pos < 1 then return end
+	 
+	 -- Suche das Wort direkt vor der Klammer
+	 local startPos = editor:WordStartPosition(pos - 1, true)
+	 local funcName = editor:textrange(startPos, pos - 1)
+	 funcName = funcName:match("%((.-)%)") or funcName -- ::keyword support
+	 if DEBUG>0 then print("ac>calltip searchString "..funcName) end
 
-    -- Suche das Wort direkt vor der Klammer
-    local startPos = editor:WordStartPosition(pos - 1, true)
-    local funcName = editor:textrange(startPos, pos - 1)
-    funcName = funcName:match("%((.-)%)") or funcName -- ::keyword support
-	print("ac>calltip searchString "..funcName)
-    local tipCount = 0
-    if not funcName or #funcName == 0 then
-        return
-    end
-    funcName = normalize(funcName)
+	 if not funcName or #funcName == 0 then return end
+		
+	for _, entry in ipairs(APInames ) do
+	  local fullLine = entry
+	  local prefixMatch =fullLine:match("^(.-)%(") 
+	  local extractedName
+	
+--	  if entry:match("^(.-)%(") == funcName or --Namespace::member 
+-- handled by scite
 
-    for _, entry in ipairs(APInames) do
-		fullLine=entry
-		--	 if entry:match("PerformOne") then print(fullLine) end
-	   entry=normalize(entry)
+	  if prefixMatch == funcName then -- gfuncName(h at the very start (i.e. no namespace)
+		 extractedName = prefixMatch
+	  else
+		 extractedName = entry:match("::([%w_]+)%(") -- ::Member(c)h
+	  end
+			
+	  -- now check whether what we extracted is our target function
+	  if extractedName == funcName then
+		if DEBUG>0 then print("? matched:", fullLine) end
+		 -- extract the argument list inside the parentheses
+		 local args = fullLine:match("%((.-)%)") or ""
+			 if args ~= "" then
+			  tipCount = tipCount + 1
+			  if tipCount == 1 then
+				 strCalltip = args
+			  else
+				 strCalltip = strCalltip .. "\n" .. args
+			  end
+			end
+		 end
+	  end  -- Ende der for-Schleife
 
-		funcName=funcName:gsub("^:+", "")
-		if entry:match("^(.-)%(") == funcName or --Namespace::member 
-		 entry:gsub("^.+:", ""):match("^" .. funcName .. "%f[%A]") then --Namespace member wo Namespace
-		   
-            tipCount = tipCount + 1
-            entry = entry:match("%((.-)%)") or "" -- only definition (.*)
-            if entry and entry ~= "" then
-                strCalltip = strCalltip .. entry
-					print(fullLine)
-            elseif entry and entry ~= "" and tipCount > 1 then
-                strCalltip = "\n" .. strCalltip .. entry
-            end
-        end
-    end
-    if #strCalltip > 0 then
-        editor:CallTipShow(pos, strCalltip)
-    end
-    tipCount = 0
-    return
+	  -- Calltip nur anzeigen, wenn wir etwas gesammelt haben
+	  if tipCount > 0 then
+		 editor:CallTipShow(pos, strCalltip)
+		else
+	  end
+	  strCalltip=""
 end
-
 
 local function handleChar(char, calledByHotkey)
     if props["Language"] == "" or (buffer.size and buffer.size > AC_MAX_SIZE) then
