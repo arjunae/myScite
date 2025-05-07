@@ -34,7 +34,7 @@ _G.string.gfind = string.gmatch or string.gfind
 	-- Initialize Project support 
 	dofile(myHome.."ctags.lua")
 	dofile(myHome..'SciTEProject.lua')
-	 dofile(myHome..'AutoCompleteNew.lua')
+	dofile(myHome..'AutoCompleteNew.lua')
 
 -- ##################  Lua Samples #####################
 --   ##############################################

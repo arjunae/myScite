@@ -49,6 +49,7 @@ end
 function ProjectSetEnv()
 	props["properties.directory.enable"]=1
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then --for calltips
+		props["project.inProject"] = 1
 		props["project.path"] = props["SciteDirectoryHome"]
 		props["project.ctags.filename"]="ctags.tags"
 		props["project.session.api"]=props["project.path"]..dirSep.."ctags"..dirSep.."scite.session.ctags"..".api"
@@ -57,6 +58,7 @@ function ProjectSetEnv()
 		props["project.ctags.bin"]="myctags.cmd" -- invokes parseCTags.lua which creates a lockfile 
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1
+		props["project.inProject"] = 0
 	end
 	
 end
