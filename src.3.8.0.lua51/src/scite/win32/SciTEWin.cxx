@@ -14,7 +14,7 @@
 #ifndef NO_FILER
 #include "DirectorExtension.h"
 #endif
-
+SciTEBase::AbandonAutomaticSave
 
 #ifndef NO_LUA
 #include "LuaExtension.h"

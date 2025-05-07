@@ -7,7 +7,7 @@ set toolFolder=beautifier\astyle
 set toolName=astyle
 set toolExt=.exe
 set toolParam=--style=attach --indent=force-tab=8 --keep-one-line-blocks --pad-header --unpad-paren --pad-comma --indent-cases --align-pointer=name %*
-REM set optPath=%~dp0%..\
+REMset optPath=%~dp0%..\
 
 REM A value of 1 will instruct the wrapper to initially limit %PATH% to toolNames Directory. 
 set sandbox=0

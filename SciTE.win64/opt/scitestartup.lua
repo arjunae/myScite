@@ -2,7 +2,7 @@
 io.stdout:setvbuf("no")
 GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
-myHome = props["SciteDefaultHome"]..dirSep.."opt"..dirSep
+myHome = props["SciteDefaultHome"]..dirSep.."user"..dirSep.."opt"..dirSep
 LUA_PATH = myHome.."lua\\" -- official lua related scripts
 package.path = package.path ..";"..myHome.."lua\\?.lua;"..myHome.."lua-scite\\?.lua;"
 package.cpath = package.cpath .. ";"..myHome.."lua-scite\\?.dll;"
@@ -34,7 +34,7 @@ _G.string.gfind = string.gmatch or string.gfind
 	-- Initialize Project support 
 	dofile(myHome.."ctags.lua")
 	dofile(myHome..'SciTEProject.lua')
-	dofile(myHome..'AutoCompleteNew.lua')
+	 dofile(myHome..'AutoComplete.lua')
 
 -- ##################  Lua Samples #####################
 --   ##############################################

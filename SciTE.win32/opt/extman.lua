@@ -14,7 +14,6 @@
 -- If defined, it will remove fn even if it was defined as a "primary_handler"
 -- 30.01.2020 add error handling to scite_Popen
  -- 01.05.2025 ensure param arent nil in scite_UserListShow append_unique
--- 07.05.2025 Add a compatibility Func table.move for Lua5.1 
 -- this is an opportunity for you to make regular Lua packages available to SciTE
 --~ package.psath = package.path..';C:\\lang\\lua\\lua\\?.lua'
 --~ package.cpath = package.cpath..';c:\\lang\\lua\\?.dll'
@@ -900,36 +899,6 @@ function scite_GetSelOrWord()
         return scite_WordAtPos()
     else
         return s
-    end
-end
-
--- Compatibility shim for Lua 5.1 / 5.2: table.move
--- Copies elements from table `a1`, starting at index `f` (from) to `e` (end),
--- into table `a2` starting at index `t` (to).
--- If `a2` is not provided, it defaults to `a1`, enabling in-place moves.
--- The copy handles overlapping ranges correctly (backward copy when needed).
-if not table.move then
-    function table.move(a1, f, e, t, a2)
-        -- Parameters:
-        -- a1: source table
-        -- f: start index in a1 (from)
-        -- e: end index in a1 (inclusive)
-        -- t: target start index in a2 (to)
-        -- a2: destination table (optional, defaults to a1 for in-place copy)
-
-        a2 = a2 or a1  -- default to in-place move if target table not given
-        local offset = t - f
-        if a1 == a2 and offset > 0 and f <= e then
-            -- handle overlapping copy backwards
-            for i = e, f, -1 do
-                a2[i + offset] = a1[i]
-            end
-        else
-            for i = f, e do
-                a2[i + offset] = a1[i]
-            end
-        end
-        return a2
     end
 end
 
