@@ -674,6 +674,7 @@ protected:
 	FilePath GetLocalPropertiesFileName();
 	FilePath GetAbbrevPropertiesFileName();
 	void OpenProperties(int propsFile);
+	static int GetMenuCommandAsInt(std::string commandName);
 	virtual void Print(bool) {}
 	virtual void PrintSetup() {}
 	void UserStripShow(const char * /* description */) override {}
@@ -963,7 +964,7 @@ protected:
 public:
 
 	enum { maxParam = 4 };
-	
+
 	explicit SciTEBase(Extension *ext = 0);
 	// Deleted copy-constructor and assignment operator.
 	explicit SciTEBase(const SciTEBase&) = delete;
@@ -978,8 +979,6 @@ public:
 	// WorkerListener
 	virtual void PostOnMainThread(int cmd, Worker *pWorker) override = 0;
 	virtual void WorkerCommand(int cmd, Worker *pWorker);
-	static int GetMenuCommandAsInt(std::string commandName);
-
 };
 
 int ControlIDOfCommand(unsigned long);
