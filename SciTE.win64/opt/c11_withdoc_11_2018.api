@@ -1,7 +1,6 @@
 ##
 # C11-C API, [c89-c11] , fetched from CPlusPlus.com / Februar2017, Marcedo@HabmalneFrage.de
 ##
-
 #[<class=assert.h>]
 __FILE__ (@)|[c99 cpp98 cpp11]|[(assert.h)]
 __func__ (@)|[c99 cpp98 cpp11]|[(assert.h)]

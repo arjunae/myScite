@@ -15,7 +15,7 @@ function HashFileCrc32(filename)
 	data->  input data to apply to CRC, as a Lua string.
 	returns -> updated CRC. 
 	]]
-gu
+
 	C32 = require 'crc32'
 	crc32=C32.crc32
 	--print ('CyclicRedundancyCheck==', crc32(0, 'CyclicRedundancyCheck')) 
@@ -107,7 +107,7 @@ local socket = require "socket"
 -- socket.tcp: "tcp.accept", "tcp.bind", "tcp.close", "tcp.connect", "tcp.getpeername","tcp.getstats", "tcp.recieve", "tcp.send", "tcp.setoption", "tcp.setstats", "tcp.settimeout", "tcp.shutdown"
 -- socket.udp: "udp.close", "udp.getpeername", "udp.getsockname", "udp.receive", "udp.receivefrom", "udp.send", "udp.sendto", "udp.setpeername", "udp.setsockname", "udp.setoption", "udp.settimeout" 
 -- socket.lua layer provides "connect4", "connect6", "bind"
-	
+    
 --print("Hello from " .. socket._VERSION .."!")
 
 --[[
@@ -165,4 +165,60 @@ end
 
 _ALERT('> Test SciTE Lua Modules')
 --test_gui()
-test_socket()
+--test_socket()
+local list = { "SciTEBase::Perform(const char *actionList)void", "SciTEBase::GetMenuCommandAsInt(std::string commandName)int ", "SciTEBuffers::GetMenuCommandAsInt(std::string commandName)int " }
+
+funcName="SciTEBase::Perform"
+  
+	 local pos = editor.CurrentPos
+	 local strCalltip = ""
+	 local entry
+	 local found
+	 local dbgcnt=1
+	 local tipCount = 0
+
+
+	 -- Suche das Wort direkt vor der Klammer
+	-- local startPos = editor:WordStartPosition(pos - 1, true)
+	-- local funcName = editor:textrange(startPos, pos - 1)
+	 funcName = funcName:gsub("^::?", "")or funcName -- ::keyword support
+	print("ac>calltip searchString "..funcName) 
+	 if not funcName or #funcName == 0 then return end
+		
+	for _, entry in ipairs(list ) do
+	  local fullLine = entry
+	  local prefixMatch =fullLine:match("^(.-)%(") 
+	  local extractedName
+	  if entry:find(funcName) then 
+		print("ac>calltip candidates: "..(entry))
+		local tmp= entry:match("::([%w_]+)%(") or ""
+		if tmp then print("matching: "..fullLine ) end
+	  end
+--	  if entry:match("^(.-)%(") == funcName or --Namespace::member 
+-- handled by scite
+	  if prefixMatch == funcName then -- gfuncName(h at the very start (i.e. no namespace)
+		 extractedName = prefixMatch
+	  else
+		 extractedName = entry:match("::([%w_]+)%(") -- ::Member(c)h
+	  end
+	  -- now check whether what we extracted is our target function
+	  if extractedName == funcName then
+		 -- extract the argument list inside the parentheses
+		 local args = fullLine:match("%((.-)%)") or ""
+			 if args ~= "" then
+			  tipCount = tipCount + 1
+			  if tipCount == 1 then
+				 strCalltip = args
+			  else
+				 strCalltip = strCalltip .. "\n" .. args
+			  end
+			end
+		 end
+	  end  -- Ende der for-Schleife
+
+	  -- Calltip nur anzeigen, wenn wir etwas gesammelt haben
+	  if tipCount > 0 then
+		 editor:CallTipShow(pos, strCalltip)
+		else
+	  end
+	  strCalltip=""

@@ -69,7 +69,7 @@ local BUT = {                           -- fixed button set
   [13] = {{2,11,"NewGame"},{13,22,"Autoplay"},},
 }
 local function Error(msg) _ALERT(STR.Prompt..msg) end       -- error msg
-
+Sci
 ------------------------------------------------------------------------
 -- simple check for extman, partially emulate if okay to do so
 ------------------------------------------------------------------------
