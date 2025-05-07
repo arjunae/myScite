@@ -59,7 +59,7 @@ void SciTEBase::SetImportMenu() {
 	}
   //importCmdID, FillUp above Menu with property fileNames
 	if (!importFiles.empty()) {
-		for (int stackPos = 20; stackPos < static_cast<int>(importFiles.size()) && stackPos < importMax; stackPos++) {
+		for (int stackPos = 21; stackPos < static_cast<int>(importFiles.size()) && stackPos < importMax; stackPos++) {
 			int itemID = importCmdID + stackPos;
 			if (importFiles[stackPos].IsSet()) {
 				GUI::gui_string sEntry = importFiles[stackPos].Name().AsInternal();

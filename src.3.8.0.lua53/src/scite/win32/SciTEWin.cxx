@@ -237,6 +237,7 @@ SciTEWin::SciTEWin(Extension *ext) : SciTEBase(ext) {
 	hToolbarBitmap = 0; 
 	oldToolbarBitmapID = 0;
 	cmdWorker.pSciTE = this;
+
 }
 
 SciTEWin::~SciTEWin() {

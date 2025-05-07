@@ -205,8 +205,10 @@ local function loadApiNames()
                 --if name:find("GetFile") then print(name) end
 
                 if #name > 0 and name:sub(1, 1) ~= "#" then
-						  if DEBUG_MODE==true then	cnt=cnt+1 end
-                    apiNames[normalize(name)] = name
+							cnt=cnt+1
+                 --   apiNames[normalize(name)] = name
+						  apiNames[cnt]=name
+						 
                 end --# Kommentare
             end
             f:close()
@@ -530,8 +532,9 @@ function handleOnWord()
 		if not apiCache[editor.LexerLanguage] then loadApiNames() end
 			if apiLoaded==0 then
 				debugPrint("ac>OnWord,in Project, merging APICache["..editor.LexerLanguage.."]..")
-				for _, n in pairs(apiCache[editor.LexerLanguage]) do table.insert(mergedNames, n) end
-				for _, n in ipairs(textNames) do table.insert(mergedNames, n) end
+				local src = apiCache[editor.LexerLanguage]
+				if #src > 0 then table.move(src, 1, #src, #mergedNames + 1, mergedNames) end				
+				table.move(textNames, 1, #textNames, #mergedNames + 1, mergedNames)
 				state.textNamesStart = #mergedNames + 1 --store mergedNames current Index for later rewrites.
 				apiLoaded=1 --mark Array as clean.
 			else
@@ -550,7 +553,8 @@ function handleOnWord()
 
 		--for _, n in pairs(mergedNames) do  if  n:find("Perform")then print ("found:"..n) end  end
 		
-	
+		debugPrint("merged:"..#mergedNames.." Entries")
+
 end
 
 
