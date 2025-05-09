@@ -102,3 +102,4 @@ print("-> Test SciTE lua wrapper")
 print ("lua Version String ==",_VERSION)
 -- Test Scite->lua global Variable namespace
 print("Value of IDM_NEXTMSG ==", IDM_NEXTMSG)
+

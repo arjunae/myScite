@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=windows-1252"><title>lua-users wiki: Scite Debug</title>
+<link type="text/css" rel="stylesheet" href="/styles/main.css">
+</head>
+<body><table width="100%" border="0"> <tbody><tr><td width="100%" align="left"><h1><a href="file:///cgi-bin/wiki.pl?action=search&amp;string=SciteDebug&amp;body=1" title="List pages referring to SciteDebug">Scite Debug</a></h1></td><td align="right">
+    <table width="1%" cellspacing="0" cellpadding="0" border="0">
+      <tbody>
+        <tr>
+            <td><a href="file:///">
+            <img src="/images/nav-logo.png" alt="lua-users home" width="177" border="0" height="40"></a></td>
+        </tr>
+        <tr>
+            <td>
+            <table width="100%" cellspacing="0" cellpadding="0" border="0">
+                <tbody>
+                <tr>
+                    <td><img src="/images/nav-elbow.png" alt="" width="48" height="40"></td>
+                    <td width="100%" valign="middle" nowrap="nowrap">
+                        <a href="file:///wiki/" class="nav">wiki</a></td>
+                </tr>
+                </tbody>
+            </table>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+<form method="post" action="/wiki/FindPage" enctype="application/x-www-form-urlencoded" style="display:inline; margin:0;">
+<input name="action" value="search" type="hidden"><input name="string" size="20" style="" id="search_query1" type="text"><input name="title" value="1" type="hidden"><input name=".submit" value="Search" type="submit"><input name="body" value="on" type="hidden"></form></td></tr> </tbody></table>
+<br clear="all">
+<h2>scite-debug Introduction</h2>
+<p>
+<code>scite-debug</code> is written entirely in SciTE Lua, which is standard 5.1 compatible. The only bit of C which is absolutely essential is the <em>spawner</em>, which captures an interactive command-line debugger like GDB, and allows <code>scite-debug</code>
+ to write commands to it. Output is directed to a specified global 
+function, using an appropriate main thread technique; on Windows, I'm 
+passing messages to a wndproc from the debugger thread, and on GTK using
+ the asynchronous output mechanism. On both platforms, we grab debugger 
+output by full line, which means that there are restrictions in 
+debugging interactive programs which issue prompts. However, on the 
+Windows side we ask for a separate console window for the debugged 
+program, which separates program input and output from debugger output 
+and allows debugging of Windows console applications.
+</p><p>
+It is entirely possible for the debug target not to have any debugging 
+symbols. This would be the case when we are only interested in debugging
+ shared libraries loaded by the program. So typically we would be 
+setting breakpoints in these libraries, but GDB has to be cajoled into 
+accepting this. If debug.target starts with '[n]', then GDB will be fed 
+an arbitrary little symbol file (provided by stubby.so|.dll). At this 
+point, it is happy to accept any unresolved breakpoint requests as <em>pending</em>. (Do note that you need vs 6 of GDB for this; if you are using MinGW, download a fresher GDB if you are still running vs 5.)
+</p><p>
+Environment variables can be set for the debug target using the <code>debug.environment</code> property. This is a semi-colon separated list of VAR=VAL pairs.
+</p><p>
+A typical captive debugger session needs to set breakpoints, and start the program running with the parameters specified using <code>View|Parameters</code>.
+ Any breakpoints set before the program is run are written out to a 
+configuration file; in the case of GDB, it is called 'prompt.cmd'. This 
+file is also an opportunity to configure the debugger more to our taste.
+ For instance, for GDB we set a prompt with a linefeed, switch off 
+output paging, etc.
+</p><p>
+Stopping on a breakpoint requires a distinct pattern that matches 
+debugger output and can extract the file and line. GDB has a special 
+mode (-f) which is used by Emacs, which prints out the full path at any 
+break in this format: <code>(26)(26)&lt;path&gt;:&lt;line&gt;</code> 
+where (26) is the ASCII character represented by decimal 26. This gives a
+ very distinct target pattern. Other debuggers are not so amenable to 
+being driven automatically, and we have to make do.
+</p><p>
+Once we are in 'break' mode, it is of course possible to set and unset breakpoints directly.
+</p><p>
+Any debugger command can be entered from the Output window. For instance, you can set a variable watch in GDB using 'watch var'.
+</p><p>
+A common task is to evaluate expressions. Alt-I (Inspect) will report the value of the expression at the cursor. <code>scite-debug</code> is intelligent enough to know that <code>a.b</code> and <code>p-&gt;c-&gt;x</code>
+ are complete expressions, but if an expression is selected, it will use
+ that. Tooltip evaluation uses the same heuristics and the same debugger
+ command, but redirects the output to a tooltip rather than to the SciTE
+ output window. The output of any command can be redirected to an 
+arbitrary function, which opens up interesting opportunities for a more 
+graphical interface. (This, however, will have to wait a while.)
+</p><p>
+For C/C++, <code>scite-debug</code> will notice that an expression 
+evaluated as a pointer, and will attempt to deference that pointer. That
+ is, if GDB reports the value as <code>$11 = (A *)0xFFF23EE</code> then <code>scite-debug</code> will attempt to evaluate <code>*$11</code> and collect the results.
+</p><p>
+Another useful feature for C++ debugging is the automatic <em>simplification</em> of certain standard patterns, particularly <code>std::string</code> where it will extract the char pointer value. These rules are applied recursively, so that structures containing <code>std::string</code>
+ values will be presented in a much more human-friendly form. Do note 
+that these simplifications depend heavily on the precise implementation 
+used! Currently only g++ is supported so the pattern is fairly stable. 
+This is a good place for user customizations.
+</p><p>
+<code>scite-debug</code> generally knows how to interpret a stack trace;
+ double-clicking on the required level will put you into that frame and 
+place you at the corresponding source line. The stack trace can be 
+explicitly shown using <code>Ctrl+Alt+S</code> and will automatically presented if possible when an error occurs. <code>Alt+U</code> and <code>Alt+D</code> correspond to 'up' and 'down' levels.
+</p><p>
+</p><h2>Integrated Lua and C/C++ debugging</h2>
+<p>
+This useful (and possibly unique) feature is implemented by running the clidebug Lua debugger in a process within GDB. <code>clidebug</code> has now got a 'GDB mode', where it mimics the GDB command set and output. So whether we break in GDB or <code>clidebug</code>, <code>luagdb</code> will take us to that place in the source.
+</p><p>
+There are two scenarios possible; the first is that the host program is 
+Lua itself (or a close relative), and understands the -e and -l command 
+line options; this is the default. The second is that the host is a 
+program which has embedded Lua. The debug.target variable must indicate 
+both the host program and the Lua script name. Some examples may clarify
+ this:
+</p><p>
+</p><pre># the host is Lua on the path, and has no debugging symbols.
+debug.target=[n]:gdb;lua;mytest.lua
+
+# the host is SciTE - the [h] indicates that it isn't Lua
+debug.target=[n]:gdb;SciTE[h];/home/steve/{{scite-debug}}/extman.lua
+
+# a debug version of Lua.
+debug.target=:gdb;/home/steve/lua-5.1.3/src/lua;/home/steve/tests/testlfs.lua
+</pre>
+<p>
+If the host isn't Lua, then you must initialize clidebug yourself in the
+ script to be debugged. In this snippet, replace the path with the 
+appropriate location.
+</p><p>
+</p><pre class="code"><span class="keyword">local</span> path = <span class="string">';/home/steve/{{scite-debug}}/lua_clidebugger/?.'</span>
+<span class="library">package.path</span> = <span class="library">package.path</span> .. path .. <span class="string">'lua'</span>
+<span class="library">package.cpath</span> = <span class="library">package.cpath</span> .. path .. <span class="string">'so'</span>
+WIN=<span class="keyword">false</span>
+GDB=<span class="keyword">true</span>
+<span class="library">require</span> <span class="string">"debugger"</span>
+<span class="library">io.stdout</span>:setvbuf(<span class="string">"no"</span>)
+pause(<span class="string">'debug'</span>)
+</pre>
+
+<p>
+Debugging a GUI program like SciTE on Windows requires a special build, 
+at least if you want to debug Lua scripts. Normally GUI programs 
+('subsystem:windows') do not have standard in and out, but they can be 
+rebuilt. In the case of SciTE, I replaced '-mwindows' with '-lgdi32 
+-lcommctl32'; the resulting program comes with an ugly black console, 
+but this will be hidden by the debugger.
+</p><p>
+(Another option for debugging Lua-only for GUI applications is <code>remDebug</code>, which is also supported by <code>scite-debug</code>.)
+</p><p>
+</p><h2>Single-stepping into C/C++</h2>
+<p>
+<code>luagdb</code> makes it possible to single-step into C extensions 
+from Lua code. To do this, it is necessary to find the address of the 
+particular C function we are entering on the 'call' debugger event. A 
+little extension, <code>dbgl</code>, queries the Lua internals and returns this address. It also provides a convenient function to put breakpoints called <code>debug_break()</code> (this trick requires a GDB version that is fine with pending breakpoints.) <code>clidebug</code> prints out this address with a distinct prefix, and calls <code>dbgl.debug_break()</code>, which puts us into GDB. <code>luagdb</code>
+ picks up the address and issues a GDB 'info line' query on the address 
+to see if any debug information is available for that address. If so, it
+ makes a temporary breakpoint at the start of this function. Either way,
+ it then issues a 'continue' command so that we keep going. We cache the
+ result of this so, so we don't have to continuously call 'info line', 
+but we still set temporary breakpoints each time the program is 
+single-stepping from Lua to C/C++. This ensures that it is always 
+possible to step over a C function.
+</p><p>
+Once you are on the C/C++ side, you can continue single-stepping in Lua by simply continuing (Alt+R.)
+</p><p>
+These are still two separate debug sessions, so there are some 
+limitations. Setting breakpoints in a running program can cause 
+interesting problems, at least on Windows. There is no integrated call 
+stack.
+</p><p>
+<code>dbgl.c</code> has to find out what the corresponding address of a Lua C function:
+</p><p>
+</p><pre>static int c_addr (lua_State *L)
+{
+    char buff[40];
+    CallInfo *ci;
+    Closure* cl = NULL;
+    for (ci = L-&gt;ci - 1; ci &gt; L-&gt;base_ci; ci--) {
+      if (! f_isLua(ci)) {  // C function!
+        cl = clvalue(ci-&gt;func);	
+      	break;
+      }
+    }
+    if (cl == NULL) {
+      lua_pushnil(L);
+    } else {
+      void *fun = cl-&gt;c.f;    
+      sprintf(buff,"0x%X",fun);
+      lua_pushstring(L,buff);
+    }
+    return 1;
+}
+</pre>
+<p>
+This requires some knowledge of the internals of Lua, and requires <code>lstate.h</code>, which is not part of the public API. (So when rebuilding <code>dbgl.c</code>, you need to give it an include path that points to the <em>full</em> set of Lua headers.) We look down through the stack of closures to find the C function we are calling.
+</p><p>
+</p><hr>See also: <a href="http://scitedebug.luaforge.net/">[Project page]</a>
+<hr>
+<a href="file:///wiki/RecentChanges">RecentChanges</a> · <a href="file:///cgi-bin/wiki.pl?action=editprefs">preferences</a><br>
+<a href="file:///cgi-bin/wiki.pl?action=edit&amp;id=SciteDebug">edit</a> · <a href="file:///cgi-bin/wiki.pl?action=history&amp;id=SciteDebug">history</a><br>Last edited March 11, 2008 11:40 am GMT <a href="file:///cgi-bin/wiki.pl?action=browse&amp;diff=1&amp;id=SciteDebug">(diff)</a>
+
+</body></html>

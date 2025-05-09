@@ -1,0 +1,1735 @@
+diff -Nurw a/scite/src/Cookie.cxx b/scite/src/Cookie.cxx
+--- a/scite/src/Cookie.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/Cookie.cxx	2025-05-09 05:23:39.668609200 +0200
+@@ -10,7 +10,7 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <chrono>
+ 
+@@ -19,8 +19,8 @@
+ #include "StringHelpers.h"
+ #include "Cookie.h"
+ 
+-std::string_view ExtractLine(std::string_view sv) noexcept {
+-	std::string_view remainder = sv;
++bpstd::string_view ExtractLine(bpstd::string_view sv) noexcept {
++	bpstd::string_view remainder = sv;
+ 	while ((remainder.length() > 0) && (remainder[0] != '\r') && (remainder[0] != '\n')) {
+ 		remainder.remove_prefix(1);
+ 	}
+@@ -36,8 +36,9 @@
+ 
+ namespace {
+ 
+-constexpr std::string_view codingCookie("coding");
+-constexpr std::string_view utf8Name("utf-8");
++const bpstd::string_view codingCookie("coding");
++const bpstd::string_view utf8Name("utf-8");
++
+ 
+ constexpr bool isEncodingChar(char ch) noexcept {
+ 	return (ch == '_') || (ch == '-') || (ch == '.') ||
+@@ -49,9 +50,9 @@
+ 	return (ch == ' ') || (ch == '\t');
+ }
+ 
+-UniMode CookieValue(std::string_view s) noexcept {
++UniMode CookieValue(bpstd::string_view s) noexcept {
+ 	const size_t posCoding = s.find(codingCookie);
+-	if (posCoding != std::string_view::npos) {
++	if (posCoding != bpstd::string_view::npos) {
+ 		s.remove_prefix(posCoding + codingCookie.length());
+ 		if ((s.length() > 0) && ((s[0] == ':') || (s[0] == '='))) {
+ 			s.remove_prefix(1);
+@@ -77,12 +78,12 @@
+ 
+ }
+ 
+-UniMode CodingCookieValue(std::string_view sv) noexcept {
+-	const std::string_view l1 = ExtractLine(sv);
++UniMode CodingCookieValue(bpstd::string_view sv) noexcept {
++	const bpstd::string_view l1 = ExtractLine(sv);
+ 	UniMode unicodeMode = CookieValue(l1);
+ 	if (unicodeMode == UniMode::uni8Bit) {
+ 		sv.remove_prefix(l1.length());
+-		const std::string_view l2 = ExtractLine(sv);
++		const bpstd::string_view l2 = ExtractLine(sv);
+ 		unicodeMode = CookieValue(l2);
+ 	}
+ 	return unicodeMode;
+diff -Nurw a/scite/src/Cookie.h b/scite/src/Cookie.h
+--- a/scite/src/Cookie.h	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/Cookie.h	2025-05-09 05:23:40.222867300 +0200
+@@ -14,7 +14,7 @@
+ 	cookie = 4
+ };
+ 
+-std::string_view ExtractLine(std::string_view sv) noexcept;
+-UniMode CodingCookieValue(std::string_view sv) noexcept;
++bpstd::string_view ExtractLine(bpstd::string_view sv) noexcept;
++UniMode CodingCookieValue(bpstd::string_view sv) noexcept;
+ 
+ #endif
+diff -Nurw a/scite/src/Credits.cxx b/scite/src/Credits.cxx
+--- a/scite/src/Credits.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/Credits.cxx	2025-05-09 05:23:40.332873400 +0200
+@@ -13,12 +13,12 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+-#include <optional>
+-#include <memory>
++#include "optional.hpp"
++#include "memory.hpp"
+ #include <chrono>
+ #include <atomic>
+ #include <mutex>
+@@ -589,9 +589,9 @@
+ 		constexpr int trsSty = 5; // define the stylenumber to assign font for translators.
+ 		std::string translator = GetTranslationToAbout("TranslationCredit", false);
+ 		SetAboutStyle(wsci, trsSty, ColourRGB(0, 0, 0));
+-		if constexpr (sizeof(void *) == 4) {
++		#if defined(__i386__) || defined(_M_IX86)
+ 			AddStyledText(wsci, "32-bit\n", 1);
+-		}
++		#endif
+ 		AddStyledText(wsci, GetTranslationToAbout("Version").c_str(), trsSty);
+ 		AddStyledText(wsci, sVersion.c_str(), 1);
+ 		AddStyledText(wsci, "    " __DATE__ " " __TIME__ "\n", 1);
+@@ -610,7 +610,7 @@
+ 			AddStyledText(wsci, "\n", 5);
+ 		}
+ 		AddStyledText(wsci, GetTranslationToAbout("Contributors:").c_str(), trsSty);
+-		for (unsigned int co = 0; co < std::size(contributors); co++) {
++		for (unsigned int co = 0; co < sizeof(contributors); co++) {
+ 			const int colourIndex = 50 + (co % 78);
+ 			AddStyledText(wsci, "\n    ", colourIndex);
+ 			AddStyledText(wsci, contributors[co], colourIndex);
+diff -Nurw a/scite/src/EditorConfig.cxx b/scite/src/EditorConfig.cxx
+--- a/scite/src/EditorConfig.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/EditorConfig.cxx	2025-05-09 05:23:40.451868900 +0200
+@@ -10,11 +10,12 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
++
+ #include <vector>
+ #include <map>
+ #include <algorithm>
+-#include <memory>
++#include "memory.hpp"
+ #include <chrono>
+ 
+ #include "GUI.h"
+@@ -43,7 +44,7 @@
+ 
+ const GUI::gui_char editorConfigName[] = GUI_TEXT(".editorconfig");
+ 
+-bool PatternMatch(std::u32string_view pattern, std::u32string_view text) {
++bool PatternMatch(bpstd::u32string_view pattern, bpstd::u32string_view text) {
+ 	if (pattern == text) {
+ 		return true;
+ 	} else if (pattern.empty()) {
+@@ -131,7 +132,7 @@
+ 		if (pattern.empty()) {
+ 			return false;
+ 		}
+-		std::u32string_view textAlt = text;
++		bpstd::u32string_view textAlt = text;
+ 		bool inSet = false;
+ 		size_t altSuccessLen = 0;
+ 		while (!pattern.empty()) {
+@@ -174,6 +175,7 @@
+ 
+ }
+ 
++
+ ECForDirectory::ECForDirectory() : isRoot(false) {
+ }
+ 
+@@ -183,7 +185,7 @@
+ 	FilePath fpec(dir, editorConfigName);
+ 	std::string configString = fpec.Read();
+ 	if (configString.size() > 0) {
+-		const std::string_view svUtf8BOM(UTF8BOM);
++		const bpstd::string_view svUtf8BOM(UTF8BOM);
+ 		if (StartsWith(configString, svUtf8BOM)) {
+ 			configString.erase(0, svUtf8BOM.length());
+ 		}
+@@ -362,5 +364,5 @@
+ #if defined(TESTING)
+ 	TestPatternMatch();
+ #endif
+-	return std::make_unique<EditorConfig>();
++	return bpstd::make_unique<EditorConfig>();
+ }
+diff -Nurw a/scite/src/ExportHTML.cxx b/scite/src/ExportHTML.cxx
+--- a/scite/src/ExportHTML.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/ExportHTML.cxx	2025-05-09 05:23:40.565643600 +0200
+@@ -14,12 +14,12 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+-#include <optional>
+-#include <memory>
++#include "optional.hpp"
++#include "memory.hpp"
+ #include <chrono>
+ #include <sstream>
+ #include <atomic>
+diff -Nurw a/scite/src/ExportPDF.cxx b/scite/src/ExportPDF.cxx
+--- a/scite/src/ExportPDF.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/ExportPDF.cxx	2025-05-09 05:23:40.723603700 +0200
+@@ -14,12 +14,12 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+-#include <optional>
+-#include <memory>
++#include "optional.hpp"
++#include "memory.hpp"
+ #include <chrono>
+ #include <sstream>
+ #include <atomic>
+diff -Nurw a/scite/src/ExportRTF.cxx b/scite/src/ExportRTF.cxx
+--- a/scite/src/ExportRTF.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/ExportRTF.cxx	2025-05-09 05:23:41.843052000 +0200
+@@ -13,12 +13,12 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+-#include <optional>
+-#include <memory>
++#include "optional.hpp"
++#include "memory.hpp"
+ #include <chrono>
+ #include <sstream>
+ #include <atomic>
+diff -Nurw a/scite/src/ExportTEX.cxx b/scite/src/ExportTEX.cxx
+--- a/scite/src/ExportTEX.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/ExportTEX.cxx	2025-05-09 05:23:41.976094100 +0200
+@@ -14,12 +14,12 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+-#include <optional>
+-#include <memory>
++#include "optional.hpp"
++#include "memory.hpp"
+ #include <chrono>
+ #include <sstream>
+ #include <atomic>
+diff -Nurw a/scite/src/ExportXML.cxx b/scite/src/ExportXML.cxx
+--- a/scite/src/ExportXML.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/ExportXML.cxx	2025-05-09 05:23:42.077061800 +0200
+@@ -14,12 +14,12 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+-#include <optional>
+-#include <memory>
++#include "optional.hpp"
++#include "memory.hpp"
+ #include <chrono>
+ #include <sstream>
+ #include <atomic>
+diff -Nurw a/scite/src/FilePath.cxx b/scite/src/FilePath.cxx
+--- a/scite/src/FilePath.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/FilePath.cxx	2025-05-09 11:13:52.349729300 +0200
+@@ -10,14 +10,18 @@
+ #include <cstdio>
+ #include <ctime>
+ #include <cerrno>
++#include <cassert>
+ 
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <algorithm>
+-#include <memory>
++#include "memory.hpp"
+ #include <chrono>
+ 
++#include <codecvt>
++#include <locale>
++
+ #include <fcntl.h>
+ 
+ #if defined(__unix__) || defined(__APPLE__)
+@@ -263,14 +267,19 @@
+ #endif
+ 
+ #endif
++// Helper function to convert std::wstring to std::string (UTF-8)
++std::string wideToUtf8(const std::wstring& wide) {
++    std::wstring_convert<std::codecvt_utf8<wchar_t>> conv;
++    return conv.to_bytes(wide);  // Converts the wide string to a UTF-8 std::string
++}
+ 
+ FilePath FilePath::NormalizePath() const {
+ 	if (fileName.empty()) {
+ 		return FilePath();
+ 	}
+ 	GUI::gui_string path(fileName);
+-#ifdef WIN32
+-	// Convert unix path separators to Windows
++#ifdef _WIN32
++	// Convert Unix path separators to Windows
+ 	std::replace(path.begin(), path.end(), L'/', pathSepChar);
+ #endif
+ 	GUI::gui_string_view source = path;
+@@ -302,7 +311,8 @@
+ 			if (appendPart) {
+ 				if (!absPathString.empty() && (absPathString.back() != pathSepChar))
+ 					absPathString.push_back(pathSepChar);
+-				absPathString.append(part);
++        // append a string_view: data() + size()
++        absPathString.append(part.data(), part.size());
+ 			}
+ 		}
+ 		if (separator == GUI::gui_string::npos)	// Consumed last part
+@@ -358,54 +368,58 @@
+ }
+ 
+ void FilePath::List(FilePathSet &directories, FilePathSet &files) const {
+-#ifdef WIN32
++#ifdef _WIN32
++    // On Windows, use the wide-char FindFirstFileW/FindNextFileW API:
+ 	FilePath wildCard(*this, GUI_TEXT("*.*"));
+-	WIN32_FIND_DATAW findFileData;
+-	HANDLE hFind = ::FindFirstFileW(wildCard.AsInternal(), &findFileData);
++    WIN32_FIND_DATAW findData;
++    HANDLE hFind = ::FindFirstFileW(wildCard.AsInternal(), &findData);
+ 	if (hFind != INVALID_HANDLE_VALUE) {
+-		bool complete = false;
+-		while (!complete) {
+-			const std::wstring_view entryName = findFileData.cFileName;
+-			if ((entryName != currentDirectory) && (entryName != parentDirectory)) {
+-				FilePath pathFull(*this, findFileData.cFileName);
+-				if (findFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) {
++        do {
++            const wchar_t* name = findData.cFileName;
++            // Skip “.” and “..”
++            if (wcscmp(name, GUI_TEXT(".")) != 0 &&
++                wcscmp(name, GUI_TEXT("..")) != 0)
++            {
++                FilePath pathFull(*this, name);  
++                if (findData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+ 					directories.push_back(pathFull);
+-				} else {
++                else
+ 					files.push_back(pathFull);
+ 				}
+-			}
+-			if (!::FindNextFileW(hFind, &findFileData)) {
+-				complete = true;
+-			}
+-		}
++        } while (::FindNextFileW(hFind, &findData));
+ 		::FindClose(hFind);
+ 	}
+ #else
++    // POSIX: opendir / readdir / closedir
+ 	errno = 0;
+ 	DIR *dp = opendir(AsInternal());
+-	if (dp == NULL) {
+-		//~ fprintf(stderr, "%s: cannot open for reading: %s\n", AsInternal(), strerror(errno));
++    if (!dp) {
++        // cannot open directory; bail out
+ 		return;
+ 	}
++
+ 	struct dirent *ent;
+-	while ((ent = readdir(dp)) != NULL) {
+-		std::string_view entryName = ent->d_name;
+-		if ((entryName != currentDirectory) && (entryName != parentDirectory)) {
++    while ((ent = readdir(dp)) != nullptr) {
++        bpstd::string_view name = ent->d_name;
++        // Skip “.” and “..”
++        if (name != currentDirectory && name != parentDirectory) {
+ 			FilePath pathFull(AsInternal(), ent->d_name);
+-			if (pathFull.IsDirectory()) {
++            if (pathFull.IsDirectory())
+ 				directories.push_back(pathFull);
+-			} else {
++            else
+ 				files.push_back(pathFull);
+ 			}
+ 		}
+-	}
+ 
+ 	closedir(dp);
+ #endif
++
++    // Finally, sort both lists
+ 	std::sort(files.begin(), files.end());
+ 	std::sort(directories.begin(), directories.end());
+ }
+ 
++
+ FILE *FilePath::Open(const GUI::gui_char *mode) const noexcept {
+ 	if (IsSet()) {
+ 		return fopen(fileName.c_str(), mode);
+@@ -507,11 +521,28 @@
+ namespace {
+ 
+ #ifdef _WIN32
++/*
++void Lowercase(GUI::gui_string &s) {
++    const int sLength = static_cast<int>(s.length());
++    
++    // Create a mutable copy of the string as a std::wstring
++    std::wstring temp(s.begin(), s.end()); // Convert GUI::gui_string to std::wstring
++    
++    const int chars = ::LCMapString(LOCALE_SYSTEM_DEFAULT, LCMAP_LOWERCASE, temp.c_str(), sLength, nullptr, 0);
++    std::wstring vc(chars, 0);  // Create a new wstring to hold the result
++    
++    // Now, call LCMapString with the mutable temp string
++    ::LCMapString(LOCALE_SYSTEM_DEFAULT, LCMAP_LOWERCASE, temp.c_str(), sLength, &vc[0], chars);
++    
++    // Convert the result back to the original GUI::gui_string format
++    s = GUI::gui_string(vc.begin(), vc.end());  // Convert back from std::wstring to GUI::gui_string
++}
++*/
+ void Lowercase(GUI::gui_string &s) {
+ 	const int sLength = static_cast<int>(s.length());
+ 	const int chars = ::LCMapString(LOCALE_SYSTEM_DEFAULT, LCMAP_LOWERCASE, s.c_str(), sLength, nullptr, 0);
+ 	GUI::gui_string vc(chars, 0);
+-	::LCMapString(LOCALE_SYSTEM_DEFAULT, LCMAP_LOWERCASE, s.c_str(), sLength, vc.data(), chars);
++    ::LCMapString(LOCALE_SYSTEM_DEFAULT, LCMAP_LOWERCASE, s.c_str(), sLength, &vc[0], chars);
+ 	s = vc;
+ }
+ #endif
+@@ -545,9 +576,9 @@
+ 	}
+ 	return false;
+ }
+-
+ }
+ 
++
+ bool FilePath::Matches(const GUI::gui_char *pattern) const {
+ 	GUI::gui_string pat(pattern);
+ 	GUI::gui_string nameCopy(Name().fileName);
+@@ -567,6 +598,7 @@
+ 	return false;
+ }
+ 
++
+ #ifdef WIN32
+ /**
+  * Makes a long path from a given, possibly short path/file.
+diff -Nurw a/scite/src/FileWorker.cxx b/scite/src/FileWorker.cxx
+--- a/scite/src/FileWorker.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/FileWorker.cxx	2025-05-09 05:23:42.315533300 +0200
+@@ -11,8 +11,9 @@
+ #include <cstdio>
+ 
+ #include <string>
++#include "string_view.hpp"
+ #include <vector>
+-#include <memory>
++#include "memory.hpp"
+ #include <chrono>
+ #include <atomic>
+ #include <mutex>
+@@ -50,7 +51,7 @@
+ 		Utf8_16_Read convert;
+ 		std::vector<char> data(blockSize);
+ 		size_t lenFile = fread(&data[0], 1, blockSize, fp);
+-		const UniMode umCodingCookie = CodingCookieValue(std::string_view(data.data(), lenFile));
++		const UniMode umCodingCookie = CodingCookieValue(bpstd::string_view(data.data(), lenFile));
+ 		while ((lenFile > 0) && (err == 0) && (!Cancelling())) {
+ 			GUI::SleepMilliseconds(sleepTime);
+ 			lenFile = convert.convert(&data[0], lenFile);
+diff -Nurw a/scite/src/GUI.h b/scite/src/GUI.h
+--- a/scite/src/GUI.h	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/GUI.h	2025-05-09 05:31:08.741102900 +0200
+@@ -51,7 +51,7 @@
+ 
+ typedef char gui_char;
+ typedef std::string gui_string;
+-typedef std::string_view gui_string_view;
++typedef bpstd::string_view gui_string_view;
+ 
+ #define GUI_TEXT(q) q
+ 
+@@ -61,7 +61,7 @@
+ 
+ typedef wchar_t gui_char;
+ typedef std::wstring gui_string;
+-typedef std::wstring_view gui_string_view;
++typedef bpstd::wstring_view gui_string_view;
+ 
+ #define GUI_TEXT(q) L##q
+ 
+@@ -74,7 +74,7 @@
+ gui_string StringFromLongLong(long long i);
+ gui_string HexStringFromInteger(long i);
+ 
+-std::string LowerCaseUTF8(std::string_view sv);
++std::string LowerCaseUTF8(bpstd::string_view sv);
+ 
+ typedef void *WindowID;
+ class Window {
+diff -Nurw a/scite/src/IFaceTable.cxx b/scite/src/IFaceTable.cxx
+--- a/scite/src/IFaceTable.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/IFaceTable.cxx	2025-05-09 05:23:42.482698800 +0200
+@@ -9,7 +9,7 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <chrono>
+ 
+diff -Nurw a/scite/src/JobQueue.cxx b/scite/src/JobQueue.cxx
+--- a/scite/src/JobQueue.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/JobQueue.cxx	2025-05-09 05:23:42.585699600 +0200
+@@ -15,12 +15,12 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+ #include <algorithm>
+-#include <memory>
++#include "memory.hpp"
+ #include <chrono>
+ #include <atomic>
+ #include <mutex>
+diff -Nurw a/scite/src/LuaExtension.cxx b/scite/src/LuaExtension.cxx
+--- a/scite/src/LuaExtension.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/LuaExtension.cxx	2025-05-09 05:23:42.705469400 +0200
+@@ -11,9 +11,9 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+-#include <memory>
++#include "memory.hpp"
+ #include <chrono>
+ 
+ #include "ScintillaTypes.h"
+diff -Nurw a/scite/src/MatchMarker.cxx b/scite/src/MatchMarker.cxx
+--- a/scite/src/MatchMarker.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/MatchMarker.cxx	2025-05-09 05:23:42.812975700 +0200
+@@ -6,10 +6,10 @@
+ // The License.txt file describes the conditions under which this software may be distributed.
+ 
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <set>
+-#include <optional>
++#include "optional.hpp"
+ #include <algorithm>
+ #include <chrono>
+ 
+@@ -50,7 +50,7 @@
+ 
+ void MatchMarker::StartMatch(SA::ScintillaCall *pSci_,
+ 			     const std::string &textMatch_, SA::FindOption flagsMatch_, int styleMatch_,
+-			     int indicator_, int bookMark_, std::optional<Scintilla::Line> showContext_) {
++			     int indicator_, int bookMark_, bpstd::optional<Scintilla::Line> showContext_) {
+ 	lineRanges.clear();
+ 	pSci = pSci_;
+ 	textMatch = textMatch_;
+diff -Nurw a/scite/src/MatchMarker.h b/scite/src/MatchMarker.h
+--- a/scite/src/MatchMarker.h	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/MatchMarker.h	2025-05-09 05:23:42.941976400 +0200
+@@ -23,14 +23,14 @@
+ 	Scintilla::FindOption flagsMatch;
+ 	int indicator;
+ 	int bookMark;
+-	std::optional<Scintilla::Line> showContext;
++	bpstd::optional<Scintilla::Line> showContext;
+ 	std::vector<LineRange> lineRanges;
+ 	std::set<Scintilla::Line> matches;
+ public:
+ 	MatchMarker();	// Not noexcept as std::vector constructor throws
+ 	void StartMatch(Scintilla::ScintillaCall *pSci_,
+ 			const std::string &textMatch_, Scintilla::FindOption flagsMatch_, int styleMatch_,
+-			int indicator_, int bookMark_, std::optional<Scintilla::Line> showContext_={});
++			int indicator_, int bookMark_, bpstd::optional<Scintilla::Line> showContext_={});
+ 	bool Complete() const noexcept;
+ 	void Continue();
+ 	void Stop() noexcept;
+diff -Nurw a/scite/src/MultiplexExtension.cxx b/scite/src/MultiplexExtension.cxx
+--- a/scite/src/MultiplexExtension.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/MultiplexExtension.cxx	2025-05-09 05:23:43.481178900 +0200
+@@ -6,7 +6,7 @@
+ // The License.txt file describes the conditions under which this software may be distributed.
+ 
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ 
+ #include "ScintillaTypes.h"
+diff -Nurw a/scite/src/PropSetFile.cxx b/scite/src/PropSetFile.cxx
+--- a/scite/src/PropSetFile.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/PropSetFile.cxx	2025-05-09 05:23:43.584199800 +0200
+@@ -15,12 +15,12 @@
+ #include <stdexcept>
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+ #include <algorithm>
+-#include <memory>
++#include "memory.hpp"
+ #include <chrono>
+ #include <sstream>
+ 
+@@ -69,7 +69,7 @@
+ PropSetFile::PropSetFile(bool lowerKeys_) : lowerKeys(lowerKeys_), superPS(nullptr) {
+ }
+ 
+-void PropSetFile::Set(std::string_view key, std::string_view val) {
++void PropSetFile::Set(bpstd::string_view key, bpstd::string_view val) {
+ 	if (key.empty())	// Empty keys are not supported
+ 		return;
+ 	props[std::string(key)] = std::string(val);
+@@ -89,9 +89,9 @@
+ 		}
+ 		const ptrdiff_t lenVal = endVal - eqAt - 1;
+ 		const ptrdiff_t lenKey = pKeyEnd - keyVal + 1;
+-		const std::string_view key(keyVal, lenKey);
+-		const std::string_view value(eqAt + 1, lenVal);
+-		if (unescape && (key.find("\\") != std::string_view::npos)) {
++		const bpstd::string_view key(keyVal, lenKey);
++		const bpstd::string_view value(eqAt + 1, lenVal);
++		if (unescape && (key.find("\\") != bpstd::string_view::npos)) {
+ 			const std::string keyUnescaped = UnicodeUnEscape(key);
+ 			Set(keyUnescaped, value);
+ 		} else {
+@@ -102,7 +102,7 @@
+ 	}
+ }
+ 
+-void PropSetFile::Unset(std::string_view key) {
++void PropSetFile::Unset(bpstd::string_view key) {
+ 	if (key.empty())	// Empty keys are not supported
+ 		return;
+ 	mapss::iterator keyPos = props.find(std::string(key));
+@@ -449,8 +449,8 @@
+ 	const std::string propsData = filename.Read();
+ 	const size_t lenFile = propsData.size();
+ 	if (lenFile > 0) {
+-		std::string_view data(propsData.c_str(), lenFile);
+-		const std::string_view svUtf8BOM(UTF8BOM);
++		bpstd::string_view data(propsData.c_str(), lenFile);
++		const bpstd::string_view svUtf8BOM(UTF8BOM);
+ 		if (StartsWith(data, svUtf8BOM)) {
+ 			data.remove_prefix(svUtf8BOM.length());
+ 		}
+@@ -462,7 +462,7 @@
+ 
+ namespace {
+ 
+-bool StringEqual(std::string_view a, std::string_view b, bool caseSensitive) noexcept {
++bool StringEqual(bpstd::string_view a, bpstd::string_view b, bool caseSensitive) noexcept {
+ 	if (caseSensitive) {
+ 		return a == b;
+ 	} else {
+@@ -479,7 +479,7 @@
+ 
+ // Match file names to patterns allowing for '*' and '?'.
+ 
+-bool MatchWild(std::string_view pattern, std::string_view text, bool caseSensitive) {
++bool MatchWild(bpstd::string_view pattern, bpstd::string_view text, bool caseSensitive) {
+ 	if (StringEqual(pattern, text, caseSensitive)) {
+ 		return true;
+ 	} else if (pattern.empty()) {
+@@ -525,14 +525,14 @@
+ 	while (psf) {
+ 		mapss::const_iterator it = psf->props.lower_bound(sKeybase);
+ 		while ((it != psf->props.end()) && startswith(it->first, sKeybase.c_str())) {
+-			const std::string_view orgkeyfile = it->first.c_str() + sKeybase.length();
++			const bpstd::string_view orgkeyfile = it->first.c_str() + sKeybase.length();
+ 			std::string key;	// keyFile may point into key so key lifetime must cover keyFile
+-			std::string_view keyFile = orgkeyfile;
++			bpstd::string_view keyFile = orgkeyfile;
+ 
+ 			if (orgkeyfile.find("$(") == 0) {
+ 				// $(X) is a variable so extract X and find its value
+ 				const size_t endVar = orgkeyfile.find_first_of(')');
+-				if (endVar != std::string_view::npos) {
++				if (endVar != bpstd::string_view::npos) {
+ 					const std::string var(orgkeyfile.substr(2, endVar-2));
+ 					key = psStart.GetExpandedString(var.c_str());
+ 					keyFile = key;
+@@ -541,12 +541,12 @@
+ 
+ 			while (!keyFile.empty()) {
+ 				const size_t sepPos = keyFile.find_first_of(';');
+-				const std::string_view pattern = keyFile.substr(0, sepPos);
++				const bpstd::string_view pattern = keyFile.substr(0, sepPos);
+ 				if (MatchWild(pattern, filename, caseSensitiveFilenames)) {
+ 					return it->second;
+ 				}
+ 				// Move to next
+-				keyFile = (sepPos == std::string_view::npos) ? "" : keyFile.substr(sepPos + 1);
++				keyFile = (sepPos == bpstd::string_view::npos) ? "" : keyFile.substr(sepPos + 1);
+ 			}
+ 
+ 			if (it->first == sKeybase) {
+diff -Nurw a/scite/src/PropSetFile.h b/scite/src/PropSetFile.h
+--- a/scite/src/PropSetFile.h	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/PropSetFile.h	2025-05-09 05:23:43.699681800 +0200
+@@ -30,9 +30,9 @@
+ 	PropSetFile *superPS;
+ 	explicit PropSetFile(bool lowerKeys_=false);
+ 
+-	void Set(std::string_view key, std::string_view val);
++	void Set(bpstd::string_view key, bpstd::string_view val);
+ 	void SetLine(const char *keyVal, bool unescape);
+-	void Unset(std::string_view key);
++	void Unset(bpstd::string_view key);
+ 	bool Exists(const char *key) const;
+ 	std::string GetString(const char *key) const;
+ 	std::string Evaluate(const char *key) const;
+diff -Nurw a/scite/src/SciTEBase.cxx b/scite/src/SciTEBase.cxx
+--- a/scite/src/SciTEBase.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/SciTEBase.cxx	2025-05-09 11:43:56.029606900 +0200
+@@ -16,18 +16,18 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "optional.hpp"
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+-#include <optional>
+ #include <algorithm>
+-#include <memory>
++#include "memory.hpp"
+ #include <chrono>
+ #include <atomic>
+ #include <mutex>
+ #include <thread>
+-
++#include <system_error> //added
+ #include <fcntl.h>
+ #include <sys/stat.h>
+ 
+@@ -984,7 +984,7 @@
+ 	wEditor.SetIndicatorCurrent(indicatorMatch);
+ 
+ 	int bookMark = -1;
+-	std::optional<SA::Line> contextLines;
++	bpstd::optional<SA::Line> contextLines;
+ 
+ 	if (purpose == MarkPurpose::incremental) {
+ 		CurrentBuffer()->findMarks = Buffer::FindMarks::temporary;
+@@ -1070,6 +1070,7 @@
+ 	return props.GetInt("find.replace.advanced");
+ }
+ 
++
+ SA::Position SciTEBase::FindInTarget(const std::string &findWhatText, SA::Span range) {
+ 	wEditor.SetTarget(range);
+ 	SA::Position posFind = wEditor.SearchInTarget(findWhatText);
+@@ -1084,12 +1085,12 @@
+ 	return posFind;
+ }
+ 
+-void SciTEBase::SetFindText(std::string_view sFind) {
+-	findWhat = sFind;
++void SciTEBase::SetFindText(bpstd::string_view sFind) {
++    findWhat = std::string(sFind);
+ 	props.Set("find.what", findWhat);
+ }
+ 
+-void SciTEBase::SetFind(std::string_view sFind) {
++void SciTEBase::SetFind(bpstd::string_view sFind) {
+ 	SetFindText(sFind);
+ 	InsertFindInMemory();
+ }
+@@ -1098,8 +1099,8 @@
+ 	return !findWhat.empty();
+ }
+ 
+-void SciTEBase::SetReplace(std::string_view sReplace) {
+-	replaceWhat = sReplace;
++void SciTEBase::SetReplace(bpstd::string_view sReplace) {
++	replaceWhat = std::string(sReplace); //Added
+ 	memReplaces.Insert(replaceWhat);
+ }
+ 
+@@ -3131,7 +3132,7 @@
+ 			WindowSetFocus(wEditor);
+ 			break;
+ 		}
+-		[[fallthrough]];
++
+ 	// else fall through and do NEXTFILE behaviour...
+ 	case IDM_NEXTFILE:
+ 		if (buffers.size() > 1) {
+@@ -3149,7 +3150,6 @@
+ 			WindowSetFocus(wEditor);
+ 			break;
+ 		}
+-		[[fallthrough]];
+ 	// else fall through and do PREVFILE behaviour...
+ 	case IDM_PREVFILE:
+ 		if (buffers.size() > 1) {
+@@ -4751,7 +4751,11 @@
+ 				exit(0);
+ 			} else {
+ 				if (AfterName(arg) == ':') {
+-					if (StartsWith(arg, GUI_TEXT("open:")) || StartsWith(arg, GUI_TEXT("loadsession:"))) {
++				GUI::gui_string gsArg(arg);  //Added
++				std::string UTF8arg = GUI::UTF8FromString(gsArg);  //Added
++				std::string openStr = GUI::UTF8FromString(L"open:"); //Added
++				std::string loadsessionStr = GUI::UTF8FromString(L"loadsession:"); //Added
++				if (StartsWith(UTF8arg, openStr) || StartsWith(UTF8arg, loadsessionStr)) { //Added
+ 						if (phase == 0)
+ 							return performPrint;
+ 						else
+diff -Nurw a/scite/src/SciTEBase.h b/scite/src/SciTEBase.h
+--- a/scite/src/SciTEBase.h	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/SciTEBase.h	2025-05-09 05:23:43.904681900 +0200
+@@ -51,7 +51,7 @@
+ 	RecentFile(const FilePath &path_, SelectedRange selection_, SA::Line scrollPosition_) :
+ 		FilePath(path_), selection(selection_), scrollPosition(scrollPosition_) {
+ 	}
+-	void Init() noexcept override {
++	void Init() noexcept  {
+ 		FilePath::Init();
+ 		selection.position = SA::InvalidPosition;
+ 		selection.anchor = SA::InvalidPosition;
+@@ -98,6 +98,7 @@
+ 	time_t documentModTime;
+ 	enum class FindMarks { none, temporary, marked, modified} findMarks;
+ 	std::string overrideExtension;	///< User has chosen to use a particular language
++	//std::string Extension;	///< User has chosen to use a particular language
+ 	std::vector<SA::Line> foldState;
+ 	std::vector<SA::Line> bookmarks;
+ 	std::unique_ptr<FileWorker> pFileWorker;
+@@ -263,7 +264,7 @@
+ 	Localization &operator=(const Localization &) = delete;
+ 	Localization &operator=(Localization &&) = delete;
+ 	virtual ~Localization() = default;
+-	GUI::gui_string Text(std::string_view sv, bool retainIfNotFound=true) const override;
++	GUI::gui_string Text(bpstd::string_view sv, bool retainIfNotFound=true) const ;
+ 	void SetMissing(const std::string &missing_) {
+ 		missing = missing_;
+ 	}
+@@ -633,10 +634,10 @@
+ 	static int GetMenuCommandAsInt(std::string commandName);
+ 	virtual void Print(bool) {}
+ 	virtual void PrintSetup() {}
+-	void UserStripShow(const char * /* description */) override {}
+-	void UserStripSet(int /* control */, const char * /* value */) override {}
+-	void UserStripSetList(int /* control */, const char * /* value */) override {}
+-	std::string UserStripValue(int /* control */) override { return std::string(); }
++	void UserStripShow(const char * /* description */)  {}
++	void UserStripSet(int /* control */, const char * /* value */)  {}
++	void UserStripSetList(int /* control */, const char * /* value */)  {}
++	std::string UserStripValue(int /* control */)  { return std::string(); }
+ 	virtual void ShowBackgroundProgress(const GUI::gui_string & /* explanation */, size_t /* size */, size_t /* progress */) {}
+ 	SA::Span GetSelection();
+ 	SelectedRange GetSelectedRange();
+@@ -678,15 +679,15 @@
+ 	bool FindReplaceAdvanced() const;
+ 	SA::Position FindInTarget(const std::string &findWhatText, SA::Span range);
+ 	// Implement Searcher
+-	void SetFindText(std::string_view sFind) override;
+-	void SetFind(std::string_view sFind) override;
+-	bool FindHasText() const noexcept override;
+-	void SetReplace(std::string_view sReplace) override;
+-	void SetCaretAsStart() override;
+-	void MoveBack() override;
+-	void ScrollEditorIfNeeded() override;
+-	SA::Position FindNext(bool reverseDirection, bool showWarnings=true, bool allowRegExp=true) override;
+-	void HideMatch() override;
++	void SetFindText(bpstd::string_view sFind) ;
++	void SetFind(bpstd::string_view sFind) ;
++	bool FindHasText() const noexcept ;
++	void SetReplace(bpstd::string_view sReplace) ;
++	void SetCaretAsStart() ;
++	void MoveBack() ;
++	void ScrollEditorIfNeeded() ;
++	SA::Position FindNext(bool reverseDirection, bool showWarnings=true, bool allowRegExp=true) ;
++	void HideMatch() ;
+ 	virtual void FindIncrement() = 0;
+ 	int IncrementSearchMode();
+ 	virtual void Filter() = 0;
+@@ -694,13 +695,13 @@
+ 	int FilterSearch();
+ 	virtual void FindInFiles() = 0;
+ 	virtual void Replace() = 0;
+-	void ReplaceOnce(bool showWarnings=true) override;
++	void ReplaceOnce(bool showWarnings=true) ;
+ 	intptr_t DoReplaceAll(bool inSelection); // returns number of replacements or negative value if error
+-	intptr_t ReplaceAll(bool inSelection) override;
++	intptr_t ReplaceAll(bool inSelection) ;
+ 	intptr_t ReplaceInBuffers();
+ 	void SetFindInFilesOptions();
+-	void UIClosed() override;
+-	void UIHasFocus() override;
++	void UIClosed() ;
++	void UIHasFocus() ;
+ 	virtual void DestroyFindReplace() = 0;
+ 	virtual void GoLineDialog() = 0;
+ 	virtual void AbbrevDialog() = 0;
+@@ -746,7 +747,7 @@
+ 	void CharAddedOutput(int ch);
+ 	void SetTextProperties(PropSetFile &ps);
+ 	virtual void SetFileProperties(PropSetFile &ps) = 0;
+-	void UpdateStatusBar(bool bUpdateSlowData) override;
++	void UpdateStatusBar(bool bUpdateSlowData) ;
+ 	SA::Position GetLineLength(SA::Line line);
+ 	SA::Line GetCurrentLineNumber();
+ 	SA::Position GetCurrentColumnNumber();
+@@ -787,8 +788,8 @@
+ 
+ 	void RemoveFindMarks();
+ 	SA::FindOption SearchFlags(bool regularExpressions) const;
+-	void MarkAll(MarkPurpose purpose) override;
+-	void FilterAll(bool showMatches) override;
++	void MarkAll(MarkPurpose purpose) ;
++	void FilterAll(bool showMatches) ;
+ 	void BookmarkAdd(SA::Line lineno = -1);
+ 	void BookmarkDelete(SA::Line lineno = -1);
+ 	bool BookmarkPresent(SA::Line lineno = -1);
+@@ -845,6 +846,7 @@
+ 	virtual void ReadPropertiesInitial();
+ 	void ReadFontProperties();
+ 	void SetOverrideLanguage(int cmdID);
++	void SetLanguage(int cmdID);
+ 	StyleAndWords GetStyleAndWords(const char *base);
+ 	std::string ExtensionFileName() const;
+ 	void SetElementColour(SA::Element element, const char *key);
+@@ -911,19 +913,19 @@
+ 	void PropertyFromDirector(const char *arg);
+ 	void PropertyToDirector(const char *arg);
+ 	// ExtensionAPI
+-	intptr_t Send(Pane p, SA::Message msg, uintptr_t wParam = 0, intptr_t lParam = 0) override;
+-	std::string Range(Pane p, SA::Span range) override;
+-	void Remove(Pane p, SA::Position start, SA::Position end) override;
+-	void Insert(Pane p, SA::Position pos, const char *s) override;
+-	void Trace(const char *s) override;
+-	std::string Property(const char *key) override;
+-	void SetProperty(const char *key, const char *val) override;
+-	void UnsetProperty(const char *key) override;
+-	uintptr_t GetInstance() override;
+-	void ShutDown() override;
+-	void Perform(const char *actionList) override;
+-	void DoMenuCommand(int cmdID) override;
+-	SA::ScintillaCall &PaneCaller(Pane p) noexcept override;
++	intptr_t Send(Pane p, SA::Message msg, uintptr_t wParam = 0, intptr_t lParam = 0) ;
++	std::string Range(Pane p, SA::Span range) ;
++	void Remove(Pane p, SA::Position start, SA::Position end) ;
++	void Insert(Pane p, SA::Position pos, const char *s) ;
++	void Trace(const char *s) ;
++	std::string Property(const char *key) ;
++	void SetProperty(const char *key, const char *val) ;
++	void UnsetProperty(const char *key) ;
++	uintptr_t GetInstance() ;
++	void ShutDown() ;
++	void Perform(const char *actionList) ;
++	void DoMenuCommand(int cmdID) ;
++	SA::ScintillaCall &PaneCaller(Pane p) noexcept ;
+ 
+ 	// Valid CurrentWord characters
+ 	bool iswordcharforsel(char ch);
+@@ -944,7 +946,7 @@
+ 	SciTEBase(SciTEBase &&) = delete;
+ 	void operator=(const SciTEBase &) = delete;
+ 	void operator=(SciTEBase &&) = delete;
+-	~SciTEBase() override;
++	~SciTEBase() ;
+ 
+ 	void Finalise();
+ 
+@@ -952,7 +954,7 @@
+ 
+ 	bool PerformOnNewThread(Worker *pWorker);
+ 	// WorkerListener
+-	void PostOnMainThread(int cmd, Worker *pWorker) override = 0;
++	void PostOnMainThread(int cmd, Worker *pWorker)  = 0;
+ 	virtual void WorkerCommand(int cmd, Worker *pWorker);
+ };
+ 
+diff -Nurw a/scite/src/SciTEBuffers.cxx b/scite/src/SciTEBuffers.cxx
+--- a/scite/src/SciTEBuffers.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/SciTEBuffers.cxx	2025-05-09 11:58:16.564231300 +0200
+@@ -12,16 +12,17 @@
+ #include <cstring>
+ #include <cstdio>
+ #include <ctime>
++#include <vector>
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+-#include <optional>
++#include "optional.hpp"
+ #include <algorithm>
+-#include <memory>
++#include "memory.hpp"
+ #include <chrono>
+ #include <atomic>
+ #include <mutex>
+@@ -1168,13 +1169,14 @@
+ 
+ namespace {
+ 
+-GUI::gui_string EscapeFilePath(const FilePath &path, [[maybe_unused]]Title destination) {
++GUI::gui_string EscapeFilePath(const FilePath &path, Title /*destination*/) {
+ 	// Escape '&' characters in path, since they are interpreted in menus.
+ 	GUI::gui_string escaped(path.AsInternal());
+ #if defined(_WIN32)
+ 	// On Windows, '&' are interpreted in menus and tab names, so we need
+ 	// the escaped filename
+-	Substitute(escaped, GUI_TEXT("&"), GUI_TEXT("&&"));
++	Substitute(escaped, bpstd::wstring_view(GUI_TEXT("&")), bpstd::wstring_view(GUI_TEXT("&&"))); //added
++
+ #else
+ 	if (destination == Title::menu) {
+ 		Substitute(escaped, GUI_TEXT("&"), GUI_TEXT("&&"));
+@@ -1196,10 +1198,10 @@
+ // Produce a menu or tab title from a buffer.
+ // <index> <file name> <is read only> <is dirty>
+ // 3 /src/example.cxx | *
+-GUI::gui_string BufferTitle([[maybe_unused]] int pos, const Buffer &buffer, Title destination,
++GUI::gui_string BufferTitle(int /*pos*/, const Buffer &buffer, Title destination,
+ 	PropSetFile const &props, const Localization &localiser) {
+ 	GUI::gui_string title;
+-
++	int pos=0;
+ 	// Index
+ #if defined(_WIN32) || defined(GTK)
+ 	if (pos < 10) {
+diff -Nurw a/scite/src/SciTEIO.cxx b/scite/src/SciTEIO.cxx
+--- a/scite/src/SciTEIO.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/SciTEIO.cxx	2025-05-09 05:23:45.053962500 +0200
+@@ -17,13 +17,13 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+-#include <optional>
++#include "optional.hpp"
+ #include <algorithm>
+-#include <memory>
++#include "memory.hpp"
+ #include <chrono>
+ #include <atomic>
+ #include <mutex>
+@@ -163,7 +163,7 @@
+ 	const SA::Position length = std::min<SA::Position>(LengthDocument(), 64 * 1024);
+ 	std::string buf = wEditor.StringOfSpan(SA::Span(0, length));
+ 	std::string languageOverride;
+-	std::string_view line = ExtractLine(buf);
++	bpstd::string_view line = ExtractLine(buf);
+ 	if (StartsWith(line, "<?xml")) {
+ 		languageOverride = "xml";
+ 	} else if (StartsWith(line, "#!")) {
+@@ -306,7 +306,7 @@
+ 			wEditor.SetStatus(SA::Status::Ok);
+ 			return;
+ 		}
+-		CurrentBuffer()->pFileWorker = std::make_unique<FileLoader>(this, pdocLoad, filePath, static_cast<size_t>(fileSize), fp);
++		CurrentBuffer()->pFileWorker = bpstd::make_unique<FileLoader>(this, pdocLoad, filePath, static_cast<size_t>(fileSize), fp);
+ 		CurrentBuffer()->pFileWorker->sleepTime = props.GetInt("asynchronous.sleep");
+ 		PerformOnNewThread(CurrentBuffer()->pFileWorker.get());
+ 	} else {
+@@ -315,7 +315,7 @@
+ 		Utf8_16_Read convert;
+ 		std::vector<char> data(blockSize);
+ 		size_t lenFile = fread(&data[0], 1, data.size(), fp);
+-		const UniMode umCodingCookie = CodingCookieValue(std::string_view(data.data(), lenFile));
++		const UniMode umCodingCookie = CodingCookieValue(bpstd::string_view(data.data(), lenFile));
+ 		while (lenFile > 0) {
+ 			lenFile = convert.convert(&data[0], lenFile);
+ 			const char *dataBlock = convert.getNewBuf();
+@@ -1135,7 +1135,7 @@
+ 			if (!(sf & sfSynchronous)) {
+ 				wEditor.SetReadOnly(true);
+ 				const char *documentBytes = static_cast<const char *>(wEditor.CharacterPointer());
+-				CurrentBuffer()->pFileWorker = std::make_unique<FileStorer>(this, documentBytes, saveName, lengthDoc, fp, CurrentBuffer()->unicodeMode, (sf & sfProgressVisible));
++				CurrentBuffer()->pFileWorker = bpstd::make_unique<FileStorer>(this, documentBytes, saveName, lengthDoc, fp, CurrentBuffer()->unicodeMode, (sf & sfProgressVisible));
+ 				CurrentBuffer()->pFileWorker->sleepTime = props.GetInt("asynchronous.sleep");
+ 				if (PerformOnNewThread(CurrentBuffer()->pFileWorker.get())) {
+ 					retVal = true;
+@@ -1328,7 +1328,7 @@
+ 		wEditor.ClearAll();
+ 	}
+ 	size_t lenFile = fread(&data[0], 1, data.size(), stdin);
+-	const UniMode umCodingCookie = CodingCookieValue(std::string_view(data.data(), lenFile));
++	const UniMode umCodingCookie = CodingCookieValue(bpstd::string_view(data.data(), lenFile));
+ 	while (lenFile > 0) {
+ 		lenFile = convert.convert(&data[0], lenFile);
+ 		if (UseOutputPane) {
+@@ -1452,7 +1452,7 @@
+ 	std::string lineToShow;
+ 	bool caseSensitive;
+ public:
+-	FileReader(const FilePath &fPath, bool caseSensitive_) : bf(std::make_unique<BufferedFile>(fPath)) {
++	FileReader(const FilePath &fPath, bool caseSensitive_) : bf(bpstd::make_unique<BufferedFile>(fPath)) {
+ 		lineNum = 0;
+ 		lastWasCR = false;
+ 		caseSensitive = caseSensitive_;
+diff -Nurw a/scite/src/SciTEProps.cxx b/scite/src/SciTEProps.cxx
+--- a/scite/src/SciTEProps.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/SciTEProps.cxx	2025-05-09 05:23:45.246709800 +0200
+@@ -15,17 +15,17 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+-#include <optional>
++#include "optional.hpp"
+ #include <algorithm>
+-#include <memory>
++#include "memory.hpp"
+ #include <chrono>
+ #include <atomic>
+ #include <mutex>
+-
++#include <stdexcept> //added
+ #include <fcntl.h>
+ 
+ #include "ILexer.h"
+@@ -123,7 +123,9 @@
+ 	char **e = _environ;
+ #endif
+ 	for (; e && *e; e++) {
+-		const auto [key, value] = ViewSplit(*e, '=');
++		auto pair = ViewSplit(*e, '=');
++		const auto& key = std::get<0>(pair); //Added Structured Bindings
++		const auto& value = std::get<1>(pair);
+ 		propsPlatform.Set(key, value);
+ 	}
+ }
+@@ -696,7 +698,7 @@
+ void SciTEBase::SetRepresentations() {
+ 	wEditor.ClearAllRepresentations();
+ 	const std::string representations = props.GetExpandedString("representations");
+-	std::string_view reprs = representations;
++	bpstd::string_view reprs = representations;
+ 
+ 	bool colourSet = false;
+ 	SA::Colour colourRepresentation = 0;
+@@ -709,7 +711,7 @@
+ 			reprs.remove_prefix(1);
+ 		}
+ 		if (!reprs.empty()) {
+-			const std::string_view item = reprs.substr(0, reprs.find_first_of(','));
++			const bpstd::string_view item = reprs.substr(0, reprs.find_first_of(','));
+ 			if (!item.empty()) {
+ 				if (item[0] == '!') {
+ 					// Appearance
+@@ -730,7 +732,7 @@
+ 					}
+ 				} else {
+ 					const size_t eqPos = item.find_first_of('=');
+-					if (eqPos != std::string_view::npos) {
++					if (eqPos != bpstd::string_view::npos) {
+ 						const std::string target = UnicodeUnEscape(item.substr(0, eqPos));
+ 						const std::string representation = UnicodeUnEscape(item.substr(eqPos+1));
+ 						wEditor.SetRepresentation(target.c_str(), representation.c_str());
+@@ -1727,7 +1729,7 @@
+ 	focusOnReplace = props.GetInt("find.replacewith.focus", 1);
+ }
+ 
+-GUI::gui_string Localization::Text(std::string_view sv, bool retainIfNotFound) const {
++GUI::gui_string Localization::Text(bpstd::string_view sv, bool retainIfNotFound) const {
+ 	const std::string sEllipse("...");	// An ASCII ellipse
+ 	const std::string utfEllipse("\xe2\x80\xa6");	// A UTF-8 ellipse
+ 	std::string translation(sv);
+diff -Nurw a/scite/src/ScintillaWindow.cxx b/scite/src/ScintillaWindow.cxx
+--- a/scite/src/ScintillaWindow.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/ScintillaWindow.cxx	2025-05-09 05:23:45.358134300 +0200
+@@ -6,7 +6,7 @@
+ // The License.txt file describes the conditions under which this software may be distributed.
+ 
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <chrono>
+ 
+ #include "ScintillaTypes.h"
+diff -Nurw a/scite/src/Searcher.h b/scite/src/Searcher.h
+--- a/scite/src/Searcher.h	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/Searcher.h	2025-05-09 05:23:45.483643500 +0200
+@@ -37,11 +37,11 @@
+ 
+ 	Searcher();
+ 
+-	virtual void SetFindText(std::string_view sFind) = 0;
+-	virtual void SetFind(std::string_view sFind) = 0;
++	virtual void SetFindText(bpstd::string_view sFind) = 0;
++	virtual void SetFind(bpstd::string_view sFind) = 0;
+ 	virtual bool FindHasText() const noexcept = 0;
+ 	void InsertFindInMemory();
+-	virtual void SetReplace(std::string_view sReplace) = 0;
++	virtual void SetReplace(bpstd::string_view sReplace) = 0;
+ 	virtual void SetCaretAsStart() = 0;
+ 	virtual void MoveBack() = 0;
+ 	virtual void ScrollEditorIfNeeded() = 0;
+diff -Nurw a/scite/src/StringHelpers.cxx b/scite/src/StringHelpers.cxx
+--- a/scite/src/StringHelpers.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/StringHelpers.cxx	2025-05-09 05:23:46.667860900 +0200
+@@ -12,7 +12,7 @@
+ #include <stdexcept>
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <algorithm>
+ #include <functional>
+@@ -21,17 +21,13 @@
+ #include "GUI.h"
+ #include "StringHelpers.h"
+ 
+-bool StartsWith(std::wstring_view s, std::wstring_view start) {
++bool StartsWith(bpstd::string_view s, bpstd::string_view start) {
+ 	return (s.size() >= start.size()) &&
+ 	       (std::equal(s.begin(), s.begin() + start.size(), start.begin()));
+ }
+ 
+-bool StartsWith(std::string_view s, std::string_view start) {
+-	return (s.size() >= start.size()) &&
+-	       (std::equal(s.begin(), s.begin() + start.size(), start.begin()));
+-}
+ 
+-bool EndsWith(std::wstring_view s, std::wstring_view end) {
++bool EndsWith(bpstd::string_view s, bpstd::string_view end) {
+ 	return (s.size() >= end.size()) &&
+ 	       (std::equal(s.begin() + s.size() - end.size(), s.end(), end.begin()));
+ }
+@@ -40,28 +36,30 @@
+ 	return s.find(ch) != std::string::npos;
+ }
+ 
+-int Substitute(std::wstring &s, std::wstring_view sFind, std::wstring_view sReplace) {
++
++int Substitute(std::string &s, bpstd::string_view sFind, bpstd::string_view sReplace) {
+ 	int c = 0;
+ 	const size_t lenFind = sFind.size();
+ 	const size_t lenReplace = sReplace.size();
+-	size_t posFound = s.find(sFind);
+-	while (posFound != std::wstring::npos) {
+-		s.replace(posFound, lenFind, sReplace);
+-		posFound = s.find(sFind, posFound + lenReplace);
+-		c++;
++    size_t posFound = s.find(std::string(sFind)); //Added
++    posFound = s.find(std::string(sFind), posFound + lenReplace);//Added
++    while (posFound != std::string::npos) {
++        s.replace(posFound, lenFind, std::string(sReplace));
++        posFound = s.find(std::string(sFind), posFound + lenReplace); //Added
++        ++c;
+ 	}
+ 	return c;
+ }
+ 
+-int Substitute(std::string &s, std::string_view sFind, std::string_view sReplace) {
++int Substitute(std::wstring &s, bpstd::wstring_view sFind, bpstd::wstring_view sReplace) {
+ 	int c = 0;
+ 	const size_t lenFind = sFind.size();
+ 	const size_t lenReplace = sReplace.size();
+-	size_t posFound = s.find(sFind);
+-	while (posFound != std::string::npos) {
+-		s.replace(posFound, lenFind, sReplace);
+-		posFound = s.find(sFind, posFound + lenReplace);
+-		c++;
++    size_t posFound = s.find(std::wstring(sFind));
++    while (posFound != std::wstring::npos) {
++        s.replace(posFound, lenFind, std::wstring(sReplace));
++        posFound = s.find(std::wstring(sFind), posFound + lenReplace);
++        ++c;
+ 	}
+ 	return c;
+ }
+@@ -149,7 +147,7 @@
+ 	return 0 == CompareNoCase(a, b);
+ }
+ 
+-bool EqualCaseInsensitive(std::string_view a, std::string_view b) noexcept {
++bool EqualCaseInsensitive(bpstd::string_view a, bpstd::string_view b) noexcept {
+ 	if (a.length() != b.length()) {
+ 		return false;
+ 	}
+@@ -174,7 +172,7 @@
+ 		return true;
+ }
+ 
+-std::u32string UTF32FromUTF8(std::string_view s) {
++std::u32string UTF32FromUTF8(bpstd::string_view s) {
+ 	std::u32string ret;
+ 	while (!s.empty()) {
+ 		const unsigned char uc = static_cast<unsigned char>(s.front());
+@@ -430,7 +428,7 @@
+ 	}
+ }
+ 
+-bool AllBytesHex(std::string_view hexBytes) noexcept {
++bool AllBytesHex(bpstd::string_view hexBytes) noexcept {
+ 	for (const char ch : hexBytes) {
+ 		if (!IsAHexDigit(ch)) {
+ 			return false;
+@@ -439,7 +437,7 @@
+ 	return true;
+ }
+ 
+-unsigned int IntFromHexBytes(std::string_view hexBytes) noexcept {
++unsigned int IntFromHexBytes(bpstd::string_view hexBytes) noexcept {
+ 	unsigned int val = 0;
+ 	while (!hexBytes.empty()) {
+ 		val = val * 16 + IntFromHexDigit(hexBytes[0]);
+@@ -448,7 +446,7 @@
+ 	return val;
+ }
+ 
+-std::string UnicodeUnEscape(std::string_view s) {
++std::string UnicodeUnEscape(bpstd::string_view s) {
+ 	// Leave invalid escapes as they are.
+ 	std::string result;
+ 	while (!s.empty()) {
+@@ -482,7 +480,7 @@
+ ComboMemory::ComboMemory(size_t sz_) : sz(sz_) {
+ }
+ 
+-void ComboMemory::Insert(std::string_view item) {
++void ComboMemory::Insert(bpstd::string_view item) {
+ 	std::vector<std::string>::iterator match = std::find(entries.begin(), entries.end(), item);
+ 	if (match != entries.end()) {
+ 		entries.erase(match);
+@@ -496,9 +494,9 @@
+ // Insert item at front of list, replacing the current front if one is a prefix
+ // of the other. This prevents typing or backspacing adding a large number of
+ // incomplete values.
+-void ComboMemory::InsertDeletePrefix(std::string_view item) {
++void ComboMemory::InsertDeletePrefix(bpstd::string_view item) {
+ 	if (!entries.empty()) {
+-		const std::string_view svFront = entries.front();
++		const bpstd::string_view svFront = entries.front();
+ 		if (StartsWith(item, svFront) || StartsWith(svFront, item)) {
+ 			entries.erase(entries.begin());
+ 		}
+@@ -506,7 +504,7 @@
+ 	Insert(item);
+ }
+ 
+-bool ComboMemory::Present(const std::string_view sv) const noexcept {
++bool ComboMemory::Present(const bpstd::string_view sv) const noexcept {
+ 	for (const std::string &e : entries) {
+ 		if (e == sv) {
+ 			return true;
+@@ -515,7 +513,7 @@
+ 	return false;
+ }
+ 
+-void ComboMemory::Append(std::string_view item) {
++void ComboMemory::Append(bpstd::string_view item) {
+ 	if (!Present(item) && entries.size() < sz) {
+ 		entries.push_back(std::string(item));
+ 	}
+diff -Nurw a/scite/src/StringHelpers.h b/scite/src/StringHelpers.h
+--- a/scite/src/StringHelpers.h	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/StringHelpers.h	2025-05-09 05:23:46.804861200 +0200
+@@ -8,14 +8,21 @@
+ #ifndef STRINGHELPERS_H
+ #define STRINGHELPERS_H
+ 
+-bool StartsWith(std::wstring_view s, std::wstring_view start);
+-bool StartsWith(std::string_view s, std::string_view start);
+-bool EndsWith(std::wstring_view s, std::wstring_view end);
++bool StartsWith(bpstd::string_view s, bpstd::string_view start);
++bool StartsWith(bpstd::string_view s, bpstd::string_view start);
++bool EndsWith(bpstd::string_view s, bpstd::string_view end);
++inline bool EndsWith(bpstd::wstring_view s, bpstd::wstring_view end) {
++    return (s.size() >= end.size()) &&
++           (std::equal(s.begin() + s.size() - end.size(), s.end(), end.begin()));
++}
+ bool Contains(std::string const &s, char ch) noexcept;
+ 
+ // Substitute is duplicated instead of templated as it was ambiguous when implemented as a template.
+-int Substitute(std::wstring &s, std::wstring_view sFind, std::wstring_view sReplace);
+-int Substitute(std::string &s, std::string_view sFind, std::string_view sReplace);
++int Substitute(std::wstring &s, bpstd::string_view sFind, bpstd::string_view sReplace);
++int Substitute(std::wstring &s, bpstd::wstring_view sFind, bpstd::wstring_view sReplace);
++int Substitute(std::string &s, bpstd::string_view sFind, bpstd::string_view sReplace);
++;
++
+ 
+ template <typename T>
+ int Remove(T &s, const T &sFind) {
+@@ -36,21 +43,15 @@
+ // Does not handle non-ASCII characters.
+ void LowerCaseAZ(std::string &s);
+ 
+-constexpr char MakeUpperCase(char ch) noexcept {
+-	if (ch < 'a' || ch > 'z')
+-		return ch;
+-	else
+-		return ch - 'a' + 'A';
++constexpr char MakeUpperCase(char c) {
++    return (c >= 'a' && c <= 'z') ? (c - 'a' + 'A') : c;
+ }
+ 
+ constexpr char MakeLowerCase(char c) noexcept {
+-	if (c >= 'A' && c <= 'Z') {
+-		return c - 'A' + 'a';
+-	} else {
+-		return c;
+-	}
++    return (c >= 'A' && c <= 'Z') ? (c - 'A' + 'a') : c;
+ }
+ 
++
+ constexpr bool IsASCII(int ch) noexcept {
+ 	return (ch >= 0) && (ch < 0x80);
+ }
+@@ -101,14 +102,14 @@
+ 	return StringSplit(args, '\n');
+ }
+ 
+-typedef std::tuple<std::string_view, std::string_view> ViewPair;
++typedef std::tuple<bpstd::string_view, bpstd::string_view> ViewPair;
+ 
+ // Split view around first separator returning the portion before and after the separator.
+ // If the separator is not present then return whole view and an empty view.
+-inline ViewPair ViewSplit(std::string_view view, char separator) noexcept {
++inline ViewPair ViewSplit(bpstd::string_view view, char separator) noexcept {
+ 	const size_t sepPos = view.find_first_of(separator);
+-	std::string_view first = view.substr(0, sepPos);
+-	std::string_view second = sepPos == (std::string_view::npos) ? "" : view.substr(sepPos + 1);
++	bpstd::string_view first = view.substr(0, sepPos);
++	bpstd::string_view second = sepPos == (bpstd::string_view::npos) ? "" : view.substr(sepPos + 1);
+ 	return { first, second };
+ }
+ 
+@@ -128,12 +129,12 @@
+ 
+ int CompareNoCase(const char *a, const char *b) noexcept;
+ bool EqualCaseInsensitive(const char *a, const char *b) noexcept;
+-bool EqualCaseInsensitive(std::string_view a, std::string_view b) noexcept;
++bool EqualCaseInsensitive(bpstd::string_view a, bpstd::string_view b) noexcept;
+ bool isprefix(const char *target, const char *prefix) noexcept;
+ 
+ constexpr const char *UTF8BOM = "\xef\xbb\xbf";
+ 
+-std::u32string UTF32FromUTF8(std::string_view s);
++std::u32string UTF32FromUTF8(bpstd::string_view s);
+ unsigned int UTF32Character(const char *utf8) noexcept;
+ std::string UTF8FromUTF32(unsigned int uch);
+ 
+@@ -143,13 +144,13 @@
+ std::string UnSlashLowOctalString(const char *s);
+ 
+ unsigned int IntFromHexDigit(int ch) noexcept;
+-bool AllBytesHex(std::string_view hexBytes) noexcept;
+-unsigned int IntFromHexBytes(std::string_view hexBytes) noexcept;
+-std::string UnicodeUnEscape(std::string_view s);
++bool AllBytesHex(bpstd::string_view hexBytes) noexcept;
++unsigned int IntFromHexBytes(bpstd::string_view hexBytes) noexcept;
++std::string UnicodeUnEscape(bpstd::string_view s);
+ 
+ class ILocalize {
+ public:
+-	virtual GUI::gui_string Text(std::string_view sv, bool retainIfNotFound=true) const = 0;
++	virtual GUI::gui_string Text(bpstd::string_view sv, bool retainIfNotFound=true) const = 0;
+ };
+ 
+ /**
+@@ -162,12 +163,12 @@
+ class ComboMemory {
+ 	size_t sz;
+ 	std::vector<std::string> entries;
+-	bool Present(const std::string_view sv) const noexcept;
++	bool Present(const bpstd::string_view sv) const noexcept;
+ public:
+ 	ComboMemory(size_t sz_=comboMemorySize);
+-	void Insert(std::string_view item);
+-	void InsertDeletePrefix(std::string_view item);
+-	void Append(std::string_view item);
++	void Insert(bpstd::string_view item);
++	void InsertDeletePrefix(bpstd::string_view item);
++	void Append(bpstd::string_view item);
+ 	size_t Length() const noexcept;
+ 	std::string At(size_t n) const;
+ 	std::vector<std::string> AsVector() const;
+diff -Nurw a/scite/src/StringList.cxx b/scite/src/StringList.cxx
+--- a/scite/src/StringList.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/StringList.cxx	2025-05-09 05:23:46.923821900 +0200
+@@ -11,7 +11,7 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+@@ -265,7 +265,8 @@
+ }
+ 
+ bool AutoCompleteWordList::Add(const std::string& word) {
+-	const auto [_, ok] = words.insert(word);
++	auto result = words.insert(word); //Added
++	bool ok = result.second;//Added
+ 	if (ok) {
+ 		const size_t length = word.length();
+ 		totalLength += 1 + length;
+diff -Nurw a/scite/src/StyleDefinition.cxx b/scite/src/StyleDefinition.cxx
+--- a/scite/src/StyleDefinition.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/StyleDefinition.cxx	2025-05-09 05:23:47.036388200 +0200
+@@ -12,7 +12,7 @@
+ #include <stdexcept>
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <algorithm>
+ #include <chrono>
+@@ -25,7 +25,7 @@
+ 
+ namespace SA = Scintilla;
+ 
+-StyleDefinition::StyleDefinition(std::string_view definition) :
++StyleDefinition::StyleDefinition(bpstd::string_view definition) :
+ 	sizeFractional(10.0), size(10), fore("#000000"), back("#FFFFFF"),
+ 	weight(SA::FontWeight::Normal), italics(false), eolfilled(false), underlined(false),
+ 	caseForce(SA::CaseVisible::Mixed),
+@@ -34,17 +34,19 @@
+ 	ParseStyleDefinition(definition);
+ }
+ 
+-bool StyleDefinition::ParseStyleDefinition(std::string_view definition) {
++bool StyleDefinition::ParseStyleDefinition(bpstd::string_view definition) {
+ 	if (definition.empty()) {
+ 		return false;
+ 	}
+ 	while (!definition.empty()) {
+ 		// Find attribute separator ',' and select front attribute
+ 		const ViewPair optionRest = ViewSplit(definition, ',');
+-		const std::string_view option = std::get<0>(optionRest);
++		const bpstd::string_view option = std::get<0>(optionRest);
+ 		definition = std::get<1>(optionRest);
+ 		// Find value separator ':' and break into name and value
+-		const auto [optionName, optionValue] = ViewSplit(option, ':');
++		auto splitResult = ViewSplit(option, ':'); //Added
++		const auto optionName = std::get<0>(splitResult);//Added
++		const auto optionValue = std::get<1>(splitResult);//Added
+ 
+ 		if (optionName == "italics") {
+ 			specified = static_cast<flags>(specified | sdItalics);
+@@ -72,16 +74,16 @@
+ 		}
+ 		if ((optionName == "font") && !optionValue.empty()) {
+ 			specified = static_cast<flags>(specified | sdFont);
+-			font = optionValue;
++			font = std::string(optionValue);//Added
+ 			std::replace(font.begin(), font.end(), '|', ',');
+ 		}
+ 		if ((optionName == "fore") && !optionValue.empty()) {
+ 			specified = static_cast<flags>(specified | sdFore);
+-			fore = optionValue;
++			fore = std::string(optionValue);//Added
+ 		}
+ 		if ((optionName == "back") && !optionValue.empty()) {
+ 			specified = static_cast<flags>(specified | sdBack);
+-			back = optionValue;
++			back = std::string(optionValue); //Added
+ 		}
+ 		if ((optionName == "size") && !optionValue.empty()) {
+ 			specified = static_cast<flags>(specified | sdSize);
+@@ -152,7 +154,7 @@
+ 	return weight > SA::FontWeight::Normal;
+ }
+ 
+-int IntFromHexByte(std::string_view hexByte) noexcept {
++int IntFromHexByte(bpstd::string_view hexByte) noexcept {
+ 	return IntFromHexDigit(hexByte[0]) * 16 + IntFromHexDigit(hexByte[1]);
+ }
+ 
+@@ -167,7 +169,7 @@
+ 	}
+ }
+ 
+-SA::ColourAlpha ColourAlphaFromString(std::string_view s) {
++SA::ColourAlpha ColourAlphaFromString(bpstd::string_view s) {
+ 	if (s.length() >= 7) {
+ 		const int r = IntFromHexByte(&s[1]);
+ 		const int g = IntFromHexByte(&s[3]);
+@@ -179,17 +181,17 @@
+ 	}
+ }
+ 
+-IndicatorDefinition::IndicatorDefinition(std::string_view definition) :
++IndicatorDefinition::IndicatorDefinition(bpstd::string_view definition) :
+ 	style(SA::IndicatorStyle::Plain), colour(0), fillAlpha(static_cast<SA::Alpha>(30)), outlineAlpha(static_cast<SA::Alpha>(50)), under(false) {
+ 	ParseIndicatorDefinition(definition);
+ }
+ 
+-bool IndicatorDefinition::ParseIndicatorDefinition(std::string_view definition) {
++bool IndicatorDefinition::ParseIndicatorDefinition(bpstd::string_view definition) {
+ 	if (definition.empty()) {
+ 		return false;
+ 	}
+ 	struct NameValue {
+-		std::string_view name;
++		bpstd::string_view name;
+ 		SA::IndicatorStyle value;
+ 	};
+ 	const NameValue indicStyleNames[] = {
+@@ -219,14 +221,16 @@
+ 
+ 	std::string val(definition);
+ 	LowerCaseAZ(val);
+-	std::string_view indicatorDefinition = val;
++	bpstd::string_view indicatorDefinition = val;
+ 	while (!indicatorDefinition.empty()) {
+ 		// Find attribute separator ',' and select front attribute
+ 		const ViewPair optionRest = ViewSplit(indicatorDefinition, ',');
+-		const std::string_view option = std::get<0>(optionRest);
++		const bpstd::string_view option = std::get<0>(optionRest);
+ 		indicatorDefinition = std::get<1>(optionRest);
+ 		// Find value separator ':' and break into name and value
+-		const auto [optionName, optionValue] = ViewSplit(option, ':');
++		auto splitResult = ViewSplit(option, ':'); //Added
++		const auto optionName = std::get<0>(splitResult);//Added
++		const auto optionValue = std::get<1>(splitResult);//Added
+ 
+ 		try {
+ 			if (!optionValue.empty() && (optionName == "style")) {
+diff -Nurw a/scite/src/StyleDefinition.h b/scite/src/StyleDefinition.h
+--- a/scite/src/StyleDefinition.h	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/StyleDefinition.h	2025-05-09 05:23:47.165389900 +0200
+@@ -26,8 +26,8 @@
+ 		     sdWeight = 0x10, sdItalics = 0x20, sdEOLFilled = 0x40, sdUnderlined = 0x80,
+ 		     sdCaseForce = 0x100, sdVisible = 0x200, sdChangeable = 0x400
+ 		   } specified;
+-	explicit StyleDefinition(std::string_view definition);
+-	bool ParseStyleDefinition(std::string_view definition);
++	explicit StyleDefinition(bpstd::string_view definition);
++	bool ParseStyleDefinition(bpstd::string_view definition);
+ 	Scintilla::Colour Fore() const;
+ 	Scintilla::Colour Back() const;
+ 	int FractionalSize() const noexcept;
+@@ -42,10 +42,10 @@
+ 	return red | (green << 8) | (blue << 16) | (alpha << 24);
+ }
+ 
+-int IntFromHexByte(std::string_view hexByte) noexcept;
++int IntFromHexByte(bpstd::string_view hexByte) noexcept;
+ 
+ Scintilla::Colour ColourFromString(const std::string &s);
+-Scintilla::ColourAlpha ColourAlphaFromString(std::string_view s);
++Scintilla::ColourAlpha ColourAlphaFromString(bpstd::string_view s);
+ 
+ struct IndicatorDefinition {
+ 	Scintilla::IndicatorStyle style;
+@@ -53,8 +53,8 @@
+ 	Scintilla::Alpha fillAlpha;
+ 	Scintilla::Alpha outlineAlpha;
+ 	bool under;
+-	explicit IndicatorDefinition(std::string_view definition);
+-	bool ParseIndicatorDefinition(std::string_view definition);
++	explicit IndicatorDefinition(bpstd::string_view definition);
++	bool ParseIndicatorDefinition(bpstd::string_view definition);
+ };
+ 
+ #endif
+diff -Nurw a/scite/src/StyleWriter.cxx b/scite/src/StyleWriter.cxx
+--- a/scite/src/StyleWriter.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/StyleWriter.cxx	2025-05-09 05:23:47.265857200 +0200
+@@ -8,7 +8,7 @@
+ #include <cstdint>
+ 
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <chrono>
+ 
+ #include "ScintillaTypes.h"
+diff -Nurw a/scite/src/Utf8_16.cxx b/scite/src/Utf8_16.cxx
+--- a/scite/src/Utf8_16.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/src/Utf8_16.cxx	2025-05-09 05:23:47.385600700 +0200
+@@ -13,7 +13,7 @@
+ #include <cstring>
+ #include <cstdio>
+ 
+-#include <memory>
++#include "memory.hpp"
+ 
+ #include "Utf8_16.h"
+ 
+@@ -211,7 +211,7 @@
+ 
+ 	if (_size > m_nBufSize) {
+ 		m_nBufSize = _size;
+-		m_buf16 = std::make_unique<utf16[]>(m_nBufSize + 1);
++		m_buf16 = bpstd::make_unique<utf16[]>(m_nBufSize + 1);
+ 	}
+ 
+ 	if (m_bFirstWrite) {

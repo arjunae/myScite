@@ -1,0 +1,111 @@
+diff -Nurw a/scite/gtk/DirectorExtension.cxx b/scite/gtk/DirectorExtension.cxx
+--- a/scite/gtk/DirectorExtension.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/gtk/DirectorExtension.cxx	2025-05-09 05:24:04.502786000 +0200
+@@ -41,12 +41,12 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+-#include <optional>
+-#include <memory>
++#include "optional.hpp"
++#include "memory.hpp"
+ #include <chrono>
+ #include <atomic>
+ #include <mutex>
+diff -Nurw a/scite/gtk/GUIGTK.cxx b/scite/gtk/GUIGTK.cxx
+--- a/scite/gtk/GUIGTK.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/gtk/GUIGTK.cxx	2025-05-09 05:24:04.615746200 +0200
+@@ -54,7 +54,7 @@
+ 	return gui_string();
+ }
+ 
+-std::string LowerCaseUTF8(std::string_view sv) {
++std::string LowerCaseUTF8(bpstd::string_view sv) {
+ 	gchar *lower = g_utf8_strdown(sv.data(), sv.length());
+ 	const std::string sLower(lower);
+ 	g_free(lower);
+diff -Nurw a/scite/gtk/SciTEGTK.cxx b/scite/gtk/SciTEGTK.cxx
+--- a/scite/gtk/SciTEGTK.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/gtk/SciTEGTK.cxx	2025-05-09 05:24:04.795787000 +0200
+@@ -14,14 +14,14 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+-#include <optional>
++#include "optional.hpp"
+ #include <initializer_list>
+ #include <algorithm>
+-#include <memory>
++#include "memory.hpp"
+ #include <chrono>
+ #include <atomic>
+ #include <mutex>
+@@ -3398,7 +3398,7 @@
+ 				fprintf(stderr, "*** failed to find parent %s\n", psife->path);
+ 			}
+ 		}
+-		const std::string_view itemType = psife->item_type;
++		const bpstd::string_view itemType = psife->item_type;
+ 		if (itemType == "<Branch>") {
+ 			// Submenu "/_Tools" "/File/Encodin_g"
+ 			const char *menuTitle = lastSlash ? (lastSlash + 1) : afterSlash;
+diff -Nurw a/scite/gtk/Strips.cxx b/scite/gtk/Strips.cxx
+--- a/scite/gtk/Strips.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/gtk/Strips.cxx	2025-05-09 05:24:04.890746500 +0200
+@@ -8,13 +8,13 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+-#include <optional>
++#include "optional.hpp"
+ #include <initializer_list>
+-#include <memory>
++#include "memory.hpp"
+ #include <chrono>
+ 
+ #include <unistd.h>
+@@ -342,7 +342,7 @@
+ void FindReplaceStrip::CreateChecks(std::initializer_list<int> checks) {
+ 	size_t i = 0;
+ 	for (const int check : checks) {
+-		wCheck.push_back(std::make_unique<WCheckDraw>());
++		wCheck.push_back(bpstd::make_unique<WCheckDraw>());
+ 		const int optionCommand = toggles[check].cmd;
+ 		wCheck[i]->Create(optionCommand, xpmImages[check], localiser->Text(toggles[check].label));
+ 		wCheck[i]->SetActive(pSearcher->FlagFromCmd(optionCommand));
+@@ -1009,7 +1009,7 @@
+ 			}
+ 		}
+ 	}
+-	psd = std::make_unique<StripDefinition>(description);
++	psd = bpstd::make_unique<StripDefinition>(description);
+ 	tableUser.Resize(psd->controls.size(), psd->columns);
+ 
+ 	bool hasSetFocus = false;
+diff -Nurw a/scite/gtk/Widget.cxx b/scite/gtk/Widget.cxx
+--- a/scite/gtk/Widget.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/gtk/Widget.cxx	2025-05-09 05:24:04.987747800 +0200
+@@ -8,7 +8,7 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <chrono>
+ 

@@ -1,0 +1,64 @@
+--- a/ScintillaCall.cxx	2021-11-08 04:31:28.000000000 +0100
++++ b/ScintillaCall.cxx	2025-05-09 16:33:34.238946200 +0200
+@@ -11,7 +11,7 @@
+ #include <cstdint>
+ 
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ 
+ #include "ScintillaTypes.h"
+ #include "ScintillaMessages.h"
+@@ -52,13 +52,13 @@
+ 
+ std::string ScintillaCall::CallReturnString(Message msg, uintptr_t wParam) {
+ 	size_t len = CallPointer(msg, wParam, nullptr);
+-	if (len) {
+-		std::string value(len, '\0');
+-		CallPointer(msg, wParam, value.data());
+-		return value;
+-	} else {
++
++    if (len == 0) {
+ 		return std::string();
+ 	}
++    std::string result(len, '\0');
++    CallPointer(msg, wParam, &result[0]);
++    return result;
+ }
+ 
+ // Common APIs made more structured and type-safe
+@@ -104,26 +104,27 @@
+ 	if (span.Length() == 0) {
+ 		return std::string();
+ 	} else {
+-		std::string text(span.Length(), '\0');
++
+ 		SetTarget(span);
+-		TargetText(text.data());
++		std::string text(span.Length(), '\0');
++		TargetText(&text[0]);
+ 		return text;
+ 	}
+ }
+ 
+-Position ScintillaCall::ReplaceTarget(std::string_view text) {
++Position ScintillaCall::ReplaceTarget(bpstd::string_view text) {
+ 	return ScintillaCall::CallString(Message::ReplaceTarget, text.length(), text.data());
+ }
+ 
+-Position ScintillaCall::ReplaceTargetRE(std::string_view text) {
++Position ScintillaCall::ReplaceTargetRE(bpstd::string_view text) {
+ 	return CallString(Message::ReplaceTargetRE, text.length(), text.data());
+ }
+ 
+-Position ScintillaCall::SearchInTarget(std::string_view text) {
++Position ScintillaCall::SearchInTarget(bpstd::string_view text) {
+ 	return CallString(Message::SearchInTarget, text.length(), text.data());
+ }
+ 
+-Span ScintillaCall::SpanSearchInTarget(std::string_view text) {
++Span ScintillaCall::SpanSearchInTarget(bpstd::string_view text) {
+ 	const Position posFound = SearchInTarget(text);
+ 	if (posFound >= 0)
+ 		return Span(posFound, TargetEnd());

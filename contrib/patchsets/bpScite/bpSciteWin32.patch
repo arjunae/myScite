@@ -1,0 +1,506 @@
+diff -Nurw a/scite/win32/DLLFunction.h b/scite/win32/DLLFunction.h
+--- a/scite/win32/DLLFunction.h	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/win32/DLLFunction.h	2025-05-09 05:23:55.579372800 +0200
+@@ -16,7 +16,8 @@
+ 		return nullptr;
+ 	}
+ 	FARPROC function = ::GetProcAddress(hModule, lpProcName);
+-	static_assert(sizeof(T) == sizeof(function));
++	static_assert(sizeof(T) == sizeof(function), "Size of T does not match size of function");
++
+ 	T fp;
+ 	memcpy(&fp, &function, sizeof(T));
+ 	return fp;
+diff -Nurw a/scite/win32/DirectorExtension.cxx b/scite/win32/DirectorExtension.cxx
+--- a/scite/win32/DirectorExtension.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/win32/DirectorExtension.cxx	2025-05-09 05:23:55.780420900 +0200
+@@ -11,12 +11,12 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <map>
+ #include <set>
+-#include <optional>
+-#include <memory>
++#include "optional.hpp"
++#include "memory.hpp"
+ #include <chrono>
+ #include <atomic>
+ #include <mutex>
+diff -Nurw a/scite/win32/GUIWin.cxx b/scite/win32/GUIWin.cxx
+--- a/scite/win32/GUIWin.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/win32/GUIWin.cxx	2025-05-09 05:23:55.883021100 +0200
+@@ -11,6 +11,7 @@
+ #include <ctime>
+ 
+ #include <string>
++#include "string_view.hpp"
+ #include <vector>
+ #include <chrono>
+ #include <sstream>
+@@ -142,9 +143,11 @@
+ 	}
+ 	const size_t sLen = strlen(s);
+ 	const size_t wideLen = UTF16Length(s, sLen);
+-	gui_string us(wideLen, 0);
++	std::vector<wchar_t> us(wideLen, 0);  
+ 	UTF16FromUTF8(s, sLen, us.data(), wideLen);
+-	return us;
++
++	// Convert std::vector<wchar_t> to std::wstring (or GUI::gui_string)
++	return std::wstring(us.begin(), us.end()); 
+ }
+ 
+ gui_string StringFromUTF8(const std::string &s) {
+@@ -153,9 +156,9 @@
+ 	}
+ 	const size_t sLen = s.length();
+ 	const size_t wideLen = UTF16Length(s.c_str(), sLen);
+-	gui_string us(wideLen, 0);
++	std::vector<wchar_t> us(wideLen, 0);  
+ 	UTF16FromUTF8(s.c_str(), sLen, us.data(), wideLen);
+-	return us;
++	return std::wstring(us.begin(), us.end()); 
+ }
+ 
+ std::string UTF8FromString(const gui_string &s) {
+@@ -165,7 +168,7 @@
+ 	const size_t sLen = s.size();
+ 	const size_t narrowLen = UTF8Length(s.c_str(), sLen);
+ 	std::string us(narrowLen, 0);
+-	UTF8FromUTF16(s.c_str(), sLen, us.data());
++    UTF8FromUTF16(s.c_str(), sLen, &us[0]);
+ 	return us;
+ }
+ 
+@@ -190,15 +193,34 @@
+ 	return gui_string(gnumber);
+ }
+ 
+-std::string LowerCaseUTF8(std::string_view sv) {
++std::string LowerCaseUTF8(bpstd::string_view sv) { 
+ 	if (sv.empty()) {
+-		return std::string();
++        return {};
+ 	}
+-	const std::string s(sv);
+-	const gui_string gs = StringFromUTF8(s);
+-	const int chars = ::LCMapString(LOCALE_SYSTEM_DEFAULT, LCMAP_LOWERCASE, gs.c_str(), static_cast<int>(gs.size()), nullptr, 0);
++
++    // don’t make the gui_string const
++    gui_string gs = StringFromUTF8(std::string(sv));
++    // figure out how many wide-chars we need
++    int chars = ::LCMapStringW(
++        LOCALE_SYSTEM_DEFAULT,
++        LCMAP_LOWERCASE,
++        gs.data(),                    // <-- non-const wchar_t*
++        static_cast<int>(gs.size()),
++        nullptr,
++        0
++    );
++
++    // allocate and then map into it
+ 	gui_string lc(chars, L'\0');
+-	::LCMapString(LOCALE_SYSTEM_DEFAULT, LCMAP_LOWERCASE, gs.c_str(), static_cast<int>(gs.size()), lc.data(), chars);
++    ::LCMapStringW(
++        LOCALE_SYSTEM_DEFAULT,
++        LCMAP_LOWERCASE,
++        gs.data(),                    // <-- non-const wchar_t*
++        static_cast<int>(gs.size()),
++        &lc[0],                       // std::basic_string allows &lc[0]
++        chars
++    );
++
+ 	return UTF8FromString(lc);
+ }
+ 
+diff -Nurw a/scite/win32/SciTEWin.cxx b/scite/win32/SciTEWin.cxx
+--- a/scite/win32/SciTEWin.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/win32/SciTEWin.cxx	2025-05-09 11:35:47.396865200 +0200
+@@ -6,10 +6,12 @@
+ // The License.txt file describes the conditions under which this software may be distributed.
+ 
+ #include <ctime>
+-
++#include "string_view.hpp"
++#include "optional.hpp"
+ #include "SciTEWin.h"
+ #include "DLLFunction.h"
+ 
++
+ #ifndef WM_DPICHANGED
+ #define WM_DPICHANGED 0x02E0
+ #endif
+@@ -535,8 +537,9 @@
+ 		return FilePath(home);
+ 	} else {
+ 		GUI::gui_char path[MAX_PATH];
+-		if (::GetModuleFileNameW(0, path, static_cast<DWORD>(std::size(path))) == 0)
++		if (::GetModuleFileNameW(0, path, static_cast<DWORD>(sizeof(path) / sizeof(path[0]))) == 0) {
+ 			return FilePath();
++		}
+ 		// Remove the SciTE.exe
+ 		GUI::gui_char *lastSlash = wcsrchr(path, pathSepChar);
+ 		if (lastSlash)
+@@ -1647,7 +1650,7 @@
+ 		for (int i = 0; i < filesDropped; ++i) {
+ 			GUI::gui_char pathDropped[MAX_PATH];
+ 			::DragQueryFileW(hdrop, i, pathDropped,
+-					 static_cast<UINT>(std::size(pathDropped)));
++			static_cast<UINT>(sizeof(pathDropped)));
+ 			// Only do this for the first file in the drop op
+ 			// as all are coming from the same drag location
+ 			if (i == 0 && tempFilesSyncLoad) {
+@@ -1814,7 +1817,7 @@
+ 
+ void SciTEWin::SettingChanged(WPARAM wParam, LPARAM lParam) {
+ 	if (lParam) {
+-		const GUI::gui_string_view sv(reinterpret_cast<const wchar_t *>(lParam));
++		const bpstd::wstring_view sv(reinterpret_cast<const wchar_t *>(lParam));
+ 		if (sv == L"ImmersiveColorSet") {
+ 			CheckAppearanceChanged();
+ 		}
+@@ -1974,7 +1977,8 @@
+ 		if (statusFailure == SA::Status::BadAlloc) {
+ 			wcscpy(buff, L"Memory exhausted.");
+ 		} else {
+-			swprintf(buff, std::size(buff), L"Scintilla failed with status %d.", static_cast<int>(statusFailure));
++			size_t sizeBuff = sizeof(buff);
++			swprintf(buff, sizeBuff, L"Scintilla failed with status %d.", static_cast<int>(statusFailure));
+ 		}
+ 		wcscat(buff, L" SciTE will now close.");
+ 		::MessageBox(MainHWND(), buff, TEXT("Failure in Scintilla"), MB_OK | MB_ICONERROR | MB_APPLMODAL);
+@@ -2063,7 +2067,6 @@
+ 				default:
+ 					return ::DefWindowProcW(MainHWND(), iMessage, wParam, lParam);
+ 			}
+-			return TRUE;
+ 
+ 		case WM_SIZE:
+ 			if (wParam != SIZE_MINIMIZED)
+diff -Nurw a/scite/win32/SciTEWin.h b/scite/win32/SciTEWin.h
+--- a/scite/win32/SciTEWin.h	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/win32/SciTEWin.h	2025-05-09 05:23:56.176020200 +0200
+@@ -17,12 +17,11 @@
+ 
+ #include <tuple>
+ #include <string>
+-#include <string_view>
+ #include <vector>
+ #include <deque>
+ #include <map>
+ #include <set>
+-#include <optional>
++
+ #include <initializer_list>
+ #include <algorithm>
+ #include <iterator>
+@@ -72,7 +71,6 @@
+ 
+ #include "ILoader.h"
+ #include "ILexer.h"
+-
+ #include "ScintillaTypes.h"
+ #include "ScintillaMessages.h"
+ #include "ScintillaCall.h"
+diff -Nurw a/scite/win32/SciTEWinBar.cxx b/scite/win32/SciTEWinBar.cxx
+--- a/scite/win32/SciTEWinBar.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/win32/SciTEWinBar.cxx	2025-05-09 05:23:56.306081700 +0200
+@@ -4,7 +4,8 @@
+  **/
+ // Copyright 1998-2003 by Neil Hodgson <neilh@scintilla.org>
+ // The License.txt file describes the conditions under which this software may be distributed.
+-
++#include "string_view.hpp"
++#include "optional.hpp"
+ #include "SciTEWin.h"
+ 
+ /**
+@@ -78,9 +79,12 @@
+ 	// Synchronize the tab control titles with those passed in.
+ 
+ 	// Find the first element that differs between the two vectors.
+-	const auto [misNames, misNamesCurrent] = std::mismatch(
++	auto misNames = std::get<0>(std::mismatch(
++   	tabNames.begin(), tabNames.end(),
++   	tabNamesCurrent.begin(), tabNamesCurrent.end()));
++	auto misNamesCurrent = std::get<1>(std::mismatch(
+ 		tabNames.begin(), tabNames.end(),
+-		tabNamesCurrent.begin(), tabNamesCurrent.end());
++    	tabNamesCurrent.begin(), tabNamesCurrent.end()));
+ 	size_t tabChange = std::distance(tabNames.begin(), misNames);
+ 
+ 	if (tabNames.size() == tabNamesCurrent.size() && tabNames.size() == tabChange) {
+@@ -102,7 +106,9 @@
+ 		TCITEMW tie {};
+ 		tie.mask = TCIF_TEXT | TCIF_IMAGE;
+ 		tie.iImage = -1;
+-		tie.pszText = tabNameNext.data();
++		std::vector<wchar_t> mutableText(tabNameNext.begin(), tabNameNext.end());
++		mutableText.push_back(L'\0'); // Ensure null-termination
++		tie.pszText = mutableText.data();
+ 		TabCtrl_InsertItem(HwndOf(wTabBar), tabChange, &tie);
+ 		tabNamesCurrent.insert(tabNamesCurrent.begin() + tabChange, tabNameNext);
+ 		tabChange++;
+@@ -116,7 +122,9 @@
+ 			TCITEMW tie {};
+ 			tie.mask = TCIF_TEXT | TCIF_IMAGE;
+ 			tie.iImage = -1;
+-			tie.pszText = tabNameCopy.data();
++			std::vector<wchar_t> mutableText(tabNameCopy.begin(), tabNameCopy.end());
++			mutableText.push_back(L'\0'); // Ensure null-terminated
++			tie.pszText = mutableText.data();
+ 			TabCtrl_SetItem(HwndOf(wTabBar), tabChange, &tie);
+ 			tabNamesCurrent.at(tabChange) = tabNameCopy;
+ 		}
+@@ -131,7 +139,7 @@
+ 	tie.mask = TCIF_TEXT | TCIF_IMAGE;
+ 	tie.iImage = -1;
+ 	GUI::gui_string titleCopy(title);
+-	tie.pszText = titleCopy.data();
++	tie.pszText = const_cast<wchar_t*>(titleCopy.data());
+ 	TabCtrl_InsertItem(HwndOf(wTabBar), index, &tie);
+ }
+ 
+@@ -945,8 +953,9 @@
+ 
+ 	::SendMessage(hwndToolBar, TB_ADDBITMAP, 1, reinterpret_cast<LPARAM>(&addbmp));
+ 
+-	TBBUTTON tbb[std::size(bbs)] = {};
+-	for (unsigned int i = 0; i < std::size(bbs); i++) {
++	const size_t bbsSize = sizeof(bbs) / sizeof(bbs[0]);
++	TBBUTTON tbb[bbsSize] = {};
++	for (unsigned int i = 0; i < bbsSize; i++) {
+ 		if (bbs[i].cmd == IDM_CLOSE)
+ 			tbb[i].iBitmap = STD_PRINT + 1;
+ 		else
+@@ -961,7 +970,7 @@
+ 		tbb[i].iString = 0;
+ 	}
+ 
+-	::SendMessage(hwndToolBar, TB_ADDBUTTONS, std::size(bbs), reinterpret_cast<LPARAM>(tbb));
++	::SendMessage(hwndToolBar, TB_ADDBUTTONS, bbsSize, reinterpret_cast<LPARAM>(tbb));
+ 
+ 	wToolBar.Show();
+ 
+diff -Nurw a/scite/win32/SciTEWinDlg.cxx b/scite/win32/SciTEWinDlg.cxx
+--- a/scite/win32/SciTEWinDlg.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/win32/SciTEWinDlg.cxx	2025-05-09 11:16:40.340125400 +0200
+@@ -4,7 +4,8 @@
+  **/
+ // Copyright 1998-2003 by Neil Hodgson <neilh@scintilla.org>
+ // The License.txt file describes the conditions under which this software may be distributed.
+-
++#include "string_view.hpp"
++#include "optional.hpp"
+ #include "SciTEWin.h"
+ 
+ /**
+@@ -309,7 +310,8 @@
+ 		ofn.hwndOwner = MainHWND();
+ 		ofn.hInstance = hInstance;
+ 		ofn.lpstrFile = saveName;
+-		ofn.nMaxFile = static_cast<DWORD>(std::size(saveName));
++		const size_t sizesaveName = sizeof(saveName) / sizeof(saveName);
++		ofn.nMaxFile = static_cast<DWORD>(sizeof(sizesaveName) / sizeof(sizesaveName));
+ 		GUI::gui_string translatedTitle = localiser.Text(title);
+ 		ofn.lpstrTitle = translatedTitle.c_str();
+ 		ofn.Flags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR;
+@@ -391,7 +393,8 @@
+ 	ofn.hwndOwner = MainHWND();
+ 	ofn.hInstance = hInstance;
+ 	ofn.lpstrFile = openName;
+-	ofn.nMaxFile = static_cast<DWORD>(std::size(openName));
++	const size_t sizeopenName = sizeof(openName) / sizeof(openName);
++	ofn.nMaxFile = static_cast<DWORD>(sizeopenName);
+ 	ofn.lpstrFilter = GUI_TEXT("Session (.session)\0*.session\0");
+ 	GUI::gui_string translatedTitle = localiser.Text("Load Session");
+ 	ofn.lpstrTitle = translatedTitle.c_str();
+@@ -413,7 +416,8 @@
+ 	ofn.hInstance = hInstance;
+ 	ofn.lpstrDefExt = GUI_TEXT("session");
+ 	ofn.lpstrFile = saveName;
+-	ofn.nMaxFile = static_cast<DWORD>(std::size(saveName));
++	const size_t sizesaveName = sizeof(saveName);
++	ofn.nMaxFile = static_cast<DWORD>(sizesaveName);
+ 	GUI::gui_string translatedTitle = localiser.Text("Save Current Session");
+ 	ofn.lpstrTitle = translatedTitle.c_str();
+ 	ofn.Flags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR;
+@@ -808,12 +812,12 @@
+ 		SetItemText(id, GUI::StringFromUTF8(s));
+ 	}
+ 
+-	std::optional<intptr_t> ItemInteger(int id) {
++	bpstd::optional<intptr_t> ItemInteger(int id) {
+ 		const std::string sValue = ItemTextU(id);
+ 		try {
+ 			return static_cast<intptr_t>(std::stoll(sValue));
+ 		} catch (...) {
+-			return std::nullopt;
++			return bpstd::nullopt;
+ 		}
+ 	}
+ 
+@@ -1459,8 +1463,8 @@
+ 			::EndDialog(hDlg, IDCANCEL);
+ 			return FALSE;
+ 		} else if (ControlIDOfWParam(wParam) == IDOK) {
+-			const std::optional<intptr_t> lineNumberOpt = dlg.ItemInteger(IDGOLINE);
+-			const std::optional<intptr_t> characterOnLineOpt = dlg.ItemInteger(IDGOLINECHAR);
++			const bpstd::optional<intptr_t> lineNumberOpt = dlg.ItemInteger(IDGOLINE);
++			const bpstd::optional<intptr_t> characterOnLineOpt = dlg.ItemInteger(IDGOLINECHAR);
+ 
+ 			if (lineNumberOpt || characterOnLineOpt) {
+ 				const intptr_t lineNumber = lineNumberOpt.value_or(
+diff -Nurw a/scite/win32/Strips.cxx b/scite/win32/Strips.cxx
+--- a/scite/win32/Strips.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/win32/Strips.cxx	2025-05-09 05:23:57.305126000 +0200
+@@ -4,7 +4,9 @@
+  **/
+ // Copyright 2013 by Neil Hodgson <neilh@scintilla.org>
+ // The License.txt file describes the conditions under which this software may be distributed.
+-
++#include "memory.hpp"
++#include "string_view.hpp"
++#include "optional.hpp"
+ #include "SciTEWin.h"
+ #include "DLLFunction.h"
+ 
+@@ -180,9 +182,36 @@
+ 	}
+ };
+ 
++struct BarButton {
++	int id;
++	int cmd;
++};
++
++static BarButton bbs[] = {
++	{ -1,           0 },
++	{ STD_FILENEW,  IDM_NEW },
++	{ STD_FILEOPEN, IDM_OPEN },
++	{ STD_FILESAVE, IDM_SAVE },
++	{ 0,            IDM_CLOSE },
++	{ -1,           0 },
++	{ STD_PRINT,    IDM_PRINT },
++	{ -1,           0 },
++	{ STD_CUT,      IDM_CUT },
++	{ STD_COPY,     IDM_COPY },
++	{ STD_PASTE,    IDM_PASTE },
++	{ STD_DELETE,   IDM_CLEAR },
++	{ -1,           0 },
++	{ STD_UNDO,     IDM_UNDO },
++	{ STD_REDOW,    IDM_REDO },
++	{ -1,           0 },
++	{ STD_FIND,     IDM_FIND },
++	{ STD_REPLACE,  IDM_REPLACE },
++};
++
+ std::vector<Interval> Distribute(GUI::Rectangle rcArea, int gap, std::initializer_list<int> widths) {
+ 	int totalWidth = std::accumulate(widths.begin(), widths.end(), 0);
+-	totalWidth += gap * (static_cast<int>(std::size(widths)) - 1);
++	const size_t sizewiths = sizeof(bbs) / sizeof(bbs[0]);
++	totalWidth += gap * (static_cast<int>(sizewiths) - 1);
+ 	const int resizerWidth = rcArea.Width() - totalWidth;
+ 	std::vector<Interval> positions;
+ 	int position = rcArea.left;
+@@ -1890,7 +1919,7 @@
+ 			}
+ 		}
+ 	}
+-	psd = std::make_unique<StripDefinition>(sDescription);
++	psd = bpstd::make_unique<StripDefinition>(sDescription);
+ 	// Create all the controls but with arbitrary initial positions which will be fixed up later.
+ 	size_t controlID=0;
+ 	int top = space;
+diff -Nurw a/scite/win32/UniqueInstance.cxx b/scite/win32/UniqueInstance.cxx
+--- a/scite/win32/UniqueInstance.cxx	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/win32/UniqueInstance.cxx	2025-05-09 05:23:57.410117800 +0200
+@@ -7,9 +7,9 @@
+ 
+ #include <cstdlib>
+ #include <cstring>
+-
++#include "string_view.hpp"
++#include "optional.hpp"
+ #include <string>
+-
+ #include "SciTEWin.h"
+ 
+ UniqueInstance::UniqueInstance() {
+@@ -169,15 +169,14 @@
+ 	return false;
+ }
+ 
+-void UniqueInstance::WindowCopyData(std::string_view s) {
++void UniqueInstance::WindowCopyData(bpstd::string_view s) {
+ 	std::string sCopy(s);	// Ensure NUL at end of string
+ 	COPYDATASTRUCT cds {};
+ 	cds.dwData = 0;
+ 	cds.cbData = static_cast<DWORD>(sCopy.length() + 1);
+-	cds.lpData = sCopy.data();
++    cds.lpData = const_cast<void*>(static_cast<const void*>(sCopy.data()));  // Cast properly to PVOID
+ 	::SendMessage(hOtherWindow, WM_COPYDATA, 0, reinterpret_cast<LPARAM>(&cds));
+ }
+-
+ /**
+  * Send the COPYDATA messages to transmit the command line to
+  * the instance holding the open files here option.
+diff -Nurw a/scite/win32/UniqueInstance.h b/scite/win32/UniqueInstance.h
+--- a/scite/win32/UniqueInstance.h	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/win32/UniqueInstance.h	2025-05-09 05:23:57.548719500 +0200
+@@ -41,7 +41,7 @@
+ 	LRESULT CheckMessage(UINT message, WPARAM wParam, LPARAM lParam);	///< Test if a given message is the identity message
+ 	void CheckOtherInstance();	///< Create mutex name and try to set it
+ 	bool FindOtherInstance();	///< Find another instance answering to the identity message
+-	void WindowCopyData(std::string_view s);	///< Send data to hOtherWindow
++	void WindowCopyData(bpstd::string_view s);	///< Send data to hOtherWindow
+ 	void SendCommands(const char *cmdLine);	///< Send the command line to the other instance
+ 	static BOOL CALLBACK SearchOtherInstance(HWND hWnd, LPARAM lParam);	///< Callback in the window enumeration
+ };
+diff -Nurw a/scite/win32/makefile b/scite/win32/makefile
+--- a/scite/win32/makefile	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/win32/makefile	2025-05-09 05:23:57.651508400 +0200
+@@ -77,7 +77,7 @@
+ 
+ LIBS += -lgdi32 -luser32 -limm32 -lole32 -luuid -loleaut32 -lmsimg32 -lshell32 -lcomdlg32 -lcomctl32 -ladvapi32
+ 
+-CXXFLAGS += --std=c++17
++CXXFLAGS += --std=c++14
+ 
+ DEFINES += -D$(if $(DEBUG),DEBUG,NDEBUG)
+ BASE_FLAGS += $(if $(DEBUG),-g,-Os)
+@@ -106,7 +106,7 @@
+ DEFINES += -DNO_LUA
+ endif
+ 
+-INCLUDES += -I ../../lexilla/include -I ../../lexilla/access -I ../../scintilla/include -I ../src
++INCLUDES += -I ../../lexilla/include -I ../../lexilla/access -I ../../scintilla/include -I ../src -I ../include
+ RCINCLUDEDIRS=--include-dir ../src
+ 
+ CBASEFLAGS = $(LUA_DEFINES) $(WIDEFLAGS)
+diff -Nurw a/scite/win32/scite.mak b/scite/win32/scite.mak
+--- a/scite/win32/scite.mak	2021-09-29 02:52:16.000000000 +0200
++++ b/scite/win32/scite.mak	2025-05-09 11:39:38.024125100 +0200
+@@ -41,7 +41,7 @@
+ !ENDIF
+ !ENDIF
+ 
+-CXXFLAGS=-Zi -TP -MP -W4 -EHsc -Zc:forScope -Zc:wchar_t -std:c++17 -D_CRT_SECURE_NO_DEPRECATE=1 -D_CRT_NONSTDC_NO_DEPRECATE $(WIDEFLAGS) $(ADD_DEFINE)
++CXXFLAGS=-Zi -TP -MP -W4 -EHsc -Zc:forScope -Zc:wchar_t -std:c++14 -D_CRT_SECURE_NO_DEPRECATE=1 -D_CRT_NONSTDC_NO_DEPRECATE $(WIDEFLAGS) $(ADD_DEFINE)
+ CCFLAGS=-TC -MP -W3 -wd4244 -D_CRT_SECURE_NO_DEPRECATE=1 -DLUA_USER_H=\"scite_lua_win.h\" $(ADD_DEFINE)
+ 
+ CXXDEBUG=-Od -MTd -DDEBUG
+@@ -69,7 +69,7 @@
+ CCFLAGS=$(CCFLAGS) $(CXXNDEBUG)
+ !ENDIF
+ 
+-INCLUDEDIRS=-I../../lexilla/include -I../../lexilla/access -I../../scintilla/include -I../src
++INCLUDEDIRS=-I../../lexilla/include -I../../lexilla/access -I../../scintilla/include -I../src -I../include
+ 
+ SHAREDOBJS=\
+ 	Cookie.obj \
+Binary files a/scite/win32/vc140.pdb and b/scite/win32/vc140.pdb differ

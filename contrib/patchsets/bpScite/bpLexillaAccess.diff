@@ -1,0 +1,112 @@
+diff -Nurw a/LexillaAccess.cxx b/LexillaAccess.cxx
+--- a/LexillaAccess.cxx	2021-11-08 04:31:47.000000000 +0100
++++ b/LexillaAccess.cxx	2025-05-09 08:22:43.540920600 +0200
+@@ -11,7 +11,7 @@
+ #include <cstring>
+ 
+ #include <string>
+-#include <string_view>
++#include "string_view.hpp"
+ #include <vector>
+ #include <set>
+ 
+@@ -51,7 +51,7 @@
+ 
+ #if _WIN32
+ 
+-std::wstring WideStringFromUTF8(std::string_view sv) {
++std::wstring WideStringFromUTF8(bpstd::string_view sv) {
+ 	const int sLength = static_cast<int>(sv.length());
+ 	const int cchWide = ::MultiByteToWideChar(CP_UTF8, 0, sv.data(), sLength, nullptr, 0);
+ 	std::wstring sWide(cchWide, 0);
+@@ -94,8 +94,8 @@
+ 
+ Lexilla::CreateLexerFn pCreateLexerDefault = nullptr;
+ 
+-bool NameContainsDot(std::string_view path) noexcept {
+-	for (std::string_view::const_reverse_iterator it = path.crbegin();
++bool NameContainsDot(bpstd::string_view path) noexcept {
++	for (bpstd::string_view::const_reverse_iterator it = path.crbegin();
+ 	     it != path.crend(); ++it) {
+ 		if (*it == '.')
+ 			return true;
+@@ -105,7 +105,7 @@
+ 	return false;
+ }
+ 
+-constexpr bool HasPrefix(std::string_view s, std::string_view prefix) noexcept {
++constexpr bool HasPrefix(bpstd::string_view s, bpstd::string_view prefix) noexcept {
+ 	return (s.size() >= prefix.size()) && (prefix == s.substr(0, prefix.size()));
+ }
+ 
+@@ -115,16 +115,16 @@
+ 	pCreateLexerDefault = pCreate;
+ }
+ 
+-void Lexilla::SetDefaultDirectory(std::string_view directory) {
+-	directoryLoadDefault = directory;
++void Lexilla::SetDefaultDirectory(bpstd::string_view directory) {
++	directoryLoadDefault = std::string(directory);
+ }
+ 
+-bool Lexilla::Load(std::string_view sharedLibraryPaths) {
++bool Lexilla::Load(bpstd::string_view sharedLibraryPaths) {
+ 	if (sharedLibraryPaths == lastLoaded) {
+ 		return !libraries.empty();
+ 	}
+ 
+-	std::string_view paths = sharedLibraryPaths;
++	bpstd::string_view paths = sharedLibraryPaths;
+ 	lexers.clear();
+ 
+ 	libraries.clear();
+@@ -194,14 +194,14 @@
+ 			libraries.push_back(lexLib);
+ 		}
+ 	}
+-	lastLoaded = sharedLibraryPaths;
++	lastLoaded = std::string(sharedLibraryPaths);
+ 
+ 	std::set<std::string> nameSet;
+ 	for (const LexLibrary &lexLib : libraries) {
+ 		if (lexLib.fnGLPN) {
+ 			const char *cpNames = lexLib.fnGLPN();
+ 			if (cpNames) {
+-				std::string_view names = cpNames;
++				bpstd::string_view names = cpNames;
+ 				while (!names.empty()) {
+ 					const size_t separator = names.find_first_of('\n');
+ 					std::string name(names.substr(0, separator));
+@@ -221,7 +221,7 @@
+ 	return !libraries.empty();
+ }
+ 
+-Scintilla::ILexer5 *Lexilla::MakeLexer(std::string_view languageName) {
++Scintilla::ILexer5 *Lexilla::MakeLexer(bpstd::string_view languageName) {
+ 	std::string sLanguageName(languageName);	// Ensure NUL-termination
+ 	// First, try to match namespace then name suffix
+ 	for (const LexLibrary &lexLib : libraries) {
+diff -Nurw a/LexillaAccess.h b/LexillaAccess.h
+--- a/LexillaAccess.h	2021-11-08 04:31:47.000000000 +0100
++++ b/LexillaAccess.h	2025-05-09 08:18:07.343759700 +0200
+@@ -12,7 +12,7 @@
+ namespace Lexilla {
+ 
+ // Directory to load default Lexilla from, commonly the directory of the application.
+-void SetDefaultDirectory(std::string_view directory);
++void SetDefaultDirectory(bpstd::string_view directory);
+ 
+ // Specify CreateLexer when statically linked so no hard dependency in LexillaAccess
+ // so it doesn't have to be built in two forms - static and dynamic.
+@@ -21,9 +21,9 @@
+ // sharedLibraryPaths is a ';' separated list of shared libraries to load.
+ // On Win32 it is treated as UTF-8 and on Unix it is passed to dlopen directly.
+ // Return true if any shared libraries are loaded.
+-bool Load(std::string_view sharedLibraryPaths);
++bool Load(bpstd::string_view sharedLibraryPaths);
+ 
+-Scintilla::ILexer5 *MakeLexer(std::string_view languageName);
++Scintilla::ILexer5 *MakeLexer(bpstd::string_view languageName);
+ 
+ std::vector<std::string> Lexers();
+ [[deprecated]] std::string NameFromID(int identifier);
