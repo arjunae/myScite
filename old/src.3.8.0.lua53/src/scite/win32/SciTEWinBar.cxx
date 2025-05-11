@@ -713,7 +713,7 @@ std::vector<MenuItem> loadMenuFromRc(const std::string& filename) {
     std::vector<MenuItem> menuItems;
     std::ifstream file(filename);
     if (!file.is_open()) {
-       // std::cerr << "Error: Cannot open file: " << filename << "\n";
+        // std::cerr << "Error: Cannot open file: " << filename << "\n";
         return menuItems;
     }
 
@@ -725,38 +725,41 @@ std::vector<MenuItem> loadMenuFromRc(const std::string& filename) {
         if (line.empty() || line[0] == ';')
             continue;
 
-        // --- POPUP headers (no level change yet) ---
+        // Adjust nesting level first
+        if (line == "BEGIN") {
+            ++currentLevel;
+            //std::cout << "BEGIN -> level now " << currentLevel << "\n";
+            continue;
+        }
+        if (line.rfind("END", 0) == 0) {
+            --currentLevel;
+            //std::cout << "END -> level now " << currentLevel << "\n";
+            continue;
+        }
+
+        int level = currentLevel; // capture current level for this item
+
+        // --- POPUP ---
         if (line.rfind("POPUP", 0) == 0) {
             auto firstQ = line.find('\"');
             auto lastQ  = line.rfind('\"');
             std::string raw = (firstQ != std::string::npos && lastQ > firstQ)
                               ? line.substr(firstQ + 1, lastQ - firstQ - 1)
                               : "";
-
-            bool isTop = (currentLevel == 0);
-            menuItems.push_back({ raw, "", "", currentLevel, true, isTop });
+            bool isTop = (level == 0);
+            menuItems.push_back({ raw, "", "", level, true, isTop });
+            //std::cout << "POPUP: \"" << raw << "\" at level " << level << (isTop ? " (top level)" : "") << "\n";
             continue;
         }
 
-        // Actual block entry increases nesting
-        if (line == "BEGIN") {
-            ++currentLevel;
-            continue;
-        }
-
-        // Match any "END" at start (catches "END // ...")
-        if (line.rfind("END", 0) == 0) {
-            if (currentLevel > 0) --currentLevel;
-            continue;
-        }
-
-        // --- Separator (prefix match to allow commas/comments) ---
+        // --- SEPARATOR ---
         if (line.rfind("MENUITEM SEPARATOR", 0) == 0) {
-            menuItems.push_back({ "", "", "SEPARATOR", currentLevel, false, false });
+            menuItems.push_back({ "", "", "SEPARATOR", level, false, false });
+            // std::cout << "SEPARATOR at level " << level << "\n";
             continue;
         }
 
-        // --- Regular menu items ---
+        // --- Regular MENUITEM ---
         if (line.rfind("MENUITEM", 0) == 0) {
             auto firstQ = line.find('\"');
             auto commaQ = line.find("\",", firstQ + 1);
@@ -775,7 +778,10 @@ std::vector<MenuItem> loadMenuFromRc(const std::string& filename) {
                 label = raw;
             }
 
-            menuItems.push_back({ label, shortcut, idPart, currentLevel, false, false });
+            menuItems.push_back({ label, shortcut, idPart, level, false, false });
+           // std::cout << "ITEM: \"" << label << "\" ID: " << idPart
+           //         << (shortcut.empty() ? "" : (" Shortcut: " + shortcut))
+           //         << " at level " << level << "\n";
         }
     }
 
@@ -783,57 +789,87 @@ std::vector<MenuItem> loadMenuFromRc(const std::string& filename) {
     return menuItems;
 }
 
+
+void debugPrint(const std::vector<MenuItem>& menuItems) {
+    for (const auto& item : menuItems) {
+        std::string indent(item.level, '\t');
+
+        if (item.isSubMenu) {
+            std::cout << indent << "[SUBMENU] " << item.label
+                      << (item.isTopLevel ? " (Top Level)" : "") << "\n";
+        } else if (item.id == "SEPARATOR") {
+            std::cout << indent << "---------- SEPARATOR ----------\n";
+        } else {
+            std::cout << indent << item.label;
+            if (!item.shortcut.empty()) {
+                std::cout << " [" << item.shortcut << "]";
+            }
+            std::cout << " -> " << item.id << "\n";
+        }
+    }
+}
+
 void ReplaceMenu(HWND hwnd, const std::vector<MenuItem>& items) {
     HMENU hMenuBar = CreateMenu();
-    HMENU currTop = nullptr;
-    HMENU currSub = nullptr;
+    std::vector<HMENU> menuStack; // index = level
 
     for (const auto& mi : items) {
         std::wstring text(mi.label.begin(), mi.label.end());
 
-        if (mi.isTopLevel) {
-            currTop = CreatePopupMenu();
-            AppendMenuW(hMenuBar, MF_POPUP, (UINT_PTR)currTop, text.c_str());
-            currSub = nullptr;
+        // ensure stack is big enough
+        if ((int)menuStack.size() <= mi.level) {
+            menuStack.resize(mi.level + 1, nullptr);
         }
-        else if (mi.isSubMenu) {
-            if (!currTop) continue;
-            currSub = CreatePopupMenu();
-            AppendMenuW(currTop, MF_POPUP, (UINT_PTR)currSub, text.c_str());
-	}
-        else {
-            HMENU target = currSub ? currSub : currTop;
-            if (!target) continue;
 
-            if (mi.id == "SEPARATOR") {
-                AppendMenuW(target, MF_SEPARATOR, 0, nullptr);
+        // Create top-level menu
+        if (mi.isTopLevel) {
+            HMENU popup = CreatePopupMenu();
+            AppendMenuW(hMenuBar, MF_POPUP, (UINT_PTR)popup, text.c_str());
+            menuStack[mi.level] = popup;
+            continue;
+        }
+
+        // Create submenu
+        if (mi.isSubMenu) {
+            HMENU popup = CreatePopupMenu();
+            HMENU parent = (mi.level > 0) ? menuStack[mi.level - 1] : hMenuBar;
+            if (parent) {
+                AppendMenuW(parent, MF_POPUP, (UINT_PTR)popup, text.c_str());
+                menuStack[mi.level] = popup;
             }
-            else {
-                // Owner-drawn menu item
-                UINT cmd = SciTEBase::GetMenuCommandAsInt(mi.id);
+            continue;
+        }
 
-                MENUITEMINFOW mii = { sizeof(mii) };
-                mii.fMask = MIIM_ID | MIIM_FTYPE | MIIM_DATA;
-                mii.fType = MFT_OWNERDRAW;
-                mii.wID = cmd;
+        // Normal item or separator
+        HMENU parent = (mi.level > 0) ? menuStack[mi.level - 1] : hMenuBar;
+        if (!parent) continue;
 
-                // Combine label and shortcut with a tab character
-                std::wstring fullText = text;
-                if (!mi.shortcut.empty()) {
-                    fullText += L"\t" + std::wstring(mi.shortcut.begin(), mi.shortcut.end());
-}
+        if (mi.id == "SEPARATOR") {
+            AppendMenuW(parent, MF_SEPARATOR, 0, nullptr);
+        } else {
+            UINT cmd = SciTEBase::GetMenuCommandAsInt(mi.id);
 
-                std::wstring* pText = new std::wstring(fullText);
-                mii.dwItemData = reinterpret_cast<ULONG_PTR>(pText);
+            MENUITEMINFOW mii = { sizeof(mii) };
+            mii.fMask = MIIM_ID | MIIM_FTYPE | MIIM_DATA;
+            mii.fType = MFT_OWNERDRAW;
+            mii.wID = cmd;
 
-                InsertMenuItemW(target, GetMenuItemCount(target), TRUE, &mii);
+            std::wstring fullText = text;
+            if (!mi.shortcut.empty()) {
+                fullText += L"\t" + std::wstring(mi.shortcut.begin(), mi.shortcut.end());
             }
+
+            std::wstring* pText = new std::wstring(fullText);
+            mii.dwItemData = reinterpret_cast<ULONG_PTR>(pText);
+
+            InsertMenuItemW(parent, GetMenuItemCount(parent), TRUE, &mii);
         }
     }
 
     SetMenu(hwnd, hMenuBar);
     DrawMenuBar(hwnd);
 }
+
 
 
 

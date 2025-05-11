@@ -1,7 +1,26 @@
-diff -Nurw a/SciTEWin.cxx b/SciTEWin.cxx
---- a/SciTEWin.cxx	2025-04-16 10:50:02.547607500 +0200
-+++ b/SciTEWin.cxx	2025-05-08 13:17:07.199073800 +0200
-@@ -289,6 +289,24 @@
+diff -Nurw a/scite/src/SciTEBase.h b/scite/src/SciTEBase.h
+--- a/scite/src/SciTEBase.h	2025-05-10 19:50:09.330609000 +0200
++++ b/scite/src/SciTEBase.h	2025-05-09 21:10:03.097506700 +0200
+@@ -631,7 +631,6 @@
+ 	FilePath GetLocalPropertiesFileName();
+ 	FilePath GetAbbrevPropertiesFileName();
+ 	void OpenProperties(int propsFile);
+-	static int GetMenuCommandAsInt(std::string commandName);
+ 	virtual void Print(bool) {}
+ 	virtual void PrintSetup() {}
+ 	void UserStripShow(const char * /* description */)  {}
+@@ -956,6 +955,7 @@
+ 	// WorkerListener
+ 	void PostOnMainThread(int cmd, Worker *pWorker)  = 0;
+ 	virtual void WorkerCommand(int cmd, Worker *pWorker);
++	static int GetMenuCommandAsInt(std::string commandName);
+ };
+ 
+ int ControlIDOfCommand(unsigned long) noexcept;
+diff -Nurw a/scite/win32/SciTEWin.cxx b/scite/win32/SciTEWin.cxx
+--- a/scite/win32/SciTEWin.cxx	2025-05-10 19:50:03.004504500 +0200
++++ b/scite/win32/SciTEWin.cxx	2025-05-10 14:08:00.788641200 +0200
+@@ -314,6 +320,24 @@
  		exit(FALSE);
  }
  
@@ -26,7 +45,7 @@ diff -Nurw a/SciTEWin.cxx b/SciTEWin.cxx
  static int CodePageFromName(const std::string &encodingName) {
  	struct Encoding {
  		const char *name;
-@@ -2022,7 +2040,9 @@
+@@ -2106,7 +2161,9 @@
  			QuitProgram();
  			return 1;
  
@@ -36,7 +55,7 @@ diff -Nurw a/SciTEWin.cxx b/SciTEWin.cxx
  			break;
  
  		case WM_SETTINGCHANGE:
-@@ -2074,6 +2094,86 @@
+@@ -2157,6 +2214,93 @@
  		case WM_COPYDATA:
  			return uniqueInstance.CopyData(reinterpret_cast<COPYDATASTRUCT *>(lParam));
  
@@ -94,14 +113,21 @@ diff -Nurw a/SciTEWin.cxx b/SciTEWin.cxx
 +				// Calculate positions (with padding)
 +				RECT rcLabel = pdis->rcItem;
 +				RECT rcShortcut = pdis->rcItem;
-+				int padding = 20;  // Padding between entries, adjust this value as needed
++				int padding = 20;  // Padding between label and shortcut
++				int sidePadding = 10;  // Padding on left and right
++
++				// Apply left and right padding
++				rcLabel.left += sidePadding;
++				rcShortcut.right -= sidePadding;
 +
 +				// Measure shortcut text width
 +				SIZE sizeShortcut = {0};
 +				if (!shortcut.empty()) {
 +					GetTextExtentPoint32W(pdis->hDC, shortcut.c_str(), (int)shortcut.length(), &sizeShortcut);
-+					rcShortcut.left = rcShortcut.right - sizeShortcut.cx - padding;
++					rcShortcut.left = rcShortcut.right - sizeShortcut.cx;
 +					rcLabel.right = rcShortcut.left - padding;
++				} else {
++					rcLabel.right -= sidePadding;
 +				}
 +
 +				// Draw label
@@ -123,18 +149,26 @@ diff -Nurw a/SciTEWin.cxx b/SciTEWin.cxx
  		default:
  			return ::DefWindowProcW(MainHWND(), iMessage, wParam, lParam);
  		}
-diff -Nurw a/SciTEWinBar.cxx b/SciTEWinBar.cxx
---- a/SciTEWinBar.cxx	2025-04-16 10:50:02.549603700 +0200
-+++ b/SciTEWinBar.cxx	2025-05-08 13:31:58.736081400 +0200
-@@ -642,47 +642,201 @@
- 	::SendMessage(hwndToolBar, TB_ADDBUTTONS, barbuttons.GetSize(), reinterpret_cast<LPARAM>(tbb));
- 	delete []tbb;
- 	CheckMenus();
--
- }
+diff -Nurw a/scite/win32/SciTEWin.h b/scite/win32/SciTEWin.h
+--- a/scite/win32/SciTEWin.h	2025-05-10 19:50:03.030546800 +0200
++++ b/scite/win32/SciTEWin.h	2025-05-09 21:18:00.961321800 +0200
+@@ -14,6 +14,9 @@
+ #include <cstring>
+ #include <cstdio>
+ #include <cstdarg>
++#include <fstream>
++#include <sstream>
++#include <iostream>
+ 
+ #include <tuple>
+ #include <string>
+diff -Nurw a/scite/win32/SciTEWinBar.cxx b/scite/win32/SciTEWinBar.cxx
+--- a/scite/win32/SciTEWinBar.cxx	2025-05-10 19:50:03.056504300 +0200
++++ b/scite/win32/SciTEWinBar.cxx	2025-05-09 23:18:07.445397400 +0200
+@@ -523,40 +523,236 @@
  
  void SciTEWin::SetMenuItem(int menuNumber, int position, int itemID,
-                            const GUI::gui_char *text, const GUI::gui_char *mnemonic) {
+ 			   const GUI::gui_char *text, const GUI::gui_char *mnemonic) {
 -	// On Windows the menu items are modified if they already exist or are created
  	HMENU hmenu = ::GetSubMenu(::GetMenu(MainHWND()), menuNumber);
 +    if (!hmenu) {
@@ -156,7 +190,7 @@ diff -Nurw a/SciTEWinBar.cxx b/SciTEWinBar.cxx
  	}
  
 -	const UINT typeFlags = (text[0]) ? MF_STRING : MF_SEPARATOR;
--	if (::GetMenuState(hmenu, itemID, MF_BYCOMMAND) == (UINT)(-1)) {
+-	if (::GetMenuState(hmenu, itemID, MF_BYCOMMAND) == static_cast<UINT>(-1)) {
 -		// Not present so insert
 -		::InsertMenuW(hmenu, position, MF_BYPOSITION | typeFlags, itemID, sTextMnemonic.c_str());
 +    // Convert to wide string
@@ -186,7 +220,7 @@ diff -Nurw a/SciTEWinBar.cxx b/SciTEWinBar.cxx
  	if (itemID >= IDM_TOOLS && itemID < IDM_TOOLS + toolMax) {
 -		// Stow the keycode for later retrieval.
 -		// Do this even if 0, in case the menu already existed (e.g. ModifyMenu)
--		MENUITEMINFO mii;
+-		MENUITEMINFO mii {};
 -		mii.cbSize = sizeof(MENUITEMINFO);
 -		mii.fMask = MIIM_DATA;
 -		mii.dwItemData = keycode;
@@ -194,7 +228,6 @@ diff -Nurw a/SciTEWinBar.cxx b/SciTEWinBar.cxx
 +        // keycode
 +    }
 +}
-+
 +
 +struct MenuItem {
 +    std::string label;    // e.g. "&New"
@@ -218,7 +251,7 @@ diff -Nurw a/SciTEWinBar.cxx b/SciTEWinBar.cxx
 +    std::vector<MenuItem> menuItems;
 +    std::ifstream file(filename);
 +    if (!file.is_open()) {
-+       // std::cerr << "Error: Cannot open file: " << filename << "\n";
++        // std::cerr << "Error: Cannot open file: " << filename << "\n";
 +        return menuItems;
 +    }
 +
@@ -230,38 +263,41 @@ diff -Nurw a/SciTEWinBar.cxx b/SciTEWinBar.cxx
 +        if (line.empty() || line[0] == ';')
 +            continue;
 +
-+        // --- POPUP headers (no level change yet) ---
++        // Adjust nesting level first
++        if (line == "BEGIN") {
++            ++currentLevel;
++            //std::cout << "BEGIN -> level now " << currentLevel << "\n";
++            continue;
++        }
++        if (line.rfind("END", 0) == 0) {
++            --currentLevel;
++            //std::cout << "END -> level now " << currentLevel << "\n";
++            continue;
++        }
++
++        int level = currentLevel; // capture current level for this item
++
++        // --- POPUP ---
 +        if (line.rfind("POPUP", 0) == 0) {
 +            auto firstQ = line.find('\"');
 +            auto lastQ  = line.rfind('\"');
 +            std::string raw = (firstQ != std::string::npos && lastQ > firstQ)
 +                              ? line.substr(firstQ + 1, lastQ - firstQ - 1)
 +                              : "";
-+
-+            bool isTop = (currentLevel == 0);
-+            menuItems.push_back({ raw, "", "", currentLevel, true, isTop });
++            bool isTop = (level == 0);
++            menuItems.push_back({ raw, "", "", level, true, isTop });
++            //std::cout << "POPUP: \"" << raw << "\" at level " << level << (isTop ? " (top level)" : "") << "\n";
 +            continue;
 +        }
 +
-+        // Actual block entry increases nesting
-+        if (line == "BEGIN") {
-+            ++currentLevel;
-+            continue;
-+        }
-+
-+        // Match any "END" at start (catches "END // ...")
-+        if (line.rfind("END", 0) == 0) {
-+            if (currentLevel > 0) --currentLevel;
-+            continue;
-+        }
-+
-+        // --- Separator (prefix match to allow commas/comments) ---
++        // --- SEPARATOR ---
 +        if (line.rfind("MENUITEM SEPARATOR", 0) == 0) {
-+            menuItems.push_back({ "", "", "SEPARATOR", currentLevel, false, false });
++            menuItems.push_back({ "", "", "SEPARATOR", level, false, false });
++            // std::cout << "SEPARATOR at level " << level << "\n";
 +            continue;
 +        }
 +
-+        // --- Regular menu items ---
++        // --- Regular MENUITEM ---
 +        if (line.rfind("MENUITEM", 0) == 0) {
 +            auto firstQ = line.find('\"');
 +            auto commaQ = line.find("\",", firstQ + 1);
@@ -280,59 +316,95 @@ diff -Nurw a/SciTEWinBar.cxx b/SciTEWinBar.cxx
 +                label = raw;
 +            }
 +
-+            menuItems.push_back({ label, shortcut, idPart, currentLevel, false, false });
-+        }
-+    }
-+
++            menuItems.push_back({ label, shortcut, idPart, level, false, false });
++           // std::cout << "ITEM: \"" << label << "\" ID: " << idPart
++           //         << (shortcut.empty() ? "" : (" Shortcut: " + shortcut))
++           //         << " at level " << level << "\n";
+ 	}
+ }
+ 
 +    file.close();
 +    return menuItems;
 +}
 +
++
++void debugPrint(const std::vector<MenuItem>& menuItems) {
++    for (const auto& item : menuItems) {
++        std::string indent(item.level, '\t');
++
++        if (item.isSubMenu) {
++            std::cout << indent << "[SUBMENU] " << item.label
++                      << (item.isTopLevel ? " (Top Level)" : "") << "\n";
++        } else if (item.id == "SEPARATOR") {
++            std::cout << indent << "---------- SEPARATOR ----------\n";
++        } else {
++            std::cout << indent << item.label;
++            if (!item.shortcut.empty()) {
++                std::cout << " [" << item.shortcut << "]";
++            }
++            std::cout << " -> " << item.id << "\n";
++        }
++    }
++}
++
++
++
++
++
 +void ReplaceMenu(HWND hwnd, const std::vector<MenuItem>& items) {
 +    HMENU hMenuBar = CreateMenu();
-+    HMENU currTop = nullptr;
-+    HMENU currSub = nullptr;
++    std::vector<HMENU> menuStack; // index = level
 +
 +    for (const auto& mi : items) {
 +        std::wstring text(mi.label.begin(), mi.label.end());
 +
-+        if (mi.isTopLevel) {
-+            currTop = CreatePopupMenu();
-+            AppendMenuW(hMenuBar, MF_POPUP, (UINT_PTR)currTop, text.c_str());
-+            currSub = nullptr;
++        // ensure stack is big enough
++        if ((int)menuStack.size() <= mi.level) {
++            menuStack.resize(mi.level + 1, nullptr);
 +        }
-+        else if (mi.isSubMenu) {
-+            if (!currTop) continue;
-+            currSub = CreatePopupMenu();
-+            AppendMenuW(currTop, MF_POPUP, (UINT_PTR)currSub, text.c_str());
- 	}
-+        else {
-+            HMENU target = currSub ? currSub : currTop;
-+            if (!target) continue;
- 
-+            if (mi.id == "SEPARATOR") {
-+                AppendMenuW(target, MF_SEPARATOR, 0, nullptr);
-+            }
-+            else {
-+                // Owner-drawn menu item
-+                UINT cmd = SciTEBase::GetMenuCommandAsInt(mi.id);
- 
-+                MENUITEMINFOW mii = { sizeof(mii) };
-+                mii.fMask = MIIM_ID | MIIM_FTYPE | MIIM_DATA;
-+                mii.fType = MFT_OWNERDRAW;
-+                mii.wID = cmd;
 +
-+                // Combine label and shortcut with a tab character
-+                std::wstring fullText = text;
-+                if (!mi.shortcut.empty()) {
-+                    fullText += L"\t" + std::wstring(mi.shortcut.begin(), mi.shortcut.end());
- }
- 
-+                std::wstring* pText = new std::wstring(fullText);
-+                mii.dwItemData = reinterpret_cast<ULONG_PTR>(pText);
++        // Create top-level menu
++        if (mi.isTopLevel) {
++            HMENU popup = CreatePopupMenu();
++            AppendMenuW(hMenuBar, MF_POPUP, (UINT_PTR)popup, text.c_str());
++            menuStack[mi.level] = popup;
++            continue;
++        }
 +
-+                InsertMenuItemW(target, GetMenuItemCount(target), TRUE, &mii);
++        // Create submenu
++        if (mi.isSubMenu) {
++            HMENU popup = CreatePopupMenu();
++            HMENU parent = (mi.level > 0) ? menuStack[mi.level - 1] : hMenuBar;
++            if (parent) {
++                AppendMenuW(parent, MF_POPUP, (UINT_PTR)popup, text.c_str());
++                menuStack[mi.level] = popup;
 +            }
++            continue;
++        }
++
++        // Normal item or separator
++        HMENU parent = (mi.level > 0) ? menuStack[mi.level - 1] : hMenuBar;
++        if (!parent) continue;
++
++        if (mi.id == "SEPARATOR") {
++            AppendMenuW(parent, MF_SEPARATOR, 0, nullptr);
++        } else {
++            UINT cmd = SciTEBase::GetMenuCommandAsInt(mi.id);
++
++            MENUITEMINFOW mii = { sizeof(mii) };
++            mii.fMask = MIIM_ID | MIIM_FTYPE | MIIM_DATA;
++            mii.fType = MFT_OWNERDRAW;
++            mii.wID = cmd;
++
++            std::wstring fullText = text;
++            if (!mi.shortcut.empty()) {
++                fullText += L"\t" + std::wstring(mi.shortcut.begin(), mi.shortcut.end());
++            }
++
++            std::wstring* pText = new std::wstring(fullText);
++            mii.dwItemData = reinterpret_cast<ULONG_PTR>(pText);
++
++            InsertMenuItemW(parent, GetMenuItemCount(parent), TRUE, &mii);
 +        }
 +    }
 +
@@ -342,46 +414,35 @@ diff -Nurw a/SciTEWinBar.cxx b/SciTEWinBar.cxx
 +
 +
 +
++
  void SciTEWin::RedrawMenu() {
  	// Make previous change visible.
- ::DrawMenuBar(MainHWND());
-@@ -984,6 +1138,7 @@
- 	return retResult;
+ 	::DrawMenuBar(HwndOf(wSciTE));
+@@ -868,6 +1064,7 @@
+ 		exit(FALSE);
  }
  
 +
  /**
   * Create all the needed windows.
   */
-@@ -1204,6 +1359,12 @@
- 	bands.push_back(Band(true, replaceStrip.Height(), false, replaceStrip));
+@@ -1051,6 +1248,13 @@
+ 	bands.push_back(Band(true, filterStrip.Height(), false, filterStrip));
  	bands.push_back(Band(true, heightStatus, false, wStatusBar));
  
 + 	// Replace the static Menu from SciteRes.rc with an OWNERDRAWN one.
 +	std::vector<MenuItem> menuItems = loadMenuFromRc("SciTEMenu.rc");
 + 	if (!menuItems.empty()) {
-+        ReplaceMenu(MainHWND(), menuItems);
++		//debugPrint(menuItems);
++        	ReplaceMenu(MainHWND(), menuItems);
 +   	}
 +	
  #ifndef NO_LUA
- 		if (props.GetExpandedString("ext.lua.startup.script").length() == 0)
- 			DestroyMenuItem(menuOptions,IDM_OPENLUAEXTERNALFILE);
-@@ -1211,3 +1372,5 @@
- 		DestroyMenuItem(menuOptions,IDM_OPENLUAEXTERNALFILE);
+ 	if (props.GetExpandedString("ext.lua.startup.script").length() == 0)
+ 		DestroyMenuItem(menuOptions, IDM_OPENLUAEXTERNALFILE);
+@@ -1058,3 +1262,5 @@
+ 	DestroyMenuItem(menuOptions, IDM_OPENLUAEXTERNALFILE);
  #endif
  }
 +
 +
-diff -Nurw a/SciteWin.h b/SciteWin.h
---- a/SciteWin.h	2025-04-16 10:50:02.576394200 +0200
-+++ b/SciteWin.h	2025-05-08 13:03:00.569698400 +0200
-@@ -7,6 +7,9 @@
- 
- #include <stdlib.h>
- #include <string.h>
-+#include <fstream>
-+#include <sstream>
-+#include <iostream>
- #include <ctype.h>
- #include <stdio.h>
- #include <fcntl.h>

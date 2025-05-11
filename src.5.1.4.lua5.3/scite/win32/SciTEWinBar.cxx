@@ -16,10 +16,10 @@ void SciTEWin::SetFileProperties(
 
 	constexpr int TEMP_LEN = 100;
 	wchar_t temp[TEMP_LEN] = L"";
-	HANDLE hf = ::CreateFileW(filePath.AsInternal(), GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hf = ::CreateFileW(filePath.AsInternal(), GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hf != INVALID_HANDLE_VALUE) {
 		FILETIME ft = FILETIME();
-		::GetFileTime(hf, nullptr, nullptr, &ft);
+		::GetFileTime(hf, NULL, NULL, &ft);
 		::CloseHandle(hf);
 		FILETIME lft = FILETIME();
 		::FileTimeToLocalFileTime(&ft, &lft);
@@ -28,12 +28,12 @@ void SciTEWin::SetFileProperties(
 			st = SYSTEMTIME();
 		::GetTimeFormatW(LOCALE_USER_DEFAULT,
 				 0, &st,
-				 nullptr, temp, TEMP_LEN);
+				 NULL, temp, TEMP_LEN);
 		ps.Set("FileTime", GUI::UTF8FromString(temp));
 
 		::GetDateFormatW(LOCALE_USER_DEFAULT,
 				 DATE_SHORTDATE, &st,
-				 nullptr, temp, TEMP_LEN);
+				 NULL, temp, TEMP_LEN);
 		ps.Set("FileDate", GUI::UTF8FromString(temp));
 
 		const DWORD attr = ::GetFileAttributesW(filePath.AsInternal());
@@ -56,13 +56,13 @@ void SciTEWin::SetFileProperties(
 	}
 
 	::GetDateFormatW(LOCALE_USER_DEFAULT,
-			 DATE_SHORTDATE, nullptr,     	// Current date
-			 nullptr, temp, TEMP_LEN);
+			 DATE_SHORTDATE, NULL,     	// Current date
+			 NULL, temp, TEMP_LEN);
 	ps.Set("CurrentDate", GUI::UTF8FromString(temp));
 
 	::GetTimeFormatW(LOCALE_USER_DEFAULT,
-			 0, nullptr,     	// Current time
-			 nullptr, temp, TEMP_LEN);
+			 0, NULL,     	// Current time
+			 NULL, temp, TEMP_LEN);
 	ps.Set("CurrentTime", GUI::UTF8FromString(temp));
 }
 
@@ -256,7 +256,7 @@ void SciTEWin::Notify(SCNotification *notification) {
 	case TTN_GETDISPINFO:
 		// Ask for tooltip text
 		{
-			const GUI::gui_char *ttext = nullptr;
+			const GUI::gui_char *ttext = NULL;
 			NMTTDISPINFOW *pDispInfo = reinterpret_cast<NMTTDISPINFOW *>(notification);
 			// Toolbar tooltips
 			switch (notification->nmhdr.idFrom) {
@@ -343,7 +343,7 @@ void SciTEWin::Notify(SCNotification *notification) {
 			if (chToWrite != '\r') {
 				DWORD bytesWrote = 0;
 				::WriteFile(hWriteSubProcess, &chToWrite,
-					    1, &bytesWrote, nullptr);
+					    1, &bytesWrote, NULL);
 			}
 		} else {
 			SciTEBase::Notify(notification);
@@ -386,7 +386,7 @@ void SciTEWin::TimerStart(int mask) {
 	if (timerMask != maskNew) {
 		if (timerMask == 0) {
 			// Create a 1 second ticker
-			::SetTimer(HwndOf(wSciTE), tickerID, 1000, nullptr);
+			::SetTimer(HwndOf(wSciTE), tickerID, 1000, NULL);
 		}
 		timerMask = maskNew;
 	}
@@ -522,39 +522,49 @@ void SciTEWin::SizeSubWindows() {
 
 
 void SciTEWin::SetMenuItem(int menuNumber, int position, int itemID,
-			   const GUI::gui_char *text, const GUI::gui_char *mnemonic) {
-	// On Windows the menu items are modified if they already exist or are created
+                           const GUI::gui_char *text, const GUI::gui_char *mnemonic) {
 	HMENU hmenu = ::GetSubMenu(::GetMenu(MainHWND()), menuNumber);
+    if (!hmenu) {
+        return;
+    }
+
 	GUI::gui_string sTextMnemonic = text;
 	long keycode = 0;
+
 	if (mnemonic && *mnemonic) {
 		keycode = SciTEKeys::ParseKeyCode(GUI::UTF8FromString(mnemonic).c_str());
 		if (keycode) {
 			sTextMnemonic += GUI_TEXT("\t");
 			sTextMnemonic += mnemonic;
 		}
-		// the keycode could be used to make a custom accelerator table
-		// but for now, the menu's item data is used instead for command
-		// tools, and for other menu entries it is just discarded.
 	}
 
-	const UINT typeFlags = (text[0]) ? MF_STRING : MF_SEPARATOR;
-	if (::GetMenuState(hmenu, itemID, MF_BYCOMMAND) == static_cast<UINT>(-1)) {
-		// Not present so insert
-		::InsertMenuW(hmenu, position, MF_BYPOSITION | typeFlags, itemID, sTextMnemonic.c_str());
+    // Convert to wide string
+    std::wstring* pText = new std::wstring(sTextMnemonic);
+
+    MENUITEMINFOW mii = { sizeof(mii) };
+    mii.fMask = MIIM_ID | MIIM_FTYPE | MIIM_DATA;
+    mii.fType = MFT_OWNERDRAW;
+    mii.wID = itemID;
+    mii.dwItemData = reinterpret_cast<ULONG_PTR>(pText);
+
+    UINT state = ::GetMenuState(hmenu, itemID, MF_BYCOMMAND);
+    if (state == (UINT)(-1)) {
+        // Not present — insert
+        ::InsertMenuItemW(hmenu, position, TRUE, &mii); //Insert
 	} else {
-		::ModifyMenuW(hmenu, itemID, MF_BYCOMMAND | typeFlags, itemID, sTextMnemonic.c_str());
+        MENUITEMINFOW oldMii = { sizeof(oldMii) };
+        oldMii.fMask = MIIM_DATA;
+        if (::GetMenuItemInfoW(hmenu, itemID, FALSE, &oldMii)) {
+            std::wstring* oldText = reinterpret_cast<std::wstring*>(oldMii.dwItemData); //Replace
+            delete oldText;
+        }
+         ::SetMenuItemInfoW(hmenu, itemID, FALSE, &mii); // Modify
 	}
 
 	if (itemID >= IDM_TOOLS && itemID < IDM_TOOLS + toolMax) {
-		// Stow the keycode for later retrieval.
-		// Do this even if 0, in case the menu already existed (e.g. ModifyMenu)
-		MENUITEMINFO mii {};
-		mii.cbSize = sizeof(MENUITEMINFO);
-		mii.fMask = MIIM_DATA;
-		mii.dwItemData = keycode;
-		::SetMenuItemInfo(hmenu, itemID, FALSE, &mii);
-	}
+        // keycode
+    }
 }
 
 struct MenuItem {
@@ -579,7 +589,7 @@ std::vector<MenuItem> loadMenuFromRc(const std::string& filename) {
     std::vector<MenuItem> menuItems;
     std::ifstream file(filename);
     if (!file.is_open()) {
-       // std::cerr << "Error: Cannot open file: " << filename << "\n";
+        // std::cerr << "Error: Cannot open file: " << filename << "\n";
         return menuItems;
     }
 
@@ -591,38 +601,41 @@ std::vector<MenuItem> loadMenuFromRc(const std::string& filename) {
         if (line.empty() || line[0] == ';')
             continue;
 
-        // --- POPUP headers (no level change yet) ---
+        // Adjust nesting level first
+        if (line == "BEGIN") {
+            ++currentLevel;
+            //std::cout << "BEGIN -> level now " << currentLevel << "\n";
+            continue;
+        }
+        if (line.rfind("END", 0) == 0) {
+            --currentLevel;
+            //std::cout << "END -> level now " << currentLevel << "\n";
+            continue;
+        }
+
+        int level = currentLevel; // capture current level for this item
+
+        // --- POPUP ---
         if (line.rfind("POPUP", 0) == 0) {
             auto firstQ = line.find('\"');
             auto lastQ  = line.rfind('\"');
             std::string raw = (firstQ != std::string::npos && lastQ > firstQ)
                               ? line.substr(firstQ + 1, lastQ - firstQ - 1)
                               : "";
-
-            bool isTop = (currentLevel == 0);
-            menuItems.push_back({ raw, "", "", currentLevel, true, isTop });
+            bool isTop = (level == 0);
+            menuItems.push_back({ raw, "", "", level, true, isTop });
+            //std::cout << "POPUP: \"" << raw << "\" at level " << level << (isTop ? " (top level)" : "") << "\n";
             continue;
         }
 
-        // Actual block entry increases nesting
-        if (line == "BEGIN") {
-            ++currentLevel;
-            continue;
-        }
-
-        // Match any "END" at start (catches "END // ...")
-        if (line.rfind("END", 0) == 0) {
-            if (currentLevel > 0) --currentLevel;
-            continue;
-        }
-
-        // --- Separator (prefix match to allow commas/comments) ---
+        // --- SEPARATOR ---
         if (line.rfind("MENUITEM SEPARATOR", 0) == 0) {
-            menuItems.push_back({ "", "", "SEPARATOR", currentLevel, false, false });
+            menuItems.push_back({ "", "", "SEPARATOR", level, false, false });
+            // std::cout << "SEPARATOR at level " << level << "\n";
             continue;
         }
 
-        // --- Regular menu items ---
+        // --- Regular MENUITEM ---
         if (line.rfind("MENUITEM", 0) == 0) {
             auto firstQ = line.find('\"');
             auto commaQ = line.find("\",", firstQ + 1);
@@ -641,7 +654,10 @@ std::vector<MenuItem> loadMenuFromRc(const std::string& filename) {
                 label = raw;
             }
 
-            menuItems.push_back({ label, shortcut, idPart, currentLevel, false, false });
+            menuItems.push_back({ label, shortcut, idPart, level, false, false });
+           // std::cout << "ITEM: \"" << label << "\" ID: " << idPart
+           //         << (shortcut.empty() ? "" : (" Shortcut: " + shortcut))
+           //         << " at level " << level << "\n";
         }
     }
 
@@ -649,57 +665,91 @@ std::vector<MenuItem> loadMenuFromRc(const std::string& filename) {
     return menuItems;
 }
 
+
+void debugPrint(const std::vector<MenuItem>& menuItems) {
+    for (const auto& item : menuItems) {
+        std::string indent(item.level, '\t');
+
+        if (item.isSubMenu) {
+            std::cout << indent << "[SUBMENU] " << item.label
+                      << (item.isTopLevel ? " (Top Level)" : "") << "\n";
+        } else if (item.id == "SEPARATOR") {
+            std::cout << indent << "---------- SEPARATOR ----------\n";
+        } else {
+            std::cout << indent << item.label;
+            if (!item.shortcut.empty()) {
+                std::cout << " [" << item.shortcut << "]";
+            }
+            std::cout << " -> " << item.id << "\n";
+        }
+    }
+}
+#include <vector>
+#include <string>
+#include <windows.h>
+#include <iostream>
+
 void ReplaceMenu(HWND hwnd, const std::vector<MenuItem>& items) {
     HMENU hMenuBar = CreateMenu();
-    HMENU currTop = nullptr;
-    HMENU currSub = nullptr;
+    std::vector<HMENU> menuStack; // index = level
 
     for (const auto& mi : items) {
         std::wstring text(mi.label.begin(), mi.label.end());
 
-        if (mi.isTopLevel) {
-            currTop = CreatePopupMenu();
-            AppendMenuW(hMenuBar, MF_POPUP, (UINT_PTR)currTop, text.c_str());
-            currSub = nullptr;
+        // ensure stack is big enough
+        if ((int)menuStack.size() <= mi.level) {
+            menuStack.resize(mi.level + 1, NULL);
         }
-        else if (mi.isSubMenu) {
-            if (!currTop) continue;
-            currSub = CreatePopupMenu();
-            AppendMenuW(currTop, MF_POPUP, (UINT_PTR)currSub, text.c_str());
-	}
-        else {
-            HMENU target = currSub ? currSub : currTop;
-            if (!target) continue;
 
-            if (mi.id == "SEPARATOR") {
-                AppendMenuW(target, MF_SEPARATOR, 0, nullptr);
+        // Create top-level menu
+        if (mi.isTopLevel) {
+            HMENU popup = CreatePopupMenu();
+            AppendMenuW(hMenuBar, MF_POPUP, (UINT_PTR)popup, text.c_str());
+            menuStack[mi.level] = popup;
+            continue;
+        }
+
+        // Create submenu
+        if (mi.isSubMenu) {
+            HMENU popup = CreatePopupMenu();
+            HMENU parent = (mi.level > 0) ? menuStack[mi.level - 1] : hMenuBar;
+            if (parent) {
+                AppendMenuW(parent, MF_POPUP, (UINT_PTR)popup, text.c_str());
+                menuStack[mi.level] = popup;
             }
-            else {
-                // Owner-drawn menu item
-                UINT cmd = SciTEBase::GetMenuCommandAsInt(mi.id);
+            continue;
+        }
 
-                MENUITEMINFOW mii = { sizeof(mii) };
-                mii.fMask = MIIM_ID | MIIM_FTYPE | MIIM_DATA;
-                mii.fType = MFT_OWNERDRAW;
-                mii.wID = cmd;
+        // Normal item or separator
+        HMENU parent = (mi.level > 0) ? menuStack[mi.level - 1] : hMenuBar;
+        if (!parent) continue;
 
-                // Combine label and shortcut with a tab character
-                std::wstring fullText = text;
-                if (!mi.shortcut.empty()) {
-                    fullText += L"\t" + std::wstring(mi.shortcut.begin(), mi.shortcut.end());
-}
+        if (mi.id == "SEPARATOR") {
+            AppendMenuW(parent, MF_SEPARATOR, 0, NULL);
+        } else {
+            UINT cmd = SciTEBase::GetMenuCommandAsInt(mi.id);
 
-                std::wstring* pText = new std::wstring(fullText);
-                mii.dwItemData = reinterpret_cast<ULONG_PTR>(pText);
+            MENUITEMINFOW mii = { sizeof(mii) };
+            mii.fMask = MIIM_ID | MIIM_FTYPE | MIIM_DATA;
+            mii.fType = MFT_OWNERDRAW;
+            mii.wID = cmd;
 
-                InsertMenuItemW(target, GetMenuItemCount(target), TRUE, &mii);
+            std::wstring fullText = text;
+            if (!mi.shortcut.empty()) {
+                fullText += L"\t" + std::wstring(mi.shortcut.begin(), mi.shortcut.end());
             }
+
+            std::wstring* pText = new std::wstring(fullText);
+            mii.dwItemData = reinterpret_cast<ULONG_PTR>(pText);
+
+            InsertMenuItemW(parent, GetMenuItemCount(parent), TRUE, &mii);
         }
     }
 
     SetMenu(hwnd, hMenuBar);
     DrawMenuBar(hwnd);
 }
+
 
 
 
@@ -836,7 +886,7 @@ static BarButton bbs[] = {
 	{ STD_REPLACE,  IDM_REPLACE },
 };
 
-static WNDPROC stDefaultTabProc = nullptr;
+static WNDPROC stDefaultTabProc = NULL;
 static LRESULT PASCAL TabWndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam) {
 
 	static bool bDragBegin = false;
@@ -854,7 +904,7 @@ static LRESULT PASCAL TabWndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM
 	}
 
 	LRESULT retResult;
-	if (stDefaultTabProc != nullptr) {
+	if (stDefaultTabProc != NULL) {
 		retResult = CallWindowProc(stDefaultTabProc, hWnd, iMessage, wParam, lParam);
 	} else {
 		retResult = ::DefWindowProc(hWnd, iMessage, wParam, lParam);
@@ -901,7 +951,7 @@ static LRESULT PASCAL TabWndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM
 					bDragBegin = false;
 					iDraggingTab = -1;
 					iLastClickTab = -1;
-					::InvalidateRect(hWnd, nullptr, FALSE);
+					::InvalidateRect(hWnd, NULL, FALSE);
 				}
 			}
 		}
@@ -922,13 +972,13 @@ static LRESULT PASCAL TabWndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM
 				::SetCapture(hWnd);
 				hwndLastFocus = ::SetFocus(hWnd);
 				bDragBegin = true;
-				HCURSOR hcursor = ::LoadCursor(::GetModuleHandle(nullptr),
+				HCURSOR hcursor = ::LoadCursor(::GetModuleHandle(NULL),
 							       MAKEINTRESOURCE(IDC_DRAGDROP));
 				if (hcursor) ::SetCursor(hcursor);
 			} else {
 				if (bDragBegin) {
 					if (tab > -1 && iDraggingTab > -1 /*&& iDraggingTab != tab*/) {
-						HCURSOR hcursor = ::LoadCursor(::GetModuleHandle(nullptr),
+						HCURSOR hcursor = ::LoadCursor(::GetModuleHandle(NULL),
 									       MAKEINTRESOURCE(IDC_DRAGDROP));
 						if (hcursor) ::SetCursor(hcursor);
 					} else {
@@ -1043,7 +1093,7 @@ void SciTEWin::Creation() {
 				     HwndOf(wContent),
 				     HmenuID(IDM_SRCWIN),
 				     hInstance,
-				     nullptr));
+				     NULL));
 	if (!wEditor.CanCall())
 		exit(FALSE);
 	wEditor.Show();
@@ -1061,7 +1111,7 @@ void SciTEWin::Creation() {
 				     HwndOf(wContent),
 				     HmenuID(IDM_RUNWIN),
 				     hInstance,
-				     nullptr));
+				     NULL));
 	if (!wOutput.CanCall())
 		exit(FALSE);
 	wOutput.Show();
@@ -1083,7 +1133,7 @@ void SciTEWin::Creation() {
 				   MainHWND(),
 				   HmenuID(IDM_TOOLWIN),
 				   hInstance,
-				   nullptr);
+				   NULL);
 	wToolBar = hwndToolBar;
 
 	::SendMessage(hwndToolBar, TB_BUTTONSTRUCTSIZE, sizeof(TBBUTTON), 0);
@@ -1148,7 +1198,7 @@ void SciTEWin::Creation() {
 			  MainHWND(),
 			  HmenuID(IDM_TABWIN),
 			  hInstance,
-			  nullptr);
+			  NULL);
 
 	if (!wTabBar.Created())
 		exit(FALSE);
@@ -1178,7 +1228,7 @@ void SciTEWin::Creation() {
 			     MainHWND(),
 			     HmenuID(IDM_STATUSWIN),
 			     hInstance,
-			     nullptr);
+			     NULL);
 	wStatusBar.Show();
 	const int widths[] = { 4000 };
 	// Perhaps we can define a syntax to create more parts,
@@ -1201,7 +1251,8 @@ void SciTEWin::Creation() {
  	// Replace the static Menu from SciteRes.rc with an OWNERDRAWN one.
 	std::vector<MenuItem> menuItems = loadMenuFromRc("SciTEMenu.rc");
  	if (!menuItems.empty()) {
-        ReplaceMenu(MainHWND(), menuItems);
+		//debugPrint(menuItems);
+        	ReplaceMenu(MainHWND(), menuItems);
    	}
 	
 #ifndef NO_LUA

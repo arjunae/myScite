@@ -40,13 +40,23 @@ local function file_exists(filename)            -- Tests for file or directory
 	    return false
     end
     return os.rename(filename,filename) and true or false
-    -- Source: http://stackoverflow.com/questions/4990990/lua-check-if-a-file-exists
+ end
+
+-- returns if a given Dir exists
+--
+--
+function dir_exists(path)
+    local ok, err, code = os.rename(path, path)
+    return ok or code == 13  -- 13 = permission denied (means it exists)
 end
+
 
 -- init Project Folders
 -- (ctags, Autocomplete & highlitening)
-
 function ProjectSetEnv()
+	local lockfile = os.getenv("tmp") .. dirSep .. "project.ctags.lock"
+	local success, err = os.remove(lockfile)
+
 	props["properties.directory.enable"]=1
 	if props["SciteDirectoryHome"] ~= props["FileDir"] then --for calltips
 		props["project.inProject"] = 1
@@ -111,7 +121,6 @@ function CTagsImportProps(theForceMightBeWithYou, YodaNamePath)
 		props["substylewords.11.14."..projectEXT] = props["sdk.tags.cTagClasses"]		
 	end
 	--print(props["substylewords.11.14."..projectEXT] )
-	if DEBUG==1 then print("CTagsImportAPI Props written ") end
 	-- Do we also want to detect changed Styles and apply them here ?
 	-- Define the Styles for cTag types
 	local currentLexer=props["Language"]
@@ -156,7 +165,7 @@ function CTagsImportAPI(theForceMightBeWithYou,fileNamePath)
 	if not projectApiPath or not projectApiPath:match(props["project.sdk.api"]) then
 		props["api."..props["file.patterns.project"]] =props["project.session.api"]..";"..sdkApiPath
 	end
-	if DEBUG==1 then print("CTagsImportAPI APIs written "..props["api."..props["file.patterns.project"]]) end
+
 	-- parse projects properties files
 	CTagsImportProps(theForceMightBeWithYou,fileNamePath)
 
@@ -197,23 +206,27 @@ function CTagsRecreate()
 		toolPath=props["SciteDefaultHome"]..dirSep.."tools"
 		ctagsBin=props["project.ctags.bin"]
 		ctagsOpt=props["project.ctags.opt"] -- options
+		
 		ctagsTMP="\""..os.getenv("tmp")..dirSep.."scite.session.ctags\"" -- raw .ctags go here
 		ctagsAPI=props["project.path"].."\\ctags\\ " -- parsed .api goes here
 		os.remove(os.getenv("tmp")..dirSep.."*.session.ctags")
-		
+		--cTags doesnt start without this (in our configuration)
+		if not dir_exists(props["project.path"]..dirSep.."ctags") then os.execute("mkdir " .. props["project.path"]..dirSep.."ctags") end
+		local fExcludes=props["project.path"]..dirSep.."ctags"..dirSep.."ctags.excludes"	
+		if not file_exists(fExcludes) then local file = io.open(fExcludes, "w") ; file:close() end
+		-- start collecting cTags
 		if ctagsBin and ctagsOpt then 
 				ctagsCMD=toolPath..dirSep..ctagsBin.." "..ctagsOpt.." -f "..ctagsTMP.." -R " ..props["project.path"] 
 				if DEBUG==1 then print("CTagsRecreate All, starting " .. props["project.path"] ) end 
 
 			local pipe=scite_Popen(ctagsCMD)
 			local tmp= pipe:read('*a'); print (tmp)
-			--pipe:close()
+			pipe:close()
 
 			local pipe=scite_Popen(toolPath..dirSep.."mylua.cmd tools\\ctags\\parseCTags.lua "..ctagsAPI.." "..ctagsTMP)
 			if DEBUG==2 then 
 				local tmp= pipe:read('*a') ; print (tmp)  -- synchronous -waits for the Command to complete
 			end
-			--pipe:close()
 
 			scite_OnDwellStart(ProjectOnDwell) -- periodically check if ctags refresh has been finished.
 			ctagsLock=true	

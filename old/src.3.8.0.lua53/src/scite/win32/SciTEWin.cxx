@@ -2148,14 +2148,22 @@ LRESULT SciTEWin::WndProc(UINT iMessage, WPARAM wParam, LPARAM lParam) {
 				// Calculate positions (with padding)
 				RECT rcLabel = pdis->rcItem;
 				RECT rcShortcut = pdis->rcItem;
-				int padding = 20;  // Padding between entries, adjust this value as needed
+				int padding = 20;  // Padding between label and shortcut
+				int sidePadding = 10;  // Padding on left and right
 
+				// Apply left and right padding
+				rcLabel.left += sidePadding;
+				rcShortcut.right -= sidePadding;
+
+				
 				// Measure shortcut text width
 				SIZE sizeShortcut = {0};
 				if (!shortcut.empty()) {
 					GetTextExtentPoint32W(pdis->hDC, shortcut.c_str(), (int)shortcut.length(), &sizeShortcut);
-					rcShortcut.left = rcShortcut.right - sizeShortcut.cx - padding;
+					rcShortcut.left = rcShortcut.right - sizeShortcut.cx;
 					rcLabel.right = rcShortcut.left - padding;
+				} else {
+					rcLabel.right -= sidePadding;
 				}
 
 				// Draw label

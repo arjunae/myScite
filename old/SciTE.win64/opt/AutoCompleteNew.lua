@@ -25,6 +25,7 @@ local SCLEX_GENERIC = 1024
 
 local IGNORE_STYLES = {
     -- Should include comments, strings and errors.
+	 [SCLEX_NULL] = {},
     [SCLEX_AHK1] = {1, 2, 6, 20},
     [SCLEX_AHK2] = {1, 2, 3, 5, 15},
     [SCLEX_BATCH] = {1, 3},
@@ -58,7 +59,7 @@ local mergedNames = {} -- Current buffers Cache
 local mergedLock =0
 
 -- Number of chars to type before the autocomplete list appears:
-local MIN_PREFIX_LEN = 4
+local MIN_PREFIX_LEN = 3
 -- Length of shortest word to add to the autocomplete list:
 local MIN_IDENTIFIER_LEN = 4
 -- List of regex patterns for finding suggestions for the autocomplete menu:
@@ -260,14 +261,14 @@ function do_autocomplete()
     local startPos = editor:WordStartPosition(pos, true)
     local len = pos - startPos
     if not INCREMENTAL and editor:AutoCActive() then
-        return
+    --    return
     end
     if len < MIN_PREFIX_LEN and not editor:AutoCActive() then
         return
     end
     if mergedLock == 1 then return end
     local prefix = normalize(editor:textrange(startPos, pos))
-
+	 
     -- PHP variable support
     if prefix:sub(1, 1) == "$" then
         prefix = prefix:sub(2)
@@ -429,13 +430,10 @@ function do_calltip(char)
 end
 
 local function handleChar(char, calledByHotkey)
-    if props["Language"] == "" or (buffer.size and buffer.size > AC_MAX_SIZE) then
+    if (buffer.size and buffer.size > AC_MAX_SIZE) then
         return
     end
-    if editor.Lexer == 1 then
-        return
-    end
-
+    
 	local startChars=props["calltip."..editor.LexerLanguage..".parameters.start"]
 	if not startChars then startChars="(" end
 	local found = false
@@ -457,7 +455,7 @@ end
 local function handleKey(key, shift, ctrl, alt)
 -- todo Tab autocomplete
     -- starte ac bei ctre-space
-    if props["Language"] == "" or (buffer.size and buffer.size > AC_MAX_SIZE) then
+    if (buffer.size and buffer.size > AC_MAX_SIZE) then
         return
     end
     if key == 0x20 and ctrl and not (shift or alt) then -- ^Space
@@ -610,8 +608,8 @@ function handleOpen()
             else
 					sleep(1)
 					if i>=4 then 
-						debugPrint("Error. Stopped waiting for ctags to be regenerates. Please Try to delete the File manually.")
-						debugPrint(lockfile)
+						Print("Error. Stopped waiting for ctags to be regenerates. Please Try to delete the File manually.")
+						Print(lockfile)
 					end
             end
             

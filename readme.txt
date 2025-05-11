@@ -1,4 +1,14 @@
 ~# mySciTE -~
+[30.04.2025]
+= Reboot =
+src: SciTE 5.1.4 cpp14 backport
+dirs: simplify directory structure
+lua: Autocomplete using CTAGS with Namespace (::) Support
+lua: Autocomplete is able to import ac_{lexerLanguage}.api
+lus: updated libs
+themes: theme.white and theme.blue
+
+---
 
 [28.11.2019] mySciTE.190.xx MartyMcFly (Lua5.1 & Lua5.3)
   =Maintenance Update=

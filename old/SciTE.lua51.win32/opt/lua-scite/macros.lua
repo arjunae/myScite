@@ -13,7 +13,9 @@ if type(lfs)=="table" then
    if  sFile ~= "." and sFile ~= ".." and string.sub(sFile,1,1) ~= "." or (OPT_SHOW_HIDDEN==true)  then
   AppList[#AppList+1] = {sFile, sFile, sFile:sub(1,-5)} end
   end
-  scite_Command('Macro Scripts|ChooseScript|Ctrl+9') 
+  scite_Command('Macro Scripts|ChooseScript|Ctrl+9')
+else
+ print("macros.lua needs lfs.dll")
 end
 
 -- for global scripts; switch to "SciteUserHome" for per-user scripts
