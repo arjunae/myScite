@@ -421,6 +421,7 @@ protected:
 	bool callTipIgnoreCase;
 	bool autoCCausedByOnlyOne;
 	int autoCompleteVisibleItemCount;
+	int autoCCMinLength;
 	std::string calltipWordCharacters;
 	std::string calltipParametersStart;
 	std::string calltipParametersEnd;

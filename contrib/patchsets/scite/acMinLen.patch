@@ -1,0 +1,47 @@
+diff -Nurw a/src/SciTEBase.cxx b/src/SciTEBase.cxx
+--- a/src/SciTEBase.cxx	2025-05-15 17:42:13.635436300 +0200
++++ b/src/SciTEBase.cxx	2025-05-15 18:28:40.647728300 +0200
+@@ -1745,6 +1745,12 @@
+ 	}
+ 
+ 	const std::string root = line.substr(startword, current - startword);
++
++    if (static_cast<int>(root.length()) < autoCCMinLength) {
++        // Not enough characters yet
++        return true;
++    }
++
+ 	if (apis) {
+ 		const std::string words = GetNearestWords(root.c_str(), root.length(),
+ 						    calltipParametersStart.c_str(), autoCompleteIgnoreCase);
+@@ -1758,6 +1764,7 @@
+ 	return true;
+ }
+ 
++
+ bool SciTEBase::StartAutoCompleteWord(bool onlyOneWord) {
+ 	const std::string line = GetCurrentLine();
+ 	const SA::Position current = GetCaretInLine();
+diff -Nurw a/src/SciTEBase.h b/src/SciTEBase.h
+--- a/src/SciTEBase.h	2025-05-15 17:41:44.845206500 +0200
++++ b/src/SciTEBase.h	2025-05-15 17:23:23.360882200 +0200
+@@ -421,6 +421,7 @@
+ 	bool callTipIgnoreCase;
+ 	bool autoCCausedByOnlyOne;
+ 	int autoCompleteVisibleItemCount;
++	int autoCCMinLength;
+ 	std::string calltipWordCharacters;
+ 	std::string calltipParametersStart;
+ 	std::string calltipParametersEnd;
+diff -Nurw a/src/SciTEProps.cxx b/src/SciTEProps.cxx
+--- a/src/SciTEProps.cxx	2025-05-15 17:42:45.985315500 +0200
++++ b/src/SciTEProps.cxx	2025-05-15 18:23:32.745718400 +0200
+@@ -1129,6 +1129,8 @@
+ 	wEditor.AutoCSetCancelAtStart(false);
+ 	wEditor.AutoCSetDropRestOfWord(false);
+ 
++	autoCCMinLength=props.GetInt("autocomplete.min.length", 3);
++
+ 	OptionalSetColour(wEditor, SA::Element::List, props, "autocomplete.fore");
+ 	OptionalSetColour(wEditor, SA::Element::ListBack, props, "autocomplete.back");
+ 	OptionalSetColour(wEditor, SA::Element::ListSelected, props, "autocomplete.selected.fore");

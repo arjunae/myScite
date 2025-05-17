@@ -30,6 +30,7 @@ void UniqueInstance::Init(SciTEWin *stw_) noexcept {
 	stw = stw_;
 }
 
+
 /**
  * Try to create a mutex.
  * If succeed, it is the first/only instance.

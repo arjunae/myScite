@@ -714,9 +714,9 @@ void SCI_METHOD LexerPython::Lex(Sci_PositionU startPos, Sci_Position length, in
 							pos--;
 							ch = styler.SafeGetCharAt(pos, '\0');
 						}
-						if (ch == '.') {
+						if (pos < 0 || ch == '.') {
 							// Is this an attribute we could style? if it is, do as asked
-							bool isComment = AnyOf(styler.BufferStyleAt(pos), SCE_P_COMMENTLINE, SCE_P_COMMENTBLOCK);
+							bool isComment = false;
 							bool isDecoratorAttribute = false;
 							const Sci_Position attrLine = styler.GetLine(pos);
 							for (Sci_Position i = styler.LineStart(attrLine); i < pos; i++) {
@@ -726,7 +726,7 @@ void SCI_METHOD LexerPython::Lex(Sci_PositionU startPos, Sci_Position length, in
 								if (attrCh == '#')
 									isComment = true;
 								// Detect if this attribute belongs to a decorator
-								if (!IsASpaceOrTab(attrCh))
+								if (!IsASpaceOrTab(ch))
 									break;
 							}
 							if (((isDecoratorAttribute) && (!isComment)) && (((options.decoratorAttributes == 1)  && (style == SCE_P_IDENTIFIER)) || (options.decoratorAttributes == 2))) {

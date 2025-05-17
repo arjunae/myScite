@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <string_view>
 #include <vector>
+#include <set>
 #include <optional>
 #include <algorithm>
 #include <memory>
@@ -36,6 +37,18 @@
 
 using namespace Scintilla;
 using namespace Scintilla::Internal;
+
+#if !defined(_WIN32) && !defined(NO_CXX11_REGEX)
+// set global locale to pass std::regex related tests
+// see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=63776
+struct GlobalLocaleInitializer {
+	GlobalLocaleInitializer() {
+		try {
+			std::locale::global(std::locale("en_US.UTF-8"));
+		} catch (...) {}
+	}
+} globalLocaleInitializer;
+#endif
 
 // Test Document.
 
@@ -84,7 +97,7 @@ struct DocPlus {
 
 	DocPlus(std::string_view svInitial, int codePage) : document(DocumentOption::Default) {
 		SetCodePage(codePage);
-		document.InsertString(0, svInitial.data(), svInitial.length());
+		document.InsertString(0, svInitial);
 	}
 
 	void SetCodePage(int codePage) {
@@ -95,14 +108,12 @@ struct DocPlus {
 			// This case folder will not handle many DBCS cases. Scintilla uses platform-specific code for DBCS
 			// case folding which can not easily be inserted in platform-independent tests.
 			std::unique_ptr<CaseFolderTable> pcft = std::make_unique<CaseFolderTable>();
-			pcft->StandardASCII();
 			document.SetCaseFolder(std::move(pcft));
 		}
 	}
 
 	void SetSBCSFoldings(const Folding *foldings, size_t length) {
 		std::unique_ptr<CaseFolderTable> pcft = std::make_unique<CaseFolderTable>();
-		pcft->StandardASCII();
 		for (size_t block = 0; block < length; block++) {
 			for (int fold = 0; fold < foldings[block].length; fold++) {
 				pcft->SetTranslation(foldings[block].from + fold, foldings[block].to + fold);
@@ -111,13 +122,13 @@ struct DocPlus {
 		document.SetCaseFolder(std::move(pcft));
 	}
 
-	Sci::Position FindNeedle(const std::string &needle, FindOption options, Sci::Position *length) {
+	Sci::Position FindNeedle(std::string_view needle, FindOption options, Sci::Position *length) {
 		assert(*length == static_cast<Sci::Position>(needle.length()));
-		return document.FindText(0, document.Length(), needle.c_str(), options, length);
+		return document.FindText(0, document.Length(), needle.data(), options, length);
 	}
-	Sci::Position FindNeedleReverse(const std::string &needle, FindOption options, Sci::Position *length) {
+	Sci::Position FindNeedleReverse(std::string_view needle, FindOption options, Sci::Position *length) {
 		assert(*length == static_cast<Sci::Position>(needle.length()));
-		return document.FindText(document.Length(), 0, needle.c_str(), options, length);
+		return document.FindText(document.Length(), 0, needle.data(), options, length);
 	}
 	void MoveGap(Sci::Position gapNew) {
 		// Move gap to gapNew by inserting
@@ -133,17 +144,18 @@ void TimeTrace(std::string_view sv, const Catch::Timer &tikka) {
 
 TEST_CASE("Document") {
 
-	const char sText[] = "Scintilla";
-	const Sci::Position sLength = static_cast<Sci::Position>(strlen(sText));
+	constexpr std::string_view sText = "Scintilla";
+	constexpr Sci::Position sLength = sText.length();
 
 	SECTION("InsertOneLine") {
 		DocPlus doc("", 0);
-		const Sci::Position length = doc.document.InsertString(0, sText, sLength);
+		const Sci::Position length = doc.document.InsertString(0, sText);
 		REQUIRE(sLength == doc.document.Length());
 		REQUIRE(length == sLength);
 		REQUIRE(1 == doc.document.LinesTotal());
 		REQUIRE(0 == doc.document.LineStart(0));
 		REQUIRE(0 == doc.document.LineFromPosition(0));
+		REQUIRE(0 == doc.document.LineStartPosition(0));
 		REQUIRE(sLength == doc.document.LineStart(1));
 		REQUIRE(0 == doc.document.LineFromPosition(static_cast<int>(sLength)));
 		REQUIRE(doc.document.CanUndo());
@@ -155,42 +167,42 @@ TEST_CASE("Document") {
 	// part way through a character.
 	SECTION("SearchInLatin") {
 		DocPlus doc("abcde", 0);	// a b c d e
-		std::string finding = "b";
+		constexpr std::string_view finding = "b";
 		Sci::Position lengthFinding = finding.length();
 		Sci::Position location = doc.FindNeedle(finding, FindOption::MatchCase, &lengthFinding);
 		REQUIRE(location == 1);
 		location = doc.FindNeedleReverse(finding, FindOption::MatchCase, &lengthFinding);
 		REQUIRE(location == 1);
-		location = doc.document.FindText(0, 2, finding.c_str(), FindOption::MatchCase, &lengthFinding);
+		location = doc.document.FindText(0, 2, finding.data(), FindOption::MatchCase, &lengthFinding);
 		REQUIRE(location == 1);
-		location = doc.document.FindText(0, 1, finding.c_str(), FindOption::MatchCase, &lengthFinding);
+		location = doc.document.FindText(0, 1, finding.data(), FindOption::MatchCase, &lengthFinding);
 		REQUIRE(location == -1);
 	}
 
 	SECTION("SearchInBothSegments") {
 		DocPlus doc("ab-ab", 0);	// a b - a b
-		std::string finding = "ab";
+		constexpr std::string_view finding = "ab";
 		for (int gapPos = 0; gapPos <= 5; gapPos++) {
 			doc.MoveGap(gapPos);
 			Sci::Position lengthFinding = finding.length();
-			Sci::Position location = doc.document.FindText(0, doc.document.Length(), finding.c_str(), FindOption::MatchCase, &lengthFinding);
+			Sci::Position location = doc.document.FindText(0, doc.document.Length(), finding.data(), FindOption::MatchCase, &lengthFinding);
 			REQUIRE(location == 0);
-			location = doc.document.FindText(2, doc.document.Length(), finding.c_str(), FindOption::MatchCase, &lengthFinding);
+			location = doc.document.FindText(2, doc.document.Length(), finding.data(), FindOption::MatchCase, &lengthFinding);
 			REQUIRE(location == 3);
 		}
 	}
 
 	SECTION("InsensitiveSearchInLatin") {
 		DocPlus doc("abcde", 0);	// a b c d e
-		std::string finding = "B";
+		constexpr std::string_view finding = "B";
 		Sci::Position lengthFinding = finding.length();
 		Sci::Position location = doc.FindNeedle(finding, FindOption::None, &lengthFinding);
 		REQUIRE(location == 1);
 		location = doc.FindNeedleReverse(finding, FindOption::None, &lengthFinding);
 		REQUIRE(location == 1);
-		location = doc.document.FindText(0, 2, finding.c_str(), FindOption::None, &lengthFinding);
+		location = doc.document.FindText(0, 2, finding.data(), FindOption::None, &lengthFinding);
 		REQUIRE(location == 1);
-		location = doc.document.FindText(0, 1, finding.c_str(), FindOption::None, &lengthFinding);
+		location = doc.document.FindText(0, 1, finding.data(), FindOption::None, &lengthFinding);
 		REQUIRE(location == -1);
 	}
 
@@ -200,11 +212,11 @@ TEST_CASE("Document") {
 		doc.SetSBCSFoldings(foldings1252, std::size(foldings1252));
 
 		// Search for upper-case AE
-		std::string finding = "\xc6";
+		std::string_view finding = "\xc6";
 		Sci::Position lengthFinding = finding.length();
 		Sci::Position location = doc.FindNeedle(finding, FindOption::None, &lengthFinding);
 		REQUIRE(location == 3);
-		location = doc.document.FindText(4, doc.document.Length(), finding.c_str(), FindOption::None, &lengthFinding);
+		location = doc.document.FindText(4, doc.document.Length(), finding.data(), FindOption::None, &lengthFinding);
 		REQUIRE(location == 5);
 		location = doc.FindNeedleReverse(finding, FindOption::None, &lengthFinding);
 		REQUIRE(location == 5);
@@ -213,7 +225,7 @@ TEST_CASE("Document") {
 		finding = "\xe6";
 		location = doc.FindNeedle(finding, FindOption::None, &lengthFinding);
 		REQUIRE(location == 3);
-		location = doc.document.FindText(4, doc.document.Length(), finding.c_str(), FindOption::None, &lengthFinding);
+		location = doc.document.FindText(4, doc.document.Length(), finding.data(), FindOption::None, &lengthFinding);
 		REQUIRE(location == 5);
 		location = doc.FindNeedleReverse(finding, FindOption::None, &lengthFinding);
 		REQUIRE(location == 5);
@@ -222,12 +234,12 @@ TEST_CASE("Document") {
 	SECTION("Search2InLatin") {
 		// Checks that the initial '_' and final 'f' are ignored since they are outside the search bounds
 		DocPlus doc("_abcdef", 0);	// _ a b c d e f
-		std::string finding = "cd";
+		constexpr std::string_view finding = "cd";
 		Sci::Position lengthFinding = finding.length();
 		size_t docLength = doc.document.Length() - 1;
-		Sci::Position location = doc.document.FindText(1, docLength, finding.c_str(), FindOption::MatchCase, &lengthFinding);
+		Sci::Position location = doc.document.FindText(1, docLength, finding.data(), FindOption::MatchCase, &lengthFinding);
 		REQUIRE(location == 3);
-		location = doc.document.FindText(docLength, 1, finding.c_str(), FindOption::MatchCase, &lengthFinding);
+		location = doc.document.FindText(docLength, 1, finding.data(), FindOption::MatchCase, &lengthFinding);
 		REQUIRE(location == 3);
 		location = doc.document.FindText(docLength, 1, "bc", FindOption::MatchCase, &lengthFinding);
 		REQUIRE(location == 2);
@@ -246,46 +258,46 @@ TEST_CASE("Document") {
 
 	SECTION("SearchInUTF8") {
 		DocPlus doc("ab\xCE\x93" "d", CpUtf8);	// a b gamma d
-		const std::string finding = "b";
+		constexpr std::string_view finding = "b";
 		Sci::Position lengthFinding = finding.length();
 		Sci::Position location = doc.FindNeedle(finding, FindOption::MatchCase, &lengthFinding);
 		REQUIRE(location == 1);
-		location = doc.document.FindText(doc.document.Length(), 0, finding.c_str(), FindOption::MatchCase, &lengthFinding);
+		location = doc.document.FindText(doc.document.Length(), 0, finding.data(), FindOption::MatchCase, &lengthFinding);
 		REQUIRE(location == 1);
-		location = doc.document.FindText(0, 1, finding.c_str(), FindOption::MatchCase, &lengthFinding);
+		location = doc.document.FindText(0, 1, finding.data(), FindOption::MatchCase, &lengthFinding);
 		REQUIRE(location == -1);
 		// Check doesn't try to follow a lead-byte past the search end
-		const std::string findingUTF = "\xCE\x93";
+		constexpr std::string_view findingUTF = "\xCE\x93";
 		lengthFinding = findingUTF.length();
-		location = doc.document.FindText(0, 4, findingUTF.c_str(), FindOption::MatchCase, &lengthFinding);
+		location = doc.document.FindText(0, 4, findingUTF.data(), FindOption::MatchCase, &lengthFinding);
 		REQUIRE(location == 2);
 		// Only succeeds as 3 is partway through character so adjusted to 4
-		location = doc.document.FindText(0, 3, findingUTF.c_str(), FindOption::MatchCase, &lengthFinding);
+		location = doc.document.FindText(0, 3, findingUTF.data(), FindOption::MatchCase, &lengthFinding);
 		REQUIRE(location == 2);
-		location = doc.document.FindText(0, 2, findingUTF.c_str(), FindOption::MatchCase, &lengthFinding);
+		location = doc.document.FindText(0, 2, findingUTF.data(), FindOption::MatchCase, &lengthFinding);
 		REQUIRE(location == -1);
 	}
 
 	SECTION("InsensitiveSearchInUTF8") {
 		DocPlus doc("ab\xCE\x93" "d", CpUtf8);	// a b gamma d
-		const std::string finding = "b";
+		constexpr std::string_view finding = "b";
 		Sci::Position lengthFinding = finding.length();
 		Sci::Position location = doc.FindNeedle(finding, FindOption::None, &lengthFinding);
 		REQUIRE(location == 1);
-		location = doc.document.FindText(doc.document.Length(), 0, finding.c_str(), FindOption::None, &lengthFinding);
+		location = doc.document.FindText(doc.document.Length(), 0, finding.data(), FindOption::None, &lengthFinding);
 		REQUIRE(location == 1);
-		const std::string findingUTF = "\xCE\x93";
+		constexpr std::string_view findingUTF = "\xCE\x93";
 		lengthFinding = findingUTF.length();
 		location = doc.FindNeedle(findingUTF, FindOption::None, &lengthFinding);
 		REQUIRE(location == 2);
-		location = doc.document.FindText(doc.document.Length(), 0, findingUTF.c_str(), FindOption::None, &lengthFinding);
+		location = doc.document.FindText(doc.document.Length(), 0, findingUTF.data(), FindOption::None, &lengthFinding);
 		REQUIRE(location == 2);
-		location = doc.document.FindText(0, 4, findingUTF.c_str(), FindOption::None, &lengthFinding);
+		location = doc.document.FindText(0, 4, findingUTF.data(), FindOption::None, &lengthFinding);
 		REQUIRE(location == 2);
 		// Only succeeds as 3 is partway through character so adjusted to 4
-		location = doc.document.FindText(0, 3, findingUTF.c_str(), FindOption::None, &lengthFinding);
+		location = doc.document.FindText(0, 3, findingUTF.data(), FindOption::None, &lengthFinding);
 		REQUIRE(location == 2);
-		location = doc.document.FindText(0, 2, findingUTF.c_str(), FindOption::None, &lengthFinding);
+		location = doc.document.FindText(0, 2, findingUTF.data(), FindOption::None, &lengthFinding);
 		REQUIRE(location == -1);
 	}
 
@@ -294,14 +306,14 @@ TEST_CASE("Document") {
 		// The 'b' can be incorrectly matched by the search string 'b' when the search
 		// does not iterate the text correctly.
 		DocPlus doc("ab\xe9" "b ", 932);	// a b {CJK UNIFIED IDEOGRAPH-9955} {space}
-		std::string finding = "b";
+		constexpr std::string_view finding = "b";
 		// Search forwards
 		Sci::Position lengthFinding = finding.length();
 		Sci::Position location = doc.FindNeedle(finding, FindOption::MatchCase, &lengthFinding);
 		REQUIRE(location == 1);
 		// Search backwards
 		lengthFinding = finding.length();
-		location = doc.document.FindText(doc.document.Length(), 0, finding.c_str(), FindOption::MatchCase, &lengthFinding);
+		location = doc.document.FindText(doc.document.Length(), 0, finding.data(), FindOption::MatchCase, &lengthFinding);
 		REQUIRE(location == 1);
 	}
 
@@ -310,27 +322,27 @@ TEST_CASE("Document") {
 		// The 'b' can be incorrectly matched by the search string 'b' when the search
 		// does not iterate the text correctly.
 		DocPlus doc("ab\xe9" "b ", 932);	// a b {CJK UNIFIED IDEOGRAPH-9955} {space}
-		std::string finding = "b";
+		constexpr std::string_view finding = "b";
 		// Search forwards
 		Sci::Position lengthFinding = finding.length();
 		Sci::Position location = doc.FindNeedle(finding, FindOption::None, &lengthFinding);
 		REQUIRE(location == 1);
 		// Search backwards
 		lengthFinding = finding.length();
-		location = doc.document.FindText(doc.document.Length(), 0, finding.c_str(), FindOption::None, &lengthFinding);
+		location = doc.document.FindText(doc.document.Length(), 0, finding.data(), FindOption::None, &lengthFinding);
 		REQUIRE(location == 1);
-		std::string finding932 = "\xe9" "b";
+		constexpr std::string_view finding932 = "\xe9" "b";
 		// Search forwards
 		lengthFinding = finding932.length();
 		location = doc.FindNeedle(finding932, FindOption::None, &lengthFinding);
 		REQUIRE(location == 2);
 		// Search backwards
 		lengthFinding = finding932.length();
-		location = doc.document.FindText(doc.document.Length(), 0, finding932.c_str(), FindOption::None, &lengthFinding);
+		location = doc.document.FindText(doc.document.Length(), 0, finding932.data(), FindOption::None, &lengthFinding);
 		REQUIRE(location == 2);
-		location = doc.document.FindText(0, 3, finding932.c_str(), FindOption::None, &lengthFinding);
+		location = doc.document.FindText(0, 3, finding932.data(), FindOption::None, &lengthFinding);
 		REQUIRE(location == 2);
-		location = doc.document.FindText(0, 2, finding932.c_str(), FindOption::None, &lengthFinding);
+		location = doc.document.FindText(0, 2, finding932.data(), FindOption::None, &lengthFinding);
 		REQUIRE(location == -1);
 		// Can not test case mapping of double byte text as folder available here does not implement this
 	}
@@ -415,8 +427,8 @@ TEST_CASE("Document") {
 		// O p e n = U+958B Ku ( O ) U+7DE8 -
 		// U+958B open
 		// U+7DE8 arrange
-		const std::string japaneseText = "Open=\x8aJ\x82\xad(O)\x95\xd2-";
-		const Sci::Position length = doc.InsertString(0, japaneseText.c_str(), japaneseText.length());
+		constexpr std::string_view japaneseText = "Open=\x8aJ\x82\xad(O)\x95\xd2-";
+		const Sci::Position length = doc.InsertString(0, japaneseText);
 		REQUIRE(length == 15);
 		// Forwards
 		REQUIRE(doc.NextPosition( 0, 1) == 1);
@@ -454,6 +466,52 @@ TEST_CASE("Document") {
 		REQUIRE(doc.NextPosition(15, -1) == 14);
 	}
 
+	SECTION("RegexSearchAndSubstitution") {
+		DocPlus doc("\n\r\r\n 1a\xCE\x93z \n\r\r\n 2b\xCE\x93y \n\r\r\n", CpUtf8);// 1a gamma z 2b gamma y
+		constexpr std::string_view finding = R"(\d+(\w+))";
+		Sci::Position lengthFinding = finding.length();
+		Sci::Position location = doc.FindNeedle(finding, FindOption::RegExp | FindOption::Posix, &lengthFinding);
+		REQUIRE(location == 5);
+		REQUIRE(lengthFinding == 5);
+
+		constexpr std::string_view substituteText = R"(\t\1\n)";
+		Sci::Position lengthsubstitute = substituteText.length();
+		std::string substituted = doc.document.SubstituteByPosition(substituteText.data(), &lengthsubstitute);
+		REQUIRE(lengthsubstitute == 6);
+		REQUIRE(substituted == "\ta\xCE\x93z\n");
+
+		lengthFinding = finding.length();
+		location = doc.FindNeedleReverse(finding, FindOption::RegExp | FindOption::Posix, &lengthFinding);
+		REQUIRE(location == 16);
+		REQUIRE(lengthFinding == 5);
+
+		lengthsubstitute = substituteText.length();
+		substituted = doc.document.SubstituteByPosition(substituteText.data(), &lengthsubstitute);
+		REQUIRE(lengthsubstitute == 6);
+		REQUIRE(substituted == "\tb\xCE\x93y\n");
+
+		#ifndef NO_CXX11_REGEX
+		lengthFinding = finding.length();
+		location = doc.FindNeedle(finding, FindOption::RegExp | FindOption::Cxx11RegEx, &lengthFinding);
+		REQUIRE(location == 5);
+		REQUIRE(lengthFinding == 5);
+
+		lengthsubstitute = substituteText.length();
+		substituted = doc.document.SubstituteByPosition(substituteText.data(), &lengthsubstitute);
+		REQUIRE(lengthsubstitute == 6);
+		REQUIRE(substituted == "\ta\xCE\x93z\n");
+
+		lengthFinding = finding.length();
+		location = doc.FindNeedleReverse(finding, FindOption::RegExp | FindOption::Cxx11RegEx, &lengthFinding);
+		REQUIRE(location == 16);
+		REQUIRE(lengthFinding == 5);
+
+		lengthsubstitute = substituteText.length();
+		substituted = doc.document.SubstituteByPosition(substituteText.data(), &lengthsubstitute);
+		REQUIRE(lengthsubstitute == 6);
+		REQUIRE(substituted == "\tb\xCE\x93y\n");
+		#endif
+	}
 }
 
 TEST_CASE("Words") {
@@ -491,7 +549,7 @@ TEST_CASE("SafeSegment") {
 	SECTION("Short") {
 		const DocPlus doc("", 0);
 		// all encoding: break before or after last space
-		const std::string_view text = "12 ";
+		constexpr std::string_view text = "12 ";
 		size_t length = doc.document.SafeSegment(text);
 		REQUIRE(length <= text.length());
 		REQUIRE(text[length - 1] == '2');
@@ -601,5 +659,74 @@ TEST_CASE("SafeSegment") {
 		length = doc.document.SafeSegment(text);
 		REQUIRE(text[length - 1] == '\x7b');
 		REQUIRE(text[length] == '\x8c');
+	}
+}
+
+TEST_CASE("PerLine") {
+	SECTION("LineMarkers") {
+		DocPlus doc("1\n2\n", CpUtf8);
+		REQUIRE(doc.document.LinesTotal() == 3);
+		const int mh1 = doc.document.AddMark(0, 0);
+		const int mh2 = doc.document.AddMark(1, 1);
+		const int mh3 = doc.document.AddMark(2, 2);
+		REQUIRE(mh1 != -1);
+		REQUIRE(mh2 != -1);
+		REQUIRE(mh3 != -1);
+		REQUIRE(doc.document.AddMark(3, 3) == -1);
+
+		// delete first character, no change
+		REQUIRE(doc.document.CharAt(0) == '1');
+		doc.document.DeleteChars(0, 1);
+		REQUIRE(doc.document.LinesTotal() == 3);
+		REQUIRE(doc.document.MarkerHandleFromLine(0, 0) == mh1);
+		REQUIRE(doc.document.MarkerHandleFromLine(0, 1) == -1);
+		REQUIRE(doc.document.MarkerHandleFromLine(1, 0) == mh2);
+		REQUIRE(doc.document.MarkerHandleFromLine(1, 1) == -1);
+
+		// delete first line, so merged
+		REQUIRE(doc.document.CharAt(0) == '\n');
+		doc.document.DeleteChars(0, 1);
+		REQUIRE(doc.document.CharAt(0) == '2');
+		const std::set handleSet {mh1, mh2};
+		const int handle1 = doc.document.MarkerHandleFromLine(0, 0);
+		const int handle2 = doc.document.MarkerHandleFromLine(0, 1);
+		REQUIRE(handle1 != handle2);
+		REQUIRE(handleSet.count(handle1) == 1);
+		REQUIRE(handleSet.count(handle2) == 1);
+		REQUIRE(doc.document.MarkerHandleFromLine(0, 2) == -1);
+		REQUIRE(doc.document.MarkerHandleFromLine(1, 0) == mh3);
+		REQUIRE(doc.document.MarkerHandleFromLine(1, 1) == -1);
+	}
+
+	SECTION("LineAnnotation") {
+		DocPlus doc("1\n2\n", CpUtf8);
+		REQUIRE(doc.document.LinesTotal() == 3);
+		Sci::Position length = doc.document.Length();
+		doc.document.AnnotationSetText(0, "1");
+		doc.document.AnnotationSetText(1, "1\n2");
+		doc.document.AnnotationSetText(2, "1\n2\n3");
+		REQUIRE(doc.document.AnnotationLines(0) == 1);
+		REQUIRE(doc.document.AnnotationLines(1) == 2);
+		REQUIRE(doc.document.AnnotationLines(2) == 3);
+		REQUIRE(doc.document.AnnotationLines(3) == 0);
+
+		// delete last line
+		length -= 1;
+		doc.document.DeleteChars(length, 1);
+		// Deleting the last line moves its 3-line annotation to previous line,
+		// deleting the 2-line annotation of the previous line.
+		REQUIRE(doc.document.LinesTotal() == 2);
+		REQUIRE(doc.document.AnnotationLines(0) == 1);
+		REQUIRE(doc.document.AnnotationLines(1) == 3);
+		REQUIRE(doc.document.AnnotationLines(2) == 0);
+
+		// delete last character, no change
+		length -= 1;
+		REQUIRE(doc.document.CharAt(length) == '2');
+		doc.document.DeleteChars(length, 1);
+		REQUIRE(doc.document.LinesTotal() == 2);
+		REQUIRE(doc.document.AnnotationLines(0) == 1);
+		REQUIRE(doc.document.AnnotationLines(1) == 3);
+		REQUIRE(doc.document.AnnotationLines(2) == 0);
 	}
 }

@@ -27,7 +27,6 @@ style.simple.1=fore:#FF0000
 #include <string.h>
 #include <assert.h>
 
-#include <string>
 #include <string_view>
 
 #include "ILexer.h"

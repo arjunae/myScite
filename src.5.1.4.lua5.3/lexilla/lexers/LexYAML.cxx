@@ -48,11 +48,11 @@ constexpr bool IsWhiteSpaceOrEOL(char ch) noexcept {
 	return ch == ' ' || ch == '\t' || ch == '\n' || ch == '\r';
 }
 
-unsigned int SpaceCount(const char* lineBuffer) noexcept {
+unsigned int SpaceCount(char* lineBuffer) noexcept {
 	if (lineBuffer == nullptr)
 		return 0;
 
-	const char* headBuffer = lineBuffer;
+	char* headBuffer = lineBuffer;
 
 	while (*headBuffer == ' ')
 		headBuffer++;
@@ -60,10 +60,10 @@ unsigned int SpaceCount(const char* lineBuffer) noexcept {
 	return static_cast<unsigned int>(headBuffer - lineBuffer);
 }
 
-bool KeywordAtChar(const char* lineBuffer, const char* startComment, const WordList &keywords) noexcept {
+bool KeywordAtChar(const char* lineBuffer, char* startComment, const WordList &keywords) noexcept {
 	if (lineBuffer == nullptr || startComment <= lineBuffer)
 		return false;
-	const char* endValue = startComment - 1;
+	char* endValue = startComment - 1;
 	while (endValue >= lineBuffer && *endValue == ' ')
 		endValue--;
 	Sci_PositionU len = static_cast<Sci_PositionU>(endValue - lineBuffer) + 1;

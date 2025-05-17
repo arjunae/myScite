@@ -1,11 +1,11 @@
 --
 -- SciTEProject.lua, initialize Project and CTags Support for mySciTE.
--- see SciTEDirectory.properties props project.name project.path project.ctags.opt project.sdk.api
+-- see SciTEDirectory.properties props project.name project.path project.session.ctags project.sdk.api
 -- @License: BSD3Clause. @Author Thorsten Kani
 -- uses tools\ctags to write session.ctags to temp
 -- uses tool\ctags\parseCTags to write session.ctags.api to projects root\ctags
 -- imports session.ctags.api and.properties
--- Version: 1.0 rc1 30.04.25
+-- Version: 1.0 rc2 14.05.25
 --
 
 local DEBUG=0 --2 verbose Mode
@@ -50,20 +50,24 @@ function dir_exists(path)
     return ok or code == 13  -- 13 = permission denied (means it exists)
 end
 
+function trim(s)
+    return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
 
 -- init Project Folders
 -- (ctags, Autocomplete & highlitening)
 function ProjectSetEnv()
-	local lockfile = os.getenv("tmp") .. dirSep .. "project.ctags.lock"
-	local success, err = os.remove(lockfile)
 
 	props["properties.directory.enable"]=1
-	if props["SciteDirectoryHome"] ~= props["FileDir"] then --for calltips
+	if props["SciteDirectoryHome"] ~="" then projectHome= props["SciteDirectoryHome"]
+		elseif file_exists(props["FileDir"]..dirSep.."SciTE.properties") then
+		 projectHome= props["FileDir"]..dirSep.."SciTE.properties"
+	end
+	if props["project.name"] ~="" then
 		props["project.inProject"] = 1
-		props["project.path"] = props["SciteDirectoryHome"]
-		props["project.ctags.filename"]="ctags.tags"
+		props["project.path"] = projectHome
 		props["project.session.api"]=props["project.path"]..dirSep.."ctags"..dirSep.."scite.session.ctags"..".api"
-		props["project.ctags.propspath"]=props["project.path"]..dirSep.."ctags"..dirSep.."scite.session.ctags"..".properties"
+		props["project.session.props"]=props["project.path"]..dirSep.."ctags"..dirSep.."scite.session.ctags"..".properties"
 		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
 		props["project.ctags.bin"]="myctags.cmd" -- invokes parseCTags.lua which creates a lockfile 
 	else
@@ -75,7 +79,7 @@ end
 
 --
 -- CTagsImportProps() / publish cTag extrapolated Api Data to scites props -
--- reads session.cTag.properties File and writes them to SciTEs .properties.
+-- reads session.cTag.properties File and writes them to SciTEs .properties buffer.
 -- prepared for just appending a set of filebased Ctags for speed.
 -- returns cTagList, which contains a List of all Names found in the tagFile
 --
@@ -154,7 +158,7 @@ function CTagsImportAPI(theForceMightBeWithYou,fileNamePath)
 
 	if cTagList and sdkApiPath and sdkApiPath==props["project.sdk.api"] then return end --Already done ?
 	if props["project.path"]=="" then return end
-	if not fileNamePath or fileNamePath=="" then fileNamePath=props["project.ctags.propspath"] end
+	if not fileNamePath or fileNamePath=="" then fileNamePath=props["project.session.props"] end
 	props["api."..props["file.patterns.project"]] =""
 
 
@@ -188,7 +192,7 @@ function ProjectOnDwell()
 		ctagsLock=false
 		os.remove(finFileNamePath)
 		if DEBUG==1 then print("ProjectOnDwell, CTags file was updated. Found ", finFileNamePath) end 	
-		local fileNamePath= (props["project.ctags.propspath"])
+		local fileNamePath= (props["project.session.props"])
 		CTagsImportAPI(true,fileNamePath)
 	end
 	finFile=nil
@@ -210,18 +214,18 @@ function CTagsRecreate()
 		ctagsTMP="\""..os.getenv("tmp")..dirSep.."scite.session.ctags\"" -- raw .ctags go here
 		ctagsAPI=props["project.path"].."\\ctags\\ " -- parsed .api goes here
 		os.remove(os.getenv("tmp")..dirSep.."*.session.ctags")
+
+		if ctagsBin and ctagsOpt then
 		--cTags doesnt start without this (in our configuration)
-		if not dir_exists(props["project.path"]..dirSep.."ctags") then os.execute("mkdir " .. props["project.path"]..dirSep.."ctags") end
-		local fExcludes=props["project.path"]..dirSep.."ctags"..dirSep.."ctags.excludes"	
-		if not file_exists(fExcludes) then local file = io.open(fExcludes, "w") ; file:close() end
-		-- start collecting cTags
-		if ctagsBin and ctagsOpt then 
+		if not dir_exists(props["project.path"]..dirSep.."ctags") then os.execute("mkdir " .. trim(props["project.path"])..dirSep.."ctags") end
+			local fExcludes=trim(props["project.path"])..dirSep.."ctags"..dirSep.."ctags.excludes"	
+			if not file_exists(fExcludes) then local file , err= io.open(fExcludes, "w") ; file:close() end
+ 		-- start collecting cTags
 				ctagsCMD=toolPath..dirSep..ctagsBin.." "..ctagsOpt.." -f "..ctagsTMP.." -R " ..props["project.path"] 
 				if DEBUG==1 then print("CTagsRecreate All, starting " .. props["project.path"] ) end 
 
 			local pipe=scite_Popen(ctagsCMD)
-			local tmp= pipe:read('*a'); print (tmp)
-			pipe:close()
+			local tmp= pipe:read('*a'); --print (tmp)
 
 			local pipe=scite_Popen(toolPath..dirSep.."mylua.cmd tools\\ctags\\parseCTags.lua "..ctagsAPI.." "..ctagsTMP)
 			if DEBUG==2 then 
@@ -234,8 +238,11 @@ function CTagsRecreate()
 	end	
 end
 
+-- remove previous lockfile
+local lockfile = os.getenv("tmp") .. dirSep .. "project.ctags.lock"
+local success, err = os.remove(lockfile)
 
--- Registers the event Handlers early.
+-- Registers the event Handlers early.	
 ProjectSetEnv()
 scite_OnOpenSwitch(CTagsImportAPI,false,"")
 scite_OnDwellStart(ProjectOnDwell)

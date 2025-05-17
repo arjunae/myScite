@@ -30,12 +30,12 @@
 namespace {
 
 #if defined(_WIN32)
-using Function = FARPROC;
-using Module = HMODULE;
+typedef FARPROC Function;
+typedef HMODULE Module;
 constexpr const char *pathSeparator = "\\";
 #else
-using Function = void *;
-using Module = void *;
+typedef void *Function;
+typedef void *Module;
 constexpr const char *pathSeparator = "/";
 #endif
 
@@ -52,15 +52,10 @@ T FunctionPointer(Function function) noexcept {
 #if defined(_WIN32)
 
 std::wstring WideStringFromUTF8(bpstd::string_view sv) {
-    const int sLength = static_cast<int>(sv.size());
+    const int sLength = static_cast<int>(sv.length());
     const int cchWide = ::MultiByteToWideChar(CP_UTF8, 0, sv.data(), sLength, nullptr, 0);
-    if (cchWide == 0)
-        throw std::runtime_error("MultiByteToWideChar failed");
-
-    std::wstring sWide;
-    sWide.resize(cchWide);
+    std::wstring sWide(cchWide, 0);
     ::MultiByteToWideChar(CP_UTF8, 0, sv.data(), sLength, &sWide[0], cchWide);
-
     return sWide;
 }
 #endif
@@ -168,10 +163,9 @@ bool Lexilla::Load(bpstd::string_view sharedLibraryPaths) {
 			if (fnLexerCount && fnLexerName) {
 				const int nLexers = fnLexerCount();
 				for (int i = 0; i < nLexers; i++) {
-					constexpr size_t lengthName = 200;
-					char name[lengthName]{};
+					char name[100] = "";
 					fnLexerName(i, name, sizeof(name));
-					lexers.emplace_back(name);
+					lexers.push_back(name);
 				}
 			}
 			CreateLexerFn fnCL = FunctionPointer<CreateLexerFn>(
@@ -273,7 +267,7 @@ std::string Lexilla::NameFromID(int identifier) {
 			}
 		}
 	}
-	return {};
+	return std::string();
 }
 
 std::vector<std::string> Lexilla::LibraryProperties() {

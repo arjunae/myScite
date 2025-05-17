@@ -21,7 +21,7 @@ LD=link
 !IFDEF SUPPORT_XP
 ADD_DEFINE=-D_USING_V110_SDK71_
 # Different subsystems for 32-bit and 64-bit Windows XP so detect based on Platform
-# environment vairable set by vcvars*.bat to be either x86 or x64
+# environment variable set by vcvars*.bat to be either x86 or x64
 !IF "$(PLATFORM)" == "x64"
 SUBSYSTEM=-SUBSYSTEM:WINDOWS,5.02
 !ELSE
@@ -35,14 +35,14 @@ SUBSYSTEM=-SUBSYSTEM:WINDOWS,10.00
 !ENDIF
 !ENDIF
 
-CRTFLAGS=-D_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1 -D_CRT_SECURE_NO_DEPRECATE=1 -D_SCL_SECURE_NO_WARNINGS=1 $(ADD_DEFINE)
-CXXFLAGS=-Zi -TP -MP -W4 -EHsc -std:c++17 $(CRTFLAGS)
+CRTFLAGS=$(ADD_DEFINE)
+CXXFLAGS=-Zi -TP -MP -W4 -EHsc -std:c++17 -utf-8 $(CRTFLAGS)
 CXXDEBUG=-Od -MTd -DDEBUG
-CXXNDEBUG=-O1 -MT -DNDEBUG -GL
+CXXNDEBUG=-O2 -MT -DNDEBUG -GL
 NAME=-Fo
 LDFLAGS=-OPT:REF -LTCG -IGNORE:4197 -DEBUG $(SUBSYSTEM) $(CETCOMPAT)
 LDDEBUG=
-LIBS=KERNEL32.lib USER32.lib GDI32.lib IMM32.lib OLE32.lib OLEAUT32.lib MSIMG32.lib
+LIBS=KERNEL32.lib USER32.lib GDI32.lib IMM32.lib OLE32.lib OLEAUT32.lib
 NOLOGO=-nologo
 
 !IFDEF QUIET
@@ -82,6 +82,7 @@ SRC_OBJS=\
 	$(DIR_O)\CaseConvert.obj \
 	$(DIR_O)\CaseFolder.obj \
 	$(DIR_O)\CellBuffer.obj \
+	$(DIR_O)\ChangeHistory.obj \
 	$(DIR_O)\CharacterCategoryMap.obj \
 	$(DIR_O)\CharacterType.obj \
 	$(DIR_O)\CharClassify.obj \
@@ -138,7 +139,7 @@ $(LIBSCI): $(COMPONENT_OBJS)
 
 !IF EXISTS(nmdeps.mak)
 
-# Protect with !IF EXISTS to handle accidental deletion - just 'nmake -f scintilla.mak deps'
+# Protect with !IF EXISTS to handle accidental deletion - just 'nmake -f scintilla.mak depend'
 
 !INCLUDE nmdeps.mak
 

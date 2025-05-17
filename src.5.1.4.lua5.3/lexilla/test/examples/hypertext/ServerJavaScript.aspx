@@ -15,6 +15,5 @@ Start
 <%var x=3;//comment%>
 <%x=3;//comment ?> %>
 <%Response.Write(x)%>
-<%Response.Write(`template ${2+2}`)%>
 End
 </html>

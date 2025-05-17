@@ -69,7 +69,6 @@ Searcher::Searcher() {
 	reverseFind = false;
 	filterState = false;
 	contextVisible = false;
-
 	searchStartPosition = 0;
 	replacing = false;
 	havefound = false;
@@ -1733,30 +1732,37 @@ std::string SciTEBase::EliminateDuplicateWords(const std::string &words) {
 }
 
 bool SciTEBase::StartAutoComplete() {
-	const std::string line = GetCurrentLine();
-	const SA::Position current = GetCaretInLine();
+    const std::string line = GetCurrentLine();
+    const SA::Position current = GetCaretInLine();
 
-	SA::Position startword = current;
+    SA::Position startword = current;
 
-	while ((startword > 0) &&
-			(Contains(calltipWordCharacters, line[startword - 1]) ||
-			 Contains(autoCompleteStartCharacters, line[startword - 1]))) {
-		startword--;
-	}
+    while ((startword > 0) &&
+           (Contains(calltipWordCharacters, line[startword - 1]) ||
+            Contains(autoCompleteStartCharacters, line[startword - 1]))) {
+        startword--;
+    }
 
-	const std::string root = line.substr(startword, current - startword);
-	if (apis) {
-		const std::string words = GetNearestWords(root.c_str(), root.length(),
-						    calltipParametersStart.c_str(), autoCompleteIgnoreCase);
-		if (!words.empty()) {
-			std::string wordsUnique = EliminateDuplicateWords(words);
-			wEditor.AutoCSetSeparator(' ');
-			wEditor.AutoCSetMaxHeight(autoCompleteVisibleItemCount);
-			wEditor.AutoCShow(root.length(), wordsUnique.c_str());
-		}
-	}
-	return true;
+    const std::string root = line.substr(startword, current - startword);
+
+    if (static_cast<int>(root.length()) < autoCCMinLength) {
+        // Not enough characters yet
+        return true;
+    }
+
+    if (apis) {
+        const std::string words = GetNearestWords(root.c_str(), root.length(),
+        calltipParametersStart.c_str(), autoCompleteIgnoreCase);
+        if (!words.empty()) {
+            std::string wordsUnique = EliminateDuplicateWords(words);
+            wEditor.AutoCSetSeparator(' ');
+            wEditor.AutoCSetMaxHeight(autoCompleteVisibleItemCount);
+            wEditor.AutoCShow(root.length(), wordsUnique.c_str());
+        }
+    }
+    return true;
 }
+
 
 bool SciTEBase::StartAutoCompleteWord(bool onlyOneWord) {
 	const std::string line = GetCurrentLine();

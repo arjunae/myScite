@@ -54,7 +54,6 @@ public:
     void NotifyModified(Document *doc, DocModification mh, void *userData) override;
     void NotifyDeleted(Document *doc, void *userData) noexcept override;
     void NotifyStyleNeeded(Document *doc, void *userData, Sci::Position endPos) override;
-    void NotifyLexerChanged(Document *doc, void *userData) override;
     void NotifyErrorOccurred(Document *doc, void *userData, Status status) override;
 };
 
@@ -83,10 +82,6 @@ void WatcherHelper::NotifyDeleted(Document *, void *) noexcept {
 
 void WatcherHelper::NotifyStyleNeeded(Document *, void *, Sci::Position endPos) {
     emit owner->style_needed(endPos);
-}
-
-void WatcherHelper::NotifyLexerChanged(Document *, void *) {
-    emit owner->lexer_changed();
 }
 
 void WatcherHelper::NotifyErrorOccurred(Document *, void *, Status status) {
@@ -187,7 +182,7 @@ void ScintillaDocument::insert_string(int position, QByteArray &str) {
 }
 
 QByteArray ScintillaDocument::get_char_range(int position, int length) {
-    Document *doc = static_cast<Document *>(pdoc);
+    const Document *doc = static_cast<Document *>(pdoc);
 
     if (position < 0 || length <= 0 || position + length > doc->Length())
         return QByteArray();

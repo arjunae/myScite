@@ -259,9 +259,12 @@ void ColouriseTOMLDoc(Sci_PositionU startPos, Sci_Position lengthDoc, int initSt
 						}
 					} else if (sc.state == SCE_TOML_KEY && !IsTOMLUnquotedKey(sc.ch)) {
 						const int chNext = GetLineNextChar(sc);
-						if (chNext == '=' || (chNext != '.' && chPrevNonWhite != '.')) {
+						if (chNext == '=') {
 							keyState = TOMLKeyState::End;
 							sc.SetState(SCE_TOML_DEFAULT);
+						} else if (chNext != '.' && chPrevNonWhite != '.') {
+							sc.ChangeState(SCE_TOML_ERROR);
+							continue;
 						}
 					}
 				}

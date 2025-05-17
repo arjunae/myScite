@@ -8,7 +8,7 @@
 #ifndef DIRECTOREXTENSION_H
 #define DIRECTOREXTENSION_H
 
-class DirectorExtension : public Extension {
+ class DirectorExtension : public Extension {
 private:
 	ExtensionAPI *host {};
 	DirectorExtension() {} // Singleton

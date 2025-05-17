@@ -158,7 +158,6 @@ function OnInit()
 --	checkUpdates() -- check for a new version using githubs readme.md
 	scite_OnOpenSwitch(myScite_OpenSwitch)
 
-
 end
 
 

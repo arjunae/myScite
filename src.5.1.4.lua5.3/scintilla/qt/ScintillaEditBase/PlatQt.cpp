@@ -12,6 +12,7 @@
 
 #include "PlatQt.h"
 #include "Scintilla.h"
+#include "XPM.h"
 #include "UniConversion.h"
 #include "DBCS.h"
 
@@ -36,7 +37,6 @@
 #include <QListWidget>
 #include <QVarLengthArray>
 #include <QScrollBar>
-#include <QDesktopWidget>
 #include <QTextLayout>
 #include <QTextLine>
 #include <QLibrary>
@@ -117,15 +117,13 @@ class FontAndCharacterSet : public Font {
 public:
 	CharacterSet characterSet = CharacterSet::Ansi;
 	std::unique_ptr<QFont> pfont;
-	explicit FontAndCharacterSet(const FontParameters &fp) {
+	explicit FontAndCharacterSet(const FontParameters &fp) : characterSet(fp.characterSet) {
 		pfont = std::make_unique<QFont>();
 		pfont->setStyleStrategy(ChooseStrategy(fp.extraFontFlag));
 		pfont->setFamily(QString::fromUtf8(fp.faceName));
 		pfont->setPointSizeF(fp.size);
 		pfont->setBold(static_cast<int>(fp.weight) > 500);
 		pfont->setItalic(fp.italic);
-
-		characterSet = fp.characterSet;
 	}
 };
 
@@ -154,8 +152,7 @@ std::shared_ptr<Font> Font::Allocate(const FontParameters &fp)
 	return std::make_shared<FontAndCharacterSet>(fp);
 }
 
-SurfaceImpl::SurfaceImpl()
-{}
+SurfaceImpl::SurfaceImpl() = default;
 
 SurfaceImpl::SurfaceImpl(int width, int height, SurfaceMode mode_)
 {
@@ -343,19 +340,8 @@ void SurfaceImpl::FillRectangle(PRectangle rc, Surface &surfacePattern)
 {
 	// Tile pattern over rectangle
 	SurfaceImpl *surface = dynamic_cast<SurfaceImpl *>(&surfacePattern);
-	// Currently assumes 8x8 pattern
-	int widthPat = 8;
-	int heightPat = 8;
-	for (int xTile = rc.left; xTile < rc.right; xTile += widthPat) {
-		int widthx = (xTile + widthPat > rc.right) ? rc.right - xTile : widthPat;
-		for (int yTile = rc.top; yTile < rc.bottom; yTile += heightPat) {
-			int heighty = (yTile + heightPat > rc.bottom) ? rc.bottom - yTile : heightPat;
-			QRect source(0, 0, widthx, heighty);
-			QRect target(xTile, yTile, widthx, heighty);
-			QPixmap *pixmap = static_cast<QPixmap *>(surface->GetPaintDevice());
-			GetPainter()->drawPixmap(target, *pixmap, source);
-		}
-	}
+	const QPixmap *pixmap = static_cast<QPixmap *>(surface->GetPaintDevice());
+	GetPainter()->drawTiledPixmap(QRectFromPRect(rc), *pixmap);
 }
 
 void SurfaceImpl::RoundedRectangle(PRectangle rc, FillStroke fillStroke)
@@ -456,8 +442,8 @@ void SurfaceImpl::Stadium(PRectangle rc, FillStroke fillStroke, Ends ends) {
 
 	QPainterPath path;
 
-	const Ends leftSide = static_cast<Ends>(static_cast<int>(ends) & 0xf);
-	const Ends rightSide = static_cast<Ends>(static_cast<int>(ends) & 0xf0);
+	const Ends leftSide = static_cast<Ends>(static_cast<unsigned int>(ends) & 0xfu);
+	const Ends rightSide = static_cast<Ends>(static_cast<unsigned int>(ends) & 0xf0u);
 	switch (leftSide) {
 		case Ends::leftFlat:
 			path.moveTo(rc.left + halfStroke, rc.top + halfStroke);
@@ -559,7 +545,7 @@ void SurfaceImpl::DrawTextTransparent(PRectangle rc,
 void SurfaceImpl::SetClip(PRectangle rc)
 {
 	GetPainter()->save();
-	GetPainter()->setClipRect(QRectFFromPRect(rc));
+	GetPainter()->setClipRect(QRectFFromPRect(rc), Qt::IntersectClip);
 }
 
 void SurfaceImpl::PopClip()
@@ -623,7 +609,11 @@ XYPOSITION SurfaceImpl::WidthText(const Font *font, std::string_view text)
 	QFontMetricsF metrics(*FontPointer(font), device);
 	SetCodec(font);
 	QString su = UnicodeFromText(codec, text);
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	return metrics.horizontalAdvance(su);
+#else
 	return metrics.width(su);
+#endif
 }
 
 void SurfaceImpl::DrawTextNoClipUTF8(PRectangle rc,
@@ -704,7 +694,11 @@ XYPOSITION SurfaceImpl::WidthTextUTF8(const Font *font, std::string_view text)
 {
 	QFontMetricsF metrics(*FontPointer(font), device);
 	QString su = QString::fromUtf8(text.data(), static_cast<int>(text.length()));
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	return metrics.horizontalAdvance(su);
+#else
 	return metrics.width(su);
+#endif
 }
 
 XYPOSITION SurfaceImpl::Ascent(const Font *font)
@@ -797,6 +791,9 @@ QRect ScreenRectangleForPoint(QPoint posGlobal)
 {
 #if QT_VERSION >= QT_VERSION_CHECK(5, 10, 0)
 	const QScreen *screen = QGuiApplication::screenAt(posGlobal);
+	if (!screen) {
+		screen = QGuiApplication::primaryScreen();
+	}
 	return screen->availableGeometry();
 #else
 	const QDesktopWidget *desktop = QApplication::desktop();
@@ -806,7 +803,7 @@ QRect ScreenRectangleForPoint(QPoint posGlobal)
 
 }
 
-Window::~Window() noexcept {}
+Window::~Window() noexcept = default;
 
 void Window::Destroy() noexcept
 {
@@ -847,6 +844,8 @@ void Window::SetPositionRelative(PRectangle rc, const Window *relativeTo)
 		ox = rectDesk.right() - sizex;
 	if (oy + sizey > rectDesk.bottom())
 		oy = rectDesk.bottom() - sizey;
+	if (oy < rectDesk.top())
+		oy = rectDesk.top();
 
 	Q_ASSERT(wid);
 	window(wid)->move(ox, oy);
@@ -925,7 +924,11 @@ public:
 protected:
 	void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected) override;
 	void mouseDoubleClickEvent(QMouseEvent *event) override;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+	void initViewItemOption(QStyleOptionViewItem *option) const override;
+#else
 	QStyleOptionViewItem viewOptions() const override;
+#endif
 
 private:
 	IListBoxDelegate *delegate;
@@ -959,15 +962,13 @@ public:
 	void SetList(const char *list, char separator, char typesep) override;
 	void SetOptions(ListOptions options_) override;
 
-	ListWidget *GetWidget() const noexcept;
+	[[nodiscard]] ListWidget *GetWidget() const noexcept;
 private:
-	bool unicodeMode;
-	int visibleRows;
+	bool unicodeMode{false};
+	int visibleRows{5};
 	QMap<int,QPixmap> images;
 };
-ListBoxImpl::ListBoxImpl() noexcept
-: unicodeMode(false), visibleRows(5)
-{}
+ListBoxImpl::ListBoxImpl() noexcept = default;
 
 void ListBoxImpl::Create(Window &parent,
                          int /*ctrlID*/,
@@ -990,7 +991,7 @@ void ListBoxImpl::Create(Window &parent,
 #endif
 	);
 #else
-	// On OS X, Qt::Tool takes focus so main window loses focus so
+	// On macOS, Qt::Tool takes focus so main window loses focus so
 	// keyboard stops working. Qt::ToolTip works but its only really
 	// documented for tooltips.
 	// On Linux / X this setting allows clicking on list items.
@@ -1062,7 +1063,7 @@ int ListBoxImpl::CaretFromEdge()
 	}
 
 	int extra;
-	// The 12 is from trial and error on OS X and the 7
+	// The 12 is from trial and error on macOS and the 7
 	// is from trial and error on Windows - there may be
 	// a better programmatic way to find any padding factors.
 #ifdef Q_OS_DARWIN
@@ -1146,7 +1147,9 @@ void ListBoxImpl::RegisterQPixmapImage(int type, const QPixmap& pm)
 
 void ListBoxImpl::RegisterImage(int type, const char *xpmData)
 {
-	RegisterQPixmapImage(type, QPixmap(reinterpret_cast<const char * const *>(xpmData)));
+	XPM xpmImage(xpmData);
+	RGBAImage rgbaImage(xpmImage);
+	RegisterRGBAImage(type, rgbaImage.GetWidth(), rgbaImage.GetHeight(), rgbaImage.Pixels());
 }
 
 void ListBoxImpl::RegisterRGBAImage(int type, int width, int height, const unsigned char *pixelsImage)
@@ -1204,8 +1207,8 @@ ListWidget *ListBoxImpl::GetWidget() const noexcept
 	return static_cast<ListWidget *>(wid);
 }
 
-ListBox::ListBox() noexcept {}
-ListBox::~ListBox() noexcept {}
+ListBox::ListBox() noexcept = default;
+ListBox::~ListBox() noexcept = default;
 
 std::unique_ptr<ListBox> ListBox::Allocate()
 {
@@ -1247,12 +1250,20 @@ void ListWidget::mouseDoubleClickEvent(QMouseEvent * /* event */)
 	}
 }
 
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void ListWidget::initViewItemOption(QStyleOptionViewItem *option) const
+{
+	QListWidget::initViewItemOption(option);
+	option->state |= QStyle::State_Active;
+}
+#else
 QStyleOptionViewItem ListWidget::viewOptions() const
 {
 	QStyleOptionViewItem result = QListWidget::viewOptions();
 	result.state |= QStyle::State_Active;
 	return result;
 }
+#endif
 //----------------------------------------------------------------------
 Menu::Menu() noexcept : mid(nullptr) {}
 void Menu::CreatePopUp()
@@ -1321,7 +1332,7 @@ void Platform::DebugPrintf(const char *format, ...) noexcept
 	char buffer[2000];
 	va_list pArguments{};
 	va_start(pArguments, format);
-	vsprintf(buffer, format, pArguments);
+	vsnprintf(buffer, std::size(buffer), format, pArguments);
 	va_end(pArguments);
 	Platform::DebugDisplay(buffer);
 }
@@ -1334,7 +1345,7 @@ bool Platform::ShowAssertionPopUps(bool /*assertionPopUps*/) noexcept
 void Platform::Assert(const char *c, const char *file, int line) noexcept
 {
 	char buffer[2000];
-	sprintf(buffer, "Assertion [%s] failed at %s %d", c, file, line);
+	snprintf(buffer, std::size(buffer), "Assertion [%s] failed at %s %d", c, file, line);
 	if (Platform::ShowAssertionPopUps(false)) {
 		QMessageBox mb("Assertion Failure", buffer, QMessageBox::NoIcon,
 			QMessageBox::Ok, QMessageBox::NoButton, QMessageBox::NoButton);

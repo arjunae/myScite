@@ -1129,6 +1129,8 @@ void SciTEBase::ReadProperties() {
 	wEditor.AutoCSetCancelAtStart(false);
 	wEditor.AutoCSetDropRestOfWord(false);
 
+	autoCCMinLength=props.GetInt("autocomplete.min.length", 3);
+
 	OptionalSetColour(wEditor, SA::Element::List, props, "autocomplete.fore");
 	OptionalSetColour(wEditor, SA::Element::ListBack, props, "autocomplete.back");
 	OptionalSetColour(wEditor, SA::Element::ListSelected, props, "autocomplete.selected.fore");

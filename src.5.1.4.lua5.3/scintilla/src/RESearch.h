@@ -14,8 +14,6 @@ namespace Scintilla::Internal {
 class CharacterIndexer {
 public:
 	virtual char CharAt(Sci::Position index) const=0;
-	virtual ~CharacterIndexer() {
-	}
 };
 
 class RESearch {
@@ -23,17 +21,16 @@ class RESearch {
 public:
 	explicit RESearch(CharClassify *charClassTable);
 	// No dynamic allocation so default copy constructor and assignment operator are OK.
-	void Clear() noexcept;
-	void GrabMatches(const CharacterIndexer &ci);
+	void Clear();
 	const char *Compile(const char *pattern, Sci::Position length, bool caseSensitive, bool posix) noexcept;
 	int Execute(const CharacterIndexer &ci, Sci::Position lp, Sci::Position endp);
 
 	static constexpr int MAXTAG = 10;
 	static constexpr int NOTFOUND = -1;
 
-	Sci::Position bopat[MAXTAG];
-	Sci::Position eopat[MAXTAG];
-	std::string pat[MAXTAG];
+	using MatchPositions = std::array<Sci::Position, MAXTAG>;
+	MatchPositions bopat;
+	MatchPositions eopat;
 
 private:
 
@@ -48,7 +45,7 @@ private:
 	void ChSetWithCase(unsigned char c, bool caseSensitive) noexcept;
 	int GetBackslashExpression(const char *pattern, int &incr) noexcept;
 
-	Sci::Position PMatch(const CharacterIndexer &ci, Sci::Position lp, Sci::Position endp, char *ap);
+	Sci::Position PMatch(const CharacterIndexer &ci, Sci::Position lp, Sci::Position endp, const char *ap);
 
 	Sci::Position bol;
 	Sci::Position tagstk[MAXTAG];  /* subpat tag stack */

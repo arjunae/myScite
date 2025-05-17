@@ -2,11 +2,13 @@
 [30.04.2025]
 = Reboot =
 src: SciTE 5.1.4 cpp14 backport
+src: Ownerdrawn Menu (less padding)
 dirs: simplify directory structure
-lua: Autocomplete using CTAGS with Namespace (::) Support
+lua: Autocomplete using CTAGS with limited Class(::)Member Support. 
+     See tools/sample.SciTEDirectory.properties
 lua: Autocomplete is able to import ac_{lexerLanguage}.api
-lus: updated libs
-themes: theme.white and theme.blue
+lua: updated libs
+themes: Add theme.white and theme.blue
 
 ---
 

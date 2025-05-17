@@ -45,6 +45,20 @@ local function file_exists(name)
    if f~=nil then fs.close(f) return true else return false end
 end
 
+--
+-- Returns size of a File
+--
+function file_size(filename)
+    local file = io.open(filename, "rb")  -- Offne die Datei im Binarmodus (read binary)
+    if not file then
+        return nil, "not found ,so no file Size."
+    end
+
+    local size = file:seek("end")  -- Bewege den Cursor ans Ende und bekomme die Position (Dateigrose)
+    file:close()
+    return size
+end
+
 -- read args
 local projectFilePath=arg[1]
 local cTagsFilePath =arg[2]
@@ -294,20 +308,27 @@ end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 if odo then
+
+    -- this really has to fly so define maximum ctags Filesize to 5Mb. 
+	print(cTagsFileName)
+    fSize,err=file_size(cTagsFileName)
+    if not err and fSize > 5242880 then print("Error: ctags File too large. Max 5Mb."); return end
+    
     APIFilePath=projectFilePath..cTagsFileName..".api"
     finFileNamePath=os.getenv("tmp")..dirSep.."project.ctags.fin"
     lockFileNamePath=os.getenv("tmp")..dirSep.."project.ctags.lock"
 
     -- create a lock file
     os.remove(finFileNamePath)
-local lockFile = io.open(lockFileNamePath, "w")
-if lockFile then
-    lockFile:write(os.date())
-    lockFile:flush()
-    lockFile:close()
-else
-    print("Fehler beim Erstellen der Lock-Datei: " .. lockFileNamePath)
-end
+	local lockFile = io.open(lockFileNamePath, "w")
+	if lockFile then
+		 lockFile:write(os.date())
+		 lockFile:flush()
+		 lockFile:close()
+	else
+		print("Fehler beim Erstellen der Lock-Datei: " .. lockFileNamePath)
+	end
+
 
     -- do!
     appendCTags({},projectFilePath,cTagsFileName,projectName)

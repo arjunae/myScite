@@ -12,7 +12,7 @@ TEMPLATE = lib
 CONFIG += lib_bundle
 CONFIG += c++1z
 
-VERSION = 5.1.4
+VERSION = 5.4.0
 
 SOURCES += \
     PlatQt.cpp \
@@ -44,6 +44,7 @@ SOURCES += \
     ../../src/CharClassify.cxx \
     ../../src/CharacterType.cxx \
     ../../src/CharacterCategoryMap.cxx \
+    ../../src/ChangeHistory.cxx \
     ../../src/CellBuffer.cxx \
     ../../src/CaseFolder.cxx \
     ../../src/CaseConvert.cxx \
@@ -78,6 +79,7 @@ HEADERS  += \
     ../../src/CharClassify.h \
     ../../src/CharacterType.h \
     ../../src/CharacterCategoryMap.h \
+    ../../src/ChangeHistory.h \
     ../../src/CellBuffer.h \
     ../../src/CaseFolder.h \
     ../../src/CaseConvert.h \
@@ -90,7 +92,7 @@ OTHER_FILES +=
 
 INCLUDEPATH += ../../include ../../src
 
-DEFINES += SCINTILLA_QT=1 MAKING_LIBRARY=1 _CRT_SECURE_NO_DEPRECATE=1
+DEFINES += SCINTILLA_QT=1 MAKING_LIBRARY=1
 CONFIG(release, debug|release) {
     DEFINES += NDEBUG=1
 }

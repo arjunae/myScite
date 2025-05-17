@@ -205,6 +205,7 @@
 
 #include <stdexcept>
 #include <string>
+#include <array>
 #include <algorithm>
 #include <iterator>
 
@@ -260,23 +261,9 @@ RESearch::RESearch(CharClassify *charClassTable) {
 	Clear();
 }
 
-void RESearch::Clear() noexcept {
-	for (int i = 0; i < MAXTAG; i++) {
-		pat[i].clear();
-		bopat[i] = NOTFOUND;
-		eopat[i] = NOTFOUND;
-	}
-}
-
-void RESearch::GrabMatches(const CharacterIndexer &ci) {
-	for (unsigned int i = 0; i < MAXTAG; i++) {
-		if ((bopat[i] != NOTFOUND) && (eopat[i] != NOTFOUND)) {
-			const Sci::Position len = eopat[i] - bopat[i];
-			pat[i].resize(len);
-			for (Sci::Position j = 0; j < len; j++)
-				pat[i][j] = ci.CharAt(bopat[i] + j);
-		}
-	}
+void RESearch::Clear() {
+	bopat.fill(NOTFOUND);
+	eopat.fill(NOTFOUND);
 }
 
 void RESearch::ChSet(unsigned char c) noexcept {
@@ -305,6 +292,7 @@ constexpr unsigned char escapeValue(unsigned char ch) noexcept {
 	case 'r':	return '\r';
 	case 't':	return '\t';
 	case 'v':	return '\v';
+	default:	break;
 	}
 	return 0;
 }
@@ -353,7 +341,7 @@ int RESearch::GetBackslashExpression(
 	// I choose to interpret unexpected syntax in a logical way instead
 	// of reporting errors. Otherwise, we can stick on, eg., PCRE behaviour.
 	incr = 0;	// Most of the time, will skip the char "naturally".
-	int c;
+	int c = 0;
 	int result = -1;
 	const unsigned char bsc = *pattern;
 	if (!bsc) {
@@ -433,16 +421,18 @@ int RESearch::GetBackslashExpression(
 
 const char *RESearch::Compile(const char *pattern, Sci::Position length, bool caseSensitive, bool posix) noexcept {
 	char *mp=nfa;          /* nfa pointer       */
-	char *lp;              /* saved pointer     */
+	char *lp=nullptr;      /* saved pointer     */
 	char *sp=nfa;          /* another one       */
-	char *mpMax = mp + MAXNFA - BITBLK - 10;
+	const char * mpMax = mp + MAXNFA - BITBLK - 10;
 
 	int tagi = 0;          /* tag stack index   */
 	int tagc = 1;          /* actual tag count  */
 
-	int n;
-	char mask;             /* xor mask -CCL/NCL */
-	int c1, c2, prevChar;
+	int n = 0;
+	char mask = 0;         /* xor mask -CCL/NCL */
+	int c1 = 0;
+	int c2 = 0;
+	int prevChar = 0;
 
 	if (!pattern || !length) {
 		if (sta)
@@ -753,9 +743,9 @@ const char *RESearch::Compile(const char *pattern, Sci::Position length, bool ca
  *
  */
 int RESearch::Execute(const CharacterIndexer &ci, Sci::Position lp, Sci::Position endp) {
-	unsigned char c;
+	unsigned char c = 0;
 	Sci::Position ep = NOTFOUND;
-	char *ap = nfa;
+	const char * const ap = nfa;
 
 	bol = lp;
 	failure = 0;
@@ -768,7 +758,7 @@ int RESearch::Execute(const CharacterIndexer &ci, Sci::Position lp, Sci::Positio
 		ep = PMatch(ci, lp, endp, ap);
 		break;
 	case EOL:			/* just searching for end of line normal path doesn't work */
-		if (*(ap+1) == END) {
+		if (ap[1] == END) {
 			lp = endp;
 			ep = lp;
 			break;
@@ -776,7 +766,7 @@ int RESearch::Execute(const CharacterIndexer &ci, Sci::Position lp, Sci::Positio
 			return 0;
 		}
 	case CHR:			/* ordinary char: locate it fast */
-		c = *(ap+1);
+		c = ap[1];
 		while ((lp < endp) && (static_cast<unsigned char>(ci.CharAt(lp)) != c))
 			lp++;
 		if (lp >= endp)	/* if EOS, fail, else fall through. */
@@ -840,13 +830,15 @@ int RESearch::Execute(const CharacterIndexer &ci, Sci::Position lp, Sci::Positio
 #define CHRSKIP 3	/* [CLO] CHR chr END      */
 #define CCLSKIP 34	/* [CLO] CCL 32 bytes END */
 
-Sci::Position RESearch::PMatch(const CharacterIndexer &ci, Sci::Position lp, Sci::Position endp, char *ap) {
-	int op, c, n;
-	Sci::Position e;		/* extra pointer for CLO  */
-	Sci::Position bp;		/* beginning of subpat... */
-	Sci::Position ep;		/* ending of subpat...    */
-	Sci::Position are;	/* to save the line ptr.  */
-	Sci::Position llp;	/* lazy lp for LCLO       */
+Sci::Position RESearch::PMatch(const CharacterIndexer &ci, Sci::Position lp, Sci::Position endp, const char *ap) {
+	int op = 0;
+	int c = 0;
+	int n = 0;
+	Sci::Position e = 0;		/* extra pointer for CLO  */
+	Sci::Position bp = 0;		/* beginning of subpat... */
+	Sci::Position ep = 0;		/* ending of subpat...    */
+	Sci::Position are = 0;	/* to save the line ptr.  */
+	Sci::Position llp = 0;	/* lazy lp for LCLO       */
 
 	while ((op = *ap++) != END)
 		switch (op) {
@@ -912,7 +904,7 @@ Sci::Position RESearch::PMatch(const CharacterIndexer &ci, Sci::Position lp, Sci
 				n = ANYSKIP;
 				break;
 			case CHR:
-				c = *(ap+1);
+				c = ap[1];
 				if (op == CLO || op == LCLO)
 					while ((lp < endp) && (c == ci.CharAt(lp)))
 						lp++;

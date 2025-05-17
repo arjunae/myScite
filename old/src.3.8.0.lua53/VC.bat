@@ -132,7 +132,7 @@ goto en
 :clean
 echo Scintilla
 cd src\scintilla\win32
-REM nmake -f scintilla.mak clean 2>NUL
+nmake -f scintilla.mak clean 2>NUL
 echo Scite
 cd ..\..\scite\win32
 nmake -f scite.mak clean 2>NUL

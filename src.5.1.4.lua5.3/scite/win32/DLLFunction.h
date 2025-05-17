@@ -4,7 +4,7 @@
  **/
 // Copyright 2020 by Neil Hodgson <neilh@scintilla.org>
 // The License.txt file describes the conditions under which this software may be distributed.
-
+ 
 #ifndef DLLFUNCTION_H
 #define DLLFUNCTION_H
 

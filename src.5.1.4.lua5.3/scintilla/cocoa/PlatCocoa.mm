@@ -1,6 +1,6 @@
 /**
  * Scintilla source code edit control
- * @file PlatCocoa.mm - implementation of platform facilities on MacOS X/Cocoa
+ * @file PlatCocoa.mm - implementation of platform facilities on macOS/Cocoa
  *
  * Written by Mike Lischke
  * Based on PlatMacOSX.cxx
@@ -27,9 +27,6 @@
 #include <functional>
 #include <memory>
 #include <numeric>
-
-#include <dlfcn.h>
-#include <sys/time.h>
 
 #import <Foundation/NSGeometry.h>
 
@@ -76,10 +73,8 @@ NSRect PRectangleToNSRect(const PRectangle &rc) {
 /**
  * Converts an NSRect as used by the system to a native Scintilla rectangle.
  */
-PRectangle NSRectToPRectangle(NSRect &rc) {
-	return PRectangle(static_cast<XYPOSITION>(rc.origin.x), static_cast<XYPOSITION>(rc.origin.y),
-			  static_cast<XYPOSITION>(NSMaxX(rc)),
-			  static_cast<XYPOSITION>(NSMaxY(rc)));
+PRectangle NSRectToPRectangle(const NSRect &rc) {
+	return PRectangle(rc.origin.x, rc.origin.y, NSMaxX(rc), NSMaxY(rc));
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -351,6 +346,7 @@ const Supports SupportsCocoa[] = {
 	Supports::FractionalStrokeWidth,
 	Supports::TranslucentStroke,
 	Supports::PixelModification,
+	Supports::ThreadSafeMeasureWidths,
 };
 
 }
@@ -360,9 +356,6 @@ const Supports SupportsCocoa[] = {
 SurfaceImpl::SurfaceImpl() {
 	gc = NULL;
 
-	textLayout.reset(new QuartzTextLayout());
-	verticalDeviceResolution = 0;
-
 	bitmapData.reset(); // Release will try and delete bitmapData if != nullptr
 	bitmapWidth = 0;
 	bitmapHeight = 0;
@@ -371,8 +364,6 @@ SurfaceImpl::SurfaceImpl() {
 }
 
 SurfaceImpl::SurfaceImpl(const SurfaceImpl *surface, int width, int height) {
-
-	textLayout.reset(new QuartzTextLayout());
 
 	// Create a new bitmap context, along with the RAM for the bitmap itself
 	bitmapWidth = width;
@@ -1273,8 +1264,8 @@ void SurfaceImpl::DrawTextTransparent(PRectangle rc, const Font *font_, XYPOSITI
 
 	CGColorRelease(color);
 
-	textLayout->setText(text, encoding, style);
-	textLayout->draw(gc, rc.left, ybase);
+	QuartzTextLayout layoutDraw(text, encoding, style);
+	layoutDraw.draw(gc, rc.left, ybase);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1285,24 +1276,24 @@ void SurfaceImpl::MeasureWidths(const Font *font_, std::string_view text, XYPOSI
 		return;
 	}
 	CFStringEncoding encoding = EncodingFromCharacterSet(UnicodeMode(), style->getCharacterSet());
-	const CFStringEncoding encodingUsed =
-		textLayout->setText(text, encoding, style);
+	QuartzTextLayout layoutMeasure(text, encoding, style);
+	const CFStringEncoding encodingUsed = layoutMeasure.getEncoding();
 
-	CTLineRef mLine = textLayout->getCTLine();
+	CTLineRef mLine = layoutMeasure.getCTLine();
 	assert(mLine);
 
 	if (encodingUsed != encoding) {
 		// Switched to MacRoman to make work so treat as single byte encoding.
 		for (int i=0; i<text.length(); i++) {
 			CGFloat xPosition = CTLineGetOffsetForStringIndex(mLine, i+1, nullptr);
-			positions[i] = static_cast<XYPOSITION>(xPosition);
+			positions[i] = xPosition;
 		}
 		return;
 	}
 
 	if (UnicodeMode()) {
 		// Map the widths given for UTF-16 characters back onto the UTF-8 input string
-		CFIndex fit = textLayout->getStringLength();
+		CFIndex fit = layoutMeasure.getStringLength();
 		int ui=0;
 		int i=0;
 		std::vector<CGFloat> linePositions(fit);
@@ -1313,7 +1304,7 @@ void SurfaceImpl::MeasureWidths(const Font *font_, std::string_view text, XYPOSI
 			const int codeUnits = UTF16LengthFromUTF8ByteCount(byteCount);
 			const CGFloat xPosition = linePositions[ui];
 			for (unsigned int bytePos=0; (bytePos<byteCount) && (i<text.length()); bytePos++) {
-				positions[i++] = static_cast<XYPOSITION>(xPosition);
+				positions[i++] = xPosition;
 			}
 			ui += codeUnits;
 		}
@@ -1329,14 +1320,14 @@ void SurfaceImpl::MeasureWidths(const Font *font_, std::string_view text, XYPOSI
 			size_t lenChar = DBCSIsLeadByte(mode.codePage, text[i]) ? 2 : 1;
 			CGFloat xPosition = CTLineGetOffsetForStringIndex(mLine, ui+1, NULL);
 			for (unsigned int bytePos=0; (bytePos<lenChar) && (i<text.length()); bytePos++) {
-				positions[i++] = static_cast<XYPOSITION>(xPosition);
+				positions[i++] = xPosition;
 			}
 			ui++;
 		}
 	} else {	// Single byte encoding
 		for (int i=0; i<text.length(); i++) {
 			CGFloat xPosition = CTLineGetOffsetForStringIndex(mLine, i+1, NULL);
-			positions[i] = static_cast<XYPOSITION>(xPosition);
+			positions[i] = xPosition;
 		}
 	}
 
@@ -1348,9 +1339,9 @@ XYPOSITION SurfaceImpl::WidthText(const Font *font_, std::string_view text) {
 		return 1;
 	}
 	CFStringEncoding encoding = EncodingFromCharacterSet(UnicodeMode(), style->getCharacterSet());
-	textLayout->setText(text, encoding, style);
+	QuartzTextLayout layoutMeasure(text, encoding, style);
 
-	return static_cast<XYPOSITION>(textLayout->MeasureStringWidth());
+	return static_cast<XYPOSITION>(layoutMeasure.MeasureStringWidth());
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1390,8 +1381,8 @@ void SurfaceImpl::DrawTextTransparentUTF8(PRectangle rc, const Font *font_, XYPO
 
 	CGColorRelease(color);
 
-	textLayout->setText(text, encoding, style);
-	textLayout->draw(gc, rc.left, ybase);
+	QuartzTextLayout layoutDraw(text, encoding, style);
+	layoutDraw.draw(gc, rc.left, ybase);
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1401,24 +1392,24 @@ void SurfaceImpl::MeasureWidthsUTF8(const Font *font_, std::string_view text, XY
 	if (!style) {
 		return;
 	}
-	const CFStringEncoding encoding = kCFStringEncodingUTF8;
-	const CFStringEncoding encodingUsed =
-		textLayout->setText(text, encoding, style);
+	constexpr CFStringEncoding encoding = kCFStringEncodingUTF8;
+	QuartzTextLayout layoutMeasure(text, encoding, style);
+	const CFStringEncoding encodingUsed = layoutMeasure.getEncoding();
 
-	CTLineRef mLine = textLayout->getCTLine();
+	CTLineRef mLine = layoutMeasure.getCTLine();
 	assert(mLine);
 
 	if (encodingUsed != encoding) {
 		// Switched to MacRoman to make work so treat as single byte encoding.
 		for (int i=0; i<text.length(); i++) {
 			CGFloat xPosition = CTLineGetOffsetForStringIndex(mLine, i+1, nullptr);
-			positions[i] = static_cast<XYPOSITION>(xPosition);
+			positions[i] = xPosition;
 		}
 		return;
 	}
 
 	// Map the widths given for UTF-16 characters back onto the UTF-8 input string
-	CFIndex fit = textLayout->getStringLength();
+	CFIndex fit = layoutMeasure.getStringLength();
 	int ui=0;
 	int i=0;
 	std::vector<CGFloat> linePositions(fit);
@@ -1429,7 +1420,7 @@ void SurfaceImpl::MeasureWidthsUTF8(const Font *font_, std::string_view text, XY
 		const int codeUnits = UTF16LengthFromUTF8ByteCount(byteCount);
 		const CGFloat xPosition = linePositions[ui];
 		for (unsigned int bytePos=0; (bytePos<byteCount) && (i<text.length()); bytePos++) {
-			positions[i++] = static_cast<XYPOSITION>(xPosition);
+			positions[i++] = xPosition;
 		}
 		ui += codeUnits;
 	}
@@ -1446,9 +1437,8 @@ XYPOSITION SurfaceImpl::WidthTextUTF8(const Font *font_, std::string_view text) 
 	if (!style) {
 		return 1;
 	}
-	textLayout->setText(text, kCFStringEncodingUTF8, style);
-
-	return static_cast<XYPOSITION>(textLayout->MeasureStringWidth());
+	QuartzTextLayout layoutMeasure(text, kCFStringEncodingUTF8, style);
+	return static_cast<XYPOSITION>(layoutMeasure.MeasureStringWidth());
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -1554,8 +1544,8 @@ PRectangle Window::GetPosition() const {
 		CGFloat screenHeight = ScreenMax();
 		// Invert screen positions to match Scintilla
 		return PRectangle(
-			       static_cast<XYPOSITION>(NSMinX(rect)), static_cast<XYPOSITION>(screenHeight - NSMaxY(rect)),
-			       static_cast<XYPOSITION>(NSMaxX(rect)), static_cast<XYPOSITION>(screenHeight - NSMinY(rect)));
+			       NSMinX(rect), screenHeight - NSMaxY(rect),
+			       NSMaxX(rect), screenHeight - NSMinY(rect));
 	} else {
 		return PRectangle(0, 0, 1, 1);
 	}
@@ -1599,7 +1589,7 @@ void Window::SetPositionRelative(PRectangle rc, const Window *window) {
 //--------------------------------------------------------------------------------------------------
 
 PRectangle Window::GetClientPosition() const {
-	// This means, in MacOS X terms, get the "frame bounds". Call GetPosition, just like on Win32.
+	// This means, in macOS terms, get the "frame bounds". Call GetPosition, just like on Win32.
 	return GetPosition();
 }
 
@@ -1694,8 +1684,8 @@ PRectangle Window::GetMonitorRect(Point) {
 			CGFloat screenHeight = rect.origin.y + rect.size.height;
 			// Invert screen positions to match Scintilla
 			PRectangle rcWork(
-				static_cast<XYPOSITION>(NSMinX(rect)), static_cast<XYPOSITION>(screenHeight - NSMaxY(rect)),
-				static_cast<XYPOSITION>(NSMaxX(rect)), static_cast<XYPOSITION>(screenHeight - NSMinY(rect)));
+				NSMinX(rect), screenHeight - NSMaxY(rect),
+				NSMaxX(rect), screenHeight - NSMinY(rect));
 			PRectangle rcMonitor(rcWork.left - rcPosition.left,
 					     rcWork.top - rcPosition.top,
 					     rcWork.right - rcPosition.left,
@@ -1960,7 +1950,7 @@ void ListBoxImpl::Create(Window & /*parent*/, int /*ctrlID*/, Scintilla::Interna
 						      styleMask: NSWindowStyleMaskBorderless
 							backing: NSBackingStoreBuffered
 							  defer: NO];
-	[winLB setLevel: NSFloatingWindowLevel];
+	[winLB setLevel: NSModalPanelWindowLevel+1];
 	[winLB setHasShadow: YES];
 	NSRect scRect = NSMakeRect(0, 0, lbRect.size.width, lbRect.size.height);
 	scroller = [[NSScrollView alloc] initWithFrame: scRect];
@@ -2090,7 +2080,7 @@ void ListBoxImpl::Append(char *s, int type) {
 	}
 	NSImage *img = images[@(type)];
 	if (img) {
-		XYPOSITION widthIcon = static_cast<XYPOSITION>(img.size.width);
+		XYPOSITION widthIcon = img.size.width;
 		if (widthIcon > maxIconWidth) {
 			[colIcon setHidden: NO];
 			maxIconWidth = widthIcon;

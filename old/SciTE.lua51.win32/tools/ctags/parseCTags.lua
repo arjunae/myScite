@@ -4,7 +4,8 @@
 -- This script processes a ctags output file and generates
 --    .api file for function calltips and autocompletion.
 --    .properties file for symbol highlighting and categorization.
---
+--    project.ctags.fin and .lock Files
+-- 
 -- License: BSD-3-Clause
 -- Author: Thorsten Kani
 -- Contact: Marcedo@habMalNeFrage.de
@@ -14,6 +15,7 @@
 --   <project_path>       Path where output files will be written.
 --   <ctags_filePath>     the ctags file to process (with or without path).
 --
+-- Limits: only (Member)functions. No defines, structs, unions or enums.
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 local DEBUG=0 --1: Trace Mode 2: Verbose Mode
@@ -33,9 +35,7 @@ local fs=io
 --
 -- Deal with different Path Separators o linux/win
 --
-local function dirSep()
-        return("\\")
-end
+local dirSep = package.config:sub(1,1)
 
 --
 -- returns if a given fileNamePath exists
@@ -43,6 +43,20 @@ end
 local function file_exists(name)
    local f=fs.open(name,"r")
    if f~=nil then fs.close(f) return true else return false end
+end
+
+--
+-- Returns size of a File
+--
+function file_size(filename)
+    local file = io.open(filename, "rb")  -- Offne die Datei im Binarmodus (read binary)
+    if not file then
+        return nil, "not found ,so no file Size."
+    end
+
+    local size = file:seek("end")  -- Bewege den Cursor ans Ende und bekomme die Position (Dateigrose)
+    file:close()
+    return size
 end
 
 -- read args
@@ -59,9 +73,9 @@ else
     if smallerFile=="1" then smallerFile=true end
 
     -- when theres no pathseperator given, interpret a filename
-    if cTagsFilePath:match(dirSep())==nil then 
+    if cTagsFilePath:match(dirSep)==nil then 
         cTagsFileName=cTagsFilePath
-        cTagsFilePath="."..dirSep()..cTagsFileName -- Think that the file is local
+        cTagsFilePath="."..dirSep..cTagsFileName -- Think that the file is local
     end	
 
     cTagsFileName =cTagsFilePath:match(".*\\%/?(.*)$")
@@ -82,7 +96,7 @@ end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
-    local cTagsFilePath=os.getenv("tmp")..dirSep().."scite.session.ctags"
+    local cTagsFilePath=os.getenv("tmp")..dirSep.."scite.session.ctags"
     local cTagsAPIPath=projectFilePath..cTagsFileName..".api"
     local cTagItems=""
     -- catches not otherwise matched Stuff for Highlitghtning. Turn on for testing.
@@ -294,18 +308,27 @@ end
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 if odo then
+
+    -- this really has to fly so define maximum ctags Filesize to 5Mb. 
+	print(cTagsFileName)
+    fSize,err=file_size(cTagsFileName)
+    if not err and fSize > 5242880 then print("Error: ctags File too large. Max 5Mb."); return end
+    
     APIFilePath=projectFilePath..cTagsFileName..".api"
-    finFileNamePath=os.getenv("tmp")..dirSep().."project.ctags.fin"
-    lockFileNamePath=os.getenv("tmp")..dirSep().."project.ctags.lock"
+    finFileNamePath=os.getenv("tmp")..dirSep.."project.ctags.fin"
+    lockFileNamePath=os.getenv("tmp")..dirSep.."project.ctags.lock"
 
     -- create a lock file
     os.remove(finFileNamePath)
-    lockFile=io.open(lockFileNamePath,"w")
-    lockFile= io.output(lockFileNamePath)
-    io.output(lockFile) 
-    io.write(tostring(os.date))
-    io.flush()
-    io.close(lockFile)
+	local lockFile = io.open(lockFileNamePath, "w")
+	if lockFile then
+		 lockFile:write(os.date())
+		 lockFile:flush()
+		 lockFile:close()
+	else
+		print("Fehler beim Erstellen der Lock-Datei: " .. lockFileNamePath)
+	end
+
 
     -- do!
     appendCTags({},projectFilePath,cTagsFileName,projectName)

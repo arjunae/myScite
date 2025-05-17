@@ -1,142 +1,610 @@
-# @brief   Makefile for liblua.lib and lua.dll (using Visual C++ and NMAKE).
-# @author  eel3
-# @date    2016/04/26
-#
-# @note
-# - Lua 5.3.2
-# - Visual Studio 2013 Professional
+INSTALL_ROOT=   C:\Lua53
 
-# -- copy from original Makefile : begin -------------------------------
+BINDIR=         $(INSTALL_ROOT)\bin
+INCLUDEDIR=     $(INSTALL_ROOT)\include
+LIBDIR=         $(INSTALL_ROOT)\lib
 
-CORE_O=	lapi.o lcode.o lctype.o ldebug.o ldo.o ldump.o lfunc.o lgc.o llex.o \
-	lmem.o lobject.o lopcodes.o lparser.o lstate.o lstring.o ltable.o \
-	ltm.o lundump.o lvm.o lzio.o
-LIB_O=	lauxlib.o lbaselib.o lbitlib.o lcorolib.o ldblib.o liolib.o \
-	lmathlib.o loslib.o lstrlib.o ltablib.o lutf8lib.o loadlib.o linit.o \
-	lpcap.o lpcode.o lpprint.o lptree.o lpvm.o 
-# -- copy from original Makefile : end ---------------------------------
+LUA_NAME=       lua.exe
+LUA_LIB_NAME=   lua.lib
 
-OBJS    = $(CORE_O) $(LIB_O)
+LUAC_NAME=      luac.exe
 
-LUAV        = 5.3
-LUALIB      = liblua$(LUAV).lib
-LUADLLBASE  = lua$(LUAV)
-LUADLL      = $(LUADLLBASE).dll
-LUAEXE      = $(LUADLLBASE).exe
-LUASCILEXER = $(LUADLLBASE)_scilexer.exe
-LUADLLLIB   = $(LUADLLBASE).lib
-LUADLLEXP   = $(LUADLLBASE).exp
+SOURCE_ROOT=    $(MAKEDIR)
 
-RESULT  = $(LUALIB) $(LUADLL) $(LUADLLLIB) $(LUADLLEXP)
+CFLAGS=/O2 /TC /MT /DLUA_COMPAT_5_1 /DWIN32 /D_WINDOWS /D_MBCS \
+/GS $(WARN) $(RUNTIME) $(OPTIM) 
 
-# ----------------------------------------------------------------------
+LUA_LIB_DEPS=lapi.obj lcode.obj lctype.obj ldebug.obj ldo.obj ldump.obj \
+    lfunc.obj lgc.obj llex.obj lmem.obj lobject.obj lopcodes.obj \
+    lparser.obj lstate.obj lstring.obj ltable.obj ltm.obj lundump.obj \
+    lvm.obj lzio.obj lauxlib.obj lbaselib.obj lbitlib.obj lcorolib.obj ldblib.obj \
+    liolib.obj lmathlib.obj loslib.obj lstrlib.obj ltablib.obj \
+    lutf8lib.obj loadlib.obj linit.obj
 
-WARN    = /W3
-RUNTIME = /MT
-OPTIM   = /Od
+LUA_DEPS=lua.obj 
 
-CFLAGS  = /GS $(WARN) $(RUNTIME) $(OPTIM) /DWIN32 /D_WINDOWS /D_MBCS \
-           /DLUA_COMPAT_5_1 /DLUA_BUILD_AS_DLL
+LUAC_DEPS=luac.obj
 
-# ----------------------------------------------------------------------
+ALL_DEPS=$(LUA_LIB_DEPS) $(LUA_DEPS) $(LUAC_DEPS)
 
-usage:
-	@echo usage: nmake /f ^<this_makefile_name^> [all^|dll^|lib]
+TO_BIN=$(LUA_NAME) $(LUAC_NAME)
+TO_INCLUDE=lua.h luaconf.h lualib.h lauxlib.h lua.hpp
+TO_LIB=$(LUA_LIB_NAME)
 
-all: lib dll
-lib: $(LUALIB)
-dll: $(LUADLL)
-exe: $(LUAEXE)
-exescilexer: $(LUASCILEXER)
+all: $(LUA_LIB_NAME)  $(LUA_NAME) 
 
-$(LUALIB): $(OBJS)
-	lib.exe /OUT:$@ $(OBJS)
+cleanobj:
+    @echo Cleaning object files...
+    @del /F $(LUA_DEPS) $(LUAC_DEPS) $(LUA_LIB_DEPS)
 
-$(LUADLL): $(OBJS)
-	link.exe /OUT:$@ /DLL $(OBJS)
+clean: cleanobj
+    @echo Cleaning binaries and libraries...
+    @del /F $(LUA_NAME) $(LUAC_NAME) $(LUA_LIB_NAME)
 
-$(LUAEXE): lua.o
- link.exe /OUT:$@ -nologo lua.o $(LUADLLLIB)
+install: all
+    @echo Creating destination directory for binaries...
+    @mkdir "$(BINDIR)"
+    @echo Copying binaries...
+    @for %%G in ($(TO_BIN)) do copy /Y "%%G" "$(BINDIR)\%%G"
+    @echo Creating destination directory for headers...
+    @mkdir "$(INCLUDEDIR)"
+    @echo Copying headers...
+    @for %%G in ($(TO_INCLUDE)) do copy /Y "$(SOURCE_ROOT)\%%G" "$(INCLUDEDIR)\%%G"
+    @echo Creating destination directory for libraries...
+    @mkdir "$(LIBDIR)"
+    @echo Copying libraries...
+    @for %%G in ($(TO_LIB)) do copy /Y "%%G" "$(LIBDIR)\%%G"
 
-$(LUASCILEXER): lua.o
- link.exe /OUT:$@ -nologo lua.o ..\..\..\clib\scite_lua5.3\SciLexer.lib
- 
-clean:
-	del *.o *.exp  1>NUL 2>NUL
+$(LUA_LIB_NAME): $(LUA_LIB_DEPS)
+    lib.exe /OUT:$(LUA_LIB_NAME) $(LUA_LIB_DEPS)
 
-.c.o:
-	$(CC) $(CFLAGS) /Fo$@ /c $<
+$(LUA_NAME): $(LUA_DEPS) $(LUA_LIB_DEPS) 
+    link.exe /OUT:$(LUA_NAME) $(LUA_DEPS) $(LUA_LIB_DEPS) ..\..\..\clib\scite_lua5.3\scite.lib
 
-# -- copy from original Makefile : begin -------------------------------
-
-lapi.o: lapi.c lprefix.h lua.h luaconf.h lapi.h llimits.h lstate.h \
- lobject.h ltm.h lzio.h lmem.h ldebug.h ldo.h lfunc.h lgc.h lstring.h \
- ltable.h lundump.h lvm.h
-lauxlib.o: lauxlib.c lprefix.h lua.h luaconf.h lauxlib.h
-lbaselib.o: lbaselib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
-lbitlib.o: lbitlib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
-lcode.o: lcode.c lprefix.h lua.h luaconf.h lcode.h llex.h lobject.h \
- llimits.h lzio.h lmem.h lopcodes.h lparser.h ldebug.h lstate.h ltm.h \
- ldo.h lgc.h lstring.h ltable.h lvm.h
-lcorolib.o: lcorolib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
-lctype.o: lctype.c lprefix.h lctype.h lua.h luaconf.h llimits.h
-ldblib.o: ldblib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
-ldebug.o: ldebug.c lprefix.h lua.h luaconf.h lapi.h llimits.h lstate.h \
- lobject.h ltm.h lzio.h lmem.h lcode.h llex.h lopcodes.h lparser.h \
- ldebug.h ldo.h lfunc.h lstring.h lgc.h ltable.h lvm.h
-ldo.o: ldo.c lprefix.h lua.h luaconf.h lapi.h llimits.h lstate.h \
- lobject.h ltm.h lzio.h lmem.h ldebug.h ldo.h lfunc.h lgc.h lopcodes.h \
- lparser.h lstring.h ltable.h lundump.h lvm.h
-ldump.o: ldump.c lprefix.h lua.h luaconf.h lobject.h llimits.h lstate.h \
- ltm.h lzio.h lmem.h lundump.h
-lfunc.o: lfunc.c lprefix.h lua.h luaconf.h lfunc.h lobject.h llimits.h \
- lgc.h lstate.h ltm.h lzio.h lmem.h
-lgc.o: lgc.c lprefix.h lua.h luaconf.h ldebug.h lstate.h lobject.h \
- llimits.h ltm.h lzio.h lmem.h ldo.h lfunc.h lgc.h lstring.h ltable.h
-linit.o: linit.c lprefix.h lua.h luaconf.h lualib.h lauxlib.h
-liolib.o: liolib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
-llex.o: llex.c lprefix.h lua.h luaconf.h lctype.h llimits.h ldebug.h \
- lstate.h lobject.h ltm.h lzio.h lmem.h ldo.h lgc.h llex.h lparser.h \
- lstring.h ltable.h
-lmathlib.o: lmathlib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
-lmem.o: lmem.c lprefix.h lua.h luaconf.h ldebug.h lstate.h lobject.h \
- llimits.h ltm.h lzio.h lmem.h ldo.h lgc.h
-loadlib.o: loadlib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
-lobject.o: lobject.c lprefix.h lua.h luaconf.h lctype.h llimits.h \
- ldebug.h lstate.h lobject.h ltm.h lzio.h lmem.h ldo.h lstring.h lgc.h \
- lvm.h
-lopcodes.o: lopcodes.c lprefix.h lopcodes.h llimits.h lua.h luaconf.h
-loslib.o: loslib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
-lparser.o: lparser.c lprefix.h lua.h luaconf.h lcode.h llex.h lobject.h \
- llimits.h lzio.h lmem.h lopcodes.h lparser.h ldebug.h lstate.h ltm.h \
- ldo.h lfunc.h lstring.h lgc.h ltable.h
-lstate.o: lstate.c lprefix.h lua.h luaconf.h lapi.h llimits.h lstate.h \
- lobject.h ltm.h lzio.h lmem.h ldebug.h ldo.h lfunc.h lgc.h llex.h \
- lstring.h ltable.h
-lstring.o: lstring.c lprefix.h lua.h luaconf.h ldebug.h lstate.h \
- lobject.h llimits.h ltm.h lzio.h lmem.h ldo.h lstring.h lgc.h
-lstrlib.o: lstrlib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
-ltable.o: ltable.c lprefix.h lua.h luaconf.h ldebug.h lstate.h lobject.h \
- llimits.h ltm.h lzio.h lmem.h ldo.h lgc.h lstring.h ltable.h lvm.h
-ltablib.o: ltablib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
-ltm.o: ltm.c lprefix.h lua.h luaconf.h ldebug.h lstate.h lobject.h \
- llimits.h ltm.h lzio.h lmem.h ldo.h lstring.h lgc.h ltable.h lvm.h
-lua.o: lua.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
-luac.o: luac.c lprefix.h lua.h luaconf.h lauxlib.h lobject.h llimits.h \
- lstate.h ltm.h lzio.h lmem.h lundump.h ldebug.h lopcodes.h
-lundump.o: lundump.c lprefix.h lua.h luaconf.h ldebug.h lstate.h \
- lobject.h llimits.h ltm.h lzio.h lmem.h ldo.h lfunc.h lstring.h lgc.h \
- lundump.h
-lutf8lib.o: lutf8lib.c lprefix.h lua.h luaconf.h lauxlib.h lualib.h
-lvm.o: lvm.c lprefix.h lua.h luaconf.h ldebug.h lstate.h lobject.h \
- llimits.h ltm.h lzio.h lmem.h ldo.h lfunc.h lgc.h lopcodes.h lstring.h \
- ltable.h lvm.h
-lzio.o: lzio.c lprefix.h lua.h luaconf.h llimits.h lmem.h lstate.h \
- lobject.h ltm.h lzio.h
-lpcap.o: lpcap.c lpcap.h lptypes.h lua.h lauxlib.h
-lpcode.o: lpcode.c lpcode.h lptypes.h lua.h lauxlib.h
-lpprint.o: lpprint.c lpprint.h lptypes.h lua.h lauxlib.h
-lptree.o: lptree.c lptree.h lptypes.h lua.h lauxlib.h
-lpvm.o: lpvm.c lpvm.h lptypes.h lua.h lauxlib.h
-
-# -- copy from original Makefile : end --------------------------------
+$(LUAC_NAME): $(LUAC_DEPS) $(LUA_LIB_DEPS)
+    link.exe /OUT:$(LUAC_NAME) $(LUAC_DEPS) $(LUA_LIB_DEPS)
+    
+lapi.obj: {$(SOURCE_ROOT)}lapi.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lapi.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}ldebug.h \
+    {$(SOURCE_ROOT)}ldo.h \
+    {$(SOURCE_ROOT)}lfunc.h \
+    {$(SOURCE_ROOT)}lgc.h \
+    {$(SOURCE_ROOT)}lstring.h \
+    {$(SOURCE_ROOT)}ltable.h \
+    {$(SOURCE_ROOT)}lundump.h \
+    {$(SOURCE_ROOT)}lvm.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lauxlib.obj: {$(SOURCE_ROOT)}lauxlib.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lauxlib.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lbaselib.obj: {$(SOURCE_ROOT)}lbaselib.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lauxlib.h \
+    {$(SOURCE_ROOT)}lualib.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lbitlib.obj: {$(SOURCE_ROOT)}lbitlib.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lauxlib.h \
+    {$(SOURCE_ROOT)}lualib.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lcode.obj: {$(SOURCE_ROOT)}lcode.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lcode.h \
+    {$(SOURCE_ROOT)}llex.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}lopcodes.h \
+    {$(SOURCE_ROOT)}lparser.h \
+    {$(SOURCE_ROOT)}ldebug.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}ldo.h \
+    {$(SOURCE_ROOT)}lgc.h \
+    {$(SOURCE_ROOT)}lstring.h \
+    {$(SOURCE_ROOT)}ltable.h \
+    {$(SOURCE_ROOT)}lvm.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lcorolib.obj: {$(SOURCE_ROOT)}lcorolib.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lauxlib.h \
+    {$(SOURCE_ROOT)}lualib.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lctype.obj: {$(SOURCE_ROOT)}lctype.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lctype.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}llimits.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+ldblib.obj: {$(SOURCE_ROOT)}ldblib.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lauxlib.h \
+    {$(SOURCE_ROOT)}lualib.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+ldebug.obj: {$(SOURCE_ROOT)}ldebug.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lapi.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}lcode.h \
+    {$(SOURCE_ROOT)}llex.h \
+    {$(SOURCE_ROOT)}lopcodes.h \
+    {$(SOURCE_ROOT)}lparser.h \
+    {$(SOURCE_ROOT)}ldebug.h \
+    {$(SOURCE_ROOT)}ldo.h \
+    {$(SOURCE_ROOT)}lfunc.h \
+    {$(SOURCE_ROOT)}lstring.h \
+    {$(SOURCE_ROOT)}lgc.h \
+    {$(SOURCE_ROOT)}ltable.h \
+    {$(SOURCE_ROOT)}lvm.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+ldo.obj: {$(SOURCE_ROOT)}ldo.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lapi.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}ldebug.h \
+    {$(SOURCE_ROOT)}ldo.h \
+    {$(SOURCE_ROOT)}lfunc.h \
+    {$(SOURCE_ROOT)}lgc.h \
+    {$(SOURCE_ROOT)}lopcodes.h \
+    {$(SOURCE_ROOT)}lparser.h \
+    {$(SOURCE_ROOT)}lstring.h \
+    {$(SOURCE_ROOT)}ltable.h \
+    {$(SOURCE_ROOT)}lundump.h \
+    {$(SOURCE_ROOT)}lvm.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+ldump.obj: {$(SOURCE_ROOT)}ldump.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}lundump.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lfunc.obj: {$(SOURCE_ROOT)}lfunc.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lfunc.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}lgc.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lgc.obj: {$(SOURCE_ROOT)}lgc.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}ldebug.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}ldo.h \
+    {$(SOURCE_ROOT)}lfunc.h \
+    {$(SOURCE_ROOT)}lgc.h \
+    {$(SOURCE_ROOT)}lstring.h \
+    {$(SOURCE_ROOT)}ltable.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+linit.obj: {$(SOURCE_ROOT)}linit.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lualib.h \
+    {$(SOURCE_ROOT)}lauxlib.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+liolib.obj: {$(SOURCE_ROOT)}liolib.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lauxlib.h \
+    {$(SOURCE_ROOT)}lualib.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+llex.obj: {$(SOURCE_ROOT)}llex.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lctype.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}ldebug.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}ldo.h \
+    {$(SOURCE_ROOT)}lgc.h \
+    {$(SOURCE_ROOT)}llex.h \
+    {$(SOURCE_ROOT)}lparser.h \
+    {$(SOURCE_ROOT)}lstring.h \
+    {$(SOURCE_ROOT)}ltable.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lmathlib.obj: {$(SOURCE_ROOT)}lmathlib.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lauxlib.h \
+    {$(SOURCE_ROOT)}lualib.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lmem.obj: {$(SOURCE_ROOT)}lmem.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}ldebug.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}ldo.h \
+    {$(SOURCE_ROOT)}lgc.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+loadlib.obj: {$(SOURCE_ROOT)}loadlib.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lauxlib.h \
+    {$(SOURCE_ROOT)}lualib.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lobject.obj: {$(SOURCE_ROOT)}lobject.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lctype.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}ldebug.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}ldo.h \
+    {$(SOURCE_ROOT)}lstring.h \
+    {$(SOURCE_ROOT)}lgc.h \
+    {$(SOURCE_ROOT)}lvm.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lopcodes.obj: {$(SOURCE_ROOT)}lopcodes.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lopcodes.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+loslib.obj: {$(SOURCE_ROOT)}loslib.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lauxlib.h \
+    {$(SOURCE_ROOT)}lualib.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lparser.obj: {$(SOURCE_ROOT)}lparser.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lcode.h \
+    {$(SOURCE_ROOT)}llex.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}lopcodes.h \
+    {$(SOURCE_ROOT)}lparser.h \
+    {$(SOURCE_ROOT)}ldebug.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}ldo.h \
+    {$(SOURCE_ROOT)}lfunc.h \
+    {$(SOURCE_ROOT)}lstring.h \
+    {$(SOURCE_ROOT)}lgc.h \
+    {$(SOURCE_ROOT)}ltable.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lstate.obj: {$(SOURCE_ROOT)}lstate.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lapi.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}ldebug.h \
+    {$(SOURCE_ROOT)}ldo.h \
+    {$(SOURCE_ROOT)}lfunc.h \
+    {$(SOURCE_ROOT)}lgc.h \
+    {$(SOURCE_ROOT)}llex.h \
+    {$(SOURCE_ROOT)}lstring.h \
+    {$(SOURCE_ROOT)}ltable.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lstring.obj: {$(SOURCE_ROOT)}lstring.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}ldebug.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}ldo.h \
+    {$(SOURCE_ROOT)}lstring.h \
+    {$(SOURCE_ROOT)}lgc.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lstrlib.obj: {$(SOURCE_ROOT)}lstrlib.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lauxlib.h \
+    {$(SOURCE_ROOT)}lualib.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+ltable.obj: {$(SOURCE_ROOT)}ltable.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}ldebug.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}ldo.h \
+    {$(SOURCE_ROOT)}lgc.h \
+    {$(SOURCE_ROOT)}lstring.h \
+    {$(SOURCE_ROOT)}ltable.h \
+    {$(SOURCE_ROOT)}lvm.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+ltablib.obj: {$(SOURCE_ROOT)}ltablib.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lauxlib.h \
+    {$(SOURCE_ROOT)}lualib.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+ltm.obj: {$(SOURCE_ROOT)}ltm.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}ldebug.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}ldo.h \
+    {$(SOURCE_ROOT)}lstring.h \
+    {$(SOURCE_ROOT)}lgc.h \
+    {$(SOURCE_ROOT)}ltable.h \
+    {$(SOURCE_ROOT)}lvm.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lua.obj: {$(SOURCE_ROOT)}lua.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lauxlib.h \
+    {$(SOURCE_ROOT)}lualib.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+luac.obj: {$(SOURCE_ROOT)}luac.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lauxlib.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}lundump.h \
+    {$(SOURCE_ROOT)}ldebug.h \
+    {$(SOURCE_ROOT)}lopcodes.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lundump.obj: {$(SOURCE_ROOT)}lundump.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}ldebug.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}ldo.h \
+    {$(SOURCE_ROOT)}lfunc.h \
+    {$(SOURCE_ROOT)}lstring.h \
+    {$(SOURCE_ROOT)}lgc.h \
+    {$(SOURCE_ROOT)}lundump.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lutf8lib.obj: {$(SOURCE_ROOT)}lutf8lib.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}lauxlib.h \
+    {$(SOURCE_ROOT)}lualib.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lvm.obj: {$(SOURCE_ROOT)}lvm.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}ldebug.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}ldo.h \
+    {$(SOURCE_ROOT)}lfunc.h \
+    {$(SOURCE_ROOT)}lgc.h \
+    {$(SOURCE_ROOT)}lopcodes.h \
+    {$(SOURCE_ROOT)}lstring.h \
+    {$(SOURCE_ROOT)}ltable.h \
+    {$(SOURCE_ROOT)}lvm.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"
+    
+lzio.obj: {$(SOURCE_ROOT)}lzio.c \
+    {$(SOURCE_ROOT)}lprefix.h \
+    {$(SOURCE_ROOT)}lua.h \
+    {$(SOURCE_ROOT)}luaconf.h \
+    {$(SOURCE_ROOT)}llimits.h \
+    {$(SOURCE_ROOT)}lmem.h \
+    {$(SOURCE_ROOT)}lstate.h \
+    {$(SOURCE_ROOT)}lobject.h \
+    {$(SOURCE_ROOT)}ltm.h \
+    {$(SOURCE_ROOT)}lzio.h
+    @cd "$(SOURCE_ROOT)"
+    cl.exe /c $(CFLAGS) /Fo"$(MAKEDIR)\$*.obj" $*.c
+    @cd "$(MAKEDIR)"

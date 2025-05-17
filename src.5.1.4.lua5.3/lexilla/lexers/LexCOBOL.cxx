@@ -8,11 +8,12 @@
  ** Updated by Rod Falck, Aug 2006 Converted to COBOL
  **/
 
-#include <cstdlib>
-#include <cassert>
-#include <cstring>
-#include <cctype>
-#include <cstdio>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdarg.h>
+#include <assert.h>
+#include <ctype.h>
 
 #include <string>
 #include <string_view>
@@ -37,25 +38,23 @@ using namespace Lexilla;
 #define IN_FLAGS 0xF
 #define NOT_HEADER 0x10
 
-namespace {
-
-bool isCOBOLoperator(char ch)
+inline bool isCOBOLoperator(char ch)
     {
     return isoperator(ch);
     }
 
-bool isCOBOLwordchar(char ch)
+inline bool isCOBOLwordchar(char ch)
     {
     return IsASCII(ch) && (isalnum(ch) || ch == '-');
 
     }
 
-bool isCOBOLwordstart(char ch)
+inline bool isCOBOLwordstart(char ch)
     {
     return IsASCII(ch) && isalnum(ch);
     }
 
-int CountBits(int nBits)
+static int CountBits(int nBits)
     {
     int count = 0;
     for (int i = 0; i < 32; ++i)
@@ -66,7 +65,7 @@ int CountBits(int nBits)
     return count;
     }
 
-void getRange(Sci_PositionU start,
+static void getRange(Sci_PositionU start,
         Sci_PositionU end,
         Accessor &styler,
         char *s,
@@ -79,12 +78,12 @@ void getRange(Sci_PositionU start,
     s[i] = '\0';
 }
 
-void ColourTo(Accessor &styler, Sci_PositionU end, unsigned int attr) {
+static void ColourTo(Accessor &styler, Sci_PositionU end, unsigned int attr) {
     styler.ColourTo(end, attr);
 }
 
 
-int classifyWordCOBOL(Sci_PositionU start, Sci_PositionU end, /*WordList &keywords*/WordList *keywordlists[], Accessor &styler, int nContainment, bool *bAarea) {
+static int classifyWordCOBOL(Sci_PositionU start, Sci_PositionU end, /*WordList &keywords*/WordList *keywordlists[], Accessor &styler, int nContainment, bool *bAarea) {
     int ret = 0;
 
     char s[100];
@@ -92,31 +91,31 @@ int classifyWordCOBOL(Sci_PositionU start, Sci_PositionU end, /*WordList &keywor
     s[1] = '\0';
     getRange(start, end, styler, s, sizeof(s));
 
-    int chAttr = SCE_COBOL_IDENTIFIER;
+    int chAttr = SCE_C_IDENTIFIER;
     if (isdigit(s[0]) || (s[0] == '.') || (s[0] == 'v')) {
-        chAttr = SCE_COBOL_NUMBER;
+        chAttr = SCE_C_NUMBER;
         char *p = s + 1;
         while (*p) {
             if ((!isdigit(*p) && (*p) != 'v') && isCOBOLwordchar(*p)) {
-                chAttr = SCE_COBOL_IDENTIFIER;
+                chAttr = SCE_C_IDENTIFIER;
                 break;
             }
             ++p;
         }
     }
-    if (chAttr == SCE_COBOL_IDENTIFIER) {
+    if (chAttr == SCE_C_IDENTIFIER) {
         WordList& a_keywords = *keywordlists[0];
         WordList& b_keywords = *keywordlists[1];
         WordList& c_keywords = *keywordlists[2];
 
         if (a_keywords.InList(s)) {
-            chAttr = SCE_COBOL_WORD;
+            chAttr = SCE_C_WORD;
         }
         else if (b_keywords.InList(s)) {
-            chAttr = SCE_COBOL_WORD2;
+            chAttr = SCE_C_WORD2;
         }
         else if (c_keywords.InList(s)) {
-            chAttr = SCE_COBOL_WORD3;
+            chAttr = SCE_C_UUID;
         }
     }
     if (*bAarea) {
@@ -144,14 +143,14 @@ int classifyWordCOBOL(Sci_PositionU start, Sci_PositionU end, /*WordList &keywor
     return ret;
 }
 
-void ColouriseCOBOLDoc(Sci_PositionU startPos, Sci_Position length, int initStyle, WordList *keywordlists[],
+static void ColouriseCOBOLDoc(Sci_PositionU startPos, Sci_Position length, int initStyle, WordList *keywordlists[],
     Accessor &styler) {
 
     styler.StartAt(startPos);
 
     int state = initStyle;
-    if (state == SCE_COBOL_CHARACTER)   // Does not leak onto next line
-        state = SCE_COBOL_DEFAULT;
+    if (state == SCE_C_CHARACTER)   // Does not leak onto next line
+        state = SCE_C_DEFAULT;
     char chPrev = ' ';
     char chNext = styler[startPos];
     Sci_PositionU lengthDoc = startPos + length;
@@ -190,9 +189,9 @@ void ColouriseCOBOLDoc(Sci_PositionU startPos, Sci_Position length, int initStyl
             // Trigger on CR only (Mac style) or either on LF from CR+LF (Dos/Win) or on LF alone (Unix)
             // Avoid triggering two times on Dos/Win
             // End of line
-            if (state == SCE_COBOL_CHARACTER) {
+            if (state == SCE_C_CHARACTER) {
                 ColourTo(styler, i, state);
-                state = SCE_COBOL_DEFAULT;
+                state = SCE_C_DEFAULT;
             }
             styler.SetLineState(currentLine, nContainment);
             currentLine++;
@@ -208,44 +207,44 @@ void ColouriseCOBOLDoc(Sci_PositionU startPos, Sci_Position length, int initStyl
             continue;
         }
 
-        if (state == SCE_COBOL_DEFAULT) {
+        if (state == SCE_C_DEFAULT) {
             if (isCOBOLwordstart(ch) || (ch == '$' && IsASCII(chNext) && isalpha(chNext))) {
                 ColourTo(styler, i-1, state);
-                state = SCE_COBOL_IDENTIFIER;
+                state = SCE_C_IDENTIFIER;
             } else if (column == 6 && (ch == '*' || ch == '/')) {
             // Cobol comment line: asterisk in column 7.
                 ColourTo(styler, i-1, state);
-                state = SCE_COBOL_COMMENTLINE;
+                state = SCE_C_COMMENTLINE;
             } else if (ch == '*' && chNext == '>') {
             // Cobol inline comment: asterisk, followed by greater than.
                 ColourTo(styler, i-1, state);
-                state = SCE_COBOL_COMMENTLINE;
+                state = SCE_C_COMMENTLINE;
             } else if (column == 0 && ch == '*' && chNext != '*') {
                 ColourTo(styler, i-1, state);
-                state = SCE_COBOL_COMMENTLINE;
+                state = SCE_C_COMMENTLINE;
             } else if (column == 0 && ch == '/' && chNext != '*') {
                 ColourTo(styler, i-1, state);
-                state = SCE_COBOL_COMMENTLINE;
+                state = SCE_C_COMMENTLINE;
             } else if (column == 0 && ch == '*' && chNext == '*') {
                 ColourTo(styler, i-1, state);
-                state = SCE_COBOL_COMMENTDOC;
+                state = SCE_C_COMMENTDOC;
             } else if (column == 0 && ch == '/' && chNext == '*') {
                 ColourTo(styler, i-1, state);
-                state = SCE_COBOL_COMMENTDOC;
+                state = SCE_C_COMMENTDOC;
             } else if (ch == '"') {
                 ColourTo(styler, i-1, state);
-                state = SCE_COBOL_STRING;
+                state = SCE_C_STRING;
             } else if (ch == '\'') {
                 ColourTo(styler, i-1, state);
-                state = SCE_COBOL_CHARACTER;
+                state = SCE_C_CHARACTER;
             } else if (ch == '?' && column == 0) {
                 ColourTo(styler, i-1, state);
-                state = SCE_COBOL_PREPROCESSOR;
+                state = SCE_C_PREPROCESSOR;
             } else if (isCOBOLoperator(ch)) {
                 ColourTo(styler, i-1, state);
-                ColourTo(styler, i, SCE_COBOL_OPERATOR);
+                ColourTo(styler, i, SCE_C_OPERATOR);
             }
-        } else if (state == SCE_COBOL_IDENTIFIER) {
+        } else if (state == SCE_C_IDENTIFIER) {
             if (!isCOBOLwordchar(ch)) {
                 int lStateChange = classifyWordCOBOL(styler.GetStartSegment(), i - 1, keywordlists, styler, nContainment, &bAarea);
 
@@ -254,55 +253,55 @@ void ColouriseCOBOLDoc(Sci_PositionU startPos, Sci_Position length, int initStyl
                     nContainment = lStateChange;
                 }
 
-                state = SCE_COBOL_DEFAULT;
+                state = SCE_C_DEFAULT;
                 chNext = styler.SafeGetCharAt(i + 1);
                 if (column == 6 && (ch == '*' || ch == '/')) {
-                    state = SCE_COBOL_COMMENTLINE;
+                    state = SCE_C_COMMENTLINE;
                 } else if (ch == '"') {
-                    state = SCE_COBOL_STRING;
+                    state = SCE_C_STRING;
                 } else if (ch == '\'') {
-                    state = SCE_COBOL_CHARACTER;
+                    state = SCE_C_CHARACTER;
                 } else if (isCOBOLoperator(ch)) {
-                    ColourTo(styler, i, SCE_COBOL_OPERATOR);
+                    ColourTo(styler, i, SCE_C_OPERATOR);
                 }
             }
         } else {
-            if (state == SCE_COBOL_PREPROCESSOR) {
+            if (state == SCE_C_PREPROCESSOR) {
                 if ((ch == '\r' || ch == '\n') && !(chPrev == '\\' || chPrev == '\r')) {
                     ColourTo(styler, i-1, state);
-                    state = SCE_COBOL_DEFAULT;
+                    state = SCE_C_DEFAULT;
                 }
-            } else if (state == SCE_COBOL_COMMENT) {
+            } else if (state == SCE_C_COMMENT) {
                 if (ch == '\r' || ch == '\n') {
                     ColourTo(styler, i-1, state);
-                    state = SCE_COBOL_DEFAULT;
+                    state = SCE_C_DEFAULT;
                 }
-            } else if (state == SCE_COBOL_COMMENTDOC) {
+            } else if (state == SCE_C_COMMENTDOC) {
                 if (ch == '\r' || ch == '\n') {
                     if (((i > styler.GetStartSegment() + 2) || (
-                        (initStyle == SCE_COBOL_COMMENTDOC) &&
+                        (initStyle == SCE_C_COMMENTDOC) &&
                         (styler.GetStartSegment() == static_cast<Sci_PositionU>(startPos))))) {
                             ColourTo(styler, i-1, state);
-                            state = SCE_COBOL_DEFAULT;
+                            state = SCE_C_DEFAULT;
                     }
                 }
-            } else if (state == SCE_COBOL_COMMENTLINE) {
+            } else if (state == SCE_C_COMMENTLINE) {
                 if (ch == '\r' || ch == '\n') {
                     ColourTo(styler, i-1, state);
-                    state = SCE_COBOL_DEFAULT;
+                    state = SCE_C_DEFAULT;
                 }
-            } else if (state == SCE_COBOL_STRING) {
+            } else if (state == SCE_C_STRING) {
                 if (ch == '"') {
                     ColourTo(styler, i, state);
-                    state = SCE_COBOL_DEFAULT;
+                    state = SCE_C_DEFAULT;
                 } else if (ch == '\r' || ch == '\n') {
                     ColourTo(styler, i-1, state);
-                    state = SCE_COBOL_DEFAULT;
+                    state = SCE_C_DEFAULT;
                 }
-            } else if (state == SCE_COBOL_CHARACTER) {
+            } else if (state == SCE_C_CHARACTER) {
                 if (ch == '\'') {
                     ColourTo(styler, i, state);
-                    state = SCE_COBOL_DEFAULT;
+                    state = SCE_C_DEFAULT;
                 }
             }
         }
@@ -316,7 +315,7 @@ void ColouriseCOBOLDoc(Sci_PositionU startPos, Sci_Position length, int initStyl
     ColourTo(styler, lengthDoc - 1, state);
 }
 
-void FoldCOBOLDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[],
+static void FoldCOBOLDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[],
                             Accessor &styler) {
     bool foldCompact = styler.GetPropertyInt("fold.compact", 1) != 0;
     Sci_PositionU endPos = startPos + length;
@@ -378,13 +377,11 @@ void FoldCOBOLDoc(Sci_PositionU startPos, Sci_Position length, int, WordList *[]
     styler.SetLevel(lineCurrent, levelPrev | flagsNext);
 }
 
-const char * const COBOLWordListDesc[] = {
+static const char * const COBOLWordListDesc[] = {
     "A Keywords",
     "B Keywords",
     "Extended Keywords",
-    nullptr
+    0
 };
-
-}
 
 extern const LexerModule lmCOBOL(SCLEX_COBOL, ColouriseCOBOLDoc, "COBOL", FoldCOBOLDoc, COBOLWordListDesc);

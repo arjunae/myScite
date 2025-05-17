@@ -29,7 +29,6 @@ WARNINGS += -Wno-language-extension-token
 # register may be used in glib
 # This produces a warning since -Wno-register is not valid for C files but it still works
 WARNINGS += -Wno-register
-DEFINES += -D_CRT_SECURE_NO_DEPRECATE
 endif
 # Can choose aspect to sanitize: address and undefined can simply change SANITIZE but for
 # thread also need to create Position Independent Executable -> search online documentation
@@ -48,9 +47,11 @@ GTK_VERSION = $(if $(GTK3),gtk+-3.0,gtk+-2.0)
 # Enable Position Independent Code except on Windows where it is the default so the flag produces a warning
 ifndef windir
 BASE_FLAGS += -fPIC
+ifeq ($(shell uname),Darwin)
+LDFLAGS += -dynamiclib
+endif
 endif
 
-LDFLAGS += -dynamiclib
 LDFLAGS += -shared
 
 # Take care of changing Unix style '/' directory separator to '\' on Windows
@@ -82,7 +83,7 @@ DEFINES += -DNO_CXX11_REGEX
 endif
 
 DEFINES += -D$(if $(DEBUG),DEBUG,NDEBUG)
-BASE_FLAGS += $(if $(DEBUG),-g,-Os)
+BASE_FLAGS += $(if $(DEBUG),-g,-O3)
 
 CXX_BASE_FLAGS =--std=c++17 $(BASE_FLAGS)
 CXX_ALL_FLAGS =$(DEFINES) $(INCLUDES) $(CXX_BASE_FLAGS) $(CONFIG_FLAGS)
@@ -119,8 +120,6 @@ analyze:
 depend deps.mak:
 	$(PYTHON) DepGen.py
 
-LEX_OBJS:=$(addsuffix .o,$(basename $(sort $(notdir $(wildcard $(basedir)/lexers/Lex*.cxx)))))
-
 # Required for base Scintilla
 SRC_OBJS = \
 	AutoComplete.o \
@@ -128,6 +127,7 @@ SRC_OBJS = \
 	CaseConvert.o \
 	CaseFolder.o \
 	CellBuffer.o \
+	ChangeHistory.o \
 	CharacterCategoryMap.o \
 	CharacterType.o \
 	CharClassify.o \
@@ -160,12 +160,12 @@ GTK_OBJS = \
 	ScintillaGTK.o \
 	ScintillaGTKAccessible.o
 
-$(COMPLIB): $(SRC_OBJS) $(GTK_OBJS) $(MARSHALLER) $(LEX_OBJS)
+$(COMPLIB): $(SRC_OBJS) $(GTK_OBJS) $(MARSHALLER)
 	$(AR) $(ARFLAGS) $@ $^
 	$(RANLIB) $@
 
 $(COMPONENT): $(SRC_OBJS) $(GTK_OBJS) $(MARSHALLER)
 	$(CXX) $(CXX_ALL_FLAGS) $(CXXFLAGS) $(LDFLAGS) $^ -o $@ $(CONFIGLIB)
 
-# Automatically generate header dependencies with "make deps"
+# Automatically generate header dependencies with "make depend"
 include deps.mak
