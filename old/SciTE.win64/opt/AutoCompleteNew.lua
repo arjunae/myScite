@@ -55,7 +55,9 @@ local IGNORE_STYLES = {
 local apiCache = {} -- Loaded API File Content
 local apiClean = {} --  API Dirty Switch
 local textNames = {} -- buffers textNames
-local mergedNames = {} -- Current buffers Cache
+local textNamesStart= {} -- remember mergedNames index 4 textNames 
+local mergedNames = {} -- fullLines for do_calltip
+local acNames ={} --  funcNames for do_autocomplete
 local fileName = "" -- Current buffers File Name
 -- Number of chars to type before the autocomplete list appears:
 local MIN_PREFIX_LEN = 4
@@ -142,7 +144,7 @@ end
 
 
 ---
---- Hilfsfunktion f¸r Debug-Ausgaben
+---  Debug-Ausgabe
 ---
 local function debugPrint(...)
     if DEBUG_MODE then
@@ -177,9 +179,6 @@ local function setLexerSpecificStuff()
 	else
 	--	props["autocomplete."..props["Language"]..".start.characters"] = "$(chars.alpha)$(chars.numeric)$.:"
 	end
---	scite.ReloadProperties()
---print("acchars: "..props["autocomplete."..props["Language"]..".start.characters"])
-
 end
 
 --
@@ -209,10 +208,8 @@ local function loadApiNames()
 
                 if #name > 0 and name:sub(1, 1) ~= "#" then
 							cnt=cnt+1
-                 --   apiNames[normalize(name)] = name
 						  apiNames[cnt]=name
-						 
-                end --# Kommentare
+                end
             end
             f:close()
         else
@@ -250,26 +247,25 @@ local function buildNames()
     table.sort(
         textNames,
         function(a, b)
-            return normalize(a) < normalize(b)
+            return normalize(a) < normalize(b)	
         end
     )
 end
 
-function do_autocomplete()
+function do_autocomplete(strSearch)
     local pos = editor.CurrentPos
     local startPos = editor:WordStartPosition(pos, true)
     local len = pos - startPos
-    
-	 if len < MIN_PREFIX_LEN  then --and editor:AutoCActive()
+    local prefix
+
+	 if (not strSearch and len < MIN_PREFIX_LEN) or (not INCREMENTAL and editor:AutoCActive()) then --and editor:AutoCActive()
 	 	--print("pos, len, name "..pos,len,editor:textrange(startPos, pos))
 			editor:AutoCCancel()
 			return
     end
-    if not INCREMENTAL and editor:AutoCActive() then
-        return
-    end
-
-    local prefix = normalize(editor:textrange(startPos, pos))
+   
+	 if strSearch then  prefix=strSearch  else prefix= normalize(editor:textrange(startPos, pos)) end
+	 debugPrint("ac>do_autocomplete:" .. prefix)
 	 
     -- PHP variable support
     if prefix:sub(1, 1) == "$" then
@@ -286,22 +282,19 @@ function do_autocomplete()
     local menuItems = {}
     local seen = {}
     local dbgcnt = 1
-    for _, name in ipairs(mergedNames) do
-		--  name=normalize(name)
-        name = name:match("([^(]-%s*)[%(|]") or name:match("(.*)") -- no () declarations for autocomplete
+
+    for _, name in ipairs(acNames) do
+			 name=normalize(name)
         --if name:find(prefix) then dbgcnt=dbgcnt+1 end ; if dbgcnt < 10 print ("ac>do_autocomplete1: "..name) end
         local insertName
         local sepPos = name:find("::", 1, true)
-		-- autoc Namespace memberlist
-        if prefix:find(":") and name:find(prefix) then
-            insertName = name
 		-- autoc Namespace or member without namespace given
-        elseif sepPos then -- understands parent::child APIentries
+         if sepPos then -- understands parent::child APIentries
             local before = name:sub(1, sepPos - 1)
             local after = name:sub(sepPos + 2)
             if after:find("^" .. prefix) then --completes when prefix matches after ::
                 insertName = after
-               -- if name:find(prefix) and #prefix > MIN_PREFIX_LEN then debugPrint("ac>do_autoc matching: " .. name) end
+               -- if name:find(prefix) then debugPrint("ac>do_autoc matching: " .. name) end
 			-- autoc functionName
             elseif before:find("^" .. prefix) then
                 insertName = before
@@ -313,9 +306,8 @@ function do_autocomplete()
         end
 
         if insertName then
-            local normName = insertName
-            if not seen[normName] then
-                seen[normName] = true
+            if not seen[insertName] then
+                seen[insertName] = true
                 table.insert(menuItems, insertName)
                 if #menuItems >= MENUITEMS_MAX then
                     break
@@ -326,10 +318,7 @@ function do_autocomplete()
 
     if next(menuItems) then
         local list = table.concat(menuItems, "\1")
-        editor.AutoCIgnoreCase = IGNORE_CASE
-        editor.AutoCCaseInsensitiveBehaviour = 1
-        editor.AutoCSeparator = 1
-        editor.AutoCMaxHeight = 8
+
         editor:AutoCShow(len, list)
         if normalize(menuItems[1]) == prefix and not calledByHotkey then
             if CASE_CORRECT then
@@ -358,76 +347,73 @@ function do_autocomplete()
 end
 
 function do_calltip(char)
-	 local pos = editor.CurrentPos
-	 local strCalltip = ""
-	 local entry
-	 local dbgcnt=1 --limit candidate list 
-	 local tipCount = 0
-	 if pos < 1 then return end
-	
-	 -- Suche das Wort direkt vor der Klammer
-	 local startPos = editor:WordStartPosition(pos - 1, true)
-	 local funcName = editor:textrange(startPos, pos - 1)
-	 
-	 if #funcName<MIN_IDENTIFIER_LEN then return end
-	 
-	 funcName = funcName:gsub("^::?", "") or funcName -- ::keyword support
-	 debugPrint("ac>calltip searchString "..funcName) 
-	 if not funcName or #funcName == 0 then return end
-		
-	for _, entry in ipairs(mergedNames) do
-	  local fullLine = entry
-	  local extractedName
-	
-   --[[ 
-		if dbgcnt<=5 then print(entry) end	
-		if  entry:find(funcName) and entry:find(funcName) then 
-		dbgcnt=dbgcnt+1
-		if dbgcnt< 5 then 
-			print("ac>calltip candidates: "..(entry)) 
-			local tmp= entry:match("::([%w_]+)%(") or ""
-		end
-		if tmp then print("could match with: "..fullLine ) end
-	  end
-]]	
-		--	 for full qualified class::member scite (not autocomlete) will show the Calltip
-  
-	  local prefixMatch =fullLine:match("^(.-)%(") -- ÅgfuncName(Åh at the very start (i.e. no namespace)
-	  if prefixMatch == funcName then 
-		 extractedName = prefixMatch
-	  else
-		 extractedName = entry:match("::([%w_]+)%(") -- ::Member(Åc)Åh
-	  end
-	  
-		-- now check whether what we extracted is our target function
-		if extractedName == funcName then
-		  -- Argumentliste innerhalb der Klammern extrahieren
-		  local args = fullLine:match("%((.-)%)") or ""
-		  if args ~= "" then 			 
-			 if tipCount == 0 or not strCalltip:find(args, 1, true) then --dedupe
-				tipCount = tipCount + 1
-				if tipCount == 1 then
-				  strCalltip = args
-				else
-				  strCalltip = strCalltip .. "\n" .. args
-				end
-				print(fullLine)
-			 end
-		  end
-		end
-		dbgcnt=0
-	  end  -- Ende der for-Schleife
+     local pos = editor.CurrentPos
+     local calltipLines = {} 
+     local entry
+     local dbgcnt=1 --limit candidate list
+     local tipCount = 0
+     if pos < 1 then return end
 
-	  -- Calltip nur anzeigen, wenn wir etwas gesammelt haben
-	  if tipCount > 0 then
-		 editor:CallTipShow(pos, strCalltip)
-	  end
-	  strCalltip=""
+     -- Suche das Wort direkt vor der Klammer
+     local startPos = editor:WordStartPosition(pos - 1, true)
+     local funcName = editor:textrange(startPos, pos - 1)
 
+     if #funcName<MIN_IDENTIFIER_LEN then return end
+
+     funcName = funcName:gsub("^::?", "") or funcName -- ::keyword support
+     debugPrint("ac>calltip searchString "..funcName)
+     if not funcName or #funcName == 0 then return end
+
+    local seenArgs = {} -- For deduplication, to mimic 'not strCalltip:find(args, 1, true)'
+
+    for _, entry in ipairs(mergedNames) do
+      local fullLine = entry
+      local extractedName
+
+    --[[
+        if dbgcnt<=5 then print(entry) end
+        if  entry:find(funcName) and entry:find(funcName) then
+        dbgcnt=dbgcnt+1
+        if dbgcnt< 5 then
+            print("ac>calltip candidates: "..(entry))
+            local tmp= entry:match("::([%w_]+)%(") or ""
+        end
+        if tmp then print("could match with: "..fullLine ) end
+      end
+		]]
+		--     for full qualified class::member scite (not autocomlete) will show the Calltip
+      local prefixMatch =fullLine:match("^(.-)%(") -- funcName() at the very start (i.e. no namespace)
+      if prefixMatch == funcName then
+         extractedName = prefixMatch
+      else
+         extractedName = entry:match("::([%w_]+)%(") -- ::Member()
+      end
+
+        -- now check whether what we extracted is our target function
+        if extractedName == funcName then
+          -- Argumentliste innerhalb der Klammern extrahieren
+          local args = fullLine:match("%((.-)%)") or ""
+          if args ~= "" then
+             if not seenArgs[args] then
+                seenArgs[args] = true
+                table.insert(calltipLines, args) 
+                tipCount = tipCount + 1
+                print(fullLine)
+             end
+          end
+        end
+        dbgcnt=0 
+      end  -- Ende der for-Schleife
+
+      -- Calltip nur anzeigen, wenn wir etwas gesammelt haben
+      if tipCount > 0 then
+         local finalCalltipString = table.concat(calltipLines, "\n")
+         editor:CallTipShow(pos, finalCalltipString)
+      end
 end
 
 local function handleChar(char, calledByHotkey)
-    if (buffer.size and buffer.size > AC_MAX_SIZE) then
+	if (buffer.size and buffer.size > AC_MAX_SIZE) then
         return
     end
 
@@ -441,7 +427,7 @@ local function handleChar(char, calledByHotkey)
 			  break
 		 end
 	end
- 
+
     if found then
         do_calltip(char)
     else
@@ -530,31 +516,32 @@ function handleOnWord()
 	if props["project.inProject"]=="1" then
 		 -- Merge API and text names
 		if not apiCache[fileName] then loadApiNames() end
-			--if apiClean[fileName]==false then
+		--	clearBufferCache()
+			if apiClean[fileName]==false then
 				debugPrint("ac>OnWord,in Project, merging APICache["..fileName.."]..")
 				local src = apiCache[fileName]
 				if #src > 0 then table.move(src, 1, #src, #mergedNames + 1, mergedNames) end
-				--textNamesStart = #mergedNames + 1 --store mergedNames current Index for later rewrites.				
+				textNamesStart[fileName] = #mergedNames + 1 --store mergedNames current Index for later rewrites.				
 				table.move(textNames, 1, #textNames, #mergedNames + 1, mergedNames)
-			--else
-			--	debugPrint("ac>OnWord, Skip merging APICache["..editor.LexerLanguage.."], already done. only merging bufferNames at:"..state.textNamesStart) 
-			-- Delete old textNames, starting from remembered Index
-			--	for i = #mergedNames, state.textNamesStart, -1 do table.remove(mergedNames, i) end
+			else
+				debugPrint("ac>OnWord, Skip merging APICache["..fileName.."], already done. only merging bufferNames at: "..textNamesStart[fileName]) 
+				-- Delete old textNames, starting from remembered Index
+				for i = #mergedNames, textNamesStart[fileName], -1 do table.remove(mergedNames, i) end
 
 			-- write mergedNames only from Textnames  
-			--	for _, n in ipairs(textNames) do table.insert(mergedNames, n) end
-			--end
+				for _, n in ipairs(textNames) do table.insert(mergedNames, n) end
+			end
 		else
 			debugPrint("ac>OnWord, not in Project, merging only buffers textnames")		
 		-- write New Textnames to the remembered Index. I added a Lua5.1 compatible version in extman.lua 
 			table.move(textNames, 1, #textNames, 1, mergedNames)
 		end
-
+		
 		for i, name in ipairs(mergedNames) do
-    			mergedNames[i] = normalize(name)
+    			acNames[i] =  name:match("([^(]-%s*)[%(|]") or name -- Performance: only funcName not the fullLine for autocomplete
 		end
 
-		debugPrint("merged:"..#mergedNames.." Entries")
+		debugPrint("merged:"..#mergedNames.." Entries ")
 		apiClean[fileName]=true --mark Array as clean.
 end
 
@@ -618,8 +605,12 @@ function handleOpen()
             
         end
     end
-    handleOnWord()
+	 handleOnWord()
 
+	editor.AutoCIgnoreCase = IGNORE_CASE
+	editor.AutoCCaseInsensitiveBehaviour = 1
+	editor.AutoCSeparator = 1
+	editor.AutoCMaxHeight = 8
 end
 
 -- Event handlers
@@ -630,3 +621,4 @@ scite_OnWord(handleOnWord)
 scite_OnSwitchFile(handleSwitchFile)
 scite_OnSave(handleOnSave)
 scite_OnOpen(handleOpen)
+

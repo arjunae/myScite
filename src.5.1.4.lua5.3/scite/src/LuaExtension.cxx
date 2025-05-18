@@ -1,7 +1,7 @@
 // SciTE - Scintilla based Text Editor
 // LuaExtension.cxx - Lua scripting extension
 // Copyright 1998-2000 by Neil Hodgson <neilh@scintilla.org>
-// The License.txt file describes the conditions under which this software may be distributed.
+// The License.txt file describes the conditions under which this software may be distributed. 
 
 #include <cstdlib>
 #include <cstdint>

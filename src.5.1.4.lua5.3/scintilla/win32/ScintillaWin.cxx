@@ -1,4 +1,4 @@
-// Scintilla source code edit control
+d// Scintilla source code edit control
 /** @file ScintillaWin.cxx
  ** Windows specific subclass of ScintillaBase.
  **/
