@@ -19,6 +19,8 @@ DIR_LEXILLA_BIN=$(DIR_LEXILLA)\bin
 PROG=$(DIR_BIN)\SciTE.exe
 PROGSTATIC=$(DIR_BIN)\Sc1.exe
 DLLS=$(DIR_BIN)\Scintilla.dll $(DIR_BIN)\Lexilla.dll
+# create an import lib for use with lua libs
+LIBSCITE=$(DIR_BIN)\SciTE.lib
 
 WIDEFLAGS=-DUNICODE -D_UNICODE
 
@@ -185,7 +187,7 @@ CXXFLAGS=$(CXXFLAGS) $(INCLUDEDIRS)
 CCFLAGS=$(CCFLAGS) $(INCLUDEDIRS)
 
 
-ALL: $(PROG) $(PROGSTATIC) $(DLLS) $(PROPS)
+ALL: $(PROG) $(LIBSCITE) $(PROGSTATIC) $(DLLS) $(PROPS)
 
 clean:
 	del /q $(DIR_BIN)\*.exe *.o *.obj $(DIR_BIN)\*.dll *.res *.map $(DIR_BIN)\*.exp $(DIR_BIN)\*.lib $(DIR_BIN)\*.pdb
@@ -216,6 +218,9 @@ Sc1Res.res: SciTERes.rc ..\src\SciTE.h SciTE.exe.manifest
 $(PROG): $(OBJS) SciTERes.res
 	$(LD) $(LDFLAGS) -OUT:$@ $** $(LIBS)
 
+$(LIBSCITE): $(OBJS)
+	lib /OUT:$@ $**
+	
 $(PROGSTATIC): $(OBJSSTATIC) $(LIBSCI) $(LIBLEX) Sc1Res.res
 	$(LD) $(LDFLAGS) -OUT:$@ $** $(LIBS)
 

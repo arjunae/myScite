@@ -313,8 +313,8 @@ FilePath SciTEWin::ChooseSaveName(const FilePath &directory, const char *title, 
 		ofn.hwndOwner = MainHWND();
 		ofn.hInstance = hInstance;
 		ofn.lpstrFile = saveName;
-		const size_t sizesaveName = sizeof(saveName) / sizeof(saveName);
-		ofn.nMaxFile = static_cast<DWORD>(sizeof(sizesaveName) / sizeof(sizesaveName));
+		const size_t sizesaveName = sizeof(saveName);
+		ofn.nMaxFile = static_cast<DWORD>(sizesaveName);
 		GUI::gui_string translatedTitle = localiser.Text(title);
 		ofn.lpstrTitle = translatedTitle.c_str();
 		ofn.Flags = OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR;

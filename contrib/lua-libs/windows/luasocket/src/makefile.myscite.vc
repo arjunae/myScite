@@ -10,12 +10,12 @@ DEFS_WIN= -DWIN32 -DNDEBUG -D_WINDOWS -D_WINDLL -D_USRDLL
 DEFS=$(DEFS_WIN) -DLUASOCKET_$(DEBUG) -DLUASOCKET_API=__declspec(dllexport)  -DMIME_API=__declspec(dllexport)
 #
 #  $(LIBDIR)vclua5.1.lib 
-CFLAGS = -nologo -c  -O2 -Ot -MD $(DEFS) $(WARNS)
+CFLAGS = -nologo -c  -O2 -Ot -MT $(DEFS) $(WARNS)
 LFLAGS = -NOLOGO -DLL -INCREMENTAL:NO	-SUBSYSTEM:WINDOWS -OPT:REF -OPT:ICF -DYNAMICBASE:NO -MACHINE:X86
 
 LUA_INCLUDE = ../../lua/$(LUA_PLAT)/src/
 LIBDIR	= ../../clib/scite_lua$(LUA_PLAT)/
-LIBS		=  $(LUA_LIB) ws2_32.lib
+LIBS		=  $(LIBDIR)$(LUA_LIB) ws2_32.lib
 
 socket.dll: $(SOCKET_CORE)
 	link $(LFLAGS) -OUT:socket.dll $(SOCKET_CORE) $(LIBS) 

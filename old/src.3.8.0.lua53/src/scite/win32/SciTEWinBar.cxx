@@ -690,7 +690,6 @@ void SciTEWin::SetMenuItem(int menuNumber, int position, int itemID,
     }
 }
 
-
 struct MenuItem {
     std::string label;    // e.g. "&New"
     std::string shortcut; // e.g. "Ctrl+N" (from "\\tCtrl+N")
@@ -818,7 +817,7 @@ void ReplaceMenu(HWND hwnd, const std::vector<MenuItem>& items) {
 
         // ensure stack is big enough
         if ((int)menuStack.size() <= mi.level) {
-            menuStack.resize(mi.level + 1, nullptr);
+            menuStack.resize(mi.level + 1, NULL);
         }
 
         // Create top-level menu
@@ -845,7 +844,7 @@ void ReplaceMenu(HWND hwnd, const std::vector<MenuItem>& items) {
         if (!parent) continue;
 
         if (mi.id == "SEPARATOR") {
-            AppendMenuW(parent, MF_SEPARATOR, 0, nullptr);
+            AppendMenuW(parent, MF_SEPARATOR, 0, NULL);
         } else {
             UINT cmd = SciTEBase::GetMenuCommandAsInt(mi.id);
 
@@ -869,7 +868,6 @@ void ReplaceMenu(HWND hwnd, const std::vector<MenuItem>& items) {
     SetMenu(hwnd, hMenuBar);
     DrawMenuBar(hwnd);
 }
-
 
 
 

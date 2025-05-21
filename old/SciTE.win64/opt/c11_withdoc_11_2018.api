@@ -980,15 +980,5 @@ char16_t
 char32_t
 return(ret): #Returns some useful Data
 #[</class>]
-##############
-#CPP Adds
-#[<cmath.h>]
-float_t()Param: ()\t\nDesc: Floating-point type (type)\t\nProto: no-proto\t\n|[cpp99 cpp11]|[(math.h)]
-NAN()Param: ()\t\nDesc: Not-A-Number (constant)\t\nProto: float\t\n|[cpp99 cpp11]|[(math.h)]
-#[</class>]
-#[<stddef.h>]
-max_align_t()Param: ()\t\nDesc: Type with widest scalar alignment (type)\t\nProto: no-proto\t\n|[cpp11]|[(stddef.h)]
-nullptr_t(nullptr);Param: ()\t\nDesc: Null pointer type (C++) (type)\t\nProto: typedef decltype(nullptr) nullptr_t;\t\n|[cpp11]|[(stddef.h)]
-#[</class>]
-##############
+
 #Todo

@@ -1,5 +1,5 @@
 /*
-** $Id: liolib.c,v 2.151 2016/12/20 18:37:00 roberto Exp $
+** $Id: liolib.c,v 2.151.1.1 2017/04/19 17:29:57 roberto Exp $
 ** Standard I/O (and system) library
 ** See Copyright Notice in lua.h
 */
@@ -206,11 +206,16 @@ static int aux_close (lua_State *L) {
 }
 
 
+static int f_close (lua_State *L) {
+  tofile(L);  /* make sure argument is an open stream */
+  return aux_close(L);
+}
+
+
 static int io_close (lua_State *L) {
   if (lua_isnone(L, 1))  /* no argument? */
     lua_getfield(L, LUA_REGISTRYINDEX, IO_OUTPUT);  /* use standard output */
-  tofile(L);  /* make sure argument is an open stream */
-  return aux_close(L);
+  return f_close(L);
 }
 
 
@@ -272,6 +277,8 @@ static int io_popen (lua_State *L) {
   const char *filename = luaL_checkstring(L, 1);
   const char *mode = luaL_optstring(L, 2, "r");
   LStream *p = newprefile(L);
+  luaL_argcheck(L, ((mode[0] == 'r' || mode[0] == 'w') && mode[1] == '\0'),
+                   2, "invalid mode");
   p->f = l_popen(L, filename, mode);
   p->closef = &io_pclose;
   return (p->f == NULL) ? luaL_fileresult(L, 0, filename) : 1;
@@ -712,7 +719,7 @@ static const luaL_Reg iolib[] = {
 ** methods for file handles
 */
 static const luaL_Reg flib[] = {
-  {"close", io_close},
+  {"close", f_close},
   {"flush", f_flush},
   {"lines", f_lines},
   {"read", f_read},

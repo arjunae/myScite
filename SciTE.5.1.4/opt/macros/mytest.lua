@@ -106,3 +106,15 @@ end
 
 _ALERT('> Test SciTE Lua Modules')
 --test_socket()
+local results = {
+    'AboutDialog	D:\\src\\myscite\\src.5.1.4.lua5.3\\scite\\win32\\SciTEWin.cxx	/^void SciTEWin::AboutDialog() {$/;\"	f	class:SciTEWin	signature:()\"',
+    '/^BOOL SciTEWin::AbbrevMessage(HWND hDlg, UINT message, WPARAM wParam) {$/;"',
+    '/^GUI::gui_string AbbreviateWithTilde(const GUI::gui_string &path) {$/;"',
+}
+
+local pat_func = "/%^(.-%b()) %{%$"
+
+for _, v in ipairs(results) do
+    local strClean = v:match(pat_func) or "<NO MATCH>"
+    print(strClean)
+end

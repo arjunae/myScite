@@ -18,7 +18,7 @@ cd ..
 nmake -f makefile.myscite.vc ssl.dll
 if %errorlevel% gtr 0 goto eof
 if exist ssl.dll move ssl.dll ..\..\clib\
-nmake -f makefile.myscite.vc clean
+rem nmake -f makefile.myscite.vc clean
 goto end
 
 :eof

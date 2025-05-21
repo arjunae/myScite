@@ -105,14 +105,4 @@ end
 ]]
 
 _ALERT('> Test SciTE Lua Modules')
---test_socket()
-
-local ok, err = pcall(function()
-    require("toolbar")  -- "toolbar.dll" muss also als "toolbar" geladen werden
-end)
-
-if ok then
-    print("Toolbar erfolgreich geladen.")
-else
-    print("Fehler beim Laden der Toolbar:", err)
-end
+test_socket()

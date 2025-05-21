@@ -84,15 +84,16 @@ end
 -- returns cTagList, which contains a List of all Names found in the tagFile
 --
 function CTagsImportProps(theForceMightBeWithYou, YodaNamePath)
-
+	local prop, names
 	if not file_exists(YodaNamePath) or ctagsLock==true or props["project.path"]=="" then return end	
-	-- just return the cached Version if not forced to do otherwise
 	if (not cTagList) or string.find(YodaNamePath,"append.") then theForceMightBeWithYou=true end
 
-	-- Propagate the Data, appends if required
+	-- Write dynamically created Ctag Props to Scites Config.
 	if  (theForceMightBeWithYou==true) then
 		for entry in io.lines(YodaNamePath) do
-			prop,names=entry:match("([%w_.]+)%s?=(.*)") 
+			prop,names=entry:match("([%w_.]+)%s?=(.*)")
+			prop=prop or ""
+			names=names or "" 
 			if prop:match(".cTagClasses") then cTagClasses= cTagClasses.." "..names  end
 			if prop:match(".cTagModules") then cTagModules = cTagModules.." "..names end
 			if prop:match(".cTagFunctions") then cTagFunctions = cTagFunctions.." "..names end
@@ -102,27 +103,33 @@ function CTagsImportProps(theForceMightBeWithYou, YodaNamePath)
 			-- if prop:match(".cTagAllTogether") then cTagAllTogether =cTagAllTogether..names end --: table formatted
 		end
 		--cTagList=cTagAllTogether
-		cTagList={}
 		
-		-- Write dynamically created Project SDK to Scites Config.
+		sdkApiPath=sdkApiPath or props["project.sdk.api"]
+		sdkPropsPath=sdkApiPath..".properties"
+		for entry in io.lines(sdkPropsPath) do
+			prop,names=entry:match("([%w_.]+)%s?=(.*)") 
+			prop=prop or ""
+			names=names or ""
+			if prop:match(".cTagClasses") then cTagClasses= cTagClasses.." "..names  end
+			if prop:match(".cTagModules") then cTagModules = cTagModules.." "..names end
+			if prop:match(".cTagFunctions") then cTagFunctions = cTagFunctions.." "..names end
+			if prop:match(".cTagNames") then cTagNames= cTagNames.." "..names end
+			if prop:match(".cTagENUMs") then cTagENUMs= cTagENUMs.." "..names end
+			--if prop:match(".cTagOthers") then cTagOthers =cTagOthers.." "..names end
+			-- if prop:match(".cTagAllTogether") then cTagAllTogether =cTagAllTogether..names end --: table formatted
+
+		end
+
+		cTagList={}
 		projectEXT=props["file.patterns.project"]
 		props["substylewords.11.15."..projectEXT] = cTagOthers
-		props["substylewords.11.16."..projectEXT]= cTagNames
-		props["substylewords.11.17."..projectEXT] = cTagFunctions
-		props["substylewords.11.18."..projectEXT] = cTagModules
-		props["substylewords.11.19."..projectEXT] = cTagENUMs
-		props["substylewords.11.20."..projectEXT] = cTagClasses
+		props["substylewords.11.10."..projectEXT]= cTagNames
+		props["substylewords.11.11."..projectEXT] = cTagFunctions
+		props["substylewords.11.12."..projectEXT] = cTagModules
+		props["substylewords.11.13."..projectEXT] = cTagENUMs
+		props["substylewords.11.14."..projectEXT] = cTagClasses
 
-		-- Same for User Provided Platform SDK
-		props["substylewords.11.10."..projectEXT] = props["sdk.tags.cTagNames"]
-		if props["sdk.tags.cTagFunctionsEx"]~="" then
-			props["substylewords.11.11."..projectEXT] = props["sdk.tags.cTagFunctions"].." "..props["sdk.tags.cTagFunctionsEx"]
-		else
-			props["substylewords.11.11."..projectEXT] = props["sdk.tags.cTagFunctions"]
-		end
-		props["substylewords.11.12."..projectEXT] = props["sdk.tags.cTagModules"]
-		props["substylewords.11.13."..projectEXT] = props["sdk.tags.cTagENUMs"]
-		props["substylewords.11.14."..projectEXT] = props["sdk.tags.cTagClasses"]		
+			
 	end
 	--print(props["substylewords.11.14."..projectEXT] )
 	-- Do we also want to detect changed Styles and apply them here ?
@@ -130,19 +137,13 @@ function CTagsImportProps(theForceMightBeWithYou, YodaNamePath)
 	local currentLexer=props["Language"]
 	props["substyles."..currentLexer..".11"]=20
 
-	-- User Provided platformSDK (eg MinGW)
+	-- define CTAGs Styles
 	props["style."..currentLexer..".11.10"]=props["colour.project.constants"]
 	props["style."..currentLexer..".11.11"]=props["colour.project.functions"]
 	props["style."..currentLexer..".11.12"]=props["colour.project.modules"]
 	props["style."..currentLexer..".11.13"]=props["colour.project.enums"]
 	props["style."..currentLexer..".11.14"]=props["colour.project.class"]
-	--Dynamically created Project SDK
-	props["style."..currentLexer..".11.15"]=props["colour.project.enums"] --others    
-	props["style."..currentLexer..".11.16"]=props["colour.project.constants"]
-	props["style."..currentLexer..".11.17"]=props["colour.project.functions"]
-	props["style."..currentLexer..".11.18"]=props["colour.project.modules"]
-	props["style."..currentLexer..".11.19"]=props["colour.project.enums"]
-	props["style."..currentLexer..".11.20"]=props["colour.project.class"]
+	
 
 	return cTagList
 end

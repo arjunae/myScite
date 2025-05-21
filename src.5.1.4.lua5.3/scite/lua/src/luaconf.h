@@ -1,5 +1,5 @@
 /*
-** $Id: luaconf.h,v 1.259 2016/12/22 13:08:50 roberto Exp $
+** $Id: luaconf.h,v 1.259.1.1 2017/04/19 17:29:57 roberto Exp $
 ** Configuration file for Lua
 ** See Copyright Notice in lua.h
 */
@@ -246,19 +246,15 @@
 #if defined(LUA_CORE) || defined(LUA_LIB)	/* { */
 #define LUA_API __declspec(dllexport)
 #else						/* }{ */
-#define LUA_API __declspec(dllimport)
+//#define LUA_API __declspec(dllimport)
 #endif						/* } */
 
 #else				/* }{ */
 
-#if defined(_WIN32)
-#define LUA_API __declspec(dllexport)
-#else
-#define LUA_API         extern
-#endif
+//#define LUA_API		extern
 
 #endif				/* } */
-
+#define LUA_API __declspec(dllexport)
 
 /* more often than not the libs go together with the core */
 #define LUALIB_API	LUA_API
@@ -625,6 +621,13 @@
 
 
 /*
+@@ lua_pointer2str converts a pointer to a readable string in a
+** non-specified way.
+*/
+#define lua_pointer2str(buff,sz,p)	l_sprintf(buff,sz,"%p",p)
+
+
+/*
 @@ lua_number2strx converts a float to an hexadecimal numeric string.
 ** In C99, 'sprintf' (with format specifiers '%a'/'%A') does that.
 ** Otherwise, you can leave 'lua_number2strx' undefined and Lua will
@@ -779,16 +782,9 @@
 ** without modifying the main part of the file.
 */
 
-#ifdef _MSC_VER
-/* Uninteresting "possible loss of data" and "cast truncates constant value" warnings */
-#pragma warning(disable: 4244 4310)
-#endif
 
-#if defined(__clang__)
-#pragma clang diagnostic ignored "-Wconversion"
-#pragma clang diagnostic ignored "-Wcomma"
-#pragma clang diagnostic ignored "-Wstring-plus-int"
-#endif
+
+
 
 #endif
 

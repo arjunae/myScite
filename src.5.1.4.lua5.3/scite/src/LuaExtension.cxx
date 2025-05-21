@@ -75,9 +75,7 @@ static bool luaDisabled = false;
 
 static std::string startupScript;
 static std::string extensionScript;
-
 static bool tracebackEnabled = true;
-
 static int maxBufferIndex = -1;
 static int curBufferIndex = -1;
 

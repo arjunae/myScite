@@ -252,19 +252,24 @@ local function buildNames()
     )
 end
 
-function do_autocomplete(strSearch)
-    local pos = editor.CurrentPos
-    local startPos = editor:WordStartPosition(pos, true)
-    local len = pos - startPos
-    local prefix
+function do_autocomplete(strSearch,acNames)
+    local prefix,len
 
-	 if (not strSearch and len < MIN_PREFIX_LEN) or (not INCREMENTAL and editor:AutoCActive()) then --and editor:AutoCActive()
+	 if strSearch then
+			prefix=strSearch
+			len =#strSearch			
+		else
+			error("ac>do_autocomplete, parameter missing")
+			return
+		end
+
+		
+	 if (len < MIN_PREFIX_LEN) or (not INCREMENTAL and editor:AutoCActive()) then --and editor:AutoCActive()
 	 	--print("pos, len, name "..pos,len,editor:textrange(startPos, pos))
 			editor:AutoCCancel()
 			return
     end
-   
-	 if strSearch then  prefix=strSearch  else prefix= normalize(editor:textrange(startPos, pos)) end
+	 
 	 debugPrint("ac>do_autocomplete:" .. prefix)
 	 
     -- PHP variable support
@@ -285,11 +290,15 @@ function do_autocomplete(strSearch)
 
     for _, name in ipairs(acNames) do
 			 name=normalize(name)
-        --if name:find(prefix) then dbgcnt=dbgcnt+1 end ; if dbgcnt < 10 print ("ac>do_autocomplete1: "..name) end
+        --if name:find(prefix) then  print ("ac>do_autocomplete1: "..name) end
         local insertName
         local sepPos = name:find("::", 1, true)
 		-- autoc Namespace or member without namespace given
-         if sepPos then -- understands parent::child APIentries
+        if prefix:find(":") and normalize(name):find(prefix) then
+            --if name:find(prefix) and #prefix>5 then print ("ac>do_autocomplete1: "..name) end
+            insertName = name
+		-- autoc Namespace or member without namespace given
+        elseif sepPos then -- understands parent::child APIentries
             local before = name:sub(1, sepPos - 1)
             local after = name:sub(sepPos + 2)
             if after:find("^" .. prefix) then --completes when prefix matches after ::
@@ -316,63 +325,32 @@ function do_autocomplete(strSearch)
         end
     end
 
-    if next(menuItems) then
-        local list = table.concat(menuItems, "\1")
 
-        editor:AutoCShow(len, list)
-        if normalize(menuItems[1]) == prefix and not calledByHotkey then
-            if CASE_CORRECT then
-                if CASE_CORRECT_INSTANT or #menuItems == 1 then
-                    editor:AutoCShow(len, menuItems[1])
-                    editor:AutoCComplete()
-                end
-                if #menuItems > 1 then
-                    editor:AutoCShow(len, list)
-                end
-            end
-            if #menuItems == 1 then
-                editor:AutoCCancel()
-                return
-            end
-        end
-        lastAutoCItem = #menuItems - 1
-        if lastAutoCItem == 0 and calledByHotkey and CHOOSE_SINGLE then
-            editor:AutoCComplete()
-        end
-    else
-        if editor:AutoCActive() then
-            editor:AutoCCancel()
-        end
-    end
+    if next(menuItems) then return(menuItems) else return(nil) end
+	 
 end
 
-function do_calltip(char)
+function do_calltip(char,strSearch,destPos,ctNames)
      local pos = editor.CurrentPos
      local calltipLines = {} 
      local entry
      local dbgcnt=1 --limit candidate list
      local tipCount = 0
-     if pos < 1 then return end
 
-     -- Suche das Wort direkt vor der Klammer
-     local startPos = editor:WordStartPosition(pos - 1, true)
-     local funcName = editor:textrange(startPos, pos - 1)
-
-     if #funcName<MIN_IDENTIFIER_LEN then return end
-
-     funcName = funcName:gsub("^::?", "") or funcName -- ::keyword support
-     debugPrint("ac>calltip searchString "..funcName)
-     if not funcName or #funcName == 0 then return end
+		strSearch = strSearch:gsub("^::?", "") or strSearch -- ::keyword support
+		debugPrint("ac>calltip searchString "..strSearch)
+		if not strSearch or #strSearch == 0 then return end
+		if #strSearch <MIN_IDENTIFIER_LEN or pos < 1 then return end
 
     local seenArgs = {} -- For deduplication, to mimic 'not strCalltip:find(args, 1, true)'
 
-    for _, entry in ipairs(mergedNames) do
+    for _, entry in ipairs(ctNames) do
       local fullLine = entry
       local extractedName
 
     --[[
         if dbgcnt<=5 then print(entry) end
-        if  entry:find(funcName) and entry:find(funcName) then
+        if  entry:find(strSearch) and entry:find(strSearch) then
         dbgcnt=dbgcnt+1
         if dbgcnt< 5 then
             print("ac>calltip candidates: "..(entry))
@@ -383,14 +361,14 @@ function do_calltip(char)
 		]]
 		--     for full qualified class::member scite (not autocomlete) will show the Calltip
       local prefixMatch =fullLine:match("^(.-)%(") -- funcName() at the very start (i.e. no namespace)
-      if prefixMatch == funcName then
+      if prefixMatch == strSearch then
          extractedName = prefixMatch
       else
          extractedName = entry:match("::([%w_]+)%(") -- ::Member()
       end
 
         -- now check whether what we extracted is our target function
-        if extractedName == funcName then
+        if extractedName == strSearch then
           -- Argumentliste innerhalb der Klammern extrahieren
           local args = fullLine:match("%((.-)%)") or ""
           if args ~= "" then
@@ -408,7 +386,7 @@ function do_calltip(char)
       -- Calltip nur anzeigen, wenn wir etwas gesammelt haben
       if tipCount > 0 then
          local finalCalltipString = table.concat(calltipLines, "\n")
-         editor:CallTipShow(pos, finalCalltipString)
+         editor:CallTipShow(destPos, finalCalltipString)
       end
 end
 
@@ -416,7 +394,8 @@ local function handleChar(char, calledByHotkey)
 	if (buffer.size and buffer.size > AC_MAX_SIZE) then
         return
     end
-
+	local pos = editor.CurrentPos
+	  
 	local startChars=props["calltip."..props["Language"]..".parameters.start"]
 	if not startChars then startChars="(" end
 	local found = false
@@ -428,11 +407,44 @@ local function handleChar(char, calledByHotkey)
 		 end
 	end
 
-    if found then
-        do_calltip(char)
-    else
-        do_autocomplete()
-    end
+	 if found then
+		local startPos = editor:WordStartPosition(pos-1, true)
+		local strSearch = normalize(editor:textrange(startPos-1, pos))		
+		  do_calltip(char,strSearch,startPos,mergedNames)
+	 else		--Autocomplete
+		local startPos = editor:WordStartPosition(pos, true)
+		local strSearch = normalize(editor:textrange(startPos, pos))
+		local len=#strSearch
+		local menuItems= do_autocomplete(strSearch,acNames)
+		if not menuItems then return end
+		if next(menuItems) then
+			local list = table.concat(menuItems, "\1")
+			editor:AutoCShow(len, list)
+			if normalize(menuItems[1]) == prefix and not calledByHotkey then
+				if CASE_CORRECT then
+					 if CASE_CORRECT_INSTANT or #menuItems == 1 then
+						  editor:AutoCShow(len, menuItems[1])
+						  editor:AutoCComplete()
+					 end
+					 if #menuItems > 1 then
+						  editor:AutoCShow(len, list)
+					 end
+				end
+				if #menuItems == 1 then
+					 editor:AutoCCancel()
+					 return
+				end
+			end
+			lastAutoCItem = #menuItems - 1
+			if lastAutoCItem == 0 and calledByHotkey and CHOOSE_SINGLE then
+				editor:AutoCComplete()
+			end
+		else
+			if editor:AutoCActive() then
+				editor:AutoCCancel()
+			end
+		end
+	end
 end
 
 local function handleKey(key, shift, ctrl, alt)
@@ -611,6 +623,7 @@ function handleOpen()
 	editor.AutoCCaseInsensitiveBehaviour = 1
 	editor.AutoCSeparator = 1
 	editor.AutoCMaxHeight = 8
+
 end
 
 -- Event handlers

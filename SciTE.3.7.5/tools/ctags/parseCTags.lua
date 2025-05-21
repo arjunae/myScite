@@ -95,8 +95,8 @@ end
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
-    local cTagsFilePath=os.getenv("tmp")..dirSep.."scite.session.ctags"
+function appendCTags(apiNames,projectFilePath,cTagsFilePath,cTagsFileName,projectName)
+    if cTagsFilePath=="" then cTagsFilepath=os.getenv("tmp")..dirSep.."scite.session.ctags" end
     local cTagsAPIPath=projectFilePath..cTagsFileName..".api"
     local cTagItems=""
     -- catches not otherwise matched Stuff for Highlitghtning. Turn on for testing.
@@ -153,21 +153,23 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
             name= entry:match("(~?[%w_]+)") or "" -- functions Name
             if not name then name="" end
 	    if string.find(name,"override") then name=""; skipper=true end-- ctags doesnt parse this correctly
-	    patType="%/^([%s%w_:~]+ )" -- INTPTR
+
+ 	    patType="%/^([%s%w_:~]+ )" -- INTPTR
             patClass="([%w_:]+).*"   -- SciteWin (::)
             patFunc="(%(.*%))"  -- (HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)) 
             strTyp, strClassAndName, strFunc= entry:match(patType..patClass..patFunc..".*")
-
+	    patName="%/%^%s?([%w%s_:]+)"
+	    if not strClassAndName then strClassAndName,strFunc= entry:match(patName..patFunc..".*") end
             if strFunc then params=params..strFunc end --functionbody
- 	    if strTyp then strTyp=strTyp:gsub("^%s+", ""); params=params..strTyp end --typ hinter funktionsbody schreiben
+            if strTyp then strTyp=strTyp:gsub("^%s+", ""); params=params..strTyp end --typ hinter funktionsbody schreiben
 
-		if name and DEBUG==2 then
+		if strClassAndName and DEBUG==2 then
 		if not strTyp then strTyp="" end
 		if not strClassAndName then strClassAndName="" end
 		if not strFunc then strFunc ="" end
 		print (strTyp.. "|".. strClassAndName, "|".. name.. "|".. strFunc)
 		end
-		
+
             if string.len(params)>0 then skipper=true isFunction=true end
             -- Mark ENUMS, STRUCTs, typedefs and unions (matches "[tab]g/s/t/u/e) 
             if not smallerFile and not skipper then
@@ -195,22 +197,22 @@ function appendCTags(apiNames,projectFilePath,cTagsFileName,projectName)
                 end
             end
             -- publish collected Data. (Dupe checked) Prefer the className over the functionName  
-             if name and name..params~=lastEntry and not isfunction then  
-		if not strClassAndName then strClassAndName=name end
+             if strClassAndName and strClassAndName..params~=lastEntry and not isfunction then  
+		if not strClassAndName then strClassAndName="" end
                 ----  Highlitening use String concatination, because its faster for onSave ( theres no dupe checking.)
                 --if DEBUG==2 then print (name,"isFunction",isFunction,"isConst:",isConst,"isModule:",isModule,"isClass:",isClass,"isENUM:",isENUM) end
-                if isFunction then cTagFunctions=cTagFunctions.." "..name  end
-                if isConst then cTagNames=cTagNames.." "..name end
-                if isModule then cTagModules=cTagModules.." "..name end
-                if isClass then cTagClass=cTagClass.." "..name end
-                if isENUM then cTagENUMs=cTagENUMs.." "..name end
+		if isFunction then cTagFunctions=cTagFunctions.." "..strClassAndName  end
+                if isConst then cTagNames=cTagNames.." "..strClassAndName end
+                if isModule then cTagModules=cTagModules.." "..strClassAndName end
+                if isClass then cTagClass=cTagClass.." "..strClassAndName end
+                if isENUM then cTagENUMs=cTagENUMs.." "..strClassAndName end
                 if isOther then cTagOthers=cTagOthers.." "..cTagOther end
                 if smallerFile==true then
-                  -- if isFunction then cTagItems=cTagItems..","..name.."=true" end -- gets concatenated to table cTagAllTogether
+                  -- if isFunction then cTagItems=cTagItems..","..strClassAndName.."=true" end -- gets concatenated to table cTagAllTogether
                 else
                    cTagItems=cTagItems..strClassAndName.."=true," 
                 end   
-                lastname=name
+   
 
                 -- publish Function Descriptors to Project APIFile.(calltips)
                 lastEntry=strClassAndName..params
@@ -245,7 +247,7 @@ end
 --
 --~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 function writeProps(projectName, projectFilePath)
-    
+   cTagFunctions=cTagFunctions:gsub("::"," ")
 -- write what we got until here.
     propFile=io.open(projectFilePath..cTagsFileName..".properties","w")
     propFile= io.output(propFile)
@@ -331,7 +333,7 @@ if odo then
 
 
     -- do!
-    appendCTags({},projectFilePath,cTagsFileName,projectName)
+    appendCTags({},projectFilePath,cTagsFilePath,cTagsFileName,projectName)
     if file_exists(APIFilePath) then
         DeDupeAPI(APIFilePath) 
         print("> FIN!")

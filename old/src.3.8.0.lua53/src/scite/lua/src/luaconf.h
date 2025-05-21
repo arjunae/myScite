@@ -1,5 +1,5 @@
 /*
-** $Id: luaconf.h,v 1.259 2016/12/22 13:08:50 roberto Exp $
+** $Id: luaconf.h,v 1.259.1.1 2017/04/19 17:29:57 roberto Exp $
 ** Configuration file for Lua
 ** See Copyright Notice in lua.h
 */
@@ -11,15 +11,12 @@
 #include <limits.h>
 #include <stddef.h>
 
-#define lua_getfenv	lua_getuservalue
-#define lua_setfenv	lua_setuservalue
 
 /*
 ** ===================================================================
 ** Search for "@@" to find all configurable definitions.
 ** ===================================================================
 */
-
 
 
 /*
@@ -188,16 +185,14 @@
 ** In Windows, any exclamation mark ('!') in the path is replaced by the
 ** path of the directory of the executable file of the current process.
 */
-#define LUA_LDIR	"!\\user\\opt\\lua-scite\\"
+#define LUA_LDIR	"!\\lua\\"
 #define LUA_CDIR	"!\\"
 #define LUA_SHRDIR	"!\\..\\share\\lua\\" LUA_VDIR "\\"
 #define LUA_PATH_DEFAULT  \
 		LUA_LDIR"?.lua;"  LUA_LDIR"?\\init.lua;" \
 		LUA_CDIR"?.lua;"  LUA_CDIR"?\\init.lua;" \
 		LUA_SHRDIR"?.lua;" LUA_SHRDIR"?\\init.lua;" \
-		".\\?.lua;" ".\\?\\init.lua;" \
-		"!\\..\\..\\user\\opt\\lua\\?.lua;" \
-		"!\\..\\..\\user\\opt\\lua\\?\\init.lua;" 
+		".\\?.lua;" ".\\?\\init.lua"
 #define LUA_CPATH_DEFAULT \
 		LUA_CDIR"?.dll;" \
 		LUA_CDIR"..\\lib\\lua\\" LUA_VDIR "\\?.dll;" \
@@ -249,14 +244,14 @@
 #if defined(LUA_BUILD_AS_DLL)	/* { */
 
 #if defined(LUA_CORE) || defined(LUA_LIB)	/* { */
-//#define LUA_API __declspec(dllexport)
+#define LUA_API __declspec(dllexport)
 #else						/* }{ */
-//#define LUA_API __declspec(dllimport)
+#define LUA_API __declspec(dllimport)
 #endif						/* } */
 
 #else				/* }{ */
 
-//#define LUA_API		extern
+#define LUA_API		extern
 
 #endif				/* } */
 
@@ -623,6 +618,13 @@
 #if !defined(LUA_USE_C89)
 #define lua_strx2number(s,p)		lua_str2number(s,p)
 #endif
+
+
+/*
+@@ lua_pointer2str converts a pointer to a readable string in a
+** non-specified way.
+*/
+#define lua_pointer2str(buff,sz,p)	l_sprintf(buff,sz,"%p",p)
 
 
 /*

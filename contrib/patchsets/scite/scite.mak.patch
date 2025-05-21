@@ -1,0 +1,48 @@
+--- a/scite.mak	2025-05-20 20:05:10.113237700 +0200
++++ b/scite.mak	2025-05-19 17:07:33.987774600 +0200
+@@ -19,6 +19,8 @@
+ PROG=$(DIR_BIN)\SciTE.exe
+ PROGSTATIC=$(DIR_BIN)\Sc1.exe
+ DLLS=$(DIR_BIN)\Scintilla.dll $(DIR_BIN)\Lexilla.dll
++# create an import lib for use with lua libs
++LIBSCITE=$(DIR_BIN)\SciTE.lib
+ 
+ WIDEFLAGS=-DUNICODE -D_UNICODE
+ 
+@@ -41,7 +43,7 @@
+ !ENDIF
+ !ENDIF
+ 
+-CXXFLAGS=-Zi -TP -MP -W4 -EHsc -Zc:forScope -Zc:wchar_t -std:c++17 -D_CRT_SECURE_NO_DEPRECATE=1 -D_CRT_NONSTDC_NO_DEPRECATE $(WIDEFLAGS) $(ADD_DEFINE)
++CXXFLAGS=-Zi -TP -MP -W4 -EHsc -Zc:forScope -Zc:wchar_t -std:c++14 -D_CRT_SECURE_NO_DEPRECATE=1 -D_CRT_NONSTDC_NO_DEPRECATE $(WIDEFLAGS) $(ADD_DEFINE)
+ CCFLAGS=-TC -MP -W3 -wd4244 -D_CRT_SECURE_NO_DEPRECATE=1 -DLUA_USER_H=\"scite_lua_win.h\" $(ADD_DEFINE)
+ 
+ CXXDEBUG=-Od -MTd -DDEBUG
+@@ -69,7 +71,7 @@
+ CCFLAGS=$(CCFLAGS) $(CXXNDEBUG)
+ !ENDIF
+ 
+-INCLUDEDIRS=-I../../lexilla/include -I../../lexilla/access -I../../scintilla/include -I../src
++INCLUDEDIRS=-I../../lexilla/include -I../../lexilla/access -I../../scintilla/include -I../src -I../include
+ 
+ SHAREDOBJS=\
+ 	Cookie.obj \
+@@ -185,7 +187,7 @@
+ CCFLAGS=$(CCFLAGS) $(INCLUDEDIRS)
+ 
+ 
+-ALL: $(PROG) $(PROGSTATIC) $(DLLS) $(PROPS)
++ALL: $(PROG) $(LIBSCITE) $(PROGSTATIC) $(DLLS) $(PROPS)
+ 
+ clean:
+ 	del /q $(DIR_BIN)\*.exe *.o *.obj $(DIR_BIN)\*.dll *.res *.map $(DIR_BIN)\*.exp $(DIR_BIN)\*.lib $(DIR_BIN)\*.pdb
+@@ -216,6 +218,9 @@
+ $(PROG): $(OBJS) SciTERes.res
+ 	$(LD) $(LDFLAGS) -OUT:$@ $** $(LIBS)
+ 
++$(LIBSCITE): $(OBJS)
++	lib /OUT:$@ $**
++	
+ $(PROGSTATIC): $(OBJSSTATIC) $(LIBSCI) $(LIBLEX) Sc1Res.res
+ 	$(LD) $(LDFLAGS) -OUT:$@ $** $(LIBS)
+ 

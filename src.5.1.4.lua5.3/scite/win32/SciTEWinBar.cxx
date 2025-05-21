@@ -684,10 +684,6 @@ void debugPrint(const std::vector<MenuItem>& menuItems) {
         }
     }
 }
-#include <vector>
-#include <string>
-#include <windows.h>
-#include <iostream>
 
 void ReplaceMenu(HWND hwnd, const std::vector<MenuItem>& items) {
     HMENU hMenuBar = CreateMenu();
