@@ -342,15 +342,14 @@ function do_calltip(char,strSearch,destPos,ctNames)
 		if not strSearch or #strSearch == 0 then return end
 		if #strSearch <MIN_IDENTIFIER_LEN or pos < 1 then return end
 
-    local seenArgs = {} -- For deduplication, to mimic 'not strCalltip:find(args, 1, true)'
+    local seenArgs = {} -- For deduplication
 
     for _, entry in ipairs(ctNames) do
       local fullLine = entry
       local extractedName
 
-    --[[
-        if dbgcnt<=5 then print(entry) end
-        if  entry:find(strSearch) and entry:find(strSearch) then
+--[[
+		if  entry:find(strSearch) then
         dbgcnt=dbgcnt+1
         if dbgcnt< 5 then
             print("ac>calltip candidates: "..(entry))
@@ -358,7 +357,7 @@ function do_calltip(char,strSearch,destPos,ctNames)
         end
         if tmp then print("could match with: "..fullLine ) end
       end
-		]]
+]]		
 		--     for full qualified class::member scite (not autocomlete) will show the Calltip
       local prefixMatch =fullLine:match("^(.-)%(") -- funcName() at the very start (i.e. no namespace)
       if prefixMatch == strSearch then
@@ -366,7 +365,7 @@ function do_calltip(char,strSearch,destPos,ctNames)
       else
          extractedName = entry:match("::([%w_]+)%(") -- ::Member()
       end
-
+			--if  entry:find(strSearch) then print(extractedName,strSearch) end
         -- now check whether what we extracted is our target function
         if extractedName == strSearch then
           -- Argumentliste innerhalb der Klammern extrahieren
@@ -409,7 +408,7 @@ local function handleChar(char, calledByHotkey)
 
 	 if found then
 		local startPos = editor:WordStartPosition(pos-1, true)
-		local strSearch = normalize(editor:textrange(startPos-1, pos))		
+		local strSearch = normalize(editor:textrange(startPos, pos-1))		
 		  do_calltip(char,strSearch,startPos,mergedNames)
 	 else		--Autocomplete
 		local startPos = editor:WordStartPosition(pos, true)

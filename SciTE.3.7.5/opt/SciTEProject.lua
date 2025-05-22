@@ -85,8 +85,10 @@ end
 --
 function CTagsImportProps(theForceMightBeWithYou, YodaNamePath)
 	local prop, names
-	if not file_exists(YodaNamePath) or ctagsLock==true or props["project.path"]=="" then return end	
-	if (not cTagList) or string.find(YodaNamePath,"append.") then theForceMightBeWithYou=true end
+	cTagList={}
+
+--	if not file_exists(YodaNamePath) or ctagsLock==true or props["project.path"]=="" then return end	
+
 
 	-- Write dynamically created Ctag Props to Scites Config.
 	if  (theForceMightBeWithYou==true) then
@@ -106,6 +108,7 @@ function CTagsImportProps(theForceMightBeWithYou, YodaNamePath)
 		
 		sdkApiPath=sdkApiPath or props["project.sdk.api"]
 		sdkPropsPath=sdkApiPath..".properties"
+
 		for entry in io.lines(sdkPropsPath) do
 			prop,names=entry:match("([%w_.]+)%s?=(.*)") 
 			prop=prop or ""
@@ -120,7 +123,7 @@ function CTagsImportProps(theForceMightBeWithYou, YodaNamePath)
 
 		end
 
-		cTagList={}
+		
 		projectEXT=props["file.patterns.project"]
 		props["substylewords.11.15."..projectEXT] = cTagOthers
 		props["substylewords.11.10."..projectEXT]= cTagNames
@@ -172,7 +175,8 @@ function CTagsImportAPI(theForceMightBeWithYou,fileNamePath)
 	end
 
 	-- parse projects properties files
-	CTagsImportProps(theForceMightBeWithYou,fileNamePath)
+
+	CTagsImportProps(true,fileNamePath)
 
 	scite.ReloadProperties() -- since Scite 5-2-2
 

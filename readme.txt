@@ -9,7 +9,7 @@ lua: Autocomplete using CTAGS with limited Class(::)Member Support.
 lua: Autocomplete is able to import ac_{lexerLanguage}.api
 lua: updated libs
 themes: Add theme.white and theme.blue
-api: add complete std:: Namespace to ac_cpp.api
+api: add std:: Namespace completition (wo classes)
 props: fix some keywords in clike.properties were not highlighted
 
 ---
