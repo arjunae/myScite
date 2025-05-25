@@ -106,24 +106,17 @@ end
 
 _ALERT('> Test SciTE Lua Modules')
 --test_socket()
---   'AboutDialog	D:\\src\\myscite\\src.5.1.4.lua5.3\\scite\\win32\\SciTEWin.cxx	/^void SciTEWin::AboutDialog() {$/;\"	f	class:SciTEWin	signature:()\"',
 
-local results = {
-'BASH_BASE_DECIMAL	D:\\src	49;	d	file:',
-'AUXMARK	D:\\loadlib.c	272;"	d	file:',
-'AbandonAutomaticSave	D:\\SciTEBuffers.cxx	/^void Buffer::AbandonAutomaticSave() {$/;"	f	class:Buffer	signature:()',
-'ANNOTATION_BOXED	D:\\Scintilla.h	995;"	d',
-'SCE_MMIXAL_STRING	D:\\src\\myscite\\src.5.1.4.lua5.3\\lexilla\\include\\SciLexer.h	867;"	d'
-}
+local results = {'bool IsIdContinue(int character) noexcept'}
 
 
 
-local pat_func = "\t([%w])"
+local pat_func = "([%s%w%d_:*<>]+ ).*"
 
 for _, v in ipairs(results) do
 
     local strClean = v:match(pat_func) or "<NO MATCH>"
-	 print(v:match("[%w_]*"))
+	 print(strClean)
 
 end
 

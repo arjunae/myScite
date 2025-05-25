@@ -143,6 +143,7 @@ BEGIN
 		MENUITEM "Convert EOL",		IDM_EOL_CONVERT
 
 	END
+	MENUITEM SEPARATOR
 
 END 
 // used: abceghmoprstux
@@ -177,10 +178,6 @@ END
 POPUP "&Help"
 BEGIN
 	MENUITEM "&Help\tF1", 				IDM_HELP
-#ifdef STATIC_BUILD
-	MENUITEM "&Sc1 Help",			IDM_HELP_SCITE
-	MENUITEM "&About Sc1",				IDM_ABOUT
-#else
 	MENUITEM "&SciTE Help",			IDM_HELP_SCITE
 	MENUITEM "&About SciTE",			IDM_ABOUT
 #endif

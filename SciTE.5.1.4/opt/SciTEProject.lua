@@ -53,7 +53,12 @@ end
 function trim(s)
     return (s:gsub("^%s*(.-)%s*$", "%1"))
 end
-
+	
+--
+-- Deal with different Path Separators o linux/win
+--
+local dirSep = package.config:sub(1,1)
+	
 -- init Project Folders
 -- (ctags, Autocomplete & highlitening)
 function ProjectSetEnv()
@@ -69,7 +74,9 @@ function ProjectSetEnv()
 		props["project.session.api"]=props["project.path"]..dirSep.."ctags"..dirSep.."scite.session.ctags"..".api"
 		props["project.session.props"]=props["project.path"]..dirSep.."ctags"..dirSep.."scite.session.ctags"..".properties"
 		props["project.info"] = "{"..props["project.name"].."}->"..props["FileNameExt"]
-		props["project.ctags.bin"]="myctags.cmd" -- invokes parseCTags.lua which creates a lockfile 
+		props["project.ctags.bin"]=props["SciteDefaultHome"]..dirSep.."tools"..dirSep.."myctags.cmd"
+ 		props["project.lua.bin"]=props["SciteDefaultHome"]..dirSep.."tools"..dirSep.."mylua.cmd"
+		props["project.finfile"]=os.getenv("tmp")..dirSep.."project.ctags.fin"	
 	else
 		props["project.info"] =props["FileNameExt"] -- Display filename in StatusBar1
 		props["project.inProject"] = 0
@@ -86,9 +93,8 @@ end
 function CTagsImportProps(theForceMightBeWithYou, YodaNamePath)
 	local prop, names
 	cTagList={}
-
---	if not file_exists(YodaNamePath) or ctagsLock==true or props["project.path"]=="" then return end	
-
+	if not file_exists(YodaNamePath) or ctagsLock==true or props["project.path"]=="" then return end	
+	if DEBUG>=1 then print("CTagsImportProps",theForceMightBeWithYou,YodaNamePath) end
 
 	-- Write dynamically created Ctag Props to Scites Config.
 	if  (theForceMightBeWithYou==true) then
@@ -122,6 +128,8 @@ function CTagsImportProps(theForceMightBeWithYou, YodaNamePath)
 			-- if prop:match(".cTagAllTogether") then cTagAllTogether =cTagAllTogether..names end --: table formatted
 
 		end
+
+		
 		projectEXT=props["file.patterns.project"]
 		props["substylewords.11.15."..projectEXT] = cTagOthers
 		props["substylewords.11.10."..projectEXT]= cTagNames
@@ -155,13 +163,14 @@ local origApiPath, projectApiPath, sdkApiPath
 --CTagsImportAPI()  reads props["project.session.api"] and props["project.sdk.api"]
 --
 function CTagsImportAPI(theForceMightBeWithYou,fileNamePath)
-
 	ProjectSetEnv()
 
-	if cTagList and sdkApiPath and sdkApiPath==props["project.sdk.api"] then return end --Already done ?
+	--if cTagList and sdkApiPath and sdkApiPath==props["project.sdk.api"] then return end --Already done ?
 	if props["project.path"]=="" then return end
 	if not fileNamePath or fileNamePath=="" then fileNamePath=props["project.session.props"] end
 	props["api."..props["file.patterns.project"]] =""
+	if DEBUG>=1 then print("CTagsImportAPI: ",theForceMightBeWithYou,fileNamePath,cTagList , sdkApiPath ,sdkApiPath) end
+
 
 
 	-- Attach a project platform API if it had been specified
@@ -177,6 +186,7 @@ function CTagsImportAPI(theForceMightBeWithYou,fileNamePath)
 	CTagsImportProps(true,fileNamePath)
 
 	scite.ReloadProperties() -- since Scite 5-2-2
+--	editor:Colourise(0, editor.Length)
 
 end
 
@@ -185,18 +195,20 @@ end
 -- Performs actions when the "project.ctgs.fin" file has been found.
 -- (created when a cTag run has been completed)
 --
+
 function ProjectOnDwell()
 
 	if props["project.path"]=="" then return end	--- not in a file contained by the project
-	finFileNamePath=os.getenv("tmp")..dirSep.."project.ctags.fin"	
+	finFileNamePath=props["project.finfile"]
+
 	local finFile=io.open(finFileNamePath,"r")
 	if finFile~=nil then 
-	if DEBUG==1 and finFilenamePath then print("ProjectOnDwell, project.path: " , props["project.path"], " updated CTAGS found" ) end
+	if DEBUG>=1 and finFileNamePath~="" then print("ProjectOnDwell, project.path: " , props["project.path"] ) end
 		io.flush()
 		io.close(finFile)
 		ctagsLock=false
 		os.remove(finFileNamePath)
-		if DEBUG==1 then print("ProjectOnDwell, CTags file was updated. Found ", finFileNamePath) end 	
+		if DEBUG>=1 then print("ProjectOnDwell, CTags file was updated. Found ", finFileNamePath) end 	
 		local fileNamePath= (props["project.session.props"])
 		CTagsImportAPI(true,fileNamePath)
 	end
@@ -214,6 +226,7 @@ function CTagsRecreate()
 	if props["project.name"]~="" and props["file.patterns.project"]:match(props["FileExt"])~=nil then
 		toolPath=props["SciteDefaultHome"]..dirSep.."tools"
 		ctagsBin=props["project.ctags.bin"]
+		luaBin=props["project.lua.bin"]
 		ctagsOpt=props["project.ctags.opt"] -- options
 		
 		ctagsTMP="\""..os.getenv("tmp")..dirSep.."scite.session.ctags\"" -- raw .ctags go here
@@ -226,13 +239,13 @@ function CTagsRecreate()
 			local fExcludes=trim(props["project.path"])..dirSep.."ctags"..dirSep.."ctags.excludes"	
 			if not file_exists(fExcludes) then local file , err= io.open(fExcludes, "w") ; file:close() end
  		-- start collecting cTags
-				ctagsCMD=toolPath..dirSep..ctagsBin.." "..ctagsOpt.." -f "..ctagsTMP.." -R " ..props["project.path"] 
+				ctagsCMD=ctagsBin.." "..ctagsOpt.." -f "..ctagsTMP.." -R " ..props["project.path"] 
 				if DEBUG==1 then print("CTagsRecreate All, starting " .. props["project.path"] ) end 
 
 			local pipe=scite_Popen(ctagsCMD)
 			local tmp= pipe:read('*a'); --print (tmp)
 
-			local pipe=scite_Popen(toolPath..dirSep.."mylua.cmd tools\\ctags\\parseCTags.lua "..ctagsAPI.." "..ctagsTMP)
+			local pipe=scite_Popen(luaBin.." tools\\ctags\\parseCTags.lua "..ctagsAPI.." "..ctagsTMP)
 			if DEBUG==2 then 
 				local tmp= pipe:read('*a') ; print (tmp)  -- synchronous -waits for the Command to complete
 			end

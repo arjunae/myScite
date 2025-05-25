@@ -179,8 +179,8 @@ int TabAtPoint(HWND hWnd, GUI::Point pt) noexcept {
 }
 
 /**
- * Manage Windows specific notifications.
- */
+	* Manage Windows specific notifications.
+	*/
 void SciTEWin::Notify(SCNotification *notification) {
 	switch (notification->nmhdr.code) {
 	case TCN_SELCHANGE:
@@ -191,7 +191,7 @@ void SciTEWin::Notify(SCNotification *notification) {
 			CheckReload();
 		}
 		break;
-
+	
 	case NM_RCLICK:
 		// Right click on a control
 		if (notification->nmhdr.idFrom == IDM_TABWIN) {

@@ -39,14 +39,14 @@ end)
 -- set the given indicator ind between pos and endp inclusive
 -- (the val arg is only used by indicator_clear)
 function Indicator:set(pos,endp,val)
-    local es = editor.EndStyled
+	local es = editor.EndStyled
 	local mask = indicator_mask(self.ind)
 	if not val then
 		val = mask
 	end
-    editor:StartStyling(pos,mask)
-    editor:SetStyling(endp-pos,val)
-    editor:StartStyling(es,style_mask)
+	editor:StartStyling(pos,mask)
+	editor:SetStyling(endp-pos,val)
+	editor:StartStyling(es,style_mask)
 end
 
 -- clear an indicator ind between pos and endp
@@ -120,7 +120,7 @@ MarkerType = class(function(self,idx,typ,fore,back)
 	if typ then editor:MarkerDefine(idx,typ) end
 	if fore then editor:MarkerSetFore(idx,colour_parse(fore)) end
 	--adapted for Scite3.6.2
- 	if back then editor.MarkerBack[idx] = colour_parse(back)end
+		if back then editor.MarkerBack[idx] = colour_parse(back)end
 	self.idx = idx
 	self.markers = create_list()
 	-- there may be 'expired' markers which need to finally die!
@@ -182,16 +182,16 @@ function MarkerType:for_file(fname)
 	if not fname then fname = scite_CurrentFile() end
 	local i = 0
 	local n = 0
-	 if _VERSION:find("5%.1") then
+		if _VERSION:find("5%.1") then
 		local n = table.getn(self.markers)
-	 else
+		else
 		local n = #self.markers
-	 end
+		end
 	local t = self.markers
 --~ 	print(n,t)
-    return function ()
-               i = i + 1
-               while i <= n do
+	return function ()
+				i = i + 1
+				while i <= n do
 --~ 					print (i,t[i].line)
 					if t[i].file == fname then
 						return t[i]
@@ -199,7 +199,7 @@ function MarkerType:for_file(fname)
 						i = i + 1
 					end
 				end
-             end
+				end
 end
 
 function MarkerType:iter()

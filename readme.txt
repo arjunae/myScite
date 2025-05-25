@@ -1,16 +1,20 @@
-~# mySciTE -~
+# - mySciTE -
 [30.04.2025]
 = Reboot =
 src: SciTE 5.1.4 cpp14 backport
 src: Ownerdrawn Menu (less padding)
-dirs: simplify directory structure
+dirs: simplified directory structure
+lua: project based CTAGS syntax highlightning. 
 lua: Autocomplete using CTAGS with limited Class(::)Member Support. 
      See tools/sample.SciTEDirectory.properties
-lua: Autocomplete is able to import ac_{lexerLanguage}.api
+lua: Autocomplete automatically imports APIDir\ac_{lexerLanguage}.api
 lua: updated libs
+lua: revived prompt.lua -> run lua expressions within the output pane
+lua: revived prettyLua.lua -> prettify lua within selection (press ALT)
 themes: Add theme.white and theme.blue
 api: add std:: Namespace completition (wo classes)
-props: fix some keywords in clike.properties were not highlighted
+props: fix some keywords in clike.properties were not highlighted.
+
 
 ---
 

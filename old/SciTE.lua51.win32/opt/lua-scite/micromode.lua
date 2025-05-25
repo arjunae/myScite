@@ -22,11 +22,11 @@ local function check_micro_mode(f)
 	if not line then return end
 	local _,_,p,val = line:find('([a-z]+)@%s+(.+)')
 	if _ then
-        local custom_build, lua_function
-        if p ~= 'build' and p ~= 'compile' and p ~= 'go' then
-            custom_build = p
-            p = 'build'            
-        end
+		local custom_build, lua_function
+		if p ~= 'build' and p ~= 'compile' and p ~= 'go' then
+			custom_build = p
+			p = 'build'            
+		end
 		local prop = 'command.'..p..'.*'
 		if val:sub(1,1) == '$' then -- might have been a property expansion!
 			val = val:sub(3,-2)
@@ -38,9 +38,9 @@ local function check_micro_mode(f)
 		end
 		local cmd = val:match('([%w_]+)')
 		lua_function = cmd and _G[cmd]
-        if not custom_build and not lua_function then
-            props[prop] = val
-        else
+		if not custom_build and not lua_function then
+			props[prop] = val
+		else
 			local subsys
 			-- a Lua function; use the 3 subsystem to evaluate it!
 			if custom_build then
@@ -50,10 +50,10 @@ local function check_micro_mode(f)
 				props[prop] = val
 				subsys = 'command.go.subsystem.*'
 			end            
-            props[subsys] = '3'
-            table.insert(propset,subsys)
-        end
-        table.insert(propset,prop)
+			props[subsys] = '3'
+			table.insert(propset,subsys)
+		end
+		table.insert(propset,prop)
 	end
 end
 

@@ -11,26 +11,26 @@ if lpeg==nil then err,lpeg = pcall( require,"lpeg")  end
 -- returns i characters at position s as a string
 --
 local function at (s,i)
-    return s:sub(i,i)
+	return s:sub(i,i)
 end
 --- note: for finding the last occurance of a character, it's actualy
 --- easier to do it in an explicit loop rather than use patterns.
 --- (These are not time-critcal functions)
 local function split_last (s,ch)
-    local i = #s
-    while i > 0 do
-        if at(s,i) == ch then
-            return s:sub(i+1),i
-        end
-        i = i - 1
-    end
+	local i = #s
+	while i > 0 do
+		if at(s,i) == ch then
+			return s:sub(i+1),i
+		end
+		i = i - 1
+	end
 end
 --
 -- return a files name without ext
 --
 function basename(s)
-    local res = split_last(s,dirsep)
-    if res then return res else return s end
+	local res = split_last(s,dirsep)
+	if res then return res else return s end
 end
 --
 -- return a files path
@@ -47,23 +47,23 @@ end
 -- return a filenames extension
 --
 function extension_of (s)
-    return split_last(s,'.')
+	return split_last(s,'.')
 end
 --
 -- return a filename with ext from its full qualified path
 --
 function filename(path)
-    local fname = basename(path)
-    local _,idx = split_last(fname,'.')
-    if idx then return fname:sub(1,idx-1) else return fname end
+	local fname = basename(path)
+	local _,idx = split_last(fname,'.')
+	if idx then return fname:sub(1,idx-1) else return fname end
 end
 --
 -- return a filename with ext from its full qualified path
 --
 function filename(path)
-    local fname = basename(path)
-    local _,idx = split_last(fname,'.')
-    if idx then return fname:sub(1,idx-1) else return fname end
+	local fname = basename(path)
+	local _,idx = split_last(fname,'.')
+	if idx then return fname:sub(1,idx-1) else return fname end
 end
 function choose(cond,x,y)
 	if cond then return x else return y end
@@ -73,7 +73,7 @@ end
 --
 function join(path,part1,part2)
 	local res = path..dirsep..part1
-    if part2 then return res..dirsep..part2 else return res end
+	if part2 then return res..dirsep..part2 else return res end
 end
 -- use scite api to get current files path
 function fullpath(file)
@@ -121,25 +121,25 @@ end
 -- remove trailing whitespace
 --
 function rtrim(s)
-    return string.gsub(s,'%s*$','')
+	return string.gsub(s,'%s*$','')
 end
 --
 -- wordAtPosition()
 -- Returns the whole keyword under the cursor
 --
 local function CurrentWord()
-  local pos = editor.CurrentPos
-  local startPos=pos
-  local lineEnd = editor.LineEndPosition[editor:LineFromPosition(pos)]
-  local whatever,endPos = editor:findtext("[^a-zA-z0-9_-*]",SCFIND_REGEXP,pos,lineEnd) --words EndPos
-  if not endPos then endPos=lineEnd end
-  local tmp=""
-  --search backwards for a Delimiter
-  while not string.find(editor:textrange(startPos,startPos+1),"[^%w_-]+")  do
-    startPos=startPos-1
-  end
-  tmp=editor:textrange(startPos+1,endPos-1)
-  return string.match(tmp,"[%w_-]+") -- just be sure. only return the keyword
+	local pos = editor.CurrentPos
+	local startPos=pos
+	local lineEnd = editor.LineEndPosition[editor:LineFromPosition(pos)]
+	local whatever,endPos = editor:findtext("[^a-zA-z0-9_-*]",SCFIND_REGEXP,pos,lineEnd) --words EndPos
+	if not endPos then endPos=lineEnd end
+	local tmp=""
+	--search backwards for a Delimiter
+	while not string.find(editor:textrange(startPos,startPos+1),"[^%w_-]+")  do
+	startPos=startPos-1
+	end
+	tmp=editor:textrange(startPos+1,endPos-1)
+	return string.match(tmp,"[%w_-]+") -- just be sure. only return the keyword
 end
 --------
 --
@@ -181,7 +181,7 @@ function center_line(line)
 end
 -- Trims space chars from a strings end
 function rtrim(s)
-    return string.gsub(s,'%s*$','')
+	return string.gsub(s,'%s*$','')
 end
 ----------
 --
