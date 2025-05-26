@@ -5,7 +5,7 @@ if GTK then dirSep = '/' else dirSep = '\\' end
 myHome = props["SciteDefaultHome"]..dirSep.."opt"..dirSep
 LUA_PATH = myHome.."lua\\" -- official lua related scripts
 package.path = package.path ..";"..myHome.."lua\\?.lua;"..myHome.."lua-scite\\?.lua;"
-package.cpath = package.cpath .. ";"..myHome.."lua-scite\\?.dll;"
+package.cpath = package.cpath .. ";"..myHome.."lua\\?.dll;"
 if not GTK then
 	package.path = string.gsub(package.path,"/","\\")
 	package.cpath = string.gsub(package.cpath,"/","\\")
@@ -147,19 +147,22 @@ function OnInit()
 	--editor:GrabFocus()  -- Ensure editors focus
 	
 	-- check SciLexer once per session and inform the User if its a nonStock Version.
+	--[[
 	local SLHash
 	if not SLHash then
 	SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
 		if SLHash and SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
 	end
-	
+	]]
 	-- Event Handlers
 	scite_OnKey( function()  props["CurrentPos"]=editor.CurrentPos end ) -- keep Track of current Bytes Offset (for Statusbar)
 --	checkUpdates() -- check for a new version using githubs readme.md
 	scite_OnOpenSwitch(myScite_OpenSwitch)
-
-
+	scite_OnKey(prettifyLua)
+-- Initiale simple lua Prompt
+	dofile(myHome.."promptNew.lua")
 end
+	OnInit()
 
 
 

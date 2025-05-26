@@ -141,16 +141,16 @@ function myScite_OpenSwitch()
 end
 			
 function OnInit() 
---
--- called after above and only once when Scite starts (SciteStartups DocumentReady)
---
+	--
+	-- called after above and only once when Scite starts (SciteStartups DocumentReady)
+	--
 	--editor:GrabFocus()  -- Ensure editors focus
 	
 	-- check SciLexer once per session and inform the User if its a nonStock Version.
 	--[[
 	local SLHash
 	if not SLHash then
-	SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
+		SLHash=fileHash( props["SciteDefaultHome"].."\\SciLexer.dll" )  
 		if SLHash and SLHash~=props["SciLexerHash"] then print("common.lua: You are using a modified SciLexer.dll with CRC32 Hash: "..SLHash) end
 	end
 	]]
@@ -158,7 +158,7 @@ function OnInit()
 	scite_OnKey( function()  props["CurrentPos"]=editor.CurrentPos end ) -- keep Track of current Bytes Offset (for Statusbar)
 --	checkUpdates() -- check for a new version using githubs readme.md
 	scite_OnOpenSwitch(myScite_OpenSwitch)
-	scite_OnKey(prettifyLua) -- poormans littl lua prettifier. pretties current selection on ALT key.
+	scite_OnKey(prettifyLua)
 -- Initiale simple lua Prompt
 	dofile(myHome.."promptNew.lua")
 end

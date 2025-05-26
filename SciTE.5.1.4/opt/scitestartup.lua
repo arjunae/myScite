@@ -158,7 +158,7 @@ function OnInit()
 	scite_OnKey( function()  props["CurrentPos"]=editor.CurrentPos end ) -- keep Track of current Bytes Offset (for Statusbar)
 --	checkUpdates() -- check for a new version using githubs readme.md
 	scite_OnOpenSwitch(myScite_OpenSwitch)
-	scite_OnBeforeSave(spc2tabs_OnSave)
+	scite_OnKey(prettifyLua)
 -- Initiale simple lua Prompt
 	dofile(myHome.."promptNew.lua")
 end

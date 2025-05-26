@@ -173,9 +173,9 @@ local function setLexerSpecificStuff()
 		end
 	end
 		-- Override settings that interfere with this 
-	if props["project.inProject"]==1 then 
+	if props["project.inProject"]=="1" then 
 	--	props["autocomplete."..props["Language"]..".start.characters"] = ""
-	--	props["autocomplete."..props["Language"]..".fillups"] = "|"
+		props["autocomplete."..props["Language"]..".fillups"] = "|"
 	else
 	--	props["autocomplete."..props["Language"]..".start.characters"] = "$(chars.alpha)$(chars.numeric)$.:"
 	end
@@ -223,7 +223,8 @@ local function loadApiNames()
 -- BuildNames now only gathers buffers text names
 local function buildNames()
 	debugPrint("ac>loadEditorNames")
-	if type(buffer)=="table" and buffer.size>AC_MAX_SIZE then return end
+--	if type(buffer)=="table" and buffer.size>AC_MAX_SIZE then return end
+
 	textNames = {}
 	local uniq = {}
 	setLexerSpecificStuff()
@@ -244,13 +245,7 @@ local function buildNames()
 	for _, v in pairs(uniq) do
 		table.insert(textNames, v)
 	end
-	--[[table.sort(
-		textNames,
-		function(a, b)
-			return normalize(a) < normalize(b)	
-		end
-		)
-	]]
+	
 end
 
 function do_autocomplete(strSearch,acNames)
@@ -263,32 +258,25 @@ function do_autocomplete(strSearch,acNames)
 		error("ac>do_autocomplete, parameter missing")
 		return
 	end
-
 	
 	if (len < MIN_PREFIX_LEN) or (not INCREMENTAL and editor:AutoCActive()) then --and editor:AutoCActive()
-	--print("pos, len, name "..pos,len,editor:textrange(startPos, pos))
 		editor:AutoCCancel()
 		return
 	end
 		
 	debugPrint("ac>do_autocomplete:" .. prefix)
 		
-	-- PHP variable support
-	if prefix:sub(1, 1) == "$" then
-		prefix = prefix:sub(2)
-		len = len - 1
-	end
-	-- ::keyword support
-	local match = prefix:match("^:+")
+	-- PHP Vars and cpp *&::keyword support
+	local match = prefix:match("^[$:&*]+")
 	if match then
 		prefix = prefix:sub(#match + 1)
 		len = len - #match
 	end
+	
 	-- keyword.:subkeyword style autocompletion
 	local menuItems = {}
 	local seen = {}
 	local dbgcnt = 1
-
 	for _, name in ipairs(acNames) do
 			name=normalize(name)
 		--if name:find(prefix) then  print ("ac>do_autocomplete1: "..name) end
@@ -334,7 +322,7 @@ function do_calltip(char,strSearch,destPos,ctNames)
 	local pos = editor.CurrentPos
 	local calltipLines = {} 
 	local entry
-	local dbgcnt=1 --limit candidate list
+	local dbgcnt=1 -- debug candidate list
 	local tipCount = 0
 
 	strSearch = strSearch:gsub("^::?", "") or strSearch -- ::keyword support
@@ -357,7 +345,8 @@ function do_calltip(char,strSearch,destPos,ctNames)
 		end
 		if tmp then print("could match with: "..fullLine ) end
 		end
-		]]		
+		]]	
+		
 		--     for full qualified class::member scite (not autocomlete) will show the Calltip
 		local prefixMatch =fullLine:match("^(.-)%(") -- funcName() at the very start (i.e. no namespace)
 		if prefixMatch == strSearch then
@@ -388,7 +377,7 @@ function do_calltip(char,strSearch,destPos,ctNames)
 		editor:CallTipShow(destPos, finalCalltipString)
 	end
 end
-
+	
 local function handleChar(char, calledByHotkey)
 	if (buffer.size and buffer.size > AC_MAX_SIZE) then
 		return
