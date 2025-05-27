@@ -5,7 +5,7 @@ if GTK then dirSep = '/' else dirSep = '\\' end
 myHome = props["SciteDefaultHome"]..dirSep.."opt"..dirSep
 LUA_PATH = myHome.."lua\\" -- official lua related scripts
 package.path = package.path ..";"..myHome.."lua\\?.lua;"..myHome.."lua-scite\\?.lua;"
-package.cpath = package.cpath .. ";"..myHome.."lua\\?.dll;"
+package.cpath = package.cpath .. ";"..myHome.."lua-scite\\?.dll;"
 if not GTK then
 	package.path = string.gsub(package.path,"/","\\")
 	package.cpath = string.gsub(package.cpath,"/","\\")
@@ -39,6 +39,19 @@ _G.string.gfind = string.gmatch or string.gfind
 -- ##################  Lua Samples #####################
 --   ##############################################
 
+--
+-- Returns size of a File
+--
+function file_size(filename)
+    local file = io.open(filename, "rb")
+    if not file then
+        return nil, "not found ,so no file Size."
+    end
+
+    local size = file:seek("end")
+    file:close()
+    return size
+end
 
 function HighlightLinks()
 --
@@ -158,7 +171,7 @@ function OnInit()
 	scite_OnKey( function()  props["CurrentPos"]=editor.CurrentPos end ) -- keep Track of current Bytes Offset (for Statusbar)
 --	checkUpdates() -- check for a new version using githubs readme.md
 	scite_OnOpenSwitch(myScite_OpenSwitch)
-	scite_OnKey(prettifyLua)
+	scite_OnKey(prettify_lua)
 -- Initiale simple lua Prompt
 	dofile(myHome.."promptNew.lua")
 end

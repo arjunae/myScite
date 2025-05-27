@@ -143,6 +143,7 @@ long SciTEKeys::ParseKeyCode(const char *mnemonic) {
 
 	return (keyval > 0) ? (keyval | (static_cast<int>(modsInKey)<<16)) : 0;
 }
+
 bool SciTEKeys::MatchKeyCode(long parsedKeyCode, int keyval, int modifiers) noexcept {
 	return parsedKeyCode && !(0xFFFF0000 & (keyval | modifiers)) && (parsedKeyCode == (keyval | (modifiers<<16)));
 }
@@ -184,10 +185,9 @@ bool UIShouldBeFlat() noexcept {
 		VER_MAJORVERSION | VER_MINORVERSION |
 		VER_SERVICEPACKMAJOR | VER_SERVICEPACKMINOR,
 		dwlConditionMask);
-	}
-	
-	}
-	
+}
+
+}	
 SciTEWin::SciTEWin(Extension *ext) : SciTEBase(ext) {
 	app = this;
 
@@ -244,13 +244,12 @@ SciTEWin::SciTEWin(Extension *ext) : SciTEBase(ext) {
 
 	ReadGlobalPropFile();
 
-	if (props.GetInt("create.hidden.console")) {
-		// Prevent a flashing console window whenever Lua calls os.execute or
-		// io.popen by creating a hidden console to share.
-		::AllocConsole();
-		::ShowWindow(::GetConsoleWindow(), SW_HIDE);
-	}
-
+if (props.GetInt("create.hidden.console")) {
+	// Prevent a flashing console window whenever Lua calls os.execute or
+	// io.popen by creating a hidden console to share.
+	::AllocConsole();
+	::ShowWindow(::GetConsoleWindow(), SW_HIDE);
+}
 	tbLarge = props.GetInt("toolbar.large");
 	/// Need to copy properties to variables before setting up window
 	SetPropertiesInitial();
@@ -322,7 +321,7 @@ void SciTEWin::Register(HINSTANCE hInstance_) {
 void CleanupMenu(HMENU hMenu) {
 	int count = GetMenuItemCount(hMenu);
 	for (int i = 0; i < count; ++i) {
-		MENUITEMINFO mii = { sizeof(mii) };
+	MENUITEMINFO mii = { sizeof(mii) };
 		mii.fMask = MIIM_FTYPE | MIIM_DATA | MIIM_SUBMENU;
 		GetMenuItemInfo(hMenu, i, TRUE, &mii);
 

@@ -33,7 +33,6 @@ SciTEGTK::AbbrevResponse(int responseID) void
 AbbreviateWithTilde(const GUI::gui_string & path) GUI::gui_string 
 SciTEGTK::AboutDialog() void 
 SciTEWin::AboutDialog() void 
-SciTEWin::AboutDialog() void 
 SciTEWin::AboutDialogWithBuild(int staticBuild_) void 
 SciTEWin::AboutDlg(HWND hDlg,UINT message,WPARAM wParam,LPARAM lParam) INT_PTR CALLBACK 
 SciTEWin::AboutMessage(HWND hDlg,UINT message,WPARAM wParam) BOOL 
@@ -80,7 +79,6 @@ AutoCompleteWordList::Add(const std::string & word) bool
 Editor::AddChar(char ch) void 
 JobQueue::AddCommand(const std::string & command,const FilePath & directory,JobSubsystem jobType,const std::string & input,int flags) void 
 SciTEBase::AddCommand(const std::string & cmd,const std::string & dir,JobSubsystem jobType,const std::string & input,int flags) void 
-SciTEWin::AddCommand(const std::string & cmd,const std::string & dir,JobSubsystem jobType,const std::string & input,int flags) void 
 SciTEWin::AddCommand(const std::string & cmd,const std::string & dir,JobSubsystem jobType,const std::string & input,int flags) void 
 Document::AddData(const char * data,Sci_Position length) int SCI_METHOD 
 AddEachLexer() void 
@@ -134,7 +132,6 @@ ScintillaQt::AddToPopUp(const char * label,int cmd,bool enabled) void
 ScintillaWin::AddToPopUp(const char * label,int cmd,bool enabled) void 
 SciTEGTK::AddToPopUp(const char * label,int cmd,bool enabled) void 
 Strip::AddToPopUp(GUI::Menu & popup,const GUI::gui_string & label,int cmd,bool checked) void 
-SciTEWin::AddToPopUp(const char * label,int cmd,bool enabled) void 
 SciTEWin::AddToPopUp(const char * label,int cmd,bool enabled) void 
 Strip::AddToPopUp(GUI::Menu & popup,const char * label,int cmd,bool checked) const void 
 SciTEGTK::AddToolBar() void 
@@ -1694,7 +1691,6 @@ ScintillaGTK::CheckForFontOptionChange() void
 CheckForKeyword(StyleContext & sc,WordList * keywordlists[],int activeState) static void 
 SciTEGTK::CheckForRunningInstance(int argc,char * argv[]) bool 
 SciTEWin::CheckForScintillaFailure(SA::Status statusFailure) void 
-SciTEWin::CheckForScintillaFailure(SA::Status statusFailure) void 
 CheckFreeFoldPoint(char const * token,int & level) static int 
 CheckHollywoodFoldPoint(char const * token) static int 
 LexerVB::CheckIdentifier(StyleContext & sc) void 
@@ -1779,7 +1775,6 @@ ClassifySTTXTWordFoldPoint(int & levelCurrent,Sci_PositionU lastStart,Sci_Positi
 ClassifyWordRb(Sci_PositionU start,Sci_PositionU end,char ch,WordList & keywords,Accessor & styler,char * prevWord) int 
 ClassifyWordSol(Sci_PositionU start,Sci_PositionU end,WordList & keywords,Accessor & styler,char * prevWord) static void 
 CleanUp() void 
-CleanupMenu(HMENU hMenu) void 
 CleanupMenu(HMENU hMenu) void 
 Clear() void 
 Clear() void 
@@ -1907,8 +1902,6 @@ Editor::CodePage() const int
 Document::CodePageFamily() const EncodingFamily 
 CodePageFromCharSet(CharacterSet characterSet,UINT documentCodePage) UINT 
 CodePageFromCharSet(SA::CharacterSet characterSet,UINT documentCodePage) static UINT 
-CodePageFromCharSet(SA::CharacterSet characterSet,UINT documentCodePage) static UINT 
-CodePageFromName(const std::string & encodingName) static int 
 CodePageFromName(const std::string & encodingName) static int 
 ScintillaWin::CodePageOfDocument() const UINT 
 CodePageText(int codePage) const int 
@@ -2098,7 +2091,6 @@ ScintillaBase::Command(int cmdId) void
 SciTEGTK::Command(unsigned long wParam,long) void 
 WCheckDraw::Command() const int 
 SciTEWin::Command(WPARAM wParam,LPARAM lParam) void 
-SciTEWin::Command(WPARAM wParam,LPARAM lParam) void 
 BackgroundStrip::Command(WPARAM) bool 
 FilterStrip::Command(WPARAM wParam) bool 
 FindStrip::Command(WPARAM wParam) bool 
@@ -2110,7 +2102,6 @@ ScintillaCall::CommandEvents() bool
 CommandExecute(const GUI::gui_char * command,const GUI::gui_char * directoryForRun) std::string 
 CommandInside
 CommandSubstitution
-CommandWorker::CommandWorker() 
 CommandWorker::CommandWorker() 
 CommandWorker
 CommentBlockStyleFromNestLevel(const unsigned int nestLevel) static inline int 
@@ -2214,7 +2205,6 @@ ScintillaWin::ContextCursor(Point pt) Window::Cursor
 ScintillaBase::ContextMenu(Point pt) void 
 SciTEBase::ContextMenu(GUI::ScintillaWindow & wSource,GUI::Point pt,GUI::Window wCmd) void 
 SciTEWin::ContextMenuMessage(UINT iMessage,WPARAM wParam,LPARAM lParam) LRESULT 
-SciTEWin::ContextMenuMessage(UINT iMessage,WPARAM wParam,LPARAM lParam) LRESULT 
 MatchMarker::Continue() void 
 SciTEBase::ContinueCallTip() void 
 SciTEGTK::ContinueExecute(int fromPoll) void 
@@ -2241,7 +2231,6 @@ ListBoxX::ControlWndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam) LR
 Convert(char ** src,gsize * srcleft,char ** dst,gsize * dstleft) const gsize 
 ScintillaCall::ConvertEOLs(Scintilla::EndOfLine eolMode) void 
 ConvertEOLs
-ConvertEncoding(const char * original,int codePage) static std::string 
 ConvertEncoding(const char * original,int codePage) static std::string 
 ConvertEnu(t) def 
 SciTEBase::ConvertIndentation(int tabSize,int useTabs) void 
@@ -2270,11 +2259,9 @@ CopyAllowLine
 Editor::CopyAllowLine() void 
 CopyAsRTF() virtual void 
 SciTEWin::CopyAsRTF() void 
-SciTEWin::CopyAsRTF() void 
 UniqueInstance::CopyData(const COPYDATASTRUCT * pcds) LRESULT 
 SciTEGTK::CopyPath() void 
 CopyPath() virtual void 
-SciTEWin::CopyPath() void 
 SciTEWin::CopyPath() void 
 ScintillaCall::CopyRange(Position start,Position end) void 
 CopyRange
@@ -2371,7 +2358,6 @@ Strip::CreateText(const char * text) GUI::Window
 SciTEGTK::CreateTranslatedMenu(int n,const SciTEItemFactoryEntry items[],int nRepeats,const char * prefix,int startNum,int startID,const char * radioStart) void 
 SciTEGTK::CreateUI() void 
 SciTEWin::CreateUI() void 
-SciTEWin::CreateUI() void 
 Created() const bool 
 Created() const bool 
 BackgroundStrip::Creation(GtkWidget * container) void 
@@ -2397,7 +2383,6 @@ Current(lua_State * L) static int
 BufferList::Current() const int 
 SciTEGTK::CurrentAppearance() const SystemAppearance 
 SciTEBase::CurrentAppearance() const SystemAppearance 
-SciTEWin::CurrentAppearance() const SystemAppearance 
 SciTEWin::CurrentAppearance() const SystemAppearance 
 *CurrentBuffer() Buffer 
 *BufferList::CurrentBuffer() Buffer 
@@ -2949,7 +2934,6 @@ Editor::DropAt(SelectionPosition position,const char * value,bool moving,bool re
 Editor::DropAt(SelectionPosition position,const char * value,size_t lengthValue,bool moving,bool rectangular) void 
 Editor::DropCaret() void 
 SciTEWin::DropFiles(HDROP hdrop) void 
-SciTEWin::DropFiles(HDROP hdrop) void 
 EditView::DropGraphics() void 
 Editor::DropGraphics() void 
 MarginView::DropGraphics() void 
@@ -3000,7 +2984,6 @@ EDITORCONFIG_H
 EDITOR_H
 EDITVIEW_H
 ELAPSEDPERIOD_H
-ELEMENTS
 ELEMENTS
 ELEMENTS
 END
@@ -3143,7 +3126,6 @@ Enabled
 SciTEGTK::EncodeString(const std::string & s) std::string 
 SciTEBase::EncodeString(const std::string & s) std::string 
 SciTEWin::EncodeString(const std::string & s) std::string 
-SciTEWin::EncodeString(const std::string & s) std::string 
 ScintillaWin::EncodeWString(std::wstring_view wsv) std::string 
 ScintillaCall::EncodedFromUTF8(const char * utf8,char * encoded) Position 
 ScintillaCall::EncodedFromUTF8(const char * utf8) std::string 
@@ -3257,7 +3239,6 @@ LexerCPP::EvaluateExpression(const std::string & expr,const SymbolTable & prepro
 LexerCPP::EvaluateTokens(Tokens & tokens,const SymbolTable & preprocessorDefinitions) void 
 Even
 SciTEWin::EventLoop() uintptr_t 
-SciTEWin::EventLoop() uintptr_t 
 EventMaskAll
 EventType
 Exception
@@ -3299,17 +3280,11 @@ SciTEBase::Execute() void
 Execute() virtual void 
 CommandWorker::Execute() void 
 SciTEWin::Execute() void 
-CommandWorker::Execute() void 
-SciTEWin::Execute() void 
-SciTEWin::ExecuteHelp(const char * cmd) void 
 SciTEWin::ExecuteHelp(const char * cmd) void 
 SciTEBase::ExecuteMacroCommand(const char * command) void 
 SciTEGTK::ExecuteNext() void 
 SciTEWin::ExecuteNext() void 
-SciTEWin::ExecuteNext() void 
 SciTEWin::ExecuteOne(const Job & jobToRun) DWORD 
-SciTEWin::ExecuteOne(const Job & jobToRun) DWORD 
-SciTEWin::ExecuteOtherHelp(const char * cmd) void 
 SciTEWin::ExecuteOtherHelp(const char * cmd) void 
 Executing
 Executing
@@ -3931,7 +3906,6 @@ ScintillaWin::FullPaint() void
 ScintillaWin::FullPaintDC(HDC hdc) void 
 FullRect
 SciTEWin::FullScreenToggle() void 
-SciTEWin::FullScreenToggle() void 
 Function(GtkDialog *,gint responseID,SciTEGTK * app) static void 
 Function(GtkWidget *,SciTEGTK * app) static void 
 Function(GtkWidget *,T * object) static void 
@@ -4141,7 +4115,6 @@ DataObject::GetDataHere(FORMATETC *,STGMEDIUM *) STDMETHODIMP
 *ScintillaGTKAccessible::GetDefaultAttributes() AtkAttributeSet 
 SciTEGTK::GetDefaultDirectory() FilePath 
 SciTEWin::GetDefaultDirectory() FilePath 
-SciTEWin::GetDefaultDirectory() FilePath 
 ScintillaCall::GetDefaultFoldDisplayText(char * text) int 
 ScintillaCall::GetDefaultFoldDisplayText() std::string 
 GetDefaultFoldDisplayText
@@ -4172,7 +4145,6 @@ GetElementIsSet
 GetEndAtLastLine
 GetEndStyled
 GetEndStyled() const Sci::Position 
-GetErrorMessage(DWORD nRet) static GUI::gui_string 
 GetErrorMessage(DWORD nRet) static GUI::gui_string 
 ContractionState<LINE>::GetExpanded(Sci::Line lineDoc) const bool 
 PropSetFile::GetExpandedString(const char * key) const std::string 
@@ -4263,7 +4235,6 @@ GetIndentationGuides
 GetIndicatorCurrent
 GetIndicatorValue
 SciTEBase::GetInstance() uintptr_t 
-SciTEWin::GetInstance() uintptr_t 
 SciTEWin::GetInstance() uintptr_t 
 PropSetSimple::GetInt(std::string_view key,int defaultValue) const int 
 PropSetFile::GetInt(const char * key,int defaultValue) const int 
@@ -4439,7 +4410,6 @@ GetRange(T * buffer,ptrdiff_t position,ptrdiff_t retrieveLength) const void
 SciTEGTK::GetRangeInUIEncoding(GUI::ScintillaWindow & win,SA::Span span) std::string 
 SciTEBase::GetRangeInUIEncoding(GUI::ScintillaWindow & win,SA::Span span) std::string 
 SciTEWin::GetRangeInUIEncoding(GUI::ScintillaWindow & win,SA::Span range) std::string 
-SciTEWin::GetRangeInUIEncoding(GUI::ScintillaWindow & win,SA::Span range) std::string 
 GetRangeLowered(Sci_PositionU start,Sci_PositionU end,Accessor & styler,char * s,Sci_PositionU len) static void 
 GetRangeLowered(Sci_PositionU start,Sci_PositionU end,Accessor & styler,char * s,Sci_PositionU len) static void 
 GetRangeLowered(Sci_PositionU start,Sci_PositionU end,Accessor & styler,char * s,Sci_PositionU len) static void 
@@ -4476,16 +4446,12 @@ ListBoxX::GetRowHeight() int
 *ScintillaGTKAccessible::GetRunAttributes(int charOffset,int * startChar,int * endChar) AtkAttributeSet 
 GetScale() const float 
 SciTEWin::GetScaleFactor() int 
-SciTEWin::GetScaleFactor() int 
 RGBAImage::GetScaledHeight() const float 
 RGBAImage::GetScaledWidth() const float 
 GetSciTEPath(const FilePath & home) static FilePath 
-GetSciTEPath(const FilePath & home) static FilePath 
 SciTEGTK::GetSciteDefaultHome() FilePath 
 SciTEWin::GetSciteDefaultHome() FilePath 
-SciTEWin::GetSciteDefaultHome() FilePath 
 SciTEGTK::GetSciteUserHome() FilePath 
-SciTEWin::GetSciteUserHome() FilePath 
 SciTEWin::GetSciteUserHome() FilePath 
 GetScriptableInterface(f) def 
 ScintillaWin::GetScrollInfo(int nBar,LPSCROLLINFO lpsi) bool 
@@ -4638,7 +4604,6 @@ GetWidth() const int
 PropSetFile::GetWild(const char * keybase,const char * filename) std::string 
 PropSetFile::GetWildUsingStart(const PropSetFile & psStart,const char * keybase,const char * filename) std::string 
 SciTEGTK::GetWindowPosition(int * left,int * top,int * width,int * height,int * maximize) void 
-SciTEWin::GetWindowPosition(int * left,int * top,int * width,int * height,int * maximize) void 
 SciTEWin::GetWindowPosition(int * left,int * top,int * width,int * height,int * maximize) void 
 GetWordChars
 *LexerModule::GetWordListDescription(int index) const const char 
@@ -5657,7 +5622,6 @@ LuaExtension::Initialise(ExtensionAPI * host_) bool
 MultiplexExtension::Initialise(ExtensionAPI * host_) bool 
 DirectorExtension::Initialise(ExtensionAPI * host_) bool 
 CommandWorker::Initialise(bool resetToStart) void 
-CommandWorker::Initialise(bool resetToStart) void 
 SciTEBase::InitialiseBuffers() void 
 LexerX12::InitialiseFromISA(IDocument * pAccess) LexerX12::Terminator 
 LexerEDIFACT::InitialiseFromUNA(IDocument * pAccess,Sci_PositionU MaxLength) Sci_Position 
@@ -6277,10 +6241,8 @@ IsSpaceOrTab(char ch) constexpr bool
 IsSpaceOrTab(int ch) constexpr bool 
 IsSpaceOrTab(char ch) static constexpr bool 
 IsSpaceOrTab(GUI::gui_char ch) static constexpr bool 
-IsSpaceOrTab(GUI::gui_char ch) static constexpr bool 
 IsSpaceToEOL(Sci_Position startPos,Accessor & styler) static bool 
 SciTEBase::IsStdinBlocked() bool 
-SciTEWin::IsStdinBlocked() bool 
 SciTEWin::IsStdinBlocked() bool 
 AutoComplete::IsStopChar(char ch) const bool 
 IsStreamComment(const int style) constexpr bool 
@@ -6426,7 +6388,6 @@ FindReplaceStrip::KeyDown(const GdkEventKey * event) bool
 UserStrip::KeyDown(const GdkEventKey * event) bool 
 Strip::KeyDown(const GdkEventKey * event) bool 
 SciTEWin::KeyDown(WPARAM wParam) LRESULT 
-SciTEWin::KeyDown(WPARAM wParam) LRESULT 
 BackgroundStrip::KeyDown(WPARAM key) bool 
 FilterStrip::KeyDown(WPARAM key) bool 
 FindStrip::KeyDown(WPARAM key) bool 
@@ -6440,7 +6401,6 @@ KeyFromString(std::string_view charBytes) constexpr unsigned int
 KeyMap::KeyMap() 
 KeyMap
 KeyMatch(const char * menuKey,int keyval,int modifiers) bool 
-KeyMatch(const std::string & sKey,int keyval,int modifiers) inline bool 
 KeyMatch(const std::string & sKey,int keyval,int modifiers) inline bool 
 ScintillaWin::KeyMessage(unsigned int iMessage,uptr_t wParam,sptr_t lParam) sptr_t 
 KeyMod
@@ -6457,7 +6417,6 @@ KeyToCommand
 KeyTranslate(int keyIn) int 
 KeyTranslate(w) def 
 KeyTranslate(uptr_t keyIn) Keys 
-SciTEWin::KeyUp(WPARAM wParam) LRESULT 
 SciTEWin::KeyUp(WPARAM wParam) LRESULT 
 KeyboardIsKeyDown(int key) bool 
 KeyboardIsNumericKeypadFunction(uptr_t wParam,sptr_t lParam) constexpr bool 
@@ -7410,7 +7369,6 @@ Selection::MainCaret() const Sci::Position
 ScintillaGTK::MainForAll(GtkContainer * container,gboolean include_internals,GtkCallback callback,gpointer callback_data) void 
 ScintillaWin::MainHWND() const HWND 
 SciTEWin::MainHWND() HWND 
-SciTEWin::MainHWND() HWND 
 *ScintillaGTK::MainObject() const GObject 
 ScintillaCall::MainSelection() int 
 SciTEBase::MaintainIndentation(char ch) void 
@@ -7580,7 +7538,6 @@ LexAccessor::MatchIgnoreCase(Sci_Position pos,const char * s) bool
 StyleContext::MatchIgnoreCase(const char * s) bool 
 SciTEKeys::MatchKeyCode(long parsedKeyCode,int keyval,int modifiers) bool 
 SciTEKeys::MatchKeyCode(long parsedKeyCode,int keyval,int modifiers) bool 
-SciTEKeys::MatchKeyCode(long parsedKeyCode,int keyval,int modifiers) bool 
 MatchLineComment(const StyleContext & cxt) inline bool 
 MatchLineEnd() const bool 
 MatchLineNumberStart(StyleContext & cxt) inline bool 
@@ -7675,7 +7632,6 @@ Milliseconds
 ListBoxX::MinClientWidth() const int 
 ListBoxX::MinTrackSize() const POINT 
 MinWordLength() const size_t 
-SciTEWin::MinimizeToTray() void 
 SciTEWin::MinimizeToTray() void 
 SelectionRange::MinimizeVirtualSpace() void 
 Minus
@@ -8370,7 +8326,6 @@ OtherID
 OtherIDOfCharacter(int character) OtherID 
 OtherIDOfCharacter(int character) OtherID 
 SciTEWin::OutputAppendEncodedStringSynchronised(const GUI::gui_string & s,int codePageDocument) void 
-SciTEWin::OutputAppendEncodedStringSynchronised(const GUI::gui_string & s,int codePageDocument) void 
 SciTEBase::OutputAppendString(const char * s,SA::Position len) void 
 SciTEBase::OutputAppendStringSynchronised(const char * s,SA::Position len) void 
 OutputRedirect::OutputRedirect(std::string & stdout_dest,std::string & stderr_dest) 
@@ -8478,7 +8433,6 @@ PageUpRectExtend
 Editor::Paint(Surface * surfaceWindow,PRectangle rcArea) void 
 ListBoxX::Paint(HDC hDC) void 
 ContentWin::Paint(HDC hDC,GUI::Rectangle) void 
-ContentWin::Paint(HDC hDC,GUI::Rectangle) void 
 FilterStrip::Paint(HDC hDC) void 
 FindStrip::Paint(HDC hDC) void 
 ReplaceStrip::Paint(HDC hDC) void 
@@ -8533,7 +8487,6 @@ Parse(const int ch) void
 ParseASYWord(Sci_PositionU pos,Accessor & styler,char * word) static int 
 ParseDefine(std::string_view definition,std::string_view endName) constexpr Definition 
 IndicatorDefinition::ParseIndicatorDefinition(bpstd::string_view definition) bool 
-SciTEKeys::ParseKeyCode(const char * mnemonic) long 
 SciTEKeys::ParseKeyCode(const char * mnemonic) long 
 SciTEKeys::ParseKeyCode(const char * mnemonic) long 
 ParseMetapostWord(Sci_PositionU pos,Accessor & styler,char * word) static int 
@@ -8733,11 +8686,9 @@ PosixColourImpl
 SciTEGTK::PostCallback(void * ptr) gboolean 
 SciTEGTK::PostOnMainThread(int cmd,Worker * pWorker) void 
 SciTEWin::PostOnMainThread(int cmd,Worker * pWorker) void 
-SciTEWin::PostOnMainThread(int cmd,Worker * pWorker) void 
 PreEditString(GtkIMContext * im_context) explicit 
 PreEditString
 SciTEBase::PreOpenCheck(const GUI::gui_char *) bool 
-SciTEWin::PreOpenCheck(const GUI::gui_char * arg) bool 
 SciTEWin::PreOpenCheck(const GUI::gui_char * arg) bool 
 PreProc
 PreSorted
@@ -8831,9 +8782,7 @@ void * SCI_METHOD LexerBase::PrivateCall(int,void *) void * SCI_METHOD
 *ScintillaCall::PrivateLexerCall(int operation,void * pointer) void 
 PrivateLexerCall
 SciTEWin::ProcessArgs(const GUI::gui_char * cmdLine) GUI::gui_string 
-SciTEWin::ProcessArgs(const GUI::gui_char * cmdLine) GUI::gui_string 
 SciTEBase::ProcessCommandLine(const GUI::gui_string & args,int phase) bool 
-SciTEWin::ProcessExecute() void 
 SciTEWin::ProcessExecute() void 
 ProcessLine(std::string_view text,bool ifIsTrue) bool 
 LexerGDScript::ProcessLineEnd(StyleContext & sc,bool & inContinuedString) void 
@@ -9043,7 +8992,6 @@ Quiet
 Quiet
 SciTEGTK::QuitProgram() void 
 SciTEWin::QuitProgram() void 
-SciTEWin::QuitProgram() void 
 SciTEGTK::QuitSignal(GtkWidget *,GdkEventAny *,SciTEGTK * scitew) gint 
 QuoteCls
 QuoteCls() 
@@ -9240,7 +9188,6 @@ SciTEBase::ReadDirectoryPropFile() void
 SciTEBase::ReadEditorConfig(const std::string & fileNameForExtension) void 
 SciTEBase::ReadEmbeddedProperties() void 
 SciTEWin::ReadEmbeddedProperties() void 
-SciTEWin::ReadEmbeddedProperties() void 
 SciTEBase::ReadEnvironment() void 
 ReadFile(std::filesystem::path path) std::string 
 ReadFile(std::string path) std::string 
@@ -9257,7 +9204,6 @@ SciTEBase::ReadLocalPropFile() void
 SciTEGTK::ReadLocalization() void 
 SciTEBase::ReadLocalization() void 
 SciTEWin::ReadLocalization() void 
-SciTEWin::ReadLocalization() void 
 ReadMenuIDs(filename) def 
 ReadNum(const char * & t) static uintptr_t 
 ECForDirectory::ReadOneDirectory(const FilePath & dir) void 
@@ -9265,10 +9211,8 @@ ScintillaCall::ReadOnly() bool
 SciTEGTK::ReadProperties() void 
 SciTEBase::ReadProperties() void 
 SciTEWin::ReadProperties() void 
-SciTEWin::ReadProperties() void 
 SciTEGTK::ReadPropertiesInitial() void 
 SciTEBase::ReadPropertiesInitial() void 
-SciTEWin::ReadPropertiesInitial() void 
 SciTEWin::ReadPropertiesInitial() void 
 Real
 FontRealised::Realise(Surface & surface,int zoomLevel,Technology technology,const FontSpecification & fs,const char * localeName) void 
@@ -9370,7 +9314,6 @@ RegexMatcher::RegexMatcher(std::string regex,CaseSensitive::Choice caseSensitivi
 RegexMatcher::RegexMatcher(std::string regex,CaseSensitive::Choice caseSensitivity) 
 RegexSearchBase
 ScintillaWin::Register(HINSTANCE hInstance_) bool 
-SciTEWin::Register(HINSTANCE hInstance_) void 
 SciTEWin::Register(HINSTANCE hInstance_) void 
 RegisterClass(name, func, background = 0) def 
 RegisterClasses(void * hInstance) int 
@@ -9551,7 +9494,6 @@ ScintillaCall::ResetElementColour(Scintilla::Element element) void
 ResetElementColour
 SciTEGTK::ResetExecution() void 
 SciTEWin::ResetExecution() void 
-SciTEWin::ResetExecution() void 
 CellBuffer::ResetLineEnds() void 
 ScintillaGTK::Resize(int width,int height) void 
 BidiData::Resize(size_t maxLineLength_) void 
@@ -9566,13 +9508,10 @@ LineLayout::RestoreBracesHighlight(Range rangeLine,const Sci::Position braces[],
 SciTEBase::RestoreFolds(const std::vector<SA::Line> & folds) void 
 SciTEBase::RestoreFromSession(const Session & session) void 
 SciTEWin::RestoreFromTray() void 
-SciTEWin::RestoreFromTray() void 
-SciTEWin::RestorePosition() void 
 SciTEWin::RestorePosition() void 
 SciTEBase::RestoreRecentMenu() void 
 SciTEBase::RestoreSession() void 
 SciTEBase::RestoreState(const Buffer & buffer,bool restoreBookmarks) void 
-RestrictDLLPath() static void 
 RestrictDLLPath() static void 
 ResultBase(Type type) 
 ResultBase
@@ -9631,7 +9570,6 @@ SurfaceImpl::RoundedRectangle(PRectangle rc,FillStroke fillStroke) void
 SurfaceD2D::RoundedRectangle(PRectangle rc,FillStroke fillStroke) void 
 SurfaceGDI::RoundedRectangle(PRectangle rc,FillStroke fillStroke) void 
 SciTEGTK::Run(int argc,char * argv[]) void 
-SciTEWin::Run(const GUI::gui_char * cmdLine) void 
 SciTEWin::Run(const GUI::gui_char * cmdLine) void 
 RunContext::RunContext(IConfigPtr const & _config,IStreamingReporterPtr && reporter) 
 RunContext
@@ -13093,7 +13031,6 @@ SciTEBase::SaveToTEX(const FilePath & saveName) void
 SciTEBase::SaveToXML(const FilePath & saveName) void 
 BufferList::SavingInBackground() const bool 
 SciTEWin::ScaleChanged(WPARAM wParam,LPARAM lParam) void 
-SciTEWin::ScaleChanged(WPARAM wParam,LPARAM lParam) void 
 ScanCharacterLiteralOrLifetime(Accessor & styler,Sci_Position & pos,bool ascii_only) static void 
 ScanComments(Accessor & styler,Sci_Position & pos,Sci_Position max) static void 
 ScanDigits(StyleContext & sc,int base,bool allow_sep) static bool 
@@ -13118,7 +13055,6 @@ SciTEData
 SciTEGTK::SciTEGTK(Extension * ext) 
 SciTEGTK
 SciTEKeys
-SciTEWin::SciTEWin(Extension * ext) 
 SciTEWin::SciTEWin(Extension * ext) 
 SciTEWin
 n
@@ -13896,7 +13832,6 @@ ChangeStack::SetSavePoint() void
 Document::SetSavePoint() void 
 SurfaceD2D::SetScale(WindowID wid) void 
 SciTEWin::SetScaleFactor(int scale) bool 
-SciTEWin::SetScaleFactor(int scale) bool 
 SetSciTE(SciTEWin * pSciTEWin_) void 
 UserStrip::SetSciTE(SciTEWin * pSciTEWin_) void 
 ScintillaWindow::SetScintilla(GUI::WindowID wid_) void 
@@ -14102,7 +14037,6 @@ SetZoom
 Setfocus
 SetterFunction() const IFaceFunction 
 SciTEWin::SettingChanged(WPARAM wParam,LPARAM lParam) void 
-SciTEWin::SettingChanged(WPARAM wParam,LPARAM lParam) void 
 SettingGet(GtkSettings * settings,const gchar * name,gpointer value) bool 
 SetupChild(gpointer) static void 
 CaseConverter::SetupConversions(CaseConversion conversion) void 
@@ -14110,7 +14044,6 @@ SciTEGTK::SetupFormat(Sci_RangeToFormat & frPrint,GtkPrintContext * context) voi
 Severity(const std::string & message) char 
 Shape
 ShellEscape(const char * toEscape) static std::string 
-SciTEWin::ShellExec(const std::string & cmd,const char * dir) void 
 SciTEWin::ShellExec(const std::string & cmd,const char * dir) void 
 Shift
 ShiftJis
@@ -14356,7 +14289,6 @@ StepCommentLine(Accessor & styler,bool isFixFormat,Sci_Position lineCurrent,cons
 MatchMarker::Stop() void 
 SciTEGTK::StopExecute() void 
 SciTEWin::StopExecute() void 
-SciTEWin::StopExecute() void 
 ScintillaCall::StopRecord() void 
 StopRecord
 SciTEBase::StopRecordMacro() void 
@@ -14382,9 +14314,7 @@ StringCopy(T (& dest)[count],const T * source) void
 StringCopy(T (& dest)[count],const T * source) void 
 StringDecode(std::string_view sv,int codePage) std::wstring 
 StringDecode(std::string s,int codePage) static std::wstring 
-StringDecode(std::string s,int codePage) static std::wstring 
 StringEncode(std::wstring_view wsv,int codePage) std::string 
-StringEncode(std::wstring s,int codePage) static std::string 
 StringEncode(std::wstring s,int codePage) static std::string 
 StringEqual(bpstd::string_view a,bpstd::string_view b,bool caseSensitive) bool 
 ScintillaQt::StringFromDocument(const char * s) const QString 
@@ -14663,7 +14593,6 @@ SymbolValue(std::string_view value_,std::string_view arguments_)
 SymbolValue(const std::string & value_="",const std::string & arguments_="") 
 SynchronousStylingToVisible() const constexpr bool 
 SciTEWin::SysColourChanged(WPARAM wParam,LPARAM lParam) void 
-SciTEWin::SysColourChanged(WPARAM wParam,LPARAM lParam) void 
 SystemMetricsForDpi(int nIndex,UINT dpi) int 
 TAB_L
 TAB_R
@@ -14816,7 +14745,6 @@ TWOBLUECUBES_CATCH_OUTPUT_REDIRECT_H
 TWOBLUECUBES_CATCH_OUTPUT_REDIRECT_H
 TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
 TWOBLUECUBES_SINGLE_INCLUDE_CATCH_HPP_INCLUDED
-SciTEWin::TWndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam) LRESULT PASCAL 
 SciTEWin::TWndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam) LRESULT PASCAL 
 ScintillaCall::Tab() void 
 Tab
@@ -15129,7 +15057,6 @@ SciTEBase::UIClosed() void
 SciTEWin::UIClosed() void 
 SciTEGTK::UIHasFocus() void 
 SciTEBase::UIHasFocus() void 
-UIShouldBeFlat() bool 
 UIShouldBeFlat() bool 
 UNARY_PRIORITY
 UNDO_MAY_COALESCE
@@ -15500,7 +15427,6 @@ WINVER
 WINVER
 WM_COMMAND
 WM_DPICHANGED
-WM_DPICHANGED
 WM_NOTIFY
 WNDCLASS
 WORDLIST_H
@@ -15594,7 +15520,6 @@ Win32ColourImpl()
 Win32ColourImpl
 Win32MapFontQuality(FontQuality extraFontFlag) constexpr BYTE 
 WinMain(HINSTANCE hInstance,HINSTANCE,LPSTR,int) int WINAPI 
-WinMain(HINSTANCE hInstance,HINSTANCE,LPSTR,int) int WINAPI 
 Window() 
 Window
 Window() 
@@ -15607,7 +15532,6 @@ SciTEWin::WindowMessageBox(GUI::Window & w,const GUI::gui_string & msg,MessageBo
 WindowSetFocus(GUI::ScintillaWindow & w) void 
 WindowSize(w) def 
 Windowed
-SciTEWin::WindowsAppearance() const SystemAppearance 
 SciTEWin::WindowsAppearance() const SystemAppearance 
 WindowsToUnix(std::string & s) int 
 WithExtends(Message iMessage) constexpr Message 
@@ -15641,8 +15565,6 @@ Editor::WndProc(Message iMessage,uptr_t wParam,sptr_t lParam) sptr_t
 ScintillaBase::WndProc(Message iMessage,uptr_t wParam,sptr_t lParam) sptr_t 
 ListBoxX::WndProc(HWND hWnd,UINT iMessage,WPARAM wParam,LPARAM lParam) LRESULT 
 ScintillaWin::WndProc(Message iMessage,uptr_t wParam,sptr_t lParam) sptr_t 
-ContentWin::WndProc(UINT iMessage,WPARAM wParam,LPARAM lParam) LRESULT 
-SciTEWin::WndProc(UINT iMessage,WPARAM wParam,LPARAM lParam) LRESULT 
 ContentWin::WndProc(UINT iMessage,WPARAM wParam,LPARAM lParam) LRESULT 
 SciTEWin::WndProc(UINT iMessage,WPARAM wParam,LPARAM lParam) LRESULT 
 BackgroundStrip::WndProc(UINT iMessage,WPARAM wParam,LPARAM lParam) LRESULT 
@@ -15729,7 +15651,6 @@ WorkNeeded()
 WorkNeeded
 Worker() 
 SciTEBase::WorkerCommand(int cmd,Worker * pWorker) void 
-SciTEWin::WorkerCommand(int cmd,Worker * pWorker) void 
 SciTEWin::WorkerCommand(int cmd,Worker * pWorker) void 
 Wrap
 Editor::WrapBlock(Surface * surface,Sci::Line lineToWrap,Sci::Line lineToWrapEnd) bool 
@@ -20523,8 +20444,6 @@ scintilla_release_resources(void) void
 scintilla_send_message(ScintillaObject * sci,unsigned int iMessage,uptr_t wParam,sptr_t lParam) sptr_t 
 scintilla_set_id(ScintillaObject * sci,uptr_t id) void 
 *scite_lua_fopen(const char * filename,const char * mode) FILE 
-*scite_lua_fopen(const char * filename,const char * mode) FILE 
-*scite_lua_popen(const char * filename,const char * mode) FILE 
 *scite_lua_popen(const char * filename,const char * mode) FILE 
 scnotification_get_type(void) GType 
 n
@@ -21617,7 +21536,6 @@ RunContext::~RunContext()
 RunContext::~RunContext() 
 SciTEBase::~SciTEBase() 
 SciTEGTK::~SciTEGTK() 
-SciTEWin::~SciTEWin() 
 SciTEWin::~SciTEWin() 
 ScintillaBase::~ScintillaBase() 
 ScintillaDocument::~ScintillaDocument() 

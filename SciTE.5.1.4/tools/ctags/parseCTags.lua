@@ -12,6 +12,8 @@
 -- Contact: Marcedo@habMalNeFrage.de
 -- Date: 2025-05-14 (initial version)
 --
+-- Futter fur die Waldameisen regexps!
+--
 -- Parameters:
 --   <project_path>       Path where output files will be written.
 --   <ctags_filePath>     optional the ctags file to process (default tmp\scite.session.ctags)
@@ -29,103 +31,103 @@ local cTagData = {
 }
 
 function parseString(raw)
-	local identifier = raw:match("\"\t([%w])") or ""
-	
-	-- Functions
-	if identifier == "f" then 
-		local pat_func = "%/%^%s*([%w%s%d_:,*~=%[%]&<>\"]+)"
-		local pat_sig=("signature:([%w%s_(),*~=%[%]&<>\":O]+)$")
-		local patType = "([%s%w%d_:*<>]+ )" -- INTPTR SciteWin
-		str_func=raw:match(pat_func)
-		str_sig =raw:match(pat_sig)     
-		str_type=str_func:match(patType) or ""
-		str_func=str_func:gsub(str_type,"")
-		--	if not strType then strFunc = str:match(patFunc) end -- has no type
-		-- if not strFunc then strType,strFunc = str:match(patType.."(.*)") end --has no decoration
-		
-		str_type = str_type or "" ; str_func = str_func or "";str_sig = str_sig or ""
-		--print(str_func..str_sig..str_type)
-		return {class = "f", data = str_func ..str_sig.. " " .. str_type}
-		
-	-- Modules
-	elseif identifier == "m" then
-		local patNofunc = "^(%S+)%s.+\td.*$" --prefilter a bit
-		local patMod = "^%s*([%w_]+)%s?=" -- constval ="
-		
-		local strMod=raw:match(patNofunc) or ""		
-		strMod = strMod:match(patMod) or ""		  
-	
-		if raw:find("noexcept") then -- noexcept funcs reside only in modules
-			local patFunc = "%/%^(.*)$/;"
-			local patType = "([%s%w%d_:*<>]+ )" -- INTPTR SciteWin
-			
-			-- note this sig is not reliable, grab it only for noexcept entries
-			local strFunc = raw:match(patFunc) or ""
-			local strFunc = strFunc:match("%s*(.*)") -- ltrim
-			
-			-- grab the funcs type and write that behind deco
-			local strType=strFunc:match(patType) or "" 
-			local strFunc=strFunc:gsub(strType,"") or strFunc
-			
-			strFunc= strFunc or "" 
-			strMod = strFunc..strType or ""
-		end
-	-- if str:find("MatchKeyCode") then print(str,strMod) end 
-	return {class = "m", data = strMod}
+local identifier = raw:match("\"\t([%w])") or ""
 
-	-- Defines
-	elseif identifier == "d" then
-		local patDef = "[%w_ ]*"
-		local strDef = raw:match(patDef) or ""
-		strDef = strDef or ""
-		return {class = "d", data = strDef}
-		
-		
-	elseif identifier == "t" then --typedef und using
-		return {class = "", data = ""}
-		
-		-- Unions
-	elseif identifier == "u" then --union
-		local name = raw:match("%s*(.*)") -- ltrim
-		name=name:match("^%s*(.*%S?)%s*$") -- parse backwards from strings end
-		name=name:match("[%w_]+%s*$") or ""
-		return {class = "u", data = name}
-		
-	elseif identifier == "s" then --struct
-		return {class = "", data = ""}
-		
-		
-	elseif identifier == "v" then -- AU3WordLists[]
-		return {class = "", data = ""}
-		
-		
-	elseif identifier == "i" then -- python import
-		return {class = "", data = ""}
-		
-		-- ENUMs
-	elseif identifier == "e" then -- enum
-		local name = raw:match("([%w_]+)")   or ""
-		return {class = "e", data = name}
-		
-		-- Classes
-	elseif identifier == "c" then -- class
-		local name = raw:match("([%w_]+)") or ""
-		return {class = "c", data = name}
-		
-		
-	elseif identifier == "n" then --namespace
-		local name = raw:match("([%w_]+)%s*$") or ""
-		return {class = "n", data = name}
-		
-		
-	elseif identifier == "g" then --enum
-		local name = raw:match("([%w_]+)") or ""
-		return {class = "g", data = name}
-		
-	else
-		--print(identifier)
-		return {class = "", data = ""}
-	end
+-- Functions
+if identifier == "f" then 
+local pat_func = "%/%^%s*([%w%s%d_:,*~=%[%]&<>\"]+)"
+local pat_sig=("signature:([%w%s_(),*~=%[%]&<>\":O]+)$")
+local patType = "([%s%w%d_:*<>]+ )" -- INTPTR SciteWin
+str_func=raw:match(pat_func)
+str_sig =raw:match(pat_sig)     
+str_type=str_func:match(patType) or ""
+str_func=str_func:gsub(str_type,"")
+--	if not strType then strFunc = str:match(patFunc) end -- has no type
+-- if not strFunc then strType,strFunc = str:match(patType.."(.*)") end --has no decoration
+
+str_type = str_type or "" ; str_func = str_func or "";str_sig = str_sig or ""
+--print(str_func..str_sig..str_type)
+return {class = "f", data = str_func ..str_sig.. " " .. str_type}
+
+-- Modules
+elseif identifier == "m" then
+local patNofunc = "^(%S+)%s.+\td.*$" --prefilter a bit
+local patMod = "^%s*([%w_]+)%s?=" -- constval ="
+
+local strMod=raw:match(patNofunc) or ""		
+strMod = strMod:match(patMod) or ""		  
+
+if raw:find("noexcept") then -- noexcept funcs reside only in modules
+local patFunc = "%/%^(.*)$/;"
+local patType = "([%s%w%d_:*<>]+ )" -- INTPTR SciteWin
+
+-- note this sig is not reliable, grab it only for noexcept entries
+local strFunc = raw:match(patFunc) or ""
+local strFunc = strFunc:match("%s*(.*)") -- ltrim
+
+-- grab the funcs type and write that behind deco
+local strType=strFunc:match(patType) or "" 
+local strFunc=strFunc:gsub(strType,"") or strFunc
+
+strFunc= strFunc or "" 
+strMod = strFunc..strType or ""
+end
+-- if str:find("MatchKeyCode") then print(str,strMod) end 
+return {class = "m", data = strMod}
+
+-- Defines
+elseif identifier == "d" then
+local patDef = "[%w_ ]*"
+local strDef = raw:match(patDef) or ""
+strDef = strDef or ""
+return {class = "d", data = strDef}
+
+
+elseif identifier == "t" then --typedef und using
+return {class = "", data = ""}
+
+-- Unions
+elseif identifier == "u" then --union
+local name = raw:match("%s*(.*)") -- ltrim
+name=name:match("^%s*(.*%S?)%s*$") -- parse backwards from strings end
+name=name:match("[%w_]+%s*$") or ""
+return {class = "u", data = name}
+
+elseif identifier == "s" then --struct
+return {class = "", data = ""}
+
+
+elseif identifier == "v" then -- AU3WordLists[]
+return {class = "", data = ""}
+
+
+elseif identifier == "i" then -- python import
+return {class = "", data = ""}
+
+-- ENUMs
+elseif identifier == "e" then -- enum
+local name = raw:match("([%w_]+)")   or ""
+return {class = "e", data = name}
+
+-- Classes
+elseif identifier == "c" then -- class
+local name = raw:match("([%w_]+)") or ""
+return {class = "c", data = name}
+
+
+elseif identifier == "n" then --namespace
+local name = raw:match("([%w_]+)%s*$") or ""
+return {class = "n", data = name}
+
+
+elseif identifier == "g" then --enum
+local name = raw:match("([%w_]+)") or ""
+return {class = "g", data = name}
+
+else
+--print(identifier)
+return {class = "", data = ""}
+end
 end
 		
 		

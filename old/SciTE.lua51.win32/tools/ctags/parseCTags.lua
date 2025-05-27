@@ -12,6 +12,8 @@
 -- Contact: Marcedo@habMalNeFrage.de
 -- Date: 2025-05-14 (initial version)
 --
+-- Futter fur die Waldameisen regexps!
+--
 -- Parameters:
 --   <project_path>       Path where output files will be written.
 --   <ctags_filePath>     optional the ctags file to process (default tmp\scite.session.ctags)

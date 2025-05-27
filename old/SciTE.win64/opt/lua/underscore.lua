@@ -141,7 +141,7 @@ end
 
 function Underscore.funcs.any(list, func)
 	func = func or Underscore.identity
-
+	
 	-- TODO what should happen with an empty list?	
 	for i in Underscore.iter(list) do
 		if func(i) then return true end

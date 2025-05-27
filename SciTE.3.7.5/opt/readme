@@ -1,0 +1,63 @@
+--
+ -- This File describes SciTEProject.lua, parsectags.lua and AutocompleteNew.lua 
+--
+
+Years ago i used SciTE alot that days on my older Win7 machine because of its small size and pure efficient plain win32 Api use.
+But its cpp apis sucked, its autocomplete feature was limited and so i had a wild thought:
+live CTAGS based Syntax Highlightening and a better Autocomplete for SciTE would be a good Idea.
+
+
+-- SciteProject.lua (projectHome detection, scite.session.api and .properties generation, apply syntax Highlitening)
+
+Since CTAGS needs to know where it has to search for files, and which options to use there, i used SciteDirectory.properties for that task.
+When one opens a File in SciTE,  SciteDirectory.properties in that or a parent folder above the opened File is parsed.
+Also SciTE always knows the path to SciteDirectory.properties and such - you know the path to the projects root.
+So i wrote SciTEProject.lua to make use of that Scenario and read some vars in - named:
+[project.name], [file.patterns.project],  [project.ctag.languages] and [project.ctags.opt] .
+
+Those are used to spawn Ctags and "parsectags.lua" in an OnSave Event as an asynchronous process.
+As a result, scite.session.properties and scite.session.api are created in the CTAGS Folder besides sciteDirectory.properties. 
+After finishing them, it creates "tmp\scite.project.fin" to notify SciteProject.lua that its ready.
+
+A second event, namely onDwellStart, is then used to periopdically check for the fun file and apply the generated syntax highlightening Data.
+props used for that are:
+ ["colour.project.class"] ["colour.project.functions"] ["colour.project.constants"] ["colour.project.modules"] ["colour.project.enums"]
+ Thats all. SciTEProject.lua should be called early with luas dofile() in scitestartup.lua to register its handlers.
+ 
+Note: Only more recent SciTEs understand scite.readproperties so live updating syntax highlitening is only supported there.
+Note2: only the cpp lexer is supported for this, as it supports substyles.
+Note3: it has been extensively tested with Scintilla, Lexilla and SciTE in the same Projectroot but dont try to use it for Bigger projects.
+
+Finally, all you have to do is edit and  place sciteDirectory.props to a projects root, load a file in there and press save.
+A sample has been provides in the tools folder.
+
+-- parsectags.lua
+
+i needed to convert the ctags file to scites proprietary formats. and it shoulb be fast. But i didnt have any c skills. so i wrote it in lua
+and rewrote it recently using a lot of grammars. i dont like writing grammars so i used deepseek to do that for me and teach me about taming those digital ants.
+It turned out the little "machine god" really shined on that task and so the whole parser was ready shortly without cryptic hassle.  
+
+-- AutocompleteNew.lua
+
+Back then, i also used Fincs Autocomplete.lua. It enhanced SciTEs to also autocomplete current buffers tokens, which is a great thing to have,
+Having the the data ready i extended it to automatically include ac_{lexername}.api in ["APIDir"] and ["SciTEDirectory.properties"]\ctags\scite.session.api 
+The reason for that was that SciTEs is really flat and shows anything in Brackets behind a functions name in the calltip so you cannot include
+additional meta data on entries. But if you dont include it in scites apipath and parse it manually, you are nearly set.
+
+eg in a future time the api file could include the filename it was defined in, such supporting a "jump to definition" feature.
+a first idea of a more structured file format would use |as a delimiter and wellknown names for features. eg |fDesc for a Description.
+-> acos(double x):double|fDesc Compute arc cosine (function)[c90 c99 arm cpp98 cpp11]|fHeader [<cmath> (math.h)]|filename ...
+
+Again, some grammars were utilized to support class::method like autocompletition where one could type either one to get autocompletition.
+Calltips were straight forward and display only function definitions, not including stuff after it.
+Note: for some reason, using autocomplete for the very first time after load introduces a short delay.
+This has chance of roughly 1 to 5 to happen on my old dev machine.
+
+-- static api files 
+ac.cpp.api and mingw.functions. api contain the cpp std:: namespace (up to cpp14) and most functions from mingw headers for inclusion in scites apipath.
+ 
+my dev machine is an old 2018 Notebook and using all above caused no problems.
+Developing all that was done in little chunks over a really long time period.
+Its nice to see the design functional but implementing this as lua dll would be premium if your interested in.
+
+Have anice Day. arjunae@nurfuerspam.de
