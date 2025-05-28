@@ -34,7 +34,7 @@ static int SendToHandle(HWND hwnd, const char *Message)
 {
   COPYDATASTRUCT cds;
   int size = strlen(Message);
-  cds.dwData = 0;	
+  cds.dwData = 0;       
   cds.lpData = (void *)Message;
   cds.cbData = size;
   return SendMessage(hwnd, WM_COPYDATA,(WPARAM)NULL,(LPARAM)&cds);
@@ -42,18 +42,18 @@ static int SendToHandle(HWND hwnd, const char *Message)
 
 static int size_of_array(HWND* results)
 {
-    int idx = 0;	
-    // find our place in the output array	
-    for (idx = 0; results[idx] != NULL; idx++) ;	
+    int idx = 0;        
+    // find our place in the output array       
+    for (idx = 0; results[idx] != NULL; idx++) ;        
     return idx;
 }
 
 BOOL CALLBACK EnumWindowsProc(HWND  hwnd, LPARAM  lParam)
 {
     HWND* results = (HWND*)lParam;
-    int idx = size_of_array(results);	
+    int idx = size_of_array(results);   
     char buff[256];
-    GetClassName(hwnd,(LPWSTR)buff,sizeof(buff));	
+    GetClassName(hwnd,(LPWSTR)buff,sizeof(buff));       
     if (strcmp(buff,"DirectorExtension") == 0) {
         if (GetWindowLongPtr(hwnd,GWLP_USERDATA) == (intptr_t)hSciTE) {
             hSelf = hwnd;     
@@ -75,7 +75,7 @@ static int do_perform(lua_State* L)
     int nmsg;
     results[0] = 0;
     EnumWindows(EnumWindowsProc,(LPARAM)results);
-    nmsg = size_of_array(results);	
+    nmsg = size_of_array(results);      
     if (this_instance > nmsg) {
         lua_pushnil(L);
         lua_pushliteral(L,"no other instance available");
@@ -158,7 +158,7 @@ void create_thread_window(void)
 #define SPAWNER "SPAWNER"
 
 typedef struct {
-    const char* command_line;	
+    const char* command_line;   
     const char* output;
     const char* result;
     lua_State* L;
@@ -180,7 +180,7 @@ static BOOL start_process(Spawner* p)
     SECURITY_DESCRIPTOR sd;
     STARTUPINFO si = {
                  sizeof(STARTUPINFO), 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
-             };	
+             }; 
 
     HANDLE hRead2;
     HANDLE hProcess = GetCurrentProcess();
@@ -217,7 +217,7 @@ static BOOL start_process(Spawner* p)
               NULL,
               (LPWSTR)(char*)prog,
               NULL, NULL,
-              TRUE, CREATE_NEW_PROCESS_GROUP,
+              TRUE, CREATE_NEW_PROCESS_GROUP | p->priority,
               NULL,
               NULL, // start directory
               &si, &p->pi);
@@ -239,12 +239,12 @@ static void monitor_process(Spawner* p)
 {
     DWORD exitcode;
     if (WAIT_OBJECT_0 == WaitForSingleObject(p->pi.hProcess, INFINITE)) {
-        GetExitCodeProcess(p->pi.hProcess, &exitcode);	
+        GetExitCodeProcess(p->pi.hProcess, &exitcode);  
         CloseHandle(p->pi.hProcess);
         if (p->result) {
             sprintf(buffer,"%d",exitcode);
             send_to_scite(p->L,p->result,buffer);
-        }	
+        }       
     }
 }
 
@@ -253,7 +253,7 @@ static void run_process(Spawner* p)
 {
     DWORD bytesRead = 0;
     BOOL bTest;
-    DWORD exitcode;	
+    DWORD exitcode;     
     //* FILE* reader = fdopen(p->hPipeRead,"r");
     Sleep(100); // any better way ?
     
@@ -269,7 +269,7 @@ static void run_process(Spawner* p)
                     break;
                 } else {
                     strcat(buffer,linebuf);
-                }				
+                }                               
             } else {
                 p->running = FALSE;
                 break;
@@ -277,7 +277,7 @@ static void run_process(Spawner* p)
         }
         send_to_scite(p->L,p->output,buffer);
     }
-    GetExitCodeProcess(p->pi.hProcess, &exitcode);	
+    GetExitCodeProcess(p->pi.hProcess, &exitcode);      
     CloseHandle(p->pi.hProcess);
     if (p->result) {
         sprintf(buffer,"%d",exitcode);
@@ -297,7 +297,6 @@ static int new_spawner(lua_State* L)
     memset(spp,0,sizeof(Spawner));
     spp->command_line = luaL_checkstring(L,1);
     spp->L = L;
-    // Default to normal priority
     spp->priority = 0x00004000;
     luaL_getmetatable(L,SPAWNER);
     lua_setmetatable(L,-2);
@@ -339,11 +338,11 @@ static int spawner_use_shell(lua_State* L)
 
 static int spawner_write(lua_State* L)
 {
-    Spawner* spp = (Spawner*)lua_touserdata(L,1);	
+    Spawner* spp = (Spawner*)lua_touserdata(L,1);       
     const char* buff = luaL_checkstring(L,2);
     DWORD bytesWrote;
     DWORD nReaded = strlen(buff);
-    WriteFile(spp->hWriteSubProcess,buff,nReaded, &bytesWrote, NULL);		
+    WriteFile(spp->hWriteSubProcess,buff,nReaded, &bytesWrote, NULL);           
     lua_pushboolean(L,nReaded == bytesWrote);
     return 1;
 }
@@ -391,8 +390,7 @@ static Spawner* start_popen(lua_State* L)
 
     memset(spp,0,sizeof(Spawner));
     spp->command_line = luaL_checkstring(L,1);
-    // Default to normal priority
-    spp->priority = 0x00000020; // NORMAL_PRIORITY_CLASS
+    spp->priority = 0x00004000;
     if (! comspec) comspec = "CMD.EXE";
     new_command = (char*)malloc(strlen(spp->command_line) + strlen(comspec) + 20);
     sprintf(new_command,"%s /c %s",comspec,spp->command_line);
@@ -653,9 +651,9 @@ static const  luaL_Reg spawner_methods[] = {
     {"set_result",spawner_set_result},
     {"use_shell",spawner_use_shell},
     {"write",spawner_write},
-    {"read",spawner_read},	
-    {"kill",spawner_kill},	
-    {"run",spawner_run},	
+    {"read",spawner_read},      
+    {"kill",spawner_kill},      
+    {"run",spawner_run},        
     {NULL, NULL}
 };
 
@@ -693,7 +691,7 @@ int luaopen_spawner(lua_State *L)
 #if LUA_VERSION_NUM == 501
    luaL_openlib (L, "spawner", spawner, 0);
 #elif LUA_VERSION_NUM == 502
-    lua_register(L, "spawner", spawner); 	
+    lua_register(L, "spawner", spawner);        
 #elif LUA_VERSION_NUM >= 503
     lua_newtable(L);
     luaL_setfuncs(L, spawner, 0);
@@ -710,5 +708,5 @@ int luaopen_spawner(lua_State *L)
 #elif LUA_VERSION_NUM >= 503
    luaL_setfuncs(L, spawner_methods,0);
 #endif
-    return 1;	
+    return 1;   
 }
