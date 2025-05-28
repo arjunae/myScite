@@ -17,7 +17,7 @@ local env = setmetatable({}, { __index = _G })
 
 local prompt = '> '
 local prompt_len = #prompt
-print 'Scite-Lua'
+print 'Scite-Lua ❤'
 
 trace(prompt)
 
@@ -128,7 +128,7 @@ scite_OnOutputLine(function(line)
 	local ok, err = load_file(filename)
 	if not ok then print(err) end
 
-	elseif not sub(line, 1,1)=='/' then
+	elseif sub(line, 1,1)~='/' then
 	-- eval in persistenter Umgebung
 	local chunk, err = load('return ' .. line, 'chunk', 't', env)
 	if not chunk then

@@ -1,5 +1,5 @@
 # - mySciTE -
-[30.04.2025]
+[30.04.2025] myscite-200-nebula (Lua 5.3)
 = Reboot =
 src: win32 SciTE 5.1.4 cpp14 backport
 src: Ownerdrawn Menu (less padding)
@@ -19,8 +19,6 @@ lua: added a simple wordle clone
 
 
 
-
----
 
 [28.11.2019] mySciTE.190.xx MartyMcFly (Lua5.1 & Lua5.3)
   =Maintenance Update=
