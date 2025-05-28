@@ -154,6 +154,7 @@ void create_thread_window(void)
     SetWindowLongPtr(hwndDispatcher, GWLP_USERDATA, subclassedProc);
 }
 
+
 #define SPAWNER "SPAWNER"
 
 typedef struct {
@@ -169,8 +170,8 @@ typedef struct {
     HANDLE hPipeRead;
     HANDLE hPipeWrite;
     FILE* inf;
+    DWORD priority;  // Added priority field
 } Spawner;
-
 
 static BOOL start_process(Spawner* p)
 {
@@ -286,6 +287,9 @@ static void run_process(Spawner* p)
     CloseHandle(p->hPipeRead);
 }
 
+//   ABOVE_NORMAL_PRIORITY_CLASS  = 0x00008000  // Slightly higher than normal
+//   NORMAL_PRIORITY_CLASS        = 0x00000020  // Default priority
+//   BELOW_NORMAL_PRIORITY_CLASS  = 0x00004000  // Slightly lower than normal
 
 static int new_spawner(lua_State* L)
 {
@@ -293,9 +297,18 @@ static int new_spawner(lua_State* L)
     memset(spp,0,sizeof(Spawner));
     spp->command_line = luaL_checkstring(L,1);
     spp->L = L;
+    // Default to normal priority
+    spp->priority = 0x00004000;
     luaL_getmetatable(L,SPAWNER);
     lua_setmetatable(L,-2);
     return 1;
+}
+
+static int spawner_set_priority(lua_State* L)
+{
+    Spawner* spp = (Spawner*)lua_touserdata(L,1);
+    spp->priority = luaL_checkinteger(L,2);
+    return 0;
 }
 
 static int spawner_set_output(lua_State* L)
@@ -378,6 +391,8 @@ static Spawner* start_popen(lua_State* L)
 
     memset(spp,0,sizeof(Spawner));
     spp->command_line = luaL_checkstring(L,1);
+    // Default to normal priority
+    spp->priority = 0x00000020; // NORMAL_PRIORITY_CLASS
     if (! comspec) comspec = "CMD.EXE";
     new_command = (char*)malloc(strlen(spp->command_line) + strlen(comspec) + 20);
     sprintf(new_command,"%s /c %s",comspec,spp->command_line);

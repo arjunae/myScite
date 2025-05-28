@@ -16,6 +16,7 @@ So i wrote SciTEProject.lua to make use of that Scenario and read some vars in -
 [project.name], [file.patterns.project],  [project.ctag.languages] and [project.ctags.opt] .
 
 Those are used to spawn Ctags and "parsectags.lua" in an OnSave Event as an asynchronous process.
+spawner.dll has been modified to run with lower privs for this to not disturb scite while doing so.
 As a result, scite.session.properties and scite.session.api are created in the CTAGS Folder besides sciteDirectory.properties. 
 After finishing them, it creates "tmp\scite.project.fin" to notify SciteProject.lua that its ready.
 
