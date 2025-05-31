@@ -1,7 +1,7 @@
 --
 -- SciTEProject.lua, initialize Project and CTags Support for mySciTE.
 -- see SciTEDirectory.properties props project.name project.path project.session.ctags project.sdk.api
--- @License: BSD3Clause. @Author Thorsten Kani
+-- @License: BSD3Clause. @Author Thorsten Kani marcedo@unterderbruecke.de
 -- uses tools\ctags to write session.ctags to temp
 -- uses tool\ctags\parseCTags to write session.ctags.api to projects root\ctags
 -- imports session.ctags.api and.properties
@@ -261,7 +261,10 @@ local lockfile = os.getenv("tmp") .. dirSep .. "project.ctags.lock"
 local success, err = os.remove(lockfile)
 
 -- Registers the event Handlers early.	
-ProjectSetEnv()
-scite_OnOpenSwitch(CTagsImportAPI,false,"")
-scite_OnDwellStart(ProjectOnDwell)
+local useCTAGS= props["project.ctags.enable"] or "0"
+if useCTAGS=="1" then	
+	ProjectSetEnv()
+	scite_OnOpenSwitch(CTagsImportAPI,false,"")
+	scite_OnDwellStart(ProjectOnDwell)
 scite_OnSave(CTagsRecreate)
+end

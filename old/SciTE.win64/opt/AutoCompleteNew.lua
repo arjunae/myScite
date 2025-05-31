@@ -223,6 +223,7 @@ local function loadApiNames()
 -- BuildNames now only gathers buffers text names
 local function buildNames()
 	debugPrint("ac>loadEditorNames")
+--	if type(buffer)=="table" and buffer.size>AC_MAX_SIZE then return end
 
 	textNames = {}
 	local uniq = {}
@@ -244,13 +245,7 @@ local function buildNames()
 	for _, v in pairs(uniq) do
 		table.insert(textNames, v)
 	end
-	--[[table.sort(
-		textNames,
-		function(a, b)
-			return normalize(a) < normalize(b)	
-		end
-		)
-	]]
+	
 end
 
 function do_autocomplete(strSearch,acNames)
@@ -382,7 +377,7 @@ function do_calltip(char,strSearch,destPos,ctNames)
 		editor:CallTipShow(destPos, finalCalltipString)
 	end
 end
-
+	
 local function handleChar(char, calledByHotkey)
 	if (buffer.size and buffer.size > AC_MAX_SIZE) then
 		return
@@ -586,9 +581,12 @@ function sleep (a)
 end
 
 function handleOpen()
-	local tmpdir = os.getenv("TMP") or os.getenv("TEMP")
+	
 	debugPrint("ac>onOpen")
+	local tmpdir = os.getenv("TMP") or os.getenv("TEMP")
 	fileName=props["FileName"]
+	local useCTAGS= props["project.ctags.enable"] or "0"
+	if useCTAGS=="0" then return end 	
 	-- Ensure the document is styled first, so we can filter out
 	-- words in comments and strings.
 	editor:Colourise(0, editor.Length)
@@ -596,7 +594,7 @@ function handleOpen()
 	-- Then load apinames but dont try to read the file while its been written.
 	apiClean[fileName]= false
 		local lockfile = tmpdir .. dirSep .. "project.ctags.lock"
-	if fileName and not apiCache[fileName] or apiClean==false then
+	if fileName or not apiCache[fileName] or apiClean==false then
 		clearBufferCache()
 		for i = 1, 4 do
 			if not file_exists(lockfile) then

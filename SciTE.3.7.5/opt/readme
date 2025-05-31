@@ -62,9 +62,14 @@ my dev machine is an old 2018 Notebook and using all above caused no problems.
 Developing all that was done in little chunks over a really long time period.
 Its nice to see the design functional but implementing this as lua dll would be premium if your interested in.
 
-Have a nice Day. arjunae@nurfuerspam.de
+if you want to use this, set props["project.ctags.enable"]=1 in SciTEUser.properties
+
+To eliminate the delays, i plan to refactor most of the three files into a ctags_srv.lua class which would be spawned on scite start and talks via pipes.
+this would then be my very special "poor boys" language server also suitable for other projects.
+Have a nice Day. marcedo@unterderbruecke.de
 
 ps: 
 This project isn't perfect.
 It doesn't aim to be.
 If you're looking for flawless code, you're in the wrong universe.
+

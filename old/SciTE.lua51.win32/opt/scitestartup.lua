@@ -173,7 +173,7 @@ function OnInit()
 	scite_OnOpenSwitch(myScite_OpenSwitch)
 	scite_OnKey(prettify_lua)
 -- Initiale simple lua Prompt
-	dofile(myHome.."promptNew.lua")
+	dofile(myHome.."promptNew51.lua")
 end
 	OnInit()
 

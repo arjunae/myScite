@@ -1,9 +1,15 @@
 # - mySciTE -
+
+mySciTE-development
+themes: Add theme.green
+lua: introduce project.ctags.enable
+lua: fix promptNew.lua for lua51
+
 [30.04.2025] myscite-200-nebula (Lua 5.3)
 = Reboot =
 src: win32 SciTE 5.1.4 cpp14 backport
 src: Ownerdrawn Menu (less padding)
-themes: Add theme.white and theme.blue
+themes: Add theme.white, theme.blue
 props: fix some keywords in clike.properties were not highlighted.
 dirs: simplified directory structure
 api: add std:: Namespace completition (wo classes)
