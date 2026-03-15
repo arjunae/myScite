@@ -49,14 +49,14 @@ function parseString(raw)
 		--print(str_func..str_sig..str_type)
 		return {class = "f", data = str_func ..str_sig.. " " .. str_type}
 		
-	-- Modules
+		-- Modules
 	elseif identifier == "m" then
 		local patNofunc = "^(%S+)%s.+\td.*$" --prefilter a bit
 		local patMod = "^%s*([%w_]+)%s?=" -- constval ="
 		
 		local strMod=raw:match(patNofunc) or ""		
 		strMod = strMod:match(patMod) or ""		  
-	
+		
 		if raw:find("noexcept") then -- noexcept funcs reside only in modules
 			local patFunc = "%/%^(.*)$/;"
 			local patType = "([%s%w%d_:*<>]+ )" -- INTPTR SciteWin
@@ -74,60 +74,60 @@ function parseString(raw)
 		end
 	-- if str:find("MatchKeyCode") then print(str,strMod) end 
 	return {class = "m", data = strMod}
-
+	
 	-- Defines
 	elseif identifier == "d" then
-		local patDef = "[%w_ ]*"
-		local strDef = raw:match(patDef) or ""
-		strDef = strDef or ""
-		return {class = "d", data = strDef}
-		
-		
+	local patDef = "[%w_ ]*"
+	local strDef = raw:match(patDef) or ""
+	strDef = strDef or ""
+	return {class = "d", data = strDef}
+	
+	
 	elseif identifier == "t" then --typedef und using
-		return {class = "", data = ""}
-		
-		-- Unions
+	return {class = "", data = ""}
+	
+	-- Unions
 	elseif identifier == "u" then --union
-		local name = raw:match("%s*(.*)") -- ltrim
-		name=name:match("^%s*(.*%S?)%s*$") -- parse backwards from strings end
-		name=name:match("[%w_]+%s*$") or ""
-		return {class = "u", data = name}
-		
+	local name = raw:match("%s*(.*)") -- ltrim
+	name=name:match("^%s*(.*%S?)%s*$") -- parse backwards from strings end
+	name=name:match("[%w_]+%s*$") or ""
+	return {class = "u", data = name}
+	
 	elseif identifier == "s" then --struct
-		return {class = "", data = ""}
-		
-		
+	return {class = "", data = ""}
+	
+	
 	elseif identifier == "v" then -- AU3WordLists[]
-		return {class = "", data = ""}
-		
-		
+	return {class = "", data = ""}
+	
+	
 	elseif identifier == "i" then -- python import
-		return {class = "", data = ""}
-		
-		-- ENUMs
+	return {class = "", data = ""}
+	
+	-- ENUMs
 	elseif identifier == "e" then -- enum
-		local name = raw:match("([%w_]+)")   or ""
-		return {class = "e", data = name}
-		
-		-- Classes
+	local name = raw:match("([%w_]+)")   or ""
+	return {class = "e", data = name}
+	
+	-- Classes
 	elseif identifier == "c" then -- class
-		local name = raw:match("([%w_]+)") or ""
-		return {class = "c", data = name}
-		
-		
+	local name = raw:match("([%w_]+)") or ""
+	return {class = "c", data = name}
+	
+	
 	elseif identifier == "n" then --namespace
-		local name = raw:match("([%w_]+)%s*$") or ""
-		return {class = "n", data = name}
-		
-		
+	local name = raw:match("([%w_]+)%s*$") or ""
+	return {class = "n", data = name}
+	
+	
 	elseif identifier == "g" then --enum
-		local name = raw:match("([%w_]+)") or ""
-		return {class = "g", data = name}
-		
+	local name = raw:match("([%w_]+)") or ""
+	return {class = "g", data = name}
+	
 	else
-		--print(identifier)
-		return {class = "", data = ""}
-	end
+	--print(identifier)
+	return {class = "", data = ""}
+end
 end
 		
 		
@@ -307,8 +307,8 @@ end
 local args = {...}
 local defaultCtags = os.getenv("TEMP") .. [[\scite.session.ctags]]
 local cleanedFile = os.getenv("TEMP") .. [[\cleaned.ctags]]
-	local lock_file= os.getenv("TEMP") .. [[\project.ctags.lock]]
-	local fin_file= os.getenv("TEMP") .. [[\project.ctags.fin]]
+local lock_file= os.getenv("TEMP") .. [[\project.ctags.lock]]
+local fin_file= os.getenv("TEMP") .. [[\project.ctags.fin]]
 	
 local projectFilePath = args[1] or ".\\"
 local ctagsFile = args[2] or defaultCtags

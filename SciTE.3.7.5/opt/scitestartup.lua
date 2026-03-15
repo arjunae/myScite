@@ -1,4 +1,4 @@
--- ### mySciTE's Lua Startup Script 2022 t.kani@gmx.net ####
+-- ### mySciTE's Lua Startup Script 2022 arjunae@nurfuerspam.de ####
 io.stdout:setvbuf("no")
 GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
@@ -34,7 +34,7 @@ _G.string.gfind = string.gmatch or string.gfind
 	-- Initialize Project support 
 	dofile(myHome.."ctags.lua")
 	dofile(myHome..'SciTEProject.lua')
-	dofile(myHome..'AutoCompleteNew.lua')
+	--dofile(myHome..'AutoCompleteNew.lua')
 
 -- ##################  Lua Samples #####################
 --   ##############################################
@@ -42,12 +42,12 @@ _G.string.gfind = string.gmatch or string.gfind
 
 function HighlightLinks()
 --
--- highlight Links See Indicators@http://www.scintilla.org/ScintillaDoc.html
+-- highlight Links See Indicators http://www.scintilla.org/ScintillaDoc.html
 	local markerA=10 -- The whole URL
 	if editor.Lexer~=1 then -- Performance: no Null Lexer	
 		EditorClearMarks(markerA) -- common.lua 
 		editor.IndicStyle[markerA] = INDIC_TEXTFORE
-		editor.IndicFore[markerA] = 0x994444
+		editor.IndicFore[markerA] = 0x204546
 		prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
 		body="[a-zA-Z0-9]?." 	-- followed by a word  (eg www or the domain)
 		suffix="[^ \r\n\t\"\'<]+" 	-- ends with space, newline,tab < " or '

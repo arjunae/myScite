@@ -1,4 +1,4 @@
--- ### mySciTE's Lua Startup Script 2022 t.kani@gmx.net ####
+-- ### mySciTE's Lua Startup Script 2022 arjunae@nurfuerspam.de ####
 io.stdout:setvbuf("no")
 GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
@@ -47,7 +47,7 @@ function HighlightLinks()
 	if editor.Lexer~=1 then -- Performance: no Null Lexer	
 		EditorClearMarks(markerA) -- common.lua 
 		editor.IndicStyle[markerA] = INDIC_TEXTFORE
-		editor.IndicFore[markerA] = 0x997777
+		editor.IndicFore[markerA] = 0xA14545
 		prefix="http[:|s]+//"  -- Rules: Begins with http(s):// 
 		body="[a-zA-Z0-9]?." 	-- followed by a word  (eg www or the domain)
 		suffix="[^ \r\n\t\"\'<]+" 	-- ends with space, newline,tab < " or '
@@ -65,7 +65,7 @@ function HighlightLinks()
 	-- Keys 
 	local markerB=11 -- The URL Param
 	editor.IndicStyle[markerB] = INDIC_TEXTFORE
-	if props["colour.url_param"]=="" then props["colour.url_param"] = "0x603050" end
+	if props["colour.url_param"]=="" then props["colour.url_param"] = "0x604050" end
 	editor.IndicFore[markerB]  = props["colour.url_param"] 
 	
 	if editor.Lexer~=1 then -- No Null Lexer	
@@ -94,6 +94,8 @@ function HighlightLinks()
 		end
 	
 	end
+
+	scite.SendEditor(SCI_SETCARETFORE, 0x615DA1) -- Neals funny bufferSwitch Cursor colors :)
 end
 
 function HighlightMail()
