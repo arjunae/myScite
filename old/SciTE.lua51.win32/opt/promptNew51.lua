@@ -17,7 +17,7 @@ local env = setmetatable({}, { __index = _G })
 
 local prompt = '> '
 local prompt_len = #prompt
-print 'Scite-Lua ❤'
+print 'Scite-Lua'
 
 trace(prompt)
 

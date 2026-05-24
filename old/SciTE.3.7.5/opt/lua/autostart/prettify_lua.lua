@@ -1,6 +1,6 @@
 --
 -- prettyLua.lua - a poor man's Lua prettifier. Converts spaces to tabs and applies Lua indentation based on keywords.
--- Version: 2020-14-04  enhanced by ThorstenKani arjunae@nurfuerspam.de
+-- Version: 2020-10-11  enhanced by ThorstenK arjunae at nurfuerspam.de
 -- based on toTabs.lua
 -- Modified to fix elseif indentation issues
 

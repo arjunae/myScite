@@ -1,10 +1,8 @@
 -- go@ dofile $(FilePath)
 -- ^^tell Scite to use its internal Lua interpreter.
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 local defaultHome= props["SciteDefaultHome"]
 print("Hello from scitelua!")
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- ####### LuaCrc32 ######
 -- ## crc32 Hash Library
 -- ##################
@@ -106,3 +104,17 @@ end
 
 _ALERT('> Test SciTE Lua Modules')
 --test_socket()
+
+local results = {'bool IsIdContinue(int character) noexcept'}
+
+
+
+local pat_func = "([%s%w%d_:*<>]+ ).*"
+
+for _, v in ipairs(results) do
+
+    local strClean = v:match(pat_func) or "<NO MATCH>"
+	 print(strClean)
+
+end
+

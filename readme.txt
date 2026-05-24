@@ -1,43 +1,35 @@
-# - mySciTE -
+# - mySciTE - 
 
 mySciTE-development
-themes: Add theme.green
-lua: introduce project.ctags.enable
-lua: fix promptNew.lua for lua51
 
-30.05.2025 myscite-200-nebula Lua 5.3
-= Reboot =
+ = Reboot =
+
 src: win32 SciTE 5.1.4 cpp14 backport
-src: Ownerdrawn Menu (less padding)
-themes: Add theme.white, theme.blue
-props: fix some keywords in clike.properties were not highlighted.
-dirs: simplified directory structure
-api: add std:: Namespace completition (wo classes)
 lua: project based CTAGS syntax highlightning. (onSave)
 lua: switch to universal CTAGS
 lua: Autocomplete using CTAGS with limited Class(::)Member Support. 
      See tools/sample.SciTEDirectory.properties
 lua: Autocomplete automatically imports APIDir\ac_{lexerLanguage}.api
-lua: updated libs
-lua: revived prompt.lua -> run lua expressions within the output pane
-lua: revived prettyLua.lua -> prettify lua within selection (press ALT)
-lua: added a simple wordle clone
+lua: introduce project.ctags.enable
+lua: fix promptNew.lua for lua51
 
-
-
-
-28.11.2019 mySciTE.190.xx MartyMcFly (Lua5.1 & Lua5.3)
+ mySciTE.190.xx MartyMcFly Lua5.3
   =Maintenance Update=
 lua: allow using lua "stdlib" extensions within "addons/lua" folder
 lua: make interpreter callable via os shell "mylua.bat"
 lua: update libs to current versions
 lua: add inspect/ luasec (https support) / bk_trees
 lua: refactor files for SciteDebug / fix debuggerPrompt on sessionEnd
-lua: Add experimental OnPaneInsert/OnPaneAppend Events
-lexlpeg: add batch keywords
 lexmake: fix stray whitespace issues, singleQuotes in UserVars
 src: Unify sources and dependencies where appropiate within myscite 190.x
 themes: finish rebalancing colours for better contrast. 
+lua: revived prompt.lua -> run lua expressions within the output pane
+lua: revived prettyLua.lua -> prettify lua within selection (press ALT)
+lua: added a simple wordle clone
+lua: updated libs
+src: Ownerdrawn Menu
+props: fix some keywords in clike.properties were not highlighted.
+dirs: simplified directory structure
 
 22.01.2019 mySciTE.190.02 MartyMcFly (Lua5.1 & Lua5.3)
   =Maintenance Release=

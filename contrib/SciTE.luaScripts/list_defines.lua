@@ -1,6 +1,6 @@
 --
 -- list_defines.lua; probably the very first lua header defines fetcher created in 2018 ;)
--- 01.01.2018 / Thorsten Kani / Marcedo { at } habMalNeFrage. { de}
+-- 01.01.2018 / Thorsten Kani / Marcedo  at habMalNeFrage.  de
 -- License: BSD three Clause
 -- grab all function defines, list their names (with parameters)
 -- exclude Constants, exclude _underscoredStuff, exclude multiline stuff. 

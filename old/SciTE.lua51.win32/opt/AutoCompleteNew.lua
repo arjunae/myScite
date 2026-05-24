@@ -1,11 +1,11 @@
--- AutoComplete by Lexikos. Update 20250430 by Marcedo
+-- AutoComplete by Lexikos. Update 20250530 by Marcedo
 
 --[[
   - Place this file in your SciTE user settings folder.
   - Add the following to UserLuaScript.lua:
         dofile(props['SciteUserHome'].."/AutoCompleteNew.lua")
   - Restart SciTE.
- @info 2025 arjunae@nurfuerspam.de 
+ info 2025 Marcedo at habMalNeFrage.de 
 	- support for reading ctag generated API files props["project.sdk.api"] props["project.session.api"] written by SciTEproject.lua	
 	- Support for `keyword::subkeyword` style entries (e.g., `SciteWin::Submit or ::Submit`) 
 	- APINames are read onOpen, buffer identifiers are read by onWord and merged dynamically for the suggestion list to use.
@@ -77,7 +77,7 @@ local WRAP_ARROW_KEYS = false
 local CHOOSE_SINGLE = props["autocomplete.choose.single"]
 local MENUITEMS_MAX = 200 -- Anyone really scrolls further ?
 
---~~~~~~~~~~~~~~~~~~~~~~~
+--
 
 local names = {}
 
@@ -113,12 +113,12 @@ local function file_exists(name)
 	end
 end
 
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
 --
 -- checks for a Value in a Table
 -- copes with array like - table[value]=true constructs
 --
---~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+--
 local function isInTable(table, elem)
 	if table == nil then
 		return false
@@ -408,10 +408,9 @@ local function handleChar(char, calledByHotkey)
 			local menuItems= do_autocomplete(strSearch,acNames)
 			if not menuItems then return end
 			if next(menuItems) then
-				editor.AutoCSeparator = 1
 				local list = table.concat(menuItems, "\1")
 				editor:AutoCShow(len, list)
-				if normalize(menuItems[1]) == strSearch and not calledByHotkey then
+				if normalize(menuItems[1]) == prefix and not calledByHotkey then
 					if CASE_CORRECT then
 						if CASE_CORRECT_INSTANT or #menuItems == 1 then
 							editor:AutoCShow(len, menuItems[1])

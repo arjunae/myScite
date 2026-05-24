@@ -1,6 +1,6 @@
 @echo off
-REM build Scintilla/Scite, TKani arjunae@habmalnefrage.de LIC 3BSDClause
-REM 01.04.2025 Sanity Checks, automatic recommendations and fixes
+REM build Scintilla/Scite, TKani arjunae at habmalnefrage.de LIC 3BSDClause
+REM 01.05.2025 Sanity Checks, automatic recommendations and fixes
 REM Fix mismatching buildtyes and missing directories, detect missing build chain and recommend download, write %tmp%/scitelog during build, increase screenbuffer size, one file for both release and debug builds
 setlocal enabledelayedexpansion enableextensions
 REM set PATH=%PATH%;"C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build"

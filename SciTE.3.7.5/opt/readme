@@ -20,7 +20,7 @@ spawner.dll has been modified to run with a lower prio for this to not disturb s
 As a result, scite.session.properties and scite.session.api are created in the CTAGS Folder besides sciteDirectory.properties. 
 After finishing them, it creates "tmp\scite.project.fin" to notify SciteProject.lua that its ready.
 
-A second event, namely onDwellStart, is then used to periopdically check for the fun file and apply the generated syntax highlightening Data.
+A second event, namely onDwellStart, is then used to periopdically check for the .fin file and apply the generated syntax highlightening Data.
 props used for that are:
  ["colour.project.class"] ["colour.project.functions"] ["colour.project.constants"] ["colour.project.modules"] ["colour.project.enums"]
  Thats all. SciTEProject.lua should be called early with luas dofile() in scitestartup.lua to register its handlers.

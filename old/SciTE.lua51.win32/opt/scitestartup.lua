@@ -1,4 +1,4 @@
--- ### mySciTE's Lua Startup Script 2022 t.kani@gmx.net ####
+-- ### mySciTE's Lua Startup Script 2022 t.kani at gmx.net ####
 io.stdout:setvbuf("no")
 GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end

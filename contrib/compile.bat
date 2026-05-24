@@ -1,5 +1,5 @@
 @echo off
-REM build Scintilla/Scite, ThorstenKani marcedo@schmusemail.de
+REM build Scintilla/Scite, ThorstenKani marcedo at schmusemail.de
 setlocal enabledelayedexpansion enableextensions
 REM MinGW Path has to be set in System Settings, otherwise please define here:
 set PATH=D:\tools\msys64\mingw32\bin;%PATH%;

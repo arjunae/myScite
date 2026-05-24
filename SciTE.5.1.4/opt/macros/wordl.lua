@@ -1,5 +1,5 @@
 -- Wordle für SciTE
--- 25.04.2025 by ThorstenK arjunae@nurfuerspam.de
+-- 25.05.2025 by ThorstenK arjunae at nurfuerspam.de
 -- This script can be installed to a shortcut using properties:
 --     command.name.8.*=wordle
 --     command.subsystem.8.*=3

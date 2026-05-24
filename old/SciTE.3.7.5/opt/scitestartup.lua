@@ -1,4 +1,4 @@
--- ### mySciTE's Lua Startup Script 2022 arjunae@nurfuerspam.de ####
+-- ### mySciTE's Lua Startup Script 2022 arjunae at nurfuerspam.de ####
 io.stdout:setvbuf("no")
 GTK = props['PLAT_GTK']
 if GTK then dirSep = '/' else dirSep = '\\' end
@@ -34,7 +34,7 @@ _G.string.gfind = string.gmatch or string.gfind
 	-- Initialize Project support 
 	dofile(myHome.."ctags.lua")
 	dofile(myHome..'SciTEProject.lua')
-	dofile(myHome..'AutoCompleteNew.lua')
+--	dofile(myHome..'AutoCompleteNew.lua')
 
 -- ##################  Lua Samples #####################
 --   ##############################################
