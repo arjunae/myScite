@@ -379,6 +379,7 @@ function do_calltip(char,strSearch,destPos,ctNames)
 end
 	
 local function handleChar(char, calledByHotkey)
+	collectgarbage(stop)
 	if (buffer.size and buffer.size > AC_MAX_SIZE) then
 		return
 	end
@@ -435,9 +436,11 @@ local function handleChar(char, calledByHotkey)
 				end
 			end
 		end
-	end
+collectgarbage("restart")
+end
 
 local function handleKey(key, shift, ctrl, alt)
+	collectgarbage("stop")
 -- todo Tab autocomplete
 	-- starte ac bei ctre-space
 	if (buffer.size and buffer.size > AC_MAX_SIZE) then
@@ -497,7 +500,7 @@ local function handleKey(key, shift, ctrl, alt)
 	elseif key == 0x5A and ctrl then -- ^z
 		editor:AutoCCancel()
 	end
-
+	collectgarbage("restart")
 end
 	
 --

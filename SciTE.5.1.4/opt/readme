@@ -51,8 +51,6 @@ a first idea of a more structured file format would use |as a delimiter and well
 
 Again, some grammars were utilized to support class::method like autocompletition where one could type either one to get autocompletition.
 Calltips were straight forward and display only function definitions, not including stuff after it.
-Note: for some reason, using autocomplete for the very first time after load introduces a short delay.
-This has chance of roughly 1 to 5 to happen on my old dev machine.
 
 -- static api files 
 ac.cpp.api - contains the cpp std:: namespace (up to cpp14)
@@ -66,6 +64,7 @@ if you want to use this, set props["project.ctags.enable"]=1 in SciTEUser.proper
 
 To eliminate the delays, i plan to refactor most of the three files into a ctags_srv.lua class which would be spawned on scite start and talks via pipes.
 this would then be my very special "poor boys" language server also suitable for other projects.
+update: the interference with the garbage collector has been solved.
 Have a nice Day. marcedo@unterderbruecke.de
 
 ps: 
