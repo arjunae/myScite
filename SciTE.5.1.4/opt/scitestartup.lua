@@ -159,6 +159,7 @@ function OnInit()
 	scite_OnKey(prettify_lua)
 -- Initiale simple lua Prompt
 	dofile(myHome.."promptNew.lua")
+
 end
 	OnInit()
 

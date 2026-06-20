@@ -379,7 +379,7 @@ function do_calltip(char,strSearch,destPos,ctNames)
 end
 	
 local function handleChar(char, calledByHotkey)
-	collectgarbage(stop)
+	collectgarbage("stop")
 	if (buffer.size and buffer.size > AC_MAX_SIZE) then
 		return
 	end
@@ -512,6 +512,7 @@ local function clearBufferCache()
 end
 
 function handleOnWord()
+collectgarbage("stop")
 	state = state or {}
 	state.textNamesStart = state.textNamesStart or 0
 	if not apiClean[fileName] then apiClean[fileName]=false end
@@ -548,6 +549,7 @@ function handleOnWord()
 	
 		debugPrint("merged:"..#mergedNames.." Entries ")
 		apiClean[fileName]=true --mark Array as clean.
+collectgarbage("restart")
 end
 
 

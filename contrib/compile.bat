@@ -1,11 +1,11 @@
 @echo off
-REM build Scintilla/Scite, ThorstenKani marcedo at schmusemail.de
+REM build Scintilla/Scite, ThorstenKani marcedo at habmalnefrage.de
 setlocal enabledelayedexpansion enableextensions
 REM MinGW Path has to be set in System Settings, otherwise please define here:
 set PATH=D:\tools\msys64\mingw32\bin;%PATH%;
 REM Set Color and ScreenBuffer Size
 reg add HKCU\Console\%%SystemRoot%%_system32_cmd.exe\ScreenBufferSize /t REG_DWORD /d 1111111 /f >NUL
-set ReleaseDir="..\..\..\Bin"
+set ReleaseDir="..\..\Bin"
 REM Clear logfile
 echo.>%tmp%\scitebuf
 
@@ -54,12 +54,12 @@ REM Start the actual build.
 REM
 if /I %BUILDTYPE%==debug set DEBUG=1
 echo Compiling Scintilla
-cd src\scintilla\win32
+cd scintilla\win32
 if not exist ..\bin ( Echo scintilla\bin directory not found. Creating... & md ..\bin )
 mingw32-make -j %NUMBER_OF_PROCESSORS% 2> %tmp%\scitebuf
 if [%errorlevel%] NEQ [0] goto err
 echo Compiling SciTE
-cd ..\..\scite\win32
+cd ..\scite\win32
 if not exist ..\bin ( Echo scintilla\bin directory not found. Creating... & md ..\bin )
 mingw32-make -j %NUMBER_OF_PROCESSORS% 2>> %tmp%\scitebuf
 if [%errorlevel%] NEQ [0]  goto err

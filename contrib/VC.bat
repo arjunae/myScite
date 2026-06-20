@@ -1,5 +1,5 @@
 @echo off
-REM build Scintilla/Scite, TKani arjunae at habmalnefrage.de LIC 3BSDClause
+REM build Scintilla/Scite, ThorstenKani arjunae at nurfuerspam.de LIC 3BSDClause
 REM 01.05.2025 Sanity Checks, automatic recommendations and fixes
 REM Fix mismatching buildtyes and missing directories, detect missing build chain and recommend download, write %tmp%/scitelog during build, increase screenbuffer size, one file for both release and debug builds
 setlocal enabledelayedexpansion enableextensions
@@ -8,7 +8,7 @@ REM Params for arch (x86 or x64)
 SET arch=x86
 REM ScreenBuffer Size
 REG add HKCU\Console\%%SystemRoot%%_system32_cmd.exe\ScreenBufferSize /t REG_DWORD /d 1111111 /f >NUL
-set ReleaseDir="..\..\..\Bin"
+set ReleaseDir="..\..\Bin"
 pushd %cd%
 
 REM
@@ -75,17 +75,23 @@ REM
 if "BUILDTYPE" EQU "debug" set parameter1=DEBUG=1
 if exist %tmp%\nmakeErr del /q %tmp%\nmakeErr
 echo.
+echo Compiling Lexilla
+cd lexilla\src
+REM nmake doesnt write its errlog to stdout, need to parse the /X param
+nmake /X %tmp%\nmakeErr /NOLOGO %parameter1% -f lexilla.mak | "../../uk.exe" %tmp%\scitelog.txt
+findstr /n /c:"error"  %tmp%\nmakeErr
+if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling Scintilla & goto en
 echo Compiling Scintilla
-cd src\scintilla\win32
+cd ..\..\scintilla\win32
 if not exist ..\bin ( Echo scintilla\bin directory not found. Creating... & mkdir ..\bin )
 REM nmake doesnt write its errlog to stdout, need to parse the /X param
-nmake /X %tmp%\nmakeErr /NOLOGO %parameter1% -f scintilla.mak | "../../../uk.exe" %tmp%\scitelog.txt
+nmake /X %tmp%\nmakeErr /NOLOGO %parameter1% -f scintilla.mak | "../../uk.exe" %tmp%\scitelog.txt
 findstr /n /c:"error"  %tmp%\nmakeErr
 if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling Scintilla & goto en
 echo Compiling SciTE 
 cd ..\..\scite\win32
 if not exist ..\bin ( Echo scite\bin directory not found. Creating... & mkdir ..\bin )
-nmake /X %tmp%\nmakeErr /NOLOGO %parameter1% -f scite.mak | "../../../uk.exe" -a %tmp%\scitelog.txt
+nmake /X %tmp%\nmakeErr /NOLOGO %parameter1% -f scite.mak | "../../uk.exe" -a %tmp%\scitelog.txt
 findstr /n /c:"error" %tmp%\nmakeErr
 if [%errorlevel%] EQU [0] echo Stop: An Error occured while compiling SciTe  & goto en
 echo OK 
@@ -120,9 +126,10 @@ REM
 REM Copy Files
 REM
 echo Copying Binaries from %cd%\bin
-if not exist %ReleaseDir% mkdir %ReleaseDir%
+ if not exist %ReleaseDir% mkdir %ReleaseDir%
 if exist ..\bin\SciTE.exe  (copy ..\bin\SciTE.exe %ReleaseDir% >NUL ) else (echo Error: cant find build binaries & goto en )
-if exist ..\bin\SciLexer.dll (copy ..\bin\SciLexer.dll %ReleaseDir% >NUL ) else (echo Error: cant find build binaries & goto en) 
+if exist ..\..\scintilla\bin\scintilla.dll (copy ..\..\scintilla\bin\scintilla.dll %ReleaseDir% >NUL ) else (echo Error: cant find build binaries & goto en) 
+if exist ..\..\lexilla\bin\lexilla.dll (copy ..\..\lexilla\bin\lexilla.dll %ReleaseDir% >NUL ) else (echo Error: cant find build binaries & goto en) 
 echo Platform: %DEST_PLAT%
 ECHO OK
 cd ..\..\..

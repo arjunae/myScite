@@ -105,16 +105,4 @@ end
 _ALERT('> Test SciTE Lua Modules')
 --test_socket()
 
-local results = {'bool IsIdContinue(int character) noexcept'}
-
-
-
-local pat_func = "([%s%w%d_:*<>]+ ).*"
-
-for _, v in ipairs(results) do
-
-    local strClean = v:match(pat_func) or "<NO MATCH>"
-	 print(strClean)
-
-end
-
+--scite.ReloadProperties()
