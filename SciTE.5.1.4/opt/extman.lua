@@ -143,7 +143,8 @@ function OnOpen(file)
 end
 
 function OnUpdateUI()
-  if editor.Focus then
+   local ok, focused = pcall(function() return editor.Focus end)
+  if ok and focused then
     return DispatchOne(_UpdateUI)
   else
     return false
